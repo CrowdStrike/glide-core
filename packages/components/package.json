@@ -1,0 +1,82 @@
+{
+  "name": "@crowdstrike/glide-core-components",
+  "version": "0.0.0",
+  "description": "CrowdStrike's Glide Design System components package for providing web components",
+  "private": true,
+  "author": "CrowdStrike UX Team",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CrowdStrike/glide-core.git",
+    "directory": "packages/components"
+  },
+  "type": "module",
+  "exports": {
+    "./*": {
+      "import": "./dist/*",
+      "types": "./dist/*.d.ts"
+    }
+  },
+  "scripts": {
+    "start": "per-env",
+    "start:development": "tsc --declaration --sourceMap --outDir dist --watch",
+    "start:production": "node ./esbuild.js && tsc --emitDeclarationOnly --declaration --outDir ./dist && del ./dist/**/*.test.*",
+    "start:production:comment": "https://github.com/evanw/esbuild/issues/95#issuecomment-626069971",
+    "format": "per-env",
+    "format:development": "prettier . --write",
+    "format:production": "prettier . --check",
+    "lint": "per-env",
+    "lint:development": "npm-run-all --print-name lint:development:**",
+    "lint:development:eslint": "eslint . --fix",
+    "lint:development:lit-analyzer": "lit-analyzer **/*.ts",
+    "lint:production": "npm-run-all --parallel --aggregate-output --print-label lint:production:**",
+    "lint:production:eslint": "eslint .",
+    "lint:production:lit-analyzer": "lit-analyzer **/*.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "per-env",
+    "test:development": "web-test-runner --watch",
+    "test:production": "web-test-runner"
+  },
+  "devDependencies": {
+    "@eslint/js": "^8.56.0",
+    "@open-wc/testing": "^3.2.2",
+    "@types/mocha": "^10.0.6",
+    "@types/sinon": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@web/dev-server-esbuild": "^0.3.6",
+    "@web/test-runner": "^0.18.0",
+    "@web/test-runner-commands": "^0.9.0",
+    "del-cli": "^5.1.0",
+    "esbuild": "^0.19.12",
+    "esbuild-plugin-minify-html-literals": "^1.0.6",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-lit": "^1.11.0",
+    "eslint-plugin-lit-a11y": "^4.1.2",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
+    "eslint-plugin-unicorn": "^50.0.1",
+    "globals": "^13.24.0",
+    "globby": "^14.0.0",
+    "lint-staged": "^14.0.1",
+    "lit": "^3.1.2",
+    "lit-analyzer": "^2.0.3",
+    "npm-run-all": "^4.1.5",
+    "per-env": "^1.0.2",
+    "prettier": "3.1.0",
+    "sinon": "^17.0.1",
+    "ts-lit-plugin": "^2.0.2",
+    "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "lit": "^3.1.0"
+  },
+  "engines": {
+    "node": "20.9.0",
+    "pnpm": "8.10.5"
+  },
+  "volta": {
+    "node": "20.9.0",
+    "pnpm": "8.10.5"
+  }
+}

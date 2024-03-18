@@ -1,0 +1,20 @@
+{
+  "allowJs": true,
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "module": "NodeNext",
+    "noImplicitOverride": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ESNext",
+    "useDefineForClassFields": false, // https://lit.dev/docs/components/decorators#decorators-typescript
+    "verbatimModuleSyntax": true,
+    "plugins": [
+      {
+        "name": "ts-lit-plugin",
+        "strict": true
+      }
+    ]
+  },
+  "exclude": ["dist/"]
+}

@@ -1,0 +1,60 @@
+name: On Pull Request Opened And Synchronize
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  CI: true
+
+concurrency:
+  group: ${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  install_dependencies:
+    name: Install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    needs:
+      - install_dependencies
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - run: NODE_ENV=production pnpm format
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs:
+      - install_dependencies
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - run: NODE_ENV=production pnpm lint
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    needs:
+      - install_dependencies
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - run: NODE_ENV=production pnpm typecheck
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs:
+      - install_dependencies
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - run: NODE_ENV=production pnpm test

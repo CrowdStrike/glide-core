@@ -1,0 +1,41 @@
+{
+  "private": true,
+  "name": "@crowdstrike/glide-core",
+  "description": "CrowdStrike's Glide Design System monorepo root. Should not be published/consumed directly.",
+  "version": "0.0.0",
+  "author": "CrowdStrike UX Team",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "start": "per-env",
+    "start:development": "pnpm --filter '@crowdstrike/*' --parallel start",
+    "start:development:comment": "`--parallel` output is interleaved and not as easy to read. But I was seeing the Storybook build hang without it. As a bonus it's faster.",
+    "start:production": "pnpm --aggregate-output --filter '@crowdstrike/*' --parallel start",
+    "format": "per-env",
+    "format:development": "pnpm --filter '@crowdstrike/*' format",
+    "format:production": "pnpm --aggregate-output --filter '@crowdstrike/*' --parallel format",
+    "lint": "per-env",
+    "lint:development": "pnpm --filter '@crowdstrike/*' lint",
+    "lint:production": "pnpm --aggregate-output --filter '@crowdstrike/*' --parallel lint",
+    "typecheck": "per-env",
+    "typecheck:development": "pnpm --filter '@crowdstrike/*' typecheck",
+    "typecheck:production": "pnpm --aggregate-output --filter '@crowdstrike/*' --parallel typecheck",
+    "test": "pnpm --filter './packages/components' test",
+    "test:comment": "Use `per-env` and `--filter '@crowdstrike/*'` after Web Test Runner adds support for non-TTY terminals: https://github.com/modernweb-dev/web/issues/19.",
+    "prepare": "is-ci || husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "is-ci": "^3.0.1",
+    "lint-staged": "^14.0.1",
+    "per-env": "^1.0.2"
+  },
+  "engines": {
+    "node": "20.9.0",
+    "pnpm": "8.10.5"
+  },
+  "volta": {
+    "node": "20.9.0",
+    "pnpm": "8.10.5"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "private": true,
+  "name": "@crowdstrike/glide-core-storybook",
+  "description": "CrowdStrike's Glide Design System Storybook",
+  "author": "CrowdStrike UX Team",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "start": "per-env",
+    "start:development": "storybook dev --disable-telemetry -p 6006",
+    "start:production": "storybook build --disable-telemetry",
+    "format": "per-env",
+    "format:development": "prettier . --write",
+    "format:production": "prettier . --check",
+    "lint": "per-env",
+    "lint:development": "eslint . --fix",
+    "lint:production": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@crowdstrike/glide-core-components": "workspace:*",
+    "@crowdstrike/glide-core-styles": "workspace:*",
+    "@storybook/addon-essentials": "^7.6.13",
+    "@storybook/addon-links": "^7.6.13",
+    "@storybook/blocks": "^7.6.13",
+    "@storybook/web-components": "^7.6.13",
+    "@storybook/web-components-vite": "^7.6.13",
+    "lit": "^3.1.2",
+    "lit-html": "^3.1.2",
+    "per-env": "^1.0.2",
+    "prettier": "3.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.6.13"
+  },
+  "devDependencies": {
+    "@eslint/js": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-lit": "^1.11.0",
+    "eslint-plugin-lit-a11y": "^4.1.2",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
+    "eslint-plugin-unicorn": "^50.0.1",
+    "globals": "^13.24.0",
+    "lint-staged": "^14.0.1",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": "20.9.0",
+    "pnpm": "8.10.5"
+  },
+  "volta": {
+    "node": "20.9.0",
+    "pnpm": "8.10.5"
+  }
+}

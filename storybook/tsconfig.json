@@ -1,0 +1,10 @@
+{
+  "allowJs": true,
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "module": "NodeNext",
+    "skipLibCheck": true,
+    "strict": true,
+    "verbatimModuleSyntax": true
+  }
+}
