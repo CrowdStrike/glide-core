@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core-components
 
+## 0.1.1
+
+### Patch Changes
+
+- [#5](https://github.com/CrowdStrike/glide-core/pull/5) [`e3154d5`](https://github.com/CrowdStrike/glide-core/commit/e3154d5efdb4b24bede0bbaf8336a99308e2fb16) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated the `package.json` to include `files: ["dist"]` so that it gets included in publishing.
+
 ## 0.1.0
 
 ### Minor Changes
@@ -15,13 +21,13 @@
   Import the styles in your project:
 
   ```js
-  import '@crowdstrike/glide-core-styles';
+  import "@crowdstrike/glide-core-styles";
   ```
 
   Import the component you'd like to render:
 
   ```js
-  import '@crowdstrike/glide-core-components/button.js';
+  import "@crowdstrike/glide-core-components/button.js";
   ```
 
   Render the component in your markup:
