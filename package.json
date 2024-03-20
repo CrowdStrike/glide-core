@@ -22,7 +22,8 @@
     "typecheck:production": "pnpm --aggregate-output --filter '@crowdstrike/*' --parallel typecheck",
     "test": "pnpm --filter './packages/components' test",
     "test:comment": "Use `per-env` and `--filter '@crowdstrike/*'` after Web Test Runner adds support for non-TTY terminals: https://github.com/modernweb-dev/web/issues/19.",
-    "prepare": "is-ci || husky install"
+    "prepare": "is-ci || husky install",
+    "release": "changeset publish"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
