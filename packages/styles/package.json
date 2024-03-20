@@ -1,6 +1,6 @@
 {
   "name": "@crowdstrike/glide-core-styles",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "CrowdStrike's Glide Design System styles package for providing styling to components",
   "author": "CrowdStrike UX Team",
   "license": "Apache-2.0",
