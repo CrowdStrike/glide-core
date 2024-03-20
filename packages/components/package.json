@@ -10,6 +10,9 @@
     "directory": "packages/components"
   },
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "exports": {
     "./*": {
       "import": "./dist/*",
