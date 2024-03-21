@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core-components
 
+## 0.1.2
+
+### Patch Changes
+
+- [#9](https://github.com/CrowdStrike/glide-core/pull/9) [`8f0a126`](https://github.com/CrowdStrike/glide-core/commit/8f0a1260cee0d6875a67f38c4ee45ded45832ea5) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Update [`engines`](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#engines) in the `package.json` files to allow for a wider range for `node` and `pnpm`.
+
 ## 0.1.1
 
 ### Patch Changes
