@@ -12,8 +12,8 @@
     "start:development:comment": "`--parallel` output is interleaved and not as easy to read. But I was seeing the Storybook build hang without it. As a bonus it's faster.",
     "start:production": "pnpm --aggregate-output --filter '@crowdstrike/*' --parallel start",
     "format": "per-env",
-    "format:development": "pnpm --filter '@crowdstrike/*' format",
-    "format:production": "pnpm --aggregate-output --filter '@crowdstrike/*' --parallel format",
+    "format:development": "prettier . --write && pnpm --filter '@crowdstrike/*' format",
+    "format:production": "prettier . --check && pnpm --aggregate-output --filter '@crowdstrike/*' --parallel format",
     "lint": "per-env",
     "lint:development": "pnpm --filter '@crowdstrike/*' lint",
     "lint:production": "pnpm --aggregate-output --filter '@crowdstrike/*' --parallel lint",
@@ -31,7 +31,8 @@
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
     "lint-staged": "^14.0.1",
-    "per-env": "^1.0.2"
+    "per-env": "^1.0.2",
+    "prettier": "3.1.0"
   },
   "engines": {
     "node": "20.9.0",
