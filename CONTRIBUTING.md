@@ -126,7 +126,7 @@ render() {
 
 ```ts
 // checkbox.styles.ts
-import { css } from "lit";
+import { css } from 'lit';
 
 export default css`
   .component {
@@ -142,7 +142,7 @@ Instead, we should stick with exposing styles via CSS variables until the need a
 
 ```ts
 // ✅ -- GOOD
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
   static override styles = css`
     .summary {
@@ -164,7 +164,7 @@ export default class Example extends LitElement {
 
 ```ts
 // ❌ -- BAD
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
   override render() {
     return html`
@@ -226,7 +226,7 @@ In this particular case, we still need to use TypeScript's `private`.
 
 ```ts
 // ✅ -- GOOD
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
   @state()
   // OK to use `private` in TS here
@@ -236,7 +236,7 @@ export default class Example extends LitElement {
 
 ```ts
 // ❌ -- BAD
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
   @state()
   // This doesn't work!
@@ -282,14 +282,14 @@ One may reach for [`query`](https://lit.dev/docs/api/decorators/#query); however
 ```ts
 // ✅ -- GOOD
 // Use a `ref` when accessing an element.
-import { createRef, ref } from "lit/directives/ref.js";
+import { createRef, ref } from 'lit/directives/ref.js';
 
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
   #buttonElement = createRef<HTMLButtonElement>();
 
   #onClick(Event: MouseEvent) {
-    this.#buttonElement.value?.classList?.add("clicked");
+    this.#buttonElement.value?.classList?.add('clicked');
   }
 
   override render() {
@@ -305,15 +305,15 @@ export default class Example extends LitElement {
 ```ts
 // ❌ -- BAD
 // Don't use `query` when accessing a single element.
-import { query } from "lit/decorators.js";
+import { query } from 'lit/decorators.js';
 
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
-  @query("button")
+  @query('button')
   #buttonElement!: HTMLButtonElement | undefined;
 
   #onClick(Event: MouseEvent) {
-    this.#buttonElement?.classList?.add("clicked");
+    this.#buttonElement?.classList?.add('clicked');
   }
 
   override render() {
@@ -372,7 +372,7 @@ Take for example the `open` attribute on a details element.
 
 ```ts
 // ✅ -- GOOD
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
   // We use an `open` attribute to match the `open` attribute
   // found on the details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details#open
@@ -393,7 +393,7 @@ export default class Example extends LitElement {
 
 ```ts
 // ❌ -- BAD
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
   // We would not want to inject "frameworkisms" into our
   // component API by naming this property `is-open`.  It may
@@ -401,7 +401,7 @@ export default class Example extends LitElement {
   // frameworks; however, it would be a surprise to consumers
   // as it would deviate from the native API for the
   // details element.
-  @property({ attribute: "is-open", type: Boolean, reflect: true }) isOpen =
+  @property({ attribute: 'is-open', type: Boolean, reflect: true }) isOpen =
     false;
 
   override render() {
@@ -457,11 +457,11 @@ components/
 
 ```js
 // ❌ -- BAD
-describe("Checkbox Basics", () => {});
-describe("Checkbox Events", () => {});
-describe("Checkbox Focus", () => {});
-describe("Checkbox Form", () => {});
-describe("Checkbox Validity", () => {});
+describe('Checkbox Basics', () => {});
+describe('Checkbox Events', () => {});
+describe('Checkbox Focus', () => {});
+describe('Checkbox Form', () => {});
+describe('Checkbox Validity', () => {});
 ```
 
 ### Prefer prefixing handlers with "on"
@@ -470,11 +470,11 @@ When writing internal handlers, we prefer prefixing our functions with "on".
 
 ```ts
 // ✅ -- GOOD
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
   // @click handler is prefixed with `on`
   #onClick(Event: MouseEvent) {
-    console.log("clicked");
+    console.log('clicked');
   }
 
   override render() {
@@ -489,11 +489,11 @@ export default class Example extends LitElement {
 
 ```ts
 // ❌ -- BAD
-@customElement("cs-example")
+@customElement('cs-example')
 export default class Example extends LitElement {
   // @click handler does not start with `on`
   #handleClick(Event: MouseEvent) {
-    console.log("clicked");
+    console.log('clicked');
   }
 
   override render() {

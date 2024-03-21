@@ -26,6 +26,9 @@ importers:
       per-env:
         specifier: ^1.0.2
         version: 1.0.2
+      prettier:
+        specifier: 3.1.0
+        version: 3.1.0
 
   packages/components:
     devDependencies:

@@ -21,13 +21,13 @@
   Import the styles in your project:
 
   ```js
-  import "@crowdstrike/glide-core-styles";
+  import '@crowdstrike/glide-core-styles';
   ```
 
   Import the component you'd like to render:
 
   ```js
-  import "@crowdstrike/glide-core-components/button.js";
+  import '@crowdstrike/glide-core-components/button.js';
   ```
 
   Render the component in your markup:
