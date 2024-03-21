@@ -1,0 +1,10 @@
+{
+  "customSyntax": "postcss-lit",
+  "extends": ["stylelint-config-standard", "stylelint-prettier/recommended"],
+  "plugins": ["stylelint-use-nesting", "stylelint-order"],
+  "rules": {
+    "csstools/use-nesting": "always",
+    "order/properties-alphabetical-order": true,
+    "prettier/prettier": true
+  }
+}

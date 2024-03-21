@@ -9,13 +9,13 @@ export const focusOutline = unsafeCSS(`
 `);
 
 export const visuallyHidden = unsafeCSS(`
-    position: absolute;
-    width: 1px;
+    border-width: 0;
+    clip: rect(0, 0, 0, 0);
     height: 1px;
-    padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    padding: 0;
+    position: absolute;
     white-space: nowrap;
-    border-width: 0;
+    width: 1px;
 `);

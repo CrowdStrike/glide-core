@@ -55,13 +55,14 @@ export default class CsButton extends LitElement {
   override render() {
     return html`<button
       class=${classMap({
-        'button--primary': this.variant === 'primary',
-        'button--secondary': this.variant === 'secondary',
-        'button--tertiary': this.variant === 'tertiary',
-        'button--large': this.size === 'large',
-        'button--small': this.size === 'small',
-        'button--has-prefix': this.hasPrefixSlot,
-        'button--has-suffix': this.hasSuffixSlot,
+        button: true,
+        primary: this.variant === 'primary',
+        secondary: this.variant === 'secondary',
+        tertiary: this.variant === 'tertiary',
+        large: this.size === 'large',
+        small: this.size === 'small',
+        'has-prefix': this.hasPrefixSlot,
+        'has-suffix': this.hasSuffixSlot,
       })}
       type=${this.type}
       ?disabled=${this.disabled}
