@@ -1,5 +1,5 @@
 import './button.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import type Button from './button.js';
 
 it('renders and sets default attributes', async () => {
@@ -158,4 +158,22 @@ it('renders with a prefix and suffix slot', async () => {
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
   expect(document.querySelector('[data-suffix]')).to.be.ok;
+});
+
+it('renders without prefix and suffix classes after both slots are removed', async () => {
+  const element = await fixture<Button>(html`
+    <cs-button>
+      <span slot="prefix" data-prefix>prefix</span>
+      Button
+      <span slot="suffix" data-suffix>suffix</span>
+    </cs-button>
+  `);
+
+  element.querySelector('[slot="prefix"]')?.remove();
+  element.querySelector('[slot="suffix"]')?.remove();
+  await elementUpdated(element);
+
+  expect([
+    ...element.shadowRoot!.querySelector('button')!.classList,
+  ]).to.deep.equal(['button--primary', 'button--large']);
 });
