@@ -1,4 +1,7 @@
+# TODO
+# The top-level Prettier shouldn't format individual packages, which 
+# have their own Prettier configurations. Add `packages/*` and `storybook` 
+# to this file if this bug is fixed: https://github.com/prettier/prettier-vscode/issues/3003
+
 LICENSE
-packages/*
-storybook
 pnpm-lock.yaml
