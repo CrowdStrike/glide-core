@@ -1,6 +1,12 @@
 import './button.js';
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import type Button from './button.js';
+import {
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+  oneEvent,
+} from '@open-wc/testing';
+import type Button from './button.ts';
 
 it('renders and sets default attributes', async () => {
   const element = await fixture<Button>(html` <cs-button>Button</cs-button> `);
@@ -172,4 +178,52 @@ it('renders without prefix and suffix classes after both slots are removed', asy
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary', 'large']);
+});
+
+it('dispatches an event when clicked and type="button"', async () => {
+  const element = await fixture<HTMLFormElement>(html`
+    <cs-button type="button"> Button </cs-button>
+  `);
+
+  const clickEvent = oneEvent(element, 'click');
+
+  element.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
+
+  const event = await clickEvent;
+  expect(event instanceof Event).to.be.true;
+});
+
+it('participates in a form when type="reset"', async () => {
+  const form = document.createElement('form');
+
+  const element = await fixture<HTMLFormElement>(
+    html` <cs-button type="reset"> Button </cs-button> `,
+    {
+      parentNode: form,
+    },
+  );
+
+  const formResetEvent = oneEvent(form, 'reset');
+
+  element.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
+
+  const event = await formResetEvent;
+  expect(event instanceof Event).to.be.true;
+});
+
+it('participates in a form when type="submit"', async () => {
+  const form = document.createElement('form');
+
+  const element = await fixture<HTMLFormElement>(
+    html` <cs-button type="submit"> Button </cs-button> `,
+    {
+      parentNode: form,
+    },
+  );
+
+  const formSubmitEvent = oneEvent(form, 'submit');
+  element.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
+
+  const event = await formSubmitEvent;
+  expect(event instanceof Event).to.be.true;
 });
