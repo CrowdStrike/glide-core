@@ -15,8 +15,9 @@ it('renders and sets default attributes', async () => {
   expect(buttonTag?.getAttribute('type')).to.equal('button');
   expect(buttonTag?.disabled).to.equal(false);
   expect([...buttonTag!.classList]).to.deep.equal([
-    'button--primary',
-    'button--large',
+    'button',
+    'primary',
+    'large',
   ]);
 });
 
@@ -27,7 +28,7 @@ it('renders a secondary variant', async () => {
 
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button--secondary', 'button--large']);
+  ]).to.deep.equal(['button', 'secondary', 'large']);
 });
 
 it('renders a tertiary variant', async () => {
@@ -37,7 +38,7 @@ it('renders a tertiary variant', async () => {
 
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button--tertiary', 'button--large']);
+  ]).to.deep.equal(['button', 'tertiary', 'large']);
 });
 
 it('sets the size to "large" by default', async () => {
@@ -47,7 +48,7 @@ it('sets the size to "large" by default', async () => {
 
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button--primary', 'button--large']);
+  ]).to.deep.equal(['button', 'primary', 'large']);
 });
 
 it('sets the size attribute to "large"', async () => {
@@ -59,7 +60,7 @@ it('sets the size attribute to "large"', async () => {
 
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button--primary', 'button--large']);
+  ]).to.deep.equal(['button', 'primary', 'large']);
 });
 
 it('sets the size attribute to "small"', async () => {
@@ -71,7 +72,7 @@ it('sets the size attribute to "small"', async () => {
 
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button--primary', 'button--small']);
+  ]).to.deep.equal(['button', 'primary', 'small']);
 });
 
 it('sets the disabled attribute', async () => {
@@ -118,7 +119,7 @@ it('renders with a prefix slot', async () => {
 
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button--primary', 'button--large', 'button--has-prefix']);
+  ]).to.deep.equal(['button', 'primary', 'large', 'has-prefix']);
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
 });
@@ -133,7 +134,7 @@ it('renders with a suffix slot', async () => {
 
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button--primary', 'button--large', 'button--has-suffix']);
+  ]).to.deep.equal(['button', 'primary', 'large', 'has-suffix']);
 
   expect(document.querySelector('[data-suffix]')).to.be.ok;
 });
@@ -149,12 +150,7 @@ it('renders with a prefix and suffix slot', async () => {
 
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal([
-    'button--primary',
-    'button--large',
-    'button--has-prefix',
-    'button--has-suffix',
-  ]);
+  ]).to.deep.equal(['button', 'primary', 'large', 'has-prefix', 'has-suffix']);
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
   expect(document.querySelector('[data-suffix]')).to.be.ok;
@@ -175,5 +171,5 @@ it('renders without prefix and suffix classes after both slots are removed', asy
 
   expect([
     ...element.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button--primary', 'button--large']);
+  ]).to.deep.equal(['button', 'primary', 'large']);
 });
