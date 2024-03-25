@@ -1,0 +1,28 @@
+name: On Pull Request Closed
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  remove_cloudflare_artifacts:
+    name: Remove Cloudflare artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+      - name: Configure AWS CLI
+        env:
+          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+
+        # https://developers.cloudflare.com/r2/examples/aws/aws-cli
+        run: |
+          aws configure set region auto
+          aws configure set output json
+          aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
+      - name: Remove Cloudflare artifacts
+        run: aws s3 rm s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }} --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }} --recursive
