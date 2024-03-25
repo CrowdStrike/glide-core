@@ -18,6 +18,7 @@ declare global {
 @customElement('cs-button')
 export default class CsButton extends LitElement {
   static override styles = styles;
+  static formAssociated = true;
 
   /** Sets the disabled attribute on the button. */
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -37,6 +38,32 @@ export default class CsButton extends LitElement {
   @state()
   private hasSuffixSlot = false;
 
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
+
+  get form() {
+    return this.#internals.form;
+  }
+
+  #handleClick() {
+    if (this.type === 'button') {
+      return;
+    }
+
+    if (this.type === 'submit') {
+      this.form?.requestSubmit();
+      return;
+    }
+
+    if (this.type === 'reset') {
+      this.form?.reset();
+      return;
+    }
+  }
+
+  #internals: ElementInternals;
   #prefixSlotElement = createRef<HTMLSlotElement>();
   #suffixSlotElement = createRef<HTMLSlotElement>();
 
@@ -66,6 +93,7 @@ export default class CsButton extends LitElement {
       })}
       type=${this.type}
       ?disabled=${this.disabled}
+      @click=${this.#handleClick}
     >
       <slot
         name="prefix"
