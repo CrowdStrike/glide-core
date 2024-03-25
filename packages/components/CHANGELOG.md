@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core-components
 
+## 0.1.3
+
+### Patch Changes
+
+- [#15](https://github.com/CrowdStrike/glide-core/pull/15) [`a5de76b`](https://github.com/CrowdStrike/glide-core/commit/a5de76be2bafb4b2a276fe84075f9fd1fb1943f2) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated `<cs-button` to properly participate in forms when `type="submit"` or `type="reset"`.
+
 ## 0.1.2
 
 ### Patch Changes
