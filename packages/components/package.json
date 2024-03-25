@@ -75,10 +75,11 @@
     "postcss-lit": "^1.1.1",
     "prettier": "3.1.0",
     "sinon": "^17.0.1",
-    "stylelint": "^16.2.1",
+    "stylelint": "^16.3.1",
     "stylelint-config-standard": "^36.0.0",
     "stylelint-order": "^6.0.4",
     "stylelint-prettier": "^5.0.0",
+    "stylelint-use-logical": "^2.1.2",
     "stylelint-use-nesting": "^5.1.1",
     "ts-lit-plugin": "^2.0.2",
     "typescript": "^5.3.3"

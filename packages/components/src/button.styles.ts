@@ -111,17 +111,17 @@ export default [
       }
 
       &.large {
+        block-size: 2.5rem;
         font-size: var(--cs-heading-xxs-font-size);
-        height: 2.5rem;
         line-height: 1.5rem;
-        min-width: 5.1875rem;
+        min-inline-size: 5.1875rem;
       }
 
       &.small {
+        block-size: 2.125rem;
         font-size: var(--cs-heading-xxxs-font-size);
-        height: 2.125rem;
         line-height: 1rem;
-        min-width: 4.375rem;
+        min-inline-size: 4.375rem;
       }
     }
   `,
