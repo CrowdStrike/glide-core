@@ -17,8 +17,9 @@ declare global {
  */
 @customElement('cs-button')
 export default class CsButton extends LitElement {
-  static override styles = styles;
   static formAssociated = true;
+
+  static override styles = styles;
 
   /** Sets the disabled attribute on the button. */
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -32,51 +33,8 @@ export default class CsButton extends LitElement {
   @property({ attribute: 'size', reflect: true })
   size: 'large' | 'small' = 'large';
 
-  @state()
-  private hasPrefixSlot = false;
-
-  @state()
-  private hasSuffixSlot = false;
-
-  constructor() {
-    super();
-    this.#internals = this.attachInternals();
-  }
-
   get form() {
     return this.#internals.form;
-  }
-
-  #handleClick() {
-    if (this.type === 'button') {
-      return;
-    }
-
-    if (this.type === 'submit') {
-      this.form?.requestSubmit();
-      return;
-    }
-
-    if (this.type === 'reset') {
-      this.form?.reset();
-      return;
-    }
-  }
-
-  #internals: ElementInternals;
-  #prefixSlotElement = createRef<HTMLSlotElement>();
-  #suffixSlotElement = createRef<HTMLSlotElement>();
-
-  #onPrefixSlotChange() {
-    const assignedNodes = this.#prefixSlotElement.value?.assignedNodes();
-    this.hasPrefixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
-  }
-
-  #onSuffixSlotChange() {
-    const assignedNodes = this.#suffixSlotElement.value?.assignedNodes();
-    this.hasSuffixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
   }
 
   override render() {
@@ -107,5 +65,50 @@ export default class CsButton extends LitElement {
         ${ref(this.#suffixSlotElement)}
       ></slot>
     </button>`;
+  }
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+  }
+
+  @state()
+  private hasPrefixSlot = false;
+
+  @state()
+  private hasSuffixSlot = false;
+
+  #internals: ElementInternals;
+
+  #prefixSlotElement = createRef<HTMLSlotElement>();
+
+  #suffixSlotElement = createRef<HTMLSlotElement>();
+
+  #handleClick() {
+    if (this.type === 'button') {
+      return;
+    }
+
+    if (this.type === 'submit') {
+      this.form?.requestSubmit();
+      return;
+    }
+
+    if (this.type === 'reset') {
+      this.form?.reset();
+      return;
+    }
+  }
+
+  #onPrefixSlotChange() {
+    const assignedNodes = this.#prefixSlotElement.value?.assignedNodes();
+    this.hasPrefixSlot =
+      assignedNodes && assignedNodes.length > 0 ? true : false;
+  }
+
+  #onSuffixSlotChange() {
+    const assignedNodes = this.#suffixSlotElement.value?.assignedNodes();
+    this.hasSuffixSlot =
+      assignedNodes && assignedNodes.length > 0 ? true : false;
   }
 }
