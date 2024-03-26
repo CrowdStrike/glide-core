@@ -19,6 +19,11 @@ declare global {
 export default class CsButton extends LitElement {
   static formAssociated = true;
 
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    mode: window.navigator.webdriver ? 'open' : 'closed',
+  };
+
   static override styles = styles;
 
   /** Sets the disabled attribute on the button. */
