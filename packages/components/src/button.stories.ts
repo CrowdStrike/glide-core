@@ -1,6 +1,5 @@
-import '../components/example-icon.js';
-import '@crowdstrike/glide-core-components/button.js';
-import { html, nothing } from 'lit-html';
+import './button.js';
+import { html, nothing } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -17,7 +16,7 @@ const meta: Meta = {
     <cs-button
       size=${arguments_.size}
       variant=${arguments_.variant}
-      disabled=${arguments_.disabled || nothing}
+      ?disabled=${arguments_.disabled || nothing}
       >${arguments_['slot="default"']}</cs-button
     >
   `,
@@ -74,8 +73,22 @@ export const PrimaryWithPrefixIcon: StoryObj = {
   name: 'Primary (With Prefix Icon)',
   render: (arguments_) => html`
     <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
-      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
       ${arguments_['slot="default"']}
+
+      <svg
+        slot="prefix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
     </cs-button>
   `,
 };
@@ -97,8 +110,22 @@ export const PrimaryWithSuffixIcon: StoryObj = {
   name: 'Primary (With Suffix Icon)',
   render: (arguments_) => html`
     <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
       ${arguments_['slot="default"']}
+
+      <svg
+        slot="suffix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
     </cs-button>
   `,
 };
@@ -107,9 +134,37 @@ export const PrimaryWithPrefixAndSuffixIcons: StoryObj = {
   name: 'Primary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
     <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
-      <cs-example-icon slot="prefix" name="grid"></cs-example-icon>
-      <cs-example-icon slot="suffix" name="check-circle"></cs-example-icon>
       ${arguments_['slot="default"']}
+
+      <svg
+        slot="prefix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
+
+      <svg
+        slot="suffix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
     </cs-button>
   `,
 };
@@ -127,8 +182,22 @@ export const SecondaryWithPrefixIcon: StoryObj = {
   name: 'Secondary (With Prefix Icon)',
   render: (arguments_) => html`
     <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
-      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
       ${arguments_['slot="default"']}
+
+      <svg
+        slot="prefix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
     </cs-button>
   `,
 };
@@ -140,8 +209,22 @@ export const SecondaryWithSuffixIcon: StoryObj = {
   name: 'Secondary (With Suffix Icon)',
   render: (arguments_) => html`
     <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
       ${arguments_['slot="default"']}
+
+      <svg
+        slot="suffix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
     </cs-button>
   `,
 };
@@ -153,9 +236,39 @@ export const SecondaryWithPrefixAndSuffixIcons: StoryObj = {
   name: 'Secondary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
     <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
-      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
       ${arguments_['slot="default"']}
+
+      <svg
+        slot="prefix"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          d="M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2zm11-2v4M8 3v4m-5 3h18M7.858 13.954h.1m4.342 0h.1m4.3 0h.1M7.827 17.4h.1m4.373 0h.1m4.269 0h.1"
+        ></path>
+      </svg>
+
+      <svg
+        slot="suffix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
     </cs-button>
   `,
 };
@@ -173,8 +286,22 @@ export const TertiaryWithPrefixIcon: StoryObj = {
   name: 'Tertiary (With Prefix Icon)',
   render: (arguments_) => html`
     <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
-      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
       ${arguments_['slot="default"']}
+
+      <svg
+        slot="prefix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
     </cs-button>
   `,
 };
@@ -186,8 +313,22 @@ export const TertiaryWithSuffixIcon: StoryObj = {
   name: 'Tertiary (With Suffix Icon)',
   render: (arguments_) => html`
     <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
       ${arguments_['slot="default"']}
+
+      <svg
+        slot="suffix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
     </cs-button>
   `,
 };
@@ -199,9 +340,37 @@ export const TertiaryWithPrefixAndSuffixIcons: StoryObj = {
   name: 'Tertiary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
     <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
-      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
       ${arguments_['slot="default"']}
+
+      <svg
+        slot="prefix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
+
+      <svg
+        slot="suffix"
+        viewBox="0 0 24 24"
+        width="16"
+        height="16"
+        stroke="currentColor"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
+      </svg>
     </cs-button>
   `,
 };

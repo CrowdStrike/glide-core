@@ -18,7 +18,7 @@ export default {
       lines: 100,
     },
   },
-  files: ['**/*.test.ts', '**/*.test.*.ts', '!dist/**'],
+  files: ['src/*.test.ts', 'src/*.test.*.ts'],
   nodeResolve: {
     // https://lit.dev/docs/tools/development#development-and-production-builds
     exportConditions: ['production'],
