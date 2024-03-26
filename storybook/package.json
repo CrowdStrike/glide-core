@@ -20,18 +20,18 @@
   "dependencies": {
     "@crowdstrike/glide-core-components": "workspace:*",
     "@crowdstrike/glide-core-styles": "workspace:*",
-    "@storybook/addon-essentials": "^7.6.13",
-    "@storybook/addon-links": "^7.6.13",
-    "@storybook/blocks": "^7.6.13",
-    "@storybook/web-components": "^7.6.13",
-    "@storybook/web-components-vite": "^7.6.13",
+    "@storybook/addon-essentials": "^8.0.4",
+    "@storybook/addon-links": "^8.0.4",
+    "@storybook/blocks": "^8.0.4",
+    "@storybook/web-components": "^8.0.4",
+    "@storybook/web-components-vite": "^8.0.4",
     "lit": "^3.1.2",
     "lit-html": "^3.1.2",
     "per-env": "^1.0.2",
     "prettier": "3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.6.13"
+    "storybook": "^8.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^8.56.0",
