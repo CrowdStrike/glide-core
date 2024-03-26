@@ -51,13 +51,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm --filter "@crowdstrike/glide-core-components" start
-      - run: NODE_ENV=production pnpm --filter "@crowdstrike/glide-core-storybook" start
+      - run: NODE_ENV=production pnpm start
         env:
           BASE_URL: ${{ github.head_ref }}
       - uses: actions/upload-artifact@v4
         with:
-          path: storybook/storybook-static
+          path: packages/components/dist/storybook
 
   deploy:
     name: Deploy

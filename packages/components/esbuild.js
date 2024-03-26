@@ -3,7 +3,7 @@ import { minifyHTMLLiteralsPlugin } from 'esbuild-plugin-minify-html-literals';
 import { parse as parsePath } from 'node:path';
 import esbuild from 'esbuild';
 
-const entryPoints = await globby(['src/*', '!dist']).then((paths) => {
+const entryPoints = await globby(['src/*']).then((paths) => {
   return paths.map((path) => {
     const { name } = parsePath(path);
 

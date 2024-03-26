@@ -1,7 +1,6 @@
 /** @type { import('@storybook/web-components').Preview } */
 import '@crowdstrike/glide-core-styles';
 
-// Refer to: https://storybook.js.org/docs/api/parameters
 const preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
@@ -11,7 +10,6 @@ const preview = {
         date: /date$/i,
       },
     },
-    // Automatically "show code" in the demos by default
     docs: {
       canvas: {
         sourceState: 'shown',
