@@ -26,6 +26,12 @@ export default class CsButton extends LitElement {
 
   static override styles = styles;
 
+  @property({ reflect: true })
+  override ariaExpanded: string | null = null;
+
+  @property({ reflect: true })
+  override ariaHasPopup: string | null = null;
+
   /** Sets the disabled attribute on the button. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 

@@ -3,6 +3,11 @@ import { focusOutline } from './styles.js';
 
 export default [
   css`
+    :host {
+      /* Contains elements with "padding" and "width". Inline by default. */
+      display: inline-block;
+    }
+
     .button {
       align-items: center;
       border-color: transparent;

@@ -145,7 +145,7 @@ it('renders with a suffix slot', async () => {
   expect(document.querySelector('[data-suffix]')).to.be.ok;
 });
 
-it('renders with a prefix and suffix slot', async () => {
+it('renders with a prefix and suffix slot when both are present initially', async () => {
   const element = await fixture<Button>(html`
     <cs-button>
       <span slot="prefix" data-prefix>prefix</span>
@@ -162,12 +162,39 @@ it('renders with a prefix and suffix slot', async () => {
   expect(document.querySelector('[data-suffix]')).to.be.ok;
 });
 
-it('renders without prefix and suffix classes after both slots are removed', async () => {
+it('renders with prefix and suffix classes when both are dynamically added', async () => {
+  const element = await fixture<Button>(html`
+    <cs-button> Button </cs-button>
+  `);
+
+  const prefix = document.createElement('span');
+  prefix.setAttribute('slot', 'prefix');
+  prefix.dataset.prefix = undefined;
+  prefix.textContent = 'prefix';
+  element.append(prefix);
+
+  const suffix = document.createElement('span');
+  suffix.setAttribute('slot', 'suffix');
+  prefix.dataset.suffix = undefined;
+  suffix.textContent = 'suffix';
+  element.append(suffix);
+
+  await elementUpdated(element);
+
+  expect([
+    ...element.shadowRoot!.querySelector('button')!.classList,
+  ]).to.deep.equal(['button', 'primary', 'large', 'has-prefix', 'has-suffix']);
+
+  expect(document.querySelector('[data-prefix]')).to.be.ok;
+  expect(document.querySelector('[data-suffix]')).to.be.ok;
+});
+
+it('renders without prefix and suffix classes after both are removed', async () => {
   const element = await fixture<Button>(html`
     <cs-button>
-      <span slot="prefix" data-prefix>prefix</span>
+      <span slot="prefix">prefix</span>
       Button
-      <span slot="suffix" data-suffix>suffix</span>
+      <span slot="suffix">suffix</span>
     </cs-button>
   `);
 
