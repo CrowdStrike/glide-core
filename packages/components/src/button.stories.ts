@@ -1,4 +1,5 @@
 import './button.js';
+import { expect, within } from '@storybook/test';
 import { html, nothing } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -20,6 +21,15 @@ const meta: Meta = {
       >${arguments_['slot="default"']}</cs-button
     >
   `,
+  play: async ({ canvasElement }) => {
+    const shadowRoot = canvasElement.querySelector('cs-button')
+      ?.shadowRoot as unknown as HTMLElement;
+
+    const canvas = within(shadowRoot);
+    const button = canvas.getByRole<HTMLButtonElement>('button');
+
+    await expect(button.type).toStrictEqual('button');
+  },
   args: {
     disabled: false,
     variant: 'primary',
