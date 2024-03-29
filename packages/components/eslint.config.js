@@ -157,7 +157,7 @@ export default [
     },
   },
   {
-    files: ['*.js', '*.ts', '**/*.test.ts'],
+    files: ['*.js', '*.ts', '**/*.test.ts', '.storybook/**/*'],
     languageOptions: {
       globals: globals.node,
     },
