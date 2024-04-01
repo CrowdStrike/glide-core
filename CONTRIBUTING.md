@@ -252,13 +252,20 @@ Our components extend `LitElement`, whose shadow root is open by default.
 We recommend closing it:
 
 ```ts
+// component.ts
 static shadowRootOptions: ShadowRootInit = {
   ...LitElement.shadowRootOptions,
-  mode: window.navigator.webdriver ? 'open' : 'closed',
+  mode:'closed',
 };
 ```
 
-> Use `window.navigator.webdriver` if you need the shadow root open for tests.
+You can reopen the shadow root in tests if needed:
+
+```ts
+// test.ts
+import Component from './component.js';
+Component.shadowRootOptions.mode = 'open';
+```
 
 Closing the shadow root does mean that Lit will no longer attach it the host (`this`).
 That's what we want.
@@ -266,6 +273,7 @@ But you may still need to access it from within your component.
 If so, you can implement `createRenderRoot` and attach `shadowRoot` privately to the host:
 
 ```ts
+// component.ts
 #shadowRoot?: ShadowRoot;
 
 protected createRenderRoot() {

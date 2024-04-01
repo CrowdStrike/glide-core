@@ -21,7 +21,7 @@ export default class CsButton extends LitElement {
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: window.navigator.webdriver ? 'open' : 'closed',
+    mode: 'closed',
   };
 
   static override styles = styles;
