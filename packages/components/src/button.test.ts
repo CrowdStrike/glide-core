@@ -6,7 +6,9 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
-import type Button from './button.ts';
+import Button from './button.js';
+
+Button.shadowRootOptions.mode = 'open';
 
 it('renders and sets default attributes', async () => {
   const element = await fixture<Button>(html` <cs-button>Button</cs-button> `);
@@ -247,6 +249,8 @@ it('participates in a form when type="submit"', async () => {
       parentNode: form,
     },
   );
+
+  form.addEventListener('submit', (event) => event.preventDefault());
 
   const formSubmitEvent = oneEvent(form, 'submit');
   element.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
