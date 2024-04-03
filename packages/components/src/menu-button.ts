@@ -2,7 +2,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import styles from './button.styles.js';
+import styles from './menu-button.styles.js';
 
 /**
  * @description A button for use within a <cs-menu>.
@@ -10,7 +10,7 @@ import styles from './button.styles.js';
  * @slot icon - An icon.
  */
 @customElement('cs-menu-button')
-export default class Button extends LitElement {
+export default class MenuButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: window.navigator.webdriver ? 'open' : 'closed',

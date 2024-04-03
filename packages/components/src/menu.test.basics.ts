@@ -1,6 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import Menu from './menu.js';
-import MenuLink from './menu/link.js';
+import MenuLink from './menu-link.js';
 
 it('registers', async () => {
   expect(window.customElements.get('cs-menu')).to.equal(Menu);

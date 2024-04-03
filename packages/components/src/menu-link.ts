@@ -3,7 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import styles from './link.styles.js';
+import styles from './menu-link.styles.js';
 
 /**
  * @description A link for use within a <cs-menu>.

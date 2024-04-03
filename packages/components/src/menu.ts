@@ -3,8 +3,8 @@ import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import MenuButton from './menu/button.js';
-import MenuLink from './menu/link.js';
+import MenuButton from './menu-button.js';
+import MenuLink from './menu-link.js';
 import styles from './menu.styles.js';
 
 /**

@@ -1,5 +1,5 @@
+import './menu-link.js';
 import './menu.js';
-import './menu/link.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import type Menu from './menu.js';
 

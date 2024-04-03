@@ -1,6 +1,7 @@
 import './button.js';
+import './menu-button.js';
+import './menu-link.js';
 import './menu.js';
-import './menu/link.js';
 import { html, nothing } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
