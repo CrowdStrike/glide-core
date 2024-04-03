@@ -17,24 +17,23 @@ export default [
 
     .options {
       background-color: var(--cs-surface-base-lighter);
-      border-radius: var(--cs-spacing-xs);
       border: 1px solid var(--cs-border-base-lighter);
+      border-radius: var(--cs-spacing-xs);
       box-shadow: var(--cs-shadow-lg);
       box-sizing: border-box;
-      left: 0px;
-      margin-bottom: 0px;
-      margin-top: 0px;
-      min-width: 9.375rem;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      margin-block: 0;
+      min-inline-size: 9.375rem;
       padding: var(--cs-spacing-xxxs);
       position: absolute;
-      top: 0px;
       visibility: hidden;
 
-      &.options--visible {
+      &.options-visible {
         visibility: visible;
       }
 
-      &.options--large {
+      &.options-large {
         --gap: var(--cs-spacing-sm);
         --padding-inline: var(--cs-spacing-sm);
         --padding-block: var(--cs-spacing-xxs);
@@ -46,7 +45,7 @@ export default [
         line-height: var(--cs-body-sm-line-height);
       }
 
-      &.options--small {
+      &.options-small {
         --gap: var(--cs-spacing-xs);
         --padding-inline: var(--cs-spacing-xs);
         --padding-block: var(--cs-spacing-xxxs);

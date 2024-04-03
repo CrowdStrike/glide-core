@@ -8,14 +8,14 @@ export default [
       border: none;
       border-radius: var(--cs-spacing-sm);
       display: flex;
-      gap: var(--gap);
       font: inherit;
+      gap: var(--gap);
+      inline-size: 100%;
       padding-block: var(--padding-block);
       padding-inline: var(--padding-inline);
       user-select: none;
-      width: 100%;
 
-      &.component--active {
+      &.component-active {
         background-color: var(--cs-surface-hover);
       }
     }

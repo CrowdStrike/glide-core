@@ -1,15 +1,16 @@
-import './link.component.js';
-import './menu.component.js';
+import './menu.js';
+import './menu/link.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import type Menu from './menu.js';
+import type MenuLink from './menu/link.js';
 
 it('opens when clicked', async () => {
   const menu = await fixture<Menu>(
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
@@ -21,7 +22,7 @@ it('opens on Enter', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.focus();
@@ -35,7 +36,7 @@ it('opens on ArrowUp', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.focus();
@@ -49,7 +50,7 @@ it('opens on ArrowDown', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.focus();
@@ -63,7 +64,7 @@ it('opens on Space', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.focus();
@@ -72,7 +73,7 @@ it('opens on Space', async () => {
   expect(menu.open).to.be.true;
 });
 
-// See the `document` click listener comment in `menu.component.ts` for an explanation.
+// See the `document` click listener comment in `menu.ts` for an explanation.
 it('opens when opened programmatically via the click handler of another element', async () => {
   const div = document.createElement('div');
 
@@ -81,7 +82,7 @@ it('opens when opened programmatically via the click handler of another element'
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
-    { parentNode: div }
+    { parentNode: div },
   );
 
   const button = document.createElement('button');
@@ -97,7 +98,7 @@ it('closes when clicked', async () => {
     html`<cs-menu label="Menu" open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
@@ -109,7 +110,7 @@ it('closes when something outside of it is clicked', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
@@ -122,7 +123,7 @@ it('closes on Escape when the button has focus', async () => {
     html`<cs-menu label="Menu" open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
@@ -136,12 +137,13 @@ it('closes on Escape when an option has focus', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
 
-  menu.querySelector('cs-menu-link')?.focus();
+  const menuLink: MenuLink | null = menu.querySelector('cs-menu-link');
+  menuLink?.focus();
   await sendKeys({ press: 'Escape' });
 
   expect(menu.open).to.be.false;
@@ -152,11 +154,12 @@ it('closes when an option is selected via click', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
-  menu.querySelector('cs-menu-link')?.click();
+  const menuLink: MenuLink | null = menu.querySelector('cs-menu-link');
+  menuLink?.click();
 
   expect(menu.open).to.be.false;
 });
@@ -166,10 +169,12 @@ it('closes when an option is selected via Enter', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
-  menu.querySelector('cs-menu-link')?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  menu
+    .querySelector('cs-menu-link')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ press: 'Enter' });
 
   expect(menu.open).to.be.false;
@@ -180,12 +185,13 @@ it('closes when an option is selected via Space', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
 
-  menu.querySelector('cs-menu-link')?.focus();
+  const menuLink: MenuLink | null = menu.querySelector('cs-menu-link');
+  menuLink?.focus();
   await sendKeys({ press: ' ' });
 
   expect(menu.open).to.be.false;
@@ -200,7 +206,7 @@ it('activates an option on "mouseover"', async () => {
     </cs-menu>
   `);
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   expect(options[0].privateActive).to.be.false;
@@ -216,7 +222,7 @@ it('activates the first option by default', async () => {
     </cs-menu>
   `);
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
 
   expect(options[0].privateActive).to.be.true;
   expect(options[1].privateActive).to.be.false;
@@ -233,7 +239,7 @@ it('activates the next option on ArrowDown', async () => {
 
   menu.querySelector('button')?.click();
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
 
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ press: 'ArrowDown' });
@@ -253,7 +259,7 @@ it('activates the previous option on ArrowUp', async () => {
 
   menu.querySelector('button')?.click();
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
 
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ press: 'ArrowUp' });
@@ -273,7 +279,7 @@ it('activates the first option on Home', async () => {
 
   menu.querySelector('button')?.click();
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
 
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ press: 'Home' });
@@ -293,7 +299,7 @@ it('activates the first option on PageUp', async () => {
 
   menu.querySelector('button')?.click();
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
 
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ press: 'PageUp' });
@@ -313,7 +319,7 @@ it('activates the first option on ArrowUp + Meta', async () => {
 
   menu.querySelector('button')?.click();
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   await sendKeys({ down: 'Meta' });
@@ -335,7 +341,7 @@ it('activates the last option on End', async () => {
 
   menu.querySelector('button')?.click();
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
 
   options[0].focus();
   await sendKeys({ press: 'End' });
@@ -355,7 +361,7 @@ it('activates the last option on PageDown', async () => {
 
   menu.querySelector('button')?.click();
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
 
   options[0].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ press: 'PageDown' });
@@ -375,7 +381,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
 
   menu.querySelector('button')?.click();
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
 
   options[0].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ down: 'Meta' });
@@ -391,11 +397,13 @@ it('sets `aria-expanded` on open', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
-  expect(menu.querySelector('button')?.getAttribute('aria-expanded')).to.equal('true');
+  expect(menu.querySelector('button')?.getAttribute('aria-expanded')).to.equal(
+    'true',
+  );
 });
 
 it('sets `aria-expanded` on close', async () => {
@@ -403,12 +411,14 @@ it('sets `aria-expanded` on close', async () => {
     html`<cs-menu label="Menu" open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
 
-  expect(menu.querySelector('button')?.getAttribute('aria-expanded')).to.equal('false');
+  expect(menu.querySelector('button')?.getAttribute('aria-expanded')).to.equal(
+    'false',
+  );
 });
 
 it('does not wrap on ArrowUp', async () => {
@@ -422,8 +432,8 @@ it('does not wrap on ArrowUp', async () => {
 
   menu.querySelector('button')?.click();
   await sendKeys({ press: 'ArrowUp' });
-
-  expect(menu.querySelector('cs-menu-link')?.privateActive).to.be.true;
+  const menuLink: MenuLink | null = menu.querySelector('cs-menu-link');
+  expect(menuLink?.privateActive).to.be.true;
 });
 
 it('does not wrap on ArrowDown', async () => {
@@ -437,7 +447,7 @@ it('does not wrap on ArrowDown', async () => {
 
   menu.querySelector('button')?.click();
 
-  const options = menu.querySelectorAll('cs-menu-link');
+  const options: NodeListOf<MenuLink> = menu.querySelectorAll('cs-menu-link');
 
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ press: 'ArrowDown' });

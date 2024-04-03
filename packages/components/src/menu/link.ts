@@ -1,8 +1,8 @@
-import '@crowdstrike/glide-icons/general/check/line.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './link.styles.js';
 
 /**
@@ -48,7 +48,7 @@ export default class Link extends LitElement {
         'component-active': this.privateActive,
       })}
       data-test="component"
-      href=${this.url}
+      href=${ifDefined(this.url)}
       role="menuitem"
       tabindex=${this.privateActive ? '0' : '-1'}
       ${ref(this.#componentElement)}

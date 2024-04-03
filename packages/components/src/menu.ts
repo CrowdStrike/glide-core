@@ -1,12 +1,10 @@
-import './menu.component.js';
-import '@crowdstrike/glide-icons/arrows/chevron-down/line.js';
 import { LitElement, html } from 'lit';
 import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import MenuButton from './button.js';
-import MenuLink from './link.js';
+import MenuButton from './menu/button.js';
+import MenuLink from './menu/link.js';
 import styles from './menu.styles.js';
 
 /**
@@ -141,9 +139,9 @@ export default class Menu extends LitElement {
           aria-labelledby="target-container"
           class=${classMap({
             options: true,
-            'options--large': this.size === 'large',
-            'options--small': this.size === 'small',
-            'options--visible': this.open,
+            'options-large': this.size === 'large',
+            'options-small': this.size === 'small',
+            'options-visible': this.open,
           })}
           role="menu"
           ${ref(this.#optionsElement)}
@@ -194,8 +192,10 @@ export default class Menu extends LitElement {
   // An arrow function field instead of a method so `this` is closed over and
 
   get #optionElements() {
-    const buttons = this.querySelectorAll('cs-menu-button') ?? [];
-    const links = this.querySelectorAll('cs-menu-link') ?? [];
+    const buttons: NodeListOf<MenuButton> =
+      this.querySelectorAll('cs-menu-button') ?? [];
+    const links: NodeListOf<MenuLink> =
+      this.querySelectorAll('cs-menu-link') ?? [];
     return [...buttons, ...links];
   }
 

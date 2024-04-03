@@ -1,8 +1,6 @@
-import './link.component.js';
-import './menu.component.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import Menu from './menu.js';
-import MenuLink from './link.js';
+import MenuLink from './menu/link.js';
 
 it('registers', async () => {
   expect(window.customElements.get('cs-menu')).to.equal(Menu);
@@ -16,7 +14,7 @@ it('has defaults', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   expect(menu.getAttribute('label')).to.equal('Menu');
@@ -28,10 +26,10 @@ it('has defaults', async () => {
 
 it('is accessible', async () => {
   const menu = await fixture<Menu>(
-    html`<cs-menu placeholder="Placeholder">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   await expect(menu).to.be.accessible();
@@ -42,7 +40,7 @@ it('can have a label', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   expect(menu.getAttribute('label')).to.equal('Menu');
@@ -54,10 +52,12 @@ it('can have a default slot', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
-  const assignedElements = menu.shadowRoot?.querySelectorAll('slot')[1].assignedElements();
+  const assignedElements = menu.shadowRoot
+    ?.querySelectorAll('slot')[1]
+    .assignedElements();
   expect(assignedElements?.at(0) instanceof MenuLink).to.be.true;
 });
 
@@ -66,10 +66,12 @@ it('can have a target slot', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
-  const assignedElements = menu.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="target"]')?.assignedElements();
+  const assignedElements = menu.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="target"]')
+    ?.assignedElements();
   expect(assignedElements?.at(0)?.textContent).to.equal('Target');
 });
 
@@ -78,7 +80,7 @@ it('sets accessibility attributes on the target', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   const button = menu.querySelector('button');

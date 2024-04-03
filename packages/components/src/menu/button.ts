@@ -1,4 +1,3 @@
-import '@crowdstrike/glide-icons/general/check/line.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -42,7 +41,7 @@ export default class Button extends LitElement {
     return html`<button
       class=${classMap({
         component: true,
-        'component--active': this.privateActive,
+        'component-active': this.privateActive,
       })}
       data-test="component"
       role="menuitem"

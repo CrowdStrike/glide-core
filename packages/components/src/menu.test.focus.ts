@@ -1,5 +1,5 @@
-import './link.component.js';
-import './menu.component.js';
+import './menu.js';
+import './menu/link.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import type Menu from './menu.js';
 
@@ -8,7 +8,7 @@ it('focuses the target on `focus()`', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.focus();
@@ -24,7 +24,7 @@ it('focuses the active option on open via click', async () => {
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   menu.querySelector('button')?.click();
@@ -41,10 +41,12 @@ it('focuses the active option on open via Space', async () => {
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
-  menu.querySelector('button')?.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: ' ' }));
+  menu
+    .querySelector('button')
+    ?.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: ' ' }));
 
   // Wait for the menu to open.
   await elementUpdated(menu);
@@ -57,7 +59,7 @@ it('focuses the target on close via click', async () => {
     html`<cs-menu label="Menu" open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   const button = menu.querySelector('button');
@@ -70,11 +72,13 @@ it('focuses the target on close via Escape', async () => {
     html`<cs-menu label="Menu" open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   const button = menu.querySelector('button');
-  button?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  button?.dispatchEvent(
+    new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+  );
   expect(document.activeElement).to.equal(button);
 });
 
@@ -84,13 +88,14 @@ it('focuses the target when an option is selected via click', async () => {
       <button slot="target">Target</button>
 
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   const button = menu.querySelector('button');
 
   button?.click();
-  menu.querySelector('cs-menu-link')?.click();
+  const menuLink: HTMLElement | null = menu.querySelector('cs-menu-link');
+  menuLink?.click();
 
   expect(document.activeElement).to.equal(button);
 });
@@ -100,13 +105,17 @@ it('focuses the target when an option is selected via Enter', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   const button = menu.querySelector('button');
 
   button?.click();
-  menu.querySelector('cs-menu-link')?.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }));
+  menu
+    .querySelector('cs-menu-link')
+    ?.dispatchEvent(
+      new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }),
+    );
 
   expect(document.activeElement).to.equal(button);
 });
@@ -116,12 +125,14 @@ it('focuses the target when an option is selected via Space', async () => {
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`
+    </cs-menu>`,
   );
 
   const button = menu.querySelector('button');
   button?.click();
-  menu.querySelector('cs-menu-link')?.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: ' ' }));
+  menu
+    .querySelector('cs-menu-link')
+    ?.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: ' ' }));
 
   expect(document.activeElement).to.equal(button);
 });
