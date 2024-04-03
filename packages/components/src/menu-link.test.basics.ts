@@ -1,6 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import MenuLink from './menu-link.js';
 
+MenuLink.shadowRootOptions.mode = 'open';
+
 it('registers', async () => {
   expect(window.customElements.get('cs-menu-link')).to.equal(MenuLink);
 });

@@ -14,7 +14,7 @@ import styles from './menu-link.styles.js';
 export default class Link extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: window.navigator.webdriver ? 'open' : 'closed',
+    mode: 'closed',
   };
 
   static override styles = styles;

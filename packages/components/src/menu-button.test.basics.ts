@@ -1,6 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import MenuButton from './menu-button.js';
 
+MenuButton.shadowRootOptions.mode = 'open';
+
 it('registers', async () => {
   expect(window.customElements.get('cs-menu-button')).to.equal(MenuButton);
 });

@@ -13,7 +13,7 @@ import styles from './menu-button.styles.js';
 export default class MenuButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: window.navigator.webdriver ? 'open' : 'closed',
+    mode: 'closed',
   };
 
   static override styles = styles;
