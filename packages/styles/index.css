@@ -34,10 +34,12 @@
   --cs-heading-xxxs-font-variant: normal;
   --cs-heading-xxxs-font-weight: var(--cs-font-weight-bold);
   --cs-heading-xxxs-line-height: 1.7;
-  --cs-icon-default: #000000;
-  --cs-icon-display: #212121;
-  --cs-icon-primary: #00000080;
+  --cs-icon-active: #0073e6;
+  --cs-icon-default: #212121;
+  --cs-icon-primary: #054fb9;
+  --cs-icon-primary-hover: #0461cf;
   --cs-icon-selected: #ffffff;
+  --cs-icon-tertiary-disabled: #c9c9c9;
   --cs-shadow-lg: 0px 4px 14px 0px #00000040;
   --cs-shadow-sm: 0px 2.275px 8.342px 0px rgba(181, 181, 181, 0.25);
   --cs-shadow-xl: 0px 4px 60px 0px #adadad;
