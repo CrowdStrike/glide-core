@@ -37,6 +37,12 @@ it('is accessible', async () => {
   await expect(menu).to.be.accessible();
 });
 
+it(`doesn't blow up if it is empty`, async () => {
+  const menu = await fixture<Menu>(html`<cs-menu> </cs-menu>`);
+
+  await expect(menu).to.be.accessible();
+});
+
 it('can have a label', async () => {
   const menu = await fixture<Menu>(
     html`<cs-menu label="Menu">

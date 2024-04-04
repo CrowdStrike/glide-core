@@ -176,10 +176,10 @@ export default class Menu extends LitElement {
     this.open = false;
   };
 
-  async #focusActiveOrFirstOption() {
-    const option =
-      this.#optionElements.find((element) => element.privateActive) ??
-      this.#optionElements.at(0);
+  async #focusActiveOption() {
+    const option = this.#optionElements.find(
+      (element) => element.privateActive,
+    );
 
     if (option) {
       // Wait until the options are visible before trying to focus one.
@@ -193,9 +193,8 @@ export default class Menu extends LitElement {
 
   get #optionElements() {
     const buttons: NodeListOf<MenuButton> =
-      this.querySelectorAll('cs-menu-button') ?? [];
-    const links: NodeListOf<MenuLink> =
-      this.querySelectorAll('cs-menu-link') ?? [];
+      this.querySelectorAll('cs-menu-button');
+    const links: NodeListOf<MenuLink> = this.querySelectorAll('cs-menu-link');
     return [...buttons, ...links];
   }
 
@@ -321,7 +320,7 @@ export default class Menu extends LitElement {
     this.open = !this.open;
 
     if (this.open) {
-      this.#focusActiveOrFirstOption();
+      this.#focusActiveOption();
     } else {
       this.focus();
     }
@@ -332,11 +331,7 @@ export default class Menu extends LitElement {
       event.preventDefault(); // Prevent scroll.
       this.open = true;
 
-      if (this.open) {
-        this.#focusActiveOrFirstOption();
-      } else {
-        this.focus();
-      }
+      this.#focusActiveOption();
     }
   }
 

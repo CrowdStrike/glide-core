@@ -3,6 +3,7 @@ import './menu.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import type Menu from './menu.js';
+import type MenuButton from './menu-button.js';
 import type MenuLink from './menu-link.js';
 
 it('opens when clicked', async () => {
@@ -132,6 +133,24 @@ it('closes on Escape when the button has focus', async () => {
   expect(menu.open).to.be.false;
 });
 
+// For test coverage, hitting the branch of there being no activeOption for #onOptionsKeydown
+it('does not blow up on keydown of dummy option', async () => {
+  const menu = await fixture<Menu>(
+    html`<cs-menu label="Menu">
+      <button>Dummy</button>
+    </cs-menu>`,
+  );
+
+  const dummyButton = menu.querySelector('button');
+
+  dummyButton?.dispatchEvent(
+    new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' }),
+  );
+  await sendKeys({ press: 'Escape' });
+
+  expect(menu.open).to.be.false;
+});
+
 it('closes on Escape when an option has focus', async () => {
   const menu = await fixture<Menu>(
     html`<cs-menu label="Menu">
@@ -213,6 +232,23 @@ it('activates an option on "mouseover"', async () => {
   expect(options[1].privateActive).to.be.true;
 });
 
+it('activates a menu button option on "mouseover"', async () => {
+  const menu = await fixture<Menu>(html`
+    <cs-menu label="Menu" open>
+      <button slot="target">Target</button>
+      <cs-menu-button label="One"></cs-menu-button>
+      <cs-menu-button label="Two"></cs-menu-button>
+    </cs-menu>
+  `);
+
+  const options: NodeListOf<MenuButton> =
+    menu.querySelectorAll('cs-menu-button');
+  options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  expect(options[0].privateActive).to.be.false;
+  expect(options[1].privateActive).to.be.true;
+});
+
 it('activates the first option by default', async () => {
   const menu = await fixture<Menu>(html`
     <cs-menu label="Menu" open>
@@ -228,12 +264,29 @@ it('activates the first option by default', async () => {
   expect(options[1].privateActive).to.be.false;
 });
 
+it('activates the first menu-button option by default', async () => {
+  const menu = await fixture<Menu>(html`
+    <cs-menu label="Menu" open>
+      <button slot="target">Target</button>
+      <cs-menu-button label="One"></cs-menu-button>
+      <cs-menu-button label="Two"></cs-menu-button>
+    </cs-menu>
+  `);
+
+  const options: NodeListOf<MenuButton> =
+    menu.querySelectorAll('cs-menu-button');
+
+  expect(options[0].privateActive).to.be.true;
+  expect(options[1].privateActive).to.be.false;
+});
+
 it('activates the next option on ArrowDown', async () => {
   const menu = await fixture<Menu>(html`
     <cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
+      <cs-menu-link label="Three"></cs-menu-link>
     </cs-menu>
   `);
 
@@ -245,7 +298,8 @@ it('activates the next option on ArrowDown', async () => {
   await sendKeys({ press: 'ArrowDown' });
 
   expect(options[0].privateActive).to.be.false;
-  expect(options[1].privateActive).to.be.true;
+  expect(options[1].privateActive).to.be.false;
+  expect(options[2].privateActive).to.be.true;
 });
 
 it('activates the previous option on ArrowUp', async () => {
