@@ -16,8 +16,12 @@ const meta: Meta = {
   render: () => html`
     <cs-button-group label="label" id="my-test">
       <cs-button-group-button value="1">Button 1</cs-button-group-button>
-      <cs-button-group-button value="2">Button 2</cs-button-group-button>
-      <cs-button-group-button value="3">Button 3</cs-button-group-button>
+      <cs-button-group-button value="2">
+        <span name="prefix">Pf</span>Button 2
+      </cs-button-group-button>
+      <cs-button-group-button value="3" disabled
+        >Button 3</cs-button-group-button
+      >
     </cs-button-group>
   `,
   args: {},

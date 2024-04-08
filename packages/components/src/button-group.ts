@@ -3,7 +3,7 @@ import { LitElement, html } from 'lit';
 // import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import CsButtonGroupButton from './button-group-button.js';
-// import styles from './button-group.styles.js';
+import styles from './button-group.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,6 +20,8 @@ export default class CsButtonGroup extends LitElement {
     mode: 'closed',
   };
 
+  static override styles = styles;
+
   @property()
   label = '';
 
@@ -32,17 +34,15 @@ export default class CsButtonGroup extends LitElement {
   override render() {
     /*  eslint-disable lit-a11y/list */
     return html`
-      <div>
-        <ul
-          id="button-group"
-          role="radiogroup"
-          @cs-private-change=${this.#onPrivateChange}
-          @cs-private-input=${this.#onPrivateInput}
-          aria-label=${this.label}
-        >
-          <slot></slot>
-        </ul>
-      </div>
+      <ul
+        id="button-group"
+        role="radiogroup"
+        @cs-private-change=${this.#onPrivateChange}
+        @cs-private-input=${this.#onPrivateInput}
+        aria-label=${this.label}
+      >
+        <slot></slot>
+      </ul>
     `;
   }
 

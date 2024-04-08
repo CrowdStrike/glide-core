@@ -1,7 +1,8 @@
-import { LitElement, html } from 'lit';
-// import { classMap } from 'lit/directives/class-map.js';
+import { LitElement, html, nothing } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import styles from './button-group-button.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -16,6 +17,8 @@ export default class CsButtonGroupButton extends LitElement {
     mode: 'closed',
   };
 
+  static override styles = styles;
+
   @property({ type: Boolean, reflect: true })
   get checked() {
     return this.#checked;
@@ -24,11 +27,13 @@ export default class CsButtonGroupButton extends LitElement {
   set checked(isChecked) {
     this.#checked = isChecked;
     if (this.#checked) {
-      this.#isTabbable = true;
+      this.isTabbable = true;
       this.focus();
-      for (const button of this.#buttonElements) {
+      const buttonElements = this.#buttonElements;
+      for (const button of buttonElements) {
         if (button !== this) {
           button.checked = false;
+          button.isTabbable = false;
         }
       }
       this.dispatchEvent(
@@ -38,18 +43,27 @@ export default class CsButtonGroupButton extends LitElement {
         new CustomEvent('cs-private-input', { bubbles: true }),
       );
     } else {
-      this.#isTabbable = false;
+      this.isTabbable = false;
     }
   }
+
+  @property({ type: Boolean })
+  disabled? = false;
 
   @property()
   value = '';
 
-  override firstUpdated(): void {
+  @state()
+  isTabbable = false;
+
+  override connectedCallback(): void {
+    super.connectedCallback();
     const buttonElements = this.#buttonElements;
+    if (buttonElements.some((button) => button.checked)) {
+      return;
+    }
     if (buttonElements.length > 0 && this === buttonElements[0]) {
-      this.#isTabbable = true;
-      this.requestUpdate();
+      this.isTabbable = true;
     }
   }
 
@@ -59,20 +73,24 @@ export default class CsButtonGroupButton extends LitElement {
 
   override render() {
     return html`<li
+      role="radio"
       aria-checked=${this.checked}
-      tabindex=${this.#isTabbable ? 0 : -1}
+      tabindex=${!this.isTabbable || this.disabled ? -1 : 0}
       @click=${this.#onClick}
       @keydown=${this.#onKeydown}
-      role="radio"
       ${ref(this.#lifRef)}
+      class=${classMap({
+        checked: this.checked,
+        disabled: this.disabled ?? false,
+      })}
+      ?disabled=${this.disabled || nothing}
     >
+      <slot name="prefix"></slot>
       <slot></slot>
     </li>`;
   }
 
   #checked = false;
-
-  #isTabbable = false;
 
   #lifRef = createRef<HTMLLIElement>();
 
@@ -85,7 +103,9 @@ export default class CsButtonGroupButton extends LitElement {
   }
 
   #onClick() {
-    this.checked = true;
+    if (!this.disabled) {
+      this.checked = true;
+    }
   }
 
   #onKeydown(event: KeyboardEvent) {
@@ -94,33 +114,51 @@ export default class CsButtonGroupButton extends LitElement {
       case 'arrowup':
       case 'arrowleft': {
         this.checked = false;
-        const sibling = this.previousElementSibling;
+        let sibling = this.previousElementSibling;
+        while (
+          !sibling ||
+          (sibling instanceof CsButtonGroupButton && sibling.disabled)
+        ) {
+          if (sibling === null) {
+            const lastButton = buttonElements.at(-1);
+            if (lastButton) {
+              sibling = lastButton;
+            }
+          } else {
+            sibling = sibling.previousElementSibling;
+          }
+        }
         if (sibling && sibling instanceof CsButtonGroupButton) {
           sibling.checked = true;
-        } else if (buttonElements.length > 0) {
-          const lastButton = buttonElements.at(-1);
-          if (lastButton) {
-            lastButton.checked = true;
-          }
         }
         break;
       }
       case 'arrowdown':
       case 'arrowright': {
         this.checked = false;
-        const sibling = this.nextElementSibling;
+        let sibling = this.nextElementSibling;
+        while (
+          !sibling ||
+          (sibling instanceof CsButtonGroupButton && sibling.disabled)
+        ) {
+          if (sibling === null) {
+            const firstButton = buttonElements.at(0);
+            if (firstButton) {
+              sibling = firstButton;
+            }
+          } else {
+            sibling = sibling.nextElementSibling;
+          }
+        }
         if (sibling && sibling instanceof CsButtonGroupButton) {
           sibling.checked = true;
-        } else if (buttonElements.length > 0) {
-          const firstButton = buttonElements.at(0);
-          if (firstButton) {
-            firstButton.checked = true;
-          }
         }
         break;
       }
       case 'space': {
-        this.checked = true;
+        if (!this.disabled) {
+          this.checked = true;
+        }
         break;
       }
     }
