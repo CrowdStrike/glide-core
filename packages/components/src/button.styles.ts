@@ -23,6 +23,9 @@ export default [
       justify-content: center;
       padding-block: var(--cs-spacing-xs);
       padding-inline: var(--cs-spacing-md);
+      transition-duration: 150ms;
+      transition-property: color, background-color, border-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
 
       &:focus {
