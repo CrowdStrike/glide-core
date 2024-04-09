@@ -16,6 +16,7 @@ declare global {
 export default class CsIconButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
     mode: 'closed',
   };
 

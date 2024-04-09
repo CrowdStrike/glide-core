@@ -10,115 +10,136 @@ import Button from './button.js';
 
 Button.shadowRootOptions.mode = 'open';
 
-it('renders and sets default attributes', async () => {
-  const element = await fixture<Button>(html` <cs-button>Button</cs-button> `);
+it('registers', async () => {
+  expect(window.customElements.get('cs-button')).to.equal(Button);
+});
 
-  await expect(element).to.be.accessible();
-  expect(element.type).to.equal('button');
-  expect(element.disabled).to.equal(false);
-  expect(element.textContent).to.equal('Button');
+it('is accessible', async () => {
+  const component = await fixture<Button>(html`<cs-button>Button</cs-button>`);
 
-  const buttonTag = element.shadowRoot!.querySelector('button');
+  await expect(component).to.be.accessible();
+});
 
-  expect(buttonTag?.getAttribute('type')).to.equal('button');
-  expect(buttonTag?.disabled).to.equal(false);
-  expect([...buttonTag!.classList]).to.deep.equal([
-    'button',
-    'primary',
-    'large',
-  ]);
+it('has defaults', async () => {
+  const component = await fixture<Button>(html`
+    <cs-button>Button</cs-button>
+  `);
+
+  expect(component.type).to.equal('button');
+  expect(component.disabled).to.equal(false);
+  expect(component.textContent).to.equal('Button');
+
+  const button = component.shadowRoot?.querySelector('button');
+
+  expect(button?.getAttribute('type')).to.equal('button');
+  expect(button?.disabled).to.equal(false);
+  expect([...button!.classList]).to.deep.equal(['button', 'primary', 'large']);
+});
+
+it('delegates focus', async () => {
+  const component = await fixture<Button>(html`<cs-button>Button</cs-button>`);
+
+  component.focus();
+
+  expect(component.shadowRoot?.activeElement).to.equal(
+    component.shadowRoot?.querySelector('button'),
+  );
 });
 
 it('renders a secondary variant', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button variant="secondary">Button</cs-button>
   `);
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'secondary', 'large']);
 });
 
 it('renders a tertiary variant', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button variant="tertiary">Button</cs-button>
   `);
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'tertiary', 'large']);
 });
 
 it('sets the size to "large" by default', async () => {
-  const element = await fixture<Button>(html` <cs-button>Button</cs-button> `);
+  const component = await fixture<Button>(html`
+    <cs-button>Button</cs-button>
+  `);
 
-  expect(element.size).to.equal('large');
+  expect(component.size).to.equal('large');
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary', 'large']);
 });
 
 it('sets the size attribute to "large"', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button size="large">Button</cs-button>
   `);
 
-  expect(element.size).to.equal('large');
+  expect(component.size).to.equal('large');
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary', 'large']);
 });
 
 it('sets the size attribute to "small"', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button size="small">Button</cs-button>
   `);
 
-  expect(element.size).to.equal('small');
+  expect(component.size).to.equal('small');
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary', 'small']);
 });
 
 it('sets the disabled attribute', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button disabled>Button</cs-button>
   `);
 
-  expect(element.disabled).to.equal(true);
+  expect(component.disabled).to.equal(true);
 
-  expect(element.shadowRoot!.querySelector('button')?.disabled).to.equal(true);
+  expect(component.shadowRoot!.querySelector('button')?.disabled).to.equal(
+    true,
+  );
 });
 
 it('sets the type attribute to "submit"', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button type="submit">Button</cs-button>
   `);
 
-  expect(element.type).to.equal('submit');
+  expect(component.type).to.equal('submit');
 
   expect(
-    element.shadowRoot!.querySelector('button')?.getAttribute('type'),
+    component.shadowRoot!.querySelector('button')?.getAttribute('type'),
   ).to.equal('submit');
 });
 
 it('sets the type attribute to "reset"', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button type="reset">Button</cs-button>
   `);
 
-  expect(element.type).to.equal('reset');
+  expect(component.type).to.equal('reset');
 
   expect(
-    element.shadowRoot!.querySelector('button')?.getAttribute('type'),
+    component.shadowRoot?.querySelector('button')?.getAttribute('type'),
   ).to.equal('reset');
 });
 
 it('renders with a prefix slot', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button>
       <span slot="prefix" data-prefix>prefix</span>
       Button
@@ -126,14 +147,14 @@ it('renders with a prefix slot', async () => {
   `);
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary', 'large', 'has-prefix']);
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
 });
 
 it('renders with a suffix slot', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button>
       Button
       <span slot="suffix" data-suffix>suffix</span>
@@ -141,14 +162,14 @@ it('renders with a suffix slot', async () => {
   `);
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary', 'large', 'has-suffix']);
 
   expect(document.querySelector('[data-suffix]')).to.be.ok;
 });
 
 it('renders with a prefix and suffix slot when both are present initially', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button>
       <span slot="prefix" data-prefix>prefix</span>
       Button
@@ -157,7 +178,7 @@ it('renders with a prefix and suffix slot when both are present initially', asyn
   `);
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary', 'large', 'has-prefix', 'has-suffix']);
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
@@ -165,7 +186,7 @@ it('renders with a prefix and suffix slot when both are present initially', asyn
 });
 
 it('renders with prefix and suffix classes when both are dynamically added', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button> Button </cs-button>
   `);
 
@@ -173,18 +194,18 @@ it('renders with prefix and suffix classes when both are dynamically added', asy
   prefix.setAttribute('slot', 'prefix');
   prefix.dataset.prefix = undefined;
   prefix.textContent = 'prefix';
-  element.append(prefix);
+  component.append(prefix);
 
   const suffix = document.createElement('span');
   suffix.setAttribute('slot', 'suffix');
   prefix.dataset.suffix = undefined;
   suffix.textContent = 'suffix';
-  element.append(suffix);
+  component.append(suffix);
 
-  await elementUpdated(element);
+  await elementUpdated(component);
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary', 'large', 'has-prefix', 'has-suffix']);
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
@@ -192,7 +213,7 @@ it('renders with prefix and suffix classes when both are dynamically added', asy
 });
 
 it('renders without prefix and suffix classes after both are removed', async () => {
-  const element = await fixture<Button>(html`
+  const component = await fixture<Button>(html`
     <cs-button>
       <span slot="prefix">prefix</span>
       Button
@@ -200,23 +221,23 @@ it('renders without prefix and suffix classes after both are removed', async () 
     </cs-button>
   `);
 
-  element.querySelector('[slot="prefix"]')?.remove();
-  element.querySelector('[slot="suffix"]')?.remove();
-  await elementUpdated(element);
+  component.querySelector('[slot="prefix"]')?.remove();
+  component.querySelector('[slot="suffix"]')?.remove();
+  await elementUpdated(component);
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary', 'large']);
 });
 
 it('dispatches an event when clicked and type="button"', async () => {
-  const element = await fixture<HTMLFormElement>(html`
+  const component = await fixture<HTMLFormElement>(html`
     <cs-button type="button"> Button </cs-button>
   `);
 
-  const clickEvent = oneEvent(element, 'click');
+  const clickEvent = oneEvent(component, 'click');
 
-  element.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
+  component.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
 
   const event = await clickEvent;
   expect(event instanceof Event).to.be.true;
@@ -225,7 +246,7 @@ it('dispatches an event when clicked and type="button"', async () => {
 it('participates in a form when type="reset"', async () => {
   const form = document.createElement('form');
 
-  const element = await fixture<HTMLFormElement>(
+  const component = await fixture<HTMLFormElement>(
     html` <cs-button type="reset"> Button </cs-button> `,
     {
       parentNode: form,
@@ -234,7 +255,7 @@ it('participates in a form when type="reset"', async () => {
 
   const formResetEvent = oneEvent(form, 'reset');
 
-  element.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
+  component.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
 
   const event = await formResetEvent;
   expect(event instanceof Event).to.be.true;
@@ -243,7 +264,7 @@ it('participates in a form when type="reset"', async () => {
 it('participates in a form when type="submit"', async () => {
   const form = document.createElement('form');
 
-  const element = await fixture<HTMLFormElement>(
+  const component = await fixture<HTMLFormElement>(
     html` <cs-button type="submit"> Button </cs-button> `,
     {
       parentNode: form,
@@ -253,7 +274,7 @@ it('participates in a form when type="submit"', async () => {
   form.addEventListener('submit', (event) => event.preventDefault());
 
   const formSubmitEvent = oneEvent(form, 'submit');
-  element.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
+  component.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
 
   const event = await formSubmitEvent;
   expect(event instanceof Event).to.be.true;
