@@ -1,10 +1,19 @@
-// import { visuallyHidden } from './styles.js';
 import { css } from 'lit';
 
 export default [
   css`
     ul {
-      display: flex;
+      appearance: none;
+      appearance: none;
+      appearance: none;
+      border: none;
+
+      display: inline-flex;
+      margin: 0;
+      padding: 0;
+      &.vertical {
+        flex-direction: column;
+      }
     }
   `,
 ];

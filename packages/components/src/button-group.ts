@@ -1,6 +1,5 @@
 import { LitElement, html } from 'lit';
-// import { classMap } from 'lit/directives/class-map.js';
-// import { createRef, ref } from 'lit/directives/ref.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import CsButtonGroupButton from './button-group-button.js';
 import styles from './button-group.styles.js';
@@ -10,8 +9,6 @@ declare global {
     'cs-button-group': CsButtonGroup;
   }
 }
-
-export type TButtonGroupOrientation = 'horizontal' | 'vertical';
 
 @customElement('cs-button-group')
 export default class CsButtonGroup extends LitElement {
@@ -25,11 +22,8 @@ export default class CsButtonGroup extends LitElement {
   @property()
   label = '';
 
-  @property({ reflect: true })
-  orientation: TButtonGroupOrientation = 'horizontal';
-
-  @property()
-  disabled = false;
+  @property({ type: Boolean, reflect: true })
+  vertical?: false;
 
   override render() {
     /*  eslint-disable lit-a11y/list */
@@ -40,6 +34,9 @@ export default class CsButtonGroup extends LitElement {
         @cs-private-change=${this.#onPrivateChange}
         @cs-private-input=${this.#onPrivateInput}
         aria-label=${this.label}
+        class=${classMap({
+          vertical: this.vertical ?? false,
+        })}
       >
         <slot></slot>
       </ul>

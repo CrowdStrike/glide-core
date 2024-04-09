@@ -17,11 +17,13 @@ const meta: Meta = {
     <cs-button-group label="label" id="my-test">
       <cs-button-group-button value="1">Button 1</cs-button-group-button>
       <cs-button-group-button value="2">
-        <span name="prefix">Pf</span>Button 2
+        <span slot="prefix">Pf</span>Button 2
       </cs-button-group-button>
       <cs-button-group-button value="3" disabled
         >Button 3</cs-button-group-button
       >
+      <cs-button-group-button value="4">Button 4</cs-button-group-button>
+      <cs-button-group-button value="5">Button 5</cs-button-group-button>
     </cs-button-group>
   `,
   args: {},
