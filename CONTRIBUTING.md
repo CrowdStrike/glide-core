@@ -14,13 +14,14 @@
     - [Prefer a closed shadow root](#prefer-a-closed-shadow-root)
     - [Prefer using a `ref` for querying a single element/node](#prefer-using-a-ref-for-querying-a-single-elementnode)
   - [Prefer `rem` values](#prefer-rem-values)
+  - [Prefer throwing to letting invalid state propagate](#prefer-throwing-to-letting-invalid-state-propagate)
   - [Prefer CSS modifiers over BEM](#prefer-css-modifiers-over-bem)
   - [Prefer following native APIs](#prefer-following-native-apis)
   - [Prefer `padding-inline` and `padding-block`](#prefer-padding-inline-and-padding-block)
   - [Prefer separate test files](#prefer-separate-test-files)
+  - [Typing property decorators](#typing-property-decorators)
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
-  - [What is `ifDefined`?](#what-is-ifdefined)
 
 ## Overview
 
@@ -359,16 +360,16 @@ Invalid state let to propagate through a component is hard to discover and debug
 Throw as soon as you can—using `ow`, our assertion library.
 
 When a slot is required, for example, use `owSlot` to assert the existence of slotted content.
-You can also use `owSlot`'s second parameter to assert the content type.
+You can also use `owSlotType` to assert the content type.
 
 ```ts
-import ow, { owSlot } from './library/ow';
+import ow, { owSlot, owSlotType } from './library/ow';
 
 @customElement('cs-example')
 export default class CsExample extends LitElement {
   override firstUpdated() {
     owSlot(this.#firstSlotElementRef.value);
-    owSlot(this.#secondSlotElementRef.value, [HTMLButtonElement]);
+    owSlotType(this.#secondSlotElementRef.value, [HTMLButtonElement]);
   }
 }
 ```
@@ -379,7 +380,7 @@ For non-slot assertions, which should be rare, use the [default export](https://
 import ow from './library/ow';
 ```
 
-### Prefer following native APIs
+### Prefer native conventions
 
 Our components are built on the platform and the closer we can be with the platform, the fewer framework-isms we will add to our components.
 Due to that, we should try to operate similar to the native components as much as possible.
@@ -480,15 +481,12 @@ describe('Checkbox Form', () => {});
 describe('Checkbox Validity', () => {});
 ```
 
-### Prefer prefixing handlers with "on"
-
-When writing internal handlers, we prefer prefixing our functions with "on".
+### Prefer prefixing event handlers with "on"
 
 ```ts
 // ✅ -- GOOD
 @customElement('cs-example')
 export default class CsExample extends LitElement {
-  // @click handler is prefixed with `on`
   #onClick(Event: MouseEvent) {
     console.log('clicked');
   }
@@ -522,6 +520,44 @@ export default class CsExample extends LitElement {
 }
 ```
 
+#### Typing property [decorators](https://lit.dev/docs/api/decorators)
+
+We've enabled TypeScript's [`strict`](https://www.typescriptlang.org/tsconfig#strict) flag throughout the repository.
+`strict` enables a handful of other flags, including [`strictPropertyInitialization`](https://www.typescriptlang.org/tsconfig#strictPropertyInitialization), which raises an error when a property is declared without a default value:
+
+```bash
+Property [...] has no initializer and is not definitely assigned in the constructor.ts(2564)
+```
+
+You'll most commonly see the error when you use one of Lit's property decorators.
+It can be resolved using TypeScripts _non-null assertion operator_ (`!`).
+However, to avoid a runtime error if the property is accessed before it's defined, make sure you correctly type it.
+When in doubt, log the property to confirm its value before assigning it a type.
+A few examples of correctly typed decorators:
+
+##### `@queryAll`
+
+```ts
+@queryAll('input')
+inputElements!: NodeListOf<HTMLInputElement>
+```
+
+##### `@queryAssignedElements`
+
+```ts
+@queryAssignedElements()
+assignedElements!: Array<HTMLElement>;
+```
+
+##### `@property`
+
+```ts
+@property()
+label?: string;
+```
+
+> Unfortunately, properties that must be provided by the consumer must be typed as optional so they're typesafe throughout the component's lifecycle.
+
 ## Questions
 
 ### What is [`per-env`](https://github.com/ericclemmons/per-env)?
@@ -531,9 +567,3 @@ It helps clarify how different scripts are used in different contexts.
 It also neatly abstracts away specific script names from CI configuration.
 
 In general, think of `:development` scripts as either long-running (`--serve`, `--watch`) or mutative (`--fix`, `--write`) and `:production` scripts as neither of those things.
-
-### What is [`ifDefined`](https://lit.dev/docs/templates/directives/#ifdefined)?
-
-`ifDefined` is a utility from Lit that sets the html attribute if the value is defined and removes the attribute if undefined or null. It is the same as using [`nothing`](https://lit.dev/docs/templates/conditionals/#conditionally-rendering-nothing) as a fallback to remove the attribute.
-
-Some packages may use a tool called [`lit-analyzer`](https://github.com/runem/lit-analyzer) to help with linting, and it currently has [a bug](https://github.com/runem/lit-analyzer/issues/316) where it complains about this valid use of `nothing` as fallback. If that happens, we use `ifDefined` instead.

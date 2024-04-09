@@ -1,4 +1,9 @@
 :root {
+  --cs-body-md-font-family: var(--cs-font-sans);
+  --cs-body-md-font-size: 1rem;
+  --cs-body-md-font-style: normal;
+  --cs-body-md-font-weight: 400;
+  --cs-body-md-line-height: normal;
   --cs-body-sm-font-family: var(--cs-font-sans);
   --cs-body-sm-font-size: 0.875rem;
   --cs-body-sm-font-variant: normal;
