@@ -49,6 +49,9 @@
     "test:development:web-test-runner": "web-test-runner --watch",
     "test:production": "web-test-runner"
   },
+  "dependencies": {
+    "@floating-ui/dom": "^1.5.4"
+  },
   "devDependencies": {
     "@crowdstrike/glide-core-styles": "workspace:*",
     "@eslint/js": "^8.56.0",
