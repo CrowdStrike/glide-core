@@ -29,8 +29,10 @@ export default class CsButtonGroupButton extends LitElement {
   set checked(isChecked) {
     this.#checked = isChecked;
     if (this.#checked) {
+      // when checked, set the element as tabbable and focus
       this.isTabbable = true;
       this.focus();
+      // set other elements are neither checked nor tabbable
       const buttonElements = this.#buttonElements;
       for (const button of buttonElements) {
         if (button !== this) {
@@ -56,6 +58,9 @@ export default class CsButtonGroupButton extends LitElement {
   value = '';
 
   @state()
+  isPrefixSlotOnly = false;
+
+  @state()
   isTabbable = false;
 
   @state()
@@ -64,18 +69,22 @@ export default class CsButtonGroupButton extends LitElement {
   @state()
   vertical = false;
 
-  override connectedCallback(): void {
+  override async connectedCallback() {
     super.connectedCallback();
 
+    // setup observer on parent button group element to reflect
+    // vertical presentation
     const buttonGroupElement = this.closest('cs-button-group');
     if (buttonGroupElement) {
       this.#observer = new MutationObserver(this.#mutationCallback);
       this.#observer.observe(buttonGroupElement, { attributes: true });
     }
+    // intialize state and toggle in `mutationCallback` as needed
     if (buttonGroupElement?.hasAttribute('vertical')) {
       this.vertical = true;
     }
 
+    // determine position in list and style approriately
     const buttonElements = this.#buttonElements;
     if (buttonElements.every((button) => button.disabled)) {
       return;
@@ -103,6 +112,18 @@ export default class CsButtonGroupButton extends LitElement {
         }
       }
     }
+
+    await this.updateComplete;
+
+    // update presentation if there is only a nonempty prefix slot,
+    // which is expected to be an icon
+    const isPrefixSlotEmpty =
+      (this.#prefixSlotRef.value?.assignedNodes() ?? []).length === 0;
+    const isDefaultSlotEmpty =
+      (this.#defaultSlotRef.value?.assignedNodes() ?? []).length === 0;
+    if (!isPrefixSlotEmpty && isDefaultSlotEmpty) {
+      this.isPrefixSlotOnly = true;
+    }
   }
 
   override disconnectedCallback() {
@@ -118,7 +139,7 @@ export default class CsButtonGroupButton extends LitElement {
       role="radio"
       aria-checked=${this.checked}
       tabindex=${!this.isTabbable || this.disabled ? -1 : 0}
-      @mousedown=${this.#onMousedown}
+      @click=${this.#onClick}
       @keydown=${this.#onKeydown}
       ${ref(this.#lifRef)}
       class=${classMap({
@@ -126,19 +147,24 @@ export default class CsButtonGroupButton extends LitElement {
         disabled: this.disabled ?? false,
         [this.position]: true,
         vertical: this.vertical,
+        'icon-only': this.isPrefixSlotOnly,
       })}
       aria-label=${this.ariaLabel ?? ''}
     >
-      <slot name="prefix"></slot>
-      <slot></slot>
+      <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
+      <slot ${ref(this.#defaultSlotRef)}></slot>
     </li>`;
   }
 
   #checked = false;
 
+  #defaultSlotRef = createRef<HTMLSlotElement>();
+
   #lifRef = createRef<HTMLLIElement>();
 
   #observer: MutationObserver | null = null;
+
+  #prefixSlotRef = createRef<HTMLSlotElement>();
 
   get #buttonElements() {
     const elements =
@@ -148,7 +174,7 @@ export default class CsButtonGroupButton extends LitElement {
     return [...elements];
   }
 
-  // use an arrow function to bind this
+  // use an arrow function to bind `this`
   #mutationCallback = (mutationList: MutationRecord[]) => {
     for (const mutation of mutationList) {
       const { type, attributeName } = mutation;
@@ -158,12 +184,19 @@ export default class CsButtonGroupButton extends LitElement {
     }
   };
 
+  #onClick() {
+    if (!this.disabled) {
+      this.checked = true;
+    }
+  }
+
   #onKeydown(event: KeyboardEvent) {
     const buttonElements = this.#buttonElements;
     switch (event.key.toLocaleLowerCase()) {
       case 'arrowup':
       case 'arrowleft': {
         this.checked = false;
+        // find the closest enabled button
         let sibling = this.previousElementSibling;
         while (
           !sibling ||
@@ -186,6 +219,7 @@ export default class CsButtonGroupButton extends LitElement {
       case 'arrowdown':
       case 'arrowright': {
         this.checked = false;
+        // find the closest enabled button
         let sibling = this.nextElementSibling;
         while (
           !sibling ||
@@ -211,12 +245,6 @@ export default class CsButtonGroupButton extends LitElement {
         }
         break;
       }
-    }
-  }
-
-  #onMousedown() {
-    if (!this.disabled) {
-      this.checked = true;
     }
   }
 }
