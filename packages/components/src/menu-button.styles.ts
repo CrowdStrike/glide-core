@@ -7,6 +7,7 @@ export default [
       background-color: transparent;
       border: none;
       border-radius: var(--cs-spacing-sm);
+      cursor: pointer;
       display: flex;
       font: inherit;
       gap: var(--gap);
