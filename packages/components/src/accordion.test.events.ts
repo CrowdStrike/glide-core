@@ -7,19 +7,19 @@ Accordion.shadowRootOptions.mode = 'open';
 it('dispatches a "toggle" event when the Accordion opens', async () => {
   let hasToggleBeenCalled = false;
 
-  const element = await fixture<Accordion>(
+  const component = await fixture<Accordion>(
     html`<cs-accordion label="label"></cs-accordion>`,
   );
-  element.addEventListener('toggle', () => (hasToggleBeenCalled = true));
+  component.addEventListener('toggle', () => (hasToggleBeenCalled = true));
 
-  const summary = element.shadowRoot!.querySelector<HTMLElement>(
+  const summary = component.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="summary"]',
   );
   expect(summary).to.be.ok;
 
   summary?.click();
 
-  await oneEvent(element, 'toggle');
+  await oneEvent(component, 'toggle');
 
   expect(hasToggleBeenCalled).to.be.true;
 });
@@ -27,19 +27,19 @@ it('dispatches a "toggle" event when the Accordion opens', async () => {
 it('dispatches a "toggle" event when the Accordion closes', async () => {
   let hasToggleBeenCalled = false;
 
-  const element = await fixture<Accordion>(
+  const component = await fixture<Accordion>(
     html`<cs-accordion label="label" open></cs-accordion>`,
   );
-  element.addEventListener('toggle', () => (hasToggleBeenCalled = true));
+  component.addEventListener('toggle', () => (hasToggleBeenCalled = true));
 
-  const summary = element.shadowRoot!.querySelector<HTMLElement>(
+  const summary = component.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="summary"]',
   );
   expect(summary).to.be.ok;
 
   summary?.click();
 
-  await oneEvent(element, 'toggle');
+  await oneEvent(component, 'toggle');
 
   expect(hasToggleBeenCalled).to.be.true;
 });
