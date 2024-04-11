@@ -23,90 +23,108 @@ it('registers', async () => {
 });
 
 it('is accessible', async () => {
-  const element = await fixture<IconButton>(
+  const component = await fixture<IconButton>(
     html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
   );
 
-  await expect(element).to.be.accessible();
+  await expect(component).to.be.accessible();
 });
 
 it('has defaults', async () => {
-  const element = await fixture<IconButton>(
+  const component = await fixture<IconButton>(
     html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
   );
 
-  expect(element.shadowRoot?.querySelector('button')?.type).to.equal('button');
-  expect(element.shadowRoot?.querySelector('button')?.disabled).to.equal(false);
+  expect(component.shadowRoot?.querySelector('button')?.type).to.equal(
+    'button',
+  );
+  expect(component.shadowRoot?.querySelector('button')?.disabled).to.equal(
+    false,
+  );
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary']);
 });
 
+it('delegates focus', async () => {
+  const component = await fixture<IconButton>(
+    html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
+  );
+
+  component.focus();
+
+  expect(component.shadowRoot?.activeElement).to.equal(
+    component.shadowRoot?.querySelector('button'),
+  );
+});
+
 it('uses the provided "label" for the aria-label', async () => {
-  const element = await fixture<IconButton>(
+  const component = await fixture<IconButton>(
     html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
   );
 
   expect(
-    element.shadowRoot?.querySelector('button')?.getAttribute('aria-label'),
+    component.shadowRoot?.querySelector('button')?.getAttribute('aria-label'),
   ).to.equal('test-icon-button');
 });
 
 it('renders a default slot', async () => {
-  const element = await fixture<IconButton>(
+  const component = await fixture<IconButton>(
     html`<cs-icon-button label="test-icon-button"
       ><span data-content>Inner content</span></cs-icon-button
     >`,
   );
 
-  expect(element.querySelector('[data-content]')).to.be.ok;
-  expect(element.querySelector('[data-content]')).to.be.visible;
+  expect(component.querySelector('[data-content]')).to.be.ok;
+  expect(component.querySelector('[data-content]')).to.be.visible;
 });
 
 it('renders a primary variant', async () => {
-  const element = await fixture<IconButton>(
+  const component = await fixture<IconButton>(
     html`<cs-icon-button label="test-icon-button" variant="primary"
       >${icon}</cs-icon-button
     >`,
   );
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'primary']);
 });
 
 it('renders a secondary variant', async () => {
-  const element = await fixture<IconButton>(
+  const component = await fixture<IconButton>(
     html`<cs-icon-button label="test-icon-button" variant="secondary"
       >${icon}</cs-icon-button
     >`,
   );
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'secondary']);
 });
 
 it('renders a tertiary variant', async () => {
-  const element = await fixture<IconButton>(
+  const component = await fixture<IconButton>(
     html`<cs-icon-button label="test-icon-button" variant="tertiary"
       >${icon}</cs-icon-button
     >`,
   );
 
   expect([
-    ...element.shadowRoot!.querySelector('button')!.classList,
+    ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['button', 'tertiary']);
 });
 
 it('sets the disabled attribute', async () => {
-  const element = await fixture<IconButton>(
+  const component = await fixture<IconButton>(
     html`<cs-icon-button label="test-icon-button" disabled
       >${icon}</cs-icon-button
     >`,
   );
 
-  expect(element.disabled).to.equal(true);
-  expect(element.shadowRoot?.querySelector('button')?.disabled).to.equal(true);
+  expect(component.disabled).to.equal(true);
+  expect(component.shadowRoot?.querySelector('button')?.disabled).to.equal(
+    true,
+  );
 });
