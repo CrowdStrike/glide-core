@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './button-group-button.styles.js';
 
 declare global {
@@ -61,6 +62,9 @@ export default class CsButtonGroupButton extends LitElement {
   isPrefixSlotOnly = false;
 
   @state()
+  isSingleButton = false;
+
+  @state()
   isTabbable = false;
 
   @state()
@@ -72,7 +76,7 @@ export default class CsButtonGroupButton extends LitElement {
   override async connectedCallback() {
     super.connectedCallback();
 
-    // setup observer on parent button group element to reflect
+    // setup observer on parent button group element to watch for
     // vertical presentation
     const buttonGroupElement = this.closest('cs-button-group');
     if (buttonGroupElement) {
@@ -84,16 +88,22 @@ export default class CsButtonGroupButton extends LitElement {
       this.vertical = true;
     }
 
-    // determine position in list and style approriately
+    await this.updateComplete;
+
+    // determine position in group and style approriately
     const buttonElements = this.#buttonElements;
-    if (buttonElements.every((button) => button.disabled)) {
-      return;
-    }
     if (buttonElements.length > 0) {
-      if (buttonElements.at(0) === this) {
+      if (buttonElements.length > 1 && buttonElements.at(0) === this) {
         this.position = 'first';
-      } else if (buttonElements.at(-1) === this) {
+      } else if (buttonElements.length > 1 && buttonElements.at(-1) === this) {
         this.position = 'last';
+      } else if (buttonElements.length === 1) {
+        this.isSingleButton = true;
+      }
+
+      // do not set any button as tabbable if all are disabled
+      if (buttonElements.every((button) => button.disabled)) {
+        return;
       }
 
       // set tabbable if it is the first checked enabled element or the
@@ -113,8 +123,6 @@ export default class CsButtonGroupButton extends LitElement {
       }
     }
 
-    await this.updateComplete;
-
     // update presentation if there is only a nonempty prefix slot,
     // which is expected to be an icon
     const isPrefixSlotEmpty =
@@ -131,7 +139,7 @@ export default class CsButtonGroupButton extends LitElement {
   }
 
   override focus(options?: FocusOptions) {
-    this.#lifRef.value?.focus(options);
+    this.#liRef.value?.focus(options);
   }
 
   override render() {
@@ -141,18 +149,19 @@ export default class CsButtonGroupButton extends LitElement {
       tabindex=${!this.isTabbable || this.disabled ? -1 : 0}
       @click=${this.#onClick}
       @keydown=${this.#onKeydown}
-      ${ref(this.#lifRef)}
+      ${ref(this.#liRef)}
       class=${classMap({
         checked: this.checked,
         disabled: this.disabled ?? false,
         [this.position]: true,
         vertical: this.vertical,
+        single: this.isSingleButton,
         'icon-only': this.isPrefixSlotOnly,
       })}
-      aria-label=${this.ariaLabel ?? ''}
+      aria-label=${ifDefined(this.ariaLabel ?? undefined)}
     >
       <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
-      <slot ${ref(this.#defaultSlotRef)}></slot>
+      <slot data-default-slot ${ref(this.#defaultSlotRef)}></slot>
     </li>`;
   }
 
@@ -160,7 +169,7 @@ export default class CsButtonGroupButton extends LitElement {
 
   #defaultSlotRef = createRef<HTMLSlotElement>();
 
-  #lifRef = createRef<HTMLLIElement>();
+  #liRef = createRef<HTMLLIElement>();
 
   #observer: MutationObserver | null = null;
 
@@ -191,7 +200,11 @@ export default class CsButtonGroupButton extends LitElement {
   }
 
   #onKeydown(event: KeyboardEvent) {
+    event.preventDefault();
     const buttonElements = this.#buttonElements;
+    if (buttonElements.length < 2 && event.key.toLocaleLowerCase() !== ' ') {
+      return;
+    }
     switch (event.key.toLocaleLowerCase()) {
       case 'arrowup':
       case 'arrowleft': {
@@ -239,7 +252,7 @@ export default class CsButtonGroupButton extends LitElement {
         }
         break;
       }
-      case 'space': {
+      case ' ': {
         if (!this.disabled) {
           this.checked = true;
         }
