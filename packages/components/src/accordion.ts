@@ -25,10 +25,8 @@ export default class CsAccordion extends LitElement {
 
   static override styles = styles;
 
-  /** The title text for the Accordion. */
   @property({ reflect: true }) label = '';
 
-  /** The open state of the Accordion. */
   @property({ type: Boolean, reflect: true }) open = false;
 
   override render() {

@@ -91,6 +91,7 @@ export default [
       font-size: var(--cs-body-sm-font-size);
       font-weight: var(--cs-body-xs-font-weight);
       padding-block-end: var(--cs-spacing-sm);
+
       /* Hardcoded spacing here is intentional so that it better aligns with the Accordion label */
       padding-inline: 2rem var(--cs-spacing-sm);
     }
