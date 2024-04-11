@@ -43,7 +43,7 @@ export default [
         overflow: hidden;
         white-space: nowrap;
 
-        &.heading-box--with-prefix {
+        &.heading-box-with-prefix {
           gap: var(--cs-spacing-xs);
         }
 
@@ -64,7 +64,7 @@ export default [
         display: flex;
         gap: 0.625rem;
 
-        &.suffix-slot-box--with-content {
+        &.suffix-slot-box-with-content {
           margin-inline-start: var(--cs-spacing-xs);
         }
       }
@@ -95,7 +95,7 @@ export default [
       padding-inline: 2rem var(--cs-spacing-sm);
     }
 
-    .content--with-prefix {
+    .content-with-prefix {
       padding-inline-start: 3.5rem;
     }
   `,

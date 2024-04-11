@@ -62,7 +62,7 @@ export default class CsAccordion extends LitElement {
         <div
           class=${classMap({
             'heading-box': true,
-            'heading-box--with-prefix': this.hasPrefixSlot,
+            'heading-box-with-prefix': this.hasPrefixSlot,
           })}
           data-test="label"
           id="label"
@@ -81,7 +81,7 @@ export default class CsAccordion extends LitElement {
         <div
           class=${classMap({
             'suffix-slot-box': true,
-            'suffix-slot-box--with-content': this.hasSuffixSlot,
+            'suffix-slot-box-with-content': this.hasSuffixSlot,
           })}
           data-test="suffix"
         >
@@ -97,7 +97,7 @@ export default class CsAccordion extends LitElement {
         aria-labelledby="label"
         class=${classMap({
           content: true,
-          'content--with-prefix': this.hasPrefixSlot,
+          'content-with-prefix': this.hasPrefixSlot,
         })}
         tabindex="0"
         role="region"

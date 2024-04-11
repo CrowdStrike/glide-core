@@ -76,11 +76,11 @@ it('renders with a prefix slot and applies the appropriate classes', async () =>
 
   expect([
     ...component.shadowRoot!.querySelector('[data-test="label"]')!.classList,
-  ]).to.deep.equal(['heading-box', 'heading-box--with-prefix']);
+  ]).to.deep.equal(['heading-box', 'heading-box-with-prefix']);
 
   expect([
     ...component.shadowRoot!.querySelector('[role="region"]')!.classList,
-  ]).to.deep.equal(['content', 'content--with-prefix']);
+  ]).to.deep.equal(['content', 'content-with-prefix']);
 });
 
 it('does not apply prefix classes when no prefix slot is provided', async () => {
@@ -107,7 +107,7 @@ it('renders with a suffix slot and applies the appropriate class', async () => {
 
   expect([
     ...component.shadowRoot!.querySelector('[data-test="suffix"]')!.classList,
-  ]).to.deep.equal(['suffix-slot-box', 'suffix-slot-box--with-content']);
+  ]).to.deep.equal(['suffix-slot-box', 'suffix-slot-box-with-content']);
 });
 
 it('does not apply the suffix class when no suffix slot is provided', async () => {
