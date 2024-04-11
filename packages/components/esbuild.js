@@ -1,5 +1,5 @@
 import { globby } from 'globby';
-import { minifyHTMLLiteralsPlugin } from 'esbuild-plugin-minify-html-literals';
+// import { minifyHTMLLiteralsPlugin } from 'esbuild-plugin-minify-html-literals';
 import { parse as parsePath } from 'node:path';
 import esbuild from 'esbuild';
 
@@ -16,16 +16,16 @@ const entryPoints = await globby(['src/*']).then((paths) => {
 
 await esbuild.build({
   entryPoints,
-  minify: true,
+  // minify: true,
   outbase: '.',
   outdir: './dist',
   plugins: [
-    minifyHTMLLiteralsPlugin({
-      minifyOptions: {
-        // Some of our classes are being removed because CleanCSS, which this plugin uses,
-        // doesn't support CSS Nesting: https://github.com/clean-css/clean-css/issues/1254.
-        minifyCSS: false,
-      },
-    }),
+    // minifyHTMLLiteralsPlugin({
+    //   minifyOptions: {
+    //     // Some of our classes are being removed because CleanCSS, which this plugin uses,
+    //     // doesn't support CSS Nesting: https://github.com/clean-css/clean-css/issues/1254.
+    //     minifyCSS: false,
+    //   },
+    // }),
   ],
 });
