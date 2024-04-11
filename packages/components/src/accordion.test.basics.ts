@@ -1,6 +1,8 @@
-import './accordion';
+import './accordion.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import Accordion from './accordion.js';
+
+Accordion.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(window.customElements.get('cs-accordion')).to.equal(Accordion);

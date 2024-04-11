@@ -1,6 +1,8 @@
-import './accordion';
+import './accordion.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import Accordion from './accordion.js';
+
+Accordion.shadowRootOptions.mode = 'open';
 
 it('dispatches a "toggle" event when the Accordion opens', async () => {
   let hasToggleBeenCalled = false;
