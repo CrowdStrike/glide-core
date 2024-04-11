@@ -3,18 +3,25 @@ import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import MenuButton from './menu-button.js';
-import MenuLink from './menu-link.js';
+import { owSlot } from './library/ow.js';
+import CsMenuButton from './menu-button.js';
+import CsMenuLink from './menu-link.js';
 import styles from './menu.styles.js';
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'cs-menu': CsMenu;
+  }
+}
 
 /**
  * @description A custom-built menu.
  *
- * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
  * @slot - One or more of <cs-menu-link> or <cs-menu-button>.
+ * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
  */
 @customElement('cs-menu')
-export default class Menu extends LitElement {
+export default class CsMenu extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -59,56 +66,62 @@ export default class Menu extends LitElement {
 
   override disconnectedCallback() {
     super.disconnectedCallback();
+
     document.removeEventListener('click', this.#onDocumentClick, {
       capture: true,
     });
   }
 
   override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
+    owSlot(this.#targetSlotElementRef.value);
+
     const firstOption = this.#optionElements.at(0);
 
     if (firstOption) {
       firstOption.privateActive = true;
     }
 
-    if (!this.#targetElement || !this.#optionsElement.value) {
-      return;
+    if (this.#targetElement && this.#optionsElementRef.value) {
+      this.#targetElement.ariaHasPopup = 'true';
+      this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
+
+      autoUpdate(
+        this.#targetElement,
+        this.#optionsElementRef.value,
+        async () => {
+          if (this.#targetElement && this.#optionsElementRef.value) {
+            const { x, y } = await computePosition(
+              this.#targetElement,
+              this.#optionsElementRef.value,
+              {
+                placement: 'bottom-start',
+                middleware: [
+                  offset({
+                    mainAxis:
+                      Number.parseFloat(
+                        window
+                          .getComputedStyle(document.body)
+                          .getPropertyValue('--cs-spacing-xxs'),
+                      ) * 16,
+                  }),
+                  flip(),
+                ],
+              },
+            );
+
+            Object.assign(this.#optionsElementRef.value.style, {
+              left: `${x}px`,
+              top: `${y}px`,
+            });
+          }
+        },
+      );
     }
-
-    this.#targetElement.ariaHasPopup = 'true';
-    this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
-
-    autoUpdate(this.#targetElement, this.#optionsElement.value, async () => {
-      if (this.#targetElement && this.#optionsElement.value) {
-        const { x, y } = await computePosition(
-          this.#targetElement,
-          this.#optionsElement.value,
-          {
-            placement: 'bottom-start',
-            middleware: [
-              offset({
-                mainAxis:
-                  Number.parseFloat(
-                    window
-                      .getComputedStyle(document.body)
-                      .getPropertyValue('--cs-spacing-xxs'),
-                  ) * 16,
-              }),
-              flip(),
-            ],
-          },
-        );
-
-        Object.assign(this.#optionsElement.value.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        });
-      }
-    });
   }
 
   override focus() {
-    const target = this.#targetSlotElement.value?.assignedElements().at(0);
+    const target = this.#targetSlotElementRef.value?.assignedElements().at(0);
 
     if (target && 'focus' in target) {
       (target as { focus: () => void })?.focus();
@@ -124,7 +137,7 @@ export default class Menu extends LitElement {
       <div
         @focusout=${this.#onTargetAndOptionsFocusout}
         @keydown=${this.#onTargetAndOptionsKeydown}
-        ${ref(this.#componentElement)}
+        ${ref(this.#componentElementRef)}
       >
         <div
           class="target-container"
@@ -132,7 +145,7 @@ export default class Menu extends LitElement {
           @keydown=${this.#onTargetContainerKeydown}
           id="target-container"
         >
-          <slot name="target" ${ref(this.#targetSlotElement)}></slot>
+          <slot name="target" ${ref(this.#targetSlotElementRef)}></slot>
         </div>
 
         <div
@@ -144,30 +157,30 @@ export default class Menu extends LitElement {
             'options-visible': this.open,
           })}
           role="menu"
-          ${ref(this.#optionsElement)}
+          ${ref(this.#optionsElementRef)}
         >
           <slot
             @click=${this.#onOptionsClick}
             @keydown=${this.#onOptionsKeydown}
             @mouseover=${this.#onOptionsMouseover}
-            ${ref(this.#defaultSlotElement)}
+            ${ref(this.#defaultSlotElementRef)}
           ></slot>
         </div>
       </div>
     </div>`;
   }
 
-  #componentElement = createRef<HTMLDivElement>();
+  #componentElementRef = createRef<HTMLDivElement>();
 
-  #defaultSlotElement = createRef<HTMLSlotElement>();
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #isOpen = false;
 
-  #optionsElement = createRef<HTMLUListElement>();
+  #optionsElementRef = createRef<HTMLUListElement>();
 
-  #targetSlotElement = createRef<HTMLSlotElement>();
+  #targetSlotElementRef = createRef<HTMLSlotElement>();
 
-  // set to the component instead of `document`.
+  // An arrow function field instead of a method so `this` is closed over and
   #onDocumentClick = (event: MouseEvent) => {
     if (event.target && this.contains(event.target as Node)) {
       return;
@@ -189,12 +202,12 @@ export default class Menu extends LitElement {
     }
   }
 
-  // An arrow function field instead of a method so `this` is closed over and
-
   get #optionElements() {
-    const buttons: NodeListOf<MenuButton> =
+    const buttons: NodeListOf<CsMenuButton> =
       this.querySelectorAll('cs-menu-button');
-    const links: NodeListOf<MenuLink> = this.querySelectorAll('cs-menu-link');
+
+    const links: NodeListOf<CsMenuLink> = this.querySelectorAll('cs-menu-link');
+
     return [...buttons, ...links];
   }
 
@@ -212,80 +225,79 @@ export default class Menu extends LitElement {
     const activeOptionIndex = this.#optionElements.findIndex(
       (element) => element.privateActive,
     );
+
     const activeOption = this.#optionElements.at(activeOptionIndex);
 
-    if (!activeOption) {
-      return;
-    }
+    if (activeOption) {
+      // All the logic below could just as well go in a `@keydown` in Button and Link.
+      // It's here to mirror the tests, which necessarily test against Menu as a whole
+      // because more than one Button or Link is required to test these interactions.
+      if (event.key === 'ArrowUp' && !event.metaKey) {
+        event.preventDefault(); // Prevent scroll.
+        const option = this.#optionElements.at(activeOptionIndex - 1);
 
-    // All the logic below could just as well go in a `@keydown` in Button and Link.
-    // It's here to mirror the tests, which necessarily test against Menu as a whole
-    // because more than one Button or Link is required to test these interactions.
-    if (event.key === 'ArrowUp' && !event.metaKey) {
-      event.preventDefault(); // Prevent scroll.
-      const option = this.#optionElements.at(activeOptionIndex - 1);
+        if (option && activeOptionIndex !== 0) {
+          activeOption.privateActive = false;
+          option.privateActive = true;
+          option.focus();
+        }
 
-      if (option && activeOptionIndex !== 0) {
-        activeOption.privateActive = false;
-        option.privateActive = true;
-        option.focus();
+        return;
       }
 
-      return;
-    }
+      if (event.key === 'ArrowDown' && !event.metaKey) {
+        event.preventDefault(); // Prevent scroll.
+        const option = this.#optionElements.at(activeOptionIndex + 1);
 
-    if (event.key === 'ArrowDown' && !event.metaKey) {
-      event.preventDefault(); // Prevent scroll.
-      const option = this.#optionElements.at(activeOptionIndex + 1);
+        if (option) {
+          activeOption.privateActive = false;
+          option.privateActive = true;
+          option.focus();
+        }
 
-      if (option) {
-        activeOption.privateActive = false;
-        option.privateActive = true;
-        option.focus();
+        return;
       }
 
-      return;
-    }
+      if (
+        (event.key === 'ArrowUp' && event.metaKey) ||
+        event.key === 'Home' ||
+        event.key === 'PageUp'
+      ) {
+        event.preventDefault(); // Prevent scroll.
+        const option = this.#optionElements.at(0);
 
-    if (
-      (event.key === 'ArrowUp' && event.metaKey) ||
-      event.key === 'Home' ||
-      event.key === 'PageUp'
-    ) {
-      event.preventDefault(); // Prevent scroll.
-      const option = this.#optionElements.at(0);
+        if (option) {
+          activeOption.privateActive = false;
+          option.privateActive = true;
+          option.focus();
+        }
 
-      if (option) {
-        activeOption.privateActive = false;
-        option.privateActive = true;
-        option.focus();
+        return;
       }
 
-      return;
-    }
+      if (
+        (event.key === 'ArrowDown' && event.metaKey) ||
+        event.key === 'End' ||
+        event.key === 'PageDown'
+      ) {
+        event.preventDefault(); // Prevent scroll.
+        const option = this.#optionElements.at(-1);
 
-    if (
-      (event.key === 'ArrowDown' && event.metaKey) ||
-      event.key === 'End' ||
-      event.key === 'PageDown'
-    ) {
-      event.preventDefault(); // Prevent scroll.
-      const option = this.#optionElements.at(-1);
+        if (option) {
+          activeOption.privateActive = false;
+          option.privateActive = true;
+          option.focus();
+        }
 
-      if (option) {
-        activeOption.privateActive = false;
-        option.privateActive = true;
-        option.focus();
+        return;
       }
-
-      return;
     }
   }
 
   #onOptionsMouseover(event: Event) {
     if (
-      event.target instanceof MenuLink ||
-      event.target instanceof MenuButton
+      event.target instanceof CsMenuLink ||
+      event.target instanceof CsMenuButton
     ) {
       for (const option of this.#optionElements) {
         option.privateActive = option === event.target;
@@ -312,7 +324,7 @@ export default class Menu extends LitElement {
     }
   }
 
-  async #onTargetContainerClick() {
+  #onTargetContainerClick() {
     if (this.#targetElement instanceof HTMLElement) {
       this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
     }
@@ -329,13 +341,13 @@ export default class Menu extends LitElement {
   #onTargetContainerKeydown(event: KeyboardEvent) {
     if ([' ', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
       event.preventDefault(); // Prevent scroll.
-      this.open = true;
 
+      this.open = true;
       this.#focusActiveOption();
     }
   }
 
   get #targetElement() {
-    return this.#targetSlotElement.value?.assignedElements().at(0);
+    return this.#targetSlotElementRef.value?.assignedElements().at(0);
   }
 }
