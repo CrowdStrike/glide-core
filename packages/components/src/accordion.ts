@@ -123,12 +123,8 @@ export default class CsAccordion extends LitElement {
   #suffixSlotRef = createRef<HTMLSlotElement>();
 
   #handleSummaryClick(event: MouseEvent) {
-    const details = this.#detailsRef.value;
-    const content = this.#contentRef.value;
-
-    if (!details || !content) {
-      return;
-    }
+    const details = this.#detailsRef.value!;
+    const content = this.#contentRef.value!;
 
     const isOpening = !details.open;
 

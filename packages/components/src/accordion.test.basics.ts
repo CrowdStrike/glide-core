@@ -1,5 +1,5 @@
 import './accordion.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import Accordion from './accordion.js';
 
 Accordion.shadowRootOptions.mode = 'open';
@@ -115,6 +115,32 @@ it('does not apply the suffix class when no suffix slot is provided', async () =
     html`<cs-accordion label="label"></cs-accordion>`,
   );
 
+  expect([
+    ...component.shadowRoot!.querySelector('[data-test="suffix"]')!.classList,
+  ]).to.deep.equal(['suffix-slot-box']);
+});
+
+it('renders without prefix and suffix classes after both are removed', async () => {
+  const component = await fixture<Accordion>(html`
+    <cs-accordion label="label">
+      <span slot="prefix">prefix</span>
+      <span slot="suffix">suffix</span>
+    </cs-accordion>
+  `);
+
+  component.querySelector('[slot="prefix"]')?.remove();
+  component.querySelector('[slot="suffix"]')?.remove();
+  await elementUpdated(component);
+
+  // prefix
+  expect([
+    ...component.shadowRoot!.querySelector('[data-test="label"]')!.classList,
+  ]).to.deep.equal(['heading-box']);
+  expect([
+    ...component.shadowRoot!.querySelector('[role="region"]')!.classList,
+  ]).to.deep.equal(['content']);
+
+  // suffix
   expect([
     ...component.shadowRoot!.querySelector('[data-test="suffix"]')!.classList,
   ]).to.deep.equal(['suffix-slot-box']);
