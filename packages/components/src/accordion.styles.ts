@@ -50,8 +50,6 @@ export default [
       }
 
       .heading-box {
-        --size: 1rem;
-
         display: flex;
         align-items: center;
         flex: 1;
@@ -75,13 +73,11 @@ export default [
       }
 
       .suffix-slot-box {
-        --size: 1rem;
-
         display: flex;
         align-items: center;
         gap: 0.625rem;
 
-        color: var(--cs-icon-primary);
+        color: #00000080;
 
         &.suffix-slot-box--with-content {
           margin-left: var(--cs-spacing-xs);
@@ -90,8 +86,6 @@ export default [
     }
 
     .chevron {
-      --size: 1rem;
-
       display: flex;
       align-items: center;
       margin-right: var(--cs-spacing-xxs);
