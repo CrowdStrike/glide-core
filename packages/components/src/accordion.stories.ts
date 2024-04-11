@@ -67,7 +67,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: 'event: "cs-toggle"',
+          detail: 'event: "toggle"',
         },
       },
     },

@@ -168,7 +168,7 @@ export default class CsAccordion extends LitElement {
 
   #handleToggle(event: ToggleEvent) {
     this.dispatchEvent(
-      new CustomEvent('cs-toggle', {
+      new CustomEvent('toggle', {
         detail: {
           newState: event.newState,
           oldState: event.oldState,
