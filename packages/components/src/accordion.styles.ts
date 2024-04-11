@@ -4,31 +4,24 @@ import { focusOutline } from './styles.js';
 export default [
   css`
     details {
-      font-family: var(--cs-body-xs-font-family);
-
       border-radius: 0.625rem;
       box-shadow: var(--cs-shadow-sm);
+      font-family: var(--cs-body-xs-font-family);
     }
 
     .summary {
+      align-items: center;
       color: var(--cs-text-body-1);
+      cursor: pointer;
+      display: flex;
       font-size: var(--cs-body-sm-font-size);
       font-weight: 700;
-      line-height: 1.5rem;
-
-      cursor: pointer;
-
-      display: flex;
-      align-items: center;
       justify-content: space-between;
-
-      padding-inline: var(--cs-spacing-sm);
-      padding-block: var(--cs-spacing-xs);
-
+      line-height: 1.5rem;
       list-style: none;
-
+      padding-block: var(--cs-spacing-xs);
+      padding-inline: var(--cs-spacing-sm);
       user-select: none;
-      -webkit-user-select: none;
 
       &:focus {
         outline: none;
@@ -38,16 +31,15 @@ export default [
         ${focusOutline};
       }
 
-      &::marker,  /* Chrome, Edge, Firefox */
-      &::-webkit-details-marker /* Safari */ {
+      &::marker,
+      &::-webkit-details-marker {
         display: none;
       }
 
       .heading-box {
-        display: flex;
         align-items: center;
+        display: flex;
         flex: 1;
-
         overflow: hidden;
         white-space: nowrap;
 
@@ -67,44 +59,40 @@ export default [
       }
 
       .suffix-slot-box {
-        display: flex;
         align-items: center;
-        gap: 0.625rem;
-
         color: #00000080;
+        display: flex;
+        gap: 0.625rem;
 
         &.suffix-slot-box--with-content {
           margin-inline-start: var(--cs-spacing-xs);
         }
       }
-    }
 
-    details[open] .summary {
-      padding-block-end: var(--cs-spacing-xxs);
+      details[open] & {
+        padding-block-end: var(--cs-spacing-xxs);
+      }
     }
 
     .chevron {
-      display: flex;
       align-items: center;
+      display: flex;
       margin-inline-end: var(--cs-spacing-xxs);
-
       rotate: -90deg;
       transition: 250ms rotate ease;
-    }
 
-    details[open] .chevron {
-      rotate: 0deg;
+      details[open] & {
+        rotate: 0deg;
+      }
     }
 
     .content {
       color: var(--cs-text-body-1);
       font-size: var(--cs-body-sm-font-size);
       font-weight: var(--cs-body-xs-font-weight);
-
-      /* Spacing here is intentionally hardcoded so that it aligns with the accordion label */
-      padding-inline-start: 2rem;
-      padding-inline-end: var(--cs-spacing-sm);
       padding-block-end: var(--cs-spacing-sm);
+      /* Hardcoded spacing here is intentional so that it better aligns with the Accordion label */
+      padding-inline: 2rem var(--cs-spacing-sm);
     }
 
     .content--with-prefix {
