@@ -99,6 +99,7 @@ export default class CsAccordion extends LitElement {
         })}
         tabindex="0"
         role="region"
+        data-test="content"
         ${ref(this.#contentRef)}
       >
         <slot></slot>
