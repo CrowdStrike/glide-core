@@ -10,10 +10,6 @@ export default [
       box-shadow: var(--cs-shadow-sm);
     }
 
-    details[open] .summary {
-      padding-bottom: var(--cs-spacing-xxs);
-    }
-
     .summary {
       color: var(--cs-text-body-1);
       font-size: var(--cs-body-sm-font-size);
@@ -26,10 +22,8 @@ export default [
       align-items: center;
       justify-content: space-between;
 
-      padding-left: var(--cs-spacing-sm);
-      padding-right: var(--cs-spacing-sm);
-      padding-top: var(--cs-spacing-xs);
-      padding-bottom: var(--cs-spacing-xs);
+      padding-inline: var(--cs-spacing-sm);
+      padding-block: var(--cs-spacing-xs);
 
       list-style: none;
 
@@ -80,15 +74,19 @@ export default [
         color: #00000080;
 
         &.suffix-slot-box--with-content {
-          margin-left: var(--cs-spacing-xs);
+          margin-inline-start: var(--cs-spacing-xs);
         }
       }
+    }
+
+    details[open] .summary {
+      padding-block-end: var(--cs-spacing-xxs);
     }
 
     .chevron {
       display: flex;
       align-items: center;
-      margin-right: var(--cs-spacing-xxs);
+      margin-inline-end: var(--cs-spacing-xxs);
 
       rotate: -90deg;
       transition: 250ms rotate ease;
@@ -104,13 +102,13 @@ export default [
       font-weight: var(--cs-body-xs-font-weight);
 
       /* Spacing here is intentionally hardcoded so that it aligns with the accordion label */
-      padding-left: 2rem;
-      padding-right: var(--cs-spacing-sm);
-      padding-bottom: var(--cs-spacing-sm);
+      padding-inline-start: 2rem;
+      padding-inline-end: var(--cs-spacing-sm);
+      padding-block-end: var(--cs-spacing-sm);
     }
 
     .content--with-prefix {
-      padding-left: 3.5rem;
+      padding-inline-start: 3.5rem;
     }
   `,
 ];
