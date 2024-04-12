@@ -18,6 +18,7 @@ export default [
         flex-direction: column;
       }
     }
+
     label {
       ${visuallyHidden};
     }
