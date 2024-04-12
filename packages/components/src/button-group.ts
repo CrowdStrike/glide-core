@@ -2,7 +2,7 @@ import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit-html/directives/when.js';
 import CsButtonGroupButton from './button-group-button.js';
 import styles from './button-group.styles.js';
 
@@ -24,6 +24,9 @@ export default class CsButtonGroup extends LitElement {
   @property({ type: Boolean })
   vertical = false;
 
+  @property({ type: String })
+  label? = '';
+
   @state()
   isDefaultSlotEmpty = false;
 
@@ -38,11 +41,12 @@ export default class CsButtonGroup extends LitElement {
     }
     /*  eslint-disable lit-a11y/list */
     return html`
-      <label for="button-group" tabindex="-1"
-        >${ifDefined(this.ariaLabel ?? undefined)}</label
-      >
+      ${when(
+        !!this.label,
+        () => html`<label for="cs-button-group">${this.label}</label>`,
+      )}
       <ul
-        id="button-group"
+        id="cs-button-group"
         role="radiogroup"
         @cs-private-change=${this.#onPrivateChange}
         @cs-private-input=${this.#onPrivateInput}

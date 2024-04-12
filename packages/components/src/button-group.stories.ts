@@ -14,7 +14,7 @@ const meta: Meta = {
     },
   },
   render: (arguments_) => html`
-    <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
+    <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
       <cs-button-group-button value="button-1" selected
         >Button 1</cs-button-group-button
       >
@@ -24,10 +24,28 @@ const meta: Meta = {
   `,
   args: {
     vertical: false,
+    label: 'Group label',
+    ['slot="default"']: '',
   },
   argTypes: {
     vertical: {
       control: { type: 'boolean' },
+    },
+    ['slot="default"']: {
+      control: { type: '' },
+      table: {
+        type: {
+          summary: 'html',
+          detail: 'Put `<cs-button-group-button>` in here',
+        },
+      },
+    },
+    label: {
+      control: { type: 'text' },
+      type: { name: 'string', required: true },
+      table: {
+        type: { summary: 'A screen reader label for the group' },
+      },
     },
   },
 };
@@ -46,7 +64,7 @@ export const DefaultWithVertical: StoryObj = {
 export const DefaultWithPrefixIcon: StoryObj = {
   name: 'Default (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
+    <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
       <cs-button-group-button value="button-1" selected>
         <svg
           slot="prefix"
@@ -135,7 +153,7 @@ export const DefaultWithVerticalPrefixIcon: StoryObj = {
     vertical: true,
   },
   render: (arguments_) => html`
-    <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
+    <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
       <cs-button-group-button value="button-1" selected>
         <svg
           slot="prefix"
@@ -224,7 +242,7 @@ export const DefaultWithOnlyPrefixIcon: StoryObj = {
     vertical: false,
   },
   render: (arguments_) => html`
-    <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
+    <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
       <cs-button-group-button value="button-1" selected>
         <svg
           slot="prefix"
@@ -313,7 +331,7 @@ export const DefaultWithVerticalOnlyPrefixIcon: StoryObj = {
     vertical: true,
   },
   render: (arguments_) => html`
-    <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
+    <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
       <cs-button-group-button value="button-1" selected>
         <svg
           slot="prefix"
@@ -399,7 +417,7 @@ export const DefaultWithVerticalOnlyPrefixIcon: StoryObj = {
 export const DefaultWithNoCheck: StoryObj = {
   name: 'Default (With None Selected)',
   render: (arguments_) => html`
-    <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
+    <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
       <cs-button-group-button value="button-1">Button 1</cs-button-group-button>
       <cs-button-group-button value="button-2">Button 2</cs-button-group-button>
       <cs-button-group-button value="button-3">Button 3</cs-button-group-button>
