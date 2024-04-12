@@ -94,7 +94,6 @@ export default [
 
       /* Hardcoded spacing here is intentional so that it better aligns with the Accordion label */
       padding-inline: 2rem var(--cs-spacing-sm);
-      will-change: height, opacity;
     }
 
     .content-with-prefix {

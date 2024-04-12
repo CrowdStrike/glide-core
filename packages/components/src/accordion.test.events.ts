@@ -39,12 +39,6 @@ it('dispatches a "toggle" event when the Accordion closes', async () => {
 
   summary?.click();
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector<HTMLDivElement>('[data-test="content"]')
-      ?.dispatchEvent(new TransitionEvent('finish'));
-  });
-
   await oneEvent(component, 'toggle');
 
   expect(hasToggleBeenCalled).to.be.true;
