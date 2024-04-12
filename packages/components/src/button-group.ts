@@ -38,12 +38,14 @@ export default class CsButtonGroup extends LitElement {
     }
     /*  eslint-disable lit-a11y/list */
     return html`
+      <label for="button-group" tabindex="-1"
+        >${ifDefined(this.ariaLabel ?? undefined)}</label
+      >
       <ul
         id="button-group"
         role="radiogroup"
         @cs-private-change=${this.#onPrivateChange}
         @cs-private-input=${this.#onPrivateInput}
-        aria-label=${ifDefined(this.ariaLabel ?? undefined)}
         class=${classMap({
           vertical: this.vertical,
         })}
@@ -56,7 +58,7 @@ export default class CsButtonGroup extends LitElement {
   #defaultSlotRef = createRef<HTMLSlotElement>();
 
   #onPrivateChange(event: Event) {
-    if (event.target instanceof CsButtonGroupButton && event.target.checked) {
+    if (event.target instanceof CsButtonGroupButton && event.target.selected) {
       this.dispatchEvent(
         new CustomEvent('cs-change', {
           bubbles: true,
@@ -67,7 +69,7 @@ export default class CsButtonGroup extends LitElement {
   }
 
   #onPrivateInput(event: Event) {
-    if (event.target instanceof CsButtonGroupButton && event.target.checked) {
+    if (event.target instanceof CsButtonGroupButton && event.target.selected) {
       this.dispatchEvent(
         new CustomEvent('cs-input', {
           bubbles: true,

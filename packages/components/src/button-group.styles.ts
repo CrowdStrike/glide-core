@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import { visuallyHidden } from './styles.js';
 
 export default [
   css`
@@ -16,6 +17,9 @@ export default [
       &.vertical {
         flex-direction: column;
       }
+    }
+    label {
+      ${visuallyHidden};
     }
   `,
 ];
