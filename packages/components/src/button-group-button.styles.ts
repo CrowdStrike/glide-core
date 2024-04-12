@@ -85,6 +85,7 @@ export default [
         background-color: var(--cs-surface-selected);
         border-color: var(--cs-surface-selected);
         color: var(--cs-color-white);
+
         ${focusOutline};
         transform: translateX(0);
       }
