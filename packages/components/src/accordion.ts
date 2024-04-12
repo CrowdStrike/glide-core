@@ -97,6 +97,7 @@ export default class CsAccordion extends LitElement {
           content: true,
           'content-with-prefix': this.hasPrefixSlot,
         })}
+        data-test="content"
         tabindex="0"
         role="region"
         ${ref(this.#contentRef)}

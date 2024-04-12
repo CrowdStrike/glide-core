@@ -1,5 +1,11 @@
 import './accordion.js';
-import { expect, fixture, html, oneEvent } from '@open-wc/testing';
+import {
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+  oneEvent,
+} from '@open-wc/testing';
 import Accordion from './accordion.js';
 
 Accordion.shadowRootOptions.mode = 'open';
@@ -38,6 +44,12 @@ it('dispatches a "toggle" event when the Accordion closes', async () => {
   expect(summary).to.be.ok;
 
   summary?.click();
+
+  component.shadowRoot
+    ?.querySelector('[data-test="content"]')
+    ?.dispatchEvent(new AnimationEvent('finish'));
+
+  await elementUpdated(component);
 
   await oneEvent(component, 'toggle');
 
