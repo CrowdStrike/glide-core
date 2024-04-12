@@ -5,11 +5,10 @@ export default [
     ul {
       --ul-border-radius: 0.75rem;
       --ul-border-width: 1px;
-      appearance: none;
 
+      appearance: none;
       border: var(--ul-border-width) solid var(--cs-border-base);
       border-radius: var(--ul-border-radius);
-
       display: inline-flex;
       margin: 0;
       padding: 0;

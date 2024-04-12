@@ -16,12 +16,11 @@ export default [
       --li-border-radius: 0.6875rem;
       --li-border-width: 1px;
       --li-font-size: 1rem;
+
       align-items: center;
       appearance: none;
-
       border: none;
       border-inline-end: 1px solid var(--cs-border-base-lighter);
-
       cursor: pointer;
       display: flex;
       font-family: var(--cs-heading-xxs-font-family);
@@ -31,11 +30,9 @@ export default [
       gap: var(--li-gap);
       justify-content: center;
       line-height: 1;
-
       outline: none;
       padding-block: var(--cs-spacing-xs);
       padding-inline: var(--cs-spacing-md);
-
       user-select: none;
       white-space: nowrap;
 
@@ -59,9 +56,11 @@ export default [
       &.vertical {
         border: none;
         border-block-end: 1px solid var(--cs-border-base-lighter);
+
         &.first {
           border-radius: var(--li-border-radius) var(--li-border-radius) 0 0;
         }
+
         &.last {
           border-radius: 0 0 var(--li-border-radius) var(--li-border-radius);
         }
