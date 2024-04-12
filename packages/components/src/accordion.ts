@@ -133,7 +133,6 @@ export default class CsAccordion extends LitElement {
     if (isOpening) {
       // We need `requestAnimationFrame` here for both Firefox and Safari.
       // Otherwise there's animation jank that happens.
-      /* isntanbul ignore next */
       requestAnimationFrame(() => {
         content.animate(
           {
@@ -163,12 +162,9 @@ export default class CsAccordion extends LitElement {
         },
       );
 
-      /* isntanbul ignore next */
       animateClosing.addEventListener(
         'finish',
-        /* isntanbul ignore next */
         () => {
-          /* isntanbul ignore next */
           details.open = false;
         },
         { once: true },
