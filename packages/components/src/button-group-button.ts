@@ -22,21 +22,21 @@ export default class CsButtonGroupButton extends LitElement {
   static override styles = styles;
 
   @property({ type: Boolean, reflect: true })
-  get checked() {
-    return this.#checked;
+  get selected() {
+    return this.#selected;
   }
 
-  set checked(isChecked) {
-    this.#checked = isChecked;
-    if (this.#checked) {
-      // when checked, set the element as tabbable and focus
+  set selected(isSelected) {
+    this.#selected = isSelected;
+    if (this.#selected) {
+      // when selected, set the element as tabbable and focus
       this.isTabbable = true;
       this.focus();
-      // set other elements are neither checked nor tabbable
+      // set other elements are neither selected nor tabbable
       const buttonElements = this.#buttonElements;
       for (const button of buttonElements) {
         if (button !== this) {
-          button.checked = false;
+          button.selected = false;
           button.isTabbable = false;
         }
       }
@@ -105,12 +105,12 @@ export default class CsButtonGroupButton extends LitElement {
         return;
       }
 
-      // set tabbable if it is the first checked enabled element or the
+      // set tabbable if it is the first selected enabled element or the
       // first enabled element
-      const firstEnabledCheckedButton = buttonElements.find(
-        (button) => !button.disabled && button.checked,
+      const firstEnabledSelectedButton = buttonElements.find(
+        (button) => !button.disabled && button.selected,
       );
-      if (firstEnabledCheckedButton && firstEnabledCheckedButton === this) {
+      if (firstEnabledSelectedButton && firstEnabledSelectedButton === this) {
         this.isTabbable = true;
       } else {
         const firstEnabledButton = buttonElements.find(
@@ -156,13 +156,13 @@ export default class CsButtonGroupButton extends LitElement {
   override render() {
     return html`<li
       role="radio"
-      aria-checked=${this.checked}
+      aria-checked=${this.selected}
       tabindex=${!this.isTabbable || this.disabled ? -1 : 0}
       @click=${this.#onClick}
       @keydown=${this.#onKeydown}
       ${ref(this.#liRef)}
       class=${classMap({
-        checked: this.checked,
+        selected: this.selected,
         disabled: this.disabled ?? false,
         [this.position]: true,
         vertical: this.vertical,
@@ -175,8 +175,6 @@ export default class CsButtonGroupButton extends LitElement {
     </li>`;
   }
 
-  #checked = false;
-
   #defaultSlotRef = createRef<HTMLSlotElement>();
 
   #liRef = createRef<HTMLLIElement>();
@@ -184,6 +182,8 @@ export default class CsButtonGroupButton extends LitElement {
   #observer: MutationObserver | null = null;
 
   #prefixSlotRef = createRef<HTMLSlotElement>();
+
+  #selected = false;
 
   get #buttonElements() {
     const elements =
@@ -205,7 +205,7 @@ export default class CsButtonGroupButton extends LitElement {
 
   #onClick() {
     if (!this.disabled) {
-      this.checked = true;
+      this.selected = true;
     }
   }
 
@@ -218,7 +218,7 @@ export default class CsButtonGroupButton extends LitElement {
     switch (event.key.toLowerCase()) {
       case 'arrowup':
       case 'arrowleft': {
-        this.checked = false;
+        this.selected = false;
         // find the closest enabled button
         let sibling = this.previousElementSibling;
         while (
@@ -235,13 +235,13 @@ export default class CsButtonGroupButton extends LitElement {
           }
         }
         if (sibling && sibling instanceof CsButtonGroupButton) {
-          sibling.checked = true;
+          sibling.selected = true;
         }
         break;
       }
       case 'arrowdown':
       case 'arrowright': {
-        this.checked = false;
+        this.selected = false;
         // find the closest enabled button
         let sibling = this.nextElementSibling;
         while (
@@ -258,13 +258,13 @@ export default class CsButtonGroupButton extends LitElement {
           }
         }
         if (sibling && sibling instanceof CsButtonGroupButton) {
-          sibling.checked = true;
+          sibling.selected = true;
         }
         break;
       }
       case ' ': {
         if (!this.disabled) {
-          this.checked = true;
+          this.selected = true;
         }
         break;
       }

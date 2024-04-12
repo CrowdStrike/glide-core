@@ -15,7 +15,7 @@ const meta: Meta = {
   },
   render: (arguments_) => html`
     <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
-      <cs-button-group-button value="button-1" checked
+      <cs-button-group-button value="button-1" selected
         >Button 1</cs-button-group-button
       >
       <cs-button-group-button value="button-2">Button 2</cs-button-group-button>
@@ -47,7 +47,7 @@ export const DefaultWithPrefixIcon: StoryObj = {
   name: 'Default (With Prefix Icon)',
   render: (arguments_) => html`
     <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
-      <cs-button-group-button value="button-1" checked>
+      <cs-button-group-button value="button-1" selected>
         <svg
           slot="prefix"
           xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +136,7 @@ export const DefaultWithVerticalPrefixIcon: StoryObj = {
   },
   render: (arguments_) => html`
     <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
-      <cs-button-group-button value="button-1" checked>
+      <cs-button-group-button value="button-1" selected>
         <svg
           slot="prefix"
           xmlns="http://www.w3.org/2000/svg"
@@ -225,7 +225,7 @@ export const DefaultWithOnlyPrefixIcon: StoryObj = {
   },
   render: (arguments_) => html`
     <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
-      <cs-button-group-button value="button-1" checked>
+      <cs-button-group-button value="button-1" selected>
         <svg
           slot="prefix"
           xmlns="http://www.w3.org/2000/svg"
@@ -314,7 +314,7 @@ export const DefaultWithVerticalOnlyPrefixIcon: StoryObj = {
   },
   render: (arguments_) => html`
     <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
-      <cs-button-group-button value="button-1" checked>
+      <cs-button-group-button value="button-1" selected>
         <svg
           slot="prefix"
           xmlns="http://www.w3.org/2000/svg"
@@ -397,7 +397,7 @@ export const DefaultWithVerticalOnlyPrefixIcon: StoryObj = {
 };
 
 export const DefaultWithNoCheck: StoryObj = {
-  name: 'Default (With No Checked)',
+  name: 'Default (With None Selected)',
   render: (arguments_) => html`
     <cs-button-group aria-label="group label" ?vertical=${arguments_.vertical}>
       <cs-button-group-button value="button-1">Button 1</cs-button-group-button>

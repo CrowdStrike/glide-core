@@ -66,7 +66,7 @@ export default [
         }
       }
 
-      &:not(.disabled).checked {
+      &:not(.disabled).selected {
         ${buttonTransition};
         background-color: var(--cs-surface-selected);
         border-color: var(--cs-surface-selected);
