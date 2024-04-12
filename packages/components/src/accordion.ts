@@ -99,6 +99,7 @@ export default class CsAccordion extends LitElement {
         })}
         tabindex="0"
         role="region"
+        data-test="content"
         ${ref(this.#contentRef)}
       >
         <slot></slot>
@@ -134,6 +135,7 @@ export default class CsAccordion extends LitElement {
       // We need `requestAnimationFrame` here for both Firefox and Safari.
       // Otherwise there's animation jank that happens.
       requestAnimationFrame(() => {
+        console.log('raf');
         content.animate(
           {
             height: ['0px', `${content.offsetHeight - bottomPadding}px`],
