@@ -127,9 +127,18 @@ export default class CsButtonGroupButton extends LitElement {
     // which is expected to be an icon
     const isPrefixSlotEmpty =
       (this.#prefixSlotRef.value?.assignedNodes() ?? []).length === 0;
-    const isDefaultSlotEmpty =
-      (this.#defaultSlotRef.value?.assignedNodes() ?? []).length === 0;
-    if (!isPrefixSlotEmpty && isDefaultSlotEmpty) {
+    const defaultSlotAssignedNodes =
+      this.#defaultSlotRef.value?.assignedNodes() ?? [];
+    // ignore text nodes with only new lines and white space
+    const isDefaultSlotEmptyTextNodes = defaultSlotAssignedNodes.every(
+      (node) =>
+        node.nodeName.toLowerCase() === '#text' &&
+        /\n */.test(node.textContent || ''),
+    );
+    if (
+      !isPrefixSlotEmpty &&
+      (defaultSlotAssignedNodes.length === 0 || isDefaultSlotEmptyTextNodes)
+    ) {
       this.isPrefixSlotOnly = true;
     }
   }
@@ -202,10 +211,10 @@ export default class CsButtonGroupButton extends LitElement {
   #onKeydown(event: KeyboardEvent) {
     event.preventDefault();
     const buttonElements = this.#buttonElements;
-    if (buttonElements.length < 2 && event.key.toLocaleLowerCase() !== ' ') {
+    if (buttonElements.length < 2 && event.key.toLowerCase() !== ' ') {
       return;
     }
-    switch (event.key.toLocaleLowerCase()) {
+    switch (event.key.toLowerCase()) {
       case 'arrowup':
       case 'arrowleft': {
         this.checked = false;
