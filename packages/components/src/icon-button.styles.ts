@@ -10,23 +10,19 @@ export default [
 
     .button {
       align-items: center;
+      block-size: 1.625rem;
       border-color: transparent;
-      border-radius: var(--cs-spacing-sm);
+      border-radius: var(--cs-spacing-xs);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
       display: inline-flex;
-      font-family: var(--cs-heading-xxs-font-family);
-      font-style: var(--cs-heading-xxs-font-style);
-      font-weight: var(--cs-heading-xxs-font-weight);
-      gap: 0.625rem;
+      inline-size: 1.625rem;
       justify-content: center;
-      padding-block: var(--cs-spacing-xs);
-      padding-inline: var(--cs-spacing-md);
+      padding-inline: 0;
       transition-duration: 150ms;
       transition-property: color, background-color, border-color, fill, stroke;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-      user-select: none;
 
       &:focus {
         outline: none;
@@ -34,6 +30,7 @@ export default [
 
       &:focus-visible {
         ${focusOutline};
+        outline-offset: 3px;
       }
 
       &:disabled {
@@ -41,95 +38,72 @@ export default [
         opacity: 1;
       }
 
-      /* We make the spacing slightly smaller when an icon is present to help with empty space balancing */
-      &.has-prefix {
-        padding-inline-start: var(--cs-spacing-sm);
-      }
-
-      &.has-suffix {
-        padding-inline-end: var(--cs-spacing-sm);
-      }
-
       &.primary {
         background-color: var(--cs-surface-primary);
         border-color: transparent;
-        color: var(--cs-text-selected);
+        color: var(--cs-icon-selected);
 
         &:disabled {
           background-color: var(--cs-surface-base-gray-light);
           border-color: transparent;
-          color: var(--cs-text-tertiary-disabled);
+          color: var(--cs-icon-tertiary-disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--cs-surface-primary);
+          background-color: var(--cs-surface-selected);
           border-color: transparent;
-          color: var(--cs-text-selected);
+          color: var(--cs-icon-selected);
         }
 
         &:not(:active):hover:not(:disabled) {
           background-color: var(--cs-surface-hover);
           border-color: transparent;
           box-shadow: var(--cs-glow-sm);
-          color: var(--cs-text-primary);
+          color: var(--cs-icon-primary);
         }
       }
 
       &.secondary {
-        background-color: transparent;
+        background-color: var(--cs-surface-page);
         border-color: var(--cs-border-primary);
-        color: var(--cs-text-primary);
+        color: var(--cs-icon-primary);
 
         &:disabled {
           background-color: transparent;
           border-color: var(--cs-border-base-light);
-          color: var(--cs-text-tertiary-disabled);
+          color: var(--cs-icon-tertiary-disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--cs-surface-primary);
+          background-color: var(--cs-surface-selected);
           border-color: transparent;
-          color: var(--cs-text-selected);
+          color: var(--cs-icon-selected);
         }
 
         &:not(:active):hover:not(:disabled) {
           background-color: var(--cs-surface-hover);
           border-color: transparent;
           box-shadow: var(--cs-glow-sm);
-          color: var(--cs-text-primary);
+          color: var(--cs-icon-primary);
         }
       }
 
       &.tertiary {
         background-color: transparent;
         border-color: transparent;
-        color: var(--cs-text-primary);
+        color: var(--cs-icon-default);
 
         &:disabled {
-          color: var(--cs-text-tertiary-disabled);
+          color: var(--cs-icon-tertiary-disabled);
         }
 
         &:not(:disabled):active {
-          color: var(--cs-text-secondary);
+          color: var(--cs-icon-active);
         }
 
         &:not(:active):hover:not(:disabled) {
-          color: var(--cs-text-primary-hover);
+          color: var(--cs-icon-primary-hover);
         }
-      }
-
-      &.large {
-        block-size: 2.5rem;
-        font-size: var(--cs-heading-xxs-font-size);
-        line-height: 1.5rem;
-        min-inline-size: 5.1875rem;
-      }
-
-      &.small {
-        block-size: 2.125rem;
-        font-size: var(--cs-heading-xxxs-font-size);
-        line-height: 1rem;
-        min-inline-size: 4.375rem;
       }
     }
   `,

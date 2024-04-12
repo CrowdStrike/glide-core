@@ -30,7 +30,7 @@
     "start:development:typescript": "tsc --declaration --sourceMap --outDir dist --watch",
     "start:production": "npm-run-all --parallel --aggregate-output --print-label start:production:*",
     "start:production:storybook": "storybook build --config-dir .storybook --disable-telemetry --output-dir ./dist/storybook",
-    "start:production:typescript": "node ./esbuild.js && tsc --emitDeclarationOnly --declaration --outDir ./dist --rootDir .",
+    "start:production:typescript": "node ./esbuild.js && tsc --emitDeclarationOnly --declaration --outDir ./dist",
     "start:production:typescript:comment": "https://github.com/evanw/esbuild/issues/95#issuecomment-626069971",
     "format": "per-env",
     "format:development": "prettier . --write && stylelint '**/*.styles.ts' --custom-syntax postcss-lit --fix",
@@ -48,6 +48,9 @@
     "test:development:serve": "npx http-server dist/coverage/lcov-report --silent",
     "test:development:web-test-runner": "web-test-runner --watch",
     "test:production": "web-test-runner"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.5.4"
   },
   "devDependencies": {
     "@crowdstrike/glide-core-styles": "workspace:*",

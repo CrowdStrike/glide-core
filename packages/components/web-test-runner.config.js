@@ -6,8 +6,7 @@ import chalk from 'chalk';
 export default {
   coverage: true,
   coverageConfig: {
-    // https://github.com/modernweb-dev/web/issues/1400#issuecomment-1513857491
-    include: ['**'],
+    include: ['src/*.ts'],
 
     report: true,
     reportDir: 'dist/coverage',

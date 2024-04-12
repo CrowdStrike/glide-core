@@ -21,6 +21,7 @@ export default class CsButton extends LitElement {
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
     mode: 'closed',
   };
 
@@ -32,10 +33,8 @@ export default class CsButton extends LitElement {
   @property({ reflect: true })
   override ariaHasPopup: string | null = null;
 
-  /** Sets the disabled attribute on the button. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** Sets the type attribute on the button based on https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#type. */
   @property() type: 'button' | 'submit' | 'reset' = 'button';
 
   @property({ attribute: 'variant', reflect: true })
