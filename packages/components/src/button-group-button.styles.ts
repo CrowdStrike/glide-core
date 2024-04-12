@@ -14,8 +14,8 @@ export default [
     li {
       --li-gap: 0.625rem;
       /* 
-  we don't want a gap between the outer ul border (with radius 0.75rem), so
-  use one less pixel (0.6875rem)
+we don't want a gap between the outer ul border (with radius 0.75rem), so
+use one less pixel (0.6875rem)
 */
       --li-border-radius: 0.6875rem;
       --li-border-width: 1px;
@@ -92,8 +92,8 @@ export default [
         color: var(--cs-color-white);
         ${focusOutline};
         /* 
-    create stacking context so outline isn't obscured
-  */
+create stacking context so outline isn't obscured
+*/
         transform: translateX(0);
       }
 
