@@ -37,6 +37,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
+      # We must build our internal ESLint plugin before we can use it in other packages that lint
+      - run: NODE_ENV=production pnpm --filter "@crowdstrike/glide-core-eslint-plugin" start
       - run: NODE_ENV=production pnpm lint
 
   typecheck:
