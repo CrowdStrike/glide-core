@@ -1,16 +1,12 @@
 import { defaultReporter } from '@web/test-runner';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fileURLToPath } from 'node:url';
-import { fromRollup } from '@web/dev-server-rollup';
 import chalk from 'chalk';
-import rollupIstanbulPlugin from 'rollup-plugin-istanbul';
 
 export default {
   coverage: true,
   coverageConfig: {
-    exclude: ['src/*.test.ts', 'src/*.test.*.ts'],
     include: ['src/*.ts'],
-    // nativeInstrumentation: false,
 
     report: true,
     reportDir: 'dist/coverage',
@@ -27,9 +23,6 @@ export default {
     exportConditions: ['production'],
   },
   plugins: [
-    fromRollup(rollupIstanbulPlugin)({
-      include: ['dist/*.ts'],
-    }),
     esbuildPlugin({
       ts: true,
       // https://github.com/lit/lit/issues/3807#issuecomment-1513369439
