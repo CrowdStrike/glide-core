@@ -84,6 +84,9 @@ importers:
       '@web/test-runner-commands':
         specifier: ^0.9.0
         version: 0.9.0
+      '@web/test-runner-playwright':
+        specifier: ^0.11.0
+        version: 0.11.0
       babel-plugin-istanbul:
         specifier: ^6.1.1
         version: 6.1.1
@@ -144,6 +147,9 @@ importers:
       per-env:
         specifier: ^1.0.2
         version: 1.0.2
+      playwright:
+        specifier: ^1.43.1
+        version: 1.43.1
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
@@ -4406,6 +4412,19 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@web/test-runner-playwright@0.11.0:
+    resolution: {integrity: sha512-s+f43DSAcssKYVOD9SuzueUcctJdHzq1by45gAnSCKa9FQcaTbuYe8CzmxA21g+NcL5+ayo4z+MA9PO4H+PssQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@web/test-runner-core': 0.13.1
+      '@web/test-runner-coverage-v8': 0.8.0
+      playwright: 1.43.1
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
   /@web/test-runner@0.18.1:
     resolution: {integrity: sha512-jB/9vrpGVtcLY6/7sPpKpSheQ3wWY9P5aQcz2SK2gMHTq3gNpa51NAyec0Al7EFpHvJ1wKYTGRLB2gPyEoJeDg==}
     engines: {node: '>=18.0.0'}
@@ -6623,6 +6642,14 @@ packages:
   /fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: true
+
+  /fsevents@2.3.2:
+    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
 
   /fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -8860,6 +8887,22 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       find-up: 5.0.0
+    dev: true
+
+  /playwright-core@1.43.1:
+    resolution: {integrity: sha512-EI36Mto2Vrx6VF7rm708qSnesVQKbxEWvPrfA1IPY6HgczBplDx7ENtx+K2n4kJ41sLLkuGfmb0ZLSSXlDhqPg==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dev: true
+
+  /playwright@1.43.1:
+    resolution: {integrity: sha512-V7SoH0ai2kNt1Md9E3Gwas5B9m8KR2GVvwZnAI6Pg0m3sh7UvgiYhRrhsziCmqMJNouPckiOhk8T+9bSAK0VIA==}
+    engines: {node: '>=16'}
+    hasBin: true
+    dependencies:
+      playwright-core: 1.43.1
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /pluralize@8.0.0:

@@ -1,9 +1,16 @@
 import { defaultReporter } from '@web/test-runner';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fileURLToPath } from 'node:url';
+import { playwrightLauncher } from '@web/test-runner-playwright';
 import chalk from 'chalk';
 
 export default {
+  browsers: [
+    playwrightLauncher({
+      product: 'chromium',
+      launchOptions: { headless: false },
+    }),
+  ],
   coverage: true,
   coverageConfig: {
     include: ['src/*.ts'],
