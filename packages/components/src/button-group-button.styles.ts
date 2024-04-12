@@ -1,7 +1,7 @@
 import { css, unsafeCSS } from 'lit';
 import { focusOutline } from './styles.js';
 
-// not applied to li so that borders do not transition
+// not applied to li so that li borders do not transition
 // outside of button interactions
 const buttonTransition = unsafeCSS(`
   transition-duration: 150ms;
@@ -14,9 +14,9 @@ export default [
     li {
       --li-gap: 0.625rem;
       /* 
-      we don't want a gap between the outer ul border (with radius 0.75rem), so
-      use one less pixel (0.6875rem)
-    */
+  we don't want a gap between the outer ul border (with radius 0.75rem), so
+  use one less pixel (0.6875rem)
+*/
       --li-border-radius: 0.6875rem;
       --li-border-width: 1px;
       --li-font-size: 1rem;
@@ -92,8 +92,8 @@ export default [
         color: var(--cs-color-white);
         ${focusOutline};
         /* 
-        create stacking context so outline isn't obscured
-      */
+    create stacking context so outline isn't obscured
+  */
         transform: translateX(0);
       }
 

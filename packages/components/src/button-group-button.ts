@@ -2,7 +2,6 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './button-group-button.styles.js';
 
 declare global {
@@ -129,11 +128,14 @@ export default class CsButtonGroupButton extends LitElement {
       (this.#prefixSlotRef.value?.assignedNodes() ?? []).length === 0;
     const defaultSlotAssignedNodes =
       this.#defaultSlotRef.value?.assignedNodes() ?? [];
-    // ignore text nodes with only new lines and white space
+    // ignore empty text nodes
     const isDefaultSlotEmptyTextNodes = defaultSlotAssignedNodes.every(
       (node) =>
         node.nodeName.toLowerCase() === '#text' &&
-        /\n */.test(node.textContent || ''),
+        // if textContent is null, only whitespace, or a new line followed by
+        // white space, consider it empty
+        (/^(\n *)$/.test(node.textContent ?? '\n') ||
+          node.textContent?.trim().length === 0),
     );
     if (
       !isPrefixSlotEmpty &&
@@ -167,10 +169,9 @@ export default class CsButtonGroupButton extends LitElement {
         single: this.isSingleButton,
         'icon-only': this.isPrefixSlotOnly,
       })}
-      aria-label=${ifDefined(this.ariaLabel ?? undefined)}
     >
       <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
-      <slot data-default-slot ${ref(this.#defaultSlotRef)}></slot>
+      <slot ${ref(this.#defaultSlotRef)}></slot>
     </li>`;
   }
 
