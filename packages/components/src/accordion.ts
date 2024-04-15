@@ -30,11 +30,7 @@ export default class CsAccordion extends LitElement {
   @property({ type: Boolean, reflect: true }) open = false;
 
   override render() {
-    return html` <details
-      ?open=${this.open}
-      @toggle=${this.#onToggle}
-      ${ref(this.#detailsRef)}
-    >
+    return html` <details ?open=${this.open} ${ref(this.#detailsRef)}>
       <summary
         class="summary"
         @click=${this.#onSummaryClick}
@@ -157,6 +153,15 @@ export default class CsAccordion extends LitElement {
             easing: 'ease-in',
           },
         );
+
+        this.dispatchEvent(
+          new CustomEvent('toggle', {
+            detail: {
+              newState: 'open',
+              oldState: 'closed',
+            },
+          }),
+        );
       });
     } else {
       // We need to hijack the `open` attribute from being removed
@@ -180,20 +185,18 @@ export default class CsAccordion extends LitElement {
         'finish',
         () => {
           details.open = false;
+
+          this.dispatchEvent(
+            new CustomEvent('toggle', {
+              detail: {
+                newState: 'closed',
+                oldState: 'open',
+              },
+            }),
+          );
         },
         { once: true },
       );
     }
-  }
-
-  #onToggle(event: ToggleEvent) {
-    this.dispatchEvent(
-      new CustomEvent('toggle', {
-        detail: {
-          newState: event.newState,
-          oldState: event.oldState,
-        },
-      }),
-    );
   }
 }
