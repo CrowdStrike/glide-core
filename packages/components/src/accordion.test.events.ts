@@ -6,14 +6,14 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
-import Accordion from './accordion.js';
+import CsAccordion from './accordion.js';
 
-Accordion.shadowRootOptions.mode = 'open';
+CsAccordion.shadowRootOptions.mode = 'open';
 
 it('dispatches a "toggle" event when the Accordion opens', async () => {
   let hasToggleBeenCalled = false;
 
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label"></cs-accordion>`,
   );
   component.addEventListener('toggle', () => (hasToggleBeenCalled = true));
@@ -33,7 +33,7 @@ it('dispatches a "toggle" event when the Accordion opens', async () => {
 it('dispatches a "toggle" event when the Accordion closes', async () => {
   let hasToggleBeenCalled = false;
 
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label" open></cs-accordion>`,
   );
   component.addEventListener('toggle', () => (hasToggleBeenCalled = true));

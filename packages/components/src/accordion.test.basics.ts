@@ -1,15 +1,15 @@
 import './accordion.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import Accordion from './accordion.js';
+import CsAccordion from './accordion.js';
 
-Accordion.shadowRootOptions.mode = 'open';
+CsAccordion.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-accordion')).to.equal(Accordion);
+  expect(window.customElements.get('cs-accordion')).to.equal(CsAccordion);
 });
 
 it('is accessible', async () => {
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label"></cs-accordion>`,
   );
 
@@ -17,7 +17,7 @@ it('is accessible', async () => {
 });
 
 it('is closed by default', async () => {
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label"></cs-accordion>`,
   );
 
@@ -29,7 +29,7 @@ it('is closed by default', async () => {
 });
 
 it('defaults to "open" when provided with the attribute', async () => {
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label" open></cs-accordion>`,
   );
 
@@ -41,7 +41,7 @@ it('defaults to "open" when provided with the attribute', async () => {
 });
 
 it('renders the provided "label"', async () => {
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="Accordion Title"></cs-accordion>`,
   );
 
@@ -54,7 +54,7 @@ it('renders the provided "label"', async () => {
 });
 
 it('renders the provided default slotted content', async () => {
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label"
       ><p data-body>Inner content</p></cs-accordion
     >`,
@@ -66,7 +66,7 @@ it('renders the provided default slotted content', async () => {
 });
 
 it('renders with a prefix slot and applies the appropriate classes', async () => {
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label"
       ><span slot="prefix" data-prefix>prefix</span></cs-accordion
     >`,
@@ -84,7 +84,7 @@ it('renders with a prefix slot and applies the appropriate classes', async () =>
 });
 
 it('does not apply prefix classes when no prefix slot is provided', async () => {
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label"></cs-accordion>`,
   );
 
@@ -97,7 +97,7 @@ it('does not apply prefix classes when no prefix slot is provided', async () => 
 });
 
 it('renders with a suffix slot and applies the appropriate class', async () => {
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label"
       ><span slot="suffix" data-suffix>suffix</span></cs-accordion
     >`,
@@ -111,7 +111,7 @@ it('renders with a suffix slot and applies the appropriate class', async () => {
 });
 
 it('does not apply the suffix class when no suffix slot is provided', async () => {
-  const component = await fixture<Accordion>(
+  const component = await fixture<CsAccordion>(
     html`<cs-accordion label="label"></cs-accordion>`,
   );
 
@@ -121,7 +121,7 @@ it('does not apply the suffix class when no suffix slot is provided', async () =
 });
 
 it('renders without prefix and suffix classes after both are removed', async () => {
-  const component = await fixture<Accordion>(html`
+  const component = await fixture<CsAccordion>(html`
     <cs-accordion label="label">
       <span slot="prefix">prefix</span>
       <span slot="suffix">suffix</span>
