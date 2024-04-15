@@ -52,6 +52,11 @@ export default class CsTreeItem extends LitElement {
 
   override firstUpdated() {
     this.setupChildren();
+    if (this.hasChildTreeItems) {
+      this.setAttribute('aria-expanded', this.expanded ? 'true' : 'false');
+    } else {
+      this.setAttribute('aria-selected', this.selected ? 'true' : 'false');
+    }
   }
 
   get hasChildTreeItems() {
@@ -122,7 +127,7 @@ export default class CsTreeItem extends LitElement {
           @slotchange=${this.onSuffixSlotChange}
         ></slot>
       </div>
-      <div class="child-items">
+      <div class="child-items" role="group">
         <slot></slot>
       </div>
     </div>`;
@@ -139,9 +144,14 @@ export default class CsTreeItem extends LitElement {
     for (const treeItem of this.slotElements) {
       if (item === treeItem) {
         treeItem.setAttribute('selected', 'true');
+        treeItem.setAttribute('aria-selected', 'true');
+
         selectedItem = treeItem;
       } else {
         treeItem.removeAttribute('selected');
+        if (!treeItem.hasChildTreeItems) {
+          treeItem.setAttribute('aria-selected', 'false');
+        }
 
         const nestedSelectedItem: CsTreeItem | undefined =
           treeItem.selectItem(item);
@@ -167,6 +177,7 @@ export default class CsTreeItem extends LitElement {
 
   toggleExpand() {
     this.expanded = !this.expanded;
+    this.setAttribute('aria-expanded', this.expanded ? 'true' : 'false');
   }
 
   @state()

@@ -101,9 +101,13 @@ export default class CsTree extends LitElement {
     for (const treeItem of this.slotElements) {
       if (item === treeItem) {
         treeItem.setAttribute('selected', 'true');
+        treeItem.setAttribute('aria-selected', 'true');
         this.selectedItem = treeItem;
       } else {
         treeItem.removeAttribute('selected');
+        if (!treeItem.hasChildTreeItems) {
+          treeItem.setAttribute('aria-selected', 'false');
+        }
 
         // Also traverse down the tree to select/deselect all children
         const nestedSelectedItem: CsTreeItem | undefined =
