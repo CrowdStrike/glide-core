@@ -45,6 +45,14 @@ it('dispatches a "toggle" event when the Accordion closes', async () => {
 
   summary?.click();
 
+  // Force the animations to complete with javascript
+  // and by triggering a `finish` event ourselves.
+  component.shadowRoot
+    ?.querySelector('[data-test="content"]')
+    ?.getAnimations()
+    ?.at(0)
+    ?.finish();
+
   component.shadowRoot
     ?.querySelector('[data-test="content"]')
     ?.dispatchEvent(new AnimationEvent('finish'));
