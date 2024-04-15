@@ -62,6 +62,7 @@ export default class CsButtonGroup extends LitElement {
   #defaultSlotRef = createRef<HTMLSlotElement>();
 
   #onPrivateChange(event: Event) {
+    event.stopPropagation();
     if (event.target instanceof CsButtonGroupButton && event.target.selected) {
       this.dispatchEvent(
         new CustomEvent('cs-change', {
@@ -73,6 +74,7 @@ export default class CsButtonGroup extends LitElement {
   }
 
   #onPrivateInput(event: Event) {
+    event.stopPropagation();
     if (event.target instanceof CsButtonGroupButton && event.target.selected) {
       this.dispatchEvent(
         new CustomEvent('cs-input', {

@@ -36,7 +36,7 @@ export default [
       user-select: none;
       white-space: nowrap;
 
-      &.icon-only {
+      &.prefix-only {
         padding: var(--cs-spacing-xs);
       }
 

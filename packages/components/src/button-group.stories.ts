@@ -414,12 +414,25 @@ export const DefaultWithVerticalOnlyPrefixIcon: StoryObj = {
   `,
 };
 
-export const DefaultWithNoCheck: StoryObj = {
+export const DefaultWithNoneSelected: StoryObj = {
   name: 'Default (With None Selected)',
   render: (arguments_) => html`
     <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
       <cs-button-group-button value="button-1">Button 1</cs-button-group-button>
       <cs-button-group-button value="button-2">Button 2</cs-button-group-button>
+      <cs-button-group-button value="button-3">Button 3</cs-button-group-button>
+    </cs-button-group>
+  `,
+};
+
+export const DefaultWithSelected: StoryObj = {
+  name: 'Default (With Second Button Selected)',
+  render: (arguments_) => html`
+    <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
+      <cs-button-group-button value="button-1">Button 1</cs-button-group-button>
+      <cs-button-group-button value="button-2" selected
+        >Button 2</cs-button-group-button
+      >
       <cs-button-group-button value="button-3">Button 3</cs-button-group-button>
     </cs-button-group>
   `,

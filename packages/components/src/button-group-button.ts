@@ -37,11 +37,12 @@ export default class CsButtonGroupButton extends LitElement {
       for (const button of buttonElements) {
         if (button !== this) {
           button.selected = false;
-          button.isTabbable = false;
         }
       }
       this.dispatchEvent(
-        new CustomEvent('cs-private-change', { bubbles: true }),
+        new CustomEvent('cs-private-change', {
+          bubbles: true,
+        }),
       );
       this.dispatchEvent(
         new CustomEvent('cs-private-input', { bubbles: true }),
@@ -89,7 +90,7 @@ export default class CsButtonGroupButton extends LitElement {
 
     await this.updateComplete;
 
-    // determine position in group and style approriately
+    // // determine position in group and style approriately
     const buttonElements = this.#buttonElements;
     if (buttonElements.length > 0) {
       if (buttonElements.length > 1 && buttonElements.at(0) === this) {
@@ -112,7 +113,7 @@ export default class CsButtonGroupButton extends LitElement {
       );
       if (firstEnabledSelectedButton && firstEnabledSelectedButton === this) {
         this.isTabbable = true;
-      } else {
+      } else if (!firstEnabledSelectedButton) {
         const firstEnabledButton = buttonElements.find(
           (button) => !button.disabled,
         );
@@ -167,8 +168,12 @@ export default class CsButtonGroupButton extends LitElement {
         [this.position]: true,
         vertical: this.vertical,
         single: this.isSingleButton,
-        'icon-only': this.isPrefixSlotOnly,
+        'prefix-only': this.isPrefixSlotOnly,
       })}
+      ?data-test-disabled=${this.disabled}
+      ?data-test-vertical=${this.vertical}
+      ?data-test-prefix-only=${this.isPrefixSlotOnly}
+      data-test-position=${this.position}
     >
       <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
       <slot ${ref(this.#defaultSlotRef)}></slot>
@@ -210,7 +215,6 @@ export default class CsButtonGroupButton extends LitElement {
   }
 
   #onKeydown(event: KeyboardEvent) {
-    event.preventDefault();
     const buttonElements = this.#buttonElements;
     if (buttonElements.length < 2 && event.key.toLowerCase() !== ' ') {
       return;
@@ -218,6 +222,7 @@ export default class CsButtonGroupButton extends LitElement {
     switch (event.key.toLowerCase()) {
       case 'arrowup':
       case 'arrowleft': {
+        event.preventDefault();
         this.selected = false;
         // find the closest enabled button
         let sibling = this.previousElementSibling;
@@ -241,6 +246,7 @@ export default class CsButtonGroupButton extends LitElement {
       }
       case 'arrowdown':
       case 'arrowright': {
+        event.preventDefault();
         this.selected = false;
         // find the closest enabled button
         let sibling = this.nextElementSibling;
@@ -263,6 +269,7 @@ export default class CsButtonGroupButton extends LitElement {
         break;
       }
       case ' ': {
+        event.preventDefault();
         if (!this.disabled) {
           this.selected = true;
         }
