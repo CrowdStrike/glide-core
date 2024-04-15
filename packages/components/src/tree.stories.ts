@@ -18,7 +18,7 @@ const meta: Meta = {
         <cs-tree-item expanded label="Branch">
           ${prefixIcon}
           <cs-tree-item label="Leaf 1">${prefixIcon}</cs-tree-item>
-          <cs-tree-item expanded label="Sub-branch">
+          <cs-tree-item label="Sub-branch">
             ${prefixIcon}
             <cs-tree-item label="Sub-leaf 1">${prefixIcon}</cs-tree-item>
             <cs-tree-item label="Sub-leaf 2">

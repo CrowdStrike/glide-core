@@ -8,6 +8,8 @@ export default [
       flex-direction: column;
     }
 
+    /* Not possible to nest :focus inside :host
+  /* stylelint-disable-next-line csstools/use-nesting */
     :host(:focus) {
       outline: none;
     }
@@ -57,6 +59,12 @@ export default [
         &:hover {
           background-color: var(--cs-color-dark-blue);
         }
+      }
+
+      :host(:focus-visible) & {
+        outline: var(--cs-border-focus);
+        outline-offset: -1px;
+        outline-style: auto;
       }
     }
 

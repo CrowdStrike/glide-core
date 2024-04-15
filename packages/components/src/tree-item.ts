@@ -18,6 +18,11 @@ declare global {
 
 @customElement('cs-tree-item')
 export default class CsTreeItem extends LitElement {
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    mode: 'closed',
+  };
+
   static override styles = styles;
 
   @property({ type: Boolean }) expanded = false;
@@ -47,14 +52,6 @@ export default class CsTreeItem extends LitElement {
 
   override firstUpdated() {
     this.setupChildren();
-  }
-
-  override focus() {
-    if (this.hasChildTreeItems) {
-      this.slotElements[0].focus();
-    } else {
-      super.focus();
-    }
   }
 
   get hasChildTreeItems() {
