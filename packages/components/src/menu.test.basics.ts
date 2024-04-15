@@ -1,18 +1,20 @@
+import './menu-button.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import Menu from './menu.js';
-import MenuLink from './menu-link.js';
+import CsMenu from './menu.js';
+import CsMenuLink from './menu-link.js';
+import sinon from 'sinon';
 
-Menu.shadowRootOptions.mode = 'open';
+CsMenu.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-menu')).to.equal(Menu);
+  expect(window.customElements.get('cs-menu')).to.equal(CsMenu);
 });
 
 it('has defaults', async () => {
   // Required attributes are supplied here and thus left unasserted below. The
   // idea is that this test shouldn't fail to typecheck if these templates are
   // eventually typechecked, which means supplying all required attributes and slots.
-  const menu = await fixture<Menu>(
+  const menu = await fixture<CsMenu>(
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
@@ -27,7 +29,7 @@ it('has defaults', async () => {
 });
 
 it('is accessible', async () => {
-  const menu = await fixture<Menu>(
+  const menu = await fixture<CsMenu>(
     html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
@@ -37,14 +39,8 @@ it('is accessible', async () => {
   await expect(menu).to.be.accessible();
 });
 
-it(`doesn't blow up if it is empty`, async () => {
-  const menu = await fixture<Menu>(html`<cs-menu> </cs-menu>`);
-
-  await expect(menu).to.be.accessible();
-});
-
 it('can have a label', async () => {
-  const menu = await fixture<Menu>(
+  const menu = await fixture<CsMenu>(
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
@@ -56,7 +52,7 @@ it('can have a label', async () => {
 });
 
 it('can have a default slot', async () => {
-  const menu = await fixture<Menu>(
+  const menu = await fixture<CsMenu>(
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
@@ -66,11 +62,12 @@ it('can have a default slot', async () => {
   const assignedElements = menu.shadowRoot
     ?.querySelectorAll('slot')[1]
     .assignedElements();
-  expect(assignedElements?.at(0) instanceof MenuLink).to.be.true;
+
+  expect(assignedElements?.at(0) instanceof CsMenuLink).to.be.true;
 });
 
 it('can have a target slot', async () => {
-  const menu = await fixture<Menu>(
+  const menu = await fixture<CsMenu>(
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
@@ -80,11 +77,44 @@ it('can have a target slot', async () => {
   const assignedElements = menu.shadowRoot
     ?.querySelector<HTMLSlotElement>('slot[name="target"]')
     ?.assignedElements();
+
   expect(assignedElements?.at(0)?.textContent).to.equal('Target');
 });
 
+it('throws if it does not have a default slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsMenu>(
+      html`<cs-menu>
+        <button slot="target">Target</button>
+      </cs-menu>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
+});
+
+it('throws if it does not have a "target" slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsMenu>(
+      html`<cs-menu>
+        <cs-menu-link label="Link"></cs-menu-link>
+      </cs-menu>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
+});
+
 it('sets accessibility attributes on the target', async () => {
-  const menu = await fixture<Menu>(
+  const menu = await fixture<CsMenu>(
     html`<cs-menu label="Menu">
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>

@@ -5,13 +5,19 @@ import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './menu-link.styles.js';
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'cs-menu-link': CsMenuLink;
+  }
+}
+
 /**
  * @description A link for use within a <cs-menu>.
  *
  * @slot icon - An icon.
  */
 @customElement('cs-menu-link')
-export default class Link extends LitElement {
+export default class CsMenuLink extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
