@@ -32,12 +32,12 @@ export default class CsAccordion extends LitElement {
   override render() {
     return html` <details
       ?open=${this.open}
-      @toggle=${this.#handleToggle}
+      @toggle=${this.#onToggle}
       ${ref(this.#detailsRef)}
     >
       <summary
         class="summary"
-        @click=${this.#handleSummaryClick}
+        @click=${this.#onSummaryClick}
         data-test="summary"
       >
         <svg
@@ -121,7 +121,19 @@ export default class CsAccordion extends LitElement {
 
   #suffixSlotRef = createRef<HTMLSlotElement>();
 
-  #handleSummaryClick(event: MouseEvent) {
+  #onPrefixSlotChange() {
+    const assignedNodes = this.#prefixSlotRef.value?.assignedNodes();
+    this.hasPrefixSlot =
+      assignedNodes && assignedNodes.length > 0 ? true : false;
+  }
+
+  #onSuffixSlotChange() {
+    const assignedNodes = this.#suffixSlotRef.value?.assignedNodes();
+    this.hasSuffixSlot =
+      assignedNodes && assignedNodes.length > 0 ? true : false;
+  }
+
+  #onSummaryClick(event: MouseEvent) {
     const details = this.#detailsRef.value!;
     const content = this.#contentRef.value!;
 
@@ -156,6 +168,7 @@ export default class CsAccordion extends LitElement {
       const animateClosing = content.animate(
         {
           height: [`${content.offsetHeight - bottomPadding}px`, '0px'],
+          opacity: [1, 0],
         },
         {
           duration: 100,
@@ -173,7 +186,7 @@ export default class CsAccordion extends LitElement {
     }
   }
 
-  #handleToggle(event: ToggleEvent) {
+  #onToggle(event: ToggleEvent) {
     this.dispatchEvent(
       new CustomEvent('toggle', {
         detail: {
@@ -182,17 +195,5 @@ export default class CsAccordion extends LitElement {
         },
       }),
     );
-  }
-
-  #onPrefixSlotChange() {
-    const assignedNodes = this.#prefixSlotRef.value?.assignedNodes();
-    this.hasPrefixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
-  }
-
-  #onSuffixSlotChange() {
-    const assignedNodes = this.#suffixSlotRef.value?.assignedNodes();
-    this.hasSuffixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
   }
 }
