@@ -112,12 +112,14 @@ export default class CsButton extends LitElement {
 
   #onPrefixSlotChange() {
     const assignedNodes = this.#prefixSlotElement.value?.assignedNodes();
+
     this.hasPrefixSlot =
       assignedNodes && assignedNodes.length > 0 ? true : false;
   }
 
   #onSuffixSlotChange() {
     const assignedNodes = this.#suffixSlotElement.value?.assignedNodes();
+
     this.hasSuffixSlot =
       assignedNodes && assignedNodes.length > 0 ? true : false;
   }

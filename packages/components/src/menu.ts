@@ -3,7 +3,7 @@ import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { owSlot } from './library/ow.js';
+import { owSlot, owSlotType } from './library/ow.js';
 import CsMenuButton from './menu-button.js';
 import CsMenuLink from './menu-link.js';
 import styles from './menu.styles.js';
@@ -73,7 +73,8 @@ export default class CsMenu extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
     owSlot(this.#targetSlotElementRef.value);
 
     const firstOption = this.#optionElements.at(0);
