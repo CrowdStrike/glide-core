@@ -133,6 +133,7 @@ export default class CsMenu extends LitElement {
     // The linter checks that all ULs have LIs as children. It doesn't account for
     // slots, which can contain LIs. The linter also wants a focus listener on the
     // slot, but there's nothing to be done with one in this case.
+
     /*  eslint-disable lit-a11y/list, lit-a11y/mouse-events-have-key-events */
     return html`<div class="component">
       <div

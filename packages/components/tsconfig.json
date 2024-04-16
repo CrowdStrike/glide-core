@@ -12,7 +12,11 @@
     "plugins": [
       {
         "name": "ts-lit-plugin",
-        "strict": true
+        "strict": true,
+        "rules": {
+          // https://github.com/runem/lit-analyzer/issues/253
+          "no-nullable-attribute-binding": "warning"
+        }
       }
     ]
   },
