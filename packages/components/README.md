@@ -1,6 +1,6 @@
 # Glide Core Components
 
-This package contains web components built with [Lit](https://lit.dev/).
+This package contains Web Components built with [Lit](https://lit.dev/).
 
 ## Installation
 

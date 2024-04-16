@@ -81,7 +81,7 @@ Instead, we've opted to document our opinions here so that they can be reference
 
 ### Prefer encapsulation
 
-A major advantage of web components is that their internals can be encapsulated.
+A major advantage of Web Components is that their internals can be encapsulated.
 This makes components less brittle.
 It also reduces the degree to which consumers can meddle with component design and behavior.
 Embrace encapsulation wherever you can.
