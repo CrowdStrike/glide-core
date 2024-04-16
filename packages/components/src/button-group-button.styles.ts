@@ -87,10 +87,11 @@ export default [
         color: var(--cs-color-white);
 
         ${focusOutline};
+
         /*
-        create a stacking context so the outline doesn't
-        become obscured behind other elements
-      */
+      create a stacking context so the outline doesn't
+      become obscured behind other elements
+    */
         transform: translateX(0);
       }
 
