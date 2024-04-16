@@ -58,21 +58,6 @@ export default class CsButtonGroupButton extends LitElement {
   @property({ reflect: true })
   value = '';
 
-  @state()
-  isPrefixSlotOnly = false;
-
-  @state()
-  isSingleButton = false;
-
-  @state()
-  isTabbable = false;
-
-  @state()
-  position: TButtonGroupButtonPosition = 'inner';
-
-  @state()
-  vertical = false;
-
   override async connectedCallback() {
     super.connectedCallback();
 
@@ -184,6 +169,21 @@ export default class CsButtonGroupButton extends LitElement {
       <slot ${ref(this.#defaultSlotRef)}></slot>
     </li>`;
   }
+
+  @state()
+  private isPrefixSlotOnly = false;
+
+  @state()
+  private isSingleButton = false;
+
+  @state()
+  private isTabbable = false;
+
+  @state()
+  private position: TButtonGroupButtonPosition = 'inner';
+
+  @state()
+  private vertical = false;
 
   #defaultSlotRef = createRef<HTMLSlotElement>();
 

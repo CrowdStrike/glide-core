@@ -27,9 +27,6 @@ export default class CsButtonGroup extends LitElement {
   @property({ type: String })
   label? = '';
 
-  @state()
-  isDefaultSlotEmpty = false;
-
   override firstUpdated() {
     this.isDefaultSlotEmpty = !!(
       this.#defaultSlotRef.value &&
@@ -61,6 +58,9 @@ export default class CsButtonGroup extends LitElement {
       </ul>
     `;
   }
+
+  @state()
+  private isDefaultSlotEmpty = false;
 
   #defaultSlotRef = createRef<HTMLSlotElement>();
 
