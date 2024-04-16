@@ -126,20 +126,25 @@ export default class CsButtonGroupButton extends LitElement {
     // update presentation if there is only a nonempty prefix slot,
     // which is expected to be an icon
     const isPrefixSlotEmpty =
-      (this.#prefixSlotRef.value?.assignedNodes() ?? []).length === 0;
+      this.#prefixSlotRef.value &&
+      this.#prefixSlotRef.value.assignedNodes().length === 0;
     const defaultSlotAssignedNodes =
-      this.#defaultSlotRef.value?.assignedNodes() ?? [];
+      this.#defaultSlotRef.value && this.#defaultSlotRef.value.assignedNodes();
     // ignore empty text nodes
-    const isDefaultSlotEmptyTextNodes = defaultSlotAssignedNodes.every(
-      (node) =>
-        node.nodeName.toLowerCase() === '#text' &&
-        // if textContent is null, only whitespace, or a new line followed by
-        // white space, consider it empty
-        (/^(\n *)$/.test(node.textContent ?? '\n') ||
-          node.textContent?.trim().length === 0),
-    );
+    const isDefaultSlotEmptyTextNodes =
+      defaultSlotAssignedNodes &&
+      defaultSlotAssignedNodes.every(
+        (node) =>
+          node.nodeName.toLowerCase() === '#text' &&
+          // if textContent is null, only whitespace, or a new line followed by
+          // white space, consider it empty
+          node.textContent !== null &&
+          (/^(\n *)$/.test(node.textContent) ||
+            node.textContent?.trim().length === 0),
+      );
     if (
       !isPrefixSlotEmpty &&
+      defaultSlotAssignedNodes &&
       (defaultSlotAssignedNodes.length === 0 || isDefaultSlotEmptyTextNodes)
     ) {
       this.isPrefixSlotOnly = true;
@@ -164,7 +169,7 @@ export default class CsButtonGroupButton extends LitElement {
       ${ref(this.#liRef)}
       class=${classMap({
         selected: this.selected,
-        disabled: this.disabled ?? false,
+        disabled: !!this.disabled,
         [this.position]: true,
         vertical: this.vertical,
         single: this.isSingleButton,
@@ -216,7 +221,7 @@ export default class CsButtonGroupButton extends LitElement {
 
   #onKeydown(event: KeyboardEvent) {
     const buttonElements = this.#buttonElements;
-    if (buttonElements.length < 2 && event.key.toLowerCase() !== ' ') {
+    if (buttonElements.length < 2 && event.key !== ' ') {
       return;
     }
     switch (event.key.toLowerCase()) {

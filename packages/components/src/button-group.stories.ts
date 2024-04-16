@@ -437,3 +437,27 @@ export const DefaultWithSelected: StoryObj = {
     </cs-button-group>
   `,
 };
+
+export const DefaultWithDisabled: StoryObj = {
+  name: 'Default (With Disabled)',
+  render: (arguments_) => html`
+    <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
+      <cs-button-group-button value="button-1" disabled
+        >Button 1</cs-button-group-button
+      >
+      <cs-button-group-button value="button-2" selected
+        >Button 2</cs-button-group-button
+      >
+      <cs-button-group-button value="button-3">Button 3</cs-button-group-button>
+    </cs-button-group>
+  `,
+};
+
+export const DefaultWithOneButton: StoryObj = {
+  name: 'Default (With One Button)',
+  render: (arguments_) => html`
+    <cs-button-group label=${arguments_.label} ?vertical=${arguments_.vertical}>
+      <cs-button-group-button value="button">Button</cs-button-group-button>
+    </cs-button-group>
+  `,
+};

@@ -32,7 +32,9 @@ export default class CsButtonGroup extends LitElement {
 
   override firstUpdated() {
     this.isDefaultSlotEmpty =
-      (this.#defaultSlotRef.value?.assignedNodes() ?? []).length === 0;
+      (this.#defaultSlotRef.value &&
+        this.#defaultSlotRef.value.assignedNodes().length === 0) ||
+      false;
   }
 
   override render() {
@@ -53,6 +55,7 @@ export default class CsButtonGroup extends LitElement {
         class=${classMap({
           vertical: this.vertical,
         })}
+        ?data-test-vertical=${this.vertical}
       >
         <slot ${ref(this.#defaultSlotRef)}></slot>
       </ul>
