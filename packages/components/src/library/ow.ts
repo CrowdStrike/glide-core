@@ -1,16 +1,11 @@
 import ow from 'ow';
 
 /**
- * @description Asserts that a slot has at least one slotted node. Optionally asserts
- * that the slotted node is a certain type.
+ * @description Asserts that a slot has at least one slotted node.
  *
  * @param slot - The slot to assert against.
- * @param slotted - An optional array of constructors. Slotted nodes must extend one of them.
  */
-export function owSlot(
-  slot?: HTMLSlotElement,
-  slotted: (typeof Element | typeof Text)[] = [],
-) {
+export function owSlot(slot?: HTMLSlotElement) {
   ow(
     slot,
     ow.object.is((object) => object instanceof HTMLSlotElement),
@@ -26,6 +21,26 @@ export function owSlot(
           : 'Expected a default slot.',
       ),
   );
+}
+
+/**
+ * @description Asserts that slotted nodes are a certain type.
+ *
+ * @param slot - The slot to assert against.
+ * @param slotted - An array of constructors. Slotted nodes must extend one of them.
+ */
+export function owSlotType(
+  slot?: HTMLSlotElement,
+  slotted: (typeof Element | typeof Text)[] = [],
+) {
+  ow(
+    slot,
+    ow.object.is((object) => object instanceof HTMLSlotElement),
+  );
+
+  if (slot.assignedNodes().length === 0) {
+    return;
+  }
 
   if (slotted.length > 0) {
     const nodes = slot.assignedNodes().filter((node) => {

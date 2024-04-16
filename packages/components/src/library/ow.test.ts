@@ -1,7 +1,7 @@
 import { LitElement } from 'lit';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import { owSlot } from './ow.js';
+import { owSlot, owSlotType } from './ow.js';
 
 @customElement('cs-slot')
 export default class CsSlot extends LitElement {
@@ -30,7 +30,7 @@ it('throws when a slot lacks a specific node', async () => {
 
   assert(slot);
 
-  expect(() => owSlot(slot, [HTMLButtonElement])).to.throw();
+  expect(() => owSlotType(slot, [HTMLButtonElement])).to.throw();
 });
 
 it('does not throw when a slot has a node', async () => {
@@ -53,5 +53,14 @@ it('does not throw when a slot has a specific node', async () => {
 
   assert(slot);
 
-  expect(() => owSlot(slot, [Text])).to.not.throw();
+  expect(() => owSlotType(slot, [Text])).to.not.throw();
+});
+
+it('does not throw when a slot has no nodes', async () => {
+  const component = await fixture<CsSlot>(html`<cs-slot></cs-slot>`);
+  const slot = component.shadowRoot?.querySelector('slot');
+
+  assert(slot);
+
+  expect(() => owSlotType(slot, [HTMLButtonElement])).to.not.throw();
 });

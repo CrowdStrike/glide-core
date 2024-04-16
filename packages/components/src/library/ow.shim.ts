@@ -12,5 +12,6 @@ const shim = new Proxy(() => {}, {
 }) as unknown as typeof Ow;
 
 export const owSlot = shim;
+export const owSlotType = shim;
 
 export default shim;
