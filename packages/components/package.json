@@ -52,6 +52,7 @@
     "ow": "^1.1.1"
   },
   "devDependencies": {
+    "@crowdstrike/glide-core-eslint-plugin": "workspace:*",
     "@crowdstrike/glide-core-styles": "workspace:*",
     "@eslint/js": "^8.56.0",
     "@open-wc/testing": "^3.2.2",
