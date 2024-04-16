@@ -33,6 +33,9 @@ export default class CsTreeItem extends LitElement {
 
   @property({ type: Boolean }) selected = false;
 
+  @queryAssignedElements({ slot: 'menu' })
+  menuSlotAssignedElements!: Array<HTMLElement>;
+
   @queryAssignedElements({ slot: 'prefix' })
   prefixSlotAssignedElements!: Array<HTMLElement>;
 
@@ -61,6 +64,10 @@ export default class CsTreeItem extends LitElement {
 
   get hasChildTreeItems() {
     return this.childTreeItems.length > 0;
+  }
+
+  private onMenuSlotChange() {
+    this.hasMenuSlot = this.menuSlotAssignedElements.length > 0;
   }
 
   private onPrefixSlotChange() {
@@ -121,6 +128,7 @@ export default class CsTreeItem extends LitElement {
           @slotchange=${this.onPrefixSlotChange}
         ></slot>
         <div class="label">${this.label}</div>
+        <slot name="menu" @slotchange=${this.onMenuSlotChange}></slot>
         <slot
           name="suffix"
           part="suffix"
@@ -182,6 +190,9 @@ export default class CsTreeItem extends LitElement {
 
   @state()
   private childTreeItems: CsTreeItem[] = [];
+
+  @state()
+  private hasMenuSlot = false;
 
   @state()
   private hasPrefixSlot = false;

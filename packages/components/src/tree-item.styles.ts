@@ -9,7 +9,7 @@ export default [
     }
 
     /* Not possible to nest :focus inside :host
-  /* stylelint-disable-next-line csstools/use-nesting */
+/* stylelint-disable-next-line csstools/use-nesting */
     :host(:focus) {
       outline: none;
     }
@@ -70,6 +70,16 @@ export default [
 
     ::slotted([slot='prefix']) {
       margin-inline-end: var(--cs-spacing-xs);
+    }
+
+    ::slotted([slot='menu']) {
+      visibility: hidden;
+    }
+
+    /* Not possible to nest ::slotted
+/* stylelint-disable-next-line csstools/use-nesting */
+    .label-container:hover ::slotted([slot='menu']) {
+      visibility: visible;
     }
 
     .label {

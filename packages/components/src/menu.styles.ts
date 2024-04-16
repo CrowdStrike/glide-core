@@ -8,6 +8,7 @@ export default [
     }
 
     .component {
+      color: var(--cs-text-body-1);
       display: inline-block;
     }
 

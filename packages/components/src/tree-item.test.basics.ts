@@ -24,6 +24,16 @@ it('renders with a prefix slot', async () => {
   expect(document.querySelector('[data-prefix]')).to.be.ok;
 });
 
+it('renders with a menu slot', async () => {
+  await fixture<TreeItem>(html`
+    <cs-tree-item label="Item">
+      <span slot="menu" data-menu>menu</span>
+    </cs-tree-item>
+  `);
+
+  expect(document.querySelector('[data-menu]')).to.be.ok;
+});
+
 it('renders with a suffix slot', async () => {
   await fixture<TreeItem>(html`
     <cs-tree-item label="Item">
