@@ -1,8 +1,9 @@
 import './button-group-button.js';
-import { expect, fixture, oneEvent } from '@open-wc/testing';
+import { aTimeout, expect, fixture, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import CsButtonGroup from './button-group.js';
 import CsButtonGroupButton from './button-group-button.js';
+import sinon from 'sinon';
 
 CsButtonGroup.shadowRootOptions.mode = 'open';
 CsButtonGroupButton.shadowRootOptions.mode = 'open';
@@ -31,7 +32,7 @@ it('emits a private input event when clicked', async () => {
   expect(inputEvent instanceof Event).to.be.true;
 });
 
-it('emits a private change event when arrow and space keys are pressed', async () => {
+it('emits a private change event when arrow keys are pressed', async () => {
   const template = `<cs-button-group>
     <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
     <cs-button-group-button value="value-2" selected>Button 2</cs-button-group-button>
@@ -46,7 +47,7 @@ it('emits a private change event when arrow and space keys are pressed', async (
     await sendKeys({ press: 'Tab' });
   });
 
-  const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '];
+  const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
   for (const key of keys) {
     setTimeout(async () => {
@@ -62,7 +63,7 @@ it('emits a private change event when arrow and space keys are pressed', async (
   }
 });
 
-it('emits a private input event when arrow and space keys are pressed', async () => {
+it('emits a private input event when arrow keys are pressed', async () => {
   const template = `<cs-button-group>
     <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
     <cs-button-group-button value="value-2" selected>Button 2</cs-button-group-button>
@@ -75,7 +76,7 @@ it('emits a private input event when arrow and space keys are pressed', async ()
   setTimeout(async () => {
     await sendKeys({ press: 'Tab' });
   });
-  const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '];
+  const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
   for (const key of keys) {
     setTimeout(async () => {
@@ -222,7 +223,7 @@ it('does not move focus if there is only one button when pressing arrow keys', a
     <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
   </cs-button-group>`;
   await fixture(template);
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
+  const buttonElement = document.querySelector<CsButtonGroupButton>(
     'cs-button-group-button',
   );
   const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
@@ -230,6 +231,66 @@ it('does not move focus if there is only one button when pressing arrow keys', a
 
   for (const key of keys) {
     await sendKeys({ press: key });
-    expect(buttonElements[0]).to.have.focus;
+    expect(buttonElement).to.have.focus;
   }
+});
+
+it('emits a private change event when a space key is pressed and is not selected', async () => {
+  const template = `<cs-button-group><cs-button-group-button value="value-1">Button 1</cs-button-group-button></cs-button-group>`;
+  await fixture(template);
+  const buttonElement = document.querySelector<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+  setTimeout(async () => {
+    await sendKeys({ press: 'Tab' });
+    await sendKeys({ press: ' ' });
+  });
+  const changeEvent = await oneEvent(buttonElement!, 'cs-private-change');
+
+  expect(changeEvent instanceof Event).to.be.true;
+});
+
+it('does not emit private change event when a space key is pressed and is selected', async () => {
+  const template = `<cs-button-group><cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button></cs-button-group>`;
+  await fixture(template);
+  const buttonElement = document.querySelector<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+  const spy = sinon.spy();
+  buttonElement!.addEventListener('cs-private-change', spy);
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: ' ' });
+  await aTimeout(0);
+
+  expect(spy.notCalled).to.be.true;
+});
+
+it('emits a private input event when a space key is pressed and is not selected', async () => {
+  const template = `<cs-button-group><cs-button-group-button value="value-1">Button 1</cs-button-group-button></cs-button-group>`;
+  await fixture(template);
+  const buttonElement = document.querySelector<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+  setTimeout(async () => {
+    await sendKeys({ press: 'Tab' });
+    await sendKeys({ press: ' ' });
+  });
+  const inputEvent = await oneEvent(buttonElement!, 'cs-private-input');
+
+  expect(inputEvent instanceof Event).to.be.true;
+});
+
+it('does not emit private input event when a space key is pressed and is selected', async () => {
+  const template = `<cs-button-group><cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button></cs-button-group>`;
+  await fixture(template);
+  const buttonElement = document.querySelector<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+  const spy = sinon.spy();
+  buttonElement!.addEventListener('cs-private-input', spy);
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: ' ' });
+  await aTimeout(0);
+
+  expect(spy.notCalled).to.be.true;
 });

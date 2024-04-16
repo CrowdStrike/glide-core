@@ -214,7 +214,7 @@ export default class CsButtonGroupButton extends LitElement {
   };
 
   #onClick() {
-    if (!this.disabled) {
+    if (!this.disabled && !this.selected) {
       this.selected = true;
     }
   }
@@ -275,7 +275,7 @@ export default class CsButtonGroupButton extends LitElement {
       }
       case ' ': {
         event.preventDefault();
-        if (!this.disabled) {
+        if (!this.disabled && !this.selected) {
           this.selected = true;
         }
         break;
