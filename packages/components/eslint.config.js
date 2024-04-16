@@ -29,6 +29,8 @@ export default [
     rules: {
       '@crowdstrike/glide-core-eslint-plugin/no-cs-prefixed-event-name':
         'error',
+      '@crowdstrike/glide-core-eslint-plugin/prefixed-lit-element-class-declaration':
+        'error',
       '@stylistic/lines-between-class-members': [
         'error',
         'always',

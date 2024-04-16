@@ -13,7 +13,11 @@ export default [
   ...compat.plugins('sort-imports-es6-autofix'),
   eslintConfigPrettier,
   {
+    ignores: ['dist'],
+  },
+  {
     rules: {
+      'unicorn/no-null': 'off',
       'prefer-const': 'error',
       'sort-imports-es6-autofix/sort-imports-es6': [
         2,
