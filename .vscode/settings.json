@@ -5,6 +5,7 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "stylelint.validate": ["css", "postcss", "typescript"],
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
