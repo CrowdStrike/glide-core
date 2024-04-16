@@ -31,10 +31,10 @@ export default class CsButtonGroup extends LitElement {
   isDefaultSlotEmpty = false;
 
   override firstUpdated() {
-    this.isDefaultSlotEmpty =
-      (this.#defaultSlotRef.value &&
-        this.#defaultSlotRef.value.assignedNodes().length === 0) ||
-      false;
+    this.isDefaultSlotEmpty = !!(
+      this.#defaultSlotRef.value &&
+      this.#defaultSlotRef.value.assignedNodes().length === 0
+    );
   }
 
   override render() {

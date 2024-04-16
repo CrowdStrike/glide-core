@@ -25,7 +25,7 @@ it('renders a label and unordered list', async () => {
 
   expect(ulElement).to.exist;
   expect(labelElement).to.exist;
-  expect(labelElement).to.have.attribute('for', ulElement?.id);
+  expect(labelElement).to.have.attribute('for', ulElement!.id);
 });
 
 it('does not render a label when not given', async () => {
@@ -38,7 +38,7 @@ it('does not render a label when not given', async () => {
   expect(labelElement).to.be.null;
 });
 
-it('returns nothing if it has no button group button children', async () => {
+it('returns nothing if button group has no children', async () => {
   const template = `<cs-button-group></cs-button-group>`;
   const element = await fixture<CsButtonGroup>(template);
   const ulElement = element.shadowRoot!.querySelector('ul');

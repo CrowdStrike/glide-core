@@ -27,27 +27,27 @@ it('renders an li with role "radio"', async () => {
   expect(liElement).to.have.attribute('role', 'radio');
 });
 
-it('renders "aria-checked" as "false" and "tabindex" as "-1" by default', async () => {
+it('renders "aria-checked" equal to "false" and "tabindex" equal to "-1" by default', async () => {
   const template = `<cs-button-group-button value="value">Button</cs-button-group-button>`;
   const element = await fixture<CsButtonGroupButton>(template);
-  const liElement = element.shadowRoot!.querySelector(
-    'li[aria-checked="false"][tabindex="-1"]',
-  );
+  const liElement = element.shadowRoot!.querySelector('li');
 
   expect(liElement).to.exist;
+  expect(liElement).to.have.attribute('aria-checked', 'false');
+  expect(liElement).to.have.attribute('tabindex', '-1');
 });
 
-it('renders "aria-checked" as "true" and "tabindex" as "0" when attribute "selected" exists', async () => {
+it('renders "aria-checked" equal to "true" and "tabindex" equal to "0" when attribute "selected" exists', async () => {
   const template = `<cs-button-group-button value="value" selected>Button</cs-button-group-button>`;
   const element = await fixture<CsButtonGroupButton>(template);
-  const liElement = element.shadowRoot!.querySelector(
-    'li[aria-checked="true"][tabindex="0"]',
-  );
+  const liElement = element.shadowRoot!.querySelector('li');
 
   expect(liElement).to.exist;
+  expect(liElement).to.have.attribute('aria-checked', 'true');
+  expect(liElement).to.have.attribute('tabindex', '0');
 });
 
-it('renders two slots, where one has name "prefix", and the other is default with text "Button"', async () => {
+it('renders two slots, where one has name "prefix", and the other is default with given text', async () => {
   const template = `<cs-button-group-button value="value" selected><span slot="prefix" data-prefix>Prefix</span><span data-default>Button</span></cs-button-group-button>`;
   const element = await fixture<CsButtonGroupButton>(template);
   const liPrefixOnlyElement = element.shadowRoot!.querySelector(
@@ -60,6 +60,7 @@ it('renders two slots, where one has name "prefix", and the other is default wit
     'li slot:not([name="prefix"])',
   );
 
+  // verify the slots exist
   expect(liPrefixOnlyElement).to.be.null;
   expect(prefixSlot).to.exist;
   expect(defaultSlot).to.exist;
@@ -67,6 +68,7 @@ it('renders two slots, where one has name "prefix", and the other is default wit
   const prefixElement = document.querySelector('[data-prefix]');
   const defaultElement = document.querySelector('[data-default]');
 
+  // verify the content of the slots exist
   expect(prefixElement).to.exist;
   expect(defaultElement).to.exist;
   expect(prefixElement?.textContent).to.equal('Prefix');
@@ -111,7 +113,7 @@ it('has no "vertical" presentation when the parent button group element does not
   expect(liElement).to.not.have.attribute('data-test-vertical');
 });
 
-it('reacts to "vertical" attribute when toggled on button group', async () => {
+it('reacts to "vertical" attribute when toggled on and off button group', async () => {
   const template = `<cs-button-group><cs-button-group-button value="value">Button</cs-button-group-button></cs-button-group>`;
   const element = await fixture<CsButtonGroup>(template);
   const buttonElement = document.querySelector<CsButtonGroupButton>(
@@ -125,6 +127,11 @@ it('reacts to "vertical" attribute when toggled on button group', async () => {
   await aTimeout(0);
 
   await expect(liElement).to.have.attribute('data-test-vertical');
+
+  element.toggleAttribute('vertical');
+  await aTimeout(0);
+
+  await expect(liElement).to.not.have.attribute('data-test-vertical');
 });
 
 it('assigns the correct positional presentation when in a button group', async () => {
@@ -226,7 +233,7 @@ it('initially sets itself as tabbable when first non-disabled button in a group'
   }
 });
 
-it('initially sets itself as tabbable when "selected" while others do not when in a button group', async () => {
+it('initially sets itself as tabbable when "selected" when others are not when in a button group', async () => {
   const template = `<cs-button-group>
     <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
     <cs-button-group-button value="value-2" selected>Button 2</cs-button-group-button>
@@ -275,7 +282,7 @@ it('initially no buton sets itself as tabbable if all are disabled in a group', 
   }
 });
 
-it('has a presentation when the default slot is empty and the prefix slot is not', async () => {
+it('has a specific presentation for when the default slot is empty and the prefix slot is not', async () => {
   const template = `<cs-button-group-button value="value" selected><span slot="prefix" data-prefix>Prefix</span></cs-button-group-button>`;
   const element = await fixture<CsButtonGroupButton>(template);
   const liElement = element.shadowRoot!.querySelector('li');

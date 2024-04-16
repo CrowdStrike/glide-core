@@ -42,11 +42,9 @@ it('emits a private change event when arrow keys are pressed', async () => {
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
-
   setTimeout(async () => {
     await sendKeys({ press: 'Tab' });
   });
-
   const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
   for (const key of keys) {
@@ -169,6 +167,7 @@ it('moves focus to first button when right or down arrow keys are pressed on the
 
   buttonElements[2].focus();
   await sendKeys({ press: ' ' });
+  expect(buttonElements[2]).to.have.focus;
 
   await sendKeys({ press: 'ArrowDown' });
   expect(buttonElements[0]).to.have.focus;
@@ -191,6 +190,7 @@ it('moves focus to previous enabled button when pressing left or up arrow keys',
 
   buttonElements[2].focus();
   await sendKeys({ press: ' ' });
+  expect(buttonElements[2]).to.have.focus;
 
   await sendKeys({ press: 'ArrowUp' });
   expect(buttonElements[0]).to.have.focus;
@@ -213,6 +213,7 @@ it('moves focus to next enabled button when pressing right or down arrow keys', 
 
   buttonElements[0].focus();
   await sendKeys({ press: ' ' });
+  expect(buttonElements[0]).to.have.focus;
 
   await sendKeys({ press: 'ArrowDown' });
   expect(buttonElements[2]).to.have.focus;
@@ -233,6 +234,89 @@ it('does not move focus if there is only one button when pressing arrow keys', a
     await sendKeys({ press: key });
     expect(buttonElement).to.have.focus;
   }
+});
+
+it('changes the "selected" attribute when clicking', async () => {
+  const template = `<cs-button-group>
+    <cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button>
+    <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
+    <cs-button-group-button value="value-3">Button 3</cs-button-group-button>    
+  </cs-button-group>`;
+  await fixture(template);
+  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+  const liElement = buttonElements[2].shadowRoot!.querySelector('li');
+  expect(liElement).to.exist;
+  liElement!.click();
+  await aTimeout(0);
+
+  expect(buttonElements[2]).to.have.focus;
+  expect(buttonElements[2]).to.have.attribute('selected');
+  expect(buttonElements[0]).to.not.have.attribute('selected');
+});
+
+it('does not change focus nor the "selected" attribute when clicking a disabled button', async () => {
+  const template = `<cs-button-group>
+    <cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button>
+    <cs-button-group-button value="value-2" disabled>Button 2</cs-button-group-button>    
+  </cs-button-group>`;
+  await fixture(template);
+  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+  await sendKeys({ press: 'Tab' });
+  const liElement = buttonElements[0].shadowRoot!.querySelector('li');
+  expect(liElement).to.exist;
+  liElement!.click();
+  await aTimeout(0);
+
+  expect(buttonElements[0]).to.have.focus;
+  expect(buttonElements[0]).to.have.attribute('selected');
+  expect(buttonElements[1]).to.not.have.attribute('selected');
+});
+
+it('changes the "selected" attribute when pressing arrow and space keys', async () => {
+  const template = `<cs-button-group>
+    <cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button>
+    <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
+    <cs-button-group-button value="value-3">Button 3</cs-button-group-button>    
+  </cs-button-group>`;
+  await fixture(template);
+  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: 'ArrowRight' });
+
+  expect(buttonElements[1]).to.have.focus;
+  expect(buttonElements[1]).to.have.attribute('selected');
+  expect(buttonElements[0]).to.not.have.attribute('selected');
+
+  await sendKeys({ press: 'ArrowDown' });
+
+  expect(buttonElements[2]).to.have.focus;
+  expect(buttonElements[2]).to.have.attribute('selected');
+  expect(buttonElements[1]).to.not.have.attribute('selected');
+
+  await sendKeys({ press: 'ArrowUp' });
+
+  expect(buttonElements[1]).to.have.focus;
+  expect(buttonElements[1]).to.have.attribute('selected');
+  expect(buttonElements[2]).to.not.have.attribute('selected');
+
+  await sendKeys({ press: 'ArrowLeft' });
+
+  expect(buttonElements[0]).to.have.focus;
+  expect(buttonElements[0]).to.have.attribute('selected');
+  expect(buttonElements[1]).to.not.have.attribute('selected');
+
+  buttonElements[2].focus();
+  await sendKeys({ press: ' ' });
+  expect(buttonElements[2]).to.have.focus;
+  expect(buttonElements[2]).to.have.attribute('selected');
+  expect(buttonElements[0]).to.not.have.attribute('selected');
 });
 
 it('emits a private change event when a space key is pressed and is not selected', async () => {

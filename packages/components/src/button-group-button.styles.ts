@@ -1,8 +1,7 @@
 import { css, unsafeCSS } from 'lit';
 import { focusOutline } from './styles.js';
 
-// not applied to li so that li borders do not transition
-// outside of button interactions
+// only applies to button interactions
 const buttonTransition = unsafeCSS(`
   transition-duration: 150ms;
   transition-property: color, background-color, border-color, fill, stroke;
@@ -55,7 +54,8 @@ export default [
 
       &.vertical {
         border: none;
-        border-block-end: 1px solid var(--cs-border-base-lighter);
+        border-block-end: var(--li-border-width) solid
+          var(--cs-border-base-lighter);
 
         &.first {
           border-radius: var(--li-border-radius) var(--li-border-radius) 0 0;
@@ -87,6 +87,10 @@ export default [
         color: var(--cs-color-white);
 
         ${focusOutline};
+        /*
+        create a stacking context so the outline doesn't
+        become obscured behind other elements
+      */
         transform: translateX(0);
       }
 

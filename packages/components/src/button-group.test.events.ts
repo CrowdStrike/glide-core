@@ -51,9 +51,7 @@ it('emits a change event when an arrow key is pressed ', async () => {
     <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
   </cs-button-group>`;
   const element = await fixture(template);
-  setTimeout(async () => {
-    await sendKeys({ press: 'Tab' });
-  });
+  await sendKeys({ press: 'Tab' });
   const keys = ['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown'];
 
   for (const key of keys) {
@@ -66,7 +64,7 @@ it('emits a change event when an arrow key is pressed ', async () => {
   }
 });
 
-it('emits a change event when an space key is pressed that is not selected', async () => {
+it('emits a change event when a space key is pressed on a button that is not selected', async () => {
   const template = `<cs-button-group>
     <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
   </cs-button-group>`;

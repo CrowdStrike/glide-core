@@ -32,10 +32,10 @@ export default class CsButtonGroupButton extends LitElement {
       // when selected, set the element as tabbable and focus
       this.isTabbable = true;
       this.focus();
-      // set other elements are neither selected nor tabbable
+      // set other elements as not selected
       const buttonElements = this.#buttonElements;
       for (const button of buttonElements) {
-        if (button !== this) {
+        if (button !== this && button.selected) {
           button.selected = false;
         }
       }
@@ -90,7 +90,7 @@ export default class CsButtonGroupButton extends LitElement {
 
     await this.updateComplete;
 
-    // // determine position in group and style approriately
+    // determine position in group and style approriately
     const buttonElements = this.#buttonElements;
     if (buttonElements.length > 0) {
       if (buttonElements.length > 1 && buttonElements.at(0) === this) {
@@ -106,7 +106,7 @@ export default class CsButtonGroupButton extends LitElement {
         return;
       }
 
-      // set tabbable if it is the first selected enabled element or the
+      // set tabbable if this is the first selected enabled element or the
       // first enabled element
       const firstEnabledSelectedButton = buttonElements.find(
         (button) => !button.disabled && button.selected,
@@ -124,7 +124,7 @@ export default class CsButtonGroupButton extends LitElement {
     }
 
     // update presentation if there is only a nonempty prefix slot,
-    // which is expected to be an icon
+    // (which is expected to be an icon)
     const isPrefixSlotEmpty =
       this.#prefixSlotRef.value &&
       this.#prefixSlotRef.value.assignedNodes().length === 0;
