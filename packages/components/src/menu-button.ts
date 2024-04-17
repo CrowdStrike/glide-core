@@ -4,13 +4,19 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import styles from './menu-button.styles.js';
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'cs-menu-button': CsMenuButton;
+  }
+}
+
 /**
  * @description A button for use within a <cs-menu>.
  *
  * @slot icon - An icon.
  */
 @customElement('cs-menu-button')
-export default class MenuButton extends LitElement {
+export default class CsMenuButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',

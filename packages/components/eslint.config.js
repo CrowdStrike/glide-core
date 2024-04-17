@@ -1,5 +1,6 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintGlideCorePlugin from '@crowdstrike/glide-core-eslint-plugin';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import js from '@eslint/js';
@@ -23,8 +24,13 @@ export default [
   {
     plugins: {
       '@stylistic': stylistic,
+      '@crowdstrike/glide-core-eslint-plugin': eslintGlideCorePlugin,
     },
     rules: {
+      '@crowdstrike/glide-core-eslint-plugin/no-cs-prefixed-event-name':
+        'error',
+      '@crowdstrike/glide-core-eslint-plugin/prefixed-lit-element-class-declaration':
+        'error',
       '@stylistic/lines-between-class-members': [
         'error',
         'always',
@@ -41,6 +47,8 @@ export default [
       ],
 
       'prefer-const': 'error',
+      'no-implicit-coercion': 'error',
+      'no-console': 'error',
       'sort-imports-es6-autofix/sort-imports-es6': [
         2,
         {

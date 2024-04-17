@@ -42,7 +42,7 @@ const meta: Meta = {
     'slot="default"': {
       control: { type: '' },
       table: {
-        type: { summary: 'html', detail: 'Put the icon in here.' },
+        type: { summary: 'Element', detail: 'The icon.' },
       },
       type: { name: 'string', required: true },
     },

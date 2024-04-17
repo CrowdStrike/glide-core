@@ -1,15 +1,17 @@
 import { globby } from 'globby';
-import { minifyHTMLLiteralsPlugin } from 'esbuild-plugin-minify-html-literals';
-import { parse as parsePath } from 'node:path';
+import { minifyHTMLLiterals } from 'minify-html-literals';
+import { readFile } from 'node:fs/promises';
 import esbuild from 'esbuild';
 
-const entryPoints = await globby(['src/*']).then((paths) => {
+const entryPoints = await globby([
+  'src/**/*.ts',
+  '!**/*stories*',
+  '!**/*test*',
+]).then((paths) => {
   return paths.map((path) => {
-    const { name } = parsePath(path);
-
     return {
       in: path,
-      out: name,
+      out: path.replace('src/', '').replace('.ts', ''),
     };
   });
 });
@@ -20,12 +22,37 @@ await esbuild.build({
   outbase: '.',
   outdir: './dist',
   plugins: [
-    minifyHTMLLiteralsPlugin({
-      minifyOptions: {
-        // Some of our classes are being removed because CleanCSS, which this plugin uses,
-        // doesn't support CSS Nesting: https://github.com/clean-css/clean-css/issues/1254.
-        minifyCSS: false,
+    {
+      name: 'transform',
+      setup(build) {
+        build.onLoad({ filter: /.*/ }, async ({ path }) => {
+          const file = await readFile(path, 'utf8');
+
+          const result = minifyHTMLLiterals(file, {
+            minifyOptions: {
+              // Some of our classes were being removed because CleanCSS, which this plugin uses,
+              // doesn't support CSS Nesting: https://github.com/clean-css/clean-css/issues/1254.
+              minifyCSS: false,
+            },
+          });
+
+          // `null` happens when there's no HTML as with `styles.ts`.
+          if (result === null) {
+            return {
+              contents: file,
+              loader: 'ts',
+            };
+          }
+
+          return {
+            contents: result.code
+              .replaceAll('./library/ow.js', './library/ow.shim.js')
+              // eslint-disable-next-line unicorn/prefer-spread
+              .concat(`\n//# sourceMappingURL=${result.map?.toUrl()}`),
+            loader: 'ts',
+          };
+        });
       },
-    }),
+    },
   ],
 });

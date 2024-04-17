@@ -1,17 +1,17 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import MenuButton from './menu-button.js';
+import CsMenuButton from './menu-button.js';
 
-MenuButton.shadowRootOptions.mode = 'open';
+CsMenuButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-menu-button')).to.equal(MenuButton);
+  expect(window.customElements.get('cs-menu-button')).to.equal(CsMenuButton);
 });
 
 it('has defaults', async () => {
   // Required attributes are supplied and not asserted below. The idea is that
   // this test shouldn't fail to typecheck if these templates are eventually
   // typechecked, which means supplying required attributes up front.
-  const button = await fixture<MenuButton>(
+  const button = await fixture<CsMenuButton>(
     html`<cs-menu-button label="Label"></cs-menu-button>`,
   );
 
@@ -20,7 +20,7 @@ it('has defaults', async () => {
 });
 
 it('can have a label', async () => {
-  const button = await fixture<MenuButton>(
+  const button = await fixture<CsMenuButton>(
     html`<cs-menu-button label="Label"></cs-menu-button>`,
   );
 
@@ -28,7 +28,7 @@ it('can have a label', async () => {
 });
 
 it('can have an icon', async () => {
-  const button = await fixture<MenuButton>(
+  const button = await fixture<CsMenuButton>(
     html`<cs-menu-button label="Label">
       <svg
         slot="icon"
@@ -54,5 +54,6 @@ it('can have an icon', async () => {
     ?.querySelector<HTMLSlotElement>('slot[name="icon"]')
     ?.assignedElements()
     .at(0);
+
   expect(icon instanceof Element).to.be.true;
 });
