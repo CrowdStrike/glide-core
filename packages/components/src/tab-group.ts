@@ -28,6 +28,11 @@ declare global {
  */
 @customElement('cs-tab-group')
 export default class CsTabGroup extends LitElement {
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    mode: 'closed',
+  };
+
   static override styles = styles;
 
   /**

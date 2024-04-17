@@ -19,6 +19,11 @@ declare global {
 export default class CsTabPanel extends LitElement {
   static instanceCount = 0;
 
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    mode: 'closed',
+  };
+
   static override styles = styles;
 
   /**

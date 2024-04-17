@@ -3,9 +3,12 @@ import './tab-panel.js';
 import './tab.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
+import TabGroup from './tab-group.js';
+import TabPanel from './tab-panel.js';
 import sinon from 'sinon';
-import type TabGroup from './tab-group.js';
-import type TabPanel from './tab-panel.js';
+
+TabGroup.shadowRootOptions.mode = 'open';
+TabPanel.shadowRootOptions.mode = 'open';
 
 it('renders correct markup and sets correct attributes for the default case', async () => {
   const element = await fixture<TabGroup>(html`

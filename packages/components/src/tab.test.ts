@@ -1,6 +1,8 @@
 import './tab.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import type Tab from './tab.js';
+import Tab from './tab.js';
+
+Tab.shadowRootOptions.mode = 'open';
 
 it('renders correct markup and sets correct attributes for the default case', async () => {
   const element = await fixture<Tab>(html` <cs-tab>Tab</cs-tab> `);
