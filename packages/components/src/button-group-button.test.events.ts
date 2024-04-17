@@ -15,7 +15,7 @@ it('emits a private change event when clicked', async () => {
   setTimeout(() => {
     liElement?.click();
   });
-  const changeEvent = await oneEvent(element, 'cs-private-change');
+  const changeEvent = await oneEvent(element, 'private-change');
 
   expect(changeEvent instanceof Event).to.be.true;
 });
@@ -27,7 +27,7 @@ it('emits a private input event when clicked', async () => {
   setTimeout(() => {
     liElement?.click();
   });
-  const inputEvent = await oneEvent(element, 'cs-private-input');
+  const inputEvent = await oneEvent(element, 'private-input');
 
   expect(inputEvent instanceof Event).to.be.true;
 });
@@ -53,10 +53,7 @@ it('emits a private change event when arrow keys are pressed', async () => {
     });
 
     const index = ['ArrowLeft', 'ArrowUp'].includes(key) ? 0 : 1;
-    const changeEvent = await oneEvent(
-      buttonElements[index],
-      'cs-private-change',
-    );
+    const changeEvent = await oneEvent(buttonElements[index], 'private-change');
     expect(changeEvent instanceof Event).to.be.true;
   }
 });
@@ -82,10 +79,7 @@ it('emits a private input event when arrow keys are pressed', async () => {
     });
 
     const index = ['ArrowLeft', 'ArrowUp'].includes(key) ? 0 : 1;
-    const inputEvent = await oneEvent(
-      buttonElements[index],
-      'cs-private-input',
-    );
+    const inputEvent = await oneEvent(buttonElements[index], 'private-input');
     expect(inputEvent instanceof Event).to.be.true;
   }
 });
@@ -329,7 +323,7 @@ it('emits a private change event when a space key is pressed and is not selected
     await sendKeys({ press: 'Tab' });
     await sendKeys({ press: ' ' });
   });
-  const changeEvent = await oneEvent(buttonElement!, 'cs-private-change');
+  const changeEvent = await oneEvent(buttonElement!, 'private-change');
 
   expect(changeEvent instanceof Event).to.be.true;
 });
@@ -341,7 +335,7 @@ it('does not emit private change event when a space key is pressed and is select
     'cs-button-group-button',
   );
   const spy = sinon.spy();
-  buttonElement!.addEventListener('cs-private-change', spy);
+  buttonElement!.addEventListener('private-change', spy);
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
   await aTimeout(0);
@@ -359,7 +353,7 @@ it('emits a private input event when a space key is pressed and is not selected'
     await sendKeys({ press: 'Tab' });
     await sendKeys({ press: ' ' });
   });
-  const inputEvent = await oneEvent(buttonElement!, 'cs-private-input');
+  const inputEvent = await oneEvent(buttonElement!, 'private-input');
 
   expect(inputEvent instanceof Event).to.be.true;
 });
@@ -371,7 +365,7 @@ it('does not emit private input event when a space key is pressed and is selecte
     'cs-button-group-button',
   );
   const spy = sinon.spy();
-  buttonElement!.addEventListener('cs-private-input', spy);
+  buttonElement!.addEventListener('private-input', spy);
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
   await aTimeout(0);

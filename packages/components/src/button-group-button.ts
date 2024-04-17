@@ -39,14 +39,8 @@ export default class CsButtonGroupButton extends LitElement {
           button.selected = false;
         }
       }
-      this.dispatchEvent(
-        new CustomEvent('cs-private-change', {
-          bubbles: true,
-        }),
-      );
-      this.dispatchEvent(
-        new CustomEvent('cs-private-input', { bubbles: true }),
-      );
+      this.dispatchEvent(new CustomEvent('private-change', { bubbles: true }));
+      this.dispatchEvent(new CustomEvent('private-input', { bubbles: true }));
     } else {
       this.isTabbable = false;
     }
@@ -154,7 +148,7 @@ export default class CsButtonGroupButton extends LitElement {
       ${ref(this.#liRef)}
       class=${classMap({
         selected: this.selected,
-        disabled: !!this.disabled,
+        disabled: Boolean(this.disabled),
         [this.position]: true,
         vertical: this.vertical,
         single: this.isSingleButton,

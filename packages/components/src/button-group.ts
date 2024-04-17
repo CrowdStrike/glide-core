@@ -2,6 +2,7 @@ import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { owSlotType } from './library/ow.js';
 import { when } from 'lit-html/directives/when.js';
 import CsButtonGroupButton from './button-group-button.js';
 import styles from './button-group.styles.js';
@@ -28,10 +29,11 @@ export default class CsButtonGroup extends LitElement {
   label? = '';
 
   override firstUpdated() {
-    this.isDefaultSlotEmpty = !!(
+    this.isDefaultSlotEmpty = Boolean(
       this.#defaultSlotRef.value &&
-      this.#defaultSlotRef.value.assignedNodes().length === 0
+        this.#defaultSlotRef.value.assignedNodes().length === 0,
     );
+    owSlotType(this.#defaultSlotRef.value, [CsButtonGroupButton]);
   }
 
   override render() {
@@ -41,14 +43,14 @@ export default class CsButtonGroup extends LitElement {
     /*  eslint-disable lit-a11y/list */
     return html`
       ${when(
-        !!this.label,
+        Boolean(this.label),
         () => html`<label for="cs-button-group">${this.label}</label>`,
       )}
       <ul
         id="cs-button-group"
         role="radiogroup"
-        @cs-private-change=${this.#onPrivateChange}
-        @cs-private-input=${this.#onPrivateInput}
+        @private-change=${this.#onPrivateChange}
+        @private-input=${this.#onPrivateInput}
         class=${classMap({
           vertical: this.vertical,
         })}
@@ -68,7 +70,7 @@ export default class CsButtonGroup extends LitElement {
     event.stopPropagation();
     if (event.target instanceof CsButtonGroupButton && event.target.selected) {
       this.dispatchEvent(
-        new CustomEvent('cs-change', {
+        new CustomEvent('button-group-change', {
           bubbles: true,
           detail: event.target.value,
         }),
@@ -80,7 +82,7 @@ export default class CsButtonGroup extends LitElement {
     event.stopPropagation();
     if (event.target instanceof CsButtonGroupButton && event.target.selected) {
       this.dispatchEvent(
-        new CustomEvent('cs-input', {
+        new CustomEvent('button-group-input', {
           bubbles: true,
           detail: event.target.value,
         }),
