@@ -16,6 +16,9 @@ export default [
 
     .component {
       display: contents;
+      font-family: var(--cs-body-sm-font-family);
+      font-style: var(--cs-body-sm-font-style);
+      font-weight: var(--cs-body-sm-font-weight);
       grid-template-columns: repeat(auto-fill, 40px);
     }
 

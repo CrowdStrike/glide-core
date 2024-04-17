@@ -1,45 +1,160 @@
-import './icon-button.js';
 import './menu.js';
-import './tree.js';
-import { html } from 'lit-html';
+import './tree-item.js';
+import { html, nothing } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   decorators: [
-    (story) => html`<div style="max-width: 300px;">${story()}</div>`,
+    (story) => html`<div style="max-width: 18rem;">${story()}</div>`,
   ],
-  title: 'Tree',
+  title: 'Tree Item',
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
-        component:
-          'A tree element, containing a hierarchy of tree items. See Tree Item story',
+        component: 'A single node of a Tree',
       },
     },
   },
-  render: () => html`
-    <cs-tree>
-      <cs-tree-item expanded label="Branch">
-        ${prefixIcon}
-        <cs-tree-item label="Leaf 1">${prefixIcon} ${itemMenu}</cs-tree-item>
-        <cs-tree-item label="Sub-branch">
-          ${prefixIcon}
-          <cs-tree-item label="Sub-leaf 1">${prefixIcon}</cs-tree-item>
-          <cs-tree-item label="Sub-leaf 2">
-            ${prefixIcon} ${itemMenu} ${suffixIcon}
-          </cs-tree-item>
-          <cs-tree-item label="Sub-leaf 3"></cs-tree-item>
-        </cs-tree-item>
-        <cs-tree-item label="Leaf 2"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  args: {
+    selected: false,
+    label: 'Branch',
+  },
+  argTypes: {
+    selected: {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: false,
+      },
+    },
+    label: {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+  },
+  render: (arguments_) => html`
+    <cs-tree-item
+      label=${arguments_.label}
+      ?selected=${arguments_.selected || nothing}
+      >
+    </cs-tree-item></cs-tree-item>
   `,
 };
 
 export default meta;
 
-export const Primary: StoryObj = {};
+export const Default: StoryObj = {};
+
+export const Selected: StoryObj = {
+  args: {
+    selected: true,
+  },
+};
+
+export const WithChildItemsCollapsed: StoryObj = {
+  argTypes: {
+    expanded: {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: false,
+      },
+    },
+  },
+  render: (arguments_) => html`
+    <cs-tree-item
+      label=${arguments_.label}
+      ?selected=${arguments_.selected || nothing}
+      ?expanded=${arguments_.expanded || nothing}
+    >
+      <cs-tree-item label="Leaf 1"></cs-tree-item>
+      <cs-tree-item label="Leaf 2"> </cs-tree-item>
+      <cs-tree-item label="Leaf 3"></cs-tree-item>
+    </cs-tree-item>
+  `,
+};
+
+export const WithChildItemsExpanded: StoryObj = {
+  args: {
+    expanded: true,
+  },
+  argTypes: {
+    expanded: {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: false,
+      },
+    },
+  },
+  render: (arguments_) => html`
+    <cs-tree-item
+      label=${arguments_.label}
+      ?selected=${arguments_.selected || nothing}
+      ?expanded=${arguments_.expanded || nothing}
+    >
+      <cs-tree-item label="Leaf 1"></cs-tree-item>
+      <cs-tree-item label="Leaf 2"> </cs-tree-item>
+      <cs-tree-item label="Leaf 3"></cs-tree-item>
+    </cs-tree-item>
+  `,
+};
+
+export const WithPrefixIcon: StoryObj = {
+  render: (arguments_) => html`
+    <cs-tree-item
+      label=${arguments_.label}
+      ?selected=${arguments_.selected || nothing}
+      >
+      ${prefixIcon}
+    </cs-tree-item></cs-tree-item>
+  `,
+};
+
+export const WithSuffixIcon: StoryObj = {
+  render: (arguments_) => html`
+    <cs-tree-item
+      label=${arguments_.label}
+      ?selected=${arguments_.selected || nothing}
+      >
+      ${suffixIcon}
+    </cs-tree-item></cs-tree-item>
+  `,
+};
+
+export const WithMenu: StoryObj = {
+  decorators: [
+    (story) =>
+      html`<div style="max-width: 300px; height: 125px;">${story()}</div>`,
+  ],
+  render: (arguments_) => html`
+    <cs-tree-item
+      label=${arguments_.label}
+      ?selected=${arguments_.selected || nothing}
+      >
+      ${itemMenu}
+    </cs-tree-item></cs-tree-item>
+  `,
+};
+
+export const WithPrefixSuffixAndMenu: StoryObj = {
+  decorators: [
+    (story) =>
+      html`<div style="max-width: 300px; height: 125px;">${story()}</div>`,
+  ],
+  name: 'With Prefix, Suffix, and Menu',
+  render: (arguments_) => html`
+    <cs-tree-item
+      label=${arguments_.label}
+      ?selected=${arguments_.selected || nothing}
+      >
+      ${prefixIcon}
+      ${suffixIcon}
+      ${itemMenu}
+    </cs-tree-item></cs-tree-item>
+  `,
+};
 
 const prefixIcon = html`
   <svg
