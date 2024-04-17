@@ -53,6 +53,7 @@ export default {
           'lcov',
           {
             start() {
+              // eslint-disable-next-line no-console -- ok since this is a script run in the terminal
               console.log(
                 `Code coverage report: ${chalk.blue(
                   'http://localhost:8080',
@@ -60,6 +61,7 @@ export default {
               );
             },
             onTestRunStarted() {
+              // eslint-disable-next-line no-console -- ok since this is a script run in the terminal
               console.log(
                 `Code coverage report: ${chalk.blue(
                   'http://localhost:8080',
