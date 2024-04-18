@@ -1,9 +1,9 @@
-import './menu-link.js';
 import './menu.js';
+import './menu.link.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import type CsMenu from './menu.js';
-import type CsMenuButton from './menu-button.js';
+import type CsMenuButton from './menu.button.js';
 
 it('opens when clicked', async () => {
   const menu = await fixture<CsMenu>(
