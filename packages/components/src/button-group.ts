@@ -40,6 +40,8 @@ export default class CsButtonGroup extends LitElement {
     if (this.isDefaultSlotEmpty) {
       return nothing;
     }
+
+    // ignore rule that prevents slots from being children of ul
     /*  eslint-disable lit-a11y/list */
     return html`
       ${when(
@@ -49,8 +51,8 @@ export default class CsButtonGroup extends LitElement {
       <ul
         id="cs-button-group"
         role="radiogroup"
-        @private-change=${this.#onPrivateChange}
-        @private-input=${this.#onPrivateInput}
+        @change=${this.#onChange}
+        @input=${this.#onInput}
         class=${classMap({
           vertical: this.vertical,
         })}
@@ -66,11 +68,11 @@ export default class CsButtonGroup extends LitElement {
 
   #defaultSlotRef = createRef<HTMLSlotElement>();
 
-  #onPrivateChange(event: Event) {
+  #onChange(event: Event) {
     event.stopPropagation();
     if (event.target instanceof CsButtonGroupButton && event.target.selected) {
       this.dispatchEvent(
-        new CustomEvent('button-group-change', {
+        new CustomEvent('change', {
           bubbles: true,
           detail: event.target.value,
         }),
@@ -78,11 +80,11 @@ export default class CsButtonGroup extends LitElement {
     }
   }
 
-  #onPrivateInput(event: Event) {
+  #onInput(event: Event) {
     event.stopPropagation();
     if (event.target instanceof CsButtonGroupButton && event.target.selected) {
       this.dispatchEvent(
-        new CustomEvent('button-group-input', {
+        new CustomEvent('input', {
           bubbles: true,
           detail: event.target.value,
         }),

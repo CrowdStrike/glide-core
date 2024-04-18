@@ -21,7 +21,7 @@ it('emits a change event when a button is clicked', async () => {
   expect(liElement).to.exist;
 
   setTimeout(() => liElement?.click());
-  const changeEvent = await oneEvent(element, 'button-group-change');
+  const changeEvent = await oneEvent(element, 'change');
 
   expect(changeEvent instanceof Event).to.be.true;
 });
@@ -39,7 +39,7 @@ it('emits an input event when a button is clicked', async () => {
   expect(liElement).to.exist;
 
   setTimeout(() => liElement?.click());
-  const inputEvent = await oneEvent(element, 'button-group-input');
+  const inputEvent = await oneEvent(element, 'input');
 
   expect(inputEvent instanceof Event).to.be.true;
 });
@@ -59,7 +59,7 @@ it('emits a change event when an arrow key is pressed ', async () => {
       await sendKeys({ press: key });
     });
 
-    const changeEvent = await oneEvent(element, 'button-group-change');
+    const changeEvent = await oneEvent(element, 'change');
     expect(changeEvent instanceof Event).to.be.true;
   }
 });
@@ -73,7 +73,7 @@ it('emits a change event when a space key is pressed on a button that is not sel
     await sendKeys({ press: 'Tab' });
     await sendKeys({ press: ' ' });
   });
-  const changeEvent = await oneEvent(element, 'button-group-change');
+  const changeEvent = await oneEvent(element, 'change');
 
   expect(changeEvent instanceof Event).to.be.true;
 });
@@ -84,7 +84,7 @@ it('does not emit a change event when a space key is pressed on a selected butto
   </cs-button-group>`;
   const element = await fixture(template);
   const spy = sinon.spy();
-  element.addEventListener('button-group-change', spy);
+  element.addEventListener('change', spy);
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
   await aTimeout(0);
@@ -109,7 +109,7 @@ it('emits an input event when an arrow key is pressed ', async () => {
       await sendKeys({ press: key });
     });
 
-    const inputEvent = await oneEvent(element, 'button-group-input');
+    const inputEvent = await oneEvent(element, 'input');
     expect(inputEvent instanceof Event).to.be.true;
   }
 });
@@ -123,7 +123,7 @@ it('emits a input event when an space key is pressed that is not selected', asyn
     await sendKeys({ press: 'Tab' });
     await sendKeys({ press: ' ' });
   });
-  const inputEvent = await oneEvent(element, 'button-group-input');
+  const inputEvent = await oneEvent(element, 'input');
 
   expect(inputEvent instanceof Event).to.be.true;
 });
@@ -134,7 +134,7 @@ it('does not emit an input event when a space key is pressed on a selected butto
   </cs-button-group>`;
   const element = await fixture(template);
   const spy = sinon.spy();
-  element.addEventListener('button-group-input', spy);
+  element.addEventListener('input', spy);
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
   await aTimeout(0);

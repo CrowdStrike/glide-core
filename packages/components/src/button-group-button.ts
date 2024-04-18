@@ -39,15 +39,15 @@ export default class CsButtonGroupButton extends LitElement {
           button.selected = false;
         }
       }
-      this.dispatchEvent(new CustomEvent('private-change', { bubbles: true }));
-      this.dispatchEvent(new CustomEvent('private-input', { bubbles: true }));
+      this.dispatchEvent(new Event('change', { bubbles: true }));
+      this.dispatchEvent(new Event('input', { bubbles: true }));
     } else {
       this.isTabbable = false;
     }
   }
 
   @property({ type: Boolean, reflect: true })
-  disabled? = false;
+  disabled = false;
 
   @property({ reflect: true })
   value = '';
@@ -142,6 +142,7 @@ export default class CsButtonGroupButton extends LitElement {
     return html`<li
       role="radio"
       aria-checked=${this.selected}
+      aria-disabled=${this.disabled}
       tabindex=${!this.isTabbable || this.disabled ? -1 : 0}
       @click=${this.#onClick}
       @keydown=${this.#onKeydown}
@@ -154,7 +155,6 @@ export default class CsButtonGroupButton extends LitElement {
         single: this.isSingleButton,
         'prefix-only': this.isPrefixSlotOnly,
       })}
-      ?data-test-disabled=${this.disabled}
       ?data-test-vertical=${this.vertical}
       ?data-test-prefix-only=${this.isPrefixSlotOnly}
       data-test-position=${this.position}
@@ -218,9 +218,9 @@ export default class CsButtonGroupButton extends LitElement {
     if (buttonElements.length < 2 && event.key !== ' ') {
       return;
     }
-    switch (event.key.toLowerCase()) {
-      case 'arrowup':
-      case 'arrowleft': {
+    switch (event.key) {
+      case 'ArrowUp':
+      case 'ArrowLeft': {
         event.preventDefault();
         this.selected = false;
         // find the closest enabled button
@@ -243,8 +243,8 @@ export default class CsButtonGroupButton extends LitElement {
         }
         break;
       }
-      case 'arrowdown':
-      case 'arrowright': {
+      case 'ArrowDown':
+      case 'ArrowRight': {
         event.preventDefault();
         this.selected = false;
         // find the closest enabled button

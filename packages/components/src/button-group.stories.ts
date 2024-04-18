@@ -9,7 +9,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A custom-built button group.',
+        component: 'A button group allowing for text and icon content.',
       },
     },
   },
@@ -34,11 +34,9 @@ const meta: Meta = {
     ['slot="default"']: {
       control: { type: '' },
       table: {
-        type: {
-          summary: 'html',
-          detail: 'Put `<cs-button-group-button>` in here',
-        },
+        type: { summary: '<cs-button-group-button>' },
       },
+      type: { name: 'string', required: true },
     },
     label: {
       control: { type: 'text' },
