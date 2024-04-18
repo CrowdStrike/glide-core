@@ -37,10 +37,10 @@ export default class CsButton extends LitElement {
 
   @property() type: 'button' | 'submit' | 'reset' = 'button';
 
-  @property({ attribute: 'variant', reflect: true })
+  @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
-  @property({ attribute: 'size', reflect: true })
+  @property({ reflect: true })
   size: 'large' | 'small' = 'large';
 
   get form() {
