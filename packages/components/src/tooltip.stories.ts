@@ -38,7 +38,7 @@ const meta: Meta = {
       control: { type: 'select' },
       options: ['bottom', 'left', 'right', 'top'],
       table: {
-        defaultValue: { summary: '"right"' },
+        defaultValue: { summary: '"bottom"' },
         type: { summary: '"bottom" | "left" | "right" | "top"' },
       },
     },

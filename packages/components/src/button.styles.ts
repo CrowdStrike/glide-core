@@ -1,5 +1,5 @@
 import { css } from 'lit';
-import { focusOutline } from './styles.js';
+import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`

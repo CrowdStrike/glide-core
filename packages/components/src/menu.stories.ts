@@ -28,7 +28,7 @@ const meta: Meta = {
     ['slot="default"']: {
       control: { type: '' },
       table: {
-        type: { summary: '<cs-menu-link> | <cs-menu-button>' },
+        type: { summary: 'CsMenuLink | CsMenuButton' },
       },
       type: { name: 'string', required: true },
     },

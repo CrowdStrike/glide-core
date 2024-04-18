@@ -41,31 +41,35 @@ const meta: Meta = {
     'slot="default"': {
       control: { type: 'text' },
       table: {
-        type: { summary: 'string | html' },
+        type: { summary: 'Element | string' },
       },
       type: { name: 'string', required: true },
     },
     'slot="prefix"': {
+      control: { type: '' },
       table: {
         type: {
-          summary: 'html',
+          summary: 'Element',
           detail: 'Add a prefix, leading icon to the Accordion.',
         },
       },
     },
     'slot="suffix"': {
+      control: { type: '' },
       table: {
         type: {
-          summary: 'html',
+          summary: 'Element',
           detail: 'Add any number of suffix, trailing icons to the Accordion.',
         },
       },
     },
     'addEventListener(event)': {
+      control: { type: '' },
       table: {
         type: {
           summary: 'method',
-          detail: 'event: "toggle"',
+          detail:
+            'event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void',
         },
       },
     },
