@@ -1,0 +1,187 @@
+import { html, nothing } from 'lit-html';
+import CsCheckbox from './checkbox.js';
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+const meta: Meta = {
+  title: 'Checkbox',
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          'A checkbox with a label and optional tooltip, summary, and description.',
+      },
+      story: {
+        autoplay: true,
+      },
+    },
+  },
+  args: {
+    ['slot="description"']: 'Description',
+    ['slot="tooltip"']: '',
+    checked: false,
+    disabled: false,
+    indeterminate: false,
+    label: 'Label',
+    name: 'name',
+    orientation: '',
+    summary: 'Summary',
+    required: false,
+    value: 'Value',
+  },
+  argTypes: {
+    'addEventListener(event, listener)': {
+      control: { type: '' },
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            'event: "change" | "input",  listener: (event: Event) => void',
+        },
+      },
+    },
+    checked: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: false },
+        type: { summary: 'boolean' },
+      },
+    },
+    disabled: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: false },
+        type: { summary: 'boolean' },
+      },
+    },
+    indeterminate: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: false },
+        type: {
+          detail:
+            "Unlike `<select>`, it's also an attribute. It behaves like `checked` and remains at its initial value unless changed using `setAttribute`.",
+          summary: 'boolean',
+        },
+      },
+    },
+    label: {
+      control: 'text',
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    name: {
+      control: 'text',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    orientation: {
+      control: { type: 'radio' },
+      options: ['horizontal', 'vertical'],
+      defaultValue: 'horizontal',
+      table: {
+        defaultValue: { summary: '"horizontal"' },
+        type: { summary: '"horizontal" | "vertical"' },
+      },
+    },
+    required: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: false },
+        type: { summary: 'boolean' },
+      },
+    },
+    summary: {
+      control: 'text',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    value: {
+      control: 'text',
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+  },
+  play(context) {
+    const checkbox = context.canvasElement.querySelector('cs-checkbox');
+
+    const isErrorStory = [
+      'Horizontal (With Error)',
+      'Vertical (With Error)',
+    ].includes(context.name);
+
+    if (isErrorStory && checkbox instanceof CsCheckbox) {
+      checkbox.reportValidity();
+
+      // `reportValidity` scrolls the element into view, which means the "autodocs"
+      // story upon load will be scrolled to the first error story. No good.
+      document.documentElement.scrollTop = 0;
+    }
+  },
+  render(arguments_) {
+    return html`<form style="padding: 1rem;">
+      <cs-checkbox
+        label=${arguments_.label || nothing}
+        name=${arguments_.name || nothing}
+        orientation=${arguments_.orientation || nothing}
+        summary=${arguments_.summary || nothing}
+        value=${arguments_.value || nothing}
+        ?checked=${arguments_.checked}
+        ?disabled=${arguments_.disabled}
+        ?indeterminate=${arguments_.indeterminate}
+        ?required=${arguments_.required}
+      >
+        <div slot="description">${arguments_['slot="description"']}</div>
+
+        ${arguments_['slot="tooltip"']
+          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+          : ''}
+      </cs-checkbox>
+    </form>`;
+  },
+};
+
+export default meta;
+
+export const Horizontal: StoryObj = {};
+
+export const HorizontalWithTooltip: StoryObj = {
+  args: {
+    ['slot="tooltip"']: 'Tooltip',
+  },
+  name: 'Horizontal (With Tooltip)',
+};
+
+export const HorizontalWithError: StoryObj = {
+  args: {
+    required: true,
+  },
+  name: 'Horizontal (With Error)',
+};
+
+export const Vertical: StoryObj = {
+  args: {
+    orientation: 'vertical',
+  },
+};
+
+export const VerticalWithToolip: StoryObj = {
+  args: {
+    ['slot="tooltip"']: 'Tooltip',
+    orientation: 'vertical',
+  },
+  name: 'Vertical (With Tooltip)',
+};
+
+export const VerticalWithError: StoryObj = {
+  args: {
+    orientation: 'vertical',
+    required: true,
+  },
+  name: 'Vertical (With Error)',
+};
