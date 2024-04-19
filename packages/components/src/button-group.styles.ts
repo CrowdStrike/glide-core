@@ -1,5 +1,5 @@
 import { css } from 'lit';
-import { visuallyHidden } from './styles.js';
+import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`

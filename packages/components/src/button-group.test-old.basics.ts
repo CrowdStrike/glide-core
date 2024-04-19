@@ -1,7 +1,7 @@
 import './button-group.js';
 import { expect, fixture } from '@open-wc/testing';
 import CsButtonGroup from './button-group.js';
-import CsButtonGroupButton from './button-group-button.js';
+import CsButtonGroupButton from './button-group.button.js';
 
 CsButtonGroup.shadowRootOptions.mode = 'open';
 CsButtonGroupButton.shadowRootOptions.mode = 'open';

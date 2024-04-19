@@ -1,4 +1,4 @@
-import './button-group-button.js';
+import './button-group.button.js';
 import './button-group.js';
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -26,17 +26,12 @@ const meta: Meta = {
     </cs-button-group>
   `,
   args: {
-    // vertical: false,
-    // orientation: 'horizontal',
     label: 'Group label',
     ['slot="default"']: '',
     variant: '',
     orientation: 'horizontal',
   },
   argTypes: {
-    // vertical: {
-    //   control: { type: 'boolean' },
-    // },
     ['slot="default"']: {
       control: { type: '' },
       table: {
@@ -73,10 +68,10 @@ export default meta;
 
 export const Default: StoryObj = {};
 
-export const DefaultWithVertical: StoryObj = {
-  name: 'Default (With Vertical)',
+export const DefaultWithOrientationVertical: StoryObj = {
+  name: 'Default (With Orientation Vertical)',
   args: {
-    vertical: true,
+    orientation: 'vertical',
   },
 };
 
@@ -169,8 +164,8 @@ export const DefaultWithPrefixIcon: StoryObj = {
   `,
 };
 
-export const DefaultWithVerticalPrefixIcon: StoryObj = {
-  name: 'Default (With Vertical and Prefix Icon)',
+export const DefaultWithOrientationVerticalPrefixIcon: StoryObj = {
+  name: 'Default (With Orientation Vertical and Prefix Icon)',
   args: {
     orientation: 'vertical',
   },
@@ -261,10 +256,14 @@ export const DefaultWithVerticalPrefixIcon: StoryObj = {
   `,
 };
 
-export const DefaultWithOnlyPrefixIcon: StoryObj = {
-  name: 'Default (With Only Prefix Icon)',
+export const DefaultWithVariantIconOnly: StoryObj = {
+  name: 'Default (With Variant Icon Only)',
   render: (arguments_) => html`
-    <cs-button-group label=${arguments_.label} variant="icon-only">
+    <cs-button-group
+      label=${arguments_.label}
+      variant="icon-only"
+      orientation=${arguments_.orientation}
+    >
       <cs-button-group-button value="button-1" selected label="Button 1">
         <svg
           slot="prefix"
@@ -344,8 +343,8 @@ export const DefaultWithOnlyPrefixIcon: StoryObj = {
   `,
 };
 
-export const DefaultWithVerticalOnlyPrefixIcon: StoryObj = {
-  name: 'Default (With Vertical and Only Prefix Icon)',
+export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
+  name: 'Default (With Orientation Vertical and Variant Only Icon)',
   args: {
     orientation: 'vertical',
   },

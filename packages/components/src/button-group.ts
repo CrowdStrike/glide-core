@@ -9,7 +9,7 @@ import {
 } from 'lit/decorators.js';
 import { owSlotType } from './library/ow.js';
 import { when } from 'lit-html/directives/when.js';
-import CsButtonGroupButton from './button-group-button.js';
+import CsButtonGroupButton from './button-group.button.js';
 import styles from './button-group.styles.js';
 
 declare global {
@@ -55,9 +55,6 @@ export default class CsButtonGroup extends LitElement {
   }
 
   @property()
-  // get vertical() {
-  //   return this.#vertical;
-  // }
   get orientation() {
     return this.#orientation;
   }
@@ -118,7 +115,6 @@ export default class CsButtonGroup extends LitElement {
           vertical: this.orientation === 'vertical',
         })}
         variant=${this.variant}
-        ?data-test-vertical=${this.orientation === 'vertical'}
       >
         <slot ${ref(this.#defaultSlotRef)}></slot>
       </ul>
@@ -134,9 +130,8 @@ export default class CsButtonGroup extends LitElement {
 
   #variant: TButtonGroupVariant;
 
-  // #vertical = false;
-
   #onChange(event: Event) {
+    // prevent radio event propagation and re-emit with their value
     event.stopPropagation();
     if (event.target instanceof CsButtonGroupButton && event.target.selected) {
       this.dispatchEvent(

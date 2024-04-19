@@ -1,8 +1,8 @@
-import './button-group-button.js';
+import './button-group.button.js';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import CsButtonGroup from './button-group.js';
-import CsButtonGroupButton from './button-group-button.js';
+import CsButtonGroupButton from './button-group.button.js';
 import sinon from 'sinon';
 
 CsButtonGroup.shadowRootOptions.mode = 'open';

@@ -1,12 +1,5 @@
 import { css } from 'lit';
-import { focusOutline } from './styles.js';
-
-// only applies to button interactions
-// const buttonTransition = unsafeCSS(`
-//   transition-duration: 150ms;
-//   transition-property: color, background-color, border-color, fill, stroke;
-//   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-// `);
+import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
@@ -33,7 +26,7 @@ export default [
       user-select: none;
       white-space: nowrap;
 
-      &.prefix-only {
+      &.icon-only {
         padding: var(--cs-spacing-xs);
       }
 

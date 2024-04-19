@@ -2,7 +2,7 @@ import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import styles from './button-group-button.styles.js';
+import styles from './button-group.button.styles.js';
 import type { TButtonGroupVariant } from './button-group.js';
 
 declare global {
@@ -10,8 +10,6 @@ declare global {
     'cs-button-group-button': CsButtonGroupButton;
   }
 }
-
-type TButtonGroupButtonPosition = 'first' | 'last' | 'inner';
 
 @customElement('cs-button-group-button')
 export default class CsButtonGroupButton extends LitElement {
@@ -118,12 +116,9 @@ export default class CsButtonGroupButton extends LitElement {
         [this.position]: true,
         vertical: this.vertical,
         single: this.isSingleButton,
-        'prefix-only': this.variant === 'icon-only',
+        'icon-only': this.variant === 'icon-only',
       })}
       variant=${this.variant}
-      ?data-test-vertical=${this.vertical}
-      ?data-test-prefix-only=${this.variant === 'icon-only'}
-      data-test-position=${this.position}
       aria-label=${this.variant === 'icon-only' ? this.label : nothing}
     >
       <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
@@ -138,7 +133,7 @@ export default class CsButtonGroupButton extends LitElement {
   private isTabbable = false;
 
   @state()
-  private position: TButtonGroupButtonPosition = 'inner';
+  private position: 'first' | 'last' | 'inner' = 'inner';
 
   #defaultSlotRef = createRef<HTMLSlotElement>();
 
