@@ -55,7 +55,7 @@ export default [
         background-color: var(--cs-surface-hover);
       }
 
-      &.label-container-selected {
+      &.selected {
         background-color: var(--cs-surface-selected);
         color: var(--cs-text-selected);
 

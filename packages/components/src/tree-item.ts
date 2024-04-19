@@ -88,8 +88,7 @@ export default class CsTreeItem extends LitElement {
       <div
         class=${classMap({
           'label-container': true,
-          'label-container-selected': this.selected,
-          'label-container-expanded': this.expanded,
+          selected: this.selected,
         })}
       >
         <div style="width:${this.#indentationWidth};"></div>
