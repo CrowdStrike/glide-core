@@ -54,7 +54,7 @@ export default class CsTreeItem extends LitElement {
   }
 
   override firstUpdated() {
-    this.setupChildren();
+    this.#setupChildren();
     if (this.hasChildTreeItems) {
       this.setAttribute('aria-expanded', this.expanded ? 'true' : 'false');
     } else {
@@ -64,18 +64,6 @@ export default class CsTreeItem extends LitElement {
 
   get hasChildTreeItems() {
     return this.childTreeItems.length > 0;
-  }
-
-  private onMenuSlotChange() {
-    this.hasMenuSlot = this.menuSlotAssignedElements.length > 0;
-  }
-
-  private onPrefixSlotChange() {
-    this.hasPrefixSlot = this.prefixSlotAssignedElements.length > 0;
-  }
-
-  private onSuffixSlotChange() {
-    this.hasSuffixSlot = this.suffixSlotAssignedElements.length > 0;
   }
 
   override render() {
@@ -111,7 +99,7 @@ export default class CsTreeItem extends LitElement {
                 >
                   <path
                     d="M9 18L15 12L9 6"
-                    stroke="black"
+                    stroke="currentColor"
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
@@ -121,18 +109,10 @@ export default class CsTreeItem extends LitElement {
             `,
           )}
         </div>
-        <slot
-          name="prefix"
-          part="prefix"
-          @slotchange=${this.onPrefixSlotChange}
-        ></slot>
+        <slot name="prefix" @slotchange=${this.#onPrefixSlotChange}></slot>
         <div class="label">${this.label}</div>
-        <slot name="menu" @slotchange=${this.onMenuSlotChange}></slot>
-        <slot
-          name="suffix"
-          part="suffix"
-          @slotchange=${this.onSuffixSlotChange}
-        ></slot>
+        <slot name="menu" @slotchange=${this.#onMenuSlotChange}></slot>
+        <slot name="suffix" @slotchange=${this.#onSuffixSlotChange}></slot>
       </div>
       <div class="child-items" role="group">
         <slot></slot>
@@ -163,23 +143,13 @@ export default class CsTreeItem extends LitElement {
         const nestedSelectedItem: CsTreeItem | undefined =
           treeItem.selectItem(item);
 
-        nestedSelectedItem && (selectedItem = nestedSelectedItem);
+        if (nestedSelectedItem) {
+          selectedItem = nestedSelectedItem;
+        }
       }
     }
 
     return selectedItem;
-  }
-
-  setupChildren() {
-    const childTreeItems = [];
-
-    for (const treeItem of this.slotElements) {
-      treeItem.level = this.level + 1;
-
-      childTreeItems.push(treeItem);
-    }
-
-    this.childTreeItems = childTreeItems;
   }
 
   toggleExpand() {
@@ -201,5 +171,29 @@ export default class CsTreeItem extends LitElement {
 
   get #indentationWidth() {
     return `${(this.level - 1) * 20}px`;
+  }
+
+  #onMenuSlotChange() {
+    this.hasMenuSlot = this.menuSlotAssignedElements.length > 0;
+  }
+
+  #onPrefixSlotChange() {
+    this.hasPrefixSlot = this.prefixSlotAssignedElements.length > 0;
+  }
+
+  #onSuffixSlotChange() {
+    this.hasSuffixSlot = this.suffixSlotAssignedElements.length > 0;
+  }
+
+  #setupChildren() {
+    const childTreeItems = [];
+
+    for (const treeItem of this.slotElements) {
+      treeItem.level = this.level + 1;
+
+      childTreeItems.push(treeItem);
+    }
+
+    this.childTreeItems = childTreeItems;
   }
 }

@@ -4,6 +4,10 @@ import TreeItem from './tree-item.js';
 
 TreeItem.shadowRootOptions.mode = 'open';
 
+it('registers', async () => {
+  expect(window.customElements.get('cs-tree-item')).to.equal(TreeItem);
+});
+
 it('renders and sets default attributes', async () => {
   const treeItem = await fixture<TreeItem>(html`
     <cs-tree-item label="Item"></cs-tree-item>

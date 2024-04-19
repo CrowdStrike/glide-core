@@ -78,7 +78,7 @@ it('does not select an item if its menu slot is clicked', async () => {
   `);
 
   const childItems = tree.slotElements;
-  const menu = childItems[0].querySelector('[data-test-menu]') as CsMenu;
+  const menu = childItems[0].querySelector<CsMenu>('[data-test-menu]');
   assert(menu);
   menu.click();
 

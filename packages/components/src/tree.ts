@@ -36,55 +36,8 @@ export default class CsTree extends LitElement {
   override disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.removeEventListener('focusin', this.handleFocusIn);
-    this.removeEventListener('focusout', this.handleFocusOut);
-  }
-
-  private focusItem(item: CsTreeItem | undefined | null) {
-    item?.focus();
-    this.focusedItem = item;
-  }
-
-  private getAllTreeItems() {
-    return [...this.querySelectorAll<CsTreeItem>('cs-tree-item')];
-  }
-
-  getFocusableItems() {
-    const items = this.getAllTreeItems();
-    const collapsedItems = new Set();
-
-    return items.filter((item) => {
-      const parent = item.parentElement?.closest('cs-tree-item');
-      if (parent && (!parent.expanded || collapsedItems.has(parent))) {
-        collapsedItems.add(item);
-      }
-
-      return !collapsedItems.has(item);
-    });
-  }
-
-  private handleFocusIn(event: FocusEvent) {
-    let itemToFocus;
-
-    if (event.target === this) {
-      itemToFocus = this.selectedItem || this.slotElements[0];
-    } else if (event.target instanceof CsTreeItem) {
-      itemToFocus = event.target;
-      this.setAttribute('tabindex', '-1');
-    }
-
-    this.focusItem(itemToFocus);
-  }
-
-  private handleFocusOut(event: FocusEvent) {
-    const relatedTarget = event.relatedTarget as HTMLElement;
-
-    // If they've focused out of the tree,
-    // restore this tree's tabindex 0, so they can focus back in
-    if (!relatedTarget || !this.contains(relatedTarget)) {
-      this.setAttribute('tabindex', '0');
-      this.focusedItem = undefined;
-    }
+    this.removeEventListener('focusin', this.#handleFocusIn);
+    this.removeEventListener('focusout', this.#handleFocusOut);
   }
 
   override render() {
@@ -113,7 +66,9 @@ export default class CsTree extends LitElement {
         const nestedSelectedItem: CsTreeItem | undefined =
           treeItem.selectItem(item);
 
-        nestedSelectedItem && (this.selectedItem = nestedSelectedItem);
+        if (nestedSelectedItem) {
+          this.selectedItem = nestedSelectedItem;
+        }
       }
     }
 
@@ -124,8 +79,31 @@ export default class CsTree extends LitElement {
 
   constructor() {
     super();
-    this.addEventListener('focusin', this.handleFocusIn);
-    this.addEventListener('focusout', this.handleFocusOut);
+    this.addEventListener('focusin', this.#handleFocusIn);
+    this.addEventListener('focusout', this.#handleFocusOut);
+  }
+
+  #focusItem(item: CsTreeItem | undefined | null) {
+    item?.focus();
+    this.focusedItem = item;
+  }
+
+  #getAllTreeItems() {
+    return [...this.querySelectorAll<CsTreeItem>('cs-tree-item')];
+  }
+
+  #getFocusableItems() {
+    const items = this.#getAllTreeItems();
+    const collapsedItems = new Set();
+
+    return items.filter((item) => {
+      const parent = item.parentElement?.closest('cs-tree-item');
+      if (parent && (!parent.expanded || collapsedItems.has(parent))) {
+        collapsedItems.add(item);
+      }
+
+      return !collapsedItems.has(item);
+    });
   }
 
   #handleClick(event: Event) {
@@ -146,6 +124,30 @@ export default class CsTree extends LitElement {
     }
   }
 
+  #handleFocusIn(event: FocusEvent) {
+    let itemToFocus;
+
+    if (event.target === this) {
+      itemToFocus = this.selectedItem || this.slotElements[0];
+    } else if (event.target instanceof CsTreeItem) {
+      itemToFocus = event.target;
+      this.setAttribute('tabindex', '-1');
+    }
+
+    this.#focusItem(itemToFocus);
+  }
+
+  #handleFocusOut(event: FocusEvent) {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+
+    // If they've focused out of the tree,
+    // restore this tree's tabindex 0, so they can focus back in
+    if (!relatedTarget || !this.contains(relatedTarget)) {
+      this.setAttribute('tabindex', '0');
+      this.focusedItem = undefined;
+    }
+  }
+
   // https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
   #handleKeydown(event: KeyboardEvent) {
     if (
@@ -161,7 +163,7 @@ export default class CsTree extends LitElement {
     ) {
       return;
     }
-    const allFocusableItems = this.getFocusableItems();
+    const allFocusableItems = this.#getFocusableItems();
     const { focusedItem } = this;
     const indexOfFocusedItem = allFocusableItems.findIndex((item) =>
       item.matches(':focus'),
@@ -169,7 +171,7 @@ export default class CsTree extends LitElement {
 
     if (event.key === 'ArrowRight' && focusedItem?.hasChildTreeItems) {
       if (focusedItem.expanded) {
-        this.focusItem(focusedItem.slotElements[0]);
+        this.#focusItem(focusedItem.slotElements[0]);
       } else {
         focusedItem.toggleExpand();
       }
@@ -181,7 +183,7 @@ export default class CsTree extends LitElement {
       } else {
         const parentTreeItem =
           focusedItem?.parentElement?.closest('cs-tree-item');
-        this.focusItem(parentTreeItem);
+        this.#focusItem(parentTreeItem);
       }
     }
 
@@ -190,19 +192,19 @@ export default class CsTree extends LitElement {
       indexOfFocusedItem !== -1 &&
       indexOfFocusedItem < allFocusableItems.length - 1
     ) {
-      this.focusItem(allFocusableItems[indexOfFocusedItem + 1]);
+      this.#focusItem(allFocusableItems[indexOfFocusedItem + 1]);
     }
 
     if (event.key === 'ArrowUp' && indexOfFocusedItem > 0) {
-      this.focusItem(allFocusableItems[indexOfFocusedItem - 1]);
+      this.#focusItem(allFocusableItems[indexOfFocusedItem - 1]);
     }
 
     if (event.key === 'Home') {
-      this.focusItem(allFocusableItems[0]);
+      this.#focusItem(allFocusableItems[0]);
     }
 
     if (event.key === 'End') {
-      this.focusItem(allFocusableItems.at(-1));
+      this.#focusItem(allFocusableItems.at(-1));
     }
 
     if (event.key === 'Enter' && focusedItem) {

@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   decorators: [
-    (story) => html`<div style="max-width: 300px;">${story()}</div>`,
+    (story) => html`<div style="max-width: 18.75rem;">${story()}</div>`,
   ],
   title: 'Tree',
   tags: ['autodocs'],

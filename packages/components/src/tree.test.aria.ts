@@ -18,13 +18,11 @@ it('sets roles tree and treeitem', async () => {
 
   expect(tree.getAttribute('role')).to.equal('tree');
 
-  for (const childItem of childItems) {
-    expect(childItem.getAttribute('role')).to.equal('treeitem');
-
-    for (const grandchildItem of childItem.slotElements) {
-      expect(grandchildItem.getAttribute('role')).to.equal('treeitem');
-    }
-  }
+  expect(childItems[0].getAttribute('role')).to.equal('treeitem');
+  expect(childItems[1].getAttribute('role')).to.equal('treeitem');
+  expect(childItems[1].slotElements[0].getAttribute('role')).to.equal(
+    'treeitem',
+  );
 });
 
 it('sets aria-expanded correctly', async () => {

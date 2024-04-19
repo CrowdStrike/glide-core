@@ -126,7 +126,7 @@ export const WithSuffixIcon: StoryObj = {
 export const WithMenu: StoryObj = {
   decorators: [
     (story) =>
-      html`<div style="max-width: 300px; height: 125px;">${story()}</div>`,
+      html`<div style="max-width: 18.75rem; height: 125px;">${story()}</div>`,
   ],
   render: (arguments_) => html`
     <cs-tree-item
@@ -141,7 +141,7 @@ export const WithMenu: StoryObj = {
 export const WithPrefixSuffixAndMenu: StoryObj = {
   decorators: [
     (story) =>
-      html`<div style="max-width: 300px; height: 125px;">${story()}</div>`,
+      html`<div style="max-width: 18.75rem; height: 125px;">${story()}</div>`,
   ],
   name: 'With Prefix, Suffix, and Menu',
   render: (arguments_) => html`

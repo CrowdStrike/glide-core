@@ -19,11 +19,11 @@ export default [
       font-family: var(--cs-body-sm-font-family);
       font-style: var(--cs-body-sm-font-style);
       font-weight: var(--cs-body-sm-font-weight);
-      grid-template-columns: repeat(auto-fill, 40px);
+      grid-template-columns: repeat(auto-fill, 2.5rem);
     }
 
     .expand-icon-container {
-      min-inline-size: 25px;
+      min-inline-size: 1.5625rem;
     }
 
     .expand-icon {
@@ -32,7 +32,7 @@ export default [
       display: flex;
       justify-content: center;
       rotate: 0deg;
-      transition: rotate 0.1s ease;
+      transition: 250ms rotate ease;
 
       &.expand-icon-expanded {
         rotate: 90deg;
@@ -47,6 +47,7 @@ export default [
     .label-container {
       align-items: center;
       border-radius: 0.625rem;
+      color: var(--cs-text-body-1);
       display: flex;
       padding-block: var(--cs-spacing-xxs);
       padding-inline: var(--cs-spacing-xs);
