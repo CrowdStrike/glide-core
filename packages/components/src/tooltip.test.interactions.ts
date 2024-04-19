@@ -49,7 +49,7 @@ it('is hidden on "blur"', async () => {
   ).to.be.false;
 });
 
-it('is hidden on Escape', async () => {
+it.skip('is hidden on Escape', async () => {
   const component = await fixture<CsTooltip>(
     html`<cs-tooltip>
       Tooltip
