@@ -161,12 +161,10 @@ const prefixIcon = html`
     slot="prefix"
     width="16"
     height="16"
-    xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
     stroke-width="1.5"
     stroke="currentColor"
-    class="w-6 h-6"
   >
     <path
       stroke-linecap="round"
@@ -181,12 +179,10 @@ const suffixIcon = html`
     slot="suffix"
     width="16"
     height="16"
-    xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
     stroke-width="1.5"
     stroke="currentColor"
-    class="w-6 h-6"
   >
     <path
       stroke-linecap="round"
@@ -206,12 +202,10 @@ const itemMenu = html` <cs-menu
       slot="icon"
       width="16"
       height="16"
-      xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      class="w-6 h-6"
     >
       <path
         stroke-linecap="round"
@@ -226,12 +220,10 @@ const itemMenu = html` <cs-menu
       slot="icon"
       width="16"
       height="16"
-      xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      class="w-6 h-6"
     >
       <path
         stroke-linecap="round"
@@ -246,12 +238,10 @@ const itemMenu = html` <cs-menu
       slot="icon"
       width="16"
       height="16"
-      xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      class="w-6 h-6"
     >
       <path
         stroke-linecap="round"
@@ -270,12 +260,10 @@ const itemMenu = html` <cs-menu
     <svg
       width="24"
       height="24"
-      xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      class="w-6 h-6"
     >
       <path
         stroke-linecap="round"
