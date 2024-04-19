@@ -52,6 +52,13 @@ it('has a vertical presention when the "vertical" attribute is present', async (
   const ulElement = element.shadowRoot!.querySelector('ul');
 
   expect(ulElement).to.have.attribute('data-test-vertical');
+
+  const buttonElement = document.querySelector<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+  const liElement = buttonElement?.shadowRoot!.querySelector('li');
+
+  expect(liElement).to.have.attribute('data-test-vertical');
 });
 
 it('does not have a vertical presention when the "vertical" attribute is not present', async () => {
@@ -60,4 +67,10 @@ it('does not have a vertical presention when the "vertical" attribute is not pre
   const ulElement = element.shadowRoot!.querySelector('ul');
 
   expect(ulElement).to.have.not.attribute('data-test-vertical');
+
+  const buttonElement = document.querySelector<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+  const liElement = buttonElement?.shadowRoot!.querySelector('li');
+  expect(liElement).to.not.have.attribute('data-test-vertical');
 });

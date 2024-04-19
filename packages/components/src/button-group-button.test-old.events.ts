@@ -327,7 +327,7 @@ it('changes the "selected" attribute when pressing arrow and space keys', async 
   expect(buttonElements[0]).to.not.have.attribute('selected');
 });
 
-it('emits a private change event when a space key is pressed and is not selected', async () => {
+it('emits a change event when a space key is pressed and is not selected', async () => {
   const template = `<cs-button-group><cs-button-group-button value="value-1">Button 1</cs-button-group-button></cs-button-group>`;
   await fixture(template);
   const buttonElement = document.querySelector<CsButtonGroupButton>(
@@ -342,7 +342,7 @@ it('emits a private change event when a space key is pressed and is not selected
   expect(changeEvent instanceof Event).to.be.true;
 });
 
-it('does not emit private change event when a space key is pressed and is selected', async () => {
+it('does not emit change event when a space key is pressed and is selected', async () => {
   const template = `<cs-button-group><cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button></cs-button-group>`;
   await fixture(template);
   const buttonElement = document.querySelector<CsButtonGroupButton>(
@@ -357,7 +357,7 @@ it('does not emit private change event when a space key is pressed and is select
   expect(spy.notCalled).to.be.true;
 });
 
-it('emits a private input event when a space key is pressed and is not selected', async () => {
+it('emits an input event when a space key is pressed and is not selected', async () => {
   const template = `<cs-button-group><cs-button-group-button value="value-1">Button 1</cs-button-group-button></cs-button-group>`;
   await fixture(template);
   const buttonElement = document.querySelector<CsButtonGroupButton>(
@@ -372,7 +372,7 @@ it('emits a private input event when a space key is pressed and is not selected'
   expect(inputEvent instanceof Event).to.be.true;
 });
 
-it('does not emit private input event when a space key is pressed and is selected', async () => {
+it('does not emit an input event when a space key is pressed and is selected', async () => {
   const template = `<cs-button-group><cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button></cs-button-group>`;
   await fixture(template);
   const buttonElement = document.querySelector<CsButtonGroupButton>(

@@ -4,12 +4,9 @@ import { visuallyHidden } from './styles.js';
 export default [
   css`
     ul {
-      --ul-border-radius: 0.75rem;
-      --ul-border-width: 1px;
-
       appearance: none;
-      border: var(--ul-border-width) solid var(--cs-border-base);
-      border-radius: var(--ul-border-radius);
+      border: 1px solid var(--cs-border-base);
+      border-radius: 0.75rem;
       display: inline-flex;
       margin: 0;
       padding: 0;

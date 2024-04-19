@@ -1,8 +1,9 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import styles from './button-group-button.styles.js';
+import type { TButtonGroupVariant } from './button-group.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,6 +21,9 @@ export default class CsButtonGroupButton extends LitElement {
   };
 
   static override styles = styles;
+
+  @property()
+  label? = '';
 
   @property({ type: Boolean, reflect: true })
   get selected() {
@@ -52,22 +56,14 @@ export default class CsButtonGroupButton extends LitElement {
   @property({ reflect: true })
   value = '';
 
+  @property()
+  variant?: TButtonGroupVariant;
+
+  @property({ type: Boolean })
+  vertical = false;
+
   override async connectedCallback() {
     super.connectedCallback();
-
-    // setup observer on parent button group element to watch for
-    // vertical presentation
-    const buttonGroupElement = this.closest('cs-button-group');
-    if (buttonGroupElement) {
-      this.#observer = new MutationObserver(this.#mutationCallback);
-      this.#observer.observe(buttonGroupElement, { attributes: true });
-    }
-    // intialize state and toggle in `mutationCallback` as needed
-    if (buttonGroupElement?.hasAttribute('vertical')) {
-      this.vertical = true;
-    }
-
-    await this.updateComplete;
 
     // determine position in group and style approriately
     const buttonElements = this.#buttonElements;
@@ -101,37 +97,6 @@ export default class CsButtonGroupButton extends LitElement {
         }
       }
     }
-
-    // update presentation if there is only a nonempty prefix slot,
-    // (which is expected to be an icon)
-    const isPrefixSlotEmpty =
-      this.#prefixSlotRef.value &&
-      this.#prefixSlotRef.value.assignedNodes().length === 0;
-    const defaultSlotAssignedNodes =
-      this.#defaultSlotRef.value && this.#defaultSlotRef.value.assignedNodes();
-    // ignore empty text nodes
-    const isDefaultSlotEmptyTextNodes =
-      defaultSlotAssignedNodes &&
-      defaultSlotAssignedNodes.every(
-        (node) =>
-          node.nodeName.toLowerCase() === '#text' &&
-          // if textContent is null, only whitespace, or a new line followed by
-          // white space, consider it empty
-          node.textContent !== null &&
-          (/^(\n *)$/.test(node.textContent) ||
-            node.textContent?.trim().length === 0),
-      );
-    if (
-      !isPrefixSlotEmpty &&
-      defaultSlotAssignedNodes &&
-      (defaultSlotAssignedNodes.length === 0 || isDefaultSlotEmptyTextNodes)
-    ) {
-      this.isPrefixSlotOnly = true;
-    }
-  }
-
-  override disconnectedCallback() {
-    this.#observer?.disconnect();
   }
 
   override focus(options?: FocusOptions) {
@@ -139,7 +104,7 @@ export default class CsButtonGroupButton extends LitElement {
   }
 
   override render() {
-    return html`<li
+    return html` <li
       role="radio"
       aria-checked=${this.selected}
       aria-disabled=${this.disabled}
@@ -153,19 +118,18 @@ export default class CsButtonGroupButton extends LitElement {
         [this.position]: true,
         vertical: this.vertical,
         single: this.isSingleButton,
-        'prefix-only': this.isPrefixSlotOnly,
+        'prefix-only': this.variant === 'icon-only',
       })}
+      variant=${this.variant}
       ?data-test-vertical=${this.vertical}
-      ?data-test-prefix-only=${this.isPrefixSlotOnly}
+      ?data-test-prefix-only=${this.variant === 'icon-only'}
       data-test-position=${this.position}
+      aria-label=${this.variant === 'icon-only' ? this.label : nothing}
     >
       <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
       <slot ${ref(this.#defaultSlotRef)}></slot>
     </li>`;
   }
-
-  @state()
-  private isPrefixSlotOnly = false;
 
   @state()
   private isSingleButton = false;
@@ -176,14 +140,9 @@ export default class CsButtonGroupButton extends LitElement {
   @state()
   private position: TButtonGroupButtonPosition = 'inner';
 
-  @state()
-  private vertical = false;
-
   #defaultSlotRef = createRef<HTMLSlotElement>();
 
   #liRef = createRef<HTMLLIElement>();
-
-  #observer: MutationObserver | null = null;
 
   #prefixSlotRef = createRef<HTMLSlotElement>();
 
@@ -196,16 +155,6 @@ export default class CsButtonGroupButton extends LitElement {
       ) ?? [];
     return [...elements];
   }
-
-  // use an arrow function to bind `this`
-  #mutationCallback = (mutationList: MutationRecord[]) => {
-    for (const mutation of mutationList) {
-      const { type, attributeName } = mutation;
-      if (type === 'attributes' && attributeName === 'vertical') {
-        this.vertical = !this.vertical;
-      }
-    }
-  };
 
   #onClick() {
     if (!this.disabled && !this.selected) {

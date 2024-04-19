@@ -1,7 +1,12 @@
 import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property, state } from 'lit/decorators.js';
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+  state,
+} from 'lit/decorators.js';
 import { owSlotType } from './library/ow.js';
 import { when } from 'lit-html/directives/when.js';
 import CsButtonGroupButton from './button-group-button.js';
@@ -13,6 +18,9 @@ declare global {
   }
 }
 
+export type TButtonGroupVariant = 'icon-only' | undefined;
+export type TButtonGroupOrientation = 'vertical' | 'horizontal';
+
 @customElement('cs-button-group')
 export default class CsButtonGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
@@ -22,18 +30,71 @@ export default class CsButtonGroup extends LitElement {
 
   static override styles = styles;
 
-  @property({ type: Boolean })
-  vertical = false;
-
-  @property({ type: String })
+  @property()
   label? = '';
+
+  @queryAssignedElements({ selector: 'cs-button-group-button' })
+  listItems!: Array<CsButtonGroupButton>;
+
+  @property()
+  get variant() {
+    return this.#variant;
+  }
+
+  set variant(value: TButtonGroupVariant) {
+    this.#variant = value;
+    if (this.#variant) {
+      for (const listItem of this.listItems) {
+        listItem.setAttribute('variant', 'icon-only');
+      }
+    } else {
+      for (const listItem of this.listItems) {
+        listItem.removeAttribute('variant');
+      }
+    }
+  }
+
+  @property()
+  // get vertical() {
+  //   return this.#vertical;
+  // }
+  get orientation() {
+    return this.#orientation;
+  }
+
+  set orientation(value: TButtonGroupOrientation) {
+    this.#orientation = value;
+    if (this.#orientation === 'vertical') {
+      for (const listItem of this.listItems) {
+        listItem.toggleAttribute('vertical');
+      }
+    } else {
+      for (const listItem of this.listItems) {
+        listItem.removeAttribute('vertical');
+      }
+    }
+  }
 
   override firstUpdated() {
     this.isDefaultSlotEmpty = Boolean(
       this.#defaultSlotRef.value &&
         this.#defaultSlotRef.value.assignedNodes().length === 0,
     );
-    owSlotType(this.#defaultSlotRef.value, [CsButtonGroupButton]);
+
+    if (!this.isDefaultSlotEmpty) {
+      owSlotType(this.#defaultSlotRef.value, [CsButtonGroupButton]);
+    }
+
+    if (this.orientation === 'vertical') {
+      for (const listItem of this.listItems) {
+        listItem.toggleAttribute('vertical');
+      }
+    }
+    if (this.#variant) {
+      for (const listItem of this.listItems) {
+        listItem.setAttribute('variant', 'icon-only');
+      }
+    }
   }
 
   override render() {
@@ -54,9 +115,10 @@ export default class CsButtonGroup extends LitElement {
         @change=${this.#onChange}
         @input=${this.#onInput}
         class=${classMap({
-          vertical: this.vertical,
+          vertical: this.orientation === 'vertical',
         })}
-        ?data-test-vertical=${this.vertical}
+        variant=${this.variant}
+        ?data-test-vertical=${this.orientation === 'vertical'}
       >
         <slot ${ref(this.#defaultSlotRef)}></slot>
       </ul>
@@ -67,6 +129,12 @@ export default class CsButtonGroup extends LitElement {
   private isDefaultSlotEmpty = false;
 
   #defaultSlotRef = createRef<HTMLSlotElement>();
+
+  #orientation: TButtonGroupOrientation = 'horizontal';
+
+  #variant: TButtonGroupVariant;
+
+  // #vertical = false;
 
   #onChange(event: Event) {
     event.stopPropagation();

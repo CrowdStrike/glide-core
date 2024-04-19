@@ -89,28 +89,6 @@ it('does not have a disabled presentation when "disabled" attribute is false', a
   expect(liElement).to.have.attribute('aria-disabled', 'false');
 });
 
-it('has a "vertical" presentation when the parent button group element has attribute "vertical"', async () => {
-  const template = `<cs-button-group vertical><cs-button-group-button value="value">Button</cs-button-group-button></cs-button-group>`;
-  await fixture(template);
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
-  const liElement = buttonElement?.shadowRoot!.querySelector('li');
-
-  expect(liElement).to.have.attribute('data-test-vertical');
-});
-
-it('has no "vertical" presentation when the parent button group element does not have attribute "vertical"', async () => {
-  const template = `<cs-button-group><cs-button-group-button value="value">Button</cs-button-group-button></cs-button-group>`;
-  await fixture(template);
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
-  const liElement = buttonElement?.shadowRoot!.querySelector('li');
-
-  expect(liElement).to.not.have.attribute('data-test-vertical');
-});
-
 it('reacts to "vertical" attribute when toggled on and off button group', async () => {
   const template = `<cs-button-group><cs-button-group-button value="value">Button</cs-button-group-button></cs-button-group>`;
   const element = await fixture<CsButtonGroup>(template);

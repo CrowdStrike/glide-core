@@ -1,21 +1,16 @@
-import { css, unsafeCSS } from 'lit';
+import { css } from 'lit';
 import { focusOutline } from './styles.js';
 
 // only applies to button interactions
-const buttonTransition = unsafeCSS(`
-  transition-duration: 150ms;
-  transition-property: color, background-color, border-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-`);
+// const buttonTransition = unsafeCSS(`
+//   transition-duration: 150ms;
+//   transition-property: color, background-color, border-color, fill, stroke;
+//   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+// `);
 
 export default [
   css`
     li {
-      --li-gap: 0.625rem;
-      --li-border-radius: 0.6875rem;
-      --li-border-width: 1px;
-      --li-font-size: 1rem;
-
       align-items: center;
       appearance: none;
       border: none;
@@ -23,15 +18,18 @@ export default [
       cursor: pointer;
       display: flex;
       font-family: var(--cs-heading-xxs-font-family);
-      font-size: var(--li-font-size);
+      font-size: 1rem;
       font-style: var(--cs-heading-xxs-font-style);
       font-weight: var(--cs-heading-xxs-font-weight);
-      gap: var(--li-gap);
+      gap: 0.625rem;
       justify-content: center;
       line-height: 1;
       outline: none;
       padding-block: var(--cs-spacing-xs);
       padding-inline: var(--cs-spacing-md);
+      transition-duration: 150ms;
+      transition-property: color, background-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
       white-space: nowrap;
 
@@ -41,47 +39,43 @@ export default [
 
       &.single {
         border: none;
-        border-radius: var(--li-border-radius);
+        border-radius: 0.6875rem;
       }
 
       &.first {
-        border-radius: var(--li-border-radius) 0 0 var(--li-border-radius);
+        border-radius: 0.6875rem 0 0 0.6875rem;
       }
 
       &.last {
-        border-radius: 0 var(--li-border-radius) var(--li-border-radius) 0;
+        border-radius: 0 0.6875rem 0.6875rem 0;
       }
 
       &.vertical {
         border: none;
-        border-block-end: var(--li-border-width) solid
-          var(--cs-border-base-lighter);
+        border-block-end: 1px solid var(--cs-border-base-lighter);
 
         &.first {
-          border-radius: var(--li-border-radius) var(--li-border-radius) 0 0;
+          border-radius: 0.6875rem 0.6875rem 0 0;
         }
 
         &.last {
-          border-radius: 0 0 var(--li-border-radius) var(--li-border-radius);
+          border-radius: 0 0 0.6875rem 0.6875rem;
         }
       }
 
       &:not(.disabled).selected {
-        ${buttonTransition};
         background-color: var(--cs-surface-selected);
         border-color: var(--cs-surface-selected);
         color: var(--cs-color-white);
       }
 
       &:not(.disabled):active {
-        ${buttonTransition};
         background-color: var(--cs-surface-selected);
         border-color: var(--cs-surface-selected);
         color: var(--cs-color-white);
       }
 
       &:not(.disabled):focus-visible {
-        ${buttonTransition};
         background-color: var(--cs-surface-selected);
         border-color: var(--cs-surface-selected);
         color: var(--cs-color-white);
@@ -93,7 +87,6 @@ export default [
       }
 
       &:not(.disabled, :active):hover {
-        ${buttonTransition};
         background-color: var(--cs-surface-hover);
         border-color: transparent;
         box-shadow: var(--cs-glow-sm);
