@@ -35,6 +35,18 @@ const meta: Meta = {
       </cs-tree-item>
     </cs-tree>
   `,
+  argTypes: {
+    'addEventListener(event)': {
+      control: { type: '' },
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            'event: "item-selected", listener: (event: CustomEvent<{ item: CsTreeItem }>) => void',
+        },
+      },
+    },
+  },
 };
 
 export default meta;
