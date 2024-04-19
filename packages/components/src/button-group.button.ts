@@ -35,14 +35,17 @@ export default class CsButtonGroupButton extends LitElement {
       this.isTabbable = true;
       this.focus();
       // set other elements as not selected
-      const buttonElements = this.#buttonElements;
-      for (const button of buttonElements) {
+      for (const button of this.#buttonElements) {
         if (button !== this && button.selected) {
           button.selected = false;
         }
       }
-      this.dispatchEvent(new Event('change', { bubbles: true }));
-      this.dispatchEvent(new Event('input', { bubbles: true }));
+      this.dispatchEvent(
+        new CustomEvent('change', { bubbles: true, detail: this.value }),
+      );
+      this.dispatchEvent(
+        new CustomEvent('input', { bubbles: true, detail: this.value }),
+      );
     } else {
       this.isTabbable = false;
     }
@@ -64,30 +67,35 @@ export default class CsButtonGroupButton extends LitElement {
     super.connectedCallback();
 
     // determine position in group and style approriately
-    const buttonElements = this.#buttonElements;
-    if (buttonElements.length > 0) {
-      if (buttonElements.length > 1 && buttonElements.at(0) === this) {
+    if (this.#buttonElements.length > 0) {
+      if (
+        this.#buttonElements.length > 1 &&
+        this.#buttonElements.at(0) === this
+      ) {
         this.position = 'first';
-      } else if (buttonElements.length > 1 && buttonElements.at(-1) === this) {
+      } else if (
+        this.#buttonElements.length > 1 &&
+        this.#buttonElements.at(-1) === this
+      ) {
         this.position = 'last';
-      } else if (buttonElements.length === 1) {
+      } else if (this.#buttonElements.length === 1) {
         this.isSingleButton = true;
       }
 
       // do not set any button as tabbable if all are disabled
-      if (buttonElements.every((button) => button.disabled)) {
+      if (this.#buttonElements.every((button) => button.disabled)) {
         return;
       }
 
       // set tabbable if this is the first selected enabled element or the
       // first enabled element
-      const firstEnabledSelectedButton = buttonElements.find(
+      const firstEnabledSelectedButton = this.#buttonElements.find(
         (button) => !button.disabled && button.selected,
       );
       if (firstEnabledSelectedButton && firstEnabledSelectedButton === this) {
         this.isTabbable = true;
       } else if (!firstEnabledSelectedButton) {
-        const firstEnabledButton = buttonElements.find(
+        const firstEnabledButton = this.#buttonElements.find(
           (button) => !button.disabled,
         );
         if (firstEnabledButton && firstEnabledButton === this) {
@@ -158,8 +166,7 @@ export default class CsButtonGroupButton extends LitElement {
   }
 
   #onKeydown(event: KeyboardEvent) {
-    const buttonElements = this.#buttonElements;
-    if (buttonElements.length < 2 && event.key !== ' ') {
+    if (this.#buttonElements.length < 2 && event.key !== ' ') {
       return;
     }
     switch (event.key) {
@@ -174,7 +181,7 @@ export default class CsButtonGroupButton extends LitElement {
           (sibling instanceof CsButtonGroupButton && sibling.disabled)
         ) {
           if (sibling === null) {
-            const lastButton = buttonElements.at(-1);
+            const lastButton = this.#buttonElements.at(-1);
             if (lastButton) {
               sibling = lastButton;
             }
@@ -198,7 +205,7 @@ export default class CsButtonGroupButton extends LitElement {
           (sibling instanceof CsButtonGroupButton && sibling.disabled)
         ) {
           if (sibling === null) {
-            const firstButton = buttonElements.at(0);
+            const firstButton = this.#buttonElements.at(0);
             if (firstButton) {
               sibling = firstButton;
             }

@@ -109,8 +109,6 @@ export default class CsButtonGroup extends LitElement {
       <ul
         id="cs-button-group"
         role="radiogroup"
-        @change=${this.#onChange}
-        @input=${this.#onInput}
         class=${classMap({
           vertical: this.orientation === 'vertical',
         })}
@@ -129,29 +127,4 @@ export default class CsButtonGroup extends LitElement {
   #orientation: TButtonGroupOrientation = 'horizontal';
 
   #variant: TButtonGroupVariant;
-
-  #onChange(event: Event) {
-    // prevent radio event propagation and re-emit with their value
-    event.stopPropagation();
-    if (event.target instanceof CsButtonGroupButton && event.target.selected) {
-      this.dispatchEvent(
-        new CustomEvent('change', {
-          bubbles: true,
-          detail: event.target.value,
-        }),
-      );
-    }
-  }
-
-  #onInput(event: Event) {
-    event.stopPropagation();
-    if (event.target instanceof CsButtonGroupButton && event.target.selected) {
-      this.dispatchEvent(
-        new CustomEvent('input', {
-          bubbles: true,
-          detail: event.target.value,
-        }),
-      );
-    }
-  }
 }

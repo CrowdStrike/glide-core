@@ -10,13 +10,14 @@ export default [
       border-inline-end: 1px solid var(--cs-border-base-lighter);
       cursor: pointer;
       display: flex;
-      font-family: var(--cs-heading-xxs-font-family);
+      font-family: var(--cs-font-sans);
       font-size: 1rem;
       font-style: var(--cs-heading-xxs-font-style);
       font-weight: var(--cs-heading-xxs-font-weight);
       gap: 0.625rem;
       justify-content: center;
       line-height: 1;
+      min-inline-size: 5.1875rem;
       outline: none;
       padding-block: var(--cs-spacing-xs);
       padding-inline: var(--cs-spacing-md);
@@ -27,6 +28,7 @@ export default [
       white-space: nowrap;
 
       &.icon-only {
+        min-inline-size: 0;
         padding: var(--cs-spacing-xs);
       }
 

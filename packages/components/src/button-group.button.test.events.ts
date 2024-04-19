@@ -1,5 +1,11 @@
 import './button-group.button.js';
-import { aTimeout, expect, fixture, oneEvent } from '@open-wc/testing';
+import {
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+  oneEvent,
+} from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import CsButtonGroup from './button-group.js';
 import CsButtonGroupButton from './button-group.button.js';
@@ -8,10 +14,14 @@ import sinon from 'sinon';
 CsButtonGroup.shadowRootOptions.mode = 'open';
 CsButtonGroupButton.shadowRootOptions.mode = 'open';
 
-it('emits a private change event when clicked', async () => {
-  const template = `<cs-button-group-button value="value">Button</cs-button-group-button>`;
-  const element = await fixture<CsButtonGroupButton>(template);
-  const liElement = element.shadowRoot!.querySelector('li');
+it('emits a change event when clicked', async () => {
+  const element = await fixture<CsButtonGroupButton>(
+    html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
+  );
+  const liElement = element.shadowRoot?.querySelector('li');
+  // This pattern is adopted from https://open-wc.org/docs/testing/helpers/#testing-events
+  // Without setTimeout the test fails. The suspicion is this is related to task scheduling,
+  // however this can be revisited.
   setTimeout(() => {
     liElement?.click();
   });
@@ -20,9 +30,10 @@ it('emits a private change event when clicked', async () => {
   expect(changeEvent instanceof Event).to.be.true;
 });
 
-it('emits a private input event when clicked', async () => {
-  const template = `<cs-button-group-button value="value">Button</cs-button-group-button>`;
-  const element = await fixture<CsButtonGroupButton>(template);
+it('emits an input event when clicked', async () => {
+  const element = await fixture<CsButtonGroupButton>(
+    html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
+  );
   const liElement = element.shadowRoot!.querySelector('li');
   setTimeout(() => {
     liElement?.click();
@@ -32,79 +43,92 @@ it('emits a private input event when clicked', async () => {
   expect(inputEvent instanceof Event).to.be.true;
 });
 
-it('emits a private change event when arrow keys are pressed', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2" selected>Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3">Button 3</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+it('emits a change event when arrow keys are pressed', async () => {
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
+      <cs-button-group-button value="value-2" selected
+        >Button 2</cs-button-group-button
+      >
+      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
   await sendKeys({ press: 'Tab' });
 
+  // This pattern is adopted from https://open-wc.org/docs/testing/helpers/#testing-events
+  // Without the setTimeout the test fails. An `await` is used since `sendKeys` returns a
+  // promise, however the test seems to work without it. Keeping await here until this can
+  // be investigated further.
   setTimeout(async () => await sendKeys({ press: 'ArrowLeft' }));
-  let changeEvent = await oneEvent(buttonElements[0], 'change');
+  const changeEventLeft = await oneEvent(buttonElements[0], 'change');
 
-  expect(changeEvent instanceof Event).to.be.true;
+  expect(changeEventLeft instanceof Event).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowRight' }));
-  changeEvent = await oneEvent(buttonElements[1], 'change');
+  const changeEventRight = await oneEvent(buttonElements[1], 'change');
 
-  expect(changeEvent instanceof Event).to.be.true;
+  expect(changeEventRight instanceof Event).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowUp' }));
-  changeEvent = await oneEvent(buttonElements[0], 'change');
+  const changeEventUp = await oneEvent(buttonElements[0], 'change');
 
-  expect(changeEvent instanceof Event).to.be.true;
+  expect(changeEventUp instanceof Event).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowDown' }));
-  changeEvent = await oneEvent(buttonElements[1], 'change');
+  const changeEventDown = await oneEvent(buttonElements[1], 'change');
 
-  expect(changeEvent instanceof Event).to.be.true;
+  expect(changeEventDown instanceof Event).to.be.true;
 });
 
-it('emits a private input event when arrow keys are pressed', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2" selected>Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3">Button 3</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+it('emits an input event when arrow keys are pressed', async () => {
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
+      <cs-button-group-button value="value-2" selected
+        >Button 2</cs-button-group-button
+      >
+      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
   await sendKeys({ press: 'Tab' });
 
   setTimeout(async () => await sendKeys({ press: 'ArrowLeft' }));
-  let inputEvent = await oneEvent(buttonElements[0], 'input');
+  const inputEventLeft = await oneEvent(buttonElements[0], 'input');
 
-  expect(inputEvent instanceof Event).to.be.true;
+  expect(inputEventLeft instanceof Event).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowRight' }));
-  inputEvent = await oneEvent(buttonElements[1], 'input');
+  const inputEventRight = await oneEvent(buttonElements[1], 'input');
 
-  expect(inputEvent instanceof Event).to.be.true;
+  expect(inputEventRight instanceof Event).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowUp' }));
-  inputEvent = await oneEvent(buttonElements[0], 'input');
+  const inputEventUp = await oneEvent(buttonElements[0], 'input');
 
-  expect(inputEvent instanceof Event).to.be.true;
+  expect(inputEventUp instanceof Event).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowDown' }));
-  inputEvent = await oneEvent(buttonElements[1], 'input');
+  const inputEventDown = await oneEvent(buttonElements[1], 'input');
 
-  expect(inputEvent instanceof Event).to.be.true;
+  expect(inputEventDown instanceof Event).to.be.true;
 });
 
 it('moves focus to previous button when left or up arrow keys are pressed', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3" selected>Button 3</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
+      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
+      <cs-button-group-button value="value-3" selected
+        >Button 3</cs-button-group-button
+      >
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -118,12 +142,15 @@ it('moves focus to previous button when left or up arrow keys are pressed', asyn
 });
 
 it('moves focus to last button when left or up arrow keys are pressed on the first button', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3">Button 3</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1" selected
+        >Button 1</cs-button-group-button
+      >
+      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
+      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -140,12 +167,15 @@ it('moves focus to last button when left or up arrow keys are pressed on the fir
 });
 
 it('moves focus to next button when right or down arrow keys are pressed', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3">Button 3</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1" selected
+        >Button 1</cs-button-group-button
+      >
+      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
+      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -159,12 +189,15 @@ it('moves focus to next button when right or down arrow keys are pressed', async
 });
 
 it('moves focus to first button when right or down arrow keys are pressed on the last button', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3" selected>Button 3</cs-button-group-button>
-  </cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
+      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
+      <cs-button-group-button value="value-3" selected
+        >Button 3</cs-button-group-button
+      >
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -182,12 +215,17 @@ it('moves focus to first button when right or down arrow keys are pressed on the
 });
 
 it('moves focus to previous enabled button when pressing left or up arrow keys', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2" disabled>Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3" selected>Button 3</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
+      <cs-button-group-button value="value-2" disabled
+        >Button 2</cs-button-group-button
+      >
+      <cs-button-group-button value="value-3" selected
+        >Button 3</cs-button-group-button
+      >
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -205,12 +243,17 @@ it('moves focus to previous enabled button when pressing left or up arrow keys',
 });
 
 it('moves focus to next enabled button when pressing right or down arrow keys', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2" disabled>Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3">Button 3</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1" selected
+        >Button 1</cs-button-group-button
+      >
+      <cs-button-group-button value="value-2" disabled
+        >Button 2</cs-button-group-button
+      >
+      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -228,36 +271,46 @@ it('moves focus to next enabled button when pressing right or down arrow keys', 
 });
 
 it('does not move focus if there is only one button when pressing arrow keys', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
-  </cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
+    </cs-button-group>`,
+  );
   const buttonElement = document.querySelector<CsButtonGroupButton>(
     'cs-button-group-button',
   );
-  const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
   await sendKeys({ press: 'Tab' });
 
-  for (const key of keys) {
-    await sendKeys({ press: key });
-    expect(buttonElement).to.have.focus;
-  }
+  await sendKeys({ press: 'ArrowLeft' });
+  expect(buttonElement).to.have.focus;
+
+  await sendKeys({ press: 'ArrowRight' });
+  expect(buttonElement).to.have.focus;
+
+  await sendKeys({ press: 'ArrowUp' });
+  expect(buttonElement).to.have.focus;
+
+  await sendKeys({ press: 'ArrowDown' });
+  expect(buttonElement).to.have.focus;
 });
 
 it('changes the "selected" attribute when clicking', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3">Button 3</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+  const element = await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1" selected
+        >Button 1</cs-button-group-button
+      >
+      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
+      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
   const liElement = buttonElements[2].shadowRoot!.querySelector('li');
   expect(liElement).to.exist;
-  liElement!.click();
-  await aTimeout(0);
+  liElement?.click();
+  await elementUpdated(element);
 
   expect(buttonElements[2]).to.have.focus;
   expect(buttonElements[2]).to.have.attribute('selected');
@@ -265,19 +318,24 @@ it('changes the "selected" attribute when clicking', async () => {
 });
 
 it('does not change focus nor the "selected" attribute when clicking a disabled button', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2" disabled>Button 2</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+  const element = await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1" selected
+        >Button 1</cs-button-group-button
+      >
+      <cs-button-group-button value="value-2" disabled
+        >Button 2</cs-button-group-button
+      >
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
   await sendKeys({ press: 'Tab' });
   const liElement = buttonElements[0].shadowRoot!.querySelector('li');
   expect(liElement).to.exist;
-  liElement!.click();
-  await aTimeout(0);
+  liElement?.click();
+  await elementUpdated(element);
 
   expect(buttonElements[0]).to.have.focus;
   expect(buttonElements[0]).to.have.attribute('selected');
@@ -285,12 +343,15 @@ it('does not change focus nor the "selected" attribute when clicking a disabled 
 });
 
 it('changes the "selected" attribute when pressing arrow and space keys', async () => {
-  const template = `<cs-button-group>
-    <cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button>
-    <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-    <cs-button-group-button value="value-3">Button 3</cs-button-group-button>    
-  </cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group>
+      <cs-button-group-button value="value-1" selected
+        >Button 1</cs-button-group-button
+      >
+      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
+      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
+    </cs-button-group>`,
+  );
   const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -334,8 +395,8 @@ it('emits a change event when a space key is pressed and is not selected', async
     'cs-button-group-button',
   );
   setTimeout(async () => {
-    await sendKeys({ press: 'Tab' });
-    await sendKeys({ press: ' ' });
+    sendKeys({ press: 'Tab' });
+    sendKeys({ press: ' ' });
   });
   const changeEvent = await oneEvent(buttonElement!, 'change');
 
@@ -343,8 +404,13 @@ it('emits a change event when a space key is pressed and is not selected', async
 });
 
 it('does not emit change event when a space key is pressed and is selected', async () => {
-  const template = `<cs-button-group><cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button></cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group
+      ><cs-button-group-button value="value-1" selected
+        >Button 1</cs-button-group-button
+      ></cs-button-group
+    >`,
+  );
   const buttonElement = document.querySelector<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -352,14 +418,18 @@ it('does not emit change event when a space key is pressed and is selected', asy
   buttonElement!.addEventListener('change', spy);
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
-  await aTimeout(0);
 
   expect(spy.notCalled).to.be.true;
 });
 
 it('emits an input event when a space key is pressed and is not selected', async () => {
-  const template = `<cs-button-group><cs-button-group-button value="value-1">Button 1</cs-button-group-button></cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group
+      ><cs-button-group-button value="value-1"
+        >Button 1</cs-button-group-button
+      ></cs-button-group
+    >`,
+  );
   const buttonElement = document.querySelector<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -373,8 +443,13 @@ it('emits an input event when a space key is pressed and is not selected', async
 });
 
 it('does not emit an input event when a space key is pressed and is selected', async () => {
-  const template = `<cs-button-group><cs-button-group-button value="value-1" selected>Button 1</cs-button-group-button></cs-button-group>`;
-  await fixture(template);
+  await fixture(
+    html`<cs-button-group
+      ><cs-button-group-button value="value-1" selected
+        >Button 1</cs-button-group-button
+      ></cs-button-group
+    >`,
+  );
   const buttonElement = document.querySelector<CsButtonGroupButton>(
     'cs-button-group-button',
   );
@@ -382,7 +457,6 @@ it('does not emit an input event when a space key is pressed and is selected', a
   buttonElement!.addEventListener('input', spy);
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
-  await aTimeout(0);
 
   expect(spy.notCalled).to.be.true;
 });

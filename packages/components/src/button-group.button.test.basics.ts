@@ -1,5 +1,5 @@
 import './button-group.button.js';
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import CsButtonGroup from './button-group.js';
 import CsButtonGroupButton from './button-group.button.js';
 
@@ -35,7 +35,7 @@ it('renders "aria-checked" equal to "false" and "tabindex" equal to "-1" by defa
   );
   const liElement = element.shadowRoot?.querySelector('li');
 
-  expect(liElement).to.exist;
+  expect(liElement).to.not.be.null;
   expect(liElement).to.have.attribute('aria-checked', 'false');
   expect(liElement).to.have.attribute('tabindex', '-1');
 });
@@ -48,7 +48,6 @@ it('renders "aria-checked" equal to "true" and "tabindex" equal to "0" when attr
   );
   const liElement = element.shadowRoot?.querySelector('li');
 
-  expect(liElement).to.exist;
   expect(liElement).to.have.attribute('aria-checked', 'true');
   expect(liElement).to.have.attribute('tabindex', '0');
 });
@@ -70,15 +69,15 @@ it('renders two slots, where one has name "prefix", and the other is default wit
 
   // verify the slots exist
   expect(liPrefixOnlyElement).to.be.null;
-  expect(prefixSlot).to.exist;
-  expect(defaultSlot).to.exist;
+  expect(prefixSlot).to.not.be.null;
+  expect(defaultSlot).to.not.be.null;
 
   const prefixElement = document.querySelector('[data-prefix]');
   const defaultElement = document.querySelector('[data-default]');
 
   // verify the content of the slots exist
-  expect(prefixElement).to.exist;
-  expect(defaultElement).to.exist;
+  expect(prefixElement).to.not.be.null;
+  expect(defaultElement).to.not.be.null;
   expect(prefixElement?.textContent).to.equal('Prefix');
   expect(defaultElement?.textContent).to.equal('Button');
 });
@@ -121,13 +120,14 @@ it('reacts to "vertical" attribute when button group orientation changes from "h
   element.setAttribute('orientation', 'vertical');
 
   // wait for attributes to be set on li
-  await aTimeout(0);
+  await elementUpdated(element);
 
   expect(liElement).to.have.class('vertical');
 
   element.setAttribute('orientation', 'horizontal');
 
-  await aTimeout(0);
+  // wait for attributes to be set on li
+  await elementUpdated(element);
 
   await expect(liElement).to.not.have.class('vertical');
 });
