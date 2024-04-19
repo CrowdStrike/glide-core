@@ -1,5 +1,5 @@
 import './tree.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import CsMenu from './menu.js';
 import Tree from './tree.js';
 
@@ -79,9 +79,7 @@ it('does not select an item if its menu slot is clicked', async () => {
 
   const childItems = tree.slotElements;
   const menu = childItems[0].querySelector('[data-test-menu]') as CsMenu;
-  if (!menu) {
-    throw new Error('cannot find menu');
-  }
+  assert(menu);
   menu.click();
 
   expect(childItems[0].selected).to.equal(false);

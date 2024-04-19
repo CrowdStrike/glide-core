@@ -1,5 +1,5 @@
 import './tree.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Tree from './tree.js';
 import TreeItem from './tree-item.js';
@@ -19,9 +19,9 @@ it('focuses the first tree item when tree is focused, if there are no selected i
   tree.dispatchEvent(new Event('focusin'));
 
   const childItems = tree.slotElements;
-  const focusedElement = document.activeElement as TreeItem;
+  assert(document.activeElement instanceof TreeItem);
 
-  expect(focusedElement?.label).to.equal(childItems[0].label);
+  expect(document.activeElement?.label).to.equal(childItems[0].label);
 });
 
 it('focuses the selected tree item on `focus()`, if there is one', async () => {
@@ -36,8 +36,8 @@ it('focuses the selected tree item on `focus()`, if there is one', async () => {
   tree.selectItem(childItems[1]);
   tree.dispatchEvent(new Event('focusin'));
   await tree.updateComplete;
-  const focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(childItems[1].label);
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(childItems[1].label);
 });
 
 it('expands a tree item if right arrow is pressed', async () => {
@@ -54,8 +54,8 @@ it('expands a tree item if right arrow is pressed', async () => {
   tree.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowRight' });
   expect(childItems[0].expanded).to.equal(true);
-  const focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(
     childItems[0].label,
     'focus does not move',
   );
@@ -74,8 +74,10 @@ it(`focuses on an expanded tree item's child if right arrow is pressed`, async (
   const childItems = tree.slotElements;
   tree.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowRight' });
-  const focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(childItems[0].slotElements[0].label);
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(
+    childItems[0].slotElements[0].label,
+  );
 });
 
 it('collapses an expanded tree item if left arrow is pressed', async () => {
@@ -92,8 +94,8 @@ it('collapses an expanded tree item if left arrow is pressed', async () => {
   tree.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowLeft' });
   expect(childItems[0].expanded).to.equal(false);
-  const focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(
     childItems[0].label,
     'focus does not move',
   );
@@ -113,8 +115,8 @@ it(`focuses on a collapsed tree item's parent if left arrow is pressed`, async (
   const grandchildItems = childItems[0].slotElements;
   grandchildItems[0].focus();
   await sendKeys({ press: 'ArrowLeft' });
-  const focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(childItems[0].label);
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(childItems[0].label);
 });
 
 it('moves down the non-expanded tree items with down arrow', async () => {
@@ -134,29 +136,26 @@ it('moves down the non-expanded tree items with down arrow', async () => {
   tree.dispatchEvent(new Event('focusin'));
 
   await sendKeys({ press: 'ArrowDown' });
-  let focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(
     childItems[0].slotElements[0].label,
     'moves to child item if expanded',
   );
 
   await sendKeys({ press: 'ArrowDown' });
-  focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(
+  expect(document.activeElement?.label).to.equal(
     childItems[1].label,
     'moves from last child for next parent',
   );
 
   await sendKeys({ press: 'ArrowDown' });
-  focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(
+  expect(document.activeElement?.label).to.equal(
     childItems[2].label,
     'Does not navigate to collapsed tree items',
   );
 
   await sendKeys({ press: 'ArrowDown' });
-  focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(
+  expect(document.activeElement?.label).to.equal(
     childItems[2].label,
     'Does not move if at the last item',
   );
@@ -179,19 +178,17 @@ it('moves up the non-expanded tree items with up arrow', async () => {
   childItems[1].slotElements[0].focus();
 
   await sendKeys({ press: 'ArrowUp' });
-  let focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(childItems[1].label);
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(childItems[1].label);
 
   await sendKeys({ press: 'ArrowUp' });
-  focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(
+  expect(document.activeElement?.label).to.equal(
     childItems[0].label,
     'Does not navigate to collapsed tree items',
   );
 
   await sendKeys({ press: 'ArrowUp' });
-  focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(
+  expect(document.activeElement?.label).to.equal(
     childItems[0].label,
     'Does not move if at the first item',
   );
@@ -214,8 +211,8 @@ it('moves to the first item when Home is pressed', async () => {
   childItems[1].slotElements[0].focus();
 
   await sendKeys({ press: 'Home' });
-  const focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(childItems[0].label);
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(childItems[0].label);
 });
 
 it('moves to the last item when End is pressed', async () => {
@@ -235,8 +232,10 @@ it('moves to the last item when End is pressed', async () => {
   childItems[0].focus();
 
   await sendKeys({ press: 'End' });
-  const focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(childItems[1].slotElements[0].label);
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(
+    childItems[1].slotElements[0].label,
+  );
 });
 
 it('selects or expands/collapses node when Enter is pressed', async () => {
@@ -288,6 +287,6 @@ it('does nothing if some other key is pressed', async () => {
   childItems[0].focus();
 
   await sendKeys({ press: 'a' });
-  const focusedElement = document.activeElement as TreeItem;
-  expect(focusedElement?.label).to.equal(childItems[0].label);
+  assert(document.activeElement instanceof TreeItem);
+  expect(document.activeElement?.label).to.equal(childItems[0].label);
 });
