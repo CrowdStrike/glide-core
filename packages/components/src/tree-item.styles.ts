@@ -66,9 +66,10 @@ export default [
       }
 
       :host(:focus-visible) & {
-        outline: var(--cs-border-focus);
+        outline: var(--cs-border-primary);
         outline-offset: -1px;
         outline-style: auto;
+        outline-width: 2px;
       }
     }
 
