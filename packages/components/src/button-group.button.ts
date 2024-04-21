@@ -1,7 +1,8 @@
-import { LitElement, html, nothing } from 'lit';
+import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { owSlot } from './library/ow.js';
 import styles from './button-group.button.styles.js';
 import type { TButtonGroupVariant } from './button-group.js';
 
@@ -19,9 +20,6 @@ export default class CsButtonGroupButton extends LitElement {
   };
 
   static override styles = styles;
-
-  @property()
-  label? = '';
 
   @property({ type: Boolean, reflect: true })
   get selected() {
@@ -105,6 +103,37 @@ export default class CsButtonGroupButton extends LitElement {
     }
   }
 
+  override firstUpdated(): void {
+    // Always want a label and log an error when it isn't present.
+    // When the variant is 'icon-only' set the label as visually hidden
+
+    const defaultSlotAssignedNodes =
+      this.#defaultSlotRef.value?.assignedNodes();
+
+    const isDefaultSlotEmpty = Boolean(
+      defaultSlotAssignedNodes?.every(
+        (node) =>
+          node.nodeName.toLowerCase() === '#text' &&
+          // if textContent is null, only whitespace, or a new line followed by
+          // white space, consider it empty
+          node.textContent !== null &&
+          (/^(\n *)$/.test(node.textContent) ||
+            node.textContent?.trim().length === 0),
+      ),
+    );
+
+    // Ow doesn't throw an error & not sure why, so throwing an error instead
+    // owSlot(this.#defaultSlotRef.value);
+
+    if (isDefaultSlotEmpty) {
+      throw new Error(`A label is required.`);
+    }
+
+    if (this.variant === 'icon-only') {
+      owSlot(this.#prefixSlotRef.value);
+    }
+  }
+
   override focus(options?: FocusOptions) {
     this.#liRef.value?.focus(options);
   }
@@ -126,11 +155,19 @@ export default class CsButtonGroupButton extends LitElement {
         single: this.isSingleButton,
         'icon-only': this.variant === 'icon-only',
       })}
-      variant=${this.variant}
-      aria-label=${this.variant === 'icon-only' ? this.label : nothing}
     >
       <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
-      <slot ${ref(this.#defaultSlotRef)}></slot>
+      <!-- 
+        Wrap the default slot in a span and apply class 'visually-hidden' when
+        variant is 'icon-only' since we can't apply styling to text nodes
+       -->
+      <span
+        class="${classMap({
+          'visually-hidden': this.variant === 'icon-only',
+        })}"
+      >
+        <slot ${ref(this.#defaultSlotRef)}></slot>
+      </span>
     </li>`;
   }
 

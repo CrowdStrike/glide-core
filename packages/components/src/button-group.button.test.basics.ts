@@ -1,7 +1,8 @@
 import './button-group.button.js';
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import CsButtonGroup from './button-group.js';
 import CsButtonGroupButton from './button-group.button.js';
+import sinon from 'sinon';
 
 CsButtonGroup.shadowRootOptions.mode = 'open';
 CsButtonGroupButton.shadowRootOptions.mode = 'open';
@@ -102,34 +103,34 @@ it('does not have a disabled presentation when "disabled" attribute is false', a
   expect(liElement).to.have.attribute('aria-disabled', 'false');
 });
 
-it('reacts to "vertical" attribute when button group orientation changes from "horizontal" to "vertical"', async () => {
-  const element = await fixture<CsButtonGroup>(
-    html`<cs-button-group orientation="horizontal"
-      ><cs-button-group-button value="value"
-        >Button</cs-button-group-button
-      ></cs-button-group
+it('has a vertical presention when the "vertical" attribute is set', async () => {
+  await fixture(
+    html` <cs-button-group-button value="value" vertical
+      >Button</cs-button-group-button
     >`,
   );
+
+  const buttonElement = document.querySelector<CsButtonGroupButton>(
+    'cs-button-group-button',
+  );
+  const liElement = buttonElement?.shadowRoot?.querySelector('li');
+
+  expect(liElement).to.have.class('vertical');
+});
+
+it('does not have a vertical presention when the "vertical" attribute is not set', async () => {
+  await fixture(
+    html` <cs-button-group-button value="value"
+      >Button</cs-button-group-button
+    >`,
+  );
+
   const buttonElement = document.querySelector<CsButtonGroupButton>(
     'cs-button-group-button',
   );
   const liElement = buttonElement?.shadowRoot?.querySelector('li');
 
   expect(liElement).to.not.have.class('vertical');
-
-  element.setAttribute('orientation', 'vertical');
-
-  // wait for attributes to be set on li
-  await elementUpdated(element);
-
-  expect(liElement).to.have.class('vertical');
-
-  element.setAttribute('orientation', 'horizontal');
-
-  // wait for attributes to be set on li
-  await elementUpdated(element);
-
-  await expect(liElement).to.not.have.class('vertical');
 });
 
 it('assigns the correct positional presentation when in a button group', async () => {
@@ -310,12 +311,49 @@ it('initially no buton sets itself as tabbable if all are disabled in a group', 
 });
 
 it('has a presentation for variant "icon-only"', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value" selected variant="icon-only"
-      ><span slot="prefix" data-prefix>Prefix</span></cs-button-group-button
+      ><span slot="prefix">Prefix</span>Button</cs-button-group-button
     >`,
   );
   const liElement = element.shadowRoot?.querySelector('li');
 
   expect(liElement).to.have.class('icon-only');
+});
+
+it('does not apply class "icon-only" when variant "icon-only" is absent', async () => {
+  const element = await fixture(
+    html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
+  );
+  const liElement = element.shadowRoot?.querySelector('li');
+
+  expect(liElement).to.not.have.class('icon-only');
+});
+
+it('throws an error when no label is present', async () => {
+  const spy = sinon.spy();
+  try {
+    await fixture(
+      html`<cs-button-group-button value="value" selected variant="icon-only"
+        ><span slot="prefix">Prefix</span></cs-button-group-button
+      >`,
+    );
+  } catch {
+    spy();
+  }
+  expect(spy.called).to.be.true;
+});
+
+it('throws an error when prefix slot is empty and variant is `icon-only`', async () => {
+  const spy = sinon.spy();
+  try {
+    await fixture(
+      html`<cs-button-group-button value="value" selected variant="icon-only"
+        >Button</cs-button-group-button
+      >`,
+    );
+  } catch {
+    spy();
+  }
+  expect(spy.called).to.be.true;
 });

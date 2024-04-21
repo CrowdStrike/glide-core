@@ -264,7 +264,7 @@ export const DefaultWithVariantIconOnly: StoryObj = {
       variant="icon-only"
       orientation=${arguments_.orientation}
     >
-      <cs-button-group-button value="button-1" selected label="Button 1">
+      <cs-button-group-button value="button-1" selected>
         <svg
           slot="prefix"
           xmlns="http://www.w3.org/2000/svg"
@@ -288,8 +288,9 @@ export const DefaultWithVariantIconOnly: StoryObj = {
           />
           <circle cx="12" cy="8" r="1" fill="currentColor" />
         </svg>
+        Button 1
       </cs-button-group-button>
-      <cs-button-group-button value="button-2" label="Button 2">
+      <cs-button-group-button value="button-2">
         <svg
           slot="prefix"
           xmlns="http://www.w3.org/2000/svg"
@@ -313,8 +314,9 @@ export const DefaultWithVariantIconOnly: StoryObj = {
           />
           <circle cx="12" cy="8" r="1" fill="currentColor" />
         </svg>
+        Button 2
       </cs-button-group-button>
-      <cs-button-group-button value="button-3" label="Button 3">
+      <cs-button-group-button value="button-3">
         <svg
           slot="prefix"
           xmlns="http://www.w3.org/2000/svg"
@@ -338,6 +340,7 @@ export const DefaultWithVariantIconOnly: StoryObj = {
           />
           <circle cx="12" cy="8" r="1" fill="currentColor" />
         </svg>
+        Button 3
       </cs-button-group-button>
     </cs-button-group>
   `,
@@ -362,7 +365,6 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
           height="16"
           viewBox="0 0 24 24"
           fill="none"
-          aria-label="Button 1"
         >
           <circle
             cx="12"
@@ -379,6 +381,7 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
           />
           <circle cx="12" cy="8" r="1" fill="currentColor" />
         </svg>
+        Button 1
       </cs-button-group-button>
       <cs-button-group-button value="button-2">
         <svg
@@ -388,7 +391,6 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
           height="16"
           viewBox="0 0 24 24"
           fill="none"
-          aria-label="Button 2"
         >
           <circle
             cx="12"
@@ -405,6 +407,7 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
           />
           <circle cx="12" cy="8" r="1" fill="currentColor" />
         </svg>
+        Button 2
       </cs-button-group-button>
       <cs-button-group-button value="button-3">
         <svg
@@ -414,7 +417,6 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
           height="16"
           viewBox="0 0 24 24"
           fill="none"
-          aria-label="Button 3"
         >
           <circle
             cx="12"
@@ -431,6 +433,7 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
           />
           <circle cx="12" cy="8" r="1" fill="currentColor" />
         </svg>
+        Button 3
       </cs-button-group-button>
     </cs-button-group>
   `,

@@ -60,7 +60,7 @@ it('emits a change event when arrow keys are pressed', async () => {
 
   // This pattern is adopted from https://open-wc.org/docs/testing/helpers/#testing-events
   // Without the setTimeout the test fails. An `await` is used since `sendKeys` returns a
-  // promise, however the test seems to work without it. Keeping await here until this can
+  // promise, however the test seems to work without it. Keeping `await` here until this can
   // be investigated further.
   setTimeout(async () => await sendKeys({ press: 'ArrowLeft' }));
   const changeEventLeft = await oneEvent(buttonElements[0], 'change');
@@ -388,15 +388,15 @@ it('changes the "selected" attribute when pressing arrow and space keys', async 
   expect(buttonElements[0]).to.not.have.attribute('selected');
 });
 
-it('emits a change event when a space key is pressed and is not selected', async () => {
+it('emits a change event when a space key is pressed and is not already selected', async () => {
   const template = `<cs-button-group><cs-button-group-button value="value-1">Button 1</cs-button-group-button></cs-button-group>`;
   await fixture(template);
   const buttonElement = document.querySelector<CsButtonGroupButton>(
     'cs-button-group-button',
   );
   setTimeout(async () => {
-    sendKeys({ press: 'Tab' });
-    sendKeys({ press: ' ' });
+    await sendKeys({ press: 'Tab' });
+    await sendKeys({ press: ' ' });
   });
   const changeEvent = await oneEvent(buttonElement!, 'change');
 
@@ -422,7 +422,7 @@ it('does not emit change event when a space key is pressed and is selected', asy
   expect(spy.notCalled).to.be.true;
 });
 
-it('emits an input event when a space key is pressed and is not selected', async () => {
+it('emits an input event when a space key is pressed and is not already selected', async () => {
   await fixture(
     html`<cs-button-group
       ><cs-button-group-button value="value-1"

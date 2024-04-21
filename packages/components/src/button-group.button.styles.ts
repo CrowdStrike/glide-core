@@ -1,5 +1,6 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
+import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
@@ -93,6 +94,10 @@ export default [
         border-color: var(--cs-border-base-lighter);
         color: var(--cs-text-tertiary-disabled);
       }
+    }
+
+    .visually-hidden {
+      ${visuallyHidden};
     }
   `,
 ];

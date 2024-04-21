@@ -74,22 +74,21 @@ export default class CsButtonGroup extends LitElement {
 
   override firstUpdated() {
     this.isDefaultSlotEmpty = Boolean(
-      this.#defaultSlotRef.value &&
-        this.#defaultSlotRef.value.assignedNodes().length === 0,
+      this.#defaultSlotRef.value?.assignedNodes().length === 0,
     );
 
     if (!this.isDefaultSlotEmpty) {
       owSlotType(this.#defaultSlotRef.value, [CsButtonGroupButton]);
-    }
 
-    if (this.orientation === 'vertical') {
-      for (const listItem of this.listItems) {
-        listItem.toggleAttribute('vertical');
+      if (this.orientation === 'vertical') {
+        for (const listItem of this.listItems) {
+          listItem.toggleAttribute('vertical');
+        }
       }
-    }
-    if (this.#variant) {
-      for (const listItem of this.listItems) {
-        listItem.setAttribute('variant', 'icon-only');
+      if (this.#variant) {
+        for (const listItem of this.listItems) {
+          listItem.setAttribute('variant', 'icon-only');
+        }
       }
     }
   }
