@@ -63,10 +63,12 @@ it('is hidden on Escape', async () => {
 
   await elementUpdated(component);
 
-  // So the key is sent to the component instead of `<body>`.
-  component.focus();
-  await sendKeys({ press: 'Escape' });
+  // So the key is sent to the component instead of `<body>`. It's not
+  // clear why `component.focus()` doesn't focus the button when using
+  // Playwright.
+  component.querySelector('button')?.focus();
 
+  await sendKeys({ press: 'Escape' });
   await elementUpdated(component);
 
   expect(

@@ -2,10 +2,15 @@ import { defaultReporter } from '@web/test-runner';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fileURLToPath } from 'node:url';
 import { fromRollup } from '@web/dev-server-rollup';
+import { playwrightLauncher } from '@web/test-runner-playwright';
 import chalk from 'chalk';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 
 export default {
+  browsers: [
+    // https://github.com/modernweb-dev/web/issues/2588
+    playwrightLauncher(),
+  ],
   coverage: true,
   coverageConfig: {
     include: ['src/**/*.ts'],
@@ -53,6 +58,7 @@ export default {
           'lcov',
           {
             start() {
+              // eslint-disable-next-line no-console -- ok since this is a script run in the terminal
               console.log(
                 `Code coverage report: ${chalk.blue(
                   'http://localhost:8080',
@@ -60,6 +66,7 @@ export default {
               );
             },
             onTestRunStarted() {
+              // eslint-disable-next-line no-console -- ok since this is a script run in the terminal
               console.log(
                 `Code coverage report: ${chalk.blue(
                   'http://localhost:8080',

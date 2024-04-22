@@ -47,6 +47,8 @@ export default [
       ],
 
       'prefer-const': 'error',
+      'no-implicit-coercion': 'error',
+      'no-console': 'error',
       'sort-imports-es6-autofix/sort-imports-es6': [
         2,
         {

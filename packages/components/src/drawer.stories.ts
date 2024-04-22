@@ -1,6 +1,7 @@
 import './button.js';
 import './drawer.js';
 import { html } from 'lit-html';
+import ow from './library/ow.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -18,10 +19,21 @@ const meta: Meta = {
     },
   },
   play(context) {
-    let isOpen = false;
+    const divs = document.querySelectorAll<HTMLElement>('.docs-story > div');
+
+    for (const div of divs) {
+      ow(div, ow.object.instanceOf(HTMLElement));
+
+      // Pretty brittle. Prevents a layout shift when opening the drawer caused
+      // by the addition of a horizontal scrollbar gutter.
+      Object.assign(div.style, {
+        overflow: 'hidden',
+      });
+    }
 
     const button = context.canvasElement.querySelector('cs-button');
     const drawer = context.canvasElement.querySelector('cs-drawer');
+    let isOpen = false;
 
     if (!button || !drawer) {
       return;
@@ -54,11 +66,12 @@ const meta: Meta = {
     'slot="default"': {
       control: { type: 'text' },
       table: {
-        type: { summary: 'string | html' },
+        type: { summary: 'Element | string' },
       },
       type: { name: 'string', required: true },
     },
     'open()': {
+      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -67,6 +80,7 @@ const meta: Meta = {
       },
     },
     'close()': {
+      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -79,7 +93,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: 'event: "open" | "close"',
+          detail: 'event: "open" | "close", listener: (event: Event) => void',
         },
       },
     },
@@ -87,7 +101,7 @@ const meta: Meta = {
       control: { type: '' },
       table: {
         type: {
-          summary: 'css property',
+          summary: 'CSS custom property',
           detail: 'Sets the width of the Drawer.',
         },
       },

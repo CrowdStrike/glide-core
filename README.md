@@ -14,6 +14,7 @@ First you'll need to install the dependencies for the repository. We use [PNPM](
 
 ```bash
 pnpm install
+pnpm dlx playwright install
 ```
 
 > If you have `ignore-scripts=true` in your `~/.npmrc`, you'll also need to run `pnpm prepare`, which will install some Git hooks for linting, formatting, typechecking, and testing.

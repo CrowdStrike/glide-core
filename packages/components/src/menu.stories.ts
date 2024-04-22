@@ -1,7 +1,7 @@
 import './button.js';
-import './menu-button.js';
-import './menu-link.js';
+import './menu.button.js';
 import './menu.js';
+import './menu.link.js';
 import { html, nothing } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -28,7 +28,7 @@ const meta: Meta = {
     ['slot="default"']: {
       control: { type: '' },
       table: {
-        type: { summary: '<cs-menu-link> | <cs-menu-button>' },
+        type: { summary: 'CsMenuLink | CsMenuButton' },
       },
       type: { name: 'string', required: true },
     },

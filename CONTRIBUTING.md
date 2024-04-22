@@ -16,7 +16,7 @@
   - [Prefer `rem` values](#prefer-rem-values)
   - [Prefer throwing to letting invalid state propagate](#prefer-throwing-to-letting-invalid-state-propagate)
   - [Prefer CSS modifiers over BEM](#prefer-css-modifiers-over-bem)
-  - [Prefer following native APIs](#prefer-following-native-apis)
+  - [Prefer conventions set by built-in elements](#prefer-conventions-set-by-built-in-elements)
   - [Prefer `padding-inline` and `padding-block`](#prefer-padding-inline-and-padding-block)
   - [Prefer separate test files](#prefer-separate-test-files)
   - [Typing property decorators](#typing-property-decorators)
@@ -82,7 +82,7 @@ Instead, we've opted to document our opinions here so that they can be reference
 
 ### Prefer encapsulation
 
-A major advantage of web components is that their internals can be encapsulated.
+A major advantage of Web Components is that their internals can be encapsulated.
 This makes components less brittle.
 It also reduces the degree to which consumers can meddle with component design and behavior.
 Embrace encapsulation wherever you can.
@@ -380,56 +380,33 @@ For non-slot assertions, which should be rare, use the [default export](https://
 import ow from './library/ow';
 ```
 
-### Prefer native conventions
+### Prefer conventions set by built-in elements
 
-Our components are built on the platform and the closer we can be with the platform, the fewer framework-isms we will add to our components.
-Due to that, we should try to operate similar to the native components as much as possible.
+A built-in element is one that is provided by the platform, such as `<input />`.
+We are adding to this set of elements when we build Web Components.
+We should thus try to follow conventions set by them—both for consistency and familiarity.
 
-Take for example the `open` attribute on a details element.
+An example is attribute reflection.
+Attributes should generally be reflected.
+However, built-in form control elements do not reflect attributes that serve as an initial value.
+`<input>`, for example, does not reflect its `value` attributes
 
 ```ts
 // ✅ -- GOOD
-@customElement('cs-example')
-export default class CsExample extends LitElement {
-  // We use an `open` attribute to match the `open` attribute
-  // found on the details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details#open
-  // This is so our component API sticks to native as much as possible
-  // so that there aren't any surprises when consumers use our components.
-  @property({ type: Boolean, reflect: true }) open = false;
+@property({ reflect: true })
+label?: string
 
-  override render() {
-    return html`
-      <details ?open=${this.open}>
-        <summary>Details</summary>
-        <div><slot></slot></div>
-      </details>
-    `;
-  }
-}
+@property()
+value?: string
 ```
 
 ```ts
 // ❌ -- BAD
-@customElement('cs-example')
-export default class CsExample extends LitElement {
-  // We would not want to inject "frameworkisms" into our
-  // component API by naming this property `is-open`.  It may
-  // be more convenient, or we may write it this way in
-  // frameworks; however, it would be a surprise to consumers
-  // as it would deviate from the native API for the
-  // details element.
-  @property({ attribute: 'is-open', type: Boolean, reflect: true }) isOpen =
-    false;
+@property({ reflect: true })
+label?: string
 
-  override render() {
-    return html`
-      <details ?open=${this.isOpen}>
-        <summary>Details</summary>
-        <div><slot></slot></div>
-      </details>
-    `;
-  }
-}
+@property({ reflect: true })
+value?: string
 ```
 
 ### Prefer `padding-inline` and `padding-block`

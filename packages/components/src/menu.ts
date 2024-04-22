@@ -4,8 +4,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
-import CsMenuButton from './menu-button.js';
-import CsMenuLink from './menu-link.js';
+import CsMenuButton from './menu.button.js';
+import CsMenuLink from './menu.link.js';
 import styles from './menu.styles.js';
 
 declare global {

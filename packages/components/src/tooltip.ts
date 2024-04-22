@@ -1,8 +1,14 @@
 import { LitElement, html } from 'lit';
-import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  offset,
+  shift,
+} from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import styles from './tooltip.styles.js';
 
 declare global {
@@ -25,6 +31,10 @@ export default class CsTooltip extends LitElement {
 
   static override styles = styles;
 
+  /* The placement of the tooltip relative to its target. Automatic placement will take over if the tooltip is cut off by the viewport. */
+  @property()
+  placement?: 'bottom' | 'left' | 'right' | 'top';
+
   override async firstUpdated() {
     if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
       autoUpdate(
@@ -32,11 +42,11 @@ export default class CsTooltip extends LitElement {
         this.#tooltipElementRef.value,
         async () => {
           if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
-            const { placement, x } = await computePosition(
+            const { placement, x, y } = await computePosition(
               this.#targetElementRef.value,
               this.#tooltipElementRef.value,
               {
-                placement: 'right',
+                placement: this.placement || 'bottom',
                 middleware: [
                   offset({
                     mainAxis:
@@ -49,19 +59,18 @@ export default class CsTooltip extends LitElement {
                       this.#triangleWidth,
                   }),
                   flip({
-                    crossAxis: false,
-                    fallbackPlacements: ['left'],
+                    fallbackStrategy: 'initialPlacement',
                   }),
+                  shift(),
                 ],
               },
             );
             Object.assign(this.#tooltipElementRef.value.style, {
               left: `${x}px`,
+              top: `${y}px`,
             });
 
-            if (placement === 'left' || placement === 'right') {
-              this.placement = placement;
-            }
+            this.effectivePlacement = placement;
           }
         },
       );
@@ -81,57 +90,62 @@ export default class CsTooltip extends LitElement {
 
     /* eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/accessible-name */
     return html`
-      <div
-        aria-describedby="tooltip"
-        class="target"
-        name="target"
-        @focusin=${this.#onFocusin}
-        @focusout=${this.#onFocusout}
-        @keydown=${this.#onKeydown}
-        @mouseover=${this.#onMouseover}
-        @mouseout=${this.#onMouseout}
-        ${ref(this.#targetElementRef)}
-      >
-        <slot name="target"></slot>
-      </div>
-
-      <div
-        class=${classMap({
-          tooltip: true,
-          visible: this.isVisible,
-        })}
-        id="tooltip"
-        role="tooltip"
-        ${ref(this.#tooltipElementRef)}
-      >
-        <span aria-label="Tooltip: "></span>
-        <slot></slot>
-
-        <svg
-          class=${classMap({
-            triangle: true,
-            left: this.placement === 'right',
-            right: this.placement === 'left',
-          })}
-          width="${this.#triangleWidth}px"
-          height="10"
-          viewBox="0 0 6 10"
-          fill="none"
+      <div class="component">
+        <div
+          aria-describedby="tooltip"
+          class="target"
+          slot="target"
+          @focusin=${this.#onFocusin}
+          @focusout=${this.#onFocusout}
+          @keydown=${this.#onKeydown}
+          @mouseover=${this.#onMouseover}
+          @mouseout=${this.#onMouseout}
+          ${ref(this.#targetElementRef)}
         >
-          <path
-            d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
-            fill="#212121"
-          />
-        </svg>
+          <slot name="target"></slot>
+        </div>
+
+        <div
+          class=${classMap({
+            tooltip: true,
+            visible: this.isVisible,
+          })}
+          id="tooltip"
+          role="tooltip"
+          ${ref(this.#tooltipElementRef)}
+        >
+          <span aria-label="Tooltip: "></span>
+          <slot></slot>
+
+          <svg
+            class=${classMap({
+              triangle: true,
+              bottom: this.effectivePlacement === 'top',
+              left: this.effectivePlacement === 'right',
+              right: this.effectivePlacement === 'left',
+              top: this.effectivePlacement === 'bottom',
+            })}
+            width="${this.#triangleWidth}px"
+            height="10"
+            viewBox="0 0 6 10"
+            fill="none"
+            style="--triangle-width: ${this.#triangleWidth}px"
+          >
+            <path
+              d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
+              fill="#212121"
+            />
+          </svg>
+        </div>
       </div>
     `;
   }
 
   @state()
-  private isVisible = false;
+  private effectivePlacement?: string;
 
   @state()
-  private placement?: 'left' | 'right';
+  private isVisible = false;
 
   #targetElementRef = createRef<HTMLSpanElement>();
 

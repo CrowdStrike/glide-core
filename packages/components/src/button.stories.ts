@@ -42,7 +42,7 @@ const meta: Meta = {
     'slot="default"': {
       control: { type: 'text' },
       table: {
-        type: { summary: 'string | html' },
+        type: { summary: 'Element | string' },
       },
       type: { name: 'string', required: true },
     },
