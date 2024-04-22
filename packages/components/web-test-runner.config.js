@@ -2,10 +2,15 @@ import { defaultReporter } from '@web/test-runner';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fileURLToPath } from 'node:url';
 import { fromRollup } from '@web/dev-server-rollup';
+import { playwrightLauncher } from '@web/test-runner-playwright';
 import chalk from 'chalk';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 
 export default {
+  browsers: [
+    // https://github.com/modernweb-dev/web/issues/2588
+    playwrightLauncher(),
+  ],
   coverage: true,
   coverageConfig: {
     include: ['src/**/*.ts'],
