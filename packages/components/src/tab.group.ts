@@ -10,8 +10,8 @@ import {
 } from 'lit/decorators.js';
 import { owSlotType } from './library/ow.js';
 import CsTab from './tab.js';
-import CsTabPanel from './tab-panel.js';
-import styles from './tab-group.styles.js';
+import CsTabPanel from './tab.panel.js';
+import styles from './tab.group.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {

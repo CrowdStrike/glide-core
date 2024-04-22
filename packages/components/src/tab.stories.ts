@@ -1,4 +1,4 @@
-import './tab-group.js';
+import './tab.group.js';
 import './tab.js';
 
 import { html } from 'lit-html';

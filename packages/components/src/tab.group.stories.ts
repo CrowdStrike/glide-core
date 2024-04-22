@@ -1,6 +1,6 @@
-import './tab-group.js';
-import './tab-panel.js';
+import './tab.group.js';
 import './tab.js';
+import './tab.panel.js';
 
 import { html } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';

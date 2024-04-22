@@ -1,10 +1,10 @@
-import './tab-group.js';
-import './tab-panel.js';
+import './tab.group.js';
 import './tab.js';
+import './tab.panel.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import TabGroup from './tab-group.js';
-import TabPanel from './tab-panel.js';
+import TabGroup from './tab.group.js';
+import TabPanel from './tab.panel.js';
 import sinon from 'sinon';
 
 TabGroup.shadowRootOptions.mode = 'open';

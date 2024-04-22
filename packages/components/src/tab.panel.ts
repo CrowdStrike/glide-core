@@ -1,7 +1,7 @@
 import { LitElement, type PropertyValues, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
-import styles from './tab-panel.styles.js';
+import styles from './tab.panel.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
