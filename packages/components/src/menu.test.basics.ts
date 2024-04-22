@@ -1,7 +1,7 @@
-import './menu-button.js';
+import './menu.button.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import CsMenu from './menu.js';
-import CsMenuLink from './menu-link.js';
+import CsMenuLink from './menu.link.js';
 import sinon from 'sinon';
 
 CsMenu.shadowRootOptions.mode = 'open';
