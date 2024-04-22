@@ -30,3 +30,7 @@ runs:
     - name: Install dependencies
       shell: bash
       run: pnpm install
+
+    - name: Install Playwright
+      shell: bash
+      run: pnpm dlx playwright install --with-deps

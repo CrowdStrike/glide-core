@@ -2,21 +2,22 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import styles from './menu-button.styles.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import styles from './menu.link.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-menu-button': CsMenuButton;
+    'cs-menu-link': CsMenuLink;
   }
 }
 
 /**
- * @description A button for use within a <cs-menu>.
+ * @description A link for use within a <cs-menu>.
  *
  * @slot icon - An icon.
  */
-@customElement('cs-menu-button')
-export default class CsMenuButton extends LitElement {
+@customElement('cs-menu-link')
+export default class CsMenuLink extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -27,12 +28,15 @@ export default class CsMenuButton extends LitElement {
   @property({ reflect: true })
   label?: string;
 
+  @property({ reflect: true })
+  url?: string;
+
   @property({ type: Boolean })
-  // A button is considered active when it's interacted with via keyboard or hovered.
+  // A link is considered active when it's interacted with via keyboard or hovered.
   privateActive = false;
 
   // `shadowRoot.delegatesFocus` is preferred because it's more declarative.
-  // But using it here triggers a focus-visible state whenever `this.focus` is
+  // But using here it triggers a focus-visible state whenever `this.focus` is
   // called. And we only want a focus outline when the `this.focus` is called
   // as a result of keyboard interaction.
   override focus() {
@@ -44,20 +48,20 @@ export default class CsMenuButton extends LitElement {
     // is to account for when a keyboard user tabs backward to the dropdown button.
     // Tabbing forward from there should move focus to where it was previously,
     // which would be on the option.
-    return html`<button
+    return html`<a
       class=${classMap({
         component: true,
         'component-active': this.privateActive,
       })}
       data-test="component"
+      href=${ifDefined(this.url)}
       role="menuitem"
       tabindex=${this.privateActive ? '0' : '-1'}
-      type="button"
       ${ref(this.#componentElement)}
     >
       <slot name="icon"></slot>
       ${this.label}
-    </button>`;
+    </a>`;
   }
 
   #componentElement = createRef<HTMLElement>();
