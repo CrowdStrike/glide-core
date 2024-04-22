@@ -12,7 +12,7 @@ it('registers', async () => {
 });
 
 it('is accessible', async () => {
-  const element = await fixture<CsButtonGroup>(
+  const element = await fixture(
     html`<cs-button-group label="label"
       ><cs-button-group-button value="value"
         >Button</cs-button-group-button
@@ -24,7 +24,7 @@ it('is accessible', async () => {
 });
 
 it('renders a label and unordered list', async () => {
-  const element = await fixture<CsButtonGroup>(
+  const element = await fixture(
     html`<cs-button-group label="label"
       ><cs-button-group-button value="value"
         >Button</cs-button-group-button
@@ -36,11 +36,11 @@ it('renders a label and unordered list', async () => {
 
   expect(ulElement).to.not.be.null;
   expect(labelElement).to.not.be.null;
-  expect(labelElement).to.have.attribute('for', ulElement!.id);
+  expect(labelElement).to.have.attribute('for', ulElement?.id);
 });
 
 it('does not render a label when not given', async () => {
-  const element = await fixture<CsButtonGroup>(
+  const element = await fixture(
     html`<cs-button-group
       ><cs-button-group-button value="value"
         >Button</cs-button-group-button
@@ -55,9 +55,7 @@ it('does not render a label when not given', async () => {
 });
 
 it('returns nothing if button group has no children', async () => {
-  const element = await fixture<CsButtonGroup>(
-    html`<cs-button-group></cs-button-group>`,
-  );
+  const element = await fixture(html`<cs-button-group></cs-button-group>`);
   const ulElement = element.shadowRoot?.querySelector('ul');
 
   expect(ulElement).to.be.null;
@@ -71,9 +69,7 @@ it('buttons have a vertical presention when attribute "orientation" is set to "v
     </cs-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   const liElement1 = buttonElements[0]?.shadowRoot?.querySelector('li');
   const liElement2 = buttonElements[0]?.shadowRoot?.querySelector('li');
 
@@ -92,9 +88,7 @@ it('does not have a vertical presention when the "orientation" is not set to "ve
     </cs-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   const liElement1 = buttonElements[0]?.shadowRoot?.querySelector('li');
   const liElement2 = buttonElements[0]?.shadowRoot?.querySelector('li');
 
@@ -106,16 +100,14 @@ it('does not have a vertical presention when the "orientation" is not set to "ve
 });
 
 it('reacts to "orientation" attribute when changed from "horizontal" to "vertical"', async () => {
-  const element = await fixture<CsButtonGroup>(
+  const element = await fixture(
     html`<cs-button-group label="label" orientation="horizontal"
       ><cs-button-group-button value="value"
         >Button</cs-button-group-button
       ></cs-button-group
     >`,
   );
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElement = document.querySelector('cs-button-group-button');
   const liElement = buttonElement?.shadowRoot?.querySelector('li');
 
   expect(liElement).to.not.have.class('vertical');
@@ -147,9 +139,7 @@ it('applies an "icon-only" variant to buttons when set on the group', async () =
     </cs-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   const liElement1 = buttonElements[0]?.shadowRoot?.querySelector('li');
   const liElement2 = buttonElements[1]?.shadowRoot?.querySelector('li');
 
@@ -168,9 +158,7 @@ it('does not apply an "icon-only" variant to buttons when not set on the group',
     </cs-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   const liElement1 = buttonElements[0]?.shadowRoot?.querySelector('li');
   const liElement2 = buttonElements[1]?.shadowRoot?.querySelector('li');
 
@@ -190,10 +178,8 @@ it('reacts to variant "icon-only" attribute when added and removed', async () =>
     >`,
   );
 
-  const element = document.querySelector<CsButtonGroup>('cs-button-group');
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const element = document.querySelector('cs-button-group');
+  const buttonElement = document.querySelector('cs-button-group-button');
 
   expect(element).to.not.be.null;
   expect(buttonElement).to.not.be.null;

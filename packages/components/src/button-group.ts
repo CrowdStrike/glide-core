@@ -18,9 +18,14 @@ declare global {
   }
 }
 
-export type TButtonGroupVariant = 'icon-only' | undefined;
-export type TButtonGroupOrientation = 'vertical' | 'horizontal';
+export type ButtonGroupVariant = 'icon-only' | undefined;
+type ButtonGroupOrientation = 'vertical' | 'horizontal';
 
+/**
+ * @description A button group for use with `<button-group-button>`.
+ *
+ * @slot - One or more `<button-group-button>` components.
+ */
 @customElement('cs-button-group')
 export default class CsButtonGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
@@ -41,7 +46,7 @@ export default class CsButtonGroup extends LitElement {
     return this.#variant;
   }
 
-  set variant(value: TButtonGroupVariant) {
+  set variant(value: ButtonGroupVariant) {
     this.#variant = value;
     if (this.#variant) {
       for (const listItem of this.listItems) {
@@ -59,7 +64,7 @@ export default class CsButtonGroup extends LitElement {
     return this.#orientation;
   }
 
-  set orientation(value: TButtonGroupOrientation) {
+  set orientation(value: ButtonGroupOrientation) {
     this.#orientation = value;
     if (this.#orientation === 'vertical') {
       for (const listItem of this.listItems) {
@@ -123,7 +128,7 @@ export default class CsButtonGroup extends LitElement {
 
   #defaultSlotRef = createRef<HTMLSlotElement>();
 
-  #orientation: TButtonGroupOrientation = 'horizontal';
+  #orientation: ButtonGroupOrientation = 'horizontal';
 
-  #variant: TButtonGroupVariant;
+  #variant: ButtonGroupVariant;
 }

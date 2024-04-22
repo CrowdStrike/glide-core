@@ -15,13 +15,13 @@ CsButtonGroup.shadowRootOptions.mode = 'open';
 CsButtonGroupButton.shadowRootOptions.mode = 'open';
 
 it('emits a change event when clicked', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
   const liElement = element.shadowRoot?.querySelector('li');
   // This pattern is adopted from https://open-wc.org/docs/testing/helpers/#testing-events
   // Without setTimeout the test fails. The suspicion is this is related to task scheduling,
-  // however this can be revisited.
+  // however this can be investigated later.
   setTimeout(() => {
     liElement?.click();
   });
@@ -31,7 +31,7 @@ it('emits a change event when clicked', async () => {
 });
 
 it('emits an input event when clicked', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
   const liElement = element.shadowRoot!.querySelector('li');
@@ -53,9 +53,7 @@ it('emits a change event when arrow keys are pressed', async () => {
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
 
   // This pattern is adopted from https://open-wc.org/docs/testing/helpers/#testing-events
@@ -93,9 +91,7 @@ it('emits an input event when arrow keys are pressed', async () => {
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
 
   setTimeout(async () => await sendKeys({ press: 'ArrowLeft' }));
@@ -129,9 +125,7 @@ it('moves focus to previous button when left or up arrow keys are pressed', asyn
       >
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
 
@@ -151,9 +145,7 @@ it('moves focus to last button when left or up arrow keys are pressed on the fir
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
 
@@ -176,9 +168,7 @@ it('moves focus to next button when right or down arrow keys are pressed', async
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
@@ -198,9 +188,7 @@ it('moves focus to first button when right or down arrow keys are pressed on the
       >
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
@@ -226,9 +214,7 @@ it('moves focus to previous enabled button when pressing left or up arrow keys',
       >
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
 
@@ -254,9 +240,7 @@ it('moves focus to next enabled button when pressing right or down arrow keys', 
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
@@ -276,9 +260,7 @@ it('does not move focus if there is only one button when pressing arrow keys', a
       <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElement = document.querySelector('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
 
   await sendKeys({ press: 'ArrowLeft' });
@@ -304,9 +286,7 @@ it('changes the "selected" attribute when clicking', async () => {
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   const liElement = buttonElements[2].shadowRoot!.querySelector('li');
   expect(liElement).to.exist;
   liElement?.click();
@@ -328,9 +308,7 @@ it('does not change focus nor the "selected" attribute when clicking a disabled 
       >
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   const liElement = buttonElements[0].shadowRoot!.querySelector('li');
   expect(liElement).to.exist;
@@ -352,9 +330,7 @@ it('changes the "selected" attribute when pressing arrow and space keys', async 
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
@@ -389,52 +365,42 @@ it('changes the "selected" attribute when pressing arrow and space keys', async 
 });
 
 it('emits a change event when a space key is pressed and is not already selected', async () => {
-  const template = `<cs-button-group><cs-button-group-button value="value-1">Button 1</cs-button-group-button></cs-button-group>`;
-  await fixture(template);
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
+  const buttonElement = await fixture<CsButtonGroupButton>(
+    html`<cs-button-group-button value="value-1"
+      >Button 1</cs-button-group-button
+    >`,
   );
+  buttonElement.focus();
   setTimeout(async () => {
-    await sendKeys({ press: 'Tab' });
     await sendKeys({ press: ' ' });
   });
-  const changeEvent = await oneEvent(buttonElement!, 'change');
+  const changeEvent = await oneEvent(buttonElement, 'change');
 
   expect(changeEvent instanceof Event).to.be.true;
 });
 
 it('does not emit change event when a space key is pressed and is selected', async () => {
-  await fixture(
-    html`<cs-button-group
-      ><cs-button-group-button value="value-1" selected
-        >Button 1</cs-button-group-button
-      ></cs-button-group
-    >`,
-  );
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
+  const buttonElement = await fixture<CsButtonGroupButton>(
+    html`<cs-button-group-button value="value-1" selected
+      >Button 1</cs-button-group-button
+    > `,
   );
   const spy = sinon.spy();
-  buttonElement!.addEventListener('change', spy);
-  await sendKeys({ press: 'Tab' });
+  buttonElement.addEventListener('change', spy);
+  buttonElement.focus();
   await sendKeys({ press: ' ' });
 
   expect(spy.notCalled).to.be.true;
 });
 
 it('emits an input event when a space key is pressed and is not already selected', async () => {
-  await fixture(
-    html`<cs-button-group
-      ><cs-button-group-button value="value-1"
-        >Button 1</cs-button-group-button
-      ></cs-button-group
+  const buttonElement = await fixture<CsButtonGroupButton>(
+    html` <cs-button-group-button value="value-1"
+      >Button 1</cs-button-group-button
     >`,
   );
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  buttonElement.focus();
   setTimeout(async () => {
-    await sendKeys({ press: 'Tab' });
     await sendKeys({ press: ' ' });
   });
   const inputEvent = await oneEvent(buttonElement!, 'input');
@@ -443,19 +409,14 @@ it('emits an input event when a space key is pressed and is not already selected
 });
 
 it('does not emit an input event when a space key is pressed and is selected', async () => {
-  await fixture(
-    html`<cs-button-group
-      ><cs-button-group-button value="value-1" selected
-        >Button 1</cs-button-group-button
-      ></cs-button-group
+  const buttonElement = await fixture<CsButtonGroupButton>(
+    html`<cs-button-group-button value="value-1" selected
+      >Button 1</cs-button-group-button
     >`,
   );
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  buttonElement.focus();
   const spy = sinon.spy();
-  buttonElement!.addEventListener('input', spy);
-  await sendKeys({ press: 'Tab' });
+  buttonElement.addEventListener('input', spy);
   await sendKeys({ press: ' ' });
 
   expect(spy.notCalled).to.be.true;

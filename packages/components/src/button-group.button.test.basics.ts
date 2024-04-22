@@ -14,7 +14,7 @@ it('registers', async () => {
 });
 
 it('is accessible', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
 
@@ -22,7 +22,7 @@ it('is accessible', async () => {
 });
 
 it('renders an li with role "radio"', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
   const liElement = element.shadowRoot?.querySelector('li');
@@ -31,7 +31,7 @@ it('renders an li with role "radio"', async () => {
 });
 
 it('renders "aria-checked" equal to "false" and "tabindex" equal to "-1" by default', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
   const liElement = element.shadowRoot?.querySelector('li');
@@ -42,7 +42,7 @@ it('renders "aria-checked" equal to "false" and "tabindex" equal to "-1" by defa
 });
 
 it('renders "aria-checked" equal to "true" and "tabindex" equal to "0" when attribute "selected" exists', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value" selected
       >Button</cs-button-group-button
     >`,
@@ -54,14 +54,11 @@ it('renders "aria-checked" equal to "true" and "tabindex" equal to "0" when attr
 });
 
 it('renders two slots, where one has name "prefix", and the other is default with given text', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value" selected
       ><span slot="prefix" data-prefix>Prefix</span
       ><span data-default>Button</span></cs-button-group-button
     >`,
-  );
-  const liPrefixOnlyElement = element.shadowRoot?.querySelector(
-    '[data-test-prefix-only]',
   );
   const prefixSlot = element.shadowRoot?.querySelector('slot[name="prefix"]');
   const defaultSlot = element.shadowRoot?.querySelector(
@@ -69,22 +66,21 @@ it('renders two slots, where one has name "prefix", and the other is default wit
   );
 
   // verify the slots exist
-  expect(liPrefixOnlyElement).to.be.null;
   expect(prefixSlot).to.not.be.null;
   expect(defaultSlot).to.not.be.null;
 
-  const prefixElement = document.querySelector('[data-prefix]');
-  const defaultElement = document.querySelector('[data-default]');
+  const prefixContent = document.querySelector('[data-prefix]');
+  const defaultContent = document.querySelector('[data-default]');
 
   // verify the content of the slots exist
-  expect(prefixElement).to.not.be.null;
-  expect(defaultElement).to.not.be.null;
-  expect(prefixElement?.textContent).to.equal('Prefix');
-  expect(defaultElement?.textContent).to.equal('Button');
+  expect(prefixContent).to.not.be.null;
+  expect(defaultContent).to.not.be.null;
+  expect(prefixContent?.textContent).to.equal('Prefix');
+  expect(defaultContent?.textContent).to.equal('Button');
 });
 
 it('is has a disabled presentation when the "disabled" attribute is true', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value" disabled
       >Button</cs-button-group-button
     >`,
@@ -95,7 +91,7 @@ it('is has a disabled presentation when the "disabled" attribute is true', async
 });
 
 it('does not have a disabled presentation when "disabled" attribute is false', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
   const liElement = element.shadowRoot?.querySelector('li');
@@ -110,9 +106,7 @@ it('has a vertical presention when the "vertical" attribute is set', async () =>
     >`,
   );
 
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElement = document.querySelector('cs-button-group-button');
   const liElement = buttonElement?.shadowRoot?.querySelector('li');
 
   expect(liElement).to.have.class('vertical');
@@ -125,9 +119,7 @@ it('does not have a vertical presention when the "vertical" attribute is not set
     >`,
   );
 
-  const buttonElement = document.querySelector<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElement = document.querySelector('cs-button-group-button');
   const liElement = buttonElement?.shadowRoot?.querySelector('li');
 
   expect(liElement).to.not.have.class('vertical');
@@ -142,34 +134,29 @@ it('assigns the correct positional presentation when in a button group', async (
       <cs-button-group-button value="value-4">Button 4</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(4);
-  let liElement =
-    buttonElements[0].shadowRoot?.querySelector<CsButtonGroupButton>('li');
 
-  expect(liElement).to.have.class('first');
+  const liElement1 = buttonElements[0].shadowRoot?.querySelector('li');
 
-  liElement =
-    buttonElements[1].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  expect(liElement1).to.have.class('first');
 
-  expect(liElement).to.have.class('inner');
+  const liElement2 = buttonElements[1].shadowRoot?.querySelector('li');
 
-  liElement =
-    buttonElements[2].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  expect(liElement2).to.have.class('inner');
 
-  expect(liElement).to.have.class('inner');
+  const liElement3 = buttonElements[2].shadowRoot?.querySelector('li');
 
-  liElement =
-    buttonElements[3].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  expect(liElement3).to.have.class('inner');
 
-  expect(liElement).to.have.class('last');
+  const liElement4 = buttonElements[3].shadowRoot?.querySelector('li');
+
+  expect(liElement4).to.have.class('last');
 });
 
 it('sets buttons as not tabbable by default', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
   const liElement = element.shadowRoot?.querySelector('li');
@@ -178,7 +165,7 @@ it('sets buttons as not tabbable by default', async () => {
 });
 
 it('sets a "selected" button as tabbable', async () => {
-  const element = await fixture<CsButtonGroupButton>(
+  const element = await fixture(
     html`<cs-button-group-button value="value" selected
       >Button</cs-button-group-button
     >`,
@@ -188,7 +175,7 @@ it('sets a "selected" button as tabbable', async () => {
   await expect(liElement).to.have.attribute('tabindex', '0');
 });
 
-it('initially sets itself as tabble if its the first element in a button group', async () => {
+it("initially sets itself as tabble if it's the first element in a button group", async () => {
   await fixture(
     html`<cs-button-group>
       <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
@@ -196,26 +183,21 @@ it('initially sets itself as tabble if its the first element in a button group',
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(3);
 
-  let liElement =
-    buttonElements[0].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement1 = buttonElements[0].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '0');
+  expect(liElement1).to.have.attribute('tabindex', '0');
 
-  liElement =
-    buttonElements[1].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement2 = buttonElements[1].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '-1');
+  expect(liElement2).to.have.attribute('tabindex', '-1');
 
-  liElement =
-    buttonElements[2].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement3 = buttonElements[2].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '-1');
+  expect(liElement3).to.have.attribute('tabindex', '-1');
 });
 
 it('initially sets itself as tabbable when first non-disabled button in a group', async () => {
@@ -228,29 +210,24 @@ it('initially sets itself as tabbable when first non-disabled button in a group'
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(3);
 
-  let liElement =
-    buttonElements[0].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement1 = buttonElements[0].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '-1');
+  expect(liElement1).to.have.attribute('tabindex', '-1');
 
-  liElement =
-    buttonElements[1].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement2 = buttonElements[1].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '0');
+  expect(liElement2).to.have.attribute('tabindex', '0');
 
-  liElement =
-    buttonElements[2].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement3 = buttonElements[2].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '-1');
+  expect(liElement3).to.have.attribute('tabindex', '-1');
 });
 
-it('initially sets itself as tabbable when "selected" when others are not when in a button group', async () => {
+it('initially sets itself as tabbable when "selected" and others are not when in a button group', async () => {
   await fixture(
     html`<cs-button-group>
       <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
@@ -260,26 +237,21 @@ it('initially sets itself as tabbable when "selected" when others are not when i
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(3);
 
-  let liElement =
-    buttonElements[0].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement1 = buttonElements[0].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '-1');
+  expect(liElement1).to.have.attribute('tabindex', '-1');
 
-  liElement =
-    buttonElements[1].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement2 = buttonElements[1].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '0');
+  expect(liElement2).to.have.attribute('tabindex', '0');
 
-  liElement =
-    buttonElements[2].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement3 = buttonElements[2].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '-1');
+  expect(liElement3).to.have.attribute('tabindex', '-1');
 });
 
 it('initially no buton sets itself as tabbable if all are disabled in a group', async () => {
@@ -293,21 +265,17 @@ it('initially no buton sets itself as tabbable if all are disabled in a group', 
       >
     </cs-button-group>`,
   );
-  const buttonElements = document.querySelectorAll<CsButtonGroupButton>(
-    'cs-button-group-button',
-  );
+  const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(2);
 
-  let liElement =
-    buttonElements[0].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement1 = buttonElements[0].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '-1');
+  expect(liElement1).to.have.attribute('tabindex', '-1');
 
-  liElement =
-    buttonElements[1].shadowRoot?.querySelector<CsButtonGroupButton>('li');
+  const liElement2 = buttonElements[1].shadowRoot?.querySelector('li');
 
-  expect(liElement).to.have.attribute('tabindex', '-1');
+  expect(liElement2).to.have.attribute('tabindex', '-1');
 });
 
 it('has a presentation for variant "icon-only"', async () => {

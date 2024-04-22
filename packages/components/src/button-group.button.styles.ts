@@ -12,7 +12,7 @@ export default [
       cursor: pointer;
       display: flex;
       font-family: var(--cs-font-sans);
-      font-size: 1rem;
+      font-size: var(--cs-body-md-font-size);
       font-style: var(--cs-heading-xxs-font-style);
       font-weight: var(--cs-heading-xxs-font-weight);
       gap: 0.625rem;

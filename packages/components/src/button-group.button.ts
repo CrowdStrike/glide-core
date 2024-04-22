@@ -4,14 +4,22 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
 import styles from './button-group.button.styles.js';
-import type { TButtonGroupVariant } from './button-group.js';
+import type { ButtonGroupVariant } from './button-group.js';
 
 declare global {
   interface HTMLElementTagNameMap {
     'cs-button-group-button': CsButtonGroupButton;
   }
 }
+/**
+ * @description A button for use with `<button-group>` with label and optional icon. 
+ *
+ * @event change - Dispatched when clicked or selected by key press.
+ * @event input - Dispatched when clicked or selected by key press.
 
+ * @slot prefix - Icon content.
+ * @slot - Label content.
+ */
 @customElement('cs-button-group-button')
 export default class CsButtonGroupButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
@@ -29,7 +37,6 @@ export default class CsButtonGroupButton extends LitElement {
   set selected(isSelected) {
     this.#selected = isSelected;
     if (this.#selected) {
-      // when selected, set the element as tabbable and focus
       this.isTabbable = true;
       this.focus();
       // set other elements as not selected
@@ -52,11 +59,14 @@ export default class CsButtonGroupButton extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  // `value` is used since this is effectively a radio button and not a
+  // button, and consumers can reasonably expect to identify selections
+  // based on some value other than the label.
   @property({ reflect: true })
   value = '';
 
   @property()
-  variant?: TButtonGroupVariant;
+  variant?: ButtonGroupVariant;
 
   @property({ type: Boolean })
   vertical = false;
@@ -122,9 +132,8 @@ export default class CsButtonGroupButton extends LitElement {
       ),
     );
 
-    // Ow doesn't throw an error & not sure why, so throwing an error instead
+    // `owSlot` doesn't throw an error and not sure why, so throw an `Error` instead
     // owSlot(this.#defaultSlotRef.value);
-
     if (isDefaultSlotEmpty) {
       throw new Error(`A label is required.`);
     }
@@ -159,7 +168,7 @@ export default class CsButtonGroupButton extends LitElement {
       <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
       <!-- 
         Wrap the default slot in a span and apply class 'visually-hidden' when
-        variant is 'icon-only' since we can't apply styling to text nodes
+        variant is 'icon-only' (we can't apply styling to text nodes)
        -->
       <span
         class="${classMap({
