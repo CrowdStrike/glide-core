@@ -132,8 +132,6 @@ export default class CsButtonGroupButton extends LitElement {
       ),
     );
 
-    // `owSlot` doesn't throw an error and not sure why, so throw an `Error` instead
-    // owSlot(this.#defaultSlotRef.value);
     if (isDefaultSlotEmpty) {
       throw new Error(`A label is required.`);
     }
