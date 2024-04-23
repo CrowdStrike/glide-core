@@ -131,18 +131,8 @@ export default class CsTabGroup extends LitElement {
   };
 
   override firstUpdated() {
-    if (
-      this.#navSlotRef.value &&
-      this.#navSlotRef.value.assignedElements().length > 0
-    ) {
-      owSlotType(this.#navSlotRef.value, [CsTab]);
-    }
-    if (
-      this.#defaultSlotRef.value &&
-      this.#defaultSlotRef.value.assignedElements().length > 0
-    ) {
-      owSlotType(this.#defaultSlotRef.value, [CsTabPanel]);
-    }
+    owSlotType(this.#navSlotRef.value, [CsTab]);
+    owSlotType(this.#defaultSlotRef.value, [CsTabPanel]);
     this.setupTabs();
     this.setActiveTab();
   }

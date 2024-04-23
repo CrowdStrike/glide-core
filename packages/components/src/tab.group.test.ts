@@ -11,25 +11,29 @@ TabGroup.shadowRootOptions.mode = 'open';
 TabPanel.shadowRootOptions.mode = 'open';
 
 it('renders correct markup and sets correct attributes for the default case', async () => {
-  const element = await fixture<TabGroup>(html`
-    <cs-tab-group>Tab</cs-tab-group>
+  const tabGroup = await fixture<TabGroup>(html`
+    <cs-tab-group>
+      <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
+      <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
+    </cs-tab-group>
   `);
 
-  await expect(element).to.be.accessible();
-  expect(element.activeTab).to.equal(
-    undefined,
-    'activeTab defaults to undefined',
+  await expect(tabGroup).to.be.accessible();
+  const [firstTab] = tabGroup.tabElements;
+  expect(tabGroup.activeTab).to.equal(
+    firstTab,
+    'activeTab defaults to first tab',
   );
-  expect(element.variant).to.equal('primary');
+  expect(tabGroup.variant).to.equal('primary');
 
   expect([
-    ...element.shadowRoot!.querySelector('.wrapper')!.classList,
+    ...tabGroup.shadowRoot!.querySelector('.wrapper')!.classList,
   ]).to.deep.equal(['wrapper']);
   expect([
-    ...element.shadowRoot!.querySelector('.tab-group')!.classList,
+    ...tabGroup.shadowRoot!.querySelector('.tab-group')!.classList,
   ]).to.deep.equal(['tab-group', 'primary']);
 
-  const slot = element.shadowRoot!.querySelector<HTMLSlotElement>(
+  const slot = tabGroup.shadowRoot!.querySelector<HTMLSlotElement>(
     'slot:not([name="nav"])',
   );
   expect(slot).to.exist;
@@ -37,8 +41,11 @@ it('renders correct markup and sets correct attributes for the default case', as
 });
 
 it('renders a secondary variant', async () => {
-  const element = await fixture<TabGroup>(html`
-    <cs-tab-group variant="secondary">Tab</cs-tab-group>
+  const element = await fixture(html`
+    <cs-tab-group variant="secondary">
+      <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
+      <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
+    </cs-tab-group>
   `);
 
   expect([
@@ -47,8 +54,11 @@ it('renders a secondary variant', async () => {
 });
 
 it('renders a vertical variant', async () => {
-  const element = await fixture<TabGroup>(html`
-    <cs-tab-group variant="vertical">Tab</cs-tab-group>
+  const element = await fixture(html`
+    <cs-tab-group variant="vertical">
+      <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
+      <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
+    </cs-tab-group>
   `);
 
   expect([
@@ -220,7 +230,7 @@ it('throws an error when an element other than `cs-tab` is a child of the `nav` 
   const spy = sinon.spy();
 
   try {
-    await fixture<TabGroup>(html`
+    await fixture(html`
       <cs-tab-group variant="vertical">
         <div slot="nav">Tab 1</div>
         <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
@@ -237,7 +247,7 @@ it('throws an error when an element other than `cs-tab-panel` is a child of the 
   const spy = sinon.spy();
 
   try {
-    await fixture<TabGroup>(html`
+    await fixture(html`
       <cs-tab-group variant="vertical">
         <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
         <div>Default Content</div>
