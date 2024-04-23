@@ -67,13 +67,13 @@ export default [
 
       &:not(.disabled):active {
         background-color: var(--cs-surface-selected);
-        border-color: var(--cs-surface-selected);
+        border-color: var(--cs-border-focus);
         color: var(--cs-color-white);
       }
 
       &:not(.disabled):focus-visible {
         background-color: var(--cs-surface-selected);
-        border-color: var(--cs-surface-selected);
+        border-color: var(--cs-border-focus);
         color: var(--cs-color-white);
 
         ${focusOutline};

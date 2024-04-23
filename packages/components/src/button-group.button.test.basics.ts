@@ -254,7 +254,7 @@ it('initially sets itself as tabbable when "selected" and others are not when in
   expect(liElement3).to.have.attribute('tabindex', '-1');
 });
 
-it('initially no buton sets itself as tabbable if all are disabled in a group', async () => {
+it('initially no button sets itself as tabbable if all are disabled in a group', async () => {
   await fixture(
     html`<cs-button-group>
       <cs-button-group-button value="value-1" disabled

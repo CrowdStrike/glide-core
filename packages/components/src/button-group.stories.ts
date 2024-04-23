@@ -69,14 +69,14 @@ export default meta;
 export const Default: StoryObj = {};
 
 export const DefaultWithOrientationVertical: StoryObj = {
-  name: 'Default (With Orientation Vertical)',
+  name: 'With Orientation Vertical',
   args: {
     orientation: 'vertical',
   },
 };
 
 export const DefaultWithPrefixIcon: StoryObj = {
-  name: 'Default (With Prefix Icon)',
+  name: 'With Prefix Icon',
   render: (arguments_) => html`
     <cs-button-group
       label=${arguments_.label}
@@ -165,7 +165,7 @@ export const DefaultWithPrefixIcon: StoryObj = {
 };
 
 export const DefaultWithOrientationVerticalPrefixIcon: StoryObj = {
-  name: 'Default (With Orientation Vertical and Prefix Icon)',
+  name: 'With Orientation Vertical and Prefix Icon',
   args: {
     orientation: 'vertical',
   },
@@ -257,7 +257,7 @@ export const DefaultWithOrientationVerticalPrefixIcon: StoryObj = {
 };
 
 export const DefaultWithVariantIconOnly: StoryObj = {
-  name: 'Default (With Variant Icon Only)',
+  name: 'With Variant Icon Only',
   render: (arguments_) => html`
     <cs-button-group
       label=${arguments_.label}
@@ -347,7 +347,7 @@ export const DefaultWithVariantIconOnly: StoryObj = {
 };
 
 export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
-  name: 'Default (With Orientation Vertical and Variant Only Icon)',
+  name: 'With Orientation Vertical and Variant Only Icon',
   args: {
     orientation: 'vertical',
   },
@@ -440,7 +440,7 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
 };
 
 export const DefaultWithNoneSelected: StoryObj = {
-  name: 'Default (With None Selected)',
+  name: 'With None Selected',
   render: (arguments_) => html`
     <cs-button-group label=${arguments_.label}>
       <cs-button-group-button value="button-1">Button 1</cs-button-group-button>
@@ -451,7 +451,7 @@ export const DefaultWithNoneSelected: StoryObj = {
 };
 
 export const DefaultWithSelected: StoryObj = {
-  name: 'Default (With Second Button Selected)',
+  name: 'With Second Button Selected',
   render: (arguments_) => html`
     <cs-button-group label=${arguments_.label}>
       <cs-button-group-button value="button-1">Button 1</cs-button-group-button>
@@ -464,7 +464,7 @@ export const DefaultWithSelected: StoryObj = {
 };
 
 export const DefaultWithDisabled: StoryObj = {
-  name: 'Default (With Disabled)',
+  name: 'With Disabled',
   render: (arguments_) => html`
     <cs-button-group label=${arguments_.label}>
       <cs-button-group-button value="button-1" disabled
@@ -479,7 +479,7 @@ export const DefaultWithDisabled: StoryObj = {
 };
 
 export const DefaultWithOneButton: StoryObj = {
-  name: 'Default (With One Button)',
+  name: 'With One Button',
   render: (arguments_) => html`
     <cs-button-group label=${arguments_.label}>
       <cs-button-group-button value="button">Button</cs-button-group-button>

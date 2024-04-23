@@ -34,8 +34,8 @@ export default class CsButtonGroupButton extends LitElement {
     return this.#selected;
   }
 
-  set selected(isSelected) {
-    this.#selected = isSelected;
+  set selected(newValue) {
+    this.#selected = newValue;
     if (this.#selected) {
       this.isTabbable = true;
       this.focus();
@@ -62,7 +62,7 @@ export default class CsButtonGroupButton extends LitElement {
   // `value` is used since this is effectively a radio button and not a
   // button, and consumers can reasonably expect to identify selections
   // based on some value other than the label.
-  @property({ reflect: true })
+  @property()
   value = '';
 
   @property()
