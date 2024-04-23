@@ -8,7 +8,6 @@ Tree.shadowRootOptions.mode = 'open';
 it('renders and sets default attributes', async () => {
   const tree = await fixture<Tree>(html` <cs-tree></cs-tree> `);
 
-  await expect(tree).to.be.accessible();
   expect(tree.selectedItem).to.equal(undefined);
 });
 

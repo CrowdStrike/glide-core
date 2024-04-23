@@ -1,11 +1,13 @@
 import './tree.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import Tree from './tree.js';
+import TreeItem from './tree-item.js';
 
 Tree.shadowRootOptions.mode = 'open';
+TreeItem.shadowRootOptions.mode = 'open';
 
-it('sets roles tree and treeitem', async () => {
-  const tree = await fixture<Tree>(html`
+it('is accessible', async () => {
+  const component = await fixture<Tree>(html`
     <cs-tree>
       <cs-tree-item label="Child Item 1"></cs-tree-item>
       <cs-tree-item label="Child Item 2">
@@ -14,19 +16,40 @@ it('sets roles tree and treeitem', async () => {
     </cs-tree>
   `);
 
-  const childItems = tree.slotElements;
+  await expect(component).to.be.accessible();
+});
 
-  expect(tree.getAttribute('role')).to.equal('tree');
+it('sets roles tree and treeitem', async () => {
+  const component = await fixture<Tree>(html`
+    <cs-tree>
+      <cs-tree-item label="Child Item 1"></cs-tree-item>
+      <cs-tree-item label="Child Item 2">
+        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
+      </cs-tree-item>
+    </cs-tree>
+  `);
 
-  expect(childItems[0].getAttribute('role')).to.equal('treeitem');
-  expect(childItems[1].getAttribute('role')).to.equal('treeitem');
-  expect(childItems[1].slotElements[0].getAttribute('role')).to.equal(
-    'treeitem',
-  );
+  const childItems = component.slotElements;
+
+  expect(
+    component.shadowRoot?.querySelector('.tree')?.getAttribute('role'),
+  ).to.equal('tree');
+
+  expect(
+    childItems[0].shadowRoot?.querySelector('.component')?.getAttribute('role'),
+  ).to.equal('treeitem');
+  expect(
+    childItems[1].shadowRoot?.querySelector('.component')?.getAttribute('role'),
+  ).to.equal('treeitem');
+  expect(
+    childItems[1].slotElements[0].shadowRoot
+      ?.querySelector('.component')
+      ?.getAttribute('role'),
+  ).to.equal('treeitem');
 });
 
 it('sets aria-expanded correctly', async () => {
-  const tree = await fixture<Tree>(html`
+  const component = await fixture<Tree>(html`
     <cs-tree>
       <cs-tree-item label="Child Item 1"></cs-tree-item>
       <cs-tree-item label="Child Item 2">
@@ -38,31 +61,37 @@ it('sets aria-expanded correctly', async () => {
     </cs-tree>
   `);
 
-  const childItems = tree.slotElements;
+  const childItems = component.slotElements;
 
   expect(childItems[0].getAttribute('aria-expanded')).to.equal(
     null,
     'does not set at all if there are no child items',
   );
 
-  expect(childItems[1].getAttribute('aria-expanded')).to.equal(
-    'false',
-    'sets to string "false" if not expanded',
-  );
-  childItems[1].toggleExpand();
-  expect(childItems[1].getAttribute('aria-expanded')).to.equal(
-    'true',
-    'sets to string "true" after being expanded',
-  );
+  expect(
+    childItems[1].shadowRoot
+      ?.querySelector('.component')
+      ?.getAttribute('aria-expanded'),
+  ).to.equal('false', 'sets to string "false" if not expanded');
 
-  expect(childItems[2].getAttribute('aria-expanded')).to.equal(
-    'true',
-    'sets to string "true" if starts as expanded',
-  );
+  childItems[1].toggleExpand();
+  await childItems[1].updateComplete;
+
+  expect(
+    childItems[1].shadowRoot
+      ?.querySelector('.component')
+      ?.getAttribute('aria-expanded'),
+  ).to.equal('true', 'sets to string "true" after being expanded');
+
+  expect(
+    childItems[2].shadowRoot
+      ?.querySelector('.component')
+      ?.getAttribute('aria-expanded'),
+  ).to.equal('true', 'sets to string "true" if starts as expanded');
 });
 
 it('sets aria-selected correctly', async () => {
-  const tree = await fixture<Tree>(html`
+  const component = await fixture<Tree>(html`
     <cs-tree>
       <cs-tree-item label="Child Item 1">
         <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
@@ -72,24 +101,28 @@ it('sets aria-selected correctly', async () => {
     </cs-tree>
   `);
 
-  const childItems = tree.slotElements;
+  const childItems = component.slotElements;
 
   expect(childItems[0].getAttribute('aria-selected')).to.equal(
     null,
     'does not set at all if there are child items',
   );
 
-  expect(childItems[1].getAttribute('aria-selected')).to.equal(
-    'false',
-    'sets to string "false" if not selected',
-  );
-  expect(childItems[2].getAttribute('aria-selected')).to.equal(
-    'true',
-    'sets to string "true" if starts as selected',
-  );
-  tree.selectItem(childItems[1]);
-  expect(childItems[1].getAttribute('aria-selected')).to.equal(
-    'true',
-    'sets to string "true" after being selected',
-  );
+  expect(
+    childItems[1].shadowRoot
+      ?.querySelector('.component')
+      ?.getAttribute('aria-selected'),
+  ).to.equal('false', 'sets to string "false" if not selected');
+  expect(
+    childItems[2].shadowRoot
+      ?.querySelector('.component')
+      ?.getAttribute('aria-selected'),
+  ).to.equal('true', 'sets to string "true" if starts as selected');
+  component.selectItem(childItems[1]);
+  await childItems[1].updateComplete;
+  expect(
+    childItems[1].shadowRoot
+      ?.querySelector('.component')
+      ?.getAttribute('aria-selected'),
+  ).to.equal('true', 'sets to string "true" after being selected');
 });

@@ -1,11 +1,13 @@
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { createRef, ref } from 'lit/directives/ref.js';
 import {
   customElement,
   property,
   queryAssignedElements,
   state,
 } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 import { when } from 'lit/directives/when.js';
 import styles from './tree-item.styles.js';
@@ -20,6 +22,7 @@ declare global {
 export default class CsTreeItem extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
     mode: 'closed',
   };
 
@@ -45,21 +48,12 @@ export default class CsTreeItem extends LitElement {
   @queryAssignedElements({ slot: 'suffix' })
   suffixSlotAssignedElements!: Array<HTMLElement>;
 
-  override tabIndex: number = -1;
-
-  override connectedCallback() {
-    super.connectedCallback();
-
-    this.setAttribute('role', 'treeitem');
-  }
-
   override firstUpdated() {
     this.#setupChildren();
-    if (this.hasChildTreeItems) {
-      this.setAttribute('aria-expanded', this.expanded ? 'true' : 'false');
-    } else {
-      this.setAttribute('aria-selected', this.selected ? 'true' : 'false');
-    }
+  }
+
+  override focus() {
+    this.#labelContainerElementRef.value?.focus();
   }
 
   get hasChildTreeItems() {
@@ -72,12 +66,18 @@ export default class CsTreeItem extends LitElement {
         component: true,
         'component-expanded': this.expanded,
       })}
+      role="treeitem"
+      aria-label=${this.label}
+      aria-selected=${ifDefined(this.#ariaSelected)}
+      aria-expanded=${ifDefined(this.#ariaExpanded)}
     >
       <div
         class=${classMap({
           'label-container': true,
           selected: this.selected,
         })}
+        tabindex="-1"
+        ${ref(this.#labelContainerElementRef)}
       >
         <div style="width:${this.#indentationWidth};"></div>
         <div class="expand-icon-container">
@@ -131,14 +131,10 @@ export default class CsTreeItem extends LitElement {
     for (const treeItem of this.slotElements) {
       if (item === treeItem) {
         treeItem.setAttribute('selected', 'true');
-        treeItem.setAttribute('aria-selected', 'true');
 
         selectedItem = treeItem;
       } else {
         treeItem.removeAttribute('selected');
-        if (!treeItem.hasChildTreeItems) {
-          treeItem.setAttribute('aria-selected', 'false');
-        }
 
         const nestedSelectedItem: CsTreeItem | undefined =
           treeItem.selectItem(item);
@@ -154,7 +150,6 @@ export default class CsTreeItem extends LitElement {
 
   toggleExpand() {
     this.expanded = !this.expanded;
-    this.setAttribute('aria-expanded', this.expanded ? 'true' : 'false');
   }
 
   @state()
@@ -168,6 +163,24 @@ export default class CsTreeItem extends LitElement {
 
   @state()
   private hasSuffixSlot = false;
+
+  #labelContainerElementRef = createRef<HTMLInputElement>();
+
+  get #ariaExpanded() {
+    if (this.hasChildTreeItems) {
+      return this.expanded ? 'true' : 'false';
+    } else {
+      return;
+    }
+  }
+
+  get #ariaSelected() {
+    if (this.hasChildTreeItems) {
+      return;
+    } else {
+      return this.selected ? 'true' : 'false';
+    }
+  }
 
   get #indentationWidth() {
     return `${(this.level - 1) * 20}px`;

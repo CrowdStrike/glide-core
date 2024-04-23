@@ -23,15 +23,10 @@ export default class CsTree extends LitElement {
 
   @state() focusedItem?: CsTreeItem | null;
 
+  @state() privateTabIndex = 0;
+
   @queryAssignedElements()
   slotElements!: Array<CsTreeItem>;
-
-  override async connectedCallback() {
-    super.connectedCallback();
-
-    this.setAttribute('role', 'tree');
-    this.setAttribute('tabindex', '0');
-  }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
@@ -43,6 +38,8 @@ export default class CsTree extends LitElement {
   override render() {
     return html`<div
       class="tree"
+      role="tree"
+      tabindex=${this.privateTabIndex}
       @click=${this.#handleClick}
       @keydown=${this.#handleKeydown}
     >
@@ -54,13 +51,9 @@ export default class CsTree extends LitElement {
     for (const treeItem of this.slotElements) {
       if (item === treeItem) {
         treeItem.setAttribute('selected', 'true');
-        treeItem.setAttribute('aria-selected', 'true');
         this.selectedItem = treeItem;
       } else {
         treeItem.removeAttribute('selected');
-        if (!treeItem.hasChildTreeItems) {
-          treeItem.setAttribute('aria-selected', 'false');
-        }
 
         // Also traverse down the tree to select/deselect all children
         const nestedSelectedItem: CsTreeItem | undefined =
@@ -131,7 +124,7 @@ export default class CsTree extends LitElement {
       itemToFocus = this.selectedItem || this.slotElements[0];
     } else if (event.target instanceof CsTreeItem) {
       itemToFocus = event.target;
-      this.setAttribute('tabindex', '-1');
+      this.privateTabIndex = -1;
     }
 
     this.#focusItem(itemToFocus);
@@ -143,7 +136,7 @@ export default class CsTree extends LitElement {
     // If they've focused out of the tree,
     // restore this tree's tabindex 0, so they can focus back in
     if (!relatedTarget || !this.contains(relatedTarget)) {
-      this.setAttribute('tabindex', '0');
+      this.privateTabIndex = 0;
       this.focusedItem = undefined;
     }
   }

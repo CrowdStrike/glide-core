@@ -8,12 +8,6 @@ export default [
       flex-direction: column;
     }
 
-    /* Not possible to nest :focus inside :host
-/* stylelint-disable-next-line csstools/use-nesting */
-    :host(:focus) {
-      outline: none;
-    }
-
     .component {
       display: contents;
       font-family: var(--cs-body-sm-font-family);
@@ -65,7 +59,7 @@ export default [
         }
       }
 
-      :host(:focus-visible) & {
+      &:focus-visible {
         outline: var(--cs-border-primary);
         outline-offset: -1px;
         outline-style: auto;
