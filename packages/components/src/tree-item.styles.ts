@@ -72,7 +72,15 @@ export default [
       margin-inline-end: var(--cs-spacing-xs);
     }
 
+    ::slotted([slot='suffix']) {
+      padding-inline: var(--cs-spacing-xxs);
+    }
+
     ::slotted([slot='menu']) {
+      color: inherit;
+      display: flex;
+      justify-content: center;
+      min-inline-size: 1rem;
       visibility: hidden;
     }
 
