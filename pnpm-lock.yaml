@@ -57,6 +57,9 @@ importers:
       '@rollup/plugin-commonjs':
         specifier: ^25.0.7
         version: 25.0.7
+      '@storybook/addon-a11y':
+        specifier: ^8.0.9
+        version: 8.0.9
       '@storybook/addon-essentials':
         specifier: ^8.0.4
         version: 8.0.4(@types/react@18.2.71)(react-dom@18.2.0)(react@18.2.0)
@@ -3042,6 +3045,13 @@ packages:
     resolution: {integrity: sha512-sXXKG+uL9IrKqViTtao2Ws6dy0znu9sOaP1di/jKGW1M6VssO8vlpXCQcpZ+jisQ1tTFAC5Jo/EOzFbggBagFQ==}
     dev: true
 
+  /@storybook/addon-a11y@8.0.9:
+    resolution: {integrity: sha512-HgIlhOI3yBS3ztnuqOquGztnju7LE+BgCMYbDQEZjQkddiQPtjwLC6h0/LkvHL5993avbq1vYEWfUGHLtGzYfQ==}
+    dependencies:
+      '@storybook/addon-highlight': 8.0.9
+      axe-core: 4.8.4
+    dev: true
+
   /@storybook/addon-actions@8.0.4:
     resolution: {integrity: sha512-EyCWo+8T11/TJGYNL/AXtW4yaB+q1v2E9mixbumryCLxpTl2NtaeGZ4e0dlwfIMuw/7RWgHk2uIypcIPR/UANQ==}
     dependencies:
@@ -3130,6 +3140,12 @@ packages:
 
   /@storybook/addon-highlight@8.0.4:
     resolution: {integrity: sha512-tnEiVaJlXL07v8JBox+QtRPVruoy0YovOTAOWY7fKDiKzF1I9wLaJjQF3wOsvwspHTHu00OZw2gsazgXiH4wLQ==}
+    dependencies:
+      '@storybook/global': 5.0.0
+    dev: true
+
+  /@storybook/addon-highlight@8.0.9:
+    resolution: {integrity: sha512-vaRHGDbx7dpNpQECAHk5wczlZO3ntstprGlqnZt0o7ylz6xB5+pTQwTuIFty0hwKv+3TPcskzzifATUyEOEmyg==}
     dependencies:
       '@storybook/global': 5.0.0
     dev: true

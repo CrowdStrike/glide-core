@@ -4,7 +4,7 @@ import rollupPluginAlias from '@rollup/plugin-alias';
 /** @type { import('@storybook/web-components-vite').StorybookConfig } */
 const config = {
   stories: ['../src/*.stories.ts'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-a11y'],
   framework: {
     name: '@storybook/web-components-vite',
     options: {},
