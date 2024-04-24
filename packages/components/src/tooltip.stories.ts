@@ -17,7 +17,7 @@ const meta: Meta = {
   args: {
     'slot="default"': 'Tooltip <kbd>CMD + K</kbd>',
     'slot="target"': '',
-    placement: 'right',
+    placement: 'bottom',
   },
   argTypes: {
     'slot="default"': {

@@ -63,13 +63,13 @@ const meta: Meta = {
         },
       },
     },
-    'addEventListener(event)': {
+    'addEventListener(event, listener)': {
       control: { type: '' },
       table: {
         type: {
           summary: 'method',
           detail:
-            'event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void',
+            '(event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void) => void',
         },
       },
     },

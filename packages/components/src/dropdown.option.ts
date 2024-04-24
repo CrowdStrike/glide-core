@@ -50,11 +50,9 @@ export default class CsDropdownOption extends LitElement {
     if (isSelected) {
       // Marked "private" because Dropdown uses it internally to track the set of selected
       // options in the case of multiselect. It then dispatches in response to this event
-      // a "cs-change" event with a `details` property with the selected option values
+      // a "change" event with a `details` property with the selected option values
       // because only it knows the total set of selected values.
-      this.dispatchEvent(
-        new Event('private-selected-modified', { bubbles: true }),
-      );
+      this.dispatchEvent(new Event('private-selected', { bubbles: true }));
     }
   }
 
@@ -68,7 +66,7 @@ export default class CsDropdownOption extends LitElement {
 
     // `this.value` can be mutated programmatically. Dropdown needs to know when that
     // happens so it can update its own `this.value`.
-    this.dispatchEvent(new Event('private-value-modified', { bubbles: true }));
+    this.dispatchEvent(new Event('private-value', { bubbles: true }));
   }
 
   @property({ type: Boolean })

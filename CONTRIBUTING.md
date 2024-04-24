@@ -4,7 +4,7 @@
 - [Development setup](#development-setup)
 - [Pull request expectations](#pull-request-expectations)
 - [Forking the repository](#forking-the-repository)
-- [Don't reference internal systems/issues/links](#dont-reference-internal-systemsissueslinks)
+- [Don't reference internal systems, issues, or links](#dont-reference-internal-systems-issues-or-links)
 - [Versioning a package](#versioning-a-package)
 - [Coding Guidelines](#coding-guidelines)
   - [Prefer encapsulation](#prefer-encapsulation)
@@ -13,13 +13,12 @@
     - [Prefer JavaScript's `#` over TypeScript's `private`](#prefer-javascripts--over-typescripts-private)
     - [Prefer a closed shadow root](#prefer-a-closed-shadow-root)
     - [Prefer using a `ref` for querying a single element/node](#prefer-using-a-ref-for-querying-a-single-elementnode)
-  - [Prefer `rem` values](#prefer-rem-values)
+  - [Prefer `rem`s](#prefer-rems)
   - [Prefer throwing to letting invalid state propagate](#prefer-throwing-to-letting-invalid-state-propagate)
-  - [Prefer CSS modifiers over BEM](#prefer-css-modifiers-over-bem)
   - [Prefer conventions set by built-in elements](#prefer-conventions-set-by-built-in-elements)
-  - [Prefer `padding-inline` and `padding-block`](#prefer-padding-inline-and-padding-block)
   - [Prefer separate test files](#prefer-separate-test-files)
   - [Typing property decorators](#typing-property-decorators)
+  - [Avoid side effects in setters](#avoid-side-effects-in-setters)
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
 
@@ -54,7 +53,7 @@ For a Pull Request to be approved and merged in the Glide Core repository, the f
 If you are a member of the CrowdStrike GitHub organization, you can create branches off of the `main` branch directly.
 For those not in the CrowdStrike GitHub organization, you may [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and contribute as if you were contributing to any other open source project on GitHub.
 
-## Don't reference internal systems/issues/links
+## Don't reference internal systems, issues, or links
 
 When writing commit messages, providing Pull Request feedback, and creating Pull Request descriptions, one must take caution in what is written.
 This content **cannot** contain references to internal systems, proprietary images or source code, or anything else that could harm CrowdStrike or any other organization or individual contributing to this repository.
@@ -295,10 +294,8 @@ import { createRef, ref } from 'lit/directives/ref.js';
 
 @customElement('cs-example')
 export default class CsExample extends LitElement {
-  #buttonElement = createRef<HTMLButtonElement>();
-
   #onClick(Event: MouseEvent) {
-    this.#buttonElement.value?.classList?.add('clicked');
+    console.log('click');
   }
 
   override render() {
@@ -318,11 +315,8 @@ import { query } from 'lit/decorators.js';
 
 @customElement('cs-example')
 export default class CsExample extends LitElement {
-  @query('button')
-  #buttonElement!: HTMLButtonElement | undefined;
-
   #onClick(Event: MouseEvent) {
-    this.#buttonElement?.classList?.add('clicked');
+    console.log('click');
   }
 
   override render() {
@@ -335,7 +329,7 @@ export default class CsExample extends LitElement {
 }
 ```
 
-### Prefer `rem` values
+### Prefer `rem`s
 
 When writing CSS, we prefer using `rem`s for [accessibility reasons](https://www.joshwcomeau.com/css/surprising-truth-about-pixels-and-accessibility/); however, there are some cases where `px` is preferred.
 Cases where pixels are preferred include borders, box shadows, drop shadow values, blur values, etc.
@@ -389,7 +383,7 @@ We should thus try to follow conventions set by them—both for consistency and 
 An example is attribute reflection.
 Attributes should generally be reflected.
 However, built-in form control elements do not reflect attributes that serve as an initial value.
-`<input>`, for example, does not reflect its `value` attributes
+`<input>`, for example, does not reflect its `value` attributes.
 
 ```ts
 // ✅ -- GOOD
@@ -409,33 +403,10 @@ label?: string
 value?: string
 ```
 
-### Prefer `padding-inline` and `padding-block`
-
-For internationalization, we prefer using [`padding-inline-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline-start), [`padding-inline-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-inline-end), [`padding-block-start`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-block-start), and [`padding-block-end`](https://developer.mozilla.org/en-US/docs/Web/CSS/padding-block-end) over their left, right, top, and bottom counterparts.
-
-```css
-/* ✅ -- GOOD */
-button {
-  padding-inline: var(--cs-spacing-md);
-  padding-block: var(--cs-spacing-xs);
-}
-```
-
-```css
-/* ❌ -- BAD */
-button {
-  padding-left: var(--cs-spacing-md);
-  padding-right: var(--cs-spacing-md);
-  padding-top: var(--cs-spacing-xs);
-  padding-bottom: var(--cs-spacing-xs);
-}
-```
-
 ### Prefer separate test files
 
 Due to our current file structure, we prefer using separate files for grouping related tests rather than using the `describe` block.
 There's less mental overhead when you look at the file system and see the general idea for a group of tests rather than having to jump in a potentially massive test file and scroll through separate blocks.
-Due to that, we prefer multiple files over `describe`.
 
 ```bash
 # ✅ -- GOOD
@@ -455,6 +426,7 @@ describe('Checkbox Basics', () => {});
 describe('Checkbox Events', () => {});
 describe('Checkbox Focus', () => {});
 describe('Checkbox Form', () => {});
+describe('Checkbox States', () => {});
 describe('Checkbox Validity', () => {});
 ```
 
@@ -465,7 +437,7 @@ describe('Checkbox Validity', () => {});
 @customElement('cs-example')
 export default class CsExample extends LitElement {
   #onClick(Event: MouseEvent) {
-    console.log('clicked');
+    console.log('click');
   }
 
   override render() {
@@ -482,9 +454,8 @@ export default class CsExample extends LitElement {
 // ❌ -- BAD
 @customElement('cs-example')
 export default class CsExample extends LitElement {
-  // @click handler does not start with `on`
   #handleClick(Event: MouseEvent) {
-    console.log('clicked');
+    console.log('click');
   }
 
   override render() {
@@ -533,7 +504,16 @@ assignedElements!: Array<HTMLElement>;
 label?: string;
 ```
 
-> Unfortunately, properties that must be provided by the consumer must be typed as optional so they're typesafe throughout the component's lifecycle.
+> Required properties must, unfortunately, be typed as optional so they're typesafe throughout the component's lifecycle.
+
+#### Avoid side effects in setters
+
+Side effects in setters aren't inherently bad.
+They're sometimes the cleanest, most consistent, or only way to do something.
+But more often they indicate a larger architectural issue that, when corrected, makes the side effect unnecessary.
+
+One case where they're unavoidable is when you need to trigger an event after a consumer sets a property or attribute programmatically.
+The `selected` setter in `dropdown.option.ts` is a good example.
 
 ## Questions
 

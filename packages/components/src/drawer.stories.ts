@@ -88,12 +88,13 @@ const meta: Meta = {
         },
       },
     },
-    'addEventListener(event)': {
+    'addEventListener(event, listener)': {
       control: { type: '' },
       table: {
         type: {
           summary: 'method',
-          detail: 'event: "open" | "close", listener: (event: Event) => void',
+          detail:
+            '(event: "open" | "close", listener: (event: Event) => void) => void',
         },
       },
     },
