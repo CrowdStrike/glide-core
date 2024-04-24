@@ -7,7 +7,6 @@ export default [
     li {
       align-items: center;
       appearance: none;
-      block-size: 1.125rem;
       border: none;
       border-inline-end: 1px solid var(--cs-border-base-lighter);
       cursor: pointer;
@@ -19,6 +18,7 @@ export default [
       gap: 0.625rem;
       justify-content: center;
       line-height: 1;
+      min-block-size: 1.125rem;
       min-inline-size: 5.1875rem;
       outline: none;
       padding-block: var(--cs-spacing-xs);
