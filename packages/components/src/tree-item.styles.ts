@@ -75,10 +75,13 @@ export default [
       visibility: hidden;
     }
 
-    /* Not possible to nest ::slotted
-/* stylelint-disable-next-line csstools/use-nesting */
-    .label-container:hover ::slotted([slot='menu']) {
-      visibility: visible;
+    .label-container:hover,
+    .label-container:focus,
+    .label-container:focus-within,
+    .label-container:focus-visible {
+      ::slotted([slot='menu']) {
+        visibility: visible;
+      }
     }
 
     .label {
