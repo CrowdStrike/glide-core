@@ -2,7 +2,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { owSlot } from './library/ow.js';
+import { owSlot, owSlotType } from './library/ow.js';
 import styles from './button-group.button.styles.js';
 import type { ButtonGroupVariant } from './button-group.js';
 
@@ -12,7 +12,7 @@ declare global {
   }
 }
 /**
- * @description A button for use with `<button-group>` with label and optional icon. 
+ * @description A button for use with `<cs-button-group>` with label and optional icon. 
  *
  * @event change - Dispatched when clicked or selected by key press.
  * @event input - Dispatched when clicked or selected by key press.
@@ -74,7 +74,7 @@ export default class CsButtonGroupButton extends LitElement {
   override async connectedCallback() {
     super.connectedCallback();
 
-    // determine position in group and style approriately
+    // determine position in group and style appropriately
     if (this.#buttonElements.length > 0) {
       if (
         this.#buttonElements.length > 1 &&
@@ -114,27 +114,11 @@ export default class CsButtonGroupButton extends LitElement {
   }
 
   override firstUpdated(): void {
-    // Always want a label and log an error when it isn't present.
+    // Always want a text label and log an error when it isn't present.
     // When the variant is 'icon-only' set the label as visually hidden
 
-    const defaultSlotAssignedNodes =
-      this.#defaultSlotRef.value?.assignedNodes();
-
-    const isDefaultSlotEmpty = Boolean(
-      defaultSlotAssignedNodes?.every(
-        (node) =>
-          node.nodeName.toLowerCase() === '#text' &&
-          // if textContent is null, only whitespace, or a new line followed by
-          // white space, consider it empty
-          node.textContent !== null &&
-          (/^(\n *)$/.test(node.textContent) ||
-            node.textContent?.trim().length === 0),
-      ),
-    );
-
-    if (isDefaultSlotEmpty) {
-      throw new Error(`A label is required.`);
-    }
+    owSlot(this.#defaultSlotRef.value);
+    owSlotType(this.#defaultSlotRef.value, [Text]);
 
     if (this.variant === 'icon-only') {
       owSlot(this.#prefixSlotRef.value);
@@ -210,7 +194,10 @@ export default class CsButtonGroupButton extends LitElement {
   }
 
   #onKeydown(event: KeyboardEvent) {
-    if (this.#buttonElements.length < 2 && event.key !== ' ') {
+    if (
+      this.disabled ||
+      (this.#buttonElements.length < 2 && event.key !== ' ')
+    ) {
       return;
     }
     switch (event.key) {

@@ -16,7 +16,7 @@ export default [
       }
     }
 
-    label {
+    div.label {
       ${visuallyHidden};
     }
   `,

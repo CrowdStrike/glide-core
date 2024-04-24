@@ -1,11 +1,10 @@
-import { LitElement, html, nothing } from 'lit';
+import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import {
   customElement,
   property,
   queryAssignedElements,
-  state,
 } from 'lit/decorators.js';
 import { owSlotType } from './library/ow.js';
 import { when } from 'lit-html/directives/when.js';
@@ -19,12 +18,12 @@ declare global {
 }
 
 export type ButtonGroupVariant = 'icon-only' | undefined;
-type ButtonGroupOrientation = 'vertical' | 'horizontal';
+export type ButtonGroupOrientation = 'vertical' | 'horizontal';
 
 /**
- * @description A button group for use with `<button-group-button>`.
+ * @description A button group for use with `<cs-button-group-button>`.
  *
- * @slot - One or more `<button-group-button>` components.
+ * @slot - One or more `<cs-button-group-button>` components.
  */
 @customElement('cs-button-group')
 export default class CsButtonGroup extends LitElement {
@@ -78,53 +77,39 @@ export default class CsButtonGroup extends LitElement {
   }
 
   override firstUpdated() {
-    this.isDefaultSlotEmpty = Boolean(
-      this.#defaultSlotRef.value?.assignedNodes().length === 0,
-    );
+    owSlotType(this.#defaultSlotRef.value, [CsButtonGroupButton]);
 
-    if (!this.isDefaultSlotEmpty) {
-      owSlotType(this.#defaultSlotRef.value, [CsButtonGroupButton]);
-
-      if (this.orientation === 'vertical') {
-        for (const listItem of this.listItems) {
-          listItem.toggleAttribute('vertical');
-        }
+    if (this.orientation === 'vertical') {
+      for (const listItem of this.listItems) {
+        listItem.toggleAttribute('vertical');
       }
-      if (this.#variant) {
-        for (const listItem of this.listItems) {
-          listItem.setAttribute('variant', 'icon-only');
-        }
+    }
+    if (this.#variant) {
+      for (const listItem of this.listItems) {
+        listItem.setAttribute('variant', 'icon-only');
       }
     }
   }
 
   override render() {
-    if (this.isDefaultSlotEmpty) {
-      return nothing;
-    }
-
     // ignore rule that prevents slots from being children of ul
     /*  eslint-disable lit-a11y/list */
     return html`
       ${when(
         Boolean(this.label),
-        () => html`<label for="cs-button-group">${this.label}</label>`,
+        () => html`<div class="label" id="cs-button-group">${this.label}</div>`,
       )}
       <ul
-        id="cs-button-group"
+        aria-labelledby="cs-button-group"
         role="radiogroup"
         class=${classMap({
           vertical: this.orientation === 'vertical',
         })}
-        variant=${this.variant}
       >
         <slot ${ref(this.#defaultSlotRef)}></slot>
       </ul>
     `;
   }
-
-  @state()
-  private isDefaultSlotEmpty = false;
 
   #defaultSlotRef = createRef<HTMLSlotElement>();
 

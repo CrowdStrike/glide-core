@@ -61,6 +61,16 @@ const meta: Meta = {
         type: { summary: '"horizontal" | "vertical"' },
       },
     },
+    'addEventListener(event)': {
+      control: { type: '' },
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            'event: "input" | "change", listener: (event: CustomEvent<{ value: string }>) => void',
+        },
+      },
+    },
   },
 };
 

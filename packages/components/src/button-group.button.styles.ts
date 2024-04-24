@@ -7,6 +7,7 @@ export default [
     li {
       align-items: center;
       appearance: none;
+      block-size: 1.125rem;
       border: none;
       border-inline-end: 1px solid var(--cs-border-base-lighter);
       cursor: pointer;
@@ -93,6 +94,7 @@ export default [
         background-color: var(--cs-border-base-lighter);
         border-color: var(--cs-border-base-lighter);
         color: var(--cs-text-tertiary-disabled);
+        cursor: default;
       }
     }
 
