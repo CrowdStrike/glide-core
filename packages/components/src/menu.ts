@@ -183,6 +183,7 @@ export default class CsMenu extends LitElement {
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
   // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
   #onDocumentClick = (event: MouseEvent) => {
     if (event.target && this.contains(event.target as Node)) {
       return;
@@ -205,12 +206,10 @@ export default class CsMenu extends LitElement {
   }
 
   get #optionElements() {
-    const buttons: NodeListOf<CsMenuButton> =
-      this.querySelectorAll('cs-menu-button');
-
-    const links: NodeListOf<CsMenuLink> = this.querySelectorAll('cs-menu-link');
-
-    return [...buttons, ...links];
+    return [
+      ...this.querySelectorAll('cs-menu-button'),
+      ...this.querySelectorAll('cs-menu-link'),
+    ];
   }
 
   #onOptionsClick() {

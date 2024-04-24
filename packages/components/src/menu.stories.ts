@@ -65,7 +65,7 @@ const meta: Meta = {
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<div style="height: 125px;">
+    return html`<div style="height: 8rem;">
       <cs-menu
         label=${arguments_.label || nothing}
         size=${arguments_.size || nothing}
@@ -92,7 +92,7 @@ export const Menu: StoryObj = {};
 export const MenuWithIcon: StoryObj = {
   name: 'Menu (With Icon)',
   render(arguments_) {
-    return html`<div style="height: 150px;">
+    return html`<div style="height: 10rem;">
       <cs-menu
         label=${arguments_.label || nothing}
         size=${arguments_.size || nothing}

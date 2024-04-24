@@ -14,6 +14,7 @@ export default [
       /* Additional whitespace and the tooltip won't be vertically centered. */
       line-height: 0;
       padding: 0;
+      position: relative;
 
       &:focus {
         outline: none;
@@ -42,6 +43,7 @@ export default [
       inset-inline-start: 0;
       padding: var(--cs-spacing-xs) var(--cs-spacing-sm);
       position: absolute;
+      z-index: 1;
 
       ::slotted(kbd) {
         color: var(--cs-text-header-2);
@@ -57,28 +59,34 @@ export default [
     }
 
     .triangle {
+      display: none;
       position: absolute;
+      z-index: 1;
+
+      &.visible {
+        display: unset;
+      }
 
       &.bottom {
-        inset-block-start: calc(100% - var(--triangle-width) / 2);
+        inset-block-end: calc(100% + var(--triangle-width) / 2);
         inset-inline-start: 50%;
         transform: translateX(-50%) rotate(-90deg);
       }
 
       &.left {
         inset-block-start: 50%;
-        inset-inline-end: 100%;
+        inset-inline-start: calc(100% + var(--triangle-height) / 2);
         transform: translateY(-50%);
       }
 
       &.right {
         inset-block-start: 50%;
-        inset-inline-start: 100%;
+        inset-inline-end: calc(100% + var(--triangle-height) / 2);
         transform: translateY(-50%) rotate(180deg);
       }
 
       &.top {
-        inset-block-end: calc(100% - var(--triangle-width) / 2);
+        inset-block-start: calc(100% + var(--triangle-width) / 2);
         inset-inline-start: 50%;
         transform: translateX(-50%) rotate(90deg);
       }
