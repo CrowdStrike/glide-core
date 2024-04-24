@@ -5,6 +5,10 @@ import Tree from './tree.js';
 
 Tree.shadowRootOptions.mode = 'open';
 
+it('registers', async () => {
+  expect(window.customElements.get('cs-tree')).to.equal(Tree);
+});
+
 it('renders and sets default attributes', async () => {
   const tree = await fixture<Tree>(html` <cs-tree></cs-tree> `);
 

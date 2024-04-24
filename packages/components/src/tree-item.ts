@@ -18,6 +18,14 @@ declare global {
   }
 }
 
+/**
+ * @description A single node of a Tree.
+ *
+ * @slot - One or more of <cs-tree-item>, if this tree item contains nested tree items.
+ * @slot prefix - An optional icon to display before the label.
+ * @slot suffix - An optional icon to add after the label.
+ * @slot menu - Place a <cs-menu> here, which will be visible on hover or focus
+ */
 @customElement('cs-tree-item')
 export default class CsTreeItem extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
@@ -87,6 +95,7 @@ export default class CsTreeItem extends LitElement {
               <div>
                 <!-- chevron-right -->
                 <svg
+                  aria-hidden="true"
                   class=${classMap({
                     'expand-icon': true,
                     'expand-icon-expanded': this.expanded,
@@ -95,7 +104,6 @@ export default class CsTreeItem extends LitElement {
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     d="M9 18L15 12L9 6"

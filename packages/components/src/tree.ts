@@ -10,6 +10,11 @@ declare global {
   }
 }
 
+/**
+ * @description A tree element, containing a hierarchy of tree items
+ *
+ * @slot - One or more of <cs-tree-item>
+ */
 @customElement('cs-tree')
 export default class CsTree extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {

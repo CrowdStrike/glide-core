@@ -13,8 +13,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component:
-          'A tree element, containing a hierarchy of tree items. See Tree Item story',
+        component: 'A tree element, containing a hierarchy of tree items',
       },
     },
   },
@@ -39,6 +38,13 @@ const meta: Meta = {
     </cs-tree>
   `,
   argTypes: {
+    ['slot="default"']: {
+      control: { type: '' },
+      table: {
+        type: { summary: 'CsTreeItem' },
+      },
+      type: { name: 'string', required: true },
+    },
     '<cs-tree-item>.selected': {
       control: { type: 'boolean' },
       table: {
@@ -197,7 +203,7 @@ export const TreeItemWithSuffixIcon: StoryObj = {
 export const TreeItemWithMenu: StoryObj = {
   name: 'Tree Item (With Menu on hover)',
   render: (arguments_) => html`
-    <div style="max-width: 18.75rem; height: 125px;">
+    <div style="max-width: 18.75rem; height: 8rem;">
       <cs-tree>
         <cs-tree-item
           label=${arguments_['<cs-tree-item>.label']}
@@ -213,7 +219,7 @@ export const TreeItemWithMenu: StoryObj = {
 export const TreeItemWithPrefixSuffixAndMenu: StoryObj = {
   name: 'Tree Item (With Prefix, Suffix, and Menu)',
   render: (arguments_) => html`
-   <div style="max-width: 18.75rem; height: 125px;">
+   <div style="max-width: 18.75rem; height: 8rem;">
       <cs-tree>
         <cs-tree-item
           label=${arguments_['<cs-tree-item>.label']}
