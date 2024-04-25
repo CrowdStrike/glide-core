@@ -43,7 +43,6 @@ export default [
       border-radius: 0.625rem;
       color: var(--cs-text-body-1);
       display: flex;
-      font-size: var(--cs-body-sm-font-size);
       padding-block: var(--cs-spacing-xxs);
       padding-inline: var(--cs-spacing-xs);
 
@@ -72,15 +71,7 @@ export default [
       margin-inline-end: var(--cs-spacing-xs);
     }
 
-    ::slotted([slot='suffix']) {
-      padding-inline: var(--cs-spacing-xxs);
-    }
-
     ::slotted([slot='menu']) {
-      color: inherit;
-      display: flex;
-      justify-content: center;
-      min-inline-size: 1rem;
       visibility: hidden;
     }
 

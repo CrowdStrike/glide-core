@@ -273,7 +273,7 @@ const suffixIcon = html`
 const itemMenu = html` <cs-menu
   slot="menu"
   size="large"
-  style="margin-block: -3px;;max-height:1.5625rem"
+  style="margin-bottom: -3px;"
 >
   <cs-menu-button label="Edit">
     <svg
@@ -336,10 +336,10 @@ const itemMenu = html` <cs-menu
 
   <cs-icon-button slot="target" label="menu" variant="tertiary">
     <svg
-      width="18"
-      height="18"
+      width="24"
+      height="24"
       fill="none"
-      viewBox="0 0 22 22"
+      viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
     >

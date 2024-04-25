@@ -8,6 +8,7 @@ export default [
     }
 
     .component {
+      color: var(--cs-text-body-1);
       display: inline-block;
     }
 
@@ -21,7 +22,6 @@ export default [
       border-radius: var(--cs-spacing-xs);
       box-shadow: var(--cs-shadow-lg);
       box-sizing: border-box;
-      color: var(--cs-text-body-1);
       inset-block-start: 0;
       inset-inline-start: 0;
       margin-block: 0;

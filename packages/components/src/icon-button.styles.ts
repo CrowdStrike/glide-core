@@ -91,7 +91,7 @@ export default [
       &.tertiary {
         background-color: transparent;
         border-color: transparent;
-        color: inherit;
+        color: var(--cs-icon-default);
 
         &:disabled {
           color: var(--cs-icon-tertiary-disabled);
