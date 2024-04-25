@@ -35,7 +35,7 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     placement: {
-      control: { type: 'select' },
+      control: { type: 'radio' },
       options: ['bottom', 'left', 'right', 'top'],
       table: {
         defaultValue: { summary: '"bottom"' },
