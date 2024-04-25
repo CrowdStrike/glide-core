@@ -105,6 +105,7 @@ export const MenuWithIcon: StoryObj = {
             height="16"
             fill="none"
             viewBox="0 0 24 24"
+            stroke="currentColor"
             stroke-width="1.5"
           >
             <path
@@ -122,6 +123,7 @@ export const MenuWithIcon: StoryObj = {
             height="16"
             fill="none"
             viewBox="0 0 24 24"
+            stroke="currentColor"
             stroke-width="1.5"
           >
             <path
@@ -139,6 +141,7 @@ export const MenuWithIcon: StoryObj = {
             height="16"
             fill="none"
             viewBox="0 0 24 24"
+            stroke="currentColor"
             stroke-width="1.5"
           >
             <path
@@ -156,6 +159,7 @@ export const MenuWithIcon: StoryObj = {
             height="16"
             fill="none"
             viewBox="0 0 24 24"
+            stroke="currentColor"
             stroke-width="1.5"
           >
             <path
