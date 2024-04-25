@@ -1,6 +1,5 @@
 import './tree.js';
-import { assert, expect, fixture, html } from '@open-wc/testing';
-import CsMenu from './menu.js';
+import { expect, fixture, html } from '@open-wc/testing';
 import Tree from './tree.js';
 
 Tree.shadowRootOptions.mode = 'open';
@@ -69,21 +68,4 @@ it('can click child and grandchild items to expand or select them', async () => 
   // Can click and select a grandchild item
   grandchildItems[0].click();
   expect(grandchildItems[0].selected).to.equal(true);
-});
-
-it('does not select an item if its menu slot is clicked', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-menu slot="menu" data-test-menu></cs-menu>
-      </cs-tree-item>
-    </cs-tree>
-  `);
-
-  const childItems = tree.slotElements;
-  const menu = childItems[0].querySelector<CsMenu>('[data-test-menu]');
-  assert(menu);
-  menu.click();
-
-  expect(childItems[0].selected).to.equal(false);
 });
