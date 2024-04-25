@@ -43,6 +43,7 @@ export default [
       border-radius: 0.625rem;
       color: var(--cs-text-body-1);
       display: flex;
+      font-size: var(--cs-body-sm-font-size);
       padding-block: var(--cs-spacing-xxs);
       padding-inline: var(--cs-spacing-xs);
 
