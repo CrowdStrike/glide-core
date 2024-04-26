@@ -149,18 +149,11 @@ export default class CsButtonGroupButton extends LitElement {
       } else if (value === false) {
         this.isTabbable = true;
         this.focus();
-        // set other elements as not selected
         for (const button of this.#buttonElements) {
           if (button !== this && button.selected) {
             button.selected = false;
           }
         }
-        this.dispatchEvent(
-          new CustomEvent('change', { bubbles: true, detail: this.value }),
-        );
-        this.dispatchEvent(
-          new CustomEvent('input', { bubbles: true, detail: this.value }),
-        );
       }
     }
   }
@@ -188,9 +181,22 @@ export default class CsButtonGroupButton extends LitElement {
     return [...elements];
   }
 
-  #onClick() {
+  #dispatchEvents(button: CsButtonGroupButton = this) {
+    button.dispatchEvent(
+      new CustomEvent('change', { bubbles: true, detail: button.value }),
+    );
+    button.dispatchEvent(
+      new CustomEvent('input', { bubbles: true, detail: button.value }),
+    );
+  }
+
+  #onClick(event: MouseEvent) {
     if (!this.disabled && !this.selected) {
       this.selected = true;
+      if (event.relatedTarget instanceof CsButtonGroupButton) {
+        event.relatedTarget.selected = false;
+      }
+      this.#dispatchEvents();
     }
   }
 
@@ -223,6 +229,7 @@ export default class CsButtonGroupButton extends LitElement {
         }
         if (sibling && sibling instanceof CsButtonGroupButton) {
           sibling.selected = true;
+          this.#dispatchEvents(sibling);
         }
         break;
       }
@@ -247,6 +254,7 @@ export default class CsButtonGroupButton extends LitElement {
         }
         if (sibling && sibling instanceof CsButtonGroupButton) {
           sibling.selected = true;
+          this.#dispatchEvents(sibling);
         }
         break;
       }
@@ -254,6 +262,7 @@ export default class CsButtonGroupButton extends LitElement {
         event.preventDefault();
         if (!this.disabled && !this.selected) {
           this.selected = true;
+          this.#dispatchEvents();
         }
         break;
       }
