@@ -50,7 +50,7 @@ export default class CsButton extends LitElement {
   override render() {
     return html`<button
       class=${classMap({
-        button: true,
+        component: true,
         primary: this.variant === 'primary',
         secondary: this.variant === 'secondary',
         tertiary: this.variant === 'tertiary',

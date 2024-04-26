@@ -30,7 +30,11 @@ export default class CsAccordion extends LitElement {
   @property({ type: Boolean, reflect: true }) open = false;
 
   override render() {
-    return html` <details ?open=${this.open} ${ref(this.#detailsRef)}>
+    return html` <details
+      class="component"
+      ?open=${this.open}
+      ${ref(this.#detailsRef)}
+    >
       <summary
         class="summary"
         @click=${this.#onSummaryClick}

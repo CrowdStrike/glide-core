@@ -2,7 +2,7 @@ import { css } from 'lit';
 
 export default [
   css`
-    dialog {
+    .component {
       all: unset;
       background-color: var(--cs-surface-base-lighter);
       block-size: 0;
@@ -22,7 +22,7 @@ export default [
       visibility: hidden;
     }
 
-    .dialog-open {
+    .open {
       block-size: auto;
       inline-size: var(--cs-drawer-width, 27.375rem);
       inset: 0 0 0 auto;
@@ -31,7 +31,7 @@ export default [
       visibility: visible;
     }
 
-    .dialog-closing {
+    .closing {
       transform: translateX(100%);
     }
   `,
