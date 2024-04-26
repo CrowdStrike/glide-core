@@ -190,12 +190,9 @@ export default class CsButtonGroupButton extends LitElement {
     );
   }
 
-  #onClick(event: MouseEvent) {
+  #onClick() {
     if (!this.disabled && !this.selected) {
       this.selected = true;
-      if (event.relatedTarget instanceof CsButtonGroupButton) {
-        event.relatedTarget.selected = false;
-      }
       this.#dispatchEvents();
     }
   }
