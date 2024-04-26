@@ -8,7 +8,7 @@ export default [
       display: inline-block;
     }
 
-    .button {
+    .component {
       align-items: center;
       block-size: 1.625rem;
       border-color: transparent;

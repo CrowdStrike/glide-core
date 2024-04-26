@@ -42,7 +42,7 @@ export default class CsIconButton extends LitElement {
       <button
         aria-label=${this.label}
         class=${classMap({
-          button: true,
+          component: true,
           primary: this.variant === 'primary',
           secondary: this.variant === 'secondary',
           tertiary: this.variant === 'tertiary',
