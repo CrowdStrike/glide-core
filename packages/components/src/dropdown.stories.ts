@@ -9,7 +9,8 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A dropdown with an optional tooltip.',
+        component:
+          'A dropdown with an optional tooltip. \n\n Participates in forms and validation via `FormData` and various methods. Always call `setCustomValidity()` after render to set a validation message.',
       },
       story: {
         autoplay: true,
@@ -22,7 +23,7 @@ const meta: Meta = {
     disabled: false,
     label: 'Label',
     open: false,
-    orientation: '',
+    orientation: 'horizontal',
     name: 'name',
     placeholder: 'Placeholder',
     required: false,
@@ -32,7 +33,7 @@ const meta: Meta = {
     ['slot="default"']: {
       control: { type: '' },
       table: {
-        type: { summary: '<cs-dropdown-option>' },
+        type: { summary: 'CsDropdownOption' },
       },
       type: { name: 'string', required: true },
     },
@@ -42,7 +43,37 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            'event: "change" | "input", listener: (event: CustomEvent<string[]>) => void \n\n`event.detail` is an array of selected option values.',
+            '(event: "change" | "input", listener: (event: CustomEvent<string[]>)) => void) => void \n\n// `event.detail` is an array of selected option values.',
+        },
+      },
+    },
+    'checkValidity()': {
+      control: { type: '' },
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
+        },
+      },
+    },
+    'reportValidity()': {
+      control: { type: '' },
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
+        },
+      },
+    },
+    'setCustomValidity(message)': {
+      control: { type: '' },
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '(message: string) => void \n\n// https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/setCustomValidity',
         },
       },
     },

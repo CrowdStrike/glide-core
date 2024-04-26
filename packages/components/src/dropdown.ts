@@ -16,6 +16,8 @@ declare global {
 
 /**
  * @description A dropdown with an optional tooltip.
+ *              Participates in forms and validation via `FormData` and various methods.
+ *              Always call `setCustomValidity` after render to set a validation message.
  *
  * @event change - Dispatched when an option is selected. An array of the selected option values is assigned to `event.detail`.
  * @event input - Dispatched when an option is selected. An array of the selected option values is assigned to `event.detail`.
@@ -260,8 +262,8 @@ export default class CsDropdown extends LitElement {
           <slot
             @mouseover=${this.#onOptionMouseover}
             @private-change=${this.#onOptionChange}
-            @private-selected-modified=${this.#onOptionSelectedModified}
-            @private-value-modified=${this.#onOptionValueModified}
+            @private-selected=${this.#onOptionSelected}
+            @private-value=${this.#onOptionValue}
             ${ref(this.#defaultSlotElementRef)}
           ></slot>
         </div>
@@ -463,7 +465,7 @@ export default class CsDropdown extends LitElement {
     }
   }
 
-  #onOptionSelectedModified() {
+  #onOptionSelected() {
     this.value = this.selectedOption?.value ? [this.selectedOption.value] : [];
   }
 
@@ -542,7 +544,7 @@ export default class CsDropdown extends LitElement {
     }
   }
 
-  #onOptionValueModified(event: Event) {
+  #onOptionValue(event: Event) {
     if (event.target instanceof CsDropdownOption && event.target.selected) {
       this.value = [event.target.value];
     }

@@ -35,8 +35,7 @@ it('can be selected', async () => {
   expect(component.hasAttribute('selected')).to.be.true;
   expect(component.selected).to.be.true;
 
-  const option =
-    component.shadowRoot?.querySelector<HTMLElement>('[role="option"]');
+  const option = component.shadowRoot?.querySelector('[role="option"]');
 
   expect(option?.getAttribute('aria-selected')).to.equal('true');
   expect(option?.ariaSelected).to.equal('true');

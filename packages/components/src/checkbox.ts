@@ -14,7 +14,7 @@ declare global {
 }
 
 /**
- * @description A checkbox with a label and optional tooltip, summary, and description.
+ * @description A checkbox with a label and optional tooltip, summary, and description. Participates in forms and validation via `FormData` and various methods.
  *
  * @event change - Dispatched when checked or unchecked.
  * @event input - Dispatched when checked or unchecked.
