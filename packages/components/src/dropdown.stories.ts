@@ -290,7 +290,6 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         orientation=${arguments_.orientation || nothing}
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
-        .tooltip=${arguments_.tooltip}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
