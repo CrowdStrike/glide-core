@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, type PropertyValueMap, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import {
@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-export type ButtonGroupVariant = 'icon-only' | undefined;
+export type ButtonGroupVariant = 'icon-only';
 export type ButtonGroupOrientation = 'vertical' | 'horizontal';
 
 /**
@@ -41,40 +41,10 @@ export default class CsButtonGroup extends LitElement {
   listItems!: Array<CsButtonGroupButton>;
 
   @property()
-  get variant() {
-    return this.#variant;
-  }
-
-  set variant(value: ButtonGroupVariant) {
-    this.#variant = value;
-    if (this.#variant) {
-      for (const listItem of this.listItems) {
-        listItem.setAttribute('variant', 'icon-only');
-      }
-    } else {
-      for (const listItem of this.listItems) {
-        listItem.removeAttribute('variant');
-      }
-    }
-  }
+  variant?: ButtonGroupVariant;
 
   @property()
-  get orientation() {
-    return this.#orientation;
-  }
-
-  set orientation(value: ButtonGroupOrientation) {
-    this.#orientation = value;
-    if (this.#orientation === 'vertical') {
-      for (const listItem of this.listItems) {
-        listItem.toggleAttribute('vertical');
-      }
-    } else {
-      for (const listItem of this.listItems) {
-        listItem.removeAttribute('vertical');
-      }
-    }
-  }
+  orientation: ButtonGroupOrientation = 'horizontal';
 
   override firstUpdated() {
     owSlotType(this.#defaultSlotRef.value, [CsButtonGroupButton]);
@@ -84,7 +54,7 @@ export default class CsButtonGroup extends LitElement {
         listItem.toggleAttribute('vertical');
       }
     }
-    if (this.#variant) {
+    if (this.variant === 'icon-only') {
       for (const listItem of this.listItems) {
         listItem.setAttribute('variant', 'icon-only');
       }
@@ -111,9 +81,35 @@ export default class CsButtonGroup extends LitElement {
     `;
   }
 
+  override willUpdate(
+    changedProperties: PropertyValueMap<CsButtonGroup>,
+  ): void {
+    if (this.hasUpdated && changedProperties.has('variant')) {
+      const value = changedProperties.get('variant');
+      if (value === 'icon-only') {
+        for (const listItem of this.listItems) {
+          listItem.removeAttribute('variant');
+        }
+      } else {
+        for (const listItem of this.listItems) {
+          listItem.setAttribute('variant', 'icon-only');
+        }
+      }
+    }
+
+    if (this.hasUpdated && changedProperties.has('orientation')) {
+      const value = changedProperties.get('orientation');
+      if (value === 'vertical') {
+        for (const listItem of this.listItems) {
+          listItem.removeAttribute('vertical');
+        }
+      } else if (value === 'horizontal') {
+        for (const listItem of this.listItems) {
+          listItem.toggleAttribute('vertical');
+        }
+      }
+    }
+  }
+
   #defaultSlotRef = createRef<HTMLSlotElement>();
-
-  #orientation: ButtonGroupOrientation = 'horizontal';
-
-  #variant: ButtonGroupVariant;
 }

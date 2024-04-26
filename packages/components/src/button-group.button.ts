@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, type PropertyValueMap, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -30,31 +30,7 @@ export default class CsButtonGroupButton extends LitElement {
   static override styles = styles;
 
   @property({ type: Boolean, reflect: true })
-  get selected() {
-    return this.#selected;
-  }
-
-  set selected(newValue) {
-    this.#selected = newValue;
-    if (this.#selected) {
-      this.isTabbable = true;
-      this.focus();
-      // set other elements as not selected
-      for (const button of this.#buttonElements) {
-        if (button !== this && button.selected) {
-          button.selected = false;
-        }
-      }
-      this.dispatchEvent(
-        new CustomEvent('change', { bubbles: true, detail: this.value }),
-      );
-      this.dispatchEvent(
-        new CustomEvent('input', { bubbles: true, detail: this.value }),
-      );
-    } else {
-      this.isTabbable = false;
-    }
-  }
+  selected = false;
 
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -116,13 +92,14 @@ export default class CsButtonGroupButton extends LitElement {
   override firstUpdated(): void {
     // Always want a text label and log an error when it isn't present.
     // When the variant is 'icon-only' set the label as visually hidden
-
     owSlot(this.#defaultSlotRef.value);
     owSlotType(this.#defaultSlotRef.value, [Text]);
 
-    if (this.variant === 'icon-only') {
-      owSlot(this.#prefixSlotRef.value);
+    if (this.selected) {
+      this.isTabbable = true;
     }
+
+    this.variant === 'icon-only' && owSlot(this.#prefixSlotRef.value);
   }
 
   override focus(options?: FocusOptions) {
@@ -162,6 +139,32 @@ export default class CsButtonGroupButton extends LitElement {
     </li>`;
   }
 
+  override willUpdate(
+    changedProperties: PropertyValueMap<CsButtonGroupButton>,
+  ): void {
+    if (this.hasUpdated && changedProperties.has('selected')) {
+      const value = changedProperties.get('selected');
+      if (value === true) {
+        this.isTabbable = false;
+      } else if (value === false) {
+        this.isTabbable = true;
+        this.focus();
+        // set other elements as not selected
+        for (const button of this.#buttonElements) {
+          if (button !== this && button.selected) {
+            button.selected = false;
+          }
+        }
+        this.dispatchEvent(
+          new CustomEvent('change', { bubbles: true, detail: this.value }),
+        );
+        this.dispatchEvent(
+          new CustomEvent('input', { bubbles: true, detail: this.value }),
+        );
+      }
+    }
+  }
+
   @state()
   private isSingleButton = false;
 
@@ -176,8 +179,6 @@ export default class CsButtonGroupButton extends LitElement {
   #liRef = createRef<HTMLLIElement>();
 
   #prefixSlotRef = createRef<HTMLSlotElement>();
-
-  #selected = false;
 
   get #buttonElements() {
     const elements =
