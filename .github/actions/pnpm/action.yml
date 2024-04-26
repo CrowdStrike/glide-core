@@ -6,12 +6,12 @@ runs:
     - uses: actions/setup-node@v4
       name: Install Node.js
       with:
-        node-version: 20.9.0
+        node-version: 20.12.2
 
     - uses: pnpm/action-setup@v3.0.0
       name: Install pnpm
       with:
-        version: 8.10.5
+        version: 9.0.6
         run_install: false
 
     - name: Get pnpm store directory
