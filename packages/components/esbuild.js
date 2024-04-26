@@ -1,5 +1,5 @@
 import { globby } from 'globby';
-import { minifyHTMLLiterals } from 'minify-html-literals';
+import { minifyHTMLLiterals } from 'minify-literals';
 import { readFile } from 'node:fs/promises';
 import esbuild from 'esbuild';
 
@@ -28,7 +28,7 @@ await esbuild.build({
         build.onLoad({ filter: /.*/ }, async ({ path }) => {
           const file = await readFile(path, 'utf8');
 
-          const result = minifyHTMLLiterals(file, {
+          const result = await minifyHTMLLiterals(file, {
             minifyOptions: {
               // Some of our classes were being removed because CleanCSS, which this plugin uses,
               // doesn't support CSS Nesting: https://github.com/clean-css/clean-css/issues/1254.
