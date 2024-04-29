@@ -13,6 +13,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  install_dependencies:
+    name: Install
+    runs-on: ubuntu-latest
+    needs:
+      - install_dependencies
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+
   release:
     name: Release
     timeout-minutes: 5
