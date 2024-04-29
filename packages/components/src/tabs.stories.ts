@@ -80,15 +80,19 @@ const meta: Meta = {
 
 export default meta;
 
-export const Primary: StoryObj = {};
+export const Primary: StoryObj = {
+  name: 'Tabs (With Variant Primary)',
+};
 
 export const Secondary: StoryObj = {
+  name: 'Tabs (With Variant Secondary)',
   args: {
     variant: 'secondary',
   },
 };
 
 export const Vertical: StoryObj = {
+  name: 'Tabs (With Variant Vertical)',
   args: {
     variant: 'vertical',
   },
