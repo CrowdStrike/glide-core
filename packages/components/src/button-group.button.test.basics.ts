@@ -179,7 +179,7 @@ it('throws an error when no label is present and variant is `icon-only`', async 
 it('throws an error when prefix slot is empty and variant is `icon-only`', async () => {
   const spy = sinon.spy();
 
-  // Not sure how to resolve the below, desipte the test passing, so disabling console errors for now:
+  // Not sure how to resolve the below, despite the test passing, so disabling console errors for now:
   //
   // Browser logs:
   //     An error was thrown in a Promise outside a test. Did you forget to await a function or assertion?
