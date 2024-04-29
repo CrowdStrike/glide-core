@@ -1,0 +1,49 @@
+name: On Open Pull Request "force-publish"
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  CI: true
+
+concurrency:
+  group: ${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  install_dependencies:
+    name: Install
+    if: github.head_ref == 'force-publish'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git checkout 8cef664
+      - uses: ./.github/actions/pnpm
+
+  release:
+    name: Release
+    if: github.head_ref == 'force-publish'
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs:
+      - install_dependencies
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git checkout 8cef664
+      - uses: ./.github/actions/pnpm
+      - run: NODE_ENV=production pnpm --filter "@crowdstrike/glide-core-components" start
+      - name: Creating .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to NPM
+        run: pnpm publish -r --no-git-checks
