@@ -6,13 +6,13 @@ import { html } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  title: 'Tab Group',
+  title: 'Tabs',
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
         component:
-          'Place `<cs-tab>`s and `<cs-panel>`s inside a `<cs-tab-group>`',
+          'Place `<cs-tab>`s and `<cs-panel>`s inside a `<cs-tab-group>` to present a collection of tabs with their respective panels.',
       },
     },
   },
@@ -66,11 +66,12 @@ const meta: Meta = {
       },
     },
     'addEventListener(event)': {
-      control: { type: 'object' },
+      control: { type: '' },
       table: {
         type: {
           summary: 'method',
-          detail: 'event: "tab-show"',
+          detail:
+            'event: "tab-show", listener: (event: CustomEvent<{ panel: string }>) => void',
         },
       },
     },

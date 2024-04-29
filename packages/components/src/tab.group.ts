@@ -52,16 +52,53 @@ export default class CsTabGroup extends LitElement {
   @queryAssignedElements({ slot: 'nav' })
   tabElements!: Array<CsTab>;
 
-  private handleClick = (event: Event) => {
+  override firstUpdated() {
+    owSlotType(this.#navSlotRef.value, [CsTab]);
+    owSlotType(this.#defaultSlotRef.value, [CsTabPanel]);
+    this.#setupTabs();
+    this.#setActiveTab();
+  }
+
+  override render() {
+    return html`<div
+      class=${classMap({
+        wrapper: true,
+        vertical: this.variant === 'vertical',
+      })}
+      @click=${this.#onClick}
+      @keydown=${this.#onKeydown}
+    >
+      <div
+        role="tablist"
+        class=${classMap({
+          'tab-group': true,
+          [this.variant]: true,
+        })}
+      >
+        <slot name="nav" ${ref(this.#navSlotRef)}></slot>
+      </div>
+      <slot ${ref(this.#defaultSlotRef)}></slot>
+    </div>`;
+  }
+
+  override updated() {
+    this.#setupTabs();
+  }
+
+  #defaultSlotRef = createRef<HTMLSlotElement>();
+
+  #navSlotRef = createRef<HTMLSlotElement>();
+
+  #onClick = (event: Event) => {
     const target = event.target as HTMLElement;
     const clickedTab = target.closest('cs-tab');
 
     if (clickedTab && clickedTab instanceof CsTab && !clickedTab.disabled) {
-      this.showTab(clickedTab);
+      this.#showTab(clickedTab);
     }
   };
 
-  private handleKeyDown = (event: KeyboardEvent) => {
+  #onKeydown = (event: KeyboardEvent) => {
     const target = event.target as HTMLElement;
     const targetTab = target.closest('cs-tab');
 
@@ -71,7 +108,7 @@ export default class CsTabGroup extends LitElement {
       targetTab instanceof CsTab &&
       !targetTab.disabled
     ) {
-      this.showTab(targetTab);
+      this.#showTab(targetTab);
       event.preventDefault();
     }
 
@@ -130,38 +167,7 @@ export default class CsTabGroup extends LitElement {
     }
   };
 
-  override firstUpdated() {
-    owSlotType(this.#navSlotRef.value, [CsTab]);
-    owSlotType(this.#defaultSlotRef.value, [CsTabPanel]);
-    this.setupTabs();
-    this.setActiveTab();
-  }
-
-  override render() {
-    return html`<div
-      class=${classMap({
-        wrapper: true,
-        vertical: this.variant === 'vertical',
-      })}
-      @click=${this.handleClick}
-      @keydown=${this.handleKeyDown}
-    >
-      <div
-        role="tablist"
-        class=${classMap({
-          'tab-group': true,
-          primary: this.variant === 'primary',
-          secondary: this.variant === 'secondary',
-          vertical: this.variant === 'vertical',
-        })}
-      >
-        <slot name="nav" ${ref(this.#navSlotRef)}></slot>
-      </div>
-      <slot ${ref(this.#defaultSlotRef)}></slot>
-    </div>`;
-  }
-
-  private setActiveTab() {
+  #setActiveTab() {
     for (const [index, tabElement] of this.tabElements.entries()) {
       let isActive;
 
@@ -184,7 +190,7 @@ export default class CsTabGroup extends LitElement {
     }
   }
 
-  private setupTabs() {
+  #setupTabs() {
     for (let index = 0; index < this.tabElements.length; index++) {
       const slotElement = this.tabElements[index];
       const tab = slotElement as CsTab;
@@ -197,9 +203,9 @@ export default class CsTabGroup extends LitElement {
     }
   }
 
-  private showTab(tab: CsTab) {
+  #showTab(tab: CsTab) {
     this.activeTab = tab;
-    this.setActiveTab();
+    this.#setActiveTab();
     this.dispatchEvent(
       new CustomEvent('tab-show', {
         detail: {
@@ -208,12 +214,4 @@ export default class CsTabGroup extends LitElement {
       }),
     );
   }
-
-  override updated() {
-    this.setupTabs();
-  }
-
-  #defaultSlotRef = createRef<HTMLSlotElement>();
-
-  #navSlotRef = createRef<HTMLSlotElement>();
 }
