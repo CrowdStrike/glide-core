@@ -14,7 +14,7 @@ it('throws when a slot lacks a node', async () => {
   const component = await fixture<CsSlot>(html`<cs-slot></cs-slot>`);
   const slot = component.shadowRoot?.querySelector('slot');
 
-  assert(slot);
+  assert(slot !== null);
 
   expect(() => owSlot(slot)).to.throw();
 });
@@ -28,7 +28,7 @@ it('throws when a slot lacks a specific node', async () => {
 
   const slot = component.shadowRoot?.querySelector('slot');
 
-  assert(slot);
+  assert(slot !== null);
 
   expect(() => owSlotType(slot, [HTMLButtonElement])).to.throw();
 });
@@ -42,7 +42,7 @@ it('does not throw when a slot has a node', async () => {
 
   const slot = component.shadowRoot?.querySelector('slot');
 
-  assert(slot);
+  assert(slot !== null);
 
   expect(() => owSlot(slot)).to.not.throw();
 });
@@ -51,7 +51,7 @@ it('does not throw when a slot has a specific node', async () => {
   const component = await fixture<CsSlot>(html`<cs-slot> Text </cs-slot>`);
   const slot = component.shadowRoot?.querySelector('slot');
 
-  assert(slot);
+  assert(slot !== null);
 
   expect(() => owSlotType(slot, [Text])).to.not.throw();
 });
@@ -60,7 +60,7 @@ it('does not throw when a slot has no nodes', async () => {
   const component = await fixture<CsSlot>(html`<cs-slot></cs-slot>`);
   const slot = component.shadowRoot?.querySelector('slot');
 
-  assert(slot);
+  assert(slot !== null);
 
   expect(() => owSlotType(slot, [HTMLButtonElement])).to.not.throw();
 });
