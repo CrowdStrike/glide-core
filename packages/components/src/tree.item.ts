@@ -1,3 +1,4 @@
+import './tree.item.menu.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -24,6 +25,7 @@ declare global {
  * @slot - One or more of <cs-tree-item>, if this tree item contains nested tree items.
  * @slot prefix - An optional icon to display before the label.
  * @slot suffix - An optional icon to add after the label.
+ * @slot menu - Place a <cs-menu> here, which will be visible on hover or focus
  */
 @customElement('cs-tree-item')
 export default class CsTreeItem extends LitElement {
@@ -42,6 +44,9 @@ export default class CsTreeItem extends LitElement {
   @property({ type: Number }) level = 1;
 
   @property({ type: Boolean }) selected = false;
+
+  @queryAssignedElements({ slot: 'menu' })
+  menuSlotAssignedElements!: Array<HTMLElement>;
 
   @queryAssignedElements({ slot: 'prefix' })
   prefixSlotAssignedElements!: HTMLElement[];
@@ -115,6 +120,7 @@ export default class CsTreeItem extends LitElement {
         </div>
         <slot name="prefix" @slotchange=${this.#onPrefixSlotChange}></slot>
         <div class="label">${this.label}</div>
+        <slot name="menu" @slotchange=${this.#onMenuSlotChange}></slot>
         <slot name="suffix" @slotchange=${this.#onSuffixSlotChange}></slot>
       </div>
       <div class="child-items" role="group">
@@ -159,6 +165,9 @@ export default class CsTreeItem extends LitElement {
   private childTreeItems: CsTreeItem[] = [];
 
   @state()
+  private hasMenuSlot = false;
+
+  @state()
   private hasPrefixSlot = false;
 
   @state()
@@ -184,6 +193,10 @@ export default class CsTreeItem extends LitElement {
 
   get #indentationWidth() {
     return `${(this.level - 1) * 20}px`;
+  }
+
+  #onMenuSlotChange() {
+    this.hasMenuSlot = this.menuSlotAssignedElements.length > 0;
   }
 
   #onPrefixSlotChange() {

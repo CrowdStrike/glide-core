@@ -86,7 +86,11 @@ export default class CsMenu extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
+    owSlotType(this.#defaultSlotElementRef.value, [
+      CsMenuButton,
+      CsMenuLink,
+      HTMLSlotElement,
+    ]);
     owSlot(this.#targetSlotElementRef.value);
 
     this.#setUpFloatingUi(); // For when Menu is open initially via the `open` attribute.
@@ -166,13 +170,6 @@ export default class CsMenu extends LitElement {
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
-  get #optionElements() {
-    return [
-      ...this.querySelectorAll('cs-menu-button'),
-      ...this.querySelectorAll('cs-menu-link'),
-    ];
-  }
-
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = (event: MouseEvent) => {
@@ -194,6 +191,23 @@ export default class CsMenu extends LitElement {
 
       option.focus();
     }
+  }
+
+  get #optionElements(): (CsMenuLink | CsMenuButton)[] {
+    const defaultSlot = this.#defaultSlotElementRef.value;
+    const defaultSlotElements = defaultSlot?.assignedElements() as (
+      | CsMenuLink
+      | CsMenuButton
+    )[];
+    if (defaultSlotElements?.[0] instanceof HTMLSlotElement) {
+      // Items are in a nested slot
+      return defaultSlotElements[0].assignedElements() as (
+        | CsMenuLink
+        | CsMenuButton
+      )[];
+    }
+
+    return defaultSlotElements || [];
   }
 
   #onOptionsClick() {
@@ -296,9 +310,14 @@ export default class CsMenu extends LitElement {
     // `document.body` receives focus immediately after focus is moved. So we
     // wait a frame to see where focus ultimately landed.
     setTimeout(() => {
-      if (!this.contains(document.activeElement)) {
-        this.open = false;
+      const activeElement = document.activeElement;
+      const isMenuItem =
+        activeElement instanceof CsMenuLink ||
+        activeElement instanceof CsMenuButton;
+      if (isMenuItem && this.#optionElements.includes(activeElement)) {
+        return;
       }
+      this.open = false;
     });
   }
 

@@ -72,8 +72,21 @@ export default [
       margin-inline-end: var(--cs-spacing-xs);
     }
 
+    ::slotted([slot='menu']) {
+      visibility: hidden;
+    }
+
     ::slotted([slot='suffix']) {
       padding-inline: var(--cs-spacing-xxs);
+    }
+
+    .label-container:hover,
+    .label-container:focus,
+    .label-container:focus-within,
+    .label-container:focus-visible {
+      ::slotted([slot='menu']) {
+        visibility: visible;
+      }
     }
 
     .label {
