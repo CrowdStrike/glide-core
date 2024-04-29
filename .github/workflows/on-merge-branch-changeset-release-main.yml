@@ -12,20 +12,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  install_dependencies:
-    name: Install
-    if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/pnpm
-
   build:
     name: Build
     if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
     runs-on: ubuntu-latest
-    needs:
-      - install_dependencies
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
@@ -41,8 +31,6 @@ jobs:
     if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    needs:
-      - install_dependencies
 
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +51,6 @@ jobs:
     if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
     runs-on: ubuntu-latest
     needs:
-      - install_dependencies
       - build
       - release
     steps:
