@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core-components
 
+## 0.2.1
+
+### Patch Changes
+
+- [#52](https://github.com/CrowdStrike/glide-core/pull/52) [`2f3dbc3`](https://github.com/CrowdStrike/glide-core/commit/2f3dbc36535cefdd07485ca7ceff784c75a7d899) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Adds cs-button-group and cs-button-group-button
+
 ## 0.2.0
 
 ### Minor Changes
