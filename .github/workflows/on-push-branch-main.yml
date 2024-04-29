@@ -1,0 +1,29 @@
+name: On Push Branch "Main"
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CI: true
+
+concurrency:
+  group: ${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Release
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Release Pull Request
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          title: 'Release Preview'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

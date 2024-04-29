@@ -2,10 +2,7 @@ name: On Merge Branch "changeset-release/main"
 
 on:
   pull_request:
-    branches:
-      - changeset-release/main
-    types:
-      - closed
+    types: [closed]
 
 env:
   CI: true
@@ -17,36 +14,15 @@ concurrency:
 jobs:
   install_dependencies:
     name: Install
+    if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-
-  # https://github.com/changesets/action
-  release:
-    name: Release
-    if: github.event.pull_request.merged == true
-    timeout-minutes: 5
-    runs-on: ubuntu-latest
-    needs:
-      - install_dependencies
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm --filter "@crowdstrike/glide-core-components" start
-      - name: Create Release Pull Request or Publish to NPM
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          publish: pnpm release
-          title: 'Release Preview'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   build:
     name: Build
+    if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
     runs-on: ubuntu-latest
     needs:
       - install_dependencies
@@ -60,9 +36,31 @@ jobs:
         with:
           path: packages/components/dist/storybook
 
+  release:
+    name: Release
+    if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs:
+      - install_dependencies
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - run: NODE_ENV=production pnpm --filter "@crowdstrike/glide-core-components" start
+      - name: Publish to NPM
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm release
+          title: 'Release Preview'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
   deploy:
     name: Deploy
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
     runs-on: ubuntu-latest
     needs:
       - install_dependencies
