@@ -128,7 +128,7 @@ const meta: Meta = {
       },
     },
     size: {
-      control: { type: 'select' },
+      control: { type: 'radio' },
       options: ['small', 'large'],
       table: {
         defaultValue: { summary: '"large"' },
