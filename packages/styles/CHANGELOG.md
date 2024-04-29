@@ -1,5 +1,17 @@
 # @crowdstrike/glide-core-styles
 
+## 0.2.0
+
+### Minor Changes
+
+- [#30](https://github.com/CrowdStrike/glide-core/pull/30) [`286786c`](https://github.com/CrowdStrike/glide-core/commit/286786c48b565337b33cca34c89783e6b929f733) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated CSS Variables in `@glide-core-styles` to align with Figma.
+
+  - Removed `--cs-icon-display`.
+  - Added `--cs-icon-active`, `--cs-icon-primary-hover`, and `--cs-icon-tertiary-disabled`.
+  - Updated `--cs-icon-default` and `--cs-icon-primary` color values.
+
+  Added the `<cs-icon-button>` component.
+
 ## 0.1.1
 
 ### Patch Changes
