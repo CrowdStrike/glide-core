@@ -30,7 +30,11 @@ export default class CsAccordion extends LitElement {
   @property({ type: Boolean, reflect: true }) open = false;
 
   override render() {
-    return html` <details ?open=${this.open} ${ref(this.#detailsRef)}>
+    return html` <details
+      class="component"
+      ?open=${this.open}
+      ${ref(this.#detailsRef)}
+    >
       <summary
         class="summary"
         @click=${this.#onSummaryClick}
@@ -38,7 +42,6 @@ export default class CsAccordion extends LitElement {
       >
         <svg
           class="chevron"
-          xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
           viewBox="0 0 24 24"

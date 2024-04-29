@@ -44,7 +44,7 @@ it('has defaults', async () => {
 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button', 'primary']);
+  ]).to.deep.equal(['component', 'primary']);
 });
 
 it('delegates focus', async () => {
@@ -89,7 +89,7 @@ it('renders a primary variant', async () => {
 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button', 'primary']);
+  ]).to.deep.equal(['component', 'primary']);
 });
 
 it('renders a secondary variant', async () => {
@@ -101,7 +101,7 @@ it('renders a secondary variant', async () => {
 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button', 'secondary']);
+  ]).to.deep.equal(['component', 'secondary']);
 });
 
 it('renders a tertiary variant', async () => {
@@ -113,7 +113,7 @@ it('renders a tertiary variant', async () => {
 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['button', 'tertiary']);
+  ]).to.deep.equal(['component', 'tertiary']);
 });
 
 it('sets the disabled attribute', async () => {

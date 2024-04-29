@@ -3,7 +3,6 @@ import './menu.link.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import type CsMenu from './menu.js';
-import type CsMenuButton from './menu.button.js';
 
 it('opens when clicked', async () => {
   const menu = await fixture<CsMenu>(
@@ -175,6 +174,7 @@ it('closes when an option is selected via Enter', async () => {
   menu
     .querySelector('cs-menu-link')
     ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
   await sendKeys({ press: 'Enter' });
 
   expect(menu.open).to.be.false;
@@ -222,8 +222,7 @@ it('activates a menu button option on "mouseover"', async () => {
     </cs-menu>
   `);
 
-  const options: NodeListOf<CsMenuButton> =
-    menu.querySelectorAll('cs-menu-button');
+  const options = menu.querySelectorAll('cs-menu-button');
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   expect(options[0].privateActive).to.be.false;
@@ -254,8 +253,7 @@ it('activates the first menu-button option by default', async () => {
     </cs-menu>
   `);
 
-  const options: NodeListOf<CsMenuButton> =
-    menu.querySelectorAll('cs-menu-button');
+  const options = menu.querySelectorAll('cs-menu-button');
 
   expect(options[0].privateActive).to.be.true;
   expect(options[1].privateActive).to.be.false;

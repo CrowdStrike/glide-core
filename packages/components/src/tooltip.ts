@@ -56,7 +56,7 @@ export default class CsTooltip extends LitElement {
                           .getPropertyValue('--cs-spacing-xxs'),
                       ) *
                         16 +
-                      this.#triangleWidth,
+                      this.#triangleSize.width,
                   }),
                   flip({
                     fallbackStrategy: 'initialPlacement',
@@ -65,6 +65,7 @@ export default class CsTooltip extends LitElement {
                 ],
               },
             );
+
             Object.assign(this.#tooltipElementRef.value.style, {
               left: `${x}px`,
               top: `${y}px`,
@@ -103,6 +104,28 @@ export default class CsTooltip extends LitElement {
           ${ref(this.#targetElementRef)}
         >
           <slot name="target"></slot>
+
+          <svg
+            class=${classMap({
+              triangle: true,
+              bottom: this.effectivePlacement === 'top',
+              left: this.effectivePlacement === 'right',
+              right: this.effectivePlacement === 'left',
+              top: this.effectivePlacement === 'bottom',
+              visible: this.isVisible,
+            })}
+            height="${this.#triangleSize.height}px"
+            width="${this.#triangleSize.width}px"
+            viewBox="0 0 6 10"
+            fill="none"
+            style="--triangle-height: ${this.#triangleSize
+              .height}px; --triangle-width: ${this.#triangleSize.width}px;"
+          >
+            <path
+              d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
+              fill="#212121"
+            />
+          </svg>
         </div>
 
         <div
@@ -116,26 +139,6 @@ export default class CsTooltip extends LitElement {
         >
           <span aria-label="Tooltip: "></span>
           <slot></slot>
-
-          <svg
-            class=${classMap({
-              triangle: true,
-              bottom: this.effectivePlacement === 'top',
-              left: this.effectivePlacement === 'right',
-              right: this.effectivePlacement === 'left',
-              top: this.effectivePlacement === 'bottom',
-            })}
-            width="${this.#triangleWidth}px"
-            height="10"
-            viewBox="0 0 6 10"
-            fill="none"
-            style="--triangle-width: ${this.#triangleWidth}px"
-          >
-            <path
-              d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
-              fill="#212121"
-            />
-          </svg>
         </div>
       </div>
     `;
@@ -151,7 +154,10 @@ export default class CsTooltip extends LitElement {
 
   #tooltipElementRef = createRef<HTMLSpanElement>();
 
-  #triangleWidth = 6;
+  #triangleSize = {
+    height: 10,
+    width: 6,
+  };
 
   #onFocusin() {
     this.isVisible = true;

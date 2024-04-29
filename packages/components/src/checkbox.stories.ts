@@ -9,7 +9,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'A checkbox with a label and optional tooltip, summary, and description.',
+          'A checkbox with a label and optional tooltip, summary, and description. \n\n Participates in forms and validation via `FormData` and various methods.',
       },
       story: {
         autoplay: true,
@@ -24,7 +24,7 @@ const meta: Meta = {
     indeterminate: false,
     label: 'Label',
     name: 'name',
-    orientation: '',
+    orientation: 'horizontal',
     summary: 'Summary',
     required: false,
     value: 'Value',
@@ -36,7 +36,27 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            'event: "change" | "input",  listener: (event: Event) => void',
+            '(event: "change" | "input",  listener: (event: Event) => void) => void',
+        },
+      },
+    },
+    'checkValidity()': {
+      control: { type: '' },
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
+        },
+      },
+    },
+    'reportValidity()': {
+      control: { type: '' },
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
         },
       },
     },
@@ -60,7 +80,7 @@ const meta: Meta = {
         defaultValue: { summary: false },
         type: {
           detail:
-            "Unlike `<select>`, it's also an attribute. It behaves like `checked` and remains at its initial value unless changed using `setAttribute`.",
+            'Unlike with `<select>`, `indeterminate` is both a property and an attribute. It behaves like `checked` and remains at its initial value unless changed using `setAttribute`.',
           summary: 'boolean',
         },
       },

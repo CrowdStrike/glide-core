@@ -8,7 +8,7 @@ export default [
       display: inline-block;
     }
 
-    .button {
+    .component {
       align-items: center;
       border-color: transparent;
       border-radius: var(--cs-spacing-sm);

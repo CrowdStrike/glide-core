@@ -3,6 +3,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import checkedIcon from './icons/checked.js';
 import infoCircleIcon from './icons/info-circle.js';
 import styles from './checkbox.styles.js';
 
@@ -13,7 +14,7 @@ declare global {
 }
 
 /**
- * @description A checkbox with a label and optional tooltip, summary, and description.
+ * @description A checkbox with a label and optional tooltip, summary, and description. Participates in forms and validation via `FormData` and various methods.
  *
  * @event change - Dispatched when checked or unchecked.
  * @event input - Dispatched when checked or unchecked.
@@ -200,21 +201,7 @@ export default class CsCheckbox extends LitElement {
           })}
         >
           <div class="checkbox">
-            <svg
-              class="checked-icon"
-              fill="none"
-              height="14"
-              viewBox="0 0 24 24"
-              width="14"
-            >
-              <path
-                d="M20 6L9 17L4 12"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <div class="checked-icon">${checkedIcon}</div>
 
             <svg
               class="indeterminate-icon"

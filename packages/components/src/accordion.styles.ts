@@ -3,7 +3,7 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    details {
+    .component {
       border-radius: 0.625rem;
       box-shadow: var(--cs-shadow-sm);
       font-family: var(--cs-body-xs-font-family);
@@ -69,7 +69,7 @@ export default [
         }
       }
 
-      details[open] & {
+      .component[open] & {
         padding-block-end: var(--cs-spacing-xxs);
       }
     }
@@ -81,7 +81,7 @@ export default [
       rotate: -90deg;
       transition: 250ms rotate ease;
 
-      details[open] & {
+      .component[open] & {
         rotate: 0deg;
       }
     }

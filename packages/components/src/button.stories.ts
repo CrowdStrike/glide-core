@@ -23,6 +23,7 @@ const meta: Meta = {
   args: {
     disabled: false,
     variant: 'primary',
+    size: 'large',
     'slot="default"': 'Button',
   },
   argTypes: {
@@ -39,6 +40,16 @@ const meta: Meta = {
     disabled: {
       control: { type: 'boolean' },
     },
+    size: {
+      control: { type: 'radio' },
+      options: ['large', 'small'],
+      table: {
+        defaultValue: {
+          summary: '"large"',
+        },
+        type: { summary: '"large" | "small"' },
+      },
+    },
     'slot="default"': {
       control: { type: 'text' },
       table: {
@@ -54,25 +65,21 @@ export default meta;
 export const Primary: StoryObj = {
   args: {
     variant: 'primary',
-    size: 'large',
-  },
-  argTypes: {
-    size: {
-      control: { type: 'radio' },
-      options: ['large', 'small'],
-      table: {
-        defaultValue: {
-          summary: '"large"',
-        },
-      },
-    },
   },
 };
 
 export const PrimaryWithPrefixIcon: StoryObj = {
+  args: {
+    variant: 'primary',
+  },
+
   name: 'Primary (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
+    <cs-button
+      size=${arguments_.size}
+      variant=${arguments_.variant}
+      ?disabled=${arguments_.disabled}
+    >
       ${arguments_['slot="default"']}
 
       <svg
@@ -93,23 +100,14 @@ export const PrimaryWithPrefixIcon: StoryObj = {
   `,
 };
 
-export const Small: StoryObj = {
-  args: {
-    size: 'small',
-  },
-  argTypes: {
-    size: {
-      table: {
-        disable: true,
-      },
-    },
-  },
-};
-
 export const PrimaryWithSuffixIcon: StoryObj = {
   name: 'Primary (With Suffix Icon)',
   render: (arguments_) => html`
-    <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
+    <cs-button
+      size=${arguments_.size}
+      variant=${arguments_.variant}
+      ?disabled=${arguments_.disabled}
+    >
       ${arguments_['slot="default"']}
 
       <svg
@@ -133,7 +131,11 @@ export const PrimaryWithSuffixIcon: StoryObj = {
 export const PrimaryWithPrefixAndSuffixIcons: StoryObj = {
   name: 'Primary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
-    <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
+    <cs-button
+      size=${arguments_.size}
+      variant=${arguments_.variant}
+      ?disabled=${arguments_.disabled}
+    >
       ${arguments_['slot="default"']}
 
       <svg
@@ -181,7 +183,11 @@ export const SecondaryWithPrefixIcon: StoryObj = {
   },
   name: 'Secondary (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
+    <cs-button
+      size=${arguments_.size}
+      variant=${arguments_.variant}
+      ?disabled=${arguments_.disabled}
+    >
       ${arguments_['slot="default"']}
 
       <svg
@@ -208,7 +214,11 @@ export const SecondaryWithSuffixIcon: StoryObj = {
   },
   name: 'Secondary (With Suffix Icon)',
   render: (arguments_) => html`
-    <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
+    <cs-button
+      size=${arguments_.size}
+      variant=${arguments_.variant}
+      ?disabled=${arguments_.disabled}
+    >
       ${arguments_['slot="default"']}
 
       <svg
@@ -235,7 +245,11 @@ export const SecondaryWithPrefixAndSuffixIcons: StoryObj = {
   },
   name: 'Secondary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
-    <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
+    <cs-button
+      size=${arguments_.size}
+      variant=${arguments_.variant}
+      ?disabled=${arguments_.disabled}
+    >
       ${arguments_['slot="default"']}
 
       <svg
@@ -285,7 +299,11 @@ export const TertiaryWithPrefixIcon: StoryObj = {
   },
   name: 'Tertiary (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
+    <cs-button
+      size=${arguments_.size}
+      variant=${arguments_.variant}
+      ?disabled=${arguments_.disabled}
+    >
       ${arguments_['slot="default"']}
 
       <svg
@@ -312,7 +330,11 @@ export const TertiaryWithSuffixIcon: StoryObj = {
   },
   name: 'Tertiary (With Suffix Icon)',
   render: (arguments_) => html`
-    <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
+    <cs-button
+      size=${arguments_.size}
+      variant=${arguments_.variant}
+      ?disabled=${arguments_.disabled}
+    >
       ${arguments_['slot="default"']}
 
       <svg
@@ -339,7 +361,11 @@ export const TertiaryWithPrefixAndSuffixIcons: StoryObj = {
   },
   name: 'Tertiary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
-    <cs-button variant=${arguments_.variant} ?disabled=${arguments_.disabled}>
+    <cs-button
+      size=${arguments_.size}
+      variant=${arguments_.variant}
+      ?disabled=${arguments_.disabled}
+    >
       ${arguments_['slot="default"']}
 
       <svg

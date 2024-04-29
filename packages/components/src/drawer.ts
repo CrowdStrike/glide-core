@@ -39,8 +39,8 @@ export default class CsDrawer extends LitElement {
       () => {
         this.isOpen = false;
 
-        this.#dialogRef?.value?.classList?.remove('dialog-open');
-        this.#dialogRef?.value?.classList?.remove('dialog-closing');
+        this.#dialogRef?.value?.classList?.remove('open');
+        this.#dialogRef?.value?.classList?.remove('closing');
 
         this.currentState = 'closed';
 
@@ -51,7 +51,7 @@ export default class CsDrawer extends LitElement {
       { once: true },
     );
 
-    this.#dialogRef?.value?.classList?.add('dialog-closing');
+    this.#dialogRef?.value?.classList?.add('closing');
     document.documentElement.classList.add('glide-lock-scroll');
 
     this.currentState = 'closing';
@@ -88,7 +88,7 @@ export default class CsDrawer extends LitElement {
       { once: true },
     );
 
-    this.#dialogRef?.value?.classList?.add('dialog-open');
+    this.#dialogRef?.value?.classList?.add('open');
     document.documentElement.classList.add('glide-lock-scroll');
     this.currentState = 'opening';
 
@@ -98,6 +98,7 @@ export default class CsDrawer extends LitElement {
   override render() {
     return html`
       <dialog
+        class="component"
         tabindex="-1"
         ?open=${this.isOpen}
         @keydown=${this.#handleKeyDown}
