@@ -1,5 +1,5 @@
 import { css } from 'lit';
-import { visuallyHidden } from '../styles.js';
+import visuallyHidden from './styles/visually-hidden.js';
 
 export default css`
   .display-none {
@@ -16,6 +16,7 @@ export default css`
     font-family: var(--cs-body-xs-font-family);
     font-size: var(--cs-body-sm-font-size);
     font-weight: var(--cs-body-xs-font-weight);
+
     /*
     * Since 1fr is actually minmax(auto, 1fr), this explicit minmax
     * will make it so the first column is sized to content, and the second column
@@ -24,7 +25,7 @@ export default css`
     grid-template-columns: auto minmax(0, 1fr);
     line-height: var(--cs-body-xs-line-height);
 
-    &.component--error {
+    &.error {
       .input-box {
         border: 1px solid var(--cs-status-error);
       }
@@ -33,18 +34,14 @@ export default css`
         color: var(--cs-status-error);
       }
 
-      .meta__character-count {
+      .character-count {
         color: var(--cs-status-error);
         font-weight: var(--cs-font-weight-bold);
       }
     }
   }
 
-  .label {
-    font-weight: var(--cs-font-weight-bold);
-  }
-
-  .label__required {
+  .required-indicator {
     color: var(--cs-status-error);
     margin-inline-start: var(--cs-spacing-xxxs);
   }
@@ -57,7 +54,7 @@ export default css`
     margin-block-start: var(--cs-spacing-xxxs);
   }
 
-  .meta__character-count {
+  .character-count {
     justify-self: flex-end;
   }
 
@@ -69,24 +66,25 @@ export default css`
     align-items: center;
     display: flex;
     font-size: var(--cs-body-sm-font-size);
+    font-weight: var(--cs-font-weight-bold);
     gap: var(--cs-spacing-xxs);
     margin-block-end: 0;
   }
 
-  .label--left {
+  .left {
     flex-direction: row;
     grid-column: 1;
     margin-inline-end: var(--cs-spacing-sm);
   }
 
-  .label--top {
+  .top {
     flex-direction: row-reverse;
     grid-column: 2;
     justify-content: flex-end;
     margin-block-end: 0;
   }
 
-  .label--visually-hidden {
+  .visually-hidden {
     ${visuallyHidden};
   }
 
@@ -103,10 +101,12 @@ export default css`
     display: flex;
     flex-grow: 1;
     font-family: var(--cs-font-sans);
+    gap: var(--cs-spacing-xxs);
     grid-column: 2;
     overflow: hidden;
+    padding: var(--cs-spacing-xs) var(--cs-spacing-sm);
 
-    &.input-box--focused {
+    &.focused {
       border-color: var(--cs-border-focus);
     }
 
@@ -120,7 +120,6 @@ export default css`
       line-height: inherit;
       min-inline-size: 0;
       outline: none;
-      padding: var(--cs-spacing-xs) var(--cs-spacing-sm);
 
       &::-webkit-search-decoration,
       &::-webkit-search-cancel-button,
@@ -135,16 +134,11 @@ export default css`
       display: flex;
     }
 
-    .prefix {
-      align-items: center;
-      display: flex;
-    }
-
     /* we had to resort to an attribute selector because there may be a bug in chrome and safari
     * with ':read-only'
     * https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
     */
-    &.input-box--readonly {
+    &.readonly {
       border: 1px solid transparent;
 
       input {
@@ -152,16 +146,19 @@ export default css`
       }
     }
 
-    input:disabled {
+    &.disabled {
       background-color: var(--cs-surface-base-gray-light);
       color: var(--cs-text-tertiary-disabled);
+    }
+
+    input:disabled {
       cursor: not-allowed;
     }
   }
 
   .clear-icon-button,
   .password-toggle,
-  .suffix {
+  ::slotted([slot='suffix']) {
     align-items: center;
     background: none;
     border: none;
@@ -174,17 +171,12 @@ export default css`
   .clear-icon-button,
   .password-toggle,
   .search-icon,
+  ::slotted([slot='prefix']),
   ::slotted([slot='suffix']) {
     display: flex;
-    padding-inline-end: var(--cs-spacing-sm);
   }
 
-  ::slotted([slot='prefix']) {
-    display: flex;
-    padding-inline-start: var(--cs-spacing-sm);
-  }
-
-  .input-box--empty .clear-icon-button {
+  .empty .clear-icon-button {
     visibility: hidden;
   }
 `;

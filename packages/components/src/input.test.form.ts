@@ -1,8 +1,8 @@
-import './input.component.js';
+import './input.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import type Input from './input.js';
 
-it('can be reset', async () => {
+it('can be reset to initial value', async () => {
   const form = document.createElement('form');
 
   const input = await fixture<Input>(
@@ -16,6 +16,19 @@ it('can be reset', async () => {
   form.reset();
 
   expect(input.value).to.equal('value');
+});
+
+it('can be reset if there was no initial value', async () => {
+  const form = document.createElement('form');
+
+  const input = await fixture<Input>(html`<cs-input></cs-input>`, {
+    parentNode: form,
+  });
+
+  input.value = 'value';
+  form.reset();
+
+  expect(input.value).to.equal('');
 });
 
 it('has a `formData` value when it has a value', async () => {

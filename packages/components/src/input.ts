@@ -1,9 +1,4 @@
-import '../icon-button/icon-button';
-import '@crowdstrike/glide-icons/general/eye-off/line.js';
-import '@crowdstrike/glide-icons/general/eye/line.js';
-import '@crowdstrike/glide-icons/general/info-circle/line.js';
-import '@crowdstrike/glide-icons/general/search-md/solid.js';
-import '@crowdstrike/glide-icons/general/x/solid.js';
+import './icon-button.js';
 import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -15,16 +10,6 @@ import {
 } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './input.styles.js';
-
-/*
- * https://fettblog.eu/typescript-array-includes/
- */
-function arrayIncludes<T extends U, U>(
-  options: ReadonlyArray<T>,
-  option: U,
-): option is T {
-  return options.includes(option as T);
-}
 
 /*
  * These are selected from native types listed on MDN:
@@ -45,33 +30,28 @@ export const SUPPORTED_TYPES = [
 type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
 
 /**
- * @description A custom-built input.
+ * @description An input with a label and optional description. Participates in forms and validation via `FormData` and various methods.
+ *
+ * @event change - (same as native input's `change` event)
+ * @event input - (same as native input's `input` event)
+
+ * @slot description - Additional information or context.
+ * @slot prefix - An optional icon slot to display before the input.
+ * @slot suffix - An optional icon slot to display after the input.
  */
 @customElement('cs-input')
 export default class CsInput extends LitElement {
   static formAssociated = true;
 
-  static override shadowRootOptions = {
+  static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
+    mode: 'closed',
     delegatesFocus: true,
   };
 
   static override styles = styles;
 
-  @property({
-    converter(value) {
-      if (value === null) {
-        return 'text';
-      }
-
-      if (arrayIncludes(SUPPORTED_TYPES, value)) {
-        return value;
-      }
-
-      return 'text';
-    },
-  })
-  // Should only have values from the supported type list, defaults to "text" otherwise
+  @property()
   type: SupportedTypes = 'text';
 
   @property({ reflect: true })
@@ -115,17 +95,7 @@ export default class CsInput extends LitElement {
     type: Number,
     attribute: 'max-character-count',
     converter(value) {
-      if (value === null) {
-        return;
-      }
-
-      const result = Number.parseInt(value, 10);
-
-      if (Number.isNaN(result) || result < 1) {
-        return;
-      }
-
-      return result;
+      return value && Number.parseInt(value, 10);
     },
   })
   maxCharacterCount?: number;
@@ -196,38 +166,36 @@ export default class CsInput extends LitElement {
       <div
         class=${classMap({
           component: true,
-          'component--error':
+          error:
             this.#isShowValidationFeedback || this.#isMaxCharacterCountExceeded,
-          'component--input-expand-row': this.hasDescriptionOrCharCount,
         })}
         data-test="component"
       >
         <label
           class=${classMap({
             label: true,
-            'label--left': this.labelPosition === 'left',
-            'label--top': this.labelPosition === 'top',
-            'label--visually-hidden': this.hideLabel,
+            left: this.labelPosition === 'left',
+            top: this.labelPosition === 'top',
+            'visually-hidden': this.hideLabel,
           })}
           for="input"
         >
           <span
             >${this.label}${this.required
-              ? html`<span class="label__required">*</span>`
+              ? html`<span class="required-indicator">*</span>`
               : ''}</span
           >
         </label>
         <div
           class=${classMap({
             'input-box': true,
-            'input-box--focused': this.hasFocus,
-            'input-box--empty': this.value === '',
-            'input-box--readonly': this.readonly && !this.disabled,
+            focused: this.hasFocus,
+            empty: this.value === '',
+            disabled: this.disabled,
+            readonly: this.readonly && !this.disabled,
           })}
         >
-          <div part="prefix" class="prefix">
-            <slot name="prefix"></slot>
-          </div>
+          <slot name="prefix"></slot>
           <input
             id="input"
             type=${this.type === 'password' && this.passwordVisible
@@ -238,10 +206,10 @@ export default class CsInput extends LitElement {
             ?required=${this.required}
             ?readonly=${this.readonly}
             ?disabled=${this.disabled}
-            @focus=${this.#handleFocus}
-            @blur=${this.#handleBlur}
-            @change=${this.#handleChange}
-            @input=${this.#handleInput}
+            @focus=${this.#onFocus}
+            @blur=${this.#onBlur}
+            @change=${this.#onChange}
+            @input=${this.#onInput}
             ${ref(this.#inputElementRef)}
           />
           <!-- TODO: We should localize the aria-labels in the future -->
@@ -254,11 +222,31 @@ export default class CsInput extends LitElement {
                     'clear-icon-button--visible': this.isClearIconVisible,
                   })}
                   aria-label="Clear entry"
-                  @click=${this.#handleClearClick}
+                  @click=${this.#onClearClick}
                   tabindex="-1"
                 >
                   <slot name="clear-icon">
-                    <cs-icon-general-x-solid></cs-icon-general-x-solid>
+                    <!-- X icon -->
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path
+                        d="M6 6L18 18"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M18 6L6 18"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   </slot>
                 </cs-icon-button>
               `
@@ -273,37 +261,76 @@ export default class CsInput extends LitElement {
                     : 'Show password'}
                   aria-controls="input"
                   aria-expanded=${this.passwordVisible ? 'true' : 'false'}
-                  @click=${this.#handlePasswordToggle}
+                  @click=${this.#onPasswordToggle}
                   tabindex="-1"
                 >
                   ${this.passwordVisible
-                    ? html`<cs-icon-general-eye-off-line></cs-icon-general-eye-off-line>`
-                    : html`<cs-icon-general-eye-line></cs-icon-general-eye-line>`}
+                    ? // Eye icon with slash
+                      html`<svg
+                        width="16"
+                        height="16"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
+                        />
+                      </svg> `
+                    : // Eye icon
+                      html`<svg
+                        width="16"
+                        height="16"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                        />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                        />
+                      </svg>`}
                 </cs-icon-button>
               `
             : ''}
           <div part="suffix" class="suffix">
             ${this.isTypeSearch
-              ? html`<cs-icon-general-search-md-solid
+              ? // Magnifying glass icon
+                html`<svg
                   class="search-icon"
-                ></cs-icon-general-search-md-solid>`
-              : html`<slot
-                  name="suffix"
-                  @slotchange=${this.#onSuffixIconSlotChange}
-                ></slot>`}
+                  fill="none"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                  />
+                </svg> `
+              : html`<slot name="suffix"></slot>`}
           </div>
         </div>
         <div class="meta">
           <div>
-            <slot
-              class="description"
-              name="description"
-              @slotchange=${this.#onDescriptionSlotChange}
-            ></slot>
+            <slot class="description" name="description"></slot>
           </div>
           ${this.maxCharacterCount
             ? html`
-                <div class="meta__character-count">
+                <div class="character-count">
                   ${this.valueCharacterCount}/${this.maxCharacterCount}
                 </div>
               `
@@ -353,16 +380,7 @@ export default class CsInput extends LitElement {
     });
   }
 
-  @state()
-  private hasDescriptionOrCharCount = false;
-
   @state() private hasFocus = false;
-
-  @state()
-  private hasPrefixIconSlot = false;
-
-  @state()
-  private hasSuffixIconSlot = false;
 
   @state()
   private isCheckingValidity?: boolean;
@@ -397,12 +415,12 @@ export default class CsInput extends LitElement {
     return this.#inputElementRef.value;
   }
 
-  #handleBlur() {
+  #onBlur() {
     this.hasFocus = false;
   }
 
-  #handleChange(event: Event) {
-    this.value = this.#inputElement?.value || '';
+  #onChange(event: Event) {
+    this.value = this.#inputElement!.value;
 
     this.#setValidityToInputValidity();
 
@@ -410,7 +428,7 @@ export default class CsInput extends LitElement {
     this.dispatchEvent(new Event(event.type, event));
   }
 
-  #handleClearClick(event: MouseEvent) {
+  #onClearClick(event: MouseEvent) {
     this.value = '';
     this.dispatchEvent(new Event('clear'));
     this.#inputElement?.focus();
@@ -419,31 +437,19 @@ export default class CsInput extends LitElement {
     event.stopPropagation();
   }
 
-  #handleFocus() {
+  #onFocus() {
     this.hasFocus = true;
   }
 
-  #handleInput() {
-    this.value = this.#inputElement?.value || '';
+  #onInput() {
+    const value = this.#inputElement!.value;
+    this.value = value;
 
     this.#setValidityToInputValidity();
   }
 
-  #handlePasswordToggle() {
+  #onPasswordToggle() {
     this.passwordVisible = !this.passwordVisible;
-  }
-
-  #onDescriptionSlotChange() {
-    this.hasDescriptionOrCharCount =
-      this.descriptionNodes?.length > 0 || Boolean(this.maxCharacterCount);
-  }
-
-  #onPrefixIconSlotChange() {
-    this.hasPrefixIconSlot = this.prefixIconNodes?.length > 0;
-  }
-
-  #onSuffixIconSlotChange() {
-    this.hasSuffixIconSlot = this.suffixIconNodes?.length > 0;
   }
 
   /**

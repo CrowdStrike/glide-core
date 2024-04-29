@@ -1,23 +1,17 @@
-import '@crowdstrike/glide-components/input/input.js';
-import '@crowdstrike/glide-icons/editor/pencil-line/line.js';
-import '@crowdstrike/glide-icons/general/eye/line.js';
+import './icons/storybook.js';
+import './input.js';
 import { html, nothing } from 'lit-html';
-import Input, {
-  SUPPORTED_TYPES,
-} from '@crowdstrike/glide-components/input/input.js';
+import Input, { SUPPORTED_TYPES } from './input.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-const tooltipConfig = {
-  hoist: 'true',
-};
-
 const meta: Meta = {
-  title: 'Glide/Input',
+  title: 'Input',
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
-        component: 'A custom-built input.',
+        component:
+          'An input with a label and optional description. Participates in forms and validation via `FormData` and various methods.',
       },
     },
   },
@@ -59,7 +53,6 @@ const meta: Meta = {
         ?required=${arguments_.required}
         ?readonly=${arguments_.readonly}
         ?disabled=${arguments_.disabled}
-        .tooltip=${tooltipConfig}
         max-character-count=${arguments_.maxCharacterCount || nothing}
       >
         ${arguments_['slot="tooltip-description"']
@@ -83,7 +76,7 @@ const meta: Meta = {
   argTypes: {
     type: {
       control: { type: 'select' },
-      options: SUPPORTED_TYPES,
+      options: [...SUPPORTED_TYPES],
       table: {
         defaultValue: {
           summary: '"text"',
@@ -112,7 +105,7 @@ const meta: Meta = {
     hideLabel: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
@@ -135,21 +128,21 @@ const meta: Meta = {
     required: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     readonly: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     disabled: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
@@ -208,7 +201,6 @@ export const Description: StoryObj = {
         ?required=${arguments_.required}
         ?readonly=${arguments_.readonly}
         ?disabled=${arguments_.disabled}
-        .tooltip=${tooltipConfig}
         max-character-count=${arguments_.maxCharacterCount || nothing}
       >
         <div slot="description">
@@ -260,11 +252,10 @@ export const SuffixIcon: StoryObj = {
         ?required=${arguments_.required}
         ?readonly=${arguments_.readonly}
         ?disabled=${arguments_.disabled}
-        .tooltip=${tooltipConfig}
         max-character-count=${arguments_.maxCharacterCount || nothing}
       >
         <div slot="suffix">
-          <cs-icon-general-eye-line></cs-icon-general-eye-line>
+          <cs-example-icon slot="suffix" name="share"></cs-example-icon>
         </div>
         >
       </cs-input>
@@ -287,11 +278,10 @@ export const PrefixIcon: StoryObj = {
         ?required=${arguments_.required}
         ?readonly=${arguments_.readonly}
         ?disabled=${arguments_.disabled}
-        .tooltip=${tooltipConfig}
         max-character-count=${arguments_.maxCharacterCount || nothing}
       >
         <div slot="prefix">
-          <cs-icon-editor-pencil-line-line></cs-icon-editor-pencil-line-line>
+          <cs-example-icon slot="prefix" name="pencil"></cs-example-icon>
         </div>
         >
       </cs-input>

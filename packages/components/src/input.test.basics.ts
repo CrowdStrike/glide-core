@@ -1,10 +1,13 @@
-import './input.component.js';
-import '@crowdstrike/glide-icons/editor/pencil-line/line.js';
-import { clickOnElement } from '../utils/test.js';
+import './input.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import InputClass from './input.component.js';
-import type Input from './input.component.js';
+import Input from './input.js';
+
+Input.shadowRootOptions.mode = 'open';
+
+it('registers', async () => {
+  expect(window.customElements.get('cs-input')).to.equal(Input);
+});
 
 it('accepts and contains "value" attribute', async () => {
   const element = await fixture<Input>(html`
@@ -38,6 +41,60 @@ it('accepts readonly attribute and applies readonly to the underlying input', as
   expect(inputElement?.hasAttribute('readonly')).to.be.true;
 });
 
+it('accepts a type attribute', async () => {
+  const element = await fixture<Input>(html`
+    <cs-input label="Test" type="number"></cs-input>
+  `);
+
+  const inputElement =
+    element.shadowRoot?.querySelector<HTMLInputElement>('input');
+
+  expect(inputElement).to.exist;
+  expect(inputElement?.getAttribute('type')).to.equal('number');
+});
+
+it('changes to type text when password is revealed', async () => {
+  const element = await fixture<Input>(html`
+    <cs-input
+      label="Test"
+      value="password123"
+      type="password"
+      password-toggle
+    ></cs-input>
+  `);
+
+  const inputElement =
+    element.shadowRoot?.querySelector<HTMLInputElement>('input');
+
+  expect(inputElement).to.exist;
+  expect(inputElement?.getAttribute('type')).to.equal('password');
+
+  const passwordToggle =
+    element.shadowRoot?.querySelector<HTMLButtonElement>('.password-toggle');
+
+  passwordToggle?.click();
+  await element.updateComplete;
+
+  expect(inputElement?.getAttribute('type')).to.equal('text');
+});
+
+it('shows search icon with type search', async () => {
+  const element = await fixture<Input>(html`
+    <cs-input label="Test" type="search"></cs-input>
+  `);
+
+  const inputElement =
+    element.shadowRoot?.querySelector<HTMLInputElement>('input');
+
+  expect(inputElement).to.exist;
+  expect(inputElement?.getAttribute('type')).to.equal('search');
+
+  const searchIcon =
+    element.shadowRoot?.querySelector<HTMLButtonElement>('.search-icon');
+
+  expect(searchIcon).to.exist;
+});
+
 it('when using "focus() on input", the native input is focused', async () => {
   const element = await fixture<Input>(html`
     <cs-input label="Test"></cs-input>
@@ -61,7 +118,7 @@ it('emits input events when text is changed and reports a value through the even
   let value = '';
   element.addEventListener('input', (event: Event) => {
     inputEventCaught = true;
-    if (event.target instanceof InputClass) {
+    if (event.target instanceof Input) {
       value = event.target.value;
     }
   });
@@ -89,7 +146,7 @@ it('clearable attribute allows for a button which can clear input', async () => 
 
   expect(element.value).to.be.equal('testing');
 
-  await clickOnElement(clearButton);
+  clearButton?.click();
 
   expect(element.value).to.be.equal('');
 });
@@ -112,7 +169,7 @@ it('displays a max character and current character count if max-character-count 
   `);
 
   const maxCharacterCountContainer =
-    element.shadowRoot?.querySelector<HTMLDivElement>('.meta__character-count');
+    element.shadowRoot?.querySelector<HTMLDivElement>('.character-count');
 
   expect(maxCharacterCountContainer?.textContent?.trim()).to.be.equal('0/5');
 });
@@ -125,17 +182,16 @@ it('max content input receives error styling when text count is greater than max
   const componentContainer =
     element.shadowRoot?.querySelector<HTMLDivElement>('.component');
   const maxCharacterCountContainer =
-    element.shadowRoot?.querySelector<HTMLDivElement>('.meta__character-count');
+    element.shadowRoot?.querySelector<HTMLDivElement>('.character-count');
 
-  expect(componentContainer?.classList.contains('component--error')).to.be
-    .false;
+  expect(componentContainer?.classList.contains('error')).to.be.false;
 
   element.focus();
 
   await sendKeys({ type: 'testing' });
 
   expect(maxCharacterCountContainer?.textContent?.trim()).to.be.equal('7/5');
-  expect(componentContainer?.classList.contains('component--error')).to.be.true;
+  expect(componentContainer?.classList.contains('error')).to.be.true;
 });
 
 it('supports a "description" slot', async () => {
