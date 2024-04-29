@@ -81,7 +81,7 @@ const meta: Meta = {
 export default meta;
 
 export const Primary: StoryObj = {
-  name: 'Tabs (With Variant Primary)',
+  name: 'Tabs',
 };
 
 export const Secondary: StoryObj = {
