@@ -26,7 +26,7 @@ const meta: Meta = {
     orientation: 'horizontal',
     summary: 'Summary',
     required: false,
-    value: 'Value',
+    value: 'value',
   },
   argTypes: {
     'addEventListener(event, listener)': {

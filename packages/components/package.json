@@ -61,6 +61,8 @@
     "@storybook/addon-essentials": "^8.0.9",
     "@storybook/addon-links": "^8.0.9",
     "@storybook/blocks": "^8.0.9",
+    "@storybook/core-events": "^8.0.9",
+    "@storybook/preview-api": "^8.0.9",
     "@storybook/web-components": "^8.0.9",
     "@storybook/web-components-vite": "^8.0.9",
     "@stylistic/eslint-plugin": "^1.7.0",
