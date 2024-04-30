@@ -60,7 +60,7 @@ export default {
             start() {
               // eslint-disable-next-line no-console -- ok since this is a script run in the terminal
               console.log(
-                `Code coverage report: ${chalk.blue(
+                `Code coverage report: ${chalk.bgBlue(
                   'http://localhost:8080',
                 )}\n`,
               );
@@ -68,7 +68,7 @@ export default {
             onTestRunStarted() {
               // eslint-disable-next-line no-console -- ok since this is a script run in the terminal
               console.log(
-                `Code coverage report: ${chalk.blue(
+                `Code coverage report: ${chalk.bgBlue(
                   'http://localhost:8080',
                 )}\n`,
               );

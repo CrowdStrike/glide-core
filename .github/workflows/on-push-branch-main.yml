@@ -16,8 +16,6 @@ jobs:
   install_dependencies:
     name: Install
     runs-on: ubuntu-latest
-    needs:
-      - install_dependencies
 
     steps:
       - uses: actions/checkout@v4
@@ -27,9 +25,12 @@ jobs:
     name: Release
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    needs:
+      - install_dependencies
 
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
       - name: Create Release Pull Request
         id: changesets
         uses: changesets/action@v1

@@ -28,7 +28,7 @@ const meta: Meta = {
   },
   argTypes: {
     variant: {
-      control: { type: 'select' },
+      control: { type: 'radio' },
       options: ['primary', 'secondary', 'tertiary'],
       table: {
         defaultValue: {

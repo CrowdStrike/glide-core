@@ -17,7 +17,8 @@ pnpm install
 pnpm dlx playwright install
 ```
 
-> If you have `ignore-scripts=true` in your `~/.npmrc`, you'll also need to run `pnpm prepare`, which will install some Git hooks for linting, formatting, typechecking, and testing.
+> - If you have `ignore-scripts=true` in your `~/.npmrc`, you'll also need to run `pnpm prepare`, which will install some Git hooks for linting, formatting, typechecking, and testing.
+> - If you use [Volta](https://volta.sh), add `export VOLTA_FEATURE_PNPM=1` to your shell configuration to enable PNPM support.
 
 ### Running Storybook
 
