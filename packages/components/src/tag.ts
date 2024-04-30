@@ -2,6 +2,7 @@ import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { owSlot } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
 import styles from './tag.styles.js';
 
@@ -35,6 +36,11 @@ export default class CsTag extends LitElement {
   @property()
   removableLabel? = '';
 
+  override firstUpdated(): void {
+    owSlot(this.#defaultSlotRef.value);
+    Boolean(this.removableLabel) && owSlot(this.#prefixSlotRef.value);
+  }
+
   override render() {
     if (this.isHidden) return nothing;
 
@@ -47,8 +53,8 @@ export default class CsTag extends LitElement {
         })}
         ${ref(this.#containerRef)}
       >
-        <slot name="prefix" part="prefix"></slot>
-        <slot></slot>
+        <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
+        <slot ${ref(this.#defaultSlotRef)}></slot>
         ${when(
           this.removableLabel,
           () =>
@@ -87,10 +93,14 @@ export default class CsTag extends LitElement {
 
   #containerRef = createRef<HTMLDivElement>();
 
+  #defaultSlotRef = createRef<HTMLSlotElement>();
+
   #delayToRemove = 200;
 
+  #prefixSlotRef = createRef<HTMLSlotElement>();
+
   #onClick = () => {
-    // the promise delays removing the tag's content from the DOM so that
+    // The promise delays removing the tag's content from the DOM so that
     // the animation has an opportunity to play
     new Promise(() =>
       setTimeout(() => {
