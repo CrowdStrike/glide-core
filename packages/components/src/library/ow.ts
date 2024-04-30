@@ -1,4 +1,8 @@
-import ow from 'ow';
+import ow, { type Ow } from 'ow';
+
+const isDevelopment =
+  window.location.host.startsWith('localhost') ||
+  window.location.host.startsWith('127.0.0.1');
 
 /**
  * @description Asserts that a slot has at least one slotted node.
@@ -6,6 +10,10 @@ import ow from 'ow';
  * @param slot - The slot to assert against.
  */
 export function owSlot(slot?: HTMLSlotElement) {
+  if (!isDevelopment) {
+    return;
+  }
+
   ow(
     slot,
     ow.object.is((object) => object instanceof HTMLSlotElement),
@@ -33,6 +41,10 @@ export function owSlotType(
   slot?: HTMLSlotElement,
   slotted: (typeof Element | typeof Text)[] = [],
 ) {
+  if (!isDevelopment) {
+    return;
+  }
+
   ow(
     slot,
     ow.object.is((object) => object instanceof HTMLSlotElement),
@@ -83,4 +95,17 @@ export function owSlotType(
   }
 }
 
-export { default } from 'ow';
+// Ow's `ow/dev-only` uses the same shim. However, it imports Ow conditionally
+// and asynchronously, which makes it hard to typecheck. Ow also assumes the
+// existence of `NODE_ENV` and the existence of a bundler that inlines it,
+// which we can't assume.
+//
+// https://github.com/sindresorhus/ow/blob/b48757a77047c26290332321290b714b7dc8c842/dev-only.js
+const shim = new Proxy(() => {}, {
+  get: () => shim,
+  apply: () => shim,
+}) as unknown as Ow;
+
+const owOrShim: Ow = isDevelopment ? ow : shim;
+
+export default owOrShim;
