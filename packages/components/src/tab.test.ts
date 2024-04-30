@@ -4,6 +4,10 @@ import Tab from './tab.js';
 
 Tab.shadowRootOptions.mode = 'open';
 
+it('registers', async () => {
+  expect(window.customElements.get('cs-tab')).to.equal(Tab);
+});
+
 it('renders correct markup and sets correct attributes for the default case', async () => {
   const element = await fixture<Tab>(html` <cs-tab>Tab</cs-tab> `);
 

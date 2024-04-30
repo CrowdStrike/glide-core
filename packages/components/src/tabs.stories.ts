@@ -20,14 +20,7 @@ const meta: Meta = {
     <cs-tab-group variant=${arguments_.variant}>
       <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
       <cs-tab slot="nav" panel="2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          slot="icon"
-        >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" slot="icon">
           <path
             d="M4 13L9 18L20 7"
             stroke="currentColor"

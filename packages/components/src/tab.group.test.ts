@@ -10,6 +10,11 @@ import sinon from 'sinon';
 TabGroup.shadowRootOptions.mode = 'open';
 TabPanel.shadowRootOptions.mode = 'open';
 
+it('registers', async () => {
+  expect(window.customElements.get('cs-tab-group')).to.equal(TabGroup);
+  expect(window.customElements.get('cs-tab-panel')).to.equal(TabPanel);
+});
+
 it('renders correct markup and sets correct attributes for the default case', async () => {
   const tabGroup = await fixture<TabGroup>(html`
     <cs-tab-group>
