@@ -15,6 +15,9 @@ export default {
   coverageConfig: {
     include: ['src/**/*.ts'],
     report: true,
+    // `ow.ts` has untestable logic. It's excluded so we don't have to reduce our
+    // coverage thresholds.
+    exclude: ['src/library/ow.ts'],
     reportDir: 'dist/coverage',
     threshold: {
       statements: 100,
