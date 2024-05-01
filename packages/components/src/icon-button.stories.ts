@@ -31,7 +31,7 @@ const meta: Meta = {
       table: {
         type: { summary: 'Element', detail: 'The icon.' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     disabled: {
       control: { type: 'boolean' },
