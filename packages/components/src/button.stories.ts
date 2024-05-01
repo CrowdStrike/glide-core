@@ -1,4 +1,5 @@
 import './button.js';
+import './icons/storybook.js';
 import { html, nothing } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -82,20 +83,7 @@ export const PrimaryWithPrefixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <svg
-        slot="prefix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
+      <cs-example-icon slot="prefix" name="caret-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -110,20 +98,7 @@ export const PrimaryWithSuffixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <svg
-        slot="suffix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
+      <cs-example-icon slot="suffix" name="caret-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -138,35 +113,8 @@ export const PrimaryWithPrefixAndSuffixIcons: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <svg
-        slot="prefix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
-
-      <svg
-        slot="suffix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
+      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
+      <cs-example-icon slot="suffix" name="caret-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -190,20 +138,7 @@ export const SecondaryWithPrefixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <svg
-        slot="prefix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
+      <cs-example-icon slot="prefix" name="caret-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -221,20 +156,7 @@ export const SecondaryWithSuffixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <svg
-        slot="suffix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
+      <cs-example-icon slot="suffix" name="caret-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -252,37 +174,8 @@ export const SecondaryWithPrefixAndSuffixIcons: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <svg
-        slot="prefix"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <path
-          d="M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2zm11-2v4M8 3v4m-5 3h18M7.858 13.954h.1m4.342 0h.1m4.3 0h.1M7.827 17.4h.1m4.373 0h.1m4.269 0h.1"
-        ></path>
-      </svg>
-
-      <svg
-        slot="suffix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
+      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
+      <cs-example-icon slot="suffix" name="caret-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -306,20 +199,7 @@ export const TertiaryWithPrefixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <svg
-        slot="prefix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
+      <cs-example-icon slot="prefix" name="caret-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -337,20 +217,7 @@ export const TertiaryWithSuffixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <svg
-        slot="suffix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
+      <cs-example-icon slot="suffix" name="caret-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -368,35 +235,8 @@ export const TertiaryWithPrefixAndSuffixIcons: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <svg
-        slot="prefix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
-
-      <svg
-        slot="suffix"
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        stroke="currentColor"
-        fill="none"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-      </svg>
+      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
+      <cs-example-icon slot="suffix" name="caret-down"></cs-example-icon>
     </cs-button>
   `,
 };

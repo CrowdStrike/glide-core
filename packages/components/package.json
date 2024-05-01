@@ -12,6 +12,7 @@
   "type": "module",
   "files": [
     "dist",
+    "!dist/icons/storybook.*",
     "!dist/src",
     "!dist/storybook",
     "!dist/*.test.js",

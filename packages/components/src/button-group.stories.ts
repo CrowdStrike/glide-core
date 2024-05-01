@@ -1,5 +1,6 @@
 import './button-group.button.js';
 import './button-group.js';
+import './icons/storybook.js';
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -92,81 +93,15 @@ export const DefaultWithPrefixIcon: StoryObj = {
       orientation=${arguments_.orientation}
     >
       <cs-button-group-button value="button-1" selected>
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 1
       </cs-button-group-button>
       <cs-button-group-button value="button-2">
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 2
       </cs-button-group-button>
       <cs-button-group-button value="button-3">
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 3
       </cs-button-group-button>
     </cs-button-group>
@@ -184,81 +119,15 @@ export const DefaultWithOrientationVerticalPrefixIcon: StoryObj = {
       orientation=${arguments_.orientation}
     >
       <cs-button-group-button value="button-1" selected>
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 1
       </cs-button-group-button>
       <cs-button-group-button value="button-2">
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 2
       </cs-button-group-button>
       <cs-button-group-button value="button-3">
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 3
       </cs-button-group-button>
     </cs-button-group>
@@ -274,81 +143,15 @@ export const DefaultWithVariantIconOnly: StoryObj = {
       orientation=${arguments_.orientation}
     >
       <cs-button-group-button value="button-1" selected>
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 1
       </cs-button-group-button>
       <cs-button-group-button value="button-2">
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 2
       </cs-button-group-button>
       <cs-button-group-button value="button-3">
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 3
       </cs-button-group-button>
     </cs-button-group>
@@ -367,81 +170,15 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
       variant="icon-only"
     >
       <cs-button-group-button value="button-1" selected>
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 1
       </cs-button-group-button>
       <cs-button-group-button value="button-2">
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 2
       </cs-button-group-button>
       <cs-button-group-button value="button-3">
-        <svg
-          slot="prefix"
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="2"
-          />
-          <path
-            d="M12 16L12 12"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          />
-          <circle cx="12" cy="8" r="1" fill="currentColor" />
-        </svg>
+        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
         Button 3
       </cs-button-group-button>
     </cs-button-group>
