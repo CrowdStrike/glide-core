@@ -207,7 +207,7 @@ export default [
     }
 
     input {
-      ${visuallyHidden}
+      ${visuallyHidden};
 
       &:checked:not(:indeterminate) ~ .checkbox-and-summary .checked-icon {
         display: contents;

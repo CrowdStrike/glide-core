@@ -21,14 +21,12 @@ const meta: Meta = {
   },
   argTypes: {
     'slot="default"': {
-      control: { type: '' },
       table: {
         type: { summary: 'Element' },
       },
       type: { name: 'string', required: true },
     },
     'slot="target"': {
-      control: { type: '' },
       table: {
         type: { summary: 'Element', detail: 'Any focusable element.' },
       },

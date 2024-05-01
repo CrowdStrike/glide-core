@@ -14,6 +14,7 @@ it('dispatches a "click" event when clicked', async () => {
   const component = await fixture<CsCheckbox>(
     html`<cs-checkbox></cs-checkbox>`,
   );
+
   setTimeout(() => component.click());
 
   const event = await oneEvent(component, 'click');
@@ -24,6 +25,7 @@ it('dispatches a "change" event when clicked', async () => {
   const component = await fixture<CsCheckbox>(
     html`<cs-checkbox></cs-checkbox>`,
   );
+
   setTimeout(() => component.click());
 
   const event = await oneEvent(component, 'change');
@@ -34,6 +36,7 @@ it('dispatches an "input" event when clicked', async () => {
   const component = await fixture<CsCheckbox>(
     html`<cs-checkbox></cs-checkbox>`,
   );
+
   setTimeout(() => component.click());
 
   const event = await oneEvent(component, 'input');

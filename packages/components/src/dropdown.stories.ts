@@ -31,14 +31,12 @@ const meta: Meta = {
   },
   argTypes: {
     ['slot="default"']: {
-      control: { type: '' },
       table: {
         type: { summary: 'CsDropdownOption' },
       },
       type: { name: 'string', required: true },
     },
     'addEventListener(event, listener)': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -48,7 +46,6 @@ const meta: Meta = {
       },
     },
     'checkValidity()': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -58,7 +55,6 @@ const meta: Meta = {
       },
     },
     'reportValidity()': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -68,7 +64,6 @@ const meta: Meta = {
       },
     },
     'setCustomValidity(message)': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -80,7 +75,7 @@ const meta: Meta = {
     disabled: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
@@ -94,7 +89,7 @@ const meta: Meta = {
     open: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
@@ -123,7 +118,7 @@ const meta: Meta = {
     required: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
@@ -136,7 +131,6 @@ const meta: Meta = {
       },
     },
     value: {
-      control: { type: '' },
       table: {
         defaultValue: { summary: '[]' },
         type: {

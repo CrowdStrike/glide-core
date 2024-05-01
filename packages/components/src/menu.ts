@@ -15,7 +15,7 @@ declare global {
 }
 
 /**
- * @description A custom-built menu.
+ * @description A basic menu.
  *
  * @slot - One or more of <cs-menu-link> or <cs-menu-button>.
  * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.

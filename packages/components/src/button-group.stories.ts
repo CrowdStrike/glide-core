@@ -33,7 +33,6 @@ const meta: Meta = {
   },
   argTypes: {
     ['slot="default"']: {
-      control: { type: '' },
       table: {
         type: { summary: '<cs-button-group-button>' },
       },
@@ -47,7 +46,6 @@ const meta: Meta = {
       },
     },
     variant: {
-      control: { type: '' },
       table: {
         type: { summary: '"icon-only" | undefined' },
       },
@@ -62,7 +60,6 @@ const meta: Meta = {
       },
     },
     'addEventListener(event)': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',

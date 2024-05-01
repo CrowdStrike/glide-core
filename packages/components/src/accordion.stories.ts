@@ -33,7 +33,7 @@ const meta: Meta = {
     },
     open: {
       control: 'boolean',
-      defaultValue: { summary: false },
+      defaultValue: { summary: 'false' },
       table: {
         type: { summary: 'boolean' },
       },
@@ -46,7 +46,6 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'slot="prefix"': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'Element',
@@ -55,7 +54,6 @@ const meta: Meta = {
       },
     },
     'slot="suffix"': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'Element',
@@ -64,7 +62,6 @@ const meta: Meta = {
       },
     },
     'addEventListener(event, listener)': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
