@@ -70,7 +70,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: 'event: "remove", listener: (event) => void',
+          detail: 'event: "remove", listener: (event: Event) => void',
         },
       },
     },
