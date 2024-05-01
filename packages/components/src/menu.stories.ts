@@ -11,7 +11,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A custom-built menu.',
+        component: 'A basic menu.',
       },
       story: {
         autoplay: true,
@@ -26,14 +26,12 @@ const meta: Meta = {
   },
   argTypes: {
     ['slot="default"']: {
-      control: { type: '' },
       table: {
         type: { summary: 'CsMenuLink | CsMenuButton' },
       },
       type: { name: 'string', required: true },
     },
     ['slot="target"']: {
-      control: { type: '' },
       table: {
         type: { summary: 'A focusable element' },
       },
@@ -42,7 +40,7 @@ const meta: Meta = {
     open: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },

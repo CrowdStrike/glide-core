@@ -71,7 +71,6 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'open()': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -80,7 +79,6 @@ const meta: Meta = {
       },
     },
     'close()': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -89,7 +87,6 @@ const meta: Meta = {
       },
     },
     'addEventListener(event, listener)': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -99,7 +96,6 @@ const meta: Meta = {
       },
     },
     '--cs-drawer-width': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'CSS custom property',

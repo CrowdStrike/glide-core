@@ -38,7 +38,6 @@ const meta: Meta = {
   `,
   argTypes: {
     ['slot="default"']: {
-      control: { type: '' },
       table: {
         type: { summary: 'CsTreeItem' },
       },
@@ -58,7 +57,6 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'addEventListener(event)': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',

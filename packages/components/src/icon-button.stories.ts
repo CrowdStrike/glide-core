@@ -40,7 +40,6 @@ const meta: Meta = {
   },
   argTypes: {
     'slot="default"': {
-      control: { type: '' },
       table: {
         type: { summary: 'Element', detail: 'The icon.' },
       },
