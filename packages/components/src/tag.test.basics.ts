@@ -11,7 +11,7 @@ it('registers', async () => {
 it('is accessible', async () => {
   const element = await fixture(html`<cs-tag>Tag</cs-tag>`);
   // Wait for the animation to complete
-  await aTimeout(300);
+  await aTimeout(200);
 
   await expect(element).to.be.accessible();
 });
@@ -61,12 +61,11 @@ it('renders the "prefix" slot and its content', async () => {
       ><span slot="prefix" data-prefix>test-prefix</span>Tag</cs-tag
     >`,
   );
-  const slot = element.shadowRoot?.querySelector<HTMLSlotElement>(
+  const prefixSlot = element.shadowRoot?.querySelector<HTMLSlotElement>(
     'slot[name="prefix"]',
   );
-  const assignedNodes = slot?.assignedNodes();
 
-  expect(assignedNodes?.length).to.be.equal(1);
+  expect(prefixSlot?.assignedNodes()?.length).to.be.equal(1);
   expect(document.querySelector('[data-prefix]')).to.be.not.null;
   expect(document.querySelector('[data-prefix]')?.textContent).to.be.equal(
     'test-prefix',
@@ -123,7 +122,7 @@ it('does not throw an error when the default slot is non-empty', async () => {
   expect(spy.notCalled).to.be.true;
 });
 
-it('throws an error when the prefix slot is empty and a removable label is given', async () => {
+it('throws an error when the prefix slot does not exist and a removable label is given', async () => {
   const spy = sinon.spy();
 
   try {
@@ -137,7 +136,7 @@ it('throws an error when the prefix slot is empty and a removable label is given
   expect(spy.called).to.be.true;
 });
 
-it('does not throw an error when the prefix slot is non-empty and a removable label is given', async () => {
+it('does not throw an error when the prefix slot exists and a removable label is given', async () => {
   const spy = sinon.spy();
 
   try {
@@ -167,4 +166,25 @@ it('toggles the "activate" and "deactivate" clases when the button is clicked', 
   iconButton?.click();
 
   expect(container).to.have.class('deactivate');
+});
+
+it('removes the tag from the DOM when the button is clicked', async () => {
+  const element = await fixture(
+    html`<cs-tag removableLabel="test-aria-label"
+      ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
+    >`,
+  );
+  const iconButton = element.shadowRoot?.querySelector('button');
+
+  expect(element.shadowRoot?.querySelector('div.tag')).to.be.not.null;
+  expect(document.querySelector('[data-content]')).to.be.not.null;
+
+  iconButton?.click();
+
+  // Wait for the animation to complete
+  await aTimeout(300);
+
+  // the tag and its contents should be removed
+  expect(document.querySelector('cs-tag')).to.be.null;
+  expect(document.querySelector('[data-content]')).to.be.null;
 });

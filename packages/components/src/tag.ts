@@ -1,7 +1,7 @@
-import { LitElement, html, nothing } from 'lit';
+import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
 import styles from './tag.styles.js';
@@ -42,8 +42,6 @@ export default class CsTag extends LitElement {
   }
 
   override render() {
-    if (this.isHidden) return nothing;
-
     return html`
       <div
         class=${classMap({
@@ -88,9 +86,6 @@ export default class CsTag extends LitElement {
     `;
   }
 
-  @state()
-  private isHidden = false;
-
   #containerRef = createRef<HTMLDivElement>();
 
   #defaultSlotRef = createRef<HTMLSlotElement>();
@@ -104,7 +99,7 @@ export default class CsTag extends LitElement {
     // the animation has an opportunity to play
     new Promise(() =>
       setTimeout(() => {
-        this.isHidden = !this.isHidden;
+        this.remove();
       }, this.#delayToRemove),
     );
     this.#containerRef.value?.classList.toggle('activate');
