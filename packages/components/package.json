@@ -99,6 +99,10 @@
       "import": "./dist/menu.link.js",
       "types": "./dist/menu.link.d.ts"
     },
+    "./status-indicator.js": {
+      "import": "./dist/status-indicator.js",
+      "types": "./dist/status-indicator.d.ts"
+    },
     "./tag.js": {
       "import": "./dist/tag.js",
       "types": "./dist/tag.d.ts"
