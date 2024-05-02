@@ -73,6 +73,7 @@ export default class CsButtonGroup extends LitElement {
         aria-labelledby="cs-button-group"
         role="radiogroup"
         class=${classMap({
+          'radio-group': true,
           vertical: this.orientation === 'vertical',
         })}
       >

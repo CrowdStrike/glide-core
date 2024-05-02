@@ -32,7 +32,7 @@ it('sets roles tree and treeitem', async () => {
   const childItems = component.slotElements;
 
   expect(
-    component.shadowRoot?.querySelector('.tree')?.getAttribute('role'),
+    component.shadowRoot?.firstElementChild?.getAttribute('role'),
   ).to.equal('tree');
 
   expect(

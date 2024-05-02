@@ -12,7 +12,7 @@ declare global {
   }
 }
 /**
- * @description A button for use with `<cs-button-group>` with label and optional icon. 
+ * @description A button for use with `<cs-button-group>` with label and optional icon.
  *
  * @event change - Dispatched when clicked or selected by key press.
  * @event input - Dispatched when clicked or selected by key press.
@@ -116,6 +116,7 @@ export default class CsButtonGroupButton extends LitElement {
       @keydown=${this.#onKeydown}
       ${ref(this.#liRef)}
       class=${classMap({
+        component: true,
         selected: this.selected,
         disabled: Boolean(this.disabled),
         [this.position]: true,
@@ -125,7 +126,7 @@ export default class CsButtonGroupButton extends LitElement {
       })}
     >
       <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
-      <!-- 
+      <!--
         Wrap the default slot in a span and apply class 'visually-hidden' when
         variant is 'icon-only' (we can't apply styling to text nodes)
        -->
