@@ -16,15 +16,15 @@
   ],
   "type": "module",
   "scripts": {
+    "start": "per-env",
+    "start:development": "tsc --outDir dist --watch",
+    "start:production": "tsc --outDir dist",
     "format": "per-env",
     "format:development": "prettier . --write",
     "format:production": "prettier . --check",
     "lint": "per-env",
     "lint:development": "eslint . --fix",
     "lint:production": "eslint .",
-    "start": "per-env",
-    "start:development": "tsc --outDir dist --watch",
-    "start:production": "tsc --outDir dist",
     "test": "per-env",
     "test:development": "vitest --config ./vitest.config.ts",
     "test:production": "vitest run --config ./vitest.config.ts"
