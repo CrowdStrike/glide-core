@@ -37,6 +37,7 @@ export default class CsTabPanel extends LitElement {
   protected override firstUpdated(changes: PropertyValues): void {
     super.firstUpdated(changes);
     this.setAttribute('role', 'tabpanel');
+
     if (!this.hasAttribute('id')) {
       this.id = `cs-tab-panel-${CsTabPanel.instanceCount++}`;
     }
@@ -45,7 +46,7 @@ export default class CsTabPanel extends LitElement {
   override render() {
     return html`<div
       class=${classMap({
-        'tab-panel': true,
+        component: true,
         hidden: !this.isActive,
       })}
     >
@@ -55,6 +56,7 @@ export default class CsTabPanel extends LitElement {
 
   protected override updated(changes: PropertyValues): void {
     super.updated(changes);
+
     if (changes.has('isActive')) {
       this.setAttribute('aria-hidden', this.isActive ? 'false' : 'true');
     }

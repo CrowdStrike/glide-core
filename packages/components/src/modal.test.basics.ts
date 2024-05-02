@@ -1,17 +1,22 @@
+import './button.js';
+import './modal.icon-button.js';
 import './modal.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import Modal from './modal.js';
+import sinon from 'sinon';
+
+Modal.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(window.customElements.get('cs-modal')).to.equal(Modal);
 });
 
 it('is closed by default', async () => {
-  const element = await fixture<Modal>(
+  const element = await fixture(
     html`<cs-modal label="Modal title"></cs-modal>`,
   );
 
-  const dialog = element.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
+  const dialog = element.shadowRoot?.querySelector<HTMLDialogElement>('dialog');
 
   expect(dialog).to.be.ok;
   expect(dialog?.hasAttribute('open')).to.be.false;
@@ -24,7 +29,7 @@ it('renders the provided "label"', async () => {
 
   element.showModal();
 
-  const label = element.shadowRoot!.querySelector<HTMLHeadingElement>(
+  const label = element.shadowRoot?.querySelector<HTMLHeadingElement>(
     '[data-test="heading"]',
   );
 
@@ -40,7 +45,7 @@ it('does not render the show back button in the label by default', async () => {
   element.showModal();
 
   expect(
-    element.shadowRoot!.querySelector<HTMLButtonElement>(
+    element.shadowRoot?.querySelector<HTMLButtonElement>(
       '[data-test="back-button"]',
     ),
   ).to.be.null;
@@ -54,7 +59,7 @@ it('renders the show back button in the label when provided with "show-back-butt
   element.showModal();
 
   expect(
-    element.shadowRoot!.querySelector<HTMLButtonElement>(
+    element.shadowRoot?.querySelector<HTMLButtonElement>(
       '[data-test="back-button"]',
     ),
   ).to.be.ok;
@@ -77,7 +82,7 @@ it('renders the provided default slotted content', async () => {
 it('renders the provided primary slot content', async () => {
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title">
-      <button slot="primary" data-primary>Primary</button>
+      <cs-button slot="primary" data-primary>Primary</cs-button>
     </cs-modal>`,
   );
 
@@ -85,19 +90,20 @@ it('renders the provided primary slot content', async () => {
 
   const slotContent =
     element.querySelector<HTMLButtonElement>('[data-primary]');
+
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element
-    .shadowRoot!.querySelector<HTMLSlotElement>('slot[name="primary"]')
+  const slotNodes = element.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="primary"]')
     ?.assignedNodes();
+
   expect(slotNodes?.length).to.equal(1);
-  expect(slotNodes?.at(0)?.nodeName).to.equal('BUTTON');
 });
 
 it('renders the provided secondary slot content', async () => {
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title">
-      <button slot="secondary" data-secondary>Secondary</button>
+      <cs-button slot="secondary" data-secondary>Secondary</cs-button>
     </cs-modal>`,
   );
 
@@ -108,11 +114,11 @@ it('renders the provided secondary slot content', async () => {
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element
-    .shadowRoot!.querySelector<HTMLSlotElement>('slot[name="secondary"]')
+  const slotNodes = element.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="secondary"]')
     ?.assignedNodes();
+
   expect(slotNodes?.length).to.equal(1);
-  expect(slotNodes?.at(0)?.nodeName).to.equal('BUTTON');
 });
 
 it('renders the provided tertiary slot content', async () => {
@@ -129,9 +135,10 @@ it('renders the provided tertiary slot content', async () => {
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element
-    .shadowRoot!.querySelector<HTMLSlotElement>('slot[name="tertiary"]')
+  const slotNodes = element.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="tertiary"]')
     ?.assignedNodes();
+
   expect(slotNodes?.length).to.equal(1);
   expect(slotNodes?.at(0)?.nodeName).to.equal('BUTTON');
 });
@@ -139,8 +146,12 @@ it('renders the provided tertiary slot content', async () => {
 it('renders the provided header-actions slot content', async () => {
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title">
-      <button slot="header-actions" data-actions="1">action1</button>
-      <button slot="header-actions" data-actions="2">action2</button>
+      <cs-modal-icon-button slot="header-actions" data-actions="1"
+        >action1</cs-modal-icon-button
+      >
+      <cs-modal-icon-button slot="header-actions" data-actions="2"
+        >action2</cs-modal-icon-button
+      >
     </cs-modal>`,
   );
 
@@ -151,15 +162,14 @@ it('renders the provided header-actions slot content', async () => {
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element
-    .shadowRoot!.querySelector<HTMLSlotElement>('slot[name="header-actions"]')
+  const slotNodes = element.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="header-actions"]')
     ?.assignedNodes();
+
   expect(slotNodes?.length).to.equal(2);
-  expect(slotNodes?.at(0)?.nodeName).to.equal('BUTTON');
-  expect(slotNodes?.at(1)?.nodeName).to.equal('BUTTON');
 });
 
-it('defaults the width to "md"', async () => {
+it('defaults the size to "medium"', async () => {
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title"></cs-modal>`,
   );
@@ -167,49 +177,97 @@ it('defaults the width to "md"', async () => {
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--md']);
+  ]).to.deep.equal(['component', 'medium']);
 });
 
-it('sets the width to "sm"', async () => {
+it('sets the size to "small"', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" width="sm"></cs-modal>`,
+    html`<cs-modal label="Modal title" size="small"></cs-modal>`,
   );
 
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--sm']);
+  ]).to.deep.equal(['component', 'small']);
 });
 
-it('sets the width to "md"', async () => {
+it('sets the size to "medium"', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" width="md"></cs-modal>`,
+    html`<cs-modal label="Modal title" size="medium"></cs-modal>`,
   );
 
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--md']);
+  ]).to.deep.equal(['component', 'medium']);
 });
 
-it('sets the width to "lg"', async () => {
+it('sets the size to "large"', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" width="lg"></cs-modal>`,
+    html`<cs-modal label="Modal title" size="large"></cs-modal>`,
   );
 
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--lg']);
+  ]).to.deep.equal(['component', 'large']);
 });
 
-it('sets the width to "xl"', async () => {
+it('sets the size to "xlarge"', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" width="xl"></cs-modal>`,
+    html`<cs-modal label="Modal title" size="xlarge"></cs-modal>`,
   );
 
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--xl']);
+  ]).to.deep.equal(['component', 'xlarge']);
+});
+
+it('throws an error when the "primary" footer slot has the incorrect type', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<cs-modal label="Modal title">
+        <span slot="primary">Primary</span>
+      </cs-modal>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
+});
+
+it('throws an error when the "secondary" footer slot has the incorrect type', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<cs-modal label="Modal title">
+        <span slot="secondary">Secondary</span>
+      </cs-modal>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
+});
+
+it('throws an error when the "header actions" slot has the incorrect type', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<cs-modal label="Modal title">
+        <span slot="header-actions">Header Action</span>
+      </cs-modal>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
 });

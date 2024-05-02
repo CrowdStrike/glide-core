@@ -25,15 +25,18 @@ it('renders correct markup and sets correct attributes for the default case', as
 
   await expect(tabGroup).to.be.accessible();
   const [firstTab] = tabGroup.tabElements;
+
   expect(tabGroup.activeTab).to.equal(
     firstTab,
     'activeTab defaults to first tab',
   );
+
   expect(tabGroup.variant).to.equal('primary');
 
-  expect([
-    ...tabGroup.shadowRoot!.querySelector('.wrapper')!.classList,
-  ]).to.deep.equal(['wrapper']);
+  expect([...tabGroup.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
+    'component',
+  ]);
+
   expect([
     ...tabGroup.shadowRoot!.querySelector('.tab-group')!.classList,
   ]).to.deep.equal(['tab-group', 'primary']);
@@ -41,6 +44,7 @@ it('renders correct markup and sets correct attributes for the default case', as
   const slot = tabGroup.shadowRoot!.querySelector<HTMLSlotElement>(
     'slot:not([name="nav"])',
   );
+
   expect(slot).to.exist;
   expect(slot!.assignedElements.length).to.equal(0);
 });
@@ -93,10 +97,12 @@ it('can switch tabs', async () => {
 
   expect(firstTab.active).to.equal(true, 'first tab defaults to active');
   expect(secondTab.active).to.equal(false, 'other tabs default to not active');
+
   expect(isPanelHidden(firstPanel)).to.equal(
     false,
     'first panel is not hidden by default',
   );
+
   expect(isPanelHidden(secondPanel)).to.equal(
     true,
     'nonactive panel is hidden by default',
@@ -104,20 +110,26 @@ it('can switch tabs', async () => {
 
   secondTab.click();
   const triggeredEvent = await listener;
+
   await expect(firstTab.active).to.equal(
     false,
     'after clicking a different tab, previous tab is no longer active',
   );
+
   expect(secondTab.active).to.equal(true, 'clicked tab becomes active');
+
   expect(isPanelHidden(firstPanel)).to.equal(
     true,
     'after clicking a different tab, previous panel is hidden',
   );
+
   expect(isPanelHidden(secondPanel)).to.equal(
     false,
     `clicked tab's panel is no longer hidden`,
   );
+
   expect(triggeredEvent.type).to.equal('tab-show', 'correct tab event fires');
+
   expect(triggeredEvent.detail.panel).to.equal(
     '2',
     'Can get the panel name from the tab click event',
@@ -128,29 +140,36 @@ it('can switch tabs', async () => {
   // Should be focused on third tab. Press Enter on it
   await sendKeys({ press: 'Enter' });
   const secondTriggeredEvent = await listener;
+
   expect(secondTab.active).to.equal(
     false,
     'after pressing Enter on a different tab, previous tab is no longer active',
   );
+
   expect(thirdTab.active).to.equal(true, 'new tab becomes active');
+
   expect(isPanelHidden(secondPanel)).to.equal(
     true,
     'after pressing Enter on a different tab, previous panel is hidden',
   );
+
   expect(isPanelHidden(thirdPanel)).to.equal(
     false,
     `new tab's panel is no longer hidden`,
   );
+
   expect(secondTriggeredEvent.type).to.equal(
     'tab-show',
     'correct tab event fires for keydown',
   );
+
   expect(secondTriggeredEvent.detail.panel).to.equal(
     '2',
     'Can get the panel name from the tab show event',
   );
 
   disabledTab.click();
+
   expect(disabledTab.active).to.equal(
     false,
     'clicking on a disabled tab does not make it active',
@@ -266,7 +285,5 @@ it('throws an error when an element other than `cs-tab-panel` is a child of the 
 });
 
 function isPanelHidden(panel: TabPanel) {
-  return panel.shadowRoot
-    ?.querySelector('.tab-panel')
-    ?.classList.contains('hidden');
+  return panel.shadowRoot?.firstElementChild?.classList.contains('hidden');
 }

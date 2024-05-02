@@ -9,7 +9,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A button element with a default slot for an icon.',
+        component: 'A button with a default slot for an icon.',
       },
     },
   },
@@ -31,7 +31,7 @@ const meta: Meta = {
       table: {
         type: { summary: 'Element', detail: 'The icon.' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     disabled: {
       control: { type: 'boolean' },

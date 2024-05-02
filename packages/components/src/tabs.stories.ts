@@ -59,7 +59,6 @@ const meta: Meta = {
       },
     },
     'addEventListener(event)': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -67,6 +66,7 @@ const meta: Meta = {
             'event: "tab-show", listener: (event: CustomEvent<{ panel: string }>) => void',
         },
       },
+      type: { name: 'function' },
     },
   },
 };

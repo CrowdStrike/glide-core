@@ -1,5 +1,6 @@
-import { LitElement, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { LitElement, html, nothing } from 'lit';
+import { classMap } from 'lit-html/directives/class-map.js';
+import { customElement, property } from 'lit/decorators.js';
 import styles from './modal.icon-button.styles.js';
 
 declare global {
@@ -23,7 +24,16 @@ declare global {
 export default class CsModalIconButton extends LitElement {
   static override styles = styles;
 
+  @property()
+  label? = '';
+
   override render() {
-    return html`<button type="button"><slot></slot></button>`;
+    return html`<button
+      type="button"
+      class=${classMap({ component: true })}
+      aria-label=${this.label || nothing}
+    >
+      <slot></slot>
+    </button>`;
   }
 }

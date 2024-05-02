@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
@@ -6,7 +7,6 @@ export default [
       --min-width: 9.375rem;
 
       &.horizontal {
-        column-gap: var(--cs-spacing-sm);
         display: inline-grid;
         grid-template-columns: auto auto;
       }
@@ -94,6 +94,19 @@ export default [
       text-align: start;
       user-select: none;
 
+      &.quiet {
+        background-color: transparent;
+        border: unset;
+        font-family: var(--cs-heading-xxxs-font-family);
+        font-size: var(--cs-heading-xxxs-font-size);
+        font-style: var(--cs-heading-xxxs-font-style);
+        font-weight: var(--cs-heading-xxxs-font-weight);
+        gap: var(--cs-spacing-xxs);
+        min-inline-size: 3.75rem;
+        padding-block: 0;
+        padding-inline: 0.375rem;
+      }
+
       &.disabled {
         background: var(--cs-surface-base-gray-light);
         color: var(--cs-text-tertiary-disabled);
@@ -107,6 +120,10 @@ export default [
       &:hover:not(&.error, &.disabled) {
         border-color: var(--cs-border-focus);
       }
+
+      &.quiet:hover:not(&.error, &.disabled) {
+        background-color: var(--cs-surface-hover);
+      }
     }
 
     .tooltip-and-label {
@@ -114,8 +131,8 @@ export default [
       display: flex;
       gap: var(--cs-spacing-xs);
 
-      &.vertical {
-        /* 0.375 is a one-off from Design. */
+      &.vertical:not(.hidden) {
+        /* 0.375rem is a one-off from Design. */
         margin-block-end: 0.375rem;
       }
     }
@@ -128,6 +145,14 @@ export default [
       font-variant: var(--cs-heading-xxxs-font-variant);
       font-weight: var(--cs-heading-xxxs-font-weight);
       line-height: 100%;
+
+      &.horizontal {
+        margin-inline-end: var(--cs-spacing-sm);
+      }
+
+      &.hidden {
+        ${visuallyHidden};
+      }
 
       &.required {
         &::after {

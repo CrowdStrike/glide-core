@@ -12,7 +12,7 @@ declare global {
   }
 }
 /**
- * @description A button for use with `<cs-button-group>` with label and optional icon. 
+ * @description A button for use with `<cs-button-group>` with label and optional icon.
  *
  * @event change - Dispatched when clicked or selected by key press.
  * @event input - Dispatched when clicked or selected by key press.
@@ -76,12 +76,14 @@ export default class CsButtonGroupButton extends LitElement {
       const firstEnabledSelectedButton = this.#buttonElements.find(
         (button) => !button.disabled && button.selected,
       );
+
       if (firstEnabledSelectedButton && firstEnabledSelectedButton === this) {
         this.isTabbable = true;
       } else if (!firstEnabledSelectedButton) {
         const firstEnabledButton = this.#buttonElements.find(
           (button) => !button.disabled,
         );
+
         if (firstEnabledButton && firstEnabledButton === this) {
           this.isTabbable = true;
         }
@@ -92,18 +94,18 @@ export default class CsButtonGroupButton extends LitElement {
   override firstUpdated(): void {
     // Always want a text label and log an error when it isn't present.
     // When the variant is 'icon-only' set the label as visually hidden
-    owSlot(this.#defaultSlotRef.value);
-    owSlotType(this.#defaultSlotRef.value, [Text]);
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [Text]);
 
     if (this.selected) {
       this.isTabbable = true;
     }
 
-    this.variant === 'icon-only' && owSlot(this.#prefixSlotRef.value);
+    this.variant === 'icon-only' && owSlot(this.#prefixSlotElementRef.value);
   }
 
   override focus(options?: FocusOptions) {
-    this.#liRef.value?.focus(options);
+    this.#liElementRef.value?.focus(options);
   }
 
   override render() {
@@ -114,8 +116,9 @@ export default class CsButtonGroupButton extends LitElement {
       tabindex=${!this.isTabbable || this.disabled ? -1 : 0}
       @click=${this.#onClick}
       @keydown=${this.#onKeydown}
-      ${ref(this.#liRef)}
+      ${ref(this.#liElementRef)}
       class=${classMap({
+        component: true,
         selected: this.selected,
         disabled: Boolean(this.disabled),
         [this.position]: true,
@@ -124,8 +127,8 @@ export default class CsButtonGroupButton extends LitElement {
         'icon-only': this.variant === 'icon-only',
       })}
     >
-      <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
-      <!-- 
+      <slot name="prefix" ${ref(this.#prefixSlotElementRef)}></slot>
+      <!--
         Wrap the default slot in a span and apply class 'visually-hidden' when
         variant is 'icon-only' (we can't apply styling to text nodes)
        -->
@@ -134,7 +137,7 @@ export default class CsButtonGroupButton extends LitElement {
           'visually-hidden': this.variant === 'icon-only',
         })}"
       >
-        <slot ${ref(this.#defaultSlotRef)}></slot>
+        <slot ${ref(this.#defaultSlotElementRef)}></slot>
       </span>
     </li>`;
   }
@@ -144,11 +147,13 @@ export default class CsButtonGroupButton extends LitElement {
   ): void {
     if (this.hasUpdated && changedProperties.has('selected')) {
       const value = changedProperties.get('selected');
+
       if (value === true) {
         this.isTabbable = false;
       } else if (value === false) {
         this.isTabbable = true;
         this.focus();
+
         for (const button of this.#buttonElements) {
           if (button !== this && button.selected) {
             button.selected = false;
@@ -167,17 +172,18 @@ export default class CsButtonGroupButton extends LitElement {
   @state()
   private position: 'first' | 'last' | 'inner' = 'inner';
 
-  #defaultSlotRef = createRef<HTMLSlotElement>();
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #liRef = createRef<HTMLLIElement>();
+  #liElementRef = createRef<HTMLLIElement>();
 
-  #prefixSlotRef = createRef<HTMLSlotElement>();
+  #prefixSlotElementRef = createRef<HTMLSlotElement>();
 
   get #buttonElements() {
     const elements =
       this.closest('cs-button-group')?.querySelectorAll(
         'cs-button-group-button',
       ) ?? [];
+
     return [...elements];
   }
 
@@ -185,6 +191,7 @@ export default class CsButtonGroupButton extends LitElement {
     button.dispatchEvent(
       new CustomEvent('change', { bubbles: true, detail: button.value }),
     );
+
     button.dispatchEvent(
       new CustomEvent('input', { bubbles: true, detail: button.value }),
     );
@@ -204,6 +211,7 @@ export default class CsButtonGroupButton extends LitElement {
     ) {
       return;
     }
+
     switch (event.key) {
       case 'ArrowUp':
       case 'ArrowLeft': {
@@ -211,12 +219,14 @@ export default class CsButtonGroupButton extends LitElement {
         this.selected = false;
         // find the closest enabled button
         let sibling = this.previousElementSibling;
+
         while (
           !sibling ||
           (sibling instanceof CsButtonGroupButton && sibling.disabled)
         ) {
           if (sibling === null) {
             const lastButton = this.#buttonElements.at(-1);
+
             if (lastButton) {
               sibling = lastButton;
             }
@@ -224,10 +234,12 @@ export default class CsButtonGroupButton extends LitElement {
             sibling = sibling.previousElementSibling;
           }
         }
+
         if (sibling && sibling instanceof CsButtonGroupButton) {
           sibling.selected = true;
           this.#dispatchEvents(sibling);
         }
+
         break;
       }
       case 'ArrowDown':
@@ -236,12 +248,14 @@ export default class CsButtonGroupButton extends LitElement {
         this.selected = false;
         // find the closest enabled button
         let sibling = this.nextElementSibling;
+
         while (
           !sibling ||
           (sibling instanceof CsButtonGroupButton && sibling.disabled)
         ) {
           if (sibling === null) {
             const firstButton = this.#buttonElements.at(0);
+
             if (firstButton) {
               sibling = firstButton;
             }
@@ -249,18 +263,22 @@ export default class CsButtonGroupButton extends LitElement {
             sibling = sibling.nextElementSibling;
           }
         }
+
         if (sibling && sibling instanceof CsButtonGroupButton) {
           sibling.selected = true;
           this.#dispatchEvents(sibling);
         }
+
         break;
       }
       case ' ': {
         event.preventDefault();
+
         if (!this.disabled && !this.selected) {
           this.selected = true;
           this.#dispatchEvents();
         }
+
         break;
       }
     }

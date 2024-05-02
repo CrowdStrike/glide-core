@@ -1,7 +1,6 @@
-import './tree.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import Tree from './tree.js';
-import TreeItem from './tree-item.js';
+import TreeItem from './tree.item.js';
 
 Tree.shadowRootOptions.mode = 'open';
 TreeItem.shadowRootOptions.mode = 'open';
@@ -32,15 +31,17 @@ it('sets roles tree and treeitem', async () => {
   const childItems = component.slotElements;
 
   expect(
-    component.shadowRoot?.querySelector('.tree')?.getAttribute('role'),
+    component.shadowRoot?.firstElementChild?.getAttribute('role'),
   ).to.equal('tree');
 
   expect(
     childItems[0].shadowRoot?.querySelector('.component')?.getAttribute('role'),
   ).to.equal('treeitem');
+
   expect(
     childItems[1].shadowRoot?.querySelector('.component')?.getAttribute('role'),
   ).to.equal('treeitem');
+
   expect(
     childItems[1].slotElements[0].shadowRoot
       ?.querySelector('.component')
@@ -113,13 +114,16 @@ it('sets aria-selected correctly', async () => {
       ?.querySelector('.component')
       ?.getAttribute('aria-selected'),
   ).to.equal('false', 'sets to string "false" if not selected');
+
   expect(
     childItems[2].shadowRoot
       ?.querySelector('.component')
       ?.getAttribute('aria-selected'),
   ).to.equal('true', 'sets to string "true" if starts as selected');
+
   component.selectItem(childItems[1]);
   await childItems[1].updateComplete;
+
   expect(
     childItems[1].shadowRoot
       ?.querySelector('.component')

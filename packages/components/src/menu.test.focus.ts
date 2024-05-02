@@ -5,7 +5,7 @@ import type CsMenu from './menu.js';
 
 it('focuses the target on `focus()`', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -20,7 +20,7 @@ it('focuses the target on `focus()`', async () => {
 
 it('focuses the active option on open via click', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -37,7 +37,7 @@ it('focuses the active option on open via click', async () => {
 
 it('focuses the active option on open via Space', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -56,7 +56,7 @@ it('focuses the active option on open via Space', async () => {
 
 it('focuses the target on close via click', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu" open>
+    html`<cs-menu open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -69,7 +69,7 @@ it('focuses the target on close via click', async () => {
 
 it('focuses the target on close via Escape', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu" open>
+    html`<cs-menu open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -80,12 +80,13 @@ it('focuses the target on close via Escape', async () => {
   button?.dispatchEvent(
     new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
   );
+
   expect(document.activeElement).to.equal(button);
 });
 
 it('focuses the target when an option is selected via click', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu" open>
+    html`<cs-menu open>
       <button slot="target">Target</button>
 
       <cs-menu-link label="Link"></cs-menu-link>
@@ -103,7 +104,7 @@ it('focuses the target when an option is selected via click', async () => {
 
 it('focuses the target when an option is selected via Enter', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -124,7 +125,7 @@ it('focuses the target when an option is selected via Enter', async () => {
 
 it('focuses the target when an option is selected via Space', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,

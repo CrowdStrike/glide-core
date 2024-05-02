@@ -1,7 +1,6 @@
-import './tree-item.js';
 import { LitElement, html } from 'lit';
 import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
-import CsTreeItem from './tree-item.js';
+import CsTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
 
 declare global {
@@ -42,7 +41,7 @@ export default class CsTree extends LitElement {
 
   override render() {
     return html`<div
-      class="tree"
+      class="component"
       role="tree"
       tabindex=${this.privateTabIndex}
       @click=${this.#handleClick}
@@ -96,6 +95,7 @@ export default class CsTree extends LitElement {
 
     return items.filter((item) => {
       const parent = item.parentElement?.closest('cs-tree-item');
+
       if (parent && (!parent.expanded || collapsedItems.has(parent))) {
         collapsedItems.add(item);
       }
@@ -156,8 +156,10 @@ export default class CsTree extends LitElement {
     ) {
       return;
     }
+
     const allFocusableItems = this.#getFocusableItems();
     const { focusedItem } = this;
+
     const indexOfFocusedItem = allFocusableItems.findIndex((item) =>
       item.matches(':focus'),
     );
@@ -176,6 +178,7 @@ export default class CsTree extends LitElement {
       } else {
         const parentTreeItem =
           focusedItem?.parentElement?.closest('cs-tree-item');
+
         this.#focusItem(parentTreeItem);
       }
     }

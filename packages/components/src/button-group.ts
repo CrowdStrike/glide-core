@@ -47,13 +47,14 @@ export default class CsButtonGroup extends LitElement {
   orientation: ButtonGroupOrientation = 'horizontal';
 
   override firstUpdated() {
-    owSlotType(this.#defaultSlotRef.value, [CsButtonGroupButton]);
+    owSlotType(this.#defaultSlotElementRef.value, [CsButtonGroupButton]);
 
     if (this.orientation === 'vertical') {
       for (const listItem of this.listItems) {
         listItem.toggleAttribute('vertical');
       }
     }
+
     if (this.variant === 'icon-only') {
       for (const listItem of this.listItems) {
         listItem.setAttribute('variant', 'icon-only');
@@ -73,10 +74,11 @@ export default class CsButtonGroup extends LitElement {
         aria-labelledby="cs-button-group"
         role="radiogroup"
         class=${classMap({
+          'radio-group': true,
           vertical: this.orientation === 'vertical',
         })}
       >
-        <slot ${ref(this.#defaultSlotRef)}></slot>
+        <slot ${ref(this.#defaultSlotElementRef)}></slot>
       </ul>
     `;
   }
@@ -86,6 +88,7 @@ export default class CsButtonGroup extends LitElement {
   ): void {
     if (this.hasUpdated && changedProperties.has('variant')) {
       const value = changedProperties.get('variant');
+
       if (value === 'icon-only') {
         for (const listItem of this.listItems) {
           listItem.removeAttribute('variant');
@@ -99,6 +102,7 @@ export default class CsButtonGroup extends LitElement {
 
     if (this.hasUpdated && changedProperties.has('orientation')) {
       const value = changedProperties.get('orientation');
+
       if (value === 'vertical') {
         for (const listItem of this.listItems) {
           listItem.removeAttribute('vertical');
@@ -111,5 +115,5 @@ export default class CsButtonGroup extends LitElement {
     }
   }
 
-  #defaultSlotRef = createRef<HTMLSlotElement>();
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 }

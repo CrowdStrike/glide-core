@@ -10,7 +10,7 @@ declare global {
 }
 
 /**
- * @cssprop [--cs-drawer-width] - Sets the width of the Drawer when open.
+ * @cssprop [--width] - Sets the width of the Drawer when open.
  *
  * @event close - Emitted when the Drawer closes.
  * @event open - Emitted when the Drawer opens.
@@ -34,13 +34,13 @@ export default class CsDrawer extends LitElement {
       return;
     }
 
-    this.#dialogRef?.value?.addEventListener(
+    this.#dialogElementRef?.value?.addEventListener(
       'transitionend',
       () => {
         this.isOpen = false;
 
-        this.#dialogRef?.value?.classList?.remove('open');
-        this.#dialogRef?.value?.classList?.remove('closing');
+        this.#dialogElementRef?.value?.classList?.remove('open');
+        this.#dialogElementRef?.value?.classList?.remove('closing');
 
         this.currentState = 'closed';
 
@@ -51,7 +51,7 @@ export default class CsDrawer extends LitElement {
       { once: true },
     );
 
-    this.#dialogRef?.value?.classList?.add('closing');
+    this.#dialogElementRef?.value?.classList?.add('closing');
     document.documentElement.classList.add('glide-lock-scroll');
 
     this.currentState = 'closing';
@@ -70,7 +70,7 @@ export default class CsDrawer extends LitElement {
       return;
     }
 
-    this.#dialogRef?.value?.addEventListener(
+    this.#dialogElementRef?.value?.addEventListener(
       'transitionend',
       () => {
         this.currentState = 'open';
@@ -79,7 +79,7 @@ export default class CsDrawer extends LitElement {
         // https://www.matuzo.at/blog/2023/focus-dialog/
         // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
         // This ensures our dialog behaves as expected for screenreaders.
-        this.#dialogRef?.value?.focus();
+        this.#dialogElementRef?.value?.focus();
 
         this.dispatchEvent(new Event('open', { bubbles: false }));
 
@@ -88,7 +88,7 @@ export default class CsDrawer extends LitElement {
       { once: true },
     );
 
-    this.#dialogRef?.value?.classList?.add('open');
+    this.#dialogElementRef?.value?.classList?.add('open');
     document.documentElement.classList.add('glide-lock-scroll');
     this.currentState = 'opening';
 
@@ -102,7 +102,7 @@ export default class CsDrawer extends LitElement {
         tabindex="-1"
         ?open=${this.isOpen}
         @keydown=${this.#handleKeyDown}
-        ${ref(this.#dialogRef)}
+        ${ref(this.#dialogElementRef)}
       >
         <slot></slot>
       </dialog>
@@ -115,7 +115,7 @@ export default class CsDrawer extends LitElement {
   @state()
   private isOpen = false;
 
-  #dialogRef = createRef<HTMLDialogElement>();
+  #dialogElementRef = createRef<HTMLDialogElement>();
 
   #handleKeyDown(event: KeyboardEvent) {
     if (event.key !== 'Escape') {

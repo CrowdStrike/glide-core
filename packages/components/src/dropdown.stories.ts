@@ -19,9 +19,8 @@ const meta: Meta = {
     },
   },
   args: {
-    ['slot="default"']: '',
-    ['slot="tooltip"']: '',
     disabled: false,
+    hideLabel: false,
     label: 'Label',
     open: false,
     orientation: 'horizontal',
@@ -29,13 +28,14 @@ const meta: Meta = {
     placeholder: 'Placeholder',
     required: false,
     size: 'large',
+    value: '',
   },
   argTypes: {
     ['slot="default"']: {
       table: {
         type: { summary: 'CsDropdownOption' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     'addEventListener(event, listener)': {
       table: {
@@ -45,6 +45,7 @@ const meta: Meta = {
             '(event: "change" | "input", listener: (event: CustomEvent<string[]>)) => void) => void \n\n// `event.detail` is an array of selected option values.',
         },
       },
+      type: { name: 'function' },
     },
     'checkValidity()': {
       table: {
@@ -54,6 +55,7 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
         },
       },
+      type: { name: 'function' },
     },
     'reportValidity()': {
       table: {
@@ -63,6 +65,7 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
         },
       },
+      type: { name: 'function' },
     },
     'setCustomValidity(message)': {
       table: {
@@ -72,8 +75,16 @@ const meta: Meta = {
             '(message: string) => void \n\n// https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/setCustomValidity',
         },
       },
+      type: { name: 'function' },
     },
     disabled: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    hideLabel: {
       control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
@@ -138,6 +149,14 @@ const meta: Meta = {
           summary: 'readonly string[]',
         },
       },
+      type: { name: 'function' },
+    },
+    variant: {
+      control: { type: 'select' },
+      options: ['', 'quiet'],
+      table: {
+        type: { summary: '"quiet"' },
+      },
     },
   },
   play(context) {
@@ -166,6 +185,8 @@ const meta: Meta = {
         orientation=${arguments_.orientation || nothing}
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
+        variant=${arguments_.variant || nothing}
+        ?hide-label=${arguments_.hideLabel || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -198,6 +219,8 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
         orientation=${arguments_.orientation || nothing}
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
+        variant=${arguments_.variant || nothing}
+        ?hide-label=${arguments_.hideLabel || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -254,6 +277,8 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         orientation=${arguments_.orientation || nothing}
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
+        variant=${arguments_.variant || nothing}
+        ?hide-label=${arguments_.hideLabel || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}

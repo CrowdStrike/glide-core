@@ -80,7 +80,7 @@ export default class CsCheckbox extends LitElement {
       this.#internals.setValidity(
         { valueMissing: true },
         ' ',
-        this.#inputRef.value,
+        this.#inputElementRef.value,
       );
     } else {
       this.#internals.setValidity({});
@@ -99,7 +99,7 @@ export default class CsCheckbox extends LitElement {
   }
 
   override click() {
-    this.#inputRef.value?.click();
+    this.#inputElementRef.value?.click();
   }
 
   override disconnectedCallback() {
@@ -108,7 +108,7 @@ export default class CsCheckbox extends LitElement {
   }
 
   override focus(options?: FocusOptions) {
-    this.#inputRef.value?.focus(options);
+    this.#inputElementRef.value?.focus(options);
   }
 
   formAssociatedCallback() {
@@ -128,7 +128,7 @@ export default class CsCheckbox extends LitElement {
         tooltip: this.hasTooltipSlot,
       })}
       data-test="component"
-      ${ref(this.#componentRef)}
+      ${ref(this.#componentElementRef)}
     >
       <cs-tooltip
         class=${classMap({
@@ -141,7 +141,7 @@ export default class CsCheckbox extends LitElement {
         <slot
           name="tooltip"
           @slotchange=${this.#onTooltipSlotChange}
-          ${ref(this.#tooltipSlotRef)}
+          ${ref(this.#tooltipSlotElementRef)}
         ></slot>
       </cs-tooltip>
 
@@ -173,16 +173,25 @@ export default class CsCheckbox extends LitElement {
           - Toggling checked using the spacebar.
           - ":checked" and ":indeterminate" pseudo classes, which browsers don't support
             on hosts even when a component is form-associated.
+
+          -
+
+          aria-invalid is set based on whether the validation feedback is displayed. This
+          is to handle an odd behavior with checkboxes where "Invalid Data" is announced
+          on required unchecked inputs. While this is technically correct, it's
+          inconsistent with how other form controls behave as their validity isn’t announced
+          on screen readers by default before validation.
         -->
         <input
           aria-describedby="summary-for-screenreaders description"
+          aria-invalid=${this.#isShowValidationFeedback}
           data-test="input"
           type="checkbox"
           ?checked=${this.checked}
           ?disabled=${this.disabled}
           ?required=${this.required}
           @change=${this.#onInputChange}
-          ${ref(this.#inputRef)}
+          ${ref(this.#inputElementRef)}
         />
 
         <div
@@ -192,6 +201,9 @@ export default class CsCheckbox extends LitElement {
           })}
         >
           ${this.label}
+          ${this.required
+            ? html`<span aria-hidden="true" class="required-symbol">*</span>`
+            : ''}
         </div>
 
         <div
@@ -254,13 +266,13 @@ export default class CsCheckbox extends LitElement {
   }
 
   override updated() {
-    if (this.#inputRef.value) {
+    if (this.#inputElementRef.value) {
       // `indeterminate` needs to be updated both on initial render and after it has
       // changed. This handles both cases.
       //
       // TODO
       // No need for this when browsers support the ":indeterminate" on the host.
-      this.#inputRef.value.indeterminate = this.indeterminate;
+      this.#inputElementRef.value.indeterminate = this.indeterminate;
     }
   }
 
@@ -305,13 +317,13 @@ export default class CsCheckbox extends LitElement {
   @state()
   private isReportValidityOrSubmit = false;
 
-  #componentRef = createRef<HTMLDivElement>();
+  #componentElementRef = createRef<HTMLDivElement>();
 
-  #inputRef = createRef<HTMLInputElement>();
+  #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
 
-  #tooltipSlotRef = createRef<HTMLSlotElement>();
+  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
@@ -338,12 +350,13 @@ export default class CsCheckbox extends LitElement {
     // If the input is interacted with, it's no longer indeterminate.
     this.indeterminate = false;
 
-    // Unlike "input" events, these don't bubble. So we manually dispatch them.
+    // Unlike "input" events, "change" events aren't composed. So we manually
+    // dispatch them from the host.
     this.dispatchEvent(new Event(event.type, event));
   }
 
   #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotRef.value?.assignedNodes();
+    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
     this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }

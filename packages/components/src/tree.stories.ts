@@ -1,5 +1,6 @@
 import './icon-button.js';
 import './icons/storybook.js';
+import './tree.item.js';
 import './tree.js';
 import { html, nothing } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -42,12 +43,14 @@ const meta: Meta = {
       table: {
         type: { summary: 'CsTreeItem' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     '<cs-tree-item>.selected': {
       control: { type: 'boolean' },
       table: {
-        defaultValue: false,
+        defaultValue: {
+          summary: 'false',
+        },
       },
     },
     '<cs-tree-item>.label': {
@@ -65,6 +68,7 @@ const meta: Meta = {
             'event: "item-selected", listener: (event: CustomEvent<{ item: CsTreeItem }>) => void',
         },
       },
+      type: { name: 'function' },
     },
   },
 };
@@ -115,7 +119,9 @@ export const TreeItemWithChildItemsCollapsed: StoryObj = {
     '<cs-tree-item>.expanded': {
       control: { type: 'boolean' },
       table: {
-        defaultValue: false,
+        defaultValue: {
+          summary: 'false',
+        },
       },
     },
     '<cs-tree-item>.selected': {
@@ -147,7 +153,9 @@ export const TreeItemWithChildItemsExpanded: StoryObj = {
     '<cs-tree-item>.expanded': {
       control: { type: 'boolean' },
       table: {
-        defaultValue: false,
+        defaultValue: {
+          summary: 'false',
+        },
       },
     },
     '<cs-tree-item>.selected': {

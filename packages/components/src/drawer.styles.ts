@@ -24,7 +24,7 @@ export default [
 
     .open {
       block-size: auto;
-      inline-size: var(--cs-drawer-width, 27.375rem);
+      inline-size: var(--width, 27.375rem);
       inset: 0 0 0 auto;
       opacity: 1;
       transform: none;

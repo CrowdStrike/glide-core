@@ -2,7 +2,7 @@ import './tree.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Tree from './tree.js';
-import TreeItem from './tree-item.js';
+import TreeItem from './tree.item.js';
 
 Tree.shadowRootOptions.mode = 'open';
 
@@ -55,6 +55,7 @@ it('expands a tree item if right arrow is pressed', async () => {
   await sendKeys({ press: 'ArrowRight' });
   expect(childItems[0].expanded).to.equal(true);
   assert(document.activeElement instanceof TreeItem);
+
   expect(document.activeElement?.label).to.equal(
     childItems[0].label,
     'focus does not move',
@@ -75,6 +76,7 @@ it(`focuses on an expanded tree item's child if right arrow is pressed`, async (
   tree.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowRight' });
   assert(document.activeElement instanceof TreeItem);
+
   expect(document.activeElement?.label).to.equal(
     childItems[0].slotElements[0].label,
   );
@@ -95,6 +97,7 @@ it('collapses an expanded tree item if left arrow is pressed', async () => {
   await sendKeys({ press: 'ArrowLeft' });
   expect(childItems[0].expanded).to.equal(false);
   assert(document.activeElement instanceof TreeItem);
+
   expect(document.activeElement?.label).to.equal(
     childItems[0].label,
     'focus does not move',
@@ -137,24 +140,28 @@ it('moves down the non-expanded tree items with down arrow', async () => {
 
   await sendKeys({ press: 'ArrowDown' });
   assert(document.activeElement instanceof TreeItem);
+
   expect(document.activeElement?.label).to.equal(
     childItems[0].slotElements[0].label,
     'moves to child item if expanded',
   );
 
   await sendKeys({ press: 'ArrowDown' });
+
   expect(document.activeElement?.label).to.equal(
     childItems[1].label,
     'moves from last child for next parent',
   );
 
   await sendKeys({ press: 'ArrowDown' });
+
   expect(document.activeElement?.label).to.equal(
     childItems[2].label,
     'Does not navigate to collapsed tree items',
   );
 
   await sendKeys({ press: 'ArrowDown' });
+
   expect(document.activeElement?.label).to.equal(
     childItems[2].label,
     'Does not move if at the last item',
@@ -182,12 +189,14 @@ it('moves up the non-expanded tree items with up arrow', async () => {
   expect(document.activeElement?.label).to.equal(childItems[1].label);
 
   await sendKeys({ press: 'ArrowUp' });
+
   expect(document.activeElement?.label).to.equal(
     childItems[0].label,
     'Does not navigate to collapsed tree items',
   );
 
   await sendKeys({ press: 'ArrowUp' });
+
   expect(document.activeElement?.label).to.equal(
     childItems[0].label,
     'Does not move if at the first item',
@@ -233,6 +242,7 @@ it('moves to the last item when End is pressed', async () => {
 
   await sendKeys({ press: 'End' });
   assert(document.activeElement instanceof TreeItem);
+
   expect(document.activeElement?.label).to.equal(
     childItems[1].slotElements[0].label,
   );

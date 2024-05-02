@@ -5,11 +5,13 @@ import { LitElement, css, html, svg } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('cs-example-icon')
-export default class CsCheckbox extends LitElement {
+export default class CsExampleIcon extends LitElement {
   static override styles = [
     css`
       .component {
+        block-size: var(--size, 1rem);
         display: flex;
+        inline-size: var(--size, 1rem);
       }
     `,
   ];
@@ -23,8 +25,6 @@ export default class CsCheckbox extends LitElement {
     return html`
       <svg
         class="component"
-        width="16"
-        height="16"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="1.5"
@@ -101,5 +101,13 @@ const ICONS = {
       stroke-linejoin="round"
       d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
     />
+  `,
+  'drag-dots': svg`  
+    <path d="M9 18C9.55228 18 10 18.4477 10 19C10 19.5523 9.55228 20 9 20C8.44772 20 8 19.5523 8 19C8 18.4477 8.44772 18 9 18Z" stroke="currentColor" stroke-width="2"/>
+    <path d="M9 11C9.55228 11 10 11.4477 10 12C10 12.5523 9.55228 13 9 13C8.44772 13 8 12.5523 8 12C8 11.4477 8.44772 11 9 11Z" stroke="currentColor" stroke-width="2"/>
+    <path d="M9 4C9.55228 4 10 4.44772 10 5C10 5.55228 9.55228 6 9 6C8.44772 6 8 5.55228 8 5C8 4.44772 8.44772 4 9 4Z" stroke="currentColor" stroke-width="2"/>
+    <path d="M16 18C16.5523 18 17 18.4477 17 19C17 19.5523 16.5523 20 16 20C15.4477 20 15 19.5523 15 19C15 18.4477 15.4477 18 16 18Z" stroke="currentColor" stroke-width="2"/>
+    <path d="M16 11C16.5523 11 17 11.4477 17 12C17 12.5523 16.5523 13 16 13C15.4477 13 15 12.5523 15 12C15 11.4477 15.4477 11 16 11Z" stroke="currentColor" stroke-width="2"/>
+    <path d="M16 4C16.5523 4 17 4.44772 17 5C17 5.55228 16.5523 6 16 6C15.4477 6 15 5.55228 15 5C15 4.44772 15.4477 4 16 4Z" stroke="currentColor" stroke-width="2"/>
   `,
 };

@@ -77,6 +77,7 @@ const meta: Meta = {
           detail: 'Opens the Drawer.',
         },
       },
+      type: { name: 'function' },
     },
     'close()': {
       table: {
@@ -85,6 +86,7 @@ const meta: Meta = {
           detail: 'Closes the Drawer.',
         },
       },
+      type: { name: 'function' },
     },
     'addEventListener(event, listener)': {
       table: {
@@ -94,14 +96,16 @@ const meta: Meta = {
             '(event: "open" | "close", listener: (event: Event) => void) => void',
         },
       },
+      type: { name: 'function' },
     },
-    '--cs-drawer-width': {
+    '--width': {
       table: {
         type: {
           summary: 'CSS custom property',
           detail: 'Sets the width of the Drawer.',
         },
       },
+      type: { name: 'function' },
     },
   },
 };
@@ -115,8 +119,7 @@ export const WithCSSVariable: StoryObj = {
   render: () => html`
     <cs-button data-trigger>Open/Close</cs-button>
 
-    <!-- Use the the following CSS variable to adjust the width of the Drawer -->
-    <cs-drawer style="--cs-drawer-width: 20rem;">
+    <cs-drawer style="--width: 20rem;">
       <div style="padding: 0.5rem">Width of 20rem</div>
     </cs-drawer>
   `,

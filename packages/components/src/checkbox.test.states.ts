@@ -100,6 +100,7 @@ it('is still indeterminate after being clicked when unchecked and disabled', asy
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
   );
+
   expect(input?.indeterminate).to.be.true;
   expect(component.indeterminate).to.equal(true);
   expect(component.hasAttribute('indeterminate')).to.be.true;

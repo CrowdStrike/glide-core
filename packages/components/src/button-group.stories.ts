@@ -28,7 +28,6 @@ const meta: Meta = {
   `,
   args: {
     label: 'Group label',
-    ['slot="default"']: '',
     variant: '',
     orientation: 'horizontal',
   },
@@ -37,7 +36,7 @@ const meta: Meta = {
       table: {
         type: { summary: '<cs-button-group-button>' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     label: {
       control: { type: 'text' },
@@ -68,6 +67,7 @@ const meta: Meta = {
             'event: "input" | "change", listener: (event: CustomEvent<{ value: string }>) => void',
         },
       },
+      type: { name: 'function' },
     },
   },
 };
