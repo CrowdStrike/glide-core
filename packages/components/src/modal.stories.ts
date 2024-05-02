@@ -1,8 +1,11 @@
+import './button.js';
+import './modal.js';
+import './tooltip.js';
 import { html, nothing } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  title: 'Glide/Modal',
+  title: 'Modal',
   tags: ['autodocs'],
   parameters: {
     docs: {
@@ -26,7 +29,7 @@ const meta: Meta = {
     <cs-modal
       label=${arguments_.label}
       show-back-button=${arguments_['show-back-button'] || nothing}
-      width=${arguments_.width || nothing}
+      size=${arguments_.size ?? nothing}
     >
       ${arguments_['slot="default"']}
 
@@ -57,14 +60,14 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    width: {
-      control: { type: 'select' },
-      options: ['sm', 'md', 'lg', 'xl'],
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large', 'xlarge'],
       table: {
         defaultValue: {
-          summary: '"sm"',
+          summary: '"medium"',
         },
-        type: { summary: '"sm" | "md" | "lg" | "xl"' },
+        type: { summary: '"small" | "medium" | "large" | "xlarge"' },
       },
     },
     'show-back-button': {
@@ -86,26 +89,28 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'addEventListener(event, listener)': {
-      control: { type: 'object' },
+      control: { type: '' },
       table: {
         type: {
-          summary: 'method',
+          summary: 'function',
           detail: 'event: "close", listener: (event: Event) => void',
         },
       },
     },
     'showModal()': {
+      control: { type: '' },
       table: {
         type: {
-          summary: 'method',
+          summary: 'function',
           detail: 'Opens the Modal.',
         },
       },
     },
     'close()': {
+      control: { type: '' },
       table: {
         type: {
-          summary: 'method',
+          summary: 'function',
           detail: 'Closes the Modal.',
         },
       },
@@ -118,7 +123,7 @@ export default meta;
 export const Modal: StoryObj = {};
 
 export const WithBackButton: StoryObj = {
-  name: 'Back Button',
+  name: 'Modal (With Back Button)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label} show-back-button>
       ${arguments_['slot="default"']}
@@ -132,7 +137,7 @@ export const WithBackButton: StoryObj = {
 };
 
 export const HeaderActions: StoryObj = {
-  name: 'Header Actions',
+  name: 'Modal (With Header Actions)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
@@ -154,7 +159,7 @@ export const HeaderActions: StoryObj = {
 };
 
 export const HeaderActionsWithBackButton: StoryObj = {
-  name: 'Header Actions (With Back Button)',
+  name: 'Modal (With Header Actions and Back Button)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label} show-back-button>
       ${arguments_['slot="default"']}
@@ -176,7 +181,7 @@ export const HeaderActionsWithBackButton: StoryObj = {
 };
 
 export const TertiaryButton: StoryObj = {
-  name: 'Tertiary Content (Button)',
+  name: 'Modal (With Tertiary Content Button)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
@@ -192,7 +197,7 @@ export const TertiaryButton: StoryObj = {
 };
 
 export const TertiaryIcon: StoryObj = {
-  name: 'Tertiary Content (Icon)',
+  name: 'Modal (With Tertiary Content Icon)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}

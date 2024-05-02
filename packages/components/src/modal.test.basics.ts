@@ -159,7 +159,7 @@ it('renders the provided header-actions slot content', async () => {
   expect(slotNodes?.at(1)?.nodeName).to.equal('BUTTON');
 });
 
-it('defaults the width to "md"', async () => {
+it('defaults the size to "medium"', async () => {
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title"></cs-modal>`,
   );
@@ -167,49 +167,49 @@ it('defaults the width to "md"', async () => {
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--md']);
+  ]).to.deep.equal(['component', 'medium']);
 });
 
-it('sets the width to "sm"', async () => {
+it('sets the size to "small"', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" width="sm"></cs-modal>`,
+    html`<cs-modal label="Modal title" size="small"></cs-modal>`,
   );
 
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--sm']);
+  ]).to.deep.equal(['component', 'small']);
 });
 
-it('sets the width to "md"', async () => {
+it('sets the size to "medium"', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" width="md"></cs-modal>`,
+    html`<cs-modal label="Modal title" size="medium"></cs-modal>`,
   );
 
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--md']);
+  ]).to.deep.equal(['component', 'medium']);
 });
 
-it('sets the width to "lg"', async () => {
+it('sets the size to "large"', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" width="lg"></cs-modal>`,
+    html`<cs-modal label="Modal title" size="large"></cs-modal>`,
   );
 
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--lg']);
+  ]).to.deep.equal(['component', 'large']);
 });
 
-it('sets the width to "xl"', async () => {
+it('sets the size to "xlarge"', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" width="xl"></cs-modal>`,
+    html`<cs-modal label="Modal title" size="xlarge"></cs-modal>`,
   );
 
   expect([
     ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
-  ]).to.deep.equal(['component', 'width--xl']);
+  ]).to.deep.equal(['component', 'xlarge']);
 });

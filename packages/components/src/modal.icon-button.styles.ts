@@ -13,19 +13,14 @@ import focusOutline from './styles/focus-outline.js';
 export default [
   css`
     button {
-      --size: 1.25rem;
-
-      display: flex;
       align-items: center;
-
+      background-color: transparent;
       border: none;
       border-radius: var(--cs-spacing-sm);
-      background-color: transparent;
       color: var(--cs-icon-default);
       cursor: pointer;
-
+      display: flex;
       padding: 0;
-
       transition: color 200ms ease-in-out;
 
       &:hover {
@@ -38,6 +33,11 @@ export default [
 
       &:focus-visible {
         ${focusOutline};
+      }
+
+      & ::slotted(svg) {
+        block-size: 1.25rem;
+        inline-size: 1.25rem;
       }
     }
   `,

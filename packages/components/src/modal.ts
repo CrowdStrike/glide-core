@@ -1,4 +1,4 @@
-import './icon-button.js';
+import './modal.icon-button.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -35,25 +35,37 @@ declare global {
  */
 @customElement('cs-modal')
 export default class CsModal extends LitElement {
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    mode: 'closed',
+  };
+
+  static override styles = styles;
+
   /** The title text for the Modal. */
-  @property({ type: String, reflect: true }) label = '';
+  @property({ reflect: true })
+  label = '';
 
   /** Adds a back/dismiss button in the Modal header. */
   @property({ attribute: 'show-back-button', type: Boolean, reflect: true })
   showBackButton = false;
 
-  /** Fixed-width options for the Modal. */
-  @property({ type: String, reflect: true })
-  width?: 'sm' | 'md' | 'lg' | 'xl' = 'md';
+  /** Fixed-size options for the Modal. */
+  @property({ reflect: true })
+  size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
 
-  #componentRef = createRef<HTMLDialogElement>();
+  /**
+   * Event called by consumers to programmatically close the Modal.
+   */
+  close() {
+    if (!this.#componentRef.value?.open) {
+      return;
+    }
 
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-    mode: window.navigator.webdriver ? 'open' : 'closed',
-  };
-
-  static override styles = styles;
+    document.documentElement.classList.remove('glide-lock-scroll');
+    this.dispatchEvent(new Event('close', { bubbles: false }));
+    this.#componentRef.value?.close();
+  }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
@@ -62,6 +74,100 @@ export default class CsModal extends LitElement {
     if (this.#componentRef.value?.open) {
       this.#componentRef.value?.close();
     }
+  }
+
+  override render() {
+    return html`<dialog
+      class=${classMap({
+        component: true,
+        small: this.size === 'small',
+        medium: this.size === 'medium',
+        large: this.size === 'large',
+        xlarge: this.size === 'xlarge',
+      })}
+      tabindex="-1"
+      @keydown=${this.#onKeyDown}
+      @mousedown=${this.#onMouseDown}
+      ${ref(this.#componentRef)}
+    >
+      <header class="header">
+        <h2 class="label" data-test="heading" id="heading">
+          ${when(
+            this.showBackButton,
+            () =>
+              html` <cs-modal-icon-button
+                data-test="back-button"
+                @click=${this.#onCloseButtonClick}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <title>Dismiss</title>
+                  <path
+                    d="M12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20V18ZM20 14.5C20 16.433 18.433 18 16.5 18V20C19.5376 20 22 17.5376 22 14.5H20ZM16.5 11C18.433 11 20 12.567 20 14.5H22C22 11.4624 19.5376 9 16.5 9V11ZM16.5 18H12V20H16.5V18ZM16.5 9H3V11H16.5V9Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M7 6L3 10L7 14"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </cs-modal-icon-button>`,
+          )}
+          ${this.label}
+        </h2>
+
+        <div class="header-actions" role="toolbar">
+          <slot name="header-actions"></slot>
+
+          <cs-modal-icon-button
+            data-test="close-button"
+            @click=${this.#onCloseButtonClick}
+          >
+            <!-- TODO: We should localize this string in the future -->
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <title>Close</title>
+              <path
+                d="M6 6L18 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18 6L6 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </cs-modal-icon-button>
+        </div>
+      </header>
+
+      <article
+        aria-labelledby="heading"
+        class="body"
+        role="region"
+        tabindex="0"
+      >
+        <slot></slot>
+      </article>
+
+      <footer class="footer">
+        <menu class="menu">
+          <li class="flex align-center"><slot name="tertiary"></slot></li>
+          <li>
+            <menu class="actions">
+              <li><slot name="secondary"></slot></li>
+              <li><slot name="primary"></slot></li>
+            </menu>
+          </li>
+        </menu>
+      </footer>
+    </dialog>`;
   }
 
   /**
@@ -106,11 +212,16 @@ export default class CsModal extends LitElement {
     this.#componentRef.value?.focus();
   }
 
-  /**
-   * Event called by consumers to programmatically close the Modal.
-   */
-  close() {
-    if (!this.#componentRef.value?.open) {
+  #componentRef = createRef<HTMLDialogElement>();
+
+  #onCloseButtonClick() {
+    document.documentElement.classList.remove('glide-lock-scroll');
+    this.dispatchEvent(new Event('close', { bubbles: false }));
+    this.#componentRef.value?.close();
+  }
+
+  #onKeyDown(event: KeyboardEvent) {
+    if (event.key !== 'Escape') {
       return;
     }
 
@@ -119,7 +230,7 @@ export default class CsModal extends LitElement {
     this.#componentRef.value?.close();
   }
 
-  #handleMouseDown(event: MouseEvent) {
+  #onMouseDown(event: MouseEvent) {
     if (event.target !== this.#componentRef.value) {
       return;
     }
@@ -149,86 +260,5 @@ export default class CsModal extends LitElement {
     document.documentElement.classList.remove('glide-lock-scroll');
     this.dispatchEvent(new Event('close', { bubbles: false }));
     this.#componentRef.value?.close();
-  }
-
-  #handleCloseButtonClick() {
-    document.documentElement.classList.remove('glide-lock-scroll');
-    this.dispatchEvent(new Event('close', { bubbles: false }));
-    this.#componentRef.value?.close();
-  }
-
-  #handleKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Escape') {
-      return;
-    }
-
-    document.documentElement.classList.remove('glide-lock-scroll');
-    this.dispatchEvent(new Event('close', { bubbles: false }));
-    this.#componentRef.value?.close();
-  }
-
-  override render() {
-    return html`<dialog
-      class=${classMap({
-        component: true,
-        'width--sm': this.width === 'sm',
-        'width--md': this.width === 'md',
-        'width--lg': this.width === 'lg',
-        'width--xl': this.width === 'xl',
-      })}
-      tabindex="-1"
-      @keydown=${this.#handleKeyDown}
-      @mousedown=${this.#handleMouseDown}
-      ${ref(this.#componentRef)}
-    >
-      <header class="header">
-        <h2 class="label" data-test="heading" id="heading">
-          ${when(
-            this.showBackButton,
-            () =>
-              html` <cs-modal-icon-button
-                data-test="back-button"
-                @click=${this.#handleCloseButtonClick}
-              >
-                <!-- icon-arrows-flip-backward-line -->
-              </cs-modal-icon-button>`,
-          )}
-          ${this.label}
-        </h2>
-
-        <div class="header-actions" role="toolbar">
-          <slot name="header-actions"></slot>
-
-          <cs-modal-icon-button
-            data-test="close-button"
-            @click=${this.#handleCloseButtonClick}
-          >
-            <!-- TODO: We should localize this string in the future -->
-            <!-- icon-general-x-close-line -->
-          </cs-modal-icon-button>
-        </div>
-      </header>
-
-      <article
-        aria-labelledby="heading"
-        class="body"
-        role="region"
-        tabindex="0"
-      >
-        <slot></slot>
-      </article>
-
-      <footer class="footer">
-        <menu class="menu">
-          <li class="flex align-center"><slot name="tertiary"></slot></li>
-          <li>
-            <menu class="actions">
-              <li><slot name="secondary"></slot></li>
-              <li><slot name="primary"></slot></li>
-            </menu>
-          </li>
-        </menu>
-      </footer>
-    </dialog>`;
   }
 }
