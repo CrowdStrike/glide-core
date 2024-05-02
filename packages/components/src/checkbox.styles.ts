@@ -35,13 +35,6 @@ export default [
       box-shadow: var(--cs-glow-sm);
     }
 
-    :host([required]) .label-text::after {
-      color: var(--cs-status-error);
-
-      /* Lest the minifier have its way with the whitespace in the markup. */
-      content: ' *';
-    }
-
     :host([orientation='horizontal']) .component {
       align-items: center;
       display: inline-grid;
@@ -188,6 +181,10 @@ export default [
       font-variant: var(--cs-heading-xxxs-font-variant);
       font-weight: var(--cs-heading-xxxs-font-weight);
       line-height: 100%;
+    }
+
+    .required-symbol {
+      color: var(--cs-status-error);
     }
 
     .indeterminate-icon {
