@@ -18,12 +18,6 @@
     "!dist/*.test.js",
     "!dist/*.stories.js"
   ],
-  "exports": {
-    "./*": {
-      "import": "./dist/*",
-      "types": "./dist/*.d.ts"
-    }
-  },
   "scripts": {
     "start": "per-env",
     "start:development": "storybook dev --config-dir .storybook --disable-telemetry --port 6006",
@@ -47,6 +41,92 @@
     "test:development:serve": "npx http-server dist/coverage/lcov-report --silent",
     "test:development:web-test-runner": "web-test-runner --watch",
     "test:production": "web-test-runner"
+  },
+  "engines": {
+    "node": ">= 20",
+    "pnpm": ">= 8"
+  },
+  "volta": {
+    "node": "20.12.2",
+    "pnpm": "9.0.6"
+  },
+  "exports": {
+    "./accordion.js": {
+      "import": "./dist/accordion.js",
+      "types": "./dist/accordion.d.ts"
+    },
+    "./button-group.js": {
+      "import": "./dist/button-group.js",
+      "types": "./dist/button-group.d.ts"
+    },
+    "./button-group.button.js": {
+      "import": "./dist/button-group.button.js",
+      "types": "./dist/button-group.button.d.ts"
+    },
+    "./button.js": {
+      "import": "./dist/button.js",
+      "types": "./dist/button.d.ts"
+    },
+    "./checkbox.js": {
+      "import": "./dist/checkbox.js",
+      "types": "./dist/checkbox.d.ts"
+    },
+    "./drawer.js": {
+      "import": "./dist/drawer.js",
+      "types": "./dist/drawer.d.ts"
+    },
+    "./dropdown.js": {
+      "import": "./dist/dropdown.js",
+      "types": "./dist/dropdown.d.ts"
+    },
+    "./dropdown.option.js": {
+      "import": "./dist/dropdown.option.js",
+      "types": "./dist/dropdown.option.d.ts"
+    },
+    "./icon-button.js": {
+      "import": "./dist/icon-button.js",
+      "types": "./dist/icon-button.d.ts"
+    },
+    "./menu.js": {
+      "import": "./dist/menu.js",
+      "types": "./dist/menu.d.ts"
+    },
+    "./menu.button.js": {
+      "import": "./dist/menu.button.js",
+      "types": "./dist/menu.button.d.ts"
+    },
+    "./menu.link.js": {
+      "import": "./dist/menu.link.js",
+      "types": "./dist/menu.link.d.ts"
+    },
+    "./tab.js": {
+      "import": "./dist/tab.js",
+      "types": "./dist/tab.d.ts"
+    },
+    "./tab.group.js": {
+      "import": "./dist/tab.group.js",
+      "types": "./dist/tab.group.d.ts"
+    },
+    "./tab.panel.js": {
+      "import": "./dist/tab.panel.js",
+      "types": "./dist/tab.panel.d.ts"
+    },
+    "./toggle.js": {
+      "import": "./dist/toggle.js",
+      "types": "./dist/toggle.d.ts"
+    },
+    "./tooltip.js": {
+      "import": "./dist/tooltip.js",
+      "types": "./dist/tooltip.d.ts"
+    },
+    "./tree.js": {
+      "import": "./dist/tree.js",
+      "types": "./dist/tree.d.ts"
+    },
+    "./tree-item.js": {
+      "import": "./dist/tree-item.js",
+      "types": "./dist/tree-item.d.ts"
+    }
   },
   "dependencies": {
     "@floating-ui/dom": "^1.5.4",
@@ -110,13 +190,5 @@
   },
   "peerDependencies": {
     "lit": "^3.1.0"
-  },
-  "engines": {
-    "node": ">= 20",
-    "pnpm": ">= 8"
-  },
-  "volta": {
-    "node": "20.12.2",
-    "pnpm": "9.0.6"
   }
 }
