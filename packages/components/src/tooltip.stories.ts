@@ -25,13 +25,13 @@ const meta: Meta = {
       table: {
         type: { summary: 'Element' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     'slot="target"': {
       table: {
         type: { summary: 'Element', detail: 'Any focusable element.' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     placement: {
       control: { type: 'radio' },

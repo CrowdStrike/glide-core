@@ -19,8 +19,6 @@ const meta: Meta = {
     },
   },
   args: {
-    ['slot="default"']: '',
-    ['slot="tooltip"']: '',
     disabled: false,
     label: 'Label',
     open: false,
@@ -29,13 +27,14 @@ const meta: Meta = {
     placeholder: 'Placeholder',
     required: false,
     size: 'large',
+    value: '',
   },
   argTypes: {
     ['slot="default"']: {
       table: {
         type: { summary: 'CsDropdownOption' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     'addEventListener(event, listener)': {
       table: {
@@ -45,6 +44,7 @@ const meta: Meta = {
             '(event: "change" | "input", listener: (event: CustomEvent<string[]>)) => void) => void \n\n// `event.detail` is an array of selected option values.',
         },
       },
+      type: { name: 'function' },
     },
     'checkValidity()': {
       table: {
@@ -54,6 +54,7 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
         },
       },
+      type: { name: 'function' },
     },
     'reportValidity()': {
       table: {
@@ -63,6 +64,7 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
         },
       },
+      type: { name: 'function' },
     },
     'setCustomValidity(message)': {
       table: {
@@ -72,6 +74,7 @@ const meta: Meta = {
             '(message: string) => void \n\n// https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/setCustomValidity',
         },
       },
+      type: { name: 'function' },
     },
     disabled: {
       control: 'boolean',
@@ -138,6 +141,7 @@ const meta: Meta = {
           summary: 'readonly string[]',
         },
       },
+      type: { name: 'function' },
     },
   },
   play(context) {

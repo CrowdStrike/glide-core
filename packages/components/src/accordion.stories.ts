@@ -44,7 +44,7 @@ const meta: Meta = {
       table: {
         type: { summary: 'Element | string' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     'slot="prefix"': {
       table: {
@@ -53,6 +53,7 @@ const meta: Meta = {
           detail: 'Add a prefix, leading icon to the Accordion.',
         },
       },
+      type: { name: 'function' },
     },
     'slot="suffix"': {
       table: {
@@ -61,6 +62,7 @@ const meta: Meta = {
           detail: 'Add any number of suffix, trailing icons to the Accordion.',
         },
       },
+      type: { name: 'function' },
     },
     'addEventListener(event, listener)': {
       table: {
@@ -70,6 +72,7 @@ const meta: Meta = {
             '(event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void) => void',
         },
       },
+      type: { name: 'function' },
     },
   },
 };
