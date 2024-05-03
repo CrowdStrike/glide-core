@@ -34,12 +34,14 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'slot="prefix"': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'Element',
           detail: 'Add a prefix, a leading icon to the Tag.',
         },
+      },
+      type: {
+        name: 'function',
       },
     },
     size: {
@@ -66,7 +68,9 @@ const meta: Meta = {
       },
     },
     'addEventListener(event)': {
-      control: { type: '' },
+      type: {
+        name: 'function',
+      },
       table: {
         type: {
           summary: 'method',
