@@ -14,7 +14,7 @@ it('is valid if unchecked but not required', async () => {
   expect(component.reportValidity()).to.be.true;
 });
 
-it('is valid after being checked when unchecked and required', async () => {
+it('is valid but not aria-invalid after being checked when unchecked and required', async () => {
   const component = await fixture<CsCheckbox>(
     html`<cs-checkbox required></cs-checkbox>`,
   );
@@ -25,9 +25,12 @@ it('is valid after being checked when unchecked and required', async () => {
   expect(component.validity?.valueMissing).to.be.false;
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
+  expect(
+    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
-it('is invalid if unchecked and required', async () => {
+it('is invalid but not aria-invalid if unchecked and required', async () => {
   const component = await fixture<CsCheckbox>(
     html`<cs-checkbox required></cs-checkbox>`,
   );
@@ -36,9 +39,12 @@ it('is invalid if unchecked and required', async () => {
   expect(component.validity?.valueMissing).to.be.true;
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
+  expect(
+      component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    ).to.equal('false');
 });
 
-it('is invalid after being unchecked when required', async () => {
+it('is invalid but not aria-invalid after being unchecked when required', async () => {
   const component = await fixture<CsCheckbox>(
     html`<cs-checkbox checked required></cs-checkbox>`,
   );
@@ -49,6 +55,9 @@ it('is invalid after being unchecked when required', async () => {
   expect(component.validity?.valueMissing).to.be.true;
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
+  expect(
+      component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    ).to.equal('false');
 });
 
 it('is both invalid and valid if unchecked and required but disabled', async () => {
@@ -80,7 +89,7 @@ it('adds an error class after submit when unchecked and required', async () => {
   expect(isErrorClass).to.be.true;
 });
 
-it('adds an error class after `reportValidity` is called when required', async () => {
+it('adds an error class and renders aria-invalid equal to true after `reportValidity` is called when required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
@@ -96,9 +105,12 @@ it('adds an error class after `reportValidity` is called when required', async (
     ?.classList.contains('error');
 
   expect(isErrorClass).to.be.true;
+  expect(
+      component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    ).to.equal('true');
 });
 
-it('does not add an error class by default', async () => {
+it('does not add an error class or renders aria-invalid equal to true by default', async () => {
   const component = await fixture<CsCheckbox>(
     html`<cs-checkbox required></cs-checkbox>`,
   );
@@ -108,9 +120,12 @@ it('does not add an error class by default', async () => {
     ?.classList.contains('error');
 
   expect(isErrorClass).to.be.false;
+  expect(
+    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
-it('does not add an error class after `reportValidity` is called when not required', async () => {
+it('does not add an error class or renders aria-invalid equal to true after `reportValidity` is called when not required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
@@ -128,6 +143,9 @@ it('does not add an error class after `reportValidity` is called when not requir
     ?.classList.contains('error');
 
   expect(isErrorClass).to.be.false;
+  expect(
+    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('does not add an error class after `reportValidity` is called when required and checked', async () => {
