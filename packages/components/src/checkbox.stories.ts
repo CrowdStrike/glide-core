@@ -18,7 +18,6 @@ const meta: Meta = {
   },
   args: {
     ['slot="description"']: 'Description',
-    ['slot="tooltip"']: '',
     checked: false,
     disabled: false,
     indeterminate: false,
@@ -27,7 +26,7 @@ const meta: Meta = {
     orientation: 'horizontal',
     summary: 'Summary',
     required: false,
-    value: 'Value',
+    value: 'value',
   },
   argTypes: {
     'addEventListener(event, listener)': {
@@ -38,6 +37,7 @@ const meta: Meta = {
             '(event: "change" | "input",  listener: (event: Event) => void) => void\n\n // Dispatched when checked or unchecked.',
         },
       },
+      type: { name: 'function' },
     },
     'checkValidity()': {
       table: {
@@ -47,6 +47,7 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
         },
       },
+      type: { name: 'function' },
     },
     'reportValidity()': {
       table: {
@@ -56,6 +57,7 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
         },
       },
+      type: { name: 'function' },
     },
     checked: {
       control: 'boolean',

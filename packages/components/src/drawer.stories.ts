@@ -77,6 +77,7 @@ const meta: Meta = {
           detail: 'Opens the Drawer.',
         },
       },
+      type: { name: 'function' },
     },
     'close()': {
       table: {
@@ -85,6 +86,7 @@ const meta: Meta = {
           detail: 'Closes the Drawer.',
         },
       },
+      type: { name: 'function' },
     },
     'addEventListener(event, listener)': {
       table: {
@@ -94,6 +96,7 @@ const meta: Meta = {
             '(event: "open" | "close", listener: (event: Event) => void) => void',
         },
       },
+      type: { name: 'function' },
     },
     '--cs-drawer-width': {
       table: {
@@ -102,6 +105,7 @@ const meta: Meta = {
           detail: 'Sets the width of the Drawer.',
         },
       },
+      type: { name: 'function' },
     },
   },
 };

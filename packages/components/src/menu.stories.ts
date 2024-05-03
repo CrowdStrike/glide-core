@@ -20,8 +20,6 @@ const meta: Meta = {
     },
   },
   args: {
-    ['slot="default"']: '',
-    ['slot="target"']: '',
     open: false,
     size: 'large',
   },
@@ -30,13 +28,13 @@ const meta: Meta = {
       table: {
         type: { summary: 'CsMenuLink | CsMenuButton' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     ['slot="target"']: {
       table: {
-        type: { summary: 'A focusable element' },
+        type: { summary: 'Element', detail: 'Any focusable element.' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'function', required: true },
     },
     open: {
       control: 'boolean',

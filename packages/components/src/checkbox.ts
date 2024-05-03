@@ -338,7 +338,8 @@ export default class CsCheckbox extends LitElement {
     // If the input is interacted with, it's no longer indeterminate.
     this.indeterminate = false;
 
-    // Unlike "input" events, these don't bubble. So we manually dispatch them.
+    // Unlike "input" events, "change" events aren't composed. So we manually
+    // dispatch them from the host.
     this.dispatchEvent(new Event(event.type, event));
   }
 
