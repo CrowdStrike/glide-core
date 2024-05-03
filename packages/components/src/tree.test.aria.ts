@@ -1,7 +1,6 @@
-import './tree.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import Tree from './tree.js';
-import TreeItem from './tree-item.js';
+import TreeItem from './tree.item.js';
 
 Tree.shadowRootOptions.mode = 'open';
 TreeItem.shadowRootOptions.mode = 'open';

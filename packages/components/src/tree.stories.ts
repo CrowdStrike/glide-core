@@ -1,5 +1,6 @@
 import './icon-button.js';
 import './icons/storybook.js';
+import './tree.item.js';
 import './tree.js';
 import { html, nothing } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';

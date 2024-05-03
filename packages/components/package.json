@@ -123,9 +123,9 @@
       "import": "./dist/tree.js",
       "types": "./dist/tree.d.ts"
     },
-    "./tree-item.js": {
-      "import": "./dist/tree-item.js",
-      "types": "./dist/tree-item.d.ts"
+    "./tree.item.js": {
+      "import": "./dist/tree.item.js",
+      "types": "./dist/tree.item.d.ts"
     }
   },
   "dependencies": {

@@ -10,7 +10,7 @@ import {
 import { ifDefined } from 'lit/directives/if-defined.js';
 
 import { when } from 'lit/directives/when.js';
-import styles from './tree-item.styles.js';
+import styles from './tree.item.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
