@@ -1,5 +1,7 @@
 import './button.js';
+import './icons/storybook.js';
 import './modal.js';
+import './modal.tertiary-icon.js';
 import './tooltip.js';
 import { html, nothing } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -28,7 +30,7 @@ const meta: Meta = {
   render: (arguments_) => html`
     <cs-modal
       label=${arguments_.label}
-      show-back-button=${arguments_['show-back-button'] || nothing}
+      ?show-back-button=${arguments_['show-back-button'] || nothing}
       size=${arguments_.size ?? nothing}
     >
       ${arguments_['slot="default"']}
@@ -145,9 +147,11 @@ export const HeaderActions: StoryObj = {
       <!-- Only "cs-modal-icon-button" components should be used with header-actions -->
       <cs-modal-icon-button slot="header-actions">
         <!-- editor pencil icon -->
+        <cs-example-icon name="pencil"></cs-example-icon>
       </cs-modal-icon-button>
       <cs-modal-icon-button slot="header-actions">
         <!-- general settings icon -->
+        <cs-example-icon name="settings"></cs-example-icon>
       </cs-modal-icon-button>
 
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
@@ -167,9 +171,11 @@ export const HeaderActionsWithBackButton: StoryObj = {
       <!-- Only "cs-modal-icon-button" components should be used with header-actions -->
       <cs-modal-icon-button slot="header-actions">
         <!-- editor pencil icon -->
+        <cs-example-icon name="pencil"></cs-example-icon>
       </cs-modal-icon-button>
       <cs-modal-icon-button slot="header-actions">
         <!-- general settings icon -->
+        <cs-example-icon name="settings"></cs-example-icon>
       </cs-modal-icon-button>
 
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
@@ -211,12 +217,12 @@ export const TertiaryIcon: StoryObj = {
           The "hoist" attribute here should not be needed for consumers in real applications. This is only applied
           to deal with the Storybook scaling mentioned above.
         -->
-        <cs-tooltip hoist>
-          <div slot="description">Information</div>
-
+        <cs-tooltip>
+          Information
           <!-- Use the "cs-modal-tertiary-icon" component for accessibility and styling -->
-          <cs-modal-tertiary-icon>
+          <cs-modal-tertiary-icon slot="target">
             <!-- general info icon -->
+            <cs-example-icon name="settings"></cs-example-icon>
           </cs-modal-tertiary-icon>
         </cs-tooltip>
       </span>

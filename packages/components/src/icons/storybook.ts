@@ -5,7 +5,7 @@ import { LitElement, css, html, svg } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('cs-example-icon')
-export default class CsCheckbox extends LitElement {
+export default class CsExampleIcon extends LitElement {
   static override styles = [
     css`
       .component {
