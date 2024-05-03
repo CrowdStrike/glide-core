@@ -173,9 +173,18 @@ export default class CsCheckbox extends LitElement {
           - Toggling checked using the spacebar.
           - ":checked" and ":indeterminate" pseudo classes, which browsers don't support
             on hosts even when a component is form-associated.
+
+          -
+
+          aria-invalid is set based on whether the validation feedback is displayed. This
+          is to handle an odd behavior with checkboxes where "Invalid Data" is announced
+          on required unchecked inputs. While this is technically correct, it's
+          inconsistent with how other form controls behave as their validity isn’t announced
+          on screen readers by default before validation.
         -->
         <input
           aria-describedby="summary-for-screenreaders description"
+          aria-invalid=${this.#isShowValidationFeedback}
           data-test="input"
           type="checkbox"
           ?checked=${this.checked}
