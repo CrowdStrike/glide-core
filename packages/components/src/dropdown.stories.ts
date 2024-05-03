@@ -20,6 +20,7 @@ const meta: Meta = {
   },
   args: {
     disabled: false,
+    hideLabel: false,
     label: 'Label',
     open: false,
     orientation: 'horizontal',
@@ -77,6 +78,13 @@ const meta: Meta = {
       type: { name: 'function' },
     },
     disabled: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    hideLabel: {
       control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
@@ -143,6 +151,13 @@ const meta: Meta = {
       },
       type: { name: 'function' },
     },
+    variant: {
+      control: { type: 'select' },
+      options: ['', 'quiet'],
+      table: {
+        type: { summary: '"quiet"' },
+      },
+    },
   },
   play(context) {
     const dropdown = context.canvasElement.querySelector('cs-dropdown');
@@ -170,6 +185,8 @@ const meta: Meta = {
         orientation=${arguments_.orientation || nothing}
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
+        variant=${arguments_.variant || nothing}
+        ?hide-label=${arguments_.hideLabel || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -202,6 +219,8 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
         orientation=${arguments_.orientation || nothing}
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
+        variant=${arguments_.variant || nothing}
+        ?hide-label=${arguments_.hideLabel || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -258,6 +277,8 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         orientation=${arguments_.orientation || nothing}
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
+        variant=${arguments_.variant || nothing}
+        ?hide-label=${arguments_.hideLabel || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}

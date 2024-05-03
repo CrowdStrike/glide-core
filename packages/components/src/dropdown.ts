@@ -39,6 +39,9 @@ export default class CsDropdown extends LitElement {
   @property({ reflect: true, type: Boolean })
   disabled = false;
 
+  @property({ attribute: 'hide-label', reflect: true, type: Boolean })
+  hideLabel = false;
+
   @property({ reflect: true })
   label?: string;
 
@@ -62,6 +65,9 @@ export default class CsDropdown extends LitElement {
 
   @property({ type: Array })
   value: string[] = [];
+
+  @property({ reflect: true })
+  variant?: 'quiet';
 
   @state()
   get validationMessage() {
@@ -201,6 +207,8 @@ export default class CsDropdown extends LitElement {
 
         <label
           class=${classMap({
+            hidden: this.hideLabel,
+            horizontal: this.orientation === 'horizontal',
             label: true,
             required: this.required,
           })}
@@ -223,6 +231,7 @@ export default class CsDropdown extends LitElement {
           aria-describedby="tooltip"
           class=${classMap({
             button: true,
+            quiet: this.variant === 'quiet',
             disabled: this.disabled,
             error: this.#isShowValidationFeedback,
           })}
