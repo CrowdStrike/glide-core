@@ -110,7 +110,7 @@ it('adds an error class and renders aria-invalid equal to true after `reportVali
   ).to.equal('true');
 });
 
-it('does not add an error class or renders aria-invalid equal to true by default', async () => {
+it('does not add an error class and renders aria-invalid equal to false by default', async () => {
   const component = await fixture<CsCheckbox>(
     html`<cs-checkbox required></cs-checkbox>`,
   );
@@ -125,7 +125,7 @@ it('does not add an error class or renders aria-invalid equal to true by default
   ).to.equal('false');
 });
 
-it('does not add an error class or renders aria-invalid equal to true after `reportValidity` is called when not required', async () => {
+it('does not add an error class and renders aria-invalid equal to false after `reportValidity` is called when not required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
