@@ -6,7 +6,7 @@ CsTag.shadowRootOptions.mode = 'open';
 
 it('dispatches a "remove" event when the icon button is clicked', async () => {
   const element = await fixture(
-    html`<cs-tag removableLabel="test-aria-label"
+    html`<cs-tag removable-label="test-aria-label"
       ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
     >`,
   );

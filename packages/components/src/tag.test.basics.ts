@@ -22,7 +22,7 @@ it('renders with default slot content', async () => {
   );
   expect(element).to.be.not.null;
 
-  const container = element.shadowRoot?.querySelector('div.tag');
+  const container = element.shadowRoot?.querySelector('.component');
   expect(container).to.be.not.null;
 
   const contentRendered = element.querySelector('[data-content]');
@@ -30,24 +30,24 @@ it('renders with default slot content', async () => {
   expect(contentRendered?.textContent).to.be.equal('Tag');
 });
 
-it('does not render an icon button when "removableLabel" attribute is not set', async () => {
+it('does not render an icon button when "removable-label" attribute is not set', async () => {
   const element = await fixture(
     html`<cs-tag><span data-content>Tag</span></cs-tag>`,
   );
-  expect(element).to.not.have.attribute('removableLabel');
+  expect(element).to.not.have.attribute('removable-label');
 
   const iconButton = element.shadowRoot?.querySelector('button');
   expect(iconButton).to.be.null;
 });
 
-it('renders an icon button with aria-label when "removableLabel" attribute is set', async () => {
+it('renders an icon button with aria-label when "removable-label" attribute is set', async () => {
   const element = await fixture(
-    html`<cs-tag removableLabel="test-aria-label"
+    html`<cs-tag removable-label="test-aria-label"
       ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
     >`,
   );
   expect(element).to.be.not.null;
-  expect(element).to.have.attribute('removableLabel', 'test-aria-label');
+  expect(element).to.have.attribute('removable-label', 'test-aria-label');
 
   const iconButton = element.shadowRoot?.querySelector('button');
   expect(iconButton).to.be.not.null;
@@ -74,11 +74,11 @@ it('renders the "prefix" slot and its content', async () => {
 
 it('renders correctly when the "size" attribute is set to "small"', async () => {
   const element = await fixture(
-    html`<cs-tag removableLabel="test-aria-label" size="small"
+    html`<cs-tag removable-label="test-aria-label" size="small"
       ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
     >`,
   );
-  const container = element.shadowRoot?.querySelector('div.tag');
+  const container = element.shadowRoot?.querySelector('.component');
   const iconButton = element.shadowRoot?.querySelector('button');
 
   expect(container).to.have.class('small');
@@ -87,11 +87,11 @@ it('renders correctly when the "size" attribute is set to "small"', async () => 
 
 it('renders correctly when the "size" attribute is set to "large"', async () => {
   const element = await fixture(
-    html`<cs-tag removableLabel="test-aria-label" size="large"
+    html`<cs-tag removable-label="test-aria-label" size="large"
       ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
     >`,
   );
-  const container = element.shadowRoot?.querySelector('div.tag');
+  const container = element.shadowRoot?.querySelector('.component');
   const iconButton = element.shadowRoot?.querySelector('button');
 
   expect(container).to.have.class('large');
@@ -127,7 +127,7 @@ it('throws an error when the prefix slot does not exist and a removable label is
 
   try {
     await fixture(
-      html`<cs-tag removableLabel="test-aria-label" size="large">Tag</cs-tag>`,
+      html`<cs-tag removable-label="test-aria-label" size="large">Tag</cs-tag>`,
     );
   } catch {
     spy();
@@ -141,7 +141,7 @@ it('does not throw an error when the prefix slot exists and a removable label is
 
   try {
     await fixture(
-      html`<cs-tag removableLabel="test-aria-label" size="large"
+      html`<cs-tag removable-label="test-aria-label" size="large"
         ><span slot="prefix">Prefix</span>Tag</cs-tag
       >`,
     );
@@ -154,11 +154,11 @@ it('does not throw an error when the prefix slot exists and a removable label is
 
 it('toggles the "activate" and "deactivate" clases when the button is clicked', async () => {
   const element = await fixture(
-    html`<cs-tag removableLabel="test-aria-label"
+    html`<cs-tag removable-label="test-aria-label"
       ><span slot="prefix">Prefix</span>Tag</cs-tag
     >`,
   );
-  const container = element.shadowRoot?.querySelector('div.tag');
+  const container = element.shadowRoot?.querySelector('.component');
   const iconButton = element.shadowRoot?.querySelector('button');
 
   expect(container).to.have.class('activate');
@@ -170,13 +170,13 @@ it('toggles the "activate" and "deactivate" clases when the button is clicked', 
 
 it('removes the tag from the DOM when the button is clicked', async () => {
   const element = await fixture(
-    html`<cs-tag removableLabel="test-aria-label"
+    html`<cs-tag removable-label="test-aria-label"
       ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
     >`,
   );
   const iconButton = element.shadowRoot?.querySelector('button');
 
-  expect(element.shadowRoot?.querySelector('div.tag')).to.be.not.null;
+  expect(element.shadowRoot?.querySelector('.component')).to.be.not.null;
   expect(document.querySelector('[data-content]')).to.be.not.null;
 
   iconButton?.click();

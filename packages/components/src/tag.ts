@@ -33,7 +33,7 @@ export default class CsTag extends LitElement {
   @property({ reflect: true })
   size: 'small' | 'medium' | 'large' = 'medium';
 
-  @property()
+  @property({ attribute: 'removable-label' })
   removableLabel? = '';
 
   override firstUpdated(): void {
@@ -45,7 +45,7 @@ export default class CsTag extends LitElement {
     return html`
       <div
         class=${classMap({
-          tag: true,
+          component: true,
           activate: true,
           [this.size]: true,
         })}

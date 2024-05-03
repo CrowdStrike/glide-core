@@ -14,7 +14,7 @@ const meta: Meta = {
   },
   render: (arguments_) => html`
     <cs-tag
-      removableLabel=${arguments_['removableLabel'] || nothing}
+      removable-label=${arguments_['removable-label'] || nothing}
       size=${arguments_['size']}
     >
       ${arguments_['slot="default"']}
@@ -22,7 +22,7 @@ const meta: Meta = {
   `,
   args: {
     'slot="default"': 'Tag',
-    removableLabel: '',
+    'removable-label': '',
     size: 'medium',
   },
   argTypes: {
@@ -55,7 +55,7 @@ const meta: Meta = {
         },
       },
     },
-    removableLabel: {
+    'removable-label': {
       control: { type: 'text' },
       table: {
         type: {

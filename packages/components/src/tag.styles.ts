@@ -3,7 +3,7 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    .tag {
+    .component {
       align-items: center;
       background: var(--cs-surface-base);
       border-radius: var(--cs-border-radius-round);
