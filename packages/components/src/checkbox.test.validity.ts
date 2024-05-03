@@ -40,8 +40,8 @@ it('is invalid but not aria-invalid if unchecked and required', async () => {
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
   expect(
-      component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-    ).to.equal('false');
+    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is invalid but not aria-invalid after being unchecked when required', async () => {
@@ -56,8 +56,8 @@ it('is invalid but not aria-invalid after being unchecked when required', async 
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
   expect(
-      component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-    ).to.equal('false');
+    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is both invalid and valid if unchecked and required but disabled', async () => {
@@ -106,8 +106,8 @@ it('adds an error class and renders aria-invalid equal to true after `reportVali
 
   expect(isErrorClass).to.be.true;
   expect(
-      component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-    ).to.equal('true');
+    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('does not add an error class or renders aria-invalid equal to true by default', async () => {

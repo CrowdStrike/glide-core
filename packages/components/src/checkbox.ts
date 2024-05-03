@@ -202,8 +202,8 @@ export default class CsCheckbox extends LitElement {
         >
           ${this.label}
           ${this.required
-          ? html`<span aria-hidden="true" class="required-symbol">*</span>`
-          : ''}
+            ? html`<span aria-hidden="true" class="required-symbol">*</span>`
+            : ''}
         </div>
 
         <div
