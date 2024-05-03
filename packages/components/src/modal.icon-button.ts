@@ -1,5 +1,7 @@
 import { LitElement, html } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { classMap } from 'lit-html/directives/class-map.js';
+import { customElement, property } from 'lit/decorators.js';
+import { when } from 'lit-html/directives/when.js';
 import styles from './modal.icon-button.styles.js';
 
 declare global {
@@ -23,7 +25,17 @@ declare global {
 export default class CsModalIconButton extends LitElement {
   static override styles = styles;
 
+  @property()
+  label? = '';
+
   override render() {
-    return html`<button type="button"><slot></slot></button>`;
+    return html`<button type="button">
+      ${when(
+        this.label,
+        () =>
+          html`<span class=${classMap({ label: true })}>${this.label}</span>`,
+      )}
+      <slot></slot>
+    </button>`;
   }
 }

@@ -1,5 +1,6 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
+import visuallyHidden from './styles/visually-hidden.js';
 
 // The styling for this component somewhat overlaps with our existing icon-button
 // component; however, there are a couple of different features that are specific
@@ -33,6 +34,10 @@ export default [
 
       &:focus-visible {
         ${focusOutline};
+      }
+
+      & .label {
+        ${visuallyHidden};
       }
 
       & ::slotted(svg) {

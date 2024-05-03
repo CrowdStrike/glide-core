@@ -2,6 +2,8 @@ import './modal.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import Modal from './modal.js';
 
+Modal.shadowRootOptions.mode = 'open';
+
 it('registers', async () => {
   expect(window.customElements.get('cs-modal')).to.equal(Modal);
 });
@@ -11,7 +13,7 @@ it('is closed by default', async () => {
     html`<cs-modal label="Modal title"></cs-modal>`,
   );
 
-  const dialog = element.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
+  const dialog = element.shadowRoot?.querySelector<HTMLDialogElement>('dialog');
 
   expect(dialog).to.be.ok;
   expect(dialog?.hasAttribute('open')).to.be.false;
@@ -24,7 +26,7 @@ it('renders the provided "label"', async () => {
 
   element.showModal();
 
-  const label = element.shadowRoot!.querySelector<HTMLHeadingElement>(
+  const label = element.shadowRoot?.querySelector<HTMLHeadingElement>(
     '[data-test="heading"]',
   );
 
@@ -40,7 +42,7 @@ it('does not render the show back button in the label by default', async () => {
   element.showModal();
 
   expect(
-    element.shadowRoot!.querySelector<HTMLButtonElement>(
+    element.shadowRoot?.querySelector<HTMLButtonElement>(
       '[data-test="back-button"]',
     ),
   ).to.be.null;
@@ -54,7 +56,7 @@ it('renders the show back button in the label when provided with "show-back-butt
   element.showModal();
 
   expect(
-    element.shadowRoot!.querySelector<HTMLButtonElement>(
+    element.shadowRoot?.querySelector<HTMLButtonElement>(
       '[data-test="back-button"]',
     ),
   ).to.be.ok;
@@ -87,8 +89,8 @@ it('renders the provided primary slot content', async () => {
     element.querySelector<HTMLButtonElement>('[data-primary]');
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element
-    .shadowRoot!.querySelector<HTMLSlotElement>('slot[name="primary"]')
+  const slotNodes = element.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="primary"]')
     ?.assignedNodes();
   expect(slotNodes?.length).to.equal(1);
   expect(slotNodes?.at(0)?.nodeName).to.equal('BUTTON');
@@ -108,8 +110,8 @@ it('renders the provided secondary slot content', async () => {
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element
-    .shadowRoot!.querySelector<HTMLSlotElement>('slot[name="secondary"]')
+  const slotNodes = element.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="secondary"]')
     ?.assignedNodes();
   expect(slotNodes?.length).to.equal(1);
   expect(slotNodes?.at(0)?.nodeName).to.equal('BUTTON');
@@ -129,8 +131,8 @@ it('renders the provided tertiary slot content', async () => {
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element
-    .shadowRoot!.querySelector<HTMLSlotElement>('slot[name="tertiary"]')
+  const slotNodes = element.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="tertiary"]')
     ?.assignedNodes();
   expect(slotNodes?.length).to.equal(1);
   expect(slotNodes?.at(0)?.nodeName).to.equal('BUTTON');
@@ -151,8 +153,8 @@ it('renders the provided header-actions slot content', async () => {
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element
-    .shadowRoot!.querySelector<HTMLSlotElement>('slot[name="header-actions"]')
+  const slotNodes = element.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="header-actions"]')
     ?.assignedNodes();
   expect(slotNodes?.length).to.equal(2);
   expect(slotNodes?.at(0)?.nodeName).to.equal('BUTTON');

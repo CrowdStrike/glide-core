@@ -3,6 +3,8 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Modal from './modal.js';
 
+Modal.shadowRootOptions.mode = 'open';
+
 const addSpy = sinon.spy(document.documentElement.classList, 'add');
 const removeSpy = sinon.spy(document.documentElement.classList, 'remove');
 

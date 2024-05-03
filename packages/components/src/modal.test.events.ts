@@ -3,6 +3,8 @@ import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Modal from './modal.js';
 
+Modal.shadowRootOptions.mode = 'open';
+
 it('dispatches a "close" event when the modal is closed via the "close" method', async () => {
   let hasCloseBeenCalled = false;
 

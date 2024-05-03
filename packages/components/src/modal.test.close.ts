@@ -2,6 +2,8 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Modal from './modal.js';
 
+Modal.shadowRootOptions.mode = 'open';
+
 it('closes the modal when the close button is clicked', async () => {
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title"></cs-modal>`,

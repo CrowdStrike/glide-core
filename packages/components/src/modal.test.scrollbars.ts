@@ -1,7 +1,9 @@
-import './modal.component.js';
+import './modal.js';
 import * as sinon from 'sinon';
 import { expect, fixture, html } from '@open-wc/testing';
 import Modal from './modal.js';
+
+Modal.shadowRootOptions.mode = 'open';
 
 const cssSupportsStub = sinon.stub(window.CSS, 'supports').returns(false);
 const setPropertySpy = sinon.spy(document.documentElement.style, 'setProperty');

@@ -1,6 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import Modal from './modal.js';
 
+Modal.shadowRootOptions.mode = 'open';
+
 it('is accessible', async () => {
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title"></cs-modal>`,

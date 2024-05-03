@@ -94,7 +94,7 @@ const meta: Meta = {
       control: { type: '' },
       table: {
         type: {
-          summary: 'function',
+          summary: 'method',
           detail: 'event: "close", listener: (event: Event) => void',
         },
       },
@@ -103,7 +103,7 @@ const meta: Meta = {
       control: { type: '' },
       table: {
         type: {
-          summary: 'function',
+          summary: 'method',
           detail: 'Opens the Modal.',
         },
       },
@@ -112,7 +112,7 @@ const meta: Meta = {
       control: { type: '' },
       table: {
         type: {
-          summary: 'function',
+          summary: 'method',
           detail: 'Closes the Modal.',
         },
       },
@@ -145,12 +145,10 @@ export const HeaderActions: StoryObj = {
       ${arguments_['slot="default"']}
 
       <!-- Only "cs-modal-icon-button" components should be used with header-actions -->
-      <cs-modal-icon-button slot="header-actions">
-        <!-- editor pencil icon -->
+      <cs-modal-icon-button slot="header-actions" label="Edit">
         <cs-example-icon name="pencil"></cs-example-icon>
       </cs-modal-icon-button>
-      <cs-modal-icon-button slot="header-actions">
-        <!-- general settings icon -->
+      <cs-modal-icon-button slot="header-actions" label="Settings">
         <cs-example-icon name="settings"></cs-example-icon>
       </cs-modal-icon-button>
 
@@ -170,12 +168,10 @@ export const HeaderActionsWithBackButton: StoryObj = {
 
       <!-- Only "cs-modal-icon-button" components should be used with header-actions -->
       <cs-modal-icon-button slot="header-actions">
-        <!-- editor pencil icon -->
-        <cs-example-icon name="pencil"></cs-example-icon>
+        <cs-example-icon name="pencil" label="Edit"></cs-example-icon>
       </cs-modal-icon-button>
       <cs-modal-icon-button slot="header-actions">
-        <!-- general settings icon -->
-        <cs-example-icon name="settings"></cs-example-icon>
+        <cs-example-icon name="settings" label="Settings"></cs-example-icon>
       </cs-modal-icon-button>
 
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
@@ -191,9 +187,7 @@ export const TertiaryButton: StoryObj = {
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
-
       <cs-button slot="tertiary" variant="secondary">Tertiary</cs-button>
-
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
@@ -213,16 +207,13 @@ export const TertiaryIcon: StoryObj = {
           The rendering of the tooltip placement is incorrect in this story due to the way Storybook scales the
           content inside of the doc block. To view the correct placement of the tooltip, we recommend navigating to
           the individual story instead.
-
-          The "hoist" attribute here should not be needed for consumers in real applications. This is only applied
-          to deal with the Storybook scaling mentioned above.
         -->
-        <cs-tooltip>
+        <cs-tooltip placement="right">
           Information
           <!-- Use the "cs-modal-tertiary-icon" component for accessibility and styling -->
           <cs-modal-tertiary-icon slot="target">
-            <!-- general info icon -->
-            <cs-example-icon name="settings"></cs-example-icon>
+            <!-- should this have a label, or can we expect an announcement by tooltip? -->
+            <cs-example-icon name="info"></cs-example-icon>
           </cs-modal-tertiary-icon>
         </cs-tooltip>
       </span>
