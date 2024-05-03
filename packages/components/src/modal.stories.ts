@@ -75,7 +75,7 @@ const meta: Meta = {
     'show-back-button': {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: {
           detail:
             'Adds a button in the Modal header that will close the dialog upon clicking it.',
@@ -91,7 +91,7 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'addEventListener(event, listener)': {
-      control: { type: '' },
+      type: 'function',
       table: {
         type: {
           summary: 'method',
@@ -100,7 +100,7 @@ const meta: Meta = {
       },
     },
     'showModal()': {
-      control: { type: '' },
+      type: 'function',
       table: {
         type: {
           summary: 'method',
@@ -109,7 +109,7 @@ const meta: Meta = {
       },
     },
     'close()': {
-      control: { type: '' },
+      type: 'function',
       table: {
         type: {
           summary: 'method',
