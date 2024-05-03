@@ -1,7 +1,6 @@
-import './tree-item.js';
 import { LitElement, html } from 'lit';
 import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
-import CsTreeItem from './tree-item.js';
+import CsTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
 
 declare global {
