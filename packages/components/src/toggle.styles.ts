@@ -5,42 +5,14 @@ import visuallyHidden from './styles/visually-hidden.js';
 export default [
   css`
     /*
-  Most states are handled on the host. But ":checked" and ":indeterminate" are
-  handled on the input because browsers don't support those classes on the host.
-  And using attribute selectors won't work because those attributes, same as
-  native, don't change when their properties do.
+      Most states are handled on the host. But ":checked" is handled on the input
+      because browsers don't support that class on the host. And using attribute
+      selectors won't work because those attributes, same as native, don't change
+      when their properties do.
 
-  TODO
-  Use the ":checked" and ":indeterminate" pseudo classes on the host and throughout
-  when browsers support them.
-*/
-
-    :host(:not(:disabled)) .component {
-      &.error {
-        .checkbox {
-          border-color: var(--cs-status-error);
-        }
-
-        .summary {
-          color: var(--cs-status-error);
-        }
-
-        .description {
-          color: var(--cs-status-error);
-        }
-      }
-    }
-
-    :host(:not(:disabled)) .checkbox:hover {
-      box-shadow: var(--cs-glow-sm);
-    }
-
-    :host([required]) .label-text::after {
-      color: var(--cs-status-error);
-
-      /* Lest the minifier have its way with the whitespace in the markup. */
-      content: ' *';
-    }
+      TODO
+      Use the ":checked" pseudo class on the host and throughout when browsers support it.
+    */
 
     :host([orientation='horizontal']) .component {
       align-items: center;
@@ -88,7 +60,7 @@ export default [
       }
     }
 
-    :host([orientation='vertical']) .checkbox-and-summary {
+    :host([orientation='vertical']) .toggle-and-summary {
       margin-block-start: var(--cs-spacing-xxs);
 
       &.tooltip {
@@ -109,28 +81,42 @@ export default [
       --max-width: 22rem;
     }
 
-    .checkbox-and-summary {
+    .toggle-and-summary {
       align-items: center;
       display: flex;
       gap: var(--cs-spacing-sm);
       max-inline-size: var(--max-width);
     }
 
-    .checkbox {
+    .toggle {
+      --inline-size: 1.5rem;
+
       align-items: center;
+      background-color: var(--cs-surface-selected-disabled);
       block-size: 0.875rem;
-      border: 1px solid var(--cs-border-base-dark);
-      border-radius: 0.25rem;
-      box-sizing: border-box;
-      color: var(--cs-icon-selected);
+      border: 1px solid transparent;
+      border-radius: var(--cs-spacing-sm);
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
-      inline-size: 0.875rem;
+      inline-size: var(--inline-size);
       justify-content: center;
-    }
+      position: relative;
 
-    .checked-icon {
-      display: none;
+      &::before {
+        background: var(--cs-surface-base-lighter);
+        block-size: 0.875rem;
+        border-radius: 50%;
+        box-shadow:
+          0 3px 1px 0 rgb(0 0 0 / 6%),
+          0 3px 8px 0 rgb(0 0 0 / 15%);
+        content: '';
+        display: block;
+        inline-size: 0.875rem;
+        inset-inline-end: 0;
+        position: absolute;
+        transform: translateX(calc(var(--inline-size) * -1 + 100%));
+        transition: 150ms transform;
+      }
     }
 
     .description {
@@ -145,13 +131,13 @@ export default [
       max-inline-size: var(--max-width);
     }
 
-    .label-and-checkbox-and-summary {
+    .label-and-toggle-and-summary {
       display: contents;
 
       /*
-    We don't want a succession of clicks to select the label's text. That's
-    probably not what the user expects.
-  */
+        We don't want a succession of clicks to select the label's text. That's
+        probably not what the user expects.
+      */
       user-select: none;
     }
 
@@ -171,10 +157,10 @@ export default [
       border-radius: 50%;
 
       /*
-    Any "display" that's not inline-level will do. We don't want the button to
-    acquire a line box, which will make it taller than its content and thus
-    make it difficult to center vertically with the label.
-  */
+        Any "display" that's not inline-level will do. We don't want the button to
+        acquire a line box, which will make it taller than its content and thus
+        make it difficult to center vertically with the label.
+      */
       display: flex;
       outline-offset: 1px;
       padding: 0;
@@ -188,10 +174,6 @@ export default [
       font-variant: var(--cs-heading-xxxs-font-variant);
       font-weight: var(--cs-heading-xxxs-font-weight);
       line-height: 100%;
-    }
-
-    .indeterminate-icon {
-      display: none;
     }
 
     .summary {
@@ -209,37 +191,28 @@ export default [
     input {
       ${visuallyHidden};
 
-      &:checked:not(:indeterminate) ~ .checkbox-and-summary .checked-icon {
-        display: contents;
-      }
-
-      &:disabled:not(:is(:checked, :indeterminate))
-        ~ .checkbox-and-summary
-        .checkbox {
-        border-color: var(--cs-surface-primary-disabled);
-      }
-
-      &:focus-visible ~ .checkbox-and-summary .checkbox {
+      &:focus-visible ~ .toggle-and-summary .toggle {
         ${focusOutline};
         outline-offset: 4px;
       }
 
-      &:indeterminate ~ .checkbox-and-summary .indeterminate-icon {
-        display: inline-block;
+      &:checked {
+        &:not(:disabled) ~ .toggle-and-summary .toggle {
+          background-color: var(--cs-surface-primary);
+          border-color: transparent;
+        }
+
+        & ~ .toggle-and-summary .toggle::before {
+          transform: translateX(0);
+        }
       }
 
-      &:is(:checked, :indeterminate):not(:disabled)
-        ~ .checkbox-and-summary
-        .checkbox {
-        background-color: var(--cs-surface-primary);
-        border-color: transparent;
-      }
+      &:disabled ~ .toggle-and-summary .toggle {
+        background-color: var(--cs-surface-disabled);
 
-      &:is(:checked, :indeterminate):disabled
-        ~ .checkbox-and-summary
-        .checkbox {
-        background-color: var(--cs-surface-primary-disabled);
-        border-color: transparent;
+        &::before {
+          box-shadow: none;
+        }
       }
     }
   `,

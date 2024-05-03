@@ -71,25 +71,24 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'open()': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
           detail: 'Opens the Drawer.',
         },
       },
+      type: { name: 'function' },
     },
     'close()': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
           detail: 'Closes the Drawer.',
         },
       },
+      type: { name: 'function' },
     },
     'addEventListener(event, listener)': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -97,15 +96,16 @@ const meta: Meta = {
             '(event: "open" | "close", listener: (event: Event) => void) => void',
         },
       },
+      type: { name: 'function' },
     },
     '--cs-drawer-width': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'CSS custom property',
           detail: 'Sets the width of the Drawer.',
         },
       },
+      type: { name: 'function' },
     },
   },
 };

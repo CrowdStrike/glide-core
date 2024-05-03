@@ -36,19 +36,9 @@ await esbuild.build({
             },
           });
 
-          // `null` happens when there's no HTML as with `styles.ts`.
-          if (result === null) {
-            return {
-              contents: file,
-              loader: 'ts',
-            };
-          }
-
           return {
-            contents: result.code
-              .replaceAll('./library/ow.js', './library/ow.shim.js')
-              // eslint-disable-next-line unicorn/prefer-spread
-              .concat(`\n//# sourceMappingURL=${result.map?.toUrl()}`),
+            // `null` happens when there's no HTML as with `styles.ts`.
+            contents: result === null ? file : result.code,
             loader: 'ts',
           };
         });

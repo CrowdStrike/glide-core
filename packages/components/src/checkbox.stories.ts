@@ -9,7 +9,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'A checkbox with a label and optional tooltip, summary, and description. \n\n Participates in forms and validation via `FormData` and various methods.',
+          'A checkbox with a label and optional tooltip, summary, and description. Participates in forms and validation via `FormData` and various methods.',
       },
       story: {
         autoplay: true,
@@ -18,7 +18,6 @@ const meta: Meta = {
   },
   args: {
     ['slot="description"']: 'Description',
-    ['slot="tooltip"']: '',
     checked: false,
     disabled: false,
     indeterminate: false,
@@ -27,21 +26,20 @@ const meta: Meta = {
     orientation: 'horizontal',
     summary: 'Summary',
     required: false,
-    value: 'Value',
+    value: 'value',
   },
   argTypes: {
     'addEventListener(event, listener)': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input",  listener: (event: Event) => void) => void',
+            '(event: "change" | "input",  listener: (event: Event) => void) => void\n\n // Dispatched when checked or unchecked.',
         },
       },
+      type: { name: 'function' },
     },
     'checkValidity()': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -49,9 +47,9 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
         },
       },
+      type: { name: 'function' },
     },
     'reportValidity()': {
-      control: { type: '' },
       table: {
         type: {
           summary: 'method',
@@ -59,25 +57,26 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
         },
       },
+      type: { name: 'function' },
     },
     checked: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     disabled: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     indeterminate: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: {
           detail:
             'Unlike with `<select>`, `indeterminate` is both a property and an attribute. It behaves like `checked` and remains at its initial value unless changed using `setAttribute`.',
@@ -110,7 +109,7 @@ const meta: Meta = {
     required: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
@@ -144,7 +143,7 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    return html`<form style="padding: 1rem;">
+    return html`<form style="padding: 1.5rem;">
       <cs-checkbox
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
