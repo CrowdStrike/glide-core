@@ -159,6 +159,7 @@ export default class CsAccordion extends LitElement {
 
         this.dispatchEvent(
           new CustomEvent('toggle', {
+            bubbles: true,
             detail: {
               newState: 'open',
               oldState: 'closed',
@@ -191,6 +192,7 @@ export default class CsAccordion extends LitElement {
 
           this.dispatchEvent(
             new CustomEvent('toggle', {
+              bubbles: true,
               detail: {
                 newState: 'closed',
                 oldState: 'open',
