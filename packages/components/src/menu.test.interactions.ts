@@ -6,7 +6,7 @@ import type CsMenu from './menu.js';
 
 it('opens when clicked', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -18,7 +18,7 @@ it('opens when clicked', async () => {
 
 it('opens on Enter', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -32,7 +32,7 @@ it('opens on Enter', async () => {
 
 it('opens on ArrowUp', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -46,7 +46,7 @@ it('opens on ArrowUp', async () => {
 
 it('opens on ArrowDown', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -60,7 +60,7 @@ it('opens on ArrowDown', async () => {
 
 it('opens on Space', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -77,7 +77,7 @@ it('opens when opened programmatically via the click handler of another element'
   const div = document.createElement('div');
 
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -94,7 +94,7 @@ it('opens when opened programmatically via the click handler of another element'
 
 it('closes when clicked', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu" open>
+    html`<cs-menu open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -106,7 +106,7 @@ it('closes when clicked', async () => {
 
 it('closes when something outside of it is clicked', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -119,7 +119,7 @@ it('closes when something outside of it is clicked', async () => {
 
 it('closes on Escape when the button has focus', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu" open>
+    html`<cs-menu open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -133,7 +133,7 @@ it('closes on Escape when the button has focus', async () => {
 
 it('closes on Escape when an option has focus', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -150,7 +150,7 @@ it('closes on Escape when an option has focus', async () => {
 
 it('closes when an option is selected via click', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -165,7 +165,7 @@ it('closes when an option is selected via click', async () => {
 
 it('closes when an option is selected via Enter', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -182,7 +182,7 @@ it('closes when an option is selected via Enter', async () => {
 
 it('closes when an option is selected via Space', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -199,7 +199,7 @@ it('closes when an option is selected via Space', async () => {
 
 it('activates an option on "mouseover"', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu" open>
+    <cs-menu open>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -215,7 +215,7 @@ it('activates an option on "mouseover"', async () => {
 
 it('activates a menu button option on "mouseover"', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu" open>
+    <cs-menu open>
       <button slot="target">Target</button>
       <cs-menu-button label="One"></cs-menu-button>
       <cs-menu-button label="Two"></cs-menu-button>
@@ -231,7 +231,7 @@ it('activates a menu button option on "mouseover"', async () => {
 
 it('activates the first option by default', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu" open>
+    <cs-menu open>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -246,7 +246,7 @@ it('activates the first option by default', async () => {
 
 it('activates the first menu-button option by default', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu" open>
+    <cs-menu open>
       <button slot="target">Target</button>
       <cs-menu-button label="One"></cs-menu-button>
       <cs-menu-button label="Two"></cs-menu-button>
@@ -261,7 +261,7 @@ it('activates the first menu-button option by default', async () => {
 
 it('activates the next option on ArrowDown', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -283,7 +283,7 @@ it('activates the next option on ArrowDown', async () => {
 
 it('activates the previous option on ArrowUp', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -303,7 +303,7 @@ it('activates the previous option on ArrowUp', async () => {
 
 it('activates the first option on Home', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -323,7 +323,7 @@ it('activates the first option on Home', async () => {
 
 it('activates the first option on PageUp', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -343,7 +343,7 @@ it('activates the first option on PageUp', async () => {
 
 it('activates the first option on ArrowUp + Meta', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -365,7 +365,7 @@ it('activates the first option on ArrowUp + Meta', async () => {
 
 it('activates the last option on End', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -385,7 +385,7 @@ it('activates the last option on End', async () => {
 
 it('activates the last option on PageDown', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -405,7 +405,7 @@ it('activates the last option on PageDown', async () => {
 
 it('activates the last option on Meta + ArrowDown', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -427,7 +427,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
 
 it('sets `aria-expanded` on open', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -441,7 +441,7 @@ it('sets `aria-expanded` on open', async () => {
 
 it('sets `aria-expanded` on close', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu" open>
+    html`<cs-menu open>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -456,7 +456,7 @@ it('sets `aria-expanded` on close', async () => {
 
 it('does not wrap on ArrowUp', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
@@ -471,7 +471,7 @@ it('does not wrap on ArrowUp', async () => {
 
 it('does not wrap on ArrowDown', async () => {
   const menu = await fixture<CsMenu>(html`
-    <cs-menu label="Menu">
+    <cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="One"></cs-menu-link>
       <cs-menu-link label="Two"></cs-menu-link>
