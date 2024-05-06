@@ -73,7 +73,8 @@ export default class CsTreeItem extends LitElement {
     return html`<div
       class=${classMap({
         component: true,
-        'component-expanded': this.expanded,
+        expanded: this.expanded,
+        selected: this.selected,
       })}
       role="treeitem"
       aria-label=${this.label}
@@ -83,7 +84,6 @@ export default class CsTreeItem extends LitElement {
       <div
         class=${classMap({
           'label-container': true,
-          selected: this.selected,
         })}
         tabindex="-1"
         ${ref(this.#labelContainerElementRef)}

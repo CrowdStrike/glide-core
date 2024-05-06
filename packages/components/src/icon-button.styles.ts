@@ -41,7 +41,7 @@ export default [
       &.primary {
         background-color: var(--cs-surface-primary);
         border-color: transparent;
-        color: var(--cs-icon-selected);
+        color: var(--icon-color, var(--cs-icon-selected));
 
         &:disabled {
           background-color: var(--cs-surface-base-gray-light);
@@ -66,7 +66,7 @@ export default [
       &.secondary {
         background-color: var(--cs-surface-page);
         border-color: var(--cs-border-primary);
-        color: var(--cs-icon-primary);
+        color: var(--icon-color, var(--cs-icon-primary));
 
         &:disabled {
           background-color: transparent;
@@ -91,7 +91,7 @@ export default [
       &.tertiary {
         background-color: transparent;
         border-color: transparent;
-        color: var(--cs-icon-default);
+        color: var(--icon-color, var(--cs-icon-default));
 
         &:disabled {
           color: var(--cs-icon-tertiary-disabled);
