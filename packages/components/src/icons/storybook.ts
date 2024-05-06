@@ -9,9 +9,9 @@ export default class CsExampleIcon extends LitElement {
   static override styles = [
     css`
       .component {
-        block-size: var(--size, 16);
+        block-size: var(--size, 16px);
         display: flex;
-        inline-size: var(--size, 16);
+        inline-size: var(--size, 16px);
       }
     `,
   ];
