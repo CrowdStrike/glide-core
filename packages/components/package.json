@@ -98,7 +98,11 @@
     "./menu.link.js": {
       "import": "./dist/menu.link.js",
       "types": "./dist/menu.link.d.ts"
-    },
+    },    
+    "./tag.js": {
+      "import": "./dist/tag.js",
+      "types": "./dist/tag.d.ts"  
+    },    
     "./tab.js": {
       "import": "./dist/tab.js",
       "types": "./dist/tab.d.ts"
