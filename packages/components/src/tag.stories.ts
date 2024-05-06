@@ -93,7 +93,7 @@ export const DefaultWithPrefixIcon: StoryObj = {
   render: (arguments_) => html`
     <cs-tag>
       <span slot="prefix">
-        <cs-example-icon name="dragDots"></cs-example-icon>
+        <cs-example-icon name="drag-dots"></cs-example-icon>
       </span>
       ${arguments_['slot="default"']}</cs-tag
     >
@@ -112,7 +112,7 @@ export const RemovableWithIcon: StoryObj = {
   render: (arguments_) => html`
     <cs-tag removableLabel="Tag">
       <span slot="prefix">
-        <cs-example-icon name="dragDots"></cs-example-icon>
+        <cs-example-icon name="drag-dots"></cs-example-icon>
       </span>
       ${arguments_['slot="default"']}</cs-tag
     >
