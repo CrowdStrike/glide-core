@@ -41,7 +41,7 @@ export default class CsTree extends LitElement {
 
   override render() {
     return html`<div
-      class="tree"
+      class="component"
       role="tree"
       tabindex=${this.privateTabIndex}
       @click=${this.#handleClick}

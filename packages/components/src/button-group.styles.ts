@@ -3,7 +3,7 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
-    ul {
+    .radio-group {
       appearance: none;
       border: 1px solid var(--cs-border-base);
       border-radius: 0.75rem;
@@ -16,7 +16,7 @@ export default [
       }
     }
 
-    div.label {
+    .label {
       ${visuallyHidden};
     }
   `,

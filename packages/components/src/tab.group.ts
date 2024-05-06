@@ -62,7 +62,7 @@ export default class CsTabGroup extends LitElement {
   override render() {
     return html`<div
       class=${classMap({
-        wrapper: true,
+        component: true,
         vertical: this.variant === 'vertical',
       })}
       @click=${this.#onClick}

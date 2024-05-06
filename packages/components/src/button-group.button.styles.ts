@@ -4,7 +4,7 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
-    li {
+    .component {
       align-items: center;
       appearance: none;
       border: none;
