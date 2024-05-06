@@ -6,6 +6,7 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import Button from './button.js';
 
 Button.shadowRootOptions.mode = 'open';
@@ -259,6 +260,22 @@ it('dispatches an event when clicked and type="button"', async () => {
   expect(event instanceof Event).to.be.true;
 });
 
+it('dispatches an event when hitting "enter" and type="button"', async () => {
+  const component = await fixture<HTMLFormElement>(html`
+    <cs-button type="button"> Button </cs-button>
+  `);
+
+  const keyDownEvent = oneEvent(component, 'keydown');
+
+  component.focus();
+  await sendKeys({ press: 'Enter' });
+
+  const event = await keyDownEvent;
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.key).to.equal('Enter');
+});
+
 it('participates in a form when type="reset"', async () => {
   const form = document.createElement('form');
 
@@ -272,6 +289,24 @@ it('participates in a form when type="reset"', async () => {
   const formResetEvent = oneEvent(form, 'reset');
 
   component.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
+
+  const event = await formResetEvent;
+  expect(event instanceof Event).to.be.true;
+});
+
+it('participates in a form when hitting "enter" and type="reset"', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<HTMLFormElement>(
+    html` <cs-button type="reset"> Button </cs-button> `,
+    {
+      parentNode: form,
+    },
+  );
+
+  const formResetEvent = oneEvent(form, 'reset');
+  component.focus();
+  await sendKeys({ press: 'Enter' });
 
   const event = await formResetEvent;
   expect(event instanceof Event).to.be.true;
@@ -291,6 +326,26 @@ it('participates in a form when type="submit"', async () => {
 
   const formSubmitEvent = oneEvent(form, 'submit');
   component.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
+
+  const event = await formSubmitEvent;
+  expect(event instanceof Event).to.be.true;
+});
+
+it('participates in a form when hitting "enter" and type="submit"', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<HTMLFormElement>(
+    html` <cs-button type="submit"> Button </cs-button> `,
+    {
+      parentNode: form,
+    },
+  );
+
+  form.addEventListener('submit', (event) => event.preventDefault());
+
+  const formSubmitEvent = oneEvent(form, 'submit');
+  component.focus();
+  await sendKeys({ press: 'Enter' });
 
   const event = await formSubmitEvent;
   expect(event instanceof Event).to.be.true;

@@ -62,6 +62,7 @@ export default class CsButton extends LitElement {
       type=${this.type}
       ?disabled=${this.disabled}
       @click=${this.#handleClick}
+      @keydown=${this.#onKeydown}
     >
       <slot
         name="prefix"
@@ -107,6 +108,14 @@ export default class CsButton extends LitElement {
     if (this.type === 'reset') {
       this.form?.reset();
       return;
+    }
+  }
+
+  #onKeydown(event: KeyboardEvent) {
+    if (['Enter'].includes(event.key)) {
+      event.preventDefault();
+
+      this.#handleClick();
     }
   }
 
