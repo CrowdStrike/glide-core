@@ -5,13 +5,6 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Status Indicator',
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: 'A visual component to accompany status information.',
-      },
-    },
-  },
   render: (arguments_) => html`
     <cs-status-indicator variant=${arguments_.variant}></cs-status-indicator>
   `,

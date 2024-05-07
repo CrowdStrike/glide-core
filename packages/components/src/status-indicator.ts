@@ -11,8 +11,6 @@ declare global {
 
 /**
  * @cssprop [--size] - Sets the size of the icon.
- *
- * @description A visual component to accompany status information.
  */
 @customElement('cs-status-indicator')
 export default class CsStatusIndicator extends LitElement {
