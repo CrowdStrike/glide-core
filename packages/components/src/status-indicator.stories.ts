@@ -45,7 +45,7 @@ const meta: Meta = {
         },
       },
     },
-    '--cs-status-indicator-size': {
+    '--size': {
       table: {
         type: {
           summary: 'CSS custom property',
@@ -134,7 +134,7 @@ export const WarningZero: StoryObj = {
 export const CustomSize: StoryObj = {
   render: (arguments_) => html`
     <cs-status-indicator
-      style="--cs-status-indicator-size: 2rem;"
+      style="--size: 2rem;"
       variant=${arguments_.variant}
     ></cs-status-indicator>
   `,

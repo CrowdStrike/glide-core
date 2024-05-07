@@ -129,3 +129,14 @@ it('renders an warning-zero variant', async () => {
   expect(component.getAttribute('variant')).to.equal('warning-zero');
   expect(component.variant).to.equal('warning-zero');
 });
+
+it('sets the size of the element based on the "--size" CSS variable', async () => {
+  const component = await fixture<CsStatusIndicator>(
+    html`<cs-status-indicator style="--size: 750px"></cs-status-indicator>`,
+  );
+
+  expect(component.shadowRoot?.querySelector('svg')?.clientHeight).to.equal(
+    750,
+  );
+  expect(component.shadowRoot?.querySelector('svg')?.clientWidth).to.equal(750);
+});

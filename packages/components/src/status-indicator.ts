@@ -10,7 +10,7 @@ declare global {
 }
 
 /**
- * @cssprop [--cs-status-indicator-size] - Sets the size of the icon.
+ * @cssprop [--size] - Sets the size of the icon.
  *
  * @description A visual component to accompany status information.
  */

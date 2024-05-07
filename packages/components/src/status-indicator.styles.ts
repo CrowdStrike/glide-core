@@ -6,8 +6,8 @@ export default [
     }
 
     .component {
-      block-size: var(--cs-status-indicator-size, 1rem);
-      inline-size: var(--cs-status-indicator-size, 1rem);
+      block-size: var(--size, 1rem);
+      inline-size: var(--size, 1rem);
     }
 
     .failed {
