@@ -33,7 +33,7 @@ export default class CsAccordion extends LitElement {
     return html` <details
       class="component"
       ?open=${this.open}
-      ${ref(this.#detailsRef)}
+      ${ref(this.#detailsElementRef)}
     >
       <summary
         class="summary"
@@ -68,7 +68,7 @@ export default class CsAccordion extends LitElement {
             <slot
               name="prefix"
               @slotchange=${this.#onPrefixSlotChange}
-              ${ref(this.#prefixSlotRef)}
+              ${ref(this.#prefixSlotElementRef)}
             ></slot>
           </div>
 
@@ -85,7 +85,7 @@ export default class CsAccordion extends LitElement {
           <slot
             name="suffix"
             @slotchange=${this.#onSuffixSlotChange}
-            ${ref(this.#suffixSlotRef)}
+            ${ref(this.#suffixSlotElementRef)}
           ></slot>
         </div>
       </summary>
@@ -99,7 +99,7 @@ export default class CsAccordion extends LitElement {
         data-test="content"
         tabindex="0"
         role="region"
-        ${ref(this.#contentRef)}
+        ${ref(this.#contentElementRef)}
       >
         <slot></slot>
       </div>
@@ -112,29 +112,29 @@ export default class CsAccordion extends LitElement {
   @state()
   private hasSuffixSlot = false;
 
-  #contentRef = createRef<HTMLDivElement>();
+  #contentElementRef = createRef<HTMLDivElement>();
 
-  #detailsRef = createRef<HTMLDetailsElement>();
+  #detailsElementRef = createRef<HTMLDetailsElement>();
 
-  #prefixSlotRef = createRef<HTMLSlotElement>();
+  #prefixSlotElementRef = createRef<HTMLSlotElement>();
 
-  #suffixSlotRef = createRef<HTMLSlotElement>();
+  #suffixSlotElementRef = createRef<HTMLSlotElement>();
 
   #onPrefixSlotChange() {
-    const assignedNodes = this.#prefixSlotRef.value?.assignedNodes();
+    const assignedNodes = this.#prefixSlotElementRef.value?.assignedNodes();
     this.hasPrefixSlot =
       assignedNodes && assignedNodes.length > 0 ? true : false;
   }
 
   #onSuffixSlotChange() {
-    const assignedNodes = this.#suffixSlotRef.value?.assignedNodes();
+    const assignedNodes = this.#suffixSlotElementRef.value?.assignedNodes();
     this.hasSuffixSlot =
       assignedNodes && assignedNodes.length > 0 ? true : false;
   }
 
   #onSummaryClick(event: MouseEvent) {
-    const details = this.#detailsRef.value!;
-    const content = this.#contentRef.value!;
+    const details = this.#detailsElementRef.value!;
+    const content = this.#contentElementRef.value!;
 
     const isOpening = !details.open;
 

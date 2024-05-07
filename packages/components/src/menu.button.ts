@@ -36,7 +36,7 @@ export default class CsMenuButton extends LitElement {
   // called. And we only want a focus outline when the `this.focus` is called
   // as a result of keyboard interaction.
   override focus() {
-    this.#componentElement.value?.focus();
+    this.#componentElementRef.value?.focus();
   }
 
   override render() {
@@ -53,12 +53,12 @@ export default class CsMenuButton extends LitElement {
       role="menuitem"
       tabindex=${this.privateActive ? '0' : '-1'}
       type="button"
-      ${ref(this.#componentElement)}
+      ${ref(this.#componentElementRef)}
     >
       <slot name="icon"></slot>
       ${this.label}
     </button>`;
   }
 
-  #componentElement = createRef<HTMLElement>();
+  #componentElementRef = createRef<HTMLElement>();
 }

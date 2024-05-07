@@ -12,7 +12,7 @@ declare global {
   }
 }
 /**
- * @description A button for use with `<cs-button-group>` with label and optional icon. 
+ * @description A button for use with `<cs-button-group>` with label and optional icon.
  *
  * @event change - Dispatched when clicked or selected by key press.
  * @event input - Dispatched when clicked or selected by key press.
@@ -92,18 +92,18 @@ export default class CsButtonGroupButton extends LitElement {
   override firstUpdated(): void {
     // Always want a text label and log an error when it isn't present.
     // When the variant is 'icon-only' set the label as visually hidden
-    owSlot(this.#defaultSlotRef.value);
-    owSlotType(this.#defaultSlotRef.value, [Text]);
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [Text]);
 
     if (this.selected) {
       this.isTabbable = true;
     }
 
-    this.variant === 'icon-only' && owSlot(this.#prefixSlotRef.value);
+    this.variant === 'icon-only' && owSlot(this.#prefixSlotElementRef.value);
   }
 
   override focus(options?: FocusOptions) {
-    this.#liRef.value?.focus(options);
+    this.#liElementRef.value?.focus(options);
   }
 
   override render() {
@@ -114,8 +114,9 @@ export default class CsButtonGroupButton extends LitElement {
       tabindex=${!this.isTabbable || this.disabled ? -1 : 0}
       @click=${this.#onClick}
       @keydown=${this.#onKeydown}
-      ${ref(this.#liRef)}
+      ${ref(this.#liElementRef)}
       class=${classMap({
+        component: true,
         selected: this.selected,
         disabled: Boolean(this.disabled),
         [this.position]: true,
@@ -124,8 +125,8 @@ export default class CsButtonGroupButton extends LitElement {
         'icon-only': this.variant === 'icon-only',
       })}
     >
-      <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
-      <!-- 
+      <slot name="prefix" ${ref(this.#prefixSlotElementRef)}></slot>
+      <!--
         Wrap the default slot in a span and apply class 'visually-hidden' when
         variant is 'icon-only' (we can't apply styling to text nodes)
        -->
@@ -134,7 +135,7 @@ export default class CsButtonGroupButton extends LitElement {
           'visually-hidden': this.variant === 'icon-only',
         })}"
       >
-        <slot ${ref(this.#defaultSlotRef)}></slot>
+        <slot ${ref(this.#defaultSlotElementRef)}></slot>
       </span>
     </li>`;
   }
@@ -167,11 +168,11 @@ export default class CsButtonGroupButton extends LitElement {
   @state()
   private position: 'first' | 'last' | 'inner' = 'inner';
 
-  #defaultSlotRef = createRef<HTMLSlotElement>();
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #liRef = createRef<HTMLLIElement>();
+  #liElementRef = createRef<HTMLLIElement>();
 
-  #prefixSlotRef = createRef<HTMLSlotElement>();
+  #prefixSlotElementRef = createRef<HTMLSlotElement>();
 
   get #buttonElements() {
     const elements =

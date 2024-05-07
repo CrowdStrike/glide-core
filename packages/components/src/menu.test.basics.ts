@@ -15,14 +15,11 @@ it('has defaults', async () => {
   // idea is that this test shouldn't fail to typecheck if these templates are
   // eventually typechecked, which means supplying all required attributes and slots.
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
   );
-
-  expect(menu.getAttribute('label')).to.equal('Menu');
-  expect(menu.label).to.equal('Menu');
 
   expect(menu.getAttribute('size')).to.equal('large');
   expect(menu.size).to.equal('large');
@@ -39,21 +36,9 @@ it('is accessible', async () => {
   await expect(menu).to.be.accessible();
 });
 
-it('can have a label', async () => {
-  const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
-      <button slot="target">Target</button>
-      <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`,
-  );
-
-  expect(menu.getAttribute('label')).to.equal('Menu');
-  expect(menu.label).to.equal('Menu');
-});
-
 it('can have a default slot', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -68,7 +53,7 @@ it('can have a default slot', async () => {
 
 it('can have a target slot', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
@@ -115,7 +100,7 @@ it('throws if it does not have a "target" slot', async () => {
 
 it('sets accessibility attributes on the target', async () => {
   const menu = await fixture<CsMenu>(
-    html`<cs-menu label="Menu">
+    html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,

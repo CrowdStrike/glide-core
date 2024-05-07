@@ -2,7 +2,7 @@ import { css } from 'lit';
 
 export default [
   css`
-    .wrapper {
+    .component {
       display: flex;
       flex-direction: column;
 

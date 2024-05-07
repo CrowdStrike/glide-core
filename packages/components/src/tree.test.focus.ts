@@ -2,7 +2,7 @@ import './tree.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Tree from './tree.js';
-import TreeItem from './tree-item.js';
+import TreeItem from './tree.item.js';
 
 Tree.shadowRootOptions.mode = 'open';
 

@@ -2,7 +2,7 @@ import { css } from 'lit';
 
 export default [
   css`
-    .tab {
+    .component {
       align-items: center;
       cursor: pointer;
       display: inline-flex;

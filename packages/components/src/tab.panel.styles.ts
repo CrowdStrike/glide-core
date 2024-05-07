@@ -3,7 +3,7 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
-    .tab-panel {
+    .component {
       font-family: var(--cs-font-sans);
     }
 

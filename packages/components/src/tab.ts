@@ -53,7 +53,7 @@ export default class CsTab extends LitElement {
   override render() {
     return html`<div
       class=${classMap({
-        tab: true,
+        component: true,
         primary: this.variant === 'primary',
         secondary: this.variant === 'secondary',
         vertical: this.variant === 'vertical',

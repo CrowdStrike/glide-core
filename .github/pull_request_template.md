@@ -14,6 +14,7 @@
 - I have included a changeset with this Pull Request if it adds/updates/removes functionality for consumers.
 - I have scheduled a Design Review for these changes, if one is required.
 - I have followed the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) and/or met with the Accessibility Team to ensure this functionality is accessible.
+- I have added the component to `exports` in `packages/components/package.json` (if applicable).
 
 ## 🔬 How to Test
 

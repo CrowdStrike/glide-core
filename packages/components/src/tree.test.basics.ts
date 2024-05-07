@@ -1,3 +1,4 @@
+import './tree.item.js';
 import './tree.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import Tree from './tree.js';

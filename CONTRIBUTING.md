@@ -19,6 +19,7 @@
   - [Prefer separate test files](#prefer-separate-test-files)
   - [Typing property decorators](#typing-property-decorators)
   - [Avoid side effects in setters](#avoid-side-effects-in-setters)
+  - [Prefer `.component` for the root element CSS selector](#prefer-component-for-the-root-element-css-selector)
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
 
@@ -468,7 +469,7 @@ export default class CsExample extends LitElement {
 }
 ```
 
-#### Typing property [decorators](https://lit.dev/docs/api/decorators)
+### Typing property [decorators](https://lit.dev/docs/api/decorators)
 
 We've enabled TypeScript's [`strict`](https://www.typescriptlang.org/tsconfig#strict) flag throughout the repository.
 `strict` enables a handful of other flags, including [`strictPropertyInitialization`](https://www.typescriptlang.org/tsconfig#strictPropertyInitialization), which raises an error when a property is declared without a default value:
@@ -483,21 +484,21 @@ However, to avoid a runtime error if the property is accessed before it's define
 When in doubt, log the property to confirm its value before assigning it a type.
 A few examples of correctly typed decorators:
 
-##### `@queryAll`
+#### `@queryAll`
 
 ```ts
 @queryAll('input')
 inputElements!: NodeListOf<HTMLInputElement>
 ```
 
-##### `@queryAssignedElements`
+#### `@queryAssignedElements`
 
 ```ts
 @queryAssignedElements()
 assignedElements!: Array<HTMLElement>;
 ```
 
-##### `@property`
+#### `@property`
 
 ```ts
 @property()
@@ -506,7 +507,7 @@ label?: string;
 
 > Required properties must, unfortunately, be typed as optional so they're typesafe throughout the component's lifecycle.
 
-#### Avoid side effects in setters
+### Avoid side effects in setters
 
 Side effects in setters aren't inherently bad.
 They're sometimes the cleanest, most consistent, or only way to do something.
@@ -514,6 +515,36 @@ But more often they indicate a larger architectural issue that, when corrected, 
 
 One case where they're unavoidable is when you need to trigger an event after a consumer sets a property or attribute programmatically.
 The `selected` setter in `dropdown.option.ts` is a good example.
+
+### Prefer `.component` for the root element CSS selector
+
+There are many ways to target the root element of a component in CSS; however, we recommend using the `component` class name.
+
+```ts
+// ✅ -- GOOD
+css`
+  .component {
+    background-color: red;
+  }
+`;
+
+render() {
+  return html`<div class="component"></div>`;
+}
+```
+
+```ts
+// ❌ -- BAD
+css`
+  div {
+    background-color: red;
+  }
+`;
+
+render() {
+  return html`<div></div>`;
+}
+```
 
 ## Questions
 

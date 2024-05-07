@@ -45,7 +45,7 @@ export default class CsTabPanel extends LitElement {
   override render() {
     return html`<div
       class=${classMap({
-        'tab-panel': true,
+        component: true,
         hidden: !this.isActive,
       })}
     >

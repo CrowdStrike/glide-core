@@ -47,7 +47,7 @@ export default class CsButtonGroup extends LitElement {
   orientation: ButtonGroupOrientation = 'horizontal';
 
   override firstUpdated() {
-    owSlotType(this.#defaultSlotRef.value, [CsButtonGroupButton]);
+    owSlotType(this.#defaultSlotElementRef.value, [CsButtonGroupButton]);
 
     if (this.orientation === 'vertical') {
       for (const listItem of this.listItems) {
@@ -73,10 +73,11 @@ export default class CsButtonGroup extends LitElement {
         aria-labelledby="cs-button-group"
         role="radiogroup"
         class=${classMap({
+          'radio-group': true,
           vertical: this.orientation === 'vertical',
         })}
       >
-        <slot ${ref(this.#defaultSlotRef)}></slot>
+        <slot ${ref(this.#defaultSlotElementRef)}></slot>
       </ul>
     `;
   }
@@ -111,5 +112,5 @@ export default class CsButtonGroup extends LitElement {
     }
   }
 
-  #defaultSlotRef = createRef<HTMLSlotElement>();
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 }

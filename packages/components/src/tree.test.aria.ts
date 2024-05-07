@@ -1,7 +1,6 @@
-import './tree.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import Tree from './tree.js';
-import TreeItem from './tree-item.js';
+import TreeItem from './tree.item.js';
 
 Tree.shadowRootOptions.mode = 'open';
 TreeItem.shadowRootOptions.mode = 'open';
@@ -32,7 +31,7 @@ it('sets roles tree and treeitem', async () => {
   const childItems = component.slotElements;
 
   expect(
-    component.shadowRoot?.querySelector('.tree')?.getAttribute('role'),
+    component.shadowRoot?.firstElementChild?.getAttribute('role'),
   ).to.equal('tree');
 
   expect(

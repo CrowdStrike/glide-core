@@ -27,6 +27,8 @@ export default [
       '@crowdstrike/glide-core-eslint-plugin': eslintGlideCorePlugin,
     },
     rules: {
+      '@crowdstrike/glide-core-eslint-plugin/consistent-reference-element-declarations':
+        'error',
       '@crowdstrike/glide-core-eslint-plugin/no-cs-prefixed-event-name':
         'error',
       '@crowdstrike/glide-core-eslint-plugin/prefixed-lit-element-class-declaration':

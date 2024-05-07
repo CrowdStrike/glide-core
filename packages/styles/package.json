@@ -9,10 +9,14 @@
     "url": "https://github.com/CrowdStrike/glide-core.git",
     "directory": "packages/styles"
   },
-  "main": "./index.css",
   "files": [
     "index.css"
   ],
+  "exports": {
+    ".": {
+      "import": "./index.css"
+    }
+  },
   "type": "module",
   "scripts": {
     "format": "per-env",

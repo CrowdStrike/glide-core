@@ -20,9 +20,10 @@ it('renders correct markup and sets correct attributes for the default case', as
     null,
     'does not set aria-disabled',
   );
-  expect([
-    ...element.shadowRoot!.querySelector('.tab')!.classList,
-  ]).to.deep.equal(['tab', 'primary']);
+  expect([...element.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
+    'component',
+    'primary',
+  ]);
   expect(element.shadowRoot!.querySelector('cs-icon-general-x-close-solid')).to
     .not.exist;
 });
@@ -32,9 +33,10 @@ it('renders a secondary variant', async () => {
     <cs-tab variant="secondary">Tab</cs-tab>
   `);
 
-  expect([
-    ...element.shadowRoot!.querySelector('.tab')!.classList,
-  ]).to.deep.equal(['tab', 'secondary']);
+  expect([...element.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
+    'component',
+    'secondary',
+  ]);
 });
 
 it('renders a vertical variant', async () => {
@@ -42,9 +44,10 @@ it('renders a vertical variant', async () => {
     <cs-tab variant="vertical">Tab</cs-tab>
   `);
 
-  expect([
-    ...element.shadowRoot!.querySelector('.tab')!.classList,
-  ]).to.deep.equal(['tab', 'vertical']);
+  expect([...element.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
+    'component',
+    'vertical',
+  ]);
 });
 
 it('sets the panel attribute', async () => {

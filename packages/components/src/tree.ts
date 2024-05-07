@@ -1,7 +1,6 @@
-import './tree-item.js';
 import { LitElement, html } from 'lit';
 import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
-import CsTreeItem from './tree-item.js';
+import CsTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
 
 declare global {
@@ -42,7 +41,7 @@ export default class CsTree extends LitElement {
 
   override render() {
     return html`<div
-      class="tree"
+      class="component"
       role="tree"
       tabindex=${this.privateTabIndex}
       @click=${this.#handleClick}
