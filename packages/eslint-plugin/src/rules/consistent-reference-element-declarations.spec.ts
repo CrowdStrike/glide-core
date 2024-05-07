@@ -48,6 +48,10 @@ ruleTester.run(
         code: 'class TestComponent extends LitElement { #prefixSlot = createRef(); }',
         errors: [{ messageId: 'addSuffix' }],
       },
+      {
+        code: 'class TestComponent extends LitElement { #prefixSlotRef = createRef<HTMLSlotElement>(); }',
+        errors: [{ messageId: 'addSuffix' }],
+      },
     ],
   },
 );
