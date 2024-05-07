@@ -36,7 +36,7 @@ export default class CsTreeItemMenu extends LitElement {
 
   override render() {
     return html`
-      <cs-menu>
+      <cs-menu class="component">
         <slot ${ref(this.#defaultSlotElementRef)}></slot>
 
         <cs-icon-button slot="target" variant="tertiary">

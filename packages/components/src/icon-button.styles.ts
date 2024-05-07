@@ -10,14 +10,14 @@ export default [
 
     .component {
       align-items: center;
-      block-size: 1.625rem;
+      block-size: var(--cs-size, 1.625rem);
       border-color: transparent;
       border-radius: var(--cs-spacing-xs);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
       display: inline-flex;
-      inline-size: 1.625rem;
+      inline-size: var(--cs-size, 1.625rem);
       justify-content: center;
       padding-inline: 0;
       transition-duration: 150ms;
