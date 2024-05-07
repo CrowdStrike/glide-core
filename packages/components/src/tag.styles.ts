@@ -42,7 +42,7 @@ export default [
       }
 
       & ::slotted([slot='prefix']) {
-        --size: var(--cs-spacing-sm);
+        --cs-size: var(--cs-spacing-sm);
 
         align-items: center;
         block-size: var(--cs-spacing-sm);
@@ -53,7 +53,7 @@ export default [
       }
 
       &.small ::slotted([slot='prefix']) {
-        --size: 0.625rem;
+        --cs-size: 0.625rem;
 
         align-items: center;
         block-size: 0.625rem;
@@ -64,7 +64,7 @@ export default [
       }
 
       &.large ::slotted([slot='prefix']) {
-        --size: 0.875rem;
+        --cs-size: 0.875rem;
 
         align-items: center;
         block-size: 0.875rem;
