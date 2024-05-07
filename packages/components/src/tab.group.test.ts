@@ -31,9 +31,9 @@ it('renders correct markup and sets correct attributes for the default case', as
   );
   expect(tabGroup.variant).to.equal('primary');
 
-  expect([
-    ...tabGroup.shadowRoot!.querySelector('.wrapper')!.classList,
-  ]).to.deep.equal(['wrapper']);
+  expect([...tabGroup.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
+    'component',
+  ]);
   expect([
     ...tabGroup.shadowRoot!.querySelector('.tab-group')!.classList,
   ]).to.deep.equal(['tab-group', 'primary']);
@@ -266,7 +266,5 @@ it('throws an error when an element other than `cs-tab-panel` is a child of the 
 });
 
 function isPanelHidden(panel: TabPanel) {
-  return panel.shadowRoot
-    ?.querySelector('.tab-panel')
-    ?.classList.contains('hidden');
+  return panel.shadowRoot?.firstElementChild?.classList.contains('hidden');
 }

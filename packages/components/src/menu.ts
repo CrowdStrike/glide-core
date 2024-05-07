@@ -43,9 +43,6 @@ export default class CsMenu extends LitElement {
   }
 
   @property({ reflect: true })
-  label?: string;
-
-  @property({ reflect: true })
   size: 'small' | 'large' = 'large';
 
   override connectedCallback() {
