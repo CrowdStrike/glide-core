@@ -108,7 +108,7 @@ export const Removable: StoryObj = {
 };
 
 export const RemovableWithIcon: StoryObj = {
-  name: 'Tag (With Removeable Label and Prefix Icon)',
+  name: 'Tag (With Removable Label and Prefix Icon)',
   render: (arguments_) => html`
     <cs-tag removable-label="Tag">
       <span slot="prefix">
