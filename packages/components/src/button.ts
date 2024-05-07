@@ -66,13 +66,13 @@ export default class CsButton extends LitElement {
       <slot
         name="prefix"
         @slotchange=${this.#onPrefixSlotChange}
-        ${ref(this.#prefixSlotElement)}
+        ${ref(this.#prefixSlotElementRef)}
       ></slot>
       <slot></slot>
       <slot
         name="suffix"
         @slotchange=${this.#onSuffixSlotChange}
-        ${ref(this.#suffixSlotElement)}
+        ${ref(this.#suffixSlotElementRef)}
       ></slot>
     </button>`;
   }
@@ -90,9 +90,9 @@ export default class CsButton extends LitElement {
 
   #internals: ElementInternals;
 
-  #prefixSlotElement = createRef<HTMLSlotElement>();
+  #prefixSlotElementRef = createRef<HTMLSlotElement>();
 
-  #suffixSlotElement = createRef<HTMLSlotElement>();
+  #suffixSlotElementRef = createRef<HTMLSlotElement>();
 
   #handleClick() {
     if (this.type === 'button') {
@@ -111,14 +111,14 @@ export default class CsButton extends LitElement {
   }
 
   #onPrefixSlotChange() {
-    const assignedNodes = this.#prefixSlotElement.value?.assignedNodes();
+    const assignedNodes = this.#prefixSlotElementRef.value?.assignedNodes();
 
     this.hasPrefixSlot =
       assignedNodes && assignedNodes.length > 0 ? true : false;
   }
 
   #onSuffixSlotChange() {
-    const assignedNodes = this.#suffixSlotElement.value?.assignedNodes();
+    const assignedNodes = this.#suffixSlotElementRef.value?.assignedNodes();
 
     this.hasSuffixSlot =
       assignedNodes && assignedNodes.length > 0 ? true : false;

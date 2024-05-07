@@ -37,8 +37,8 @@ export default class CsTag extends LitElement {
   removableLabel? = '';
 
   override firstUpdated(): void {
-    owSlot(this.#defaultSlotRef.value);
-    Boolean(this.removableLabel) && owSlot(this.#prefixSlotRef.value);
+    owSlot(this.#defaultSlotElementRef.value);
+    Boolean(this.removableLabel) && owSlot(this.#prefixSlotElementRef.value);
   }
 
   override render() {
@@ -49,10 +49,10 @@ export default class CsTag extends LitElement {
           activate: true,
           [this.size]: true,
         })}
-        ${ref(this.#containerRef)}
+        ${ref(this.#containerElementRef)}
       >
-        <slot name="prefix" ${ref(this.#prefixSlotRef)}></slot>
-        <slot ${ref(this.#defaultSlotRef)}></slot>
+        <slot name="prefix" ${ref(this.#prefixSlotElementRef)}></slot>
+        <slot ${ref(this.#defaultSlotElementRef)}></slot>
         ${when(
           this.removableLabel,
           () =>
@@ -86,13 +86,13 @@ export default class CsTag extends LitElement {
     `;
   }
 
-  #containerRef = createRef<HTMLDivElement>();
+  #containerElementRef = createRef<HTMLDivElement>();
 
-  #defaultSlotRef = createRef<HTMLSlotElement>();
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #delayToRemove = 200;
 
-  #prefixSlotRef = createRef<HTMLSlotElement>();
+  #prefixSlotElementRef = createRef<HTMLSlotElement>();
 
   #onClick = () => {
     // The promise delays removing the tag's content from the DOM so that
@@ -102,8 +102,8 @@ export default class CsTag extends LitElement {
         this.remove();
       }, this.#delayToRemove),
     );
-    this.#containerRef.value?.classList.toggle('activate');
-    this.#containerRef.value?.classList.toggle('deactivate');
+    this.#containerElementRef.value?.classList.toggle('activate');
+    this.#containerElementRef.value?.classList.toggle('deactivate');
     this.dispatchEvent(new CustomEvent('remove', { composed: true }));
   };
 }

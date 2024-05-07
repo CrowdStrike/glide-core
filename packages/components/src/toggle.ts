@@ -49,11 +49,11 @@ export default class CsToggle extends LitElement {
   summary?: string;
 
   override click() {
-    this.#inputRef.value?.click();
+    this.#inputElementRef.value?.click();
   }
 
   override focus(options?: FocusOptions) {
-    this.#inputRef.value?.focus(options);
+    this.#inputElementRef.value?.focus(options);
   }
 
   override render() {
@@ -63,7 +63,7 @@ export default class CsToggle extends LitElement {
         tooltip: this.hasTooltipSlot,
       })}
       data-test="component"
-      ${ref(this.#componentRef)}
+      ${ref(this.#componentElementRef)}
     >
       <cs-tooltip
         class=${classMap({
@@ -76,7 +76,7 @@ export default class CsToggle extends LitElement {
         <slot
           name="tooltip"
           @slotchange=${this.#onTooltipSlotChange}
-          ${ref(this.#tooltipSlotRef)}
+          ${ref(this.#tooltipSlotElementRef)}
         ></slot>
       </cs-tooltip>
 
@@ -113,7 +113,7 @@ export default class CsToggle extends LitElement {
           ?checked=${this.checked}
           ?disabled=${this.disabled}
           @change=${this.#onInputChange}
-          ${ref(this.#inputRef)}
+          ${ref(this.#inputElementRef)}
         />
 
         <div
@@ -168,11 +168,11 @@ export default class CsToggle extends LitElement {
   @state()
   private hasTooltipSlot = false;
 
-  #componentRef = createRef<HTMLDivElement>();
+  #componentElementRef = createRef<HTMLDivElement>();
 
-  #inputRef = createRef<HTMLInputElement>();
+  #inputElementRef = createRef<HTMLInputElement>();
 
-  #tooltipSlotRef = createRef<HTMLSlotElement>();
+  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   #onInputChange(event: Event) {
     if (event.target instanceof HTMLInputElement) {
@@ -185,7 +185,7 @@ export default class CsToggle extends LitElement {
   }
 
   #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotRef.value?.assignedNodes();
+    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
     this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }
