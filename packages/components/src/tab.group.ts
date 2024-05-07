@@ -53,8 +53,8 @@ export default class CsTabGroup extends LitElement {
   tabElements!: Array<CsTab>;
 
   override firstUpdated() {
-    owSlotType(this.#navSlotRef.value, [CsTab]);
-    owSlotType(this.#defaultSlotRef.value, [CsTabPanel]);
+    owSlotType(this.#navSlotElementRef.value, [CsTab]);
+    owSlotType(this.#defaultSlotElementRef.value, [CsTabPanel]);
     this.#setupTabs();
     this.#setActiveTab();
   }
@@ -75,9 +75,9 @@ export default class CsTabGroup extends LitElement {
           [this.variant]: true,
         })}
       >
-        <slot name="nav" ${ref(this.#navSlotRef)}></slot>
+        <slot name="nav" ${ref(this.#navSlotElementRef)}></slot>
       </div>
-      <slot ${ref(this.#defaultSlotRef)}></slot>
+      <slot ${ref(this.#defaultSlotElementRef)}></slot>
     </div>`;
   }
 
@@ -85,9 +85,9 @@ export default class CsTabGroup extends LitElement {
     this.#setupTabs();
   }
 
-  #defaultSlotRef = createRef<HTMLSlotElement>();
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #navSlotRef = createRef<HTMLSlotElement>();
+  #navSlotElementRef = createRef<HTMLSlotElement>();
 
   #onClick = (event: Event) => {
     const target = event.target as HTMLElement;
