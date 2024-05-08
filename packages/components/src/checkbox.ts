@@ -64,19 +64,37 @@ export default class CsCheckbox extends LitElement {
     return this.#internals.form;
   }
 
+  checkValidity() {
+    this.isCheckingValidity = true;
+    return this.#internals.checkValidity();
+  }
+
+  override click() {
+    this.#inputElementRef.value?.click();
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.isInCheckboxGroup = Boolean(this.closest('cs-checkbox-group'));
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.form?.removeEventListener('formdata', this.#onFormdata);
+    this.isInCheckboxGroup = Boolean(this.closest('cs-checkbox-group'));
+  }
+
   get validity() {
+    // If we're in a Checkbox Group, `disabled`, `required`, and whether or not
+    // the form has been submitted don't apply because Checkbox Group handles those
+    // states for the group as a whole.
+    if (this.isInCheckboxGroup) {
+      return this.#internals.validity;
+    }
+
     if (this.required && !this.checked) {
-      // 1. A validity message, the second argument, doesn't strictly apply to checkboxes.
-      //    Unlike other form controls, checkboxes are binary. And so screenreaders already
-      //    have the information they need given a label and optional description. "invalid"
-      //    is read aloud to screenreader users when a `required` checkbox is unchecked.
-      //    Sighted users have a color change to indicate an error.
-      //
-      // 2. Native validation doesn't meet our design requirements. So we suppress it, which
-      //    also hides it from screenreaders.
-      //
-      // Nonetheless, a validation message is required. And an empty string isn't allowed.
-      // Thus a single space.
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { valueMissing: true },
         ' ',
@@ -87,24 +105,6 @@ export default class CsCheckbox extends LitElement {
     }
 
     return this.#internals.validity;
-  }
-
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
-  checkValidity() {
-    this.isCheckingValidity = true;
-    return this.#internals.checkValidity();
-  }
-
-  override click() {
-    this.#inputElementRef.value?.click();
-  }
-
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    this.form?.removeEventListener('formdata', this.#onFormdata);
   }
 
   override focus(options?: FocusOptions) {
@@ -132,7 +132,7 @@ export default class CsCheckbox extends LitElement {
     >
       <cs-tooltip
         class=${classMap({
-          visible: this.hasTooltipSlot,
+          visible: this.hasTooltipSlot && !this.isInCheckboxGroup,
         })}
         placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
       >
@@ -197,6 +197,7 @@ export default class CsCheckbox extends LitElement {
         <div
           class=${classMap({
             'label-text': true,
+            right: this.isInCheckboxGroup,
             tooltip: this.hasTooltipSlot,
           })}
         >
@@ -238,6 +239,7 @@ export default class CsCheckbox extends LitElement {
             aria-hidden="true"
             class=${classMap({
               summary: true,
+              hidden: this.isInCheckboxGroup,
               tooltip: this.hasTooltipSlot,
             })}
           >
@@ -246,13 +248,18 @@ export default class CsCheckbox extends LitElement {
         </div>
       </label>
 
-      <div class="summary-for-screenreaders" id="summary-for-screenreaders">
+      <div
+        aria-hidden=${this.isInCheckboxGroup ? 'true' : 'false'}
+        class="summary-for-screenreaders"
+        id="summary-for-screenreaders"
+      >
         ${this.summary}
       </div>
 
       <slot
         class=${classMap({
           description: true,
+          hidden: this.isInCheckboxGroup,
           tooltip: this.hasTooltipSlot,
         })}
         id="description"
@@ -263,6 +270,18 @@ export default class CsCheckbox extends LitElement {
 
   reportValidity() {
     return this.#internals.reportValidity();
+  }
+
+  setValidity(
+    flags?: ValidityStateFlags,
+    message?: string,
+    anchor?: HTMLElement,
+  ) {
+    return this.#internals.setValidity(flags, message, anchor);
+  }
+
+  get willValidate() {
+    return this.#internals.willValidate;
   }
 
   override updated() {
@@ -315,6 +334,9 @@ export default class CsCheckbox extends LitElement {
   private isCheckingValidity = false;
 
   @state()
+  private isInCheckboxGroup = false;
+
+  @state()
   private isReportValidityOrSubmit = false;
 
   #componentElementRef = createRef<HTMLDivElement>();
@@ -334,6 +356,13 @@ export default class CsCheckbox extends LitElement {
   };
 
   get #isShowValidationFeedback() {
+    // If we're in a Checkbox Group, `disabled`, `required`, and whether or not
+    // the form has been submitted don't apply because Checkbox Group handles those
+    // states for the group as a whole.
+    if (this.isInCheckboxGroup) {
+      return !this.validity.valid;
+    }
+
     return (
       this.required &&
       !this.disabled &&
