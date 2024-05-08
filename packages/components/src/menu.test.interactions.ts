@@ -434,6 +434,7 @@ it('sets `aria-expanded` on open', async () => {
   );
 
   menu.querySelector('button')?.click();
+
   expect(menu.querySelector('button')?.getAttribute('aria-expanded')).to.equal(
     'true',
   );

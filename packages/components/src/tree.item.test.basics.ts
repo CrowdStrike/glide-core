@@ -55,15 +55,18 @@ it('can expand', async () => {
   expect([
     ...treeItem.shadowRoot!.querySelector('.component')!.classList,
   ]).to.deep.equal(['component']);
+
   expect([
     ...treeItem.shadowRoot!.querySelector('.expand-icon')!.classList,
   ]).to.deep.equal(['expand-icon']);
 
   treeItem.toggleExpand();
   await treeItem.updateComplete;
+
   expect([
     ...treeItem.shadowRoot!.querySelector('.component')!.classList,
   ]).to.deep.equal(['component', 'component-expanded']);
+
   expect([
     ...treeItem.shadowRoot!.querySelector('.expand-icon')!.classList,
   ]).to.deep.equal(['expand-icon', 'expand-icon-expanded']);

@@ -76,12 +76,14 @@ export default class CsButtonGroupButton extends LitElement {
       const firstEnabledSelectedButton = this.#buttonElements.find(
         (button) => !button.disabled && button.selected,
       );
+
       if (firstEnabledSelectedButton && firstEnabledSelectedButton === this) {
         this.isTabbable = true;
       } else if (!firstEnabledSelectedButton) {
         const firstEnabledButton = this.#buttonElements.find(
           (button) => !button.disabled,
         );
+
         if (firstEnabledButton && firstEnabledButton === this) {
           this.isTabbable = true;
         }
@@ -145,11 +147,13 @@ export default class CsButtonGroupButton extends LitElement {
   ): void {
     if (this.hasUpdated && changedProperties.has('selected')) {
       const value = changedProperties.get('selected');
+
       if (value === true) {
         this.isTabbable = false;
       } else if (value === false) {
         this.isTabbable = true;
         this.focus();
+
         for (const button of this.#buttonElements) {
           if (button !== this && button.selected) {
             button.selected = false;
@@ -179,6 +183,7 @@ export default class CsButtonGroupButton extends LitElement {
       this.closest('cs-button-group')?.querySelectorAll(
         'cs-button-group-button',
       ) ?? [];
+
     return [...elements];
   }
 
@@ -186,6 +191,7 @@ export default class CsButtonGroupButton extends LitElement {
     button.dispatchEvent(
       new CustomEvent('change', { bubbles: true, detail: button.value }),
     );
+
     button.dispatchEvent(
       new CustomEvent('input', { bubbles: true, detail: button.value }),
     );
@@ -205,6 +211,7 @@ export default class CsButtonGroupButton extends LitElement {
     ) {
       return;
     }
+
     switch (event.key) {
       case 'ArrowUp':
       case 'ArrowLeft': {
@@ -212,12 +219,14 @@ export default class CsButtonGroupButton extends LitElement {
         this.selected = false;
         // find the closest enabled button
         let sibling = this.previousElementSibling;
+
         while (
           !sibling ||
           (sibling instanceof CsButtonGroupButton && sibling.disabled)
         ) {
           if (sibling === null) {
             const lastButton = this.#buttonElements.at(-1);
+
             if (lastButton) {
               sibling = lastButton;
             }
@@ -225,10 +234,12 @@ export default class CsButtonGroupButton extends LitElement {
             sibling = sibling.previousElementSibling;
           }
         }
+
         if (sibling && sibling instanceof CsButtonGroupButton) {
           sibling.selected = true;
           this.#dispatchEvents(sibling);
         }
+
         break;
       }
       case 'ArrowDown':
@@ -237,12 +248,14 @@ export default class CsButtonGroupButton extends LitElement {
         this.selected = false;
         // find the closest enabled button
         let sibling = this.nextElementSibling;
+
         while (
           !sibling ||
           (sibling instanceof CsButtonGroupButton && sibling.disabled)
         ) {
           if (sibling === null) {
             const firstButton = this.#buttonElements.at(0);
+
             if (firstButton) {
               sibling = firstButton;
             }
@@ -250,18 +263,22 @@ export default class CsButtonGroupButton extends LitElement {
             sibling = sibling.nextElementSibling;
           }
         }
+
         if (sibling && sibling instanceof CsButtonGroupButton) {
           sibling.selected = true;
           this.#dispatchEvents(sibling);
         }
+
         break;
       }
       case ' ': {
         event.preventDefault();
+
         if (!this.disabled && !this.selected) {
           this.selected = true;
           this.#dispatchEvents();
         }
+
         break;
       }
     }

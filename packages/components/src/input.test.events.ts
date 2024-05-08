@@ -13,6 +13,7 @@ import type Input from './input.js';
 
 it('dispatches a "change" event when typed in', async () => {
   const input = await fixture<Input>(html`<cs-input></cs-input>`);
+
   setTimeout(async () => {
     input.focus();
     await sendKeys({ type: 'testing' });
@@ -25,6 +26,7 @@ it('dispatches a "change" event when typed in', async () => {
 
 it('dispatches an "input" event when typed in', async () => {
   const input = await fixture<Input>(html`<cs-input></cs-input>`);
+
   setTimeout(() => {
     input.focus();
     sendKeys({ type: 'testing' });
@@ -36,6 +38,7 @@ it('dispatches an "input" event when typed in', async () => {
 
 it('dispatches an "invalid" event on submit when required and no value', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
     parentNode: form,
   });
@@ -48,6 +51,7 @@ it('dispatches an "invalid" event on submit when required and no value', async (
 
 it('dispatches an "invalid" event after `checkValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
     parentNode: form,
   });
@@ -60,6 +64,7 @@ it('dispatches an "invalid" event after `checkValidity` is called when required 
 
 it('dispatches an "invalid" event after `reportValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
     parentNode: form,
   });
@@ -72,9 +77,11 @@ it('dispatches an "invalid" event after `reportValidity` is called when required
 
 it('does not dispatch an "invalid" event after `checkValidity` is called when not required', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input></cs-input>`, {
     parentNode: form,
   });
+
   const spy = sinon.spy();
 
   input.addEventListener('invalid', spy);
@@ -86,10 +93,12 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when no
 
 it('does not dispatch an "invalid" event after `checkValidity` is called when required and no value but disabled', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(
     html`<cs-input disabled required></cs-input>`,
     { parentNode: form },
   );
+
   const spy = sinon.spy();
 
   input.addEventListener('invalid', spy);
@@ -101,9 +110,11 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when re
 
 it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input></cs-input>`, {
     parentNode: form,
   });
+
   const spy = sinon.spy();
 
   input.addEventListener('invalid', spy);
@@ -115,10 +126,12 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
 
 it('does not dispatch an "invalid" event when `reportValidity` is called when required and no value but disabled', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(
     html`<cs-input disabled required></cs-input>`,
     { parentNode: form },
   );
+
   const spy = sinon.spy();
 
   input.addEventListener('invalid', spy);

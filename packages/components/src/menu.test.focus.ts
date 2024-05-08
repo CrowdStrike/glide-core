@@ -80,6 +80,7 @@ it('focuses the target on close via Escape', async () => {
   button?.dispatchEvent(
     new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
   );
+
   expect(document.activeElement).to.equal(button);
 });
 

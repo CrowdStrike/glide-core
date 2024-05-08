@@ -91,6 +91,7 @@ it('does not apply prefix classes when no prefix slot is provided', async () => 
   expect([
     ...component.shadowRoot!.querySelector('[data-test="label"]')!.classList,
   ]).to.deep.equal(['heading-box']);
+
   expect([
     ...component.shadowRoot!.querySelector('[role="region"]')!.classList,
   ]).to.deep.equal(['content']);
@@ -136,6 +137,7 @@ it('renders without prefix and suffix classes after both are removed', async () 
   expect([
     ...component.shadowRoot!.querySelector('[data-test="label"]')!.classList,
   ]).to.deep.equal(['heading-box']);
+
   expect([
     ...component.shadowRoot!.querySelector('[role="region"]')!.classList,
   ]).to.deep.equal(['content']);
