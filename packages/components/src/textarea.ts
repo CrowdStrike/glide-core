@@ -7,10 +7,12 @@ import { when } from 'lit/directives/when.js';
 import styles from './textarea.styles.js';
 
 /**
- * @description A custom-built textarea.
+ * @description A textarea with a label and optional description. Participates in forms and validation via `FormData` and various methods.
  *
- * @slot description - Textarea description
- *
+ * @event change - (same as native textarea's `change` event)
+ * @event input - (same as native textarea's `input` event)
+
+ * @slot description - Additional information or context.
  */
 @customElement('cs-textarea')
 export default class CsTextarea extends LitElement {
@@ -18,7 +20,8 @@ export default class CsTextarea extends LitElement {
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: window.navigator.webdriver ? 'open' : 'closed',
+    mode: 'closed',
+    delegatesFocus: true,
   };
 
   static override styles = styles;
@@ -54,17 +57,7 @@ export default class CsTextarea extends LitElement {
     type: Number,
     attribute: 'max-character-count',
     converter(value) {
-      if (value === null) {
-        return;
-      }
-
-      const result = Number.parseInt(value, 10);
-
-      if (Number.isNaN(result) || result < 1) {
-        return;
-      }
-
-      return result;
+      return value && Number.parseInt(value, 10);
     },
   })
   maxCharacterCount?: number;
@@ -73,7 +66,7 @@ export default class CsTextarea extends LitElement {
   name?: string;
 
   override blur() {
-    this.#textareaRef.value?.blur();
+    this.#textareaElementRef.value?.blur();
   }
 
   checkValidity() {
@@ -97,16 +90,8 @@ export default class CsTextarea extends LitElement {
     return this.#internals.validity;
   }
 
-  get validationMessage(): string {
-    return this.#internals.validationMessage;
-  }
-
   get willValidate() {
     return this.#internals.willValidate;
-  }
-
-  override focus(options?: FocusOptions) {
-    this.#textareaRef.value?.focus(options);
   }
 
   formAssociatedCallback() {
@@ -127,8 +112,8 @@ export default class CsTextarea extends LitElement {
       <div
         class=${classMap({
           'label-container': true,
-          'label-container--visually-hidden': Boolean(this.hideLabel),
-          'label-container--top': this.labelPosition === 'top',
+          'visually-hidden': Boolean(this.hideLabel),
+          top: this.labelPosition === 'top',
         })}
         data-test-label-container
         data-test-label-container--visually-hidden=${Boolean(this.hideLabel) ||
@@ -136,18 +121,11 @@ export default class CsTextarea extends LitElement {
         data-test-label-container--top=${this.labelPosition === 'top' ||
         nothing}
       >
-        <label
-          for="cs-textarea"
-          class=${classMap({
-            'label--font': true,
-          })}
-        >
+        <label for="cs-textarea" class="label-font">
           ${this.label}${when(
             this.required,
             () =>
-              html`<span class="label--required" data-test-label-required
-                >*</span
-              >`,
+              html`<span class="required" data-test-label-required>*</span>`,
           )}
         </label>
       </div>
@@ -167,11 +145,11 @@ export default class CsTextarea extends LitElement {
             font: true,
             'read-only': this.readonly,
             'invalid-color': this.#isShowValidationFeedback,
-            'label-container--top': this.labelPosition === 'top',
+            top: this.labelPosition === 'top',
           })}
           ?disabled=${this.disabled}
           aria-describedby="description"
-          ${ref(this.#textareaRef)}
+          ${ref(this.#textareaElementRef)}
           @input=${this.#onInput}
           @change=${this.#onChange}
           data-test-textarea-invalid-color=${this.#isShowValidationFeedback ||
@@ -182,8 +160,7 @@ ${this.value}</textarea
         <div
           class=${classMap({
             'description-container': true,
-            'description-container--invalid-color':
-              this.#isShowValidationFeedback,
+            'invalid-color': this.#isShowValidationFeedback,
           })}
           data-test-description-container
           data-test-description-container--invalid-color=${this
@@ -217,8 +194,8 @@ ${this.value}</textarea
   }
 
   override updated() {
-    if (this.#textareaRef.value) {
-      this.#textareaRef.value.value = this.value;
+    if (this.#textareaElementRef.value) {
+      this.#textareaElementRef.value.value = this.value;
     }
 
     // This ensures validity is re-evaluated when an attribute changes.
@@ -242,7 +219,7 @@ ${this.value}</textarea
 
   #internals: ElementInternals;
 
-  #textareaRef = createRef<HTMLTextAreaElement>();
+  #textareaElementRef = createRef<HTMLTextAreaElement>();
 
   // is set to the textarea instead of the form.
   #onFormdata = ({ formData }: FormDataEvent) => {
@@ -269,7 +246,7 @@ ${this.value}</textarea
   }
 
   #onChange(event: Event) {
-    const textAreaValue = this.#textareaRef.value?.value || '';
+    const textAreaValue = this.#textareaElementRef.value!.value;
     this.value = textAreaValue;
 
     this.#onUpdateValidityState();
@@ -279,7 +256,7 @@ ${this.value}</textarea
   }
 
   #onInput() {
-    const textAreaValue = this.#textareaRef.value?.value || '';
+    const textAreaValue = this.#textareaElementRef.value!.value;
     this.value = textAreaValue;
     this.#internals.setFormValue(this.value);
 
@@ -296,7 +273,7 @@ ${this.value}</textarea
   }
 
   async #onUpdateValidityState() {
-    const textareaElement = this.#textareaRef.value;
+    const textareaElement = this.#textareaElementRef.value;
 
     if (this.#isInvalidCharacterLength) {
       this.#internals.setValidity(

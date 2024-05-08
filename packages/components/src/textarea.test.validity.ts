@@ -1,8 +1,8 @@
-import './textarea.js';
 import { elementUpdated, expect, fixture } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
+import CsTextarea from './textarea.js';
 
-import type CsTextarea from './textarea.js';
+CsTextarea.shadowRootOptions.mode = 'open';
 
 it('is valid by default', async () => {
   const template = '<cs-textarea></cs-textarea>';
@@ -35,6 +35,7 @@ it('is invalid if no value and required', async () => {
   expect(textarea.validity?.valid).to.be.false;
   expect(textarea.validity?.valueMissing).to.be.true;
   expect(textarea.validity?.tooLong).to.be.false;
+  expect(textarea.willValidate).to.be.true;
   expect(textarea.checkValidity()).to.be.false;
   expect(textarea.reportValidity()).to.be.false;
 });

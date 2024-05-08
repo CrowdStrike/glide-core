@@ -1,15 +1,15 @@
-import '@crowdstrike/glide-components/textarea/textarea.js';
 import { html, nothing } from 'lit-html';
-import CsTextarea from '@crowdstrike/glide-components/textarea/textarea.component.js';
+import CsTextarea from './textarea.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  title: 'Glide/Textarea',
+  title: 'Textarea',
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
-        component: 'A custom-built textarea component.',
+        component:
+          'A textarea with a label and optional description. Participates in forms and validation via `FormData` and various methods.',
       },
     },
   },
@@ -64,35 +64,35 @@ const meta: Meta = {
     'hide-label': {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     required: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     readonly: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     disabled: {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     rows: {
       control: 'number',
       table: {
-        defaultValue: { summary: 2 },
+        defaultValue: { summary: '2' },
         type: { summary: 'number' },
       },
     },

@@ -1,8 +1,8 @@
-import './textarea.js';
-import { clickOnElement } from '../utils/test.js';
 import { expect, fixture } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import CsTextarea from './textarea.js';
+
+CsTextarea.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(window.customElements.get('cs-textarea')).to.equal(CsTextarea);
@@ -181,20 +181,7 @@ it('focuses the textarea when the label is clicked', async () => {
   const label = element.shadowRoot!.querySelector('label');
   label?.click();
 
-  await expect(element).to.have.focus;
-
-  await expect(
-    element.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
-  ).to.be.equal('textarea');
-});
-
-it('focuses the textarea when clicked', async () => {
-  const template = `<cs-textarea value="value" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
-  const textarea = element.shadowRoot!.querySelector('textarea');
-  await clickOnElement(textarea);
-
-  await expect(element).to.have.focus;
+  expect(element).to.have.focus;
 
   await expect(
     element.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
@@ -206,7 +193,7 @@ it('has tabbable textarea', async () => {
   const element = await fixture<CsTextarea>(template);
   await sendKeys({ press: 'Tab' });
 
-  await expect(element).to.have.focus;
+  expect(element).to.have.focus;
 
   await expect(
     element.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
