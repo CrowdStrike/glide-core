@@ -78,7 +78,8 @@ export const preferClosedShadowRoot = createRule({
               messageId: 'missingMode',
               fix: function (fixer) {
                 const nodeToInsertRange =
-                  node.value?.type === 'ObjectExpression' && node.value.range;
+                  node.value?.type === 'ObjectExpression' &&
+                  node.value.properties?.at(-1)?.range;
 
                 if (!nodeToInsertRange) {
                   console.error(
@@ -88,7 +89,7 @@ export const preferClosedShadowRoot = createRule({
                 }
 
                 return fixer.insertTextAfterRange(
-                  [nodeToInsertRange[1], nodeToInsertRange[1] - 2],
+                  [nodeToInsertRange[0], nodeToInsertRange[1]],
                   `,${' '}mode: 'closed'`,
                 );
               },
