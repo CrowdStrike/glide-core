@@ -33,6 +33,54 @@ export default [
         'error',
       '@crowdstrike/glide-core-eslint-plugin/prefixed-lit-element-class-declaration':
         'error',
+      '@stylistic/padding-line-between-statements': [
+        'error',
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: 'multiline-block-like',
+        },
+        {
+          blankLine: 'always',
+          prev: 'multiline-block-like',
+          next: '*',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: 'multiline-const',
+        },
+        {
+          blankLine: 'always',
+          prev: 'multiline-const',
+          next: '*',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: 'multiline-expression',
+        },
+        {
+          blankLine: 'always',
+          prev: 'multiline-expression',
+          next: '*',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: 'multiline-let',
+        },
+        {
+          blankLine: 'always',
+          prev: 'multiline-let',
+          next: '*',
+        },
+        {
+          blankLine: 'never',
+          prev: 'case',
+          next: 'case',
+        },
+      ],
       '@stylistic/lines-between-class-members': [
         'error',
         'always',

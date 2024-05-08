@@ -122,12 +122,14 @@ export default class CsAccordion extends LitElement {
 
   #onPrefixSlotChange() {
     const assignedNodes = this.#prefixSlotElementRef.value?.assignedNodes();
+
     this.hasPrefixSlot =
       assignedNodes && assignedNodes.length > 0 ? true : false;
   }
 
   #onSuffixSlotChange() {
     const assignedNodes = this.#suffixSlotElementRef.value?.assignedNodes();
+
     this.hasSuffixSlot =
       assignedNodes && assignedNodes.length > 0 ? true : false;
   }

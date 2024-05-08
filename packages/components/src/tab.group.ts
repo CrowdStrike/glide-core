@@ -206,6 +206,7 @@ export default class CsTabGroup extends LitElement {
   #showTab(tab: CsTab) {
     this.activeTab = tab;
     this.#setActiveTab();
+
     this.dispatchEvent(
       new CustomEvent('tab-show', {
         detail: {

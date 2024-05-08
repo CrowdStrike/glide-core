@@ -20,6 +20,7 @@ it('renders with default slot content', async () => {
   const element = await fixture(
     html`<cs-tag><span data-content>Tag</span></cs-tag>`,
   );
+
   expect(element).to.be.not.null;
 
   const container = element.shadowRoot?.querySelector('.component');
@@ -34,6 +35,7 @@ it('does not render an icon button when "removable-label" attribute is not set',
   const element = await fixture(
     html`<cs-tag><span data-content>Tag</span></cs-tag>`,
   );
+
   expect(element).to.not.have.attribute('removable-label');
 
   const iconButton = element.shadowRoot?.querySelector('button');
@@ -46,6 +48,7 @@ it('renders an icon button with aria-label when "removable-label" attribute is s
       ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
     >`,
   );
+
   expect(element).to.be.not.null;
   expect(element).to.have.attribute('removable-label', 'test-aria-label');
 
@@ -61,12 +64,14 @@ it('renders the "prefix" slot and its content', async () => {
       ><span slot="prefix" data-prefix>test-prefix</span>Tag</cs-tag
     >`,
   );
+
   const prefixSlot = element.shadowRoot?.querySelector<HTMLSlotElement>(
     'slot[name="prefix"]',
   );
 
   expect(prefixSlot?.assignedNodes()?.length).to.be.equal(1);
   expect(document.querySelector('[data-prefix]')).to.be.not.null;
+
   expect(document.querySelector('[data-prefix]')?.textContent).to.be.equal(
     'test-prefix',
   );
@@ -78,6 +83,7 @@ it('renders correctly when the "size" attribute is set to "small"', async () => 
       ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
     >`,
   );
+
   const container = element.shadowRoot?.querySelector('.component');
   const iconButton = element.shadowRoot?.querySelector('button');
 
@@ -91,6 +97,7 @@ it('renders correctly when the "size" attribute is set to "large"', async () => 
       ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
     >`,
   );
+
   const container = element.shadowRoot?.querySelector('.component');
   const iconButton = element.shadowRoot?.querySelector('button');
 
@@ -158,6 +165,7 @@ it('toggles the "activate" and "deactivate" clases when the button is clicked', 
       ><span slot="prefix">Prefix</span>Tag</cs-tag
     >`,
   );
+
   const container = element.shadowRoot?.querySelector('.component');
   const iconButton = element.shadowRoot?.querySelector('button');
 
@@ -174,6 +182,7 @@ it('removes the tag from the DOM when the button is clicked', async () => {
       ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
     >`,
   );
+
   const iconButton = element.shadowRoot?.querySelector('button');
 
   expect(element.shadowRoot?.querySelector('.component')).to.be.not.null;
