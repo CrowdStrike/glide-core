@@ -1,4 +1,5 @@
 /* eslint-disable @crowdstrike/glide-core-eslint-plugin/prefer-closed-shadow-root */
+/* This is a test file that doesn't contain one of our components, so we don't need to enforce this rule. */
 import { LitElement } from 'lit';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
