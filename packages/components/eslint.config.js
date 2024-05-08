@@ -31,6 +31,8 @@ export default [
         'error',
       '@crowdstrike/glide-core-eslint-plugin/no-cs-prefixed-event-name':
         'error',
+      '@crowdstrike/glide-core-eslint-plugin/prefer-closed-shadow-root':
+        'error',
       '@crowdstrike/glide-core-eslint-plugin/prefixed-lit-element-class-declaration':
         'error',
       '@stylistic/lines-between-class-members': [

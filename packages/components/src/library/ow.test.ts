@@ -1,3 +1,4 @@
+/* eslint-disable @crowdstrike/glide-core-eslint-plugin/prefer-closed-shadow-root */
 import { LitElement } from 'lit';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
