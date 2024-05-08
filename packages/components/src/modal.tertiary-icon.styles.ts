@@ -21,7 +21,9 @@ export default [
         ${focusOutline};
       }
 
-      & ::slotted() {
+      & ::slotted(*) {
+        --size: 1rem;
+
         size: 1rem;
       }
     }

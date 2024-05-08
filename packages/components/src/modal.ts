@@ -13,7 +13,7 @@ declare global {
 }
 
 /**
- * @description A custom-built Modal.
+ * @description A Modal dialog component which interrupts interaction with the rest of the page.
  *
  * @event close - Emitted when the Modal closes.
  *
@@ -58,22 +58,18 @@ export default class CsModal extends LitElement {
    * Event called by consumers to programmatically close the Modal.
    */
   close() {
-    if (!this.#componentRef.value?.open) {
+    if (!this.#componentElementRef.value?.open) {
       return;
     }
 
     document.documentElement.classList.remove('glide-lock-scroll');
     this.dispatchEvent(new Event('close', { bubbles: false }));
-    this.#componentRef.value?.close();
+    this.#componentElementRef.value?.close();
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     document.documentElement.classList.remove('glide-lock-scroll');
-
-    if (this.#componentRef.value?.open) {
-      this.#componentRef.value?.close();
-    }
   }
 
   override render() {
@@ -87,8 +83,8 @@ export default class CsModal extends LitElement {
       })}
       tabindex="-1"
       @keydown=${this.#onKeyDown}
-      @mousedown=${this.#onMouseDown}
-      ${ref(this.#componentRef)}
+      @click=${this.#onClick}
+      ${ref(this.#componentElementRef)}
     >
       <header class="header">
         <h2 class="label" data-test="heading" id="heading">
@@ -99,7 +95,7 @@ export default class CsModal extends LitElement {
                 data-test="back-button"
                 @click=${this.#onCloseButtonClick}
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <title>Dismiss</title>
                   <path
                     d="M12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20V18ZM20 14.5C20 16.433 18.433 18 16.5 18V20C19.5376 20 22 17.5376 22 14.5H20ZM16.5 11C18.433 11 20 12.567 20 14.5H22C22 11.4624 19.5376 9 16.5 9V11ZM16.5 18H12V20H16.5V18ZM16.5 9H3V11H16.5V9Z"
@@ -174,7 +170,7 @@ export default class CsModal extends LitElement {
    * Method called by consumers to open the Modal.
    */
   showModal() {
-    if (this.#componentRef.value?.open) {
+    if (this.#componentElementRef.value?.open) {
       return;
     }
 
@@ -202,36 +198,20 @@ export default class CsModal extends LitElement {
     // Setting the `open` attribute is not enough, as you don't get the backdrop.
     // For the backdrop to render, you must call the "showModal" method directly.
     // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#open
-    this.#componentRef.value?.showModal();
+    this.#componentElementRef.value?.showModal();
 
     // We set `tabindex="-1"` and call focus directly based on
     // https://www.matuzo.at/blog/2023/focus-dialog/
     // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
     // This ensures our dialog is as accessible as possible and does the right behavior
     // for screenreaders.
-    this.#componentRef.value?.focus();
+    this.#componentElementRef.value?.focus();
   }
 
-  #componentRef = createRef<HTMLDialogElement>();
+  #componentElementRef = createRef<HTMLDialogElement>();
 
-  #onCloseButtonClick() {
-    document.documentElement.classList.remove('glide-lock-scroll');
-    this.dispatchEvent(new Event('close', { bubbles: false }));
-    this.#componentRef.value?.close();
-  }
-
-  #onKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Escape') {
-      return;
-    }
-
-    document.documentElement.classList.remove('glide-lock-scroll');
-    this.dispatchEvent(new Event('close', { bubbles: false }));
-    this.#componentRef.value?.close();
-  }
-
-  #onMouseDown(event: MouseEvent) {
-    if (event.target !== this.#componentRef.value) {
+  #onClick(event: MouseEvent) {
+    if (event.target !== this.#componentElementRef.value) {
       return;
     }
 
@@ -241,9 +221,11 @@ export default class CsModal extends LitElement {
     // This logic verifies that only clicking  *outside* of the dialog
     // (normally on the backdrop) closes the dialog.
     const dialogBoundingRect =
-      this.#componentRef.value?.getBoundingClientRect();
+      this.#componentElementRef.value?.getBoundingClientRect();
 
+    /* istanbul ignore if  */
     if (!dialogBoundingRect) {
+      /* istanbul ignore next  */
       return;
     }
 
@@ -259,6 +241,22 @@ export default class CsModal extends LitElement {
 
     document.documentElement.classList.remove('glide-lock-scroll');
     this.dispatchEvent(new Event('close', { bubbles: false }));
-    this.#componentRef.value?.close();
+    this.#componentElementRef.value?.close();
+  }
+
+  #onCloseButtonClick() {
+    document.documentElement.classList.remove('glide-lock-scroll');
+    this.dispatchEvent(new Event('close', { bubbles: false }));
+    this.#componentElementRef.value?.close();
+  }
+
+  #onKeyDown(event: KeyboardEvent) {
+    if (event.key !== 'Escape') {
+      return;
+    }
+
+    document.documentElement.classList.remove('glide-lock-scroll');
+    this.dispatchEvent(new Event('close', { bubbles: false }));
+    this.#componentElementRef.value?.close();
   }
 }

@@ -39,15 +39,6 @@ const meta: Meta = {
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
     <cs-button data-open>Open Modal ${arguments_.size}</cs-button>
-
-    <!--
-      <script>
-          const button = document.querySelector('[data-open]');
-          const modal = document.querySelector('cs-modal');
-
-          button?.addEventListener('click', () => modal.showModal());
-      </script>
-    -->
   `,
   args: {
     label: 'Basic Modal',
