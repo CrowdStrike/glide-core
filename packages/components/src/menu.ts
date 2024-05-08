@@ -193,21 +193,13 @@ export default class CsMenu extends LitElement {
     }
   }
 
-  get #optionElements(): (CsMenuLink | CsMenuButton)[] {
-    const defaultSlot = this.#defaultSlotElementRef.value;
-    const defaultSlotElements = defaultSlot?.assignedElements() as (
-      | CsMenuLink
-      | CsMenuButton
-    )[];
-    if (defaultSlotElements?.[0] instanceof HTMLSlotElement) {
-      // Items are in a nested slot
-      return defaultSlotElements[0].assignedElements() as (
-        | CsMenuLink
-        | CsMenuButton
-      )[];
-    }
-
-    return defaultSlotElements || [];
+  get #optionElements() {
+    return (
+      this.#defaultSlotElementRef.value?.assignedElements({ flatten: true }) ||
+      []
+    ).filter((element): element is CsMenuLink | CsMenuButton => {
+      return element instanceof CsMenuLink || element instanceof CsMenuButton;
+    });
   }
 
   #onOptionsClick() {

@@ -5,14 +5,14 @@ export default [
     /* Allows the target icon to properly align */
     .component {
       display: flex;
-      margin-block-end: -4px;
+      margin-block-end: -0.25rem;
     }
 
     cs-icon-button {
       display: inline-flex;
 
       --icon-color: var(--target-icon-color);
-      --cs-size: 1rem;
+      --size: 1rem;
     }
   `,
 ];

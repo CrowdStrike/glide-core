@@ -16,11 +16,22 @@ const meta: Meta = {
       description: {
         component: 'A tree element, containing a hierarchy of tree items',
       },
+      story: {
+        autoplay: true,
+      },
     },
   },
   args: {
     '<cs-tree-item>.selected': false,
     '<cs-tree-item>.label': 'Branch',
+  },
+  play(context) {
+    const links = context.canvasElement.querySelectorAll('cs-menu-link');
+
+    for (const link of links) {
+      // Prevent navigation. The URLs don't go anywhere.
+      link.addEventListener('click', (event) => event.preventDefault());
+    }
   },
   render: (arguments_) => html`
     <div style="max-width: 18.75rem; height: 12rem;">
