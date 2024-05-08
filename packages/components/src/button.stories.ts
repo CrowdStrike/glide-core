@@ -9,7 +9,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A button element with optional slots for icons.',
+        component: 'A button with optional slots for icons.',
       },
     },
   },
