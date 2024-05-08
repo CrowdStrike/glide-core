@@ -98,7 +98,7 @@ const meta: Meta = {
       },
       type: { name: 'function' },
     },
-    '--cs-drawer-width': {
+    '--width': {
       table: {
         type: {
           summary: 'CSS custom property',
@@ -119,8 +119,7 @@ export const WithCSSVariable: StoryObj = {
   render: () => html`
     <cs-button data-trigger>Open/Close</cs-button>
 
-    <!-- Use the the following CSS variable to adjust the width of the Drawer -->
-    <cs-drawer style="--cs-drawer-width: 20rem;">
+    <cs-drawer style="--width: 20rem;">
       <div style="padding: 0.5rem">Width of 20rem</div>
     </cs-drawer>
   `,

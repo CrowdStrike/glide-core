@@ -26,9 +26,9 @@ it('can have a default slot', async () => {
   expect(drawer.textContent).to.equal('Drawer content');
 });
 
-it('sets the width of the element based on the "--cs-drawer-width" CSS variable', async () => {
+it('sets the width of the element based on the "--width" CSS variable', async () => {
   const styledDiv = document.createElement('div');
-  styledDiv.setAttribute('style', '--cs-drawer-width: 750px');
+  styledDiv.setAttribute('style', '--width: 750px');
 
   const drawer = await fixture<Drawer>(
     html`<cs-drawer>Drawer content</cs-drawer>`,

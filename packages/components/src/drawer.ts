@@ -10,7 +10,7 @@ declare global {
 }
 
 /**
- * @cssprop [--cs-drawer-width] - Sets the width of the Drawer when open.
+ * @cssprop [--width] - Sets the width of the Drawer when open.
  *
  * @event close - Emitted when the Drawer closes.
  * @event open - Emitted when the Drawer opens.
