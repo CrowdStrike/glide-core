@@ -223,25 +223,19 @@ export default class CsModal extends LitElement {
     const dialogBoundingRect =
       this.#componentElementRef.value?.getBoundingClientRect();
 
-    /* istanbul ignore if  */
-    if (!dialogBoundingRect) {
-      /* istanbul ignore next  */
-      return;
+    if (dialogBoundingRect) {
+      const isClickInsideDialog =
+        dialogBoundingRect.top <= event.clientY &&
+        event.clientY <= dialogBoundingRect.top + dialogBoundingRect.height &&
+        dialogBoundingRect.left <= event.clientX &&
+        event.clientX <= dialogBoundingRect.left + dialogBoundingRect.width;
+
+      if (!isClickInsideDialog) {
+        document.documentElement.classList.remove('glide-lock-scroll');
+        this.dispatchEvent(new Event('close', { bubbles: false }));
+        this.#componentElementRef.value?.close();
+      }
     }
-
-    const isClickInsideDialog =
-      dialogBoundingRect.top <= event.clientY &&
-      event.clientY <= dialogBoundingRect.top + dialogBoundingRect.height &&
-      dialogBoundingRect.left <= event.clientX &&
-      event.clientX <= dialogBoundingRect.left + dialogBoundingRect.width;
-
-    if (isClickInsideDialog) {
-      return;
-    }
-
-    document.documentElement.classList.remove('glide-lock-scroll');
-    this.dispatchEvent(new Event('close', { bubbles: false }));
-    this.#componentElementRef.value?.close();
   }
 
   #onCloseButtonClick() {
