@@ -41,6 +41,7 @@ it('blurs the input if `blur` is called', async () => {
 
 it('focuses the input after `reportValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
     parentNode: form,
   });
@@ -53,6 +54,7 @@ it('focuses the input after `reportValidity` is called when required and no valu
 
 it('focuses the input after `requestSubmit` is called when required and no value', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
     parentNode: form,
   });
@@ -65,6 +67,7 @@ it('focuses the input after `requestSubmit` is called when required and no value
 
 it('does not focus the input after `checkValidity` is called', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
     parentNode: form,
   });

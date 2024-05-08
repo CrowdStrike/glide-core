@@ -25,6 +25,7 @@ it('is valid but not aria-invalid after being checked when unchecked and require
   expect(component.validity?.valueMissing).to.be.false;
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
+
   expect(
     component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
   ).to.equal('false');
@@ -39,6 +40,7 @@ it('is invalid but not aria-invalid if unchecked and required', async () => {
   expect(component.validity?.valueMissing).to.be.true;
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
+
   expect(
     component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
   ).to.equal('false');
@@ -55,6 +57,7 @@ it('is invalid but not aria-invalid after being unchecked when required', async 
   expect(component.validity?.valueMissing).to.be.true;
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
+
   expect(
     component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
   ).to.equal('false');
@@ -105,6 +108,7 @@ it('adds an error class and renders aria-invalid equal to true after `reportVali
     ?.classList.contains('error');
 
   expect(isErrorClass).to.be.true;
+
   expect(
     component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
   ).to.equal('true');
@@ -120,6 +124,7 @@ it('does not add an error class and renders aria-invalid equal to false by defau
     ?.classList.contains('error');
 
   expect(isErrorClass).to.be.false;
+
   expect(
     component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
   ).to.equal('false');
@@ -143,6 +148,7 @@ it('does not add an error class and renders aria-invalid equal to false after `r
     ?.classList.contains('error');
 
   expect(isErrorClass).to.be.false;
+
   expect(
     component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
   ).to.equal('false');

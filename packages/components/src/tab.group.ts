@@ -135,16 +135,19 @@ export default class CsTabGroup extends LitElement {
 
             break;
           }
+
           case 'End': {
             index = this.tabElements.length - 1;
 
             break;
           }
+
           case this.variant === 'vertical' ? 'ArrowUp' : 'ArrowLeft': {
             index--;
 
             break;
           }
+
           case this.variant === 'vertical' ? 'ArrowDown' : 'ArrowRight': {
             index++;
 
@@ -206,6 +209,7 @@ export default class CsTabGroup extends LitElement {
   #showTab(tab: CsTab) {
     this.activeTab = tab;
     this.#setActiveTab();
+
     this.dispatchEvent(
       new CustomEvent('tab-show', {
         detail: {

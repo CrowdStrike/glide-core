@@ -54,6 +54,7 @@ export default class CsButtonGroup extends LitElement {
         listItem.toggleAttribute('vertical');
       }
     }
+
     if (this.variant === 'icon-only') {
       for (const listItem of this.listItems) {
         listItem.setAttribute('variant', 'icon-only');
@@ -87,6 +88,7 @@ export default class CsButtonGroup extends LitElement {
   ): void {
     if (this.hasUpdated && changedProperties.has('variant')) {
       const value = changedProperties.get('variant');
+
       if (value === 'icon-only') {
         for (const listItem of this.listItems) {
           listItem.removeAttribute('variant');
@@ -100,6 +102,7 @@ export default class CsButtonGroup extends LitElement {
 
     if (this.hasUpdated && changedProperties.has('orientation')) {
       const value = changedProperties.get('orientation');
+
       if (value === 'vertical') {
         for (const listItem of this.listItems) {
           listItem.removeAttribute('vertical');

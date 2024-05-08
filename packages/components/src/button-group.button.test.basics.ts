@@ -23,6 +23,7 @@ it('renders an li with role "radio"', async () => {
   const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
+
   const liElement = element.shadowRoot?.querySelector('li');
 
   expect(liElement).to.have.attribute('role', 'radio');
@@ -32,6 +33,7 @@ it('renders "aria-checked" equal to "false" and "tabindex" equal to "-1" by defa
   const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
+
   const liElement = element.shadowRoot?.querySelector('li');
 
   expect(liElement).to.not.be.null;
@@ -45,6 +47,7 @@ it('renders "aria-checked" equal to "true" and "tabindex" equal to "0" when attr
       >Button</cs-button-group-button
     >`,
   );
+
   const liElement = element.shadowRoot?.querySelector('li');
 
   expect(liElement).to.have.attribute('aria-checked', 'true');
@@ -58,7 +61,9 @@ it('renders two slots, where one has name "prefix", and the other is default wit
       >Button</cs-button-group-button
     >`,
   );
+
   const prefixSlot = element.shadowRoot?.querySelector('slot[name="prefix"]');
+
   const defaultSlot = element.shadowRoot?.querySelector(
     'slot:not([name="prefix"])',
   );
@@ -82,6 +87,7 @@ it('is has a disabled presentation when the "disabled" attribute is true', async
       >Button</cs-button-group-button
     >`,
   );
+
   const liElement = element.shadowRoot?.querySelector('li');
 
   expect(liElement).to.have.attribute('aria-disabled', 'true');
@@ -91,6 +97,7 @@ it('does not have a disabled presentation when "disabled" attribute is false', a
   const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
+
   const liElement = element.shadowRoot?.querySelector('li');
 
   expect(liElement).to.have.attribute('aria-disabled', 'false');
@@ -126,6 +133,7 @@ it('sets buttons as not tabbable by default', async () => {
   const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
+
   const liElement = element.shadowRoot?.querySelector('li');
 
   await expect(liElement).to.have.attribute('tabindex', '-1');
@@ -137,6 +145,7 @@ it('sets a "selected" button as tabbable', async () => {
       >Button</cs-button-group-button
     >`,
   );
+
   const liElement = element.shadowRoot?.querySelector('li');
 
   await expect(liElement).to.have.attribute('tabindex', '0');
@@ -148,6 +157,7 @@ it('has a presentation for variant "icon-only"', async () => {
       ><span slot="prefix">Prefix</span>Button</cs-button-group-button
     >`,
   );
+
   const liElement = element.shadowRoot?.querySelector('li');
 
   expect(liElement).to.have.class('icon-only');
@@ -157,6 +167,7 @@ it('does not apply class "icon-only" when variant "icon-only" is absent', async 
   const element = await fixture(
     html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
   );
+
   const liElement = element.shadowRoot?.querySelector('li');
 
   expect(liElement).to.not.have.class('icon-only');
@@ -164,6 +175,7 @@ it('does not apply class "icon-only" when variant "icon-only" is absent', async 
 
 it('throws an error when no label is present and variant is `icon-only`', async () => {
   const spy = sinon.spy();
+
   try {
     await fixture(
       html`<cs-button-group-button value="value" selected variant="icon-only"
@@ -173,6 +185,7 @@ it('throws an error when no label is present and variant is `icon-only`', async 
   } catch {
     spy();
   }
+
   expect(spy.called).to.be.true;
 });
 
@@ -195,11 +208,13 @@ it('throws an error when prefix slot is empty and variant is `icon-only`', async
   } catch {
     spy();
   }
+
   expect(spy.called).to.be.true;
 });
 
 it('does not throw an error when prefix slot is empty and no variant is set', async () => {
   const spy = sinon.spy();
+
   try {
     await fixture(
       html`<cs-button-group-button value="value" selected
@@ -209,5 +224,6 @@ it('does not throw an error when prefix slot is empty and no variant is set', as
   } catch {
     spy();
   }
+
   expect(spy.notCalled).to.be.true;
 });

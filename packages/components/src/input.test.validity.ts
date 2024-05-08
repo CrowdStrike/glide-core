@@ -44,6 +44,7 @@ it('is invalid after value is cleared when required', async () => {
 
   const clearButton =
     input.shadowRoot?.querySelector<HTMLButtonElement>('.clear-icon-button');
+
   clearButton?.click();
   await input.updateComplete;
 
@@ -66,6 +67,7 @@ it('is valid if no value and required but disabled', async () => {
 
 it('adds an error class after submit when empty and required', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
     parentNode: form,
   });
@@ -82,6 +84,7 @@ it('adds an error class after submit when empty and required', async () => {
 
 it('adds an error class after `reportValidity` is called when required', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
     parentNode: form,
   });
@@ -108,6 +111,7 @@ it('does not add an error class by default', async () => {
 
 it('does not add an error class after `reportValidity` is called when not required', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input></cs-input>`, {
     parentNode: form,
   });
@@ -124,6 +128,7 @@ it('does not add an error class after `reportValidity` is called when not requir
 
 it('does not add an error class after `reportValidity` is called when required and has a value', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(
     html`<cs-input value="value" required></cs-input>`,
     { parentNode: form },
@@ -141,6 +146,7 @@ it('does not add an error class after `reportValidity` is called when required a
 
 it('does not add an error class after `reportValidity` is called when required but disabled', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(
     html`<cs-input disabled required></cs-input>`,
     { parentNode: form },
@@ -158,6 +164,7 @@ it('does not add an error class after `reportValidity` is called when required b
 
 it('does not add an error class after `checkValidity` is called when required', async () => {
   const form = document.createElement('form');
+
   const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
     parentNode: form,
   });

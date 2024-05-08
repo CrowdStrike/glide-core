@@ -23,6 +23,7 @@ it('emits a change event when arrow keys are pressed', async () => {
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
 
@@ -61,6 +62,7 @@ it('emits an input event when arrow keys are pressed', async () => {
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
 
@@ -95,6 +97,7 @@ it('moves focus to previous button when left or up arrow keys are pressed', asyn
       >
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
@@ -115,6 +118,7 @@ it('moves focus to last button when left or up arrow keys are pressed on the fir
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
@@ -138,6 +142,7 @@ it('moves focus to next button when right or down arrow keys are pressed', async
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
@@ -158,6 +163,7 @@ it('moves focus to first button when right or down arrow keys are pressed on the
       >
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
@@ -184,6 +190,7 @@ it('moves focus to previous enabled button when pressing left or up arrow keys',
       >
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
@@ -210,6 +217,7 @@ it('moves focus to next enabled button when pressing right or down arrow keys', 
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
@@ -230,6 +238,7 @@ it('does not move focus if there is only one button when pressing arrow keys', a
       <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElement = document.querySelector('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
 
@@ -256,6 +265,7 @@ it('changes the "selected" attribute when clicking', async () => {
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   const liElement = buttonElements[2].shadowRoot!.querySelector('li');
   expect(liElement).to.exist;
@@ -278,6 +288,7 @@ it('does not change focus nor the "selected" attribute when clicking a disabled 
       >
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
   await sendKeys({ press: 'Tab' });
   const liElement = buttonElements[0].shadowRoot!.querySelector('li');
@@ -300,6 +311,7 @@ it('changes the "selected" attribute when pressing arrow and space keys', async 
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   await sendKeys({ press: 'Tab' });

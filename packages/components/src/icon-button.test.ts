@@ -38,6 +38,7 @@ it('has defaults', async () => {
   expect(component.shadowRoot?.querySelector('button')?.type).to.equal(
     'button',
   );
+
   expect(component.shadowRoot?.querySelector('button')?.disabled).to.equal(
     false,
   );
@@ -124,6 +125,7 @@ it('sets the disabled attribute', async () => {
   );
 
   expect(component.disabled).to.equal(true);
+
   expect(component.shadowRoot?.querySelector('button')?.disabled).to.equal(
     true,
   );

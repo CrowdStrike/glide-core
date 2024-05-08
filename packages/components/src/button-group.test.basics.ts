@@ -31,6 +31,7 @@ it('renders a label and unordered list', async () => {
       ></cs-button-group
     >`,
   );
+
   const ulElement = element.shadowRoot?.querySelector('ul');
   const labelElement = element.shadowRoot?.querySelector('div.label');
 
@@ -47,6 +48,7 @@ it('does not render a label when not given', async () => {
       ></cs-button-group
     >`,
   );
+
   const ulElement = element.shadowRoot?.querySelector('ul');
   const labelElement = element.shadowRoot?.querySelector('label');
 
@@ -63,6 +65,7 @@ it('assigns buttons the correct positional presentation when in a group', async 
       <cs-button-group-button value="value-4">Button 4</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(4);
@@ -130,6 +133,7 @@ it('reacts to "orientation" attribute when changed from "horizontal" to "vertica
       ></cs-button-group
     >`,
   );
+
   const buttonElement = document.querySelector('cs-button-group-button');
   const liElement = buttonElement?.shadowRoot?.querySelector('li');
 
@@ -260,6 +264,7 @@ it("has a tabble button if it's the first element in a button group", async () =
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(3);
@@ -287,6 +292,7 @@ it('has the first non-disabled button set as tabbable when in a group', async ()
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(3);
@@ -314,6 +320,7 @@ it('has the "selected" button as tabbable and others are not when in a group', a
       <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(3);
@@ -342,6 +349,7 @@ it('initially no button sets itself as tabbable if all are disabled in a group',
       >
     </cs-button-group>`,
   );
+
   const buttonElements = document.querySelectorAll('cs-button-group-button');
 
   expect(buttonElements.length).to.equal(2);

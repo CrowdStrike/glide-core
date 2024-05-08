@@ -129,6 +129,7 @@ export default class CsDropdownOption extends LitElement {
   get #optionElements() {
     const elements =
       this.closest('cs-dropdown')?.querySelectorAll('cs-dropdown-option') ?? [];
+
     return [...elements];
   }
 

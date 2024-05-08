@@ -34,6 +34,7 @@ it('has defaults', async () => {
 
   expect(button?.getAttribute('type')).to.equal('button');
   expect(button?.disabled).to.equal(false);
+
   expect([...button!.classList]).to.deep.equal([
     'component',
     'primary',

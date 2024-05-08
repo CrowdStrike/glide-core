@@ -116,8 +116,10 @@ it('emits input events when text is changed and reports a value through the even
 
   let inputEventCaught = false;
   let value = '';
+
   element.addEventListener('input', (event: Event) => {
     inputEventCaught = true;
+
     if (event.target instanceof Input) {
       value = event.target.value;
     }
@@ -137,6 +139,7 @@ it('clearable attribute allows for a button which can clear input', async () => 
   const element = await fixture<Input>(html`
     <cs-input label="Test" clearable></cs-input>
   `);
+
   const clearButton =
     element.shadowRoot?.querySelector<HTMLButtonElement>('.clear-icon-button');
 
@@ -181,6 +184,7 @@ it('max content input receives error styling when text count is greater than max
 
   const componentContainer =
     element.shadowRoot?.querySelector<HTMLDivElement>('.component');
+
   const maxCharacterCountContainer =
     element.shadowRoot?.querySelector<HTMLDivElement>('.character-count');
 

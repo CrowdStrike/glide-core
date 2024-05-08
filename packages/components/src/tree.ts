@@ -95,6 +95,7 @@ export default class CsTree extends LitElement {
 
     return items.filter((item) => {
       const parent = item.parentElement?.closest('cs-tree-item');
+
       if (parent && (!parent.expanded || collapsedItems.has(parent))) {
         collapsedItems.add(item);
       }
@@ -155,8 +156,10 @@ export default class CsTree extends LitElement {
     ) {
       return;
     }
+
     const allFocusableItems = this.#getFocusableItems();
     const { focusedItem } = this;
+
     const indexOfFocusedItem = allFocusableItems.findIndex((item) =>
       item.matches(':focus'),
     );
@@ -175,6 +178,7 @@ export default class CsTree extends LitElement {
       } else {
         const parentTreeItem =
           focusedItem?.parentElement?.closest('cs-tree-item');
+
         this.#focusItem(parentTreeItem);
       }
     }
