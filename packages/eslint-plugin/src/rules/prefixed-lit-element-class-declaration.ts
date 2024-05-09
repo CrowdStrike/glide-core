@@ -39,7 +39,7 @@ export const prefixedClassDeclaration = createRule({
 
               if (!nodeId) {
                 console.error(
-                  `Error attempting to lint fix: "${nodeId}". Please report this error to @crowdstrike/glide-core.`,
+                  `Error attempting to lint fix "prefixed-lit-element-class-declaration at nodeId: ${nodeId}". Please report this error to @crowdstrike/glide-core.`,
                 );
                 return null;
               }
