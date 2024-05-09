@@ -1,8 +1,8 @@
 import './icon-button.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import IconButton from './icon-button.js';
+import CsIconButton from './icon-button.js';
 
-IconButton.shadowRootOptions.mode = 'open';
+CsIconButton.shadowRootOptions.mode = 'open';
 
 const icon = html`<svg
   width="16"
@@ -19,11 +19,11 @@ const icon = html`<svg
 </svg>`;
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-icon-button')).to.equal(IconButton);
+  expect(window.customElements.get('cs-icon-button')).to.equal(CsIconButton);
 });
 
 it('is accessible', async () => {
-  const component = await fixture<IconButton>(
+  const component = await fixture<CsIconButton>(
     html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
   );
 
@@ -31,7 +31,7 @@ it('is accessible', async () => {
 });
 
 it('has defaults', async () => {
-  const component = await fixture<IconButton>(
+  const component = await fixture<CsIconButton>(
     html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
   );
 
@@ -49,7 +49,7 @@ it('has defaults', async () => {
 });
 
 it('delegates focus', async () => {
-  const component = await fixture<IconButton>(
+  const component = await fixture<CsIconButton>(
     html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
   );
 
@@ -61,7 +61,7 @@ it('delegates focus', async () => {
 });
 
 it('uses the provided "label" for the aria-label', async () => {
-  const component = await fixture<IconButton>(
+  const component = await fixture<CsIconButton>(
     html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
   );
 
@@ -71,7 +71,7 @@ it('uses the provided "label" for the aria-label', async () => {
 });
 
 it('renders a default slot', async () => {
-  const component = await fixture<IconButton>(
+  const component = await fixture<CsIconButton>(
     html`<cs-icon-button label="test-icon-button"
       ><span data-content>Inner content</span></cs-icon-button
     >`,
@@ -82,7 +82,7 @@ it('renders a default slot', async () => {
 });
 
 it('renders a primary variant', async () => {
-  const component = await fixture<IconButton>(
+  const component = await fixture<CsIconButton>(
     html`<cs-icon-button label="test-icon-button" variant="primary"
       >${icon}</cs-icon-button
     >`,
@@ -94,7 +94,7 @@ it('renders a primary variant', async () => {
 });
 
 it('renders a secondary variant', async () => {
-  const component = await fixture<IconButton>(
+  const component = await fixture<CsIconButton>(
     html`<cs-icon-button label="test-icon-button" variant="secondary"
       >${icon}</cs-icon-button
     >`,
@@ -106,7 +106,7 @@ it('renders a secondary variant', async () => {
 });
 
 it('renders a tertiary variant', async () => {
-  const component = await fixture<IconButton>(
+  const component = await fixture<CsIconButton>(
     html`<cs-icon-button label="test-icon-button" variant="tertiary"
       >${icon}</cs-icon-button
     >`,
@@ -118,7 +118,7 @@ it('renders a tertiary variant', async () => {
 });
 
 it('sets the disabled attribute', async () => {
-  const component = await fixture<IconButton>(
+  const component = await fixture<CsIconButton>(
     html`<cs-icon-button label="test-icon-button" disabled
       >${icon}</cs-icon-button
     >`,
