@@ -196,7 +196,7 @@ it('renders with a prefix and suffix slot when both are present initially', asyn
 
 it('renders with prefix and suffix classes when both are dynamically added', async () => {
   const component = await fixture<CsButton>(html`
-    <cs-button> Button </cs-button>
+    <cs-button>Button</cs-button>
   `);
 
   const prefix = document.createElement('span');

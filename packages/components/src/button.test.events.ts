@@ -7,7 +7,7 @@ CsButton.shadowRootOptions.mode = 'open';
 
 it('dispatches an event when clicked and type="button"', async () => {
   const component = await fixture<CsButton>(html`
-    <cs-button type="button"> Button </cs-button>
+    <cs-button type="button">Button</cs-button>
   `);
 
   const clickEvent = oneEvent(component, 'click');
@@ -20,7 +20,7 @@ it('dispatches an event when clicked and type="button"', async () => {
 
 it('dispatches an event when hitting "enter" and type="button"', async () => {
   const component = await fixture<CsButton>(html`
-    <cs-button type="button"> Button </cs-button>
+    <cs-button type="button">Button</cs-button>
   `);
 
   const keyDownEvent = oneEvent(component, 'keydown');

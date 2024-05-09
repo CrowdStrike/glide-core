@@ -9,7 +9,7 @@ it('participates in a form when type="reset"', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsButton>(
-    html` <cs-button type="reset"> Button </cs-button> `,
+    html` <cs-button type="reset">Button</cs-button> `,
     {
       parentNode: form,
     },
@@ -27,7 +27,7 @@ it('participates in a form when hitting "enter" and type="reset"', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsButton>(
-    html` <cs-button type="reset"> Button </cs-button> `,
+    html` <cs-button type="reset">Button</cs-button> `,
     {
       parentNode: form,
     },
@@ -45,7 +45,7 @@ it('participates in a form when type="submit"', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsButton>(
-    html` <cs-button type="submit"> Button </cs-button> `,
+    html` <cs-button type="submit">Button</cs-button> `,
     {
       parentNode: form,
     },
@@ -64,7 +64,7 @@ it('participates in a form when hitting "enter" and type="submit"', async () => 
   const form = document.createElement('form');
 
   const component = await fixture<CsButton>(
-    html` <cs-button type="submit"> Button </cs-button> `,
+    html` <cs-button type="submit">Button</cs-button> `,
     {
       parentNode: form,
     },
