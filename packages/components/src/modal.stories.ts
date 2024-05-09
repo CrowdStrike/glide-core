@@ -1,8 +1,13 @@
+import './button.js';
+import './icons/storybook.js';
+import './modal.js';
+import './modal.tertiary-icon.js';
+import './tooltip.js';
 import { html, nothing } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  title: 'Glide/Modal',
+  title: 'Modal',
   tags: ['autodocs'],
   parameters: {
     docs: {
@@ -18,6 +23,7 @@ const meta: Meta = {
   play(context) {
     const button =
       context.canvasElement.querySelector<HTMLButtonElement>('[data-open]');
+
     const modal = context.canvasElement.querySelector('cs-modal');
 
     button?.addEventListener('click', () => modal?.showModal());
@@ -25,8 +31,8 @@ const meta: Meta = {
   render: (arguments_) => html`
     <cs-modal
       label=${arguments_.label}
-      show-back-button=${arguments_['show-back-button'] || nothing}
-      width=${arguments_.width || nothing}
+      ?show-back-button=${arguments_['show-back-button'] || nothing}
+      size=${arguments_.size ?? nothing}
     >
       ${arguments_['slot="default"']}
 
@@ -34,15 +40,6 @@ const meta: Meta = {
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
     <cs-button data-open>Open Modal ${arguments_.size}</cs-button>
-
-    <!--
-      <script>
-          const button = document.querySelector('[data-open]');
-          const modal = document.querySelector('cs-modal');
-
-          button?.addEventListener('click', () => modal.showModal());
-      </script>
-    -->
   `,
   args: {
     label: 'Basic Modal',
@@ -57,20 +54,20 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    width: {
-      control: { type: 'select' },
-      options: ['sm', 'md', 'lg', 'xl'],
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large', 'xlarge'],
       table: {
         defaultValue: {
-          summary: '"sm"',
+          summary: '"medium"',
         },
-        type: { summary: '"sm" | "md" | "lg" | "xl"' },
+        type: { summary: '"small" | "medium" | "large" | "xlarge"' },
       },
     },
     'show-back-button': {
       control: 'boolean',
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: 'false' },
         type: {
           detail:
             'Adds a button in the Modal header that will close the dialog upon clicking it.',
@@ -86,7 +83,7 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'addEventListener(event, listener)': {
-      control: { type: 'object' },
+      type: 'function',
       table: {
         type: {
           summary: 'method',
@@ -95,6 +92,7 @@ const meta: Meta = {
       },
     },
     'showModal()': {
+      type: 'function',
       table: {
         type: {
           summary: 'method',
@@ -103,6 +101,7 @@ const meta: Meta = {
       },
     },
     'close()': {
+      type: 'function',
       table: {
         type: {
           summary: 'method',
@@ -118,11 +117,10 @@ export default meta;
 export const Modal: StoryObj = {};
 
 export const WithBackButton: StoryObj = {
-  name: 'Back Button',
+  name: 'Modal (With Back Button)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label} show-back-button>
       ${arguments_['slot="default"']}
-
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
@@ -132,19 +130,17 @@ export const WithBackButton: StoryObj = {
 };
 
 export const HeaderActions: StoryObj = {
-  name: 'Header Actions',
+  name: 'Modal (With Header Actions)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
-
       <!-- Only "cs-modal-icon-button" components should be used with header-actions -->
-      <cs-modal-icon-button slot="header-actions">
-        <!-- editor pencil icon -->
+      <cs-modal-icon-button slot="header-actions" label="Edit">
+        <cs-example-icon name="pencil"></cs-example-icon>
       </cs-modal-icon-button>
-      <cs-modal-icon-button slot="header-actions">
-        <!-- general settings icon -->
+      <cs-modal-icon-button slot="header-actions" label="Settings">
+        <cs-example-icon name="settings"></cs-example-icon>
       </cs-modal-icon-button>
-
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
@@ -154,19 +150,17 @@ export const HeaderActions: StoryObj = {
 };
 
 export const HeaderActionsWithBackButton: StoryObj = {
-  name: 'Header Actions (With Back Button)',
+  name: 'Modal (With Header Actions and Back Button)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label} show-back-button>
       ${arguments_['slot="default"']}
-
       <!-- Only "cs-modal-icon-button" components should be used with header-actions -->
-      <cs-modal-icon-button slot="header-actions">
-        <!-- editor pencil icon -->
+      <cs-modal-icon-button slot="header-actions" label="Edit">
+        <cs-example-icon name="pencil"></cs-example-icon>
       </cs-modal-icon-button>
-      <cs-modal-icon-button slot="header-actions">
-        <!-- general settings icon -->
+      <cs-modal-icon-button slot="header-actions" label="Settings">
+        <cs-example-icon name="settings"></cs-example-icon>
       </cs-modal-icon-button>
-
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
@@ -176,13 +170,11 @@ export const HeaderActionsWithBackButton: StoryObj = {
 };
 
 export const TertiaryButton: StoryObj = {
-  name: 'Tertiary Content (Button)',
+  name: 'Modal (With Tertiary Content Button)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
-
       <cs-button slot="tertiary" variant="secondary">Tertiary</cs-button>
-
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
@@ -192,30 +184,23 @@ export const TertiaryButton: StoryObj = {
 };
 
 export const TertiaryIcon: StoryObj = {
-  name: 'Tertiary Content (Icon)',
+  name: 'Modal (With Tertiary Content Icon)',
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
-
       <span slot="tertiary">
         <!--
           The rendering of the tooltip placement is incorrect in this story due to the way Storybook scales the
           content inside of the doc block. To view the correct placement of the tooltip, we recommend navigating to
           the individual story instead.
-
-          The "hoist" attribute here should not be needed for consumers in real applications. This is only applied
-          to deal with the Storybook scaling mentioned above.
         -->
-        <cs-tooltip hoist>
-          <div slot="description">Information</div>
-
-          <!-- Use the "cs-modal-tertiary-icon" component for accessibility and styling -->
-          <cs-modal-tertiary-icon>
-            <!-- general info icon -->
+        <cs-tooltip placement="right">
+          Information
+          <cs-modal-tertiary-icon slot="target" label="Information">
+            <cs-example-icon name="info"></cs-example-icon>
           </cs-modal-tertiary-icon>
         </cs-tooltip>
       </span>
-
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>

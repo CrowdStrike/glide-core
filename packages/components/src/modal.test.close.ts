@@ -2,6 +2,8 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Modal from './modal.js';
 
+Modal.shadowRootOptions.mode = 'open';
+
 it('closes the modal when the close button is clicked', async () => {
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title"></cs-modal>`,
@@ -12,6 +14,7 @@ it('closes the modal when the close button is clicked', async () => {
   const button = element.shadowRoot!.querySelector<HTMLButtonElement>(
     '[data-test="close-button"]',
   );
+
   expect(button).to.be.ok;
 
   button?.click();
@@ -32,6 +35,7 @@ it('closes the modal when the escape key is pressed', async () => {
 
   const dialogElement =
     element.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
+
   expect(dialogElement?.hasAttribute('open')).to.be.true;
 
   await sendKeys({ press: 'Escape' });
@@ -48,11 +52,13 @@ it('closes the modal via "show-back-button"', async () => {
 
   const dialogElement =
     element.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
+
   expect(dialogElement?.hasAttribute('open')).to.be.true;
 
   const button = element.shadowRoot!.querySelector<HTMLButtonElement>(
     '[data-test="back-button"]',
   );
+
   expect(button).to.be.ok;
 
   button?.click();

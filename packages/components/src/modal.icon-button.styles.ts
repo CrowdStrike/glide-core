@@ -1,5 +1,6 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
+import visuallyHidden from './styles/visually-hidden.js';
 
 // The styling for this component somewhat overlaps with our existing icon-button
 // component; however, there are a couple of different features that are specific
@@ -12,20 +13,15 @@ import focusOutline from './styles/focus-outline.js';
 //    icon button provides.
 export default [
   css`
-    button {
-      --size: 1.25rem;
-
-      display: flex;
+    .component {
       align-items: center;
-
+      background-color: transparent;
       border: none;
       border-radius: var(--cs-spacing-sm);
-      background-color: transparent;
       color: var(--cs-icon-default);
       cursor: pointer;
-
+      display: flex;
       padding: 0;
-
       transition: color 200ms ease-in-out;
 
       &:hover {
@@ -38,6 +34,17 @@ export default [
 
       &:focus-visible {
         ${focusOutline};
+      }
+
+      & .label {
+        ${visuallyHidden};
+      }
+
+      & ::slotted(*) {
+        --size: 1.25rem;
+
+        block-size: 1.25rem;
+        inline-size: 1.25rem;
       }
     }
   `,

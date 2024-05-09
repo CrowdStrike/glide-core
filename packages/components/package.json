@@ -99,6 +99,10 @@
       "import": "./dist/menu.link.js",
       "types": "./dist/menu.link.d.ts"
     },
+    "./modal.js": {
+      "import": "./dist/modal.js",
+      "types": "./dist/modal.d.ts"
+    },
     "./tag.js": {
       "import": "./dist/tag.js",
       "types": "./dist/tag.d.ts"

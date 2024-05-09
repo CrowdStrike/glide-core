@@ -8,6 +8,7 @@ export default [
       from {
         opacity: 0;
       }
+
       to {
         opacity: 1;
       }
@@ -18,6 +19,7 @@ export default [
         opacity: 0;
         transform: scale(0.9);
       }
+
       to {
         opacity: 1;
         transform: scale(1);
@@ -25,21 +27,19 @@ export default [
     }
 
     .component {
-      border-radius: 0.5rem;
       background-color: var(--cs-surface-base-lighter);
-      box-shadow: var(--cs-shadow-lg);
       border: none;
-
+      border-radius: 0.5rem;
+      box-shadow: var(--cs-shadow-lg);
       font-family: var(--cs-body-xs-font-family);
-
-      padding: 1.25rem;
-      max-height: 75vh;
-
+      inline-size: 35rem;
+      max-block-size: 75vh;
       opacity: 0;
+      padding: 1.25rem;
 
       &[open] {
-        opacity: 1;
         animation: modal-open 250ms;
+        opacity: 1;
       }
 
       &:focus {
@@ -51,11 +51,13 @@ export default [
       }
 
       &::backdrop {
+        animation: backdrop-fade-in 250ms;
+
+        /* prefix required for Safari */
+        /* stylelint-disable-next-line property-no-vendor-prefix */
         -webkit-backdrop-filter: blur(3px);
         backdrop-filter: blur(3px);
-        background-color: rgba(0, 0, 0, 0.4);
-
-        animation: backdrop-fade-in 250ms;
+        background-color: rgba(0 0 0 / 40%);
       }
     }
 
@@ -71,63 +73,53 @@ export default [
       }
     }
 
-    .width--sm {
-      width: 22.5rem;
+    .small {
+      inline-size: 22.5rem;
     }
 
-    .width--md {
-      width: 35rem;
+    .medium {
+      inline-size: 35rem;
     }
 
-    .width--lg {
-      width: 53.75rem;
+    .large {
+      inline-size: 53.75rem;
     }
 
-    .width--xl {
-      width: 69.375rem;
+    .xlarge {
+      inline-size: 69.375rem;
     }
 
     .header {
+      align-items: center;
       display: flex;
       justify-content: space-between;
-      align-items: center;
     }
 
     .label {
-      --size: 1.25rem;
-
-      color: var(--cs-text-body);
-
-      line-height: 2rem;
-      font-weight: 600;
-      font-size: 1.5rem;
-
-      display: flex;
       align-items: center;
+      color: var(--cs-text-body);
+      display: flex;
+      font-size: 1.5rem;
+      font-weight: 600;
       gap: var(--cs-spacing-xs);
-
+      inline-size: 100%;
+      line-height: 2rem;
       margin: 0;
-
-      text-overflow: ellipsis;
       overflow: hidden;
-
+      text-overflow: ellipsis;
       white-space: nowrap;
-      width: 100%;
     }
 
     .header-actions {
-      display: flex;
       align-items: center;
+      display: flex;
       gap: 0.625rem;
     }
 
     .body {
       display: flex;
-
-      padding-bottom: 1.25rem;
-      padding-top: 1.25rem;
-
       overflow: auto;
+      padding-block: 1.25rem;
 
       &:focus {
         outline: none;
@@ -139,28 +131,28 @@ export default [
     }
 
     .footer {
-      display: flex;
       align-items: center;
+      display: flex;
     }
 
     .actions {
-      /* Reset the default menu styles */
-      padding: 0;
-      margin: 0;
-      list-style-type: none;
-
       display: flex;
       gap: var(--cs-spacing-xs);
-      margin-left: auto;
+
+      /* Reset the default menu styles */
+      list-style-type: none;
+      margin: 0;
+      margin-inline-start: auto;
+      padding: 0;
     }
 
     .menu {
       display: flex;
-      padding: 0;
-      margin: 0;
-      list-style-type: none;
+      inline-size: 100%;
       justify-content: space-between;
-      width: 100%;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
     }
 
     .flex {

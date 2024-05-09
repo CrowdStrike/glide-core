@@ -1,86 +1,150 @@
 import './modal.js';
-import { expect, fixture, html, waitUntil } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
+import { expect, fixture, html } from '@open-wc/testing';
+import { sendKeys, sendMouse } from '@web/test-runner-commands';
 import Modal from './modal.js';
+import sinon from 'sinon';
+
+Modal.shadowRootOptions.mode = 'open';
 
 it('dispatches a "close" event when the modal is closed via the "close" method', async () => {
-  let hasCloseBeenCalled = false;
+  const spy = sinon.spy();
 
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title"></cs-modal>`,
   );
-  element.addEventListener('close', () => (hasCloseBeenCalled = true));
 
+  element.addEventListener('close', spy);
   element.showModal();
-  expect(hasCloseBeenCalled).to.be.false;
+
+  expect(spy.notCalled).to.be.true;
 
   element.close();
 
-  await waitUntil(() => hasCloseBeenCalled === true);
-
-  expect(hasCloseBeenCalled).to.be.true;
+  expect(spy.called).to.be.true;
 });
 
 it('dispatches a "close" event when the modal is closed via the close button', async () => {
-  let hasCloseBeenCalled = false;
+  const spy = sinon.spy();
 
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title"></cs-modal>`,
   );
 
-  element.addEventListener('close', () => (hasCloseBeenCalled = true));
-
+  element.addEventListener('close', spy);
   element.showModal();
 
-  const button = element.shadowRoot!.querySelector<HTMLButtonElement>(
+  const button = element.shadowRoot?.querySelector<HTMLButtonElement>(
     '[data-test="close-button"]',
   );
+
   expect(button).to.be.ok;
 
   button?.click();
 
-  await waitUntil(() => hasCloseBeenCalled === true);
-
-  expect(hasCloseBeenCalled).to.be.true;
+  expect(spy.called).to.be.true;
 });
 
 it('dispatches a "close" event when the modal is closed via the escape key', async () => {
-  let hasCloseBeenCalled = false;
+  const spy = sinon.spy();
 
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title"></cs-modal>`,
   );
 
-  element.addEventListener('close', () => (hasCloseBeenCalled = true));
-
+  element.addEventListener('close', spy);
   element.showModal();
 
   await sendKeys({ press: 'Escape' });
 
-  await waitUntil(() => hasCloseBeenCalled === true);
+  expect(spy.called).to.be.true;
+});
 
-  expect(hasCloseBeenCalled).to.be.true;
+it('does not dispatch a "close" event when the modal is open and non-escape keys are pressed', async () => {
+  const spy = sinon.spy();
+
+  const element = await fixture<Modal>(
+    html`<cs-modal label="Modal title"></cs-modal>`,
+  );
+
+  element.addEventListener('close', spy);
+
+  element.showModal();
+
+  // Tests only a couple keys.
+  await sendKeys({ press: ' ' });
+
+  expect(spy.notCalled).to.be.true;
+
+  await sendKeys({ press: 'Enter' });
+
+  expect(spy.notCalled).to.be.true;
 });
 
 it('dispatches a "close" event when the modal is closed via "show-back-button"', async () => {
-  let hasCloseBeenCalled = false;
+  const spy = sinon.spy();
 
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title" show-back-button></cs-modal>`,
   );
 
-  element.addEventListener('close', () => (hasCloseBeenCalled = true));
-
+  element.addEventListener('close', spy);
   element.showModal();
 
-  const button = element.shadowRoot!.querySelector<HTMLButtonElement>(
+  const button = element.shadowRoot?.querySelector<HTMLButtonElement>(
     '[data-test="back-button"]',
   );
+
   expect(button).to.be.ok;
 
   button?.click();
 
-  await waitUntil(() => hasCloseBeenCalled === true);
+  expect(spy.called).to.be.true;
+});
 
-  expect(hasCloseBeenCalled).to.be.true;
+it('does not emit a "close" event when clicking inside the dialog and the mouse is not positioned on a "close" button', async () => {
+  const spy = sinon.spy();
+
+  const element = await fixture<Modal>(
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  );
+
+  element.showModal();
+  element.addEventListener('close', spy);
+  const dialogElement = element?.shadowRoot?.querySelector('dialog');
+  const boundingRectangle = dialogElement?.getBoundingClientRect();
+
+  expect(boundingRectangle).is.not.null;
+
+  const { top, left } = boundingRectangle!;
+
+  await sendMouse({
+    type: 'click',
+    position: [Math.ceil(left + 1), Math.ceil(top + 1)],
+  });
+
+  expect(spy.notCalled).to.be.true;
+});
+
+it('emits a "close" event when clicking outside the dialog', async () => {
+  const spy = sinon.spy();
+
+  const element = await fixture<Modal>(
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  );
+
+  element.showModal();
+  element.addEventListener('close', spy);
+  const dialogElement = element?.shadowRoot?.querySelector('dialog');
+  const boundingRectangle = dialogElement?.getBoundingClientRect();
+
+  expect(boundingRectangle).is.not.null;
+
+  const { top, left } = boundingRectangle!;
+
+  await sendMouse({
+    type: 'click',
+    position: [Math.floor(left - 1), Math.floor(top - 1)],
+  });
+
+  expect(spy.called).to.be.true;
 });

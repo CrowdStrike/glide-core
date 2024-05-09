@@ -1,8 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import Modal from './modal.js';
 
+Modal.shadowRootOptions.mode = 'open';
+
 it('is accessible', async () => {
-  const element = await fixture<Modal>(
+  const element = await fixture(
     html`<cs-modal label="Modal title"></cs-modal>`,
   );
 
@@ -16,8 +18,7 @@ it('focuses the dialog upon opening', async () => {
 
   element.showModal();
 
-  const dialogElement =
-    element.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
+  const dialogElement = element.shadowRoot?.querySelector('dialog');
 
   expect(element.shadowRoot?.activeElement).to.equal(dialogElement);
 });
@@ -30,7 +31,7 @@ it('sets the tabindex on the dialog to "-1"', async () => {
   element.showModal();
 
   const dialogElement =
-    element.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
+    element.shadowRoot?.querySelector<HTMLDialogElement>('dialog');
 
   expect(dialogElement?.getAttribute('tabindex')).to.equal('-1');
 });
@@ -43,7 +44,8 @@ it('sets the "toolbar" role on the header-actions section', async () => {
   element.showModal();
 
   const toolbar =
-    element.shadowRoot!.querySelector<HTMLDialogElement>('[role="toolbar"');
+    element.shadowRoot?.querySelector<HTMLDialogElement>('[role="toolbar"');
+
   expect(toolbar).to.be.ok;
 });
 
@@ -55,7 +57,7 @@ it('sets proper aria attributes and roles on the article', async () => {
   element.showModal();
 
   const content =
-    element.shadowRoot!.querySelector<HTMLDialogElement>('[role="region"');
+    element.shadowRoot?.querySelector<HTMLDialogElement>('[role="region"');
 
   expect(content).to.be.ok;
   expect(content?.tagName).to.equal('ARTICLE');
@@ -64,7 +66,8 @@ it('sets proper aria attributes and roles on the article', async () => {
 
   // Verify the aria-labelledby id attribute is found
   const label =
-    element.shadowRoot!.querySelector<HTMLHeadingElement>('#heading');
+    element.shadowRoot?.querySelector<HTMLHeadingElement>('#heading');
+
   expect(label).to.be.ok;
   expect(label?.tagName).to.equal('H2');
 });
