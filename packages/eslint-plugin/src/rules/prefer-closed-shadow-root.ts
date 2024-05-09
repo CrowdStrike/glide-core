@@ -105,9 +105,6 @@ export const preferClosedShadowRoot = createRule({
             context.report({
               node,
               messageId: 'setModeClosed',
-              fix: function (fixer) {
-                return fixer.replaceText(shadowRootMode.value, `'closed'`);
-              },
             });
           }
         }

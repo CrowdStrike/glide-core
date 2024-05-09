@@ -56,15 +56,6 @@ ruleTester.run('prefer-closed-shadow-root', preferClosedShadowRoot, {
     {
       // Has shadowRootOptions, but mode is set to "open"
       code: "class Example extends LitElement { static override shadowRootOptions: ShadowRootInit = { ...LitElement.shadowRootOptions, mode: 'open' }; }",
-      output:
-        "class Example extends LitElement { static override shadowRootOptions: ShadowRootInit = { ...LitElement.shadowRootOptions, mode: 'closed' }; }",
-      errors: [{ messageId: 'setModeClosed' }],
-    },
-    {
-      // Has existing shadowRootOptions and mode is set to "open"
-      code: "class Example extends LitElement { static override shadowRootOptions: ShadowRootInit = { ...LitElement.shadowRootOptions, delegatesFocus: true, mode: 'open' }; }",
-      output:
-        "class Example extends LitElement { static override shadowRootOptions: ShadowRootInit = { ...LitElement.shadowRootOptions, delegatesFocus: true, mode: 'closed' }; }",
       errors: [{ messageId: 'setModeClosed' }],
     },
   ],
