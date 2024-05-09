@@ -1,28 +1,23 @@
 import './button.js';
-import {
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-  oneEvent,
-} from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
-import Button from './button.js';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import CsButton from './button.js';
 
-Button.shadowRootOptions.mode = 'open';
+CsButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-button')).to.equal(Button);
+  expect(window.customElements.get('cs-button')).to.equal(CsButton);
 });
 
 it('is accessible', async () => {
-  const component = await fixture<Button>(html`<cs-button>Button</cs-button>`);
+  const component = await fixture<CsButton>(
+    html`<cs-button>Button</cs-button>`,
+  );
 
   await expect(component).to.be.accessible();
 });
 
 it('has defaults', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button>Button</cs-button>
   `);
 
@@ -43,7 +38,9 @@ it('has defaults', async () => {
 });
 
 it('delegates focus', async () => {
-  const component = await fixture<Button>(html`<cs-button>Button</cs-button>`);
+  const component = await fixture<CsButton>(
+    html`<cs-button>Button</cs-button>`,
+  );
 
   component.focus();
 
@@ -53,7 +50,7 @@ it('delegates focus', async () => {
 });
 
 it('renders a secondary variant', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button variant="secondary">Button</cs-button>
   `);
 
@@ -63,7 +60,7 @@ it('renders a secondary variant', async () => {
 });
 
 it('renders a tertiary variant', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button variant="tertiary">Button</cs-button>
   `);
 
@@ -73,7 +70,7 @@ it('renders a tertiary variant', async () => {
 });
 
 it('sets the size to "large" by default', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button>Button</cs-button>
   `);
 
@@ -85,7 +82,7 @@ it('sets the size to "large" by default', async () => {
 });
 
 it('sets the size attribute to "large"', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button size="large">Button</cs-button>
   `);
 
@@ -97,7 +94,7 @@ it('sets the size attribute to "large"', async () => {
 });
 
 it('sets the size attribute to "small"', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button size="small">Button</cs-button>
   `);
 
@@ -109,7 +106,7 @@ it('sets the size attribute to "small"', async () => {
 });
 
 it('sets the disabled attribute', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button disabled>Button</cs-button>
   `);
 
@@ -121,7 +118,7 @@ it('sets the disabled attribute', async () => {
 });
 
 it('sets the type attribute to "submit"', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button type="submit">Button</cs-button>
   `);
 
@@ -133,7 +130,7 @@ it('sets the type attribute to "submit"', async () => {
 });
 
 it('sets the type attribute to "reset"', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button type="reset">Button</cs-button>
   `);
 
@@ -145,7 +142,7 @@ it('sets the type attribute to "reset"', async () => {
 });
 
 it('renders with a prefix slot', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button>
       <span slot="prefix" data-prefix>prefix</span>
       Button
@@ -160,7 +157,7 @@ it('renders with a prefix slot', async () => {
 });
 
 it('renders with a suffix slot', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button>
       Button
       <span slot="suffix" data-suffix>suffix</span>
@@ -175,7 +172,7 @@ it('renders with a suffix slot', async () => {
 });
 
 it('renders with a prefix and suffix slot when both are present initially', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button>
       <span slot="prefix" data-prefix>prefix</span>
       Button
@@ -198,8 +195,8 @@ it('renders with a prefix and suffix slot when both are present initially', asyn
 });
 
 it('renders with prefix and suffix classes when both are dynamically added', async () => {
-  const component = await fixture<Button>(html`
-    <cs-button> Button </cs-button>
+  const component = await fixture<CsButton>(html`
+    <cs-button>Button</cs-button>
   `);
 
   const prefix = document.createElement('span');
@@ -231,7 +228,7 @@ it('renders with prefix and suffix classes when both are dynamically added', asy
 });
 
 it('renders without prefix and suffix classes after both are removed', async () => {
-  const component = await fixture<Button>(html`
+  const component = await fixture<CsButton>(html`
     <cs-button>
       <span slot="prefix">prefix</span>
       Button
@@ -246,108 +243,4 @@ it('renders without prefix and suffix classes after both are removed', async () 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['component', 'primary', 'large']);
-});
-
-it('dispatches an event when clicked and type="button"', async () => {
-  const component = await fixture<Button>(html`
-    <cs-button type="button"> Button </cs-button>
-  `);
-
-  const clickEvent = oneEvent(component, 'click');
-
-  component.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
-
-  const event = await clickEvent;
-  expect(event instanceof Event).to.be.true;
-});
-
-it('dispatches an event when hitting "enter" and type="button"', async () => {
-  const component = await fixture<Button>(html`
-    <cs-button type="button"> Button </cs-button>
-  `);
-
-  const keyDownEvent = oneEvent(component, 'keydown');
-
-  component.focus();
-  await sendKeys({ press: 'Enter' });
-
-  const event = await keyDownEvent;
-
-  expect(event instanceof Event).to.be.true;
-  expect(event.key).to.equal('Enter');
-});
-
-it('participates in a form when type="reset"', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<Button>(
-    html` <cs-button type="reset"> Button </cs-button> `,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formResetEvent = oneEvent(form, 'reset');
-
-  component.shadowRoot?.querySelector<HTMLButtonElement>('button')?.click();
-
-  const event = await formResetEvent;
-  expect(event instanceof Event).to.be.true;
-});
-
-it('participates in a form when hitting "enter" and type="reset"', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<Button>(
-    html` <cs-button type="reset"> Button </cs-button> `,
-    {
-      parentNode: form,
-    },
-  );
-
-  const formResetEvent = oneEvent(form, 'reset');
-  component.focus();
-  await sendKeys({ press: 'Enter' });
-
-  const event = await formResetEvent;
-  expect(event instanceof Event).to.be.true;
-});
-
-it('participates in a form when type="submit"', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<Button>(
-    html` <cs-button type="submit"> Button </cs-button> `,
-    {
-      parentNode: form,
-    },
-  );
-
-  form.addEventListener('submit', (event) => event.preventDefault());
-
-  const formSubmitEvent = oneEvent(form, 'submit');
-  component.shadowRoot?.querySelector<Button>('button')?.click();
-
-  const event = await formSubmitEvent;
-  expect(event instanceof Event).to.be.true;
-});
-
-it('participates in a form when hitting "enter" and type="submit"', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<Button>(
-    html` <cs-button type="submit"> Button </cs-button> `,
-    {
-      parentNode: form,
-    },
-  );
-
-  form.addEventListener('submit', (event) => event.preventDefault());
-
-  const formSubmitEvent = oneEvent(form, 'submit');
-  component.focus();
-  await sendKeys({ press: 'Enter' });
-
-  const event = await formSubmitEvent;
-  expect(event instanceof Event).to.be.true;
 });
