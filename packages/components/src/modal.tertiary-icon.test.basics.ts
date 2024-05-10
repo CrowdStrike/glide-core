@@ -1,3 +1,4 @@
+import './button.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import TertiaryIconWrapper from './modal.tertiary-icon.js';
 
@@ -24,18 +25,23 @@ it('renders and sets default attributes', async () => {
 
   expect(element).to.be.ok;
 
-  const spanTag = element.shadowRoot?.querySelector('.component');
+  const spanTag = element.shadowRoot?.querySelector('span');
   expect(spanTag?.getAttribute('tabindex')).to.equal('0');
+
+  const toolip = element.shadowRoot?.querySelector('cs-tooltip');
+  expect(toolip).to.not.be.null;
 });
 
 it('adds an accessible label when given', async () => {
   const element = await fixture(
-    html`<cs-modal-tertiary-icon label="label">Test</cs-modal-tertiary-icon>`,
+    html`<cs-modal-tertiary-icon label="test-label"
+      >Test</cs-modal-tertiary-icon
+    >`,
   );
 
-  const button = element.shadowRoot?.querySelector('.component');
+  const spanElement = element.shadowRoot?.querySelector('span');
 
-  expect(button).to.have.attribute('aria-label', 'label');
+  expect(spanElement).to.have.attribute('aria-label', 'test-label');
 });
 
 it('does not add an acceessible label when not given', async () => {
@@ -43,7 +49,29 @@ it('does not add an acceessible label when not given', async () => {
     html`<cs-modal-tertiary-icon>Test</cs-modal-tertiary-icon>`,
   );
 
-  const button = element.shadowRoot?.querySelector('.component');
+  const spanElement = element.shadowRoot?.querySelector('span');
 
-  expect(button).to.not.have.attribute('aria-label');
+  expect(spanElement).to.not.have.attribute('aria-label');
+});
+
+it('sets the tooltip placement when attribute "tooltip-placement" is given', async () => {
+  const element = await fixture(
+    html`<cs-modal-tertiary-icon tooltip-placement="right"
+      >Test</cs-modal-tertiary-icon
+    >`,
+  );
+
+  const toolTip = element.shadowRoot?.querySelector('cs-tooltip');
+
+  expect(toolTip).to.have.attribute('placement', 'right');
+});
+
+it('sets the tooltip placement to "bottom" when attribute "tooltip-placement" is not given', async () => {
+  const element = await fixture(
+    html`<cs-modal-tertiary-icon>Test</cs-modal-tertiary-icon>`,
+  );
+
+  const toolTip = element.shadowRoot?.querySelector('cs-tooltip');
+
+  expect(toolTip).to.have.attribute('placement', 'bottom');
 });

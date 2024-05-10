@@ -59,6 +59,12 @@ export default [
         backdrop-filter: blur(3px);
         background-color: rgba(0 0 0 / 40%);
       }
+
+      ::slotted([slot='tertiary']) {
+        --size: 1rem;
+
+        size: 1rem;
+      }
     }
 
     @media (prefers-reduced-motion) {

@@ -124,7 +124,7 @@ it('renders the provided secondary slot content', async () => {
 it('renders the provided tertiary slot content', async () => {
   const element = await fixture<Modal>(
     html`<cs-modal label="Modal title">
-      <button slot="tertiary" data-tertiary>Tertiary</button>
+      <cs-button slot="tertiary" data-tertiary>Tertiary</cs-button>
     </cs-modal>`,
   );
 
@@ -140,7 +140,6 @@ it('renders the provided tertiary slot content', async () => {
     ?.assignedNodes();
 
   expect(slotNodes?.length).to.equal(1);
-  expect(slotNodes?.at(0)?.nodeName).to.equal('BUTTON');
 });
 
 it('renders the provided header-actions slot content', async () => {
@@ -263,6 +262,22 @@ it('throws an error when the "header actions" slot has the incorrect type', asyn
     await fixture(
       html`<cs-modal label="Modal title">
         <span slot="header-actions">Header Action</span>
+      </cs-modal>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
+});
+
+it('throws an error when the "tertiary" footer slot has the incorrect type', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<cs-modal label="Modal title">
+        <span slot="tertiary">Tertiary</span>
       </cs-modal>`,
     );
   } catch {

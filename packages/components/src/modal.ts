@@ -7,6 +7,7 @@ import { owSlotType } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
 import CsButton from './button.js';
 import CsModalIconButton from './modal.icon-button.js';
+import CsModalTertiaryIcon from './modal.tertiary-icon.js';
 import styles from './modal.styles.js';
 
 declare global {
@@ -79,6 +80,11 @@ export default class CsModal extends LitElement {
     owSlotType(this.#headerActionsSlotElementRef.value, [CsModalIconButton]);
     owSlotType(this.#footerMenuPrimarySlotElementRef.value, [CsButton]);
     owSlotType(this.#footerMenuSecondarySlotElementRef.value, [CsButton]);
+
+    owSlotType(this.#footerMenuTertiarySlotElementRef.value, [
+      CsModalTertiaryIcon,
+      CsButton,
+    ]);
   }
 
   override render() {
@@ -133,7 +139,6 @@ export default class CsModal extends LitElement {
             data-test="close-button"
             @click=${this.#onCloseButtonClick}
           >
-            <!-- TODO: We should localize this string in the future -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <title>Close</title>
               <path
@@ -166,7 +171,12 @@ export default class CsModal extends LitElement {
 
       <footer class="footer">
         <menu class="menu">
-          <li class="flex align-center"><slot name="tertiary"></slot></li>
+          <li class="flex align-center">
+            <slot
+              name="tertiary"
+              ${ref(this.#footerMenuTertiarySlotElementRef)}
+            ></slot>
+          </li>
           <li>
             <menu class="actions">
               <li>
@@ -236,6 +246,8 @@ export default class CsModal extends LitElement {
   #footerMenuPrimarySlotElementRef = createRef<HTMLSlotElement>();
 
   #footerMenuSecondarySlotElementRef = createRef<HTMLSlotElement>();
+
+  #footerMenuTertiarySlotElementRef = createRef<HTMLSlotElement>();
 
   #headerActionsSlotElementRef = createRef<HTMLSlotElement>();
 

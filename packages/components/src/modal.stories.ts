@@ -188,19 +188,18 @@ export const TertiaryIcon: StoryObj = {
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
-      <span slot="tertiary">
-        <!--
+      <!--
           The rendering of the tooltip placement is incorrect in this story due to the way Storybook scales the
           content inside of the doc block. To view the correct placement of the tooltip, we recommend navigating to
           the individual story instead.
         -->
-        <cs-tooltip placement="right">
-          Information
-          <cs-modal-tertiary-icon slot="target" label="Information">
-            <cs-example-icon name="info"></cs-example-icon>
-          </cs-modal-tertiary-icon>
-        </cs-tooltip>
-      </span>
+      <cs-modal-tertiary-icon
+        slot="tertiary"
+        label="Information"
+        tooltip-placement="right"
+      >
+        <cs-example-icon name="info"></cs-example-icon>
+      </cs-modal-tertiary-icon>
       <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
