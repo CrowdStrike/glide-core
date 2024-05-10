@@ -1,6 +1,7 @@
 import './button.js';
 import './modal.icon-button.js';
 import './modal.js';
+import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import Modal from './modal.js';
 import sinon from 'sinon';
@@ -232,8 +233,10 @@ it('throws an error when the "primary" footer slot has the incorrect type', asyn
         <span slot="primary">Primary</span>
       </cs-modal>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
@@ -248,8 +251,10 @@ it('throws an error when the "secondary" footer slot has the incorrect type', as
         <span slot="secondary">Secondary</span>
       </cs-modal>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
@@ -264,8 +269,10 @@ it('throws an error when the "header actions" slot has the incorrect type', asyn
         <span slot="header-actions">Header Action</span>
       </cs-modal>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
@@ -280,8 +287,10 @@ it('throws an error when the "tertiary" footer slot has the incorrect type', asy
         <span slot="tertiary">Tertiary</span>
       </cs-modal>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
