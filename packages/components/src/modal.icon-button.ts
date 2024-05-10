@@ -1,5 +1,5 @@
-import { LitElement, html, nothing } from 'lit';
-import { classMap } from 'lit-html/directives/class-map.js';
+import './icon-button.js';
+import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import styles from './modal.icon-button.styles.js';
 
@@ -33,12 +33,10 @@ export default class CsModalIconButton extends LitElement {
   label? = '';
 
   override render() {
-    return html`<button
-      type="button"
-      class=${classMap({ component: true })}
-      aria-label=${this.label || nothing}
-    >
-      <slot></slot>
-    </button>`;
+    return html`
+      <cs-icon-button label=${this.label} variant="tertiary">
+        <slot></slot>
+      </cs-icon-button>
+    `;
   }
 }

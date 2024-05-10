@@ -24,18 +24,20 @@ it('renders and sets default attributes', async () => {
 
   expect(element).to.be.ok;
 
-  const buttonTag = element.shadowRoot?.querySelector('button');
-  expect(buttonTag?.getAttribute('type')).to.equal('button');
+  const buttonElement = element.shadowRoot?.querySelector('cs-icon-button');
+
+  expect(buttonElement).to.be.not.null;
+  expect(buttonElement).to.have.attribute('variant', 'tertiary');
 });
 
 it('adds an accessible label when given', async () => {
   const element = await fixture(
-    html`<cs-modal-icon-button label="label">Test</cs-modal-icon-button>`,
+    html`<cs-modal-icon-button label="test-label">Test</cs-modal-icon-button>`,
   );
 
-  const button = element.shadowRoot?.querySelector('.component');
+  const buttonElement = element.shadowRoot?.querySelector('cs-icon-button');
 
-  expect(button).to.have.attribute('aria-label', 'label');
+  expect(buttonElement).to.have.attribute('label', 'test-label');
 });
 
 it('does not add an acceessible label when not given', async () => {
@@ -43,7 +45,7 @@ it('does not add an acceessible label when not given', async () => {
     html`<cs-modal-icon-button>Test</cs-modal-icon-button>`,
   );
 
-  const button = element.shadowRoot?.querySelector('.component');
+  const buttonElement = element.shadowRoot?.querySelector('cs-icon-button');
 
-  expect(button).to.not.have.attribute('aria-label');
+  expect(buttonElement).to.have.attribute('label', '');
 });

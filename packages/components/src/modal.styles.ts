@@ -120,6 +120,7 @@ export default [
       align-items: center;
       display: flex;
       gap: 0.625rem;
+      line-height: 1;
     }
 
     .body {
