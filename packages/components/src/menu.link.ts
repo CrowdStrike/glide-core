@@ -51,7 +51,7 @@ export default class CsMenuLink extends LitElement {
     return html`<a
       class=${classMap({
         component: true,
-        'component-active': this.privateActive,
+        active: this.privateActive,
       })}
       data-test="component"
       href=${ifDefined(this.url)}

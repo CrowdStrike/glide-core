@@ -12,10 +12,6 @@ export default [
       display: inline-block;
     }
 
-    .target-container {
-      position: relative;
-    }
-
     .options {
       background-color: var(--cs-surface-base-lighter);
       border: 1px solid var(--cs-border-base-lighter);
@@ -25,16 +21,16 @@ export default [
       inset-block-start: 0;
       inset-inline-start: 0;
       margin-block: 0;
-      min-inline-size: 9.375rem;
+      min-inline-size: var(--min-width, 9.375rem);
       padding: var(--cs-spacing-xxxs);
       position: absolute;
       visibility: hidden;
 
-      &.options-visible {
+      &.visible {
         visibility: visible;
       }
 
-      &.options-large {
+      &.large {
         --gap: var(--cs-spacing-sm);
         --padding-inline: var(--cs-spacing-sm);
         --padding-block: var(--cs-spacing-xxs);
@@ -46,7 +42,7 @@ export default [
         line-height: var(--cs-body-sm-line-height);
       }
 
-      &.options-small {
+      &.small {
         --gap: var(--cs-spacing-xs);
         --padding-inline: var(--cs-spacing-xs);
         --padding-block: var(--cs-spacing-xxxs);

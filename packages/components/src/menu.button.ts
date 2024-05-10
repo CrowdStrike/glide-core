@@ -47,7 +47,7 @@ export default class CsMenuButton extends LitElement {
     return html`<button
       class=${classMap({
         component: true,
-        'component-active': this.privateActive,
+        active: this.privateActive,
       })}
       data-test="component"
       role="menuitem"

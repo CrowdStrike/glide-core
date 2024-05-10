@@ -15,10 +15,11 @@ export default [
       inline-size: 100%;
       padding-block: var(--padding-block);
       padding-inline: var(--padding-inline);
+      text-align: start;
       text-decoration: none;
       user-select: none;
 
-      &.component-active {
+      &.active {
         background-color: var(--cs-surface-hover);
       }
     }

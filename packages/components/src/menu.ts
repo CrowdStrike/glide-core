@@ -139,7 +139,6 @@ export default class CsMenu extends LitElement {
         ${ref(this.#componentElementRef)}
       >
         <div
-          class="target-container"
           @click=${this.#onTargetContainerClick}
           @keydown=${this.#onTargetContainerKeydown}
           id="target-container"
@@ -151,9 +150,9 @@ export default class CsMenu extends LitElement {
           aria-labelledby="target-container"
           class=${classMap({
             options: true,
-            'options-large': this.size === 'large',
-            'options-small': this.size === 'small',
-            'options-visible': this.open,
+            large: this.size === 'large',
+            small: this.size === 'small',
+            visible: this.open,
           })}
           role="menu"
           ${ref(this.#optionsElementRef)}
