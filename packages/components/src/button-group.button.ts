@@ -47,7 +47,7 @@ export default class CsButtonGroupButton extends LitElement {
   @property({ type: Boolean })
   vertical = false;
 
-  override async connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
 
     // determine position in group and style appropriately

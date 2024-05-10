@@ -47,10 +47,10 @@ export default class CsTabGroup extends LitElement {
   @state() activeTab?: CsTab;
 
   @queryAssignedElements()
-  panelElements!: Array<CsTabPanel>;
+  panelElements!: CsTabPanel[];
 
   @queryAssignedElements({ slot: 'nav' })
-  tabElements!: Array<CsTab>;
+  tabElements!: CsTab[];
 
   override firstUpdated() {
     owSlotType(this.#navSlotElementRef.value, [CsTab]);
@@ -191,14 +191,12 @@ export default class CsTabGroup extends LitElement {
   }
 
   #setupTabs() {
-    for (let index = 0; index < this.tabElements.length; index++) {
-      const slotElement = this.tabElements[index];
-      const tab = slotElement as CsTab;
-      tab.variant = this.variant;
+    for (const tabElement of this.tabElements) {
+      tabElement.variant = this.variant;
 
       for (const panel of this.panelElements) {
-        tab.setAttribute('aria-controls', panel.getAttribute('id')!);
-        panel.setAttribute('aria-labelledby', tab.getAttribute('id')!);
+        tabElement.setAttribute('aria-controls', panel.getAttribute('id')!);
+        panel.setAttribute('aria-labelledby', tabElement.getAttribute('id')!);
       }
     }
   }

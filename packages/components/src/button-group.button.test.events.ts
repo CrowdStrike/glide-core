@@ -87,7 +87,7 @@ it('emits an input event when a space key is pressed and is not already selected
     await sendKeys({ press: ' ' });
   });
 
-  const inputEvent = await oneEvent(buttonElement!, 'input');
+  const inputEvent = await oneEvent(buttonElement, 'input');
 
   expect(inputEvent instanceof Event).to.be.true;
 });

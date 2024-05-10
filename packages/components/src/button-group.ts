@@ -38,7 +38,7 @@ export default class CsButtonGroup extends LitElement {
   label? = '';
 
   @queryAssignedElements({ selector: 'cs-button-group-button' })
-  listItems!: Array<CsButtonGroupButton>;
+  listItems!: CsButtonGroupButton[];
 
   @property()
   variant?: ButtonGroupVariant;

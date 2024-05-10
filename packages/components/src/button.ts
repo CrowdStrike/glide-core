@@ -105,10 +105,8 @@ export default class CsButton extends LitElement {
       return;
     }
 
-    if (this.type === 'reset') {
-      this.form?.reset();
-      return;
-    }
+    this.form?.reset();
+    return;
   }
 
   #onKeydown(event: KeyboardEvent) {

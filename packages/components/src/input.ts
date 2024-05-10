@@ -146,7 +146,7 @@ export default class CsInput extends LitElement {
   }
 
   formResetCallback() {
-    this.value = this.getAttribute('value') || '';
+    this.value = this.getAttribute('value') ?? '';
   }
 
   get isTypeSearch() {

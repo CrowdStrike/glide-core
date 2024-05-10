@@ -42,7 +42,7 @@ export default class CsTextarea extends LitElement {
   placeholder?: string = '';
 
   @property({ reflect: true, type: Number })
-  rows: number = 2;
+  rows = 2;
 
   @property({ type: Boolean })
   required = false;
@@ -242,7 +242,7 @@ ${this.value}</textarea
       return false;
     }
 
-    return this.value.length > this.maxCharacterCount!;
+    return this.value.length > this.maxCharacterCount;
   }
 
   #onChange(event: Event) {

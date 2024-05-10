@@ -35,44 +35,46 @@ export default class CsTooltip extends LitElement {
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
-  override async firstUpdated() {
+  override firstUpdated() {
     if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
       autoUpdate(
         this.#targetElementRef.value,
         this.#tooltipElementRef.value,
-        async () => {
-          if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
-            const { placement, x, y } = await computePosition(
-              this.#targetElementRef.value,
-              this.#tooltipElementRef.value,
-              {
-                placement: this.placement || 'bottom',
-                middleware: [
-                  offset({
-                    mainAxis:
-                      Number.parseFloat(
-                        window
-                          .getComputedStyle(document.body)
-                          .getPropertyValue('--cs-spacing-xxs'),
-                      ) *
-                        16 +
-                      this.#triangleSize.width,
-                  }),
-                  flip({
-                    fallbackStrategy: 'initialPlacement',
-                  }),
-                  shift(),
-                ],
-              },
-            );
+        () => {
+          (async () => {
+            if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
+              const { placement, x, y } = await computePosition(
+                this.#targetElementRef.value,
+                this.#tooltipElementRef.value,
+                {
+                  placement: this.placement ?? 'bottom',
+                  middleware: [
+                    offset({
+                      mainAxis:
+                        Number.parseFloat(
+                          window
+                            .getComputedStyle(document.body)
+                            .getPropertyValue('--cs-spacing-xxs'),
+                        ) *
+                          16 +
+                        this.#triangleSize.width,
+                    }),
+                    flip({
+                      fallbackStrategy: 'initialPlacement',
+                    }),
+                    shift(),
+                  ],
+                },
+              );
 
-            Object.assign(this.#tooltipElementRef.value.style, {
-              left: `${x}px`,
-              top: `${y}px`,
-            });
+              Object.assign(this.#tooltipElementRef.value.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+              });
 
-            this.effectivePlacement = placement;
-          }
+              this.effectivePlacement = placement;
+            }
+          })();
         },
       );
     }
