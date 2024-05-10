@@ -119,6 +119,10 @@
       "import": "./dist/tab.panel.js",
       "types": "./dist/tab.panel.d.ts"
     },
+    "./textarea.js": {
+      "import": "./dist/textarea.js",
+      "types": "./dist/textarea.d.ts"
+    },
     "./toggle.js": {
       "import": "./dist/toggle.js",
       "types": "./dist/toggle.d.ts"
