@@ -1,6 +1,7 @@
 import './icon-button.js';
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
 import styles from './modal.icon-button.styles.js';
 
 declare global {
@@ -34,7 +35,7 @@ export default class CsModalIconButton extends LitElement {
 
   override render() {
     return html`
-      <cs-icon-button label=${this.label} variant="tertiary">
+      <cs-icon-button label=${ifDefined(this.label)} variant="tertiary">
         <slot></slot>
       </cs-icon-button>
     `;
