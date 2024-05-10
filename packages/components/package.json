@@ -103,6 +103,10 @@
       "import": "./dist/modal.js",
       "types": "./dist/modal.d.ts"
     },
+    "./status-indicator.js": {
+      "import": "./dist/status-indicator.js",
+      "types": "./dist/status-indicator.d.ts"
+    },
     "./tag.js": {
       "import": "./dist/tag.js",
       "types": "./dist/tag.d.ts"

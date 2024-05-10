@@ -54,6 +54,17 @@
   --cs-spacing-xxs: 0.25rem;
   --cs-spacing-xxxs: 0.125rem;
   --cs-status-error: #ff3b30;
+  --cs-status-failed: #ff3b30;
+  --cs-status-in-progress: #ffcc00;
+  --cs-status-queued: #5ac8fa;
+  --cs-status-scheduled: #af52de;
+  --cs-status-success: #34c759;
+  --cs-status-unknown: #6d6d6d;
+  --cs-status-warning-critical: #ff3b30;
+  --cs-status-warning-high: #ff9500;
+  --cs-status-warning-informational: #0073e6;
+  --cs-status-warning-low: #34c759;
+  --cs-status-warning-medium: #ffcc00;
   --cs-surface-base: #f0f0f0;
   --cs-surface-base-dark: #212121;
   --cs-surface-base-gray-light: #00000012;
