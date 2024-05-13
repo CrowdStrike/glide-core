@@ -119,15 +119,15 @@ export default [
       }
 
       &.large {
-        block-size: 2.5rem;
+        block-size: 2.125rem;
         font-size: var(--cs-heading-xxs-font-size);
         line-height: 1.5rem;
         min-inline-size: 5.1875rem;
       }
 
       &.small {
-        block-size: 2.125rem;
-        font-size: var(--cs-heading-xxxs-font-size);
+        block-size: 1.75rem;
+        font-size: var(--cs-body-xs-font-size);
         line-height: 1rem;
         min-inline-size: 4.375rem;
       }
