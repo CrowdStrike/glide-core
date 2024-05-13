@@ -46,7 +46,7 @@ export default class CsTreeItem extends LitElement {
   @property({ type: Boolean }) selected = false;
 
   @queryAssignedElements({ slot: 'menu' })
-  menuSlotAssignedElements!: Array<HTMLElement>;
+  menuSlotAssignedElements!: HTMLElement[];
 
   @queryAssignedElements({ slot: 'prefix' })
   prefixSlotAssignedElements!: HTMLElement[];
