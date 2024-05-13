@@ -23,6 +23,8 @@ const meta: Meta = {
           storyId: context.id,
           args: {
             ...arguments_,
+            // Our events are untyped at the moment. So `detail` is typed as `any`.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             open: event.detail.newState === 'open',
           },
         });
@@ -106,6 +108,8 @@ export const WithPrefixIcon: StoryObj = {
           storyId: context.id,
           args: {
             ...arguments_,
+            // Our events are untyped at the moment. So `detail` is typed as `any`.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             open: event.detail.newState === 'open',
           },
         });
@@ -132,6 +136,8 @@ export const WithSuffix: StoryObj = {
           storyId: context.id,
           args: {
             ...arguments_,
+            // Our events are untyped at the moment. So `detail` is typed as `any`.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             open: event.detail.newState === 'open',
           },
         });
@@ -159,6 +165,8 @@ export const WithPrefixAndSuffix: StoryObj = {
           storyId: context.id,
           args: {
             ...arguments_,
+            // Our events are untyped at the moment. So `detail` is typed as `any`.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             open: event.detail.newState === 'open',
           },
         });
