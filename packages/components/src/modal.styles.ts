@@ -126,7 +126,7 @@ export default [
     .body {
       display: flex;
       overflow: auto;
-      padding-block: 1.25rem;
+      padding-block: 1rem;
 
       &:focus {
         outline: none;

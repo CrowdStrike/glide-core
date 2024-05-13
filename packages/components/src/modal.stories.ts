@@ -36,7 +36,7 @@ const meta: Meta = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
+      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
     <cs-button data-open>Open Modal ${arguments_.size}</cs-button>
@@ -121,7 +121,7 @@ export const WithBackButton: StoryObj = {
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label} show-back-button>
       ${arguments_['slot="default"']}
-      <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
+      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
 
@@ -141,7 +141,7 @@ export const HeaderActions: StoryObj = {
       <cs-modal-icon-button slot="header-actions" label="Settings">
         <cs-example-icon name="settings"></cs-example-icon>
       </cs-modal-icon-button>
-      <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
+      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
 
@@ -161,7 +161,7 @@ export const HeaderActionsWithBackButton: StoryObj = {
       <cs-modal-icon-button slot="header-actions" label="Settings">
         <cs-example-icon name="settings"></cs-example-icon>
       </cs-modal-icon-button>
-      <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
+      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
 
@@ -174,8 +174,8 @@ export const TertiaryButton: StoryObj = {
   render: (arguments_) => html`
     <cs-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
-      <cs-button slot="tertiary" variant="secondary">Tertiary</cs-button>
-      <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
+      <cs-button slot="tertiary" variant="tertiary">Tertiary</cs-button>
+      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
 
@@ -200,7 +200,8 @@ export const TertiaryIcon: StoryObj = {
       >
         <cs-example-icon name="info"></cs-example-icon>
       </cs-modal-tertiary-icon>
-      <cs-button slot="secondary" variant="secondary">Secondary</cs-button>
+      <cs-button slot="tertiary" variant="tertiary">Tertiary</cs-button>
+      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
       <cs-button slot="primary">Primary</cs-button>
     </cs-modal>
 
