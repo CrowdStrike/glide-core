@@ -1,5 +1,13 @@
 # @crowdstrike/glide-core-styles
 
+## 0.2.1
+
+### Patch Changes
+
+- [#77](https://github.com/CrowdStrike/glide-core/pull/77) [`84d6fee`](https://github.com/CrowdStrike/glide-core/commit/84d6feecbe539c426669a9b6a7ec79d37bf275d0) Thanks [@clintcs](https://github.com/clintcs)! - Exclude dotfiles from published package
+
+- [#88](https://github.com/CrowdStrike/glide-core/pull/88) [`720dd83`](https://github.com/CrowdStrike/glide-core/commit/720dd83c3798fb48748e38bfbd0f7f5e80778f55) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Adds status CSS variables
+
 ## 0.2.0
 
 ### Minor Changes
