@@ -84,10 +84,8 @@ export default class CsMenu extends LitElement {
       this.#targetElement.ariaHasPopup = 'true';
       this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
 
-      autoUpdate(
-        this.#targetElement,
-        this.#optionsElementRef.value,
-        async () => {
+      autoUpdate(this.#targetElement, this.#optionsElementRef.value, () => {
+        (async () => {
           if (this.#targetElement && this.#optionsElementRef.value) {
             const { x, y } = await computePosition(
               this.#targetElement,
@@ -113,8 +111,8 @@ export default class CsMenu extends LitElement {
               top: `${y}px`,
             });
           }
-        },
-      );
+        })();
+      });
     }
   }
 
@@ -179,6 +177,13 @@ export default class CsMenu extends LitElement {
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
+  get #optionElements() {
+    return [
+      ...this.querySelectorAll('cs-menu-button'),
+      ...this.querySelectorAll('cs-menu-link'),
+    ];
+  }
+
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = (event: MouseEvent) => {
@@ -200,13 +205,6 @@ export default class CsMenu extends LitElement {
 
       option.focus();
     }
-  }
-
-  get #optionElements() {
-    return [
-      ...this.querySelectorAll('cs-menu-button'),
-      ...this.querySelectorAll('cs-menu-link'),
-    ];
   }
 
   #onOptionsClick() {

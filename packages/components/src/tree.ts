@@ -30,7 +30,7 @@ export default class CsTree extends LitElement {
   @state() privateTabIndex = 0;
 
   @queryAssignedElements()
-  slotElements!: Array<CsTreeItem>;
+  slotElements!: CsTreeItem[];
 
   override disconnectedCallback() {
     super.disconnectedCallback();
@@ -121,7 +121,7 @@ export default class CsTree extends LitElement {
     let itemToFocus;
 
     if (event.target === this) {
-      itemToFocus = this.selectedItem || this.slotElements[0];
+      itemToFocus = this.selectedItem ?? this.slotElements[0];
     } else if (event.target instanceof CsTreeItem) {
       itemToFocus = event.target;
       this.privateTabIndex = -1;

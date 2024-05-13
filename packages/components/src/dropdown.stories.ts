@@ -284,21 +284,19 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         ?required=${arguments_.required}
       >
         <cs-dropdown-option label="Edit" value="edit">
-          <cs-dropdown-option label="Edit" value="edit">
-            <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
-          </cs-dropdown-option>
+          <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
+        </cs-dropdown-option>
 
-          <cs-dropdown-option label="Move" value="move">
-            <cs-example-icon slot="icon" name="move"></cs-example-icon>
-          </cs-dropdown-option>
+        <cs-dropdown-option label="Move" value="move">
+          <cs-example-icon slot="icon" name="move"></cs-example-icon>
+        </cs-dropdown-option>
 
-          <cs-dropdown-option label="Share" value="share">
-            <cs-example-icon slot="icon" name="share"></cs-example-icon>
-          </cs-dropdown-option>
+        <cs-dropdown-option label="Share" value="share">
+          <cs-example-icon slot="icon" name="share"></cs-example-icon>
+        </cs-dropdown-option>
 
-          <cs-dropdown-option label="Settings" value="settings">
-            <cs-example-icon slot="icon" name="settings"></cs-example-icon>
-          </cs-dropdown-option>
+        <cs-dropdown-option label="Settings" value="settings">
+          <cs-example-icon slot="icon" name="settings"></cs-example-icon>
         </cs-dropdown-option>
 
         ${arguments_['slot="tooltip"']

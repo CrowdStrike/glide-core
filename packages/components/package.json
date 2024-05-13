@@ -160,8 +160,6 @@
     "@stylistic/eslint-plugin": "^1.7.0",
     "@types/mocha": "^10.0.6",
     "@types/sinon": "^17.0.3",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
     "@web/dev-server-esbuild": "^0.3.6",
     "@web/dev-server-rollup": "^0.6.1",
     "@web/test-runner": "^0.18.0",
@@ -198,7 +196,8 @@
     "stylelint-use-logical": "^2.1.2",
     "stylelint-use-nesting": "^5.1.1",
     "ts-lit-plugin": "^2.0.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^7.8.0"
   },
   "peerDependencies": {
     "lit": "^3.1.0"

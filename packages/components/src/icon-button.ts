@@ -32,7 +32,7 @@ export default class CsIconButton extends LitElement {
 
   /** Text read aloud for screenreaders. For accessibility, this should always be provided. */
   @property()
-  label: string = '';
+  label = '';
 
   @property({ attribute: 'variant', reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
