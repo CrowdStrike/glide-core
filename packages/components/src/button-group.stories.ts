@@ -64,7 +64,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            'event: "input" | "change", listener: (event: CustomEvent<{ value: string }>) => void',
+            'event: "change" | "input", listener: (event: CustomEvent<{ value: string }>) => void',
         },
       },
       type: { name: 'function' },
