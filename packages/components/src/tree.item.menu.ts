@@ -43,7 +43,7 @@ export default class CsTreeItemMenu extends LitElement {
           <!-- 3-dot -->
           <svg
             width="4"
-            height="16"
+            height="14"
             viewBox="0 0 4 18"
             fill="none"
             stroke="currentColor"

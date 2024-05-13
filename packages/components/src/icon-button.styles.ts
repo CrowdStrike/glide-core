@@ -102,7 +102,7 @@ export default [
         }
 
         &:not(:active):hover:not(:disabled) {
-          color: var(--cs-icon-primary-hover);
+          color: var(--hovered-icon-color, var(--cs-icon-primary-hover));
         }
       }
     }

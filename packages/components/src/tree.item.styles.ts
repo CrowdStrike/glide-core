@@ -91,6 +91,12 @@ export default [
       --target-icon-color: var(--color);
     }
 
+    /* Nesting does not work with ::slotted */
+    /* stylelint-disable-next-line csstools/use-nesting */
+    .component.selected ::slotted([slot='menu']) {
+      --hovered-target-icon-color: var(--cs-text-primary-hover);
+    }
+
     ::slotted([slot='suffix']) {
       padding-inline: var(--cs-spacing-xxs);
     }

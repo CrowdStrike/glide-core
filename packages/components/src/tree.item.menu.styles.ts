@@ -12,6 +12,7 @@ export default [
       display: inline-flex;
 
       --icon-color: var(--target-icon-color);
+      --hovered-icon-color: var(--hovered-target-icon-color);
       --size: 1rem;
     }
   `,
