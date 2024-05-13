@@ -10,6 +10,13 @@ declare global {
   }
 }
 
+interface Events {
+  toggle: CustomEvent<{
+    newState: 'open' | 'closed';
+    oldState: 'open' | 'closed';
+  }>;
+}
+
 /**
  * @event toggle - Emitted when the Accordion opens or closes.
  * @slot - The content of the Accordion.
@@ -29,7 +36,22 @@ export default class CsAccordion extends LitElement {
 
   @property({ type: Boolean, reflect: true }) open = false;
 
+  override addEventListener<Type extends keyof Events>(
+    type: Type,
+    callback: (event: Events[Type]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+
+  override addEventListener(
+    type: string,
+    callback: (event: Event) => void,
+    options?: boolean | AddEventListenerOptions,
+  ) {
+    super.addEventListener(type, callback, options);
+  }
+
   override render() {
+    this.addEventListener;
     return html` <details
       class="component"
       ?open=${this.open}

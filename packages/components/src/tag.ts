@@ -105,6 +105,6 @@ export default class CsTag extends LitElement {
 
     this.#containerElementRef.value?.classList.toggle('activate');
     this.#containerElementRef.value?.classList.toggle('deactivate');
-    this.dispatchEvent(new CustomEvent('remove', { composed: true }));
+    this.dispatchEvent(new Event('remove'));
   };
 }

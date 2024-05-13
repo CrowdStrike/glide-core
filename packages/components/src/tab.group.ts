@@ -19,6 +19,12 @@ declare global {
   }
 }
 
+interface Events {
+  'tab-show': CustomEvent<{
+    panel: string;
+  }>;
+}
+
 /**
  * @description The parent component for a group of tabs. Handles active state changes from clicking the tabs.
  *
@@ -51,6 +57,20 @@ export default class CsTabGroup extends LitElement {
 
   @queryAssignedElements({ slot: 'nav' })
   tabElements!: CsTab[];
+
+  override addEventListener<Type extends keyof Events>(
+    type: Type,
+    callback: (event: Events[Type]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+
+  override addEventListener(
+    type: string,
+    callback: (event: Event) => void,
+    options?: boolean | AddEventListenerOptions,
+  ) {
+    super.addEventListener(type, callback, options);
+  }
 
   override firstUpdated() {
     owSlotType(this.#navSlotElementRef.value, [CsTab]);

@@ -14,21 +14,37 @@ const meta: Meta = {
       description: {
         component: 'An Accordion component with optional slots for icons.',
       },
+      story: {
+        autoplay: true,
+      },
     },
   },
-  render: (arguments_, context) => {
-    context.canvasElement.addEventListener('toggle', (event) => {
-      if (event instanceof CustomEvent) {
+  play(context) {
+    // eslint-disable-next-line no-underscore-dangle
+    let arguments_ = context.args;
+
+    addons.getChannel().addListener('storyArgsUpdated', ({ args }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      arguments_ = args;
+    });
+
+    context.canvasElement
+      .querySelector('cs-accordion')
+      ?.addEventListener('toggle', (event) => {
         addons.getChannel().emit(STORY_ARGS_UPDATED, {
           storyId: context.id,
           args: {
             ...arguments_,
+            // The event is untyped because we're using event delegation. And we're
+            // using event event delegation because we need to set up an event
+            // a component that
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             open: event.detail.newState === 'open',
           },
         });
-      }
-    });
-
+      });
+  },
+  render: (arguments_) => {
     return html`
       <cs-accordion label=${arguments_.label} ?open=${arguments_.open}
         >${arguments_['slot="default"']}</cs-accordion
@@ -99,19 +115,7 @@ export const Default: StoryObj = {};
 
 export const WithPrefixIcon: StoryObj = {
   name: 'Default (With Prefix Icon)',
-  render: (arguments_, context) => {
-    context.canvasElement.addEventListener('toggle', (event) => {
-      if (event instanceof CustomEvent) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            open: event.detail.newState === 'open',
-          },
-        });
-      }
-    });
-
+  render: (arguments_) => {
     return html` <cs-accordion
       label=${arguments_.label}
       ?open=${arguments_.open}
@@ -125,19 +129,7 @@ export const WithPrefixIcon: StoryObj = {
 
 export const WithSuffix: StoryObj = {
   name: 'Default (With Suffix Icons)',
-  render: (arguments_, context) => {
-    context.canvasElement.addEventListener('toggle', (event) => {
-      if (event instanceof CustomEvent) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            open: event.detail.newState === 'open',
-          },
-        });
-      }
-    });
-
+  render: (arguments_) => {
     return html` <cs-accordion
       label=${arguments_.label}
       ?open=${arguments_.open}
@@ -152,19 +144,7 @@ export const WithSuffix: StoryObj = {
 
 export const WithPrefixAndSuffix: StoryObj = {
   name: 'Default (With Prefix & Suffix Icons)',
-  render: (arguments_, context) => {
-    context.canvasElement.addEventListener('toggle', (event) => {
-      if (event instanceof CustomEvent) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            open: event.detail.newState === 'open',
-          },
-        });
-      }
-    });
-
+  render: (arguments_) => {
     return html` <cs-accordion
       label=${arguments_.label}
       ?open=${arguments_.open}

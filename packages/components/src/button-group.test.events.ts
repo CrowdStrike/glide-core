@@ -32,9 +32,16 @@ it('emits a change event when arrow keys are pressed', async () => {
   // promise, however the test seems to work without it. Keeping `await` here until this can
   // be investigated further.
   setTimeout(async () => await sendKeys({ press: 'ArrowLeft' }));
-  const changeEventLeft = await oneEvent(buttonElements[0], 'change');
+
+  const changeEventLeft = await oneEvent(
+    buttonElements[0] as EventTarget,
+    'change',
+  );
 
   expect(changeEventLeft instanceof Event).to.be.true;
+
+  const yo = buttonElements[1];
+  console.log(yo);
 
   setTimeout(async () => await sendKeys({ press: 'ArrowRight' }));
   const changeEventRight = await oneEvent(buttonElements[1], 'change');

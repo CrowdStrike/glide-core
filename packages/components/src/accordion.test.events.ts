@@ -17,7 +17,9 @@ it('dispatches a "toggle" event when the Accordion opens', async () => {
     html`<cs-accordion label="label"></cs-accordion>`,
   );
 
-  component.addEventListener('toggle', () => (hasToggleBeenCalled = true));
+  component.addEventListener('toggle', () => {
+    hasToggleBeenCalled = true;
+  });
 
   const summary = component.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="summary"]',
@@ -27,6 +29,7 @@ it('dispatches a "toggle" event when the Accordion opens', async () => {
 
   summary?.click();
 
+  // @ts-expect-error "@open-wc/testing" doesn't support typed custom events.
   await oneEvent(component, 'toggle');
 
   expect(hasToggleBeenCalled).to.be.true;
@@ -39,7 +42,9 @@ it('dispatches a "toggle" event when the Accordion closes', async () => {
     html`<cs-accordion label="label" open></cs-accordion>`,
   );
 
-  component.addEventListener('toggle', () => (hasToggleBeenCalled = true));
+  component.addEventListener('toggle', () => {
+    hasToggleBeenCalled = true;
+  });
 
   const summary = component.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="summary"]',
@@ -63,7 +68,7 @@ it('dispatches a "toggle" event when the Accordion closes', async () => {
 
   await elementUpdated(component);
 
-  await oneEvent(component, 'toggle');
+  await oneEvent(component as EventTarget, 'toggle');
 
   expect(hasToggleBeenCalled).to.be.true;
 });

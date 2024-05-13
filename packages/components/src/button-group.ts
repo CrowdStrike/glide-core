@@ -63,6 +63,7 @@ export default class CsButtonGroup extends LitElement {
   }
 
   override render() {
+    this.addEventListener;
     // ignore rule that prevents slots from being children of ul
     /*  eslint-disable lit-a11y/list */
     return html`

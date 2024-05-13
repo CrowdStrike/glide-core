@@ -11,6 +11,12 @@ declare global {
     'cs-button-group-button': CsButtonGroupButton;
   }
 }
+
+interface Events {
+  change: CustomEvent<string>;
+  input: CustomEvent<string>;
+}
+
 /**
  * @description A button for use with `<cs-button-group>` with label and optional icon.
  *
@@ -46,6 +52,20 @@ export default class CsButtonGroupButton extends LitElement {
 
   @property({ type: Boolean })
   vertical = false;
+
+  override addEventListener<Type extends keyof Events>(
+    type: Type,
+    callback: (event: Events[Type]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+
+  override addEventListener(
+    type: string,
+    callback: (event: Event) => void | null,
+    options?: boolean | AddEventListenerOptions,
+  ) {
+    super.addEventListener(type, callback, options);
+  }
 
   override connectedCallback() {
     super.connectedCallback();

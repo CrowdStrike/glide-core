@@ -14,6 +14,11 @@ declare global {
   }
 }
 
+interface Events {
+  change: CustomEvent<string>;
+  input: CustomEvent<string>;
+}
+
 /**
  * @description A dropdown with an optional tooltip.
  *              Participates in forms and validation via `FormData` and various methods.
@@ -78,6 +83,19 @@ export default class CsDropdown extends LitElement {
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/validationMessage
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   set validationMessage(_) {}
+
+  override addEventListener<Type extends keyof Events>(
+    type: Type,
+    callbackc: (event: Events[Type]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+  override addEventListener(
+    type: string,
+    callbackc: (event: Event) => void,
+    options?: boolean | AddEventListenerOptions,
+  ) {
+    super.addEventListener(type, callbackc, options);
+  }
 
   checkValidity() {
     this.isCheckingValidity = true;

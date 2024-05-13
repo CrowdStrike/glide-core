@@ -9,6 +9,10 @@ declare global {
   }
 }
 
+interface Events {
+  'item-selected': CustomEvent<CsTreeItem>;
+}
+
 /**
  * @description A tree element, containing a hierarchy of tree items
  *
@@ -31,6 +35,19 @@ export default class CsTree extends LitElement {
 
   @queryAssignedElements()
   slotElements!: CsTreeItem[];
+
+  override addEventListener<Type extends keyof Events>(
+    type: Type,
+    callback: (event: Events[Type]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+  override addEventListener(
+    type: string,
+    callback: (event: Event) => void,
+    options?: boolean | AddEventListenerOptions,
+  ) {
+    super.addEventListener(type, callback, options);
+  }
 
   override disconnectedCallback() {
     super.disconnectedCallback();

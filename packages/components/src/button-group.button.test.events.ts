@@ -54,7 +54,7 @@ it('emits a change event when a space key is pressed and is not already selected
     await sendKeys({ press: ' ' });
   });
 
-  const changeEvent = await oneEvent(buttonElement, 'change');
+  const changeEvent = await oneEvent(buttonElement as EventTarget, 'change');
 
   expect(changeEvent instanceof Event).to.be.true;
 });
@@ -87,7 +87,7 @@ it('emits an input event when a space key is pressed and is not already selected
     await sendKeys({ press: ' ' });
   });
 
-  const inputEvent = await oneEvent(buttonElement, 'input');
+  const inputEvent = await oneEvent(buttonElement as EventTarget, 'input');
 
   expect(inputEvent instanceof Event).to.be.true;
 });
