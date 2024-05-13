@@ -138,5 +138,6 @@ it('sets the size of the element based on the "--size" CSS variable', async () =
   expect(component.shadowRoot?.querySelector('svg')?.clientHeight).to.equal(
     750,
   );
+
   expect(component.shadowRoot?.querySelector('svg')?.clientWidth).to.equal(750);
 });
