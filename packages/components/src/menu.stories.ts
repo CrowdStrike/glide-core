@@ -23,6 +23,7 @@ const meta: Meta = {
   },
   args: {
     open: false,
+    placement: 'bottom-start',
     size: 'large',
   },
   argTypes: {
@@ -43,6 +44,30 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    placement: {
+      control: { type: 'select' },
+      options: [
+        'bottom',
+        'left',
+        'right',
+        'top',
+        'bottom-start',
+        'bottom-end',
+        'left-start',
+        'left-end',
+        'right-start',
+        'right-end',
+        'top-start',
+        'top-end',
+      ],
+      table: {
+        defaultValue: { summary: '"bottom-start"' },
+        type: {
+          summary:
+            '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start"| "top-end"',
+        },
       },
     },
     size: {
@@ -80,8 +105,14 @@ const meta: Meta = {
     });
 
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<div style="height: 8rem;">
-      <cs-menu size=${arguments_.size || nothing} ?open=${arguments_.open}>
+    return html`<div
+      style="height: 13rem; display: flex; align-items: center; justify-content: center;"
+    >
+      <cs-menu
+        placement=${arguments_.placement}
+        size=${arguments_.size || nothing}
+        ?open=${arguments_.open}
+      >
         <cs-menu-link label="One" url="/one"> </cs-menu-link>
         <cs-menu-link label="Two" url="/two"> </cs-menu-link>
         <!--
@@ -119,8 +150,14 @@ export const MenuWithIcon: StoryObj = {
       }
     });
 
-    return html`<div style="height: 10rem;">
-      <cs-menu size=${arguments_.size || nothing} ?open=${arguments_.open}>
+    return html`<div
+      style="height: 100vh; display: flex; align-items: center; justify-content: center;"
+    >
+      <cs-menu
+        placement=${arguments_.placement}
+        size=${arguments_.size || nothing}
+        ?open=${arguments_.open}
+      >
         <cs-menu-link label="Edit" url="/edit">
           <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
         </cs-menu-link>
