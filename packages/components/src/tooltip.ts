@@ -171,6 +171,7 @@ export default class CsTooltip extends LitElement {
                 this.#tooltipElementRef.value,
                 {
                   placement: this.placement,
+                  strategy: 'fixed',
                   middleware: [
                     offset({
                       mainAxis:

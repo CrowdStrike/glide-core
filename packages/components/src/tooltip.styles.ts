@@ -44,7 +44,7 @@ export default [
       inset-block-start: 0;
       inset-inline-start: 0;
       padding: var(--cs-spacing-xs) var(--cs-spacing-sm);
-      position: absolute;
+      position: fixed;
       z-index: 1;
 
       ::slotted(kbd) {
