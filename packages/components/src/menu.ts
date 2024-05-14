@@ -1,5 +1,11 @@
 import { LitElement, html } from 'lit';
-import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
+import {
+  type Placement,
+  autoUpdate,
+  computePosition,
+  flip,
+  offset,
+} from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
@@ -37,10 +43,19 @@ export default class CsMenu extends LitElement {
   set open(isOpen) {
     this.#isOpen = isOpen;
 
+    if (isOpen) {
+      this.#setUpFloatingUi();
+    } else {
+      this.#cleanUpFloatingUi?.();
+    }
+
     if (this.#targetElement) {
       this.#targetElement.ariaExpanded = isOpen ? 'true' : 'false';
     }
   }
+
+  @property({ reflect: true })
+  placement: Placement = 'bottom-start';
 
   @property({ reflect: true })
   size: 'small' | 'large' = 'large';
@@ -74,6 +89,8 @@ export default class CsMenu extends LitElement {
     owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
     owSlot(this.#targetSlotElementRef.value);
 
+    this.#setUpFloatingUi(); // For when Menu is open initially via the `open` attribute.
+
     const firstOption = this.#optionElements.at(0);
 
     if (firstOption) {
@@ -83,36 +100,6 @@ export default class CsMenu extends LitElement {
     if (this.#targetElement && this.#optionsElementRef.value) {
       this.#targetElement.ariaHasPopup = 'true';
       this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
-
-      autoUpdate(this.#targetElement, this.#optionsElementRef.value, () => {
-        (async () => {
-          if (this.#targetElement && this.#optionsElementRef.value) {
-            const { x, y } = await computePosition(
-              this.#targetElement,
-              this.#optionsElementRef.value,
-              {
-                placement: 'bottom-start',
-                middleware: [
-                  offset({
-                    mainAxis:
-                      Number.parseFloat(
-                        window
-                          .getComputedStyle(document.body)
-                          .getPropertyValue('--cs-spacing-xxs'),
-                      ) * 16,
-                  }),
-                  flip(),
-                ],
-              },
-            );
-
-            Object.assign(this.#optionsElementRef.value.style, {
-              left: `${x}px`,
-              top: `${y}px`,
-            });
-          }
-        })();
-      });
     }
   }
 
@@ -149,9 +136,9 @@ export default class CsMenu extends LitElement {
           aria-labelledby="target-container"
           class=${classMap({
             options: true,
-            'options-large': this.size === 'large',
-            'options-small': this.size === 'small',
-            'options-visible': this.open,
+            large: this.size === 'large',
+            small: this.size === 'small',
+            visible: this.open,
           })}
           role="menu"
           ${ref(this.#optionsElementRef)}
@@ -166,6 +153,8 @@ export default class CsMenu extends LitElement {
       </div>
     </div>`;
   }
+
+  #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
   #componentElementRef = createRef<HTMLDivElement>();
 
@@ -340,6 +329,46 @@ export default class CsMenu extends LitElement {
 
       this.open = true;
       this.#focusActiveOption();
+    }
+  }
+
+  #setUpFloatingUi() {
+    if (this.#targetElement && this.#optionsElementRef.value) {
+      this.#cleanUpFloatingUi = autoUpdate(
+        this.#targetElement,
+        this.#optionsElementRef.value,
+        () => {
+          (async () => {
+            if (this.#targetElement && this.#optionsElementRef.value) {
+              const { x, y, placement } = await computePosition(
+                this.#targetElement,
+                this.#optionsElementRef.value,
+                {
+                  placement: this.placement,
+                  middleware: [
+                    offset({
+                      mainAxis:
+                        Number.parseFloat(
+                          window
+                            .getComputedStyle(document.body)
+                            .getPropertyValue('--cs-spacing-xxs'),
+                        ) * 16,
+                    }),
+                    flip(),
+                  ],
+                },
+              );
+
+              this.#optionsElementRef.value.dataset.placement = placement;
+
+              Object.assign(this.#optionsElementRef.value.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+              });
+            }
+          })();
+        },
+      );
     }
   }
 
