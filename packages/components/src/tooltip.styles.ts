@@ -4,6 +4,7 @@ import focusOutline from './styles/focus-outline.js';
 export default [
   css`
     .component {
+      display: inline-block;
       position: relative;
     }
 
@@ -11,8 +12,8 @@ export default [
       background-color: transparent;
       border-width: 0;
 
-      /* Additional whitespace and the tooltip won't be vertically centered. */
-      line-height: 0;
+      /* Additional whitespace from line height and the tooltip won't be vertically centered. */
+      display: inline-flex;
       padding: 0;
       position: relative;
 
