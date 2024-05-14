@@ -36,47 +36,21 @@ export default class CsTooltip extends LitElement {
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
   override firstUpdated() {
-    if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
-      autoUpdate(
-        this.#targetElementRef.value,
-        this.#tooltipElementRef.value,
-        () => {
-          (async () => {
-            if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
-              const { placement, x, y } = await computePosition(
-                this.#targetElementRef.value,
-                this.#tooltipElementRef.value,
-                {
-                  placement: this.placement ?? 'bottom',
-                  middleware: [
-                    offset({
-                      mainAxis:
-                        Number.parseFloat(
-                          window
-                            .getComputedStyle(document.body)
-                            .getPropertyValue('--cs-spacing-xxs'),
-                        ) *
-                          16 +
-                        this.#triangleSize.width,
-                    }),
-                    flip({
-                      fallbackStrategy: 'initialPlacement',
-                    }),
-                    shift(),
-                  ],
-                },
-              );
+    this.#setUpFloatingUi();
+  }
 
-              Object.assign(this.#tooltipElementRef.value.style, {
-                left: `${x}px`,
-                top: `${y}px`,
-              });
+  @state()
+  private get isVisible() {
+    return this.#isVisible;
+  }
 
-              this.effectivePlacement = placement;
-            }
-          })();
-        },
-      );
+  private set isVisible(isVisible: boolean) {
+    this.#isVisible = isVisible;
+
+    if (this.isVisible) {
+      this.#setUpFloatingUi();
+    } else {
+      this.#cleanUpFloatingUi?.();
     }
   }
 
@@ -149,8 +123,9 @@ export default class CsTooltip extends LitElement {
   @state()
   private effectivePlacement?: string;
 
-  @state()
-  private isVisible = false;
+  #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
+
+  #isVisible = false;
 
   #targetElementRef = createRef<HTMLSpanElement>();
 
@@ -181,5 +156,50 @@ export default class CsTooltip extends LitElement {
 
   #onMouseover() {
     this.isVisible = true;
+  }
+
+  #setUpFloatingUi() {
+    if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
+      this.#cleanUpFloatingUi = autoUpdate(
+        this.#targetElementRef.value,
+        this.#tooltipElementRef.value,
+        () => {
+          (async () => {
+            if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
+              const { placement, x, y } = await computePosition(
+                this.#targetElementRef.value,
+                this.#tooltipElementRef.value,
+                {
+                  placement: this.placement ?? 'bottom',
+                  middleware: [
+                    offset({
+                      mainAxis:
+                        Number.parseFloat(
+                          window
+                            .getComputedStyle(document.body)
+                            .getPropertyValue('--cs-spacing-xxs'),
+                        ) *
+                          16 +
+                        this.#triangleSize.width,
+                    }),
+                    flip({
+                      fallbackStrategy: 'initialPlacement',
+                    }),
+                    shift(),
+                  ],
+                },
+              );
+
+              Object.assign(this.#tooltipElementRef.value.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+              });
+
+              this.effectivePlacement = placement;
+            }
+          })();
+        },
+      );
+    }
   }
 }
