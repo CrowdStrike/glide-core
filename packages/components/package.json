@@ -87,6 +87,10 @@
       "import": "./dist/icon-button.js",
       "types": "./dist/icon-button.d.ts"
     },
+    "./input.js": {
+      "import": "./dist/input.js",
+      "types": "./dist/input.d.ts"
+    },
     "./menu.js": {
       "import": "./dist/menu.js",
       "types": "./dist/menu.d.ts"
