@@ -11,12 +11,12 @@ it('has defaults', async () => {
   // Required attributes are supplied and not asserted below. The idea is that
   // this test shouldn't fail to typecheck if these templates are eventually
   // typechecked, which means supplying required attributes up front.
-  const button = await fixture<CsMenuButton>(
+  const component = await fixture<CsMenuButton>(
     html`<cs-menu-button label="Label"></cs-menu-button>`,
   );
 
   // Not reflected. So no attribute assertions are necessary.
-  expect(button.privateActive).to.equal(false);
+  expect(component.privateActive).to.equal(false);
 });
 
 it('can have a label', async () => {
@@ -28,7 +28,7 @@ it('can have a label', async () => {
 });
 
 it('can have an icon', async () => {
-  const button = await fixture<CsMenuButton>(
+  const component = await fixture<CsMenuButton>(
     html`<cs-menu-button label="Label">
       <svg
         slot="icon"
@@ -48,7 +48,7 @@ it('can have an icon', async () => {
     </cs-menu-button>`,
   );
 
-  const icon = button?.shadowRoot
+  const icon = component?.shadowRoot
     ?.querySelector<HTMLSlotElement>('slot[name="icon"]')
     ?.assignedElements()
     .at(0);

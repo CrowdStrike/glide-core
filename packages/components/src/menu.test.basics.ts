@@ -14,37 +14,37 @@ it('has defaults', async () => {
   // Required attributes are supplied here and thus left unasserted below. The
   // idea is that this test shouldn't fail to typecheck if these templates are
   // eventually typechecked, which means supplying all required attributes and slots.
-  const menu = await fixture<CsMenu>(
+  const component = await fixture<CsMenu>(
     html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
   );
 
-  expect(menu.getAttribute('size')).to.equal('large');
-  expect(menu.size).to.equal('large');
+  expect(component.getAttribute('size')).to.equal('large');
+  expect(component.size).to.equal('large');
 });
 
 it('is accessible', async () => {
-  const menu = await fixture<CsMenu>(
+  const component = await fixture<CsMenu>(
     html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
   );
 
-  await expect(menu).to.be.accessible();
+  await expect(component).to.be.accessible();
 });
 
 it('can have a default slot', async () => {
-  const menu = await fixture<CsMenu>(
+  const component = await fixture<CsMenu>(
     html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
   );
 
-  const assignedElements = menu.shadowRoot
+  const assignedElements = component.shadowRoot
     ?.querySelectorAll('slot')[1]
     .assignedElements();
 
@@ -52,14 +52,14 @@ it('can have a default slot', async () => {
 });
 
 it('can have a target slot', async () => {
-  const menu = await fixture<CsMenu>(
+  const component = await fixture<CsMenu>(
     html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
   );
 
-  const assignedElements = menu.shadowRoot
+  const assignedElements = component.shadowRoot
     ?.querySelector<HTMLSlotElement>('slot[name="target"]')
     ?.assignedElements();
 
@@ -99,14 +99,14 @@ it('throws if it does not have a "target" slot', async () => {
 });
 
 it('sets accessibility attributes on the target', async () => {
-  const menu = await fixture<CsMenu>(
+  const component = await fixture<CsMenu>(
     html`<cs-menu>
       <button slot="target">Target</button>
       <cs-menu-link label="Link"></cs-menu-link>
     </cs-menu>`,
   );
 
-  const button = menu.querySelector('button');
+  const button = component.querySelector('button');
 
   expect(button?.getAttribute('aria-expanded')).to.equal('false');
   expect(button?.getAttribute('aria-haspopup')).to.equal('true');
