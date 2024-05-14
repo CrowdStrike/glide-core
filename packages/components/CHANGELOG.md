@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core-components
 
+## 0.3.1
+
+### Patch Changes
+
+- [#112](https://github.com/CrowdStrike/glide-core/pull/112) [`abef2fb`](https://github.com/CrowdStrike/glide-core/commit/abef2fbe4d0f4ebdd9b804a6b4c5e4ebe6a97478) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Resolved a bug preventing input from being imported in projects
+
 ## 0.3.0
 
 ### Minor Changes
