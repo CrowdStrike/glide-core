@@ -58,6 +58,45 @@ export default class CsButtonGroupButton extends LitElement {
     }
 
     this.variant === 'icon-only' && owSlot(this.#prefixSlotElementRef.value);
+
+    if (this.#buttonElements.length > 0) {
+      if (
+        this.#buttonElements.length > 1 &&
+        this.#buttonElements.at(0) === this
+      ) {
+        this.position = 'first';
+      } else if (
+        this.#buttonElements.length > 1 &&
+        this.#buttonElements.at(-1) === this
+      ) {
+        this.position = 'last';
+      } else if (this.#buttonElements.length === 1) {
+        this.isSingleButton = true;
+      }
+
+      // do not set any button as tabbable if all are disabled
+      if (this.#buttonElements.every((button) => button.disabled)) {
+        return;
+      }
+
+      // set tabbable if this is the first selected enabled element or the
+      // first enabled element
+      const firstEnabledSelectedButton = this.#buttonElements.find(
+        (button) => !button.disabled && button.selected,
+      );
+
+      if (firstEnabledSelectedButton && firstEnabledSelectedButton === this) {
+        this.isTabbable = true;
+      } else if (!firstEnabledSelectedButton) {
+        const firstEnabledButton = this.#buttonElements.find(
+          (button) => !button.disabled,
+        );
+
+        if (firstEnabledButton && firstEnabledButton === this) {
+          this.isTabbable = true;
+        }
+      }
+    }
   }
 
   override focus(options?: FocusOptions) {
@@ -101,8 +140,6 @@ export default class CsButtonGroupButton extends LitElement {
   override willUpdate(
     changedProperties: PropertyValueMap<CsButtonGroupButton>,
   ): void {
-    this.#refreshButton();
-
     if (this.hasUpdated && changedProperties.has('selected')) {
       const value = changedProperties.get('selected');
 
@@ -238,49 +275,6 @@ export default class CsButtonGroupButton extends LitElement {
         }
 
         break;
-      }
-    }
-  }
-
-  #refreshButton() {
-    if (this.#buttonElements.length > 0) {
-      if (
-        this.#buttonElements.length > 1 &&
-        this.#buttonElements.at(0) === this
-      ) {
-        this.position = 'first';
-      } else if (
-        this.#buttonElements.length > 1 &&
-        this.#buttonElements.at(-1) === this
-      ) {
-        this.position = 'last';
-      } else if (this.#buttonElements.length === 1) {
-        this.isSingleButton = true;
-      } else {
-        this.position = 'inner';
-      }
-
-      // do not set any button as tabbable if all are disabled
-      if (this.#buttonElements.every((button) => button.disabled)) {
-        return;
-      }
-
-      // set tabbable if this is the first selected enabled element or the
-      // first enabled element
-      const firstEnabledSelectedButton = this.#buttonElements.find(
-        (button) => !button.disabled && button.selected,
-      );
-
-      if (firstEnabledSelectedButton && firstEnabledSelectedButton === this) {
-        this.isTabbable = true;
-      } else if (!firstEnabledSelectedButton) {
-        const firstEnabledButton = this.#buttonElements.find(
-          (button) => !button.disabled,
-        );
-
-        if (firstEnabledButton && firstEnabledButton === this) {
-          this.isTabbable = true;
-        }
       }
     }
   }
