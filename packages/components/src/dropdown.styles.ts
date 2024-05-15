@@ -182,7 +182,7 @@ export default [
       }
     }
 
-    .tooltip-trigger {
+    .tooltip-target {
       background-color: transparent;
       border: none;
 
