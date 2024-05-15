@@ -5,7 +5,7 @@ CsCheckbox.shadowRootOptions.mode = 'open';
 
 it('focuses the input when `focus` is called', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox></cs-checkbox>`,
   );
 
   component.focus();

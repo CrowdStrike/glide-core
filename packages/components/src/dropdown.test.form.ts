@@ -6,7 +6,7 @@ import CsDropdownOption from './dropdown.option.js';
 CsDropdown.shadowRootOptions.mode = 'open';
 CsDropdownOption.shadowRootOptions.mode = 'open';
 
-it('is reset', async () => {
+it('can be reset', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
@@ -29,7 +29,7 @@ it('is reset', async () => {
   expect(component.value).to.deep.equal([]);
 });
 
-it('is reset to the initially selected option', async () => {
+it('can be reset to the initially selected option', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
@@ -69,7 +69,8 @@ it('has a `formData` value when an option is selected', async () => {
     },
   );
 
-  expect(new FormData(form).get('name')).to.be.equal('["value"]');
+  const formData = new FormData(form);
+  expect(formData.get('name')).to.be.equal('["value"]');
 });
 
 it('has no `formData` value when no option is selected', async () => {
