@@ -22,6 +22,7 @@ export default [
       border-radius: var(--cs-spacing-xs);
       box-shadow: var(--cs-shadow-lg);
       box-sizing: border-box;
+      inline-size: max-content;
       inset-block-start: 0;
       inset-inline-start: 0;
       margin-block: 0;
