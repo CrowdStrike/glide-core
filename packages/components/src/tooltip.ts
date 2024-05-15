@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import {
+  arrow,
   autoUpdate,
   computePosition,
   flip,
@@ -80,28 +81,6 @@ export default class CsTooltip extends LitElement {
           ${ref(this.#targetElementRef)}
         >
           <slot name="target"></slot>
-
-          <svg
-            class=${classMap({
-              triangle: true,
-              bottom: this.effectivePlacement === 'top',
-              left: this.effectivePlacement === 'right',
-              right: this.effectivePlacement === 'left',
-              top: this.effectivePlacement === 'bottom',
-              visible: this.isVisible,
-            })}
-            height="${this.#triangleSize.height}px"
-            width="${this.#triangleSize.width}px"
-            viewBox="0 0 6 10"
-            fill="none"
-            style="--triangle-height: ${this.#triangleSize
-              .height}px; --triangle-width: ${this.#triangleSize.width}px;"
-          >
-            <path
-              d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
-              fill="#212121"
-            />
-          </svg>
         </div>
 
         <div
@@ -115,6 +94,7 @@ export default class CsTooltip extends LitElement {
         >
           <span aria-label="Tooltip: "></span>
           <slot></slot>
+          <div class="arrow" ${ref(this.#arrowElementRef)}></div>
         </div>
       </div>
     `;
@@ -123,6 +103,8 @@ export default class CsTooltip extends LitElement {
   @state()
   private effectivePlacement?: string;
 
+  #arrowElementRef = createRef<HTMLDivElement>();
+
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
   #isVisible = false;
@@ -130,11 +112,6 @@ export default class CsTooltip extends LitElement {
   #targetElementRef = createRef<HTMLSpanElement>();
 
   #tooltipElementRef = createRef<HTMLSpanElement>();
-
-  #triangleSize = {
-    height: 10,
-    width: 6,
-  };
 
   #onFocusin() {
     this.isVisible = true;
@@ -166,27 +143,21 @@ export default class CsTooltip extends LitElement {
         () => {
           (async () => {
             if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
-              const { placement, x, y } = await computePosition(
+              const arrowElement = this.#arrowElementRef.value!;
+
+              const { placement, x, y, middlewareData } = await computePosition(
                 this.#targetElementRef.value,
                 this.#tooltipElementRef.value,
                 {
                   placement: this.placement,
                   strategy: 'fixed',
                   middleware: [
-                    offset({
-                      mainAxis:
-                        Number.parseFloat(
-                          window
-                            .getComputedStyle(document.body)
-                            .getPropertyValue('--cs-spacing-xxs'),
-                        ) *
-                          16 +
-                        this.#triangleSize.width,
-                    }),
+                    offset(10),
                     flip({
                       fallbackStrategy: 'initialPlacement',
                     }),
                     shift(),
+                    arrow({ element: arrowElement }),
                   ],
                 },
               );
@@ -194,6 +165,24 @@ export default class CsTooltip extends LitElement {
               Object.assign(this.#tooltipElementRef.value.style, {
                 left: `${x}px`,
                 top: `${y}px`,
+              });
+
+              const arrowX = middlewareData.arrow?.x ?? null;
+              const arrowY = middlewareData.arrow?.y ?? null;
+
+              const staticSide = {
+                top: 'bottom',
+                right: 'left',
+                bottom: 'top',
+                left: 'right',
+              }[placement.split('-')[0]]!;
+
+              Object.assign(arrowElement.style, {
+                left: arrowX === null ? '' : `${arrowX}px`,
+                top: arrowY === null ? '' : `${arrowY}px`,
+                right: '',
+                bottom: '',
+                [staticSide]: '-3px',
               });
 
               this.effectivePlacement = placement;
