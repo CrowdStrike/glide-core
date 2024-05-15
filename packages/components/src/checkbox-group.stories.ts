@@ -124,7 +124,7 @@ const meta: Meta = {
 
 export default meta;
 
-export const Horizontal: StoryObj = {};
+export const Vertical: StoryObj = {};
 
 export const VerticalWithToolip: StoryObj = {
   args: {

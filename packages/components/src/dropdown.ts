@@ -192,9 +192,9 @@ export default class CsDropdown extends LitElement {
             visible: this.hasTooltipSlot,
           })}
         >
-          <span class="tooltip-trigger" slot="target" tabindex="0"
-            >${infoCircleIcon}</span
-          >
+          <span class="tooltip-target" slot="target" tabindex="0">
+            ${infoCircleIcon}
+          </span>
 
           <slot
             name="tooltip"

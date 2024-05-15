@@ -82,7 +82,7 @@ export default [
       }
     }
 
-    .tooltip-button {
+    .tooltip-target {
       background-color: transparent;
       border: none;
 

@@ -53,7 +53,7 @@ const meta: Meta = {
 
           <span
             slot="target"
-            style="display: inline-block; line-height: 0;"
+            style="border-radius: 50%; display: inline-block; line-height: 0; outline-offset: 1px;"
             tabindex="0"
           >
             <cs-example-icon name="info"></cs-example-icon>

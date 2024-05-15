@@ -160,7 +160,7 @@ when browsers support them.
       }
     }
 
-    .tooltip-button {
+    .tooltip-target {
       background-color: transparent;
       border: none;
 
@@ -168,10 +168,10 @@ when browsers support them.
       border-radius: 50%;
 
       /*
-  Any "display" that's not inline-level will do. We don't want the button to
-  acquire a line box, which will make it taller than its content and thus
-  make it difficult to center vertically with the label.
-*/
+        Any "display" that's not inline-level will do. We don't want the target to
+        acquire a line box, which will make it taller than its content and thus
+        make it difficult to center vertically with the label.
+      */
       display: flex;
       outline-offset: 1px;
       padding: 0;

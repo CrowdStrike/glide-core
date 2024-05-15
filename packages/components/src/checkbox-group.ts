@@ -173,7 +173,9 @@ export default class CsCheckboxGroup extends LitElement {
           visible: this.hasTooltipSlot,
         })}
       >
-        <button class="tooltip-button" slot="target">${infoCircleIcon}</button>
+        <span class="tooltip-target" slot="target" tabindex="0">
+          ${infoCircleIcon}
+        </span>
 
         <slot
           name="tooltip"

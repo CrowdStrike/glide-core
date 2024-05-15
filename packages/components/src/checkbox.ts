@@ -136,7 +136,9 @@ export default class CsCheckbox extends LitElement {
         })}
         placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
       >
-        <button class="tooltip-button" slot="target">${infoCircleIcon}</button>
+        <span class="tooltip-target" slot="target" tabindex="0">
+          ${infoCircleIcon}
+        </span>
 
         <slot
           name="tooltip"
