@@ -108,6 +108,10 @@ export default class CsTree extends LitElement {
     const target = event.target as HTMLElement;
     const clickedItem = target.closest('cs-tree-item');
 
+    if (target.closest('[slot=menu]')) {
+      return;
+    }
+
     if (clickedItem) {
       if (clickedItem.hasChildTreeItems) {
         clickedItem.toggleExpand();
