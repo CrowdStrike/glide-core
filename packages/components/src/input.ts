@@ -1,4 +1,5 @@
 import './icon-button.js';
+import './tooltip.js';
 import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -9,6 +10,7 @@ import {
   state,
 } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import infoCircleIcon from './icons/info-circle.js';
 import styles from './input.styles.js';
 
 /*
@@ -35,6 +37,7 @@ type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
  * @event change - (same as native input's `change` event)
  * @event input - (same as native input's `input` event)
 
+ * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
  * @slot prefix - An optional icon slot to display before the input.
  * @slot suffix - An optional icon slot to display after the input.
@@ -78,9 +81,6 @@ export default class CsInput extends LitElement {
   /** For 'password' type, whether to show a button to toggle the password's visibility */
   @property({ attribute: 'password-toggle', type: Boolean })
   passwordToggle = false;
-
-  @property({ attribute: 'password-visible', type: Boolean })
-  passwordVisible = false;
 
   @property({ reflect: true, type: Boolean })
   required = false;
@@ -171,21 +171,45 @@ export default class CsInput extends LitElement {
         })}
         data-test="component"
       >
-        <label
+        <div
           class=${classMap({
-            label: true,
+            'tooltip-and-label': true,
             left: this.labelPosition === 'left',
             top: this.labelPosition === 'top',
-            'visually-hidden': this.hideLabel,
           })}
-          for="input"
         >
-          <span
-            >${this.label}${this.required
-              ? html`<span class="required-indicator">*</span>`
-              : ''}</span
+          <cs-tooltip
+            class=${classMap({
+              visible: this.hasTooltipSlot,
+            })}
+            placement=${this.labelPosition === 'top' ? 'right' : 'bottom'}
           >
-        </label>
+            <span class="tooltip-target" slot="target" tabindex="0">
+              ${infoCircleIcon}
+            </span>
+
+            <slot
+              name="tooltip"
+              @slotchange=${this.#onTooltipSlotChange}
+              ${ref(this.#tooltipSlotElementRef)}
+            ></slot>
+          </cs-tooltip>
+
+          <label
+            class=${classMap({
+              label: true,
+              'visually-hidden': this.hideLabel,
+            })}
+            for="input"
+          >
+            <span
+              >${this.label}${this.required
+                ? html`<span class="required-indicator">*</span>`
+                : ''}</span
+            >
+          </label>
+        </div>
+
         <div
           class=${classMap({
             'input-box': true,
@@ -383,14 +407,22 @@ export default class CsInput extends LitElement {
   @state() private hasFocus = false;
 
   @state()
+  private hasTooltipSlot = false;
+
+  @state()
   private isCheckingValidity?: boolean;
 
   @state()
   private isReportValidityOrSubmit = false;
 
+  @state()
+  private passwordVisible = false;
+
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
+
+  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   #onFormdata = ({ formData }: FormDataEvent) => {
     if (this.name && this.value && !this.disabled) {
@@ -450,6 +482,11 @@ export default class CsInput extends LitElement {
 
   #onPasswordToggle() {
     this.passwordVisible = !this.passwordVisible;
+  }
+
+  #onTooltipSlotChange() {
+    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
+    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
   /**

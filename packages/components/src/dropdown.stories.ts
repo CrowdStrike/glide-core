@@ -21,8 +21,8 @@ const meta: Meta = {
     },
   },
   args: {
+    'hide-label': false,
     disabled: false,
-    hideLabel: false,
     label: 'Label',
     open: false,
     orientation: 'horizontal',
@@ -86,7 +86,7 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    hideLabel: {
+    'hide-label': {
       control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
@@ -200,7 +200,7 @@ const meta: Meta = {
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
         variant=${arguments_.variant || nothing}
-        ?hide-label=${arguments_.hideLabel || nothing}
+        ?hide-label=${arguments_['hide-label'] || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -246,7 +246,7 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
         variant=${arguments_.variant || nothing}
-        ?hide-label=${arguments_.hideLabel || nothing}
+        ?hide-label=${arguments_['hide-label'] || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -316,7 +316,7 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
         variant=${arguments_.variant || nothing}
-        ?hide-label=${arguments_.hideLabel || nothing}
+        ?hide-label=${arguments_['hide-label'] || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
