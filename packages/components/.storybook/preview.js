@@ -1,7 +1,7 @@
 /** @type { import('@storybook/web-components').Preview } */
-import '@crowdstrike/glide-core-styles';
-
 import './overrides.css';
+import '@crowdstrike/glide-core-styles';
+import { create } from '@storybook/theming/create';
 
 const preview = {
   parameters: {
@@ -9,6 +9,11 @@ const preview = {
       canvas: {
         sourceState: 'shown',
       },
+      theme: create({
+        base: 'light',
+        fontBase: '"Nunito", sans-serif',
+        fontCode: 'monospace',
+      }),
     },
   },
 };
