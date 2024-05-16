@@ -53,7 +53,7 @@ when browsers support them.
       }
     }
 
-    :host([orientation='horizontal']) .label-text {
+    :host([orientation='horizontal']) .label-text:not(.right) {
       padding-inline-end: var(--cs-spacing-sm);
     }
 
@@ -99,14 +99,14 @@ when browsers support them.
     }
 
     .component {
-      --max-width: 22rem;
+      --max-inline-size: 22rem;
     }
 
     .checkbox-and-summary {
       align-items: center;
       display: flex;
       gap: var(--cs-spacing-sm);
-      max-inline-size: var(--max-width);
+      max-inline-size: var(--max-inline-size);
     }
 
     .checkbox {
@@ -135,7 +135,11 @@ when browsers support them.
       font-weight: var(--cs-body-xs-font-weight);
       line-height: var(--cs-body-xs-line-height);
       margin-block-start: var(--cs-spacing-xxxs);
-      max-inline-size: var(--max-width);
+      max-inline-size: var(--max-inline-size);
+
+      &.hidden {
+        display: none;
+      }
     }
 
     .label-and-checkbox-and-summary {
@@ -156,7 +160,7 @@ when browsers support them.
       }
     }
 
-    .tooltip-button {
+    .tooltip-target {
       background-color: transparent;
       border: none;
 
@@ -164,10 +168,10 @@ when browsers support them.
       border-radius: 50%;
 
       /*
-  Any "display" that's not inline-level will do. We don't want the button to
-  acquire a line box, which will make it taller than its content and thus
-  make it difficult to center vertically with the label.
-*/
+        Any "display" that's not inline-level will do. We don't want the target to
+        acquire a line box, which will make it taller than its content and thus
+        make it difficult to center vertically with the label.
+      */
       display: flex;
       outline-offset: 1px;
       padding: 0;
@@ -181,6 +185,12 @@ when browsers support them.
       font-variant: var(--cs-heading-xxxs-font-variant);
       font-weight: var(--cs-heading-xxxs-font-weight);
       line-height: 100%;
+
+      &.right {
+        font-weight: var(--cs-body-xs-font-weight);
+        margin-inline-start: 0.625rem;
+        order: 1;
+      }
     }
 
     .required-symbol {
@@ -197,6 +207,10 @@ when browsers support them.
       font-style: var(--cs-body-sm-font-style);
       font-weight: var(--cs-body-sm-font-weight);
       line-height: 100%;
+
+      &.hidden {
+        display: none;
+      }
     }
 
     .summary-for-screenreaders {

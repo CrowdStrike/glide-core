@@ -101,6 +101,7 @@ export function owSlotType(
 // which we can't assume.
 //
 // https://github.com/sindresorhus/ow/blob/b48757a77047c26290332321290b714b7dc8c842/dev-only.js
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const shim = new Proxy(() => {}, {
   get: () => shim,
   apply: () => shim,

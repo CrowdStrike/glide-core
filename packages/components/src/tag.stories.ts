@@ -16,7 +16,7 @@ const meta: Meta = {
   render: (arguments_) => html`
     <cs-tag
       removable-label=${arguments_['removable-label'] || nothing}
-      size=${arguments_['size']}
+      size=${arguments_.size}
     >
       ${arguments_['slot="default"']}
     </cs-tag>

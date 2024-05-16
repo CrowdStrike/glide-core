@@ -3,7 +3,7 @@ import TreeItem from './tree.item.js';
 
 TreeItem.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers', () => {
   expect(window.customElements.get('cs-tree-item')).to.equal(TreeItem);
 });
 

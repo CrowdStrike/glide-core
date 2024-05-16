@@ -76,6 +76,7 @@ export default class CsDropdown extends LitElement {
 
   // Read-only. Doesn't throw.
   // https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/validationMessage
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   set validationMessage(_) {}
 
   checkValidity() {
@@ -111,7 +112,7 @@ export default class CsDropdown extends LitElement {
   override firstUpdated() {
     const firstOption = this.#optionElements.at(0);
 
-    if (this.selectedOption && this.selectedOption.value) {
+    if (this.selectedOption?.value) {
       this.selectedOption.privateActive = true;
       this.value = [this.selectedOption.value];
     } else if (firstOption) {
@@ -156,10 +157,7 @@ export default class CsDropdown extends LitElement {
       option.hasAttribute('selected'),
     );
 
-    this.value =
-      lastSelectedOption && lastSelectedOption.value
-        ? [lastSelectedOption.value]
-        : [];
+    this.value = lastSelectedOption?.value ? [lastSelectedOption.value] : [];
   }
 
   override render() {
@@ -194,9 +192,9 @@ export default class CsDropdown extends LitElement {
             visible: this.hasTooltipSlot,
           })}
         >
-          <span class="tooltip-trigger" slot="target" tabindex="0"
-            >${infoCircleIcon}</span
-          >
+          <span class="tooltip-target" slot="target" tabindex="0">
+            ${infoCircleIcon}
+          </span>
 
           <slot
             name="tooltip"
@@ -241,7 +239,7 @@ export default class CsDropdown extends LitElement {
           @keydown=${this.#onButtonKeydown}
           ${ref(this.#buttonElementRef)}
         >
-          ${this.selectedOption?.label || this.placeholder}
+          ${this.selectedOption?.label ?? this.placeholder}
 
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path

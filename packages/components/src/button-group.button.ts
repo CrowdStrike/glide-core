@@ -47,10 +47,18 @@ export default class CsButtonGroupButton extends LitElement {
   @property({ type: Boolean })
   vertical = false;
 
-  override async connectedCallback() {
-    super.connectedCallback();
+  override firstUpdated(): void {
+    // Always want a text label and log an error when it isn't present.
+    // When the variant is 'icon-only' set the label as visually hidden
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [Text]);
 
-    // determine position in group and style appropriately
+    if (this.selected) {
+      this.isTabbable = true;
+    }
+
+    this.variant === 'icon-only' && owSlot(this.#prefixSlotElementRef.value);
+
     if (this.#buttonElements.length > 0) {
       if (
         this.#buttonElements.length > 1 &&
@@ -89,19 +97,6 @@ export default class CsButtonGroupButton extends LitElement {
         }
       }
     }
-  }
-
-  override firstUpdated(): void {
-    // Always want a text label and log an error when it isn't present.
-    // When the variant is 'icon-only' set the label as visually hidden
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [Text]);
-
-    if (this.selected) {
-      this.isTabbable = true;
-    }
-
-    this.variant === 'icon-only' && owSlot(this.#prefixSlotElementRef.value);
   }
 
   override focus(options?: FocusOptions) {

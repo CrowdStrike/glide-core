@@ -6,6 +6,7 @@ import globals from 'globals';
 import js from '@eslint/js';
 import sortClassMembers from 'eslint-plugin-sort-class-members';
 import stylistic from '@stylistic/eslint-plugin';
+import typescriptEslint from 'typescript-eslint';
 
 const compat = new FlatCompat();
 
@@ -13,10 +14,11 @@ export default [
   js.configs.recommended,
   eslintPluginUnicorn.configs['flat/all'],
   sortClassMembers.configs['flat/recommended'],
-  ...compat.extends('plugin:@typescript-eslint/recommended'),
   ...compat.extends('plugin:lit/recommended'),
   ...compat.extends('plugin:lit-a11y/recommended'),
   ...compat.plugins('sort-imports-es6-autofix'),
+  ...typescriptEslint.configs.recommendedTypeChecked,
+  ...typescriptEslint.configs.stylisticTypeChecked,
   eslintConfigPrettier,
   {
     ignores: ['dist'],
@@ -25,6 +27,12 @@ export default [
     plugins: {
       '@stylistic': stylistic,
       '@crowdstrike/glide-core-eslint-plugin': eslintGlideCorePlugin,
+    },
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
       '@crowdstrike/glide-core-eslint-plugin/consistent-reference-element-declarations':
@@ -35,6 +43,15 @@ export default [
         'error',
       '@crowdstrike/glide-core-eslint-plugin/prefixed-lit-element-class-declaration':
         'error',
+
+      // Enabling this rule would force us to `await` any function that returns a promise.
+      // One example is a function that itself `await`s `updateComplete`. The rule is a bit
+      // cumbersome in practice.
+      '@typescript-eslint/no-floating-promises': 'off',
+
+      // Most of the methods this rule would cover are bound by Lit.
+      '@typescript-eslint/unbound-method': 'off',
+
       '@stylistic/padding-line-between-statements': [
         'error',
         {
@@ -221,5 +238,13 @@ export default [
     languageOptions: {
       globals: globals.node,
     },
+  },
+  {
+    files: ['**/*.js', '**/*.test.*ts'],
+    // These rules don't apply to JavaScript. And for tests they're annoying
+    // due to how much of "@open-wc/testing" is typed as `any` or inconsistently.
+    // `expect`, for example, results sometimes in a promise and other times something
+    // else depending on what it's chained with.
+    ...typescriptEslint.configs.disableTypeChecked,
   },
 ];

@@ -1,5 +1,7 @@
 import './dropdown.option.js';
 import './icons/storybook.js';
+import { STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit-html';
 import CsDropdown from './dropdown.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -176,7 +178,19 @@ const meta: Meta = {
       document.documentElement.scrollTop = 0;
     }
   },
-  render(arguments_) {
+  render(arguments_, context) {
+    context.canvasElement.addEventListener('click', (event) => {
+      if (event.target instanceof CsDropdown) {
+        addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          storyId: context.id,
+          args: {
+            ...arguments_,
+            open: event.target.open,
+          },
+        });
+      }
+    });
+
     /* eslint-disable unicorn/explicit-length-check */
     return html`<form style="height: 11rem;">
       <cs-dropdown
@@ -210,7 +224,19 @@ export const SingleSelectionHorizontal: StoryObj = {};
 
 export const SingleSelectionHorizontalWithIcon: StoryObj = {
   name: 'Single Selection (Horizontal With Icon)',
-  render(arguments_) {
+  render(arguments_, context) {
+    context.canvasElement.addEventListener('click', (event) => {
+      if (event.target instanceof CsDropdown) {
+        addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          storyId: context.id,
+          args: {
+            ...arguments_,
+            open: event.target.open,
+          },
+        });
+      }
+    });
+
     /* eslint-disable unicorn/explicit-length-check */
     return html`<form style="height: 11rem;">
       <cs-dropdown
@@ -268,7 +294,19 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
     orientation: 'vertical',
   },
   name: 'Single Selection (Vertical With Icon)',
-  render(arguments_) {
+  render(arguments_, context) {
+    context.canvasElement.addEventListener('click', (event) => {
+      if (event.target instanceof CsDropdown) {
+        addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          storyId: context.id,
+          args: {
+            ...arguments_,
+            open: event.target.open,
+          },
+        });
+      }
+    });
+
     /* eslint-disable unicorn/explicit-length-check */
     return html`<form style="height: 11rem;">
       <cs-dropdown
@@ -284,21 +322,19 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         ?required=${arguments_.required}
       >
         <cs-dropdown-option label="Edit" value="edit">
-          <cs-dropdown-option label="Edit" value="edit">
-            <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
-          </cs-dropdown-option>
+          <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
+        </cs-dropdown-option>
 
-          <cs-dropdown-option label="Move" value="move">
-            <cs-example-icon slot="icon" name="move"></cs-example-icon>
-          </cs-dropdown-option>
+        <cs-dropdown-option label="Move" value="move">
+          <cs-example-icon slot="icon" name="move"></cs-example-icon>
+        </cs-dropdown-option>
 
-          <cs-dropdown-option label="Share" value="share">
-            <cs-example-icon slot="icon" name="share"></cs-example-icon>
-          </cs-dropdown-option>
+        <cs-dropdown-option label="Share" value="share">
+          <cs-example-icon slot="icon" name="share"></cs-example-icon>
+        </cs-dropdown-option>
 
-          <cs-dropdown-option label="Settings" value="settings">
-            <cs-example-icon slot="icon" name="settings"></cs-example-icon>
-          </cs-dropdown-option>
+        <cs-dropdown-option label="Settings" value="settings">
+          <cs-example-icon slot="icon" name="settings"></cs-example-icon>
         </cs-dropdown-option>
 
         ${arguments_['slot="tooltip"']

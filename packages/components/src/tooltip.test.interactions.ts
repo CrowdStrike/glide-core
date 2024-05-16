@@ -9,7 +9,7 @@ it('is visible on "focusin"', async () => {
   const component = await fixture<CsTooltip>(
     html`<cs-tooltip>
       Tooltip
-      <button slot="target">Target</button>
+      <span slot="target" tabindex="0">Target</span>
     </cs-tooltip>`,
   );
 
@@ -28,7 +28,7 @@ it('is hidden on "blur"', async () => {
   const component = await fixture<CsTooltip>(
     html`<cs-tooltip>
       Tooltip
-      <button slot="target">Target</button>
+      <span slot="target" tabindex="0">Target</span>
     </cs-tooltip>`,
   );
 
@@ -53,7 +53,7 @@ it('is hidden on Escape', async () => {
   const component = await fixture<CsTooltip>(
     html`<cs-tooltip>
       Tooltip
-      <button slot="target">Target</button>
+      <span slot="target" tabindex="0">Target</span>
     </cs-tooltip>`,
   );
 
@@ -64,9 +64,9 @@ it('is hidden on Escape', async () => {
   await elementUpdated(component);
 
   // So the key is sent to the component instead of `<body>`. It's not
-  // clear why `component.focus()` doesn't focus the button when using
+  // clear why `component.focus()` doesn't focus the span when using
   // Playwright.
-  component.querySelector('button')?.focus();
+  component.querySelector('span')?.focus();
 
   await sendKeys({ press: 'Escape' });
   await elementUpdated(component);
@@ -80,7 +80,7 @@ it('is visible on "mouseover"', async () => {
   const component = await fixture<CsTooltip>(
     html`<cs-tooltip>
       Tooltip
-      <button slot="target">Target</button>
+      <span slot="target" tabindex="0">Target</span>
     </cs-tooltip>`,
   );
 
@@ -99,7 +99,7 @@ it('is hidden on "mouseout"', async () => {
   const component = await fixture<CsTooltip>(
     html`<cs-tooltip>
       Tooltip
-      <button slot="target">Target</button>
+      <span slot="target" tabindex="0">Target</span>
     </cs-tooltip>`,
   );
 

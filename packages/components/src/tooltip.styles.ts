@@ -4,6 +4,8 @@ import focusOutline from './styles/focus-outline.js';
 export default [
   css`
     .component {
+      /* https://github.com/CrowdStrike/glide-core/pull/119#issuecomment-2113314591 */
+      display: flex;
       position: relative;
     }
 
@@ -11,8 +13,8 @@ export default [
       background-color: transparent;
       border-width: 0;
 
-      /* Additional whitespace and the tooltip won't be vertically centered. */
-      line-height: 0;
+      /* Additional whitespace from line height and the tooltip won't be vertically centered. */
+      display: flex;
       padding: 0;
       position: relative;
 

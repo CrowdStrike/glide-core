@@ -42,23 +42,26 @@ const meta: Meta = {
       },
     },
   },
-  render: (arguments_) => html`
-    <div
-      style="align-items: center; display: flex; height: 8rem; justify-content: center;"
-    >
-      <cs-tooltip placement=${arguments_.placement}>
-        ${unsafeHTML(arguments_['slot="default"'])}
+  render: (arguments_) => {
+    /* eslint-disable @typescript-eslint/no-unsafe-argument */
+    return html`
+      <div
+        style="align-items: center; display: flex; height: 8rem; justify-content: center;"
+      >
+        <cs-tooltip placement=${arguments_.placement}>
+          ${unsafeHTML(arguments_['slot="default"'])}
 
-        <span
-          slot="target"
-          style="display: inline-block; line-height: 0;"
-          tabindex="0"
-        >
-          <cs-example-icon name="info"></cs-example-icon>
-        </span>
-      </cs-tooltip>
-    </div>
-  `,
+          <span
+            slot="target"
+            style="border-radius: 50%; display: inline-block; line-height: 0; outline-offset: 1px;"
+            tabindex="0"
+          >
+            <cs-example-icon name="info"></cs-example-icon>
+          </span>
+        </cs-tooltip>
+      </div>
+    `;
+  },
 };
 
 export default meta;

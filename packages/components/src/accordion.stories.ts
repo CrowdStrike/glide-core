@@ -1,5 +1,7 @@
 import './accordion.js';
 import './icons/storybook.js';
+import { STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html } from 'lit-html';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -14,11 +16,27 @@ const meta: Meta = {
       },
     },
   },
-  render: (arguments_) => html`
-    <cs-accordion label=${arguments_.label} ?open=${arguments_.open}
-      >${arguments_['slot="default"']}</cs-accordion
-    >
-  `,
+  render: (arguments_, context) => {
+    context.canvasElement.addEventListener('toggle', (event) => {
+      if (event instanceof CustomEvent) {
+        addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          storyId: context.id,
+          args: {
+            ...arguments_,
+            // Our events are untyped at the moment. So `detail` is typed as `any`.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            open: event.detail.newState === 'open',
+          },
+        });
+      }
+    });
+
+    return html`
+      <cs-accordion label=${arguments_.label} ?open=${arguments_.open}
+        >${arguments_['slot="default"']}</cs-accordion
+      >
+    `;
+  },
   args: {
     label: 'Accordion',
     open: false,
@@ -83,34 +101,88 @@ export const Default: StoryObj = {};
 
 export const WithPrefixIcon: StoryObj = {
   name: 'Default (With Prefix Icon)',
-  render: (arguments_) =>
-    html` <cs-accordion label=${arguments_.label} ?open=${arguments_.open}>
+  render: (arguments_, context) => {
+    context.canvasElement.addEventListener('toggle', (event) => {
+      if (event instanceof CustomEvent) {
+        addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          storyId: context.id,
+          args: {
+            ...arguments_,
+            // Our events are untyped at the moment. So `detail` is typed as `any`.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            open: event.detail.newState === 'open',
+          },
+        });
+      }
+    });
+
+    return html` <cs-accordion
+      label=${arguments_.label}
+      ?open=${arguments_.open}
+    >
       <cs-example-icon slot="prefix" name="share"></cs-example-icon>
 
       ${arguments_['slot="default"']}
-    </cs-accordion>`,
+    </cs-accordion>`;
+  },
 };
 
 export const WithSuffix: StoryObj = {
   name: 'Default (With Suffix Icons)',
-  render: (arguments_) =>
-    html` <cs-accordion label=${arguments_.label} ?open=${arguments_.open}>
+  render: (arguments_, context) => {
+    context.canvasElement.addEventListener('toggle', (event) => {
+      if (event instanceof CustomEvent) {
+        addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          storyId: context.id,
+          args: {
+            ...arguments_,
+            // Our events are untyped at the moment. So `detail` is typed as `any`.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            open: event.detail.newState === 'open',
+          },
+        });
+      }
+    });
+
+    return html` <cs-accordion
+      label=${arguments_.label}
+      ?open=${arguments_.open}
+    >
       ${arguments_['slot="default"']}
 
       <cs-example-icon slot="suffix" name="pencil"></cs-example-icon>
       <cs-example-icon slot="suffix" name="settings"></cs-example-icon>
-    </cs-accordion>`,
+    </cs-accordion>`;
+  },
 };
 
 export const WithPrefixAndSuffix: StoryObj = {
   name: 'Default (With Prefix & Suffix Icons)',
-  render: (arguments_) =>
-    html` <cs-accordion label=${arguments_.label} ?open=${arguments_.open}>
+  render: (arguments_, context) => {
+    context.canvasElement.addEventListener('toggle', (event) => {
+      if (event instanceof CustomEvent) {
+        addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          storyId: context.id,
+          args: {
+            ...arguments_,
+            // Our events are untyped at the moment. So `detail` is typed as `any`.
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            open: event.detail.newState === 'open',
+          },
+        });
+      }
+    });
+
+    return html` <cs-accordion
+      label=${arguments_.label}
+      ?open=${arguments_.open}
+    >
       <cs-example-icon slot="prefix" name="share"></cs-example-icon>
 
       ${arguments_['slot="default"']}
 
       <cs-example-icon slot="suffix" name="pencil"></cs-example-icon>
       <cs-example-icon slot="suffix" name="settings"></cs-example-icon>
-    </cs-accordion>`,
+    </cs-accordion>`;
+  },
 };

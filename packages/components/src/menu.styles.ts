@@ -22,6 +22,7 @@ export default [
       border-radius: var(--cs-spacing-xs);
       box-shadow: var(--cs-shadow-lg);
       box-sizing: border-box;
+      inline-size: max-content;
       inset-block-start: 0;
       inset-inline-start: 0;
       margin-block: 0;
@@ -30,11 +31,11 @@ export default [
       position: absolute;
       visibility: hidden;
 
-      &.options-visible {
+      &.visible {
         visibility: visible;
       }
 
-      &.options-large {
+      &.large {
         --gap: var(--cs-spacing-sm);
         --padding-inline: var(--cs-spacing-sm);
         --padding-block: var(--cs-spacing-xxs);
@@ -46,7 +47,7 @@ export default [
         line-height: var(--cs-body-sm-line-height);
       }
 
-      &.options-small {
+      &.small {
         --gap: var(--cs-spacing-xs);
         --padding-inline: var(--cs-spacing-xs);
         --padding-block: var(--cs-spacing-xxxs);

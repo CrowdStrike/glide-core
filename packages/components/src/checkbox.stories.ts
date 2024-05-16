@@ -1,3 +1,5 @@
+import { STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit-html';
 import CsCheckbox from './checkbox.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -142,7 +144,19 @@ const meta: Meta = {
       document.documentElement.scrollTop = 0;
     }
   },
-  render(arguments_) {
+  render(arguments_, context) {
+    context.canvasElement.addEventListener('change', (event) => {
+      if (event.target instanceof CsCheckbox) {
+        addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          storyId: context.id,
+          args: {
+            ...arguments_,
+            checked: event.target.checked,
+          },
+        });
+      }
+    });
+
     return html`<form style="padding: 1.5rem;">
       <cs-checkbox
         label=${arguments_.label || nothing}

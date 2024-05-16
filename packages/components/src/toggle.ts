@@ -71,7 +71,9 @@ export default class CsToggle extends LitElement {
         })}
         placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
       >
-        <button class="tooltip-button" slot="target">${infoCircleIcon}</button>
+        <span class="tooltip-target" tabindex="0" slot="target">
+          ${infoCircleIcon}
+        </span>
 
         <slot
           name="tooltip"

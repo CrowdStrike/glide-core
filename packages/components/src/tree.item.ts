@@ -44,13 +44,13 @@ export default class CsTreeItem extends LitElement {
   @property({ type: Boolean }) selected = false;
 
   @queryAssignedElements({ slot: 'prefix' })
-  prefixSlotAssignedElements!: Array<HTMLElement>;
+  prefixSlotAssignedElements!: HTMLElement[];
 
   @queryAssignedElements()
-  slotElements!: Array<CsTreeItem>;
+  slotElements!: CsTreeItem[];
 
   @queryAssignedElements({ slot: 'suffix' })
-  suffixSlotAssignedElements!: Array<HTMLElement>;
+  suffixSlotAssignedElements!: HTMLElement[];
 
   override firstUpdated() {
     this.#setupChildren();
