@@ -110,6 +110,48 @@ it('renders a `name` attribute on the textarea when set', async () => {
   expect(textarea).to.have.attribute('name', 'test-name');
 });
 
+it('supports a "tooltip" slot', async () => {
+  const template = `
+    <cs-textarea value="value" label="label" required>
+      <div slot="tooltip">Tooltip</div>
+    </cs-textarea>
+  `;
+
+  const element = await fixture<CsTextarea>(template);
+
+  const assignedElements = element.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="tooltip"]')
+    ?.assignedElements();
+
+  expect(assignedElements?.at(0)?.textContent).to.equal('Tooltip');
+});
+
+it('places the tooltip on bottom when the label is on the left', async () => {
+  const template = `
+    <cs-textarea value="value" label="label" required>
+      <div slot="tooltip">Tooltip</div>
+    </cs-textarea>
+  `;
+
+  const element = await fixture<CsTextarea>(template);
+  const tooltip = element.shadowRoot?.querySelector('cs-tooltip');
+
+  expect(tooltip?.placement).to.equal('bottom');
+});
+
+it('places the tooltip on the left when the label is on top', async () => {
+  const template = `
+    <cs-textarea value="value" label="label" label-position="top" required>
+      <div slot="tooltip">Tooltip</div>
+    </cs-textarea>
+  `;
+
+  const element = await fixture<CsTextarea>(template);
+  const tooltip = element.shadowRoot?.querySelector('cs-tooltip');
+
+  expect(tooltip?.placement).to.equal('left');
+});
+
 it('renders a slot with description', async () => {
   const template = `<cs-textarea value="value" label="label"><span slot="description" data-test-content>Description</slot></cs-textarea>`;
   const element = await fixture<CsTextarea>(template);

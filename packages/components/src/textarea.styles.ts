@@ -2,7 +2,7 @@ import { css } from 'lit';
 import visuallyHidden from './styles/visually-hidden.js';
 
 export default css`
-  .textarea {
+  .component {
     color: var(--cs-text-body-1);
     display: flex;
     font-family: var(--cs-body-xs-font-family);
@@ -17,18 +17,6 @@ export default css`
     &.column {
       display: flex;
       flex-direction: column;
-    }
-
-    & .label-container {
-      block-size: min-content;
-      display: flex;
-      margin-block-start: var(--cs-spacing-sm);
-      margin-inline-end: var(--cs-spacing-sm);
-
-      &.top {
-        margin-block-start: 0;
-        margin-inline-end: 0;
-      }
     }
 
     & .visually-hidden {
@@ -64,6 +52,48 @@ export default css`
       & ::slotted([slot='description']) {
         margin-block-start: var(--cs-spacing-xxs);
       }
+    }
+
+    .tooltip-and-label {
+      block-size: min-content;
+      column-gap: var(--cs-spacing-xs);
+      display: flex;
+      margin-block-start: var(--cs-spacing-sm);
+      margin-inline-end: var(--cs-spacing-sm);
+
+      &.top {
+        margin-block-start: 0;
+        margin-inline-end: 0;
+      }
+    }
+
+    cs-tooltip {
+      display: none;
+
+      &.visible {
+        display: block;
+      }
+
+      &.top {
+        order: 1;
+      }
+    }
+
+    .tooltip-target {
+      background-color: transparent;
+      border: none;
+
+      /* So the focus outline wraps neatly around the icon. */
+      border-radius: 50%;
+
+      /*
+      Any "display" that's not inline-level will do. We don't want the target to
+      acquire a line box, which will make it taller than its content and thus
+      make it difficult to center vertically with the label.
+    */
+      display: flex;
+      outline-offset: 1px;
+      padding: 0;
     }
 
     textarea {
