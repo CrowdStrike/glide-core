@@ -109,7 +109,7 @@ export default [
       font-weight: 600;
       gap: var(--cs-spacing-xs);
       inline-size: 100%;
-      line-height: 2rem;
+      line-height: 1.875rem;
       margin: 0;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -125,6 +125,7 @@ export default [
 
     .body {
       display: flex;
+      line-height: 1;
       overflow: auto;
       padding-block: 1rem;
 
