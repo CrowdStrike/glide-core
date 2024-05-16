@@ -19,6 +19,7 @@ const meta: Meta = {
     },
   },
   args: {
+    ['slot="tooltip"']: '',
     ['slot="description"']: 'Description',
     checked: false,
     disabled: false,
