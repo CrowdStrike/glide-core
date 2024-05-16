@@ -106,4 +106,3 @@ jobs:
           message: |+
             ## Preview URL
             https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}
-
