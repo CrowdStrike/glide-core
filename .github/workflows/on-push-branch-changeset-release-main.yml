@@ -1,0 +1,27 @@
+name: On Push Branch "changeset-release/main"
+
+on:
+  push:
+    branches:
+      - add-preview-url-to-release-pr
+
+env:
+  CI: true
+
+concurrency:
+  group: ${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  add-preview-url-to-pr:
+    name: Add preview URL to PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |+
+            ## Preview URL
+            https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/main
+
