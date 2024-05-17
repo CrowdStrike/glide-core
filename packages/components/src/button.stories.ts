@@ -85,7 +85,7 @@ export const PrimaryWithPrefixIcon: StoryObj = {
 
       <cs-example-icon
         slot="prefix"
-        name="caret-down"
+        name="chevron-down"
         aria-hidden="true"
       ></cs-example-icon>
     </cs-button>
@@ -104,7 +104,7 @@ export const PrimaryWithSuffixIcon: StoryObj = {
 
       <cs-example-icon
         slot="suffix"
-        name="caret-down"
+        name="chevron-down"
         aria-hidden="true"
       ></cs-example-icon>
     </cs-button>
@@ -128,7 +128,7 @@ export const PrimaryWithPrefixAndSuffixIcons: StoryObj = {
       ></cs-example-icon>
       <cs-example-icon
         slot="suffix"
-        name="caret-down"
+        name="chevron-down"
         aria-hidden="true"
       ></cs-example-icon>
     </cs-button>
@@ -156,7 +156,7 @@ export const SecondaryWithPrefixIcon: StoryObj = {
 
       <cs-example-icon
         slot="prefix"
-        name="caret-down"
+        name="chevron-down"
         aria-hidden="true"
       ></cs-example-icon>
     </cs-button>
@@ -178,7 +178,7 @@ export const SecondaryWithSuffixIcon: StoryObj = {
 
       <cs-example-icon
         slot="suffix"
-        name="caret-down"
+        name="chevron-down"
         aria-hidden="true"
       ></cs-example-icon>
     </cs-button>
@@ -205,7 +205,7 @@ export const SecondaryWithPrefixAndSuffixIcons: StoryObj = {
       ></cs-example-icon>
       <cs-example-icon
         slot="suffix"
-        name="caret-down"
+        name="chevron-down"
         aria-hidden="true"
       ></cs-example-icon>
     </cs-button>
@@ -233,7 +233,7 @@ export const TertiaryWithPrefixIcon: StoryObj = {
 
       <cs-example-icon
         slot="prefix"
-        name="caret-down"
+        name="chevron-down"
         aria-hidden="true"
       ></cs-example-icon>
     </cs-button>
@@ -255,7 +255,7 @@ export const TertiaryWithSuffixIcon: StoryObj = {
 
       <cs-example-icon
         slot="suffix"
-        name="caret-down"
+        name="chevron-down"
         aria-hidden="true"
       ></cs-example-icon>
     </cs-button>
@@ -282,7 +282,7 @@ export const TertiaryWithPrefixAndSuffixIcons: StoryObj = {
       ></cs-example-icon>
       <cs-example-icon
         slot="suffix"
-        name="caret-down"
+        name="chevron-down"
         aria-hidden="true"
       ></cs-example-icon>
     </cs-button>

@@ -89,13 +89,19 @@ const ICONS = {
     />
     <circle cx="12" cy="8" r="1" fill="currentColor" />
   `,
-  'caret-down': svg`
-    <path d="M6,9.1,9,12l3,2.9L15,12l3-2.9" />
-  `,
   calendar: svg`
     <path
       d="M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2zm11-2v4M8 3v4m-5 3h18M7.858 13.954h.1m4.342 0h.1m4.3 0h.1M7.827 17.4h.1m4.373 0h.1m4.269 0h.1"
     ></path>
+  `,
+  'chevron-down': svg`
+    <path
+      d="M6 9L12 15L18 9"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
   `,
   clipboard: svg`
     <path
