@@ -144,6 +144,12 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
+    ['slot="tooltip"']: {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+      },
+    },
     ['slot="description"']: {
       control: { type: 'text' },
       table: {

@@ -1,9 +1,11 @@
+import './tooltip.js';
 import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
+import infoCircleIcon from './icons/info-circle.js';
 import styles from './textarea.styles.js';
 
 /**
@@ -11,7 +13,8 @@ import styles from './textarea.styles.js';
  *
  * @event change - (same as native textarea's `change` event)
  * @event input - (same as native textarea's `input` event)
-
+ *
+ * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
  */
 @customElement('cs-textarea')
@@ -105,13 +108,13 @@ export default class CsTextarea extends LitElement {
   override render() {
     return html`<div
       class=${classMap({
-        textarea: true,
+        component: true,
         column: this.labelPosition === 'top',
       })}
     >
       <div
         class=${classMap({
-          'label-container': true,
+          'tooltip-and-label': true,
           'visually-hidden': Boolean(this.hideLabel),
           top: this.labelPosition === 'top',
         })}
@@ -121,6 +124,24 @@ export default class CsTextarea extends LitElement {
         data-test-label-container--top=${this.labelPosition === 'top' ||
         nothing}
       >
+        <cs-tooltip
+          class=${classMap({
+            visible: this.hasTooltipSlot,
+            left: this.labelPosition === 'top',
+          })}
+          placement=${this.labelPosition === 'top' ? 'left' : 'bottom'}
+        >
+          <span class="tooltip-target" slot="target" tabindex="0">
+            ${infoCircleIcon}
+          </span>
+
+          <slot
+            name="tooltip"
+            @slotchange=${this.#onTooltipSlotChange}
+            ${ref(this.#tooltipSlotElementRef)}
+          ></slot>
+        </cs-tooltip>
+
         <label for="cs-textarea" class="label-font">
           ${this.label}${when(
             this.required,
@@ -129,6 +150,7 @@ export default class CsTextarea extends LitElement {
           )}
         </label>
       </div>
+
       <div
         class=${classMap({
           container: true,
@@ -212,6 +234,9 @@ ${this.value}</textarea
   }
 
   @state()
+  private hasTooltipSlot = false;
+
+  @state()
   private isCheckingValidity = false;
 
   @state()
@@ -220,6 +245,8 @@ ${this.value}</textarea
   #internals: ElementInternals;
 
   #textareaElementRef = createRef<HTMLTextAreaElement>();
+
+  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   // is set to the textarea instead of the form.
   #onFormdata = ({ formData }: FormDataEvent) => {
@@ -270,6 +297,11 @@ ${this.value}</textarea
       this.isCheckingValidity = false;
       this.isReportValidityOrSubmit = true;
     }
+  }
+
+  #onTooltipSlotChange() {
+    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
+    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
   async #onUpdateValidityState() {
