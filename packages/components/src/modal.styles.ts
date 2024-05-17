@@ -36,7 +36,6 @@ export default [
       max-block-size: 75vh;
       opacity: 0;
       padding: 1.25rem;
-      padding-block-end: 1.625rem;
 
       &[open] {
         animation: modal-open 250ms;
@@ -129,6 +128,7 @@ export default [
       line-height: 1;
       overflow: auto;
       padding-block: 1rem;
+      padding-block-end: 0.625rem;
 
       &:focus {
         outline: none;
