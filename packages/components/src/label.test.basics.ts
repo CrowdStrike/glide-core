@@ -1,5 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import CsLabel from './label.js';
+import sinon from 'sinon';
 
 CsLabel.shadowRootOptions.mode = 'open';
 
@@ -142,4 +143,36 @@ it('places the tooltip on the right when vertical', async () => {
       ?.querySelector('cs-tooltip')
       ?.getAttribute('placement'),
   ).to.equal('right');
+});
+
+it('throws if it does not have a default slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsLabel>(
+      html`<cs-label orientation="vertical"
+        ><input slot="control"
+      /></cs-label>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
+});
+
+it('throws if it does not have a "control" slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsLabel>(
+      html`<cs-label orientation="vertical">
+        <label>Label</label>
+      </cs-label>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
 });

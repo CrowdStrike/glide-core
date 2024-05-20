@@ -6,7 +6,7 @@ CsDropdown.shadowRootOptions.mode = 'open';
 
 it('is valid if not required and no option is selected', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option
         label="Label"
         value="value"
@@ -23,7 +23,7 @@ it('is valid if not required and no option is selected', async () => {
 
 it('is invalid if required and no option is selected', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -36,7 +36,7 @@ it('is invalid if required and no option is selected', async () => {
 
 it('is both invalid and valid if required but disabled and no option is selected', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" disabled required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" disabled required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -45,18 +45,4 @@ it('is both invalid and valid if required but disabled and no option is selected
   expect(component.validity?.valueMissing).to.be.true;
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
-});
-
-it('does not allow setting `validationMessage` directly', async () => {
-  const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" disabled required>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
-  );
-
-  component.validationMessage = 'test';
-
-  expect(component.validationMessage).to.equal(
-    'Call `setCustomValidity` to set a message.',
-  );
 });

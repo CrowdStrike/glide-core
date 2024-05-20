@@ -9,7 +9,7 @@ CsDropdownOption.shadowRootOptions.mode = 'open';
 
 it('focuses the button when `focus` is called', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -25,7 +25,7 @@ it('focuses the button on submit when required and no option is selected', async
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     {
@@ -43,7 +43,7 @@ it('focuses the button when `reportValidity` is called when required and no opti
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },
@@ -57,7 +57,7 @@ it('focuses the button when `reportValidity` is called when required and no opti
 
 it('focuses the initially selected option when clicked', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option
         label="Label"
         value="value"
@@ -79,7 +79,7 @@ it('focuses the initially selected option when clicked', async () => {
 
 it('focuses the active option', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -97,7 +97,7 @@ it('focuses the active option', async () => {
 
 it('focuses the button on close via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -109,7 +109,7 @@ it('focuses the button on close via click', async () => {
 
 it('focuses the button on close via Escape', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -124,7 +124,7 @@ it('focuses the button on close via Escape', async () => {
 
 it('focuses the button when an option is selected via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -141,7 +141,7 @@ it('focuses the button when an option is selected via click', async () => {
 
 it('focuses the button when an option is selected via Enter', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -157,7 +157,7 @@ it('focuses the button when an option is selected via Enter', async () => {
 
 it('focuses the button when an option is selected via Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -175,7 +175,7 @@ it('does not focus the button when `checkValidity` is called', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },

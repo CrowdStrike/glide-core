@@ -37,6 +37,10 @@ export default [
       }
 
       &.visible {
+        /*
+          The default is "display: content". But "order" does not work with
+          "display: content" and "order" is needed above.
+        */
         display: block;
       }
     }
@@ -105,7 +109,7 @@ export default [
       font-weight: var(--cs-body-xs-font-weight);
       grid-column: 2;
       line-height: var(--cs-body-xs-line-height);
-      margin-block-start: var(--cs-spacing-xxxs);
+      margin-block-start: var(--cs-spacing-xxs);
       max-inline-size: var(--max-inline-size);
 
       &.error {

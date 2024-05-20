@@ -32,6 +32,13 @@ const meta: Meta = {
     value: 'value',
   },
   argTypes: {
+    'slot="description"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'Element | string' },
+      },
+      type: { name: 'function' },
+    },
     'addEventListener(event, listener)': {
       table: {
         type: {
