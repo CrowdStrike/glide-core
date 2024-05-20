@@ -5,14 +5,14 @@ import visuallyHidden from './styles/visually-hidden.js';
 export default [
   css`
     /*
-      Most states are handled on the host. But ":checked" is handled on the input
-      because browsers don't support that class on the host. And using attribute
-      selectors won't work because those attributes, same as native, don't change
-      when their properties do.
+Most states are handled on the host. But ":checked" is handled on the input
+because browsers don't support that class on the host. And using attribute
+selectors won't work because those attributes, same as native, don't change
+when their properties do.
 
-      TODO
-      Use the ":checked" pseudo class on the host and throughout when browsers support it.
-    */
+TODO
+Use the ":checked" pseudo class on the host and throughout when browsers support it.
+*/
 
     :host([orientation='horizontal']) .component {
       align-items: center;
@@ -135,9 +135,9 @@ export default [
       display: contents;
 
       /*
-        We don't want a succession of clicks to select the label's text. That's
-        probably not what the user expects.
-      */
+We don't want a succession of clicks to select the label's text. That's
+probably not what the user expects.
+*/
       user-select: none;
     }
 
@@ -157,10 +157,10 @@ export default [
       border-radius: 50%;
 
       /*
-        Any "display" that's not inline-level will do. We don't want the button to
-        acquire a line box, which will make it taller than its content and thus
-        make it difficult to center vertically with the label.
-      */
+Any "display" that's not inline-level will do. We don't want the button to
+acquire a line box, which will make it taller than its content and thus
+make it difficult to center vertically with the label.
+*/
       display: flex;
       outline-offset: 1px;
       padding: 0;

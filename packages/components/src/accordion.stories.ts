@@ -12,7 +12,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'An Accordion component with optional slots for icons.',
+        component: 'An accordion component with optional slots for icons.',
       },
     },
   },
