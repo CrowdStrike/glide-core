@@ -67,14 +67,14 @@ export default class CsTag extends LitElement {
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M6 6L18 18"
-                  stroke="black"
+                  stroke="currentColor"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
                 <path
                   d="M18 6L6 18"
-                  stroke="black"
+                  stroke="currentColor"
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"

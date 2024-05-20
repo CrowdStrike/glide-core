@@ -94,7 +94,7 @@ export default [
     /* Nesting does not work with ::slotted */
     /* stylelint-disable-next-line csstools/use-nesting */
     .component.selected ::slotted([slot='menu']) {
-      --hovered-target-icon-color: var(--cs-text-primary-hover);
+      --hovered-target-icon-color: var(--cs-icon-hover);
     }
 
     ::slotted([slot='suffix']) {
