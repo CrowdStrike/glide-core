@@ -3,9 +3,8 @@ import { svg } from 'lit/static-html.js';
 export default svg`
   <svg
     fill="none"
-    height="14"
     viewBox="0 0 24 24"
-    width="14"
+    style="height: var(--size, 0.875rem); width: var(--size, 0.875rem);"
   >
     <path
       d="M20 6L9 17L4 12"

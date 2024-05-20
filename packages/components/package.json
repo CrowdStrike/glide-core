@@ -26,7 +26,8 @@
     "./*.styles.js": null,
     "./library/*": null,
     "./icons/*": null,
-    "./styles/*": null
+    "./styles/*": null,
+    "./label.js": null
   },
   "scripts": {
     "start": "per-env",

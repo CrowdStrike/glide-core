@@ -1,10 +1,9 @@
-import './tooltip.js';
+import './label.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import checkedIcon from './icons/checked.js';
-import infoCircleIcon from './icons/info-circle.js';
 import styles from './checkbox.styles.js';
 
 declare global {
@@ -125,45 +124,21 @@ export default class CsCheckbox extends LitElement {
       class=${classMap({
         component: true,
         error: this.#isShowValidationFeedback,
-        tooltip: this.hasTooltipSlot,
       })}
       data-test="component"
       ${ref(this.#componentElementRef)}
     >
-      <cs-tooltip
-        class=${classMap({
-          visible: this.hasTooltipSlot && !this.isInCheckboxGroup,
-        })}
-        placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
+      <cs-label
+        orientation=${this.orientation}
+        ?error=${this.#isShowValidationFeedback}
+        ?required=${this.required}
       >
-        <span class="tooltip-target" slot="target" tabindex="0">
-          ${infoCircleIcon}
-        </span>
-
-        <slot
-          name="tooltip"
-          @slotchange=${this.#onTooltipSlotChange}
-          ${ref(this.#tooltipSlotElementRef)}
-        ></slot>
-      </cs-tooltip>
-
-      <label class="label-and-checkbox-and-summary">
+        <slot name="tooltip" slot="tooltip"></slot>
+        <label for="input"> ${this.label} </label>
         <!--
           The input is described by the summary and description but not the tooltip.
-          Screenreaders will come across the tooltip naturally as they move focus
-          through Checkbox.
-
-          Describing the input additionally by the tooltip is possible. We'd have to:
-
-          1. Get the content of the tooltip slot.
-          2. Dump the content into a DIV.
-          3. Visually hide the DIV.
-          4. Describe the input using the DIV.
-          5. Hide the tooltip using "aria-hidden" so its content isn't doubly read.
-
-          Even then, the tooltip would still receive focus to support sighted keyboard
-          users. Screenreaders would likewise focus the tooltip. But its contents would
-          not be read aloud because they would be hidden. This would be pretty confusing.
+          Screenreaders will come across the tooltip naturally as focus moves toward
+          the Checkbox.
 
           —
 
@@ -184,89 +159,44 @@ export default class CsCheckbox extends LitElement {
           inconsistent with how other form controls behave as their validity isn’t announced
           on screen readers by default before validation.
         -->
-        <input
-          aria-describedby="summary-for-screenreaders description"
-          aria-invalid=${this.#isShowValidationFeedback}
-          data-test="input"
-          type="checkbox"
-          ?checked=${this.checked}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          @change=${this.#onInputChange}
-          ${ref(this.#inputElementRef)}
-        />
+        <div class="input-and-checkbox-and-summary" slot="control">
+          <div class="input-and-checkbox">
+            <input
+              aria-describedby="summary description"
+              aria-invalid=${this.#isShowValidationFeedback}
+              data-test="input"
+              id="input"
+              type="checkbox"
+              ?checked=${this.checked}
+              ?disabled=${this.disabled}
+              ?required=${this.required}
+              @change=${this.#onInputChange}
+              ${ref(this.#inputElementRef)}
+            />
 
-        <div
-          class=${classMap({
-            'label-text': true,
-            right: this.isInCheckboxGroup,
-            tooltip: this.hasTooltipSlot,
-          })}
-        >
-          ${this.label}
-          ${this.required
-            ? html`<span aria-hidden="true" class="required-symbol">*</span>`
-            : ''}
-        </div>
+            <div class="checkbox">
+              <div class="checked-icon">${checkedIcon}</div>
 
-        <div
-          class=${classMap({
-            'checkbox-and-summary': true,
-            tooltip: this.hasTooltipSlot,
-          })}
-        >
-          <div class="checkbox">
-            <div class="checked-icon">${checkedIcon}</div>
-
-            <svg
-              class="indeterminate-icon"
-              fill="none"
-              height="16"
-              viewBox="0 0 24 24"
-              width="16"
-            >
-              <path
-                d="M8 10C8 8.89543 8.89543 8 10 8H14.7929C15.2383 8 15.4614 8.53857 15.1464 8.85355L8.85355 15.1464C8.53857 15.4614 8 15.2383 8 14.7929V10Z"
-                fill="currentColor"
-              />
-            </svg>
+              <svg
+                class="indeterminate-icon"
+                fill="none"
+                height="14"
+                viewBox="0 0 24 24"
+                width="14"
+              >
+                <path
+                  d="M8 10C8 8.89543 8.89543 8 10 8H14.7929C15.2383 8 15.4614 8.53857 15.1464 8.85355L8.85355 15.1464C8.53857 15.4614 8 15.2383 8 14.7929V10Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
           </div>
 
-          <!--
-            Hidden from screenreaders because a summary isn't quite a label. The summary is
-            duplicated below, outside the label, and then presented to screenreaders as a
-            description using "aria-describedby".
-          -->
-          <div
-            aria-hidden="true"
-            class=${classMap({
-              summary: true,
-              hidden: this.isInCheckboxGroup,
-              tooltip: this.hasTooltipSlot,
-            })}
-          >
-            ${this.summary}
-          </div>
+          <div class="summary" id="summary">${this.summary}</div>
         </div>
-      </label>
 
-      <div
-        aria-hidden=${this.isInCheckboxGroup ? 'true' : 'false'}
-        class="summary-for-screenreaders"
-        id="summary-for-screenreaders"
-      >
-        ${this.summary}
-      </div>
-
-      <slot
-        class=${classMap({
-          description: true,
-          hidden: this.isInCheckboxGroup,
-          tooltip: this.hasTooltipSlot,
-        })}
-        id="description"
-        name="description"
-      ></slot>
+        <slot id="description" name="description" slot="description"></slot>
+      </cs-label>
     </div>`;
   }
 
@@ -330,9 +260,6 @@ export default class CsCheckbox extends LitElement {
   }
 
   @state()
-  private hasTooltipSlot = false;
-
-  @state()
   private isCheckingValidity = false;
 
   @state()
@@ -346,8 +273,6 @@ export default class CsCheckbox extends LitElement {
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
-
-  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
@@ -384,10 +309,5 @@ export default class CsCheckbox extends LitElement {
     // Unlike "input" events, "change" events aren't composed. So we manually
     // dispatch them from the host.
     this.dispatchEvent(new Event(event.type, event));
-  }
-
-  #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
-    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }

@@ -1,4 +1,3 @@
-import './dropdown.js';
 import './tooltip.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
@@ -205,9 +204,9 @@ export default class CsDropdown extends LitElement {
 
         <label
           class=${classMap({
+            label: true,
             hidden: this.hideLabel,
             horizontal: this.orientation === 'horizontal',
-            label: true,
             required: this.required,
           })}
           id="label"

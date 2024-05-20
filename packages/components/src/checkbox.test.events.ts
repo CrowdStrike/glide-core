@@ -12,7 +12,7 @@ CsCheckbox.shadowRootOptions.mode = 'open';
 
 it('dispatches a "click" event when clicked', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox></cs-checkbox>`,
+    html`<cs-checkbox label="Label"></cs-checkbox>`,
   );
 
   setTimeout(() => component.click());
@@ -23,7 +23,7 @@ it('dispatches a "click" event when clicked', async () => {
 
 it('dispatches a "change" event when clicked', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox></cs-checkbox>`,
+    html`<cs-checkbox label="Label"></cs-checkbox>`,
   );
 
   setTimeout(() => component.click());
@@ -34,7 +34,7 @@ it('dispatches a "change" event when clicked', async () => {
 
 it('dispatches an "input" event when clicked', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox></cs-checkbox>`,
+    html`<cs-checkbox label="Label"></cs-checkbox>`,
   );
 
   setTimeout(() => component.click());
@@ -89,7 +89,7 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when no
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox></cs-checkbox>`,
+    html`<cs-checkbox label="Label"></cs-checkbox>`,
     { parentNode: form },
   );
 
@@ -123,7 +123,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox></cs-checkbox>`,
+    html`<cs-checkbox label="Label"></cs-checkbox>`,
     { parentNode: form },
   );
 

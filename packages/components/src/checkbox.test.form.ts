@@ -7,7 +7,7 @@ it('can be reset', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox checked indeterminate></cs-checkbox>`,
+    html`<cs-checkbox label="Label" checked indeterminate></cs-checkbox>`,
     {
       parentNode: form,
     },
@@ -25,7 +25,12 @@ it('has a `formData` value when checked', async () => {
   const form = document.createElement('form');
 
   await fixture<CsCheckbox>(
-    html`<cs-checkbox name="name" value="value" checked></cs-checkbox>`,
+    html`<cs-checkbox
+      label="Label"
+      name="name"
+      value="value"
+      checked
+    ></cs-checkbox>`,
     {
       parentNode: form,
     },
@@ -58,7 +63,7 @@ it('has no `formData` value when unchecked', async () => {
   const form = document.createElement('form');
 
   await fixture<CsCheckbox>(
-    html`<cs-checkbox name="name" value="value"></cs-checkbox>`,
+    html`<cs-checkbox label="Label" name="name" value="value"></cs-checkbox>`,
     {
       parentNode: form,
     },
@@ -72,7 +77,12 @@ it('has no `formData` value when unchecked and indeterminate', async () => {
   const form = document.createElement('form');
 
   await fixture<CsCheckbox>(
-    html`<cs-checkbox name="name" value="value" indeterminate></cs-checkbox>`,
+    html`<cs-checkbox
+      label="Label"
+      name="name"
+      value="value"
+      indeterminate
+    ></cs-checkbox>`,
     {
       parentNode: form,
     },
@@ -105,7 +115,7 @@ it('has no `formData` value when checked but without a `name`', async () => {
   const form = document.createElement('form');
 
   await fixture<CsCheckbox>(
-    html`<cs-checkbox value="value" checked></cs-checkbox>`,
+    html`<cs-checkbox label="Label" value="value" checked></cs-checkbox>`,
     {
       parentNode: form,
     },
@@ -119,7 +129,7 @@ it('has no `formData` value when checked but without a `value`', async () => {
   const form = document.createElement('form');
 
   await fixture<CsCheckbox>(
-    html`<cs-checkbox name="name" checked></cs-checkbox>`,
+    html`<cs-checkbox label="Label" name="name" checked></cs-checkbox>`,
     {
       parentNode: form,
     },
