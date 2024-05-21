@@ -1,4 +1,5 @@
 import './tree.item.js';
+import './tree.item.menu.js';
 import './tree.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import CsMenu from './menu.js';
@@ -11,7 +12,11 @@ it('registers', async () => {
 });
 
 it('renders and sets default attributes', async () => {
-  const tree = await fixture<Tree>(html` <cs-tree></cs-tree> `);
+  const tree = await fixture<Tree>(html`
+    <cs-tree>
+      <cs-tree-item label="Child Item"></cs-tree-item>
+    </cs-tree>
+  `);
 
   expect(tree.selectedItem).to.equal(undefined);
 });

@@ -155,11 +155,7 @@ it('throws if it does not have a default slot', async () => {
 
   try {
     await fixture<CsDropdown>(
-      html`<cs-dropdown
-        label="Label"
-        placeholder="Placeholder"
-        name="name"
-      ></cs-dropdown>`,
+      html`<cs-dropdown label="Label" placeholder="Placeholder"></cs-dropdown>`,
     );
   } catch {
     spy();

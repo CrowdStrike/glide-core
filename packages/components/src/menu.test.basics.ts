@@ -71,9 +71,7 @@ it('throws if it does not have a default slot', async () => {
 
   try {
     await fixture<CsMenu>(
-      html`<cs-menu>
-        <button slot="target">Target</button>
-      </cs-menu>`,
+      html`<cs-menu><button slot="target">Target</button></cs-menu>`,
     );
   } catch {
     spy();

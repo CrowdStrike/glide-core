@@ -1,6 +1,7 @@
 import './checkbox.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import CsCheckboxGroup from './checkbox-group.js';
+import sinon from 'sinon';
 
 CsCheckboxGroup.shadowRootOptions.mode = 'open';
 
@@ -157,4 +158,18 @@ it('exposes standard form control properties and methods', async () => {
   expect(component.willValidate).to.be.true;
   expect(component.checkValidity).to.be.a('function');
   expect(component.reportValidity).to.be.a('function');
+});
+
+it('throws if it does not have a default slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsCheckboxGroup>(
+      html`<cs-checkbox-group label="Checkbox Group"></cs-checkbox-group> `,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
 });

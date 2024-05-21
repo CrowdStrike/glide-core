@@ -51,8 +51,17 @@ export default class CsTag extends LitElement {
         })}
         ${ref(this.#containerElementRef)}
       >
-        <slot name="prefix" ${ref(this.#prefixSlotElementRef)}></slot>
-        <slot ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot
+          name="prefix"
+          @slotchange=${this.#onPrefixSlotChange}
+          ${ref(this.#prefixSlotElementRef)}
+        ></slot>
+
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
+
         ${when(
           this.removableLabel,
           () =>
@@ -90,9 +99,9 @@ export default class CsTag extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #delayToRemove = 200;
-
   #prefixSlotElementRef = createRef<HTMLSlotElement>();
+
+  #removalDelay = 200;
 
   #onClick = () => {
     // The promise delays removing the tag's content from the DOM so that
@@ -100,11 +109,19 @@ export default class CsTag extends LitElement {
     new Promise(() =>
       setTimeout(() => {
         this.remove();
-      }, this.#delayToRemove),
+      }, this.#removalDelay),
     );
 
     this.#containerElementRef.value?.classList.toggle('activate');
     this.#containerElementRef.value?.classList.toggle('deactivate');
-    this.dispatchEvent(new CustomEvent('remove', { composed: true }));
+    this.dispatchEvent(new CustomEvent('remove'));
   };
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
+
+  #onPrefixSlotChange() {
+    Boolean(this.removableLabel) && owSlot(this.#prefixSlotElementRef.value);
+  }
 }
