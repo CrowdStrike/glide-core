@@ -207,6 +207,7 @@ export default class CsTabGroup extends LitElement {
 
     this.dispatchEvent(
       new CustomEvent('tab-show', {
+        bubbles: true,
         detail: {
           panel: tab.panel,
         },

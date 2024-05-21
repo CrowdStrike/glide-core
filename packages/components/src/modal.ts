@@ -67,7 +67,7 @@ export default class CsModal extends LitElement {
     }
 
     document.documentElement.classList.remove('glide-lock-scroll');
-    this.dispatchEvent(new Event('close', { bubbles: false }));
+    this.dispatchEvent(new Event('close'));
     this.#componentElementRef.value?.close();
   }
 
@@ -273,7 +273,7 @@ export default class CsModal extends LitElement {
 
       if (!isClickInsideDialog) {
         document.documentElement.classList.remove('glide-lock-scroll');
-        this.dispatchEvent(new Event('close', { bubbles: false }));
+        this.dispatchEvent(new Event('close'));
         this.#componentElementRef.value?.close();
       }
     }
@@ -281,7 +281,7 @@ export default class CsModal extends LitElement {
 
   #onCloseButtonClick() {
     document.documentElement.classList.remove('glide-lock-scroll');
-    this.dispatchEvent(new Event('close', { bubbles: false }));
+    this.dispatchEvent(new Event('close'));
     this.#componentElementRef.value?.close();
   }
 
@@ -291,7 +291,7 @@ export default class CsModal extends LitElement {
     }
 
     document.documentElement.classList.remove('glide-lock-scroll');
-    this.dispatchEvent(new Event('close', { bubbles: false }));
+    this.dispatchEvent(new Event('close'));
     this.#componentElementRef.value?.close();
   }
 }

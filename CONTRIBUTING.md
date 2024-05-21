@@ -20,6 +20,7 @@
   - [Typing property decorators](#typing-property-decorators)
   - [Avoid side effects in setters](#avoid-side-effects-in-setters)
   - [Prefer `.component` for the root element CSS selector](#prefer-component-for-the-root-element-css-selector)
+  - [Bubble events by default](#bubble-events-by-default)
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
 
@@ -545,6 +546,24 @@ render() {
   return html`<div></div>`;
 }
 ```
+
+### Bubble events by default
+
+Bubbling is what consumers expect because most events bubble.
+Bubbling also lets consumers use our components more flexibly by allowing [event delegation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_delegation).
+
+```ts
+// ✅ -- GOOD
+this.dispatchEvent(new Event('change', { bubbles: true }));
+```
+
+```ts
+// ❌ -- BAD
+this.dispatchEvent(new Event('change');
+```
+
+There are some exceptions such as Modal, whose "close" event doesn't bubble similar to `<dialog>`.
+When deciding to bubble, consider whether the native equivalent bubbles.
 
 ## Questions
 
