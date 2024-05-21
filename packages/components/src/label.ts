@@ -112,19 +112,27 @@ export default class CsLabel extends LitElement {
       <slot
         class=${classMap({
           description: true,
+          visible: this.hasDescriptionSlot,
           error: this.error,
           tooltip: this.hasTooltipSlot,
         })}
         id="description"
         name="description"
+        @slotchange=${this.#onDescriptionSlotChange}
+        ${ref(this.#descriptionSlotElementRef)}
       ></slot>
     </div>`;
   }
 
   @state()
+  private hasDescriptionSlot = false;
+
+  @state()
   private hasTooltipSlot = false;
 
   #controlSlotElementRef = createRef<HTMLSlotElement>();
+
+  #descriptionSlotElementRef = createRef<HTMLSlotElement>();
 
   #labelSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -132,6 +140,16 @@ export default class CsLabel extends LitElement {
 
   #onControlSlotChange() {
     owSlot(this.#controlSlotElementRef.value);
+  }
+
+  #onDescriptionSlotChange() {
+    const assignedNodes = this.#descriptionSlotElementRef.value?.assignedNodes({
+      flatten: true,
+    });
+
+    this.hasDescriptionSlot = Boolean(
+      assignedNodes && assignedNodes.length > 0,
+    );
   }
 
   #onLabelSlotChange() {

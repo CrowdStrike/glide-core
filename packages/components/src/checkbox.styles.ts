@@ -30,6 +30,18 @@ when browsers support them.
       box-shadow: var(--cs-glow-sm);
     }
 
+    .label-and-checkbox {
+      align-items: center;
+      display: flex;
+      font-family: var(--cs-heading-xxxs-font-family);
+      font-size: var(--cs-heading-xxxs-font-size);
+      font-style: var(--cs-heading-xxxs-font-style);
+      font-variant: var(--cs-heading-xxxs-font-variant);
+      font-weight: var(--cs-body-xs-font-weight);
+      gap: var(--cs-spacing-sm);
+      line-height: 100%;
+    }
+
     .input-and-checkbox-and-summary {
       display: flex;
       gap: var(--cs-spacing-sm);

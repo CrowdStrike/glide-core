@@ -3,6 +3,8 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { svg } from 'lit/static-html.js';
+import { when } from 'lit-html/directives/when.js';
 import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
 
@@ -11,6 +13,21 @@ declare global {
     'cs-checkbox': CsCheckbox;
   }
 }
+
+const indeterminateIcon = svg`
+  <svg
+    class="indeterminate-icon"
+    fill="none"
+    height="14"
+    viewBox="0 0 24 24"
+    width="14"
+    >
+      <path
+      d="M8 10C8 8.89543 8.89543 8 10 8H14.7929C15.2383 8 15.4614 8.53857 15.1464 8.85355L8.85355 15.1464C8.53857 15.4614 8 15.2383 8 14.7929V10Z"
+      fill="currentColor"
+      />
+  </svg>
+`;
 
 /**
  * @description A checkbox with a label and optional tooltip, summary, and description. Participates in forms and validation via `FormData` and various methods.
@@ -128,75 +145,96 @@ export default class CsCheckbox extends LitElement {
       data-test="component"
       ${ref(this.#componentElementRef)}
     >
-      <cs-label
-        orientation=${this.orientation}
-        ?error=${this.#isShowValidationFeedback}
-        ?required=${this.required}
-      >
-        <slot name="tooltip" slot="tooltip"></slot>
-        <label for="input"> ${this.label} </label>
-        <!--
-          The input is described by the summary and description but not the tooltip.
-          Screenreaders will come across the tooltip naturally as focus moves toward
-          the Checkbox.
+      ${when(
+        this.isInCheckboxGroup,
+        () => html`
+          <div class="label-and-checkbox">
+            <div class="input-and-checkbox">
+              <input
+                aria-invalid=${this.#isShowValidationFeedback}
+                data-test="input"
+                id="input"
+                type="checkbox"
+                ?checked=${this.checked}
+                ?disabled=${this.disabled}
+                ?required=${this.required}
+                @change=${this.#onInputChange}
+                ${ref(this.#inputElementRef)}
+              />
 
-          —
-
-          A native input isn't necessary given the component itself is form associated.
-          A button, for example, could also be made to work. But an input gives us a
-          few things that together make using one worthwhile:
-
-          - "change" and "input" events.
-          - Toggling checked using the spacebar.
-          - ":checked" and ":indeterminate" pseudo classes, which browsers don't support
-            on hosts even when a component is form-associated.
-
-          -
-
-          aria-invalid is set based on whether the validation feedback is displayed. This
-          is to handle an odd behavior with checkboxes where "Invalid Data" is announced
-          on required unchecked inputs. While this is technically correct, it's
-          inconsistent with how other form controls behave as their validity isn’t announced
-          on screen readers by default before validation.
-        -->
-        <div class="input-and-checkbox-and-summary" slot="control">
-          <div class="input-and-checkbox">
-            <input
-              aria-describedby="summary description"
-              aria-invalid=${this.#isShowValidationFeedback}
-              data-test="input"
-              id="input"
-              type="checkbox"
-              ?checked=${this.checked}
-              ?disabled=${this.disabled}
-              ?required=${this.required}
-              @change=${this.#onInputChange}
-              ${ref(this.#inputElementRef)}
-            />
-
-            <div class="checkbox">
-              <div class="checked-icon">${checkedIcon}</div>
-
-              <svg
-                class="indeterminate-icon"
-                fill="none"
-                height="14"
-                viewBox="0 0 24 24"
-                width="14"
-              >
-                <path
-                  d="M8 10C8 8.89543 8.89543 8 10 8H14.7929C15.2383 8 15.4614 8.53857 15.1464 8.85355L8.85355 15.1464C8.53857 15.4614 8 15.2383 8 14.7929V10Z"
-                  fill="currentColor"
-                />
-              </svg>
+              <div class="checkbox">
+                <div class="checked-icon">${checkedIcon}</div>
+                ${indeterminateIcon}
+              </div>
             </div>
+
+            <label for="input">${this.label}</label>
           </div>
+        `,
+        () =>
+          html`<cs-label
+            orientation=${this.orientation}
+            ?error=${this.#isShowValidationFeedback}
+            ?required=${this.required}
+          >
+            <slot name="tooltip" slot="tooltip"></slot>
+            <label for="input"> ${this.label} </label>
 
-          <div class="summary" id="summary">${this.summary}</div>
-        </div>
+            <!--
+              The input is described by the summary and description but not the tooltip.
+              Screenreaders will come across the tooltip naturally as focus moves toward
+              the Checkbox.
 
-        <slot id="description" name="description" slot="description"></slot>
-      </cs-label>
+              —
+
+              A native input isn't necessary given the component itself is form associated.
+              A button, for example, could also be made to work. But an input gives us a
+              few things that together make using one worthwhile:
+
+              - "change" and "input" events.
+              - Toggling checked using the spacebar.
+              - ":checked" and ":indeterminate" pseudo classes, which browsers don't support
+                on hosts even when a component is form-associated.
+
+              -
+
+              aria-invalid is set based on whether the validation feedback is displayed. This
+              is to handle an odd behavior with checkboxes where "Invalid Data" is announced
+              on required unchecked inputs. While this is technically correct, it's
+              inconsistent with how other form controls behave as their validity isn’t announced
+              on screen readers by default before validation.
+            -->
+            <div class="input-and-checkbox-and-summary" slot="control">
+              <div class="input-and-checkbox">
+                <input
+                  aria-describedby="summary description"
+                  aria-invalid=${this.#isShowValidationFeedback}
+                  data-test="input"
+                  id="input"
+                  type="checkbox"
+                  ?checked=${this.checked}
+                  ?disabled=${this.disabled}
+                  ?required=${this.required}
+                  @change=${this.#onInputChange}
+                  ${ref(this.#inputElementRef)}
+                />
+
+                <div class="checkbox">
+                  <div class="checked-icon">${checkedIcon}</div>
+                  ${indeterminateIcon}
+                </div>
+              </div>
+
+              ${when(
+                this.summary,
+                () =>
+                  html`<div class="summary" id="summary">${this.summary}</div>`,
+              )}
+            </div>
+
+            <slot id="description" name="description" slot="description"></slot>
+          </cs-label>`,
+      )}
     </div>`;
   }
 
