@@ -23,8 +23,9 @@ const meta: Meta = {
     </cs-icon-button>
   `,
   args: {
-    disabled: false,
     label: 'For screenreaders',
+    'slot="default"': '',
+    disabled: false,
   },
   argTypes: {
     'slot="default"': {

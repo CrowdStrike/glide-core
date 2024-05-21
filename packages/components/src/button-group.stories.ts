@@ -28,11 +28,12 @@ const meta: Meta = {
   `,
   args: {
     label: 'Group label',
+    'slot="default"': '',
     variant: '',
     orientation: 'horizontal',
   },
   argTypes: {
-    ['slot="default"']: {
+    'slot="default"': {
       table: {
         type: { summary: '<cs-button-group-button>' },
       },

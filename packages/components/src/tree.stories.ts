@@ -22,8 +22,9 @@ const meta: Meta = {
     },
   },
   args: {
-    '<cs-tree-item>.selected': false,
+    'slot="default"': '',
     '<cs-tree-item>.label': 'Branch',
+    '<cs-tree-item>.selected': false,
   },
   play(context) {
     const links = context.canvasElement.querySelectorAll('cs-menu-link');
@@ -56,7 +57,7 @@ const meta: Meta = {
     </div>
   `,
   argTypes: {
-    ['slot="default"']: {
+    'slot="default"': {
       table: {
         type: { summary: 'CsTreeItem' },
       },

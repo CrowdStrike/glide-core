@@ -38,7 +38,11 @@ const meta: Meta = {
       options: ['bottom', 'left', 'right', 'top'],
       table: {
         defaultValue: { summary: '"bottom"' },
-        type: { summary: '"bottom" | "left" | "right" | "top"' },
+        type: {
+          summary: '"bottom" | "left" | "right" | "top"',
+          detail:
+            '// Tooltip will try to move itself to the opposite of this value if it results in an overflow.\n// For example, if "bottom" results in an overflow Tooltip will try "top" but not "right" or "left".',
+        },
       },
     },
   },

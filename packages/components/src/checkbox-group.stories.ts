@@ -18,9 +18,9 @@ const meta: Meta = {
     },
   },
   args: {
-    ['slot="description"']: 'Description',
-    disabled: false,
     label: 'Label',
+    'slot="description"': 'Description',
+    disabled: false,
     name: 'name',
     required: false,
     value: '',
@@ -128,7 +128,7 @@ export const Vertical: StoryObj = {};
 
 export const VerticalWithToolip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
     orientation: 'vertical',
   },
   name: 'Vertical (With Tooltip)',

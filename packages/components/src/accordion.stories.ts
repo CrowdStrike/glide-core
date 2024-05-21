@@ -53,8 +53,8 @@ const meta: Meta = {
   },
   args: {
     label: 'Accordion',
-    open: false,
     'slot="default"': 'Inner content',
+    open: false,
   },
   argTypes: {
     label: {

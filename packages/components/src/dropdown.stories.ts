@@ -23,7 +23,7 @@ const meta: Meta = {
   args: {
     label: 'Label',
     placeholder: 'Placeholder',
-    ['slot="default"']: '',
+    'slot="default"': '',
     'hide-label': false,
     disabled: false,
     open: false,
@@ -32,11 +32,11 @@ const meta: Meta = {
     required: false,
     size: 'large',
     value: '',
-    ['slot="tooltip"']: '',
-    ['slot="description"']: 'Description',
+    'slot="tooltip"': '',
+    'slot="description"': 'Description',
   },
   argTypes: {
-    ['slot="default"']: {
+    'slot="default"': {
       table: {
         type: { summary: 'CsDropdownOption' },
       },
@@ -290,7 +290,7 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
 
 export const SingleSelectionHorizontalWithTooltip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
   },
   name: 'Single Selection (Horizontal With Tooltip)',
 };
@@ -362,7 +362,7 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
 
 export const SingleSelectionVerticalWithTooltip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
     orientation: 'vertical',
   },
   name: 'Single Selection (Vertical With Tooltip)',
