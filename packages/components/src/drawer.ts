@@ -44,7 +44,7 @@ export default class CsDrawer extends LitElement {
 
         this.currentState = 'closed';
 
-        this.dispatchEvent(new Event('close', { bubbles: false }));
+        this.dispatchEvent(new Event('close'));
 
         document.documentElement.classList.remove('glide-lock-scroll');
       },
@@ -81,7 +81,7 @@ export default class CsDrawer extends LitElement {
         // This ensures our dialog behaves as expected for screenreaders.
         this.#dialogElementRef?.value?.focus();
 
-        this.dispatchEvent(new Event('open', { bubbles: false }));
+        this.dispatchEvent(new Event('open'));
 
         document.documentElement.classList.remove('glide-lock-scroll');
       },

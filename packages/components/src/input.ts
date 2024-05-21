@@ -462,7 +462,7 @@ export default class CsInput extends LitElement {
 
   #onClearClick(event: MouseEvent) {
     this.value = '';
-    this.dispatchEvent(new Event('clear'));
+    this.dispatchEvent(new Event('clear', { bubbles: true }));
     this.#inputElement?.focus();
     this.#setValidityToInputValidity();
 
