@@ -15,7 +15,7 @@ CsDropdownOption.shadowRootOptions.mode = 'open';
 
 it('dispatches a "change" event when an option is selected via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -35,7 +35,7 @@ it('dispatches a "change" event when an option is selected via click', async () 
 
 it('dispatches a "change" event when an option is selected via Enter', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -51,7 +51,7 @@ it('dispatches a "change" event when an option is selected via Enter', async () 
 
 it('dispatches a "change" event when an option is selected via Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -67,7 +67,7 @@ it('dispatches a "change" event when an option is selected via Space', async () 
 
 it('dispatches a "input" event when an option is selected via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -87,7 +87,7 @@ it('dispatches a "input" event when an option is selected via click', async () =
 
 it('dispatches a "input" event when an option is selected via Enter', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -103,7 +103,7 @@ it('dispatches a "input" event when an option is selected via Enter', async () =
 
 it('dispatches a "input" event when an option is selected via Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -121,7 +121,7 @@ it('dispatches an "invalid" event on submit when required and no option is selec
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },
@@ -137,7 +137,7 @@ it('dispatches an "invalid" event when `checkValidity` is called when required a
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },
@@ -153,7 +153,7 @@ it('dispatches an "invalid" event when `reportValidity` is called when required 
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },
@@ -169,7 +169,7 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when not
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },
@@ -187,7 +187,7 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when req
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" disabled required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" disabled required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },
@@ -205,7 +205,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },
@@ -223,7 +223,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when re
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" disabled required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" disabled required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },

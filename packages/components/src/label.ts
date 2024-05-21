@@ -16,7 +16,7 @@ declare global {
 /**
  * @private
  *
- * @description A form control label with a slot for the control and optional description and tooltip slots.
+ * @description A label with a required control and optional description and tooltip.
  *
  * @slot - The label.
  * @slot control - The control with which the label is associated.

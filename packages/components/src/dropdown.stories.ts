@@ -13,7 +13,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'A dropdown with an optional tooltip. \n\n Participates in forms and validation via `FormData` and various methods. Always call `setCustomValidity()` after render to set a validation message.',
+          'A dropdown with optional description and tooltip. Participates in forms and validation via `FormData` and various methods.',
       },
       story: {
         autoplay: true,
@@ -21,16 +21,19 @@ const meta: Meta = {
     },
   },
   args: {
+    label: 'Label',
+    placeholder: 'Placeholder',
+    ['slot="default"']: '',
     'hide-label': false,
     disabled: false,
-    label: 'Label',
     open: false,
     orientation: 'horizontal',
     name: 'name',
-    placeholder: 'Placeholder',
     required: false,
     size: 'large',
     value: '',
+    ['slot="tooltip"']: '',
+    ['slot="description"']: 'Description',
   },
   argTypes: {
     ['slot="default"']: {
@@ -38,6 +41,13 @@ const meta: Meta = {
         type: { summary: 'CsDropdownOption' },
       },
       type: { name: 'function', required: true },
+    },
+    'slot="description"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'Element | string' },
+      },
+      type: { name: 'function' },
     },
     'addEventListener(event, listener)': {
       table: {
@@ -170,7 +180,6 @@ const meta: Meta = {
     ].includes(context.name);
 
     if (isErrorStory && dropdown instanceof CsDropdown) {
-      dropdown.setCustomValidity('Validation message');
       dropdown.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -209,6 +218,8 @@ const meta: Meta = {
         <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
         <cs-dropdown-option label="Three" value="three"></cs-dropdown-option>
         <cs-dropdown-option label="Four" value="four"></cs-dropdown-option>
+
+        <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
@@ -266,6 +277,8 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
         <cs-dropdown-option label="Settings" value="settings">
           <cs-example-icon slot="icon" name="settings"></cs-example-icon>
         </cs-dropdown-option>
+
+        <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
@@ -336,6 +349,8 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         <cs-dropdown-option label="Settings" value="settings">
           <cs-example-icon slot="icon" name="settings"></cs-example-icon>
         </cs-dropdown-option>
+
+        <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`

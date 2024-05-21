@@ -1,12 +1,7 @@
 import './dropdown.option.js';
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import CsDropdown from './dropdown.js';
+import sinon from 'sinon';
 
 CsDropdown.shadowRootOptions.mode = 'open';
 
@@ -19,7 +14,7 @@ it('has defaults', async () => {
   // idea is that this test shouldn't fail to typecheck if these templates are
   // eventually typechecked, which means supplying all required attributes and slots.
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -42,7 +37,7 @@ it('has defaults', async () => {
 
 it('is accessible', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -52,7 +47,7 @@ it('is accessible', async () => {
 
 it('can have a placeholder', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -61,26 +56,24 @@ it('can have a placeholder', async () => {
   expect(component.placeholder).to.equal('Placeholder');
 });
 
-it('can have a validation message', async () => {
+it('can have a description', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
+      <div slot="description">Description</div>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
 
-  component.setCustomValidity('Message');
-  await elementUpdated(component);
+  const assignedElements = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="description"]')
+    ?.assignedElements();
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('[data-test="validation-message"]')
-      ?.textContent?.trim(),
-  ).to.equal('Message');
+  expect(assignedElements?.at(0)?.textContent).to.equal('Description');
 });
 
 it('can have a tooltip', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
       <div slot="tooltip">Tooltip</div>
     </cs-dropdown>`,
@@ -95,7 +88,7 @@ it('can have a tooltip', async () => {
 
 it('can have a `name`', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" name="name">
+    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -106,7 +99,7 @@ it('can have a `name`', async () => {
 
 it('can be `disabled`', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" disabled>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" disabled>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -117,7 +110,7 @@ it('can be `disabled`', async () => {
 
 it('can be `required`', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" required>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -130,7 +123,7 @@ it('exposes standard form control properties and methods', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: form },
@@ -145,7 +138,7 @@ it('exposes standard form control properties and methods', async () => {
 
 it('updates `value` dynamically', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" name="name">
+    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
       <cs-dropdown-option label="One" value="one" selected></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -155,4 +148,22 @@ it('updates `value` dynamically', async () => {
   option.value = 'two';
 
   expect(component.value).to.deep.equal(['two']);
+});
+
+it('throws if it does not have a default slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsDropdown>(
+      html`<cs-dropdown
+        label="Label"
+        placeholder="Placeholder"
+        name="name"
+      ></cs-dropdown>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.called).to.be.true;
 });
