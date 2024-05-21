@@ -43,8 +43,8 @@ const meta: Meta = {
   `,
   args: {
     label: 'Basic Modal',
-    'show-back-button': false,
     'slot="default"': 'Modal content area',
+    'show-back-button': false,
   },
   argTypes: {
     label: {

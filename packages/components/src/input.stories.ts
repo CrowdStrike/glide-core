@@ -16,18 +16,19 @@ const meta: Meta = {
     },
   },
   args: {
+    label: 'Label',
     type: 'text',
     value: 'Value',
     placeholder: 'Placeholder...',
     clearable: false,
-    label: 'Label',
     'hide-label': false,
     'label-position': 'left',
     required: false,
-    ['slot="tooltip"']: '',
-    ['slot="description"']: 'Description',
+    'slot="tooltip"': '',
+    'slot="description"': 'Description',
     readonly: false,
     disabled: false,
+    name: 'name',
   },
   play(context) {
     const input = context.canvasElement.querySelector('cs-input');
@@ -89,16 +90,15 @@ const meta: Meta = {
     value: {
       control: 'text',
       table: {
-        defaultValue: { summary: '' },
         type: { summary: 'string' },
       },
     },
     label: {
       control: 'text',
       table: {
-        defaultValue: { summary: 'Label' },
         type: { summary: 'string' },
       },
+      type: { name: 'string', required: true },
     },
     'hide-label': {
       control: 'boolean',
@@ -144,13 +144,13 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    ['slot="tooltip"']: {
+    'slot="tooltip"': {
       control: { type: 'text' },
       table: {
         type: { summary: 'string' },
       },
     },
-    ['slot="description"']: {
+    'slot="description"': {
       control: { type: 'text' },
       table: {
         type: { summary: 'string | html' },
@@ -313,7 +313,7 @@ export const SearchType: StoryObj = {
 export const MaxCharacterCount: StoryObj = {
   args: {
     maxCharacterCount: 20,
-    ['slot="description"']: undefined,
+    'slot="description"': undefined,
   },
 };
 
@@ -321,13 +321,13 @@ export const MaxCharacterCountAndDescription: StoryObj = {
   name: 'Max Character Count (With Description)',
   args: {
     maxCharacterCount: 20,
-    ['slot="description"']:
+    'slot="description"':
       'Description here lives alongside max character count',
   },
 };
 
 export const Tooltip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
   },
 };

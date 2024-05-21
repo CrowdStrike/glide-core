@@ -24,8 +24,8 @@ const meta: Meta = {
     }
   },
   args: {
-    value: 'Value',
     label: 'Label',
+    value: 'Value',
     placeholder: 'Placeholder...',
     'hide-label': false,
     'label-position': 'left',
@@ -36,13 +36,19 @@ const meta: Meta = {
     'max-character-count': '',
     'slot="description"': 'Description',
     name: 'name',
-    ['slot="tooltip"']: '',
+    'slot="tooltip"': '',
   },
   argTypes: {
+    label: {
+      control: 'text',
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
     value: {
       control: 'text',
       table: {
-        defaultValue: { summary: '' },
         type: { summary: 'string' },
       },
     },
@@ -103,13 +109,13 @@ const meta: Meta = {
         type: { summary: 'number' },
       },
     },
-    ['slot="tooltip"']: {
+    'slot="tooltip"': {
       control: { type: 'text' },
       table: {
         type: { summary: 'string' },
       },
     },
-    ['slot="description"']: {
+    'slot="description"': {
       control: { type: 'text' },
       table: {
         type: { summary: 'string | html' },
@@ -118,7 +124,6 @@ const meta: Meta = {
     name: {
       control: 'text',
       table: {
-        defaultValue: { summary: '' },
         type: { summary: 'string' },
       },
     },
@@ -230,6 +235,6 @@ export const WithError: StoryObj = {
 
 export const Tooltip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
   },
 };

@@ -22,10 +22,10 @@ const meta: Meta = {
     >
   `,
   args: {
+    'slot="default"': 'Button',
     disabled: false,
     variant: 'primary',
     size: 'large',
-    'slot="default"': 'Button',
   },
   argTypes: {
     variant: {
