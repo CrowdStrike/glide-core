@@ -35,21 +35,25 @@ it('emits a change event when arrow keys are pressed', async () => {
   const changeEventLeft = await oneEvent(buttonElements[0], 'change');
 
   expect(changeEventLeft instanceof Event).to.be.true;
+  expect(changeEventLeft.bubbles).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowRight' }));
   const changeEventRight = await oneEvent(buttonElements[1], 'change');
 
   expect(changeEventRight instanceof Event).to.be.true;
+  expect(changeEventRight.bubbles).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowUp' }));
   const changeEventUp = await oneEvent(buttonElements[0], 'change');
 
   expect(changeEventUp instanceof Event).to.be.true;
+  expect(changeEventUp.bubbles).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowDown' }));
   const changeEventDown = await oneEvent(buttonElements[1], 'change');
 
   expect(changeEventDown instanceof Event).to.be.true;
+  expect(changeEventDown.bubbles).to.be.true;
 });
 
 it('emits an input event when arrow keys are pressed', async () => {
@@ -70,21 +74,25 @@ it('emits an input event when arrow keys are pressed', async () => {
   const inputEventLeft = await oneEvent(buttonElements[0], 'input');
 
   expect(inputEventLeft instanceof Event).to.be.true;
+  expect(inputEventLeft.bubbles).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowRight' }));
   const inputEventRight = await oneEvent(buttonElements[1], 'input');
 
   expect(inputEventRight instanceof Event).to.be.true;
+  expect(inputEventRight.bubbles).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowUp' }));
   const inputEventUp = await oneEvent(buttonElements[0], 'input');
 
   expect(inputEventUp instanceof Event).to.be.true;
+  expect(inputEventUp.bubbles).to.be.true;
 
   setTimeout(async () => await sendKeys({ press: 'ArrowDown' }));
   const inputEventDown = await oneEvent(buttonElements[1], 'input');
 
   expect(inputEventDown instanceof Event).to.be.true;
+  expect(inputEventDown.bubbles).to.be.true;
 });
 
 it('moves focus to previous button when left or up arrow keys are pressed', async () => {

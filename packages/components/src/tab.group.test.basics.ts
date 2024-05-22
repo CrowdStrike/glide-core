@@ -129,6 +129,7 @@ it('can switch tabs', async () => {
   );
 
   expect(triggeredEvent.type).to.equal('tab-show', 'correct tab event fires');
+  expect(triggeredEvent.bubbles).to.be.true;
 
   expect(triggeredEvent.detail.panel).to.equal(
     '2',
@@ -162,6 +163,8 @@ it('can switch tabs', async () => {
     'tab-show',
     'correct tab event fires for keydown',
   );
+
+  expect(secondTriggeredEvent.bubbles).to.be.true;
 
   expect(secondTriggeredEvent.detail.panel).to.equal(
     '2',
