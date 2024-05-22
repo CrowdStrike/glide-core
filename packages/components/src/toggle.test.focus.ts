@@ -4,7 +4,9 @@ import CsToggle from './toggle.js';
 CsToggle.shadowRootOptions.mode = 'open';
 
 it('focuses the input when `focus` is called', async () => {
-  const component = await fixture<CsToggle>(html`<cs-toggle></cs-toggle>`);
+  const component = await fixture<CsToggle>(
+    html`<cs-toggle label="Label"></cs-toggle>`,
+  );
 
   component.focus();
 

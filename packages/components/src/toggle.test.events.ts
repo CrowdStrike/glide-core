@@ -10,7 +10,9 @@ CsToggle.shadowRootOptions.mode = 'open';
 // will have been dispatched, gets the job done as well.
 
 it('dispatches a "click" event when clicked', async () => {
-  const component = await fixture<CsToggle>(html`<cs-toggle></cs-toggle>`);
+  const component = await fixture<CsToggle>(
+    html`<cs-toggle label="Label"></cs-toggle>`,
+  );
 
   setTimeout(() => component.click());
 
@@ -19,7 +21,9 @@ it('dispatches a "click" event when clicked', async () => {
 });
 
 it('dispatches a "change" event when clicked', async () => {
-  const component = await fixture<CsToggle>(html`<cs-toggle></cs-toggle>`);
+  const component = await fixture<CsToggle>(
+    html`<cs-toggle label="Label"></cs-toggle>`,
+  );
 
   setTimeout(() => component.click());
 
@@ -28,7 +32,9 @@ it('dispatches a "change" event when clicked', async () => {
 });
 
 it('dispatches an "input" event when clicked', async () => {
-  const component = await fixture<CsToggle>(html`<cs-toggle></cs-toggle>`);
+  const component = await fixture<CsToggle>(
+    html`<cs-toggle label="Label"></cs-toggle>`,
+  );
 
   setTimeout(() => component.click());
 
