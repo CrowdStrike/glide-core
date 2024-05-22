@@ -12,7 +12,7 @@ it('is accessible', async () => {
   const component = await fixture<CsTooltip>(
     html`<cs-tooltip>
       Tooltip
-      <button slot="target">Target</button>
+      <span slot="target" tabindex="0">Target</span>
     </cs-tooltip>`,
   );
 
@@ -39,7 +39,7 @@ it('can have a target', async () => {
   const component = await fixture<CsTooltip>(
     html`<cs-tooltip>
       Tooltip
-      <button slot="target">Target</button>
+      <span slot="target" tabindex="0">Target</span>
     </cs-tooltip>`,
   );
 

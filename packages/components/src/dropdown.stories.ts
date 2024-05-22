@@ -13,7 +13,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'A dropdown with an optional tooltip. \n\n Participates in forms and validation via `FormData` and various methods. Always call `setCustomValidity()` after render to set a validation message.',
+          'A dropdown with optional description and tooltip. Participates in forms and validation via `FormData` and various methods.',
       },
       story: {
         autoplay: true,
@@ -21,23 +21,33 @@ const meta: Meta = {
     },
   },
   args: {
-    disabled: false,
-    hideLabel: false,
     label: 'Label',
+    placeholder: 'Placeholder',
+    'slot="default"': '',
+    'hide-label': false,
+    disabled: false,
     open: false,
     orientation: 'horizontal',
     name: 'name',
-    placeholder: 'Placeholder',
     required: false,
     size: 'large',
     value: '',
+    'slot="tooltip"': '',
+    'slot="description"': 'Description',
   },
   argTypes: {
-    ['slot="default"']: {
+    'slot="default"': {
       table: {
         type: { summary: 'CsDropdownOption' },
       },
       type: { name: 'function', required: true },
+    },
+    'slot="description"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'Element | string' },
+      },
+      type: { name: 'function' },
     },
     'addEventListener(event, listener)': {
       table: {
@@ -86,7 +96,7 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    hideLabel: {
+    'hide-label': {
       control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
@@ -170,7 +180,6 @@ const meta: Meta = {
     ].includes(context.name);
 
     if (isErrorStory && dropdown instanceof CsDropdown) {
-      dropdown.setCustomValidity('Validation message');
       dropdown.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -200,7 +209,7 @@ const meta: Meta = {
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
         variant=${arguments_.variant || nothing}
-        ?hide-label=${arguments_.hideLabel || nothing}
+        ?hide-label=${arguments_['hide-label'] || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -209,6 +218,8 @@ const meta: Meta = {
         <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
         <cs-dropdown-option label="Three" value="three"></cs-dropdown-option>
         <cs-dropdown-option label="Four" value="four"></cs-dropdown-option>
+
+        <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
@@ -246,7 +257,7 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
         variant=${arguments_.variant || nothing}
-        ?hide-label=${arguments_.hideLabel || nothing}
+        ?hide-label=${arguments_['hide-label'] || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -267,6 +278,8 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
           <cs-example-icon slot="icon" name="settings"></cs-example-icon>
         </cs-dropdown-option>
 
+        <div slot="description">${arguments_['slot="description"']}</div>
+
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
           : ''}
@@ -277,7 +290,7 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
 
 export const SingleSelectionHorizontalWithTooltip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
   },
   name: 'Single Selection (Horizontal With Tooltip)',
 };
@@ -316,7 +329,7 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
         variant=${arguments_.variant || nothing}
-        ?hide-label=${arguments_.hideLabel || nothing}
+        ?hide-label=${arguments_['hide-label'] || nothing}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -337,6 +350,8 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
           <cs-example-icon slot="icon" name="settings"></cs-example-icon>
         </cs-dropdown-option>
 
+        <div slot="description">${arguments_['slot="description"']}</div>
+
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
           : ''}
@@ -347,7 +362,7 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
 
 export const SingleSelectionVerticalWithTooltip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
     orientation: 'vertical',
   },
   name: 'Single Selection (Vertical With Tooltip)',

@@ -1,6 +1,7 @@
-<!--
-  This seems redundant, and it is, but puts a protection in place in case Storybook decides to
-  switch off of Nunito. The Glide Design System uses Nunito, so this will ensure our components
-  don't break if Storybook changes the underlying font.
--->
-<link href="/fonts/nunito-sans.woff2" as="font" type="font/woff2" />
+<style>
+  @font-face {
+    font-family: 'Nunito';
+    font-weight: 200 1000;
+    src: url(fonts/nunito.woff2) format('woff2');
+  }
+</style>

@@ -25,7 +25,7 @@
   --cs-border-radius-round: 3.125rem;
   --cs-color-dark-blue: #054fb9;
   --cs-color-white: #ffffff;
-  --cs-font-sans: 'Nunito Sans';
+  --cs-font-sans: 'Nunito';
   --cs-font-weight-bold: 700;
   --cs-glow-sm: 0px 0px 2px 0px #2c97eee5;
   --cs-heading-xxs-font-family: var(--cs-font-sans);
@@ -41,6 +41,7 @@
   --cs-heading-xxxs-line-height: 1.7;
   --cs-icon-active: #0073e6;
   --cs-icon-default: #212121;
+  --cs-icon-hover: #8babf1;
   --cs-icon-primary: #054fb9;
   --cs-icon-primary-hover: #0461cf;
   --cs-icon-selected: #ffffff;

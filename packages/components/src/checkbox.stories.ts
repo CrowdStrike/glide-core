@@ -19,11 +19,12 @@ const meta: Meta = {
     },
   },
   args: {
-    ['slot="description"']: 'Description',
+    label: 'Label',
+    'slot="tooltip"': '',
+    'slot="description"': 'Description',
     checked: false,
     disabled: false,
     indeterminate: false,
-    label: 'Label',
     name: 'name',
     orientation: 'horizontal',
     summary: 'Summary',
@@ -31,6 +32,13 @@ const meta: Meta = {
     value: 'value',
   },
   argTypes: {
+    'slot="description"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'Element | string' },
+      },
+      type: { name: 'function' },
+    },
     'addEventListener(event, listener)': {
       table: {
         type: {
@@ -185,7 +193,7 @@ export const Horizontal: StoryObj = {};
 
 export const HorizontalWithTooltip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
   },
   name: 'Horizontal (With Tooltip)',
 };
@@ -205,7 +213,7 @@ export const Vertical: StoryObj = {
 
 export const VerticalWithToolip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
     orientation: 'vertical',
   },
   name: 'Vertical (With Tooltip)',

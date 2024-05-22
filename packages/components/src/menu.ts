@@ -86,7 +86,13 @@ export default class CsMenu extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
+
+    owSlotType(this.#defaultSlotElementRef.value, [
+      CsMenuButton,
+      CsMenuLink,
+      HTMLSlotElement,
+    ]);
+
     owSlot(this.#targetSlotElementRef.value);
 
     this.#setUpFloatingUi(); // For when Menu is open initially via the `open` attribute.
@@ -166,13 +172,6 @@ export default class CsMenu extends LitElement {
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
-  get #optionElements() {
-    return [
-      ...this.querySelectorAll('cs-menu-button'),
-      ...this.querySelectorAll('cs-menu-link'),
-    ];
-  }
-
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = (event: MouseEvent) => {
@@ -194,6 +193,15 @@ export default class CsMenu extends LitElement {
 
       option.focus();
     }
+  }
+
+  get #optionElements() {
+    return (
+      this.#defaultSlotElementRef.value?.assignedElements({ flatten: true }) ??
+      []
+    ).filter((element): element is CsMenuLink | CsMenuButton => {
+      return element instanceof CsMenuLink || element instanceof CsMenuButton;
+    });
   }
 
   #onOptionsClick() {
@@ -296,9 +304,17 @@ export default class CsMenu extends LitElement {
     // `document.body` receives focus immediately after focus is moved. So we
     // wait a frame to see where focus ultimately landed.
     setTimeout(() => {
-      if (!this.contains(document.activeElement)) {
-        this.open = false;
+      const activeElement = document.activeElement;
+
+      const isMenuItem =
+        activeElement instanceof CsMenuLink ||
+        activeElement instanceof CsMenuButton;
+
+      if (isMenuItem && this.#optionElements.includes(activeElement)) {
+        return;
       }
+
+      this.open = false;
     });
   }
 

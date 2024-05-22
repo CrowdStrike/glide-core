@@ -41,6 +41,38 @@ export default css`
     }
   }
 
+  .tooltip-and-label {
+    align-items: center;
+    column-gap: var(--cs-spacing-xs);
+    display: flex;
+  }
+
+  cs-tooltip {
+    display: none;
+    margin-block-end: var(--cs-spacing-xxxs);
+
+    &.visible {
+      display: block;
+    }
+  }
+
+  .tooltip-target {
+    background-color: transparent;
+    border: none;
+
+    /* So the focus outline wraps neatly around the icon. */
+    border-radius: 50%;
+
+    /*
+      Any "display" that's not inline-level will do. We don't want the target to
+      acquire a line box, which will make it taller than its content and thus
+      make it difficult to center vertically with the label.
+    */
+    display: flex;
+    outline-offset: 1px;
+    padding: 0;
+  }
+
   .required-indicator {
     color: var(--cs-status-error);
     margin-inline-start: var(--cs-spacing-xxxs);

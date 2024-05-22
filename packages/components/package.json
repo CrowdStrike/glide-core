@@ -1,6 +1,6 @@
 {
   "name": "@crowdstrike/glide-core-components",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "CrowdStrike's Glide Design System components package for providing web components",
   "author": "CrowdStrike UX Team",
   "license": "Apache-2.0",
@@ -26,7 +26,8 @@
     "./*.styles.js": null,
     "./library/*": null,
     "./icons/*": null,
-    "./styles/*": null
+    "./styles/*": null,
+    "./label.js": null
   },
   "scripts": {
     "start": "per-env",
@@ -74,7 +75,9 @@
     "@storybook/addon-links": "^8.0.9",
     "@storybook/blocks": "^8.0.9",
     "@storybook/core-events": "^8.0.9",
+    "@storybook/manager-api": "^8.1.1",
     "@storybook/preview-api": "^8.0.9",
+    "@storybook/theming": "^8.1.1",
     "@storybook/web-components": "^8.0.9",
     "@storybook/web-components-vite": "^8.0.9",
     "@stylistic/eslint-plugin": "^1.7.0",

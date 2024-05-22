@@ -14,6 +14,12 @@ export default [
       font-style: var(--cs-body-sm-font-style);
       font-weight: var(--cs-body-sm-font-weight);
       grid-template-columns: repeat(auto-fill, 2.5rem);
+
+      --color: var(--cs-text-body-1);
+
+      &.selected {
+        --color: var(--cs-text-selected);
+      }
     }
 
     .expand-icon-container {
@@ -41,7 +47,7 @@ export default [
     .label-container {
       align-items: center;
       border-radius: 0.625rem;
-      color: var(--cs-text-body-1);
+      color: var(--color);
       display: flex;
       font-size: var(--cs-body-sm-font-size);
       padding-block: var(--cs-spacing-xxs);
@@ -53,7 +59,6 @@ export default [
 
       &.selected {
         background-color: var(--cs-surface-selected);
-        color: var(--cs-text-selected);
 
         &:hover {
           background-color: var(--cs-color-dark-blue);
@@ -66,14 +71,43 @@ export default [
         outline-style: auto;
         outline-width: 2px;
       }
+
+      .component.selected & {
+        background-color: var(--cs-surface-selected);
+
+        &:hover {
+          background-color: var(--cs-color-dark-blue);
+        }
+      }
     }
 
     ::slotted([slot='prefix']) {
       margin-inline-end: var(--cs-spacing-xs);
     }
 
+    ::slotted([slot='menu']) {
+      visibility: hidden;
+
+      --target-icon-color: var(--color);
+    }
+
+    /* Nesting does not work with ::slotted */
+    /* stylelint-disable-next-line csstools/use-nesting */
+    .component.selected ::slotted([slot='menu']) {
+      --hovered-target-icon-color: var(--cs-icon-hover);
+    }
+
     ::slotted([slot='suffix']) {
       padding-inline: var(--cs-spacing-xxs);
+    }
+
+    .label-container:hover,
+    .label-container:focus,
+    .label-container:focus-within,
+    .label-container:focus-visible {
+      ::slotted([slot='menu']) {
+        visibility: visible;
+      }
     }
 
     .label {
@@ -87,7 +121,7 @@ export default [
       overflow: hidden;
     }
 
-    .component-expanded {
+    .expanded {
       .child-items {
         block-size: auto;
       }

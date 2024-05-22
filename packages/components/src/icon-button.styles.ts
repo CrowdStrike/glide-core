@@ -10,14 +10,14 @@ export default [
 
     .component {
       align-items: center;
-      block-size: 1.625rem;
+      block-size: var(--size, 1.625rem);
       border-color: transparent;
       border-radius: var(--cs-spacing-xs);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
       display: inline-flex;
-      inline-size: 1.625rem;
+      inline-size: var(--size, 1.625rem);
       justify-content: center;
       padding-inline: 0;
       transition-duration: 150ms;
@@ -41,7 +41,7 @@ export default [
       &.primary {
         background-color: var(--cs-surface-primary);
         border-color: transparent;
-        color: var(--cs-icon-selected);
+        color: var(--icon-color, var(--cs-icon-selected));
 
         &:disabled {
           background-color: var(--cs-surface-base-gray-light);
@@ -66,7 +66,7 @@ export default [
       &.secondary {
         background-color: var(--cs-surface-page);
         border-color: var(--cs-border-primary);
-        color: var(--cs-icon-primary);
+        color: var(--icon-color, var(--cs-icon-primary));
 
         &:disabled {
           background-color: transparent;
@@ -91,7 +91,7 @@ export default [
       &.tertiary {
         background-color: transparent;
         border-color: transparent;
-        color: var(--cs-icon-default);
+        color: var(--icon-color, var(--cs-icon-default));
 
         &:disabled {
           color: var(--cs-icon-tertiary-disabled);
@@ -102,7 +102,7 @@ export default [
         }
 
         &:not(:active):hover:not(:disabled) {
-          color: var(--cs-icon-primary-hover);
+          color: var(--hovered-icon-color, var(--cs-icon-primary-hover));
         }
       }
     }

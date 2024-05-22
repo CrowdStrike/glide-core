@@ -4,7 +4,8 @@ import focusOutline from './styles/focus-outline.js';
 export default [
   css`
     .component {
-      display: inline-block;
+      /* https://github.com/CrowdStrike/glide-core/pull/119#issuecomment-2113314591 */
+      display: flex;
       position: relative;
     }
 
@@ -13,7 +14,7 @@ export default [
       border-width: 0;
 
       /* Additional whitespace from line height and the tooltip won't be vertically centered. */
-      display: inline-flex;
+      display: flex;
       padding: 0;
       position: relative;
 
@@ -43,7 +44,7 @@ export default [
       inset-block-start: 0;
       inset-inline-start: 0;
       padding: var(--cs-spacing-xs) var(--cs-spacing-sm);
-      position: absolute;
+      position: fixed;
       z-index: 1;
 
       ::slotted(kbd) {
@@ -59,38 +60,12 @@ export default [
       }
     }
 
-    .triangle {
-      display: none;
+    .arrow {
+      background: var(--cs-surface-base-dark);
+      block-size: 0.375rem;
+      inline-size: 0.375rem;
       position: absolute;
-      z-index: 1;
-
-      &.visible {
-        display: unset;
-      }
-
-      &.bottom {
-        inset-block-end: calc(100% + var(--triangle-width) / 2);
-        inset-inline-start: 50%;
-        transform: translateX(-50%) rotate(-90deg);
-      }
-
-      &.left {
-        inset-block-start: 50%;
-        inset-inline-start: calc(100% + var(--triangle-height) / 2);
-        transform: translateY(-50%);
-      }
-
-      &.right {
-        inset-block-start: 50%;
-        inset-inline-end: calc(100% + var(--triangle-height) / 2);
-        transform: translateY(-50%) rotate(180deg);
-      }
-
-      &.top {
-        inset-block-start: calc(100% + var(--triangle-width) / 2);
-        inset-inline-start: 50%;
-        transform: translateX(-50%) rotate(90deg);
-      }
+      transform: rotate(45deg);
     }
   `,
 ];

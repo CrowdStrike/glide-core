@@ -5,7 +5,7 @@ CsCheckbox.shadowRootOptions.mode = 'open';
 
 it('focuses the input when `focus` is called', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label"></cs-checkbox>`,
   );
 
   component.focus();
@@ -18,7 +18,7 @@ it('focuses the input after submit when required and unchecked', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
     {
       parentNode: form,
     },
@@ -34,7 +34,7 @@ it('focuses the input after `reportValidity` is called when required and uncheck
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
     { parentNode: form },
   );
 
@@ -48,7 +48,7 @@ it('focuses the input after `requestSubmit` is called when required and unchecke
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
     { parentNode: form },
   );
 
@@ -62,7 +62,7 @@ it('does not focus the input after `checkValidity` is called', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
     { parentNode: form },
   );
 

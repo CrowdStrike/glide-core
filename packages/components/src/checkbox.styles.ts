@@ -1,6 +1,5 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
-import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
@@ -24,10 +23,6 @@ when browsers support them.
         .summary {
           color: var(--cs-status-error);
         }
-
-        .description {
-          color: var(--cs-status-error);
-        }
       }
     }
 
@@ -35,156 +30,95 @@ when browsers support them.
       box-shadow: var(--cs-glow-sm);
     }
 
-    :host([orientation='horizontal']) .component {
-      align-items: center;
-      display: inline-grid;
-      grid-template-columns: auto auto;
-
-      &.tooltip {
-        grid-template-columns: auto auto auto;
-      }
-    }
-
-    :host([orientation='horizontal']) .description {
-      grid-column: 2;
-
-      &.tooltip {
-        grid-column: 3;
-      }
-    }
-
-    :host([orientation='horizontal']) .label-text {
-      padding-inline-end: var(--cs-spacing-sm);
-    }
-
-    :host([orientation='horizontal']) cs-tooltip {
-      margin-inline-end: var(--cs-spacing-xs);
-    }
-
-    :host([orientation='vertical']) .component {
-      align-items: center;
-      display: inline-grid;
-      grid-template-columns: auto auto;
-    }
-
-    :host([orientation='vertical']) cs-tooltip {
-      margin-inline-start: var(--cs-spacing-xs);
-      order: 2;
-    }
-
-    :host([orientation='vertical']) .label-text {
-      grid-column: span 3;
-
-      &.tooltip {
-        grid-column: auto;
-        order: 1;
-      }
-    }
-
-    :host([orientation='vertical']) .checkbox-and-summary {
-      margin-block-start: var(--cs-spacing-xxs);
-
-      &.tooltip {
-        grid-column: span 3;
-        order: 2;
-      }
-    }
-
-    :host([orientation='vertical']) .description {
-      grid-column: span 3;
-
-      &.tooltip {
-        order: 4;
-      }
-    }
-
-    .component {
-      --max-width: 22rem;
-    }
-
-    .checkbox-and-summary {
+    .label-and-checkbox {
       align-items: center;
       display: flex;
+      font-family: var(--cs-heading-xxxs-font-family);
+      font-size: var(--cs-heading-xxxs-font-size);
+      font-style: var(--cs-heading-xxxs-font-style);
+      font-variant: var(--cs-heading-xxxs-font-variant);
+      font-weight: var(--cs-body-xs-font-weight);
       gap: var(--cs-spacing-sm);
-      max-inline-size: var(--max-width);
+      line-height: 100%;
+    }
+
+    .input-and-checkbox-and-summary {
+      display: flex;
+      gap: var(--cs-spacing-sm);
+    }
+
+    .input-and-checkbox {
+      block-size: 0.875rem;
+      inline-size: 0.875rem;
+      position: relative;
     }
 
     .checkbox {
       align-items: center;
-      block-size: 0.875rem;
+      block-size: 100%;
       border: 1px solid var(--cs-border-base-dark);
       border-radius: 0.25rem;
       box-sizing: border-box;
       color: var(--cs-icon-selected);
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
-      inline-size: 0.875rem;
+      inline-size: 100%;
       justify-content: center;
     }
 
-    .checked-icon {
-      display: none;
-    }
+    input {
+      block-size: 100%;
+      inline-size: 100%;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      margin: 0;
+      opacity: 0;
+      position: absolute;
 
-    .description {
-      color: var(--cs-text-body-1);
-      display: block;
-      font-family: var(--cs-body-xs-font-family);
-      font-size: var(--cs-body-xs-font-size);
-      font-style: var(--cs-body-xs-font-style);
-      font-weight: var(--cs-body-xs-font-weight);
-      line-height: var(--cs-body-xs-line-height);
-      margin-block-start: var(--cs-spacing-xxxs);
-      max-inline-size: var(--max-width);
-    }
+      &:not(:disabled):hover ~ .checkbox {
+        box-shadow: var(--cs-glow-sm);
+      }
 
-    .label-and-checkbox-and-summary {
-      display: contents;
+      &:checked:not(:indeterminate) ~ .checkbox .checked-icon {
+        display: flex;
+      }
 
-      /*
-  We don't want a succession of clicks to select the label's text. That's
-  probably not what the user expects.
-*/
-      user-select: none;
-    }
+      &:indeterminate ~ .checkbox .indeterminate-icon {
+        display: inline-block;
+      }
 
-    cs-tooltip {
-      display: none;
+      &:disabled:not(:is(:checked, :indeterminate)) ~ .checkbox {
+        border-color: var(--cs-surface-primary-disabled);
+      }
 
-      &.visible {
-        display: block;
+      &:focus-visible ~ .checkbox {
+        ${focusOutline};
+        outline-offset: 4px;
+      }
+
+      &:is(:checked, :indeterminate):not(:disabled) ~ .checkbox {
+        background-color: var(--cs-surface-primary);
+        border-color: transparent;
+      }
+
+      &:is(:checked, :indeterminate):disabled ~ .checkbox {
+        background-color: var(--cs-surface-primary-disabled);
+        border-color: transparent;
       }
     }
 
-    .tooltip-button {
-      background-color: transparent;
-      border: none;
+    .checked-icon {
+      --size: 0.75rem;
 
-      /* So the focus outline wraps neatly around the icon. */
-      border-radius: 50%;
-
-      /*
-  Any "display" that's not inline-level will do. We don't want the button to
-  acquire a line box, which will make it taller than its content and thus
-  make it difficult to center vertically with the label.
-*/
-      display: flex;
-      outline-offset: 1px;
-      padding: 0;
-    }
-
-    .label-text {
-      color: var(--cs-text-body-1);
-      font-family: var(--cs-heading-xxxs-font-family);
-      font-size: var(--cs-heading-xxxs-font-size);
-      font-style: var(--cs-heading-xxxs-font-style);
-      font-variant: var(--cs-heading-xxxs-font-variant);
-      font-weight: var(--cs-heading-xxxs-font-weight);
-      line-height: 100%;
-    }
-
-    .required-symbol {
-      color: var(--cs-status-error);
+      align-items: center;
+      block-size: 100%;
+      display: none;
+      inline-size: 100%;
+      inset-block-start: 0;
+      inset-inline-start: 0;
+      justify-content: center;
+      pointer-events: none;
+      position: absolute;
     }
 
     .indeterminate-icon {
@@ -197,47 +131,6 @@ when browsers support them.
       font-style: var(--cs-body-sm-font-style);
       font-weight: var(--cs-body-sm-font-weight);
       line-height: 100%;
-    }
-
-    .summary-for-screenreaders {
-      ${visuallyHidden};
-    }
-
-    input {
-      ${visuallyHidden};
-
-      &:checked:not(:indeterminate) ~ .checkbox-and-summary .checked-icon {
-        display: contents;
-      }
-
-      &:disabled:not(:is(:checked, :indeterminate))
-        ~ .checkbox-and-summary
-        .checkbox {
-        border-color: var(--cs-surface-primary-disabled);
-      }
-
-      &:focus-visible ~ .checkbox-and-summary .checkbox {
-        ${focusOutline};
-        outline-offset: 4px;
-      }
-
-      &:indeterminate ~ .checkbox-and-summary .indeterminate-icon {
-        display: inline-block;
-      }
-
-      &:is(:checked, :indeterminate):not(:disabled)
-        ~ .checkbox-and-summary
-        .checkbox {
-        background-color: var(--cs-surface-primary);
-        border-color: transparent;
-      }
-
-      &:is(:checked, :indeterminate):disabled
-        ~ .checkbox-and-summary
-        .checkbox {
-        background-color: var(--cs-surface-primary-disabled);
-        border-color: transparent;
-      }
     }
   `,
 ];

@@ -16,30 +16,48 @@ const meta: Meta = {
       description: {
         component: 'A tree element, containing a hierarchy of tree items',
       },
+      story: {
+        autoplay: true,
+      },
     },
   },
   args: {
-    '<cs-tree-item>.selected': false,
+    'slot="default"': '',
     '<cs-tree-item>.label': 'Branch',
+    '<cs-tree-item>.selected': false,
+  },
+  play(context) {
+    const links = context.canvasElement.querySelectorAll('cs-menu-link');
+
+    for (const link of links) {
+      // Prevent navigation. The URLs don't go anywhere.
+      link.addEventListener('click', (event) => event.preventDefault());
+    }
   },
   render: (arguments_) => html`
-    <cs-tree>
-      <cs-tree-item label="Branch" expanded>
-        <cs-tree-item
-          label=${arguments_['<cs-tree-item>.label']}
-          ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
-        ></cs-tree-item>
-        <cs-tree-item label="Leaf 2"></cs-tree-item>
-        <cs-tree-item label="Sub-branch">
-          <cs-tree-item label="Sub-leaf 1"></cs-tree-item>
-          <cs-tree-item label="Sub-leaf 2"> </cs-tree-item>
-          <cs-tree-item label="Sub-leaf 3"></cs-tree-item>
+    <div style="max-width: 18.75rem; height: 12rem;">
+      <cs-tree>
+        <cs-tree-item label="Branch" expanded>
+          <cs-tree-item
+            label=${arguments_['<cs-tree-item>.label']}
+            ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
+          ></cs-tree-item>
+          <cs-tree-item label="Leaf 2">
+            <cs-example-icon slot="prefix" name="share"></cs-example-icon>
+            <cs-example-icon slot="suffix" name="settings"></cs-example-icon>
+            ${treeItemMenu}
+          </cs-tree-item>
+          <cs-tree-item label="Sub-branch">
+            <cs-tree-item label="Sub-leaf 1"></cs-tree-item>
+            <cs-tree-item label="Sub-leaf 2"> </cs-tree-item>
+            <cs-tree-item label="Sub-leaf 3"></cs-tree-item>
+          </cs-tree-item>
         </cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+      </cs-tree>
+    </div>
   `,
   argTypes: {
-    ['slot="default"']: {
+    'slot="default"': {
       table: {
         type: { summary: 'CsTreeItem' },
       },
@@ -206,8 +224,24 @@ export const TreeItemWithSuffixIcon: StoryObj = {
   `,
 };
 
-export const TreeItemWithPrefixSuffix: StoryObj = {
-  name: 'Tree Item (With Prefix and Suffix)',
+export const TreeItemWithMenu: StoryObj = {
+  name: 'Tree Item (With Menu on hover)',
+  render: (arguments_) => html`
+    <div style="max-width: 18.75rem; height: 8rem;">
+      <cs-tree>
+        <cs-tree-item
+          label=${arguments_['<cs-tree-item>.label']}
+          ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
+          >
+          ${treeItemMenu}
+        </cs-tree-item></cs-tree-item>
+      </cs-tree>
+    </div>
+  `,
+};
+
+export const TreeItemWithPrefixSuffixAndMenu: StoryObj = {
+  name: 'Tree Item (With Prefix, Suffix, and Menu)',
   render: (arguments_) => html`
    <div style="max-width: 18.75rem; height: 8rem;">
       <cs-tree>
@@ -217,8 +251,29 @@ export const TreeItemWithPrefixSuffix: StoryObj = {
           >
           <cs-example-icon slot="prefix" name="share"></cs-example-icon>
           <cs-example-icon slot="suffix" name="settings"></cs-example-icon>
+          ${treeItemMenu}
         </cs-tree-item></cs-tree-item>
       </cs-tree>
     </div>
   `,
 };
+
+const treeItemMenu = html`
+  <cs-tree-item-menu slot="menu">
+    <cs-menu-link label="Edit" url="/edit">
+      <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
+    </cs-menu-link>
+
+    <cs-menu-link label="Move" url="/move">
+      <cs-example-icon slot="icon" name="move"></cs-example-icon>
+    </cs-menu-link>
+
+    <cs-menu-link label="Share" url="/share">
+      <cs-example-icon slot="icon" name="share"></cs-example-icon>
+    </cs-menu-link>
+
+    <cs-menu-link label="Settings" url="/settings">
+      <cs-example-icon slot="icon" name="settings"></cs-example-icon>
+    </cs-menu-link>
+  </cs-tree-item-menu>
+`;

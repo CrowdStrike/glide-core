@@ -9,7 +9,7 @@ it('registers', async () => {
 
 it('has defaults', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox></cs-checkbox>`,
+    html`<cs-checkbox label="Label"></cs-checkbox>`,
   );
 
   expect(component.hasAttribute('checked')).to.be.false;
@@ -20,9 +20,6 @@ it('has defaults', async () => {
 
   expect(component.hasAttribute('indeterminate')).to.be.false;
   expect(component.indeterminate).to.be.false;
-
-  expect(component.getAttribute('label')).to.be.null;
-  expect(component.label).to.equal(undefined);
 
   expect(component.getAttribute('name')).to.be.null;
   expect(component.name).to.equal(undefined);
@@ -53,16 +50,19 @@ it('is accessible', async () => {
 
 it('can have a label', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label"></cs-checkbox> `,
+    html`<cs-checkbox label="Label">
+      <div slot="description">Description</div>
+    </cs-checkbox>`,
   );
 
-  expect(component.getAttribute('label')).to.equal('Label');
-  expect(component.label).to.equal('Label');
+  const label = component.shadowRoot?.querySelector('label');
+
+  expect(label?.textContent?.trim()).to.equal('Label');
 });
 
 it('can have a description', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox>
+    html`<cs-checkbox label="Label">
       <div slot="description">Description</div>
     </cs-checkbox>`,
   );
@@ -94,7 +94,7 @@ it('can have a summary', async () => {
 
 it('can have a tooltip', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox>
+    html`<cs-checkbox label="Label">
       <div slot="tooltip">Tooltip</div>
     </cs-checkbox>`,
   );
@@ -140,30 +140,6 @@ it('can be required', async () => {
 
   expect(component.hasAttribute('required')).to.be.true;
   expect(component.required).to.equal(true);
-});
-
-it('places the tooltip on the right when vertical', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox orientation="vertical"></cs-checkbox> `,
-  );
-
-  expect(
-    component.shadowRoot
-      ?.querySelector('cs-tooltip')
-      ?.getAttribute('placement'),
-  ).to.equal('right');
-});
-
-it('places the tooltip on the bottom when horizontal', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox orientation="horizontal"></cs-checkbox> `,
-  );
-
-  expect(
-    component.shadowRoot
-      ?.querySelector('cs-tooltip')
-      ?.getAttribute('placement'),
-  ).to.equal('bottom');
 });
 
 it('exposes standard form control properties and methods', async () => {

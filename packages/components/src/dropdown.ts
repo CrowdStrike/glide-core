@@ -1,11 +1,10 @@
-import './dropdown.js';
-import './tooltip.js';
+import './label.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { owSlot, owSlotType } from './library/ow.js';
 import CsDropdownOption from './dropdown.option.js';
-import infoCircleIcon from './icons/info-circle.js';
 import styles from './dropdown.styles.js';
 
 declare global {
@@ -15,15 +14,14 @@ declare global {
 }
 
 /**
- * @description A dropdown with an optional tooltip.
- *              Participates in forms and validation via `FormData` and various methods.
- *              Always call `setCustomValidity` after render to set a validation message.
+ * @description A dropdown with optional description and tooltip. Participates in forms and validation via `FormData` and various methods.
  *
  * @event change - Dispatched when an option is selected. An array of the selected option values is assigned to `event.detail`.
  * @event input - Dispatched when an option is selected. An array of the selected option values is assigned to `event.detail`.
  *
  * @slot - One or more of `<cs-dropdown-option>`.
  * @slot tooltip - Content for the tooltip.
+ * @slot description - Additional information or context.
  */
 @customElement('cs-dropdown')
 export default class CsDropdown extends LitElement {
@@ -69,16 +67,6 @@ export default class CsDropdown extends LitElement {
   @property({ reflect: true })
   variant?: 'quiet';
 
-  @state()
-  get validationMessage() {
-    return this.#validationMessage;
-  }
-
-  // Read-only. Doesn't throw.
-  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/validationMessage
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  set validationMessage(_) {}
-
   checkValidity() {
     this.isCheckingValidity = true;
     return this.#internals.checkValidity();
@@ -110,6 +98,9 @@ export default class CsDropdown extends LitElement {
   }
 
   override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption]);
+
     const firstOption = this.#optionElements.at(0);
 
     if (this.selectedOption?.value) {
@@ -134,7 +125,7 @@ export default class CsDropdown extends LitElement {
     if (this.required && !this.selectedOption) {
       this.#internals.setValidity(
         { valueMissing: true },
-        this.validationMessage,
+        ' ',
         this.#buttonElementRef.value,
       );
     } else {
@@ -179,113 +170,79 @@ export default class CsDropdown extends LitElement {
         vertical: this.orientation === 'vertical',
       })}
     >
-      <div
-        class=${classMap({
-          'tooltip-and-label': true,
-          vertical: this.orientation === 'vertical',
-        })}
+      <cs-label
+        orientation=${this.orientation}
+        ?error=${this.#isShowValidationFeedback}
+        ?hide=${this.hideLabel}
+        ?required=${this.required}
       >
-        <cs-tooltip
-          class=${classMap({
-            tooltip: true,
-            vertical: this.orientation === 'vertical',
-            visible: this.hasTooltipSlot,
-          })}
-        >
-          <span class="tooltip-trigger" slot="target" tabindex="0"
-            >${infoCircleIcon}</span
-          >
-
-          <slot
-            name="tooltip"
-            @slotchange=${this.#onTooltipSlotChange}
-            ${ref(this.#tooltipSlotElementRef)}
-          ></slot>
-        </cs-tooltip>
-
-        <label
-          class=${classMap({
-            hidden: this.hideLabel,
-            horizontal: this.orientation === 'horizontal',
-            label: true,
-            required: this.required,
-          })}
-          id="label"
-          >${this.label}</label
-        >
-      </div>
-
-      <div
-        class="button-and-options"
-        data-test="button-and-options"
-        @focusout=${this.#onButtonAndOptionsFocusout}
-        @keydown=${this.#onButtonAndOptionsKeydown}
-      >
-        <button
-          aria-errormessage="validation-message"
-          aria-expanded=${this.open}
-          aria-haspopup="listbox"
-          aria-labelledby="label"
-          aria-describedby="tooltip"
-          class=${classMap({
-            button: true,
-            quiet: this.variant === 'quiet',
-            disabled: this.disabled,
-            error: this.#isShowValidationFeedback,
-          })}
-          id="button"
-          type="button"
-          @click=${this.#onButtonClick}
-          @keydown=${this.#onButtonKeydown}
-          ${ref(this.#buttonElementRef)}
-        >
-          ${this.selectedOption?.label ?? this.placeholder}
-
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M6 9L12 15L18 9"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
+        <label id="label"> ${this.label} </label>
+        <slot name="tooltip" slot="tooltip"></slot>
 
         <div
-          aria-labelledby="button"
-          class=${classMap({
-            options: true,
-            large: this.size === 'large',
-            small: this.size === 'small',
-            visible: this.open && !this.disabled,
-          })}
-          data-test="options"
-          id="options"
-          role="listbox"
-          @keydown=${this.#onOptionsKeydown}
-          ${ref(this.#listElementRef)}
+          class="button-and-options"
+          data-test="button-and-options"
+          slot="control"
+          @focusout=${this.#onButtonAndOptionsFocusout}
+          @keydown=${this.#onButtonAndOptionsKeydown}
         >
-          <slot
-            @mouseover=${this.#onOptionMouseover}
-            @private-change=${this.#onOptionChange}
-            @private-selected=${this.#onOptionSelected}
-            @private-value=${this.#onOptionValue}
-            ${ref(this.#defaultSlotElementRef)}
-          ></slot>
-        </div>
-      </div>
+          <button
+            aria-expanded=${this.open}
+            aria-haspopup="listbox"
+            aria-labelledby="label"
+            aria-describedby="description"
+            class=${classMap({
+              button: true,
+              quiet: this.variant === 'quiet',
+              disabled: this.disabled,
+              error: this.#isShowValidationFeedback,
+            })}
+            id="button"
+            type="button"
+            @click=${this.#onButtonClick}
+            @keydown=${this.#onButtonKeydown}
+            ${ref(this.#buttonElementRef)}
+          >
+            ${this.selectedOption?.label ?? this.placeholder}
 
-      <div
-        class=${classMap({
-          'validation-message': true,
-          visible: this.#isShowValidationFeedback,
-        })}
-        data-test="validation-message"
-        id="validation-message"
-      >
-        ${this.validationMessage}
-      </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M6 9L12 15L18 9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+
+          <div
+            aria-labelledby="button"
+            class=${classMap({
+              options: true,
+              large: this.size === 'large',
+              small: this.size === 'small',
+              visible: this.open && !this.disabled,
+            })}
+            data-test="options"
+            id="options"
+            role="listbox"
+            @keydown=${this.#onOptionsKeydown}
+            ${ref(this.#listElementRef)}
+          >
+            <slot
+              @mouseover=${this.#onOptionMouseover}
+              @private-change=${this.#onOptionChange}
+              @private-selected=${this.#onOptionSelected}
+              @private-value=${this.#onOptionValue}
+              @slotchange=${this.#onDefaultSlotChange}
+              ${ref(this.#defaultSlotElementRef)}
+            ></slot>
+          </div>
+        </div>
+
+        <slot id="description" name="description" slot="description"></slot>
+      </cs-label>
     </div>`;
   }
 
@@ -300,16 +257,6 @@ export default class CsDropdown extends LitElement {
     // is by choosing the last selected option. This mimics that behavior, which
     // seems reasonable.
     return this.#optionElements.findLast(({ selected }) => selected);
-  }
-
-  setCustomValidity(message: string) {
-    this.#validationMessage = message;
-
-    // `this.validationMessage` is read-only to match native. If it weren't read-only,
-    // this method would simply set `this.validationMessage` to `message` and a render
-    // would happen automatically. As is, Lit doesn't know that `${this.valdationMessage}`
-    // needs to render again.
-    this.requestUpdate();
   }
 
   constructor() {
@@ -336,9 +283,6 @@ export default class CsDropdown extends LitElement {
   }
 
   @state()
-  private hasTooltipSlot = false;
-
-  @state()
   private isCheckingValidity = false;
 
   @state()
@@ -352,10 +296,6 @@ export default class CsDropdown extends LitElement {
 
   #listElementRef = createRef<HTMLUListElement>();
 
-  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
-
-  #validationMessage = 'Call `setCustomValidity` to set a message.';
-
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = (event: MouseEvent) => {
@@ -365,7 +305,7 @@ export default class CsDropdown extends LitElement {
   };
 
   // An arrow function field instead of a method so `this` is closed over and
-  // set to the component instead of `document`.
+  // set to the component instead of the form.
   #onFormdata = ({ formData }: FormDataEvent) => {
     if (this.name && this.value.length > 0 && !this.disabled) {
       formData.append(this.name, JSON.stringify(this.value));
@@ -391,17 +331,6 @@ export default class CsDropdown extends LitElement {
       !this.disabled &&
       !this.validity.valid &&
       this.isReportValidityOrSubmit
-    );
-  }
-
-  get #optionElements() {
-    return (
-      this.#defaultSlotElementRef.value
-        ?.assignedElements()
-        .filter(
-          (element): element is CsDropdownOption =>
-            element instanceof CsDropdownOption,
-        ) ?? []
     );
   }
 
@@ -444,6 +373,22 @@ export default class CsDropdown extends LitElement {
       this.open = true;
       this.#focusActiveOrFirstOption();
     }
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption]);
+  }
+
+  get #optionElements() {
+    return (
+      this.#defaultSlotElementRef.value
+        ?.assignedElements()
+        .filter(
+          (element): element is CsDropdownOption =>
+            element instanceof CsDropdownOption,
+        ) ?? []
+    );
   }
 
   #onOptionChange(event: Event) {
@@ -555,10 +500,5 @@ export default class CsDropdown extends LitElement {
     if (event.target instanceof CsDropdownOption && event.target.selected) {
       this.value = [event.target.value];
     }
-  }
-
-  #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
-    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }

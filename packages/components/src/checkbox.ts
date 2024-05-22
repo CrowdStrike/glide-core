@@ -1,10 +1,11 @@
-import './tooltip.js';
+import './label.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { svg } from 'lit/static-html.js';
+import { when } from 'lit-html/directives/when.js';
 import checkedIcon from './icons/checked.js';
-import infoCircleIcon from './icons/info-circle.js';
 import styles from './checkbox.styles.js';
 
 declare global {
@@ -12,6 +13,21 @@ declare global {
     'cs-checkbox': CsCheckbox;
   }
 }
+
+const indeterminateIcon = svg`
+  <svg
+    class="indeterminate-icon"
+    fill="none"
+    height="14"
+    viewBox="0 0 24 24"
+    width="14"
+    >
+      <path
+      d="M8 10C8 8.89543 8.89543 8 10 8H14.7929C15.2383 8 15.4614 8.53857 15.1464 8.85355L8.85355 15.1464C8.53857 15.4614 8 15.2383 8 14.7929V10Z"
+      fill="currentColor"
+      />
+  </svg>
+`;
 
 /**
  * @description A checkbox with a label and optional tooltip, summary, and description. Participates in forms and validation via `FormData` and various methods.
@@ -64,19 +80,37 @@ export default class CsCheckbox extends LitElement {
     return this.#internals.form;
   }
 
+  checkValidity() {
+    this.isCheckingValidity = true;
+    return this.#internals.checkValidity();
+  }
+
+  override click() {
+    this.#inputElementRef.value?.click();
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.isInCheckboxGroup = Boolean(this.closest('cs-checkbox-group'));
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.form?.removeEventListener('formdata', this.#onFormdata);
+    this.isInCheckboxGroup = Boolean(this.closest('cs-checkbox-group'));
+  }
+
   get validity() {
+    // If we're in a Checkbox Group, `disabled`, `required`, and whether or not
+    // the form has been submitted don't apply because Checkbox Group handles those
+    // states for the group as a whole.
+    if (this.isInCheckboxGroup) {
+      return this.#internals.validity;
+    }
+
     if (this.required && !this.checked) {
-      // 1. A validity message, the second argument, doesn't strictly apply to checkboxes.
-      //    Unlike other form controls, checkboxes are binary. And so screenreaders already
-      //    have the information they need given a label and optional description. "invalid"
-      //    is read aloud to screenreader users when a `required` checkbox is unchecked.
-      //    Sighted users have a color change to indicate an error.
-      //
-      // 2. Native validation doesn't meet our design requirements. So we suppress it, which
-      //    also hides it from screenreaders.
-      //
-      // Nonetheless, a validation message is required. And an empty string isn't allowed.
-      // Thus a single space.
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { valueMissing: true },
         ' ',
@@ -87,24 +121,6 @@ export default class CsCheckbox extends LitElement {
     }
 
     return this.#internals.validity;
-  }
-
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
-  checkValidity() {
-    this.isCheckingValidity = true;
-    return this.#internals.checkValidity();
-  }
-
-  override click() {
-    this.#inputElementRef.value?.click();
-  }
-
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-    this.form?.removeEventListener('formdata', this.#onFormdata);
   }
 
   override focus(options?: FocusOptions) {
@@ -125,144 +141,117 @@ export default class CsCheckbox extends LitElement {
       class=${classMap({
         component: true,
         error: this.#isShowValidationFeedback,
-        tooltip: this.hasTooltipSlot,
       })}
       data-test="component"
       ${ref(this.#componentElementRef)}
     >
-      <cs-tooltip
-        class=${classMap({
-          visible: this.hasTooltipSlot,
-        })}
-        placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
-      >
-        <button class="tooltip-button" slot="target">${infoCircleIcon}</button>
-
-        <slot
-          name="tooltip"
-          @slotchange=${this.#onTooltipSlotChange}
-          ${ref(this.#tooltipSlotElementRef)}
-        ></slot>
-      </cs-tooltip>
-
-      <label class="label-and-checkbox-and-summary">
-        <!--
-          The input is described by the summary and description but not the tooltip.
-          Screenreaders will come across the tooltip naturally as they move focus
-          through Checkbox.
-
-          Describing the input additionally by the tooltip is possible. We'd have to:
-
-          1. Get the content of the tooltip slot.
-          2. Dump the content into a DIV.
-          3. Visually hide the DIV.
-          4. Describe the input using the DIV.
-          5. Hide the tooltip using "aria-hidden" so its content isn't doubly read.
-
-          Even then, the tooltip would still receive focus to support sighted keyboard
-          users. Screenreaders would likewise focus the tooltip. But its contents would
-          not be read aloud because they would be hidden. This would be pretty confusing.
-
-          —
-
-          A native input isn't necessary given the component itself is form associated.
-          A button, for example, could also be made to work. But an input gives us a
-          few things that together make using one worthwhile:
-
-          - "change" and "input" events.
-          - Toggling checked using the spacebar.
-          - ":checked" and ":indeterminate" pseudo classes, which browsers don't support
-            on hosts even when a component is form-associated.
-
-          -
-
-          aria-invalid is set based on whether the validation feedback is displayed. This
-          is to handle an odd behavior with checkboxes where "Invalid Data" is announced
-          on required unchecked inputs. While this is technically correct, it's
-          inconsistent with how other form controls behave as their validity isn’t announced
-          on screen readers by default before validation.
-        -->
-        <input
-          aria-describedby="summary-for-screenreaders description"
-          aria-invalid=${this.#isShowValidationFeedback}
-          data-test="input"
-          type="checkbox"
-          ?checked=${this.checked}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          @change=${this.#onInputChange}
-          ${ref(this.#inputElementRef)}
-        />
-
-        <div
-          class=${classMap({
-            'label-text': true,
-            tooltip: this.hasTooltipSlot,
-          })}
-        >
-          ${this.label}
-          ${this.required
-            ? html`<span aria-hidden="true" class="required-symbol">*</span>`
-            : ''}
-        </div>
-
-        <div
-          class=${classMap({
-            'checkbox-and-summary': true,
-            tooltip: this.hasTooltipSlot,
-          })}
-        >
-          <div class="checkbox">
-            <div class="checked-icon">${checkedIcon}</div>
-
-            <svg
-              class="indeterminate-icon"
-              fill="none"
-              height="16"
-              viewBox="0 0 24 24"
-              width="16"
-            >
-              <path
-                d="M8 10C8 8.89543 8.89543 8 10 8H14.7929C15.2383 8 15.4614 8.53857 15.1464 8.85355L8.85355 15.1464C8.53857 15.4614 8 15.2383 8 14.7929V10Z"
-                fill="currentColor"
+      ${when(
+        this.isInCheckboxGroup,
+        () => html`
+          <div class="label-and-checkbox">
+            <div class="input-and-checkbox">
+              <input
+                aria-invalid=${this.#isShowValidationFeedback}
+                data-test="input"
+                id="input"
+                type="checkbox"
+                ?checked=${this.checked}
+                ?disabled=${this.disabled}
+                ?required=${this.required}
+                @change=${this.#onInputChange}
+                ${ref(this.#inputElementRef)}
               />
-            </svg>
-          </div>
 
-          <!--
-            Hidden from screenreaders because a summary isn't quite a label. The summary is
-            duplicated below, outside the label, and then presented to screenreaders as a
-            description using "aria-describedby".
-          -->
-          <div
-            aria-hidden="true"
-            class=${classMap({
-              summary: true,
-              tooltip: this.hasTooltipSlot,
-            })}
+              <div class="checkbox">
+                <div class="checked-icon">${checkedIcon}</div>
+                ${indeterminateIcon}
+              </div>
+            </div>
+
+            <label for="input">${this.label}</label>
+          </div>
+        `,
+        () =>
+          html`<cs-label
+            orientation=${this.orientation}
+            ?error=${this.#isShowValidationFeedback}
+            ?required=${this.required}
           >
-            ${this.summary}
-          </div>
-        </div>
-      </label>
+            <slot name="tooltip" slot="tooltip"></slot>
+            <label for="input"> ${this.label} </label>
 
-      <div class="summary-for-screenreaders" id="summary-for-screenreaders">
-        ${this.summary}
-      </div>
+            <!--
+              The input is described by the summary and description but not the tooltip.
+              Screenreaders will come across the tooltip naturally as focus moves toward
+              the Checkbox.
 
-      <slot
-        class=${classMap({
-          description: true,
-          tooltip: this.hasTooltipSlot,
-        })}
-        id="description"
-        name="description"
-      ></slot>
+              —
+
+              A native input isn't necessary given the component itself is form associated.
+              A button, for example, could also be made to work. But an input gives us a
+              few things that together make using one worthwhile:
+
+              - "change" and "input" events.
+              - Toggling checked using the spacebar.
+              - ":checked" and ":indeterminate" pseudo classes, which browsers don't support
+                on hosts even when a component is form-associated.
+
+              -
+
+              aria-invalid is set based on whether the validation feedback is displayed. This
+              is to handle an odd behavior with checkboxes where "Invalid Data" is announced
+              on required unchecked inputs. While this is technically correct, it's
+              inconsistent with how other form controls behave as their validity isn’t announced
+              on screen readers by default before validation.
+            -->
+            <div class="input-and-checkbox-and-summary" slot="control">
+              <div class="input-and-checkbox">
+                <input
+                  aria-describedby="summary description"
+                  aria-invalid=${this.#isShowValidationFeedback}
+                  data-test="input"
+                  id="input"
+                  type="checkbox"
+                  ?checked=${this.checked}
+                  ?disabled=${this.disabled}
+                  ?required=${this.required}
+                  @change=${this.#onInputChange}
+                  ${ref(this.#inputElementRef)}
+                />
+
+                <div class="checkbox">
+                  <div class="checked-icon">${checkedIcon}</div>
+                  ${indeterminateIcon}
+                </div>
+              </div>
+
+              ${when(
+                this.summary,
+                () =>
+                  html`<div class="summary" id="summary">${this.summary}</div>`,
+              )}
+            </div>
+
+            <slot id="description" name="description" slot="description"></slot>
+          </cs-label>`,
+      )}
     </div>`;
   }
 
   reportValidity() {
     return this.#internals.reportValidity();
+  }
+
+  setValidity(
+    flags?: ValidityStateFlags,
+    message?: string,
+    anchor?: HTMLElement,
+  ) {
+    return this.#internals.setValidity(flags, message, anchor);
+  }
+
+  get willValidate() {
+    return this.#internals.willValidate;
   }
 
   override updated() {
@@ -309,10 +298,10 @@ export default class CsCheckbox extends LitElement {
   }
 
   @state()
-  private hasTooltipSlot = false;
+  private isCheckingValidity = false;
 
   @state()
-  private isCheckingValidity = false;
+  private isInCheckboxGroup = false;
 
   @state()
   private isReportValidityOrSubmit = false;
@@ -323,8 +312,6 @@ export default class CsCheckbox extends LitElement {
 
   #internals: ElementInternals;
 
-  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
-
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onFormdata = ({ formData }: FormDataEvent) => {
@@ -334,6 +321,13 @@ export default class CsCheckbox extends LitElement {
   };
 
   get #isShowValidationFeedback() {
+    // If we're in a Checkbox Group, `disabled`, `required`, and whether or not
+    // the form has been submitted don't apply because Checkbox Group handles those
+    // states for the group as a whole.
+    if (this.isInCheckboxGroup) {
+      return !this.validity.valid;
+    }
+
     return (
       this.required &&
       !this.disabled &&
@@ -353,10 +347,5 @@ export default class CsCheckbox extends LitElement {
     // Unlike "input" events, "change" events aren't composed. So we manually
     // dispatch them from the host.
     this.dispatchEvent(new Event(event.type, event));
-  }
-
-  #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
-    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }

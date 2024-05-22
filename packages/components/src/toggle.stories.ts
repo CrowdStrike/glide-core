@@ -16,11 +16,11 @@ const meta: Meta = {
     },
   },
   args: {
-    ['slot="description"']: 'Description',
-    ['slot="tooltip"']: '',
+    label: 'Label',
+    'slot="description"': 'Description',
+    'slot="tooltip"': '',
     checked: false,
     disabled: false,
-    label: 'Label',
     orientation: 'horizontal',
     summary: 'Summary',
   },
@@ -110,7 +110,7 @@ export const Horizontal: StoryObj = {};
 
 export const HorizontalWithTooltip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
   },
   name: 'Horizontal (With Tooltip)',
 };
@@ -123,7 +123,7 @@ export const Vertical: StoryObj = {
 
 export const VerticalWithToolip: StoryObj = {
   args: {
-    ['slot="tooltip"']: 'Tooltip',
+    'slot="tooltip"': 'Tooltip',
     orientation: 'vertical',
   },
   name: 'Vertical (With Tooltip)',

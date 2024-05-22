@@ -5,7 +5,7 @@ CsCheckbox.shadowRootOptions.mode = 'open';
 
 it('is valid if unchecked but not required', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox></cs-checkbox>`,
+    html`<cs-checkbox label="Label"></cs-checkbox>`,
   );
 
   expect(component.validity.valid).to.be.true;
@@ -16,7 +16,7 @@ it('is valid if unchecked but not required', async () => {
 
 it('is valid but not aria-invalid after being checked when unchecked and required', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
   );
 
   component.click();
@@ -33,7 +33,7 @@ it('is valid but not aria-invalid after being checked when unchecked and require
 
 it('is invalid but not aria-invalid if unchecked and required', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
   );
 
   expect(component.validity.valid).to.be.false;
@@ -48,7 +48,7 @@ it('is invalid but not aria-invalid if unchecked and required', async () => {
 
 it('is invalid but not aria-invalid after being unchecked when required', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox checked required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" checked required></cs-checkbox>`,
   );
 
   component.click();
@@ -65,7 +65,7 @@ it('is invalid but not aria-invalid after being unchecked when required', async 
 
 it('is both invalid and valid if unchecked and required but disabled', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox disabled required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" disabled required></cs-checkbox>`,
   );
 
   expect(component.validity.valid).to.be.false;
@@ -78,7 +78,7 @@ it('adds an error class after submit when unchecked and required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
     { parentNode: form },
   );
 
@@ -96,7 +96,7 @@ it('adds an error class and renders aria-invalid equal to true after `reportVali
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
     { parentNode: form },
   );
 
@@ -116,7 +116,7 @@ it('adds an error class and renders aria-invalid equal to true after `reportVali
 
 it('does not add an error class and renders aria-invalid equal to false by default', async () => {
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
   );
 
   const isErrorClass = component.shadowRoot
@@ -134,7 +134,7 @@ it('does not add an error class and renders aria-invalid equal to false after `r
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox></cs-checkbox>`,
+    html`<cs-checkbox label="Label"></cs-checkbox>`,
     {
       parentNode: form,
     },
@@ -158,7 +158,7 @@ it('does not add an error class after `reportValidity` is called when required a
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox checked required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" checked required></cs-checkbox>`,
     { parentNode: form },
   );
 
@@ -176,7 +176,7 @@ it('does not add an error class after `reportValidity` is called when required b
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox disabled required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" disabled required></cs-checkbox>`,
     { parentNode: form },
   );
 
@@ -194,7 +194,7 @@ it('does not add an error class after `checkValidity` is called when required', 
   const form = document.createElement('form');
 
   const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox>`,
+    html`<cs-checkbox label="Label" required></cs-checkbox>`,
     { parentNode: form },
   );
 

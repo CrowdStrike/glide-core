@@ -123,7 +123,7 @@ export default [
       }
 
       &:hover {
-        color: var(--cs-text-primary-hover);
+        color: var(--cs-icon-primary-hover);
       }
 
       &:focus {

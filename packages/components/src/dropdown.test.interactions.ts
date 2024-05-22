@@ -8,7 +8,7 @@ CsDropdownOption.shadowRootOptions.mode = 'open';
 
 it('opens when clicked', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -26,7 +26,7 @@ it('opens when clicked', async () => {
 
 it('opens on ArrowUp', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -39,7 +39,7 @@ it('opens on ArrowUp', async () => {
 
 it('opens on ArrowDown', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -52,7 +52,7 @@ it('opens on ArrowDown', async () => {
 
 it('opens on Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -68,7 +68,7 @@ it('opens when opened programmatically via the click handler of another element'
   const div = document.createElement('div');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     { parentNode: div },
@@ -84,7 +84,7 @@ it('opens when opened programmatically via the click handler of another element'
 
 it('closes when clicked', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -99,7 +99,7 @@ it('closes when clicked', async () => {
 
 it('closes when something outside of it is clicked', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -110,7 +110,7 @@ it('closes when something outside of it is clicked', async () => {
 
 it('closes on Escape when the button has focus', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -123,7 +123,7 @@ it('closes on Escape when the button has focus', async () => {
 
 it('closes on Escape when an option has focus', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -136,7 +136,7 @@ it('closes on Escape when an option has focus', async () => {
 
 it('closes when an option is selected via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -151,7 +151,7 @@ it('closes when an option is selected via click', async () => {
 
 it('closes when an option is selected via Enter', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -164,7 +164,7 @@ it('closes when an option is selected via Enter', async () => {
 
 it('closes when an option is selected via Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -179,7 +179,7 @@ it('closes when an option is selected via Space', async () => {
 
 it('selects the clicked option', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
   );
@@ -192,7 +192,7 @@ it('selects the clicked option', async () => {
 
 it('deselects all other options when one is newly selected', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="One" value="one" selected></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
       <cs-dropdown-option label="Three" value="three"></cs-dropdown-option>
@@ -258,7 +258,7 @@ it('activates the first option by default', async () => {
 
 it('activates the next option on ArrowDown', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -275,7 +275,7 @@ it('activates the next option on ArrowDown', async () => {
 
 it('activates the previous option on ArrowUp', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -295,7 +295,7 @@ it('activates the previous option on ArrowUp', async () => {
 
 it('activates the first option on Home', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -315,7 +315,7 @@ it('activates the first option on Home', async () => {
 
 it('activates the first option on PageUp', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -335,7 +335,7 @@ it('activates the first option on PageUp', async () => {
 
 it('activates the first option on ArrowUp + Meta', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -357,7 +357,7 @@ it('activates the first option on ArrowUp + Meta', async () => {
 
 it('activates the last option on End', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -374,7 +374,7 @@ it('activates the last option on End', async () => {
 
 it('activates the last option on PageDown', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -391,7 +391,7 @@ it('activates the last option on PageDown', async () => {
 
 it('activates the last option on Meta + ArrowDown', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -448,7 +448,7 @@ it('does not wrap on ArrowDown', async () => {
 
 it('updates `value` when an option is selected via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
       <cs-dropdown-option label="Three"></cs-dropdown-option>
@@ -526,7 +526,7 @@ it('updates `value` when an option is selected via Space', async () => {
 
 it('sets the button text when an option is initially selected', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="One" value="one" selected></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -539,7 +539,7 @@ it('sets the button text when an option is initially selected', async () => {
 
 it('updates the button text when an option is newly selected', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" open>
+    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,

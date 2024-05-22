@@ -22,18 +22,20 @@ const meta: Meta = {
     },
   },
   args: {
+    'slot="default"': '',
+    'slot="target"': '',
     open: false,
     placement: 'bottom-start',
     size: 'large',
   },
   argTypes: {
-    ['slot="default"']: {
+    'slot="default"': {
       table: {
         type: { summary: 'CsMenuLink | CsMenuButton' },
       },
       type: { name: 'function', required: true },
     },
-    ['slot="target"']: {
+    'slot="target"': {
       table: {
         type: { summary: 'Element', detail: 'Any focusable element.' },
       },

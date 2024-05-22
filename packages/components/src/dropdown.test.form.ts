@@ -6,11 +6,11 @@ import CsDropdownOption from './dropdown.option.js';
 CsDropdown.shadowRootOptions.mode = 'open';
 CsDropdownOption.shadowRootOptions.mode = 'open';
 
-it('is reset', async () => {
+it('can be reset', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
     </cs-dropdown>`,
@@ -29,11 +29,11 @@ it('is reset', async () => {
   expect(component.value).to.deep.equal([]);
 });
 
-it('is reset to the initially selected option', async () => {
+it('can be reset to the initially selected option', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder">
+    html`<cs-dropdown label="Label" placeholder="Placeholder">
       <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
       <cs-dropdown-option label="Two" value="two" selected></cs-dropdown-option>
     </cs-dropdown>`,
@@ -56,7 +56,7 @@ it('has a `formData` value when an option is selected', async () => {
   const form = document.createElement('form');
 
   await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" name="name">
+    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
         <cs-dropdown-option
           label="Label"
           value="value"
@@ -69,14 +69,15 @@ it('has a `formData` value when an option is selected', async () => {
     },
   );
 
-  expect(new FormData(form).get('name')).to.be.equal('["value"]');
+  const formData = new FormData(form);
+  expect(formData.get('name')).to.be.equal('["value"]');
 });
 
 it('has no `formData` value when no option is selected', async () => {
   const form = document.createElement('form');
 
   await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" name="name">
+    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
       <cs-dropdown-option label="" value="value"></cs-dropdown-option>
     </cs-dropdown>`,
     {
@@ -92,7 +93,12 @@ it('has no `formData` value when disabled and an option is selected', async () =
   const form = document.createElement('form');
 
   await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" name="name" disabled>
+    html`<cs-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      name="name"
+      disabled
+    >
       <cs-dropdown-option
         label="Label"
         value="value"
@@ -112,7 +118,7 @@ it('has no `formData` value when an option is selected that has no `value`', asy
   const form = document.createElement('form');
 
   await fixture<CsDropdown>(
-    html`<cs-dropdown placeholder="Placeholder" name="name">
+    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
       <cs-dropdown-option label="Label" selected></cs-dropdown-option>
     </cs-dropdown>`,
     {

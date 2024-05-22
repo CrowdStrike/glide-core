@@ -24,8 +24,8 @@ const meta: Meta = {
     }
   },
   args: {
-    value: 'Value',
     label: 'Label',
+    value: 'Value',
     placeholder: 'Placeholder...',
     'hide-label': false,
     'label-position': 'left',
@@ -36,12 +36,19 @@ const meta: Meta = {
     'max-character-count': '',
     'slot="description"': 'Description',
     name: 'name',
+    'slot="tooltip"': '',
   },
   argTypes: {
+    label: {
+      control: 'text',
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
     value: {
       control: 'text',
       table: {
-        defaultValue: { summary: '' },
         type: { summary: 'string' },
       },
     },
@@ -102,7 +109,13 @@ const meta: Meta = {
         type: { summary: 'number' },
       },
     },
-    ['slot="description"']: {
+    'slot="tooltip"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    'slot="description"': {
       control: { type: 'text' },
       table: {
         type: { summary: 'string | html' },
@@ -111,7 +124,6 @@ const meta: Meta = {
     name: {
       control: 'text',
       table: {
-        defaultValue: { summary: '' },
         type: { summary: 'string' },
       },
     },
@@ -130,12 +142,16 @@ const meta: Meta = {
         ?readonly=${arguments_.readonly}
         ?disabled=${arguments_.disabled}
         max-character-count=${arguments_['max-character-count']}
-        >${arguments_['slot="description"']
+      >
+        ${arguments_['slot="tooltip"']
+          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+          : ''}
+        ${arguments_['slot="description"']
           ? html`<div slot="description">
               ${arguments_['slot="description"']}
             </div>`
-          : ''}</cs-textarea
-      >
+          : ''}
+      </cs-textarea>
     </form>`;
   },
 };
@@ -197,6 +213,10 @@ export const Description: StoryObj = {
         ?disabled=${arguments_.disabled}
         max-character-count=${arguments_['max-character-count']}
       >
+        ${arguments_['slot="tooltip"']
+          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+          : ''}
+
         <div slot="description">
           Text description... <a href="#">With link!</a>
         </div>
@@ -210,5 +230,11 @@ export const WithError: StoryObj = {
   args: {
     required: true,
     value: '',
+  },
+};
+
+export const Tooltip: StoryObj = {
+  args: {
+    'slot="tooltip"': 'Tooltip',
   },
 };

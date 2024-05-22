@@ -12,25 +12,39 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'An Accordion component with optional slots for icons.',
+        component: 'An accordion component with optional slots for icons.',
+      },
+      story: {
+        autoplay: true,
       },
     },
   },
-  render: (arguments_, context) => {
-    context.canvasElement.addEventListener('toggle', (event) => {
-      if (event instanceof CustomEvent) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            // Our events are untyped at the moment. So `detail` is typed as `any`.
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            open: event.detail.newState === 'open',
-          },
-        });
-      }
+  play(context) {
+    // eslint-disable-next-line no-underscore-dangle
+    let arguments_: Meta['args'] = context.args;
+
+    addons.getChannel().addListener('storyArgsUpdated', (event) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      arguments_ = event.args as typeof context.args;
     });
 
+    context.canvasElement
+      .querySelector('cs-accordion')
+      ?.addEventListener('toggle', (event) => {
+        if (event instanceof CustomEvent) {
+          addons.getChannel().emit(STORY_ARGS_UPDATED, {
+            storyId: context.id,
+            args: {
+              ...arguments_,
+              // Our events are untyped at the moment. So `detail` is typed as `any`.
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              open: event.detail.newState === 'open',
+            },
+          });
+        }
+      });
+  },
+  render: (arguments_) => {
     return html`
       <cs-accordion label=${arguments_.label} ?open=${arguments_.open}
         >${arguments_['slot="default"']}</cs-accordion
@@ -39,8 +53,8 @@ const meta: Meta = {
   },
   args: {
     label: 'Accordion',
-    open: false,
     'slot="default"': 'Inner content',
+    open: false,
   },
   argTypes: {
     label: {
@@ -101,21 +115,7 @@ export const Default: StoryObj = {};
 
 export const WithPrefixIcon: StoryObj = {
   name: 'Default (With Prefix Icon)',
-  render: (arguments_, context) => {
-    context.canvasElement.addEventListener('toggle', (event) => {
-      if (event instanceof CustomEvent) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            // Our events are untyped at the moment. So `detail` is typed as `any`.
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            open: event.detail.newState === 'open',
-          },
-        });
-      }
-    });
-
+  render: (arguments_) => {
     return html` <cs-accordion
       label=${arguments_.label}
       ?open=${arguments_.open}
@@ -129,21 +129,7 @@ export const WithPrefixIcon: StoryObj = {
 
 export const WithSuffix: StoryObj = {
   name: 'Default (With Suffix Icons)',
-  render: (arguments_, context) => {
-    context.canvasElement.addEventListener('toggle', (event) => {
-      if (event instanceof CustomEvent) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            // Our events are untyped at the moment. So `detail` is typed as `any`.
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            open: event.detail.newState === 'open',
-          },
-        });
-      }
-    });
-
+  render: (arguments_) => {
     return html` <cs-accordion
       label=${arguments_.label}
       ?open=${arguments_.open}
@@ -158,21 +144,7 @@ export const WithSuffix: StoryObj = {
 
 export const WithPrefixAndSuffix: StoryObj = {
   name: 'Default (With Prefix & Suffix Icons)',
-  render: (arguments_, context) => {
-    context.canvasElement.addEventListener('toggle', (event) => {
-      if (event instanceof CustomEvent) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            // Our events are untyped at the moment. So `detail` is typed as `any`.
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            open: event.detail.newState === 'open',
-          },
-        });
-      }
-    });
-
+  render: (arguments_) => {
     return html` <cs-accordion
       label=${arguments_.label}
       ?open=${arguments_.open}
