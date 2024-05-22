@@ -22,6 +22,7 @@ it('dispatches a "change" event when typed in', async () => {
 
   const event = await oneEvent(input, 'change');
   expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
 });
 
 it('dispatches an "input" event when typed in', async () => {
@@ -34,6 +35,7 @@ it('dispatches an "input" event when typed in', async () => {
 
   const event = await oneEvent(input, 'input');
   expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
 });
 
 it('dispatches an "invalid" event on submit when required and no value', async () => {
