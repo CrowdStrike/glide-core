@@ -1,6 +1,6 @@
 import { LitElement, type PropertyValueMap, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { createRef, ref } from 'lit/directives/ref.js';
+// import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 // import { ifDefined } from 'lit-html/directives/if-defined.js';
 // import { owSlot, owSlotType } from './library/ow.js';
@@ -24,18 +24,31 @@ export default class CsRadio extends LitElement {
 
   static override styles = styles;
 
-  // aria-checked proxy
   @property({ type: Boolean, reflect: true })
-  checked? = false;
+  checked = false;
 
   @property({ type: Boolean, reflect: true })
-  disabled? = false;
+  get disabled() {
+    return this.#disabled;
+  }
+
+  set disabled(value: boolean) {
+    this.#disabled = value;
+    this.ariaDisabled = this.disabled.toString();
+  }
 
   @property()
   name = '';
 
   @property({ type: Boolean, reflect: true })
-  required?: boolean;
+  get required() {
+    return this.#required;
+  }
+
+  set required(value) {
+    this.#required = value;
+    this.ariaRequired = value ? 'true' : 'false';
+  }
 
   @property()
   value = '';
@@ -50,47 +63,43 @@ export default class CsRadio extends LitElement {
 
   override render() {
     return html`
-      <span tabindex=${this.tabIndex} ${ref(this.#containerElementRef)}>
-        <span
-          class=${classMap({ toggle: true, disabled: Boolean(this.disabled) })}
-          aria-hidden="true"
-          >${this.checked ? 'x' : 'o'}</span
-        >
-        <input
-          id="radio"
-          type="radio"
-          tabindex="-1"
-          class=${classMap({
-            component: true,
-            checked: Boolean(this.checked),
-            disabled: Boolean(this.disabled),
-          })}
-          ?checked=${this.checked}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          name=${this.name}
-        />
-        <slot></slot>
-      </span>
+      <span
+        class=${classMap({ toggle: true, disabled: Boolean(this.disabled) })}
+        aria-hidden="true"
+        >${this.checked ? 'x' : 'o'}</span
+      >
+      <input
+        id="radio"
+        type="radio"
+        tabindex="-1"
+        class=${classMap({
+          component: true,
+          checked: Boolean(this.checked),
+          disabled: Boolean(this.disabled),
+        })}
+        ?checked=${this.checked}
+        ?disabled=${this.disabled}
+        ?required=${this.required}
+        name=${this.name}
+      />
+      <slot></slot>
     `;
   }
 
   override willUpdate(changedProperties: PropertyValueMap<CsRadio>): void {
-    if (this.hasUpdated && changedProperties.has('checked')) {
-      const value = changedProperties.get('checked');
-
-      this.checked = !value;
-
-      if (value === false) {
-        this.#containerElementRef.value?.focus();
+    if (this.hasUpdated && changedProperties.has('checked') && !this.disabled) {
+      if (this.checked) {
+        this.ariaChecked = 'true';
         this.tabIndex = 0;
+        this.focus();
       } else {
+        this.ariaChecked = 'false';
         this.tabIndex = -1;
       }
-
-      this.ariaChecked = value === true ? 'false' : 'true';
     }
   }
 
-  #containerElementRef = createRef<HTMLSpanElement>();
+  #disabled = false;
+
+  #required = false;
 }
