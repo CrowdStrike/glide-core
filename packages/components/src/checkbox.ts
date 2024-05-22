@@ -143,7 +143,6 @@ export default class CsCheckbox extends LitElement {
         error: this.#isShowValidationFeedback,
       })}
       data-test="component"
-      ${ref(this.#componentElementRef)}
     >
       ${when(
         this.isInCheckboxGroup,

@@ -29,6 +29,9 @@ const meta: Meta = {
     readonly: false,
     disabled: false,
     name: 'name',
+    autocapitalize: 'on',
+    spellcheck: 'true',
+    'max-character-count': '',
   },
   play(context) {
     const input = context.canvasElement.querySelector('cs-input');
@@ -58,7 +61,9 @@ const meta: Meta = {
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_.maxCharacterCount || nothing}
+          max-character-count=${arguments_['max-character-count'] || nothing}
+          spellcheck=${arguments_.spellcheck || nothing}
+          autocapitalize=${arguments_.autocapitalize || nothing}
         >
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
@@ -144,6 +149,34 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
+    spellcheck: {
+      control: 'radio',
+      defaultValue: '"true"',
+      options: ['true', 'false'],
+      table: {
+        defaultValue: { summary: '"true"' },
+        type: { summary: '"true" | "false"' },
+      },
+    },
+    autocapitalize: {
+      control: { type: 'select' },
+      options: ['on', 'off', 'none', 'sentences', 'words', 'characters'],
+      table: {
+        defaultValue: {
+          summary: '"on"',
+        },
+        type: {
+          summary:
+            '"on" | "off" | "none" | "sentences" | "words" | "characters"',
+        },
+      },
+    },
+    'max-character-count': {
+      control: 'number',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
     'slot="tooltip"': {
       control: { type: 'text' },
       table: {
@@ -208,7 +241,7 @@ export const Description: StoryObj = {
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_.maxCharacterCount || nothing}
+          max-character-count=${arguments_['max-character-count'] || nothing}
         >
           <div slot="description">
             Test description ... <a href="#">With link!</a>
@@ -261,7 +294,7 @@ export const SuffixIcon: StoryObj = {
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_.maxCharacterCount || nothing}
+          max-character-count=${arguments_['max-character-count'] || nothing}
         >
           <div slot="suffix">
             <cs-example-icon slot="suffix" name="share"></cs-example-icon>
@@ -289,7 +322,7 @@ export const PrefixIcon: StoryObj = {
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_.maxCharacterCount || nothing}
+          max-character-count=${arguments_['max-character-count'] || nothing}
         >
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
@@ -312,7 +345,7 @@ export const SearchType: StoryObj = {
 
 export const MaxCharacterCount: StoryObj = {
   args: {
-    maxCharacterCount: 20,
+    'max-character-count': 20,
     'slot="description"': undefined,
   },
 };
@@ -320,7 +353,7 @@ export const MaxCharacterCount: StoryObj = {
 export const MaxCharacterCountAndDescription: StoryObj = {
   name: 'Max Character Count (With Description)',
   args: {
-    maxCharacterCount: 20,
+    'max-character-count': 20,
     'slot="description"':
       'Description here lives alongside max character count',
   },

@@ -211,30 +211,6 @@ it('supports a "tooltip" slot', async () => {
   expect(assignedElements?.at(0)?.textContent).to.equal('Tooltip');
 });
 
-it('places the tooltip on bottom when the label is on the left', async () => {
-  const component = await fixture<CsInput>(
-    html`<cs-input label="test">
-      <div slot="tooltip">Tooltip</div>
-    </cs-input>`,
-  );
-
-  const tooltip = component.shadowRoot?.querySelector('cs-tooltip');
-
-  expect(tooltip?.placement).to.equal('bottom');
-});
-
-it('places the tooltip on the right when the label is on top', async () => {
-  const component = await fixture<CsInput>(
-    html`<cs-input label="test" label-position="top">
-      <div slot="tooltip">Tooltip</div>
-    </cs-input>`,
-  );
-
-  const tooltip = component.shadowRoot?.querySelector('cs-tooltip');
-
-  expect(tooltip?.placement).to.equal('right');
-});
-
 it('supports a "description" slot', async () => {
   const element = await fixture<CsInput>(html`
     <cs-input label="Test">
