@@ -49,6 +49,7 @@ export default [
       flex-direction: column;
       grid-column: 2;
       max-inline-size: var(--max-inline-size);
+      row-gap: var(--cs-spacing-xxs);
 
       &.tooltip {
         grid-column: 3;
@@ -90,10 +91,10 @@ export default [
       border-radius: 50%;
 
       /*
-        Any "display" that's not inline-level will do. We don't want the button to
-        acquire a line box, which will make it taller than its content and thus
-        make it difficult to center vertically with the label.
-      */
+      Any "display" that's not inline-level will do. We don't want the button to
+      acquire a line box, which will make it taller than its content and thus
+      make it difficult to center vertically with the label.
+    */
       display: flex;
       outline-offset: 1px;
       padding: 0;

@@ -38,9 +38,9 @@ export default [
 
       &.visible {
         /*
-          The default is "display: content". But "order" does not work with
-          "display: content" and "order" is needed above.
-        */
+        The default is "display: content". But "order" does not work with
+        "display: content" and "order" is needed above.
+      */
         display: block;
       }
     }
@@ -50,18 +50,18 @@ export default [
       border: none;
 
       /* TODO
-    We want the focus outline to wrap neatly around the trigger. Tooltip should
-    probably wrap its default slot in a SPAN with "tabindex=0" and include the
-    below styles so every consumer doesn't have to.
-  */
+  We want the focus outline to wrap neatly around the trigger. Tooltip should
+  probably wrap its default slot in a SPAN with "tabindex=0" and include the
+  below styles so every consumer doesn't have to.
+*/
       border-radius: 50%;
       color: var(--cs-text-body-1);
 
       /*
-    Any "display" that's not inline-level will do. We don't want the button to
-    acquire a line box, which will make it taller than its content and thus
-    make it difficult to center vertically with the label.
-  */
+  Any "display" that's not inline-level will do. We don't want the button to
+  acquire a line box, which will make it taller than its content and thus
+  make it difficult to center vertically with the label.
+*/
       display: flex;
       outline-offset: 1px;
       padding: 0;
@@ -102,7 +102,7 @@ export default [
 
     .description {
       color: var(--cs-text-body-1);
-      display: block;
+      display: none;
       font-family: var(--cs-body-xs-font-family);
       font-size: var(--cs-body-xs-font-size);
       font-style: var(--cs-body-xs-font-style);
@@ -114,6 +114,10 @@ export default [
 
       &.error {
         color: var(--cs-status-error);
+      }
+
+      &.visible {
+        display: block;
       }
     }
   `,
