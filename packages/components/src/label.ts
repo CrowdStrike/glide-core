@@ -55,6 +55,7 @@ export default class CsLabel extends LitElement {
         component: true,
         horizontal: this.orientation === 'horizontal',
         vertical: this.orientation === 'vertical',
+        'hidden-label': this.hide,
       })}
     >
       <div
@@ -86,7 +87,7 @@ export default class CsLabel extends LitElement {
           ></slot>
         </cs-tooltip>
 
-        <div class="label">
+        <div class="label" data-test="label">
           <slot
             @slotchange=${this.#onLabelSlotChange}
             ${ref(this.#labelSlotElementRef)}

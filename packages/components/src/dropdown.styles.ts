@@ -4,11 +4,6 @@ export default [
   css`
     .component {
       --min-width: 9.375rem;
-
-      &.horizontal {
-        display: inline-grid;
-        grid-template-columns: auto auto;
-      }
     }
 
     .button-and-options {

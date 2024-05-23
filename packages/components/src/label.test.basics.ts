@@ -99,6 +99,9 @@ it('can be required', async () => {
 
   expect(component.hasAttribute('required')).to.be.true;
   expect(component.required).to.equal(true);
+
+  const label = component.shadowRoot?.querySelector('[data-test="label"]');
+  expect(label?.textContent?.includes('*')).to.be.true;
 });
 
 it('can have an `error`', async () => {
