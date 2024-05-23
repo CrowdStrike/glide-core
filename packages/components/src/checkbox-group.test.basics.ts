@@ -1,6 +1,9 @@
 import './checkbox.js';
+import { ArgumentError } from 'ow';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import CsCheckboxGroup from './checkbox-group.js';
+import expectArgumentError from './library/expect-argument-error.js';
+import sinon from 'sinon';
 
 CsCheckboxGroup.shadowRootOptions.mode = 'open';
 
@@ -46,7 +49,7 @@ it('can have a label', async () => {
   const component = await fixture<CsCheckboxGroup>(
     html`<cs-checkbox-group label="Checkbox Group">
       <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group> `,
+    </cs-checkbox-group>`,
   );
 
   expect(component.getAttribute('label')).to.equal('Checkbox Group');
@@ -72,7 +75,7 @@ it('can have a name', async () => {
   const component = await fixture<CsCheckboxGroup>(
     html`<cs-checkbox-group label="Checkbox Group" name="name">
       <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group> `,
+    </cs-checkbox-group>`,
   );
 
   expect(component.getAttribute('name')).to.equal('name');
@@ -99,7 +102,7 @@ it('can be disabled initially', async () => {
     html`<cs-checkbox-group label="Checkbox Group" disabled>
       <cs-checkbox label="One"></cs-checkbox>
       <cs-checkbox label="Two"></cs-checkbox>
-    </cs-checkbox-group> `,
+    </cs-checkbox-group>`,
   );
 
   const checkboxes = component.querySelectorAll('cs-checkbox');
@@ -116,7 +119,7 @@ it('can be disabled dynamically', async () => {
     html`<cs-checkbox-group label="Checkbox Group">
       <cs-checkbox label="One"></cs-checkbox>
       <cs-checkbox label="Two"></cs-checkbox>
-    </cs-checkbox-group> `,
+    </cs-checkbox-group>`,
   );
 
   component.disabled = true;
@@ -135,7 +138,7 @@ it('can be required', async () => {
   const component = await fixture<CsCheckboxGroup>(
     html`<cs-checkbox-group label="Checkbox Group" required>
       <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group> `,
+    </cs-checkbox-group>`,
   );
 
   expect(component.hasAttribute('required')).to.be.true;
@@ -157,4 +160,30 @@ it('exposes standard form control properties and methods', async () => {
   expect(component.willValidate).to.be.true;
   expect(component.checkValidity).to.be.a('function');
   expect(component.reportValidity).to.be.a('function');
+});
+
+it('throws if it does not have a default slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsCheckboxGroup>(
+      html`<cs-checkbox-group label="Checkbox Group"></cs-checkbox-group>`,
+    );
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
+});
+
+it('throws if the default slot is the incorrect type', async () => {
+  await expectArgumentError(() => {
+    return fixture<CsCheckboxGroup>(
+      html`<cs-checkbox-group label="Checkbox Group">
+        <button>Button</button>
+      </cs-checkbox-group>`,
+    );
+  });
 });

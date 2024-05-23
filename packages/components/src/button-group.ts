@@ -78,7 +78,10 @@ export default class CsButtonGroup extends LitElement {
           vertical: this.orientation === 'vertical',
         })}
       >
-        <slot ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </ul>
     `;
   }
@@ -116,4 +119,8 @@ export default class CsButtonGroup extends LitElement {
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #onDefaultSlotChange() {
+    owSlotType(this.#defaultSlotElementRef.value, [CsButtonGroupButton]);
+  }
 }

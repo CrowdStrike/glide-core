@@ -15,7 +15,7 @@ afterEach(() => {
 
 it('sets the "--glide-scroll-size" variable when the browser does not support scrollbar-gutter', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
   );
 
   element.showModal();

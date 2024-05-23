@@ -1,7 +1,9 @@
 import './menu.button.js';
+import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import CsMenu from './menu.js';
 import CsMenuLink from './menu.link.js';
+import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
 CsMenu.shadowRootOptions.mode = 'open';
@@ -71,15 +73,26 @@ it('throws if it does not have a default slot', async () => {
 
   try {
     await fixture<CsMenu>(
-      html`<cs-menu>
-        <button slot="target">Target</button>
-      </cs-menu>`,
+      html`<cs-menu><button slot="target">Target</button></cs-menu>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
+});
+
+it('throws if the default slot is the incorrect type', async () => {
+  await expectArgumentError(() => {
+    return fixture<CsMenu>(
+      html`<cs-menu>
+        <option>Option</option>
+        <button slot="target">Target</button>
+      </cs-menu>`,
+    );
+  });
 });
 
 it('throws if it does not have a "target" slot', async () => {
@@ -91,8 +104,10 @@ it('throws if it does not have a "target" slot', async () => {
         <cs-menu-link label="Link"></cs-menu-link>
       </cs-menu>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;

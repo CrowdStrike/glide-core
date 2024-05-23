@@ -1,4 +1,4 @@
-import './button-group.button.js';
+import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import CsButtonGroupButton from './button-group.button.js';
 import sinon from 'sinon';
@@ -182,8 +182,10 @@ it('throws an error when no label is present and variant is `icon-only`', async 
         ><span slot="prefix">Prefix</span></cs-button-group-button
       >`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
@@ -196,7 +198,6 @@ it('throws an error when prefix slot is empty and variant is `icon-only`', async
   //
   // Browser logs:
   //     An error was thrown in a Promise outside a test. Did you forget to await a function or assertion?
-
   sinon.stub(console, 'error'); // Disable console.error
 
   try {
@@ -205,8 +206,10 @@ it('throws an error when prefix slot is empty and variant is `icon-only`', async
         >Button</cs-button-group-button
       >`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
@@ -221,8 +224,10 @@ it('does not throw an error when prefix slot is empty and no variant is set', as
         >Button</cs-button-group-button
       >`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.notCalled).to.be.true;

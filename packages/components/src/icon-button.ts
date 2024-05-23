@@ -1,6 +1,8 @@
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import { owSlot } from './library/ow.js';
 import styles from './icon-button.styles.js';
 
 declare global {
@@ -37,6 +39,10 @@ export default class CsIconButton extends LitElement {
   @property({ attribute: 'variant', reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
+  override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
+
   override render() {
     return html`
       <button
@@ -50,8 +56,17 @@ export default class CsIconButton extends LitElement {
         type="button"
         ?disabled=${this.disabled}
       >
-        <slot></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </button>
     `;
+  }
+
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
   }
 }

@@ -204,7 +204,7 @@ export default class CsCheckboxGroup extends LitElement {
             checkboxes: true,
             tooltip: this.hasTooltipSlot,
           })}
-          @change=${this.#onDefaultSlotChange}
+          @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
       </fieldset>
@@ -305,6 +305,9 @@ export default class CsCheckboxGroup extends LitElement {
   }
 
   #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsCheckbox]);
+
     this.value = this.#checkboxes
       .filter(({ checked, disabled }) => checked && !disabled)
       .map(({ value }) => value)

@@ -1,7 +1,9 @@
 import './icon-button.js';
 import { LitElement, html } from 'lit';
+import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { owSlot } from './library/ow.js';
 import styles from './modal.icon-button.styles.js';
 
 declare global {
@@ -33,11 +35,24 @@ export default class CsModalIconButton extends LitElement {
   @property()
   label? = '';
 
+  override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
+
   override render() {
     return html`
       <cs-icon-button label=${ifDefined(this.label)} variant="tertiary">
-        <slot></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </cs-icon-button>
     `;
+  }
+
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
   }
 }

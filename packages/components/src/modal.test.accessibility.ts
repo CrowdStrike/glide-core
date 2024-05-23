@@ -5,7 +5,7 @@ Modal.shadowRootOptions.mode = 'open';
 
 it('is accessible', async () => {
   const element = await fixture(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
   );
 
   await expect(element).to.be.accessible();
@@ -13,7 +13,7 @@ it('is accessible', async () => {
 
 it('focuses the dialog upon opening', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
   );
 
   element.showModal();
@@ -25,7 +25,7 @@ it('focuses the dialog upon opening', async () => {
 
 it('sets the tabindex on the dialog to "-1"', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
   );
 
   element.showModal();
@@ -38,7 +38,7 @@ it('sets the tabindex on the dialog to "-1"', async () => {
 
 it('sets the "toolbar" role on the header-actions section', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
   );
 
   element.showModal();
@@ -51,7 +51,7 @@ it('sets the "toolbar" role on the header-actions section', async () => {
 
 it('sets proper aria attributes and roles on the article', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
   );
 
   element.showModal();

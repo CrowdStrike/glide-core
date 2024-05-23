@@ -5,7 +5,7 @@ import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import TabGroup from './tab.group.js';
 import TabPanel from './tab.panel.js';
-import sinon from 'sinon';
+import expectArgumentError from './library/expect-argument-error.js';
 
 TabGroup.shadowRootOptions.mode = 'open';
 TabPanel.shadowRootOptions.mode = 'open';
@@ -254,37 +254,25 @@ it('can use up/down keys to focus on vertical tabs', async () => {
 });
 
 it('throws an error when an element other than `cs-tab` is a child of the `nav` slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`
+  await expectArgumentError(() => {
+    return fixture(html`
       <cs-tab-group variant="vertical">
         <div slot="nav">Tab 1</div>
         <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
       </cs-tab-group>
     `);
-  } catch {
-    spy();
-  }
-
-  expect(spy.called).to.be.true;
+  });
 });
 
 it('throws an error when an element other than `cs-tab-panel` is a child of the default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`
+  await expectArgumentError(() => {
+    return fixture(html`
       <cs-tab-group variant="vertical">
         <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
         <div>Default Content</div>
       </cs-tab-group>
     `);
-  } catch {
-    spy();
-  }
-
-  expect(spy.called).to.be.true;
+  });
 });
 
 function isPanelHidden(panel: TabPanel) {

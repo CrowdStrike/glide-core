@@ -55,7 +55,7 @@ export function owSlotType(
   }
 
   if (slotted.length > 0) {
-    const nodes = slot.assignedNodes().filter((node) => {
+    const nodes = slot.assignedNodes({ flatten: true }).filter((node) => {
       // If `assignedNodes()` includes a `Text` node but `Text` isn't included in
       // `slotted`, then it's filtered out so `isAllowed` doesn't result in a false
       // positive. This doesn't mean that a slot can't contain `Text` node. It just

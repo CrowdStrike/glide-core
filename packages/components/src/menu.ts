@@ -86,16 +86,11 @@ export default class CsMenu extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-
-    owSlotType(this.#defaultSlotElementRef.value, [
-      CsMenuButton,
-      CsMenuLink,
-      HTMLSlotElement,
-    ]);
-
+    owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
     owSlot(this.#targetSlotElementRef.value);
 
-    this.#setUpFloatingUi(); // For when Menu is open initially via the `open` attribute.
+    // For when Menu is open initially via the `open` attribute.
+    this.#setUpFloatingUi();
 
     const firstOption = this.#optionElements.at(0);
 
@@ -135,7 +130,11 @@ export default class CsMenu extends LitElement {
           @keydown=${this.#onTargetContainerKeydown}
           id="target-container"
         >
-          <slot name="target" ${ref(this.#targetSlotElementRef)}></slot>
+          <slot
+            name="target"
+            @slotchange=${this.#onTargetSlotChange}
+            ${ref(this.#targetSlotElementRef)}
+          ></slot>
         </div>
 
         <div
@@ -153,6 +152,7 @@ export default class CsMenu extends LitElement {
             @click=${this.#onOptionsClick}
             @keydown=${this.#onOptionsKeydown}
             @mouseover=${this.#onOptionsMouseover}
+            @slotchange=${this.#onDefaultSlotChange}
             ${ref(this.#defaultSlotElementRef)}
           ></slot>
         </div>
@@ -195,13 +195,9 @@ export default class CsMenu extends LitElement {
     }
   }
 
-  get #optionElements() {
-    return (
-      this.#defaultSlotElementRef.value?.assignedElements({ flatten: true }) ??
-      []
-    ).filter((element): element is CsMenuLink | CsMenuButton => {
-      return element instanceof CsMenuLink || element instanceof CsMenuButton;
-    });
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
   }
 
   #onOptionsClick() {
@@ -346,6 +342,19 @@ export default class CsMenu extends LitElement {
       this.open = true;
       this.#focusActiveOption();
     }
+  }
+
+  #onTargetSlotChange() {
+    owSlot(this.#targetSlotElementRef.value);
+  }
+
+  get #optionElements() {
+    return (
+      this.#defaultSlotElementRef.value?.assignedElements({ flatten: true }) ??
+      []
+    ).filter((element): element is CsMenuLink | CsMenuButton => {
+      return element instanceof CsMenuLink || element instanceof CsMenuButton;
+    });
   }
 
   #setUpFloatingUi() {

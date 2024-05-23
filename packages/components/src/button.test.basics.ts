@@ -1,6 +1,8 @@
 import './button.js';
+import { ArgumentError } from 'ow';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import CsButton from './button.js';
+import sinon from 'sinon';
 
 CsButton.shadowRootOptions.mode = 'open';
 
@@ -243,4 +245,18 @@ it('renders without prefix and suffix classes after both are removed', async () 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
   ]).to.deep.equal(['component', 'primary', 'large']);
+});
+
+it('throws if it does not have a default slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsButton>(html`<cs-button></cs-button>`);
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
 });
