@@ -1,12 +1,11 @@
 import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
-import { ArgumentError } from 'ow';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import TabGroup from './tab.group.js';
 import TabPanel from './tab.panel.js';
-import sinon from 'sinon';
+import expectArgumentError from './library/expect-argument-error.js';
 
 TabGroup.shadowRootOptions.mode = 'open';
 TabPanel.shadowRootOptions.mode = 'open';
@@ -252,69 +251,25 @@ it('can use up/down keys to focus on vertical tabs', async () => {
 });
 
 it('throws an error when an element other than `cs-tab` is a child of the `nav` slot', async () => {
-  const onerror = window.onerror;
-
-  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
-  // which is expected. We'd catch the error below. But it happens in an event handler
-  // and so propagates to the window.
-  //
-  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
-  //
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = null;
-
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`
+  await expectArgumentError(() => {
+    return fixture(html`
       <cs-tab-group variant="vertical">
         <div slot="nav">Tab 1</div>
         <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
       </cs-tab-group>
     `);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
-
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = onerror;
+  });
 });
 
 it('throws an error when an element other than `cs-tab-panel` is a child of the default slot', async () => {
-  const onerror = window.onerror;
-
-  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
-  // which is expected. We'd catch the error below. But it happens in an event handler
-  // and so propagates to the window.
-  //
-  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
-  //
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = null;
-
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`
+  await expectArgumentError(() => {
+    return fixture(html`
       <cs-tab-group variant="vertical">
         <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
         <div>Default Content</div>
       </cs-tab-group>
     `);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
-
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = onerror;
+  });
 });
 
 function isPanelHidden(panel: TabPanel) {

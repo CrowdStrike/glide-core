@@ -5,6 +5,7 @@ import { ArgumentError } from 'ow';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import CsMenu from './menu.js';
 import Tree from './tree.js';
+import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
 Tree.shadowRootOptions.mode = 'open';
@@ -114,33 +115,11 @@ it('throws if it does not have a default slot', async () => {
 });
 
 it('throws if the default slot is the incorrect type', async () => {
-  const onerror = window.onerror;
-
-  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
-  // which is expected. We'd catch the error below. But it happens in an event handler
-  // and so propagates to the window.
-  //
-  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
-  //
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = null;
-
-  const spy = sinon.spy();
-
-  try {
-    await fixture<Tree>(html`
+  await expectArgumentError(() => {
+    return fixture<Tree>(html`
       <cs-tree>
         <button>Button</button>
       </cs-tree>
     `);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
-
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = onerror;
+  });
 });

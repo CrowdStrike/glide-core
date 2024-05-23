@@ -4,6 +4,7 @@ import './modal.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import Modal from './modal.js';
+import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
 Modal.shadowRootOptions.mode = 'open';
@@ -251,133 +252,45 @@ it('throws if it does not have a default slot', async () => {
 });
 
 it('throws an error when the "primary" footer slot has the incorrect type', async () => {
-  const onerror = window.onerror;
-
-  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
-  // which is expected. We'd catch the error below. But it happens in an event handler
-  // and so propagates to the window.
-  //
-  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
-  //
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = null;
-
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
+  await expectArgumentError(() => {
+    return fixture(
       html`<cs-modal label="Modal title">
         Modal Content
         <span slot="primary">Primary</span>
       </cs-modal>`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
-
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = onerror;
+  });
 });
 
 it('throws an error when the "secondary" footer slot has the incorrect type', async () => {
-  const onerror = window.onerror;
-
-  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
-  // which is expected. We'd catch the error below. But it happens in an event handler
-  // and so propagates to the window.
-  //
-  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
-  //
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = null;
-
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
+  await expectArgumentError(() => {
+    return fixture(
       html`<cs-modal label="Modal title">
         Modal Content
         <span slot="secondary">Secondary</span>
       </cs-modal>`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
-
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = onerror;
+  });
 });
 
 it('throws an error when the "header actions" slot has the incorrect type', async () => {
-  const onerror = window.onerror;
-
-  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
-  // which is expected. We'd catch the error below. But it happens in an event handler
-  // and so propagates to the window.
-  //
-  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
-  //
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = null;
-
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
+  await expectArgumentError(() => {
+    return fixture(
       html`<cs-modal label="Modal title">
         Modal Content
         <span slot="header-actions">Header Action</span>
       </cs-modal>`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
-
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = onerror;
+  });
 });
 
 it('throws an error when the "tertiary" footer slot has the incorrect type', async () => {
-  const onerror = window.onerror;
-
-  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
-  // which is expected. We'd catch the error below. But it happens in an event handler
-  // and so propagates to the window.
-  //
-  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
-  //
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = null;
-
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
+  await expectArgumentError(() => {
+    return fixture(
       html`<cs-modal label="Modal title">
         Modal Content
         <span slot="tertiary">Tertiary</span>
       </cs-modal>`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
-
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = onerror;
+  });
 });
