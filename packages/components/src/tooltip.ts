@@ -70,7 +70,7 @@ export default class CsTooltip extends LitElement {
     return html`
       <div class="component">
         <div
-          aria-describedby="tooltip"
+          aria-labelledby="tooltip"
           class="target"
           slot="target"
           @focusin=${this.#onFocusin}
