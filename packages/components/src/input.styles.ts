@@ -6,11 +6,10 @@ export default css`
 
     &.error {
       .input-box {
-        border: 1px solid var(--cs-status-error);
+        border-color: inherit;
       }
 
       .character-count {
-        color: var(--cs-status-error);
         font-weight: var(--cs-font-weight-bold);
       }
     }
@@ -22,15 +21,10 @@ export default css`
     font-size: 0.75rem;
     grid-column: 2;
     justify-content: space-between;
-    margin-block-start: var(--cs-spacing-xxxs);
   }
 
   .description {
     display: block;
-  }
-
-  .character-count {
-    justify-self: flex-end;
   }
 
   .search-icon {
@@ -41,14 +35,12 @@ export default css`
   .input-box {
     align-items: center;
     background-color: var(--cs-surface-base-lighter);
-    block-size: 34px;
+    block-size: 2.125rem;
     border: 1px solid var(--cs-border-base-light);
     border-radius: var(--cs-spacing-xs);
     box-sizing: border-box;
     display: flex;
-    flex-grow: 1;
     gap: var(--cs-spacing-xxs);
-    grid-column: 2;
     line-height: var(--cs-body-xs-line-height);
     overflow: hidden;
     padding-inline: var(--cs-spacing-sm);
@@ -60,7 +52,6 @@ export default css`
     input {
       border: none;
       color: var(--cs-text-body-1);
-      flex: 1 1 auto;
       font-family: var(--cs-font-sans);
       font-size: var(--cs-body-sm-font-size);
       font-weight: var(--cs-body-xs-font-weight);

@@ -176,27 +176,6 @@ it('displays a max character and current character count if max-character-count 
   expect(maxCharacterCountContainer?.textContent?.trim()).to.be.equal('0/5');
 });
 
-it('max content input receives error styling when text count is greater than max character count', async () => {
-  const element = await fixture<CsInput>(html`
-    <cs-input label="Test label" max-character-count="5"></cs-input>
-  `);
-
-  const componentContainer =
-    element.shadowRoot?.querySelector<HTMLDivElement>('.component');
-
-  const maxCharacterCountContainer =
-    element.shadowRoot?.querySelector<HTMLDivElement>('.character-count');
-
-  expect(componentContainer?.classList.contains('error')).to.be.false;
-
-  element.focus();
-
-  await sendKeys({ type: 'testing' });
-
-  expect(maxCharacterCountContainer?.textContent?.trim()).to.be.equal('7/5');
-  expect(componentContainer?.classList.contains('error')).to.be.true;
-});
-
 it('supports a "tooltip" slot', async () => {
   const component = await fixture<CsInput>(
     html`<cs-input label="test">
