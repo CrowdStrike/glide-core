@@ -1,4 +1,5 @@
 import './menu.button.js';
+import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import CsMenu from './menu.js';
 import CsMenuLink from './menu.link.js';
@@ -71,15 +72,48 @@ it('throws if it does not have a default slot', async () => {
 
   try {
     await fixture<CsMenu>(
-      html`<cs-menu>
-        <button slot="target">Target</button>
-      </cs-menu>`,
+      html`<cs-menu><button slot="target">Target</button></cs-menu>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
+});
+
+it('throws if the default slot is the incorrect type', async () => {
+  const onerror = window.onerror;
+
+  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
+  // which is expected. We'd catch the error below. But it happens in an event handler
+  // and so propagates to the window.
+  //
+  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
+  //
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = null;
+
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsMenu>(
+      html`<cs-menu>
+        <option>Option</option>
+        <button slot="target">Target</button>
+      </cs-menu>`,
+    );
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
+
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = onerror;
 });
 
 it('throws if it does not have a "target" slot', async () => {
@@ -91,8 +125,10 @@ it('throws if it does not have a "target" slot', async () => {
         <cs-menu-link label="Link"></cs-menu-link>
       </cs-menu>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;

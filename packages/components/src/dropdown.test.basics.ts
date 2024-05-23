@@ -1,4 +1,5 @@
 import './dropdown.option.js';
+import { ArgumentError } from 'ow';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import CsDropdown from './dropdown.js';
 import sinon from 'sinon';
@@ -155,15 +156,45 @@ it('throws if it does not have a default slot', async () => {
 
   try {
     await fixture<CsDropdown>(
-      html`<cs-dropdown
-        label="Label"
-        placeholder="Placeholder"
-        name="name"
-      ></cs-dropdown>`,
+      html`<cs-dropdown label="Label" placeholder="Placeholder"></cs-dropdown>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
+});
+
+it('throws if the default slot is the incorrect type', async () => {
+  const onerror = window.onerror;
+
+  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
+  // which is expected. We'd catch the error below. But it happens in an event handler
+  // and so propagates to the window.
+  //
+  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
+  //
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = null;
+
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsDropdown>(
+      html`<cs-dropdown label="Label" placeholder="Placeholder">
+        <button>Button</button>
+      </cs-dropdown>`,
+    );
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
+
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = onerror;
 });

@@ -10,6 +10,7 @@ import {
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { owSlot } from './library/ow.js';
 import styles from './tooltip.styles.js';
 
 declare global {
@@ -37,6 +38,8 @@ export default class CsTooltip extends LitElement {
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
   override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlot(this.#targetSlotElementRef.value);
     this.#setUpFloatingUi();
   }
 
@@ -80,7 +83,11 @@ export default class CsTooltip extends LitElement {
           @mouseout=${this.#onMouseout}
           ${ref(this.#targetElementRef)}
         >
-          <slot name="target"></slot>
+          <slot
+            @slotchange=${this.#onTargetSlotChange}
+            ${ref(this.#targetSlotElementRef)}
+            name="target"
+          ></slot>
         </div>
 
         <div
@@ -93,7 +100,12 @@ export default class CsTooltip extends LitElement {
           ${ref(this.#tooltipElementRef)}
         >
           <span aria-label="Tooltip: "></span>
-          <slot></slot>
+
+          <slot
+            @slotchange=${this.#onDefaultSlotChange}
+            ${ref(this.#defaultSlotElementRef)}
+          ></slot>
+
           <div class="arrow" ${ref(this.#arrowElementRef)}></div>
         </div>
       </div>
@@ -107,11 +119,19 @@ export default class CsTooltip extends LitElement {
 
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
   #isVisible = false;
 
   #targetElementRef = createRef<HTMLSpanElement>();
 
+  #targetSlotElementRef = createRef<HTMLSlotElement>();
+
   #tooltipElementRef = createRef<HTMLSpanElement>();
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
 
   #onFocusin() {
     this.isVisible = true;
@@ -133,6 +153,10 @@ export default class CsTooltip extends LitElement {
 
   #onMouseover() {
     this.isVisible = true;
+  }
+
+  #onTargetSlotChange() {
+    owSlot(this.#targetSlotElementRef.value);
   }
 
   #setUpFloatingUi() {

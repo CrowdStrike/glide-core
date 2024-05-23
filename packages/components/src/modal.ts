@@ -3,7 +3,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { owSlotType } from './library/ow.js';
+import { owSlot, owSlotType } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
 import CsButton from './button.js';
 import CsModalIconButton from './modal.icon-button.js';
@@ -71,12 +71,13 @@ export default class CsModal extends LitElement {
     this.#componentElementRef.value?.close();
   }
 
-  override disconnectedCallback(): void {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     document.documentElement.classList.remove('glide-lock-scroll');
   }
 
-  override firstUpdated(): void {
+  override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
     owSlotType(this.#headerActionsSlotElementRef.value, [CsModalIconButton]);
     owSlotType(this.#footerMenuPrimarySlotElementRef.value, [CsButton]);
     owSlotType(this.#footerMenuSecondarySlotElementRef.value, [CsButton]);
@@ -132,6 +133,7 @@ export default class CsModal extends LitElement {
         <div class="header-actions" role="toolbar">
           <slot
             name="header-actions"
+            @slotchange=${this.#onHeaderActionsSlotChange}
             ${ref(this.#headerActionsSlotElementRef)}
           ></slot>
 
@@ -166,7 +168,10 @@ export default class CsModal extends LitElement {
         role="region"
         tabindex="0"
       >
-        <slot></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </article>
 
       <footer class="footer">
@@ -174,6 +179,7 @@ export default class CsModal extends LitElement {
           <li class="flex align-center">
             <slot
               name="tertiary"
+              @slotchange=${this.#onFooterMenuTertiarySlotChange}
               ${ref(this.#footerMenuTertiarySlotElementRef)}
             ></slot>
           </li>
@@ -182,12 +188,14 @@ export default class CsModal extends LitElement {
               <li>
                 <slot
                   name="secondary"
+                  @slotchange=${this.#onFooterMenuSecondarySlotChange}
                   ${ref(this.#footerMenuSecondarySlotElementRef)}
                 ></slot>
               </li>
               <li>
                 <slot
                   name="primary"
+                  @slotchange=${this.#onFooterMenuPrimarySlotChange}
                   ${ref(this.#footerMenuPrimarySlotElementRef)}
                 ></slot>
               </li>
@@ -243,6 +251,8 @@ export default class CsModal extends LitElement {
 
   #componentElementRef = createRef<HTMLDialogElement>();
 
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
   #footerMenuPrimarySlotElementRef = createRef<HTMLSlotElement>();
 
   #footerMenuSecondarySlotElementRef = createRef<HTMLSlotElement>();
@@ -283,6 +293,29 @@ export default class CsModal extends LitElement {
     document.documentElement.classList.remove('glide-lock-scroll');
     this.dispatchEvent(new Event('close'));
     this.#componentElementRef.value?.close();
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
+
+  #onFooterMenuPrimarySlotChange() {
+    owSlotType(this.#footerMenuPrimarySlotElementRef.value, [CsButton]);
+  }
+
+  #onFooterMenuSecondarySlotChange() {
+    owSlotType(this.#footerMenuSecondarySlotElementRef.value, [CsButton]);
+  }
+
+  #onFooterMenuTertiarySlotChange() {
+    owSlotType(this.#footerMenuTertiarySlotElementRef.value, [
+      CsModalTertiaryIcon,
+      CsButton,
+    ]);
+  }
+
+  #onHeaderActionsSlotChange() {
+    owSlotType(this.#headerActionsSlotElementRef.value, [CsModalIconButton]);
   }
 
   #onKeyDown(event: KeyboardEvent) {

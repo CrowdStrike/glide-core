@@ -1,6 +1,8 @@
 import './drawer.js';
+import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import Drawer from './drawer.js';
+import sinon from 'sinon';
 
 Drawer.shadowRootOptions.mode = 'open';
 
@@ -38,4 +40,18 @@ it('sets the width of the element based on the "--width" CSS variable', async ()
   drawer.open();
 
   expect(drawer.shadowRoot?.querySelector('dialog')?.clientWidth).to.equal(750);
+});
+
+it('throws if it does not have a default slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<Drawer>(html`<cs-drawer></cs-drawer>`);
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
 });

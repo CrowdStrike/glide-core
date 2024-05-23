@@ -1,8 +1,11 @@
 import './tree.item.js';
+import './tree.item.menu.js';
 import './tree.js';
+import { ArgumentError } from 'ow';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import CsMenu from './menu.js';
 import Tree from './tree.js';
+import sinon from 'sinon';
 
 Tree.shadowRootOptions.mode = 'open';
 
@@ -11,7 +14,11 @@ it('registers', async () => {
 });
 
 it('renders and sets default attributes', async () => {
-  const tree = await fixture<Tree>(html` <cs-tree></cs-tree> `);
+  const tree = await fixture<Tree>(html`
+    <cs-tree>
+      <cs-tree-item label="Child Item"></cs-tree-item>
+    </cs-tree>
+  `);
 
   expect(tree.selectedItem).to.equal(undefined);
 });
@@ -90,4 +97,50 @@ it('does not select an item if its menu slot is clicked', async () => {
   await menu.updateComplete;
 
   expect(childItems[0].selected).to.equal(false);
+});
+
+it('throws if it does not have a default slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<Tree>(html`<cs-tree></cs-tree>`);
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
+});
+
+it('throws if the default slot is the incorrect type', async () => {
+  const onerror = window.onerror;
+
+  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
+  // which is expected. We'd catch the error below. But it happens in an event handler
+  // and so propagates to the window.
+  //
+  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
+  //
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = null;
+
+  const spy = sinon.spy();
+
+  try {
+    await fixture<Tree>(html`
+      <cs-tree>
+        <button>Button</button>
+      </cs-tree>
+    `);
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
+
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = onerror;
 });

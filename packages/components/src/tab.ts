@@ -42,8 +42,7 @@ export default class CsTab extends LitElement {
   /** Disables the tab. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  protected override firstUpdated(changes: PropertyValues): void {
-    super.firstUpdated(changes);
+  protected override firstUpdated() {
     this.setAttribute('role', 'tab');
 
     if (!this.hasAttribute('id')) {
@@ -69,9 +68,7 @@ export default class CsTab extends LitElement {
     </div> `;
   }
 
-  protected override updated(changes: PropertyValues): void {
-    super.updated(changes);
-
+  protected override updated(changes: PropertyValues) {
     if (changes.has('active')) {
       this.setAttribute('aria-selected', this.active ? 'true' : 'false');
     }

@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, state } from 'lit/decorators.js';
+import { owSlot } from './library/ow.js';
 import styles from './drawer.styles.js';
 
 declare global {
@@ -65,6 +66,10 @@ export default class CsDrawer extends LitElement {
     }
   }
 
+  override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
+
   open() {
     if (this.currentState !== 'closed') {
       return;
@@ -104,7 +109,10 @@ export default class CsDrawer extends LitElement {
         @keydown=${this.#handleKeyDown}
         ${ref(this.#dialogElementRef)}
       >
-        <slot></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </dialog>
     `;
   }
@@ -115,6 +123,8 @@ export default class CsDrawer extends LitElement {
   @state()
   private isOpen = false;
 
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
   #dialogElementRef = createRef<HTMLDialogElement>();
 
   #handleKeyDown(event: KeyboardEvent) {
@@ -123,5 +133,9 @@ export default class CsDrawer extends LitElement {
     }
 
     this.close();
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
   }
 }

@@ -1,4 +1,5 @@
 import './button-group.js';
+import { ArgumentError } from 'ow';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import CsButtonGroup from './button-group.js';
 import CsButtonGroupButton from './button-group.button.js';
@@ -228,6 +229,17 @@ it('reacts to variant "icon-only" attribute when added and removed', async () =>
 });
 
 it('throws an error when an element other than `cs-button-group-button` is a child of the default slot', async () => {
+  const onerror = window.onerror;
+
+  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
+  // which is expected. We'd catch the error below. But it happens in an event handler
+  // and so propagates to the window.
+  //
+  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
+  //
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = null;
+
   const spy = sinon.spy();
 
   try {
@@ -236,24 +248,45 @@ it('throws an error when an element other than `cs-button-group-button` is a chi
         <div>Content</div>
       </cs-button-group>
     `);
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
+
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = onerror;
 });
 
 it('throws an error when the group has no children', async () => {
+  const onerror = window.onerror;
+
+  // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
+  // which is expected. We'd catch the error below. But it happens in an event handler
+  // and so propagates to the window.
+  //
+  // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
+  //
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = null;
+
   const spy = sinon.spy();
   await fixture(html`<cs-button-group></cs-button-group>`);
 
   try {
     await fixture(html` <cs-button-group label="label"> </cs-button-group> `);
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
+
+  // eslint-disable-next-line unicorn/prefer-add-event-listener
+  window.onerror = onerror;
 });
 
 it("has a tabble button if it's the first element in a button group", async () => {
