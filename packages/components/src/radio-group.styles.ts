@@ -21,7 +21,7 @@ export default [
         padding: 0;
       }
 
-      .label-container {
+      & .label-container {
         display: inline-block;
         margin-inline-end: var(--cs-spacing-sm, 0.75rem);
       }
@@ -30,7 +30,7 @@ export default [
         ${visuallyHidden};
       }
 
-      .radio-container {
+      & .radio-container {
         border: 1px solid transparent;
         border-radius: 8px;
         display: flex;
@@ -42,9 +42,18 @@ export default [
           border: 1px solid var(--cs-status-error);
         }
       }
+
+      /*
+      & ::slotted(:not([slot='description'])) {
+        line-height: 1;
+        block-size: 14px;
+      }
+      */
+
+      & ::slotted([slot='description']) {
+        line-height: 1;
+        padding-inline-start: 0.375rem;
+      }
     }
   `,
 ];
-
-// align-self: stretch;
-//         flex-wrap: wrap;

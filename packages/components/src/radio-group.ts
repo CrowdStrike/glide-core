@@ -43,6 +43,7 @@ export default class CsRadioGroup extends LitElement {
   radioItems!: CsRadio[];
 
   override firstUpdated() {
+    this.role = 'radiogroup';
     this.#setFirstTabbableRadio();
     this.#setRequiredRadios();
   }
@@ -77,6 +78,7 @@ export default class CsRadioGroup extends LitElement {
                 'radio-container': true,
                 [this.orientation]: true,
               })}
+              role="radiogroup"
             >
               <slot></slot>
             </div>
@@ -111,16 +113,25 @@ export default class CsRadioGroup extends LitElement {
 
   #onClick(event: MouseEvent) {
     const radioTarget = event.target;
+    // console.log('radioTarget ', radioTarget);
 
     if (radioTarget instanceof CsRadio) {
       if (radioTarget?.disabled) return;
 
       radioTarget.checked = true;
+      radioTarget.tabIndex = 0;
+      radioTarget.focus();
+
       this.#dispatchEvents(radioTarget);
 
       for (const radioItem of this.radioItems) {
+        // console.log('radioItem ', radioItem);
+        // console.log('radioItem === radioTarget ', radioItem === radioTarget);
+
         if (radioItem !== radioTarget) {
           radioItem.checked = false;
+          radioItem.tabIndex = -1;
+          // radioItem.requestUpdate();
         }
       }
     }
@@ -192,9 +203,10 @@ export default class CsRadioGroup extends LitElement {
             sibling !== radioTarget
           ) {
             radioTarget.checked = false;
-            // radioTarget.tabIndex = -1;
+            radioTarget.tabIndex = -1;
             sibling.checked = true;
-            // sibling.tabIndex = 0;
+            sibling.tabIndex = 0;
+            sibling.focus();
             this.#dispatchEvents(sibling);
           }
 
@@ -230,7 +242,10 @@ export default class CsRadioGroup extends LitElement {
             sibling !== radioTarget
           ) {
             radioTarget.checked = false;
+            radioTarget.tabIndex = -1;
             sibling.checked = true;
+            sibling.tabIndex = 0;
+            sibling.focus();
             this.#dispatchEvents(sibling);
           }
 
@@ -241,11 +256,14 @@ export default class CsRadioGroup extends LitElement {
 
           if (!radioTarget.disabled && !radioTarget.checked) {
             radioTarget.checked = true;
+            radioTarget.tabIndex = 0;
+            radioTarget.focus();
             this.#dispatchEvents(radioTarget);
 
             for (const radioItem of this.radioItems) {
               if (radioItem !== radioTarget) {
                 radioItem.checked = false;
+                radioItem.tabIndex = -1;
               }
             }
           }
