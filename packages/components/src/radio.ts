@@ -76,7 +76,11 @@ export default class CsRadio extends LitElement {
           id="radio"
           type="radio"
           tabindex="-1"
-          class=${classMap({ checked: this.checked })}
+          class=${classMap({
+            checked: this.checked,
+            error: false,
+            disabled: this.disabled,
+          })}
           ?checked=${this.checked}
           ?disabled=${this.disabled}
           ?required=${this.required}

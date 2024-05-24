@@ -19,13 +19,10 @@ export default [
     .component {
       align-items: center;
       display: inline-flex;
-
-      & :hover {
-        border-color: var(--cs-border-focus, #0073e6);
-        box-shadow: var(--cs-glow-sm);
-      }
+      font-weight: var(--cs-body-md-font-weight);
 
       & ::slotted(*) {
+        color: inherit;
         line-height: 1;
       }
 
@@ -73,6 +70,24 @@ export default [
             inset-block-start: calc(50% - 0.2188rem);
             inset-inline-start: calc(50% - 0.2188rem);
             position: absolute;
+          }
+        }
+
+        &:hover {
+          border-color: var(--cs-border-focus, #0073e6);
+          box-shadow: var(--cs-glow-sm);
+        }
+
+        &.error {
+          border-color: var(--cs-status-error);
+        }
+
+        &.disabled {
+          border-color: var(--cs-surface-primary-disabled);
+          box-shadow: none;
+
+          &::after {
+            background-color: var(--cs-surface-primary-disabled);
           }
         }
       }
