@@ -25,6 +25,8 @@ declare global {
  */
 @customElement('cs-radio-group')
 export default class CsRadioGroup extends LitElement {
+  static formAssociated = true;
+
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -35,31 +37,72 @@ export default class CsRadioGroup extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
-  @property({ type: Boolean, reflect: true })
-  required = false;
-
   @property()
   label = '';
 
-  // not exposed until there is 'horizontal'
-  orientation = 'vertical';
+  @property()
+  name = '';
+
+  @property({ type: Boolean, reflect: true })
+  required = false;
+
+  @property({ reflect: true })
+  value = '';
 
   @queryAssignedElements({ selector: 'cs-radio' })
   radioItems!: CsRadio[];
 
+  checkValidity() {
+    this.isCheckingValidity = true;
+    return this.#internals.checkValidity();
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.form?.removeEventListener('formdata', this.#onFormdata);
+  }
+
   override firstUpdated() {
+    this.value = this.radioItems.find((radio) => radio.checked)?.value ?? '';
+    this.#setRadioGroupName();
+    this.required && this.#setRequiredRadios();
+
     if (this.disabled) {
-      this.#disableRadios();
+      this.#setDisabledRadios();
     } else {
-      this.#setFirstTabbableRadio();
-      this.required && this.#setRequiredRadios();
-      this.#onTooltipSlotChange();
+      this.#setTabbableRadio();
     }
+  }
+
+  get form() {
+    return this.#internals.form;
+  }
+
+  get validity() {
+    return this.#internals.validity;
+  }
+
+  get willValidate() {
+    return this.#internals.willValidate;
+  }
+
+  formAssociatedCallback() {
+    this.form?.addEventListener('formdata', this.#onFormdata);
+  }
+
+  formResetCallback() {
+    this.value = this.getAttribute('value') ?? '';
   }
 
   override render() {
     return html`
-      <div class=${classMap({ component: true, error: false })}>
+      <div
+        class=${classMap({
+          component: true,
+          error: this.#isShowValidationFeedback,
+        })}
+        ${ref(this.#componentElementRef)}
+      >
         <!-- label -->
         <span class=${classMap({ 'label-container': true })}>
           <cs-tooltip
@@ -84,14 +127,15 @@ export default class CsRadioGroup extends LitElement {
               label: true,
               'tooltip-spacing': this.hasTooltipSlot,
             })}
+            aria-hidden="true"
           >
             ${this.label}
-            ${when(
-              this.required,
-              () =>
-                html`<span aria-hidden="true" class="required-symbol">*</span>`,
-            )}
           </div>
+          ${when(
+            this.required,
+            () =>
+              html`<span aria-hidden="true" class="required-symbol">*</span>`,
+          )}
         </span>
 
         <!-- fieldset -->
@@ -107,7 +151,7 @@ export default class CsRadioGroup extends LitElement {
             <div
               class=${classMap({
                 'radio-container': true,
-                [this.orientation]: true,
+                vertical: true,
               })}
               role="radiogroup"
             >
@@ -128,56 +172,114 @@ export default class CsRadioGroup extends LitElement {
     `;
   }
 
+  reportValidity() {
+    return this.#internals.reportValidity();
+  }
+
+  override updated(changedProperties: PropertyValueMap<CsRadioGroup>): void {
+    if (
+      this.hasUpdated &&
+      (changedProperties.has('value') || changedProperties.has('required'))
+    ) {
+      this.#onUpdateValidityState();
+    }
+  }
+
   override willUpdate(changedProperties: PropertyValueMap<CsRadioGroup>): void {
     if (this.hasUpdated) {
-      if (changedProperties.has('required')) {
+      if (this.required && changedProperties.has('required')) {
         this.#setRequiredRadios();
       }
 
       if (changedProperties.has('disabled')) {
         if (this.disabled) {
-          for (const radioItem of this.radioItems) {
-            radioItem.tabIndex = -1;
-            radioItem.disabled = true;
-          }
+          this.#setDisabledRadios();
         } else {
           for (const radioItem of this.radioItems) {
             radioItem.disabled = false;
           }
 
-          this.#setFirstTabbableRadio();
+          this.#setTabbableRadio();
         }
       }
+
+      // Validity is updated at the end of the render cycle.
+      // To prevent a re-render and correctly remove an error presentation,
+      // batch with other updates when the state is valid.
+      if (
+        (changedProperties.has('value') &&
+          this.value.length > 0 &&
+          this.isReportValidityOrSubmit) ||
+        !this.required
+      ) {
+        this.isReportValidityOrSubmit = false;
+      }
     }
+  }
+
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
+
+    this.addEventListener('invalid', this.#onInvalid);
   }
 
   @state()
   private hasTooltipSlot = false;
 
+  @state()
+  private isCheckingValidity = false;
+
+  @state()
+  private isReportValidityOrSubmit = false;
+
+  #componentElementRef = createRef<HTMLDivElement>();
+
+  #internals: ElementInternals;
+
   #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of the form.
+  #onFormdata = ({ formData }: FormDataEvent) => {
+    if (this.name && this.value.length > 0 && !this.disabled) {
+      formData.append(this.name, this.value);
+    }
+  };
+
   #checkRadio(radio: CsRadio) {
+    this.value = radio.value;
     radio.checked = true;
     radio.tabIndex = 0;
     radio.focus();
     this.#dispatchEvents(radio);
   }
 
-  #disableRadios() {
-    for (const radioItem of this.radioItems) {
-      radioItem.tabIndex = -1;
-      radioItem.disabled = true;
-    }
-  }
-
   #dispatchEvents(radio: CsRadio) {
-    this.dispatchEvent(
+    radio.dispatchEvent(
       new CustomEvent('change', { bubbles: true, detail: radio.value }),
     );
 
-    this.dispatchEvent(
+    radio.dispatchEvent(
       new CustomEvent('input', { bubbles: true, detail: radio.value }),
     );
+  }
+
+  get #isShowValidationFeedback() {
+    const shouldShow =
+      !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit;
+
+    if (shouldShow) {
+      for (const radioItem of this.radioItems) {
+        radioItem.error = true;
+      }
+    } else {
+      for (const radioItem of this.radioItems) {
+        radioItem.error = false;
+      }
+    }
+
+    return shouldShow;
   }
 
   #onClick(event: MouseEvent) {
@@ -195,6 +297,14 @@ export default class CsRadioGroup extends LitElement {
           this.#uncheckRadio(radioItem);
         }
       }
+    }
+  }
+
+  #onInvalid(event: Event) {
+    event.preventDefault();
+
+    if (!this.isCheckingValidity) {
+      this.isReportValidityOrSubmit = true;
     }
   }
 
@@ -305,34 +415,73 @@ export default class CsRadioGroup extends LitElement {
     this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
-  #setFirstTabbableRadio() {
-    // do not set any button as tabbable if all are disabled
-    if (this.disabled || this.radioItems.every((button) => button.disabled)) {
-      return;
-    }
-
-    // set tabbable if this is the first selected enabled element or the
-    // first enabled element
-    const firstEnabledCheckedRadio = this.radioItems.find(
-      (radio) => !radio.disabled && radio.checked,
-    );
-
-    if (firstEnabledCheckedRadio) {
-      firstEnabledCheckedRadio.tabIndex = 0;
-    } else if (!firstEnabledCheckedRadio) {
-      const firstEnabledRadio = this.radioItems.find(
-        (radio) => !radio.disabled,
+  #onUpdateValidityState() {
+    if (this.required && this.value.length === 0) {
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
+      this.#internals.setValidity(
+        { valueMissing: true },
+        ' ',
+        this.#componentElementRef.value,
       );
+    } else {
+      this.#internals.setValidity({});
+    }
+  }
 
-      if (firstEnabledRadio) {
-        firstEnabledRadio.tabIndex = 0;
-      }
+  #setDisabledRadios() {
+    for (const radioItem of this.radioItems) {
+      radioItem.tabIndex = -1;
+      radioItem.disabled = true;
+    }
+  }
+
+  #setRadioGroupName() {
+    for (const radioItem of this.radioItems) {
+      radioItem.name = this.name;
     }
   }
 
   #setRequiredRadios() {
     for (const radioItem of this.radioItems) {
       radioItem.required = this.required;
+    }
+  }
+
+  #setTabbableRadio() {
+    // Do not set any button as tabbable if all are disabled
+    if (this.disabled || this.radioItems.every((button) => button.disabled)) {
+      for (const radioItem of this.radioItems) {
+        radioItem.tabIndex = -1;
+      }
+
+      return;
+    }
+
+    // Set tabbable if this is the first selected enabled element or the
+    // first enabled element; otherwise set the radio item as not tabbable
+    let firstTabbableRadio: CsRadio | null = null;
+
+    const firstEnabledCheckedRadio = this.radioItems.find(
+      (radio) => !radio.disabled && radio.checked,
+    );
+
+    if (firstEnabledCheckedRadio) {
+      firstTabbableRadio = firstEnabledCheckedRadio;
+    } else {
+      const firstEnabledRadio = this.radioItems.find(
+        (radio) => !radio.disabled,
+      );
+
+      if (firstEnabledRadio) {
+        firstTabbableRadio = firstEnabledRadio;
+      }
+    }
+
+    if (firstTabbableRadio) {
+      for (const radioItem of this.radioItems) {
+        radioItem.tabIndex = radioItem === firstTabbableRadio ? 0 : -1;
+      }
     }
   }
 

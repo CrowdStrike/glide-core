@@ -1,11 +1,8 @@
-import { LitElement, /*type PropertyValueMap,*/ html /*, nothing*/ } from 'lit';
+import { LitElement, type PropertyValueMap, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-// import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-// import { ifDefined } from 'lit-html/directives/if-defined.js';
 // import { owSlot, owSlotType } from './library/ow.js';
 import styles from './radio.styles.js';
-// import { createRef, ref } from 'lit-html/directives/ref.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -18,6 +15,8 @@ declare global {
  */
 @customElement('cs-radio')
 export default class CsRadio extends LitElement {
+  static formAssociated = true;
+
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -26,37 +25,19 @@ export default class CsRadio extends LitElement {
   static override styles = styles;
 
   @property({ type: Boolean, reflect: true })
-  get checked() {
-    return this.#checked;
-  }
-
-  set checked(value) {
-    this.#checked = value;
-    this.ariaChecked = value.toString();
-  }
+  checked = false;
 
   @property({ type: Boolean, reflect: true })
-  get disabled() {
-    return this.#disabled;
-  }
+  disabled = false;
 
-  set disabled(value) {
-    this.#disabled = value;
-    this.ariaDisabled = value.toString();
-  }
+  @property({ type: Boolean })
+  error = false;
 
   @property()
   name = '';
 
   @property({ type: Boolean, reflect: true })
-  get required() {
-    return this.#required;
-  }
-
-  set required(value) {
-    this.#required = value;
-    this.ariaRequired = value.toString();
-  }
+  required = false;
 
   @property()
   value = '';
@@ -67,6 +48,9 @@ export default class CsRadio extends LitElement {
   override firstUpdated() {
     // owSlot , text only
     this.role = 'radio';
+    this.ariaChecked = this.checked.toString();
+    this.ariaDisabled = this.disabled.toString();
+    this.ariaRequired = this.required.toString();
   }
 
   override render() {
@@ -78,7 +62,7 @@ export default class CsRadio extends LitElement {
           tabindex="-1"
           class=${classMap({
             checked: this.checked,
-            error: false,
+            error: this.error,
             disabled: this.disabled,
           })}
           ?checked=${this.checked}
@@ -91,9 +75,23 @@ export default class CsRadio extends LitElement {
     `;
   }
 
-  #checked = false;
+  override updated(): void {
+    this.ariaInvalid = this.error.toString();
+  }
 
-  #disabled = false;
+  override willUpdate(changedProperties: PropertyValueMap<CsRadio>): void {
+    if (this.hasUpdated) {
+      if (changedProperties.has('checked')) {
+        this.ariaChecked = this.checked.toString();
+      }
 
-  #required = false;
+      if (changedProperties.has('disabled')) {
+        this.ariaDisabled = this.checked.toString();
+      }
+
+      if (changedProperties.has('required')) {
+        this.ariaRequired = this.required.toString();
+      }
+    }
+  }
 }
