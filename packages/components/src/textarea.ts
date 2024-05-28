@@ -1,15 +1,14 @@
-import './tooltip.js';
-import { LitElement, html, nothing } from 'lit';
+import './label.js';
+import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
-import infoCircleIcon from './icons/info-circle.js';
 import styles from './textarea.styles.js';
 
 /**
- * @description A textarea with a label and optional description. Participates in forms and validation via `FormData` and various methods.
+ * @description A textarea with a label and optional description and toolip. Participates in forms and validation via `FormData` and various methods.
  *
  * @event change - (same as native textarea's `change` event)
  * @event input - (same as native textarea's `input` event)
@@ -38,8 +37,8 @@ export default class CsTextarea extends LitElement {
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel? = false;
 
-  @property({ attribute: 'label-position' })
-  labelPosition?: 'left' | 'top' = 'left';
+  @property({ reflect: true })
+  orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property()
   placeholder?: string = '';
@@ -68,6 +67,19 @@ export default class CsTextarea extends LitElement {
   @property({ reflect: true })
   name?: string;
 
+  // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
+  @property({ type: Boolean })
+  override spellcheck = false;
+
+  @property()
+  override autocapitalize:
+    | 'on'
+    | 'off'
+    | 'none'
+    | 'sentences'
+    | 'words'
+    | 'characters' = 'on';
+
   override blur() {
     this.#textareaElementRef.value?.blur();
   }
@@ -84,7 +96,6 @@ export default class CsTextarea extends LitElement {
     this.removeEventListener('invalid', this.#onInvalid);
   }
 
-  // An arrow function field instead of a method so `this` is closed over and
   get form() {
     return this.#internals.form;
   }
@@ -106,109 +117,62 @@ export default class CsTextarea extends LitElement {
   }
 
   override render() {
-    return html`<div
-      class=${classMap({
-        component: true,
-        column: this.labelPosition === 'top',
-      })}
+    return html`<cs-label
+      orientation=${this.orientation}
+      ?error=${this.#isShowValidationFeedback || this.#isInvalidCharacterLength}
+      ?hide=${this.hideLabel}
+      ?required=${this.required}
     >
-      <div
-        class=${classMap({
-          'tooltip-and-label': true,
-          'visually-hidden': Boolean(this.hideLabel),
-          top: this.labelPosition === 'top',
-        })}
-        data-test-label-container
-        data-test-label-container--visually-hidden=${Boolean(this.hideLabel) ||
-        nothing}
-        data-test-label-container--top=${this.labelPosition === 'top' ||
-        nothing}
-      >
-        <cs-tooltip
-          class=${classMap({
-            visible: this.hasTooltipSlot,
-            left: this.labelPosition === 'top',
-          })}
-          placement=${this.labelPosition === 'top' ? 'left' : 'bottom'}
-        >
-          <span class="tooltip-target" slot="target" tabindex="0">
-            ${infoCircleIcon}
-          </span>
+      <slot name="tooltip" slot="tooltip"></slot>
 
-          <slot
-            name="tooltip"
-            @slotchange=${this.#onTooltipSlotChange}
-            ${ref(this.#tooltipSlotElementRef)}
-          ></slot>
-        </cs-tooltip>
+      <label class="label" for="textarea"> ${this.label} </label>
 
-        <label for="cs-textarea" class="label-font">
-          ${this.label}${when(
-            this.required,
-            () =>
-              html`<span class="required" data-test-label-required>*</span>`,
-          )}
-        </label>
-      </div>
-
-      <div
-        class=${classMap({
-          container: true,
-        })}
-      >
+      <div class="textarea-container" slot="control">
         <textarea
-          id="cs-textarea"
+          class=${classMap({
+            error:
+              this.#isShowValidationFeedback || this.#isInvalidCharacterLength,
+          })}
+          id="textarea"
           name=${ifDefined(this.name)}
           placeholder=${ifDefined(this.placeholder)}
           rows=${this.rows}
+          autocapitalize=${ifDefined(this.autocapitalize)}
+          spellcheck=${this.spellcheck}
           ?required=${this.required}
           ?readonly=${this.readonly}
-          class=${classMap({
-            font: true,
-            'read-only': this.readonly,
-            'invalid-color': this.#isShowValidationFeedback,
-            top: this.labelPosition === 'top',
-          })}
           ?disabled=${this.disabled}
-          aria-describedby="description"
+          aria-describedby="meta"
           ${ref(this.#textareaElementRef)}
           @input=${this.#onInput}
           @change=${this.#onChange}
-          data-test-textarea-invalid-color=${this.#isShowValidationFeedback ||
-          nothing}
         >
-${this.value}</textarea
-        >
-        <div
-          class=${classMap({
-            'description-container': true,
-            'invalid-color': this.#isShowValidationFeedback,
-          })}
-          data-test-description-container
-          data-test-description-container--invalid-color=${this
-            .#isShowValidationFeedback || nothing}
-        >
-          <div>
-            <slot id="description" name="description"></slot>
-          </div>
-          ${when(
-            this.maxCharacterCount,
-            () =>
-              html`<div
-                class=${classMap({
-                  'character-count-container': true,
-                  'invalid-color': this.#isInvalidCharacterLength,
-                })}
-                data-test-max-character-count
-                data-test-max-character-count--invalid-color=${this
-                  .#isInvalidCharacterLength || nothing}
-              >
-                ${this.value.length}/${this.maxCharacterCount}
-              </div>`,
-          )}
-        </div>
+        </textarea>
       </div>
-    </div>`;
+
+      <div
+        class="meta"
+        data-test-description-container
+        id="meta"
+        slot="description"
+      >
+        <slot name="description"></slot>
+
+        ${when(
+          this.maxCharacterCount,
+          () =>
+            html`<div
+              class=${classMap({
+                'character-count': true,
+                error: this.#isInvalidCharacterLength,
+              })}
+              data-test-max-character-count
+            >
+              ${this.value.length}/${this.maxCharacterCount}
+            </div>`,
+        )}
+      </div></cs-label
+    >`;
   }
 
   reportValidity() {
@@ -234,9 +198,6 @@ ${this.value}</textarea
   }
 
   @state()
-  private hasTooltipSlot = false;
-
-  @state()
   private isCheckingValidity = false;
 
   @state()
@@ -246,9 +207,8 @@ ${this.value}</textarea
 
   #textareaElementRef = createRef<HTMLTextAreaElement>();
 
-  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
-
-  // is set to the textarea instead of the form.
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
   #onFormdata = ({ formData }: FormDataEvent) => {
     if (this.value.length > 0 && this.name && this.value && !this.disabled) {
       formData.append(this.name, this.value);
@@ -297,11 +257,6 @@ ${this.value}</textarea
       this.isCheckingValidity = false;
       this.isReportValidityOrSubmit = true;
     }
-  }
-
-  #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
-    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
   async #onUpdateValidityState() {

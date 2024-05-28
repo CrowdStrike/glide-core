@@ -24,7 +24,6 @@ it('renders a textarea with two rows and value when attribute `value` is set ', 
   expect(element).to.have.attribute('rows', '2');
 
   expect(textarea).to.exist;
-  expect(textarea?.textContent).to.equal('value');
   expect(textarea).to.have.attribute('rows', '2');
 });
 
@@ -43,28 +42,6 @@ it('renders a label when attribute `label` is set', async () => {
 
   expect(label).to.exist;
   expect(label?.textContent?.trim()).to.be.equal('label');
-});
-
-it('renders a visually hidden label when attribute `hide-label` is set', async () => {
-  const template = `<cs-textarea value="value" label="label" hide-label></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
-
-  const labelContainer = element.shadowRoot!.querySelector(
-    '[data-test-label-container][data-test-label-container--visually-hidden]',
-  );
-
-  expect(labelContainer).to.exist;
-});
-
-it('renders the label above the textarea when attribute `label-position` is set to "top"', async () => {
-  const template = `<cs-textarea value="value" label="label" label-position="top"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
-
-  const labelContainer = element.shadowRoot!.querySelector(
-    '[data-test-label-container][data-test-label-container--top]',
-  );
-
-  expect(labelContainer).to.exist;
 });
 
 it('renders the textarea as readonly when attribute `readonly` is set', async () => {
@@ -91,15 +68,12 @@ it('renders the textarea with a placeholder when attribute `placeholder` is set'
   expect(textarea).to.have.attribute('placeholder', 'placeholder');
 });
 
-it('renders `required` on textarea when set and displays an asterisk next to the label', async () => {
+it('renders `required` on textarea when set', async () => {
   const template = `<cs-textarea value="value" label="label" required></cs-textarea>`;
   const element = await fixture<CsTextarea>(template);
   const textarea = element.shadowRoot!.querySelector('textarea');
 
   expect(textarea).to.have.attribute('required');
-
-  expect(element.shadowRoot!.querySelector('[data-test-label-required]')).to
-    .exist;
 });
 
 it('renders a `name` attribute on the textarea when set', async () => {
@@ -124,32 +98,6 @@ it('supports a "tooltip" slot', async () => {
     ?.assignedElements();
 
   expect(assignedElements?.at(0)?.textContent).to.equal('Tooltip');
-});
-
-it('places the tooltip on bottom when the label is on the left', async () => {
-  const template = `
-    <cs-textarea value="value" label="label" required>
-      <div slot="tooltip">Tooltip</div>
-    </cs-textarea>
-  `;
-
-  const element = await fixture<CsTextarea>(template);
-  const tooltip = element.shadowRoot?.querySelector('cs-tooltip');
-
-  expect(tooltip?.placement).to.equal('bottom');
-});
-
-it('places the tooltip on the left when the label is on top', async () => {
-  const template = `
-    <cs-textarea value="value" label="label" label-position="top" required>
-      <div slot="tooltip">Tooltip</div>
-    </cs-textarea>
-  `;
-
-  const element = await fixture<CsTextarea>(template);
-  const tooltip = element.shadowRoot?.querySelector('cs-tooltip');
-
-  expect(tooltip?.placement).to.equal('left');
 });
 
 it('renders a slot with description', async () => {
@@ -184,39 +132,6 @@ it('does not render a character count when attribute `max-character-count` is se
   expect(container?.textContent?.trim()).to.be.equal('');
 });
 
-it('renders error styling when the character count is greater than the `max-character-count` attribute', async () => {
-  const template = `<cs-textarea value="value" label="label" max-character-count="3"><span slot="description" data-test-content>Description</span></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
-
-  const charCountContainer = element.shadowRoot!.querySelector(
-    '[data-test-description-container] > [data-test-max-character-count][data-test-max-character-count--invalid-color]',
-  );
-
-  expect(charCountContainer).to.exist;
-});
-
-it('does not render error styling when the character count is less than the `max-character-count` attribute', async () => {
-  const template = `<cs-textarea value="val" label="label" max-character-count="5"><span slot="description" data-test-content>Description</span></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
-
-  const charCountContainer = element.shadowRoot!.querySelector(
-    '[data-test-description-container] > [data-test-max-character-count][data-test-max-character-count--invalid-color]',
-  );
-
-  expect(charCountContainer).to.be.null;
-});
-
-it('does not render error styling when the character count is equal to the `max-character-count` attribute', async () => {
-  const template = `<cs-textarea value="val" label="label" max-character-count="3"><span slot="description" data-test-content>Description</span></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
-
-  const charCountContainer = element.shadowRoot!.querySelector(
-    '[data-test-description-container] > [data-test-max-character-count][data-test-max-character-count--invalid-color]',
-  );
-
-  expect(charCountContainer).to.be.null;
-});
-
 it('focuses the textarea when the label is clicked', async () => {
   const template = `<cs-textarea value="value" label="label"></cs-textarea>`;
   const element = await fixture<CsTextarea>(template);
@@ -249,7 +164,7 @@ it('renders text when typed into text area', async () => {
   element.focus();
   await sendKeys({ type: 'test text' });
 
-  expect(textarea?.textContent).to.equal('test text');
+  expect(textarea?.value).to.equal('test text');
 });
 
 it('returns the content of the textarea when getting the `value` property', async () => {

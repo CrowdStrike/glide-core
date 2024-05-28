@@ -22,8 +22,7 @@ export default [
       }
 
       &.hidden-label {
-        align-items: flex-start;
-        display: inline-flex;
+        display: flex;
         flex-direction: column;
       }
     }
@@ -102,10 +101,6 @@ make it difficult to center vertically with the label.
 
     .control {
       display: block;
-
-      &.error {
-        color: var(--cs-status-error);
-      }
 
       &.vertical:not(.hidden-label) {
         margin-block-start: var(--cs-spacing-xxs);
