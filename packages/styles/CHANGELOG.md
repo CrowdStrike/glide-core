@@ -1,5 +1,15 @@
 # @crowdstrike/glide-core-styles
 
+## 0.3.0
+
+### Minor Changes
+
+- [#132](https://github.com/CrowdStrike/glide-core/pull/132) [`677f4ea`](https://github.com/CrowdStrike/glide-core/commit/677f4ea1444241961972ad2b23f8ab37f1f4c7a2) Thanks [@clintcs](https://github.com/clintcs)! - Switch font family from Nunito Sans to Nunito
+
+### Patch Changes
+
+- [#136](https://github.com/CrowdStrike/glide-core/pull/136) [`36f832f`](https://github.com/CrowdStrike/glide-core/commit/36f832f58b9ef04996a75bd966d9ef6780e83543) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Added the --cs-icon-hover variable
+
 ## 0.2.1
 
 ### Patch Changes
