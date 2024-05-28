@@ -174,176 +174,182 @@ export default class CsInput extends LitElement {
 
   override render() {
     return html`
-      <div class="component" data-test="component">
-        <cs-label
-          orientation=${this.orientation}
-          ?error=${this.#isShowValidationFeedback ||
-          this.#isMaxCharacterCountExceeded}
-          ?hide=${this.hideLabel}
-          ?required=${this.required}
+      <cs-label
+        orientation=${this.orientation}
+        ?error=${this.#isShowValidationFeedback ||
+        this.#isMaxCharacterCountExceeded}
+        ?hide=${this.hideLabel}
+        ?required=${this.required}
+      >
+        <slot name="tooltip" slot="tooltip"></slot>
+        <label for="input"> ${this.label} </label>
+
+        <div
+          class=${classMap({
+            'input-box': true,
+            focused: this.hasFocus,
+            empty: this.value === '',
+            disabled: this.disabled,
+            readonly: this.readonly && !this.disabled,
+            error:
+              this.#isShowValidationFeedback ||
+              this.#isMaxCharacterCountExceeded,
+          })}
+          slot="control"
         >
-          <slot name="tooltip" slot="tooltip"></slot>
-          <label for="input"> ${this.label} </label>
+          <slot name="prefix"></slot>
 
-          <div
-            class=${classMap({
-              'input-box': true,
-              focused: this.hasFocus,
-              empty: this.value === '',
-              disabled: this.disabled,
-              readonly: this.readonly && !this.disabled,
-            })}
-            slot="control"
-          >
-            <slot name="prefix"></slot>
+          <input
+            aria-describedby="meta"
+            id="input"
+            type=${this.type === 'password' && this.passwordVisible
+              ? 'text'
+              : this.type}
+            .value=${this.value}
+            placeholder=${ifDefined(this.placeholder)}
+            autocapitalize=${ifDefined(this.autocapitalize)}
+            spellcheck=${this.spellcheck}
+            ?required=${this.required}
+            ?readonly=${this.readonly}
+            ?disabled=${this.disabled}
+            @focus=${this.#onFocus}
+            @blur=${this.#onBlur}
+            @change=${this.#onChange}
+            @input=${this.#onInput}
+            ${ref(this.#inputElementRef)}
+          />
 
-            <input
-              aria-describedby="meta"
-              id="input"
-              type=${this.type === 'password' && this.passwordVisible
-                ? 'text'
-                : this.type}
-              .value=${this.value}
-              placeholder=${ifDefined(this.placeholder)}
-              autocapitalize=${ifDefined(this.autocapitalize)}
-              spellcheck=${this.spellcheck}
-              ?required=${this.required}
-              ?readonly=${this.readonly}
-              ?disabled=${this.disabled}
-              @focus=${this.#onFocus}
-              @blur=${this.#onBlur}
-              @change=${this.#onChange}
-              @input=${this.#onInput}
-              ${ref(this.#inputElementRef)}
-            />
-
-            <!-- TODO: We should localize the aria-labels in the future -->
-            ${this.hasClearIcon
-              ? html`
-                  <cs-icon-button
-                    variant="tertiary"
-                    class=${classMap({
-                      'clear-icon-button': true,
-                      'clear-icon-button--visible': this.isClearIconVisible,
-                    })}
-                    aria-label="Clear entry"
-                    @click=${this.#onClearClick}
-                    tabindex="-1"
-                  >
-                    <slot name="clear-icon">
-                      <!-- X icon -->
-                      <svg
+          <!-- TODO: We should localize the aria-labels in the future -->
+          ${this.hasClearIcon
+            ? html`
+                <cs-icon-button
+                  variant="tertiary"
+                  class=${classMap({
+                    'clear-icon-button': true,
+                    'clear-icon-button--visible': this.isClearIconVisible,
+                  })}
+                  aria-label="Clear entry"
+                  @click=${this.#onClearClick}
+                  tabindex="-1"
+                >
+                  <slot name="clear-icon">
+                    <!-- X icon -->
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path
+                        d="M6 6L18 18"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M18 6L6 18"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </slot>
+                </cs-icon-button>
+              `
+            : ''}
+          ${this.type === 'password' && this.passwordToggle && !this.disabled
+            ? html`
+                <cs-icon-button
+                  variant="tertiary"
+                  class="password-toggle"
+                  aria-label=${this.passwordVisible
+                    ? 'Hide password'
+                    : 'Show password'}
+                  aria-controls="input"
+                  aria-expanded=${this.passwordVisible ? 'true' : 'false'}
+                  @click=${this.#onPasswordToggle}
+                  tabindex="-1"
+                >
+                  ${this.passwordVisible
+                    ? // Eye icon with slash
+                      html`<svg
                         width="16"
                         height="16"
-                        viewBox="0 0 24 24"
                         fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
                         stroke="currentColor"
                       >
                         <path
-                          d="M6 6L18 18"
-                          stroke-width="2"
                           stroke-linecap="round"
                           stroke-linejoin="round"
+                          d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
+                        />
+                      </svg> `
+                    : // Eye icon
+                      html`<svg
+                        width="16"
+                        height="16"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
                         />
                         <path
-                          d="M18 6L6 18"
-                          stroke-width="2"
                           stroke-linecap="round"
                           stroke-linejoin="round"
+                          d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                         />
-                      </svg>
-                    </slot>
-                  </cs-icon-button>
-                `
-              : ''}
-            ${this.type === 'password' && this.passwordToggle && !this.disabled
-              ? html`
-                  <cs-icon-button
-                    variant="tertiary"
-                    class="password-toggle"
-                    aria-label=${this.passwordVisible
-                      ? 'Hide password'
-                      : 'Show password'}
-                    aria-controls="input"
-                    aria-expanded=${this.passwordVisible ? 'true' : 'false'}
-                    @click=${this.#onPasswordToggle}
-                    tabindex="-1"
-                  >
-                    ${this.passwordVisible
-                      ? // Eye icon with slash
-                        html`<svg
-                          width="16"
-                          height="16"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
-                          />
-                        </svg> `
-                      : // Eye icon
-                        html`<svg
-                          width="16"
-                          height="16"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                          />
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                          />
-                        </svg>`}
-                  </cs-icon-button>
-                `
-              : ''}
+                      </svg>`}
+                </cs-icon-button>
+              `
+            : ''}
 
-            <div class="suffix">
-              ${this.isTypeSearch
-                ? // Magnifying glass icon
-                  html`<svg
-                    class="search-icon"
-                    fill="none"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                    />
-                  </svg> `
-                : html`<slot name="suffix"></slot>`}
-            </div>
+          <div class="suffix">
+            ${this.isTypeSearch
+              ? // Magnifying glass icon
+                html`<svg
+                  class="search-icon"
+                  fill="none"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                  />
+                </svg> `
+              : html`<slot name="suffix"></slot>`}
           </div>
+        </div>
 
-          <div class="meta" id="meta" slot="description">
-            <slot class="description" name="description"></slot>
+        <div class="meta" id="meta" slot="description">
+          <slot class="description" name="description"></slot>
 
-            ${this.maxCharacterCount
-              ? html`
-                  <div class="character-count">
-                    ${this.valueCharacterCount}/${this.maxCharacterCount}
-                  </div>
-                `
-              : nothing}
-          </div>
-        </cs-label>
-      </div>
+          ${this.maxCharacterCount
+            ? html`
+                <div
+                  class=${classMap({
+                    'character-count': true,
+                    error: this.#isMaxCharacterCountExceeded,
+                  })}
+                >
+                  ${this.valueCharacterCount}/${this.maxCharacterCount}
+                </div>
+              `
+            : nothing}
+        </div>
+      </cs-label>
     `;
   }
 

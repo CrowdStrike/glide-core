@@ -28,7 +28,7 @@ const meta: Meta = {
     value: 'Value',
     placeholder: 'Placeholder...',
     'hide-label': false,
-    'label-position': 'left',
+    orientation: 'horizontal',
     required: false,
     rows: 2,
     readonly: false,
@@ -52,13 +52,13 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
-    'label-position': {
-      control: 'radio',
-      defaultValue: 'left',
-      options: ['left', 'top'],
+    orientation: {
+      control: { type: 'radio' },
+      options: ['horizontal', 'vertical'],
+      defaultValue: 'horizontal',
       table: {
-        defaultValue: { summary: '"left"' },
-        type: { summary: '"left" | "top"' },
+        defaultValue: { summary: '"horizontal"' },
+        type: { summary: '"horizontal" | "vertical"' },
       },
     },
     placeholder: {
@@ -127,13 +127,35 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
+    spellcheck: {
+      control: 'radio',
+      defaultValue: '"true"',
+      options: ['true', 'false'],
+      table: {
+        defaultValue: { summary: '"true"' },
+        type: { summary: '"true" | "false"' },
+      },
+    },
+    autocapitalize: {
+      control: { type: 'select' },
+      options: ['on', 'off', 'none', 'sentences', 'words', 'characters'],
+      table: {
+        defaultValue: {
+          summary: '"on"',
+        },
+        type: {
+          summary:
+            '"on" | "off" | "none" | "sentences" | "words" | "characters"',
+        },
+      },
+    },
   },
   render: (arguments_) => {
     return html`<form>
       <cs-textarea
         value=${arguments_.value}
         name=${arguments_.name}
-        label-position=${arguments_['label-position']}
+        orientation=${arguments_.orientation}
         placeholder=${arguments_.placeholder}
         rows=${arguments_.rows}
         ?hide-label=${arguments_['hide-label']}
@@ -166,9 +188,9 @@ export const Required: StoryObj = {
   },
 };
 
-export const LabelPositionTop: StoryObj = {
+export const Vertical: StoryObj = {
   args: {
-    'label-position': 'top',
+    orientation: 'vertical',
   },
 };
 
@@ -203,7 +225,7 @@ export const Description: StoryObj = {
       <cs-textarea
         value=${arguments_.value}
         name=${arguments_.name}
-        label-position=${arguments_['label-position']}
+        orientation=${arguments_.orientation}
         placeholder=${arguments_.placeholder}
         rows=${arguments_.rows || nothing}
         ?hide-label=${arguments_['hide-label']}

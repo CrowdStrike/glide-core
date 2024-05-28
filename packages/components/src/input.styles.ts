@@ -1,20 +1,6 @@
 import { css } from 'lit';
 
 export default css`
-  .component {
-    font-family: var(--cs-font-sans);
-
-    &.error {
-      .input-box {
-        border-color: inherit;
-      }
-
-      .character-count {
-        font-weight: var(--cs-font-weight-bold);
-      }
-    }
-  }
-
   .meta {
     column-gap: var(--cs-spacing-xs);
     display: flex;
@@ -25,6 +11,12 @@ export default css`
 
   .description {
     display: block;
+  }
+
+  .character-count {
+    &.error {
+      font-weight: var(--cs-font-weight-bold);
+    }
   }
 
   .search-icon {
@@ -42,10 +34,13 @@ export default css`
     display: flex;
     gap: var(--cs-spacing-xxs);
     line-height: var(--cs-body-xs-line-height);
-    overflow: hidden;
     padding-inline: var(--cs-spacing-sm);
 
-    &.focused {
+    &.error {
+      border-color: var(--cs-status-error);
+    }
+
+    &.focused:not(.error) {
       border-color: var(--cs-border-focus);
     }
 
@@ -55,6 +50,7 @@ export default css`
       font-family: var(--cs-font-sans);
       font-size: var(--cs-body-sm-font-size);
       font-weight: var(--cs-body-xs-font-weight);
+      inline-size: 100%;
       min-inline-size: 0;
       outline: none;
       padding: 0;

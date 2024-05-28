@@ -103,10 +103,6 @@ make it difficult to center vertically with the label.
     .control {
       display: block;
 
-      &.error {
-        color: var(--cs-status-error);
-      }
-
       &.vertical:not(.hidden-label) {
         margin-block-start: var(--cs-spacing-xxs);
       }
