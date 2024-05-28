@@ -68,8 +68,8 @@ export default class CsInput extends LitElement {
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
 
-  @property({ attribute: 'label-position' })
-  labelPosition: 'left' | 'top' = 'left';
+  @property({ reflect: true })
+  orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property()
   placeholder?: string;
@@ -174,22 +174,16 @@ export default class CsInput extends LitElement {
 
   override render() {
     return html`
-      <div
-        class=${classMap({
-          component: true,
-          error:
-            this.#isShowValidationFeedback || this.#isMaxCharacterCountExceeded,
-        })}
-        data-test="component"
-      >
+      <div class="component" data-test="component">
         <cs-label
+          orientation=${this.orientation}
           ?error=${this.#isShowValidationFeedback ||
           this.#isMaxCharacterCountExceeded}
           ?hide=${this.hideLabel}
           ?required=${this.required}
         >
           <slot name="tooltip" slot="tooltip"></slot>
-          <label class="label" for="input"> ${this.label} </label>
+          <label for="input"> ${this.label} </label>
 
           <div
             class=${classMap({

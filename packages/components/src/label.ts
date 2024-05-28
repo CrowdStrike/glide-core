@@ -102,6 +102,7 @@ export default class CsLabel extends LitElement {
       <slot
         class=${classMap({
           control: true,
+          error: this.error,
           vertical: this.orientation === 'vertical',
           'hidden-label': this.hide,
         })}

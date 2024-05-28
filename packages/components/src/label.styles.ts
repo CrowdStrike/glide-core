@@ -5,7 +5,6 @@ export default [
   css`
     .component {
       &.horizontal {
-        align-items: center;
         column-gap: var(--cs-spacing-sm);
         display: grid;
 
@@ -18,7 +17,7 @@ export default [
       }
 
       &.vertical {
-        display: inline-flex;
+        display: flex;
         flex-direction: column;
       }
 
@@ -103,6 +102,10 @@ make it difficult to center vertically with the label.
 
     .control {
       display: block;
+
+      &.error {
+        color: var(--cs-status-error);
+      }
 
       &.vertical:not(.hidden-label) {
         margin-block-start: var(--cs-spacing-xxs);
