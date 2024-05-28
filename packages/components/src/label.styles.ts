@@ -22,8 +22,7 @@ export default [
       }
 
       &.hidden-label {
-        align-items: flex-start;
-        display: inline-flex;
+        display: flex;
         flex-direction: column;
       }
     }
