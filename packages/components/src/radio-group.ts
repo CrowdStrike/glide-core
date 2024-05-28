@@ -67,7 +67,14 @@ export default class CsRadioGroup extends LitElement {
     owSlot(this.#radioSlotElementRef.value);
     owSlotType(this.#radioSlotElementRef.value, [CsRadio]);
 
-    this.value = this.radioItems.find((radio) => radio.checked)?.value ?? '';
+    if (this.value.length > 0) {
+      for (const radioItem of this.radioItems) {
+        radioItem.checked = radioItem.value === this.value;
+      }
+    } else {
+      this.value = this.radioItems.find((radio) => radio.checked)?.value ?? '';
+    }
+
     this.#setRadiosGroupName();
     this.required && this.#setRequiredRadios();
 
@@ -193,6 +200,12 @@ export default class CsRadioGroup extends LitElement {
         }
 
         !this.disabled && this.#setRadiosTabindex();
+      }
+
+      if (changedProperties.has('value')) {
+        for (const radioItem of this.radioItems) {
+          radioItem.checked = radioItem.value === this.value;
+        }
       }
 
       // Validity is updated at the end of the render cycle.
