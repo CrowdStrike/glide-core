@@ -9,7 +9,8 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A radio group.',
+        component:
+          'A radio group with a label and optional tooltip and description. Participates in forms and validation via `FormData` and various methods.',
       },
     },
   },

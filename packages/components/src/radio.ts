@@ -1,7 +1,8 @@
 import { LitElement, type PropertyValueMap, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { createRef, ref } from 'lit-html/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-// import { owSlot, owSlotType } from './library/ow.js';
+import { owSlot, owSlotType } from './library/ow.js';
 import styles from './radio.styles.js';
 
 declare global {
@@ -46,11 +47,14 @@ export default class CsRadio extends LitElement {
   label = '';
 
   override firstUpdated() {
-    // owSlot , text only
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [Text]);
+
     this.role = 'radio';
     this.ariaChecked = this.checked.toString();
     this.ariaDisabled = this.disabled.toString();
     this.ariaRequired = this.required.toString();
+    this.ariaInvalid = this.error.toString();
   }
 
   override render() {
@@ -70,13 +74,9 @@ export default class CsRadio extends LitElement {
           ?required=${this.required}
           name=${this.name}
         />
-        <slot></slot>
+        <slot ${ref(this.#defaultSlotElementRef)}></slot>
       </label>
     `;
-  }
-
-  override updated(): void {
-    this.ariaInvalid = this.error.toString();
   }
 
   override willUpdate(changedProperties: PropertyValueMap<CsRadio>): void {
@@ -86,12 +86,18 @@ export default class CsRadio extends LitElement {
       }
 
       if (changedProperties.has('disabled')) {
-        this.ariaDisabled = this.checked.toString();
+        this.ariaDisabled = this.disabled.toString();
       }
 
       if (changedProperties.has('required')) {
         this.ariaRequired = this.required.toString();
       }
+
+      if (changedProperties.has('error')) {
+        this.ariaInvalid = this.error.toString();
+      }
     }
   }
+
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 }

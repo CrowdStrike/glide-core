@@ -7,7 +7,7 @@ export default [
       outline: none;
     }
 
-    /* nesting within host doesn't work */
+    /* nesting within host doesn't work with focusOutline */
     /* stylelint-disable-next-line csstools/use-nesting */
     :host(:focus-visible) .component input {
       box-shadow: var(--cs-glow-sm);
@@ -18,11 +18,11 @@ export default [
 
     .component {
       align-items: center;
+      color: var(--cs-text-body-1, #212121);
       display: inline-flex;
       font-weight: var(--cs-body-md-font-weight);
 
       & ::slotted(*) {
-        color: inherit;
         line-height: 1;
       }
 
@@ -52,7 +52,8 @@ export default [
             background-color: var(--cs-surface-primary, #0073e6);
 
             /*
-              svg in figma has viewbox 16px, with inner circle with radius of 8px, however figma element has height & width of 14px;
+              svg in figma has viewbox 16px, with inner circle radius of 8px, however figma element has height & width of 14px;
+              14px = 0.875rem;
               8px * 0.875 = 7px = 0.4375rem;
             */
             block-size: 0.4375rem;
@@ -67,8 +68,8 @@ export default [
               14px/16px = 0.875;
               4px radius * 0.875 = 3.5px = 0.21875rem;
             */
-            inset-block-start: calc(50% - 0.2188rem);
-            inset-inline-start: calc(50% - 0.2188rem);
+            inset-block-start: calc(50% - 0.2187rem);
+            inset-inline-start: calc(50% - 0.2187rem);
             position: absolute;
           }
         }

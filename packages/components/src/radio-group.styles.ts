@@ -1,5 +1,4 @@
 import { css } from 'lit';
-// import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
@@ -33,18 +32,10 @@ export default [
       }
 
       & .label-container {
-        color: inherit;
+        color: var(--cs-text-body-1, #212121);
         display: inline-flex;
         flex-direction: row;
         margin-inline-end: var(--cs-spacing-sm, 0.75rem);
-
-        & .label {
-          /*
-          &.tooltip-spacing {
-            margin-inline-start: var(--cs-spacing-xs);
-          }
-          */
-        }
 
         cs-tooltip {
           display: none;
@@ -56,6 +47,8 @@ export default [
         }
 
         & .tooltip-target {
+          --size: 1rem;
+
           background-color: transparent;
           border: none;
 
@@ -78,34 +71,9 @@ export default [
       }
 
       & .radio-container {
-        /*
-        border: 1px solid transparent;
-        border-radius: 8px;
-        */
         display: flex;
-
-        /* gap: var(--cs-spacing-xs, 0.5rem); */
         gap: var(--cs-spacing-xxs, 0.25rem);
-
-        /* margin-block-end: var(--cs-spacing-xxs, 0.25rem); */
-
-        /* padding: var(--cs-spacing-xxs, 0.25rem) 0.375rem; */
-
-        /*
-        padding-block-start: 0;
-
-        &.error {
-          border: 1px solid var(--cs-status-error);
-        }
-        */
       }
-
-      /*
-      & ::slotted(:not([slot='description'])) {
-        line-height: 1;
-        block-size: 14px;
-      }
-      */
 
       & ::slotted([slot='description']) {
         color: inherit;
@@ -119,8 +87,6 @@ export default [
         line-height: var(--cs-body-xs-line-height);
         margin-block-start: var(--cs-spacing-xxxs);
         max-inline-size: var(--max-inline-size);
-
-        /* padding-inline-start: 0.375rem; */
       }
     }
   `,
