@@ -117,6 +117,16 @@ const meta: Meta = {
       },
       type: { name: 'function' },
     },
+    'addEventListener(event)': {
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            'event: "change" | "input", listener: (event: CustomEvent<{ value: string }>) => void',
+        },
+      },
+      type: { name: 'function' },
+    },
   },
 };
 

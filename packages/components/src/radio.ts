@@ -16,8 +16,6 @@ declare global {
  */
 @customElement('cs-radio')
 export default class CsRadio extends LitElement {
-  static formAssociated = true;
-
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -53,8 +51,8 @@ export default class CsRadio extends LitElement {
     this.role = 'radio';
     this.ariaChecked = this.checked.toString();
     this.ariaDisabled = this.disabled.toString();
-    this.ariaRequired = this.required.toString();
     this.ariaInvalid = this.error.toString();
+    this.ariaRequired = this.required.toString();
   }
 
   override render() {

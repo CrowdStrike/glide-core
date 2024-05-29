@@ -42,6 +42,9 @@ export default class CsRadioGroup extends LitElement {
   @property()
   name = '';
 
+  // To be exposed when a 'horizontal' orientation is implemented
+  orientation = 'vertical' as const;
+
   @property({ type: Boolean, reflect: true })
   required = false;
 
@@ -69,25 +72,10 @@ export default class CsRadioGroup extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#radioSlotElementRef.value);
-    owSlotType(this.#radioSlotElementRef.value, [CsRadio]);
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsRadio]);
 
-    if (this.value.length > 0) {
-      for (const radioItem of this.radioItems) {
-        radioItem.checked = radioItem.value === this.value;
-      }
-    } else {
-      this.value = this.radioItems.find((radio) => radio.checked)?.value ?? '';
-    }
-
-    this.#setRadiosGroupName();
-    this.required && this.#setRequiredRadios();
-
-    for (const radioItem of this.radioItems) {
-      this.#setDisabledRadio(this.disabled, radioItem);
-    }
-
-    !this.disabled && this.#setRadiosTabindex();
+    this.#intializeRadios();
   }
 
   get form() {
@@ -119,31 +107,41 @@ export default class CsRadioGroup extends LitElement {
         })}
         ${ref(this.#componentElementRef)}
       >
-        <!-- label -->
-        <span class=${classMap({ 'label-container': true })}>
-          <cs-tooltip
-            class=${classMap({
-              visible: this.hasTooltipSlot,
-            })}
-          >
-            <span class="tooltip-target" slot="target" tabindex="0">
-              ${infoCircleIcon}
+        ${when(
+          this.label,
+          () => html`
+            <!-- label -->
+            <span class=${classMap({ 'label-container': true })}>
+              <cs-tooltip
+                class=${classMap({
+                  visible: this.hasTooltipSlot,
+                })}
+              >
+                <span class="tooltip-target" slot="target" tabindex="0">
+                  ${infoCircleIcon}
+                </span>
+
+                <slot
+                  name="tooltip"
+                  @slotchange=${this.#onTooltipSlotChange}
+                  ${ref(this.#tooltipSlotElementRef)}
+                ></slot>
+              </cs-tooltip>
+
+              <div aria-hidden="true" data-test="label">${this.label}</div>
+              ${when(
+                this.required,
+                () =>
+                  html`<span
+                    aria-hidden="true"
+                    class="required-symbol"
+                    data-test="label-required"
+                    >*</span
+                  >`,
+              )}
             </span>
-
-            <slot
-              name="tooltip"
-              @slotchange=${this.#onTooltipSlotChange}
-              ${ref(this.#tooltipSlotElementRef)}
-            ></slot>
-          </cs-tooltip>
-
-          <div id="label" aria-hidden="true">${this.label}</div>
-          ${when(
-            this.required,
-            () =>
-              html`<span aria-hidden="true" class="required-symbol">*</span>`,
-          )}
-        </span>
+          `,
+        )}
 
         <!-- fieldset -->
         <div>
@@ -156,11 +154,14 @@ export default class CsRadioGroup extends LitElement {
             <div
               class=${classMap({
                 'radio-container': true,
-                vertical: true,
+                [this.orientation]: true,
               })}
               role="radiogroup"
             >
-              <slot ${ref(this.#radioSlotElementRef)}></slot>
+              <slot
+                ${ref(this.#defaultSlotElementRef)}
+                @slotchange=${this.#onDefaultSlotChange}
+              ></slot>
             </div>
           </fieldset>
 
@@ -171,6 +172,7 @@ export default class CsRadioGroup extends LitElement {
             })}
             id="description"
             name="description"
+            data-test="description"
           ></slot>
         </div>
       </div>
@@ -242,9 +244,9 @@ export default class CsRadioGroup extends LitElement {
 
   #componentElementRef = createRef<HTMLDivElement>();
 
-  #internals: ElementInternals;
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #radioSlotElementRef = createRef<HTMLSlotElement>();
+  #internals: ElementInternals;
 
   #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -264,6 +266,25 @@ export default class CsRadioGroup extends LitElement {
     radio.dispatchEvent(
       new CustomEvent('input', { bubbles: true, detail: radio.value }),
     );
+  }
+
+  #intializeRadios() {
+    if (this.value.length > 0) {
+      for (const radioItem of this.radioItems) {
+        radioItem.checked = radioItem.value === this.value;
+      }
+    } else {
+      this.value = this.radioItems.find((radio) => radio.checked)?.value ?? '';
+    }
+
+    this.#setRadiosGroupName();
+    this.required && this.#setRequiredRadios();
+
+    for (const radioItem of this.radioItems) {
+      this.#setDisabledRadio(this.disabled, radioItem);
+    }
+
+    !this.disabled && this.#setRadiosTabindex();
   }
 
   get #isShowValidationFeedback() {
@@ -299,6 +320,13 @@ export default class CsRadioGroup extends LitElement {
         }
       }
     }
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsRadio]);
+
+    this.#intializeRadios();
   }
 
   #onInvalid(event: Event) {
