@@ -9,7 +9,7 @@ export default [
 
     /* nesting within host doesn't work with focusOutline */
     /* stylelint-disable-next-line csstools/use-nesting */
-    :host(:focus-visible) .component input {
+    :host(:focus-visible) .component .radio-circle {
       box-shadow: var(--cs-glow-sm);
 
       ${focusOutline};
@@ -26,7 +26,7 @@ export default [
         line-height: 1;
       }
 
-      input {
+      & .radio-circle {
         align-items: center;
         appearance: none;
         background-color: var(--cs-color-white, #fff);
@@ -74,11 +74,6 @@ export default [
           }
         }
 
-        &:hover {
-          border-color: var(--cs-border-focus, #0073e6);
-          box-shadow: var(--cs-glow-sm);
-        }
-
         &.error {
           border-color: var(--cs-status-error);
         }
@@ -89,6 +84,22 @@ export default [
 
           &::after {
             background-color: var(--cs-surface-primary-disabled);
+          }
+        }
+      }
+
+      &:hover {
+        & .radio-circle {
+          border-color: var(--cs-border-focus, #0073e6);
+          box-shadow: var(--cs-glow-sm);
+
+          &.disabled {
+            border-color: var(--cs-surface-primary-disabled);
+            box-shadow: none;
+
+            &::after {
+              background-color: var(--cs-surface-primary-disabled);
+            }
           }
         }
       }

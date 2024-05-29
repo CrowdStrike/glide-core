@@ -56,14 +56,19 @@ export default class CsRadioGroup extends LitElement {
     return this.#internals.checkValidity();
   }
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+
+    this.addEventListener('click', this.#onClick);
+    this.addEventListener('keydown', this.#onKeydown);
+  }
+
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
   }
 
   override firstUpdated() {
-    owSlot(this.#descriptionSlotElementRef.value);
-
     owSlot(this.#radioSlotElementRef.value);
     owSlotType(this.#radioSlotElementRef.value, [CsRadio]);
 
@@ -146,8 +151,6 @@ export default class CsRadioGroup extends LitElement {
             class=${classMap({
               vertical: true,
             })}
-            @click=${this.#onClick}
-            @keydown=${this.#onKeydown}
             aria-labelledby="label description"
           >
             <div
@@ -168,7 +171,6 @@ export default class CsRadioGroup extends LitElement {
             })}
             id="description"
             name="description"
-            ${ref(this.#descriptionSlotElementRef)}
           ></slot>
         </div>
       </div>
@@ -239,8 +241,6 @@ export default class CsRadioGroup extends LitElement {
   private isReportValidityOrSubmit = false;
 
   #componentElementRef = createRef<HTMLDivElement>();
-
-  #descriptionSlotElementRef = createRef<HTMLSlotElement>();
 
   #internals: ElementInternals;
 

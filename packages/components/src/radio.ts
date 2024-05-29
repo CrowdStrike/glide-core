@@ -59,23 +59,19 @@ export default class CsRadio extends LitElement {
 
   override render() {
     return html`
-      <label class=${classMap({ component: true })}>
-        <input
+      <span class=${classMap({ component: true })}>
+        <span
           id="radio"
-          type="radio"
-          tabindex="-1"
           class=${classMap({
+            'radio-circle': true,
             checked: this.checked,
             error: this.error,
             disabled: this.disabled,
           })}
-          ?checked=${this.checked}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
           name=${this.name}
-        />
+        ></span>
         <slot ${ref(this.#defaultSlotElementRef)}></slot>
-      </label>
+      </span>
     `;
   }
 
