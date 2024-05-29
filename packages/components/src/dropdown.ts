@@ -338,7 +338,11 @@ export default class CsDropdown extends LitElement {
     // `document.body` receives focus immediately after focus is moved. So we
     // wait a frame to see where focus ultimately landed.
     setTimeout(() => {
-      if (!this.contains(document.activeElement)) {
+      const isOptionFocused = this.#optionElements.some(
+        ({ privateIsFocused }) => privateIsFocused,
+      );
+
+      if (!isOptionFocused) {
         this.open = false;
       }
     });

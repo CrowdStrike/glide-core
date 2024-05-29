@@ -73,6 +73,12 @@ export default class CsDropdownOption extends LitElement {
   // An option is considered active when it's interacted with via keyboard or hovered.
   privateActive = false;
 
+  // Used by Dropdown as an alternative to `document.activeElement`. When Dropdown is
+  // itself in a shadow DOM and an element in that shadow DOM receives focus, `document.activeElement`
+  // will be set to the outer host. Thus, without this, Dropdown has no way of knowing whether it's
+  // an Option that has focus or another element within it that host.
+  privateIsFocused = false;
+
   override click() {
     this.selected = true;
   }
@@ -103,6 +109,8 @@ export default class CsDropdownOption extends LitElement {
       tabindex=${this.privateActive ? '0' : '-1'}
       role="option"
       @click=${this.#onClick}
+      @focusin=${this.#onFocusin}
+      @focusout=${this.#onFocusout}
       @keydown=${this.#onKeydown}
       ${ref(this.#componentElementRef)}
     >
@@ -136,6 +144,14 @@ export default class CsDropdownOption extends LitElement {
   #onClick() {
     this.selected = true;
     this.dispatchEvent(new Event('private-change', { bubbles: true }));
+  }
+
+  #onFocusin() {
+    this.privateIsFocused = true;
+  }
+
+  #onFocusout() {
+    this.privateIsFocused = false;
   }
 
   #onKeydown(event: KeyboardEvent) {
