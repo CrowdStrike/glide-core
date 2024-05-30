@@ -66,7 +66,6 @@ export default class CsRadio extends LitElement {
             invalid: this.invalid,
             disabled: this.disabled,
           })}
-          name=${this.name}
         ></span>
         <slot ${ref(this.#defaultSlotElementRef)}></slot>
       </span>
