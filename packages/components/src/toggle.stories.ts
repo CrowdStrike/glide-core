@@ -24,6 +24,7 @@ const meta: Meta = {
     'slot="tooltip"': '',
     checked: false,
     disabled: false,
+    'hide-label': false,
     orientation: 'horizontal',
     summary: 'Summary',
   },
@@ -37,6 +38,13 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
+    },
+    'hide-label': {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     checked: {
       control: 'boolean',
@@ -107,6 +115,7 @@ const meta: Meta = {
         summary=${arguments_.summary || nothing}
         ?checked=${arguments_.checked}
         ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label'] || nothing}
       >
         <div slot="description">${arguments_['slot="description"']}</div>
 

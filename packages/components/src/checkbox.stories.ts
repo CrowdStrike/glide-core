@@ -23,6 +23,7 @@ const meta: Meta = {
     'slot="tooltip"': '',
     'slot="description"': 'Description',
     checked: false,
+    'hide-label': false,
     disabled: false,
     indeterminate: false,
     name: 'name',
@@ -68,6 +69,13 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
+    },
+    'hide-label': {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     checked: {
       control: 'boolean',
@@ -184,6 +192,7 @@ const meta: Meta = {
         value=${arguments_.value || nothing}
         ?checked=${arguments_.checked}
         ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label'] || nothing}
         ?indeterminate=${arguments_.indeterminate}
         ?required=${arguments_.required}
       >

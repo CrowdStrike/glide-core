@@ -49,8 +49,8 @@ export default class CsLabel extends LitElement {
   required = false;
 
   override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
     owSlot(this.#controlSlotElementRef.value);
-    owSlot(this.#labelSlotElementRef.value);
   }
 
   override render() {
@@ -101,8 +101,8 @@ export default class CsLabel extends LitElement {
             data-test="label"
           >
             <slot
-              @slotchange=${this.#onLabelSlotChange}
-              ${ref(this.#labelSlotElementRef)}
+              @slotchange=${this.#onDefaultSlotChange}
+              ${ref(this.#defaultSlotElementRef)}
             ></slot>
 
             ${this.required
@@ -163,9 +163,9 @@ export default class CsLabel extends LitElement {
 
   #controlSlotElementRef = createRef<HTMLSlotElement>();
 
-  #descriptionSlotElementRef = createRef<HTMLSlotElement>();
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #labelSlotElementRef = createRef<HTMLSlotElement>();
+  #descriptionSlotElementRef = createRef<HTMLSlotElement>();
 
   #summarySlotElementRef = createRef<HTMLSlotElement>();
 
@@ -173,6 +173,10 @@ export default class CsLabel extends LitElement {
 
   #onControlSlotChange() {
     owSlot(this.#controlSlotElementRef.value);
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
   }
 
   #onDescriptionSlotChange() {
@@ -183,10 +187,6 @@ export default class CsLabel extends LitElement {
     this.hasDescriptionSlot = Boolean(
       assignedNodes && assignedNodes.length > 0,
     );
-  }
-
-  #onLabelSlotChange() {
-    owSlot(this.#labelSlotElementRef.value);
   }
 
   #onSummarySlotChange() {

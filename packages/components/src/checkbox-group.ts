@@ -1,11 +1,9 @@
-import './tooltip.js';
+import './label.js';
 import { LitElement, html } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import CsCheckbox from './checkbox.js';
-import infoCircleIcon from './icons/info-circle.js';
 import styles from './checkbox-group.styles.js';
 
 declare global {
@@ -44,6 +42,9 @@ export default class CsCheckboxGroup extends LitElement {
       checkbox.disabled = isDisabled;
     }
   }
+
+  @property({ attribute: 'hide-label', type: Boolean })
+  hideLabel = false;
 
   @property({ reflect: true })
   label?: string;
@@ -160,63 +161,31 @@ export default class CsCheckboxGroup extends LitElement {
 
   override render() {
     return html`<div
-      class=${classMap({
-        component: true,
-        error: this.#isShowValidationFeedback,
-        tooltip: this.hasTooltipSlot,
-      })}
+      class="component"
       data-test="component"
       ${ref(this.#componentElementRef)}
     >
-      <cs-tooltip
-        class=${classMap({
-          visible: this.hasTooltipSlot,
-        })}
+      <cs-label
+        ?hide=${this.hideLabel}
+        ?disabled=${this.disabled}
+        ?error=${this.#isShowValidationFeedback}
+        ?required=${this.required}
       >
-        <span class="tooltip-target" slot="target" tabindex="0">
-          ${infoCircleIcon}
-        </span>
+        <slot name="tooltip" slot="tooltip"></slot>
+        <label id="label">${this.label}</label>
 
-        <slot
-          name="tooltip"
-          @slotchange=${this.#onTooltipSlotChange}
-          ${ref(this.#tooltipSlotElementRef)}
-        ></slot>
-      </cs-tooltip>
+        <!-- "aria-describedby" is more appropriate for a description but isn't read by VoiceOver. -->
+        <div aria-labelledby="label description" role="group" slot="control">
+          <slot
+            class="checkboxes"
+            @change=${this.#onCheckboxChange}
+            @slotchange=${this.#onDefaultSlotChange}
+            ${ref(this.#defaultSlotElementRef)}
+          ></slot>
+        </div>
 
-      <!-- "aria-describedby" is more appropriate for a description but isn't read by VoiceOver. -->
-      <fieldset aria-labelledby="legend description" class="fieldset">
-        <legend
-          class=${classMap({
-            legend: true,
-            tooltip: this.hasTooltipSlot,
-          })}
-          id="legend"
-        >
-          ${this.label}
-          ${this.required
-            ? html`<span aria-hidden="true" class="required-symbol">*</span>`
-            : ''}
-        </legend>
-
-        <slot
-          class=${classMap({
-            checkboxes: true,
-            tooltip: this.hasTooltipSlot,
-          })}
-          @slotchange=${this.#onDefaultSlotChange}
-          ${ref(this.#defaultSlotElementRef)}
-        ></slot>
-      </fieldset>
-
-      <slot
-        class=${classMap({
-          description: true,
-          tooltip: this.hasTooltipSlot,
-        })}
-        id="description"
-        name="description"
-      ></slot>
+        <slot id="description" name="description" slot="description"></slot>
+      </cs-label>
     </div>`;
   }
 
@@ -237,10 +206,6 @@ export default class CsCheckboxGroup extends LitElement {
       if (!this.isCheckingValidity) {
         this.isReportValidityOrSubmit = true;
 
-        // - `this.#internals.delegatesFocus` is preferred because it's declarative. But
-        //    it's limited to focusing the first focusable element. That doesn't work for
-        //    us because our first focusable element is the tooltip when it's present.
-        //
         // - Canceling this event means the input won't get focus, even if we were to use
         //   `this.#internals.delegatesFocus`.
         //
@@ -257,9 +222,6 @@ export default class CsCheckboxGroup extends LitElement {
   }
 
   @state()
-  private hasTooltipSlot = false;
-
-  @state()
   private isCheckingValidity = false;
 
   @state()
@@ -274,8 +236,6 @@ export default class CsCheckboxGroup extends LitElement {
   #isDisabled = false;
 
   #isRequired = false;
-
-  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   get #checkboxes() {
     return this.#defaultSlotElementRef.value
@@ -304,10 +264,7 @@ export default class CsCheckboxGroup extends LitElement {
     );
   }
 
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsCheckbox]);
-
+  #onCheckboxChange() {
     this.value = this.#checkboxes
       .filter(({ checked, disabled }) => checked && !disabled)
       .map(({ value }) => value)
@@ -316,8 +273,8 @@ export default class CsCheckboxGroup extends LitElement {
       .filter((value): value is string => Boolean(value));
   }
 
-  #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
-    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsCheckbox]);
   }
 }

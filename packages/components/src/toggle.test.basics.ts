@@ -18,6 +18,9 @@ it('has defaults', async () => {
   expect(component.hasAttribute('disabled')).to.be.false;
   expect(component.disabled).to.be.false;
 
+  expect(component.hasAttribute('hide-label')).to.be.false;
+  expect(component.hideLabel).to.be.false;
+
   expect(component.getAttribute('orientation')).to.equal('horizontal');
   expect(component.orientation).to.equal('horizontal');
 
