@@ -2,6 +2,7 @@ import './label.js';
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import { when } from 'lit-html/directives/when.js';
 import styles from './toggle.styles.js';
 
 declare global {
@@ -99,7 +100,12 @@ export default class CsToggle extends LitElement {
             />
           </div>
 
-          <div class="summary" id="summary">${this.summary}</div>
+          ${when(
+            this.summary,
+            () => html`
+              <div class="summary" id="summary">${this.summary}</div>
+            `,
+          )}
         </div>
 
         <slot
