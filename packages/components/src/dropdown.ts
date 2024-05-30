@@ -172,6 +172,7 @@ export default class CsDropdown extends LitElement {
     >
       <cs-label
         orientation=${this.orientation}
+        ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
         ?hide=${this.hideLabel}
         ?required=${this.required}

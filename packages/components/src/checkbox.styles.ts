@@ -19,10 +19,6 @@ when browsers support them.
         .checkbox {
           border-color: var(--cs-status-error);
         }
-
-        .summary {
-          color: var(--cs-status-error);
-        }
       }
     }
 
@@ -68,6 +64,7 @@ when browsers support them.
 
     input {
       block-size: 100%;
+      cursor: inherit;
       inline-size: 100%;
       inset-block-start: 0;
       inset-inline-start: 0;
@@ -123,14 +120,6 @@ when browsers support them.
 
     .indeterminate-icon {
       display: none;
-    }
-
-    .summary {
-      font-family: var(--cs-body-sm-font-family);
-      font-size: var(--cs-body-sm-font-size);
-      font-style: var(--cs-body-sm-font-style);
-      font-weight: var(--cs-body-sm-font-weight);
-      line-height: 100%;
     }
   `,
 ];

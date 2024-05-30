@@ -66,6 +66,7 @@ export default [
       border: 1px solid var(--cs-border-base-lighter);
       border-radius: var(--cs-spacing-xs);
       color: var(--cs-text-body-1);
+      cursor: inherit;
       display: flex;
       font-family: var(--cs-body-sm-font-family);
       font-size: var(--cs-body-sm-font-size);

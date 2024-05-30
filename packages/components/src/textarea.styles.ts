@@ -16,6 +16,7 @@ export default css`
     border: 1px solid var(--cs-border-base-light);
     border-radius: 0.5rem;
     color: var(--cs-text-body-1);
+    cursor: inherit;
     display: block;
     flex-grow: 1;
     font-family: var(--cs-body-xs-font-family);
@@ -52,7 +53,6 @@ export default css`
       background-color: var(--cs-surface-base-gray-light);
       border: 0.0625rem solid var(--cs-border-base-light);
       color: var(--cs-text-tertiary-disabled);
-      cursor: not-allowed;
     }
   }
 

@@ -31,6 +31,7 @@ export default css`
     border: 1px solid var(--cs-border-base-light);
     border-radius: var(--cs-spacing-xs);
     box-sizing: border-box;
+    color: var(--cs-text-body-1);
     display: flex;
     gap: var(--cs-spacing-xxs);
     line-height: var(--cs-body-xs-line-height);
@@ -44,9 +45,24 @@ export default css`
       border-color: var(--cs-border-focus);
     }
 
+    /* we had to resort to an attribute selector because there may be a bug in chrome and safari
+    * with ':read-only'
+    * https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
+    */
+    &.readonly {
+      border: 1px solid transparent;
+      padding-inline-start: 0;
+    }
+
+    &.disabled {
+      background-color: var(--cs-surface-base-gray-light);
+      color: var(--cs-text-tertiary-disabled);
+    }
+
     input {
       border: none;
-      color: var(--cs-text-body-1);
+      color: inherit;
+      cursor: inherit;
       font-family: var(--cs-font-sans);
       font-size: var(--cs-body-sm-font-size);
       font-weight: var(--cs-body-xs-font-weight);
@@ -66,24 +82,6 @@ export default css`
     .suffix {
       align-items: center;
       display: flex;
-    }
-
-    /* we had to resort to an attribute selector because there may be a bug in chrome and safari
-    * with ':read-only'
-    * https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
-    */
-    &.readonly {
-      border: 1px solid transparent;
-      padding-inline-start: 0;
-    }
-
-    &.disabled {
-      background-color: var(--cs-surface-base-gray-light);
-      color: var(--cs-text-tertiary-disabled);
-    }
-
-    input:disabled {
-      cursor: not-allowed;
     }
   }
 
