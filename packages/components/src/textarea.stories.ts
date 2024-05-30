@@ -64,7 +64,6 @@ const meta: Meta = {
     placeholder: {
       control: 'text',
       table: {
-        defaultValue: { summary: 'Placeholder' },
         type: { summary: 'string' },
       },
     },

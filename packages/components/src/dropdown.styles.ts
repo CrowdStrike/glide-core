@@ -24,6 +24,13 @@ export default [
       position: absolute;
       visibility: hidden;
 
+      /*
+        ".button-and-options" is relative and many Dropdowns may be stacked in a column.
+        This ensures that the ".options" of Dropdowns earlier in the column aren't obscured
+        by the ".button-and-options" that come after.
+      */
+      z-index: 1;
+
       &.large {
         --gap: var(--cs-spacing-sm);
         --padding-inline: var(--cs-spacing-sm);
