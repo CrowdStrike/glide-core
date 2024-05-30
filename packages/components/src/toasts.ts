@@ -31,19 +31,24 @@ export default class CsToasts extends LitElement {
   static override styles = styles;
 
   add(toast: Toast) {
-    const { variant, label, description } = toast;
+    const { variant, label, description, duration } = toast;
 
     const toastElement = Object.assign(document.createElement('cs-toast'), {
       variant,
       label,
       description,
+      duration,
     });
 
     this.#componentElementRef.value!.append(toastElement);
 
-    toastElement.addEventListener('close', () => {
-      toastElement.remove();
-    });
+    toastElement.addEventListener(
+      'close',
+      () => {
+        toastElement.remove();
+      },
+      { once: true },
+    );
 
     return toastElement;
   }

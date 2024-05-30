@@ -36,7 +36,7 @@ it('sets correct role', async () => {
   ).to.equal('region');
 });
 
-it('is can add a toast', async () => {
+it('can add a toast', async () => {
   const component = await fixture<CsToasts>(html`<cs-toasts></cs-toasts>`);
 
   component.add({
@@ -54,7 +54,23 @@ it('is can add a toast', async () => {
   expect(toast.variant).to.equal('informational');
 });
 
-it('is can add multiple toasts', async () => {
+it('can add a toast with duration', async () => {
+  const component = await fixture<CsToasts>(html`<cs-toasts></cs-toasts>`);
+
+  component.add({
+    label: 'Test toast',
+    description: 'Test toast description',
+    variant: 'informational',
+    duration: 10_000,
+  });
+
+  const toasts = component.shadowRoot?.querySelectorAll('cs-toast');
+  assert(toasts);
+  const toast = toasts[0];
+  expect(toast.duration).to.equal(10_000);
+});
+
+it('can add multiple toasts', async () => {
   const component = await fixture<CsToasts>(html`<cs-toasts></cs-toasts>`);
 
   component.add({

@@ -29,10 +29,10 @@ export default class CsToast extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  label!: string;
+  label?: string;
 
   @property({ reflect: true })
-  description!: string;
+  description?: string;
 
   @property()
   variant!: Toast['variant'];
@@ -60,16 +60,18 @@ export default class CsToast extends LitElement {
 
   override firstUpdated() {
     requestAnimationFrame(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- force a reflow for the initial transition
-      this.clientWidth;
       this.open();
     });
   }
 
   open() {
-    setTimeout(() => {
-      this.close();
-    }, this.duration);
+    const duration = Math.max(this.duration ?? 0, 5000);
+
+    if (duration < Number.POSITIVE_INFINITY) {
+      setTimeout(() => {
+        this.close();
+      }, duration);
+    }
 
     this.#componentElementRef?.value?.classList?.add('open');
   }
@@ -100,7 +102,6 @@ export default class CsToast extends LitElement {
           @click=${this.#handleCloseButtonClick}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <title>Close</title>
             <path
               d="M6 6L18 18"
               stroke="currentColor"

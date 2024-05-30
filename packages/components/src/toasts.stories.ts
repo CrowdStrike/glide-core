@@ -13,9 +13,6 @@ const meta: Meta = {
       description: {
         component: 'A container and controller for toast messages',
       },
-      story: {
-        autoplay: true,
-      },
     },
   },
   argTypes: {
@@ -39,9 +36,15 @@ const meta: Meta = {
       <cs-toasts></cs-toasts>
       <div style="display:flex; flex-direction: column; gap: 0.25rem;">
         <cs-button variant="secondary" data-add-informational
-          >Add Informational</cs-button
+          >Informational</cs-button
         >
-        <cs-button variant="secondary" data-add-success>Add Success</cs-button>
+        <cs-button variant="secondary" data-add-success>Success</cs-button>
+        <cs-button variant="secondary" data-add-longer
+          >Longer duration</cs-button
+        >
+        <cs-button variant="secondary" data-add-infinite
+          >Infinite duration</cs-button
+        >
       </div>
       <script>
         const toasts = document.querySelector('cs-toasts');
@@ -51,7 +54,7 @@ const meta: Meta = {
             toasts.add({
               variant: 'informational',
               label: 'Informational',
-              description: 'This is the body of the toast message',
+              description: 'This will stick around for 5 seconds',
             });
           });
         document
@@ -60,7 +63,28 @@ const meta: Meta = {
             toasts.add({
               variant: 'success',
               label: 'Success',
-              description: 'This is the body of the toast message',
+              description: 'This will stick around for 5 seconds',
+            });
+          });
+        document
+          .querySelector('[data-add-longer]')
+          .addEventListener('click', () => {
+            toasts.add({
+              variant: 'informational',
+              label: 'Longer',
+              description: 'This will stick around for 10 seconds',
+              duration: 10000, // Minimum is 5000 (5 seconds)
+            });
+          });
+        document
+          .querySelector('[data-add-infinite]')
+          .addEventListener('click', () => {
+            toasts.add({
+              variant: 'success',
+              label: 'Success',
+              description:
+                'This will stick around until close button is clicked',
+              duration: Infinity,
             });
           });
       </script>

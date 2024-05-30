@@ -107,6 +107,89 @@ it('opens and closes by default', async () => {
   clock.restore();
 });
 
+it('responds to duration', async () => {
+  const clock = sinon.useFakeTimers();
+
+  const component = await fixture<CsToast>(
+    html`<cs-toast
+      variant="informational"
+      label="Label"
+      description="Toast description"
+      duration="10000"
+    ></cs-toast>`,
+  );
+
+  clock.tick(9500);
+
+  const shadowElement = component.shadowRoot!.firstElementChild;
+
+  await expect([...shadowElement!.classList]).to.deep.equal([
+    'component',
+    'informational',
+    'open',
+  ]);
+
+  clock.tick(1000);
+
+  shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
+
+  await expect([
+    ...component.shadowRoot!.firstElementChild!.classList,
+  ]).to.deep.equal(['component', 'informational', 'closed']);
+
+  clock.restore();
+});
+
+it('responds to duration of Infinity', async () => {
+  const clock = sinon.useFakeTimers();
+
+  const component = await fixture<CsToast>(
+    html`<cs-toast
+      variant="informational"
+      label="Label"
+      description="Toast description"
+      duration="Infinity"
+    ></cs-toast>`,
+  );
+
+  clock.tick(9500);
+
+  const shadowElement = component.shadowRoot!.firstElementChild;
+
+  await expect([...shadowElement!.classList]).to.deep.equal([
+    'component',
+    'informational',
+    'open',
+  ]);
+
+  clock.restore();
+});
+
+it('does not allow less than 5000 duration', async () => {
+  const clock = sinon.useFakeTimers();
+
+  const component = await fixture<CsToast>(
+    html`<cs-toast
+      variant="informational"
+      label="Label"
+      description="Toast description"
+      duration="3000"
+    ></cs-toast>`,
+  );
+
+  clock.tick(4000);
+
+  const shadowElement = component.shadowRoot!.firstElementChild;
+
+  await expect([...shadowElement!.classList]).to.deep.equal([
+    'component',
+    'informational',
+    'open',
+  ]);
+
+  clock.restore();
+});
+
 it('can be closed by clicking on the x icon', async () => {
   const component = await fixture<CsToast>(
     html`<cs-toast
