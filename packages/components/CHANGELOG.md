@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core-components
 
+## 0.4.1
+
+### Patch Changes
+
+- [#154](https://github.com/CrowdStrike/glide-core/pull/154) [`eae9f49`](https://github.com/CrowdStrike/glide-core/commit/eae9f49b958440986e54427a43b09982a3597068) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown no longer opens then closes immediately when used in another web component.
+
 ## 0.4.0
 
 ### Minor Changes
