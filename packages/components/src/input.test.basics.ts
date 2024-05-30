@@ -176,27 +176,6 @@ it('displays a max character and current character count if max-character-count 
   expect(maxCharacterCountContainer?.textContent?.trim()).to.be.equal('0/5');
 });
 
-it('max content input receives error styling when text count is greater than max character count', async () => {
-  const element = await fixture<CsInput>(html`
-    <cs-input label="Test label" max-character-count="5"></cs-input>
-  `);
-
-  const componentContainer =
-    element.shadowRoot?.querySelector<HTMLDivElement>('.component');
-
-  const maxCharacterCountContainer =
-    element.shadowRoot?.querySelector<HTMLDivElement>('.character-count');
-
-  expect(componentContainer?.classList.contains('error')).to.be.false;
-
-  element.focus();
-
-  await sendKeys({ type: 'testing' });
-
-  expect(maxCharacterCountContainer?.textContent?.trim()).to.be.equal('7/5');
-  expect(componentContainer?.classList.contains('error')).to.be.true;
-});
-
 it('supports a "tooltip" slot', async () => {
   const component = await fixture<CsInput>(
     html`<cs-input label="test">
@@ -209,30 +188,6 @@ it('supports a "tooltip" slot', async () => {
     ?.assignedElements();
 
   expect(assignedElements?.at(0)?.textContent).to.equal('Tooltip');
-});
-
-it('places the tooltip on bottom when the label is on the left', async () => {
-  const component = await fixture<CsInput>(
-    html`<cs-input label="test">
-      <div slot="tooltip">Tooltip</div>
-    </cs-input>`,
-  );
-
-  const tooltip = component.shadowRoot?.querySelector('cs-tooltip');
-
-  expect(tooltip?.placement).to.equal('bottom');
-});
-
-it('places the tooltip on the right when the label is on top', async () => {
-  const component = await fixture<CsInput>(
-    html`<cs-input label="test" label-position="top">
-      <div slot="tooltip">Tooltip</div>
-    </cs-input>`,
-  );
-
-  const tooltip = component.shadowRoot?.querySelector('cs-tooltip');
-
-  expect(tooltip?.placement).to.equal('right');
 });
 
 it('supports a "description" slot', async () => {

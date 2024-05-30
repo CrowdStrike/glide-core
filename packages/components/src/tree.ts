@@ -1,5 +1,7 @@
 import { LitElement, html } from 'lit';
+import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
+import { owSlot, owSlotType } from './library/ow.js';
 import CsTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
 
@@ -39,6 +41,11 @@ export default class CsTree extends LitElement {
     this.removeEventListener('focusout', this.#handleFocusOut);
   }
 
+  override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsTreeItem]);
+  }
+
   override render() {
     return html`<div
       class="component"
@@ -47,7 +54,10 @@ export default class CsTree extends LitElement {
       @click=${this.#handleClick}
       @keydown=${this.#handleKeydown}
     >
-      <slot></slot>
+      <slot
+        @slotchange=${this.#onDefaultSlotChange}
+        ${ref(this.#defaultSlotElementRef)}
+      ></slot>
     </div>`;
   }
 
@@ -79,6 +89,8 @@ export default class CsTree extends LitElement {
     this.addEventListener('focusin', this.#handleFocusIn);
     this.addEventListener('focusout', this.#handleFocusOut);
   }
+
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #focusItem(item: CsTreeItem | undefined | null) {
     item?.focus();
@@ -214,5 +226,10 @@ export default class CsTree extends LitElement {
         this.selectItem(focusedItem);
       }
     }
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [CsTreeItem]);
   }
 }

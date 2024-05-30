@@ -20,7 +20,7 @@ after(() => {
 
 it('adds the "glide-lock-scroll" class to the documentElement when opened and removes it when closed', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
   );
 
   element.showModal();
@@ -41,7 +41,7 @@ it('adds the "glide-lock-scroll" class to the documentElement when opened and re
 
 it('removes the "glide-lock-scroll" class when the close button is clicked', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
   );
 
   element.showModal();
@@ -61,7 +61,7 @@ it('removes the "glide-lock-scroll" class when the close button is clicked', asy
 
 it('removes the "glide-lock-scroll" class when the "close" method is called', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
   );
 
   element.showModal();
@@ -80,7 +80,7 @@ it('removes the "glide-lock-scroll" class when the "close" method is called', as
 
 it('removes the "glide-lock-scroll" class when the escape key is pressed', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
   );
 
   element.showModal();

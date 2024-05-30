@@ -1,6 +1,8 @@
 import './dropdown.option.js';
+import { ArgumentError } from 'ow';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import CsDropdown from './dropdown.js';
+import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
 CsDropdown.shadowRootOptions.mode = 'open';
@@ -155,15 +157,23 @@ it('throws if it does not have a default slot', async () => {
 
   try {
     await fixture<CsDropdown>(
-      html`<cs-dropdown
-        label="Label"
-        placeholder="Placeholder"
-        name="name"
-      ></cs-dropdown>`,
+      html`<cs-dropdown label="Label" placeholder="Placeholder"></cs-dropdown>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
+});
+
+it('throws if the default slot is the incorrect type', async () => {
+  await expectArgumentError(() => {
+    return fixture<CsDropdown>(
+      html`<cs-dropdown label="Label" placeholder="Placeholder">
+        <button>Button</button>
+      </cs-dropdown>`,
+    );
+  });
 });

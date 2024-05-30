@@ -1,5 +1,5 @@
 import './icon-button.js';
-import './tooltip.js';
+import './label.js';
 import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -10,7 +10,6 @@ import {
   state,
 } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import infoCircleIcon from './icons/info-circle.js';
 import styles from './input.styles.js';
 
 /*
@@ -32,7 +31,7 @@ export const SUPPORTED_TYPES = [
 type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
 
 /**
- * @description An input with a label and optional description. Participates in forms and validation via `FormData` and various methods.
+ * @description An input with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.
  *
  * @event change - (same as native input's `change` event)
  * @event input - (same as native input's `input` event)
@@ -69,14 +68,27 @@ export default class CsInput extends LitElement {
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
 
-  @property({ attribute: 'label-position' })
-  labelPosition: 'left' | 'top' = 'left';
+  @property({ reflect: true })
+  orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property()
   placeholder?: string;
 
   @property({ type: Boolean })
   clearable = false;
+
+  // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
+  @property({ type: Boolean })
+  override spellcheck = false;
+
+  @property()
+  override autocapitalize:
+    | 'on'
+    | 'off'
+    | 'none'
+    | 'sentences'
+    | 'words'
+    | 'characters' = 'on';
 
   /** For 'password' type, whether to show a button to toggle the password's visibility */
   @property({ attribute: 'password-toggle', type: Boolean })
@@ -121,7 +133,6 @@ export default class CsInput extends LitElement {
     return this.#internals.willValidate;
   }
 
-  /** Removes focus from the input. */
   override blur() {
     this.#inputElement?.blur();
   }
@@ -163,52 +174,15 @@ export default class CsInput extends LitElement {
 
   override render() {
     return html`
-      <div
-        class=${classMap({
-          component: true,
-          error:
-            this.#isShowValidationFeedback || this.#isMaxCharacterCountExceeded,
-        })}
-        data-test="component"
+      <cs-label
+        orientation=${this.orientation}
+        ?error=${this.#isShowValidationFeedback ||
+        this.#isMaxCharacterCountExceeded}
+        ?hide=${this.hideLabel}
+        ?required=${this.required}
       >
-        <div
-          class=${classMap({
-            'tooltip-and-label': true,
-            left: this.labelPosition === 'left',
-            top: this.labelPosition === 'top',
-          })}
-        >
-          <cs-tooltip
-            class=${classMap({
-              visible: this.hasTooltipSlot,
-            })}
-            placement=${this.labelPosition === 'top' ? 'right' : 'bottom'}
-          >
-            <span class="tooltip-target" slot="target" tabindex="0">
-              ${infoCircleIcon}
-            </span>
-
-            <slot
-              name="tooltip"
-              @slotchange=${this.#onTooltipSlotChange}
-              ${ref(this.#tooltipSlotElementRef)}
-            ></slot>
-          </cs-tooltip>
-
-          <label
-            class=${classMap({
-              label: true,
-              'visually-hidden': this.hideLabel,
-            })}
-            for="input"
-          >
-            <span
-              >${this.label}${this.required
-                ? html`<span class="required-indicator">*</span>`
-                : ''}</span
-            >
-          </label>
-        </div>
+        <slot name="tooltip" slot="tooltip"></slot>
+        <label for="input"> ${this.label} </label>
 
         <div
           class=${classMap({
@@ -217,16 +191,24 @@ export default class CsInput extends LitElement {
             empty: this.value === '',
             disabled: this.disabled,
             readonly: this.readonly && !this.disabled,
+            error:
+              this.#isShowValidationFeedback ||
+              this.#isMaxCharacterCountExceeded,
           })}
+          slot="control"
         >
           <slot name="prefix"></slot>
+
           <input
+            aria-describedby="meta"
             id="input"
             type=${this.type === 'password' && this.passwordVisible
               ? 'text'
               : this.type}
             .value=${this.value}
             placeholder=${ifDefined(this.placeholder)}
+            autocapitalize=${ifDefined(this.autocapitalize)}
+            spellcheck=${this.spellcheck}
             ?required=${this.required}
             ?readonly=${this.readonly}
             ?disabled=${this.disabled}
@@ -236,6 +218,7 @@ export default class CsInput extends LitElement {
             @input=${this.#onInput}
             ${ref(this.#inputElementRef)}
           />
+
           <!-- TODO: We should localize the aria-labels in the future -->
           ${this.hasClearIcon
             ? html`
@@ -327,7 +310,8 @@ export default class CsInput extends LitElement {
                 </cs-icon-button>
               `
             : ''}
-          <div part="suffix" class="suffix">
+
+          <div class="suffix">
             ${this.isTypeSearch
               ? // Magnifying glass icon
                 html`<svg
@@ -348,19 +332,24 @@ export default class CsInput extends LitElement {
               : html`<slot name="suffix"></slot>`}
           </div>
         </div>
-        <div class="meta">
-          <div>
-            <slot class="description" name="description"></slot>
-          </div>
+
+        <div class="meta" id="meta" slot="description">
+          <slot class="description" name="description"></slot>
+
           ${this.maxCharacterCount
             ? html`
-                <div class="character-count">
+                <div
+                  class=${classMap({
+                    'character-count': true,
+                    error: this.#isMaxCharacterCountExceeded,
+                  })}
+                >
                   ${this.valueCharacterCount}/${this.maxCharacterCount}
                 </div>
               `
             : nothing}
         </div>
-      </div>
+      </cs-label>
     `;
   }
 
@@ -407,9 +396,6 @@ export default class CsInput extends LitElement {
   @state() private hasFocus = false;
 
   @state()
-  private hasTooltipSlot = false;
-
-  @state()
   private isCheckingValidity?: boolean;
 
   @state()
@@ -421,8 +407,6 @@ export default class CsInput extends LitElement {
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
-
-  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   #onFormdata = ({ formData }: FormDataEvent) => {
     if (this.name && this.value && !this.disabled) {
@@ -443,7 +427,7 @@ export default class CsInput extends LitElement {
     );
   }
 
-  get #inputElement(): HTMLInputElement | undefined {
+  get #inputElement() {
     return this.#inputElementRef.value;
   }
 
@@ -456,7 +440,8 @@ export default class CsInput extends LitElement {
 
     this.#setValidityToInputValidity();
 
-    // Unlike "input" events, these don't bubble. We have to manually dispatch them.
+    // Unlike "input" events, "change" events aren't composed. So we manually
+    // dispatch them from the host.
     this.dispatchEvent(new Event(event.type, event));
   }
 
@@ -482,11 +467,6 @@ export default class CsInput extends LitElement {
 
   #onPasswordToggle() {
     this.passwordVisible = !this.passwordVisible;
-  }
-
-  #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
-    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
   /**

@@ -34,8 +34,7 @@ export default class CsTabPanel extends LitElement {
 
   @property({ type: Boolean }) isActive = true;
 
-  protected override firstUpdated(changes: PropertyValues): void {
-    super.firstUpdated(changes);
+  protected override firstUpdated() {
     this.setAttribute('role', 'tabpanel');
 
     if (!this.hasAttribute('id')) {
@@ -54,7 +53,7 @@ export default class CsTabPanel extends LitElement {
     </div>`;
   }
 
-  protected override updated(changes: PropertyValues): void {
+  protected override updated(changes: PropertyValues) {
     super.updated(changes);
 
     if (changes.has('isActive')) {

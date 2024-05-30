@@ -7,6 +7,12 @@ import chalk from 'chalk';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 
 export default {
+  filterBrowserLogs(log) {
+    // Uncaught Ow errors are expected from "slotchange" handlers and shouldn't muddy the logs.
+    return log.type === 'error' && log.args.at(0)?.includes('ow.ts')
+      ? false
+      : true;
+  },
   browsers: [
     // https://github.com/modernweb-dev/web/issues/2588
     playwrightLauncher(),
@@ -15,9 +21,15 @@ export default {
   coverageConfig: {
     include: ['src/**/*.ts'],
     report: true,
-    // `ow.ts` has untestable logic. It's excluded so we don't have to reduce our
-    // coverage thresholds.
-    exclude: ['src/library/ow.ts'],
+    exclude: [
+      // Has an untestable condition that returns based on `window.location`.
+      // It's excluded so we don't have to reduce our coverage thresholds.
+      'src/library/ow.ts',
+
+      // Istanbul claims it has a branch that's missing coverage even though
+      // there are no branches.
+      'src/library/expect-argument-error.ts',
+    ],
     reportDir: 'dist/coverage',
     threshold: {
       statements: 100,

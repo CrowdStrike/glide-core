@@ -1,3 +1,4 @@
+import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import CsTag from './tag.js';
 import sinon from 'sinon';
@@ -110,8 +111,10 @@ it('throws an error when the default slot is empty', async () => {
 
   try {
     await fixture(html`<cs-tag></cs-tag>`);
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
@@ -122,8 +125,10 @@ it('does not throw an error when the default slot is non-empty', async () => {
 
   try {
     await fixture(html`<cs-tag>Tag</cs-tag>`);
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.notCalled).to.be.true;
@@ -136,8 +141,10 @@ it('throws an error when the prefix slot does not exist and a removable label is
     await fixture(
       html`<cs-tag removable-label="test-aria-label" size="large">Tag</cs-tag>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
@@ -152,8 +159,10 @@ it('does not throw an error when the prefix slot exists and a removable label is
         ><span slot="prefix">Prefix</span>Tag</cs-tag
       >`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.notCalled).to.be.true;

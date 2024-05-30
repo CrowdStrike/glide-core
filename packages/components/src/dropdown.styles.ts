@@ -4,11 +4,6 @@ export default [
   css`
     .component {
       --min-width: 9.375rem;
-
-      &.horizontal {
-        display: inline-grid;
-        grid-template-columns: auto auto;
-      }
     }
 
     .button-and-options {
@@ -28,6 +23,13 @@ export default [
       padding: var(--cs-spacing-xxxs);
       position: absolute;
       visibility: hidden;
+
+      /*
+        ".button-and-options" is relative and many Dropdowns may be stacked in a column.
+        This ensures that the ".options" of Dropdowns earlier in the column aren't obscured
+        by the ".button-and-options" that come after.
+      */
+      z-index: 1;
 
       &.large {
         --gap: var(--cs-spacing-sm);

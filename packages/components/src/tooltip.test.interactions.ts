@@ -14,7 +14,7 @@ it('is visible on "focusin"', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-describedby="tooltip"]')
+    ?.querySelector('[aria-labelledby="tooltip"]')
     ?.dispatchEvent(new FocusEvent('focusin'));
 
   await elementUpdated(component);
@@ -33,13 +33,13 @@ it('is hidden on "blur"', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-describedby="tooltip"]')
+    ?.querySelector('[aria-labelledby="tooltip"]')
     ?.dispatchEvent(new FocusEvent('focusin'));
 
   await elementUpdated(component);
 
   component.shadowRoot
-    ?.querySelector('[aria-describedby="tooltip"]')
+    ?.querySelector('[aria-labelledby="tooltip"]')
     ?.dispatchEvent(new FocusEvent('focusout'));
 
   await elementUpdated(component);
@@ -58,7 +58,7 @@ it('is hidden on Escape', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-describedby="tooltip"]')
+    ?.querySelector('[aria-labelledby="tooltip"]')
     ?.dispatchEvent(new FocusEvent('focusin'));
 
   await elementUpdated(component);
@@ -85,7 +85,7 @@ it('is visible on "mouseover"', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-describedby="tooltip"]')
+    ?.querySelector('[aria-labelledby="tooltip"]')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
   await elementUpdated(component);
@@ -104,13 +104,13 @@ it('is hidden on "mouseout"', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-describedby="tooltip"]')
+    ?.querySelector('[aria-labelledby="tooltip"]')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
   await elementUpdated(component);
 
   component.shadowRoot
-    ?.querySelector('[aria-describedby="tooltip"]')
+    ?.querySelector('[aria-labelledby="tooltip"]')
     ?.dispatchEvent(new MouseEvent('mouseout'));
 
   await elementUpdated(component);

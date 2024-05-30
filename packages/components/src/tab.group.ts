@@ -75,9 +75,16 @@ export default class CsTabGroup extends LitElement {
           [this.variant]: true,
         })}
       >
-        <slot name="nav" ${ref(this.#navSlotElementRef)}></slot>
+        <slot
+          name="nav"
+          @slotchange=${this.#onNavSlotChange}
+          ${ref(this.#navSlotElementRef)}
+        ></slot>
       </div>
-      <slot ${ref(this.#defaultSlotElementRef)}></slot>
+      <slot
+        @slotchange=${this.#onDefaultSlotChange}
+        ${ref(this.#defaultSlotElementRef)}
+      ></slot>
     </div>`;
   }
 
@@ -166,6 +173,14 @@ export default class CsTabGroup extends LitElement {
       }
     }
   };
+
+  #onDefaultSlotChange() {
+    owSlotType(this.#defaultSlotElementRef.value, [CsTabPanel]);
+  }
+
+  #onNavSlotChange() {
+    owSlotType(this.#navSlotElementRef.value, [CsTab]);
+  }
 
   #setActiveTab() {
     for (const [index, tabElement] of this.tabElements.entries()) {

@@ -22,13 +22,16 @@ const meta: Meta = {
     placeholder: 'Placeholder...',
     clearable: false,
     'hide-label': false,
-    'label-position': 'left',
+    orientation: 'horizontal',
     required: false,
     'slot="tooltip"': '',
     'slot="description"': 'Description',
     readonly: false,
     disabled: false,
     name: 'name',
+    autocapitalize: 'on',
+    spellcheck: 'true',
+    'max-character-count': '',
   },
   play(context) {
     const input = context.canvasElement.querySelector('cs-input');
@@ -45,7 +48,7 @@ const meta: Meta = {
   },
   render: (arguments_) => {
     return html`
-      <div style="height: 4rem;">
+      <div style="height: 5rem;">
         <cs-input
           type=${arguments_.type}
           value=${arguments_.value}
@@ -54,11 +57,13 @@ const meta: Meta = {
           ?hide-label=${arguments_['hide-label']}
           ?clearable=${arguments_.clearable}
           ?password-toggle=${arguments_.passwordToggle || nothing}
-          label-position=${arguments_['label-position']}
+          orientation=${arguments_.orientation}
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_.maxCharacterCount || nothing}
+          max-character-count=${arguments_['max-character-count'] || nothing}
+          spellcheck=${arguments_.spellcheck || nothing}
+          autocapitalize=${arguments_.autocapitalize || nothing}
         >
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
@@ -107,13 +112,13 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    'label-position': {
-      control: 'radio',
-      defaultValue: 'left',
-      options: ['left', 'top'],
+    orientation: {
+      control: { type: 'radio' },
+      options: ['horizontal', 'vertical'],
+      defaultValue: 'horizontal',
       table: {
-        defaultValue: { summary: '"left"' },
-        type: { summary: '"left" | "top"' },
+        defaultValue: { summary: '"horizontal"' },
+        type: { summary: '"horizontal" | "vertical"' },
       },
     },
     placeholder: {
@@ -142,6 +147,34 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    spellcheck: {
+      control: 'radio',
+      defaultValue: '"true"',
+      options: ['true', 'false'],
+      table: {
+        defaultValue: { summary: '"true"' },
+        type: { summary: '"true" | "false"' },
+      },
+    },
+    autocapitalize: {
+      control: { type: 'select' },
+      options: ['on', 'off', 'none', 'sentences', 'words', 'characters'],
+      table: {
+        defaultValue: {
+          summary: '"on"',
+        },
+        type: {
+          summary:
+            '"on" | "off" | "none" | "sentences" | "words" | "characters"',
+        },
+      },
+    },
+    'max-character-count': {
+      control: 'number',
+      table: {
+        type: { summary: 'number' },
       },
     },
     'slot="tooltip"': {
@@ -195,7 +228,7 @@ export const WithError: StoryObj = {
 export const Description: StoryObj = {
   render: (arguments_) => {
     return html`
-      <div style="height: 4rem;">
+      <div style="height: 5rem;">
         <cs-input
           type=${arguments_.type}
           value=${arguments_.value}
@@ -204,11 +237,11 @@ export const Description: StoryObj = {
           ?hide-label=${arguments_['hide-label']}
           ?clearable=${arguments_.clearable}
           ?password-toggle=${arguments_.passwordToggle || nothing}
-          label-position=${arguments_['label-position']}
+          orientation=${arguments_.orientation}
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_.maxCharacterCount || nothing}
+          max-character-count=${arguments_['max-character-count'] || nothing}
         >
           <div slot="description">
             Test description ... <a href="#">With link!</a>
@@ -248,7 +281,7 @@ export const Clearable: StoryObj = {
 export const SuffixIcon: StoryObj = {
   render: (arguments_) => {
     return html`
-      <div style="height: 4rem;">
+      <div style="height: 5rem;">
         <cs-input
           type=${arguments_.type}
           value=${arguments_.value}
@@ -257,11 +290,11 @@ export const SuffixIcon: StoryObj = {
           ?hide-label=${arguments_['hide-label']}
           ?clearable=${arguments_.clearable}
           ?password-toggle=${arguments_.passwordToggle || nothing}
-          label-position=${arguments_['label-position']}
+          orientation=${arguments_.orientation}
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_.maxCharacterCount || nothing}
+          max-character-count=${arguments_['max-character-count'] || nothing}
         >
           <div slot="suffix">
             <cs-example-icon slot="suffix" name="share"></cs-example-icon>
@@ -276,7 +309,7 @@ export const SuffixIcon: StoryObj = {
 export const PrefixIcon: StoryObj = {
   render: (arguments_) => {
     return html`
-      <div style="height: 4rem;">
+      <div style="height: 5rem;">
         <cs-input
           type=${arguments_.type}
           value=${arguments_.value}
@@ -285,11 +318,11 @@ export const PrefixIcon: StoryObj = {
           ?hide-label=${arguments_['hide-label']}
           ?clearable=${arguments_.clearable}
           ?password-toggle=${arguments_.passwordToggle || nothing}
-          label-position=${arguments_['label-position']}
+          orientation=${arguments_.orientation}
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_.maxCharacterCount || nothing}
+          max-character-count=${arguments_['max-character-count'] || nothing}
         >
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
@@ -312,7 +345,7 @@ export const SearchType: StoryObj = {
 
 export const MaxCharacterCount: StoryObj = {
   args: {
-    maxCharacterCount: 20,
+    'max-character-count': 20,
     'slot="description"': undefined,
   },
 };
@@ -320,7 +353,7 @@ export const MaxCharacterCount: StoryObj = {
 export const MaxCharacterCountAndDescription: StoryObj = {
   name: 'Max Character Count (With Description)',
   args: {
-    maxCharacterCount: 20,
+    'max-character-count': 20,
     'slot="description"':
       'Description here lives alongside max character count',
   },

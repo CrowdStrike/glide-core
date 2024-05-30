@@ -5,7 +5,7 @@ Modal.shadowRootOptions.mode = 'open';
 
 it('opens the modal when the "showModal" method is called and closes it when "close" is called', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
   );
 
   element.showModal();
@@ -20,7 +20,7 @@ it('opens the modal when the "showModal" method is called and closes it when "cl
 
 it('remains open when the "showModal" method is called twice', async () => {
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
   );
 
   element.showModal();

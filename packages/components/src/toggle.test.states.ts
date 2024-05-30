@@ -4,7 +4,9 @@ import CsToggle from './toggle.js';
 CsToggle.shadowRootOptions.mode = 'open';
 
 it('is checked after being clicked', async () => {
-  const component = await fixture<CsToggle>(html`<cs-toggle></cs-toggle>`);
+  const component = await fixture<CsToggle>(
+    html`<cs-toggle label="Label"></cs-toggle>`,
+  );
 
   component.click();
   await elementUpdated(component);
@@ -15,7 +17,7 @@ it('is checked after being clicked', async () => {
 
 it('is unchecked after being clicked', async () => {
   const component = await fixture<CsToggle>(
-    html`<cs-toggle checked></cs-toggle>`,
+    html`<cs-toggle label="Label" checked></cs-toggle>`,
   );
 
   component.click();
@@ -27,7 +29,7 @@ it('is unchecked after being clicked', async () => {
 
 it('is still checked after being clicked when checked but disabled', async () => {
   const component = await fixture<CsToggle>(
-    html`<cs-toggle checked disabled></cs-toggle>`,
+    html`<cs-toggle label="Label" checked disabled></cs-toggle>`,
   );
 
   component.click();
@@ -39,7 +41,7 @@ it('is still checked after being clicked when checked but disabled', async () =>
 
 it('is still unchecked after being clicked when unchecked and disabled', async () => {
   const component = await fixture<CsToggle>(
-    html`<cs-toggle disabled></cs-toggle>`,
+    html`<cs-toggle label="Label" disabled></cs-toggle>`,
   );
 
   component.click();

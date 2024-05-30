@@ -143,7 +143,6 @@ export default class CsCheckbox extends LitElement {
         error: this.#isShowValidationFeedback,
       })}
       data-test="component"
-      ${ref(this.#componentElementRef)}
     >
       ${when(
         this.isInCheckboxGroup,
@@ -305,8 +304,6 @@ export default class CsCheckbox extends LitElement {
 
   @state()
   private isReportValidityOrSubmit = false;
-
-  #componentElementRef = createRef<HTMLDivElement>();
 
   #inputElementRef = createRef<HTMLInputElement>();
 

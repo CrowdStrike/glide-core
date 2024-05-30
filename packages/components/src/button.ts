@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { owSlot } from './library/ow.js';
 import styles from './button.styles.js';
 
 declare global {
@@ -47,6 +48,10 @@ export default class CsButton extends LitElement {
     return this.#internals.form;
   }
 
+  override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
+
   override render() {
     return html`<button
       class=${classMap({
@@ -69,7 +74,12 @@ export default class CsButton extends LitElement {
         @slotchange=${this.#onPrefixSlotChange}
         ${ref(this.#prefixSlotElementRef)}
       ></slot>
-      <slot></slot>
+
+      <slot
+        @slotchange=${this.#onDefaultSlotChange}
+        ${ref(this.#defaultSlotElementRef)}
+      ></slot>
+
       <slot
         name="suffix"
         @slotchange=${this.#onSuffixSlotChange}
@@ -89,6 +99,8 @@ export default class CsButton extends LitElement {
   @state()
   private hasSuffixSlot = false;
 
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
   #internals: ElementInternals;
 
   #prefixSlotElementRef = createRef<HTMLSlotElement>();
@@ -107,6 +119,10 @@ export default class CsButton extends LitElement {
 
     this.form?.reset();
     return;
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
   }
 
   #onKeydown(event: KeyboardEvent) {

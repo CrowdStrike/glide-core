@@ -47,7 +47,7 @@ export default class CsButtonGroupButton extends LitElement {
   @property({ type: Boolean })
   vertical = false;
 
-  override firstUpdated(): void {
+  override firstUpdated() {
     // Always want a text label and log an error when it isn't present.
     // When the variant is 'icon-only' set the label as visually hidden
     owSlot(this.#defaultSlotElementRef.value);
@@ -132,14 +132,17 @@ export default class CsButtonGroupButton extends LitElement {
           'visually-hidden': this.variant === 'icon-only',
         })}"
       >
-        <slot ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </span>
     </li>`;
   }
 
   override willUpdate(
     changedProperties: PropertyValueMap<CsButtonGroupButton>,
-  ): void {
+  ) {
     if (this.hasUpdated && changedProperties.has('selected')) {
       const value = changedProperties.get('selected');
 
@@ -197,6 +200,11 @@ export default class CsButtonGroupButton extends LitElement {
       this.selected = true;
       this.#dispatchEvents();
     }
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [Text]);
   }
 
   #onKeydown(event: KeyboardEvent) {

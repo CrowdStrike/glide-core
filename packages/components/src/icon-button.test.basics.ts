@@ -1,6 +1,8 @@
 import './icon-button.js';
+import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import CsIconButton from './icon-button.js';
+import sinon from 'sinon';
 
 CsIconButton.shadowRootOptions.mode = 'open';
 
@@ -129,4 +131,20 @@ it('sets the disabled attribute', async () => {
   expect(component.shadowRoot?.querySelector('button')?.disabled).to.equal(
     true,
   );
+});
+
+it('throws if it does not have a default slot', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsIconButton>(
+      html`<cs-icon-button label="test-icon-button"></cs-icon-button>`,
+    );
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
 });

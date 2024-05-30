@@ -2,7 +2,7 @@ import './button-group.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import CsButtonGroup from './button-group.js';
 import CsButtonGroupButton from './button-group.button.js';
-import sinon from 'sinon';
+import expectArgumentError from './library/expect-argument-error.js';
 
 CsButtonGroup.shadowRootOptions.mode = 'open';
 CsButtonGroupButton.shadowRootOptions.mode = 'open';
@@ -228,32 +228,19 @@ it('reacts to variant "icon-only" attribute when added and removed', async () =>
 });
 
 it('throws an error when an element other than `cs-button-group-button` is a child of the default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`
+  await expectArgumentError(() => {
+    return fixture(html`
       <cs-button-group label="label">
         <div>Content</div>
       </cs-button-group>
     `);
-  } catch {
-    spy();
-  }
-
-  expect(spy.called).to.be.true;
+  });
 });
 
 it('throws an error when the group has no children', async () => {
-  const spy = sinon.spy();
-  await fixture(html`<cs-button-group></cs-button-group>`);
-
-  try {
-    await fixture(html` <cs-button-group label="label"> </cs-button-group> `);
-  } catch {
-    spy();
-  }
-
-  expect(spy.called).to.be.true;
+  await expectArgumentError(() => {
+    return fixture(html`<cs-button-group label="label"> </cs-button-group>`);
+  });
 });
 
 it("has a tabble button if it's the first element in a button group", async () => {

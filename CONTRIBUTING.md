@@ -364,8 +364,17 @@ import ow, { owSlot, owSlotType } from './library/ow';
 @customElement('cs-example')
 export default class CsExample extends LitElement {
   override firstUpdated() {
-    owSlot(this.#firstSlotElementRef.value);
-    owSlotType(this.#secondSlotElementRef.value, [HTMLButtonElement]);
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [HTMLButtonElement]);
+  }
+
+  override render() {
+    return html`<slot @slotchange=${this.#onDefaultSlotChange}></slot>`;
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [HTMLButtonElement]);
   }
 }
 ```

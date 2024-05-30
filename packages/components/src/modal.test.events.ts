@@ -10,7 +10,7 @@ it('dispatches a "close" event when the modal is closed via the "close" method',
   const spy = sinon.spy();
 
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
   );
 
   element.addEventListener('close', spy);
@@ -27,7 +27,7 @@ it('dispatches a "close" event when the modal is closed via the close button', a
   const spy = sinon.spy();
 
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
   );
 
   element.addEventListener('close', spy);
@@ -48,7 +48,7 @@ it('dispatches a "close" event when the modal is closed via the escape key', asy
   const spy = sinon.spy();
 
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
   );
 
   element.addEventListener('close', spy);
@@ -63,7 +63,7 @@ it('does not dispatch a "close" event when the modal is open and non-escape keys
   const spy = sinon.spy();
 
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"></cs-modal>`,
+    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
   );
 
   element.addEventListener('close', spy);
@@ -84,7 +84,9 @@ it('dispatches a "close" event when the modal is closed via "show-back-button"',
   const spy = sinon.spy();
 
   const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" show-back-button></cs-modal>`,
+    html`<cs-modal label="Modal title" show-back-button>
+      Modal Content
+    </cs-modal>`,
   );
 
   element.addEventListener('close', spy);

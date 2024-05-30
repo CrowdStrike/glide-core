@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { owSlot } from './library/ow.js';
 import styles from './accordion.styles.js';
 
 declare global {
@@ -28,6 +29,10 @@ export default class CsAccordion extends LitElement {
   @property({ reflect: true }) label = '';
 
   @property({ type: Boolean, reflect: true }) open = false;
+
+  override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
 
   override render() {
     return html` <details
@@ -101,7 +106,10 @@ export default class CsAccordion extends LitElement {
         role="region"
         ${ref(this.#contentElementRef)}
       >
-        <slot></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </div>
     </details>`;
   }
@@ -114,11 +122,17 @@ export default class CsAccordion extends LitElement {
 
   #contentElementRef = createRef<HTMLDivElement>();
 
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
   #detailsElementRef = createRef<HTMLDetailsElement>();
 
   #prefixSlotElementRef = createRef<HTMLSlotElement>();
 
   #suffixSlotElementRef = createRef<HTMLSlotElement>();
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
 
   #onPrefixSlotChange() {
     const assignedNodes = this.#prefixSlotElementRef.value?.assignedNodes();

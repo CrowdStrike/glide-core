@@ -14,7 +14,7 @@ it('dispatches a "toggle" event when the Accordion opens', async () => {
   let hasToggleBeenCalled = false;
 
   const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label"></cs-accordion>`,
+    html`<cs-accordion label="label"> Inner content </cs-accordion>`,
   );
 
   component.addEventListener('toggle', () => (hasToggleBeenCalled = true));
@@ -36,7 +36,7 @@ it('dispatches a "toggle" event when the Accordion closes', async () => {
   let hasToggleBeenCalled = false;
 
   const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label" open></cs-accordion>`,
+    html`<cs-accordion label="label" open> Inner content </cs-accordion>`,
   );
 
   component.addEventListener('toggle', () => (hasToggleBeenCalled = true));

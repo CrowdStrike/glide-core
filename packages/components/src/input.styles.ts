@@ -1,123 +1,22 @@
 import { css } from 'lit';
-import visuallyHidden from './styles/visually-hidden.js';
 
 export default css`
-  .display-none {
-    display: none;
-  }
-
-  .flex-align-center {
-    align-items: center;
-    display: flex;
-  }
-
-  .component {
-    display: grid;
-    font-family: var(--cs-body-xs-font-family);
-    font-size: var(--cs-body-sm-font-size);
-    font-weight: var(--cs-body-xs-font-weight);
-
-    /*
-    * Since 1fr is actually minmax(auto, 1fr), this explicit minmax
-    * will make it so the first column is sized to content, and the second column
-    * extends the rest of the space.
-    * */
-    grid-template-columns: auto minmax(0, 1fr);
-    line-height: var(--cs-body-xs-line-height);
-
-    &.error {
-      .input-box {
-        border: 1px solid var(--cs-status-error);
-      }
-
-      .description {
-        color: var(--cs-status-error);
-      }
-
-      .character-count {
-        color: var(--cs-status-error);
-        font-weight: var(--cs-font-weight-bold);
-      }
-    }
-  }
-
-  .tooltip-and-label {
-    align-items: center;
-    column-gap: var(--cs-spacing-xs);
-    display: flex;
-  }
-
-  cs-tooltip {
-    display: none;
-    margin-block-end: var(--cs-spacing-xxxs);
-
-    &.visible {
-      display: block;
-    }
-  }
-
-  .tooltip-target {
-    background-color: transparent;
-    border: none;
-
-    /* So the focus outline wraps neatly around the icon. */
-    border-radius: 50%;
-
-    /*
-      Any "display" that's not inline-level will do. We don't want the target to
-      acquire a line box, which will make it taller than its content and thus
-      make it difficult to center vertically with the label.
-    */
-    display: flex;
-    outline-offset: 1px;
-    padding: 0;
-  }
-
-  .required-indicator {
-    color: var(--cs-status-error);
-    margin-inline-start: var(--cs-spacing-xxxs);
-  }
-
   .meta {
+    column-gap: var(--cs-spacing-xs);
     display: flex;
     font-size: 0.75rem;
     grid-column: 2;
     justify-content: space-between;
-    margin-block-start: var(--cs-spacing-xxxs);
+  }
+
+  .description {
+    display: block;
   }
 
   .character-count {
-    justify-self: flex-end;
-  }
-
-  :host([required])::part(form-control-label)::after {
-    display: none;
-  }
-
-  .label {
-    align-items: center;
-    display: flex;
-    font-size: var(--cs-body-sm-font-size);
-    font-weight: var(--cs-font-weight-bold);
-    gap: var(--cs-spacing-xxs);
-    margin-block-end: 0;
-  }
-
-  .left {
-    flex-direction: row;
-    grid-column: 1;
-    margin-inline-end: var(--cs-spacing-sm);
-  }
-
-  .top {
-    flex-direction: row-reverse;
-    grid-column: 2;
-    justify-content: flex-end;
-    margin-block-end: 0;
-  }
-
-  .visually-hidden {
-    ${visuallyHidden};
+    &.error {
+      font-weight: var(--cs-font-weight-bold);
+    }
   }
 
   .search-icon {
@@ -128,30 +27,33 @@ export default css`
   .input-box {
     align-items: center;
     background-color: var(--cs-surface-base-lighter);
+    block-size: 2.125rem;
     border: 1px solid var(--cs-border-base-light);
     border-radius: var(--cs-spacing-xs);
+    box-sizing: border-box;
     display: flex;
-    flex-grow: 1;
-    font-family: var(--cs-font-sans);
     gap: var(--cs-spacing-xxs);
-    grid-column: 2;
-    overflow: hidden;
-    padding: var(--cs-spacing-xs) var(--cs-spacing-sm);
+    line-height: var(--cs-body-xs-line-height);
+    padding-inline: var(--cs-spacing-sm);
 
-    &.focused {
+    &.error {
+      border-color: var(--cs-status-error);
+    }
+
+    &.focused:not(.error) {
       border-color: var(--cs-border-focus);
     }
 
     input {
       border: none;
       color: var(--cs-text-body-1);
-      flex: 1 1 auto;
       font-family: var(--cs-font-sans);
       font-size: var(--cs-body-sm-font-size);
       font-weight: var(--cs-body-xs-font-weight);
-      line-height: inherit;
+      inline-size: 100%;
       min-inline-size: 0;
       outline: none;
+      padding: 0;
 
       &::-webkit-search-decoration,
       &::-webkit-search-cancel-button,
@@ -172,10 +74,7 @@ export default css`
     */
     &.readonly {
       border: 1px solid transparent;
-
-      input {
-        padding-inline-start: 0;
-      }
+      padding-inline-start: 0;
     }
 
     &.disabled {

@@ -4,17 +4,25 @@ import visuallyHidden from './styles/visually-hidden.js';
 export default [
   css`
     .component {
-      --max-inline-size: 22rem;
-
       &.horizontal {
-        align-items: center;
         column-gap: var(--cs-spacing-sm);
-        display: inline-grid;
-        grid-template-columns: auto auto;
+        display: grid;
+
+        /*
+         Since 1fr is actually minmax(auto, 1fr), this explicit minmax will make it so
+         the first column is sized to its content, and the second column fills the rest
+         of the space.
+        */
+        grid-template-columns: auto minmax(0, 1fr);
       }
 
       &.vertical {
-        display: inline-flex;
+        display: flex;
+        flex-direction: column;
+      }
+
+      &.hidden-label {
+        display: flex;
         flex-direction: column;
       }
     }
@@ -38,9 +46,9 @@ export default [
 
       &.visible {
         /*
-        The default is "display: content". But "order" does not work with
-        "display: content" and "order" is needed above.
-      */
+      The default is "display: content". But "order" does not work with
+      "display: content" and "order" is needed above.
+    */
         display: block;
       }
     }
@@ -50,17 +58,17 @@ export default [
       border: none;
 
       /* TODO
-  We want the focus outline to wrap neatly around the trigger. Tooltip should
-  probably wrap its default slot in a SPAN with "tabindex=0" and include the
-  below styles so every consumer doesn't have to.
+We want the focus outline to wrap neatly around the trigger. Tooltip should
+probably wrap its default slot in a SPAN with "tabindex=0" and include the
+below styles so every consumer doesn't have to.
 */
       border-radius: 50%;
       color: var(--cs-text-body-1);
 
       /*
-  Any "display" that's not inline-level will do. We don't want the button to
-  acquire a line box, which will make it taller than its content and thus
-  make it difficult to center vertically with the label.
+Any "display" that's not inline-level will do. We don't want the button to
+acquire a line box, which will make it taller than its content and thus
+make it difficult to center vertically with the label.
 */
       display: flex;
       outline-offset: 1px;
@@ -93,7 +101,6 @@ export default [
 
     .control {
       display: block;
-      max-inline-size: var(--max-inline-size);
 
       &.vertical:not(.hidden-label) {
         margin-block-start: var(--cs-spacing-xxs);
@@ -110,7 +117,6 @@ export default [
       grid-column: 2;
       line-height: var(--cs-body-xs-line-height);
       margin-block-start: var(--cs-spacing-xxs);
-      max-inline-size: var(--max-inline-size);
 
       &.error {
         color: var(--cs-status-error);

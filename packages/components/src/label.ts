@@ -55,6 +55,7 @@ export default class CsLabel extends LitElement {
         component: true,
         horizontal: this.orientation === 'horizontal',
         vertical: this.orientation === 'vertical',
+        'hidden-label': this.hide,
       })}
     >
       <div
@@ -62,45 +63,49 @@ export default class CsLabel extends LitElement {
           'tooltip-and-label': true,
           hidden: this.hide,
         })}
+        part="tooltip-and-label-container"
       >
-        <cs-tooltip
-          class=${classMap({
-            tooltip: true,
-            vertical: this.orientation === 'vertical',
-            visible: this.hasTooltipSlot,
-          })}
-          placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
-        >
-          <span class="tooltip-target" slot="target" tabindex="0">
-            ${infoCircleIcon}
-          </span>
-
-          <slot
+        <div class="tooltip-and-label">
+          <cs-tooltip
             class=${classMap({
               tooltip: true,
+              vertical: this.orientation === 'vertical',
               visible: this.hasTooltipSlot,
             })}
-            name="tooltip"
-            @slotchange=${this.#onTooltipSlotChange}
-            ${ref(this.#tooltipSlotElementRef)}
-          ></slot>
-        </cs-tooltip>
+            placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
+          >
+            <span class="tooltip-target" slot="target" tabindex="0">
+              ${infoCircleIcon}
+            </span>
 
-        <div class="label">
-          <slot
-            @slotchange=${this.#onLabelSlotChange}
-            ${ref(this.#labelSlotElementRef)}
-          ></slot>
+            <slot
+              class=${classMap({
+                tooltip: true,
+                visible: this.hasTooltipSlot,
+              })}
+              name="tooltip"
+              @slotchange=${this.#onTooltipSlotChange}
+              ${ref(this.#tooltipSlotElementRef)}
+            ></slot>
+          </cs-tooltip>
 
-          ${this.required
-            ? html`<span aria-hidden="true" class="required-symbol">*</span>`
-            : ''}
+          <div class="label" data-test="label">
+            <slot
+              @slotchange=${this.#onLabelSlotChange}
+              ${ref(this.#labelSlotElementRef)}
+            ></slot>
+
+            ${this.required
+              ? html`<span aria-hidden="true" class="required-symbol">*</span>`
+              : ''}
+          </div>
         </div>
       </div>
 
       <slot
         class=${classMap({
           control: true,
+          error: this.error,
           vertical: this.orientation === 'vertical',
           'hidden-label': this.hide,
         })}

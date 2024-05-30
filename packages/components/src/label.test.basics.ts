@@ -1,3 +1,4 @@
+import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import CsLabel from './label.js';
 import sinon from 'sinon';
@@ -99,6 +100,9 @@ it('can be required', async () => {
 
   expect(component.hasAttribute('required')).to.be.true;
   expect(component.required).to.equal(true);
+
+  const label = component.shadowRoot?.querySelector('[data-test="label"]');
+  expect(label?.textContent?.includes('*')).to.be.true;
 });
 
 it('can have an `error`', async () => {
@@ -154,8 +158,10 @@ it('throws if it does not have a default slot', async () => {
         ><input slot="control"
       /></cs-label>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
@@ -170,8 +176,10 @@ it('throws if it does not have a "control" slot', async () => {
         <label>Label</label>
       </cs-label>`,
     );
-  } catch {
-    spy();
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
   }
 
   expect(spy.called).to.be.true;
