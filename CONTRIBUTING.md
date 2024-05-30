@@ -26,10 +26,9 @@
 
 ## Overview
 
-The Glide Core repository is setup as a `pnpm` workspace, containing the following published packages:
+The Glide Core repository is setup as a `pnpm` workspace, containing the following published package:
 
 - `packages/components` - Glide Design System components built with [Lit](https://lit.dev/)
-- `packages/styles` - Glide Design System CSS
 
 The root directory also contains the following directories that are not published as packages:
 

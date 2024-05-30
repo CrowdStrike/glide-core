@@ -1,9 +1,12 @@
 /** @type { import('@storybook/web-components').Preview } */
+
+import '../src/styles/fonts.css';
+import '../src/styles/variables.css';
 import './overrides.css';
-import '@crowdstrike/glide-core-styles';
+
 import { create } from '@storybook/theming/create';
 
-const preview = {
+export default {
   parameters: {
     docs: {
       canvas: {
@@ -17,5 +20,3 @@ const preview = {
     },
   },
 };
-
-export default preview;

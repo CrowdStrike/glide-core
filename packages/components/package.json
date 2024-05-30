@@ -28,7 +28,9 @@
     "./icons/*": null,
     "./styles/*": null,
     "./label.js": null,
-    "./toasts.toast.js": null
+    "./toasts.toast.js": null,
+    "./styles/fonts.js": "./dist/styles/fonts.js",
+    "./styles/variables.js": "./dist/styles/variables.js"
   },
   "scripts": {
     "start": "per-env",
@@ -37,6 +39,7 @@
     "start:production:components": "node ./esbuild.js && tsc --emitDeclarationOnly --declaration --outDir ./dist",
     "start:production:components:comment": "https://github.com/evanw/esbuild/issues/95#issuecomment-626069971",
     "start:production:storybook": "storybook build --config-dir .storybook --disable-telemetry --output-dir ./dist/storybook",
+    "start:production:stylesheets": "mkdir -p ./dist/styles && cp ./src/styles/fonts.css ./src/styles/variables.css ./dist/styles",
     "format": "per-env",
     "format:development": "prettier . --write && stylelint '**/*.styles.ts' --custom-syntax postcss-lit --fix",
     "format:production": "prettier . --check && stylelint '**/*.styles.ts' --custom-syntax postcss-lit --no-color",
@@ -68,7 +71,6 @@
   },
   "devDependencies": {
     "@crowdstrike/glide-core-eslint-plugin": "workspace:*",
-    "@crowdstrike/glide-core-styles": "workspace:*",
     "@eslint/js": "^8.56.0",
     "@open-wc/testing": "^3.2.2",
     "@rollup/plugin-commonjs": "^25.0.7",
