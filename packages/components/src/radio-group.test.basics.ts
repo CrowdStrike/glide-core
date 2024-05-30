@@ -1,9 +1,9 @@
 import './radio-group.js';
 import './radio.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import CsRadio from './radio.js';
 import CsRadioGroup from './radio-group.js';
-// import sinon from 'sinon';
+import expectArgumentError from './library/expect-argument-error.js';
 
 CsRadio.shadowRootOptions.mode = 'open';
 CsRadioGroup.shadowRootOptions.mode = 'open';
@@ -152,6 +152,38 @@ it('does not render a required symbol when a "label" is given and "required" is 
   expect(requiredSymbol).to.be.null;
 });
 
+it('sets "required" attributes on radios when "required" is set on the group', async () => {
+  await fixture(html`
+    <cs-radio-group label="label" name="name" value="value-1" required>
+      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-2">Option 2</cs-radio>
+    </cs-radio-group>
+  `);
+
+  const radios = document.querySelectorAll('cs-radio');
+
+  expect(radios[0]).to.have.attribute('required');
+  expect(radios[0]).to.have.attribute('aria-required', 'true');
+  expect(radios[1]).to.have.attribute('required');
+  expect(radios[1]).to.have.attribute('aria-required', 'true');
+});
+
+it('does not set "required" attributes on radios when "required" is not set on the group', async () => {
+  await fixture(html`
+    <cs-radio-group label="label" name="name" value="value-1">
+      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-2">Option 2</cs-radio>
+    </cs-radio-group>
+  `);
+
+  const radios = document.querySelectorAll('cs-radio');
+
+  expect(radios[0]).to.not.have.attribute('required');
+  expect(radios[0]).to.have.attribute('aria-required', 'false');
+  expect(radios[1]).to.not.have.attribute('required');
+  expect(radios[1]).to.have.attribute('aria-required', 'false');
+});
+
 it('renders radios as "disabled" when "disabled" is set on the group', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name" value="value-1" disabled>
@@ -205,7 +237,9 @@ it('sets the radio with the given "value" as "checked"', async () => {
   expect(radios.length).to.equal(2);
 
   expect(radios[0]).to.not.have.attribute('checked');
+  expect(radios[0]).to.have.attribute('aria-checked', 'false');
   expect(radios[1]).to.have.attribute('checked');
+  expect(radios[1]).to.have.attribute('aria-checked', 'true');
 });
 
 it('sets the group "value" when a radio is set as "checked"', async () => {
@@ -219,4 +253,195 @@ it('sets the group "value" when a radio is set as "checked"', async () => {
   const group = document.querySelector('cs-radio-group');
 
   expect(group).to.have.attribute('value', 'value-2');
+});
+
+it('throws an error when an element other than `cs-radio` is a child of the default slot', async () => {
+  await expectArgumentError(() => {
+    return fixture(html`
+      <cs-radio-group label="label" name="name">
+        <div>Option 1</div>
+        <cs-radio value="value-2">Option 2</cs-radio>
+      </cs-radio-group>
+    `);
+  });
+});
+
+it('throws an error when the group has no children', async () => {
+  await expectArgumentError(() => {
+    return fixture(
+      html`<cs-radio-group label="label" name="name"> </cs-radio-group>`,
+    );
+  });
+});
+
+it('sets the first radio to be tabbable when none are checked', async () => {
+  await fixture(
+    html`<cs-radio-group name="name">
+      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-3">Option 3</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radios = document.querySelectorAll('cs-radio');
+
+  expect(radios.length).to.equal(3);
+  expect(radios[0]).to.have.attribute('tabindex', '0');
+  expect(radios[1]).to.have.attribute('tabindex', '-1');
+  expect(radios[2]).to.have.attribute('tabindex', '-1');
+});
+
+it('sets the first non-disabled radio as tabbable when none are checked', async () => {
+  await fixture(
+    html`<cs-radio-group name="name">
+      <cs-radio value="value-1" disabled>Option 1</cs-radio>
+      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-3">Option 3</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radios = document.querySelectorAll('cs-radio');
+
+  expect(radios.length).to.equal(3);
+  expect(radios[0]).to.have.attribute('tabindex', '-1');
+  expect(radios[1]).to.have.attribute('tabindex', '0');
+  expect(radios[2]).to.have.attribute('tabindex', '-1');
+});
+
+it('no radios are tabbable when the group is "disabled"', async () => {
+  await fixture(
+    html`<cs-radio-group name="name" disabled>
+      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-3" checked>Option 3</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radios = document.querySelectorAll('cs-radio');
+
+  expect(radios.length).to.equal(3);
+  expect(radios[0]).to.have.attribute('tabindex', '-1');
+  expect(radios[1]).to.have.attribute('tabindex', '-1');
+  expect(radios[2]).to.have.attribute('tabindex', '-1');
+});
+
+it('sets only the "checked" radio as tabbable', async () => {
+  await fixture(
+    html`<cs-radio-group name="name">
+      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-3" checked>Option 3</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radios = document.querySelectorAll('cs-radio');
+
+  expect(radios.length).to.equal(3);
+  expect(radios[0]).to.have.attribute('tabindex', '-1');
+  expect(radios[1]).to.have.attribute('tabindex', '-1');
+  expect(radios[2]).to.have.attribute('tabindex', '0');
+});
+
+it('has reactive radio attribute "aria-checked"', async () => {
+  await fixture(
+    html`<cs-radio-group name="name">
+      <cs-radio value="value-1">Option 1</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radio = document.querySelector('cs-radio');
+
+  expect(radio).to.not.be.null;
+
+  expect(radio).to.have.attribute('aria-checked', 'false');
+
+  radio?.setAttribute('checked', '');
+
+  await elementUpdated(radio!);
+
+  expect(radio).to.have.attribute('aria-checked', 'true');
+
+  radio?.removeAttribute('checked');
+
+  await elementUpdated(radio!);
+
+  expect(radio).to.have.attribute('aria-checked', 'false');
+});
+
+it('has reactive radio attribute "aria-disabled"', async () => {
+  await fixture(
+    html`<cs-radio-group name="name">
+      <cs-radio value="value-1">Option 1</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radio = document.querySelector('cs-radio');
+
+  expect(radio).to.not.be.null;
+
+  expect(radio).to.have.attribute('aria-disabled', 'false');
+
+  radio?.setAttribute('disabled', '');
+
+  await elementUpdated(radio!);
+
+  expect(radio).to.have.attribute('aria-disabled', 'true');
+
+  radio?.removeAttribute('disabled');
+
+  await elementUpdated(radio!);
+
+  expect(radio).to.have.attribute('aria-disabled', 'false');
+});
+
+it('has reactive radio attribute "aria-required"', async () => {
+  await fixture(
+    html`<cs-radio-group name="name">
+      <cs-radio value="value-1">Option 1</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radio = document.querySelector('cs-radio');
+
+  expect(radio).to.not.be.null;
+
+  expect(radio).to.have.attribute('aria-required', 'false');
+
+  radio?.setAttribute('required', '');
+
+  await elementUpdated(radio!);
+
+  expect(radio).to.have.attribute('aria-required', 'true');
+
+  radio?.removeAttribute('required');
+
+  await elementUpdated(radio!);
+
+  expect(radio).to.have.attribute('aria-required', 'false');
+});
+
+it('has reactive radio attribute "aria-invalid"', async () => {
+  await fixture(
+    html`<cs-radio-group name="name">
+      <cs-radio value="value-1">Option 1</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radio = document.querySelector('cs-radio');
+
+  expect(radio).to.not.be.null;
+
+  expect(radio).to.have.attribute('aria-invalid', 'false');
+
+  radio?.setAttribute('invalid', '');
+
+  await elementUpdated(radio!);
+
+  expect(radio).to.have.attribute('aria-invalid', 'true');
+
+  radio?.removeAttribute('invalid');
+
+  await elementUpdated(radio!);
+
+  expect(radio).to.have.attribute('aria-invalid', 'false');
 });

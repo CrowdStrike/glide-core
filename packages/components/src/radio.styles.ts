@@ -3,17 +3,20 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    :host(:focus-visible) {
-      outline: none;
+    :host {
+      block-size: 0.875rem;
     }
 
-    /* nesting within host doesn't work with focusOutline */
     /* stylelint-disable-next-line csstools/use-nesting */
-    :host(:focus-visible) .component .radio-circle {
-      box-shadow: var(--cs-glow-sm);
+    :host(:focus-visible) {
+      outline: none;
 
-      ${focusOutline};
-      outline-offset: 4px;
+      & .component .radio-circle {
+        box-shadow: var(--cs-glow-sm);
+
+        ${focusOutline};
+        outline-offset: 4px;
+      }
     }
 
     .component {
@@ -74,7 +77,7 @@ export default [
           }
         }
 
-        &.error {
+        &.invalid {
           border-color: var(--cs-status-error);
         }
 

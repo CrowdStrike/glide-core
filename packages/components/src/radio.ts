@@ -30,7 +30,7 @@ export default class CsRadio extends LitElement {
   disabled = false;
 
   @property({ type: Boolean })
-  error = false;
+  invalid = false;
 
   @property()
   name = '';
@@ -51,7 +51,7 @@ export default class CsRadio extends LitElement {
     this.role = 'radio';
     this.ariaChecked = this.checked.toString();
     this.ariaDisabled = this.disabled.toString();
-    this.ariaInvalid = this.error.toString();
+    this.ariaInvalid = this.invalid.toString();
     this.ariaRequired = this.required.toString();
   }
 
@@ -63,7 +63,7 @@ export default class CsRadio extends LitElement {
           class=${classMap({
             'radio-circle': true,
             checked: this.checked,
-            error: this.error,
+            invalid: this.invalid,
             disabled: this.disabled,
           })}
           name=${this.name}
@@ -87,8 +87,8 @@ export default class CsRadio extends LitElement {
         this.ariaRequired = this.required.toString();
       }
 
-      if (changedProperties.has('error')) {
-        this.ariaInvalid = this.error.toString();
+      if (changedProperties.has('invalid')) {
+        this.ariaInvalid = this.invalid.toString();
       }
     }
   }

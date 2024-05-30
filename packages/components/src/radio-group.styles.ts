@@ -12,7 +12,7 @@ export default [
       font-weight: var(--cs-heading-xxxs-font-weight);
       line-height: 1;
 
-      &.error {
+      &.invalid {
         color: var(--cs-status-error);
       }
 
@@ -72,7 +72,7 @@ export default [
 
       & .radio-container {
         display: flex;
-        gap: var(--cs-spacing-xxs, 0.25rem);
+        gap: var(--cs-spacing-xs, 0.5rem);
       }
 
       & ::slotted([slot='description']) {
@@ -82,10 +82,8 @@ export default [
         font-size: var(--cs-body-xs-font-size);
         font-style: var(--cs-body-xs-font-style);
         font-weight: var(--cs-body-xs-font-weight);
-        grid-column: 2;
-        grid-row: 3;
         line-height: var(--cs-body-xs-line-height);
-        margin-block-start: var(--cs-spacing-xxxs);
+        margin-block-start: var(--cs-spacing-xxs, 0.25rem);
         max-inline-size: var(--max-inline-size);
       }
     }

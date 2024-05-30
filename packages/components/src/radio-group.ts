@@ -103,7 +103,7 @@ export default class CsRadioGroup extends LitElement {
       <div
         class=${classMap({
           component: true,
-          error: this.#isShowValidationFeedback,
+          invalid: this.#isShowValidationFeedback,
         })}
         ${ref(this.#componentElementRef)}
       >
@@ -213,8 +213,8 @@ export default class CsRadioGroup extends LitElement {
       }
 
       // Validity is updated at the end of the render cycle.
-      // To prevent a re-render and correctly remove an error presentation when the state is validm
-      // batch with other updates.
+      // To prevent a re-render and correctly remove an invalid presentation when the state is
+      // in fact valid, batch with other updates.
       if (
         (changedProperties.has('value') &&
           this.value.length > 0 &&
@@ -248,6 +248,8 @@ export default class CsRadioGroup extends LitElement {
 
   #internals: ElementInternals;
 
+  #previousCheckedRadio?: CsRadio;
+
   #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   // An arrow function field instead of a method so `this` is closed over and
@@ -277,11 +279,13 @@ export default class CsRadioGroup extends LitElement {
       this.value = this.radioItems.find((radio) => radio.checked)?.value ?? '';
     }
 
+    this.#previousCheckedRadio = this.radioItems.find((radio) => radio.checked);
+
     this.#setRadiosGroupName();
     this.required && this.#setRequiredRadios();
 
     for (const radioItem of this.radioItems) {
-      this.#setDisabledRadio(this.disabled, radioItem);
+      !radioItem.disabled && this.#setDisabledRadio(this.disabled, radioItem);
     }
 
     !this.disabled && this.#setRadiosTabindex();
@@ -293,11 +297,11 @@ export default class CsRadioGroup extends LitElement {
 
     if (shouldShow) {
       for (const radioItem of this.radioItems) {
-        radioItem.error = true;
+        radioItem.invalid = true;
       }
     } else {
       for (const radioItem of this.radioItems) {
-        radioItem.error = false;
+        radioItem.invalid = false;
       }
     }
 
@@ -305,7 +309,12 @@ export default class CsRadioGroup extends LitElement {
   }
 
   #onClick(event: MouseEvent) {
-    if (this.disabled) {
+    if (this.disabled) return;
+
+    if (event.target instanceof CsRadio && event.target.disabled) {
+      !this.#previousCheckedRadio?.disabled &&
+        this.#previousCheckedRadio?.focus();
+
       return;
     }
 
@@ -338,7 +347,10 @@ export default class CsRadioGroup extends LitElement {
   }
 
   #onKeydown(event: KeyboardEvent) {
-    if (this.disabled) {
+    if (
+      this.disabled ||
+      (event.target instanceof CsRadio && event.target?.disabled)
+    ) {
       return;
     }
 
@@ -463,6 +475,7 @@ export default class CsRadioGroup extends LitElement {
     radio.tabIndex = isChecked ? 0 : -1;
 
     if (isChecked) {
+      this.#previousCheckedRadio = radio;
       this.value = radio.value;
       radio.focus();
       this.#dispatchEvents(radio);
