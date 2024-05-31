@@ -173,6 +173,7 @@ export default class CsCheckbox extends LitElement {
         () =>
           html`<cs-label
             orientation=${this.orientation}
+            ?disabled=${this.disabled}
             ?error=${this.#isShowValidationFeedback}
             ?required=${this.required}
           >
@@ -203,33 +204,27 @@ export default class CsCheckbox extends LitElement {
               inconsistent with how other form controls behave as their validity isn’t announced
               on screen readers by default before validation.
             -->
-            <div class="input-and-checkbox-and-summary" slot="control">
-              <div class="input-and-checkbox">
-                <input
-                  aria-describedby="summary description"
-                  aria-invalid=${this.#isShowValidationFeedback}
-                  data-test="input"
-                  id="input"
-                  type="checkbox"
-                  ?checked=${this.checked}
-                  ?disabled=${this.disabled}
-                  ?required=${this.required}
-                  @change=${this.#onInputChange}
-                  ${ref(this.#inputElementRef)}
-                />
+            <div class="input-and-checkbox" slot="control">
+              <input
+                aria-describedby="summary description"
+                aria-invalid=${this.#isShowValidationFeedback}
+                data-test="input"
+                id="input"
+                type="checkbox"
+                ?checked=${this.checked}
+                ?disabled=${this.disabled}
+                ?required=${this.required}
+                @change=${this.#onInputChange}
+                ${ref(this.#inputElementRef)}
+              />
 
-                <div class="checkbox">
-                  <div class="checked-icon">${checkedIcon}</div>
-                  ${indeterminateIcon}
-                </div>
+              <div class="checkbox">
+                <div class="checked-icon">${checkedIcon}</div>
+                ${indeterminateIcon}
               </div>
-
-              ${when(
-                this.summary,
-                () =>
-                  html`<div class="summary" id="summary">${this.summary}</div>`,
-              )}
             </div>
+
+            <div id="summary" slot="summary">${this.summary}</div>
 
             <slot id="description" name="description" slot="description"></slot>
           </cs-label>`,

@@ -119,6 +119,7 @@ export default class CsTextarea extends LitElement {
   override render() {
     return html`<cs-label
       orientation=${this.orientation}
+      ?disabled=${this.disabled}
       ?error=${this.#isShowValidationFeedback || this.#isInvalidCharacterLength}
       ?hide=${this.hideLabel}
       ?required=${this.required}

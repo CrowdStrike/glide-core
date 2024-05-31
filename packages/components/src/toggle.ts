@@ -2,7 +2,6 @@ import './label.js';
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { when } from 'lit-html/directives/when.js';
 import styles from './toggle.styles.js';
 
 declare global {
@@ -57,56 +56,49 @@ export default class CsToggle extends LitElement {
 
   override render() {
     return html`<div data-test="component">
-      <cs-label orientation=${this.orientation}>
+      <cs-label orientation=${this.orientation} ?disabled=${this.disabled}>
         <slot name="tooltip" slot="tooltip"></slot>
         <label for="input"> ${this.label} </label>
 
-        <div class="toggle-and-input-and-summary" slot="control">
-          <div class="toggle-and-input">
-            <!--
-              The input is described by the summary and description but not the tooltip.
-              Screenreaders will come across the tooltip naturally as they move focus
-              through Toggle.
+        <div class="toggle-and-input" slot="control">
+          <!--
+            The input is described by the summary and description but not the tooltip.
+            Screenreaders will come across the tooltip naturally as they move focus
+            through Toggle.
 
-              Describing the input additionally by the tooltip is possible. We'd have to:
+            Describing the input additionally by the tooltip is possible. We'd have to:
 
-              1. Get the content of the tooltip slot.
-              2. Dump the content into a DIV.
-              3. Visually hide the DIV.
-              4. Describe the input using the DIV.
-              5. Hide the tooltip using "aria-hidden" so its content isn't doubly read.
+            1. Get the content of the tooltip slot.
+            2. Dump the content into a DIV.
+            3. Visually hide the DIV.
+            4. Describe the input using the DIV.
+            5. Hide the tooltip using "aria-hidden" so its content isn't doubly read.
 
-              Even then, the tooltip would still receive focus to support sighted keyboard
-              users. Screenreaders would likewise focus the tooltip. But its contents would
-              not be read aloud because they would be hidden. This would be pretty confusing.
+            Even then, the tooltip would still receive focus to support sighted keyboard
+            users. Screenreaders would likewise focus the tooltip. But its contents would
+            not be read aloud because they would be hidden. This would be pretty confusing.
 
-              —
+            —
 
-              An input gives us a few things that together make using one worthwhile:
+            An input gives us a few things that together make using one worthwhile:
 
-              - "change" and "input" events.
-              - Toggling checked using the spacebar.
-              - The ":checked" pseudo class.
-            -->
-            <input
-              aria-describedby="summary description"
-              data-test="input"
-              id="input"
-              type="checkbox"
-              ?checked=${this.checked}
-              ?disabled=${this.disabled}
-              @change=${this.#onInputChange}
-              ${ref(this.#inputElementRef)}
-            />
-          </div>
-
-          ${when(
-            this.summary,
-            () => html`
-              <div class="summary" id="summary">${this.summary}</div>
-            `,
-          )}
+            - "change" and "input" events.
+            - Toggling checked using the spacebar.
+            - The ":checked" pseudo class.
+          -->
+          <input
+            aria-describedby="summary description"
+            data-test="input"
+            id="input"
+            type="checkbox"
+            ?checked=${this.checked}
+            ?disabled=${this.disabled}
+            @change=${this.#onInputChange}
+            ${ref(this.#inputElementRef)}
+          />
         </div>
+
+        <div slot="summary" id="summary">${this.summary}</div>
 
         <slot
           class="description"
