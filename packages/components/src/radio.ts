@@ -66,6 +66,7 @@ export default class CsRadio extends LitElement {
             invalid: this.invalid,
             disabled: this.disabled,
           })}
+          data-test="radio"
         ></span>
         <slot ${ref(this.#defaultSlotElementRef)}></slot>
       </span>

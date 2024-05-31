@@ -189,6 +189,13 @@ export default class CsRadioGroup extends LitElement {
       (changedProperties.has('value') || changedProperties.has('required'))
     ) {
       this.#onUpdateValidityState();
+
+      // Update aria-invalid after initial render so that user does not experience
+      // invalid announcements when no radio is initially checked and the group is required
+      this.#firstUpdateComplete &&
+        this.#setInvalidRadios(!this.#internals.validity?.valid);
+
+      this.#firstUpdateComplete = true;
     }
   }
 
@@ -217,7 +224,7 @@ export default class CsRadioGroup extends LitElement {
       // in fact valid, batch with other updates.
       if (
         (changedProperties.has('value') &&
-          this.value.length > 0 &&
+          this.value?.length > 0 &&
           this.isReportValidityOrSubmit) ||
         !this.required
       ) {
@@ -246,6 +253,8 @@ export default class CsRadioGroup extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
+  #firstUpdateComplete = false;
+
   #internals: ElementInternals;
 
   #previousCheckedRadio?: CsRadio;
@@ -271,7 +280,7 @@ export default class CsRadioGroup extends LitElement {
   }
 
   #intializeRadios() {
-    if (this.value.length > 0) {
+    if (this.value?.length > 0) {
       for (const radioItem of this.radioItems) {
         radioItem.checked = radioItem.value === this.value;
       }
@@ -292,20 +301,12 @@ export default class CsRadioGroup extends LitElement {
   }
 
   get #isShowValidationFeedback() {
-    const shouldShow =
+    const isInvalid =
       !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit;
 
-    if (shouldShow) {
-      for (const radioItem of this.radioItems) {
-        radioItem.invalid = true;
-      }
-    } else {
-      for (const radioItem of this.radioItems) {
-        radioItem.invalid = false;
-      }
-    }
+    this.#setInvalidRadios(isInvalid);
 
-    return shouldShow;
+    return isInvalid;
   }
 
   #onClick(event: MouseEvent) {
@@ -321,11 +322,11 @@ export default class CsRadioGroup extends LitElement {
     const radioTarget = event.target;
 
     if (radioTarget instanceof CsRadio && !radioTarget?.disabled) {
-      this.#setCheckRadio(true, radioTarget);
+      this.#setCheckedRadio(true, radioTarget);
 
       for (const radioItem of this.radioItems) {
         if (radioItem !== radioTarget) {
-          this.#setCheckRadio(false, radioItem);
+          this.#setCheckedRadio(false, radioItem);
         }
       }
     }
@@ -391,8 +392,8 @@ export default class CsRadioGroup extends LitElement {
             !sibling.disabled &&
             sibling !== radioTarget
           ) {
-            this.#setCheckRadio(false, radioTarget);
-            this.#setCheckRadio(true, sibling);
+            this.#setCheckedRadio(false, radioTarget);
+            this.#setCheckedRadio(true, sibling);
           }
 
           break;
@@ -426,8 +427,8 @@ export default class CsRadioGroup extends LitElement {
             !sibling.disabled &&
             sibling !== radioTarget
           ) {
-            this.#setCheckRadio(false, radioTarget);
-            this.#setCheckRadio(true, sibling);
+            this.#setCheckedRadio(false, radioTarget);
+            this.#setCheckedRadio(true, sibling);
           }
 
           break;
@@ -436,11 +437,11 @@ export default class CsRadioGroup extends LitElement {
           event.preventDefault();
 
           if (!radioTarget.disabled && !radioTarget.checked) {
-            this.#setCheckRadio(true, radioTarget);
+            this.#setCheckedRadio(true, radioTarget);
 
             for (const radioItem of this.radioItems) {
               if (radioItem !== radioTarget) {
-                this.#setCheckRadio(false, radioItem);
+                this.#setCheckedRadio(false, radioItem);
               }
             }
           }
@@ -457,7 +458,7 @@ export default class CsRadioGroup extends LitElement {
   }
 
   #onUpdateValidityState() {
-    if (this.required && this.value.length === 0) {
+    if (this.required && (this.value?.length === 0 || this.value === null)) {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
@@ -470,7 +471,7 @@ export default class CsRadioGroup extends LitElement {
     }
   }
 
-  #setCheckRadio(isChecked: boolean, radio: CsRadio) {
+  #setCheckedRadio(isChecked: boolean, radio: CsRadio) {
     radio.checked = isChecked;
     radio.tabIndex = isChecked ? 0 : -1;
 
@@ -487,6 +488,18 @@ export default class CsRadioGroup extends LitElement {
 
     if (isDisabled) {
       radio.tabIndex = -1;
+    }
+  }
+
+  #setInvalidRadios(isValid: boolean) {
+    if (isValid) {
+      for (const radioItem of this.radioItems) {
+        radioItem.invalid = isValid;
+      }
+    } else {
+      for (const radioItem of this.radioItems) {
+        radioItem.invalid = isValid;
+      }
     }
   }
 

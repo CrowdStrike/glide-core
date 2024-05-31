@@ -4,7 +4,7 @@ import focusOutline from './styles/focus-outline.js';
 export default [
   css`
     :host {
-      block-size: 0.875rem;
+      display: flex;
     }
 
     /* stylelint-disable-next-line csstools/use-nesting */
@@ -24,11 +24,11 @@ export default [
       color: var(--cs-text-body-1, #212121);
       display: inline-flex;
       font-weight: var(--cs-body-md-font-weight);
+      line-height: 1;
 
-      & ::slotted(*) {
-        line-height: 1;
-      }
-
+      /*
+        The radio circle size may change to 16 x 16 as per Design
+      */
       & .radio-circle {
         align-items: center;
         appearance: none;
