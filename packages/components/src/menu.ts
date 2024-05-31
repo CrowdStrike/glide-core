@@ -300,17 +300,13 @@ export default class CsMenu extends LitElement {
     // `document.body` receives focus immediately after focus is moved. So we
     // wait a frame to see where focus ultimately landed.
     setTimeout(() => {
-      const activeElement = document.activeElement;
+      const isOptionFocused = this.#optionElements.some(
+        ({ privateIsFocused }) => privateIsFocused,
+      );
 
-      const isMenuItem =
-        activeElement instanceof CsMenuLink ||
-        activeElement instanceof CsMenuButton;
-
-      if (isMenuItem && this.#optionElements.includes(activeElement)) {
-        return;
+      if (!isOptionFocused) {
+        this.open = false;
       }
-
-      this.open = false;
     });
   }
 
