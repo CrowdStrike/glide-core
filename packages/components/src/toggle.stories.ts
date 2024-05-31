@@ -13,6 +13,9 @@ const meta: Meta = {
         component:
           'A toggle with a label and optional tooltip, summary, and description.',
       },
+      story: {
+        autoplay: true,
+      },
     },
   },
   args: {
@@ -72,20 +75,31 @@ const meta: Meta = {
       },
     },
   },
+  play(context) {
+    // eslint-disable-next-line no-underscore-dangle
+    let arguments_: Meta['args'] = context.args;
 
-  render(arguments_, context) {
-    context.canvasElement.addEventListener('change', (event) => {
-      if (event.target instanceof CsToggle) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            checked: event.target.checked,
-          },
-        });
-      }
+    addons.getChannel().addListener('storyArgsUpdated', (event) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      arguments_ = event.args as typeof context.args;
     });
 
+    context.canvasElement
+      .querySelector('cs-toggle')
+      ?.addEventListener('change', (event) => {
+        if (event.target instanceof CsToggle) {
+          addons.getChannel().emit(STORY_ARGS_UPDATED, {
+            storyId: context.id,
+            args: {
+              ...arguments_,
+              checked: event.target.checked,
+            },
+          });
+        }
+      });
+  },
+
+  render(arguments_) {
     return html`<form style="padding: 1.5rem;">
       <cs-toggle
         label=${arguments_.label || nothing}
