@@ -1,6 +1,5 @@
 import './label.js';
 import { LitElement, html } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { svg } from 'lit/static-html.js';
@@ -137,13 +136,7 @@ export default class CsCheckbox extends LitElement {
   }
 
   override render() {
-    return html`<div
-      class=${classMap({
-        component: true,
-        error: this.#isShowValidationFeedback,
-      })}
-      data-test="component"
-    >
+    return html`<div class="component" data-test="component">
       ${when(
         this.isInCheckboxGroup,
         () => html`

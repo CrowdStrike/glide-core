@@ -186,20 +186,26 @@ const meta: Meta = {
       // story upon load will be scrolled to the first error story. No good.
       document.documentElement.scrollTop = 0;
     }
-  },
-  render(arguments_, context) {
-    context.canvasElement.addEventListener('click', (event) => {
-      if (event.target instanceof CsDropdown) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            open: event.target.open,
-          },
-        });
-      }
+
+    // eslint-disable-next-line no-underscore-dangle
+    let arguments_: Meta['args'] = context.args;
+
+    addons.getChannel().addListener('storyArgsUpdated', (event) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      arguments_ = event.args as typeof context.args;
     });
 
+    context.canvasElement?.addEventListener('click', () => {
+      addons.getChannel().emit(STORY_ARGS_UPDATED, {
+        storyId: context.id,
+        args: {
+          ...arguments_,
+          open: context.canvasElement.querySelector('cs-dropdown')?.open,
+        },
+      });
+    });
+  },
+  render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
     return html`<form style="height: 11rem;">
       <cs-dropdown
@@ -235,19 +241,7 @@ export const SingleSelectionHorizontal: StoryObj = {};
 
 export const SingleSelectionHorizontalWithIcon: StoryObj = {
   name: 'Single Selection (Horizontal With Icon)',
-  render(arguments_, context) {
-    context.canvasElement.addEventListener('click', (event) => {
-      if (event.target instanceof CsDropdown) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            open: event.target.open,
-          },
-        });
-      }
-    });
-
+  render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
     return html`<form style="height: 11rem;">
       <cs-dropdown
@@ -307,19 +301,7 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
     orientation: 'vertical',
   },
   name: 'Single Selection (Vertical With Icon)',
-  render(arguments_, context) {
-    context.canvasElement.addEventListener('click', (event) => {
-      if (event.target instanceof CsDropdown) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            open: event.target.open,
-          },
-        });
-      }
-    });
-
+  render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
     return html`<form style="height: 11rem;">
       <cs-dropdown
