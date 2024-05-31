@@ -35,6 +35,13 @@ export default class CsMenuLink extends LitElement {
   // A link is considered active when it's interacted with via keyboard or hovered.
   privateActive = false;
 
+  // Used by Menu as an alternative to `document.activeElement`. When Menu is
+  // itself in a shadow DOM and an element in that shadow DOM receives focus,
+  // `document.activeElement` will be set to the outer host. Thus, without this,
+  // Menu has no way of knowing whether it's a Menu Button or Menu Link that has
+  // focus or another element within it that host.
+  privateIsFocused = false;
+
   // `shadowRoot.delegatesFocus` is preferred because it's more declarative.
   // But using here it triggers a focus-visible state whenever `this.focus` is
   // called. And we only want a focus outline when the `this.focus` is called
@@ -57,6 +64,8 @@ export default class CsMenuLink extends LitElement {
       href=${ifDefined(this.url)}
       role="menuitem"
       tabindex=${this.privateActive ? '0' : '-1'}
+      @focusin=${this.#onFocusin}
+      @focusout=${this.#onFocusout}
       ${ref(this.#componentElementRef)}
     >
       <slot name="icon"></slot>
@@ -65,4 +74,12 @@ export default class CsMenuLink extends LitElement {
   }
 
   #componentElementRef = createRef<HTMLElement>();
+
+  #onFocusin() {
+    this.privateIsFocused = true;
+  }
+
+  #onFocusout() {
+    this.privateIsFocused = false;
+  }
 }
