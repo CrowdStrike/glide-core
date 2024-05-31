@@ -23,6 +23,9 @@ it('has defaults', async () => {
   expect(component.hasAttribute('disabled')).to.be.false;
   expect(component.disabled).to.be.false;
 
+  expect(component.hasAttribute('hide-label')).to.be.false;
+  expect(component.hideLabel).to.be.false;
+
   expect(component.getAttribute('name')).to.be.null;
   expect(component.name).to.equal(undefined);
 

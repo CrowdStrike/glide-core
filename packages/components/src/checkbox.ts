@@ -1,5 +1,6 @@
 import './label.js';
 import { LitElement, html } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { svg } from 'lit/static-html.js';
@@ -53,6 +54,9 @@ export default class CsCheckbox extends LitElement {
 
   @property({ reflect: true, type: Boolean })
   disabled = false;
+
+  @property({ attribute: 'hide-label', type: Boolean })
+  hideLabel = false;
 
   @property({ type: Boolean })
   indeterminate = false;
@@ -140,7 +144,7 @@ export default class CsCheckbox extends LitElement {
       ${when(
         this.isInCheckboxGroup,
         () => html`
-          <div class="label-and-checkbox">
+          <div class="label-and-input-and-checkbox">
             <div class="input-and-checkbox">
               <input
                 aria-invalid=${this.#isShowValidationFeedback}
@@ -154,7 +158,13 @@ export default class CsCheckbox extends LitElement {
                 ${ref(this.#inputElementRef)}
               />
 
-              <div class="checkbox">
+              <div
+                class=${classMap({
+                  checkbox: true,
+                  disabled: this.disabled,
+                  error: this.#isShowValidationFeedback,
+                })}
+              >
                 <div class="checked-icon">${checkedIcon}</div>
                 ${indeterminateIcon}
               </div>
@@ -168,6 +178,7 @@ export default class CsCheckbox extends LitElement {
             orientation=${this.orientation}
             ?disabled=${this.disabled}
             ?error=${this.#isShowValidationFeedback}
+            ?hide=${this.hideLabel}
             ?required=${this.required}
           >
             <slot name="tooltip" slot="tooltip"></slot>
@@ -211,7 +222,13 @@ export default class CsCheckbox extends LitElement {
                 ${ref(this.#inputElementRef)}
               />
 
-              <div class="checkbox">
+              <div
+                class=${classMap({
+                  checkbox: true,
+                  disabled: this.disabled,
+                  error: this.#isShowValidationFeedback,
+                })}
+              >
                 <div class="checked-icon">${checkedIcon}</div>
                 ${indeterminateIcon}
               </div>

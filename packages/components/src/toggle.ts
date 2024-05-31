@@ -34,6 +34,9 @@ export default class CsToggle extends LitElement {
   @property({ reflect: true, type: Boolean })
   disabled = false;
 
+  @property({ attribute: 'hide-label', type: Boolean })
+  hideLabel = false;
+
   @property({ reflect: true })
   label?: string;
 
@@ -56,7 +59,11 @@ export default class CsToggle extends LitElement {
 
   override render() {
     return html`<div data-test="component">
-      <cs-label orientation=${this.orientation} ?disabled=${this.disabled}>
+      <cs-label
+        orientation=${this.orientation}
+        ?disabled=${this.disabled}
+        ?hide=${this.hideLabel}
+      >
         <slot name="tooltip" slot="tooltip"></slot>
         <label for="input"> ${this.label} </label>
 

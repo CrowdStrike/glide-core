@@ -21,6 +21,7 @@ const meta: Meta = {
     label: 'Label',
     'slot="description"': 'Description',
     disabled: false,
+    'hide-label': false,
     name: 'name',
     required: false,
     value: '',
@@ -45,6 +46,13 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
+    },
+    'hide-label': {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     disabled: {
       control: 'boolean',
@@ -106,6 +114,7 @@ const meta: Meta = {
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label'] || nothing}
         ?required=${arguments_.required}
       >
         <cs-checkbox label="One" value="one"></cs-checkbox>

@@ -14,19 +14,7 @@ Use the ":checked" and ":indeterminate" pseudo classes on the host and throughou
 when browsers support them.
 */
 
-    :host(:not(:disabled)) .component {
-      &.error {
-        .checkbox {
-          border-color: var(--cs-status-error);
-        }
-      }
-    }
-
-    :host(:not(:disabled)) .checkbox:hover {
-      box-shadow: var(--cs-glow-sm);
-    }
-
-    .label-and-checkbox {
+    .label-and-input-and-checkbox {
       align-items: center;
       display: flex;
       font-family: var(--cs-heading-xxxs-font-family);
@@ -60,6 +48,14 @@ when browsers support them.
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
       inline-size: 100%;
       justify-content: center;
+
+      &.error:not(.disabled) {
+        border-color: var(--cs-status-error);
+      }
+
+      &:not(.disabled):hover {
+        box-shadow: var(--cs-glow-sm);
+      }
     }
 
     input {
