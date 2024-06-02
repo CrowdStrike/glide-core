@@ -87,25 +87,11 @@ it('adds an error class after submit when invalid and required', async () => {
   form.requestSubmit();
   await elementUpdated(component);
 
-  const isGroupErrorClass = component.shadowRoot
+  const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.component')
     ?.classList.contains('invalid');
 
-  expect(isGroupErrorClass).to.be.true;
-
-  const radios = document.querySelectorAll('cs-radio');
-
-  let isRadioError = radios[0].shadowRoot
-    ?.querySelector('[data-test="radio"]')
-    ?.classList.contains('invalid');
-
-  expect(isRadioError).to.be.true;
-
-  isRadioError = radios[1].shadowRoot
-    ?.querySelector('[data-test="radio"]')
-    ?.classList.contains('invalid');
-
-  expect(isRadioError).to.be.true;
+  expect(isComponentErrorClass).to.be.true;
 });
 
 it('adds an error class after `reportValidity` is called when invalid and required', async () => {
@@ -122,25 +108,13 @@ it('adds an error class after `reportValidity` is called when invalid and requir
   component.reportValidity();
   await elementUpdated(component);
 
-  const isGroupErrorClass = component.shadowRoot
+  const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.component')
     ?.classList.contains('invalid');
 
-  expect(isGroupErrorClass).to.be.true;
+  expect(isComponentErrorClass).to.be.true;
 
   const radios = document.querySelectorAll('cs-radio');
-
-  let isRadioError = radios[0].shadowRoot
-    ?.querySelector('[data-test="radio"]')
-    ?.classList.contains('invalid');
-
-  expect(isRadioError).to.be.true;
-
-  isRadioError = radios[1].shadowRoot
-    ?.querySelector('[data-test="radio"]')
-    ?.classList.contains('invalid');
-
-  expect(isRadioError).to.be.true;
 
   expect(radios[0]?.invalid).to.be.true;
   expect(radios[0]).to.have.attribute('aria-invalid', 'true');
@@ -159,11 +133,11 @@ it('does not add an error class by default', async () => {
     { parentNode: form },
   );
 
-  const isGroupErrorClass = component.shadowRoot
+  const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.component')
     ?.classList.contains('invalid');
 
-  expect(isGroupErrorClass).to.be.false;
+  expect(isComponentErrorClass).to.be.false;
 
   const radios = document.querySelectorAll('cs-radio');
 
@@ -199,11 +173,11 @@ it('does not add an error class after `reportValidity` is called when not requir
   component.reportValidity();
   await elementUpdated(component);
 
-  const isGroupErrorClass = component.shadowRoot
+  const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.component')
     ?.classList.contains('invalid');
 
-  expect(isGroupErrorClass).to.be.false;
+  expect(isComponentErrorClass).to.be.false;
 
   const radios = document.querySelectorAll('cs-radio');
 
@@ -239,11 +213,11 @@ it('does not add an error class after `reportValidity` is called when required a
   component.reportValidity();
   await elementUpdated(component);
 
-  const isGroupErrorClass = component.shadowRoot
+  const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.component')
     ?.classList.contains('invalid');
 
-  expect(isGroupErrorClass).to.be.false;
+  expect(isComponentErrorClass).to.be.false;
 
   const radios = document.querySelectorAll('cs-radio');
 
@@ -279,11 +253,11 @@ it('does not add an error class after `reportValidity` is called when required b
   component.reportValidity();
   await elementUpdated(component);
 
-  const isGroupErrorClass = component.shadowRoot
+  const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.component')
     ?.classList.contains('invalid');
 
-  expect(isGroupErrorClass).to.be.false;
+  expect(isComponentErrorClass).to.be.false;
 
   const radios = document.querySelectorAll('cs-radio');
 
@@ -319,11 +293,11 @@ it('does not add an error class after `checkValidity` is called when required', 
   component.checkValidity();
   await elementUpdated(component);
 
-  const isGroupErrorClass = component.shadowRoot
+  const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.component')
     ?.classList.contains('invalid');
 
-  expect(isGroupErrorClass).to.be.false;
+  expect(isComponentErrorClass).to.be.false;
 
   const radios = document.querySelectorAll('cs-radio');
 

@@ -20,7 +20,12 @@ declare global {
   }
 }
 /**
- * @description A radio group for use with `<cs-radio>` with label.
+ /**
+ * @description A radio group with a label, and optional tooltip and description. Participates in forms and validation via `FormData` and various methods.
+ *
+ * @slot - One or more of `<cs-radio>`.
+ * @slot description - Additional information or context.
+ * @slot tooltip - Content for the tooltip.
  */
 @customElement('cs-radio-group')
 export default class CsRadioGroup extends LitElement {
@@ -42,7 +47,7 @@ export default class CsRadioGroup extends LitElement {
   @property()
   name = '';
 
-  // To be exposed when a 'horizontal' orientation is implemented
+  // To be exposed when a 'horizontal' orientation is implemented.
   orientation = 'vertical' as const;
 
   @property({ type: Boolean, reflect: true })
@@ -78,6 +83,16 @@ export default class CsRadioGroup extends LitElement {
     this.#intializeRadios();
   }
 
+  override focus(options?: FocusOptions): void {
+    let radioToFocus = this.radioItems.find((radio) => radio.checked);
+
+    if (!radioToFocus) {
+      radioToFocus = this.radioItems.find((radio) => radio.tabIndex === 0);
+    }
+
+    radioToFocus?.focus(options);
+  }
+
   get form() {
     return this.#internals.form;
   }
@@ -95,7 +110,9 @@ export default class CsRadioGroup extends LitElement {
   }
 
   formResetCallback() {
-    this.value = this.getAttribute('value') ?? '';
+    for (const radioItem of this.radioItems) {
+      this.#setCheckedRadio(radioItem.hasAttribute('checked'), radioItem);
+    }
   }
 
   override render() {
@@ -257,6 +274,8 @@ export default class CsRadioGroup extends LitElement {
 
   #internals: ElementInternals;
 
+  // Recall the previously checked radio so that we can
+  // return focus to it when clicking on a disabled radio.
   #previousCheckedRadio?: CsRadio;
 
   #tooltipSlotElementRef = createRef<HTMLSlotElement>();
@@ -280,21 +299,25 @@ export default class CsRadioGroup extends LitElement {
   }
 
   #intializeRadios() {
-    if (this.value?.length > 0) {
-      for (const radioItem of this.radioItems) {
-        radioItem.checked = radioItem.value === this.value;
-      }
-    } else {
-      this.value = this.radioItems.find((radio) => radio.checked)?.value ?? '';
-    }
+    // Set the default checked radio item to be the first checked radio, if it exists
+    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#value
+    const intialCheckedRadio = this.radioItems.find((radio) => radio.checked);
 
-    this.#previousCheckedRadio = this.radioItems.find((radio) => radio.checked);
+    this.value = intialCheckedRadio?.value ?? '';
+
+    this.#previousCheckedRadio = intialCheckedRadio;
 
     this.#setRadiosGroupName();
     this.required && this.#setRequiredRadios();
 
     for (const radioItem of this.radioItems) {
-      !radioItem.disabled && this.#setDisabledRadio(this.disabled, radioItem);
+      // Set all radios as disabled if the group is disabled, otherwise set
+      // inidividual radios as given.
+      if (this.disabled) {
+        this.#setDisabledRadio(this.disabled, radioItem);
+      } else {
+        this.#setDisabledRadio(radioItem.disabled, radioItem);
+      }
     }
 
     !this.disabled && this.#setRadiosTabindex();
@@ -344,6 +367,7 @@ export default class CsRadioGroup extends LitElement {
 
     if (!this.isCheckingValidity) {
       this.isReportValidityOrSubmit = true;
+      this.focus();
     }
   }
 
@@ -358,15 +382,11 @@ export default class CsRadioGroup extends LitElement {
     if (event.target instanceof CsRadio) {
       const radioTarget = event.target;
 
-      if (radioTarget.disabled) {
-        return;
-      }
-
       switch (event.key) {
         case 'ArrowUp':
         case 'ArrowLeft': {
           event.preventDefault();
-          // find the closest enabled radio
+          // Find the closest enabled radio.
           let sibling = radioTarget.previousElementSibling;
 
           while (
@@ -401,7 +421,7 @@ export default class CsRadioGroup extends LitElement {
         case 'ArrowDown':
         case 'ArrowRight': {
           event.preventDefault();
-          // find the closest enabled button
+          // Find the closest enabled radio.
           let sibling = radioTarget.nextElementSibling;
 
           while (
@@ -492,14 +512,8 @@ export default class CsRadioGroup extends LitElement {
   }
 
   #setInvalidRadios(isValid: boolean) {
-    if (isValid) {
-      for (const radioItem of this.radioItems) {
-        radioItem.invalid = isValid;
-      }
-    } else {
-      for (const radioItem of this.radioItems) {
-        radioItem.invalid = isValid;
-      }
+    for (const radioItem of this.radioItems) {
+      radioItem.invalid = isValid;
     }
   }
 
@@ -510,17 +524,13 @@ export default class CsRadioGroup extends LitElement {
   }
 
   #setRadiosTabindex() {
-    // Do not set any button as tabbable if all are disabled
+    // Do not set any radio as tabbable if all are disabled.
     if (this.disabled || this.radioItems.every((button) => button.disabled)) {
-      for (const radioItem of this.radioItems) {
-        radioItem.tabIndex = -1;
-      }
-
       return;
     }
 
-    // Set tabbable if this is the first selected enabled element or the
-    // first enabled element; otherwise set the radio item as not tabbable
+    // Set a radio as tabbable if it is the first checked and enabled element, or the
+    // first enabled element; otherwise set the radio as not tabbable.
     let firstTabbableRadio: CsRadio | null = null;
 
     const firstEnabledCheckedRadio = this.radioItems.find(

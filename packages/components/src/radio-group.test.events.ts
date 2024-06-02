@@ -283,6 +283,25 @@ it('does not change focus nor the "checked" attribute when clicking a disabled r
   expect(radios[1]).to.not.have.attribute('checked');
 });
 
+it('does not change focus nor the "checked" attribute when clicking a disabled group', async () => {
+  const element = await fixture(
+    html`<cs-radio-group name="name" disabled>
+      <cs-radio value="value-1" checked>Option 1</cs-radio>
+      <cs-radio value="value-2">Option 2</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radios = document.querySelectorAll('cs-radio');
+
+  expect(radios.length).to.equal(2);
+  radios[1].click();
+  await elementUpdated(element);
+
+  expect(radios[0]).to.not.have.focus;
+  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[1]).to.not.have.attribute('checked');
+});
+
 it('changes the "checked" attribute when pressing arrow and space keys', async () => {
   await fixture(
     html`<cs-radio-group name="name">
@@ -324,4 +343,48 @@ it('changes the "checked" attribute when pressing arrow and space keys', async (
   expect(radios[2]).to.have.focus;
   expect(radios[2]).to.have.attribute('checked');
   expect(radios[0]).to.not.have.attribute('checked');
+});
+
+it('does not change the "checked" attribute nor focus when pressing arrow and space keys when the group is disabled', async () => {
+  await fixture(
+    html`<cs-radio-group name="name" disabled>
+      <cs-radio value="value-1" checked>Option 1</cs-radio>
+      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-3">Option 3</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radios = document.querySelectorAll('cs-radio');
+
+  radios[0].focus();
+
+  await sendKeys({ press: 'ArrowRight' });
+
+  expect(radios[0]).to.have.focus;
+  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[2]).to.not.have.attribute('checked');
+
+  await sendKeys({ press: 'ArrowDown' });
+
+  expect(radios[0]).to.have.focus;
+  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[2]).to.not.have.attribute('checked');
+
+  await sendKeys({ press: 'ArrowUp' });
+
+  expect(radios[0]).to.have.focus;
+  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[1]).to.not.have.attribute('checked');
+
+  await sendKeys({ press: 'ArrowLeft' });
+
+  expect(radios[0]).to.have.focus;
+  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[1]).to.not.have.attribute('checked');
+
+  radios[1].focus();
+  await sendKeys({ press: ' ' });
+
+  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[1]).to.not.have.attribute('checked');
 });

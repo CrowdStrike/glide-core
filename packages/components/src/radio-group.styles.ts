@@ -3,7 +3,7 @@ import { css } from 'lit';
 export default [
   css`
     .component {
-      color: var(--cs-text-body-1, #212121);
+      color: var(--cs-text-body-1);
       display: inline-flex;
       font-family: var(--cs-heading-xxxs-font-family);
       font-size: var(--cs-heading-xxxs-font-size);
@@ -14,6 +14,12 @@ export default [
 
       &.invalid {
         color: var(--cs-status-error);
+
+        & fieldset {
+          border: 1px solid var(--cs-status-error);
+          border-radius: 0.5rem;
+          padding: 0.375rem var(--cs-spacing-xxs);
+        }
       }
 
       & fieldset {
@@ -32,7 +38,7 @@ export default [
       }
 
       & .label-container {
-        color: var(--cs-text-body-1, #212121);
+        color: var(--cs-text-body-1);
         display: inline-flex;
         flex-direction: row;
         margin-inline-end: var(--cs-spacing-sm, 0.75rem);

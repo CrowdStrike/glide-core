@@ -21,22 +21,22 @@ export default [
 
     .component {
       align-items: center;
-      color: var(--cs-text-body-1, #212121);
+      color: var(--cs-text-body-1);
       display: inline-flex;
       font-weight: var(--cs-body-md-font-weight);
       line-height: 1;
 
       /*
-        The radio circle size may change to 16 x 16 as per Design
+        The radio circle size may change to 16px as per Design
       */
       & .radio-circle {
         align-items: center;
         appearance: none;
-        background-color: var(--cs-color-white, #fff);
+        background-color: var(--cs-color-white);
 
         /* 14px = 0.875rem */
         block-size: 0.875rem;
-        border: 1px solid var(--cs-border-base-dark, #6d6d6d);
+        border: 1px solid var(--cs-border-base-dark);
         border-radius: 50%;
         box-sizing: border-box;
         content: ' ';
@@ -49,10 +49,10 @@ export default [
         position: relative;
 
         &.checked {
-          border-color: var(--cs-surface-primary, #0073e6);
+          border-color: var(--cs-surface-primary);
 
           &::after {
-            background-color: var(--cs-surface-primary, #0073e6);
+            background-color: var(--cs-surface-primary);
 
             /*
               svg in figma has viewbox 16px, with inner circle radius of 8px, however figma element has height & width of 14px;
@@ -75,10 +75,6 @@ export default [
             inset-inline-start: calc(50% - 0.2187rem);
             position: absolute;
           }
-        }
-
-        &.invalid {
-          border-color: var(--cs-status-error);
         }
 
         &.disabled {

@@ -11,8 +11,9 @@ declare global {
   }
 }
 /**
- * @description A radio input for use with `<cs-radio-group>` with label.
+ * @description A radio element for use with `<cs-radio-group>`.
  *
+ * @slot - Label for the radio element.
  */
 @customElement('cs-radio')
 export default class CsRadio extends LitElement {
@@ -63,7 +64,6 @@ export default class CsRadio extends LitElement {
           class=${classMap({
             'radio-circle': true,
             checked: this.checked,
-            invalid: this.invalid,
             disabled: this.disabled,
           })}
           data-test="radio"

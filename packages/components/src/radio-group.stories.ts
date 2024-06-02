@@ -41,7 +41,7 @@ const meta: Meta = {
           ?disabled=${arguments_.disabled}
           ?required=${arguments_.required}
         >
-          <cs-radio value="value-1">Option 1</cs-radio>
+          <cs-radio value="value-1" checked>Option 1</cs-radio>
           <cs-radio value="value-2">Option 2</cs-radio>
           <cs-radio value="value-3">Option 3</cs-radio>
           ${arguments_['slot="tooltip"']
@@ -59,7 +59,7 @@ const meta: Meta = {
     disabled: false,
     name: 'name',
     required: false,
-    value: 'value-1',
+    value: '',
   },
   argTypes: {
     'checkValidity()': {
@@ -147,4 +147,25 @@ export const VerticalWithError: StoryObj = {
     value: '',
   },
   name: 'Vertical (With Error)',
+  render: (arguments_) => {
+    return html`
+      <form style="padding: 1.5rem;">
+        <cs-radio-group
+          label=${arguments_.label}
+          name=${arguments_.name}
+          value=${arguments_.value}
+          ?disabled=${arguments_.disabled}
+          ?required=${arguments_.required}
+        >
+          <cs-radio value="value-1">Option 1</cs-radio>
+          <cs-radio value="value-2">Option 2</cs-radio>
+          <cs-radio value="value-3">Option 3</cs-radio>
+          ${arguments_['slot="tooltip"']
+            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+            : ''}
+          <div slot="description">${arguments_['slot="description"']}</div>
+        </cs-radio-group>
+      </form>
+    `;
+  },
 };

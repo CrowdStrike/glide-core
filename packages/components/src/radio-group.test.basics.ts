@@ -29,20 +29,31 @@ it('is accessible', async () => {
 
 it('renders appropriate attributes on cs-radio', async () => {
   await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1">
+    <cs-radio-group label="label" name="name">
       <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-2" checked>Option 2</cs-radio>
     </cs-radio-group>
   `);
 
-  const radio = document.querySelector('cs-radio');
-  expect(radio).to.have.attribute('value', 'value-1');
-  expect(radio).to.have.attribute('tabindex', '0');
-  expect(radio).to.have.attribute('checked');
-  expect(radio).to.have.attribute('role', 'radio');
-  expect(radio).to.have.attribute('aria-checked', 'true');
-  expect(radio).to.have.attribute('aria-disabled', 'false');
-  expect(radio).to.have.attribute('aria-invalid', 'false');
-  expect(radio).to.have.attribute('aria-required', 'false');
+  const radios = document.querySelectorAll('cs-radio');
+
+  expect(radios[0]).to.have.attribute('value', 'value-1');
+  expect(radios[0]).to.have.attribute('tabindex', '-1');
+  expect(radios[0]).to.not.have.attribute('checked');
+  expect(radios[0]).to.have.attribute('role', 'radio');
+  expect(radios[0]).to.have.attribute('aria-checked', 'false');
+  expect(radios[0]).to.have.attribute('aria-disabled', 'false');
+  expect(radios[0]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[0]).to.have.attribute('aria-required', 'false');
+
+  expect(radios[1]).to.have.attribute('value', 'value-2');
+  expect(radios[1]).to.have.attribute('tabindex', '0');
+  expect(radios[1]).to.have.attribute('checked');
+  expect(radios[1]).to.have.attribute('role', 'radio');
+  expect(radios[1]).to.have.attribute('aria-checked', 'true');
+  expect(radios[1]).to.have.attribute('aria-disabled', 'false');
+  expect(radios[1]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[1]).to.have.attribute('aria-required', 'false');
 });
 
 it('renders a label, radio group, description, and tooltip when given', async () => {
@@ -212,9 +223,37 @@ it('does not render radios as "disabled" when "disabled" is not set on the group
   expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.null;
 });
 
+it('renders radios as "disabled" when "disabled" is dynamically set and removed on the group', async () => {
+  const component = await fixture<CsRadioGroup>(html`
+    <cs-radio-group label="label" name="name" value="value-1">
+      <cs-radio value="value-1">Option 1</cs-radio>
+    </cs-radio-group>
+  `);
+
+  const radio = document.querySelector('cs-radio');
+
+  expect(radio).to.not.have.attribute('disabled');
+  expect(radio).to.have.attribute('aria-disabled', 'false');
+  expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.null;
+
+  component.disabled = true;
+  await elementUpdated(component);
+
+  expect(radio).to.have.attribute('disabled');
+  expect(radio).to.have.attribute('aria-disabled', 'true');
+  expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.not.null;
+
+  component.disabled = false;
+  await elementUpdated(component);
+
+  expect(radio).to.not.have.attribute('disabled');
+  expect(radio).to.have.attribute('aria-disabled', 'false');
+  expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.null;
+});
+
 it('sets the "name" property on radios when set on the group', async () => {
   await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1" disabled>
+    <cs-radio-group label="label" name="name" value="value-1">
       <cs-radio value="value-1">Option 1</cs-radio>
     </cs-radio-group>
   `);
@@ -224,9 +263,9 @@ it('sets the "name" property on radios when set on the group', async () => {
   expect(radio?.name).to.equal('name');
 });
 
-it('sets the radio with the given "value" as "checked"', async () => {
-  await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-2">
+it('sets the radio group to an empty value when no radio is "checked"', async () => {
+  const component = await fixture<CsRadioGroup>(html`
+    <cs-radio-group label="label" name="name">
       <cs-radio value="value-1">Option 1</cs-radio>
       <cs-radio value="value-2">Option 2</cs-radio>
     </cs-radio-group>
@@ -234,12 +273,13 @@ it('sets the radio with the given "value" as "checked"', async () => {
 
   const radios = document.querySelectorAll('cs-radio');
 
+  expect(component.value).to.equal('');
   expect(radios.length).to.equal(2);
 
   expect(radios[0]).to.not.have.attribute('checked');
   expect(radios[0]).to.have.attribute('aria-checked', 'false');
-  expect(radios[1]).to.have.attribute('checked');
-  expect(radios[1]).to.have.attribute('aria-checked', 'true');
+  expect(radios[1]).to.not.have.attribute('checked');
+  expect(radios[1]).to.have.attribute('aria-checked', 'false');
 });
 
 it('sets the group "value" when a radio is set as "checked"', async () => {
@@ -323,6 +363,21 @@ it('no radios are tabbable when the group is "disabled"', async () => {
   expect(radios[0]).to.have.attribute('tabindex', '-1');
   expect(radios[1]).to.have.attribute('tabindex', '-1');
   expect(radios[2]).to.have.attribute('tabindex', '-1');
+});
+
+it('disabled radios are not tabbable', async () => {
+  await fixture(
+    html`<cs-radio-group name="name">
+      <cs-radio value="value-1" disabled>Option 1</cs-radio>
+      <cs-radio value="value-2" disabled>Option 2</cs-radio>
+    </cs-radio-group>`,
+  );
+
+  const radios = document.querySelectorAll('cs-radio');
+
+  expect(radios.length).to.equal(2);
+  expect(radios[0]).to.have.attribute('tabindex', '-1');
+  expect(radios[1]).to.have.attribute('tabindex', '-1');
 });
 
 it('sets only the "checked" radio as tabbable', async () => {
@@ -444,4 +499,21 @@ it('has reactive radio attribute "aria-invalid"', async () => {
   await elementUpdated(radio!);
 
   expect(radio).to.have.attribute('aria-invalid', 'false');
+});
+
+it('exposes standard form control properties and methods', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<CsRadioGroup>(
+    html`<cs-radio-group label="label" name="name">
+      <cs-radio value="value-1">Option 1</cs-radio>
+    </cs-radio-group>`,
+    { parentNode: form },
+  );
+
+  expect(component.form).to.equal(form);
+  expect(component.validity instanceof ValidityState).to.be.true;
+  expect(component.willValidate).to.be.true;
+  expect(component.checkValidity).to.be.a('function');
+  expect(component.reportValidity).to.be.a('function');
 });
