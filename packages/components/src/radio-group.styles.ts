@@ -18,7 +18,7 @@ export default [
         & fieldset {
           border: 1px solid var(--cs-status-error);
           border-radius: 0.5rem;
-          padding: 0.375rem var(--cs-spacing-xxs);
+          padding: var(--cs-spacing-xxs) 0.375rem;
         }
       }
 
