@@ -26,8 +26,11 @@
   --cs-color-dark-blue: #054fb9;
   --cs-color-white: #ffffff;
   --cs-font-sans: 'Nunito';
+  --cs-font-weight-semi-bold: 600;
   --cs-font-weight-bold: 700;
   --cs-glow-sm: 0px 0px 2px 0px #2c97eee5;
+  --cs-heading-xs-font-size: 1.25rem;
+  --cs-heading-xs-font-weight: var(--cs-font-weight-semi-bold);
   --cs-heading-xxs-font-family: var(--cs-font-sans);
   --cs-heading-xxs-font-size: 1rem;
   --cs-heading-xxs-font-style: normal;
@@ -79,6 +82,8 @@
   --cs-surface-primary-disabled: #1d7afc26;
   --cs-surface-selected: #0073e6;
   --cs-surface-selected-disabled: #8a8a8a;
+  --cs-surface-informational: #eef5ff;
+  --cs-surface-success: #f1fdf4;
   --cs-text-body-1: #212121;
   --cs-text-header-2: #8a8a8a;
   --cs-text-primary-hover: #8babf1;
