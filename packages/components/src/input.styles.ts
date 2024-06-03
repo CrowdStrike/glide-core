@@ -45,8 +45,8 @@ export default css`
       border-color: var(--cs-border-focus);
     }
 
-    /* we had to resort to an attribute selector because there may be a bug in chrome and safari
-    * with ':read-only'
+    /* We had to resort to a class selector because there may be a bug in Chrome and Safari
+    * with ":read-only"
     * https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
     */
     &.readonly {
