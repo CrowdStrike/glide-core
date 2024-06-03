@@ -1,7 +1,7 @@
 import './icon-button.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { createRef, ref } from 'lit-html/directives/ref.js';
+import { createRef, ref } from 'lit/directives/ref.js';
 import {
   customElement,
   property,

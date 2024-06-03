@@ -7,7 +7,7 @@ import {
   queryAssignedElements,
 } from 'lit/decorators.js';
 import { owSlotType } from './library/ow.js';
-import { when } from 'lit-html/directives/when.js';
+import { when } from 'lit/directives/when.js';
 import CsButtonGroupButton from './button-group.button.js';
 import styles from './button-group.styles.js';
 
