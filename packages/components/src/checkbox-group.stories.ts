@@ -1,5 +1,5 @@
 import './checkbox.js';
-import { html, nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import CsCheckboxGroup from './checkbox-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 

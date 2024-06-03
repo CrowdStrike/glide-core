@@ -1,6 +1,6 @@
 import './icon-button.js';
 import './icons/storybook.js';
-import { html } from 'lit-html';
+import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {

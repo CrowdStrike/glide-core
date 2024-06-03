@@ -1,6 +1,6 @@
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html, nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import CsCheckbox from './checkbox.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 

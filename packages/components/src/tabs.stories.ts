@@ -2,7 +2,7 @@ import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
 
-import { html } from 'lit-html';
+import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
