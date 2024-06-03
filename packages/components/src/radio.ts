@@ -68,7 +68,10 @@ export default class CsRadio extends LitElement {
           })}
           data-test="radio"
         ></span>
-        <slot ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </span>
     `;
   }
@@ -94,4 +97,9 @@ export default class CsRadio extends LitElement {
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [Text]);
+  }
 }

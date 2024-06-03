@@ -306,6 +306,14 @@ it('throws an error when an element other than `cs-radio` is a child of the defa
   });
 });
 
+it('throws an error when an element other than `Text` is a child of the default radio slot', async () => {
+  await expectArgumentError(() => {
+    return fixture(
+      html`<cs-radio value="value-1"><div>Option 1</div></cs-radio> `,
+    );
+  });
+});
+
 it('throws an error when the group has no children', async () => {
   await expectArgumentError(() => {
     return fixture(

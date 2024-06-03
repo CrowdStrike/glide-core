@@ -23,6 +23,9 @@ declare global {
  /**
  * @description A radio group with a label, and optional tooltip and description. Participates in forms and validation via `FormData` and various methods.
  *
+ * @event change - Dispatched when a radio is clicked or checked by key press.
+ * @event input - Dispatched when a radio is clicked or checked by key press.
+ *
  * @slot - One or more of `<cs-radio>`.
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
@@ -207,10 +210,12 @@ export default class CsRadioGroup extends LitElement {
     ) {
       this.#onUpdateValidityState();
 
-      // Update aria-invalid after initial render so that user does not experience
-      // invalid announcements when no radio is initially checked and the group is required
+      // Update radio presentation/announcement after initial render so
+      // that user does not experience an invalid presentation/announcement when no radio is initially
+      // checked and the group is required.
       this.#firstUpdateComplete &&
-        this.#setInvalidRadios(!this.#internals.validity?.valid);
+        this.#internals.validity &&
+        this.#setInvalidRadios(!this.#internals.validity.valid);
 
       this.#firstUpdateComplete = true;
     }
@@ -236,7 +241,7 @@ export default class CsRadioGroup extends LitElement {
         }
       }
 
-      // Validity is updated at the end of the render cycle.
+      // Validity is updated at the end of the render cycle in lifecycle method `updated`.
       // To prevent a re-render and correctly remove an invalid presentation when the state is
       // in fact valid, batch with other updates.
       if (
@@ -335,16 +340,23 @@ export default class CsRadioGroup extends LitElement {
   #onClick(event: MouseEvent) {
     if (this.disabled) return;
 
-    if (event.target instanceof CsRadio && event.target.disabled) {
-      !this.#previousCheckedRadio?.disabled &&
-        this.#previousCheckedRadio?.focus();
-
+    if (
+      event.target instanceof CsRadio &&
+      event.target.disabled &&
+      this.#previousCheckedRadio &&
+      !this.#previousCheckedRadio.disabled
+    ) {
+      this.#previousCheckedRadio?.focus();
       return;
     }
 
     const radioTarget = event.target;
 
-    if (radioTarget instanceof CsRadio && !radioTarget?.disabled) {
+    if (
+      radioTarget instanceof CsRadio &&
+      radioTarget &&
+      !radioTarget.disabled
+    ) {
       this.#setCheckedRadio(true, radioTarget);
 
       for (const radioItem of this.radioItems) {
@@ -511,9 +523,9 @@ export default class CsRadioGroup extends LitElement {
     }
   }
 
-  #setInvalidRadios(isValid: boolean) {
+  #setInvalidRadios(isInvalid: boolean) {
     for (const radioItem of this.radioItems) {
-      radioItem.invalid = isValid;
+      radioItem.invalid = isInvalid;
     }
   }
 

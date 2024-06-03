@@ -27,14 +27,13 @@ export default [
       line-height: 1;
 
       /*
-        The radio circle size may change to 16px as per Design
+        The radio circle size may change to 16px as per Design;
+        14px = 0.875rem
       */
       & .radio-circle {
         align-items: center;
         appearance: none;
         background-color: var(--cs-color-white);
-
-        /* 14px = 0.875rem */
         block-size: 0.875rem;
         border: 1px solid var(--cs-border-base-dark);
         border-radius: 50%;

@@ -41,7 +41,7 @@ export default [
         color: var(--cs-text-body-1);
         display: inline-flex;
         flex-direction: row;
-        margin-inline-end: var(--cs-spacing-sm, 0.75rem);
+        margin-inline-end: var(--cs-spacing-sm);
 
         cs-tooltip {
           display: none;
@@ -73,12 +73,13 @@ export default [
 
         & .required-symbol {
           color: var(--cs-status-error);
+          margin-inline-start: var(--cs-spacing-xxxs);
         }
       }
 
       & .radio-container {
         display: flex;
-        gap: var(--cs-spacing-xs, 0.5rem);
+        gap: var(--cs-spacing-xs);
       }
 
       & ::slotted([slot='description']) {
@@ -89,7 +90,7 @@ export default [
         font-style: var(--cs-body-xs-font-style);
         font-weight: var(--cs-body-xs-font-weight);
         line-height: var(--cs-body-xs-line-height);
-        margin-block-start: var(--cs-spacing-xxs, 0.25rem);
+        margin-block-start: var(--cs-spacing-xxs);
         max-inline-size: var(--max-inline-size);
       }
     }
