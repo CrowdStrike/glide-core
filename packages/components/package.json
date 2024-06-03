@@ -1,6 +1,6 @@
 {
   "name": "@crowdstrike/glide-core-components",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "CrowdStrike's Glide Design System components package for providing web components",
   "author": "CrowdStrike UX Team",
   "license": "Apache-2.0",
