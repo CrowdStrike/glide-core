@@ -3,7 +3,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { owSlot, owSlotType } from './library/ow.js';
+import { owSlotType } from './library/ow.js';
 import CsDropdownOption from './dropdown.option.js';
 import styles from './dropdown.styles.js';
 
@@ -98,7 +98,6 @@ export default class CsDropdown extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
     owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption]);
 
     const firstOption = this.#optionElements.at(0);
@@ -381,7 +380,6 @@ export default class CsDropdown extends LitElement {
   }
 
   #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
     owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption]);
   }
 
