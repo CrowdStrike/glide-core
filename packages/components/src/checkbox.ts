@@ -4,7 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { svg } from 'lit/static-html.js';
-import { when } from 'lit-html/directives/when.js';
+import { when } from 'lit/directives/when.js';
 import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
 
