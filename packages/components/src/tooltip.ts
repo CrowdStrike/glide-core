@@ -71,7 +71,11 @@ export default class CsTooltip extends LitElement {
 
     /* eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/accessible-name */
     return html`
-      <div class="component">
+      <div
+        class="component"
+        @mouseover=${this.#onMouseover}
+        @mouseout=${this.#onMouseout}
+      >
         <div
           aria-labelledby="tooltip"
           class="target"
@@ -79,8 +83,6 @@ export default class CsTooltip extends LitElement {
           @focusin=${this.#onFocusin}
           @focusout=${this.#onFocusout}
           @keydown=${this.#onKeydown}
-          @mouseover=${this.#onMouseover}
-          @mouseout=${this.#onMouseout}
           ${ref(this.#targetElementRef)}
         >
           <slot
@@ -119,6 +121,8 @@ export default class CsTooltip extends LitElement {
 
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
+  #closeTimeoutId?: ReturnType<typeof setTimeout>;
+
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #isVisible = false;
@@ -128,6 +132,10 @@ export default class CsTooltip extends LitElement {
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
   #tooltipElementRef = createRef<HTMLSpanElement>();
+
+  #cancelClose() {
+    clearTimeout(this.#closeTimeoutId);
+  }
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
@@ -148,15 +156,22 @@ export default class CsTooltip extends LitElement {
   }
 
   #onMouseout() {
-    this.isVisible = false;
+    this.#scheduleClose();
   }
 
   #onMouseover() {
+    this.#cancelClose();
     this.isVisible = true;
   }
 
   #onTargetSlotChange() {
     owSlot(this.#targetSlotElementRef.value);
+  }
+
+  #scheduleClose() {
+    this.#closeTimeoutId = setTimeout(() => {
+      this.isVisible = false;
+    }, 200);
   }
 
   #setUpFloatingUi() {
