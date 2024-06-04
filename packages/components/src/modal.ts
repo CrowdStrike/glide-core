@@ -99,7 +99,7 @@ export default class CsModal extends LitElement {
       })}
       tabindex="-1"
       @keydown=${this.#onKeyDown}
-      @mousedown=${this.#handleMouseDown}
+      @mousedown=${this.#onMousedown}
       ${ref(this.#componentElementRef)}
     >
       <header class="header">
@@ -261,34 +261,6 @@ export default class CsModal extends LitElement {
 
   #headerActionsSlotElementRef = createRef<HTMLSlotElement>();
 
-  #handleMouseDown(event: MouseEvent) {
-    if (event.target !== this.#componentElementRef.value) {
-      return;
-    }
-
-    // There's a case where if the dialog has padding (like ours does), clicking
-    // in the padding area will not be considered "inside" of the dialog
-    // and will force a close. This behavior is not ideal at all.
-    // This logic verifies that only clicking  *outside* of the dialog
-    // (normally on the backdrop) closes the dialog.
-    const dialogBoundingRect =
-      this.#componentElementRef.value?.getBoundingClientRect();
-
-    if (dialogBoundingRect) {
-      const isClickInsideDialog =
-        dialogBoundingRect.top <= event.clientY &&
-        event.clientY <= dialogBoundingRect.top + dialogBoundingRect.height &&
-        dialogBoundingRect.left <= event.clientX &&
-        event.clientX <= dialogBoundingRect.left + dialogBoundingRect.width;
-
-      if (!isClickInsideDialog) {
-        document.documentElement.classList.remove('glide-lock-scroll');
-        this.dispatchEvent(new Event('close'));
-        this.#componentElementRef.value?.close();
-      }
-    }
-  }
-
   #onCloseButtonClick() {
     document.documentElement.classList.remove('glide-lock-scroll');
     this.dispatchEvent(new Event('close'));
@@ -326,5 +298,33 @@ export default class CsModal extends LitElement {
     document.documentElement.classList.remove('glide-lock-scroll');
     this.dispatchEvent(new Event('close'));
     this.#componentElementRef.value?.close();
+  }
+
+  #onMousedown(event: MouseEvent) {
+    if (event.target !== this.#componentElementRef.value) {
+      return;
+    }
+
+    // There's a case where if the dialog has padding (like ours does), clicking
+    // in the padding area will not be considered "inside" of the dialog
+    // and will force a close. This behavior is not ideal at all.
+    // This logic verifies that only clicking  *outside* of the dialog
+    // (normally on the backdrop) closes the dialog.
+    const dialogBoundingRect =
+      this.#componentElementRef.value?.getBoundingClientRect();
+
+    if (dialogBoundingRect) {
+      const isClickInsideDialog =
+        dialogBoundingRect.top <= event.clientY &&
+        event.clientY <= dialogBoundingRect.top + dialogBoundingRect.height &&
+        dialogBoundingRect.left <= event.clientX &&
+        event.clientX <= dialogBoundingRect.left + dialogBoundingRect.width;
+
+      if (!isClickInsideDialog) {
+        document.documentElement.classList.remove('glide-lock-scroll');
+        this.dispatchEvent(new Event('close'));
+        this.#componentElementRef.value?.close();
+      }
+    }
   }
 }
