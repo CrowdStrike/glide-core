@@ -1,8 +1,6 @@
 import { LitElement, type PropertyValueMap, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { createRef, ref } from 'lit-html/directives/ref.js';
-import { customElement, property, state } from 'lit/decorators.js';
-import { owSlot, owSlotType } from './library/ow.js';
+import { customElement, property } from 'lit/decorators.js';
 import styles from './radio.styles.js';
 
 declare global {
@@ -13,7 +11,6 @@ declare global {
 /**
  * @description A radio element for use with `<cs-radio-group>`.
  *
- * @slot - Label for the radio element.
  */
 @customElement('cs-radio')
 export default class CsRadio extends LitElement {
@@ -33,45 +30,36 @@ export default class CsRadio extends LitElement {
   @property({ type: Boolean })
   invalid = false;
 
-  @property()
-  name = '';
-
   @property({ type: Boolean, reflect: true })
   required = false;
 
   @property()
   value = '';
 
-  @state()
+  @property({ reflect: true })
   label = '';
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [Text]);
-
     this.role = 'radio';
     this.ariaChecked = this.checked.toString();
     this.ariaDisabled = this.disabled.toString();
     this.ariaInvalid = this.invalid.toString();
     this.ariaRequired = this.required.toString();
+    this.ariaLabel = this.label;
   }
 
   override render() {
     return html`
-      <span class=${classMap({ component: true })}>
+      <span class=${classMap({ component: true, disabled: this.disabled })}>
         <span
           id="radio"
           class=${classMap({
             'radio-circle': true,
             checked: this.checked,
-            disabled: this.disabled,
           })}
           data-test="radio"
         ></span>
-        <slot
-          @slotchange=${this.#onDefaultSlotChange}
-          ${ref(this.#defaultSlotElementRef)}
-        ></slot>
+        ${this.label}
       </span>
     `;
   }
@@ -93,13 +81,10 @@ export default class CsRadio extends LitElement {
       if (changedProperties.has('invalid')) {
         this.ariaInvalid = this.invalid.toString();
       }
+
+      if (changedProperties.has('label')) {
+        this.ariaLabel = this.label;
+      }
     }
-  }
-
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [Text]);
   }
 }

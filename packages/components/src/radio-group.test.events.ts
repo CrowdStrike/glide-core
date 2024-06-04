@@ -17,9 +17,9 @@ CsRadioGroup.shadowRootOptions.mode = 'open';
 it('the group emits a change event when arrow keys are pressed', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -58,9 +58,9 @@ it('the group emits a change event when arrow keys are pressed', async () => {
 it('emits an input event when arrow keys are pressed', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -95,9 +95,9 @@ it('emits an input event when arrow keys are pressed', async () => {
 it('moves focus to previous radio when left or up arrow keys are pressed', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3" checked>Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" checked label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -114,9 +114,9 @@ it('moves focus to previous radio when left or up arrow keys are pressed', async
 it('moves focus to last radio when left or up arrow keys are pressed on the first radio', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked>Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" checked label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -136,9 +136,9 @@ it('moves focus to last radio when left or up arrow keys are pressed on the firs
 it('moves focus to next radio when right or down arrow keys are pressed', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked>Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" checked label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -155,9 +155,9 @@ it('moves focus to next radio when right or down arrow keys are pressed', async 
 it('moves focus to first radio when right or down arrow keys are pressed on the last radio', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3" checked>Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" checked label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -178,9 +178,9 @@ it('moves focus to first radio when right or down arrow keys are pressed on the 
 it('moves focus to previous enabled radio when pressing left or up arrow keys', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" disabled>Option 2</cs-radio>
-      <cs-radio value="value-3" checked>Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" disabled label="Two"></cs-radio>
+      <cs-radio value="value-3" checked label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -201,9 +201,9 @@ it('moves focus to previous enabled radio when pressing left or up arrow keys', 
 it('moves focus to next enabled radio when pressing right or down arrow keys', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked>Option 1</cs-radio>
-      <cs-radio value="value-2" disabled>Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" checked label="One"></cs-radio>
+      <cs-radio value="value-2" disabled label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -224,7 +224,7 @@ it('moves focus to next enabled radio when pressing right or down arrow keys', a
 it('does not move focus if there is only one button when pressing arrow keys', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -247,9 +247,9 @@ it('does not move focus if there is only one button when pressing arrow keys', a
 it('changes the "checked" attribute when clicking', async () => {
   const element = await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked>Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" checked label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -267,8 +267,8 @@ it('changes the "checked" attribute when clicking', async () => {
 it('does not change focus nor the "checked" attribute when clicking a disabled radio', async () => {
   const element = await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked>Option 1</cs-radio>
-      <cs-radio value="value-2" disabled>Option 2</cs-radio>
+      <cs-radio value="value-1" checked label="One"></cs-radio>
+      <cs-radio value="value-2" disabled label="Two"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -286,8 +286,8 @@ it('does not change focus nor the "checked" attribute when clicking a disabled r
 it('does not change focus nor the "checked" attribute when clicking a disabled group', async () => {
   const element = await fixture(
     html`<cs-radio-group name="name" disabled>
-      <cs-radio value="value-1" checked>Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" checked label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -305,9 +305,9 @@ it('does not change focus nor the "checked" attribute when clicking a disabled g
 it('changes the "checked" attribute when pressing arrow and space keys', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked>Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" checked label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -348,9 +348,9 @@ it('changes the "checked" attribute when pressing arrow and space keys', async (
 it('does not change the "checked" attribute nor focus when pressing arrow and space keys when the group is disabled', async () => {
   await fixture(
     html`<cs-radio-group name="name" disabled>
-      <cs-radio value="value-1" checked>Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" checked label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 

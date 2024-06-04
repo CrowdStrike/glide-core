@@ -8,8 +8,8 @@ CsRadioGroup.shadowRootOptions.mode = 'open';
 it('is valid if not required and radios are unchecked', async () => {
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -28,8 +28,8 @@ it('is valid if not required and radios are unchecked', async () => {
 it('is valid if required and a radio is checked', async () => {
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -48,8 +48,8 @@ it('is valid if required and a radio is checked', async () => {
 it('is invalid if required and no radio is checked', async () => {
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -62,8 +62,8 @@ it('is invalid if required and no radio is checked', async () => {
 it('is both invalid and valid if required but disabled and no radio is checked', async () => {
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required disabled>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -78,8 +78,8 @@ it('adds an error class after submit when invalid and required', async () => {
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );
@@ -99,8 +99,8 @@ it('adds an error class after `reportValidity` is called when invalid and requir
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );
@@ -127,8 +127,8 @@ it('does not add an error class by default', async () => {
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );
@@ -164,8 +164,8 @@ it('does not add an error class after `reportValidity` is called when not requir
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );
@@ -204,8 +204,8 @@ it('does not add an error class after `reportValidity` is called when required a
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );
@@ -244,8 +244,8 @@ it('does not add an error class after `reportValidity` is called when required b
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required disabled>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );
@@ -284,8 +284,8 @@ it('does not add an error class after `checkValidity` is called when required', 
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );
@@ -324,8 +324,8 @@ it('sets radios as valid initially when required', async () => {
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );
@@ -346,8 +346,8 @@ it('sets radios as invalid and when required is toggled', async () => {
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );

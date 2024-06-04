@@ -10,7 +10,7 @@ CsRadioGroup.shadowRootOptions.mode = 'open';
 it('focuses the first radio when `focus` is called', async () => {
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -24,7 +24,7 @@ it('focuses the first radio after submit when the group is "required" and the ra
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,
@@ -43,7 +43,7 @@ it('focuses the first radio after `reportValidity` is called when the group is "
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,
@@ -60,7 +60,7 @@ it('focuses the first radio after `requestSubmit` is called when the group is "r
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,
@@ -77,7 +77,7 @@ it('does not focus the a radio after `checkValidity` is called', async () => {
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,
@@ -94,9 +94,9 @@ it('does not focus the a radio after `checkValidity` is called', async () => {
 it('focuses the first checked radio when it exists', async () => {
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -109,9 +109,9 @@ it('focuses the first checked radio when it exists', async () => {
 it('focuses the first tabbable radio when none are checked', async () => {
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name" required>
-      <cs-radio value="value-1" disabled>Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" disabled label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 

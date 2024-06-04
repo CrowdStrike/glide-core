@@ -16,9 +16,9 @@ it('registers', async () => {
 it('is accessible', async () => {
   const element = await fixture(html`
     <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
       <span slot="tooltip">Tooltip</span>
       <div slot="description">Description</div>
     </cs-radio-group>
@@ -30,8 +30,8 @@ it('is accessible', async () => {
 it('renders appropriate attributes on cs-radio', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two" checked></cs-radio>
     </cs-radio-group>
   `);
 
@@ -59,7 +59,7 @@ it('renders appropriate attributes on cs-radio', async () => {
 it('renders a label, radio group, description, and tooltip when given', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
       <span slot="tooltip" data-tooltip>Tooltip</span>
       <div slot="description" data-description>Description</div>
     </cs-radio-group>
@@ -89,7 +89,7 @@ it('renders a label, radio group, description, and tooltip when given', async ()
 it('does not render a "label" when not given', async () => {
   await fixture(html`
     <cs-radio-group name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -103,7 +103,7 @@ it('does not render a "label" when not given', async () => {
 it('does not render a description when not given', async () => {
   await fixture(html`
     <cs-radio-group name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -120,7 +120,7 @@ it('does not render a description when not given', async () => {
 it('does not render a tooltip when no "label" is given', async () => {
   await fixture(html`
     <cs-radio-group name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -134,7 +134,7 @@ it('does not render a tooltip when no "label" is given', async () => {
 it('renders a required symbol when a "label" is given and "required" is set', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name" value="value-1" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -150,7 +150,7 @@ it('renders a required symbol when a "label" is given and "required" is set', as
 it('does not render a required symbol when a "label" is given and "required" is not set', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -166,8 +166,8 @@ it('does not render a required symbol when a "label" is given and "required" is 
 it('sets "required" attributes on radios when "required" is set on the group', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name" value="value-1" required>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -182,8 +182,8 @@ it('sets "required" attributes on radios when "required" is set on the group', a
 it('does not set "required" attributes on radios when "required" is not set on the group', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -198,7 +198,7 @@ it('does not set "required" attributes on radios when "required" is not set on t
 it('renders radios as "disabled" when "disabled" is set on the group', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name" value="value-1" disabled>
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -212,7 +212,7 @@ it('renders radios as "disabled" when "disabled" is set on the group', async () 
 it('does not render radios as "disabled" when "disabled" is not set on the group', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -226,7 +226,7 @@ it('does not render radios as "disabled" when "disabled" is not set on the group
 it('renders radios as "disabled" when "disabled" is dynamically set and removed on the group', async () => {
   const component = await fixture<CsRadioGroup>(html`
     <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -251,23 +251,11 @@ it('renders radios as "disabled" when "disabled" is dynamically set and removed 
   expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.null;
 });
 
-it('sets the "name" property on radios when set on the group', async () => {
-  await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1">Option 1</cs-radio>
-    </cs-radio-group>
-  `);
-
-  const radio = document.querySelector('cs-radio');
-
-  expect(radio?.name).to.equal('name');
-});
-
 it('sets the radio group to an empty value when no radio is "checked"', async () => {
   const component = await fixture<CsRadioGroup>(html`
     <cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -285,8 +273,8 @@ it('sets the radio group to an empty value when no radio is "checked"', async ()
 it('sets the group "value" when a radio is set as "checked"', async () => {
   await fixture(html`
     <cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
     </cs-radio-group>
   `);
 
@@ -300,17 +288,9 @@ it('throws an error when an element other than `cs-radio` is a child of the defa
     return fixture(html`
       <cs-radio-group label="label" name="name">
         <div>Option 1</div>
-        <cs-radio value="value-2">Option 2</cs-radio>
+        <cs-radio value="value-2" label="Two"></cs-radio>
       </cs-radio-group>
     `);
-  });
-});
-
-it('throws an error when an element other than `Text` is a child of the default radio slot', async () => {
-  await expectArgumentError(() => {
-    return fixture(
-      html`<cs-radio value="value-1"><div>Option 1</div></cs-radio> `,
-    );
   });
 });
 
@@ -325,9 +305,9 @@ it('throws an error when the group has no children', async () => {
 it('sets the first radio to be tabbable when none are checked', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -342,9 +322,9 @@ it('sets the first radio to be tabbable when none are checked', async () => {
 it('sets the first non-disabled radio as tabbable when none are checked', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1" disabled>Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3">Option 3</cs-radio>
+      <cs-radio value="value-1" disabled label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -359,9 +339,9 @@ it('sets the first non-disabled radio as tabbable when none are checked', async 
 it('no radios are tabbable when the group is "disabled"', async () => {
   await fixture(
     html`<cs-radio-group name="name" disabled>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3" checked>Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" checked label="Three"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -376,8 +356,8 @@ it('no radios are tabbable when the group is "disabled"', async () => {
 it('disabled radios are not tabbable', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1" disabled>Option 1</cs-radio>
-      <cs-radio value="value-2" disabled>Option 2</cs-radio>
+      <cs-radio value="value-1" disabled label="One"></cs-radio>
+      <cs-radio value="value-2" disabled label="Two"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -391,9 +371,9 @@ it('disabled radios are not tabbable', async () => {
 it('sets only the "checked" radio as tabbable', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
-      <cs-radio value="value-3" checked>Option 3</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
+      <cs-radio value="value-3" label="Three" checked></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -408,7 +388,7 @@ it('sets only the "checked" radio as tabbable', async () => {
 it('has reactive radio attribute "aria-checked"', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -434,7 +414,7 @@ it('has reactive radio attribute "aria-checked"', async () => {
 it('has reactive radio attribute "aria-disabled"', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -460,7 +440,7 @@ it('has reactive radio attribute "aria-disabled"', async () => {
 it('has reactive radio attribute "aria-required"', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -486,7 +466,7 @@ it('has reactive radio attribute "aria-required"', async () => {
 it('has reactive radio attribute "aria-invalid"', async () => {
   await fixture(
     html`<cs-radio-group name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
   );
 
@@ -514,7 +494,7 @@ it('exposes standard form control properties and methods', async () => {
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
     </cs-radio-group>`,
     { parentNode: form },
   );
@@ -524,4 +504,29 @@ it('exposes standard form control properties and methods', async () => {
   expect(component.willValidate).to.be.true;
   expect(component.checkValidity).to.be.a('function');
   expect(component.reportValidity).to.be.a('function');
+});
+
+it('adds a label to radio when given', async () => {
+  const component = await fixture<CsRadio>(
+    html`<cs-radio value="value-1" label="One"></cs-radio>`,
+  );
+
+  const label = component.shadowRoot!.querySelector('.component')?.textContent;
+
+  expect(label).to.contain('One');
+  expect(component.ariaLabel).to.equal('One');
+});
+
+it('changes the radio label dynamically as when given', async () => {
+  const component = await fixture<CsRadio>(
+    html`<cs-radio value="value-1" label="One"></cs-radio>`,
+  );
+
+  component.label = 'Two';
+  await elementUpdated(component);
+
+  const label = component.shadowRoot!.querySelector('.component')?.textContent;
+
+  expect(label).to.contain('Two');
+  expect(component.ariaLabel).to.equal('Two');
 });

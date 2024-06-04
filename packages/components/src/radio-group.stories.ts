@@ -41,9 +41,9 @@ const meta: Meta = {
           ?disabled=${arguments_.disabled}
           ?required=${arguments_.required}
         >
-          <cs-radio value="value-1" checked>Option 1</cs-radio>
-          <cs-radio value="value-2">Option 2</cs-radio>
-          <cs-radio value="value-3">Option 3</cs-radio>
+          <cs-radio value="value-1" label="One" checked></cs-radio>
+          <cs-radio value="value-2" label="Two"></cs-radio>
+          <cs-radio value="value-3" label="Three"></cs-radio>
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
             : ''}
@@ -111,6 +111,7 @@ const meta: Meta = {
       },
     },
     value: {
+      control: 'text',
       table: {
         defaultValue: { summary: '' },
         type: { summary: 'string' },
@@ -157,9 +158,9 @@ export const VerticalWithError: StoryObj = {
           ?disabled=${arguments_.disabled}
           ?required=${arguments_.required}
         >
-          <cs-radio value="value-1">Option 1</cs-radio>
-          <cs-radio value="value-2">Option 2</cs-radio>
-          <cs-radio value="value-3">Option 3</cs-radio>
+          <cs-radio value="value-1" label="One"></cs-radio>
+          <cs-radio value="value-2" label="Two"></cs-radio>
+          <cs-radio value="value-3" label="Three"></cs-radio>
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
             : ''}

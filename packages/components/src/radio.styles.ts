@@ -75,29 +75,24 @@ export default [
             position: absolute;
           }
         }
-
-        &.disabled {
-          border-color: var(--cs-surface-primary-disabled);
-          box-shadow: none;
-
-          &::after {
-            background-color: var(--cs-surface-primary-disabled);
-          }
-        }
       }
 
       &:hover {
         & .radio-circle {
           border-color: var(--cs-border-focus, #0073e6);
           box-shadow: var(--cs-glow-sm);
+        }
+      }
 
-          &.disabled {
-            border-color: var(--cs-surface-primary-disabled);
-            box-shadow: none;
+      &.disabled,
+      &.disabled:hover {
+        & .radio-circle {
+          border-color: var(--cs-surface-primary-disabled);
+          box-shadow: none;
+          cursor: not-allowed;
 
-            &::after {
-              background-color: var(--cs-surface-primary-disabled);
-            }
+          &::after {
+            background-color: var(--cs-surface-primary-disabled);
           }
         }
       }

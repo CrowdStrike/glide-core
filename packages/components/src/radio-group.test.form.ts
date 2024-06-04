@@ -10,7 +10,7 @@ it('can be reset', async () => {
 
   const component = await fixture<CsRadioGroup>(
     html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" checked>Option 1</cs-radio>
+      <cs-radio value="value-1" checked label="One"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,
@@ -31,8 +31,8 @@ it('has `formData` when a radio is checked', async () => {
 
   await fixture(
     html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,
@@ -48,8 +48,8 @@ it('has no `formData` when no radios are checked', async () => {
 
   await fixture(
     html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2">Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" label="Two"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,
@@ -65,8 +65,8 @@ it('has no `formData` when the group is disabled and one radio is checked', asyn
 
   await fixture(
     html`<cs-radio-group label="label" name="name" disabled>
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,
@@ -82,8 +82,8 @@ it('has no `formData` when without a `name` but a radio is checked', async () =>
 
   await fixture(
     html`<cs-radio-group label="label">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,
@@ -99,8 +99,8 @@ it('has no `formData` value when a radio is checked but without a "value"', asyn
 
   await fixture(
     html`<cs-radio-group label="label">
-      <cs-radio value="value-1">Option 1</cs-radio>
-      <cs-radio value="value-2" checked>Option 2</cs-radio>
+      <cs-radio value="value-1" label="One"></cs-radio>
+      <cs-radio value="value-2" checked label="Two"></cs-radio>
     </cs-radio-group>`,
     {
       parentNode: form,

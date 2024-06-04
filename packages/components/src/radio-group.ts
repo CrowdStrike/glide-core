@@ -2,12 +2,7 @@ import './tooltip.js';
 import { LitElement, type PropertyValueMap, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import { when } from 'lit-html/directives/when.js';
 import CsRadio from './radio.js';
@@ -50,28 +45,15 @@ export default class CsRadioGroup extends LitElement {
   @property()
   name = '';
 
-  // To be exposed when a 'horizontal' orientation is implemented.
-  orientation = 'vertical' as const;
-
   @property({ type: Boolean, reflect: true })
   required = false;
 
   @property({ reflect: true })
   value = '';
 
-  @queryAssignedElements({ selector: 'cs-radio' })
-  radioItems!: CsRadio[];
-
   checkValidity() {
     this.isCheckingValidity = true;
     return this.#internals.checkValidity();
-  }
-
-  override connectedCallback(): void {
-    super.connectedCallback();
-
-    this.addEventListener('click', this.#onClick);
-    this.addEventListener('keydown', this.#onKeydown);
   }
 
   override disconnectedCallback() {
@@ -87,10 +69,10 @@ export default class CsRadioGroup extends LitElement {
   }
 
   override focus(options?: FocusOptions): void {
-    let radioToFocus = this.radioItems.find((radio) => radio.checked);
+    let radioToFocus = this.#radioItems.find((radio) => radio.checked);
 
     if (!radioToFocus) {
-      radioToFocus = this.radioItems.find((radio) => radio.tabIndex === 0);
+      radioToFocus = this.#radioItems.find((radio) => radio.tabIndex === 0);
     }
 
     radioToFocus?.focus(options);
@@ -113,7 +95,7 @@ export default class CsRadioGroup extends LitElement {
   }
 
   formResetCallback() {
-    for (const radioItem of this.radioItems) {
+    for (const radioItem of this.#radioItems) {
       this.#setCheckedRadio(radioItem.hasAttribute('checked'), radioItem);
     }
   }
@@ -126,6 +108,8 @@ export default class CsRadioGroup extends LitElement {
           invalid: this.#isShowValidationFeedback,
         })}
         ${ref(this.#componentElementRef)}
+        @click=${this.#onClick}
+        @keydown=${this.#onKeydown}
       >
         ${when(
           this.label,
@@ -163,18 +147,14 @@ export default class CsRadioGroup extends LitElement {
           `,
         )}
 
-        <!-- fieldset -->
+        <!-- fieldset and description container -->
         <div>
-          <fieldset
-            class=${classMap({
-              vertical: true,
-            })}
-            aria-labelledby="label description"
-          >
+          <!-- fieldset -->
+          <fieldset class="vertical" aria-labelledby="label description">
             <div
               class=${classMap({
                 'radio-container': true,
-                [this.orientation]: true,
+                vertical: true,
               })}
               role="radiogroup"
             >
@@ -187,9 +167,7 @@ export default class CsRadioGroup extends LitElement {
 
           <!-- description -->
           <slot
-            class=${classMap({
-              description: true,
-            })}
+            class="description"
             id="description"
             name="description"
             data-test="description"
@@ -228,7 +206,7 @@ export default class CsRadioGroup extends LitElement {
       }
 
       if (changedProperties.has('disabled')) {
-        for (const radioItem of this.radioItems) {
+        for (const radioItem of this.#radioItems) {
           this.#setDisabledRadio(this.disabled, radioItem);
         }
 
@@ -236,7 +214,7 @@ export default class CsRadioGroup extends LitElement {
       }
 
       if (changedProperties.has('value')) {
-        for (const radioItem of this.radioItems) {
+        for (const radioItem of this.#radioItems) {
           radioItem.checked = radioItem.value === this.value;
         }
       }
@@ -294,19 +272,15 @@ export default class CsRadioGroup extends LitElement {
   };
 
   #dispatchEvents(radio: CsRadio) {
-    radio.dispatchEvent(
-      new CustomEvent('change', { bubbles: true, detail: radio.value }),
-    );
+    radio.dispatchEvent(new Event('change', { bubbles: true }));
 
-    radio.dispatchEvent(
-      new CustomEvent('input', { bubbles: true, detail: radio.value }),
-    );
+    radio.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
   #intializeRadios() {
     // Set the default checked radio item to be the first checked radio, if it exists
     // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#value
-    const intialCheckedRadio = this.radioItems.find((radio) => radio.checked);
+    const intialCheckedRadio = this.#radioItems.find((radio) => radio.checked);
 
     this.value = intialCheckedRadio?.value ?? '';
 
@@ -315,9 +289,9 @@ export default class CsRadioGroup extends LitElement {
     this.#setRadiosGroupName();
     this.required && this.#setRequiredRadios();
 
-    for (const radioItem of this.radioItems) {
+    for (const radioItem of this.#radioItems) {
       // Set all radios as disabled if the group is disabled, otherwise set
-      // inidividual radios as given.
+      // individual radios as given.
       if (this.disabled) {
         this.#setDisabledRadio(this.disabled, radioItem);
       } else {
@@ -359,7 +333,7 @@ export default class CsRadioGroup extends LitElement {
     ) {
       this.#setCheckedRadio(true, radioTarget);
 
-      for (const radioItem of this.radioItems) {
+      for (const radioItem of this.#radioItems) {
         if (radioItem !== radioTarget) {
           this.#setCheckedRadio(false, radioItem);
         }
@@ -408,7 +382,7 @@ export default class CsRadioGroup extends LitElement {
             sibling !== radioTarget
           ) {
             if (sibling === null) {
-              const lastRadio = this.radioItems.at(-1);
+              const lastRadio = this.#radioItems.at(-1);
 
               if (lastRadio) {
                 sibling = lastRadio;
@@ -443,7 +417,7 @@ export default class CsRadioGroup extends LitElement {
             sibling !== radioTarget
           ) {
             if (sibling === null) {
-              const firstRadio = this.radioItems.at(0);
+              const firstRadio = this.#radioItems.at(0);
 
               if (firstRadio) {
                 sibling = firstRadio;
@@ -471,7 +445,7 @@ export default class CsRadioGroup extends LitElement {
           if (!radioTarget.disabled && !radioTarget.checked) {
             this.#setCheckedRadio(true, radioTarget);
 
-            for (const radioItem of this.radioItems) {
+            for (const radioItem of this.#radioItems) {
               if (radioItem !== radioTarget) {
                 this.#setCheckedRadio(false, radioItem);
               }
@@ -503,6 +477,15 @@ export default class CsRadioGroup extends LitElement {
     }
   }
 
+  get #radioItems() {
+    return (
+      this.#defaultSlotElementRef.value
+        ?.assignedElements()
+        .filter((element): element is CsRadio => element instanceof CsRadio) ??
+      []
+    );
+  }
+
   #setCheckedRadio(isChecked: boolean, radio: CsRadio) {
     radio.checked = isChecked;
     radio.tabIndex = isChecked ? 0 : -1;
@@ -524,20 +507,20 @@ export default class CsRadioGroup extends LitElement {
   }
 
   #setInvalidRadios(isInvalid: boolean) {
-    for (const radioItem of this.radioItems) {
+    for (const radioItem of this.#radioItems) {
       radioItem.invalid = isInvalid;
     }
   }
 
   #setRadiosGroupName() {
-    for (const radioItem of this.radioItems) {
+    for (const radioItem of this.#radioItems) {
       radioItem.name = this.name;
     }
   }
 
   #setRadiosTabindex() {
     // Do not set any radio as tabbable if all are disabled.
-    if (this.disabled || this.radioItems.every((button) => button.disabled)) {
+    if (this.disabled || this.#radioItems.every((button) => button.disabled)) {
       return;
     }
 
@@ -545,14 +528,14 @@ export default class CsRadioGroup extends LitElement {
     // first enabled element; otherwise set the radio as not tabbable.
     let firstTabbableRadio: CsRadio | null = null;
 
-    const firstEnabledCheckedRadio = this.radioItems.find(
+    const firstEnabledCheckedRadio = this.#radioItems.find(
       (radio) => !radio.disabled && radio.checked,
     );
 
     if (firstEnabledCheckedRadio) {
       firstTabbableRadio = firstEnabledCheckedRadio;
     } else {
-      const firstEnabledRadio = this.radioItems.find(
+      const firstEnabledRadio = this.#radioItems.find(
         (radio) => !radio.disabled,
       );
 
@@ -562,14 +545,14 @@ export default class CsRadioGroup extends LitElement {
     }
 
     if (firstTabbableRadio) {
-      for (const radioItem of this.radioItems) {
+      for (const radioItem of this.#radioItems) {
         radioItem.tabIndex = radioItem === firstTabbableRadio ? 0 : -1;
       }
     }
   }
 
   #setRequiredRadios() {
-    for (const radioItem of this.radioItems) {
+    for (const radioItem of this.#radioItems) {
       radioItem.required = this.required;
     }
   }
