@@ -3,7 +3,7 @@ import './icons/storybook.js';
 import './modal.js';
 import './modal.tertiary-icon.js';
 import './tooltip.js';
-import { html, nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {

@@ -2,7 +2,7 @@ import './accordion.js';
 import './icons/storybook.js';
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html } from 'lit-html';
+import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {

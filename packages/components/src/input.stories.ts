@@ -1,6 +1,6 @@
 import './icons/storybook.js';
 import './input.js';
-import { html, nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import Input, { SUPPORTED_TYPES } from './input.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
