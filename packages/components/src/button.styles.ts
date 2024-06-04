@@ -41,15 +41,6 @@ export default [
         opacity: 1;
       }
 
-      /* We make the spacing slightly smaller when an icon is present to help with empty space balancing */
-      &.has-prefix {
-        padding-inline-start: var(--cs-spacing-sm);
-      }
-
-      &.has-suffix {
-        padding-inline-end: var(--cs-spacing-sm);
-      }
-
       &.primary {
         background-color: var(--cs-surface-primary);
         border-color: transparent;

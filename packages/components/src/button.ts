@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
 import styles from './button.styles.js';
 
@@ -61,30 +61,20 @@ export default class CsButton extends LitElement {
         tertiary: this.variant === 'tertiary',
         large: this.size === 'large',
         small: this.size === 'small',
-        'has-prefix': this.hasPrefixSlot,
-        'has-suffix': this.hasSuffixSlot,
       })}
       type=${this.type}
       ?disabled=${this.disabled}
       @click=${this.#handleClick}
       @keydown=${this.#onKeydown}
     >
-      <slot
-        name="prefix"
-        @slotchange=${this.#onPrefixSlotChange}
-        ${ref(this.#prefixSlotElementRef)}
-      ></slot>
+      <slot name="prefix"></slot>
 
       <slot
         @slotchange=${this.#onDefaultSlotChange}
         ${ref(this.#defaultSlotElementRef)}
       ></slot>
 
-      <slot
-        name="suffix"
-        @slotchange=${this.#onSuffixSlotChange}
-        ${ref(this.#suffixSlotElementRef)}
-      ></slot>
+      <slot name="suffix"></slot>
     </button>`;
   }
 
@@ -93,19 +83,9 @@ export default class CsButton extends LitElement {
     this.#internals = this.attachInternals();
   }
 
-  @state()
-  private hasPrefixSlot = false;
-
-  @state()
-  private hasSuffixSlot = false;
-
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #internals: ElementInternals;
-
-  #prefixSlotElementRef = createRef<HTMLSlotElement>();
-
-  #suffixSlotElementRef = createRef<HTMLSlotElement>();
 
   #handleClick() {
     if (this.type === 'button') {
@@ -131,19 +111,5 @@ export default class CsButton extends LitElement {
 
       this.#handleClick();
     }
-  }
-
-  #onPrefixSlotChange() {
-    const assignedNodes = this.#prefixSlotElementRef.value?.assignedNodes();
-
-    this.hasPrefixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
-  }
-
-  #onSuffixSlotChange() {
-    const assignedNodes = this.#suffixSlotElementRef.value?.assignedNodes();
-
-    this.hasSuffixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
   }
 }

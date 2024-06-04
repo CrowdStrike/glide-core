@@ -153,7 +153,7 @@ it('renders with a prefix slot', async () => {
 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['component', 'primary', 'large', 'has-prefix']);
+  ]).to.deep.equal(['component', 'primary', 'large']);
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
 });
@@ -168,7 +168,7 @@ it('renders with a suffix slot', async () => {
 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['component', 'primary', 'large', 'has-suffix']);
+  ]).to.deep.equal(['component', 'primary', 'large']);
 
   expect(document.querySelector('[data-suffix]')).to.be.ok;
 });
@@ -184,13 +184,7 @@ it('renders with a prefix and suffix slot when both are present initially', asyn
 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal([
-    'component',
-    'primary',
-    'large',
-    'has-prefix',
-    'has-suffix',
-  ]);
+  ]).to.deep.equal(['component', 'primary', 'large']);
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
   expect(document.querySelector('[data-suffix]')).to.be.ok;
@@ -217,13 +211,7 @@ it('renders with prefix and suffix classes when both are dynamically added', asy
 
   expect([
     ...component.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal([
-    'component',
-    'primary',
-    'large',
-    'has-prefix',
-    'has-suffix',
-  ]);
+  ]).to.deep.equal(['component', 'primary', 'large']);
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
   expect(document.querySelector('[data-suffix]')).to.be.ok;
