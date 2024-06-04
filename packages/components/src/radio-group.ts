@@ -286,7 +286,6 @@ export default class CsRadioGroup extends LitElement {
 
     this.#previousCheckedRadio = intialCheckedRadio;
 
-    this.#setRadiosGroupName();
     this.required && this.#setRequiredRadios();
 
     for (const radioItem of this.#radioItems) {
@@ -509,12 +508,6 @@ export default class CsRadioGroup extends LitElement {
   #setInvalidRadios(isInvalid: boolean) {
     for (const radioItem of this.#radioItems) {
       radioItem.invalid = isInvalid;
-    }
-  }
-
-  #setRadiosGroupName() {
-    for (const radioItem of this.#radioItems) {
-      radioItem.name = this.name;
     }
   }
 
