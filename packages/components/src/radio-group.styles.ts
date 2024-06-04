@@ -15,6 +15,10 @@ export default [
       &.invalid {
         color: var(--cs-status-error);
 
+        & .label-container {
+          margin-inline-end: 0.6875rem;
+        }
+
         & fieldset {
           border: 1px solid var(--cs-status-error);
           border-radius: 0.5rem;
@@ -92,6 +96,10 @@ export default [
         line-height: var(--cs-body-xs-line-height);
         margin-block-start: var(--cs-spacing-xxs);
         max-inline-size: var(--max-inline-size);
+      }
+
+      &.invalid ::slotted([slot='description']) {
+        margin-block-start: 0.1875rem;
       }
     }
   `,
