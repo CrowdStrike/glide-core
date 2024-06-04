@@ -112,6 +112,10 @@ make it difficult to center vertically with the label.
     .control {
       display: block;
 
+      &.summaryless {
+        flex-grow: 1;
+      }
+
       &.disabled::slotted(*) {
         cursor: not-allowed;
       }

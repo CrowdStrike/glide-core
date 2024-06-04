@@ -119,6 +119,7 @@ export default class CsLabel extends LitElement {
             error: this.error,
             disabled: this.disabled,
             vertical: this.orientation === 'vertical',
+            summaryless: !this.hasSummarySlot,
             'hidden-label': this.hide,
           })}
           name="control"
