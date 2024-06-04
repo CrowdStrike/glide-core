@@ -99,7 +99,7 @@ export default class CsModal extends LitElement {
       })}
       tabindex="-1"
       @keydown=${this.#onKeyDown}
-      @click=${this.#onClick}
+      @mousedown=${this.#handleMouseDown}
       ${ref(this.#componentElementRef)}
     >
       <header class="header">
@@ -261,7 +261,7 @@ export default class CsModal extends LitElement {
 
   #headerActionsSlotElementRef = createRef<HTMLSlotElement>();
 
-  #onClick(event: MouseEvent) {
+  #handleMouseDown(event: MouseEvent) {
     if (event.target !== this.#componentElementRef.value) {
       return;
     }
