@@ -4,7 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
-import { when } from 'lit-html/directives/when.js';
+import { when } from 'lit/directives/when.js';
 import CsRadio from './radio.js';
 import infoCircleIcon from './icons/info-circle.js';
 import styles from './radio-group.styles.js';
