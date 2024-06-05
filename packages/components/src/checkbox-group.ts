@@ -155,7 +155,7 @@ export default class CsCheckboxGroup extends LitElement {
 
   formResetCallback() {
     for (const checkbox of this.#checkboxes) {
-      checkbox.checked = checkbox.getAttribute('checked') === '';
+      checkbox.formResetCallback();
     }
   }
 

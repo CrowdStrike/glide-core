@@ -143,11 +143,20 @@ export default class CsDropdown extends LitElement {
   }
 
   formResetCallback() {
-    const lastSelectedOption = this.#optionElements.findLast((option) =>
-      option.hasAttribute('selected'),
-    );
+    for (const option of this.#optionElements) {
+      const isInitiallySelected = option.hasAttribute('selected');
 
-    this.value = lastSelectedOption?.value ? [lastSelectedOption.value] : [];
+      if (!isInitiallySelected) {
+        option.selected = false;
+      }
+    }
+
+    const { value } =
+      this.#optionElements.findLast((option) => {
+        return option.hasAttribute('selected');
+      }) ?? {};
+
+    this.value = value ? [value] : [];
   }
 
   override render() {
@@ -203,7 +212,9 @@ export default class CsDropdown extends LitElement {
             @keydown=${this.#onButtonKeydown}
             ${ref(this.#buttonElementRef)}
           >
-            ${this.selectedOption?.label ?? this.placeholder}
+            <span data-test="placeholder-or-selected-option-label">
+              ${this.selectedOption?.label ?? this.placeholder}
+            </span>
 
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path

@@ -151,7 +151,7 @@ export default class CsCheckbox extends LitElement {
                 data-test="input"
                 id="input"
                 type="checkbox"
-                ?checked=${this.checked}
+                .checked=${this.checked}
                 ?disabled=${this.disabled}
                 ?required=${this.required}
                 @change=${this.#onInputChange}
@@ -215,7 +215,7 @@ export default class CsCheckbox extends LitElement {
                 data-test="input"
                 id="input"
                 type="checkbox"
-                ?checked=${this.checked}
+                .checked=${this.checked}
                 ?disabled=${this.disabled}
                 ?required=${this.required}
                 @change=${this.#onInputChange}
