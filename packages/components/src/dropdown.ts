@@ -98,7 +98,10 @@ export default class CsDropdown extends LitElement {
   }
 
   override firstUpdated() {
-    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption]);
+    // `Text` is allowed so slotted content can be rendered asychronously. Think of
+    // a case where the only slotted content is a `repeat` whose array is empty
+    // at first then populated after a fetch.
+    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption, Text]);
 
     const firstOption = this.#optionElements.at(0);
 
@@ -380,7 +383,7 @@ export default class CsDropdown extends LitElement {
   }
 
   #onDefaultSlotChange() {
-    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption]);
+    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption, Text]);
   }
 
   get #optionElements() {

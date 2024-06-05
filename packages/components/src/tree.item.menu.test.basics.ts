@@ -13,13 +13,6 @@ it('throws if it does not have a default slot', async () => {
       <cs-tree-item-menu></cs-tree-item-menu>
     `);
   });
-
-  // Menu is rendered asynchronously outside of Tree Menu Item's lifecycle
-  // and asserts against its default slot. That assertion, which is expected
-  // to fail, results in an unhandled rejection that gets logged.
-  const stub = sinon.stub(console, 'error');
-  await waitUntil(() => stub.called);
-  stub.restore();
 });
 
 it('throws if the default slot is the incorrect type', async () => {

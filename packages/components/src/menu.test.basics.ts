@@ -1,6 +1,7 @@
 import './menu.button.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
+import { repeat } from 'lit/directives/repeat.js';
 import CsMenu from './menu.js';
 import CsMenuLink from './menu.link.js';
 import expectArgumentError from './library/expect-argument-error.js';
@@ -111,6 +112,25 @@ it('throws if it does not have a "target" slot', async () => {
   }
 
   expect(spy.called).to.be.true;
+});
+
+it('does not throw if the default slot only contains whitespace', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture<CsMenu>(
+      html`<cs-menu>
+        <button slot="target">Target</button>
+        ${repeat([], () => html`<cs-menu-link label="Link"></cs-menu-link>`)}
+      </cs-menu>`,
+    );
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.notCalled).to.be.true;
 });
 
 it('sets accessibility attributes on the target', async () => {

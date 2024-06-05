@@ -86,8 +86,16 @@ export default class CsMenu extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
     owSlot(this.#targetSlotElementRef.value);
+
+    // `Text` is allowed so slotted content can be rendered asychronously. Think of
+    // a case where the only slotted content is a `repeat` whose array is empty
+    // at first then populated after a fetch.
+    owSlotType(this.#defaultSlotElementRef.value, [
+      CsMenuButton,
+      CsMenuLink,
+      Text,
+    ]);
 
     // For when Menu is open initially via the `open` attribute.
     this.#setUpFloatingUi();
@@ -197,7 +205,12 @@ export default class CsMenu extends LitElement {
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
+
+    owSlotType(this.#defaultSlotElementRef.value, [
+      CsMenuButton,
+      CsMenuLink,
+      Text,
+    ]);
   }
 
   #onOptionsClick() {
