@@ -1,6 +1,14 @@
-# Glide Design System
+<p align="center">
+  <a href="https://www.crowdstrike.com">
+    <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/cs-logo.png?raw=true" alt="CrowdStrike logo" width="300" />
+  </a>
+</p>
 
-This repository contains all packages for the Glide Design System.
+<h1 align="center">The Glide Design System from CrowdStrike</h1>
+
+<br>
+
+![CI status](https://github.com/crowdstrike/ember-toucan-core/actions/workflows/ci.yml/badge.svg?branch=main)
 
 ## Development
 
