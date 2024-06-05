@@ -11,6 +11,9 @@ const meta: Meta = {
         component:
           'A textarea with a label and optional description. Participates in forms and validation via `FormData` and various methods.',
       },
+      story: {
+        autoplay: true,
+      },
     },
   },
   play(context) {

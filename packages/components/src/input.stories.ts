@@ -13,6 +13,9 @@ const meta: Meta = {
         component:
           'An input with a label and optional description. Participates in forms and validation via `FormData` and various methods.',
       },
+      story: {
+        autoplay: true,
+      },
     },
   },
   args: {
