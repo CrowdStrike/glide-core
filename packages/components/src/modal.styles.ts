@@ -124,7 +124,6 @@ export default [
     }
 
     .body {
-      display: flex;
       line-height: 1;
       overflow: auto;
       padding-block: 1rem;
