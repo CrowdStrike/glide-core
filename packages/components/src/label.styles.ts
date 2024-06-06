@@ -86,6 +86,10 @@ make it difficult to center vertically with the label.
       line-height: 100%;
       user-select: none;
 
+      &.disabled ::slotted(*) {
+        cursor: not-allowed;
+      }
+
       &.horizontal {
         line-height: 100%;
       }
@@ -99,11 +103,36 @@ make it difficult to center vertically with the label.
       color: var(--cs-status-error);
     }
 
+    .control-and-summary {
+      align-items: center;
+      display: flex;
+      gap: var(--cs-spacing-sm);
+    }
+
     .control {
       display: block;
 
+      &.summaryless {
+        flex-grow: 1;
+      }
+
+      &.disabled::slotted(*) {
+        cursor: not-allowed;
+      }
+
       &.vertical:not(.hidden-label) {
         margin-block-start: var(--cs-spacing-xxs);
+      }
+    }
+
+    .summary {
+      font-family: var(--cs-body-sm-font-family);
+      font-size: var(--cs-body-sm-font-size);
+      font-style: var(--cs-body-sm-font-style);
+      font-weight: var(--cs-body-sm-font-weight);
+
+      &.error {
+        color: var(--cs-status-error);
       }
     }
 

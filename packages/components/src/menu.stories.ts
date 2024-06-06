@@ -4,7 +4,7 @@ import './menu.js';
 import './menu.link.js';
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html, nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import CsButton from './button.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -88,24 +88,26 @@ const meta: Meta = {
       // Prevent navigation. The URLs don't go anywhere.
       link.addEventListener('click', (event) => event.preventDefault());
     }
-  },
-  render(arguments_, context) {
-    context.canvasElement.addEventListener('click', (event) => {
-      if (event.target instanceof CsButton) {
-        const menu = context.canvasElement.querySelector('cs-menu');
 
-        if (menu) {
-          addons.getChannel().emit(STORY_ARGS_UPDATED, {
-            storyId: context.id,
-            args: {
-              ...arguments_,
-              open: menu.open,
-            },
-          });
-        }
-      }
+    // eslint-disable-next-line no-underscore-dangle
+    let arguments_: Meta['args'] = context.args;
+
+    addons.getChannel().addListener('storyArgsUpdated', (event) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      arguments_ = event.args as typeof context.args;
     });
 
+    context.canvasElement?.addEventListener('click', () => {
+      addons.getChannel().emit(STORY_ARGS_UPDATED, {
+        storyId: context.id,
+        args: {
+          ...arguments_,
+          open: context.canvasElement.querySelector('cs-menu')?.open,
+        },
+      });
+    });
+  },
+  render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
     return html`<div
       style="height: 13rem; display: flex; align-items: center; justify-content: center;"

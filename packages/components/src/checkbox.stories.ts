@@ -1,6 +1,6 @@
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html, nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import CsCheckbox from './checkbox.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -23,6 +23,7 @@ const meta: Meta = {
     'slot="tooltip"': '',
     'slot="description"': 'Description',
     checked: false,
+    'hide-label': false,
     disabled: false,
     indeterminate: false,
     name: 'name',
@@ -68,6 +69,13 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
+    },
+    'hide-label': {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     checked: {
       control: 'boolean',
@@ -151,20 +159,30 @@ const meta: Meta = {
       // story upon load will be scrolled to the first error story. No good.
       document.documentElement.scrollTop = 0;
     }
-  },
-  render(arguments_, context) {
-    context.canvasElement.addEventListener('change', (event) => {
-      if (event.target instanceof CsCheckbox) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            checked: event.target.checked,
-          },
-        });
-      }
+
+    // eslint-disable-next-line no-underscore-dangle
+    let arguments_: Meta['args'] = context.args;
+
+    addons.getChannel().addListener('storyArgsUpdated', (event) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      arguments_ = event.args as typeof context.args;
     });
 
+    context.canvasElement
+      .querySelector('cs-checkbox')
+      ?.addEventListener('change', (event) => {
+        if (event.target instanceof CsCheckbox) {
+          addons.getChannel().emit(STORY_ARGS_UPDATED, {
+            storyId: context.id,
+            args: {
+              ...arguments_,
+              checked: event.target.checked,
+            },
+          });
+        }
+      });
+  },
+  render(arguments_) {
     return html`<form style="padding: 1.5rem;">
       <cs-checkbox
         label=${arguments_.label || nothing}
@@ -174,6 +192,7 @@ const meta: Meta = {
         value=${arguments_.value || nothing}
         ?checked=${arguments_.checked}
         ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label'] || nothing}
         ?indeterminate=${arguments_.indeterminate}
         ?required=${arguments_.required}
       >

@@ -39,6 +39,8 @@ export default [
         'error',
       '@crowdstrike/glide-core-eslint-plugin/no-cs-prefixed-event-name':
         'error',
+      '@crowdstrike/glide-core-eslint-plugin/no-nested-template-literals':
+        'error',
       '@crowdstrike/glide-core-eslint-plugin/prefer-closed-shadow-root':
         'error',
       '@crowdstrike/glide-core-eslint-plugin/prefixed-lit-element-class-declaration':
@@ -139,7 +141,17 @@ export default [
             {
               name: 'lit/decorators.js',
               importNames: ['query'],
-              message: `Please use a Lit 'ref' instead of 'query'.`,
+              message: "Please use a Lit 'ref' instead of 'query'.",
+            },
+            // According to https://github.com/lit/lit?tab=readme-ov-file#packages,
+            // we should be importing everything from lit rather than lit-html/lit-element.
+            {
+              name: 'lit-html',
+              message: "Please import from 'lit' rather than 'lit-html'.",
+            },
+            {
+              name: 'lit-element',
+              message: "Please import from 'lit' rather than 'lit-element'.",
             },
           ],
         },

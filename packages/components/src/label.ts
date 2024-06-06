@@ -20,6 +20,7 @@ declare global {
  *
  * @slot - The label.
  * @slot control - The control with which the label is associated.
+ * @slot summary - Additional information or context.
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
  */
@@ -31,6 +32,9 @@ export default class CsLabel extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
 
   @property({ reflect: true, type: Boolean })
   error = false;
@@ -45,8 +49,8 @@ export default class CsLabel extends LitElement {
   required = false;
 
   override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
     owSlot(this.#controlSlotElementRef.value);
-    owSlot(this.#labelSlotElementRef.value);
   }
 
   override render() {
@@ -89,10 +93,16 @@ export default class CsLabel extends LitElement {
             ></slot>
           </cs-tooltip>
 
-          <div class="label" data-test="label">
+          <div
+            class=${classMap({
+              label: true,
+              disabled: this.disabled,
+            })}
+            data-test="label"
+          >
             <slot
-              @slotchange=${this.#onLabelSlotChange}
-              ${ref(this.#labelSlotElementRef)}
+              @slotchange=${this.#onDefaultSlotChange}
+              ${ref(this.#defaultSlotElementRef)}
             ></slot>
 
             ${this.required
@@ -102,17 +112,31 @@ export default class CsLabel extends LitElement {
         </div>
       </div>
 
-      <slot
-        class=${classMap({
-          control: true,
-          error: this.error,
-          vertical: this.orientation === 'vertical',
-          'hidden-label': this.hide,
-        })}
-        name="control"
-        @slotchange=${this.#onControlSlotChange}
-        ${ref(this.#controlSlotElementRef)}
-      ></slot>
+      <div class="control-and-summary">
+        <slot
+          class=${classMap({
+            control: true,
+            error: this.error,
+            disabled: this.disabled,
+            vertical: this.orientation === 'vertical',
+            summaryless: !this.hasSummarySlot,
+            'hidden-label': this.hide,
+          })}
+          name="control"
+          @slotchange=${this.#onControlSlotChange}
+          ${ref(this.#controlSlotElementRef)}
+        ></slot>
+
+        <slot
+          class=${classMap({
+            summary: true,
+            error: this.error,
+          })}
+          name="summary"
+          @slotchange=${this.#onSummarySlotChange}
+          ${ref(this.#summarySlotElementRef)}
+        ></slot>
+      </div>
 
       <slot
         class=${classMap({
@@ -133,18 +157,27 @@ export default class CsLabel extends LitElement {
   private hasDescriptionSlot = false;
 
   @state()
+  private hasSummarySlot = false;
+
+  @state()
   private hasTooltipSlot = false;
 
   #controlSlotElementRef = createRef<HTMLSlotElement>();
 
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
   #descriptionSlotElementRef = createRef<HTMLSlotElement>();
 
-  #labelSlotElementRef = createRef<HTMLSlotElement>();
+  #summarySlotElementRef = createRef<HTMLSlotElement>();
 
   #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   #onControlSlotChange() {
     owSlot(this.#controlSlotElementRef.value);
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
   }
 
   #onDescriptionSlotChange() {
@@ -157,8 +190,12 @@ export default class CsLabel extends LitElement {
     );
   }
 
-  #onLabelSlotChange() {
-    owSlot(this.#labelSlotElementRef.value);
+  #onSummarySlotChange() {
+    const assignedNodes = this.#summarySlotElementRef.value?.assignedNodes({
+      flatten: true,
+    });
+
+    this.hasSummarySlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
   #onTooltipSlotChange() {

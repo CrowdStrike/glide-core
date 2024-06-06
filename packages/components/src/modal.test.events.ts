@@ -127,6 +127,30 @@ it('does not emit a "close" event when clicking inside the dialog and the mouse 
   expect(spy.notCalled).to.be.true;
 });
 
+it(`does not emit a "close" event if a mousedown event's origin does not come from the dialog element`, async () => {
+  const spy = sinon.spy();
+
+  const element = await fixture<Modal>(
+    html`<cs-modal label="Modal title">
+      <button data-test="target">Inside Body</button>
+    </cs-modal>`,
+  );
+
+  element.showModal();
+
+  element.addEventListener('close', spy);
+
+  const button = element.querySelector<HTMLButtonElement>(
+    '[data-test="target"]',
+  );
+
+  expect(button).to.be.ok;
+
+  button?.dispatchEvent(new Event('mousedown', { bubbles: true }));
+
+  expect(spy.notCalled).to.be.true;
+});
+
 it('emits a "close" event when clicking outside the dialog', async () => {
   const spy = sinon.spy();
 

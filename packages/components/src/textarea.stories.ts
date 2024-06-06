@@ -1,4 +1,4 @@
-import { html, nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import CsTextarea from './textarea.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -10,6 +10,9 @@ const meta: Meta = {
       description: {
         component:
           'A textarea with a label and optional description. Participates in forms and validation via `FormData` and various methods.',
+      },
+      story: {
+        autoplay: true,
       },
     },
   },

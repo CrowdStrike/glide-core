@@ -1,5 +1,5 @@
 import './dropdown.option.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import CsDropdown from './dropdown.js';
 import CsDropdownOption from './dropdown.option.js';
 
@@ -26,7 +26,15 @@ it('can be reset', async () => {
 
   form.reset();
 
+  await elementUpdated(component);
+
   expect(component.value).to.deep.equal([]);
+
+  expect(
+    component.shadowRoot
+      ?.querySelector('[data-test="placeholder-or-selected-option-label"]')
+      ?.textContent?.trim(),
+  ).to.equal('Placeholder');
 });
 
 it('can be reset to the initially selected option', async () => {

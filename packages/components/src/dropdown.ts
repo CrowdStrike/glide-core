@@ -3,7 +3,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { owSlot, owSlotType } from './library/ow.js';
+import { owSlotType } from './library/ow.js';
 import CsDropdownOption from './dropdown.option.js';
 import styles from './dropdown.styles.js';
 
@@ -98,8 +98,10 @@ export default class CsDropdown extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption]);
+    // `Text` is allowed so slotted content can be rendered asychronously. Think of
+    // a case where the only slotted content is a `repeat` whose array is empty
+    // at first then populated after a fetch.
+    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption, Text]);
 
     const firstOption = this.#optionElements.at(0);
 
@@ -144,11 +146,20 @@ export default class CsDropdown extends LitElement {
   }
 
   formResetCallback() {
-    const lastSelectedOption = this.#optionElements.findLast((option) =>
-      option.hasAttribute('selected'),
-    );
+    for (const option of this.#optionElements) {
+      const isInitiallySelected = option.hasAttribute('selected');
 
-    this.value = lastSelectedOption?.value ? [lastSelectedOption.value] : [];
+      if (!isInitiallySelected) {
+        option.selected = false;
+      }
+    }
+
+    const { value } =
+      this.#optionElements.findLast((option) => {
+        return option.hasAttribute('selected');
+      }) ?? {};
+
+    this.value = value ? [value] : [];
   }
 
   override render() {
@@ -172,6 +183,7 @@ export default class CsDropdown extends LitElement {
     >
       <cs-label
         orientation=${this.orientation}
+        ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
         ?hide=${this.hideLabel}
         ?required=${this.required}
@@ -203,7 +215,9 @@ export default class CsDropdown extends LitElement {
             @keydown=${this.#onButtonKeydown}
             ${ref(this.#buttonElementRef)}
           >
-            ${this.selectedOption?.label ?? this.placeholder}
+            <span data-test="placeholder-or-selected-option-label">
+              ${this.selectedOption?.label ?? this.placeholder}
+            </span>
 
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path
@@ -380,8 +394,7 @@ export default class CsDropdown extends LitElement {
   }
 
   #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption]);
+    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption, Text]);
   }
 
   get #optionElements() {

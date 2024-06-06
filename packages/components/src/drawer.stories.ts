@@ -1,6 +1,6 @@
 import './button.js';
 import './drawer.js';
-import { html } from 'lit-html';
+import { html } from 'lit';
 import ow from './library/ow.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 

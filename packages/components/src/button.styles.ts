@@ -56,13 +56,13 @@ export default [
         color: var(--cs-text-selected);
 
         &:disabled {
-          background-color: var(--cs-surface-base-gray-light);
+          background-color: var(--cs-surface-disabled);
           border-color: transparent;
           color: var(--cs-text-tertiary-disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--cs-surface-primary);
+          background-color: var(--cs-surface-selected-hover);
           border-color: transparent;
           color: var(--cs-text-selected);
         }
@@ -81,13 +81,13 @@ export default [
         color: var(--cs-text-primary);
 
         &:disabled {
-          background-color: transparent;
-          border-color: var(--cs-border-base-light);
+          background-color: var(--cs-surface-disabled);
+          border-color: transparent;
           color: var(--cs-text-tertiary-disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--cs-surface-primary);
+          background-color: var(--cs-surface-selected-hover);
           border-color: transparent;
           color: var(--cs-text-selected);
         }

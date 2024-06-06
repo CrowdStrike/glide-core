@@ -176,6 +176,7 @@ export default class CsInput extends LitElement {
     return html`
       <cs-label
         orientation=${this.orientation}
+        ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback ||
         this.#isMaxCharacterCountExceeded}
         ?hide=${this.hideLabel}

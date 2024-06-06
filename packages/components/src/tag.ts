@@ -70,7 +70,7 @@ export default class CsTag extends LitElement {
               class=${classMap({
                 [this.size]: true,
               })}
-              aria-label=${`Remove ${this.removableLabel}`}
+              aria-label="Remove ${this.removableLabel}"
               @click=${this.#onClick}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none">

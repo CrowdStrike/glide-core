@@ -74,18 +74,13 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
 
     input {
       block-size: 100%;
+      cursor: inherit;
       inline-size: 100%;
       inset-block-start: 0;
       inset-inline-start: 0;
+      margin: 0;
       opacity: 0;
       position: absolute;
-    }
-
-    .summary {
-      font-family: var(--cs-body-sm-font-family);
-      font-size: var(--cs-body-sm-font-size);
-      font-style: var(--cs-body-sm-font-style);
-      font-weight: var(--cs-body-sm-font-weight);
     }
   `,
 ];

@@ -1,6 +1,6 @@
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html, nothing } from 'lit-html';
+import { html, nothing } from 'lit';
 import CsToggle from './toggle.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -13,6 +13,9 @@ const meta: Meta = {
         component:
           'A toggle with a label and optional tooltip, summary, and description.',
       },
+      story: {
+        autoplay: true,
+      },
     },
   },
   args: {
@@ -21,6 +24,7 @@ const meta: Meta = {
     'slot="tooltip"': '',
     checked: false,
     disabled: false,
+    'hide-label': false,
     orientation: 'horizontal',
     summary: 'Summary',
   },
@@ -34,6 +38,13 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
+    },
+    'hide-label': {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     checked: {
       control: 'boolean',
@@ -72,20 +83,31 @@ const meta: Meta = {
       },
     },
   },
+  play(context) {
+    // eslint-disable-next-line no-underscore-dangle
+    let arguments_: Meta['args'] = context.args;
 
-  render(arguments_, context) {
-    context.canvasElement.addEventListener('change', (event) => {
-      if (event.target instanceof CsToggle) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            checked: event.target.checked,
-          },
-        });
-      }
+    addons.getChannel().addListener('storyArgsUpdated', (event) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      arguments_ = event.args as typeof context.args;
     });
 
+    context.canvasElement
+      .querySelector('cs-toggle')
+      ?.addEventListener('change', (event) => {
+        if (event.target instanceof CsToggle) {
+          addons.getChannel().emit(STORY_ARGS_UPDATED, {
+            storyId: context.id,
+            args: {
+              ...arguments_,
+              checked: event.target.checked,
+            },
+          });
+        }
+      });
+  },
+
+  render(arguments_) {
     return html`<form style="padding: 1.5rem;">
       <cs-toggle
         label=${arguments_.label || nothing}
@@ -93,6 +115,7 @@ const meta: Meta = {
         summary=${arguments_.summary || nothing}
         ?checked=${arguments_.checked}
         ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label'] || nothing}
       >
         <div slot="description">${arguments_['slot="description"']}</div>
 
