@@ -1,7 +1,10 @@
 import './dropdown.option.js';
+import { ArgumentError } from 'ow';
 import { assert, expect, fixture, html } from '@open-wc/testing';
+import { repeat } from 'lit/directives/repeat.js';
 import CsDropdown from './dropdown.js';
 import expectArgumentError from './library/expect-argument-error.js';
+import sinon from 'sinon';
 
 CsDropdown.shadowRootOptions.mode = 'open';
 
@@ -158,4 +161,29 @@ it('throws if the default slot is the incorrect type', async () => {
       </cs-dropdown>`,
     );
   });
+});
+
+it('does not throw if the default slot only contains whitespace', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<cs-dropdown label="Label" placeholder="Placeholder">
+        ${repeat(
+          [],
+          () =>
+            html`<cs-dropdown-option
+              label="Option"
+              value="option"
+            ></cs-dropdown-option>`,
+        )}
+      </cs-dropdown>`,
+    );
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.notCalled).to.be.true;
 });
