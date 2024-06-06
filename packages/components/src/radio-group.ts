@@ -401,7 +401,9 @@ export default class CsRadioGroup extends LitElement {
   }
 
   #onUpdateValidityState() {
-    if (this.required && (this.value?.length === 0 || this.value === null)) {
+    const isChecked = this.#radioItems.find((radio) => radio.checked);
+
+    if (this.required && !isChecked) {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
