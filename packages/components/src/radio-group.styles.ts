@@ -12,21 +12,6 @@ export default [
       font-weight: var(--cs-heading-xxxs-font-weight);
       line-height: 1;
 
-      & .invalid {
-        color: var(--cs-status-error);
-
-        & fieldset {
-          border: 1px solid var(--cs-status-error);
-          border-radius: 0.5rem;
-          padding: var(--cs-spacing-xxs) 0.375rem;
-        }
-      }
-
-      & fieldset {
-        margin: 0;
-        padding: 0;
-      }
-
       & .vertical {
         appearance: none;
         border: none;
@@ -40,13 +25,14 @@ export default [
         display: flex;
         gap: var(--cs-spacing-xs);
         inline-size: min-content;
-        padding: var(--cs-spacing-xxs) 0.375rem;
 
         &.invalid {
           border: 1px solid var(--cs-status-error);
           border-radius: 0.5rem;
+          color: var(--cs-status-error);
           margin-block-end: -0.0625rem;
           margin-inline-start: -0.0625rem;
+          padding: var(--cs-spacing-xxs) 0.375rem;
         }
       }
 

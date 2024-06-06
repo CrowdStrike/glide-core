@@ -122,8 +122,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            'event: "change" | "input", listener: (event: CustomEvent<{ value: string }>) => void',
+          detail: 'event: "change" | "input", listener: (event: Event) => void',
         },
       },
       type: { name: 'function' },
