@@ -41,13 +41,15 @@ export default [
         opacity: 1;
       }
 
-      /* We make the spacing slightly smaller when an icon is present to help with empty space balancing */
-      &.has-prefix {
-        padding-inline-start: var(--cs-spacing-sm);
+      /* We remove spacing using negative margin when an icon is present to help with empty space balancing */
+      &.has-prefx,
+      ::slotted([slot='prefix']) {
+        margin-inline-start: -0.125rem;
       }
 
-      &.has-suffix {
-        padding-inline-end: var(--cs-spacing-sm);
+      &.has-suffix,
+      ::slotted([slot='suffix']) {
+        margin-inline-end: -0.125rem;
       }
 
       &.primary {
