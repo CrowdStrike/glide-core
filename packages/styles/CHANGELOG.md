@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core-styles
 
+## 0.3.1
+
+### Patch Changes
+
+- [#157](https://github.com/CrowdStrike/glide-core/pull/157) [`aa7d760`](https://github.com/CrowdStrike/glide-core/commit/aa7d7602c85845fd80f4b48a421120e6b6623c61) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Adjusted `--cs-surface-disabled`, `--cs-text-primary-hover`, and `--cs-text-tertiary-disabled` color values. Added `--cs-surface-selected-hover`.
+
 ## 0.3.0
 
 ### Minor Changes
