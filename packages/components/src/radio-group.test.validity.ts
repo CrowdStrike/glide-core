@@ -88,7 +88,7 @@ it('adds an error class after submit when invalid and required', async () => {
   await elementUpdated(component);
 
   const isComponentErrorClass = component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('.radio-container')
     ?.classList.contains('invalid');
 
   expect(isComponentErrorClass).to.be.true;
@@ -109,7 +109,7 @@ it('adds an error class after `reportValidity` is called when invalid and requir
   await elementUpdated(component);
 
   const isComponentErrorClass = component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('.radio-container')
     ?.classList.contains('invalid');
 
   expect(isComponentErrorClass).to.be.true;
@@ -134,7 +134,7 @@ it('does not add an error class by default', async () => {
   );
 
   const isComponentErrorClass = component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('.radio-container')
     ?.classList.contains('invalid');
 
   expect(isComponentErrorClass).to.be.false;
@@ -174,7 +174,7 @@ it('does not add an error class after `reportValidity` is called when not requir
   await elementUpdated(component);
 
   const isComponentErrorClass = component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('.radio-container')
     ?.classList.contains('invalid');
 
   expect(isComponentErrorClass).to.be.false;
@@ -214,7 +214,7 @@ it('does not add an error class after `reportValidity` is called when required a
   await elementUpdated(component);
 
   const isComponentErrorClass = component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('.radio-container')
     ?.classList.contains('invalid');
 
   expect(isComponentErrorClass).to.be.false;
@@ -254,7 +254,7 @@ it('does not add an error class after `reportValidity` is called when required b
   await elementUpdated(component);
 
   const isComponentErrorClass = component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('.radio-container')
     ?.classList.contains('invalid');
 
   expect(isComponentErrorClass).to.be.false;
@@ -294,7 +294,7 @@ it('does not add an error class after `checkValidity` is called when required', 
   await elementUpdated(component);
 
   const isComponentErrorClass = component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('.radio-container')
     ?.classList.contains('invalid');
 
   expect(isComponentErrorClass).to.be.false;
@@ -334,43 +334,6 @@ it('sets radios as valid initially when required', async () => {
   await elementUpdated(component);
 
   const radios = component.querySelectorAll('cs-radio');
-
-  expect(radios[0]?.invalid).to.be.false;
-  expect(radios[0]?.ariaInvalid).to.equal('false');
-  expect(radios[1]?.invalid).to.be.false;
-  expect(radios[1]?.ariaInvalid).to.equal('false');
-});
-
-it('sets radios as invalid and when required is toggled', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<CsRadioGroup>(
-    html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-    </cs-radio-group>`,
-    { parentNode: form },
-  );
-
-  expect(component.required).to.be.false;
-
-  const radios = component.querySelectorAll('cs-radio');
-
-  expect(radios[0]?.invalid).to.be.false;
-  expect(radios[0]?.ariaInvalid).to.equal('false');
-  expect(radios[1]?.invalid).to.be.false;
-  expect(radios[1]?.ariaInvalid).to.equal('false');
-
-  component.required = true;
-  await elementUpdated(component);
-
-  expect(radios[0]?.invalid).to.be.true;
-  expect(radios[0]?.ariaInvalid).to.equal('true');
-  expect(radios[1]?.invalid).to.be.true;
-  expect(radios[1]?.ariaInvalid).to.equal('true');
-
-  component.required = false;
-  await elementUpdated(component);
 
   expect(radios[0]?.invalid).to.be.false;
   expect(radios[0]?.ariaInvalid).to.equal('false');

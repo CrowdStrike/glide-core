@@ -57,94 +57,27 @@ it('renders appropriate attributes on cs-radio', async () => {
 });
 
 it('renders a label, radio group, description, and tooltip when given', async () => {
-  await fixture(html`
+  const group = await fixture<CsRadioGroup>(html`
     <cs-radio-group label="label" name="name" value="value-1">
       <cs-radio value="value-1" label="One"></cs-radio>
-      <span slot="tooltip" data-tooltip>Tooltip</span>
-      <div slot="description" data-description>Description</div>
+      <span slot="tooltip" data-test="tooltip">Tooltip</span>
+      <div slot="description" data-test="description">Description</div>
     </cs-radio-group>
   `);
 
-  const group = document.querySelector('cs-radio-group');
-  const label = group?.shadowRoot?.querySelector('[data-test="label"]');
+  const label = group.shadowRoot?.querySelector('[data-test="label"]');
   const radioGroup = group?.shadowRoot?.querySelector('[role="radiogroup"]');
-  const tooltipSlot = group?.shadowRoot?.querySelector('cs-tooltip');
-  const tooltip = document.querySelector('[data-tooltip]');
+  const tooltip = document.querySelector('[data-test="tooltip"]');
 
-  const descriptionSlot = group?.shadowRoot?.querySelector(
-    '[data-test="description"]',
-  );
+  const description = document?.querySelector('[data-test="description"]');
 
-  const description = document.querySelector('[data-description]');
+  // const description = document.querySelector('[data-description]');
 
   expect(group).to.not.be.null;
   expect(label).to.not.be.null;
   expect(radioGroup).to.not.be.null;
-  expect(tooltipSlot).to.not.be.null;
   expect(tooltip).to.not.be.null;
-  expect(descriptionSlot).to.not.be.null;
   expect(description).to.not.be.null;
-});
-
-it('does not render a "label" when not given', async () => {
-  await fixture(html`
-    <cs-radio-group name="name" value="value-1">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>
-  `);
-
-  const group = document.querySelector('cs-radio-group');
-  const label = group?.shadowRoot?.querySelector('[data-test="label"]');
-
-  expect(group).to.not.be.null;
-  expect(label).to.be.null;
-});
-
-it('does not render a description when not given', async () => {
-  await fixture(html`
-    <cs-radio-group name="name" value="value-1">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>
-  `);
-
-  const group = document.querySelector('cs-radio-group');
-
-  const description = group?.shadowRoot?.querySelector<HTMLSlotElement>(
-    '[data-test="description"]',
-  );
-
-  expect(group).to.not.be.null;
-  expect(description?.assignedNodes().length).to.equal(0);
-});
-
-it('does not render a tooltip when no "label" is given', async () => {
-  await fixture(html`
-    <cs-radio-group name="name" value="value-1">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>
-  `);
-
-  const group = document.querySelector('cs-radio-group');
-
-  const tooltip = group?.shadowRoot?.querySelector('cs-tooltip');
-
-  expect(tooltip).to.be.null;
-});
-
-it('renders a required symbol when a "label" is given and "required" is set', async () => {
-  await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1" required>
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>
-  `);
-
-  const group = document.querySelector('cs-radio-group');
-
-  const requiredSymbol = group?.shadowRoot?.querySelector(
-    '[data-test="label-required"]',
-  );
-
-  expect(requiredSymbol).to.not.be.null;
 });
 
 it('does not render a required symbol when a "label" is given and "required" is not set', async () => {

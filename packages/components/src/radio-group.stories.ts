@@ -101,7 +101,7 @@ const meta: Meta = {
       table: {
         type: { summary: 'string' },
       },
-      type: { name: 'string', required: true },
+      type: { name: 'string' },
     },
     required: {
       control: 'boolean',

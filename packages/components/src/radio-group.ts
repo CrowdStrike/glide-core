@@ -1,12 +1,11 @@
+import './label.js';
 import './tooltip.js';
 import { LitElement, type PropertyValueMap, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
-import { when } from 'lit/directives/when.js';
 import CsRadio from './radio.js';
-import infoCircleIcon from './icons/info-circle.js';
 import styles from './radio-group.styles.js';
 
 declare global {
@@ -36,11 +35,17 @@ export default class CsRadioGroup extends LitElement {
 
   static override styles = styles;
 
+  @property()
+  description = '';
+
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   @property()
   label = '';
+
+  @property({ attribute: 'hide-label', type: Boolean })
+  hideLabel = false;
 
   @property()
   name = '';
@@ -103,76 +108,37 @@ export default class CsRadioGroup extends LitElement {
   override render() {
     return html`
       <div
-        class=${classMap({
-          component: true,
-          invalid: this.#isShowValidationFeedback,
-        })}
-        ${ref(this.#componentElementRef)}
+        class="component"
         @click=${this.#onClick}
         @keydown=${this.#onKeydown}
+        ${ref(this.#componentElementRef)}
       >
-        ${when(
-          this.label,
-          () => html`
-            <!-- label -->
-            <span class=${classMap({ 'label-container': true })}>
-              <cs-tooltip
-                class=${classMap({
-                  visible: this.hasTooltipSlot,
-                })}
-              >
-                <span class="tooltip-target" slot="target" tabindex="0">
-                  ${infoCircleIcon}
-                </span>
+        <cs-label
+          orientation="horizontal"
+          ?error=${this.#isShowValidationFeedback}
+          ?hide=${this.hideLabel}
+          ?required=${this.required}
+        >
+          <label id="label" data-test="label">${this.label}</label>
+          <div
+            class=${classMap({
+              'radio-container': true,
+              vertical: true,
+              invalid: this.#isShowValidationFeedback,
+            })}
+            role="radiogroup"
+            slot="control"
+            aria-labelledby="label description"
+          >
+            <slot
+              ${ref(this.#defaultSlotElementRef)}
+              @slotchange=${this.#onDefaultSlotChange}
+            ></slot>
+          </div>
 
-                <slot
-                  name="tooltip"
-                  @slotchange=${this.#onTooltipSlotChange}
-                  ${ref(this.#tooltipSlotElementRef)}
-                ></slot>
-              </cs-tooltip>
-
-              <div aria-hidden="true" data-test="label">${this.label}</div>
-              ${when(
-                this.required,
-                () =>
-                  html`<span
-                    aria-hidden="true"
-                    class="required-symbol"
-                    data-test="label-required"
-                    >*</span
-                  >`,
-              )}
-            </span>
-          `,
-        )}
-
-        <!-- fieldset and description container -->
-        <div>
-          <!-- fieldset -->
-          <fieldset class="vertical" aria-labelledby="label description">
-            <div
-              class=${classMap({
-                'radio-container': true,
-                vertical: true,
-              })}
-              role="radiogroup"
-            >
-              <slot
-                ${ref(this.#defaultSlotElementRef)}
-                @slotchange=${this.#onDefaultSlotChange}
-              ></slot>
-            </div>
-          </fieldset>
-
-          <!-- description -->
-          <slot
-            class="description"
-            id="description"
-            name="description"
-            data-test="description"
-          ></slot>
-        </div>
+          <slot name="tooltip" slot="tooltip"></slot>
+          <slot id="description" name="description" slot="description"></slot>
+        </cs-label>
       </div>
     `;
   }
@@ -187,15 +153,8 @@ export default class CsRadioGroup extends LitElement {
       (changedProperties.has('value') || changedProperties.has('required'))
     ) {
       this.#onUpdateValidityState();
-
-      // Update radio presentation/announcement after initial render so
-      // that user does not experience an invalid presentation/announcement when no radio is initially
-      // checked and the group is required.
-      this.#firstUpdateComplete &&
-        this.#internals.validity &&
-        this.#setInvalidRadios(!this.#internals.validity.valid);
-
-      this.#firstUpdateComplete = true;
+      this.#setInvalidRadios(!this.#internals.validity.valid);
+      this.requestUpdate();
     }
   }
 
@@ -218,18 +177,6 @@ export default class CsRadioGroup extends LitElement {
           radioItem.checked = radioItem.value === this.value;
         }
       }
-
-      // Validity is updated at the end of the render cycle in lifecycle method `updated`.
-      // To prevent a re-render and correctly remove an invalid presentation when the state is
-      // in fact valid, batch with other updates.
-      if (
-        (changedProperties.has('value') &&
-          this.value?.length > 0 &&
-          this.isReportValidityOrSubmit) ||
-        !this.required
-      ) {
-        this.isReportValidityOrSubmit = false;
-      }
     }
   }
 
@@ -241,9 +188,6 @@ export default class CsRadioGroup extends LitElement {
   }
 
   @state()
-  private hasTooltipSlot = false;
-
-  @state()
   private isCheckingValidity = false;
 
   @state()
@@ -253,15 +197,11 @@ export default class CsRadioGroup extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #firstUpdateComplete = false;
-
   #internals: ElementInternals;
 
   // Recall the previously checked radio so that we can
   // return focus to it when clicking on a disabled radio.
   #previousCheckedRadio?: CsRadio;
-
-  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of the form.
@@ -313,6 +253,9 @@ export default class CsRadioGroup extends LitElement {
   #onClick(event: MouseEvent) {
     if (this.disabled) return;
 
+    // If the user clicks on a disabled radio, then attempts to use the keyboard, the focus would normally
+    // be stuck on the disabled element. Since the general pattern is for focus to follow selection,
+    // it does so here, going to the last checked radio.
     if (
       event.target instanceof CsRadio &&
       event.target.disabled &&
@@ -455,11 +398,6 @@ export default class CsRadioGroup extends LitElement {
         }
       }
     }
-  }
-
-  #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes();
-    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
   #onUpdateValidityState() {

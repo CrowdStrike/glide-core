@@ -12,12 +12,8 @@ export default [
       font-weight: var(--cs-heading-xxxs-font-weight);
       line-height: 1;
 
-      &.invalid {
+      & .invalid {
         color: var(--cs-status-error);
-
-        & .label-container {
-          margin-inline-end: 0.6875rem;
-        }
 
         & fieldset {
           border: 1px solid var(--cs-status-error);
@@ -27,9 +23,8 @@ export default [
       }
 
       & fieldset {
-        margin-inline: 0;
-        padding-block: 0;
-        padding-inline: 0;
+        margin: 0;
+        padding: 0;
       }
 
       & .vertical {
@@ -41,65 +36,22 @@ export default [
         padding: 0;
       }
 
-      & .label-container {
-        color: var(--cs-text-body-1);
-        display: inline-flex;
-        flex-direction: row;
-        margin-inline-end: var(--cs-spacing-sm);
-
-        cs-tooltip {
-          display: none;
-          margin-inline-end: var(--cs-spacing-xs);
-
-          &.visible {
-            display: block;
-          }
-        }
-
-        & .tooltip-target {
-          --size: 1rem;
-
-          background-color: transparent;
-          border: none;
-
-          /* So the focus outline wraps neatly around the icon. */
-          border-radius: 50%;
-
-          /*
-            Any "display" that's not inline-level will do. We don't want the button to
-            acquire a line box, which will make it taller than its content and thus
-            make it difficult to center vertically with the label.
-          */
-          display: flex;
-          outline-offset: 1px;
-          padding: 0;
-        }
-
-        & .required-symbol {
-          color: var(--cs-status-error);
-          margin-inline-start: var(--cs-spacing-xxxs);
-        }
-      }
-
       & .radio-container {
         display: flex;
         gap: var(--cs-spacing-xs);
+        inline-size: min-content;
+        padding: var(--cs-spacing-xxs) 0.375rem;
+
+        &.invalid {
+          border: 1px solid var(--cs-status-error);
+          border-radius: 0.5rem;
+          margin-block-end: -0.0625rem;
+          margin-inline-start: -0.0625rem;
+        }
       }
 
-      & ::slotted([slot='description']) {
-        color: inherit;
-        display: block;
-        font-family: var(--cs-body-xs-font-family);
-        font-size: var(--cs-body-xs-font-size);
-        font-style: var(--cs-body-xs-font-style);
-        font-weight: var(--cs-body-xs-font-weight);
-        line-height: var(--cs-body-xs-line-height);
-        margin-block-start: var(--cs-spacing-xxs);
-        max-inline-size: var(--max-inline-size);
-      }
-
-      &.invalid ::slotted([slot='description']) {
-        margin-block-start: 0.1875rem;
+      cs-label::part(tooltip-and-label-container) {
+        align-items: flex-start;
       }
     }
   `,

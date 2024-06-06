@@ -58,6 +58,7 @@ export default class CsRadio extends LitElement {
             checked: this.checked,
           })}
           data-test="radio"
+          data-test-error=${this.invalid}
         ></span>
         ${this.label}
       </span>

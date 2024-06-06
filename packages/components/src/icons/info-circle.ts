@@ -7,7 +7,6 @@ export default svg`
     height="16"
     viewBox="0 0 24 24"
     fill="none"
-    style="height: var(--size, 1rem); width: var(--size, 1rem);"
   >
     <circle
       cx="12"
