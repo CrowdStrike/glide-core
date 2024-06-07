@@ -83,11 +83,7 @@ export const PrimaryWithPrefixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon
-        slot="prefix"
-        name="chevron-down"
-        aria-hidden="true"
-      ></cs-example-icon>
+      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -102,11 +98,7 @@ export const PrimaryWithSuffixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon
-        slot="suffix"
-        name="chevron-down"
-        aria-hidden="true"
-      ></cs-example-icon>
+      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -121,16 +113,8 @@ export const PrimaryWithPrefixAndSuffixIcons: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon
-        slot="prefix"
-        name="calendar"
-        aria-hidden="true"
-      ></cs-example-icon>
-      <cs-example-icon
-        slot="suffix"
-        name="chevron-down"
-        aria-hidden="true"
-      ></cs-example-icon>
+      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
+      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -154,11 +138,7 @@ export const SecondaryWithPrefixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon
-        slot="prefix"
-        name="chevron-down"
-        aria-hidden="true"
-      ></cs-example-icon>
+      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -176,11 +156,7 @@ export const SecondaryWithSuffixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon
-        slot="suffix"
-        name="chevron-down"
-        aria-hidden="true"
-      ></cs-example-icon>
+      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -198,16 +174,8 @@ export const SecondaryWithPrefixAndSuffixIcons: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon
-        slot="prefix"
-        name="calendar"
-        aria-hidden="true"
-      ></cs-example-icon>
-      <cs-example-icon
-        slot="suffix"
-        name="chevron-down"
-        aria-hidden="true"
-      ></cs-example-icon>
+      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
+      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -231,11 +199,7 @@ export const TertiaryWithPrefixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon
-        slot="prefix"
-        name="chevron-down"
-        aria-hidden="true"
-      ></cs-example-icon>
+      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -253,11 +217,7 @@ export const TertiaryWithSuffixIcon: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon
-        slot="suffix"
-        name="chevron-down"
-        aria-hidden="true"
-      ></cs-example-icon>
+      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
     </cs-button>
   `,
 };
@@ -275,16 +235,8 @@ export const TertiaryWithPrefixAndSuffixIcons: StoryObj = {
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon
-        slot="prefix"
-        name="calendar"
-        aria-hidden="true"
-      ></cs-example-icon>
-      <cs-example-icon
-        slot="suffix"
-        name="chevron-down"
-        aria-hidden="true"
-      ></cs-example-icon>
+      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
+      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
     </cs-button>
   `,
 };

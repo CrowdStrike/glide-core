@@ -19,7 +19,7 @@ const meta: Meta = {
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
-      <cs-example-icon aria-hidden="true" name="clipboard"></cs-example-icon>
+      <cs-example-icon name="clipboard"></cs-example-icon>
     </cs-icon-button>
   `,
   args: {
