@@ -64,11 +64,16 @@ export default class CsRadioGroup extends LitElement {
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
+    this.#initialCheckedRadio = undefined;
   }
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
     owSlotType(this.#defaultSlotElementRef.value, [CsRadio]);
+
+    // Set the default checked radio item to be the first checked radio, if it exists
+    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#value
+    this.#initialCheckedRadio = this.#radioItems.find((radio) => radio.checked);
 
     this.#intializeRadios();
   }
@@ -100,8 +105,19 @@ export default class CsRadioGroup extends LitElement {
   }
 
   formResetCallback() {
-    for (const radioItem of this.#radioItems) {
-      this.#setCheckedRadio(radioItem.hasAttribute('checked'), radioItem);
+    // We need to protect against the case where is no initially checked radio because
+    // otherwise all radios become unchecked and consequently untabbable
+
+    if (
+      this.#initialCheckedRadio &&
+      document.contains(this.#initialCheckedRadio)
+    ) {
+      for (const radioItem of this.#radioItems) {
+        this.#setCheckedRadio(
+          radioItem === this.#initialCheckedRadio,
+          radioItem,
+        );
+      }
     }
   }
 
@@ -197,6 +213,8 @@ export default class CsRadioGroup extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
+  #initialCheckedRadio?: CsRadio = undefined;
+
   #internals: ElementInternals;
 
   // Recall the previously checked radio so that we can
@@ -211,20 +229,17 @@ export default class CsRadioGroup extends LitElement {
     }
   };
 
-  #dispatchEvents(radio: CsRadio) {
-    radio.dispatchEvent(new Event('change', { bubbles: true }));
-
-    radio.dispatchEvent(new Event('input', { bubbles: true }));
-  }
-
   #intializeRadios() {
     // Set the default checked radio item to be the first checked radio, if it exists
     // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#value
     const intialCheckedRadio = this.#radioItems.find((radio) => radio.checked);
 
-    this.value = intialCheckedRadio?.value ?? '';
+    // If no radio is already checked, use the checked radio from when the component `firstUpdated`
+    this.value =
+      intialCheckedRadio?.value ?? this.#initialCheckedRadio?.value ?? '';
 
-    this.#previousCheckedRadio = intialCheckedRadio;
+    this.#previousCheckedRadio =
+      intialCheckedRadio ?? this.#initialCheckedRadio;
 
     this.required && this.#setRequiredRadios();
 
@@ -433,7 +448,8 @@ export default class CsRadioGroup extends LitElement {
       this.#previousCheckedRadio = radio;
       this.value = radio.value;
       radio.focus();
-      this.#dispatchEvents(radio);
+      radio.dispatchEvent(new Event('change', { bubbles: true }));
+      radio.dispatchEvent(new Event('input', { bubbles: true }));
     }
   }
 

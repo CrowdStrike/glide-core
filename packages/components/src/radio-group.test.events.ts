@@ -14,7 +14,7 @@ import CsRadioGroup from './radio-group.js';
 CsRadio.shadowRootOptions.mode = 'open';
 CsRadioGroup.shadowRootOptions.mode = 'open';
 
-it('the group emits a change event when arrow keys are pressed', async () => {
+it('emits a change event when arrow keys are pressed', async () => {
   await fixture(
     html`<cs-radio-group name="name">
       <cs-radio value="value-1" label="One"></cs-radio>

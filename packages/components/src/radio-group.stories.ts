@@ -13,9 +13,11 @@ const meta: Meta = {
         component:
           'A radio group with a label, and optional tooltip and description. Participates in forms and validation via `FormData` and various methods.',
       },
+      story: {
+        autoplay: true,
+      },
     },
   },
-  // play does not run on the Overview story
   play: (context) => {
     const radioGroup = context.canvasElement.querySelector('cs-radio-group');
 

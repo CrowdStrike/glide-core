@@ -79,7 +79,7 @@ export default [
 
       &:hover {
         & .radio-circle {
-          border-color: var(--cs-border-focus, #0073e6);
+          border-color: var(--cs-border-focus);
           box-shadow: var(--cs-glow-sm);
         }
       }

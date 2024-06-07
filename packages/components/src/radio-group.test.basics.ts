@@ -71,8 +71,6 @@ it('renders a label, radio group, description, and tooltip when given', async ()
 
   const description = document?.querySelector('[data-test="description"]');
 
-  // const description = document.querySelector('[data-description]');
-
   expect(group).to.not.be.null;
   expect(label).to.not.be.null;
   expect(radioGroup).to.not.be.null;
