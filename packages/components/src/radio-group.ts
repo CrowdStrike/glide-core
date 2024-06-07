@@ -105,13 +105,10 @@ export default class CsRadioGroup extends LitElement {
   }
 
   formResetCallback() {
-    // We need to protect against the case where is no initially checked radio because
+    // We need to protect against the case where there is no initially checked radio because
     // otherwise all radios become unchecked and consequently untabbable
 
-    if (
-      this.#initialCheckedRadio &&
-      document.contains(this.#initialCheckedRadio)
-    ) {
+    if (this.#initialCheckedRadio && this.contains(this.#initialCheckedRadio)) {
       for (const radioItem of this.#radioItems) {
         this.#setCheckedRadio(
           radioItem === this.#initialCheckedRadio,
