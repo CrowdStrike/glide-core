@@ -23,6 +23,10 @@ export default class CsExampleIcon extends LitElement {
 
   ICONS = ICONS;
 
+  override firstUpdated() {
+    this.ariaHidden = 'true';
+  }
+
   override render() {
     return html`
       <svg

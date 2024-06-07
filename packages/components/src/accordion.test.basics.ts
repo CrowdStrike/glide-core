@@ -80,7 +80,7 @@ it('renders with a prefix slot and applies the appropriate classes', async () =>
   ]).to.deep.equal(['heading-box', 'heading-box-with-prefix']);
 
   expect([
-    ...component.shadowRoot!.querySelector('[role="region"]')!.classList,
+    ...component.shadowRoot!.querySelector('[data-test="content"]')!.classList,
   ]).to.deep.equal(['content', 'content-with-prefix']);
 });
 
@@ -94,7 +94,7 @@ it('does not apply prefix classes when no prefix slot is provided', async () => 
   ]).to.deep.equal(['heading-box']);
 
   expect([
-    ...component.shadowRoot!.querySelector('[role="region"]')!.classList,
+    ...component.shadowRoot!.querySelector('[data-test="content"]')!.classList,
   ]).to.deep.equal(['content']);
 });
 
@@ -142,7 +142,7 @@ it('renders without prefix and suffix classes after both are removed', async () 
   ]).to.deep.equal(['heading-box']);
 
   expect([
-    ...component.shadowRoot!.querySelector('[role="region"]')!.classList,
+    ...component.shadowRoot!.querySelector('[data-test="content"]')!.classList,
   ]).to.deep.equal(['content']);
 
   // suffix

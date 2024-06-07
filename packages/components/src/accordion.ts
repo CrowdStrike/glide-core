@@ -67,7 +67,6 @@ export default class CsAccordion extends LitElement {
             'heading-box-with-prefix': this.hasPrefixSlot,
           })}
           data-test="label"
-          id="label"
         >
           <div class="prefix-slot-box">
             <slot
@@ -96,14 +95,11 @@ export default class CsAccordion extends LitElement {
       </summary>
 
       <div
-        aria-labelledby="label"
         class=${classMap({
           content: true,
           'content-with-prefix': this.hasPrefixSlot,
         })}
         data-test="content"
-        tabindex="0"
-        role="region"
         ${ref(this.#contentElementRef)}
       >
         <slot
