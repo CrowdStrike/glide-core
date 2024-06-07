@@ -26,10 +26,6 @@ export default [
       font-weight: var(--cs-body-md-font-weight);
       line-height: 1;
 
-      /*
-        The radio circle size may change to 16px as per Design;
-        14px = 0.875rem
-      */
       & .radio-circle {
         align-items: center;
         appearance: none;
