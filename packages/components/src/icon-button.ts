@@ -36,7 +36,7 @@ export default class CsIconButton extends LitElement {
   @property()
   label = '';
 
-  @property({ attribute: 'variant', reflect: true })
+  @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   override firstUpdated() {
