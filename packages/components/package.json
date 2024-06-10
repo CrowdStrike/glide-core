@@ -20,8 +20,8 @@
   ],
   "exports": {
     "./*.js": {
-      "import": "./dist/*.js",
-      "types": "./dist/*.d.ts"
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js"
     },
     "./*.styles.js": null,
     "./library/*": null,
