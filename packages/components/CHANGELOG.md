@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core-components
 
+## 0.4.6
+
+### Patch Changes
+
+- [#174](https://github.com/CrowdStrike/glide-core/pull/174) [`bba992f`](https://github.com/CrowdStrike/glide-core/commit/bba992fbb9f9a580affc8c38fc3ac40b5ceaec84) Thanks [@danwenzel](https://github.com/danwenzel)! - Ensure tooltip remains open when hovered
+
 ## 0.4.5
 
 ### Patch Changes
