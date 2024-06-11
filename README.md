@@ -1,14 +1,10 @@
 <p align="center">
-  <a href="https://www.crowdstrike.com">
-    <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/cs-logo.png?raw=true" alt="CrowdStrike logo" width="300" />
-  </a>
+  <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/glide-core.png?raw=true" alt="Glide Core logo" width="300" />
 </p>
 
 <h1 align="center">The Glide Design System from CrowdStrike</h1>
 
 <br>
-
-![CI status](https://github.com/crowdstrike/ember-toucan-core/actions/workflows/ci.yml/badge.svg?branch=main)
 
 ## Development
 
