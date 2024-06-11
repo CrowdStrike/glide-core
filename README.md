@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/glide-core.png?raw=true" alt="Glide Core logo" width="300" />
+  <a href="https://glide-core.crowdstrike-ux.workers.dev" target="_blank">
+    <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/glide-core.png?raw=true" alt="Glide Core logo" width="300" />
+  </a>
 </p>
 
 <h1 align="center">The Glide Design System from CrowdStrike</h1>
