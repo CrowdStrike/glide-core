@@ -2,6 +2,7 @@ import './tooltip.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import CsTooltip from './tooltip.js';
+import sinon from 'sinon';
 
 CsTooltip.shadowRootOptions.mode = 'open';
 
@@ -85,7 +86,7 @@ it('is visible on "mouseover"', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-labelledby="tooltip"]')
+    ?.querySelector('.component')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
   await elementUpdated(component);
@@ -96,6 +97,8 @@ it('is visible on "mouseover"', async () => {
 });
 
 it('is hidden on "mouseout"', async () => {
+  const clock = sinon.useFakeTimers();
+
   const component = await fixture<CsTooltip>(
     html`<cs-tooltip>
       Tooltip
@@ -104,18 +107,22 @@ it('is hidden on "mouseout"', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-labelledby="tooltip"]')
+    ?.querySelector('.component')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
   await elementUpdated(component);
 
   component.shadowRoot
-    ?.querySelector('[aria-labelledby="tooltip"]')
+    ?.querySelector('.component')
     ?.dispatchEvent(new MouseEvent('mouseout'));
+
+  clock.tick(300);
 
   await elementUpdated(component);
 
   expect(
     component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
   ).to.be.false;
+
+  clock.restore();
 });
