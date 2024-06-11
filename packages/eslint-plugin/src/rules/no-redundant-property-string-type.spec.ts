@@ -12,7 +12,7 @@ ruleTester.run(
     valid: [
       {
         // We ignore classes that don't extend LitElement
-        code: 'class TestComponent { @property() name = "test" }',
+        code: 'class TestComponent { @property({ type: String }) name = "test" }',
       },
       {
         code: 'class TestComponent extends LitElement { @property() name = "test" }',
