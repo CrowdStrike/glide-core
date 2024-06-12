@@ -9,10 +9,11 @@ export default [
 
     .component {
       color: var(--cs-text-body-1);
-      display: inline-block;
+      display: flex;
     }
 
     .target-container {
+      display: flex;
       position: relative;
     }
 

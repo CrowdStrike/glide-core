@@ -126,11 +126,12 @@ export default class GlideCoreMenu extends LitElement {
     // slot, but there's nothing to be done with one in this case.
 
     /*  eslint-disable lit-a11y/list, lit-a11y/mouse-events-have-key-events */
-    return html`<div class="component">
+    return html`
       <div
         @focusout=${this.#onTargetAndOptionsFocusout}
         @keydown=${this.#onTargetAndOptionsKeydown}
         ${ref(this.#componentElementRef)}
+        class="component"
       >
         <div
           class="target-container"
@@ -165,7 +166,7 @@ export default class GlideCoreMenu extends LitElement {
           ></slot>
         </div>
       </div>
-    </div>`;
+    `;
   }
 
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
