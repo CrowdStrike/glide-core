@@ -39,7 +39,7 @@ export default class CsTreeItem extends LitElement {
 
   @property({ type: Boolean }) expanded = false;
 
-  @property({ type: String, reflect: true }) label = '';
+  @property({ reflect: true }) label = '';
 
   @property({ type: Number }) level = 1;
 
