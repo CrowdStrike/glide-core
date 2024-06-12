@@ -41,6 +41,8 @@ export default [
         'error',
       '@crowdstrike/glide-core-eslint-plugin/no-nested-template-literals':
         'error',
+      '@crowdstrike/glide-core-eslint-plugin/no-redundant-property-attribute':
+        'error',
       '@crowdstrike/glide-core-eslint-plugin/no-redundant-property-string-type':
         'error',
       '@crowdstrike/glide-core-eslint-plugin/prefer-closed-shadow-root':
