@@ -13,7 +13,7 @@ it('is accessible', async () => {
   );
 
   drawer.shadowRoot
-    ?.querySelector<HTMLDialogElement>('dialog')
+    ?.querySelector('dialog')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   drawer.open();
@@ -21,7 +21,7 @@ it('is accessible', async () => {
   await expect(drawer).to.be.accessible();
 });
 
-it('focuses the dialog upon opening', async () => {
+it('focuses the aside upon opening', async () => {
   const drawer = await fixture<Drawer>(
     html`<cs-drawer>Drawer content</cs-drawer>`,
   );
@@ -29,10 +29,10 @@ it('focuses the dialog upon opening', async () => {
   drawer.open();
 
   drawer.shadowRoot
-    ?.querySelector<HTMLDialogElement>('dialog')
+    ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   expect(drawer.shadowRoot?.activeElement).to.equal(
-    drawer.shadowRoot?.querySelector('dialog'),
+    drawer.shadowRoot?.querySelector('aside'),
   );
 });

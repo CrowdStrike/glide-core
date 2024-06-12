@@ -17,20 +17,22 @@ it('opens the Drawer via the "open()" method and closes it via "close()"', async
   await elementUpdated(drawer);
 
   drawer.shadowRoot
-    ?.querySelector('dialog')
+    ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  expect(drawer.shadowRoot?.querySelector('dialog')?.open).to.be.true;
+  expect(drawer.shadowRoot?.querySelector('aside[data-test="open"]')).to.be.not
+    .null;
 
   drawer.close();
 
   drawer.shadowRoot
-    ?.querySelector('dialog')
+    ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(drawer);
 
-  expect(drawer.shadowRoot?.querySelector('dialog')?.open).to.be.false;
+  expect(drawer.shadowRoot?.querySelector('aside[data-test="closed"]')).to.be
+    .not.null;
 });
 
 it('remains open if "open()" is called an additional time after it is already opened', async () => {
@@ -42,11 +44,13 @@ it('remains open if "open()" is called an additional time after it is already op
 
   await elementUpdated(drawer);
 
-  expect(drawer.shadowRoot?.querySelector('dialog')?.open).to.be.true;
+  expect(drawer.shadowRoot?.querySelector('aside[data-test="open"]')).to.be.not
+    .null;
 
   drawer.open();
 
   await elementUpdated(drawer);
 
-  expect(drawer.shadowRoot?.querySelector('dialog')?.open).to.be.true;
+  expect(drawer.shadowRoot?.querySelector('aside[data-test="open"]')).to.be.not
+    .null;
 });

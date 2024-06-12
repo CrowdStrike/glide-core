@@ -5,7 +5,12 @@ import ow from './library/ow.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  decorators: [(story) => html`<div style="height: 12.5rem;">${story()}</div>`],
+  decorators: [
+    (story) =>
+      html`<div style="height: 12.5rem; position: relative; overflow: hidden;">
+        ${story()}
+      </div>`,
+  ],
   title: 'Drawer',
   tags: ['autodocs'],
   parameters: {

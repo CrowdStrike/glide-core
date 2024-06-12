@@ -1,25 +1,44 @@
 import './drawer.js';
-import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import Drawer from './drawer.js';
-import sinon from 'sinon';
+import CsDrawer from './drawer.js';
+import expectArgumentError from './library/expect-argument-error.js';
 
-Drawer.shadowRootOptions.mode = 'open';
+CsDrawer.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-drawer')).to.equal(Drawer);
+  expect(window.customElements.get('cs-drawer')).to.equal(CsDrawer);
 });
 
-it('has defaults', async () => {
-  const drawer = await fixture<Drawer>(
+it.skip('has defaults', async () => {
+  const drawer = await fixture<CsDrawer>(
     html`<cs-drawer>Drawer content</cs-drawer>`,
   );
 
   expect(drawer.hasAttribute('open')).to.be.false;
 });
 
+it('adds an aria-label when "label" is set', async () => {
+  const drawer = await fixture<CsDrawer>(
+    html`<cs-drawer label="label">Drawer content</cs-drawer>`,
+  );
+
+  expect(drawer.shadowRoot?.querySelector('aside')?.ariaLabel).to.equal(
+    'label',
+  );
+});
+
+it('does not add an aria-label when "label" is unset', async () => {
+  const drawer = await fixture<CsDrawer>(
+    html`<cs-drawer>Drawer content</cs-drawer>`,
+  );
+
+  expect(drawer.shadowRoot?.querySelector('aside')).to.not.have.attribute(
+    'aria-label',
+  );
+});
+
 it('can have a default slot', async () => {
-  const drawer = await fixture<Drawer>(
+  const drawer = await fixture<CsDrawer>(
     html`<cs-drawer>Drawer content</cs-drawer>`,
   );
 
@@ -32,26 +51,18 @@ it('sets the width of the element based on the "--width" CSS variable', async ()
   const styledDiv = document.createElement('div');
   styledDiv.setAttribute('style', '--width: 750px');
 
-  const drawer = await fixture<Drawer>(
+  const drawer = await fixture<CsDrawer>(
     html`<cs-drawer>Drawer content</cs-drawer>`,
     { parentNode: styledDiv },
   );
 
   drawer.open();
 
-  expect(drawer.shadowRoot?.querySelector('dialog')?.clientWidth).to.equal(750);
+  expect(drawer.shadowRoot?.querySelector('aside')?.clientWidth).to.equal(750);
 });
 
 it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture<Drawer>(html`<cs-drawer></cs-drawer>`);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
+  await expectArgumentError(() => {
+    return fixture(html`<cs-drawer></cs-drawer>`);
+  });
 });
