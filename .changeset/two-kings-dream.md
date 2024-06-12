@@ -1,5 +1,5 @@
 ---
-'@crowdstrike/glide-core-components': minor
+'@crowdstrike/glide-core': minor
 ---
 
-Replace `@crowdstrike/glide-core-styles` with `@crowdstrike/glide-core-components/styles/variables.css`.
+Replace `@crowdstrike/glide-core-styles` with `@crowdstrike/glide-core/styles/variables.css`.

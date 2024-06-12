@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@crowdstrike/glide-core",
+  "name": "@crowdstrike/glide-core-root",
   "description": "CrowdStrike's Glide Design System monorepo root. Should not be published/consumed directly.",
   "version": "0.0.0",
   "author": "CrowdStrike UX Team",
