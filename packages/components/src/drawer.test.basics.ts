@@ -9,14 +9,6 @@ it('registers', async () => {
   expect(window.customElements.get('cs-drawer')).to.equal(CsDrawer);
 });
 
-it.skip('has defaults', async () => {
-  const drawer = await fixture<CsDrawer>(
-    html`<cs-drawer>Drawer content</cs-drawer>`,
-  );
-
-  expect(drawer.hasAttribute('open')).to.be.false;
-});
-
 it('adds an aria-label when "label" is set', async () => {
   const drawer = await fixture<CsDrawer>(
     html`<cs-drawer label="label">Drawer content</cs-drawer>`,
