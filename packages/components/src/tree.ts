@@ -118,11 +118,15 @@ export default class CsTree extends LitElement {
 
   #handleClick(event: Event) {
     const target = event.target as HTMLElement;
-    const clickedItem = target.closest('cs-tree-item');
 
-    if (target.closest('[slot=menu]')) {
+    if (
+      target.closest('cs-tree-item-icon-button') ??
+      target.closest('cs-tree-item-menu')
+    ) {
       return;
     }
+
+    const clickedItem = target.closest('cs-tree-item');
 
     if (clickedItem) {
       if (clickedItem.hasChildTreeItems) {

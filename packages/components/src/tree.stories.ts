@@ -1,5 +1,6 @@
 import './icon-button.js';
 import './icons/storybook.js';
+import './tree.item.icon-button.js';
 import './tree.item.js';
 import './tree.js';
 import { html, nothing } from 'lit';
@@ -44,7 +45,9 @@ const meta: Meta = {
           ></cs-tree-item>
           <cs-tree-item label="Leaf 2">
             <cs-example-icon slot="prefix" name="share"></cs-example-icon>
-            <cs-example-icon slot="suffix" name="settings"></cs-example-icon>
+            <cs-tree-item-icon-button slot="suffix">
+              <cs-example-icon name="settings"></cs-example-icon>
+            </cs-tree-item-icon-button>
             ${treeItemMenu}
           </cs-tree-item>
           <cs-tree-item label="Sub-branch">
@@ -210,15 +213,17 @@ export const TreeItemWithPrefixIcon: StoryObj = {
   `,
 };
 
-export const TreeItemWithSuffixIcon: StoryObj = {
-  name: 'Tree Item (With Suffix Icon)',
+export const TreeItemWithSuffixIconButton: StoryObj = {
+  name: 'Tree Item (With Suffix Icon Button)',
   render: (arguments_) => html`
     <cs-tree>
       <cs-tree-item
         label=${arguments_['<cs-tree-item>.label']}
         ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
         >
-        <cs-example-icon slot="suffix" name="settings"></cs-example-icon>
+        <cs-tree-item-icon-button slot="suffix">
+          <cs-example-icon name="settings"></cs-example-icon>
+        </cs-tree-item-icon-button>
       </cs-tree-item></cs-tree-item>
     </cs-tree>
   `,

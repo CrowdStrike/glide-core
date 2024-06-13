@@ -87,14 +87,18 @@ export default [
 
     ::slotted([slot='menu']) {
       visibility: hidden;
-
-      --target-icon-color: var(--color);
     }
 
-    /* Nesting does not work with ::slotted */
-    /* stylelint-disable-next-line csstools/use-nesting */
-    .component.selected ::slotted([slot='menu']) {
-      --hovered-target-icon-color: var(--cs-icon-hover);
+    ::slotted([slot='prefix']),
+    ::slotted([slot='menu']),
+    ::slotted([slot='suffix']) {
+      --icon-button-color: var(--color);
+    }
+
+    .component.selected ::slotted([slot='prefix']),
+    .component.selected ::slotted([slot='menu']),
+    .component.selected ::slotted([slot='suffix']) {
+      --hovered-icon-button-color: var(--cs-icon-hover);
     }
 
     ::slotted([slot='suffix']) {
