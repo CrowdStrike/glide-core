@@ -5,15 +5,18 @@ import { assert, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './ow.js';
 
-@customElement('cs-slot')
-export default class CsSlot extends LitElement {
+@customElement('glide-core-slot')
+export default class GlideCoreSlot extends LitElement {
   override render() {
     return html`<slot></slot>`;
   }
 }
 
 it('throws when a slot lacks a node', async () => {
-  const component = await fixture<CsSlot>(html`<cs-slot></cs-slot>`);
+  const component = await fixture<GlideCoreSlot>(
+    html`<glide-core-slot></glide-core-slot>`,
+  );
+
   const slot = component.shadowRoot?.querySelector('slot');
 
   assert(slot !== null);
@@ -22,10 +25,10 @@ it('throws when a slot lacks a node', async () => {
 });
 
 it('throws when a slot lacks a specific node', async () => {
-  const component = await fixture<CsSlot>(
-    html`<cs-slot>
+  const component = await fixture<GlideCoreSlot>(
+    html`<glide-core-slot>
       <span>Span</span>
-    </cs-slot>`,
+    </glide-core-slot>`,
   );
 
   const slot = component.shadowRoot?.querySelector('slot');
@@ -36,10 +39,10 @@ it('throws when a slot lacks a specific node', async () => {
 });
 
 it('does not throw when a slot has a node', async () => {
-  const component = await fixture<CsSlot>(
-    html`<cs-slot>
+  const component = await fixture<GlideCoreSlot>(
+    html`<glide-core-slot>
       <span>Span</span>
-    </cs-slot>`,
+    </glide-core-slot>`,
   );
 
   const slot = component.shadowRoot?.querySelector('slot');
@@ -50,7 +53,10 @@ it('does not throw when a slot has a node', async () => {
 });
 
 it('does not throw when a slot has a specific node', async () => {
-  const component = await fixture<CsSlot>(html`<cs-slot> Text </cs-slot>`);
+  const component = await fixture<GlideCoreSlot>(
+    html`<glide-core-slot> Text </glide-core-slot>`,
+  );
+
   const slot = component.shadowRoot?.querySelector('slot');
 
   assert(slot !== null);
@@ -59,7 +65,10 @@ it('does not throw when a slot has a specific node', async () => {
 });
 
 it('does not throw when a slot has no nodes', async () => {
-  const component = await fixture<CsSlot>(html`<cs-slot></cs-slot>`);
+  const component = await fixture<GlideCoreSlot>(
+    html`<glide-core-slot></glide-core-slot>`,
+  );
+
   const slot = component.shadowRoot?.querySelector('slot');
 
   assert(slot !== null);

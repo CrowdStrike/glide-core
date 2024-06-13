@@ -1,14 +1,16 @@
 import './button-group.button.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import CsButtonGroupButton from './button-group.button.js';
+import GlideCoreButtonGroupButton from './button-group.button.js';
 import sinon from 'sinon';
 
-CsButtonGroupButton.shadowRootOptions.mode = 'open';
+GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
 it('emits a change event when clicked', async () => {
   const element = await fixture(
-    html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
+    html`<glide-core-button-group-button value="value"
+      >Button</glide-core-button-group-button
+    >`,
   );
 
   const liElement = element.shadowRoot?.querySelector('li');
@@ -27,7 +29,9 @@ it('emits a change event when clicked', async () => {
 
 it('emits an input event when clicked', async () => {
   const element = await fixture(
-    html`<cs-button-group-button value="value">Button</cs-button-group-button>`,
+    html`<glide-core-button-group-button value="value"
+      >Button</glide-core-button-group-button
+    >`,
   );
 
   const liElement = element.shadowRoot!.querySelector('li');
@@ -42,9 +46,9 @@ it('emits an input event when clicked', async () => {
 });
 
 it('emits a change event when a space key is pressed and is not already selected', async () => {
-  const buttonElement = await fixture<CsButtonGroupButton>(
-    html`<cs-button-group-button value="value-1"
-      >Button 1</cs-button-group-button
+  const buttonElement = await fixture<GlideCoreButtonGroupButton>(
+    html`<glide-core-button-group-button value="value-1"
+      >Button 1</glide-core-button-group-button
     >`,
   );
 
@@ -60,9 +64,9 @@ it('emits a change event when a space key is pressed and is not already selected
 });
 
 it('does not emit change event when a space key is pressed and is selected', async () => {
-  const buttonElement = await fixture<CsButtonGroupButton>(
-    html`<cs-button-group-button value="value-1" selected
-      >Button 1</cs-button-group-button
+  const buttonElement = await fixture<GlideCoreButtonGroupButton>(
+    html`<glide-core-button-group-button value="value-1" selected
+      >Button 1</glide-core-button-group-button
     > `,
   );
 
@@ -75,9 +79,9 @@ it('does not emit change event when a space key is pressed and is selected', asy
 });
 
 it('emits an input event when a space key is pressed and is not already selected', async () => {
-  const buttonElement = await fixture<CsButtonGroupButton>(
-    html` <cs-button-group-button value="value-1"
-      >Button 1</cs-button-group-button
+  const buttonElement = await fixture<GlideCoreButtonGroupButton>(
+    html` <glide-core-button-group-button value="value-1"
+      >Button 1</glide-core-button-group-button
     >`,
   );
 
@@ -93,9 +97,9 @@ it('emits an input event when a space key is pressed and is not already selected
 });
 
 it('does not emit an input event when a space key is pressed and is selected', async () => {
-  const buttonElement = await fixture<CsButtonGroupButton>(
-    html`<cs-button-group-button value="value-1" selected
-      >Button 1</cs-button-group-button
+  const buttonElement = await fixture<GlideCoreButtonGroupButton>(
+    html`<glide-core-button-group-button value="value-1" selected
+      >Button 1</glide-core-button-group-button
     >`,
   );
 

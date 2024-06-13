@@ -1,22 +1,24 @@
 import './button-group.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import CsButtonGroup from './button-group.js';
-import CsButtonGroupButton from './button-group.button.js';
+import GlideCoreButtonGroup from './button-group.js';
+import GlideCoreButtonGroupButton from './button-group.button.js';
 import expectArgumentError from './library/expect-argument-error.js';
 
-CsButtonGroup.shadowRootOptions.mode = 'open';
-CsButtonGroupButton.shadowRootOptions.mode = 'open';
+GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
+GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-button-group')).to.equal(CsButtonGroup);
+  expect(window.customElements.get('glide-core-button-group')).to.equal(
+    GlideCoreButtonGroup,
+  );
 });
 
 it('is accessible', async () => {
   const element = await fixture(
-    html`<cs-button-group label="label"
-      ><cs-button-group-button value="value"
-        >Button</cs-button-group-button
-      ></cs-button-group
+    html`<glide-core-button-group label="label"
+      ><glide-core-button-group-button value="value"
+        >Button</glide-core-button-group-button
+      ></glide-core-button-group
     >`,
   );
 
@@ -25,10 +27,10 @@ it('is accessible', async () => {
 
 it('renders a label and unordered list', async () => {
   const element = await fixture(
-    html`<cs-button-group label="label"
-      ><cs-button-group-button value="value"
-        >Button</cs-button-group-button
-      ></cs-button-group
+    html`<glide-core-button-group label="label"
+      ><glide-core-button-group-button value="value"
+        >Button</glide-core-button-group-button
+      ></glide-core-button-group
     >`,
   );
 
@@ -42,10 +44,10 @@ it('renders a label and unordered list', async () => {
 
 it('does not render a label when not given', async () => {
   const element = await fixture(
-    html`<cs-button-group
-      ><cs-button-group-button value="value"
-        >Button</cs-button-group-button
-      ></cs-button-group
+    html`<glide-core-button-group
+      ><glide-core-button-group-button value="value"
+        >Button</glide-core-button-group-button
+      ></glide-core-button-group
     >`,
   );
 
@@ -58,15 +60,25 @@ it('does not render a label when not given', async () => {
 
 it('assigns buttons the correct positional presentation when in a group', async () => {
   await fixture(
-    html`<cs-button-group>
-      <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
-      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
-      <cs-button-group-button value="value-4">Button 4</cs-button-group-button>
-    </cs-button-group>`,
+    html`<glide-core-button-group>
+      <glide-core-button-group-button value="value-1"
+        >Button 1</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-2"
+        >Button 2</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-3"
+        >Button 3</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-4"
+        >Button 4</glide-core-button-group-button
+      >
+    </glide-core-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll('cs-button-group-button');
+  const buttonElements = document.querySelectorAll(
+    'glide-core-button-group-button',
+  );
 
   expect(buttonElements.length).to.equal(4);
 
@@ -89,13 +101,20 @@ it('assigns buttons the correct positional presentation when in a group', async 
 
 it('buttons have a vertical presention when attribute "orientation" is set to "vertical"', async () => {
   await fixture(
-    html`<cs-button-group orientation="vertical"
-      ><cs-button-group-button value="value">Button</cs-button-group-button>
-      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-    </cs-button-group>`,
+    html`<glide-core-button-group orientation="vertical"
+      ><glide-core-button-group-button value="value"
+        >Button</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-2"
+        >Button 2</glide-core-button-group-button
+      >
+    </glide-core-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll('cs-button-group-button');
+  const buttonElements = document.querySelectorAll(
+    'glide-core-button-group-button',
+  );
+
   const liElement1 = buttonElements[0]?.shadowRoot?.querySelector('li');
   const liElement2 = buttonElements[1]?.shadowRoot?.querySelector('li');
 
@@ -108,13 +127,20 @@ it('buttons have a vertical presention when attribute "orientation" is set to "v
 
 it('does not have a vertical presention when the "orientation" is not set to "vertical"', async () => {
   await fixture(
-    html`<cs-button-group label="label">
-      <cs-button-group-button value="value">Button</cs-button-group-button>
-      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-    </cs-button-group>`,
+    html`<glide-core-button-group label="label">
+      <glide-core-button-group-button value="value"
+        >Button</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-2"
+        >Button 2</glide-core-button-group-button
+      >
+    </glide-core-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll('cs-button-group-button');
+  const buttonElements = document.querySelectorAll(
+    'glide-core-button-group-button',
+  );
+
   const liElement1 = buttonElements[0]?.shadowRoot?.querySelector('li');
   const liElement2 = buttonElements[1]?.shadowRoot?.querySelector('li');
 
@@ -127,14 +153,17 @@ it('does not have a vertical presention when the "orientation" is not set to "ve
 
 it('reacts to "orientation" attribute when changed from "horizontal" to "vertical"', async () => {
   const element = await fixture(
-    html`<cs-button-group label="label" orientation="horizontal"
-      ><cs-button-group-button value="value"
-        >Button</cs-button-group-button
-      ></cs-button-group
+    html`<glide-core-button-group label="label" orientation="horizontal"
+      ><glide-core-button-group-button value="value"
+        >Button</glide-core-button-group-button
+      ></glide-core-button-group
     >`,
   );
 
-  const buttonElement = document.querySelector('cs-button-group-button');
+  const buttonElement = document.querySelector(
+    'glide-core-button-group-button',
+  );
+
   const liElement = buttonElement?.shadowRoot?.querySelector('li');
 
   expect(liElement).to.not.have.class('vertical');
@@ -156,17 +185,22 @@ it('reacts to "orientation" attribute when changed from "horizontal" to "vertica
 
 it('applies an "icon-only" variant to buttons when set on the group', async () => {
   await fixture(
-    html`<cs-button-group label="label" variant="icon-only"
-      ><cs-button-group-button value="value"
-        ><span slot="prefix">Prefix 1</span>Button 1</cs-button-group-button
+    html`<glide-core-button-group label="label" variant="icon-only"
+      ><glide-core-button-group-button value="value"
+        ><span slot="prefix">Prefix 1</span>Button
+        1</glide-core-button-group-button
       >
-      <cs-button-group-button value="value-2"
-        ><span slot="prefix">Prefix 2</span>Button 2</cs-button-group-button
+      <glide-core-button-group-button value="value-2"
+        ><span slot="prefix">Prefix 2</span>Button
+        2</glide-core-button-group-button
       >
-    </cs-button-group>`,
+    </glide-core-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll('cs-button-group-button');
+  const buttonElements = document.querySelectorAll(
+    'glide-core-button-group-button',
+  );
+
   const liElement1 = buttonElements[0]?.shadowRoot?.querySelector('li');
   const liElement2 = buttonElements[1]?.shadowRoot?.querySelector('li');
 
@@ -179,13 +213,20 @@ it('applies an "icon-only" variant to buttons when set on the group', async () =
 
 it('does not apply an "icon-only" variant to buttons when not set on the group', async () => {
   await fixture(
-    html`<cs-button-group label="label"
-      ><cs-button-group-button value="value">Button</cs-button-group-button>
-      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-    </cs-button-group>`,
+    html`<glide-core-button-group label="label"
+      ><glide-core-button-group-button value="value"
+        >Button</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-2"
+        >Button 2</glide-core-button-group-button
+      >
+    </glide-core-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll('cs-button-group-button');
+  const buttonElements = document.querySelectorAll(
+    'glide-core-button-group-button',
+  );
+
   const liElement1 = buttonElements[0]?.shadowRoot?.querySelector('li');
   const liElement2 = buttonElements[1]?.shadowRoot?.querySelector('li');
 
@@ -198,15 +239,18 @@ it('does not apply an "icon-only" variant to buttons when not set on the group',
 
 it('reacts to variant "icon-only" attribute when added and removed', async () => {
   await fixture(
-    html`<cs-button-group label="label"
-      ><cs-button-group-button value="value"
-        ><span slot="prefix">Prefix</span>Button</cs-button-group-button
-      ></cs-button-group
+    html`<glide-core-button-group label="label"
+      ><glide-core-button-group-button value="value"
+        ><span slot="prefix">Prefix</span>Button</glide-core-button-group-button
+      ></glide-core-button-group
     >`,
   );
 
-  const element = document.querySelector('cs-button-group');
-  const buttonElement = document.querySelector('cs-button-group-button');
+  const element = document.querySelector('glide-core-button-group');
+
+  const buttonElement = document.querySelector(
+    'glide-core-button-group-button',
+  );
 
   expect(element).to.not.be.null;
   expect(buttonElement).to.not.be.null;
@@ -227,32 +271,42 @@ it('reacts to variant "icon-only" attribute when added and removed', async () =>
   expect(buttonElement).to.not.have.attribute('variant');
 });
 
-it('throws an error when an element other than `cs-button-group-button` is a child of the default slot', async () => {
+it('throws an error when an element other than `glide-core-button-group-button` is a child of the default slot', async () => {
   await expectArgumentError(() => {
     return fixture(html`
-      <cs-button-group label="label">
+      <glide-core-button-group label="label">
         <div>Content</div>
-      </cs-button-group>
+      </glide-core-button-group>
     `);
   });
 });
 
 it('throws an error when the group has no children', async () => {
   await expectArgumentError(() => {
-    return fixture(html`<cs-button-group label="label"> </cs-button-group>`);
+    return fixture(
+      html`<glide-core-button-group label="label"> </glide-core-button-group>`,
+    );
   });
 });
 
 it("has a tabble button if it's the first element in a button group", async () => {
   await fixture(
-    html`<cs-button-group>
-      <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
-      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
-    </cs-button-group>`,
+    html`<glide-core-button-group>
+      <glide-core-button-group-button value="value-1"
+        >Button 1</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-2"
+        >Button 2</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-3"
+        >Button 3</glide-core-button-group-button
+      >
+    </glide-core-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll('cs-button-group-button');
+  const buttonElements = document.querySelectorAll(
+    'glide-core-button-group-button',
+  );
 
   expect(buttonElements.length).to.equal(3);
 
@@ -271,16 +325,22 @@ it("has a tabble button if it's the first element in a button group", async () =
 
 it('has the first non-disabled button set as tabbable when in a group', async () => {
   await fixture(
-    html`<cs-button-group>
-      <cs-button-group-button value="value-1" disabled
-        >Button 1</cs-button-group-button
+    html`<glide-core-button-group>
+      <glide-core-button-group-button value="value-1" disabled
+        >Button 1</glide-core-button-group-button
       >
-      <cs-button-group-button value="value-2">Button 2</cs-button-group-button>
-      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
-    </cs-button-group>`,
+      <glide-core-button-group-button value="value-2"
+        >Button 2</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-3"
+        >Button 3</glide-core-button-group-button
+      >
+    </glide-core-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll('cs-button-group-button');
+  const buttonElements = document.querySelectorAll(
+    'glide-core-button-group-button',
+  );
 
   expect(buttonElements.length).to.equal(3);
 
@@ -299,16 +359,22 @@ it('has the first non-disabled button set as tabbable when in a group', async ()
 
 it('has the "selected" button as tabbable and others are not when in a group', async () => {
   await fixture(
-    html`<cs-button-group>
-      <cs-button-group-button value="value-1">Button 1</cs-button-group-button>
-      <cs-button-group-button value="value-2" selected
-        >Button 2</cs-button-group-button
+    html`<glide-core-button-group>
+      <glide-core-button-group-button value="value-1"
+        >Button 1</glide-core-button-group-button
       >
-      <cs-button-group-button value="value-3">Button 3</cs-button-group-button>
-    </cs-button-group>`,
+      <glide-core-button-group-button value="value-2" selected
+        >Button 2</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="value-3"
+        >Button 3</glide-core-button-group-button
+      >
+    </glide-core-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll('cs-button-group-button');
+  const buttonElements = document.querySelectorAll(
+    'glide-core-button-group-button',
+  );
 
   expect(buttonElements.length).to.equal(3);
 
@@ -327,17 +393,19 @@ it('has the "selected" button as tabbable and others are not when in a group', a
 
 it('initially no button sets itself as tabbable if all are disabled in a group', async () => {
   await fixture(
-    html`<cs-button-group>
-      <cs-button-group-button value="value-1" disabled
-        >Button 1</cs-button-group-button
+    html`<glide-core-button-group>
+      <glide-core-button-group-button value="value-1" disabled
+        >Button 1</glide-core-button-group-button
       >
-      <cs-button-group-button value="value-2" disabled
-        >Button 2</cs-button-group-button
+      <glide-core-button-group-button value="value-2" disabled
+        >Button 2</glide-core-button-group-button
       >
-    </cs-button-group>`,
+    </glide-core-button-group>`,
   );
 
-  const buttonElements = document.querySelectorAll('cs-button-group-button');
+  const buttonElements = document.querySelectorAll(
+    'glide-core-button-group-button',
+  );
 
   expect(buttonElements.length).to.equal(2);
 

@@ -12,7 +12,9 @@ import type Input from './input.js';
 // will have been dispatched, gets the job done as well.
 
 it('dispatches a "change" event when typed in', async () => {
-  const input = await fixture<Input>(html`<cs-input></cs-input>`);
+  const input = await fixture<Input>(
+    html`<glide-core-input></glide-core-input>`,
+  );
 
   setTimeout(async () => {
     input.focus();
@@ -26,7 +28,9 @@ it('dispatches a "change" event when typed in', async () => {
 });
 
 it('dispatches an "input" event when typed in', async () => {
-  const input = await fixture<Input>(html`<cs-input></cs-input>`);
+  const input = await fixture<Input>(
+    html`<glide-core-input></glide-core-input>`,
+  );
 
   setTimeout(() => {
     input.focus();
@@ -41,9 +45,12 @@ it('dispatches an "input" event when typed in', async () => {
 it('dispatches an "invalid" event on submit when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
-    parentNode: form,
-  });
+  const input = await fixture<Input>(
+    html`<glide-core-input required></glide-core-input>`,
+    {
+      parentNode: form,
+    },
+  );
 
   setTimeout(() => form.requestSubmit());
 
@@ -54,9 +61,12 @@ it('dispatches an "invalid" event on submit when required and no value', async (
 it('dispatches an "invalid" event after `checkValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
-    parentNode: form,
-  });
+  const input = await fixture<Input>(
+    html`<glide-core-input required></glide-core-input>`,
+    {
+      parentNode: form,
+    },
+  );
 
   setTimeout(() => input.checkValidity());
 
@@ -67,9 +77,12 @@ it('dispatches an "invalid" event after `checkValidity` is called when required 
 it('dispatches an "invalid" event after `reportValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(html`<cs-input required></cs-input>`, {
-    parentNode: form,
-  });
+  const input = await fixture<Input>(
+    html`<glide-core-input required></glide-core-input>`,
+    {
+      parentNode: form,
+    },
+  );
 
   setTimeout(() => input.reportValidity());
 
@@ -80,9 +93,12 @@ it('dispatches an "invalid" event after `reportValidity` is called when required
 it('does not dispatch an "invalid" event after `checkValidity` is called when not required', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(html`<cs-input></cs-input>`, {
-    parentNode: form,
-  });
+  const input = await fixture<Input>(
+    html`<glide-core-input></glide-core-input>`,
+    {
+      parentNode: form,
+    },
+  );
 
   const spy = sinon.spy();
 
@@ -97,7 +113,7 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when re
   const form = document.createElement('form');
 
   const input = await fixture<Input>(
-    html`<cs-input disabled required></cs-input>`,
+    html`<glide-core-input disabled required></glide-core-input>`,
     { parentNode: form },
   );
 
@@ -113,9 +129,12 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when re
 it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(html`<cs-input></cs-input>`, {
-    parentNode: form,
-  });
+  const input = await fixture<Input>(
+    html`<glide-core-input></glide-core-input>`,
+    {
+      parentNode: form,
+    },
+  );
 
   const spy = sinon.spy();
 
@@ -130,7 +149,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when re
   const form = document.createElement('form');
 
   const input = await fixture<Input>(
-    html`<cs-input disabled required></cs-input>`,
+    html`<glide-core-input disabled required></glide-core-input>`,
     { parentNode: form },
   );
 

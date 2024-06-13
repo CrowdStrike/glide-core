@@ -6,17 +6,17 @@ import styles from './menu.button.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-menu-button': CsMenuButton;
+    'glide-core-menu-button': GlideCoreMenuButton;
   }
 }
 
 /**
- * @description A button for use within a <cs-menu>.
+ * @description A button for use within a <glide-core-menu>.
  *
  * @slot icon - An icon.
  */
-@customElement('cs-menu-button')
-export default class CsMenuButton extends LitElement {
+@customElement('glide-core-menu-button')
+export default class GlideCoreMenuButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',

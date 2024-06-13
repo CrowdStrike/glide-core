@@ -6,15 +6,17 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
-import CsAccordion from './accordion.js';
+import GlideCoreAccordion from './accordion.js';
 
-CsAccordion.shadowRootOptions.mode = 'open';
+GlideCoreAccordion.shadowRootOptions.mode = 'open';
 
 it('dispatches a "toggle" event when the Accordion opens', async () => {
   let hasToggleBeenCalled = false;
 
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label"> Inner content </cs-accordion>`,
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label">
+      Inner content
+    </glide-core-accordion>`,
   );
 
   component.addEventListener('toggle', () => (hasToggleBeenCalled = true));
@@ -35,8 +37,10 @@ it('dispatches a "toggle" event when the Accordion opens', async () => {
 it('dispatches a "toggle" event when the Accordion closes', async () => {
   let hasToggleBeenCalled = false;
 
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label" open> Inner content </cs-accordion>`,
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label" open>
+      Inner content
+    </glide-core-accordion>`,
   );
 
   component.addEventListener('toggle', () => (hasToggleBeenCalled = true));

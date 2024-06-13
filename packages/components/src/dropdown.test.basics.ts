@@ -9,7 +9,7 @@ import sinon from 'sinon';
 CsDropdown.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-dropdown')).to.equal(CsDropdown);
+  expect(window.customElements.get('glide-core-dropdown')).to.equal(CsDropdown);
 });
 
 it('has defaults', async () => {
@@ -17,9 +17,12 @@ it('has defaults', async () => {
   // idea is that this test shouldn't fail to typecheck if these templates are
   // eventually typechecked, which means supplying all required attributes and slots.
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   expect(component.hasAttribute('disabled')).to.be.false;
@@ -40,9 +43,12 @@ it('has defaults', async () => {
 
 it('is accessible', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   await expect(component).to.be.accessible();
@@ -50,9 +56,12 @@ it('is accessible', async () => {
 
 it('can have a placeholder', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   expect(component.getAttribute('placeholder')).to.equal('Placeholder');
@@ -61,10 +70,13 @@ it('can have a placeholder', async () => {
 
 it('can have a description', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <div slot="description">Description</div>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -76,10 +88,13 @@ it('can have a description', async () => {
 
 it('can have a tooltip', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
       <div slot="tooltip">Tooltip</div>
-    </cs-dropdown>`,
+    </glide-core-dropdown>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -91,9 +106,16 @@ it('can have a tooltip', async () => {
 
 it('can have a `name`', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      name="name"
+    >
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   expect(component.getAttribute('name')).to.equal('name');
@@ -102,9 +124,12 @@ it('can have a `name`', async () => {
 
 it('can be `disabled`', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" disabled>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   expect(component.hasAttribute('disabled')).to.be.true;
@@ -113,9 +138,12 @@ it('can be `disabled`', async () => {
 
 it('can be `required`', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   expect(component.hasAttribute('required')).to.be.true;
@@ -126,9 +154,12 @@ it('exposes standard form control properties and methods', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     { parentNode: form },
   );
 
@@ -141,12 +172,20 @@ it('exposes standard form control properties and methods', async () => {
 
 it('updates `value` dynamically', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
-      <cs-dropdown-option label="One" value="one" selected></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      name="name"
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const option = component.querySelector('cs-dropdown-option');
+  const option = component.querySelector('glide-core-dropdown-option');
   assert(option);
   option.value = 'two';
 
@@ -156,9 +195,9 @@ it('updates `value` dynamically', async () => {
 it('throws if the default slot is the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture<CsDropdown>(
-      html`<cs-dropdown label="Label" placeholder="Placeholder">
+      html`<glide-core-dropdown label="Label" placeholder="Placeholder">
         <button>Button</button>
-      </cs-dropdown>`,
+      </glide-core-dropdown>`,
     );
   });
 });
@@ -168,16 +207,16 @@ it('does not throw if the default slot only contains whitespace', async () => {
 
   try {
     await fixture(
-      html`<cs-dropdown label="Label" placeholder="Placeholder">
+      html`<glide-core-dropdown label="Label" placeholder="Placeholder">
         ${repeat(
           [],
           () =>
-            html`<cs-dropdown-option
+            html`<glide-core-dropdown-option
               label="Option"
               value="option"
-            ></cs-dropdown-option>`,
+            ></glide-core-dropdown-option>`,
         )}
-      </cs-dropdown>`,
+      </glide-core-dropdown>`,
     );
   } catch (error) {
     if (error instanceof ArgumentError) {

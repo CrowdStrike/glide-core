@@ -4,12 +4,12 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlotType } from './library/ow.js';
-import CsDropdownOption from './dropdown.option.js';
+import GlideCoreDropdownOption from './dropdown.option.js';
 import styles from './dropdown.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-dropdown': CsDropdown;
+    'glide-core-dropdown': GlideCoreDropdown;
   }
 }
 
@@ -19,12 +19,12 @@ declare global {
  * @event change - Dispatched when an option is selected. An array of the selected option values is assigned to `event.detail`.
  * @event input - Dispatched when an option is selected. An array of the selected option values is assigned to `event.detail`.
  *
- * @slot - One or more of `<cs-dropdown-option>`.
+ * @slot - One or more of `<glide-core-dropdown-option>`.
  * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
  */
-@customElement('cs-dropdown')
-export default class CsDropdown extends LitElement {
+@customElement('glide-core-dropdown')
+export default class GlideCoreDropdown extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -101,7 +101,10 @@ export default class CsDropdown extends LitElement {
     // `Text` is allowed so slotted content can be rendered asychronously. Think of
     // a case where the only slotted content is a `repeat` whose array is empty
     // at first then populated after a fetch.
-    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption, Text]);
+    owSlotType(this.#defaultSlotElementRef.value, [
+      GlideCoreDropdownOption,
+      Text,
+    ]);
 
     const firstOption = this.#optionElements.at(0);
 
@@ -181,7 +184,7 @@ export default class CsDropdown extends LitElement {
         vertical: this.orientation === 'vertical',
       })}
     >
-      <cs-label
+      <glide-core-label
         orientation=${this.orientation}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
@@ -256,7 +259,7 @@ export default class CsDropdown extends LitElement {
         </div>
 
         <slot id="description" name="description" slot="description"></slot>
-      </cs-label>
+      </glide-core-label>
     </div>`;
   }
 
@@ -313,7 +316,7 @@ export default class CsDropdown extends LitElement {
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = (event: MouseEvent) => {
-    if (!(event.target instanceof CsDropdown)) {
+    if (!(event.target instanceof GlideCoreDropdown)) {
       this.open = false;
     }
   };
@@ -394,7 +397,10 @@ export default class CsDropdown extends LitElement {
   }
 
   #onDefaultSlotChange() {
-    owSlotType(this.#defaultSlotElementRef.value, [CsDropdownOption, Text]);
+    owSlotType(this.#defaultSlotElementRef.value, [
+      GlideCoreDropdownOption,
+      Text,
+    ]);
   }
 
   get #optionElements() {
@@ -402,14 +408,14 @@ export default class CsDropdown extends LitElement {
       this.#defaultSlotElementRef.value
         ?.assignedElements()
         .filter(
-          (element): element is CsDropdownOption =>
-            element instanceof CsDropdownOption,
+          (element): element is GlideCoreDropdownOption =>
+            element instanceof GlideCoreDropdownOption,
         ) ?? []
     );
   }
 
   #onOptionChange(event: Event) {
-    if (event.target instanceof CsDropdownOption) {
+    if (event.target instanceof GlideCoreDropdownOption) {
       this.value = event.target.value ? [event.target.value] : [];
       this.open = false;
       this.focus();
@@ -514,7 +520,10 @@ export default class CsDropdown extends LitElement {
   }
 
   #onOptionValue(event: Event) {
-    if (event.target instanceof CsDropdownOption && event.target.selected) {
+    if (
+      event.target instanceof GlideCoreDropdownOption &&
+      event.target.selected
+    ) {
       this.value = [event.target.value];
     }
   }

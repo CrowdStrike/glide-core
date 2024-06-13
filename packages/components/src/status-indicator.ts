@@ -5,15 +5,15 @@ import styles from './status-indicator.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-status-indicator': CsStatusIndicator;
+    'glide-core-status-indicator': GlideCoreStatusIndicator;
   }
 }
 
 /**
  * @cssprop [--size] - Sets the size of the icon.
  */
-@customElement('cs-status-indicator')
-export default class CsStatusIndicator extends LitElement {
+@customElement('glide-core-status-indicator')
+export default class GlideCoreStatusIndicator extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,

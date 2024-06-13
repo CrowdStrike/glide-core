@@ -15,7 +15,7 @@ import styles from './tooltip.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-tooltip': CsTooltip;
+    'glide-core-tooltip': GlideCoreTooltip;
   }
 }
 
@@ -23,8 +23,8 @@ declare global {
  * @slot - The contents of the tooltip.
  * @slot target - The element to which the tooltip should attach.
  */
-@customElement('cs-tooltip')
-export default class CsTooltip extends LitElement {
+@customElement('glide-core-tooltip')
+export default class GlideCoreTooltip extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,

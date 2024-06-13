@@ -29,25 +29,27 @@ const meta: Meta = {
   render() {
     return html`
       <!--
-        Add <cs-toasts> somewhere in your application template.
+        Add <glide-core-toasts> somewhere in your application template.
         This will be the container for toast messages,
         and provides an add() method that you will use to generate toast messages.
       -->
-      <cs-toasts></cs-toasts>
+      <glide-core-toasts></glide-core-toasts>
       <div style="display:flex; flex-direction: column; gap: 0.25rem;">
-        <cs-button variant="secondary" data-add-informational
-          >Informational</cs-button
+        <glide-core-button variant="secondary" data-add-informational
+          >Informational</glide-core-button
         >
-        <cs-button variant="secondary" data-add-success>Success</cs-button>
-        <cs-button variant="secondary" data-add-longer
-          >Longer duration</cs-button
+        <glide-core-button variant="secondary" data-add-success
+          >Success</glide-core-button
         >
-        <cs-button variant="secondary" data-add-infinite
-          >Infinite duration</cs-button
+        <glide-core-button variant="secondary" data-add-longer
+          >Longer duration</glide-core-button
+        >
+        <glide-core-button variant="secondary" data-add-infinite
+          >Infinite duration</glide-core-button
         >
       </div>
       <script>
-        const toasts = document.querySelector('cs-toasts');
+        const toasts = document.querySelector('glide-core-toasts');
         document
           .querySelector('[data-add-informational]')
           .addEventListener('click', () => {

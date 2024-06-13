@@ -1,10 +1,10 @@
 import './icon-button.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import CsIconButton from './icon-button.js';
+import GlideCoreIconButton from './icon-button.js';
 import sinon from 'sinon';
 
-CsIconButton.shadowRootOptions.mode = 'open';
+GlideCoreIconButton.shadowRootOptions.mode = 'open';
 
 const icon = html`<svg
   width="16"
@@ -21,20 +21,26 @@ const icon = html`<svg
 </svg>`;
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-icon-button')).to.equal(CsIconButton);
+  expect(window.customElements.get('glide-core-icon-button')).to.equal(
+    GlideCoreIconButton,
+  );
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsIconButton>(
-    html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
+  const component = await fixture<GlideCoreIconButton>(
+    html`<glide-core-icon-button label="test-icon-button"
+      >${icon}</glide-core-icon-button
+    >`,
   );
 
   await expect(component).to.be.accessible();
 });
 
 it('has defaults', async () => {
-  const component = await fixture<CsIconButton>(
-    html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
+  const component = await fixture<GlideCoreIconButton>(
+    html`<glide-core-icon-button label="test-icon-button"
+      >${icon}</glide-core-icon-button
+    >`,
   );
 
   expect(component.shadowRoot?.querySelector('button')?.type).to.equal(
@@ -51,8 +57,10 @@ it('has defaults', async () => {
 });
 
 it('delegates focus', async () => {
-  const component = await fixture<CsIconButton>(
-    html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
+  const component = await fixture<GlideCoreIconButton>(
+    html`<glide-core-icon-button label="test-icon-button"
+      >${icon}</glide-core-icon-button
+    >`,
   );
 
   component.focus();
@@ -63,8 +71,10 @@ it('delegates focus', async () => {
 });
 
 it('uses the provided "label" for the aria-label', async () => {
-  const component = await fixture<CsIconButton>(
-    html`<cs-icon-button label="test-icon-button">${icon}</cs-icon-button>`,
+  const component = await fixture<GlideCoreIconButton>(
+    html`<glide-core-icon-button label="test-icon-button"
+      >${icon}</glide-core-icon-button
+    >`,
   );
 
   expect(
@@ -73,9 +83,9 @@ it('uses the provided "label" for the aria-label', async () => {
 });
 
 it('renders a default slot', async () => {
-  const component = await fixture<CsIconButton>(
-    html`<cs-icon-button label="test-icon-button"
-      ><span data-content>Inner content</span></cs-icon-button
+  const component = await fixture<GlideCoreIconButton>(
+    html`<glide-core-icon-button label="test-icon-button"
+      ><span data-content>Inner content</span></glide-core-icon-button
     >`,
   );
 
@@ -84,9 +94,9 @@ it('renders a default slot', async () => {
 });
 
 it('renders a primary variant', async () => {
-  const component = await fixture<CsIconButton>(
-    html`<cs-icon-button label="test-icon-button" variant="primary"
-      >${icon}</cs-icon-button
+  const component = await fixture<GlideCoreIconButton>(
+    html`<glide-core-icon-button label="test-icon-button" variant="primary"
+      >${icon}</glide-core-icon-button
     >`,
   );
 
@@ -96,9 +106,9 @@ it('renders a primary variant', async () => {
 });
 
 it('renders a secondary variant', async () => {
-  const component = await fixture<CsIconButton>(
-    html`<cs-icon-button label="test-icon-button" variant="secondary"
-      >${icon}</cs-icon-button
+  const component = await fixture<GlideCoreIconButton>(
+    html`<glide-core-icon-button label="test-icon-button" variant="secondary"
+      >${icon}</glide-core-icon-button
     >`,
   );
 
@@ -108,9 +118,9 @@ it('renders a secondary variant', async () => {
 });
 
 it('renders a tertiary variant', async () => {
-  const component = await fixture<CsIconButton>(
-    html`<cs-icon-button label="test-icon-button" variant="tertiary"
-      >${icon}</cs-icon-button
+  const component = await fixture<GlideCoreIconButton>(
+    html`<glide-core-icon-button label="test-icon-button" variant="tertiary"
+      >${icon}</glide-core-icon-button
     >`,
   );
 
@@ -120,9 +130,9 @@ it('renders a tertiary variant', async () => {
 });
 
 it('sets the disabled attribute', async () => {
-  const component = await fixture<CsIconButton>(
-    html`<cs-icon-button label="test-icon-button" disabled
-      >${icon}</cs-icon-button
+  const component = await fixture<GlideCoreIconButton>(
+    html`<glide-core-icon-button label="test-icon-button" disabled
+      >${icon}</glide-core-icon-button
     >`,
   );
 
@@ -137,8 +147,10 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsIconButton>(
-      html`<cs-icon-button label="test-icon-button"></cs-icon-button>`,
+    await fixture<GlideCoreIconButton>(
+      html`<glide-core-icon-button
+        label="test-icon-button"
+      ></glide-core-icon-button>`,
     );
   } catch (error) {
     if (error instanceof ArgumentError) {

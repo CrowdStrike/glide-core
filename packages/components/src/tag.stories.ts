@@ -14,12 +14,12 @@ const meta: Meta = {
     },
   },
   render: (arguments_) => html`
-    <cs-tag
+    <glide-core-tag
       removable-label=${arguments_['removable-label'] || nothing}
       size=${arguments_.size}
     >
       ${arguments_['slot="default"']}
-    </cs-tag>
+    </glide-core-tag>
   `,
   args: {
     'slot="default"': 'Tag',
@@ -91,11 +91,11 @@ export const Default: StoryObj = {
 export const DefaultWithPrefixIcon: StoryObj = {
   name: 'Tag (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-tag>
+    <glide-core-tag>
       <span slot="prefix">
-        <cs-example-icon name="drag-dots"></cs-example-icon>
+        <glide-core-example-icon name="drag-dots"></glide-core-example-icon>
       </span>
-      ${arguments_['slot="default"']}</cs-tag
+      ${arguments_['slot="default"']}</glide-core-tag
     >
   `,
 };
@@ -103,18 +103,20 @@ export const DefaultWithPrefixIcon: StoryObj = {
 export const Removable: StoryObj = {
   name: 'Tag (With Removable Label)',
   render: (arguments_) => html`
-    <cs-tag removable-label="Tag"> ${arguments_['slot="default"']}</cs-tag>
+    <glide-core-tag removable-label="Tag">
+      ${arguments_['slot="default"']}</glide-core-tag
+    >
   `,
 };
 
 export const RemovableWithIcon: StoryObj = {
   name: 'Tag (With Removable Label and Prefix Icon)',
   render: (arguments_) => html`
-    <cs-tag removable-label="Tag">
+    <glide-core-tag removable-label="Tag">
       <span slot="prefix">
-        <cs-example-icon name="drag-dots"></cs-example-icon>
+        <glide-core-example-icon name="drag-dots"></glide-core-example-icon>
       </span>
-      ${arguments_['slot="default"']}</cs-tag
+      ${arguments_['slot="default"']}</glide-core-tag
     >
   `,
 };

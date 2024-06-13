@@ -1,12 +1,14 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import Modal from './modal.js';
+import GlideCoreModal from './modal.js';
 
-Modal.shadowRootOptions.mode = 'open';
+GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('closes the modal when the close button is clicked', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -27,8 +29,10 @@ it('closes the modal when the close button is clicked', async () => {
 });
 
 it('closes the modal when the escape key is pressed', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -44,10 +48,10 @@ it('closes the modal when the escape key is pressed', async () => {
 });
 
 it('closes the modal via "show-back-button"', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" show-back-button>
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title" show-back-button>
       Modal Content
-    </cs-modal>`,
+    </glide-core-modal>`,
   );
 
   element.showModal();

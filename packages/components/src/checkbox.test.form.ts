@@ -1,13 +1,17 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import CsCheckbox from './checkbox.js';
+import GlideCoreCheckbox from './checkbox.js';
 
-CsCheckbox.shadowRootOptions.mode = 'open';
+GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('can be reset', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" checked indeterminate></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
+      label="Label"
+      checked
+      indeterminate
+    ></glide-core-checkbox>`,
     {
       parentNode: form,
     },
@@ -24,13 +28,13 @@ it('can be reset', async () => {
 it('has a `formData` value when checked', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsCheckbox>(
-    html`<cs-checkbox
+  await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
       label="Label"
       name="name"
       value="value"
       checked
-    ></cs-checkbox>`,
+    ></glide-core-checkbox>`,
     {
       parentNode: form,
     },
@@ -43,13 +47,13 @@ it('has a `formData` value when checked', async () => {
 it('has a `formData` value when checked and indeterminate', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsCheckbox>(
-    html`<cs-checkbox
+  await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
       name="name"
       value="value"
       checked
       indeterminate
-    ></cs-checkbox>`,
+    ></glide-core-checkbox>`,
     {
       parentNode: form,
     },
@@ -62,8 +66,12 @@ it('has a `formData` value when checked and indeterminate', async () => {
 it('has no `formData` value when unchecked', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" name="name" value="value"></cs-checkbox>`,
+  await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
+      label="Label"
+      name="name"
+      value="value"
+    ></glide-core-checkbox>`,
     {
       parentNode: form,
     },
@@ -76,13 +84,13 @@ it('has no `formData` value when unchecked', async () => {
 it('has no `formData` value when unchecked and indeterminate', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsCheckbox>(
-    html`<cs-checkbox
+  await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
       label="Label"
       name="name"
       value="value"
       indeterminate
-    ></cs-checkbox>`,
+    ></glide-core-checkbox>`,
     {
       parentNode: form,
     },
@@ -95,13 +103,13 @@ it('has no `formData` value when unchecked and indeterminate', async () => {
 it('has no `formData` value when checked but disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsCheckbox>(
-    html`<cs-checkbox
+  await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
       name="name"
       value="value"
       checked
       disabled
-    ></cs-checkbox>`,
+    ></glide-core-checkbox>`,
     {
       parentNode: form,
     },
@@ -114,8 +122,12 @@ it('has no `formData` value when checked but disabled', async () => {
 it('has no `formData` value when checked but without a `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" value="value" checked></cs-checkbox>`,
+  await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
+      label="Label"
+      value="value"
+      checked
+    ></glide-core-checkbox>`,
     {
       parentNode: form,
     },
@@ -128,8 +140,12 @@ it('has no `formData` value when checked but without a `name`', async () => {
 it('has no `formData` value when checked but without a `value`', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" name="name" checked></cs-checkbox>`,
+  await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
+      label="Label"
+      name="name"
+      checked
+    ></glide-core-checkbox>`,
     {
       parentNode: form,
     },

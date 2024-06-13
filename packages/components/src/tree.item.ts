@@ -15,20 +15,20 @@ import styles from './tree.item.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-tree-item': CsTreeItem;
+    'glide-core-tree-item': GlideCoreTreeItem;
   }
 }
 
 /**
  * @description A single node of a Tree.
  *
- * @slot - One or more of <cs-tree-item>, if this tree item contains nested tree items.
+ * @slot - One or more of <glide-core-tree-item>, if this tree item contains nested tree items.
  * @slot prefix - An optional icon to display before the label.
  * @slot suffix - An optional icon to add after the label.
- * @slot menu - Place a <cs-menu> here, which will be visible on hover or focus
+ * @slot menu - Place a <glide-core-menu> here, which will be visible on hover or focus
  */
-@customElement('cs-tree-item')
-export default class CsTreeItem extends LitElement {
+@customElement('glide-core-tree-item')
+export default class GlideCoreTreeItem extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
@@ -52,7 +52,7 @@ export default class CsTreeItem extends LitElement {
   prefixSlotAssignedElements!: HTMLElement[];
 
   @queryAssignedElements()
-  slotElements!: CsTreeItem[];
+  slotElements!: GlideCoreTreeItem[];
 
   @queryAssignedElements({ slot: 'suffix' })
   suffixSlotAssignedElements!: HTMLElement[];
@@ -134,7 +134,7 @@ export default class CsTreeItem extends LitElement {
    * and deselecting all other items.
    * Returns the selected item
    */
-  selectItem(item: CsTreeItem): CsTreeItem | undefined {
+  selectItem(item: GlideCoreTreeItem): GlideCoreTreeItem | undefined {
     let selectedItem;
 
     for (const treeItem of this.slotElements) {
@@ -145,7 +145,7 @@ export default class CsTreeItem extends LitElement {
       } else {
         treeItem.removeAttribute('selected');
 
-        const nestedSelectedItem: CsTreeItem | undefined =
+        const nestedSelectedItem: GlideCoreTreeItem | undefined =
           treeItem.selectItem(item);
 
         if (nestedSelectedItem) {
@@ -162,7 +162,7 @@ export default class CsTreeItem extends LitElement {
   }
 
   @state()
-  private childTreeItems: CsTreeItem[] = [];
+  private childTreeItems: GlideCoreTreeItem[] = [];
 
   @state()
   private hasMenuSlot = false;

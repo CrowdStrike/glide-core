@@ -1,7 +1,7 @@
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
-import CsToggle from './toggle.js';
+import GlideCoreToggle from './toggle.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -93,9 +93,9 @@ const meta: Meta = {
     });
 
     context.canvasElement
-      .querySelector('cs-toggle')
+      .querySelector('glide-core-toggle')
       ?.addEventListener('change', (event) => {
-        if (event.target instanceof CsToggle) {
+        if (event.target instanceof GlideCoreToggle) {
           addons.getChannel().emit(STORY_ARGS_UPDATED, {
             storyId: context.id,
             args: {
@@ -109,7 +109,7 @@ const meta: Meta = {
 
   render(arguments_) {
     return html`<form style="padding: 1.5rem;">
-      <cs-toggle
+      <glide-core-toggle
         label=${arguments_.label || nothing}
         orientation=${arguments_.orientation || nothing}
         summary=${arguments_.summary || nothing}
@@ -122,7 +122,7 @@ const meta: Meta = {
         ${arguments_['slot="tooltip"']
           ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
           : ''}
-      </cs-toggle>
+      </glide-core-toggle>
     </form>`;
   },
 };

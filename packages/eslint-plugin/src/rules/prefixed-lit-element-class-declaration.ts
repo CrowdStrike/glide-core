@@ -10,13 +10,13 @@ export const prefixedClassDeclaration = createRule({
   meta: {
     docs: {
       description:
-        'Ensures all web components that extend a LitElement are prefixed with "Cs".',
+        'Ensures all web components that extend a LitElement are prefixed with "GlideCore".',
       recommended: 'recommended',
     },
     type: 'suggestion',
     messages: {
       addPrefix:
-        'Prefer elements extending LitElement to be prefixed with "Cs".',
+        'Prefer elements extending LitElement to be prefixed with "GlideCore".',
     },
     schema: [],
     fixable: 'code',
@@ -29,7 +29,7 @@ export const prefixedClassDeclaration = createRule({
           node.id?.type === 'Identifier' &&
           node.superClass?.type === 'Identifier' &&
           node.superClass?.name === 'LitElement' &&
-          !node.id?.name?.startsWith('Cs')
+          !node.id?.name?.startsWith('GlideCore')
         ) {
           context.report({
             node,
@@ -44,7 +44,7 @@ export const prefixedClassDeclaration = createRule({
                 return null;
               }
 
-              return fixer.replaceText(nodeId, `Cs${node.id?.name}`);
+              return fixer.replaceText(nodeId, `GlideCore${node.id?.name}`);
             },
           });
         }

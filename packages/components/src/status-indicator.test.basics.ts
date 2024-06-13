@@ -1,26 +1,28 @@
 import './status-indicator.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import CsStatusIndicator from './status-indicator.js';
+import GlideCoreStatusIndicator from './status-indicator.js';
 
-CsStatusIndicator.shadowRootOptions.mode = 'open';
+GlideCoreStatusIndicator.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-status-indicator')).to.equal(
-    CsStatusIndicator,
+  expect(window.customElements.get('glide-core-status-indicator')).to.equal(
+    GlideCoreStatusIndicator,
   );
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator></glide-core-status-indicator>`,
   );
 
   await expect(component).to.be.accessible();
 });
 
 it('renders a failed variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="failed"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="failed"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('failed');
@@ -28,8 +30,10 @@ it('renders a failed variant', async () => {
 });
 
 it('renders an idle variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="idle"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="idle"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('idle');
@@ -37,8 +41,10 @@ it('renders an idle variant', async () => {
 });
 
 it('renders an in-progress variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="in-progress"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="in-progress"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('in-progress');
@@ -46,8 +52,10 @@ it('renders an in-progress variant', async () => {
 });
 
 it('renders an queued variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="queued"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="queued"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('queued');
@@ -55,8 +63,10 @@ it('renders an queued variant', async () => {
 });
 
 it('renders an scheduled variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="scheduled"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="scheduled"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('scheduled');
@@ -64,8 +74,10 @@ it('renders an scheduled variant', async () => {
 });
 
 it('renders an success variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="success"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="success"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('success');
@@ -73,10 +85,10 @@ it('renders an success variant', async () => {
 });
 
 it('renders an warning-critical variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
       variant="warning-critical"
-    ></cs-status-indicator>`,
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('warning-critical');
@@ -84,8 +96,10 @@ it('renders an warning-critical variant', async () => {
 });
 
 it('renders an warning-high variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="warning-high"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="warning-high"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('warning-high');
@@ -93,10 +107,10 @@ it('renders an warning-high variant', async () => {
 });
 
 it('renders an warning-informational variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
       variant="warning-informational"
-    ></cs-status-indicator>`,
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('warning-informational');
@@ -104,8 +118,10 @@ it('renders an warning-informational variant', async () => {
 });
 
 it('renders an warning-low variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="warning-low"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="warning-low"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('warning-low');
@@ -113,8 +129,10 @@ it('renders an warning-low variant', async () => {
 });
 
 it('renders an warning-medium variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="warning-medium"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="warning-medium"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('warning-medium');
@@ -122,8 +140,10 @@ it('renders an warning-medium variant', async () => {
 });
 
 it('renders an warning-zero variant', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator variant="warning-zero"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      variant="warning-zero"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.getAttribute('variant')).to.equal('warning-zero');
@@ -131,8 +151,10 @@ it('renders an warning-zero variant', async () => {
 });
 
 it('sets the size of the element based on the "--size" CSS variable', async () => {
-  const component = await fixture<CsStatusIndicator>(
-    html`<cs-status-indicator style="--size: 750px"></cs-status-indicator>`,
+  const component = await fixture<GlideCoreStatusIndicator>(
+    html`<glide-core-status-indicator
+      style="--size: 750px"
+    ></glide-core-status-indicator>`,
   );
 
   expect(component.shadowRoot?.querySelector('svg')?.clientHeight).to.equal(

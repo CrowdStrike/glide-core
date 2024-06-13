@@ -5,20 +5,20 @@ import styles from './tab.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-tab': CsTab;
+    'glide-core-tab': GlideCoreTab;
   }
 }
 
 /**
- * @description A single tab. Always place inside of a <cs-tab-group> component.
+ * @description A single tab. Always place inside of a <glide-core-tab-group> component.
  *
  * @slot - Main content (label) for the tab
  *
  * @slot icon - A slot for placing an optional icon for the tab
  *
  */
-@customElement('cs-tab')
-export default class CsTab extends LitElement {
+@customElement('glide-core-tab')
+export default class GlideCoreTab extends LitElement {
   static instanceCount = 0;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -46,7 +46,7 @@ export default class CsTab extends LitElement {
     this.setAttribute('role', 'tab');
 
     if (!this.hasAttribute('id')) {
-      this.id = `cs-tab-${CsTab.instanceCount++}`;
+      this.id = `glide-core-tab-${GlideCoreTab.instanceCount++}`;
     }
   }
 

@@ -3,19 +3,23 @@ import './modal.icon-button.js';
 import './modal.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import Modal from './modal.js';
+import GlideCoreModal from './modal.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
-Modal.shadowRootOptions.mode = 'open';
+GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-modal')).to.equal(Modal);
+  expect(window.customElements.get('glide-core-modal')).to.equal(
+    GlideCoreModal,
+  );
 });
 
 it('is closed by default', async () => {
   const element = await fixture(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   const dialog = element.shadowRoot?.querySelector<HTMLDialogElement>('dialog');
@@ -25,8 +29,10 @@ it('is closed by default', async () => {
 });
 
 it('renders the provided "label"', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -40,8 +46,10 @@ it('renders the provided "label"', async () => {
 });
 
 it('does not render the show back button in the label by default', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -54,10 +62,10 @@ it('does not render the show back button in the label by default', async () => {
 });
 
 it('renders the show back button in the label when provided with "show-back-button"', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" show-back-button>
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title" show-back-button>
       Modal Content
-    </cs-modal>`,
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -70,10 +78,10 @@ it('renders the show back button in the label when provided with "show-back-butt
 });
 
 it('renders the provided default slotted content', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
       <p data-body>Inner content</p>
-    </cs-modal>`,
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -84,11 +92,11 @@ it('renders the provided default slotted content', async () => {
 });
 
 it('renders the provided primary slot content', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
       Modal Content
-      <cs-button slot="primary" data-primary>Primary</cs-button>
-    </cs-modal>`,
+      <glide-core-button slot="primary" data-primary>Primary</glide-core-button>
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -106,11 +114,13 @@ it('renders the provided primary slot content', async () => {
 });
 
 it('renders the provided secondary slot content', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
       Modal Content
-      <cs-button slot="secondary" data-secondary>Secondary</cs-button>
-    </cs-modal>`,
+      <glide-core-button slot="secondary" data-secondary
+        >Secondary</glide-core-button
+      >
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -128,11 +138,13 @@ it('renders the provided secondary slot content', async () => {
 });
 
 it('renders the provided tertiary slot content', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
       Modal Content
-      <cs-button slot="tertiary" data-tertiary>Tertiary</cs-button>
-    </cs-modal>`,
+      <glide-core-button slot="tertiary" data-tertiary
+        >Tertiary</glide-core-button
+      >
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -150,18 +162,18 @@ it('renders the provided tertiary slot content', async () => {
 });
 
 it('renders the provided header-actions slot content', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
       Modal Content
 
-      <cs-modal-icon-button slot="header-actions" data-actions="1"
-        >action1</cs-modal-icon-button
+      <glide-core-modal-icon-button slot="header-actions" data-actions="1"
+        >action1</glide-core-modal-icon-button
       >
 
-      <cs-modal-icon-button slot="header-actions" data-actions="2"
-        >action2</cs-modal-icon-button
+      <glide-core-modal-icon-button slot="header-actions" data-actions="2"
+        >action2</glide-core-modal-icon-button
       >
-    </cs-modal>`,
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -179,8 +191,10 @@ it('renders the provided header-actions slot content', async () => {
 });
 
 it('defaults the size to "medium"', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   expect([
@@ -190,8 +204,10 @@ it('defaults the size to "medium"', async () => {
 });
 
 it('sets the size to "small"', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" size="small"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title" size="small">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   expect([
@@ -201,10 +217,10 @@ it('sets the size to "small"', async () => {
 });
 
 it('sets the size to "medium"', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" size="medium">
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title" size="medium">
       Modal Content
-    </cs-modal>`,
+    </glide-core-modal>`,
   );
 
   expect([
@@ -214,8 +230,10 @@ it('sets the size to "medium"', async () => {
 });
 
 it('sets the size to "large"', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" size="large"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title" size="large">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   expect([
@@ -225,10 +243,10 @@ it('sets the size to "large"', async () => {
 });
 
 it('sets the size to "xlarge"', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" size="xlarge">
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title" size="xlarge">
       Modal Content
-    </cs-modal>`,
+    </glide-core-modal>`,
   );
 
   expect([
@@ -241,7 +259,9 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture(html`<cs-modal label="Modal title"></cs-modal>`);
+    await fixture(
+      html`<glide-core-modal label="Modal title"></glide-core-modal>`,
+    );
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();
@@ -254,10 +274,10 @@ it('throws if it does not have a default slot', async () => {
 it('throws an error when the "primary" footer slot has the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture(
-      html`<cs-modal label="Modal title">
+      html`<glide-core-modal label="Modal title">
         Modal Content
         <span slot="primary">Primary</span>
-      </cs-modal>`,
+      </glide-core-modal>`,
     );
   });
 });
@@ -265,10 +285,10 @@ it('throws an error when the "primary" footer slot has the incorrect type', asyn
 it('throws an error when the "secondary" footer slot has the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture(
-      html`<cs-modal label="Modal title">
+      html`<glide-core-modal label="Modal title">
         Modal Content
         <span slot="secondary">Secondary</span>
-      </cs-modal>`,
+      </glide-core-modal>`,
     );
   });
 });
@@ -276,10 +296,10 @@ it('throws an error when the "secondary" footer slot has the incorrect type', as
 it('throws an error when the "header actions" slot has the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture(
-      html`<cs-modal label="Modal title">
+      html`<glide-core-modal label="Modal title">
         Modal Content
         <span slot="header-actions">Header Action</span>
-      </cs-modal>`,
+      </glide-core-modal>`,
     );
   });
 });
@@ -287,10 +307,10 @@ it('throws an error when the "header actions" slot has the incorrect type', asyn
 it('throws an error when the "tertiary" footer slot has the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture(
-      html`<cs-modal label="Modal title">
+      html`<glide-core-modal label="Modal title">
         Modal Content
         <span slot="tertiary">Tertiary</span>
-      </cs-modal>`,
+      </glide-core-modal>`,
     );
   });
 });

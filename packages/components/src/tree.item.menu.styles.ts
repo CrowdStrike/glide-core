@@ -8,7 +8,7 @@ export default [
       margin-block-end: -0.25rem;
     }
 
-    cs-icon-button {
+    glide-core-icon-button {
       display: inline-flex;
 
       --icon-color: var(--icon-button-color);

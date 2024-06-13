@@ -4,12 +4,12 @@ import TreeItem from './tree.item.js';
 TreeItem.shadowRootOptions.mode = 'open';
 
 it('registers', () => {
-  expect(window.customElements.get('cs-tree-item')).to.equal(TreeItem);
+  expect(window.customElements.get('glide-core-tree-item')).to.equal(TreeItem);
 });
 
 it('renders and sets default attributes', async () => {
   const treeItem = await fixture<TreeItem>(html`
-    <cs-tree-item label="Item"></cs-tree-item>
+    <glide-core-tree-item label="Item"></glide-core-tree-item>
   `);
 
   expect(treeItem.expanded).to.equal(false);
@@ -19,9 +19,9 @@ it('renders and sets default attributes', async () => {
 
 it('renders with a prefix slot', async () => {
   await fixture<TreeItem>(html`
-    <cs-tree-item label="Item">
+    <glide-core-tree-item label="Item">
       <span slot="prefix" data-prefix>prefix</span>
-    </cs-tree-item>
+    </glide-core-tree-item>
   `);
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
@@ -29,9 +29,9 @@ it('renders with a prefix slot', async () => {
 
 it('renders with a menu slot', async () => {
   await fixture<TreeItem>(html`
-    <cs-tree-item label="Item">
+    <glide-core-tree-item label="Item">
       <span slot="menu" data-menu>menu</span>
-    </cs-tree-item>
+    </glide-core-tree-item>
   `);
 
   expect(document.querySelector('[data-menu]')).to.be.ok;
@@ -39,9 +39,9 @@ it('renders with a menu slot', async () => {
 
 it('renders with a suffix slot', async () => {
   await fixture<TreeItem>(html`
-    <cs-tree-item label="Item">
+    <glide-core-tree-item label="Item">
       <span slot="suffix" data-suffix>suffix</span>
-    </cs-tree-item>
+    </glide-core-tree-item>
   `);
 
   expect(document.querySelector('[data-suffix]')).to.be.ok;
@@ -49,7 +49,7 @@ it('renders with a suffix slot', async () => {
 
 it('does not have an expand icon if there are no child tree items', async () => {
   const treeItem = await fixture<TreeItem>(html`
-    <cs-tree-item label="Item"></cs-tree-item>
+    <glide-core-tree-item label="Item"></glide-core-tree-item>
   `);
 
   expect(treeItem.shadowRoot?.querySelector('.expand-icon')).to.equal(null);
@@ -57,9 +57,9 @@ it('does not have an expand icon if there are no child tree items', async () => 
 
 it('can expand', async () => {
   const treeItem = await fixture<TreeItem>(html`
-    <cs-tree-item label="Item">
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-    </cs-tree-item>
+    <glide-core-tree-item label="Item">
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+    </glide-core-tree-item>
   `);
 
   expect([
@@ -84,12 +84,12 @@ it('can expand', async () => {
 
 it('renders child and grandchild tree items', async () => {
   const treeItem = await fixture<TreeItem>(html`
-    <cs-tree-item expanded label="Item">
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-      <cs-tree-item label="Child Item 2">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree-item>
+    <glide-core-tree-item expanded label="Item">
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree-item>
   `);
 
   expect(treeItem.shadowRoot?.querySelector('.expand-icon')).to.be.ok;
@@ -103,12 +103,12 @@ it('renders child and grandchild tree items', async () => {
 
 it('can select child and grandchild items', async () => {
   const treeItem = await fixture<TreeItem>(html`
-    <cs-tree-item expanded label="Item">
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-      <cs-tree-item label="Child Item 2">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree-item>
+    <glide-core-tree-item expanded label="Item">
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree-item>
   `);
 
   const childItems = treeItem.slotElements;

@@ -14,13 +14,13 @@ const meta: Meta = {
     },
   },
   render: (arguments_) => html`
-    <cs-icon-button
+    <glide-core-icon-button
       label=${arguments_.label}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
-      <cs-example-icon name="clipboard"></cs-example-icon>
-    </cs-icon-button>
+      <glide-core-example-icon name="clipboard"></glide-core-example-icon>
+    </glide-core-icon-button>
   `,
   args: {
     label: 'For screenreaders',

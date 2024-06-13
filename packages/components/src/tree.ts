@@ -2,22 +2,22 @@ import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
-import CsTreeItem from './tree.item.js';
+import GlideCoreTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-tree': CsTree;
+    'glide-core-tree': GlideCoreTree;
   }
 }
 
 /**
  * @description A tree element, containing a hierarchy of tree items
  *
- * @slot - One or more of <cs-tree-item>
+ * @slot - One or more of <glide-core-tree-item>
  */
-@customElement('cs-tree')
-export default class CsTree extends LitElement {
+@customElement('glide-core-tree')
+export default class GlideCoreTree extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -25,14 +25,14 @@ export default class CsTree extends LitElement {
 
   static override styles = styles;
 
-  @state() selectedItem?: CsTreeItem;
+  @state() selectedItem?: GlideCoreTreeItem;
 
-  @state() focusedItem?: CsTreeItem | null;
+  @state() focusedItem?: GlideCoreTreeItem | null;
 
   @state() privateTabIndex = 0;
 
   @queryAssignedElements()
-  slotElements!: CsTreeItem[];
+  slotElements!: GlideCoreTreeItem[];
 
   override disconnectedCallback() {
     super.disconnectedCallback();
@@ -43,7 +43,7 @@ export default class CsTree extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsTreeItem]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTreeItem]);
   }
 
   override render() {
@@ -61,7 +61,7 @@ export default class CsTree extends LitElement {
     </div>`;
   }
 
-  selectItem(item: CsTreeItem) {
+  selectItem(item: GlideCoreTreeItem) {
     for (const treeItem of this.slotElements) {
       if (item === treeItem) {
         treeItem.setAttribute('selected', 'true');
@@ -70,7 +70,7 @@ export default class CsTree extends LitElement {
         treeItem.removeAttribute('selected');
 
         // Also traverse down the tree to select/deselect all children
-        const nestedSelectedItem: CsTreeItem | undefined =
+        const nestedSelectedItem: GlideCoreTreeItem | undefined =
           treeItem.selectItem(item);
 
         if (nestedSelectedItem) {
@@ -92,13 +92,15 @@ export default class CsTree extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #focusItem(item: CsTreeItem | undefined | null) {
+  #focusItem(item: GlideCoreTreeItem | undefined | null) {
     item?.focus();
     this.focusedItem = item;
   }
 
   #getAllTreeItems() {
-    return [...this.querySelectorAll<CsTreeItem>('cs-tree-item')];
+    return [
+      ...this.querySelectorAll<GlideCoreTreeItem>('glide-core-tree-item'),
+    ];
   }
 
   #getFocusableItems() {
@@ -106,7 +108,7 @@ export default class CsTree extends LitElement {
     const collapsedItems = new Set();
 
     return items.filter((item) => {
-      const parent = item.parentElement?.closest('cs-tree-item');
+      const parent = item.parentElement?.closest('glide-core-tree-item');
 
       if (parent && (!parent.expanded || collapsedItems.has(parent))) {
         collapsedItems.add(item);
@@ -120,13 +122,13 @@ export default class CsTree extends LitElement {
     const target = event.target as HTMLElement;
 
     if (
-      target.closest('cs-tree-item-icon-button') ??
-      target.closest('cs-tree-item-menu')
+      target.closest('glide-core-tree-item-icon-button') ??
+      target.closest('glide-core-tree-item-menu')
     ) {
       return;
     }
 
-    const clickedItem = target.closest('cs-tree-item');
+    const clickedItem = target.closest('glide-core-tree-item');
 
     if (clickedItem) {
       if (clickedItem.hasChildTreeItems) {
@@ -142,7 +144,7 @@ export default class CsTree extends LitElement {
 
     if (event.target === this) {
       itemToFocus = this.selectedItem ?? this.slotElements[0];
-    } else if (event.target instanceof CsTreeItem) {
+    } else if (event.target instanceof GlideCoreTreeItem) {
       itemToFocus = event.target;
       this.privateTabIndex = -1;
     }
@@ -196,8 +198,9 @@ export default class CsTree extends LitElement {
       if (focusedItem?.expanded) {
         focusedItem.toggleExpand();
       } else {
-        const parentTreeItem =
-          focusedItem?.parentElement?.closest('cs-tree-item');
+        const parentTreeItem = focusedItem?.parentElement?.closest(
+          'glide-core-tree-item',
+        );
 
         this.#focusItem(parentTreeItem);
       }
@@ -234,6 +237,6 @@ export default class CsTree extends LitElement {
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsTreeItem]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTreeItem]);
   }
 }

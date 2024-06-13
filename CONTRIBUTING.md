@@ -143,7 +143,7 @@ Instead, we should stick with exposing styles via CSS variables until the need a
 
 ```ts
 // ✅ -- GOOD
-@customElement('cs-example')
+@customElement('glide-core-example')
 export default class CsExample extends LitElement {
   static override styles = css`
     .summary {
@@ -165,7 +165,7 @@ export default class CsExample extends LitElement {
 
 ```ts
 // ❌ -- BAD
-@customElement('cs-example')
+@customElement('glide-core-example')
 export default class CsExample extends LitElement {
   override render() {
     return html`
@@ -227,7 +227,7 @@ In this particular case, we still need to use TypeScript's `private`.
 
 ```ts
 // ✅ -- GOOD
-@customElement('cs-example')
+@customElement('glide-core-example')
 export default class CsExample extends LitElement {
   @state()
   // OK to use `private` in TS here
@@ -237,7 +237,7 @@ export default class CsExample extends LitElement {
 
 ```ts
 // ❌ -- BAD
-@customElement('cs-example')
+@customElement('glide-core-example')
 export default class CsExample extends LitElement {
   @state()
   // This doesn't work!
@@ -293,7 +293,7 @@ One may reach for [`query`](https://lit.dev/docs/api/decorators/#query); however
 // Use a `ref` when accessing an element.
 import { createRef, ref } from 'lit/directives/ref.js';
 
-@customElement('cs-example')
+@customElement('glide-core-example')
 export default class CsExample extends LitElement {
   #onClick(Event: MouseEvent) {
     console.log('click');
@@ -314,7 +314,7 @@ export default class CsExample extends LitElement {
 // Don't use `query` when accessing a single element.
 import { query } from 'lit/decorators.js';
 
-@customElement('cs-example')
+@customElement('glide-core-example')
 export default class CsExample extends LitElement {
   #onClick(Event: MouseEvent) {
     console.log('click');
@@ -360,7 +360,7 @@ You can also use `owSlotType` to assert the content type.
 ```ts
 import ow, { owSlot, owSlotType } from './library/ow';
 
-@customElement('cs-example')
+@customElement('glide-core-example')
 export default class CsExample extends LitElement {
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
@@ -444,7 +444,7 @@ describe('Checkbox Validity', () => {});
 
 ```ts
 // ✅ -- GOOD
-@customElement('cs-example')
+@customElement('glide-core-example')
 export default class CsExample extends LitElement {
   #onClick(Event: MouseEvent) {
     console.log('click');
@@ -462,7 +462,7 @@ export default class CsExample extends LitElement {
 
 ```ts
 // ❌ -- BAD
-@customElement('cs-example')
+@customElement('glide-core-example')
 export default class CsExample extends LitElement {
   #handleClick(Event: MouseEvent) {
     console.log('click');

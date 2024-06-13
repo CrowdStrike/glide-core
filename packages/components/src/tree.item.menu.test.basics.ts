@@ -1,26 +1,28 @@
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
-import TreeItemMenu from './tree.item.menu.js';
+import GlideCoreTreeItemMenu from './tree.item.menu.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-tree-item-menu')).to.equal(TreeItemMenu);
+  expect(window.customElements.get('glide-core-tree-item-menu')).to.equal(
+    GlideCoreTreeItemMenu,
+  );
 });
 
 it('throws if it does not have a default slot', async () => {
   await expectArgumentError(() => {
-    return fixture<TreeItemMenu>(html`
-      <cs-tree-item-menu></cs-tree-item-menu>
+    return fixture<GlideCoreTreeItemMenu>(html`
+      <glide-core-tree-item-menu></glide-core-tree-item-menu>
     `);
   });
 });
 
 it('throws if the default slot is the incorrect type', async () => {
   await expectArgumentError(() => {
-    return fixture<TreeItemMenu>(html`
-      <cs-tree-item-menu>
+    return fixture<GlideCoreTreeItemMenu>(html`
+      <glide-core-tree-item-menu>
         <button>Button</button>
-      </cs-tree-item-menu>
+      </glide-core-tree-item-menu>
     `);
   });
 

@@ -1,21 +1,23 @@
 import './tooltip.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import CsTooltip from './tooltip.js';
+import GlideCoreTooltip from './tooltip.js';
 import sinon from 'sinon';
 
-CsTooltip.shadowRootOptions.mode = 'open';
+GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-tooltip')).to.equal(CsTooltip);
+  expect(window.customElements.get('glide-core-tooltip')).to.equal(
+    GlideCoreTooltip,
+  );
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsTooltip>(
-    html`<cs-tooltip>
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
-    </cs-tooltip>`,
+    </glide-core-tooltip>`,
   );
 
   // See the comment in the component's `render` method for an explanation.
@@ -25,11 +27,11 @@ it('is accessible', async () => {
 });
 
 it('can have a tooltip', async () => {
-  const component = await fixture<CsTooltip>(
-    html`<cs-tooltip aria-label="Label">
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip aria-label="Label">
       Tooltip
       <span slot="target" tabindex="0">Target</span>
-    </cs-tooltip>`,
+    </glide-core-tooltip>`,
   );
 
   const tooltip = component?.shadowRoot
@@ -41,11 +43,11 @@ it('can have a tooltip', async () => {
 });
 
 it('can have a target', async () => {
-  const component = await fixture<CsTooltip>(
-    html`<cs-tooltip>
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
-    </cs-tooltip>`,
+    </glide-core-tooltip>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -59,7 +61,9 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsTooltip>(html`<cs-tooltip></cs-tooltip>`);
+    await fixture<GlideCoreTooltip>(
+      html`<glide-core-tooltip></glide-core-tooltip>`,
+    );
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();
@@ -73,7 +77,9 @@ it('throws if it does not have a "target" slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsTooltip>(html`<cs-tooltip> Tooltip </cs-tooltip>`);
+    await fixture<GlideCoreTooltip>(
+      html`<glide-core-tooltip> Tooltip </glide-core-tooltip>`,
+    );
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();

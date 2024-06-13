@@ -4,24 +4,24 @@ import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
-import CsMenuButton from './menu.button.js';
-import CsMenuLink from './menu.link.js';
+import GlideCoreMenuButton from './menu.button.js';
+import GlideCoreMenuLink from './menu.link.js';
 import styles from './tree.item.menu.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-tree-item-menu': CsTreeItemMenu;
+    'glide-core-tree-item-menu': GlideCoreTreeItemMenu;
   }
 }
 
 /**
- * @description A menu built into a tree item. Uses <cs-menu>
+ * @description A menu built into a tree item. Uses <glide-core-menu>
  *
- * @slot - One or more of <cs-menu-link> or <cs-menu-button>.
+ * @slot - One or more of <glide-core-menu-link> or <glide-core-menu-button>.
  * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
  */
-@customElement('cs-tree-item-menu')
-export default class CsTreeItemMenu extends LitElement {
+@customElement('glide-core-tree-item-menu')
+export default class GlideCoreTreeItemMenu extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -31,18 +31,22 @@ export default class CsTreeItemMenu extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
+
+    owSlotType(this.#defaultSlotElementRef.value, [
+      GlideCoreMenuButton,
+      GlideCoreMenuLink,
+    ]);
   }
 
   override render() {
     return html`
-      <cs-menu class="component">
+      <glide-core-menu class="component">
         <slot
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
 
-        <cs-icon-button slot="target" variant="tertiary">
+        <glide-core-icon-button slot="target" variant="tertiary">
           <!-- 3-dot -->
           <svg
             width="4"
@@ -62,8 +66,8 @@ export default class CsTreeItemMenu extends LitElement {
               d="M2 1C2.55228 1 3 1.44772 3 2C3 2.55228 2.55228 3 2 3C1.44772 3 1 2.55228 1 2C1 1.44772 1.44772 1 2 1Z"
             />
           </svg>
-        </cs-icon-button>
-      </cs-menu>
+        </glide-core-icon-button>
+      </glide-core-menu>
     `;
   }
 
@@ -71,6 +75,10 @@ export default class CsTreeItemMenu extends LitElement {
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsMenuButton, CsMenuLink]);
+
+    owSlotType(this.#defaultSlotElementRef.value, [
+      GlideCoreMenuButton,
+      GlideCoreMenuLink,
+    ]);
   }
 }

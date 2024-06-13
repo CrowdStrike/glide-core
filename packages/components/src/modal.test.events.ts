@@ -1,16 +1,18 @@
 import './modal.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys, sendMouse } from '@web/test-runner-commands';
-import Modal from './modal.js';
+import GlideCoreModal from './modal.js';
 import sinon from 'sinon';
 
-Modal.shadowRootOptions.mode = 'open';
+GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('dispatches a "close" event when the modal is closed via the "close" method', async () => {
   const spy = sinon.spy();
 
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.addEventListener('close', spy);
@@ -26,8 +28,10 @@ it('dispatches a "close" event when the modal is closed via the "close" method',
 it('dispatches a "close" event when the modal is closed via the close button', async () => {
   const spy = sinon.spy();
 
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.addEventListener('close', spy);
@@ -47,8 +51,10 @@ it('dispatches a "close" event when the modal is closed via the close button', a
 it('dispatches a "close" event when the modal is closed via the escape key', async () => {
   const spy = sinon.spy();
 
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.addEventListener('close', spy);
@@ -62,8 +68,10 @@ it('dispatches a "close" event when the modal is closed via the escape key', asy
 it('does not dispatch a "close" event when the modal is open and non-escape keys are pressed', async () => {
   const spy = sinon.spy();
 
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.addEventListener('close', spy);
@@ -83,10 +91,10 @@ it('does not dispatch a "close" event when the modal is open and non-escape keys
 it('dispatches a "close" event when the modal is closed via "show-back-button"', async () => {
   const spy = sinon.spy();
 
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title" show-back-button>
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title" show-back-button>
       Modal Content
-    </cs-modal>`,
+    </glide-core-modal>`,
   );
 
   element.addEventListener('close', spy);
@@ -106,8 +114,10 @@ it('dispatches a "close" event when the modal is closed via "show-back-button"',
 it('does not emit a "close" event when clicking inside the dialog and the mouse is not positioned on a "close" button', async () => {
   const spy = sinon.spy();
 
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.showModal();
@@ -130,10 +140,10 @@ it('does not emit a "close" event when clicking inside the dialog and the mouse 
 it(`does not emit a "close" event if a mousedown event's origin does not come from the dialog element`, async () => {
   const spy = sinon.spy();
 
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
       <button data-test="target">Inside Body</button>
-    </cs-modal>`,
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -154,8 +164,10 @@ it(`does not emit a "close" event if a mousedown event's origin does not come fr
 it('emits a "close" event when clicking outside the dialog', async () => {
   const spy = sinon.spy();
 
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.showModal();

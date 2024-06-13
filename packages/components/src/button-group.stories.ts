@@ -15,16 +15,20 @@ const meta: Meta = {
     },
   },
   render: (arguments_) => html`
-    <cs-button-group
+    <glide-core-button-group
       label=${arguments_.label}
       orientation=${arguments_.orientation}
     >
-      <cs-button-group-button value="button-1" selected
-        >Button 1</cs-button-group-button
+      <glide-core-button-group-button value="button-1" selected
+        >Button 1</glide-core-button-group-button
       >
-      <cs-button-group-button value="button-2">Button 2</cs-button-group-button>
-      <cs-button-group-button value="button-3">Button 3</cs-button-group-button>
-    </cs-button-group>
+      <glide-core-button-group-button value="button-2"
+        >Button 2</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="button-3"
+        >Button 3</glide-core-button-group-button
+      >
+    </glide-core-button-group>
   `,
   args: {
     label: 'Group label',
@@ -35,7 +39,7 @@ const meta: Meta = {
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: '<cs-button-group-button>' },
+        type: { summary: '<glide-core-button-group-button>' },
       },
       type: { name: 'function', required: true },
     },
@@ -89,23 +93,32 @@ export const DefaultWithOrientationVertical: StoryObj = {
 export const DefaultWithPrefixIcon: StoryObj = {
   name: 'Button Group (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-button-group
+    <glide-core-button-group
       label=${arguments_.label}
       orientation=${arguments_.orientation}
     >
-      <cs-button-group-button value="button-1" selected>
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      <glide-core-button-group-button value="button-1" selected>
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 1
-      </cs-button-group-button>
-      <cs-button-group-button value="button-2">
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      </glide-core-button-group-button>
+      <glide-core-button-group-button value="button-2">
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 2
-      </cs-button-group-button>
-      <cs-button-group-button value="button-3">
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      </glide-core-button-group-button>
+      <glide-core-button-group-button value="button-3">
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 3
-      </cs-button-group-button>
-    </cs-button-group>
+      </glide-core-button-group-button>
+    </glide-core-button-group>
   `,
 };
 
@@ -115,47 +128,65 @@ export const DefaultWithOrientationVerticalPrefixIcon: StoryObj = {
     orientation: 'vertical',
   },
   render: (arguments_) => html`
-    <cs-button-group
+    <glide-core-button-group
       label=${arguments_.label}
       orientation=${arguments_.orientation}
     >
-      <cs-button-group-button value="button-1" selected>
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      <glide-core-button-group-button value="button-1" selected>
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 1
-      </cs-button-group-button>
-      <cs-button-group-button value="button-2">
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      </glide-core-button-group-button>
+      <glide-core-button-group-button value="button-2">
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 2
-      </cs-button-group-button>
-      <cs-button-group-button value="button-3">
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      </glide-core-button-group-button>
+      <glide-core-button-group-button value="button-3">
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 3
-      </cs-button-group-button>
-    </cs-button-group>
+      </glide-core-button-group-button>
+    </glide-core-button-group>
   `,
 };
 
 export const DefaultWithVariantIconOnly: StoryObj = {
   name: 'Button Group (With Variant Icon Only)',
   render: (arguments_) => html`
-    <cs-button-group
+    <glide-core-button-group
       label=${arguments_.label}
       variant="icon-only"
       orientation=${arguments_.orientation}
     >
-      <cs-button-group-button value="button-1" selected>
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      <glide-core-button-group-button value="button-1" selected>
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 1
-      </cs-button-group-button>
-      <cs-button-group-button value="button-2">
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      </glide-core-button-group-button>
+      <glide-core-button-group-button value="button-2">
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 2
-      </cs-button-group-button>
-      <cs-button-group-button value="button-3">
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      </glide-core-button-group-button>
+      <glide-core-button-group-button value="button-3">
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 3
-      </cs-button-group-button>
-    </cs-button-group>
+      </glide-core-button-group-button>
+    </glide-core-button-group>
   `,
 };
 
@@ -165,71 +196,94 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
     orientation: 'vertical',
   },
   render: (arguments_) => html`
-    <cs-button-group
+    <glide-core-button-group
       label=${arguments_.label}
       orientation=${arguments_.orientation}
       variant="icon-only"
     >
-      <cs-button-group-button value="button-1" selected>
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      <glide-core-button-group-button value="button-1" selected>
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 1
-      </cs-button-group-button>
-      <cs-button-group-button value="button-2">
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      </glide-core-button-group-button>
+      <glide-core-button-group-button value="button-2">
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 2
-      </cs-button-group-button>
-      <cs-button-group-button value="button-3">
-        <cs-example-icon slot="prefix" name="info"></cs-example-icon>
+      </glide-core-button-group-button>
+      <glide-core-button-group-button value="button-3">
+        <glide-core-example-icon
+          slot="prefix"
+          name="info"
+        ></glide-core-example-icon>
         Button 3
-      </cs-button-group-button>
-    </cs-button-group>
+      </glide-core-button-group-button>
+    </glide-core-button-group>
   `,
 };
 
 export const DefaultWithNoneSelected: StoryObj = {
   name: 'Button Group (With None Selected)',
   render: (arguments_) => html`
-    <cs-button-group label=${arguments_.label}>
-      <cs-button-group-button value="button-1">Button 1</cs-button-group-button>
-      <cs-button-group-button value="button-2">Button 2</cs-button-group-button>
-      <cs-button-group-button value="button-3">Button 3</cs-button-group-button>
-    </cs-button-group>
+    <glide-core-button-group label=${arguments_.label}>
+      <glide-core-button-group-button value="button-1"
+        >Button 1</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="button-2"
+        >Button 2</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="button-3"
+        >Button 3</glide-core-button-group-button
+      >
+    </glide-core-button-group>
   `,
 };
 
 export const DefaultWithSelected: StoryObj = {
   name: 'Button Group (With Second Button Selected)',
   render: (arguments_) => html`
-    <cs-button-group label=${arguments_.label}>
-      <cs-button-group-button value="button-1">Button 1</cs-button-group-button>
-      <cs-button-group-button value="button-2" selected
-        >Button 2</cs-button-group-button
+    <glide-core-button-group label=${arguments_.label}>
+      <glide-core-button-group-button value="button-1"
+        >Button 1</glide-core-button-group-button
       >
-      <cs-button-group-button value="button-3">Button 3</cs-button-group-button>
-    </cs-button-group>
+      <glide-core-button-group-button value="button-2" selected
+        >Button 2</glide-core-button-group-button
+      >
+      <glide-core-button-group-button value="button-3"
+        >Button 3</glide-core-button-group-button
+      >
+    </glide-core-button-group>
   `,
 };
 
 export const DefaultWithDisabled: StoryObj = {
   name: 'Button Group (With Disabled)',
   render: (arguments_) => html`
-    <cs-button-group label=${arguments_.label}>
-      <cs-button-group-button value="button-1" disabled
-        >Button 1</cs-button-group-button
+    <glide-core-button-group label=${arguments_.label}>
+      <glide-core-button-group-button value="button-1" disabled
+        >Button 1</glide-core-button-group-button
       >
-      <cs-button-group-button value="button-2" selected
-        >Button 2</cs-button-group-button
+      <glide-core-button-group-button value="button-2" selected
+        >Button 2</glide-core-button-group-button
       >
-      <cs-button-group-button value="button-3">Button 3</cs-button-group-button>
-    </cs-button-group>
+      <glide-core-button-group-button value="button-3"
+        >Button 3</glide-core-button-group-button
+      >
+    </glide-core-button-group>
   `,
 };
 
 export const DefaultWithOneButton: StoryObj = {
   name: 'Button Group (With One Button)',
   render: (arguments_) => html`
-    <cs-button-group label=${arguments_.label}>
-      <cs-button-group-button value="button">Button</cs-button-group-button>
-    </cs-button-group>
+    <glide-core-button-group label=${arguments_.label}>
+      <glide-core-button-group-button value="button"
+        >Button</glide-core-button-group-button
+      >
+    </glide-core-button-group>
   `,
 };

@@ -7,17 +7,17 @@ import styles from './menu.link.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-menu-link': CsMenuLink;
+    'glide-core-menu-link': GlideCoreMenuLink;
   }
 }
 
 /**
- * @description A link for use within a <cs-menu>.
+ * @description A link for use within a <glide-core-menu>.
  *
  * @slot icon - An icon.
  */
-@customElement('cs-menu-link')
-export default class CsMenuLink extends LitElement {
+@customElement('glide-core-menu-link')
+export default class GlideCoreMenuLink extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',

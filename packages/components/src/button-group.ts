@@ -8,12 +8,12 @@ import {
 } from 'lit/decorators.js';
 import { owSlotType } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
-import CsButtonGroupButton from './button-group.button.js';
+import GlideCoreButtonGroupButton from './button-group.button.js';
 import styles from './button-group.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-button-group': CsButtonGroup;
+    'glide-core-button-group': GlideCoreButtonGroup;
   }
 }
 
@@ -21,12 +21,12 @@ export type ButtonGroupVariant = 'icon-only';
 export type ButtonGroupOrientation = 'vertical' | 'horizontal';
 
 /**
- * @description A button group for use with `<cs-button-group-button>`.
+ * @description A button group for use with `<glide-core-button-group-button>`.
  *
- * @slot - One or more `<cs-button-group-button>` components.
+ * @slot - One or more `<glide-core-button-group-button>` components.
  */
-@customElement('cs-button-group')
-export default class CsButtonGroup extends LitElement {
+@customElement('glide-core-button-group')
+export default class GlideCoreButtonGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -37,8 +37,8 @@ export default class CsButtonGroup extends LitElement {
   @property()
   label? = '';
 
-  @queryAssignedElements({ selector: 'cs-button-group-button' })
-  listItems!: CsButtonGroupButton[];
+  @queryAssignedElements({ selector: 'glide-core-button-group-button' })
+  listItems!: GlideCoreButtonGroupButton[];
 
   @property()
   variant?: ButtonGroupVariant;
@@ -47,7 +47,7 @@ export default class CsButtonGroup extends LitElement {
   orientation: ButtonGroupOrientation = 'horizontal';
 
   override firstUpdated() {
-    owSlotType(this.#defaultSlotElementRef.value, [CsButtonGroupButton]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreButtonGroupButton]);
 
     if (this.orientation === 'vertical') {
       for (const listItem of this.listItems) {
@@ -68,10 +68,13 @@ export default class CsButtonGroup extends LitElement {
     return html`
       ${when(
         Boolean(this.label),
-        () => html`<div class="label" id="cs-button-group">${this.label}</div>`,
+        () =>
+          html`<div class="label" id="glide-core-button-group">
+            ${this.label}
+          </div>`,
       )}
       <ul
-        aria-labelledby="cs-button-group"
+        aria-labelledby="glide-core-button-group"
         role="radiogroup"
         class=${classMap({
           'radio-group': true,
@@ -87,7 +90,7 @@ export default class CsButtonGroup extends LitElement {
   }
 
   override willUpdate(
-    changedProperties: PropertyValueMap<CsButtonGroup>,
+    changedProperties: PropertyValueMap<GlideCoreButtonGroup>,
   ): void {
     if (this.hasUpdated && changedProperties.has('variant')) {
       const value = changedProperties.get('variant');
@@ -121,6 +124,6 @@ export default class CsButtonGroup extends LitElement {
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #onDefaultSlotChange() {
-    owSlotType(this.#defaultSlotElementRef.value, [CsButtonGroupButton]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreButtonGroupButton]);
   }
 }

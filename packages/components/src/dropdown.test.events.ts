@@ -2,10 +2,10 @@ import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import CsDropdown from './dropdown.js';
-import CsDropdownOption from './dropdown.option.js';
+import GlideCoreDropdownOption from './dropdown.option.js';
 
 CsDropdown.shadowRootOptions.mode = 'open';
-CsDropdownOption.shadowRootOptions.mode = 'open';
+GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 // `await aTimeout(0)` is used throughout. Using `oneEvent` instead and
 // expecting it to throw would work. But it wouldn't throw until its
@@ -15,14 +15,17 @@ CsDropdownOption.shadowRootOptions.mode = 'open';
 
 it('dispatches a "change" event when an option is selected via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   setTimeout(() => {
     component
-      .querySelector('cs-dropdown-option')
+      .querySelector('glide-core-dropdown-option')
       ?.shadowRoot?.querySelector('[role="option"]')
       ?.dispatchEvent(new Event('click', { bubbles: true }));
   });
@@ -35,12 +38,15 @@ it('dispatches a "change" event when an option is selected via click', async () 
 
 it('dispatches a "change" event when an option is selected via Enter', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  component.querySelector('cs-dropdown-option')?.focus();
+  component.querySelector('glide-core-dropdown-option')?.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(component, 'change');
@@ -51,12 +57,15 @@ it('dispatches a "change" event when an option is selected via Enter', async () 
 
 it('dispatches a "change" event when an option is selected via Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  component.querySelector('cs-dropdown-option')?.focus();
+  component.querySelector('glide-core-dropdown-option')?.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(component, 'change');
@@ -67,14 +76,17 @@ it('dispatches a "change" event when an option is selected via Space', async () 
 
 it('dispatches a "input" event when an option is selected via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   setTimeout(() => {
     component
-      .querySelector('cs-dropdown-option')
+      .querySelector('glide-core-dropdown-option')
       ?.shadowRoot?.querySelector('[role="option"]')
       ?.dispatchEvent(new Event('click', { bubbles: true }));
   });
@@ -87,12 +99,15 @@ it('dispatches a "input" event when an option is selected via click', async () =
 
 it('dispatches a "input" event when an option is selected via Enter', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  component.querySelector('cs-dropdown-option')?.focus();
+  component.querySelector('glide-core-dropdown-option')?.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(component, 'input');
@@ -103,12 +118,15 @@ it('dispatches a "input" event when an option is selected via Enter', async () =
 
 it('dispatches a "input" event when an option is selected via Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  component.querySelector('cs-dropdown-option')?.focus();
+  component.querySelector('glide-core-dropdown-option')?.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(component, 'input');
@@ -121,9 +139,12 @@ it('dispatches an "invalid" event on submit when required and no option is selec
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     { parentNode: form },
   );
 
@@ -137,9 +158,12 @@ it('dispatches an "invalid" event when `checkValidity` is called when required a
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     { parentNode: form },
   );
 
@@ -153,9 +177,12 @@ it('dispatches an "invalid" event when `reportValidity` is called when required 
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" required>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     { parentNode: form },
   );
 
@@ -169,9 +196,12 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when not
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     { parentNode: form },
   );
 
@@ -187,9 +217,17 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when req
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" disabled required>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      disabled
+      required
+    >
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     { parentNode: form },
   );
 
@@ -205,9 +243,12 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     { parentNode: form },
   );
 
@@ -223,9 +264,17 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when re
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" disabled required>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      disabled
+      required
+    >
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     { parentNode: form },
   );
 

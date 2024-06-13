@@ -3,27 +3,33 @@ import './tab.js';
 import './tab.panel.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import TabGroup from './tab.group.js';
-import TabPanel from './tab.panel.js';
+import GlideCoreTabGroup from './tab.group.js';
+import GlideCoreTabPanel from './tab.panel.js';
 import expectArgumentError from './library/expect-argument-error.js';
 
-TabGroup.shadowRootOptions.mode = 'open';
-TabPanel.shadowRootOptions.mode = 'open';
+GlideCoreTabGroup.shadowRootOptions.mode = 'open';
+GlideCoreTabPanel.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-tab-group')).to.equal(TabGroup);
-  expect(window.customElements.get('cs-tab-panel')).to.equal(TabPanel);
+  expect(window.customElements.get('glide-core-tab-group')).to.equal(
+    GlideCoreTabGroup,
+  );
+
+  expect(window.customElements.get('glide-core-tab-panel')).to.equal(
+    GlideCoreTabPanel,
+  );
 });
 
 it('renders correct markup and sets correct attributes for the default case', async () => {
-  const tabGroup = await fixture<TabGroup>(html`
-    <cs-tab-group>
-      <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
-      <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
-    </cs-tab-group>
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+    </glide-core-tab-group>
   `);
 
   await expect(tabGroup).to.be.accessible();
+
   const [firstTab] = tabGroup.tabElements;
 
   expect(tabGroup.activeTab).to.equal(
@@ -51,10 +57,10 @@ it('renders correct markup and sets correct attributes for the default case', as
 
 it('renders a secondary variant', async () => {
   const element = await fixture(html`
-    <cs-tab-group variant="secondary">
-      <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
-      <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
-    </cs-tab-group>
+    <glide-core-tab-group variant="secondary">
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+    </glide-core-tab-group>
   `);
 
   expect([
@@ -64,10 +70,10 @@ it('renders a secondary variant', async () => {
 
 it('renders a vertical variant', async () => {
   const element = await fixture(html`
-    <cs-tab-group variant="vertical">
-      <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
-      <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
-    </cs-tab-group>
+    <glide-core-tab-group variant="vertical">
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+    </glide-core-tab-group>
   `);
 
   expect([
@@ -76,18 +82,18 @@ it('renders a vertical variant', async () => {
 });
 
 it('can switch tabs', async () => {
-  const tabGroup = await fixture<TabGroup>(html`
-    <cs-tab-group>
-      <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
-      <cs-tab slot="nav" panel="2">Tab 2</cs-tab>
-      <cs-tab slot="nav" panel="3">Tab 3</cs-tab>
-      <cs-tab slot="nav" panel="4" disabled>Disabled</cs-tab>
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+      <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+      <glide-core-tab slot="nav" panel="4" disabled>Disabled</glide-core-tab>
 
-      <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
-      <cs-tab-panel name="2">Content for Tab 2</cs-tab-panel>
-      <cs-tab-panel name="3">Content for Tab 3</cs-tab-panel>
-      <cs-tab-panel name="4">Content for Tab 4</cs-tab-panel>
-    </cs-tab-group>
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+      <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+      <glide-core-tab-panel name="4">Content for Tab 4</glide-core-tab-panel>
+    </glide-core-tab-group>
   `);
 
   const listener = oneEvent(tabGroup, 'tab-show');
@@ -180,16 +186,16 @@ it('can switch tabs', async () => {
 });
 
 it('can use left/right, home and end keys to focus on tabs', async () => {
-  const tabGroup = await fixture<TabGroup>(html`
-    <cs-tab-group>
-      <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
-      <cs-tab slot="nav" panel="2">Tab 2</cs-tab>
-      <cs-tab slot="nav" panel="3">Tab 3</cs-tab>
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+      <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
 
-      <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
-      <cs-tab-panel name="2">Content for Tab 2</cs-tab-panel>
-      <cs-tab-panel name="3">Content for Tab 3</cs-tab-panel>
-    </cs-tab-group>
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+      <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+    </glide-core-tab-group>
   `);
 
   const [firstTab, secondTab, thirdTab] = tabGroup.tabElements;
@@ -221,16 +227,16 @@ it('can use left/right, home and end keys to focus on tabs', async () => {
 });
 
 it('can use up/down keys to focus on vertical tabs', async () => {
-  const tabGroup = await fixture<TabGroup>(html`
-    <cs-tab-group variant="vertical">
-      <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
-      <cs-tab slot="nav" panel="2">Tab 2</cs-tab>
-      <cs-tab slot="nav" panel="3">Tab 3</cs-tab>
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group variant="vertical">
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+      <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
 
-      <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
-      <cs-tab-panel name="2">Content for Tab 2</cs-tab-panel>
-      <cs-tab-panel name="3">Content for Tab 3</cs-tab-panel>
-    </cs-tab-group>
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+      <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+    </glide-core-tab-group>
   `);
 
   const [firstTab, secondTab, thirdTab] = tabGroup.tabElements;
@@ -253,28 +259,28 @@ it('can use up/down keys to focus on vertical tabs', async () => {
   expect(firstTab.active).to.equal(true, 'down from last goes to first');
 });
 
-it('throws an error when an element other than `cs-tab` is a child of the `nav` slot', async () => {
+it('throws an error when an element other than `glide-core-tab` is a child of the `nav` slot', async () => {
   await expectArgumentError(() => {
     return fixture(html`
-      <cs-tab-group variant="vertical">
+      <glide-core-tab-group variant="vertical">
         <div slot="nav">Tab 1</div>
-        <cs-tab-panel name="1">Content for Tab 1</cs-tab-panel>
-      </cs-tab-group>
+        <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      </glide-core-tab-group>
     `);
   });
 });
 
-it('throws an error when an element other than `cs-tab-panel` is a child of the default slot', async () => {
+it('throws an error when an element other than `glide-core-tab-panel` is a child of the default slot', async () => {
   await expectArgumentError(() => {
     return fixture(html`
-      <cs-tab-group variant="vertical">
-        <cs-tab slot="nav" panel="1">Tab 1</cs-tab>
+      <glide-core-tab-group variant="vertical">
+        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
         <div>Default Content</div>
-      </cs-tab-group>
+      </glide-core-tab-group>
     `);
   });
 });
 
-function isPanelHidden(panel: TabPanel) {
+function isPanelHidden(panel: GlideCoreTabPanel) {
   return panel.shadowRoot?.firstElementChild?.classList.contains('hidden');
 }

@@ -10,7 +10,7 @@ export default [
       }
     }
 
-    cs-label::part(tooltip-and-label-container) {
+    glide-core-label::part(tooltip-and-label-container) {
       align-items: flex-start;
     }
 

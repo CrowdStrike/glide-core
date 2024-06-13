@@ -5,12 +5,12 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
-import CsRadio from './radio.js';
+import GlideCoreRadio from './radio.js';
 import styles from './radio-group.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-radio-group': CsRadioGroup;
+    'glide-core-radio-group': GlideCoreRadioGroup;
   }
 }
 /**
@@ -20,12 +20,12 @@ declare global {
  * @event change - Dispatched when a radio is clicked or checked by key press.
  * @event input - Dispatched when a radio is clicked or checked by key press.
  *
- * @slot - One or more of `<cs-radio>`.
+ * @slot - One or more of `<glide-core-radio>`.
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
  */
-@customElement('cs-radio-group')
-export default class CsRadioGroup extends LitElement {
+@customElement('glide-core-radio-group')
+export default class GlideCoreRadioGroup extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -69,7 +69,7 @@ export default class CsRadioGroup extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsRadio]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreRadio]);
 
     // Set the default checked radio item to be the first checked radio, if it exists
     // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#value
@@ -126,7 +126,7 @@ export default class CsRadioGroup extends LitElement {
         @keydown=${this.#onKeydown}
         ${ref(this.#componentElementRef)}
       >
-        <cs-label
+        <glide-core-label
           orientation="horizontal"
           ?error=${this.#isShowValidationFeedback}
           ?hide=${this.hideLabel}
@@ -151,7 +151,7 @@ export default class CsRadioGroup extends LitElement {
 
           <slot name="tooltip" slot="tooltip"></slot>
           <slot id="description" name="description" slot="description"></slot>
-        </cs-label>
+        </glide-core-label>
       </div>
     `;
   }
@@ -160,7 +160,9 @@ export default class CsRadioGroup extends LitElement {
     return this.#internals.reportValidity();
   }
 
-  override updated(changedProperties: PropertyValueMap<CsRadioGroup>): void {
+  override updated(
+    changedProperties: PropertyValueMap<GlideCoreRadioGroup>,
+  ): void {
     if (
       this.hasUpdated &&
       (changedProperties.has('value') || changedProperties.has('required'))
@@ -171,7 +173,9 @@ export default class CsRadioGroup extends LitElement {
     }
   }
 
-  override willUpdate(changedProperties: PropertyValueMap<CsRadioGroup>): void {
+  override willUpdate(
+    changedProperties: PropertyValueMap<GlideCoreRadioGroup>,
+  ): void {
     if (this.hasUpdated) {
       if (changedProperties.has('required')) {
         this.#setRequiredRadios();
@@ -210,13 +214,13 @@ export default class CsRadioGroup extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #initialCheckedRadio?: CsRadio = undefined;
+  #initialCheckedRadio?: GlideCoreRadio = undefined;
 
   #internals: ElementInternals;
 
   // Recall the previously checked radio so that we can
   // return focus to it when clicking on a disabled radio.
-  #previousCheckedRadio?: CsRadio;
+  #previousCheckedRadio?: GlideCoreRadio;
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of the form.
@@ -269,7 +273,7 @@ export default class CsRadioGroup extends LitElement {
     // be stuck on the disabled element. Since the general pattern is for focus to follow selection,
     // it does so here, going to the last checked radio.
     if (
-      event.target instanceof CsRadio &&
+      event.target instanceof GlideCoreRadio &&
       event.target.disabled &&
       this.#previousCheckedRadio &&
       !this.#previousCheckedRadio.disabled
@@ -281,7 +285,7 @@ export default class CsRadioGroup extends LitElement {
     const radioTarget = event.target;
 
     if (
-      radioTarget instanceof CsRadio &&
+      radioTarget instanceof GlideCoreRadio &&
       radioTarget &&
       !radioTarget.disabled
     ) {
@@ -297,7 +301,7 @@ export default class CsRadioGroup extends LitElement {
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsRadio]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreRadio]);
 
     this.#intializeRadios();
   }
@@ -314,12 +318,12 @@ export default class CsRadioGroup extends LitElement {
   #onKeydown(event: KeyboardEvent) {
     if (
       this.disabled ||
-      (event.target instanceof CsRadio && event.target?.disabled)
+      (event.target instanceof GlideCoreRadio && event.target?.disabled)
     ) {
       return;
     }
 
-    if (event.target instanceof CsRadio) {
+    if (event.target instanceof GlideCoreRadio) {
       const radioTarget = event.target;
 
       switch (event.key) {
@@ -331,8 +335,8 @@ export default class CsRadioGroup extends LitElement {
 
           while (
             (!sibling ||
-              (sibling instanceof CsRadio && sibling.disabled) ||
-              !(sibling instanceof CsRadio)) &&
+              (sibling instanceof GlideCoreRadio && sibling.disabled) ||
+              !(sibling instanceof GlideCoreRadio)) &&
             sibling !== radioTarget
           ) {
             if (sibling === null) {
@@ -348,7 +352,7 @@ export default class CsRadioGroup extends LitElement {
 
           if (
             sibling &&
-            sibling instanceof CsRadio &&
+            sibling instanceof GlideCoreRadio &&
             !sibling.disabled &&
             sibling !== radioTarget
           ) {
@@ -366,8 +370,8 @@ export default class CsRadioGroup extends LitElement {
 
           while (
             (!sibling ||
-              (sibling instanceof CsRadio && sibling.disabled) ||
-              !(sibling instanceof CsRadio)) &&
+              (sibling instanceof GlideCoreRadio && sibling.disabled) ||
+              !(sibling instanceof GlideCoreRadio)) &&
             sibling !== radioTarget
           ) {
             if (sibling === null) {
@@ -383,7 +387,7 @@ export default class CsRadioGroup extends LitElement {
 
           if (
             sibling &&
-            sibling instanceof CsRadio &&
+            sibling instanceof GlideCoreRadio &&
             !sibling.disabled &&
             sibling !== radioTarget
           ) {
@@ -432,12 +436,14 @@ export default class CsRadioGroup extends LitElement {
     return (
       this.#defaultSlotElementRef.value
         ?.assignedElements()
-        .filter((element): element is CsRadio => element instanceof CsRadio) ??
-      []
+        .filter(
+          (element): element is GlideCoreRadio =>
+            element instanceof GlideCoreRadio,
+        ) ?? []
     );
   }
 
-  #setCheckedRadio(isChecked: boolean, radio: CsRadio) {
+  #setCheckedRadio(isChecked: boolean, radio: GlideCoreRadio) {
     radio.checked = isChecked;
     radio.tabIndex = isChecked ? 0 : -1;
 
@@ -450,7 +456,7 @@ export default class CsRadioGroup extends LitElement {
     }
   }
 
-  #setDisabledRadio(isDisabled: boolean, radio: CsRadio) {
+  #setDisabledRadio(isDisabled: boolean, radio: GlideCoreRadio) {
     radio.disabled = isDisabled;
 
     if (isDisabled) {
@@ -472,7 +478,7 @@ export default class CsRadioGroup extends LitElement {
 
     // Set a radio as tabbable if it is the first checked and enabled element, or the
     // first enabled element; otherwise set the radio as not tabbable.
-    let firstTabbableRadio: CsRadio | null = null;
+    let firstTabbableRadio: GlideCoreRadio | null = null;
 
     const firstEnabledCheckedRadio = this.#radioItems.find(
       (radio) => !radio.disabled && radio.checked,

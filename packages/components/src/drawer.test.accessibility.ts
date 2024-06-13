@@ -1,15 +1,15 @@
 import './drawer.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import Drawer from './drawer.js';
+import GlideCoreDrawer from './drawer.js';
 
-Drawer.shadowRootOptions.mode = 'open';
+GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
 // NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
 // to manually dispatch the `transitionend` event in tests.
 
 it('is accessible', async () => {
-  const drawer = await fixture<Drawer>(
-    html`<cs-drawer>Drawer content</cs-drawer>`,
+  const drawer = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
   drawer.shadowRoot
@@ -22,8 +22,8 @@ it('is accessible', async () => {
 });
 
 it('focuses the dialog upon opening', async () => {
-  const drawer = await fixture<Drawer>(
-    html`<cs-drawer>Drawer content</cs-drawer>`,
+  const drawer = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
   drawer.open();

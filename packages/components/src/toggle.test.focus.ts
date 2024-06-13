@@ -1,11 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import CsToggle from './toggle.js';
+import GlideCoreToggle from './toggle.js';
 
-CsToggle.shadowRootOptions.mode = 'open';
+GlideCoreToggle.shadowRootOptions.mode = 'open';
 
 it('focuses the input when `focus` is called', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label"></cs-toggle>`,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
   component.focus();

@@ -31,7 +31,7 @@ const meta: Meta = {
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: 'CsMenuLink | CsMenuButton' },
+        type: { summary: 'GlideCoreMenuLink | CsMenuButton' },
       },
       type: { name: 'function', required: true },
     },
@@ -82,7 +82,9 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const links = context.canvasElement.querySelectorAll('cs-menu-link');
+    const links = context.canvasElement.querySelectorAll(
+      'glide-core-menu-link',
+    );
 
     for (const link of links) {
       // Prevent navigation. The URLs don't go anywhere.
@@ -102,7 +104,7 @@ const meta: Meta = {
         storyId: context.id,
         args: {
           ...arguments_,
-          open: context.canvasElement.querySelector('cs-menu')?.open,
+          open: context.canvasElement.querySelector('glide-core-menu')?.open,
         },
       });
     });
@@ -112,21 +114,23 @@ const meta: Meta = {
     return html`<div
       style="height: 13rem; display: flex; align-items: center; justify-content: center;"
     >
-      <cs-menu
+      <glide-core-menu
         placement=${arguments_.placement}
         size=${arguments_.size || nothing}
         ?open=${arguments_.open}
       >
-        <cs-menu-link label="One" url="/one"> </cs-menu-link>
-        <cs-menu-link label="Two" url="/two"> </cs-menu-link>
+        <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
+        <glide-core-menu-link label="Two" url="/two"> </glide-core-menu-link>
         <!--
           If an option does not have an associated url,
-          you can use <cs-menu-button> and provide your own click handler
+          you can use <glide-core-menu-button> and provide your own click handler
         -->
-        <cs-menu-button label="Three"> </cs-menu-button>
+        <glide-core-menu-button label="Three"> </glide-core-menu-button>
 
-        <cs-button slot="target" variant="secondary"> Target </cs-button>
-      </cs-menu>
+        <glide-core-button slot="target" variant="secondary">
+          Target
+        </glide-core-button>
+      </glide-core-menu>
     </div>`;
   },
 };
@@ -140,7 +144,7 @@ export const MenuWithIcon: StoryObj = {
   render(arguments_, context) {
     context.canvasElement.addEventListener('click', (event) => {
       if (event.target instanceof CsButton) {
-        const menu = context.canvasElement.querySelector('cs-menu');
+        const menu = context.canvasElement.querySelector('glide-core-menu');
 
         if (menu) {
           addons.getChannel().emit(STORY_ARGS_UPDATED, {
@@ -157,29 +161,43 @@ export const MenuWithIcon: StoryObj = {
     return html`<div
       style="height: 100vh; display: flex; align-items: center; justify-content: center;"
     >
-      <cs-menu
+      <glide-core-menu
         placement=${arguments_.placement}
         size=${arguments_.size || nothing}
         ?open=${arguments_.open}
       >
-        <cs-menu-link label="Edit" url="/edit">
-          <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
-        </cs-menu-link>
+        <glide-core-menu-link label="Edit" url="/edit">
+          <glide-core-example-icon
+            slot="icon"
+            name="pencil"
+          ></glide-core-example-icon>
+        </glide-core-menu-link>
 
-        <cs-menu-link label="Move" url="/move">
-          <cs-example-icon slot="icon" name="move"></cs-example-icon>
-        </cs-menu-link>
+        <glide-core-menu-link label="Move" url="/move">
+          <glide-core-example-icon
+            slot="icon"
+            name="move"
+          ></glide-core-example-icon>
+        </glide-core-menu-link>
 
-        <cs-menu-link label="Share" url="/share">
-          <cs-example-icon slot="icon" name="share"></cs-example-icon>
-        </cs-menu-link>
+        <glide-core-menu-link label="Share" url="/share">
+          <glide-core-example-icon
+            slot="icon"
+            name="share"
+          ></glide-core-example-icon>
+        </glide-core-menu-link>
 
-        <cs-menu-link label="Settings" url="/settings">
-          <cs-example-icon slot="icon" name="settings"></cs-example-icon>
-        </cs-menu-link>
+        <glide-core-menu-link label="Settings" url="/settings">
+          <glide-core-example-icon
+            slot="icon"
+            name="settings"
+          ></glide-core-example-icon>
+        </glide-core-menu-link>
 
-        <cs-button slot="target" variant="secondary"> Target </cs-button>
-      </cs-menu>
+        <glide-core-button slot="target" variant="secondary">
+          Target
+        </glide-core-button>
+      </glide-core-menu>
     </div>`;
   },
 };

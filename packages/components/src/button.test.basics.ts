@@ -1,26 +1,28 @@
 import './button.js';
 import { ArgumentError } from 'ow';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import CsButton from './button.js';
+import GlideCoreButton from './button.js';
 import sinon from 'sinon';
 
-CsButton.shadowRootOptions.mode = 'open';
+GlideCoreButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-button')).to.equal(CsButton);
+  expect(window.customElements.get('glide-core-button')).to.equal(
+    GlideCoreButton,
+  );
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsButton>(
-    html`<cs-button>Button</cs-button>`,
+  const component = await fixture<GlideCoreButton>(
+    html`<glide-core-button>Button</glide-core-button>`,
   );
 
   await expect(component).to.be.accessible();
 });
 
 it('has defaults', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button>Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button>Button</glide-core-button>
   `);
 
   expect(component.type).to.equal('button');
@@ -40,8 +42,8 @@ it('has defaults', async () => {
 });
 
 it('delegates focus', async () => {
-  const component = await fixture<CsButton>(
-    html`<cs-button>Button</cs-button>`,
+  const component = await fixture<GlideCoreButton>(
+    html`<glide-core-button>Button</glide-core-button>`,
   );
 
   component.focus();
@@ -52,8 +54,8 @@ it('delegates focus', async () => {
 });
 
 it('renders a secondary variant', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button variant="secondary">Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button variant="secondary">Button</glide-core-button>
   `);
 
   expect([
@@ -62,8 +64,8 @@ it('renders a secondary variant', async () => {
 });
 
 it('renders a tertiary variant', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button variant="tertiary">Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button variant="tertiary">Button</glide-core-button>
   `);
 
   expect([
@@ -72,8 +74,8 @@ it('renders a tertiary variant', async () => {
 });
 
 it('sets the size to "large" by default', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button>Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button>Button</glide-core-button>
   `);
 
   expect(component.size).to.equal('large');
@@ -84,8 +86,8 @@ it('sets the size to "large" by default', async () => {
 });
 
 it('sets the size attribute to "large"', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button size="large">Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button size="large">Button</glide-core-button>
   `);
 
   expect(component.size).to.equal('large');
@@ -96,8 +98,8 @@ it('sets the size attribute to "large"', async () => {
 });
 
 it('sets the size attribute to "small"', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button size="small">Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button size="small">Button</glide-core-button>
   `);
 
   expect(component.size).to.equal('small');
@@ -108,8 +110,8 @@ it('sets the size attribute to "small"', async () => {
 });
 
 it('sets the disabled attribute', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button disabled>Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button disabled>Button</glide-core-button>
   `);
 
   expect(component.disabled).to.equal(true);
@@ -120,8 +122,8 @@ it('sets the disabled attribute', async () => {
 });
 
 it('sets the type attribute to "submit"', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button type="submit">Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button type="submit">Button</glide-core-button>
   `);
 
   expect(component.type).to.equal('submit');
@@ -132,8 +134,8 @@ it('sets the type attribute to "submit"', async () => {
 });
 
 it('sets the type attribute to "reset"', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button type="reset">Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button type="reset">Button</glide-core-button>
   `);
 
   expect(component.type).to.equal('reset');
@@ -144,11 +146,11 @@ it('sets the type attribute to "reset"', async () => {
 });
 
 it('renders with a prefix slot', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button>
       <span slot="prefix" data-prefix>prefix</span>
       Button
-    </cs-button>
+    </glide-core-button>
   `);
 
   expect([
@@ -159,11 +161,11 @@ it('renders with a prefix slot', async () => {
 });
 
 it('renders with a suffix slot', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button>
       Button
       <span slot="suffix" data-suffix>suffix</span>
-    </cs-button>
+    </glide-core-button>
   `);
 
   expect([
@@ -174,12 +176,12 @@ it('renders with a suffix slot', async () => {
 });
 
 it('renders with a prefix and suffix slot when both are present initially', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button>
       <span slot="prefix" data-prefix>prefix</span>
       Button
       <span slot="suffix" data-suffix>suffix</span>
-    </cs-button>
+    </glide-core-button>
   `);
 
   expect([
@@ -197,8 +199,8 @@ it('renders with a prefix and suffix slot when both are present initially', asyn
 });
 
 it('renders with prefix and suffix classes when both are dynamically added', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button>Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button>Button</glide-core-button>
   `);
 
   const prefix = document.createElement('span');
@@ -230,12 +232,12 @@ it('renders with prefix and suffix classes when both are dynamically added', asy
 });
 
 it('renders without prefix and suffix classes after both are removed', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button>
       <span slot="prefix">prefix</span>
       Button
       <span slot="suffix">suffix</span>
-    </cs-button>
+    </glide-core-button>
   `);
 
   component.querySelector('[slot="prefix"]')?.remove();
@@ -251,7 +253,9 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsButton>(html`<cs-button></cs-button>`);
+    await fixture<GlideCoreButton>(
+      html`<glide-core-button></glide-core-button>`,
+    );
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();

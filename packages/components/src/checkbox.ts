@@ -10,7 +10,7 @@ import styles from './checkbox.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-checkbox': CsCheckbox;
+    'glide-core-checkbox': GlideCoreCheckbox;
   }
 }
 
@@ -38,8 +38,8 @@ const indeterminateIcon = svg`
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
  */
-@customElement('cs-checkbox')
-export default class CsCheckbox extends LitElement {
+@customElement('glide-core-checkbox')
+export default class GlideCoreCheckbox extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -94,13 +94,13 @@ export default class CsCheckbox extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-    this.isInCheckboxGroup = Boolean(this.closest('cs-checkbox-group'));
+    this.isInCheckboxGroup = Boolean(this.closest('glide-core-checkbox-group'));
   }
 
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
-    this.isInCheckboxGroup = Boolean(this.closest('cs-checkbox-group'));
+    this.isInCheckboxGroup = Boolean(this.closest('glide-core-checkbox-group'));
   }
 
   get validity() {
@@ -174,7 +174,7 @@ export default class CsCheckbox extends LitElement {
           </div>
         `,
         () =>
-          html`<cs-label
+          html`<glide-core-label
             orientation=${this.orientation}
             ?disabled=${this.disabled}
             ?error=${this.#isShowValidationFeedback}
@@ -237,7 +237,7 @@ export default class CsCheckbox extends LitElement {
             <div id="summary" slot="summary">${this.summary}</div>
 
             <slot id="description" name="description" slot="description"></slot>
-          </cs-label>`,
+          </glide-core-label>`,
       )}
     </div>`;
   }

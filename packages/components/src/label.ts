@@ -9,7 +9,7 @@ import styles from './label.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-label': CsLabel;
+    'glide-core-label': GlideCoreLabel;
   }
 }
 
@@ -24,8 +24,8 @@ declare global {
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
  */
-@customElement('cs-label')
-export default class CsLabel extends LitElement {
+@customElement('glide-core-label')
+export default class GlideCoreLabel extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -70,7 +70,7 @@ export default class CsLabel extends LitElement {
         part="tooltip-and-label-container"
       >
         <div class="tooltip-and-label">
-          <cs-tooltip
+          <glide-core-tooltip
             class=${classMap({
               tooltip: true,
               vertical: this.orientation === 'vertical',
@@ -91,7 +91,7 @@ export default class CsLabel extends LitElement {
               @slotchange=${this.#onTooltipSlotChange}
               ${ref(this.#tooltipSlotElementRef)}
             ></slot>
-          </cs-tooltip>
+          </glide-core-tooltip>
 
           <div
             class=${classMap({

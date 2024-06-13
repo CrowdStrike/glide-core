@@ -11,13 +11,13 @@ ruleTester.run(
   {
     valid: [
       {
-        code: 'export default class CsAccordion extends LitElement {}',
+        code: 'export default class GlideCoreAccordion extends LitElement {}',
       },
       {
         code: 'export default class NonLitElement {}',
       },
       {
-        code: 'class CsAccordion extends LitElement {}',
+        code: 'class GlideCoreAccordion extends LitElement {}',
       },
       {
         code: 'class NonLitElement {}',
@@ -26,7 +26,7 @@ ruleTester.run(
     invalid: [
       {
         code: 'export default class Accordion extends LitElement {}',
-        output: 'export default class CsAccordion extends LitElement {}',
+        output: 'export default class GlideCoreAccordion extends LitElement {}',
         errors: [
           {
             messageId: 'addPrefix',
@@ -35,7 +35,7 @@ ruleTester.run(
       },
       {
         code: 'class Component extends LitElement {}',
-        output: 'class CsComponent extends LitElement {}',
+        output: 'class GlideCoreComponent extends LitElement {}',
         errors: [
           {
             messageId: 'addPrefix',

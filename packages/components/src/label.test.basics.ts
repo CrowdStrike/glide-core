@@ -1,20 +1,22 @@
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import CsLabel from './label.js';
+import GlideCoreLabel from './label.js';
 import sinon from 'sinon';
 
-CsLabel.shadowRootOptions.mode = 'open';
+GlideCoreLabel.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-label')).to.equal(CsLabel);
+  expect(window.customElements.get('glide-core-label')).to.equal(
+    GlideCoreLabel,
+  );
 });
 
 it('has defaults', async () => {
-  const component = await fixture<CsLabel>(
-    html`<cs-label>
+  const component = await fixture<GlideCoreLabel>(
+    html`<glide-core-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
-    </cs-label>`,
+    </glide-core-label>`,
   );
 
   expect(component.getAttribute('error')).to.equal(null);
@@ -31,24 +33,24 @@ it('has defaults', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsLabel>(
-    html`<cs-label>
+  const component = await fixture<GlideCoreLabel>(
+    html`<glide-core-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="tooltip">Tooltip</div>
       <div slot="description">Description</div>
-    </cs-label>`,
+    </glide-core-label>`,
   );
 
   await expect(component).to.be.accessible();
 });
 
 it('can have a label', async () => {
-  const component = await fixture<CsLabel>(
-    html`<cs-label>
+  const component = await fixture<GlideCoreLabel>(
+    html`<glide-core-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
-    </cs-label>`,
+    </glide-core-label>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -59,12 +61,12 @@ it('can have a label', async () => {
 });
 
 it('can have a description', async () => {
-  const component = await fixture<CsLabel>(
-    html`<cs-label>
+  const component = await fixture<GlideCoreLabel>(
+    html`<glide-core-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="description">Description</div>
-    </cs-label>`,
+    </glide-core-label>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -75,12 +77,12 @@ it('can have a description', async () => {
 });
 
 it('can have a tooltip', async () => {
-  const component = await fixture<CsLabel>(
-    html`<cs-label>
+  const component = await fixture<GlideCoreLabel>(
+    html`<glide-core-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="tooltip">Tooltip</div>
-    </cs-label>`,
+    </glide-core-label>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -91,11 +93,11 @@ it('can have a tooltip', async () => {
 });
 
 it('can be required', async () => {
-  const component = await fixture<CsLabel>(
-    html`<cs-label required>
+  const component = await fixture<GlideCoreLabel>(
+    html`<glide-core-label required>
       <label for="input">Label</label>
       <input id="input" slot="control" />
-    </cs-label>`,
+    </glide-core-label>`,
   );
 
   expect(component.hasAttribute('required')).to.be.true;
@@ -106,11 +108,11 @@ it('can be required', async () => {
 });
 
 it('can have an `error`', async () => {
-  const component = await fixture<CsLabel>(
-    html`<cs-label ?error=${true}>
+  const component = await fixture<GlideCoreLabel>(
+    html`<glide-core-label ?error=${true}>
       <label for="input">Label</label>
       <input id="input" slot="control" />
-    </cs-label>`,
+    </glide-core-label>`,
   );
 
   expect(component.hasAttribute('error')).to.be.true;
@@ -118,33 +120,33 @@ it('can have an `error`', async () => {
 });
 
 it('places the tooltip on the bottom when horizontal', async () => {
-  const component = await fixture<CsLabel>(
-    html`<cs-label>
+  const component = await fixture<GlideCoreLabel>(
+    html`<glide-core-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="tooltip">Tooltip</div>
-    </cs-label>`,
+    </glide-core-label>`,
   );
 
   expect(
     component.shadowRoot
-      ?.querySelector('cs-tooltip')
+      ?.querySelector('glide-core-tooltip')
       ?.getAttribute('placement'),
   ).to.equal('bottom');
 });
 
 it('places the tooltip on the right when vertical', async () => {
-  const component = await fixture<CsLabel>(
-    html`<cs-label orientation="vertical">
+  const component = await fixture<GlideCoreLabel>(
+    html`<glide-core-label orientation="vertical">
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="tooltip">Tooltip</div>
-    </cs-label>`,
+    </glide-core-label>`,
   );
 
   expect(
     component.shadowRoot
-      ?.querySelector('cs-tooltip')
+      ?.querySelector('glide-core-tooltip')
       ?.getAttribute('placement'),
   ).to.equal('right');
 });
@@ -153,10 +155,10 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsLabel>(
-      html`<cs-label orientation="vertical"
+    await fixture<GlideCoreLabel>(
+      html`<glide-core-label orientation="vertical"
         ><input slot="control"
-      /></cs-label>`,
+      /></glide-core-label>`,
     );
   } catch (error) {
     if (error instanceof ArgumentError) {
@@ -171,10 +173,10 @@ it('throws if it does not have a "control" slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsLabel>(
-      html`<cs-label orientation="vertical">
+    await fixture<GlideCoreLabel>(
+      html`<glide-core-label orientation="vertical">
         <label>Label</label>
-      </cs-label>`,
+      </glide-core-label>`,
     );
   } catch (error) {
     if (error instanceof ArgumentError) {

@@ -1,13 +1,14 @@
 import './tag.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import CsTag from './tag.js';
+import GlideCoreTag from './tag.js';
 
-CsTag.shadowRootOptions.mode = 'open';
+GlideCoreTag.shadowRootOptions.mode = 'open';
 
 it('dispatches a "remove" event when the icon button is clicked', async () => {
   const element = await fixture(
-    html`<cs-tag removable-label="test-aria-label"
-      ><span slot="prefix">Prefix</span><span data-content>Tag</span></cs-tag
+    html`<glide-core-tag removable-label="test-aria-label"
+      ><span slot="prefix">Prefix</span
+      ><span data-content>Tag</span></glide-core-tag
     >`,
   );
 

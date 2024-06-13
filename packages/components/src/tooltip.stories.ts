@@ -52,7 +52,7 @@ const meta: Meta = {
       <div
         style="align-items: center; display: flex; height: 8rem; justify-content: center;"
       >
-        <cs-tooltip placement=${arguments_.placement}>
+        <glide-core-tooltip placement=${arguments_.placement}>
           ${unsafeHTML(arguments_['slot="default"'])}
 
           <span
@@ -60,9 +60,9 @@ const meta: Meta = {
             style="border-radius: 50%; display: inline-block; line-height: 0; outline-offset: 1px;"
             tabindex="0"
           >
-            <cs-example-icon name="info"></cs-example-icon>
+            <glide-core-example-icon name="info"></glide-core-example-icon>
           </span>
-        </cs-tooltip>
+        </glide-core-tooltip>
       </div>
     `;
   },

@@ -6,8 +6,8 @@
 import { LitElement, css, html, svg } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-@customElement('cs-example-icon')
-export default class CsExampleIcon extends LitElement {
+@customElement('glide-core-example-icon')
+export default class GlideCoreExampleIcon extends LitElement {
   static override styles = [
     css`
       .component {

@@ -7,15 +7,15 @@ import styles from './icon-button.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-icon-button': CsIconButton;
+    'glide-core-icon-button': GlideCoreIconButton;
   }
 }
 
 /**
  * @slot - Reserved for the icon to display inside of the button.
  */
-@customElement('cs-icon-button')
-export default class CsIconButton extends LitElement {
+@customElement('glide-core-icon-button')
+export default class GlideCoreIconButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,

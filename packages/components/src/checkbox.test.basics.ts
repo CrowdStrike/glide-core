@@ -1,15 +1,17 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import CsCheckbox from './checkbox.js';
+import GlideCoreCheckbox from './checkbox.js';
 
-CsCheckbox.shadowRootOptions.mode = 'open';
+GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-checkbox')).to.equal(CsCheckbox);
+  expect(window.customElements.get('glide-core-checkbox')).to.equal(
+    GlideCoreCheckbox,
+  );
 });
 
 it('has defaults', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label"></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
   expect(component.hasAttribute('checked')).to.be.false;
@@ -41,21 +43,21 @@ it('has defaults', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label">
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label">
       <div slot="tooltip">Tooltip</div>
       <div slot="description">Description</div>
-    </cs-checkbox>`,
+    </glide-core-checkbox>`,
   );
 
   await expect(component).to.be.accessible();
 });
 
 it('can have a label', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label">
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label">
       <div slot="description">Description</div>
-    </cs-checkbox>`,
+    </glide-core-checkbox>`,
   );
 
   const label = component.shadowRoot?.querySelector('label');
@@ -64,10 +66,10 @@ it('can have a label', async () => {
 });
 
 it('can have a description', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label">
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label">
       <div slot="description">Description</div>
-    </cs-checkbox>`,
+    </glide-core-checkbox>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -78,8 +80,8 @@ it('can have a description', async () => {
 });
 
 it('can have a name', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox name="name"></cs-checkbox> `,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox name="name"></glide-core-checkbox> `,
   );
 
   expect(component.getAttribute('name')).to.equal('name');
@@ -87,8 +89,8 @@ it('can have a name', async () => {
 });
 
 it('can have a summary', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox summary="Summary"></cs-checkbox> `,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox summary="Summary"></glide-core-checkbox> `,
   );
 
   expect(component.getAttribute('summary')).to.equal('Summary');
@@ -96,10 +98,10 @@ it('can have a summary', async () => {
 });
 
 it('can have a tooltip', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label">
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label">
       <div slot="tooltip">Tooltip</div>
-    </cs-checkbox>`,
+    </glide-core-checkbox>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -110,8 +112,8 @@ it('can have a tooltip', async () => {
 });
 
 it('can be checked', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox checked></cs-checkbox> `,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox checked></glide-core-checkbox> `,
   );
 
   expect(component.hasAttribute('checked')).to.be.true;
@@ -119,8 +121,8 @@ it('can be checked', async () => {
 });
 
 it('can be disabled', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox disabled></cs-checkbox> `,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox disabled></glide-core-checkbox> `,
   );
 
   expect(component.hasAttribute('disabled')).to.be.true;
@@ -128,8 +130,8 @@ it('can be disabled', async () => {
 });
 
 it('can be indeterminate', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox indeterminate></cs-checkbox> `,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox indeterminate></glide-core-checkbox> `,
   );
 
   expect(component.hasAttribute('indeterminate')).to.be.true;
@@ -137,8 +139,8 @@ it('can be indeterminate', async () => {
 });
 
 it('can be required', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox required></cs-checkbox> `,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox required></glide-core-checkbox> `,
   );
 
   expect(component.hasAttribute('required')).to.be.true;
@@ -148,8 +150,8 @@ it('can be required', async () => {
 it('exposes standard form control properties and methods', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label"></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
     { parentNode: form },
   );
 

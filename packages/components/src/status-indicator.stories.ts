@@ -6,7 +6,9 @@ const meta: Meta = {
   title: 'Status Indicator',
   tags: ['autodocs'],
   render: (arguments_) => html`
-    <cs-status-indicator variant=${arguments_.variant}></cs-status-indicator>
+    <glide-core-status-indicator
+      variant=${arguments_.variant}
+    ></glide-core-status-indicator>
   `,
   args: {
     variant: 'failed',
@@ -126,9 +128,9 @@ export const WarningZero: StoryObj = {
 
 export const CustomSize: StoryObj = {
   render: (arguments_) => html`
-    <cs-status-indicator
+    <glide-core-status-indicator
       style="--size: 2rem;"
       variant=${arguments_.variant}
-    ></cs-status-indicator>
+    ></glide-core-status-indicator>
   `,
 };

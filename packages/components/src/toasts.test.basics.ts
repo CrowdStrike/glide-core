@@ -1,17 +1,21 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
-import CsToasts from './toasts.js';
+import GlideCoreToasts from './toasts.js';
 
-CsToasts.shadowRootOptions.mode = 'open';
+GlideCoreToasts.shadowRootOptions.mode = 'open';
 
 // NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
 // to manually dispatch the `transitionend` event in tests.
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-toasts')).to.equal(CsToasts);
+  expect(window.customElements.get('glide-core-toasts')).to.equal(
+    GlideCoreToasts,
+  );
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsToasts>(html`<cs-toasts></cs-toasts>`);
+  const component = await fixture<GlideCoreToasts>(
+    html`<glide-core-toasts></glide-core-toasts>`,
+  );
 
   component.add({
     label: 'Test toast',
@@ -23,7 +27,9 @@ it('is accessible', async () => {
 });
 
 it('sets correct role', async () => {
-  const component = await fixture<CsToasts>(html`<cs-toasts></cs-toasts>`);
+  const component = await fixture<GlideCoreToasts>(
+    html`<glide-core-toasts></glide-core-toasts>`,
+  );
 
   component.add({
     label: 'Test toast',
@@ -37,7 +43,9 @@ it('sets correct role', async () => {
 });
 
 it('can add a toast', async () => {
-  const component = await fixture<CsToasts>(html`<cs-toasts></cs-toasts>`);
+  const component = await fixture<GlideCoreToasts>(
+    html`<glide-core-toasts></glide-core-toasts>`,
+  );
 
   component.add({
     label: 'Test toast',
@@ -45,7 +53,7 @@ it('can add a toast', async () => {
     variant: 'informational',
   });
 
-  const toasts = component.shadowRoot?.querySelectorAll('cs-toast');
+  const toasts = component.shadowRoot?.querySelectorAll('glide-core-toast');
   assert(toasts);
   expect(toasts.length).to.equal(1);
   const toast = toasts[0];
@@ -55,7 +63,9 @@ it('can add a toast', async () => {
 });
 
 it('can add a toast with duration', async () => {
-  const component = await fixture<CsToasts>(html`<cs-toasts></cs-toasts>`);
+  const component = await fixture<GlideCoreToasts>(
+    html`<glide-core-toasts></glide-core-toasts>`,
+  );
 
   component.add({
     label: 'Test toast',
@@ -64,14 +74,16 @@ it('can add a toast with duration', async () => {
     duration: 10_000,
   });
 
-  const toasts = component.shadowRoot?.querySelectorAll('cs-toast');
+  const toasts = component.shadowRoot?.querySelectorAll('glide-core-toast');
   assert(toasts);
   const toast = toasts[0];
   expect(toast.duration).to.equal(10_000);
 });
 
 it('can add multiple toasts', async () => {
-  const component = await fixture<CsToasts>(html`<cs-toasts></cs-toasts>`);
+  const component = await fixture<GlideCoreToasts>(
+    html`<glide-core-toasts></glide-core-toasts>`,
+  );
 
   component.add({
     label: 'Test toast',
@@ -85,7 +97,7 @@ it('can add multiple toasts', async () => {
     variant: 'success',
   });
 
-  const toasts = component.shadowRoot?.querySelectorAll('cs-toast');
+  const toasts = component.shadowRoot?.querySelectorAll('glide-core-toast');
   assert(toasts);
   expect(toasts.length).to.equal(2);
 
@@ -101,7 +113,9 @@ it('can add multiple toasts', async () => {
 });
 
 it('removes a closed toast from the DOM', async () => {
-  const component = await fixture<CsToasts>(html`<cs-toasts></cs-toasts>`);
+  const component = await fixture<GlideCoreToasts>(
+    html`<glide-core-toasts></glide-core-toasts>`,
+  );
 
   component.add({
     label: 'Test toast',
@@ -109,14 +123,14 @@ it('removes a closed toast from the DOM', async () => {
     variant: 'informational',
   });
 
-  let toasts = component.shadowRoot?.querySelectorAll('cs-toast');
+  let toasts = component.shadowRoot?.querySelectorAll('glide-core-toast');
   assert(toasts);
   expect(toasts.length).to.equal(1);
   const toast = toasts[0];
   toast.close();
   toast.dispatchEvent(new Event('close', { bubbles: true }));
 
-  toasts = component.shadowRoot?.querySelectorAll('cs-toast');
+  toasts = component.shadowRoot?.querySelectorAll('glide-core-toast');
 
   expect(toasts?.length).to.equal(0);
 });

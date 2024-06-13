@@ -5,18 +5,18 @@ import styles from './tab.panel.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-tab-panel': CsTabPanel;
+    'glide-core-tab-panel': GlideCoreTabPanel;
   }
 }
 
 /**
- * @description A single tab panel, associated with a `<cs-tab>`.
+ * @description A single tab panel, associated with a `<glide-core-tab>`.
  *
  * @slot - Main content for the tab panel
  *
  */
-@customElement('cs-tab-panel')
-export default class CsTabPanel extends LitElement {
+@customElement('glide-core-tab-panel')
+export default class GlideCoreTabPanel extends LitElement {
   static instanceCount = 0;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -28,7 +28,7 @@ export default class CsTabPanel extends LitElement {
 
   /**
    * The name of this panel
-   * The corresponding <cs-tab> will have a `panel` attribute with this name
+   * The corresponding <glide-core-tab> will have a `panel` attribute with this name
    */
   @property({ reflect: true }) name = '';
 
@@ -38,7 +38,7 @@ export default class CsTabPanel extends LitElement {
     this.setAttribute('role', 'tabpanel');
 
     if (!this.hasAttribute('id')) {
-      this.id = `cs-tab-panel-${CsTabPanel.instanceCount++}`;
+      this.id = `glide-core-tab-panel-${GlideCoreTabPanel.instanceCount++}`;
     }
   }
 

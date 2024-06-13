@@ -1,24 +1,30 @@
 import './accordion.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import CsAccordion from './accordion.js';
+import GlideCoreAccordion from './accordion.js';
 
-CsAccordion.shadowRootOptions.mode = 'open';
+GlideCoreAccordion.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-accordion')).to.equal(CsAccordion);
+  expect(window.customElements.get('glide-core-accordion')).to.equal(
+    GlideCoreAccordion,
+  );
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label"> Inner content </cs-accordion>`,
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label">
+      Inner content
+    </glide-core-accordion>`,
   );
 
   await expect(component).to.be.accessible();
 });
 
 it('is closed by default', async () => {
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label"> Inner content </cs-accordion>`,
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label">
+      Inner content
+    </glide-core-accordion>`,
   );
 
   const accordion =
@@ -29,8 +35,10 @@ it('is closed by default', async () => {
 });
 
 it('defaults to "open" when provided with the attribute', async () => {
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label" open> Inner content </cs-accordion>`,
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label" open>
+      Inner content
+    </glide-core-accordion>`,
   );
 
   const accordion =
@@ -41,8 +49,10 @@ it('defaults to "open" when provided with the attribute', async () => {
 });
 
 it('renders the provided "label"', async () => {
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="Accordion Title"> Inner content </cs-accordion>`,
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="Accordion Title">
+      Inner content
+    </glide-core-accordion>`,
   );
 
   const label = component.shadowRoot?.querySelector<HTMLSpanElement>(
@@ -54,9 +64,9 @@ it('renders the provided "label"', async () => {
 });
 
 it('renders the provided default slotted content', async () => {
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label"
-      ><p data-body>Inner content</p></cs-accordion
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label"
+      ><p data-body>Inner content</p></glide-core-accordion
     >`,
   );
 
@@ -66,11 +76,11 @@ it('renders the provided default slotted content', async () => {
 });
 
 it('renders with a prefix slot and applies the appropriate classes', async () => {
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label">
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label">
       Inner content
       <span slot="prefix" data-prefix>prefix</span>
-    </cs-accordion>`,
+    </glide-core-accordion>`,
   );
 
   expect(document.querySelector('[data-prefix]')).to.be.ok;
@@ -85,8 +95,10 @@ it('renders with a prefix slot and applies the appropriate classes', async () =>
 });
 
 it('does not apply prefix classes when no prefix slot is provided', async () => {
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label"> Inner content </cs-accordion>`,
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label">
+      Inner content
+    </glide-core-accordion>`,
   );
 
   expect([
@@ -99,11 +111,11 @@ it('does not apply prefix classes when no prefix slot is provided', async () => 
 });
 
 it('renders with a suffix slot and applies the appropriate class', async () => {
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label">
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label">
       Inner content
       <span slot="suffix" data-suffix>suffix</span>
-    </cs-accordion>`,
+    </glide-core-accordion>`,
   );
 
   expect(component.querySelector('[data-suffix]')).to.be.ok;
@@ -114,8 +126,10 @@ it('renders with a suffix slot and applies the appropriate class', async () => {
 });
 
 it('does not apply the suffix class when no suffix slot is provided', async () => {
-  const component = await fixture<CsAccordion>(
-    html`<cs-accordion label="label"> Inner content </cs-accordion>`,
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="label">
+      Inner content
+    </glide-core-accordion>`,
   );
 
   expect([
@@ -124,12 +138,12 @@ it('does not apply the suffix class when no suffix slot is provided', async () =
 });
 
 it('renders without prefix and suffix classes after both are removed', async () => {
-  const component = await fixture<CsAccordion>(html`
-    <cs-accordion label="label">
+  const component = await fixture<GlideCoreAccordion>(html`
+    <glide-core-accordion label="label">
       Inner content
       <span slot="prefix">prefix</span>
       <span slot="suffix">suffix</span>
-    </cs-accordion>
+    </glide-core-accordion>
   `);
 
   component.querySelector('[slot="prefix"]')?.remove();

@@ -37,7 +37,7 @@ const meta: Meta = {
     'max-character-count': '',
   },
   play(context) {
-    const input = context.canvasElement.querySelector('cs-input');
+    const input = context.canvasElement.querySelector('glide-core-input');
 
     const isErrorStory = context.name === 'With Error';
 
@@ -52,7 +52,7 @@ const meta: Meta = {
   render: (arguments_) => {
     return html`
       <div style="height: 5rem;">
-        <cs-input
+        <glide-core-input
           type=${arguments_.type}
           value=${arguments_.value}
           label=${arguments_.label}
@@ -76,7 +76,7 @@ const meta: Meta = {
                 ${arguments_['slot="description"']}
               </div>`
             : ''}
-        </cs-input>
+        </glide-core-input>
       </div>
     `;
   },
@@ -232,7 +232,7 @@ export const Description: StoryObj = {
   render: (arguments_) => {
     return html`
       <div style="height: 5rem;">
-        <cs-input
+        <glide-core-input
           type=${arguments_.type}
           value=${arguments_.value}
           label=${arguments_.label}
@@ -249,7 +249,7 @@ export const Description: StoryObj = {
           <div slot="description">
             Test description ... <a href="#">With link!</a>
           </div>
-        </cs-input>
+        </glide-core-input>
       </div>
     `;
   },
@@ -285,7 +285,7 @@ export const SuffixIcon: StoryObj = {
   render: (arguments_) => {
     return html`
       <div style="height: 5rem;">
-        <cs-input
+        <glide-core-input
           type=${arguments_.type}
           value=${arguments_.value}
           label=${arguments_.label}
@@ -300,10 +300,13 @@ export const SuffixIcon: StoryObj = {
           max-character-count=${arguments_['max-character-count'] || nothing}
         >
           <div slot="suffix">
-            <cs-example-icon slot="suffix" name="share"></cs-example-icon>
+            <glide-core-example-icon
+              slot="suffix"
+              name="share"
+            ></glide-core-example-icon>
           </div>
           >
-        </cs-input>
+        </glide-core-input>
       </div>
     `;
   },
@@ -313,7 +316,7 @@ export const PrefixIcon: StoryObj = {
   render: (arguments_) => {
     return html`
       <div style="height: 5rem;">
-        <cs-input
+        <glide-core-input
           type=${arguments_.type}
           value=${arguments_.value}
           label=${arguments_.label}
@@ -332,9 +335,12 @@ export const PrefixIcon: StoryObj = {
             : ''}
 
           <div slot="prefix">
-            <cs-example-icon slot="prefix" name="pencil"></cs-example-icon>
+            <glide-core-example-icon
+              slot="prefix"
+              name="pencil"
+            ></glide-core-example-icon>
           </div>
-        </cs-input>
+        </glide-core-input>
       </div>
     `;
   },
