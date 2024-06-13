@@ -60,12 +60,13 @@ const meta: Meta = {
   render: (arguments_) => html`
     <cs-button>Toggle</cs-button>
 
-    <cs-drawer>
+    <cs-drawer label=${arguments_.label}>
       <div style="padding: 0.5rem">${arguments_['slot="default"']}</div>
     </cs-drawer>
   `,
   args: {
     'slot="default"': 'Drawer content',
+    label: 'label',
   },
   argTypes: {
     'slot="default"': {
@@ -92,6 +93,13 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
+    },
+    label: {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
     },
     'addEventListener(event, listener)': {
       table: {
