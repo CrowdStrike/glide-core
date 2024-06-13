@@ -4,25 +4,26 @@ This package contains Web Components built with [Lit](https://lit.dev/).
 
 ## Installation
 
-Add the Glide Core components package and Lit as a dependency in your project:
+### 1. Add Lit as a dependency
 
 ```bash
 pnpm i @crowdstrike/glide-core-components lit
 ```
 
-To get the most out of Glide, you'll also want to install the `@crowdstrike/glide-core-styles` package. [Follow the instructions](https://github.com/crowdstrike/glide-core/blob/main/packages/styles/README.md) for that package and then return to the steps below.
+### 2. Import the fonts and variables
 
-## Import a component
+```css
+@import '@crowdstrike/glide-core-components/styles/fonts.css';
+@import '@crowdstrike/glide-core-components/styles/variables.css';
+```
 
-Explicitly import the component you'd like to render:
+### 3. Import the component you want to use
 
 ```js
 import '@crowdstrike/glide-core-components/button.js';
 ```
 
-## Render the component
-
-Now render the component:
+### 4. Render your component
 
 ```html
 <cs-button size="small">Button</cs-button>
