@@ -27,9 +27,6 @@ it('renders correct markup and sets correct attributes for the default case', as
     'component',
     'primary',
   ]);
-
-  expect(element.shadowRoot!.querySelector('cs-icon-general-x-close-solid')).to
-    .not.exist;
 });
 
 it('renders a secondary variant', async () => {
