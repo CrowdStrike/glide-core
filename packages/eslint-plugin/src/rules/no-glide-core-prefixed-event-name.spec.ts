@@ -1,5 +1,5 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import { noPrefixedEventName } from './no-cs-prefixed-event-name.js';
+import { noPrefixedEventName } from './no-glide-core-prefixed-event-name.js';
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
@@ -25,7 +25,7 @@ ruleTester.run('no-cs-prefixed-event-name', noPrefixedEventName, {
   ],
   invalid: [
     {
-      code: "new Event('cs-toggle')",
+      code: "new Event('glide-core-toggle')",
       output: "new Event('toggle')",
       errors: [
         {
@@ -34,7 +34,7 @@ ruleTester.run('no-cs-prefixed-event-name', noPrefixedEventName, {
       ],
     },
     {
-      code: "new Event('cs-toggle', { bubbles: false })",
+      code: "new Event('glide-core-toggle', { bubbles: false })",
       output: "new Event('toggle', { bubbles: false })",
       errors: [
         {
@@ -43,7 +43,7 @@ ruleTester.run('no-cs-prefixed-event-name', noPrefixedEventName, {
       ],
     },
     {
-      code: "new CustomEvent('cs-toggle')",
+      code: "new CustomEvent('glide-core-toggle')",
       output: "new CustomEvent('toggle')",
       errors: [
         {
@@ -52,7 +52,7 @@ ruleTester.run('no-cs-prefixed-event-name', noPrefixedEventName, {
       ],
     },
     {
-      code: "new CustomEvent('cs-toggle', { bubbles: false })",
+      code: "new CustomEvent('glide-core-toggle', { bubbles: false })",
       output: "new CustomEvent('toggle', { bubbles: false })",
       errors: [
         {

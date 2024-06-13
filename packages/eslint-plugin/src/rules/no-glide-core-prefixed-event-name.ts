@@ -6,17 +6,17 @@ const createRule = ESLintUtils.RuleCreator(
 );
 
 export const noPrefixedEventName = createRule({
-  name: 'no-cs-prefixed-event-name',
+  name: 'no-glide-core-prefixed-event-name',
   meta: {
     docs: {
       description:
-        'Removes the "cs-" prefix from an Event or CustomEvent type.',
+        'Removes the "glide-core-" prefix from an Event or CustomEvent type.',
       recommended: 'recommended',
     },
     type: 'suggestion',
     messages: {
       noPrefix:
-        'Prefer using event names without the "cs-" prefix when constructing an Event or CustomEvent. Please remove it.',
+        'Prefer using event names without the "glide-core-" prefix when constructing an Event or CustomEvent. Please remove it.',
     },
     schema: [],
     fixable: 'code',
@@ -32,7 +32,7 @@ export const noPrefixedEventName = createRule({
           node.arguments.length > 0 &&
           node.arguments[0].type === 'Literal' &&
           typeof node.arguments[0].value === 'string' &&
-          node.arguments[0].value.startsWith('cs-')
+          node.arguments[0].value.startsWith('glide-core-')
         ) {
           const eventName = node.arguments[0].value.toString();
           context.report({
@@ -41,7 +41,7 @@ export const noPrefixedEventName = createRule({
             fix: function (fixer) {
               return fixer.replaceText(
                 node.arguments[0],
-                `'${eventName.replace('cs-', '')}'`,
+                `'${eventName.replace('glide-core-', '')}'`,
               );
             },
           });

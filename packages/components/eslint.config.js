@@ -37,7 +37,7 @@ export default [
     rules: {
       '@crowdstrike/glide-core-eslint-plugin/consistent-reference-element-declarations':
         'error',
-      '@crowdstrike/glide-core-eslint-plugin/no-cs-prefixed-event-name':
+      '@crowdstrike/glide-core-eslint-plugin/no-glide-core-prefixed-event-name':
         'error',
       '@crowdstrike/glide-core-eslint-plugin/no-nested-template-literals':
         'error',
