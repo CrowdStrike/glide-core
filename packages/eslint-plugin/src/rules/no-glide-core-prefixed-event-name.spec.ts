@@ -5,7 +5,7 @@ const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 });
 
-ruleTester.run('no-cs-prefixed-event-name', noPrefixedEventName, {
+ruleTester.run('no-glide-core-prefixed-event-name', noPrefixedEventName, {
   valid: [
     {
       code: "new Event('close')",
