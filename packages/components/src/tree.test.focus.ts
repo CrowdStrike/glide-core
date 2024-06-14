@@ -3,6 +3,7 @@ import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import Tree from './tree.js';
 import TreeItem from './tree.item.js';
+import TreeItemIconButton from './tree.item.icon-button.js';
 import TreeItemMenu from './tree.item.menu.js';
 
 Tree.shadowRootOptions.mode = 'open';
@@ -300,6 +301,28 @@ it('does nothing if some other key is pressed', async () => {
   await sendKeys({ press: 'a' });
   assert(document.activeElement instanceof TreeItem);
   expect(document.activeElement?.label).to.equal(childItems[0].label);
+});
+
+it('can use the keyboard to navigate to a tree item icon button', async () => {
+  const tree = await fixture<Tree>(html`
+    <cs-tree>
+      <cs-tree-item label="Child Item 1">
+        <cs-tree-item-icon-button slot="suffix">
+          <svg viewBox="0 0 24 24">
+            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </cs-tree-item-icon-button>
+      </cs-tree-item>
+    </cs-tree>
+  `);
+
+  tree.dispatchEvent(new Event('focusin'));
+
+  const childItems = tree.slotElements;
+  childItems[0].focus();
+  await sendKeys({ press: 'Tab' });
+
+  assert(document.activeElement instanceof TreeItemIconButton);
 });
 
 it('can use the keyboard to navigate to a tree item menu', async () => {

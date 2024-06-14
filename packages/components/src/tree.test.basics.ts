@@ -1,12 +1,13 @@
+import './tree.item.icon-button.js';
 import './tree.item.js';
-import './tree.item.menu.js';
 import './tree.js';
 import { ArgumentError } from 'ow';
 import { assert, expect, fixture, html } from '@open-wc/testing';
-import CsMenu from './menu.js';
 import Tree from './tree.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
+import type CsTreeItemIconButton from './tree.item.icon-button.js';
+import type CsTreeItemMenu from './tree.item.menu.js';
 
 Tree.shadowRootOptions.mode = 'open';
 
@@ -80,6 +81,32 @@ it('can click child and grandchild items to expand or select them', async () => 
   expect(grandchildItems[0].selected).to.equal(true);
 });
 
+it('does not select an item if a tree-item-icon-button is clicked', async () => {
+  const tree = await fixture<Tree>(html`
+    <cs-tree>
+      <cs-tree-item label="Child Item 1">
+        <cs-tree-item-icon-button slot="suffix" data-test-icon-button>
+          <svg viewBox="0 0 24 24">
+            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </cs-tree-item-icon-button>
+      </cs-tree-item>
+    </cs-tree>
+  `);
+
+  const childItems = tree.slotElements;
+
+  const iconButton = childItems[0].querySelector<CsTreeItemIconButton>(
+    '[data-test-icon-button]',
+  );
+
+  assert(iconButton);
+  iconButton.click();
+  await iconButton.updateComplete;
+
+  expect(childItems[0].selected).to.equal(false);
+});
+
 it('does not select an item if its menu slot is clicked', async () => {
   const tree = await fixture<Tree>(html`
     <cs-tree>
@@ -92,7 +119,7 @@ it('does not select an item if its menu slot is clicked', async () => {
   `);
 
   const childItems = tree.slotElements;
-  const menu = childItems[0].querySelector<CsMenu>('[data-test-menu]');
+  const menu = childItems[0].querySelector<CsTreeItemMenu>('[data-test-menu]');
   assert(menu);
   menu.click();
   await menu.updateComplete;
