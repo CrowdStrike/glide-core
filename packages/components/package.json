@@ -67,6 +67,7 @@
     "ow": "^1.1.1"
   },
   "devDependencies": {
+    "@crowdstrike/design-tokens": "^1.2.0",
     "@crowdstrike/glide-core-eslint-plugin": "workspace:*",
     "@eslint/js": "^8.56.0",
     "@open-wc/testing": "^3.2.2",
