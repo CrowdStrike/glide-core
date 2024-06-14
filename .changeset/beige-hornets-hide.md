@@ -1,5 +1,5 @@
 ---
-'@crowdstrike/glide-core-components': patch
+'@crowdstrike/glide-core': patch
 ---
 
-Add `@crowdstrike/glide-core-components/styles/fonts.css` containing a `@font-face` rule and inlined Nunito for easier inclusion.
+Add `@crowdstrike/glide-core/styles/fonts.css` containing a `@font-face` rule and inlined Nunito for easier inclusion.

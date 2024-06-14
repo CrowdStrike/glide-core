@@ -45,7 +45,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm --filter "@crowdstrike/glide-core-components" start
+      - run: NODE_ENV=production pnpm --filter "@crowdstrike/glide-core" start
       - name: Publish to NPM
         id: changesets
         uses: changesets/action@v1

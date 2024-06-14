@@ -1,4 +1,4 @@
-# @crowdstrike/glide-core-components
+# @crowdstrike/glide-core
 
 ## 0.4.6
 
