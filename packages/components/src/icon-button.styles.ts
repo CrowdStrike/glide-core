@@ -93,6 +93,10 @@ export default [
         border-color: transparent;
         color: var(--icon-color, var(--cs-icon-default));
 
+        &:focus-visible {
+          outline-offset: 0;
+        }
+
         &:disabled {
           color: var(--cs-icon-tertiary-disabled);
         }
