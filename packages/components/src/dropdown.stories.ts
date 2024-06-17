@@ -38,7 +38,7 @@ const meta: Meta = {
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: 'CsDropdownOption' },
+        type: { summary: 'GlideCoreDropdownOption' },
       },
       type: { name: 'function', required: true },
     },
@@ -172,7 +172,7 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const dropdown = context.canvasElement.querySelector('cs-dropdown');
+    const dropdown = context.canvasElement.querySelector('glide-core-dropdown');
 
     const isErrorStory = [
       'Single Selection (Horizontal With Error)',
@@ -200,7 +200,8 @@ const meta: Meta = {
         storyId: context.id,
         args: {
           ...arguments_,
-          open: context.canvasElement.querySelector('cs-dropdown')?.open,
+          open: context.canvasElement.querySelector('glide-core-dropdown')
+            ?.open,
         },
       });
     });
@@ -208,7 +209,7 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
     return html`<form style="height: 11rem;">
-      <cs-dropdown
+      <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         orientation=${arguments_.orientation || nothing}
@@ -220,17 +221,29 @@ const meta: Meta = {
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
       >
-        <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-        <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-        <cs-dropdown-option label="Three" value="three"></cs-dropdown-option>
-        <cs-dropdown-option label="Four" value="four"></cs-dropdown-option>
+        <glide-core-dropdown-option
+          label="One"
+          value="one"
+        ></glide-core-dropdown-option>
+        <glide-core-dropdown-option
+          label="Two"
+          value="two"
+        ></glide-core-dropdown-option>
+        <glide-core-dropdown-option
+          label="Three"
+          value="three"
+        ></glide-core-dropdown-option>
+        <glide-core-dropdown-option
+          label="Four"
+          value="four"
+        ></glide-core-dropdown-option>
 
         <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
           : ''}
-      </cs-dropdown>
+      </glide-core-dropdown>
     </form>`;
   },
 };
@@ -244,7 +257,7 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
     return html`<form style="height: 11rem;">
-      <cs-dropdown
+      <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         orientation=${arguments_.orientation || nothing}
@@ -256,28 +269,40 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
       >
-        <cs-dropdown-option label="Edit" value="edit">
-          <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
-        </cs-dropdown-option>
+        <glide-core-dropdown-option label="Edit" value="edit">
+          <glide-core-example-icon
+            slot="icon"
+            name="pencil"
+          ></glide-core-example-icon>
+        </glide-core-dropdown-option>
 
-        <cs-dropdown-option label="Move" value="move">
-          <cs-example-icon slot="icon" name="move"></cs-example-icon>
-        </cs-dropdown-option>
+        <glide-core-dropdown-option label="Move" value="move">
+          <glide-core-example-icon
+            slot="icon"
+            name="move"
+          ></glide-core-example-icon>
+        </glide-core-dropdown-option>
 
-        <cs-dropdown-option label="Share" value="share">
-          <cs-example-icon slot="icon" name="share"></cs-example-icon>
-        </cs-dropdown-option>
+        <glide-core-dropdown-option label="Share" value="share">
+          <glide-core-example-icon
+            slot="icon"
+            name="share"
+          ></glide-core-example-icon>
+        </glide-core-dropdown-option>
 
-        <cs-dropdown-option label="Settings" value="settings">
-          <cs-example-icon slot="icon" name="settings"></cs-example-icon>
-        </cs-dropdown-option>
+        <glide-core-dropdown-option label="Settings" value="settings">
+          <glide-core-example-icon
+            slot="icon"
+            name="settings"
+          ></glide-core-example-icon>
+        </glide-core-dropdown-option>
 
         <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
           : ''}
-      </cs-dropdown>
+      </glide-core-dropdown>
     </form>`;
   },
 };
@@ -304,7 +329,7 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
     return html`<form style="height: 11rem;">
-      <cs-dropdown
+      <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         orientation=${arguments_.orientation || nothing}
@@ -316,28 +341,40 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
       >
-        <cs-dropdown-option label="Edit" value="edit">
-          <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
-        </cs-dropdown-option>
+        <glide-core-dropdown-option label="Edit" value="edit">
+          <glide-core-example-icon
+            slot="icon"
+            name="pencil"
+          ></glide-core-example-icon>
+        </glide-core-dropdown-option>
 
-        <cs-dropdown-option label="Move" value="move">
-          <cs-example-icon slot="icon" name="move"></cs-example-icon>
-        </cs-dropdown-option>
+        <glide-core-dropdown-option label="Move" value="move">
+          <glide-core-example-icon
+            slot="icon"
+            name="move"
+          ></glide-core-example-icon>
+        </glide-core-dropdown-option>
 
-        <cs-dropdown-option label="Share" value="share">
-          <cs-example-icon slot="icon" name="share"></cs-example-icon>
-        </cs-dropdown-option>
+        <glide-core-dropdown-option label="Share" value="share">
+          <glide-core-example-icon
+            slot="icon"
+            name="share"
+          ></glide-core-example-icon>
+        </glide-core-dropdown-option>
 
-        <cs-dropdown-option label="Settings" value="settings">
-          <cs-example-icon slot="icon" name="settings"></cs-example-icon>
-        </cs-dropdown-option>
+        <glide-core-dropdown-option label="Settings" value="settings">
+          <glide-core-example-icon
+            slot="icon"
+            name="settings"
+          ></glide-core-example-icon>
+        </glide-core-dropdown-option>
 
         <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
           : ''}
-      </cs-dropdown>
+      </glide-core-dropdown>
     </form>`;
   },
 };

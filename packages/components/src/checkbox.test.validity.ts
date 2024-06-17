@@ -1,11 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import CsCheckbox from './checkbox.js';
+import GlideCoreCheckbox from './checkbox.js';
 
-CsCheckbox.shadowRootOptions.mode = 'open';
+GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('is valid if unchecked but not required', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label"></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
   expect(component.validity.valid).to.be.true;
@@ -15,8 +15,8 @@ it('is valid if unchecked but not required', async () => {
 });
 
 it('is valid but not aria-invalid after being checked when unchecked and required', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" required></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
   );
 
   component.click();
@@ -32,8 +32,8 @@ it('is valid but not aria-invalid after being checked when unchecked and require
 });
 
 it('is invalid but not aria-invalid if unchecked and required', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" required></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
   );
 
   expect(component.validity.valid).to.be.false;
@@ -47,8 +47,12 @@ it('is invalid but not aria-invalid if unchecked and required', async () => {
 });
 
 it('is invalid but not aria-invalid after being unchecked when required', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" checked required></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
+      label="Label"
+      checked
+      required
+    ></glide-core-checkbox>`,
   );
 
   component.click();
@@ -64,8 +68,12 @@ it('is invalid but not aria-invalid after being unchecked when required', async 
 });
 
 it('is both invalid and valid if unchecked and required but disabled', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" disabled required></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox
+      label="Label"
+      disabled
+      required
+    ></glide-core-checkbox>`,
   );
 
   expect(component.validity.valid).to.be.false;

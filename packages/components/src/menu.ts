@@ -11,23 +11,23 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import CsMenuButton from './menu.button.js';
-import CsMenuLink from './menu.link.js';
+import GlideCoreMenuLink from './menu.link.js';
 import styles from './menu.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-menu': CsMenu;
+    'glide-core-menu': GlideCoreMenu;
   }
 }
 
 /**
  * @description A basic menu.
  *
- * @slot - One or more of <cs-menu-link> or <cs-menu-button>.
+ * @slot - One or more of <glide-core-menu-link> or <glide-core-menu-button>.
  * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
  */
-@customElement('cs-menu')
-export default class CsMenu extends LitElement {
+@customElement('glide-core-menu')
+export default class GlideCoreMenu extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -93,7 +93,7 @@ export default class CsMenu extends LitElement {
     // at first then populated after a fetch.
     owSlotType(this.#defaultSlotElementRef.value, [
       CsMenuButton,
-      CsMenuLink,
+      GlideCoreMenuLink,
       Text,
     ]);
 
@@ -208,7 +208,7 @@ export default class CsMenu extends LitElement {
 
     owSlotType(this.#defaultSlotElementRef.value, [
       CsMenuButton,
-      CsMenuLink,
+      GlideCoreMenuLink,
       Text,
     ]);
   }
@@ -298,7 +298,7 @@ export default class CsMenu extends LitElement {
 
   #onOptionsMouseover(event: Event) {
     if (
-      event.target instanceof CsMenuLink ||
+      event.target instanceof GlideCoreMenuLink ||
       event.target instanceof CsMenuButton
     ) {
       for (const option of this.#optionElements) {
@@ -361,8 +361,10 @@ export default class CsMenu extends LitElement {
     return (
       this.#defaultSlotElementRef.value?.assignedElements({ flatten: true }) ??
       []
-    ).filter((element): element is CsMenuLink | CsMenuButton => {
-      return element instanceof CsMenuLink || element instanceof CsMenuButton;
+    ).filter((element): element is GlideCoreMenuLink | CsMenuButton => {
+      return (
+        element instanceof GlideCoreMenuLink || element instanceof CsMenuButton
+      );
     });
   }
 

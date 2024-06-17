@@ -1,5 +1,5 @@
 import { html, nothing } from 'lit';
-import CsTextarea from './textarea.js';
+import GlideCoreTextarea from './textarea.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -17,9 +17,12 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const textarea = context.canvasElement.querySelector('cs-textarea');
+    const textarea = context.canvasElement.querySelector('glide-core-textarea');
 
-    if (context.name === 'With Error' && textarea instanceof CsTextarea) {
+    if (
+      context.name === 'With Error' &&
+      textarea instanceof GlideCoreTextarea
+    ) {
       textarea.reportValidity();
       // `reportValidity` scrolls the element into view, which means the "autodocs"
       // story upon load will be scrolled to the first error story. No good.
@@ -154,7 +157,7 @@ const meta: Meta = {
   },
   render: (arguments_) => {
     return html`<form>
-      <cs-textarea
+      <glide-core-textarea
         value=${arguments_.value}
         name=${arguments_.name}
         orientation=${arguments_.orientation}
@@ -175,7 +178,7 @@ const meta: Meta = {
               ${arguments_['slot="description"']}
             </div>`
           : ''}
-      </cs-textarea>
+      </glide-core-textarea>
     </form>`;
   },
 };
@@ -224,7 +227,7 @@ export const MaxCharacterCount: StoryObj = {
 export const Description: StoryObj = {
   render: (arguments_) => {
     return html`<form>
-      <cs-textarea
+      <glide-core-textarea
         value=${arguments_.value}
         name=${arguments_.name}
         orientation=${arguments_.orientation}
@@ -244,7 +247,7 @@ export const Description: StoryObj = {
         <div slot="description">
           Text description... <a href="#">With link!</a>
         </div>
-      </cs-textarea>
+      </glide-core-textarea>
     </form>`;
   },
 };

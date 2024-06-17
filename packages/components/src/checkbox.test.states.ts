@@ -1,11 +1,11 @@
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import CsCheckbox from './checkbox.js';
+import GlideCoreCheckbox from './checkbox.js';
 
-CsCheckbox.shadowRootOptions.mode = 'open';
+GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('is checked after being clicked', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox></glide-core-checkbox>`,
   );
 
   component.click();
@@ -16,8 +16,8 @@ it('is checked after being clicked', async () => {
 });
 
 it('is unchecked after being clicked', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox checked></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox checked></glide-core-checkbox>`,
   );
 
   component.click();
@@ -28,8 +28,8 @@ it('is unchecked after being clicked', async () => {
 });
 
 it('is checked and not indeterminate after being clicked when unchecked and indeterminate', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox indeterminate></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox indeterminate></glide-core-checkbox>`,
   );
 
   component.click();
@@ -47,8 +47,8 @@ it('is checked and not indeterminate after being clicked when unchecked and inde
 });
 
 it('is unchecked and not indeterminate after being clicked when checked and indeterminate', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox checked indeterminate></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox checked indeterminate></glide-core-checkbox>`,
   );
 
   component.click();
@@ -66,8 +66,8 @@ it('is unchecked and not indeterminate after being clicked when checked and inde
 });
 
 it('is still checked after being clicked when checked but disabled', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox checked disabled></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox checked disabled></glide-core-checkbox>`,
   );
 
   component.click();
@@ -78,8 +78,8 @@ it('is still checked after being clicked when checked but disabled', async () =>
 });
 
 it('is still unchecked after being clicked when unchecked and disabled', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox disabled></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox disabled></glide-core-checkbox>`,
   );
 
   component.click();
@@ -90,8 +90,8 @@ it('is still unchecked after being clicked when unchecked and disabled', async (
 });
 
 it('is still indeterminate after being clicked when unchecked and disabled', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox disabled indeterminate></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox disabled indeterminate></glide-core-checkbox>`,
   );
 
   component.click();

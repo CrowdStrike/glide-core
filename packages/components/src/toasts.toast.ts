@@ -10,7 +10,7 @@ import type { Toast } from './toasts.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-toast': CsToast;
+    'glide-core-toast': GlideCoreToast;
   }
 }
 
@@ -19,8 +19,8 @@ declare global {
  *
  * @description A message that animates onto the screen
  */
-@customElement('cs-toast')
-export default class CsToast extends LitElement {
+@customElement('glide-core-toast')
+export default class GlideCoreToast extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -87,15 +87,15 @@ export default class CsToast extends LitElement {
         aria-labelledby="label description"
         ${ref(this.#componentElementRef)}
       >
-        <cs-status-indicator
+        <glide-core-status-indicator
           style="--size: 1.25rem;"
           class="icon"
           variant=${this.#statusIndicatorVariant}
-        ></cs-status-indicator>
+        ></glide-core-status-indicator>
 
         <div class="label" id="label">${this.label}</div>
 
-        <cs-icon-button
+        <glide-core-icon-button
           label="Close"
           variant="tertiary"
           class="close-button"
@@ -117,7 +117,7 @@ export default class CsToast extends LitElement {
               stroke-linejoin="round"
             />
           </svg>
-        </cs-icon-button>
+        </glide-core-icon-button>
 
         <div class="description" id="description">${this.description}</div>
       </div>

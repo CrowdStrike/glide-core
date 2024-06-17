@@ -1,9 +1,9 @@
 import './checkbox.js';
 import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import CsCheckboxGroup from './checkbox-group.js';
+import GlideCoreCheckboxGroup from './checkbox-group.js';
 
-CsCheckboxGroup.shadowRootOptions.mode = 'open';
+GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 
 // `await aTimeout(0)` is used throughout. Using `oneEvent` instead and
 // expecting it to throw would work. But it wouldn't throw until its
@@ -12,10 +12,10 @@ CsCheckboxGroup.shadowRootOptions.mode = 'open';
 // will have been dispatched, gets the job done as well.
 
 it('dispatches a "click" event when clicked', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
   );
 
   setTimeout(() => component.click());
@@ -26,13 +26,13 @@ it('dispatches a "click" event when clicked', async () => {
 });
 
 it('dispatches a "change" event when clicked', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
   );
 
-  const checkbox = component.querySelector('cs-checkbox');
+  const checkbox = component.querySelector('glide-core-checkbox');
 
   setTimeout(() => checkbox?.click());
 
@@ -42,13 +42,13 @@ it('dispatches a "change" event when clicked', async () => {
 });
 
 it('dispatches an "input" event when clicked', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
   );
 
-  const checkbox = component.querySelector('cs-checkbox');
+  const checkbox = component.querySelector('glide-core-checkbox');
 
   setTimeout(() => checkbox?.click());
 
@@ -60,10 +60,10 @@ it('dispatches an "input" event when clicked', async () => {
 it('dispatches an "invalid" event on submit when required and the checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group" required>
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group" required>
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 
@@ -76,10 +76,10 @@ it('dispatches an "invalid" event on submit when required and the checkbox is un
 it('dispatches an "invalid" event after `checkValidity` is called when required and the checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group" required>
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group" required>
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 
@@ -92,10 +92,10 @@ it('dispatches an "invalid" event after `checkValidity` is called when required 
 it('dispatches an "invalid" event after `reportValidity` is called when required and the checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group" required>
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group" required>
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 
@@ -108,10 +108,10 @@ it('dispatches an "invalid" event after `reportValidity` is called when required
 it('does not dispatch an "invalid" event after `checkValidity` is called when not required', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 
@@ -127,10 +127,10 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when no
 it('does not dispatch an "invalid" event after `checkValidity` is called when disabled but required and the checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group" disabled required>
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group" disabled required>
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 
@@ -146,10 +146,10 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when di
 it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 
@@ -165,10 +165,10 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
 it('does not dispatch an "invalid" event when `reportValidity` is called when disabled but required and the checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group" disabled required>
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group" disabled required>
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 

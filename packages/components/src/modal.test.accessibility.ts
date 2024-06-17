@@ -1,19 +1,23 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import Modal from './modal.js';
+import GlideCoreModal from './modal.js';
 
-Modal.shadowRootOptions.mode = 'open';
+GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('is accessible', async () => {
   const element = await fixture(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   await expect(element).to.be.accessible();
 });
 
 it('focuses the dialog upon opening', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -24,8 +28,10 @@ it('focuses the dialog upon opening', async () => {
 });
 
 it('sets the tabindex on the dialog to "-1"', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -37,8 +43,10 @@ it('sets the tabindex on the dialog to "-1"', async () => {
 });
 
 it('sets the "toolbar" role on the header-actions section', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -50,8 +58,10 @@ it('sets the "toolbar" role on the header-actions section', async () => {
 });
 
 it('sets proper aria attributes and roles on the article', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();

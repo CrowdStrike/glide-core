@@ -3,24 +3,24 @@ import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
-import CsCheckbox from './checkbox.js';
+import GlideCoreCheckbox from './checkbox.js';
 import styles from './checkbox-group.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-checkbox-group': CsCheckboxGroup;
+    'glide-core-checkbox-group': GlideCoreCheckboxGroup;
   }
 }
 
 /**
  * @description A group of checkboxes with a label and optional tooltip and description. Participates in forms and validation via `FormData` and various methods.
  *
- * @slot - One or more of `<cs-checkbox>`.
+ * @slot - One or more of `<glide-core-checkbox>`.
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
  */
-@customElement('cs-checkbox-group')
-export default class CsCheckboxGroup extends LitElement {
+@customElement('glide-core-checkbox-group')
+export default class GlideCoreCheckboxGroup extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -96,7 +96,7 @@ export default class CsCheckboxGroup extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsCheckbox]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreCheckbox]);
 
     if (this.disabled) {
       for (const checkbox of this.#checkboxes) {
@@ -165,7 +165,7 @@ export default class CsCheckboxGroup extends LitElement {
       data-test="component"
       ${ref(this.#componentElementRef)}
     >
-      <cs-label
+      <glide-core-label
         ?hide=${this.hideLabel}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
@@ -185,7 +185,7 @@ export default class CsCheckboxGroup extends LitElement {
         </div>
 
         <slot id="description" name="description" slot="description"></slot>
-      </cs-label>
+      </glide-core-label>
     </div>`;
   }
 
@@ -241,8 +241,8 @@ export default class CsCheckboxGroup extends LitElement {
     return this.#defaultSlotElementRef.value
       ? this.#defaultSlotElementRef.value
           .assignedElements()
-          .filter((element): element is CsCheckbox => {
-            return element instanceof CsCheckbox;
+          .filter((element): element is GlideCoreCheckbox => {
+            return element instanceof GlideCoreCheckbox;
           })
       : [];
   }
@@ -275,6 +275,6 @@ export default class CsCheckboxGroup extends LitElement {
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [CsCheckbox]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreCheckbox]);
   }
 }

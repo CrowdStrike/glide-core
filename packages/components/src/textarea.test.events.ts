@@ -2,11 +2,11 @@ import './textarea.js';
 import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import type CsTextarea from './textarea.js';
+import type GlideCoreTextarea from './textarea.js';
 
 it('dispatches a `input` event when typed in', async () => {
-  const template = `<cs-textarea label="label"></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea label="label"></glide-core-textarea>`;
+  const textarea = await fixture<GlideCoreTextarea>(template);
 
   setTimeout(async () => {
     textarea.focus();
@@ -21,8 +21,8 @@ it('dispatches a `input` event when typed in', async () => {
 });
 
 it('dispatches an `change` event when typed in', async () => {
-  const template = `<cs-textarea label="label"></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea label="label"></glide-core-textarea>`;
+  const textarea = await fixture<GlideCoreTextarea>(template);
 
   setTimeout(async () => {
     textarea.focus();
@@ -38,8 +38,12 @@ it('dispatches an `change` event when typed in', async () => {
 
 it('dispatches an `invalid` event on submit when required and no value', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" required></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" required></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   setTimeout(() => form.requestSubmit());
   const event = await oneEvent(textarea, 'invalid');
 
@@ -48,8 +52,12 @@ it('dispatches an `invalid` event on submit when required and no value', async (
 
 it('dispatches an `invalid` event after `checkValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" required></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" required></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   setTimeout(() => textarea.checkValidity());
   const event = await oneEvent(textarea, 'invalid');
 
@@ -58,8 +66,12 @@ it('dispatches an `invalid` event after `checkValidity` is called when required 
 
 it('dispatches an `invalid` event after `reportValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" required></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" required></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   setTimeout(() => textarea.reportValidity());
   const event = await oneEvent(textarea, 'invalid');
 
@@ -68,8 +80,12 @@ it('dispatches an `invalid` event after `reportValidity` is called when required
 
 it('does not dispatch an `invalid` event after `checkValidity` is called when not required', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label"></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label"></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   const spy = sinon.spy();
   textarea.addEventListener('invalid', spy);
   textarea.checkValidity();
@@ -80,8 +96,12 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when no
 
 it('does not dispatch an `invalid` event after `checkValidity` is called when required, no value, and disabled', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" required disabled></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" required disabled></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   const spy = sinon.spy();
   textarea.addEventListener('invalid', spy);
   textarea.checkValidity();
@@ -92,8 +112,12 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when re
 
 it('does not dispatch an `invalid` event when `reportValidity` is called when not required,', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label"></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label"></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   const spy = sinon.spy();
   textarea.addEventListener('invalid', spy);
   textarea.reportValidity();
@@ -104,8 +128,12 @@ it('does not dispatch an `invalid` event when `reportValidity` is called when no
 
 it('does not dispatch an `invalid` event when `reportValidity` is called when required, no value, and disabled', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" required disabled></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" required disabled></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   const spy = sinon.spy();
   textarea.addEventListener('invalid', spy);
   textarea.reportValidity();
@@ -116,8 +144,11 @@ it('does not dispatch an `invalid` event when `reportValidity` is called when re
 
 it('dispatches an `invalid` event after `requestSubmit` is called when `max-character-count` exceeded', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" max-character-count="3"></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
 
   setTimeout(async () => {
     textarea.focus();
@@ -132,8 +163,11 @@ it('dispatches an `invalid` event after `requestSubmit` is called when `max-char
 
 it('dispatches an `invalid` event after `checkValidity` is called when `max-character-count` exceeded', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" max-character-count="3"></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
 
   setTimeout(async () => {
     textarea.focus();
@@ -148,8 +182,11 @@ it('dispatches an `invalid` event after `checkValidity` is called when `max-char
 
 it('dispatches an `invalid` event after `reportValidity` is called when `max-character-count` exceeded', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" max-character-count="3"></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
 
   setTimeout(async () => {
     textarea.focus();
@@ -164,8 +201,12 @@ it('dispatches an `invalid` event after `reportValidity` is called when `max-cha
 
 it('does not dispatch an `invalid` event after `checkValidity` is called when `max-character-count` not exceeded', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" max-character-count="3"></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   const spy = sinon.spy();
   textarea.addEventListener('invalid', spy);
   textarea.focus();
@@ -178,8 +219,12 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when `m
 
 it('does not dispatch an `invalid` event after `checkValidity` is called when `max-character-count` exceeded and disabled', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" max-character-count="3" disabled></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" max-character-count="3" disabled></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   const spy = sinon.spy();
   textarea.addEventListener('invalid', spy);
   textarea.focus();
@@ -192,8 +237,12 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when `m
 
 it('does not dispatch an `invalid` event when `reportValidity` is called and `max-character-count` is not exceeded,', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" max-character-count="3"></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   const spy = sinon.spy();
   textarea.addEventListener('invalid', spy);
   textarea.focus();
@@ -206,8 +255,12 @@ it('does not dispatch an `invalid` event when `reportValidity` is called and `ma
 
 it('does not dispatch an `invalid` event when `reportValidity` is called `max-character-count` exceeded and disabled,', async () => {
   const form = document.createElement('form');
-  const template = `<cs-textarea label="label" max-character-count="3" disabled></cs-textarea>`;
-  const textarea = await fixture<CsTextarea>(template, { parentNode: form });
+  const template = `<glide-core-textarea label="label" max-character-count="3" disabled></glide-core-textarea>`;
+
+  const textarea = await fixture<GlideCoreTextarea>(template, {
+    parentNode: form,
+  });
+
   const spy = sinon.spy();
   textarea.addEventListener('invalid', spy);
   textarea.focus();

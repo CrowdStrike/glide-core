@@ -8,22 +8,22 @@ import {
   oneEvent,
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import CsRadio from './radio.js';
-import CsRadioGroup from './radio-group.js';
+import GlideCoreRadio from './radio.js';
+import GlideCoreRadioGroup from './radio-group.js';
 
-CsRadio.shadowRootOptions.mode = 'open';
-CsRadioGroup.shadowRootOptions.mode = 'open';
+GlideCoreRadio.shadowRootOptions.mode = 'open';
+GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 
 it('emits a change event when arrow keys are pressed', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" checked label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
   await sendKeys({ press: 'Tab' });
 
   // This pattern is adopted from https://open-wc.org/docs/testing/helpers/#testing-events
@@ -57,14 +57,14 @@ it('emits a change event when arrow keys are pressed', async () => {
 
 it('emits an input event when arrow keys are pressed', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" checked label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
   await sendKeys({ press: 'Tab' });
 
   setTimeout(async () => await sendKeys({ press: 'ArrowLeft' }));
@@ -94,14 +94,18 @@ it('emits an input event when arrow keys are pressed', async () => {
 
 it('moves focus to previous radio when left or up arrow keys are pressed', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" checked label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio
+        value="value-3"
+        checked
+        label="Three"
+      ></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
 
@@ -113,14 +117,14 @@ it('moves focus to previous radio when left or up arrow keys are pressed', async
 
 it('moves focus to last radio when left or up arrow keys are pressed on the first radio', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
 
@@ -135,14 +139,14 @@ it('moves focus to last radio when left or up arrow keys are pressed on the firs
 
 it('moves focus to next radio when right or down arrow keys are pressed', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
@@ -154,14 +158,18 @@ it('moves focus to next radio when right or down arrow keys are pressed', async 
 
 it('moves focus to first radio when right or down arrow keys are pressed on the last radio', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" checked label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio
+        value="value-3"
+        checked
+        label="Three"
+      ></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
@@ -177,14 +185,18 @@ it('moves focus to first radio when right or down arrow keys are pressed on the 
 
 it('moves focus to previous enabled radio when pressing left or up arrow keys', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" disabled label="Two"></cs-radio>
-      <cs-radio value="value-3" checked label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" disabled label="Two"></glide-core-radio>
+      <glide-core-radio
+        value="value-3"
+        checked
+        label="Three"
+      ></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
 
@@ -200,14 +212,14 @@ it('moves focus to previous enabled radio when pressing left or up arrow keys', 
 
 it('moves focus to next enabled radio when pressing right or down arrow keys', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked label="One"></cs-radio>
-      <cs-radio value="value-2" disabled label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" disabled label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
@@ -223,12 +235,12 @@ it('moves focus to next enabled radio when pressing right or down arrow keys', a
 
 it('does not move focus if there is only one button when pressing arrow keys', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radio = document.querySelector('cs-radio');
+  const radio = document.querySelector('glide-core-radio');
   await sendKeys({ press: 'Tab' });
 
   await sendKeys({ press: 'ArrowLeft' });
@@ -246,14 +258,14 @@ it('does not move focus if there is only one button when pressing arrow keys', a
 
 it('changes the "checked" attribute when clicking', async () => {
   const element = await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(3);
   radios[2].click();
@@ -266,13 +278,13 @@ it('changes the "checked" attribute when clicking', async () => {
 
 it('does not change focus nor the "checked" attribute when clicking a disabled radio', async () => {
   const element = await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked label="One"></cs-radio>
-      <cs-radio value="value-2" disabled label="Two"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" disabled label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(2);
   radios[1].click();
@@ -285,13 +297,13 @@ it('does not change focus nor the "checked" attribute when clicking a disabled r
 
 it('does not change focus nor the "checked" attribute when clicking a disabled group', async () => {
   const element = await fixture(
-    html`<cs-radio-group name="name" disabled>
-      <cs-radio value="value-1" checked label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name" disabled>
+      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(2);
   radios[1].click();
@@ -304,14 +316,14 @@ it('does not change focus nor the "checked" attribute when clicking a disabled g
 
 it('changes the "checked" attribute when pressing arrow and space keys', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" checked label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
@@ -347,14 +359,14 @@ it('changes the "checked" attribute when pressing arrow and space keys', async (
 
 it('does not change the "checked" attribute nor focus when pressing arrow and space keys when the group is disabled', async () => {
   await fixture(
-    html`<cs-radio-group name="name" disabled>
-      <cs-radio value="value-1" checked label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name" disabled>
+      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   radios[0].focus();
 

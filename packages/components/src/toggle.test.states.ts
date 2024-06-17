@@ -1,11 +1,11 @@
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import CsToggle from './toggle.js';
+import GlideCoreToggle from './toggle.js';
 
-CsToggle.shadowRootOptions.mode = 'open';
+GlideCoreToggle.shadowRootOptions.mode = 'open';
 
 it('is checked after being clicked', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label"></cs-toggle>`,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
   component.click();
@@ -16,8 +16,8 @@ it('is checked after being clicked', async () => {
 });
 
 it('is unchecked after being clicked', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label" checked></cs-toggle>`,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label" checked></glide-core-toggle>`,
   );
 
   component.click();
@@ -28,8 +28,12 @@ it('is unchecked after being clicked', async () => {
 });
 
 it('is still checked after being clicked when checked but disabled', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label" checked disabled></cs-toggle>`,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle
+      label="Label"
+      checked
+      disabled
+    ></glide-core-toggle>`,
   );
 
   component.click();
@@ -40,8 +44,8 @@ it('is still checked after being clicked when checked but disabled', async () =>
 });
 
 it('is still unchecked after being clicked when unchecked and disabled', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label" disabled></cs-toggle>`,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label" disabled></glide-core-toggle>`,
   );
 
   component.click();

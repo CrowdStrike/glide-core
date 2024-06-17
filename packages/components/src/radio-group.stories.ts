@@ -1,7 +1,7 @@
 import './radio-group.js';
 import './radio.js';
 import { html } from 'lit';
-import CsRadioGroup from './radio-group.js';
+import GlideCoreRadioGroup from './radio-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -19,11 +19,13 @@ const meta: Meta = {
     },
   },
   play: (context) => {
-    const radioGroup = context.canvasElement.querySelector('cs-radio-group');
+    const radioGroup = context.canvasElement.querySelector(
+      'glide-core-radio-group',
+    );
 
     if (
       context.name === 'Vertical (With Error)' &&
-      radioGroup instanceof CsRadioGroup
+      radioGroup instanceof GlideCoreRadioGroup
     ) {
       radioGroup.reportValidity();
 
@@ -36,21 +38,25 @@ const meta: Meta = {
   render: (arguments_) => {
     return html`
       <form style="padding: 1.5rem;">
-        <cs-radio-group
+        <glide-core-radio-group
           label=${arguments_.label}
           name=${arguments_.name}
           value=${arguments_.value}
           ?disabled=${arguments_.disabled}
           ?required=${arguments_.required}
         >
-          <cs-radio value="value-1" label="One" checked></cs-radio>
-          <cs-radio value="value-2" label="Two"></cs-radio>
-          <cs-radio value="value-3" label="Three"></cs-radio>
+          <glide-core-radio
+            value="value-1"
+            label="One"
+            checked
+          ></glide-core-radio>
+          <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+          <glide-core-radio value="value-3" label="Three"></glide-core-radio>
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
             : ''}
           <div slot="description">${arguments_['slot="description"']}</div>
-        </cs-radio-group>
+        </glide-core-radio-group>
       </form>
     `;
   },
@@ -152,21 +158,21 @@ export const VerticalWithError: StoryObj = {
   render: (arguments_) => {
     return html`
       <form style="padding: 1.5rem;">
-        <cs-radio-group
+        <glide-core-radio-group
           label=${arguments_.label}
           name=${arguments_.name}
           value=${arguments_.value}
           ?disabled=${arguments_.disabled}
           ?required=${arguments_.required}
         >
-          <cs-radio value="value-1" label="One"></cs-radio>
-          <cs-radio value="value-2" label="Two"></cs-radio>
-          <cs-radio value="value-3" label="Three"></cs-radio>
+          <glide-core-radio value="value-1" label="One"></glide-core-radio>
+          <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+          <glide-core-radio value="value-3" label="Three"></glide-core-radio>
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
             : ''}
           <div slot="description">${arguments_['slot="description"']}</div>
-        </cs-radio-group>
+        </glide-core-radio-group>
       </form>
     `;
   },

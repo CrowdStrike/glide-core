@@ -6,7 +6,7 @@ it('can be reset to initial value', async () => {
   const form = document.createElement('form');
 
   const input = await fixture<Input>(
-    html`<cs-input value="value"></cs-input>`,
+    html`<glide-core-input value="value"></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -21,9 +21,12 @@ it('can be reset to initial value', async () => {
 it('can be reset if there was no initial value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(html`<cs-input></cs-input>`, {
-    parentNode: form,
-  });
+  const input = await fixture<Input>(
+    html`<glide-core-input></glide-core-input>`,
+    {
+      parentNode: form,
+    },
+  );
 
   input.value = 'value';
   form.reset();
@@ -34,9 +37,12 @@ it('can be reset if there was no initial value', async () => {
 it('has a `formData` value when it has a value', async () => {
   const form = document.createElement('form');
 
-  await fixture<Input>(html`<cs-input name="name" value="value"></cs-input>`, {
-    parentNode: form,
-  });
+  await fixture<Input>(
+    html`<glide-core-input name="name" value="value"></glide-core-input>`,
+    {
+      parentNode: form,
+    },
+  );
 
   const formData = new FormData(form);
   expect(formData.get('name')).to.be.equal('value');
@@ -45,9 +51,12 @@ it('has a `formData` value when it has a value', async () => {
 it('has no `formData` value when no value', async () => {
   const form = document.createElement('form');
 
-  await fixture<Input>(html`<cs-input name="name"></cs-input>`, {
-    parentNode: form,
-  });
+  await fixture<Input>(
+    html`<glide-core-input name="name"></glide-core-input>`,
+    {
+      parentNode: form,
+    },
+  );
 
   const formData = new FormData(form);
   expect(formData.get('name')).to.be.null;
@@ -57,7 +66,11 @@ it('has no `formData` value when it has a value but disabled', async () => {
   const form = document.createElement('form');
 
   await fixture<Input>(
-    html`<cs-input name="name" value="value" disabled></cs-input>`,
+    html`<glide-core-input
+      name="name"
+      value="value"
+      disabled
+    ></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -70,9 +83,12 @@ it('has no `formData` value when it has a value but disabled', async () => {
 it('has no `formData` value when it has a value but without a `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<Input>(html`<cs-input value="value"></cs-input>`, {
-    parentNode: form,
-  });
+  await fixture<Input>(
+    html`<glide-core-input value="value"></glide-core-input>`,
+    {
+      parentNode: form,
+    },
+  );
 
   const formData = new FormData(form);
   expect(formData.get('name')).to.be.null;

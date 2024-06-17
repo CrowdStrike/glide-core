@@ -1,23 +1,25 @@
 import { expect, fixture } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import CsTextarea from './textarea.js';
+import GlideCoreTextarea from './textarea.js';
 
-CsTextarea.shadowRootOptions.mode = 'open';
+GlideCoreTextarea.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-textarea')).to.equal(CsTextarea);
+  expect(window.customElements.get('glide-core-textarea')).to.equal(
+    GlideCoreTextarea,
+  );
 });
 
 it('is accessible', async () => {
-  const template = `<cs-textarea value="value" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
 
   await expect(element).to.be.accessible();
 });
 
 it('renders a textarea with two rows and value when attribute `value` is set ', async () => {
-  const template = `<cs-textarea value="value" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const textarea = element.shadowRoot!.querySelector('textarea');
 
   expect(element);
@@ -28,16 +30,16 @@ it('renders a textarea with two rows and value when attribute `value` is set ', 
 });
 
 it('renders the `rows` attribute on the textarea when set', async () => {
-  const template = `<cs-textarea value="value" label="label" rows="5"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label" rows="5"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const textarea = element.shadowRoot!.querySelector('textarea');
 
   expect(textarea).to.have.attribute('rows', '5');
 });
 
 it('renders a label when attribute `label` is set', async () => {
-  const template = `<cs-textarea value="value" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const label = element.shadowRoot!.querySelector('label');
 
   expect(label).to.exist;
@@ -45,40 +47,40 @@ it('renders a label when attribute `label` is set', async () => {
 });
 
 it('renders the textarea as readonly when attribute `readonly` is set', async () => {
-  const template = `<cs-textarea value="value" label="label" readonly></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label" readonly></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const textarea = element.shadowRoot!.querySelector('textarea');
 
   expect(textarea).to.have.attribute('readonly');
 });
 
 it('renders the textarea as disabled when attribute `disabled` is set', async () => {
-  const template = `<cs-textarea value="value" label="label" disabled></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label" disabled></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const textarea = element.shadowRoot!.querySelector('textarea');
 
   expect(textarea).to.have.attribute('disabled');
 });
 
 it('renders the textarea with a placeholder when attribute `placeholder` is set', async () => {
-  const template = `<cs-textarea value="" label="label" placeholder="placeholder"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="" label="label" placeholder="placeholder"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const textarea = element.shadowRoot!.querySelector('textarea');
 
   expect(textarea).to.have.attribute('placeholder', 'placeholder');
 });
 
 it('renders `required` on textarea when set', async () => {
-  const template = `<cs-textarea value="value" label="label" required></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label" required></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const textarea = element.shadowRoot!.querySelector('textarea');
 
   expect(textarea).to.have.attribute('required');
 });
 
 it('renders a `name` attribute on the textarea when set', async () => {
-  const template = `<cs-textarea value="value" label="label" name="test-name"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label" name="test-name"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const textarea = element.shadowRoot!.querySelector('textarea');
 
   expect(textarea).to.have.attribute('name', 'test-name');
@@ -86,12 +88,12 @@ it('renders a `name` attribute on the textarea when set', async () => {
 
 it('supports a "tooltip" slot', async () => {
   const template = `
-    <cs-textarea value="value" label="label" required>
+    <glide-core-textarea value="value" label="label" required>
       <div slot="tooltip">Tooltip</div>
-    </cs-textarea>
+    </glide-core-textarea>
   `;
 
-  const element = await fixture<CsTextarea>(template);
+  const element = await fixture<GlideCoreTextarea>(template);
 
   const assignedElements = element.shadowRoot
     ?.querySelector<HTMLSlotElement>('slot[name="tooltip"]')
@@ -101,8 +103,8 @@ it('supports a "tooltip" slot', async () => {
 });
 
 it('renders a slot with description', async () => {
-  const template = `<cs-textarea value="value" label="label"><span slot="description" data-test-content>Description</slot></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label"><span slot="description" data-test-content>Description</slot></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   expect(element).to.exist;
 
   const contentRendered = element.querySelector('[data-test-content]');
@@ -111,8 +113,8 @@ it('renders a slot with description', async () => {
 });
 
 it('renders a character count when attribute `max-character-count` is set greater than zero', async () => {
-  const template = `<cs-textarea value="value" label="label" max-character-count="10"><span slot="description">Description</span></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label" max-character-count="10"><span slot="description">Description</span></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
 
   const container = element.shadowRoot!.querySelector(
     '[data-test-max-character-count]',
@@ -122,8 +124,8 @@ it('renders a character count when attribute `max-character-count` is set greate
 });
 
 it('does not render a character count when attribute `max-character-count` is set less than than zero', async () => {
-  const template = `<cs-textarea value="value" label="label" max-character-count="0"><span slot="description" data-test-content>Description</span></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label" max-character-count="0"><span slot="description" data-test-content>Description</span></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
 
   const container = element.shadowRoot!.querySelector(
     '[data-test-description-container]',
@@ -133,8 +135,8 @@ it('does not render a character count when attribute `max-character-count` is se
 });
 
 it('focuses the textarea when the label is clicked', async () => {
-  const template = `<cs-textarea value="value" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const label = element.shadowRoot!.querySelector('label');
   label?.click();
 
@@ -146,8 +148,8 @@ it('focuses the textarea when the label is clicked', async () => {
 });
 
 it('has tabbable textarea', async () => {
-  const template = `<cs-textarea value="value" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="value" label="label"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   await sendKeys({ press: 'Tab' });
 
   expect(element).to.have.focus;
@@ -158,8 +160,8 @@ it('has tabbable textarea', async () => {
 });
 
 it('renders text when typed into text area', async () => {
-  const template = `<cs-textarea value="" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="" label="label"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   const textarea = element.shadowRoot!.querySelector('textarea');
   element.focus();
   await sendKeys({ type: 'test text' });
@@ -168,8 +170,8 @@ it('renders text when typed into text area', async () => {
 });
 
 it('returns the content of the textarea when getting the `value` property', async () => {
-  const template = `<cs-textarea value="" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="" label="label"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   element.focus();
   await sendKeys({ type: 'test text' });
 
@@ -177,8 +179,8 @@ it('returns the content of the textarea when getting the `value` property', asyn
 });
 
 it('focuses the textarea when `focus` is called', async () => {
-  const template = `<cs-textarea value="" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="" label="label"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   element.focus();
 
   await expect(
@@ -187,8 +189,8 @@ it('focuses the textarea when `focus` is called', async () => {
 });
 
 it('blurs the textarea when `blur` is called', async () => {
-  const template = `<cs-textarea value="" label="label"></cs-textarea>`;
-  const element = await fixture<CsTextarea>(template);
+  const template = `<glide-core-textarea value="" label="label"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
   element.focus();
 
   await expect(

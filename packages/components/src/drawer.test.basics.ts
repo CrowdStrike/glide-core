@@ -1,26 +1,28 @@
 import './drawer.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import Drawer from './drawer.js';
+import GlideCoreDrawer from './drawer.js';
 import sinon from 'sinon';
 
-Drawer.shadowRootOptions.mode = 'open';
+GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-drawer')).to.equal(Drawer);
+  expect(window.customElements.get('glide-core-drawer')).to.equal(
+    GlideCoreDrawer,
+  );
 });
 
 it('has defaults', async () => {
-  const drawer = await fixture<Drawer>(
-    html`<cs-drawer>Drawer content</cs-drawer>`,
+  const drawer = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
   expect(drawer.hasAttribute('open')).to.be.false;
 });
 
 it('can have a default slot', async () => {
-  const drawer = await fixture<Drawer>(
-    html`<cs-drawer>Drawer content</cs-drawer>`,
+  const drawer = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
   drawer.open();
@@ -32,8 +34,8 @@ it('sets the width of the element based on the "--width" CSS variable', async ()
   const styledDiv = document.createElement('div');
   styledDiv.setAttribute('style', '--width: 750px');
 
-  const drawer = await fixture<Drawer>(
-    html`<cs-drawer>Drawer content</cs-drawer>`,
+  const drawer = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
     { parentNode: styledDiv },
   );
 
@@ -46,7 +48,9 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<Drawer>(html`<cs-drawer></cs-drawer>`);
+    await fixture<GlideCoreDrawer>(
+      html`<glide-core-drawer></glide-core-drawer>`,
+    );
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();

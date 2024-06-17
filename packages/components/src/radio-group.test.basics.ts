@@ -1,41 +1,46 @@
 import './radio-group.js';
 import './radio.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import CsRadio from './radio.js';
-import CsRadioGroup from './radio-group.js';
+import GlideCoreRadio from './radio.js';
+import GlideCoreRadioGroup from './radio-group.js';
 import expectArgumentError from './library/expect-argument-error.js';
 
-CsRadio.shadowRootOptions.mode = 'open';
-CsRadioGroup.shadowRootOptions.mode = 'open';
+GlideCoreRadio.shadowRootOptions.mode = 'open';
+GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-radio-group')).to.equal(CsRadioGroup);
-  expect(window.customElements.get('cs-radio')).to.equal(CsRadio);
+  expect(window.customElements.get('glide-core-radio-group')).to.equal(
+    GlideCoreRadioGroup,
+  );
+
+  expect(window.customElements.get('glide-core-radio')).to.equal(
+    GlideCoreRadio,
+  );
 });
 
 it('is accessible', async () => {
   const element = await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
+    <glide-core-radio-group label="label" name="name" value="value-1">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
       <span slot="tooltip">Tooltip</span>
       <div slot="description">Description</div>
-    </cs-radio-group>
+    </glide-core-radio-group>
   `);
 
   await expect(element).to.be.accessible();
 });
 
-it('renders appropriate attributes on cs-radio', async () => {
+it('renders appropriate attributes on glide-core-radio', async () => {
   await fixture(html`
-    <cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two" checked></cs-radio>
-    </cs-radio-group>
+    <glide-core-radio-group label="label" name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two" checked></glide-core-radio>
+    </glide-core-radio-group>
   `);
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios[0]).to.have.attribute('value', 'value-1');
   expect(radios[0]).to.have.attribute('tabindex', '-1');
@@ -57,12 +62,12 @@ it('renders appropriate attributes on cs-radio', async () => {
 });
 
 it('renders a label, radio group, description, and tooltip when given', async () => {
-  const group = await fixture<CsRadioGroup>(html`
-    <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1" label="One"></cs-radio>
+  const group = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="label" name="name" value="value-1">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
       <span slot="tooltip" data-test="tooltip">Tooltip</span>
       <div slot="description" data-test="description">Description</div>
-    </cs-radio-group>
+    </glide-core-radio-group>
   `);
 
   const label = group.shadowRoot?.querySelector('[data-test="label"]');
@@ -80,12 +85,12 @@ it('renders a label, radio group, description, and tooltip when given', async ()
 
 it('does not render a required symbol when a "label" is given and "required" is not set', async () => {
   await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>
+    <glide-core-radio-group label="label" name="name" value="value-1">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>
   `);
 
-  const group = document.querySelector('cs-radio-group');
+  const group = document.querySelector('glide-core-radio-group');
 
   const requiredSymbol = group?.shadowRoot?.querySelector(
     '[data-test="label-required"]',
@@ -96,13 +101,13 @@ it('does not render a required symbol when a "label" is given and "required" is 
 
 it('sets "required" attributes on radios when "required" is set on the group', async () => {
   await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1" required>
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-    </cs-radio-group>
+    <glide-core-radio-group label="label" name="name" value="value-1" required>
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+    </glide-core-radio-group>
   `);
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios[0]).to.have.attribute('required');
   expect(radios[0]).to.have.attribute('aria-required', 'true');
@@ -112,13 +117,13 @@ it('sets "required" attributes on radios when "required" is set on the group', a
 
 it('does not set "required" attributes on radios when "required" is not set on the group', async () => {
   await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-    </cs-radio-group>
+    <glide-core-radio-group label="label" name="name" value="value-1">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+    </glide-core-radio-group>
   `);
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios[0]).to.not.have.attribute('required');
   expect(radios[0]).to.have.attribute('aria-required', 'false');
@@ -128,12 +133,12 @@ it('does not set "required" attributes on radios when "required" is not set on t
 
 it('renders radios as "disabled" when "disabled" is set on the group', async () => {
   await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1" disabled>
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>
+    <glide-core-radio-group label="label" name="name" value="value-1" disabled>
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>
   `);
 
-  const radio = document.querySelector('cs-radio');
+  const radio = document.querySelector('glide-core-radio');
 
   expect(radio).to.have.attribute('disabled');
   expect(radio).to.have.attribute('aria-disabled', 'true');
@@ -142,12 +147,12 @@ it('renders radios as "disabled" when "disabled" is set on the group', async () 
 
 it('does not render radios as "disabled" when "disabled" is not set on the group', async () => {
   await fixture(html`
-    <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>
+    <glide-core-radio-group label="label" name="name" value="value-1">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>
   `);
 
-  const radio = document.querySelector('cs-radio');
+  const radio = document.querySelector('glide-core-radio');
 
   expect(radio).to.not.have.attribute('disabled');
   expect(radio).to.have.attribute('aria-disabled', 'false');
@@ -155,13 +160,13 @@ it('does not render radios as "disabled" when "disabled" is not set on the group
 });
 
 it('renders radios as "disabled" when "disabled" is dynamically set and removed on the group', async () => {
-  const component = await fixture<CsRadioGroup>(html`
-    <cs-radio-group label="label" name="name" value="value-1">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>
+  const component = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="label" name="name" value="value-1">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>
   `);
 
-  const radio = document.querySelector('cs-radio');
+  const radio = document.querySelector('glide-core-radio');
 
   expect(radio).to.not.have.attribute('disabled');
   expect(radio).to.have.attribute('aria-disabled', 'false');
@@ -183,14 +188,14 @@ it('renders radios as "disabled" when "disabled" is dynamically set and removed 
 });
 
 it('sets the radio group to an empty value when no radio is "checked"', async () => {
-  const component = await fixture<CsRadioGroup>(html`
-    <cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-    </cs-radio-group>
+  const component = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="label" name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+    </glide-core-radio-group>
   `);
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(component.value).to.equal('');
   expect(radios.length).to.equal(2);
@@ -203,24 +208,24 @@ it('sets the radio group to an empty value when no radio is "checked"', async ()
 
 it('sets the group "value" when a radio is set as "checked"', async () => {
   await fixture(html`
-    <cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" checked label="Two"></cs-radio>
-    </cs-radio-group>
+    <glide-core-radio-group label="label" name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+    </glide-core-radio-group>
   `);
 
-  const group = document.querySelector('cs-radio-group');
+  const group = document.querySelector('glide-core-radio-group');
 
   expect(group).to.have.attribute('value', 'value-2');
 });
 
-it('throws an error when an element other than `cs-radio` is a child of the default slot', async () => {
+it('throws an error when an element other than `glide-core-radio` is a child of the default slot', async () => {
   await expectArgumentError(() => {
     return fixture(html`
-      <cs-radio-group label="label" name="name">
+      <glide-core-radio-group label="label" name="name">
         <div>Option 1</div>
-        <cs-radio value="value-2" label="Two"></cs-radio>
-      </cs-radio-group>
+        <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      </glide-core-radio-group>
     `);
   });
 });
@@ -228,21 +233,22 @@ it('throws an error when an element other than `cs-radio` is a child of the defa
 it('throws an error when the group has no children', async () => {
   await expectArgumentError(() => {
     return fixture(
-      html`<cs-radio-group label="label" name="name"> </cs-radio-group>`,
+      html`<glide-core-radio-group label="label" name="name">
+      </glide-core-radio-group>`,
     );
   });
 });
 
 it('sets the first radio to be tabbable when none are checked', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(3);
   expect(radios[0]).to.have.attribute('tabindex', '0');
@@ -252,14 +258,14 @@ it('sets the first radio to be tabbable when none are checked', async () => {
 
 it('sets the first non-disabled radio as tabbable when none are checked', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" disabled label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" disabled label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(3);
   expect(radios[0]).to.have.attribute('tabindex', '-1');
@@ -269,14 +275,18 @@ it('sets the first non-disabled radio as tabbable when none are checked', async 
 
 it('no radios are tabbable when the group is "disabled"', async () => {
   await fixture(
-    html`<cs-radio-group name="name" disabled>
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" checked label="Three"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name" disabled>
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio
+        value="value-3"
+        checked
+        label="Three"
+      ></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(3);
   expect(radios[0]).to.have.attribute('tabindex', '-1');
@@ -286,13 +296,13 @@ it('no radios are tabbable when the group is "disabled"', async () => {
 
 it('disabled radios are not tabbable', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" disabled label="One"></cs-radio>
-      <cs-radio value="value-2" disabled label="Two"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" disabled label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" disabled label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(2);
   expect(radios[0]).to.have.attribute('tabindex', '-1');
@@ -301,14 +311,18 @@ it('disabled radios are not tabbable', async () => {
 
 it('sets only the "checked" radio as tabbable', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-      <cs-radio value="value-3" label="Three" checked></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio
+        value="value-3"
+        label="Three"
+        checked
+      ></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radios = document.querySelectorAll('cs-radio');
+  const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(3);
   expect(radios[0]).to.have.attribute('tabindex', '-1');
@@ -318,12 +332,12 @@ it('sets only the "checked" radio as tabbable', async () => {
 
 it('has reactive radio attribute "aria-checked"', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radio = document.querySelector('cs-radio');
+  const radio = document.querySelector('glide-core-radio');
 
   expect(radio).to.not.be.null;
 
@@ -344,12 +358,12 @@ it('has reactive radio attribute "aria-checked"', async () => {
 
 it('has reactive radio attribute "aria-disabled"', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radio = document.querySelector('cs-radio');
+  const radio = document.querySelector('glide-core-radio');
 
   expect(radio).to.not.be.null;
 
@@ -370,12 +384,12 @@ it('has reactive radio attribute "aria-disabled"', async () => {
 
 it('has reactive radio attribute "aria-required"', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radio = document.querySelector('cs-radio');
+  const radio = document.querySelector('glide-core-radio');
 
   expect(radio).to.not.be.null;
 
@@ -396,12 +410,12 @@ it('has reactive radio attribute "aria-required"', async () => {
 
 it('has reactive radio attribute "aria-invalid"', async () => {
   await fixture(
-    html`<cs-radio-group name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>`,
   );
 
-  const radio = document.querySelector('cs-radio');
+  const radio = document.querySelector('glide-core-radio');
 
   expect(radio).to.not.be.null;
 
@@ -423,10 +437,10 @@ it('has reactive radio attribute "aria-invalid"', async () => {
 it('exposes standard form control properties and methods', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsRadioGroup>(
-    html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-    </cs-radio-group>`,
+  const component = await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="label" name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+    </glide-core-radio-group>`,
     { parentNode: form },
   );
 
@@ -438,8 +452,8 @@ it('exposes standard form control properties and methods', async () => {
 });
 
 it('adds a label to radio when given', async () => {
-  const component = await fixture<CsRadio>(
-    html`<cs-radio value="value-1" label="One"></cs-radio>`,
+  const component = await fixture<GlideCoreRadio>(
+    html`<glide-core-radio value="value-1" label="One"></glide-core-radio>`,
   );
 
   const label = component.shadowRoot!.querySelector('.component')?.textContent;
@@ -449,8 +463,8 @@ it('adds a label to radio when given', async () => {
 });
 
 it('changes the radio label dynamically as when given', async () => {
-  const component = await fixture<CsRadio>(
-    html`<cs-radio value="value-1" label="One"></cs-radio>`,
+  const component = await fixture<GlideCoreRadio>(
+    html`<glide-core-radio value="value-1" label="One"></glide-core-radio>`,
   );
 
   component.label = 'Two';

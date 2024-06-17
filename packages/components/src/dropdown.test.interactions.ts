@@ -1,16 +1,19 @@
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import CsDropdown from './dropdown.js';
-import CsDropdownOption from './dropdown.option.js';
+import GlideCoreDropdownOption from './dropdown.option.js';
 
 CsDropdown.shadowRootOptions.mode = 'open';
-CsDropdownOption.shadowRootOptions.mode = 'open';
+GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('opens when clicked', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
@@ -26,9 +29,12 @@ it('opens when clicked', async () => {
 
 it('opens on ArrowUp', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   component.focus();
@@ -39,9 +45,12 @@ it('opens on ArrowUp', async () => {
 
 it('opens on ArrowDown', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   component.focus();
@@ -52,9 +61,12 @@ it('opens on ArrowDown', async () => {
 
 it('opens on Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   component.focus();
@@ -68,9 +80,12 @@ it('opens when opened programmatically via the click handler of another element'
   const div = document.createElement('div');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     { parentNode: div },
   );
 
@@ -84,9 +99,12 @@ it('opens when opened programmatically via the click handler of another element'
 
 it('closes when clicked', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   // Open it.
@@ -99,9 +117,12 @@ it('closes when clicked', async () => {
 
 it('closes when something outside of it is clicked', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   document.body.click();
@@ -110,9 +131,12 @@ it('closes when something outside of it is clicked', async () => {
 
 it('closes on Escape when the button has focus', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   component.focus();
@@ -123,9 +147,12 @@ it('closes on Escape when the button has focus', async () => {
 
 it('closes on Escape when an option has focus', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   component.focus();
@@ -136,9 +163,12 @@ it('closes on Escape when an option has focus', async () => {
 
 it('closes when an option is selected via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   // Open it.
@@ -151,12 +181,15 @@ it('closes when an option is selected via click', async () => {
 
 it('closes when an option is selected via Enter', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  component.querySelector('cs-dropdown-option')?.focus();
+  component.querySelector('glide-core-dropdown-option')?.focus();
   await sendKeys({ press: 'Enter' });
 
   expect(component.open).to.be.false;
@@ -164,12 +197,15 @@ it('closes when an option is selected via Enter', async () => {
 
 it('closes when an option is selected via Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const option = component.querySelector('cs-dropdown-option');
+  const option = component.querySelector('glide-core-dropdown-option');
 
   option?.focus();
   await sendKeys({ press: ' ' });
@@ -179,12 +215,15 @@ it('closes when an option is selected via Space', async () => {
 
 it('selects the clicked option', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="Label" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const option = component.querySelector('cs-dropdown-option');
+  const option = component.querySelector('glide-core-dropdown-option');
   option?.click();
 
   expect(option?.selected).to.be.true;
@@ -192,18 +231,28 @@ it('selects the clicked option', async () => {
 
 it('deselects all other options when one is newly selected', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="One" value="one" selected></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-      <cs-dropdown-option label="Three" value="three"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   component.shadowRoot
     ?.querySelector('button')
     ?.dispatchEvent(new Event('click'));
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
   options[1].click();
 
   expect(options[0].selected).to.be.false;
@@ -213,13 +262,19 @@ it('deselects all other options when one is newly selected', async () => {
 
 it('deactivates all other options on "mouseover"', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
@@ -230,13 +285,19 @@ it('deactivates all other options on "mouseover"', async () => {
 
 it('activates an option on "mouseover"', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   expect(options[1]?.privateActive).to.be.true;
@@ -244,13 +305,19 @@ it('activates an option on "mouseover"', async () => {
 
 it('activates the first option by default', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[1]?.privateActive).to.be.false;
@@ -258,13 +325,19 @@ it('activates the first option by default', async () => {
 
 it('activates the next option on ArrowDown', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.focus();
   await sendKeys({ press: 'ArrowDown' });
@@ -275,13 +348,19 @@ it('activates the next option on ArrowDown', async () => {
 
 it('activates the previous option on ArrowUp', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   options[1]?.focus();
@@ -295,13 +374,19 @@ it('activates the previous option on ArrowUp', async () => {
 
 it('activates the first option on Home', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   expect(options[1].privateActive).to.be.true;
@@ -315,13 +400,19 @@ it('activates the first option on Home', async () => {
 
 it('activates the first option on PageUp', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   options[1].focus();
@@ -335,13 +426,19 @@ it('activates the first option on PageUp', async () => {
 
 it('activates the first option on ArrowUp + Meta', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   expect(options[1]?.privateActive).to.be.true;
@@ -357,13 +454,19 @@ it('activates the first option on ArrowUp + Meta', async () => {
 
 it('activates the last option on End', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.focus();
   await sendKeys({ press: 'End' });
@@ -374,13 +477,19 @@ it('activates the last option on End', async () => {
 
 it('activates the last option on PageDown', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
   options[0]?.focus();
 
   await sendKeys({ press: 'PageDown' });
@@ -391,13 +500,19 @@ it('activates the last option on PageDown', async () => {
 
 it('activates the last option on Meta + ArrowDown', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
   options[0]?.focus();
 
   await sendKeys({ down: 'Meta' });
@@ -410,13 +525,19 @@ it('activates the last option on Meta + ArrowDown', async () => {
 
 it('does not wrap on ArrowUp', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   options[0]?.focus();
@@ -428,13 +549,19 @@ it('does not wrap on ArrowUp', async () => {
 
 it('does not wrap on ArrowDown', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   expect(options[1].privateActive).to.be.true;
@@ -448,14 +575,20 @@ it('does not wrap on ArrowDown', async () => {
 
 it('updates `value` when an option is selected via click', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-      <cs-dropdown-option label="Three"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1].click();
   expect(component.value).to.deep.equal(['two']);
@@ -473,13 +606,16 @@ it('updates `value` when an option is selected via click', async () => {
 
 it('updates `value` when an option is selected via Enter', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0].focus();
   await sendKeys({ press: 'Enter' });
@@ -499,13 +635,16 @@ it('updates `value` when an option is selected via Enter', async () => {
 
 it('updates `value` when an option is selected via Space', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('cs-dropdown-option');
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0].focus();
   await sendKeys({ press: ' ' });
@@ -526,10 +665,17 @@ it('updates `value` when an option is selected via Space', async () => {
 
 it('sets the button text when an option is initially selected', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="One" value="one" selected></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   expect(
@@ -539,14 +685,22 @@ it('sets the button text when an option is initially selected', async () => {
 
 it('updates the button text when an option is newly selected', async () => {
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" open>
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   component
-    .querySelector<CsDropdownOption>('cs-dropdown-option:last-of-type')
+    .querySelector<GlideCoreDropdownOption>(
+      'glide-core-dropdown-option:last-of-type',
+    )
     ?.click();
 
   await elementUpdated(component);

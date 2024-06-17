@@ -8,23 +8,23 @@ import styles from './modal.icon-button.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-modal-icon-button': CsModalIconButton;
+    'glide-core-modal-icon-button': GlideCoreModalIconButton;
   }
 }
 
 /**
  * @description A Modal Icon Button. Should be used only in the "header-actions" slot of a Modal.
  *
- * @slot - The content of the button. Should only be a cs-icon. The icon should also leverage the
+ * @slot - The content of the button. Should only be an icon. The icon should also leverage the
  *         "label" attribute for accessibility so that it is read to screenreaders.
  *
  * @example
- * <cs-modal-icon-button slot="header-actions">
+ * <glide-core-modal-icon-button slot="header-actions">
  *   <!-- icon here -->
- * </cs-modal-icon-button>
+ * </glide-core-modal-icon-button>
  */
-@customElement('cs-modal-icon-button')
-export default class CsModalIconButton extends LitElement {
+@customElement('glide-core-modal-icon-button')
+export default class GlideCoreModalIconButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -41,12 +41,12 @@ export default class CsModalIconButton extends LitElement {
 
   override render() {
     return html`
-      <cs-icon-button label=${ifDefined(this.label)} variant="tertiary">
+      <glide-core-icon-button label=${ifDefined(this.label)} variant="tertiary">
         <slot
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
-      </cs-icon-button>
+      </glide-core-icon-button>
     `;
   }
 

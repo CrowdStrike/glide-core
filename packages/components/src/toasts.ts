@@ -6,7 +6,7 @@ import styles from './toasts.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-toasts': CsToasts;
+    'glide-core-toasts': GlideCoreToasts;
   }
 }
 
@@ -21,8 +21,8 @@ export interface Toast {
  * @description A container and controller for toast messages
 
  */
-@customElement('cs-toasts')
-export default class CsToasts extends LitElement {
+@customElement('glide-core-toasts')
+export default class GlideCoreToasts extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -33,12 +33,15 @@ export default class CsToasts extends LitElement {
   add(toast: Toast) {
     const { variant, label, description, duration } = toast;
 
-    const toastElement = Object.assign(document.createElement('cs-toast'), {
-      variant,
-      label,
-      description,
-      duration,
-    });
+    const toastElement = Object.assign(
+      document.createElement('glide-core-toast'),
+      {
+        variant,
+        label,
+        description,
+        duration,
+      },
+    );
 
     this.#componentElementRef.value!.append(toastElement);
 

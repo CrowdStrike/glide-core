@@ -29,7 +29,7 @@ const meta: Meta = {
     });
 
     context.canvasElement
-      .querySelector('cs-accordion')
+      .querySelector('glide-core-accordion')
       ?.addEventListener('toggle', (event) => {
         if (event instanceof CustomEvent) {
           addons.getChannel().emit(STORY_ARGS_UPDATED, {
@@ -46,8 +46,8 @@ const meta: Meta = {
   },
   render: (arguments_) => {
     return html`
-      <cs-accordion label=${arguments_.label} ?open=${arguments_.open}
-        >${arguments_['slot="default"']}</cs-accordion
+      <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}
+        >${arguments_['slot="default"']}</glide-core-accordion
       >
     `;
   },
@@ -116,45 +116,63 @@ export const Default: StoryObj = {};
 export const WithPrefixIcon: StoryObj = {
   name: 'Default (With Prefix Icon)',
   render: (arguments_) => {
-    return html` <cs-accordion
+    return html` <glide-core-accordion
       label=${arguments_.label}
       ?open=${arguments_.open}
     >
-      <cs-example-icon slot="prefix" name="share"></cs-example-icon>
+      <glide-core-example-icon
+        slot="prefix"
+        name="share"
+      ></glide-core-example-icon>
 
       ${arguments_['slot="default"']}
-    </cs-accordion>`;
+    </glide-core-accordion>`;
   },
 };
 
 export const WithSuffix: StoryObj = {
   name: 'Default (With Suffix Icons)',
   render: (arguments_) => {
-    return html` <cs-accordion
+    return html` <glide-core-accordion
       label=${arguments_.label}
       ?open=${arguments_.open}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="suffix" name="pencil"></cs-example-icon>
-      <cs-example-icon slot="suffix" name="settings"></cs-example-icon>
-    </cs-accordion>`;
+      <glide-core-example-icon
+        slot="suffix"
+        name="pencil"
+      ></glide-core-example-icon>
+      <glide-core-example-icon
+        slot="suffix"
+        name="settings"
+      ></glide-core-example-icon>
+    </glide-core-accordion>`;
   },
 };
 
 export const WithPrefixAndSuffix: StoryObj = {
   name: 'Default (With Prefix & Suffix Icons)',
   render: (arguments_) => {
-    return html` <cs-accordion
+    return html` <glide-core-accordion
       label=${arguments_.label}
       ?open=${arguments_.open}
     >
-      <cs-example-icon slot="prefix" name="share"></cs-example-icon>
+      <glide-core-example-icon
+        slot="prefix"
+        name="share"
+      ></glide-core-example-icon>
 
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="suffix" name="pencil"></cs-example-icon>
-      <cs-example-icon slot="suffix" name="settings"></cs-example-icon>
-    </cs-accordion>`;
+      <glide-core-example-icon
+        slot="suffix"
+        name="pencil"
+      ></glide-core-example-icon>
+      <glide-core-example-icon
+        slot="suffix"
+        name="settings"
+      ></glide-core-example-icon>
+    </glide-core-accordion>`;
   },
 };

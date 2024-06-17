@@ -3,36 +3,36 @@ import './tree.item.js';
 import './tree.js';
 import { ArgumentError } from 'ow';
 import { assert, expect, fixture, html } from '@open-wc/testing';
-import Tree from './tree.js';
+import GlideCoreTree from './tree.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
-import type CsTreeItemIconButton from './tree.item.icon-button.js';
-import type CsTreeItemMenu from './tree.item.menu.js';
+import type GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
+import type GlideCoreTreeItemMenu from './tree.item.menu.js';
 
-Tree.shadowRootOptions.mode = 'open';
+GlideCoreTree.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-tree')).to.equal(Tree);
+  expect(window.customElements.get('glide-core-tree')).to.equal(GlideCoreTree);
 });
 
 it('renders and sets default attributes', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item"></cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item"></glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   expect(tree.selectedItem).to.equal(undefined);
 });
 
 it('can select child and grandchild items', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-      <cs-tree-item label="Child Item 2">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
@@ -52,13 +52,13 @@ it('can select child and grandchild items', async () => {
 });
 
 it('can click child and grandchild items to expand or select them', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-      <cs-tree-item label="Child Item 2">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
@@ -82,21 +82,21 @@ it('can click child and grandchild items to expand or select them', async () => 
 });
 
 it('does not select an item if a tree-item-icon-button is clicked', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item-icon-button slot="suffix" data-test-icon-button>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item-icon-button slot="suffix" data-test-icon-button>
           <svg viewBox="0 0 24 24">
             <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
-        </cs-tree-item-icon-button>
-      </cs-tree-item>
-    </cs-tree>
+        </glide-core-tree-item-icon-button>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
 
-  const iconButton = childItems[0].querySelector<CsTreeItemIconButton>(
+  const iconButton = childItems[0].querySelector<GlideCoreTreeItemIconButton>(
     '[data-test-icon-button]',
   );
 
@@ -108,18 +108,21 @@ it('does not select an item if a tree-item-icon-button is clicked', async () => 
 });
 
 it('does not select an item if its menu slot is clicked', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item-menu slot="menu" data-test-menu>
-          <cs-menu-link label="Edit" url="/edit"></cs-menu-link>
-        </cs-tree-item-menu>
-      </cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item-menu slot="menu" data-test-menu>
+          <glide-core-menu-link label="Edit" url="/edit"></glide-core-menu-link>
+        </glide-core-tree-item-menu>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
-  const menu = childItems[0].querySelector<CsTreeItemMenu>('[data-test-menu]');
+
+  const menu =
+    childItems[0].querySelector<GlideCoreTreeItemMenu>('[data-test-menu]');
+
   assert(menu);
   menu.click();
   await menu.updateComplete;
@@ -131,7 +134,7 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<Tree>(html`<cs-tree></cs-tree>`);
+    await fixture<GlideCoreTree>(html`<glide-core-tree></glide-core-tree>`);
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();
@@ -143,10 +146,10 @@ it('throws if it does not have a default slot', async () => {
 
 it('throws if the default slot is the incorrect type', async () => {
   await expectArgumentError(() => {
-    return fixture<Tree>(html`
-      <cs-tree>
+    return fixture<GlideCoreTree>(html`
+      <glide-core-tree>
         <button>Button</button>
-      </cs-tree>
+      </glide-core-tree>
     `);
   });
 });

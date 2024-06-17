@@ -5,10 +5,10 @@ import type CsMenu from './menu.js';
 
 it('focuses the target on `focus()`', async () => {
   const component = await fixture<CsMenu>(
-    html`<cs-menu>
+    html`<glide-core-menu>
       <button slot="target">Target</button>
-      <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`,
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
+    </glide-core-menu>`,
   );
 
   component.focus();
@@ -20,11 +20,11 @@ it('focuses the target on `focus()`', async () => {
 
 it('focuses the active option on open via click', async () => {
   const component = await fixture<CsMenu>(
-    html`<cs-menu>
+    html`<glide-core-menu>
       <button slot="target">Target</button>
-      <cs-menu-link label="One"></cs-menu-link>
-      <cs-menu-link label="Two"></cs-menu-link>
-    </cs-menu>`,
+      <glide-core-menu-link label="One"></glide-core-menu-link>
+      <glide-core-menu-link label="Two"></glide-core-menu-link>
+    </glide-core-menu>`,
   );
 
   component.querySelector('button')?.click();
@@ -33,17 +33,17 @@ it('focuses the active option on open via click', async () => {
   await elementUpdated(component);
 
   expect(document.activeElement).to.equal(
-    component.querySelector('cs-menu-link'),
+    component.querySelector('glide-core-menu-link'),
   );
 });
 
 it('focuses the active option on open via Space', async () => {
   const component = await fixture<CsMenu>(
-    html`<cs-menu>
+    html`<glide-core-menu>
       <button slot="target">Target</button>
-      <cs-menu-link label="One"></cs-menu-link>
-      <cs-menu-link label="Two"></cs-menu-link>
-    </cs-menu>`,
+      <glide-core-menu-link label="One"></glide-core-menu-link>
+      <glide-core-menu-link label="Two"></glide-core-menu-link>
+    </glide-core-menu>`,
   );
 
   component
@@ -54,16 +54,16 @@ it('focuses the active option on open via Space', async () => {
   await elementUpdated(component);
 
   expect(document.activeElement).to.equal(
-    component.querySelector('cs-menu-link'),
+    component.querySelector('glide-core-menu-link'),
   );
 });
 
 it('focuses the target on close via click', async () => {
   const component = await fixture<CsMenu>(
-    html`<cs-menu open>
+    html`<glide-core-menu open>
       <button slot="target">Target</button>
-      <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`,
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
+    </glide-core-menu>`,
   );
 
   const button = component.querySelector('button');
@@ -73,10 +73,10 @@ it('focuses the target on close via click', async () => {
 
 it('focuses the target on close via Escape', async () => {
   const component = await fixture<CsMenu>(
-    html`<cs-menu open>
+    html`<glide-core-menu open>
       <button slot="target">Target</button>
-      <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`,
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
+    </glide-core-menu>`,
   );
 
   const button = component.querySelector('button');
@@ -90,17 +90,17 @@ it('focuses the target on close via Escape', async () => {
 
 it('focuses the target when an option is selected via click', async () => {
   const component = await fixture<CsMenu>(
-    html`<cs-menu open>
+    html`<glide-core-menu open>
       <button slot="target">Target</button>
 
-      <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`,
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
+    </glide-core-menu>`,
   );
 
   const button = component.querySelector('button');
 
   button?.click();
-  const menuLink = component.querySelector('cs-menu-link');
+  const menuLink = component.querySelector('glide-core-menu-link');
   menuLink?.click();
 
   expect(document.activeElement).to.equal(button);
@@ -108,10 +108,10 @@ it('focuses the target when an option is selected via click', async () => {
 
 it('focuses the target when an option is selected via Enter', async () => {
   const component = await fixture<CsMenu>(
-    html`<cs-menu>
+    html`<glide-core-menu>
       <button slot="target">Target</button>
-      <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`,
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
+    </glide-core-menu>`,
   );
 
   const button = component.querySelector('button');
@@ -119,7 +119,7 @@ it('focuses the target when an option is selected via Enter', async () => {
   button?.click();
 
   component
-    .querySelector('cs-menu-link')
+    .querySelector('glide-core-menu-link')
     ?.dispatchEvent(
       new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }),
     );
@@ -129,17 +129,17 @@ it('focuses the target when an option is selected via Enter', async () => {
 
 it('focuses the target when an option is selected via Space', async () => {
   const component = await fixture<CsMenu>(
-    html`<cs-menu>
+    html`<glide-core-menu>
       <button slot="target">Target</button>
-      <cs-menu-link label="Link"></cs-menu-link>
-    </cs-menu>`,
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
+    </glide-core-menu>`,
   );
 
   const button = component.querySelector('button');
   button?.click();
 
   component
-    .querySelector('cs-menu-link')
+    .querySelector('glide-core-menu-link')
     ?.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: ' ' }));
 
   expect(document.activeElement).to.equal(button);

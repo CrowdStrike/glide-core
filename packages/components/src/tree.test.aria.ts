@@ -1,31 +1,31 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import Tree from './tree.js';
-import TreeItem from './tree.item.js';
+import GlideCoreTree from './tree.js';
+import GlideCoreTreeItem from './tree.item.js';
 
-Tree.shadowRootOptions.mode = 'open';
-TreeItem.shadowRootOptions.mode = 'open';
+GlideCoreTree.shadowRootOptions.mode = 'open';
+GlideCoreTreeItem.shadowRootOptions.mode = 'open';
 
 it('is accessible', async () => {
-  const component = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-      <cs-tree-item label="Child Item 2">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const component = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   await expect(component).to.be.accessible();
 });
 
 it('sets roles tree and treeitem', async () => {
-  const component = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-      <cs-tree-item label="Child Item 2">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const component = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = component.slotElements;
@@ -50,16 +50,16 @@ it('sets roles tree and treeitem', async () => {
 });
 
 it('sets aria-expanded correctly', async () => {
-  const component = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-      <cs-tree-item label="Child Item 2">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Expanded child item" expanded>
-        <cs-tree-item label="Grandchild Item 2"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const component = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Expanded child item" expanded>
+        <glide-core-tree-item label="Grandchild Item 2"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = component.slotElements;
@@ -92,14 +92,17 @@ it('sets aria-expanded correctly', async () => {
 });
 
 it('sets aria-selected correctly', async () => {
-  const component = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2"></cs-tree-item>
-      <cs-tree-item label="Child Item 3" selected></cs-tree-item>
-    </cs-tree>
+  const component = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2"></glide-core-tree-item>
+      <glide-core-tree-item
+        label="Child Item 3"
+        selected
+      ></glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = component.slotElements;

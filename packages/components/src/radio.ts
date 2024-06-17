@@ -5,15 +5,15 @@ import styles from './radio.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-radio': CsRadio;
+    'glide-core-radio': GlideCoreRadio;
   }
 }
 /**
- * @description A radio element for use with `<cs-radio-group>`.
+ * @description A radio element for use with `<glide-core-radio-group>`.
  *
  */
-@customElement('cs-radio')
-export default class CsRadio extends LitElement {
+@customElement('glide-core-radio')
+export default class GlideCoreRadio extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -65,7 +65,9 @@ export default class CsRadio extends LitElement {
     `;
   }
 
-  override willUpdate(changedProperties: PropertyValueMap<CsRadio>): void {
+  override willUpdate(
+    changedProperties: PropertyValueMap<GlideCoreRadio>,
+  ): void {
     if (this.hasUpdated) {
       if (changedProperties.has('checked')) {
         this.ariaChecked = this.checked.toString();

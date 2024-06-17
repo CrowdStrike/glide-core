@@ -1,9 +1,9 @@
 import * as sinon from 'sinon';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys, sendMouse } from '@web/test-runner-commands';
-import Modal from './modal.js';
+import GlideCoreModal from './modal.js';
 
-Modal.shadowRootOptions.mode = 'open';
+GlideCoreModal.shadowRootOptions.mode = 'open';
 
 const addSpy = sinon.spy(document.documentElement.classList, 'add');
 const removeSpy = sinon.spy(document.documentElement.classList, 'remove');
@@ -19,8 +19,10 @@ after(() => {
 });
 
 it('adds the "glide-lock-scroll" class to the documentElement when opened and removes it when closed', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.showModal();
@@ -40,8 +42,10 @@ it('adds the "glide-lock-scroll" class to the documentElement when opened and re
 });
 
 it('removes the "glide-lock-scroll" class when the close button is clicked', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.showModal();
@@ -60,8 +64,10 @@ it('removes the "glide-lock-scroll" class when the close button is clicked', asy
 });
 
 it('removes the "glide-lock-scroll" class when the "close" method is called', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.showModal();
@@ -79,8 +85,10 @@ it('removes the "glide-lock-scroll" class when the "close" method is called', as
 });
 
 it('removes the "glide-lock-scroll" class when the escape key is pressed', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.showModal();
@@ -93,8 +101,10 @@ it('removes the "glide-lock-scroll" class when the escape key is pressed', async
 });
 
 it('removes class "glide-lock-scroll" from document when click is outside dialog', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title">Modal Content</cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title"
+      >Modal Content</glide-core-modal
+    >`,
   );
 
   element.showModal();

@@ -1,15 +1,17 @@
 import './tab.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import Tab from './tab.js';
+import GlideCoreTab from './tab.js';
 
-Tab.shadowRootOptions.mode = 'open';
+GlideCoreTab.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-tab')).to.equal(Tab);
+  expect(window.customElements.get('glide-core-tab')).to.equal(GlideCoreTab);
 });
 
 it('renders correct markup and sets correct attributes for the default case', async () => {
-  const element = await fixture<Tab>(html` <cs-tab>Tab</cs-tab> `);
+  const element = await fixture<GlideCoreTab>(html`
+    <glide-core-tab>Tab</glide-core-tab>
+  `);
 
   await expect(element).to.not.be.accessible();
   expect(element.active).to.equal(false, 'active defaults to false');
@@ -25,14 +27,11 @@ it('renders correct markup and sets correct attributes for the default case', as
     'component',
     'primary',
   ]);
-
-  expect(element.shadowRoot!.querySelector('cs-icon-general-x-close-solid')).to
-    .not.exist;
 });
 
 it('renders a secondary variant', async () => {
-  const element = await fixture<Tab>(html`
-    <cs-tab variant="secondary">Tab</cs-tab>
+  const element = await fixture<GlideCoreTab>(html`
+    <glide-core-tab variant="secondary">Tab</glide-core-tab>
   `);
 
   expect([...element.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
@@ -42,8 +41,8 @@ it('renders a secondary variant', async () => {
 });
 
 it('renders a vertical variant', async () => {
-  const element = await fixture<Tab>(html`
-    <cs-tab variant="vertical">Tab</cs-tab>
+  const element = await fixture<GlideCoreTab>(html`
+    <glide-core-tab variant="vertical">Tab</glide-core-tab>
   `);
 
   expect([...element.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
@@ -53,32 +52,36 @@ it('renders a vertical variant', async () => {
 });
 
 it('sets the panel attribute', async () => {
-  const element = await fixture<Tab>(html`
-    <cs-tab panel="details">Tab</cs-tab>
+  const element = await fixture<GlideCoreTab>(html`
+    <glide-core-tab panel="details">Tab</glide-core-tab>
   `);
 
   expect(element.panel).to.equal('details');
 });
 
 it('sets the active attribute', async () => {
-  const element = await fixture<Tab>(html` <cs-tab active>Tab</cs-tab> `);
+  const element = await fixture<GlideCoreTab>(html`
+    <glide-core-tab active>Tab</glide-core-tab>
+  `);
 
   expect(element.active).to.equal(true);
 });
 
 it('sets the disabled attribute', async () => {
-  const element = await fixture<Tab>(html` <cs-tab disabled>Tab</cs-tab> `);
+  const element = await fixture<GlideCoreTab>(html`
+    <glide-core-tab disabled>Tab</glide-core-tab>
+  `);
 
   expect(element.disabled).to.equal(true);
   expect(element).to.have.attribute('aria-disabled', 'true');
 });
 
 it('renders the icon slot', async () => {
-  const element = await fixture<Tab>(html`
-    <cs-tab>
+  const element = await fixture<GlideCoreTab>(html`
+    <glide-core-tab>
       <span slot="icon">Icon</span>
       <span>Tab</span>
-    </cs-tab>
+    </glide-core-tab>
   `);
 
   const slotNodes = element

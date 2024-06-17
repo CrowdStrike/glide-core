@@ -1,12 +1,12 @@
 import { expect, fixture } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import CsTextarea from './textarea.js';
+import GlideCoreTextarea from './textarea.js';
 
-CsTextarea.shadowRootOptions.mode = 'open';
+GlideCoreTextarea.shadowRootOptions.mode = 'open';
 
 it('is valid by default', async () => {
-  const template = '<cs-textarea></cs-textarea>';
-  const textarea = await fixture<CsTextarea>(template);
+  const template = '<glide-core-textarea></glide-core-textarea>';
+  const textarea = await fixture<GlideCoreTextarea>(template);
 
   expect(textarea.validity?.valid).to.be.true;
   expect(textarea.validity?.valueMissing).to.be.false;
@@ -16,8 +16,8 @@ it('is valid by default', async () => {
 });
 
 it('is valid after being filled in and required', async () => {
-  const template = '<cs-textarea required></cs-textarea>';
-  const textarea = await fixture<CsTextarea>(template);
+  const template = '<glide-core-textarea required></glide-core-textarea>';
+  const textarea = await fixture<GlideCoreTextarea>(template);
   textarea.focus();
   await sendKeys({ type: 'value' });
 
@@ -29,8 +29,8 @@ it('is valid after being filled in and required', async () => {
 });
 
 it('is invalid if no value and required', async () => {
-  const template = '<cs-textarea required></cs-textarea>';
-  const textarea = await fixture<CsTextarea>(template);
+  const template = '<glide-core-textarea required></glide-core-textarea>';
+  const textarea = await fixture<GlideCoreTextarea>(template);
 
   expect(textarea.validity?.valid).to.be.false;
   expect(textarea.validity?.valueMissing).to.be.true;
@@ -41,8 +41,10 @@ it('is invalid if no value and required', async () => {
 });
 
 it('is valid when empty and does not exceed `max-character-count`', async () => {
-  const template = '<cs-textarea max-character-count="3"></cs-textarea>';
-  const textarea = await fixture<CsTextarea>(template);
+  const template =
+    '<glide-core-textarea max-character-count="3"></glide-core-textarea>';
+
+  const textarea = await fixture<GlideCoreTextarea>(template);
 
   expect(textarea.validity?.valid).to.be.true;
   expect(textarea.validity?.valueMissing).to.be.false;
@@ -52,8 +54,10 @@ it('is valid when empty and does not exceed `max-character-count`', async () => 
 });
 
 it('is valid when filled in and does not exceed `max-character-count`', async () => {
-  const template = '<cs-textarea max-character-count="3"></cs-textarea>';
-  const textarea = await fixture<CsTextarea>(template);
+  const template =
+    '<glide-core-textarea max-character-count="3"></glide-core-textarea>';
+
+  const textarea = await fixture<GlideCoreTextarea>(template);
   textarea.focus();
   await sendKeys({ type: 'abc' });
 
@@ -65,8 +69,10 @@ it('is valid when filled in and does not exceed `max-character-count`', async ()
 });
 
 it('is invalid when filled in and exceeds `max-character-count`', async () => {
-  const template = '<cs-textarea max-character-count="3"></cs-textarea>';
-  const textarea = await fixture<CsTextarea>(template);
+  const template =
+    '<glide-core-textarea max-character-count="3"></glide-core-textarea>';
+
+  const textarea = await fixture<GlideCoreTextarea>(template);
   textarea.focus();
   await sendKeys({ type: 'value' });
 
@@ -78,8 +84,10 @@ it('is invalid when filled in and exceeds `max-character-count`', async () => {
 });
 
 it('is valid if no value but required and disabled', async () => {
-  const template = '<cs-textarea required disabled></cs-textarea>';
-  const textarea = await fixture<CsTextarea>(template);
+  const template =
+    '<glide-core-textarea required disabled></glide-core-textarea>';
+
+  const textarea = await fixture<GlideCoreTextarea>(template);
 
   expect(textarea.validity?.valid).to.be.true;
   expect(textarea.validity?.valueMissing).to.be.false;
@@ -90,9 +98,9 @@ it('is valid if no value but required and disabled', async () => {
 
 it('is valid when filled in, disabled, and exceeds `max-character-count`', async () => {
   const template =
-    '<cs-textarea value="value" disabled max-character-count="3"></cs-textarea>';
+    '<glide-core-textarea value="value" disabled max-character-count="3"></glide-core-textarea>';
 
-  const textarea = await fixture<CsTextarea>(template);
+  const textarea = await fixture<GlideCoreTextarea>(template);
 
   expect(textarea.validity?.valid).to.be.true;
   expect(textarea.validity?.valueMissing).to.be.false;

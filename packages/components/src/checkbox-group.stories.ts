@@ -1,6 +1,6 @@
 import './checkbox.js';
 import { html, nothing } from 'lit';
-import CsCheckboxGroup from './checkbox-group.js';
+import GlideCoreCheckboxGroup from './checkbox-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -92,15 +92,16 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const checkboxGroup =
-      context.canvasElement.querySelector('cs-checkbox-group');
+    const checkboxGroup = context.canvasElement.querySelector(
+      'glide-core-checkbox-group',
+    );
 
     const isErrorStory = [
       'Horizontal (With Error)',
       'Vertical (With Error)',
     ].includes(context.name);
 
-    if (isErrorStory && checkboxGroup instanceof CsCheckboxGroup) {
+    if (isErrorStory && checkboxGroup instanceof GlideCoreCheckboxGroup) {
       checkboxGroup.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -110,23 +111,23 @@ const meta: Meta = {
   },
   render(arguments_) {
     return html`<form style="padding: 1.5rem;">
-      <cs-checkbox-group
+      <glide-core-checkbox-group
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         ?disabled=${arguments_.disabled}
         ?hide-label=${arguments_['hide-label'] || nothing}
         ?required=${arguments_.required}
       >
-        <cs-checkbox label="One" value="one"></cs-checkbox>
-        <cs-checkbox label="Two" value="two"></cs-checkbox>
-        <cs-checkbox label="Three" value="three"></cs-checkbox>
+        <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
+        <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
+        <glide-core-checkbox label="Three" value="three"></glide-core-checkbox>
 
         <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
           ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
           : ''}
-      </cs-checkbox-group>
+      </glide-core-checkbox-group>
     </form>`;
   },
 };

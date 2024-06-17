@@ -1,62 +1,62 @@
 import './tree.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import Tree from './tree.js';
-import TreeItem from './tree.item.js';
-import TreeItemIconButton from './tree.item.icon-button.js';
-import TreeItemMenu from './tree.item.menu.js';
+import GlideCoreTree from './tree.js';
+import GlideCoreTreeItem from './tree.item.js';
+import GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
+import GlideCoreTreeItemMenu from './tree.item.menu.js';
 
-Tree.shadowRootOptions.mode = 'open';
+GlideCoreTree.shadowRootOptions.mode = 'open';
 
 it('focuses the first tree item when tree is focused, if there are no selected items', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2"></cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2"></glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   tree.dispatchEvent(new Event('focusin'));
 
   const childItems = tree.slotElements;
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(childItems[0].label);
 });
 
 it('focuses the selected tree item on `focus()`, if there is one', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-      <cs-tree-item label="Child Item 2"></cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2"></glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
   tree.selectItem(childItems[1]);
   tree.dispatchEvent(new Event('focusin'));
   await tree.updateComplete;
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
   expect(document.activeElement?.label).to.equal(childItems[1].label);
 });
 
 it('expands a tree item if right arrow is pressed', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2"></cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2"></glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
   tree.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowRight' });
   expect(childItems[0].expanded).to.equal(true);
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
     childItems[0].label,
@@ -65,19 +65,19 @@ it('expands a tree item if right arrow is pressed', async () => {
 });
 
 it(`focuses on an expanded tree item's child if right arrow is pressed`, async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1" expanded>
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2"></cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1" expanded>
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2"></glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
   tree.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowRight' });
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
     childItems[0].slotElements[0].label,
@@ -85,20 +85,20 @@ it(`focuses on an expanded tree item's child if right arrow is pressed`, async (
 });
 
 it('collapses an expanded tree item if left arrow is pressed', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1" expanded>
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2"></cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1" expanded>
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2"></glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
   tree.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowLeft' });
   expect(childItems[0].expanded).to.equal(false);
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
     childItems[0].label,
@@ -107,41 +107,41 @@ it('collapses an expanded tree item if left arrow is pressed', async () => {
 });
 
 it(`focuses on a collapsed tree item's parent if left arrow is pressed`, async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2"></cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2"></glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
   const grandchildItems = childItems[0].slotElements;
   grandchildItems[0].focus();
   await sendKeys({ press: 'ArrowLeft' });
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
   expect(document.activeElement?.label).to.equal(childItems[0].label);
 });
 
 it('moves down the non-expanded tree items with down arrow', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1" expanded>
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2">
-        <cs-tree-item label="Grandchild Item 2"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 3"></cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1" expanded>
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item label="Grandchild Item 2"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 3"></glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
   tree.dispatchEvent(new Event('focusin'));
 
   await sendKeys({ press: 'ArrowDown' });
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
     childItems[0].slotElements[0].label,
@@ -171,15 +171,15 @@ it('moves down the non-expanded tree items with down arrow', async () => {
 });
 
 it('moves up the non-expanded tree items with up arrow', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2" expanded>
-        <cs-tree-item label="Grandchild Item 2"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2" expanded>
+        <glide-core-tree-item label="Grandchild Item 2"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
@@ -187,7 +187,7 @@ it('moves up the non-expanded tree items with up arrow', async () => {
   childItems[1].slotElements[0].focus();
 
   await sendKeys({ press: 'ArrowUp' });
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
   expect(document.activeElement?.label).to.equal(childItems[1].label);
 
   await sendKeys({ press: 'ArrowUp' });
@@ -206,15 +206,15 @@ it('moves up the non-expanded tree items with up arrow', async () => {
 });
 
 it('moves to the first item when Home is pressed', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2" expanded>
-        <cs-tree-item label="Grandchild Item 2"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2" expanded>
+        <glide-core-tree-item label="Grandchild Item 2"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
@@ -222,20 +222,20 @@ it('moves to the first item when Home is pressed', async () => {
   childItems[1].slotElements[0].focus();
 
   await sendKeys({ press: 'Home' });
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
   expect(document.activeElement?.label).to.equal(childItems[0].label);
 });
 
 it('moves to the last item when End is pressed', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2" expanded>
-        <cs-tree-item label="Grandchild Item 2"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2" expanded>
+        <glide-core-tree-item label="Grandchild Item 2"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
@@ -243,7 +243,7 @@ it('moves to the last item when End is pressed', async () => {
   childItems[0].focus();
 
   await sendKeys({ press: 'End' });
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
     childItems[1].slotElements[0].label,
@@ -251,13 +251,13 @@ it('moves to the last item when End is pressed', async () => {
 });
 
 it('selects or expands/collapses node when Enter is pressed', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1"></cs-tree-item>
-      <cs-tree-item label="Child Item 2">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
@@ -283,15 +283,15 @@ it('selects or expands/collapses node when Enter is pressed', async () => {
 });
 
 it('does nothing if some other key is pressed', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item label="Grandchild Item 1"></cs-tree-item>
-      </cs-tree-item>
-      <cs-tree-item label="Child Item 2" expanded>
-        <cs-tree-item label="Grandchild Item 2"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2" expanded>
+        <glide-core-tree-item label="Grandchild Item 2"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   const childItems = tree.slotElements;
@@ -299,21 +299,21 @@ it('does nothing if some other key is pressed', async () => {
   childItems[0].focus();
 
   await sendKeys({ press: 'a' });
-  assert(document.activeElement instanceof TreeItem);
+  assert(document.activeElement instanceof GlideCoreTreeItem);
   expect(document.activeElement?.label).to.equal(childItems[0].label);
 });
 
 it('can use the keyboard to navigate to a tree item icon button', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item-icon-button slot="suffix">
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item-icon-button slot="suffix">
           <svg viewBox="0 0 24 24">
             <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
-        </cs-tree-item-icon-button>
-      </cs-tree-item>
-    </cs-tree>
+        </glide-core-tree-item-icon-button>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   tree.dispatchEvent(new Event('focusin'));
@@ -322,18 +322,19 @@ it('can use the keyboard to navigate to a tree item icon button', async () => {
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 
-  assert(document.activeElement instanceof TreeItemIconButton);
+  assert(document.activeElement instanceof GlideCoreTreeItemIconButton);
 });
 
 it('can use the keyboard to navigate to a tree item menu', async () => {
-  const tree = await fixture<Tree>(html`
-    <cs-tree>
-      <cs-tree-item label="Child Item 1">
-        <cs-tree-item-menu slot="menu">
-          <cs-menu-link label="Edit" url="/edit"> </cs-menu-link>
-        </cs-tree-item-menu>
-      </cs-tree-item>
-    </cs-tree>
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item-menu slot="menu">
+          <glide-core-menu-link label="Edit" url="/edit">
+          </glide-core-menu-link>
+        </glide-core-tree-item-menu>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `);
 
   tree.dispatchEvent(new Event('focusin'));
@@ -342,5 +343,5 @@ it('can use the keyboard to navigate to a tree item menu', async () => {
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 
-  assert(document.activeElement instanceof TreeItemMenu);
+  assert(document.activeElement instanceof GlideCoreTreeItemMenu);
 });

@@ -7,7 +7,7 @@ import styles from './tree.item.icon-button.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-tree-item-icon-button': CsTreeItemIconButton;
+    'glide-core-tree-item-icon-button': GlideCoreTreeItemIconButton;
   }
 }
 
@@ -17,8 +17,8 @@ declare global {
  *
  * @slot - Reserved for the icon to display inside of the button.
  */
-@customElement('cs-tree-item-icon-button')
-export default class CsTreeItemIconButton extends LitElement {
+@customElement('glide-core-tree-item-icon-button')
+export default class GlideCoreTreeItemIconButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -32,12 +32,12 @@ export default class CsTreeItemIconButton extends LitElement {
 
   override render() {
     return html`
-      <cs-icon-button class="component" variant="tertiary">
+      <glide-core-icon-button class="component" variant="tertiary">
         <slot
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
-      </cs-icon-button>
+      </glide-core-icon-button>
     `;
   }
 

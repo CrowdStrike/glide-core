@@ -7,7 +7,7 @@ import styles from './button.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-button': CsButton;
+    'glide-core-button': GlideCoreButton;
   }
 }
 
@@ -16,8 +16,8 @@ declare global {
  * @slot prefix - An optional icon slot to display before the label.
  * @slot suffix - An optional icon slot to display after the label.
  */
-@customElement('cs-button')
-export default class CsButton extends LitElement {
+@customElement('glide-core-button')
+export default class GlideCoreButton extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {

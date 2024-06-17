@@ -8,21 +8,21 @@ import styles from './tag.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-tag': CsTag;
+    'glide-core-tag': GlideCoreTag;
   }
 }
 
 /**
  * @description A tag component to categorize information.
  *
- * @event remove - Emitted when `cs-tag` is removed
+ * @event remove - Emitted when `glide-core-tag` is removed
  *
  * @slot - The content of the tag
  *
  * @slot prefix - A slot for an optional icon
  */
-@customElement('cs-tag')
-export default class CsTag extends LitElement {
+@customElement('glide-core-tag')
+export default class GlideCoreTag extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',

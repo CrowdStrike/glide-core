@@ -8,11 +8,11 @@ import type { ButtonGroupVariant } from './button-group.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-button-group-button': CsButtonGroupButton;
+    'glide-core-button-group-button': GlideCoreButtonGroupButton;
   }
 }
 /**
- * @description A button for use with `<cs-button-group>` with label and optional icon.
+ * @description A button for use with `<glide-core-button-group>` with label and optional icon.
  *
  * @event change - Dispatched when clicked or selected by key press.
  * @event input - Dispatched when clicked or selected by key press.
@@ -20,8 +20,8 @@ declare global {
  * @slot prefix - Icon content.
  * @slot - Label content.
  */
-@customElement('cs-button-group-button')
-export default class CsButtonGroupButton extends LitElement {
+@customElement('glide-core-button-group-button')
+export default class GlideCoreButtonGroupButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -141,7 +141,7 @@ export default class CsButtonGroupButton extends LitElement {
   }
 
   override willUpdate(
-    changedProperties: PropertyValueMap<CsButtonGroupButton>,
+    changedProperties: PropertyValueMap<GlideCoreButtonGroupButton>,
   ) {
     if (this.hasUpdated && changedProperties.has('selected')) {
       const value = changedProperties.get('selected');
@@ -178,14 +178,14 @@ export default class CsButtonGroupButton extends LitElement {
 
   get #buttonElements() {
     const elements =
-      this.closest('cs-button-group')?.querySelectorAll(
-        'cs-button-group-button',
+      this.closest('glide-core-button-group')?.querySelectorAll(
+        'glide-core-button-group-button',
       ) ?? [];
 
     return [...elements];
   }
 
-  #dispatchEvents(button: CsButtonGroupButton = this) {
+  #dispatchEvents(button: GlideCoreButtonGroupButton = this) {
     button.dispatchEvent(
       new CustomEvent('change', { bubbles: true, detail: button.value }),
     );
@@ -225,7 +225,7 @@ export default class CsButtonGroupButton extends LitElement {
 
         while (
           !sibling ||
-          (sibling instanceof CsButtonGroupButton && sibling.disabled)
+          (sibling instanceof GlideCoreButtonGroupButton && sibling.disabled)
         ) {
           if (sibling === null) {
             const lastButton = this.#buttonElements.at(-1);
@@ -238,7 +238,7 @@ export default class CsButtonGroupButton extends LitElement {
           }
         }
 
-        if (sibling && sibling instanceof CsButtonGroupButton) {
+        if (sibling && sibling instanceof GlideCoreButtonGroupButton) {
           sibling.selected = true;
           this.#dispatchEvents(sibling);
         }
@@ -254,7 +254,7 @@ export default class CsButtonGroupButton extends LitElement {
 
         while (
           !sibling ||
-          (sibling instanceof CsButtonGroupButton && sibling.disabled)
+          (sibling instanceof GlideCoreButtonGroupButton && sibling.disabled)
         ) {
           if (sibling === null) {
             const firstButton = this.#buttonElements.at(0);
@@ -267,7 +267,7 @@ export default class CsButtonGroupButton extends LitElement {
           }
         }
 
-        if (sibling && sibling instanceof CsButtonGroupButton) {
+        if (sibling && sibling instanceof GlideCoreButtonGroupButton) {
           sibling.selected = true;
           this.#dispatchEvents(sibling);
         }

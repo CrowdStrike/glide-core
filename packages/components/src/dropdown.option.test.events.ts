@@ -1,11 +1,14 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import CsDropdownOption from './dropdown.option.js';
+import GlideCoreDropdownOption from './dropdown.option.js';
 
-CsDropdownOption.shadowRootOptions.mode = 'open';
+GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('dispatches a "private-change" event', async () => {
-  const component = await fixture<CsDropdownOption>(
-    html`<cs-dropdown-option label="Label" value="value"></cs-dropdown-option>`,
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      value="value"
+    ></glide-core-dropdown-option>`,
   );
 
   setTimeout(() => {
@@ -19,8 +22,11 @@ it('dispatches a "private-change" event', async () => {
 });
 
 it('dispatches a "private-selected" event', async () => {
-  const component = await fixture<CsDropdownOption>(
-    html`<cs-dropdown-option label="Label" value="value"></cs-dropdown-option>`,
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      value="value"
+    ></glide-core-dropdown-option>`,
   );
 
   setTimeout(() => {
@@ -32,8 +38,11 @@ it('dispatches a "private-selected" event', async () => {
 });
 
 it('dispatches a "private-value" event', async () => {
-  const component = await fixture<CsDropdownOption>(
-    html`<cs-dropdown-option label="Label" value="value"></cs-dropdown-option>`,
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      value="value"
+    ></glide-core-dropdown-option>`,
   );
 
   setTimeout(() => {

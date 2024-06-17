@@ -1,13 +1,16 @@
 import './textarea.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import type CsTextarea from './textarea.js';
+import type GlideCoreTextarea from './textarea.js';
 
 it('can be reset to initial value', async () => {
   const form = document.createElement('form');
 
-  const textarea = await fixture<CsTextarea>(
-    html`<cs-textarea value="testing" label="label"></cs-textarea>`,
+  const textarea = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea
+      value="testing"
+      label="label"
+    ></glide-core-textarea>`,
     { parentNode: form },
   );
 
@@ -22,8 +25,8 @@ it('can be reset to initial value', async () => {
 it('can be reset if there was no initial value', async () => {
   const form = document.createElement('form');
 
-  const textarea = await fixture<CsTextarea>(
-    html`<cs-textarea label="label"></cs-textarea>`,
+  const textarea = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="label"></glide-core-textarea>`,
     { parentNode: form },
   );
 
@@ -36,8 +39,12 @@ it('can be reset if there was no initial value', async () => {
 it('has `formData` when it has a `value` and `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsTextarea>(
-    html`<cs-textarea value="value" label="label" name="name"></cs-textarea>`,
+  await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea
+      value="value"
+      label="label"
+      name="name"
+    ></glide-core-textarea>`,
     { parentNode: form },
   );
 
@@ -49,8 +56,12 @@ it('has `formData` when it has a `value` and `name`', async () => {
 it('has `formData` when text is entered and has a `name`', async () => {
   const form = document.createElement('form');
 
-  const textarea = await fixture<CsTextarea>(
-    html`<cs-textarea value="" label="label" name="name"></cs-textarea>`,
+  const textarea = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea
+      value=""
+      label="label"
+      name="name"
+    ></glide-core-textarea>`,
     { parentNode: form },
   );
 
@@ -64,13 +75,13 @@ it('has `formData` when text is entered and has a `name`', async () => {
 it('has no `formData` value when it has a value and is disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsTextarea>(
-    html`<cs-textarea
+  await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea
       value="value"
       label="label"
       name="test-name"
       disabled
-    ></cs-textarea>`,
+    ></glide-core-textarea>`,
     { parentNode: form },
   );
 
@@ -82,8 +93,11 @@ it('has no `formData` value when it has a value and is disabled', async () => {
 it('appends no `formData` when it has a value and no `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsTextarea>(
-    html`<cs-textarea value="value" label="label"></cs-textarea>`,
+  await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea
+      value="value"
+      label="label"
+    ></glide-core-textarea>`,
     { parentNode: form },
   );
 
@@ -95,8 +109,8 @@ it('appends no `formData` when it has a value and no `name`', async () => {
 it('appends no `formData` when it has no value and a `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<CsTextarea>(
-    html`<cs-textarea label="label" name="name"></cs-textarea>`,
+  await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="label" name="name"></glide-core-textarea>`,
     { parentNode: form },
   );
 

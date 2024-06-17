@@ -9,25 +9,25 @@ import {
   state,
 } from 'lit/decorators.js';
 import { owSlotType } from './library/ow.js';
-import CsTab from './tab.js';
-import CsTabPanel from './tab.panel.js';
+import GlideCoreTab from './tab.js';
+import GlideCoreTabPanel from './tab.panel.js';
 import styles from './tab.group.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-tab-group': CsTabGroup;
+    'glide-core-tab-group': GlideCoreTabGroup;
   }
 }
 
 /**
  * @description The parent component for a group of tabs. Handles active state changes from clicking the tabs.
  *
- * @slot nav - The slot where you place the <cs-tab> components
+ * @slot nav - The slot where you place the <glide-core-tab> components
  *
- * @slot - The default slot. Put the <cs-tab-panel> components here
+ * @slot - The default slot. Put the <glide-core-tab-panel> components here
  */
-@customElement('cs-tab-group')
-export default class CsTabGroup extends LitElement {
+@customElement('glide-core-tab-group')
+export default class GlideCoreTabGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -37,24 +37,24 @@ export default class CsTabGroup extends LitElement {
 
   /**
    * Sets the variant attribute on the tab group.
-   * Automatically sets this variant on all <cs-tab> components inside the default slot
+   * Automatically sets this variant on all <glide-core-tab> components inside the default slot
    * */
   @property({ reflect: true }) variant = 'primary';
 
   /**
    * The tab element that is currently active
    * */
-  @state() activeTab?: CsTab;
+  @state() activeTab?: GlideCoreTab;
 
   @queryAssignedElements()
-  panelElements!: CsTabPanel[];
+  panelElements!: GlideCoreTabPanel[];
 
   @queryAssignedElements({ slot: 'nav' })
-  tabElements!: CsTab[];
+  tabElements!: GlideCoreTab[];
 
   override firstUpdated() {
-    owSlotType(this.#navSlotElementRef.value, [CsTab]);
-    owSlotType(this.#defaultSlotElementRef.value, [CsTabPanel]);
+    owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
     this.#setupTabs();
     this.#setActiveTab();
   }
@@ -98,21 +98,25 @@ export default class CsTabGroup extends LitElement {
 
   #onClick = (event: Event) => {
     const target = event.target as HTMLElement;
-    const clickedTab = target.closest('cs-tab');
+    const clickedTab = target.closest('glide-core-tab');
 
-    if (clickedTab && clickedTab instanceof CsTab && !clickedTab.disabled) {
+    if (
+      clickedTab &&
+      clickedTab instanceof GlideCoreTab &&
+      !clickedTab.disabled
+    ) {
       this.#showTab(clickedTab);
     }
   };
 
   #onKeydown = (event: KeyboardEvent) => {
     const target = event.target as HTMLElement;
-    const targetTab = target.closest('cs-tab');
+    const targetTab = target.closest('glide-core-tab');
 
     if (
       ['Enter', ' '].includes(event.key) &&
       targetTab &&
-      targetTab instanceof CsTab &&
+      targetTab instanceof GlideCoreTab &&
       !targetTab.disabled
     ) {
       this.#showTab(targetTab);
@@ -133,7 +137,7 @@ export default class CsTabGroup extends LitElement {
         tab.matches(':focus'),
       );
 
-      if (activeElement?.tagName.toLowerCase() === 'cs-tab') {
+      if (activeElement?.tagName.toLowerCase() === 'glide-core-tab') {
         let index = this.tabElements.indexOf(activeElement);
 
         switch (event.key) {
@@ -175,11 +179,11 @@ export default class CsTabGroup extends LitElement {
   };
 
   #onDefaultSlotChange() {
-    owSlotType(this.#defaultSlotElementRef.value, [CsTabPanel]);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
   }
 
   #onNavSlotChange() {
-    owSlotType(this.#navSlotElementRef.value, [CsTab]);
+    owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
   }
 
   #setActiveTab() {
@@ -216,7 +220,7 @@ export default class CsTabGroup extends LitElement {
     }
   }
 
-  #showTab(tab: CsTab) {
+  #showTab(tab: GlideCoreTab) {
     this.activeTab = tab;
     this.#setActiveTab();
 

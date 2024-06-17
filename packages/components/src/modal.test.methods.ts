@@ -1,11 +1,13 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import Modal from './modal.js';
+import GlideCoreModal from './modal.js';
 
-Modal.shadowRootOptions.mode = 'open';
+GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('opens the modal when the "showModal" method is called and closes it when "close" is called', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();
@@ -19,8 +21,10 @@ it('opens the modal when the "showModal" method is called and closes it when "cl
 });
 
 it('remains open when the "showModal" method is called twice', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();

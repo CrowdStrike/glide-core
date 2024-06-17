@@ -7,7 +7,7 @@ import styles from './accordion.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-accordion': CsAccordion;
+    'glide-core-accordion': GlideCoreAccordion;
   }
 }
 
@@ -17,8 +17,8 @@ declare global {
  * @slot prefix - An optional icon to display before the label.
  * @slot suffix - An optional section to add additional iconography.
  */
-@customElement('cs-accordion')
-export default class CsAccordion extends LitElement {
+@customElement('glide-core-accordion')
+export default class GlideCoreAccordion extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',

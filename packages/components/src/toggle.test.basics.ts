@@ -1,15 +1,17 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import CsToggle from './toggle.js';
+import GlideCoreToggle from './toggle.js';
 
-CsToggle.shadowRootOptions.mode = 'open';
+GlideCoreToggle.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-toggle')).to.equal(CsToggle);
+  expect(window.customElements.get('glide-core-toggle')).to.equal(
+    GlideCoreToggle,
+  );
 });
 
 it('has defaults', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label"></cs-toggle>`,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
   expect(component.hasAttribute('checked')).to.be.false;
@@ -29,19 +31,19 @@ it('has defaults', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label">
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label">
       <div slot="tooltip">Tooltip</div>
       <div slot="description">Description</div>
-    </cs-toggle>`,
+    </glide-core-toggle>`,
   );
 
   await expect(component).to.be.accessible();
 });
 
 it('can have a label', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label"></cs-toggle> `,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle> `,
   );
 
   expect(component.getAttribute('label')).to.equal('Label');
@@ -49,10 +51,10 @@ it('can have a label', async () => {
 });
 
 it('can have a description', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label">
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label">
       <div slot="description">Description</div>
-    </cs-toggle>`,
+    </glide-core-toggle>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -63,8 +65,8 @@ it('can have a description', async () => {
 });
 
 it('can have a summary', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle summary="Summary"></cs-toggle> `,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle summary="Summary"></glide-core-toggle> `,
   );
 
   expect(component.getAttribute('summary')).to.equal('Summary');
@@ -72,10 +74,10 @@ it('can have a summary', async () => {
 });
 
 it('can have a tooltip', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label">
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label">
       <div slot="tooltip">Tooltip</div>
-    </cs-toggle>`,
+    </glide-core-toggle>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -86,8 +88,8 @@ it('can have a tooltip', async () => {
 });
 
 it('can be checked', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle checked></cs-toggle> `,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle checked></glide-core-toggle> `,
   );
 
   expect(component.hasAttribute('checked')).to.be.true;
@@ -95,8 +97,8 @@ it('can be checked', async () => {
 });
 
 it('can be disabled', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle disabled></cs-toggle> `,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle disabled></glide-core-toggle> `,
   );
 
   expect(component.hasAttribute('disabled')).to.be.true;

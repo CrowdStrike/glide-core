@@ -1,13 +1,13 @@
 import './button.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import CsButton from './button.js';
+import GlideCoreButton from './button.js';
 
-CsButton.shadowRootOptions.mode = 'open';
+GlideCoreButton.shadowRootOptions.mode = 'open';
 
 it('dispatches an event when clicked and type="button"', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button type="button">Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button type="button">Button</glide-core-button>
   `);
 
   const clickEvent = oneEvent(component, 'click');
@@ -19,8 +19,8 @@ it('dispatches an event when clicked and type="button"', async () => {
 });
 
 it('dispatches an event when hitting "enter" and type="button"', async () => {
-  const component = await fixture<CsButton>(html`
-    <cs-button type="button">Button</cs-button>
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button type="button">Button</glide-core-button>
   `);
 
   const keyDownEvent = oneEvent(component, 'keydown');

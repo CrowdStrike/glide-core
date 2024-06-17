@@ -14,11 +14,11 @@ const meta: Meta = {
     },
   },
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled || nothing}
-      >${arguments_['slot="default"']}</cs-button
+      >${arguments_['slot="default"']}</glide-core-button
     >
   `,
   args: {
@@ -76,46 +76,58 @@ export const PrimaryWithPrefixIcon: StoryObj = {
 
   name: 'Primary (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
-    </cs-button>
+      <glide-core-example-icon
+        slot="prefix"
+        name="chevron-down"
+      ></glide-core-example-icon>
+    </glide-core-button>
   `,
 };
 
 export const PrimaryWithSuffixIcon: StoryObj = {
   name: 'Primary (With Suffix Icon)',
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
-    </cs-button>
+      <glide-core-example-icon
+        slot="suffix"
+        name="chevron-down"
+      ></glide-core-example-icon>
+    </glide-core-button>
   `,
 };
 
 export const PrimaryWithPrefixAndSuffixIcons: StoryObj = {
   name: 'Primary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
-    </cs-button>
+      <glide-core-example-icon
+        slot="prefix"
+        name="calendar"
+      ></glide-core-example-icon>
+      <glide-core-example-icon
+        slot="suffix"
+        name="chevron-down"
+      ></glide-core-example-icon>
+    </glide-core-button>
   `,
 };
 
@@ -131,15 +143,18 @@ export const SecondaryWithPrefixIcon: StoryObj = {
   },
   name: 'Secondary (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
-    </cs-button>
+      <glide-core-example-icon
+        slot="prefix"
+        name="chevron-down"
+      ></glide-core-example-icon>
+    </glide-core-button>
   `,
 };
 
@@ -149,15 +164,18 @@ export const SecondaryWithSuffixIcon: StoryObj = {
   },
   name: 'Secondary (With Suffix Icon)',
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
-    </cs-button>
+      <glide-core-example-icon
+        slot="suffix"
+        name="chevron-down"
+      ></glide-core-example-icon>
+    </glide-core-button>
   `,
 };
 
@@ -167,16 +185,22 @@ export const SecondaryWithPrefixAndSuffixIcons: StoryObj = {
   },
   name: 'Secondary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
-    </cs-button>
+      <glide-core-example-icon
+        slot="prefix"
+        name="calendar"
+      ></glide-core-example-icon>
+      <glide-core-example-icon
+        slot="suffix"
+        name="chevron-down"
+      ></glide-core-example-icon>
+    </glide-core-button>
   `,
 };
 
@@ -192,15 +216,18 @@ export const TertiaryWithPrefixIcon: StoryObj = {
   },
   name: 'Tertiary (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="prefix" name="chevron-down"></cs-example-icon>
-    </cs-button>
+      <glide-core-example-icon
+        slot="prefix"
+        name="chevron-down"
+      ></glide-core-example-icon>
+    </glide-core-button>
   `,
 };
 
@@ -210,15 +237,18 @@ export const TertiaryWithSuffixIcon: StoryObj = {
   },
   name: 'Tertiary (With Suffix Icon)',
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
-    </cs-button>
+      <glide-core-example-icon
+        slot="suffix"
+        name="chevron-down"
+      ></glide-core-example-icon>
+    </glide-core-button>
   `,
 };
 
@@ -228,15 +258,21 @@ export const TertiaryWithPrefixAndSuffixIcons: StoryObj = {
   },
   name: 'Tertiary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
-    <cs-button
+    <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
       ${arguments_['slot="default"']}
 
-      <cs-example-icon slot="prefix" name="calendar"></cs-example-icon>
-      <cs-example-icon slot="suffix" name="chevron-down"></cs-example-icon>
-    </cs-button>
+      <glide-core-example-icon
+        slot="prefix"
+        name="calendar"
+      ></glide-core-example-icon>
+      <glide-core-example-icon
+        slot="suffix"
+        name="chevron-down"
+      ></glide-core-example-icon>
+    </glide-core-button>
   `,
 };

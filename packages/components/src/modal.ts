@@ -5,14 +5,14 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
-import CsButton from './button.js';
-import CsModalIconButton from './modal.icon-button.js';
-import CsModalTertiaryIcon from './modal.tertiary-icon.js';
+import GlideCoreButton from './button.js';
+import GlideCoreModalIconButton from './modal.icon-button.js';
+import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
 import styles from './modal.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-modal': CsModal;
+    'glide-core-modal': GlideCoreModal;
   }
 }
 
@@ -21,14 +21,14 @@ declare global {
  *
  * @event close - Emitted when the Modal closes.
  *
- * @function showModal - A method on the `cs-modal` component to open the Modal programmatically.
+ * @function showModal - A method on the `glide-core-modal` component to open the Modal programmatically.
  *
- * @function close - A method on the `cs-modal` component to close the Modal programmatically.
+ * @function close - A method on the `glide-core-modal` component to close the Modal programmatically.
  *
  * @slot - The content of the modal.
  *
  * @slot header-actions - A slot for placing additional header actions. These are co-located with the close button.
- *                        Use the `cs-modal-icon-button` component only.
+ *                        Use the `glide-core-modal-icon-button` component only.
  *
  * @slot primary - A slot for rendering a primary action button. Normally a "Continue", "Next", or "Submit" action.
  *
@@ -37,8 +37,8 @@ declare global {
  * @slot tertiary - A slot for rendering an icon+tooltip for additional information,
  *                  or a tertiary action button.
  */
-@customElement('cs-modal')
-export default class CsModal extends LitElement {
+@customElement('glide-core-modal')
+export default class GlideCoreModal extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -78,13 +78,20 @@ export default class CsModal extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#headerActionsSlotElementRef.value, [CsModalIconButton]);
-    owSlotType(this.#footerMenuPrimarySlotElementRef.value, [CsButton]);
-    owSlotType(this.#footerMenuSecondarySlotElementRef.value, [CsButton]);
+
+    owSlotType(this.#headerActionsSlotElementRef.value, [
+      GlideCoreModalIconButton,
+    ]);
+
+    owSlotType(this.#footerMenuPrimarySlotElementRef.value, [GlideCoreButton]);
+
+    owSlotType(this.#footerMenuSecondarySlotElementRef.value, [
+      GlideCoreButton,
+    ]);
 
     owSlotType(this.#footerMenuTertiarySlotElementRef.value, [
-      CsModalTertiaryIcon,
-      CsButton,
+      GlideCoreModalTertiaryIcon,
+      GlideCoreButton,
     ]);
   }
 
@@ -107,7 +114,7 @@ export default class CsModal extends LitElement {
           ${when(
             this.showBackButton,
             () =>
-              html` <cs-modal-icon-button
+              html` <glide-core-modal-icon-button
                 data-test="back-button"
                 @click=${this.#onCloseButtonClick}
               >
@@ -125,7 +132,7 @@ export default class CsModal extends LitElement {
                     stroke-linejoin="round"
                   />
                 </svg>
-              </cs-modal-icon-button>`,
+              </glide-core-modal-icon-button>`,
           )}
           ${this.label}
         </h2>
@@ -137,7 +144,7 @@ export default class CsModal extends LitElement {
             ${ref(this.#headerActionsSlotElementRef)}
           ></slot>
 
-          <cs-modal-icon-button
+          <glide-core-modal-icon-button
             data-test="close-button"
             @click=${this.#onCloseButtonClick}
           >
@@ -158,7 +165,7 @@ export default class CsModal extends LitElement {
                 stroke-linejoin="round"
               />
             </svg>
-          </cs-modal-icon-button>
+          </glide-core-modal-icon-button>
         </div>
       </header>
 
@@ -272,22 +279,26 @@ export default class CsModal extends LitElement {
   }
 
   #onFooterMenuPrimarySlotChange() {
-    owSlotType(this.#footerMenuPrimarySlotElementRef.value, [CsButton]);
+    owSlotType(this.#footerMenuPrimarySlotElementRef.value, [GlideCoreButton]);
   }
 
   #onFooterMenuSecondarySlotChange() {
-    owSlotType(this.#footerMenuSecondarySlotElementRef.value, [CsButton]);
+    owSlotType(this.#footerMenuSecondarySlotElementRef.value, [
+      GlideCoreButton,
+    ]);
   }
 
   #onFooterMenuTertiarySlotChange() {
     owSlotType(this.#footerMenuTertiarySlotElementRef.value, [
-      CsModalTertiaryIcon,
-      CsButton,
+      GlideCoreModalTertiaryIcon,
+      GlideCoreButton,
     ]);
   }
 
   #onHeaderActionsSlotChange() {
-    owSlotType(this.#headerActionsSlotElementRef.value, [CsModalIconButton]);
+    owSlotType(this.#headerActionsSlotElementRef.value, [
+      GlideCoreModalIconButton,
+    ]);
   }
 
   #onKeyDown(event: KeyboardEvent) {

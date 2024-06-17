@@ -1,11 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import CsCheckbox from './checkbox.js';
+import GlideCoreCheckbox from './checkbox.js';
 
-CsCheckbox.shadowRootOptions.mode = 'open';
+GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('focuses the input when `focus` is called', async () => {
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label"></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
   component.focus();
@@ -17,8 +17,8 @@ it('focuses the input when `focus` is called', async () => {
 it('focuses the input after submit when required and unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" required></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
     {
       parentNode: form,
     },
@@ -33,8 +33,8 @@ it('focuses the input after submit when required and unchecked', async () => {
 it('focuses the input after `reportValidity` is called when required and unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" required></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
     { parentNode: form },
   );
 
@@ -47,8 +47,8 @@ it('focuses the input after `reportValidity` is called when required and uncheck
 it('focuses the input after `requestSubmit` is called when required and unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" required></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
     { parentNode: form },
   );
 
@@ -61,8 +61,8 @@ it('focuses the input after `requestSubmit` is called when required and unchecke
 it('does not focus the input after `checkValidity` is called', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckbox>(
-    html`<cs-checkbox label="Label" required></cs-checkbox>`,
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
     { parentNode: form },
   );
 

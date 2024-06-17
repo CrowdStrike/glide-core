@@ -1,11 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import CsDropdownOption from './dropdown.option.js';
+import GlideCoreDropdownOption from './dropdown.option.js';
 
-CsDropdownOption.shadowRootOptions.mode = 'open';
+GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-dropdown-option')).to.equal(
-    CsDropdownOption,
+  expect(window.customElements.get('glide-core-dropdown-option')).to.equal(
+    GlideCoreDropdownOption,
   );
 });
 
@@ -13,8 +13,10 @@ it('has defaults', async () => {
   // Required attributes are supplied and not asserted below. The idea is that
   // this test shouldn't fail to typecheck if these templates are eventually
   // typechecked, which means supplying required attributes and slots.
-  const component = await fixture<CsDropdownOption>(
-    html`<cs-dropdown-option label="Label"></cs-dropdown-option>`,
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+    ></glide-core-dropdown-option>`,
   );
 
   // None are reflected, so no attribute assertions are necessary.
@@ -24,12 +26,12 @@ it('has defaults', async () => {
 });
 
 it('can be selected', async () => {
-  const component = await fixture<CsDropdownOption>(
-    html`<cs-dropdown-option
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
       label="Label"
       value="value"
       selected
-    ></cs-dropdown-option>`,
+    ></glide-core-dropdown-option>`,
   );
 
   expect(component.hasAttribute('selected')).to.be.true;
@@ -42,16 +44,19 @@ it('can be selected', async () => {
 });
 
 it('can have a label', async () => {
-  const component = await fixture<CsDropdownOption>(
-    html`<cs-dropdown-option label="Label" value="value"></cs-dropdown-option>`,
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      value="value"
+    ></glide-core-dropdown-option>`,
   );
 
   expect(component.shadowRoot?.textContent?.trim()).to.equal('Label');
 });
 
 it('can have an icon', async () => {
-  const component = await fixture<CsDropdownOption>(
-    html`<cs-dropdown-option label="Label" value="value">
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option label="Label" value="value">
       <svg slot="icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
         <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
 
@@ -64,7 +69,7 @@ it('can have an icon', async () => {
 
         <circle cx="12" cy="8" r="1" fill="currentColor" />
       </svg>
-    </cs-dropdown-option>`,
+    </glide-core-dropdown-option>`,
   );
 
   const icon = component?.shadowRoot
@@ -76,8 +81,11 @@ it('can have an icon', async () => {
 });
 
 it('can have a value', async () => {
-  const component = await fixture<CsDropdownOption>(
-    html`<cs-dropdown-option label="Label" value="value"></cs-dropdown-option>`,
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      value="value"
+    ></glide-core-dropdown-option>`,
   );
 
   expect(component.getAttribute('value')).to.equal('value');

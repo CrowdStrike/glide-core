@@ -1,15 +1,15 @@
 import './button.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import CsButton from './button.js';
+import GlideCoreButton from './button.js';
 
-CsButton.shadowRootOptions.mode = 'open';
+GlideCoreButton.shadowRootOptions.mode = 'open';
 
 it('participates in a form when type="reset"', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsButton>(
-    html` <cs-button type="reset">Button</cs-button> `,
+  const component = await fixture<GlideCoreButton>(
+    html` <glide-core-button type="reset">Button</glide-core-button> `,
     {
       parentNode: form,
     },
@@ -26,8 +26,8 @@ it('participates in a form when type="reset"', async () => {
 it('participates in a form when hitting "enter" and type="reset"', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsButton>(
-    html` <cs-button type="reset">Button</cs-button> `,
+  const component = await fixture<GlideCoreButton>(
+    html` <glide-core-button type="reset">Button</glide-core-button> `,
     {
       parentNode: form,
     },
@@ -44,8 +44,8 @@ it('participates in a form when hitting "enter" and type="reset"', async () => {
 it('participates in a form when type="submit"', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsButton>(
-    html` <cs-button type="submit">Button</cs-button> `,
+  const component = await fixture<GlideCoreButton>(
+    html` <glide-core-button type="submit">Button</glide-core-button> `,
     {
       parentNode: form,
     },
@@ -54,7 +54,7 @@ it('participates in a form when type="submit"', async () => {
   form.addEventListener('submit', (event) => event.preventDefault());
 
   const formSubmitEvent = oneEvent(form, 'submit');
-  component.shadowRoot?.querySelector<CsButton>('button')?.click();
+  component.shadowRoot?.querySelector<GlideCoreButton>('button')?.click();
 
   const event = await formSubmitEvent;
   expect(event instanceof Event).to.be.true;
@@ -63,8 +63,8 @@ it('participates in a form when type="submit"', async () => {
 it('participates in a form when hitting "enter" and type="submit"', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsButton>(
-    html` <cs-button type="submit">Button</cs-button> `,
+  const component = await fixture<GlideCoreButton>(
+    html` <glide-core-button type="submit">Button</glide-core-button> `,
     {
       parentNode: form,
     },

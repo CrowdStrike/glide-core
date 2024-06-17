@@ -24,22 +24,26 @@ const meta: Meta = {
     const button =
       context.canvasElement.querySelector<HTMLButtonElement>('[data-open]');
 
-    const modal = context.canvasElement.querySelector('cs-modal');
+    const modal = context.canvasElement.querySelector('glide-core-modal');
 
     button?.addEventListener('click', () => modal?.showModal());
   },
   render: (arguments_) => html`
-    <cs-modal
+    <glide-core-modal
       label=${arguments_.label}
       ?show-back-button=${arguments_['show-back-button'] || nothing}
       size=${arguments_.size ?? nothing}
     >
       ${arguments_['slot="default"']}
 
-      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
-      <cs-button slot="primary">Primary</cs-button>
-    </cs-modal>
-    <cs-button data-open>Open Modal ${arguments_.size}</cs-button>
+      <glide-core-button slot="secondary" variant="tertiary"
+        >Secondary</glide-core-button
+      >
+      <glide-core-button slot="primary">Primary</glide-core-button>
+    </glide-core-modal>
+    <glide-core-button data-open
+      >Open Modal ${arguments_.size}</glide-core-button
+    >
   `,
   args: {
     label: 'Basic Modal',
@@ -120,92 +124,106 @@ export const Modal: StoryObj = {};
 export const WithBackButton: StoryObj = {
   name: 'Modal (With Back Button)',
   render: (arguments_) => html`
-    <cs-modal label=${arguments_.label} show-back-button>
+    <glide-core-modal label=${arguments_.label} show-back-button>
       ${arguments_['slot="default"']}
-      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
-      <cs-button slot="primary">Primary</cs-button>
-    </cs-modal>
+      <glide-core-button slot="secondary" variant="tertiary"
+        >Secondary</glide-core-button
+      >
+      <glide-core-button slot="primary">Primary</glide-core-button>
+    </glide-core-modal>
 
-    <cs-button data-open>Open Modal</cs-button>
+    <glide-core-button data-open>Open Modal</glide-core-button>
   `,
 };
 
 export const HeaderActions: StoryObj = {
   name: 'Modal (With Header Actions)',
   render: (arguments_) => html`
-    <cs-modal label=${arguments_.label}>
+    <glide-core-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
-      <!-- Only "cs-modal-icon-button" components should be used with header-actions -->
-      <cs-modal-icon-button slot="header-actions" label="Edit">
-        <cs-example-icon name="pencil"></cs-example-icon>
-      </cs-modal-icon-button>
-      <cs-modal-icon-button slot="header-actions" label="Settings">
-        <cs-example-icon name="settings"></cs-example-icon>
-      </cs-modal-icon-button>
-      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
-      <cs-button slot="primary">Primary</cs-button>
-    </cs-modal>
+      <!-- Only "glide-core-modal-icon-button" components should be used with header-actions -->
+      <glide-core-modal-icon-button slot="header-actions" label="Edit">
+        <glide-core-example-icon name="pencil"></glide-core-example-icon>
+      </glide-core-modal-icon-button>
+      <glide-core-modal-icon-button slot="header-actions" label="Settings">
+        <glide-core-example-icon name="settings"></glide-core-example-icon>
+      </glide-core-modal-icon-button>
+      <glide-core-button slot="secondary" variant="tertiary"
+        >Secondary</glide-core-button
+      >
+      <glide-core-button slot="primary">Primary</glide-core-button>
+    </glide-core-modal>
 
-    <cs-button data-open>Open Modal</cs-button>
+    <glide-core-button data-open>Open Modal</glide-core-button>
   `,
 };
 
 export const HeaderActionsWithBackButton: StoryObj = {
   name: 'Modal (With Header Actions and Back Button)',
   render: (arguments_) => html`
-    <cs-modal label=${arguments_.label} show-back-button>
+    <glide-core-modal label=${arguments_.label} show-back-button>
       ${arguments_['slot="default"']}
-      <!-- Only "cs-modal-icon-button" components should be used with header-actions -->
-      <cs-modal-icon-button slot="header-actions" label="Edit">
-        <cs-example-icon name="pencil"></cs-example-icon>
-      </cs-modal-icon-button>
-      <cs-modal-icon-button slot="header-actions" label="Settings">
-        <cs-example-icon name="settings"></cs-example-icon>
-      </cs-modal-icon-button>
-      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
-      <cs-button slot="primary">Primary</cs-button>
-    </cs-modal>
+      <!-- Only "glide-core-modal-icon-button" components should be used with header-actions -->
+      <glide-core-modal-icon-button slot="header-actions" label="Edit">
+        <glide-core-example-icon name="pencil"></glide-core-example-icon>
+      </glide-core-modal-icon-button>
+      <glide-core-modal-icon-button slot="header-actions" label="Settings">
+        <glide-core-example-icon name="settings"></glide-core-example-icon>
+      </glide-core-modal-icon-button>
+      <glide-core-button slot="secondary" variant="tertiary"
+        >Secondary</glide-core-button
+      >
+      <glide-core-button slot="primary">Primary</glide-core-button>
+    </glide-core-modal>
 
-    <cs-button data-open>Open Modal</cs-button>
+    <glide-core-button data-open>Open Modal</glide-core-button>
   `,
 };
 
 export const TertiaryButton: StoryObj = {
   name: 'Modal (With Tertiary Content Button)',
   render: (arguments_) => html`
-    <cs-modal label=${arguments_.label}>
+    <glide-core-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
-      <cs-button slot="tertiary" variant="tertiary">Tertiary</cs-button>
-      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
-      <cs-button slot="primary">Primary</cs-button>
-    </cs-modal>
+      <glide-core-button slot="tertiary" variant="tertiary"
+        >Tertiary</glide-core-button
+      >
+      <glide-core-button slot="secondary" variant="tertiary"
+        >Secondary</glide-core-button
+      >
+      <glide-core-button slot="primary">Primary</glide-core-button>
+    </glide-core-modal>
 
-    <cs-button data-open>Open Modal</cs-button>
+    <glide-core-button data-open>Open Modal</glide-core-button>
   `,
 };
 
 export const TertiaryIcon: StoryObj = {
   name: 'Modal (With Tertiary Content Icon)',
   render: (arguments_) => html`
-    <cs-modal label=${arguments_.label}>
+    <glide-core-modal label=${arguments_.label}>
       ${arguments_['slot="default"']}
       <!--
           The rendering of the tooltip placement is incorrect in this story due to the way Storybook scales the
           content inside of the doc block. To view the correct placement of the tooltip, we recommend navigating to
           the individual story instead.
         -->
-      <cs-modal-tertiary-icon
+      <glide-core-modal-tertiary-icon
         slot="tertiary"
         label="Information"
         tooltip-placement="right"
       >
-        <cs-example-icon name="info"></cs-example-icon>
-      </cs-modal-tertiary-icon>
-      <cs-button slot="tertiary" variant="tertiary">Tertiary</cs-button>
-      <cs-button slot="secondary" variant="tertiary">Secondary</cs-button>
-      <cs-button slot="primary">Primary</cs-button>
-    </cs-modal>
+        <glide-core-example-icon name="info"></glide-core-example-icon>
+      </glide-core-modal-tertiary-icon>
+      <glide-core-button slot="tertiary" variant="tertiary"
+        >Tertiary</glide-core-button
+      >
+      <glide-core-button slot="secondary" variant="tertiary"
+        >Secondary</glide-core-button
+      >
+      <glide-core-button slot="primary">Primary</glide-core-button>
+    </glide-core-modal>
 
-    <cs-button data-open>Open Modal</cs-button>
+    <glide-core-button data-open>Open Modal</glide-core-button>
   `,
 };

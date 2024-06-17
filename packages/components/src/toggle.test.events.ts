@@ -1,7 +1,7 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import CsToggle from './toggle.js';
+import GlideCoreToggle from './toggle.js';
 
-CsToggle.shadowRootOptions.mode = 'open';
+GlideCoreToggle.shadowRootOptions.mode = 'open';
 
 // `await aTimeout(0)` is used throughout. Using `oneEvent` instead and
 // expecting it to throw would work. But it wouldn't throw until its
@@ -10,8 +10,8 @@ CsToggle.shadowRootOptions.mode = 'open';
 // will have been dispatched, gets the job done as well.
 
 it('dispatches a "click" event when clicked', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label"></cs-toggle>`,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
   setTimeout(() => component.click());
@@ -22,8 +22,8 @@ it('dispatches a "click" event when clicked', async () => {
 });
 
 it('dispatches a "change" event when clicked', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label"></cs-toggle>`,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
   setTimeout(() => component.click());
@@ -34,8 +34,8 @@ it('dispatches a "change" event when clicked', async () => {
 });
 
 it('dispatches an "input" event when clicked', async () => {
-  const component = await fixture<CsToggle>(
-    html`<cs-toggle label="Label"></cs-toggle>`,
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
   setTimeout(() => component.click());

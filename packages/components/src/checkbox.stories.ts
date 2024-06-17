@@ -1,7 +1,7 @@
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
-import CsCheckbox from './checkbox.js';
+import GlideCoreCheckbox from './checkbox.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -145,14 +145,14 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const checkbox = context.canvasElement.querySelector('cs-checkbox');
+    const checkbox = context.canvasElement.querySelector('glide-core-checkbox');
 
     const isErrorStory = [
       'Horizontal (With Error)',
       'Vertical (With Error)',
     ].includes(context.name);
 
-    if (isErrorStory && checkbox instanceof CsCheckbox) {
+    if (isErrorStory && checkbox instanceof GlideCoreCheckbox) {
       checkbox.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -169,9 +169,9 @@ const meta: Meta = {
     });
 
     context.canvasElement
-      .querySelector('cs-checkbox')
+      .querySelector('glide-core-checkbox')
       ?.addEventListener('change', (event) => {
-        if (event.target instanceof CsCheckbox) {
+        if (event.target instanceof GlideCoreCheckbox) {
           addons.getChannel().emit(STORY_ARGS_UPDATED, {
             storyId: context.id,
             args: {
@@ -184,7 +184,7 @@ const meta: Meta = {
   },
   render(arguments_) {
     return html`<form style="padding: 1.5rem;">
-      <cs-checkbox
+      <glide-core-checkbox
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         orientation=${arguments_.orientation || nothing}
@@ -201,7 +201,7 @@ const meta: Meta = {
         ${arguments_['slot="tooltip"']
           ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
           : ''}
-      </cs-checkbox>
+      </glide-core-checkbox>
     </form>`;
   },
 };

@@ -1,26 +1,32 @@
 import './dropdown.option.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import CsDropdown from './dropdown.js';
-import CsDropdownOption from './dropdown.option.js';
+import GlideCoreDropdownOption from './dropdown.option.js';
 
 CsDropdown.shadowRootOptions.mode = 'open';
-CsDropdownOption.shadowRootOptions.mode = 'open';
+GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('can be reset', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     {
       parentNode: form,
     },
   );
 
   component
-    .querySelector('cs-dropdown-option')
+    .querySelector('glide-core-dropdown-option')
     ?.shadowRoot?.querySelector('[role="option"]')
     ?.dispatchEvent(new Event('click', { bubbles: true }));
 
@@ -41,17 +47,24 @@ it('can be reset to the initially selected option', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder">
-      <cs-dropdown-option label="One" value="one"></cs-dropdown-option>
-      <cs-dropdown-option label="Two" value="two" selected></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     {
       parentNode: form,
     },
   );
 
   component
-    .querySelector('cs-dropdown-option')
+    .querySelector('glide-core-dropdown-option')
     ?.shadowRoot?.querySelector('[role="option"]')
     ?.dispatchEvent(new Event('click', { bubbles: true }));
 
@@ -64,13 +77,17 @@ it('has a `formData` value when an option is selected', async () => {
   const form = document.createElement('form');
 
   await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
-        <cs-dropdown-option
+    html`<glide-core-dropdown
+        label="Label"
+        placeholder="Placeholder"
+        name="name"
+      >
+        <glide-core-dropdown-option
           label="Label"
           value="value"
           selected
-        ></cs-dropdown-option>
-      </cs-dropdown>
+        ></glide-core-dropdown-option>
+      </glide-core-dropdown>
       >`,
     {
       parentNode: form,
@@ -85,9 +102,16 @@ it('has no `formData` value when no option is selected', async () => {
   const form = document.createElement('form');
 
   await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
-      <cs-dropdown-option label="" value="value"></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      name="name"
+    >
+      <glide-core-dropdown-option
+        label=""
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     {
       parentNode: form,
     },
@@ -101,18 +125,18 @@ it('has no `formData` value when disabled and an option is selected', async () =
   const form = document.createElement('form');
 
   await fixture<CsDropdown>(
-    html`<cs-dropdown
+    html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
       name="name"
       disabled
     >
-      <cs-dropdown-option
+      <glide-core-dropdown-option
         label="Label"
         value="value"
         selected
-      ></cs-dropdown-option>
-    </cs-dropdown>`,
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     {
       parentNode: form,
     },
@@ -126,9 +150,16 @@ it('has no `formData` value when an option is selected that has no `value`', asy
   const form = document.createElement('form');
 
   await fixture<CsDropdown>(
-    html`<cs-dropdown label="Label" placeholder="Placeholder" name="name">
-      <cs-dropdown-option label="Label" selected></cs-dropdown-option>
-    </cs-dropdown>`,
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      name="name"
+    >
+      <glide-core-dropdown-option
+        label="Label"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
     {
       parentNode: form,
     },

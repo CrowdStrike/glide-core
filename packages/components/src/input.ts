@@ -12,6 +12,12 @@ import {
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './input.styles.js';
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'glide-core-input': GlideCoreInput;
+  }
+}
+
 /*
  * These are selected from native types listed on MDN:
  * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
@@ -41,8 +47,8 @@ type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
  * @slot prefix - An optional icon slot to display before the input.
  * @slot suffix - An optional icon slot to display after the input.
  */
-@customElement('cs-input')
-export default class CsInput extends LitElement {
+@customElement('glide-core-input')
+export default class GlideCoreInput extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -174,7 +180,7 @@ export default class CsInput extends LitElement {
 
   override render() {
     return html`
-      <cs-label
+      <glide-core-label
         orientation=${this.orientation}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback ||
@@ -223,7 +229,7 @@ export default class CsInput extends LitElement {
           <!-- TODO: We should localize the aria-labels in the future -->
           ${this.hasClearIcon
             ? html`
-                <cs-icon-button
+                <glide-core-icon-button
                   variant="tertiary"
                   class=${classMap({
                     'clear-icon-button': true,
@@ -256,12 +262,12 @@ export default class CsInput extends LitElement {
                       />
                     </svg>
                   </slot>
-                </cs-icon-button>
+                </glide-core-icon-button>
               `
             : ''}
           ${this.type === 'password' && this.passwordToggle && !this.disabled
             ? html`
-                <cs-icon-button
+                <glide-core-icon-button
                   variant="tertiary"
                   class="password-toggle"
                   aria-label=${this.passwordVisible
@@ -308,7 +314,7 @@ export default class CsInput extends LitElement {
                           d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                         />
                       </svg>`}
-                </cs-icon-button>
+                </glide-core-icon-button>
               `
             : ''}
 
@@ -350,7 +356,7 @@ export default class CsInput extends LitElement {
               `
             : nothing}
         </div>
-      </cs-label>
+      </glide-core-label>
     `;
   }
 

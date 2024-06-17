@@ -31,8 +31,8 @@ const meta: Meta = {
       });
     }
 
-    const button = context.canvasElement.querySelector('cs-button');
-    const drawer = context.canvasElement.querySelector('cs-drawer');
+    const button = context.canvasElement.querySelector('glide-core-button');
+    const drawer = context.canvasElement.querySelector('glide-core-drawer');
     let isOpen = false;
 
     if (!button || !drawer) {
@@ -53,11 +53,11 @@ const meta: Meta = {
     drawer.addEventListener('close', () => (isOpen = false));
   },
   render: (arguments_) => html`
-    <cs-button>Toggle</cs-button>
+    <glide-core-button>Toggle</glide-core-button>
 
-    <cs-drawer>
+    <glide-core-drawer>
       <div style="padding: 0.5rem">${arguments_['slot="default"']}</div>
-    </cs-drawer>
+    </glide-core-drawer>
   `,
   args: {
     'slot="default"': 'Drawer content',
@@ -117,10 +117,10 @@ export const Default: StoryObj = {};
 export const WithCSSVariable: StoryObj = {
   name: 'Custom Width',
   render: () => html`
-    <cs-button data-trigger>Open/Close</cs-button>
+    <glide-core-button data-trigger>Open/Close</glide-core-button>
 
-    <cs-drawer style="--width: 20rem;">
+    <glide-core-drawer style="--width: 20rem;">
       <div style="padding: 0.5rem">Width of 20rem</div>
-    </cs-drawer>
+    </glide-core-drawer>
   `,
 };

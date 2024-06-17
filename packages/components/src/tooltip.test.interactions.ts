@@ -1,17 +1,17 @@
 import './tooltip.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import CsTooltip from './tooltip.js';
+import GlideCoreTooltip from './tooltip.js';
 import sinon from 'sinon';
 
-CsTooltip.shadowRootOptions.mode = 'open';
+GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
 it('is visible on "focusin"', async () => {
-  const component = await fixture<CsTooltip>(
-    html`<cs-tooltip>
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
-    </cs-tooltip>`,
+    </glide-core-tooltip>`,
   );
 
   component.shadowRoot
@@ -26,11 +26,11 @@ it('is visible on "focusin"', async () => {
 });
 
 it('is hidden on "blur"', async () => {
-  const component = await fixture<CsTooltip>(
-    html`<cs-tooltip>
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
-    </cs-tooltip>`,
+    </glide-core-tooltip>`,
   );
 
   component.shadowRoot
@@ -51,11 +51,11 @@ it('is hidden on "blur"', async () => {
 });
 
 it('is hidden on Escape', async () => {
-  const component = await fixture<CsTooltip>(
-    html`<cs-tooltip>
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
-    </cs-tooltip>`,
+    </glide-core-tooltip>`,
   );
 
   component.shadowRoot
@@ -78,11 +78,11 @@ it('is hidden on Escape', async () => {
 });
 
 it('is visible on "mouseover"', async () => {
-  const component = await fixture<CsTooltip>(
-    html`<cs-tooltip>
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
-    </cs-tooltip>`,
+    </glide-core-tooltip>`,
   );
 
   component.shadowRoot
@@ -99,11 +99,11 @@ it('is visible on "mouseover"', async () => {
 it('is hidden on "mouseout"', async () => {
   const clock = sinon.useFakeTimers();
 
-  const component = await fixture<CsTooltip>(
-    html`<cs-tooltip>
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
-    </cs-tooltip>`,
+    </glide-core-tooltip>`,
   );
 
   component.shadowRoot

@@ -1,9 +1,9 @@
 import './modal.js';
 import * as sinon from 'sinon';
 import { expect, fixture, html } from '@open-wc/testing';
-import Modal from './modal.js';
+import GlideCoreModal from './modal.js';
 
-Modal.shadowRootOptions.mode = 'open';
+GlideCoreModal.shadowRootOptions.mode = 'open';
 
 const cssSupportsStub = sinon.stub(window.CSS, 'supports').returns(false);
 const setPropertySpy = sinon.spy(document.documentElement.style, 'setProperty');
@@ -14,8 +14,10 @@ afterEach(() => {
 });
 
 it('sets the "--glide-scroll-size" variable when the browser does not support scrollbar-gutter', async () => {
-  const element = await fixture<Modal>(
-    html`<cs-modal label="Modal title"> Modal Content </cs-modal>`,
+  const element = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Modal title">
+      Modal Content
+    </glide-core-modal>`,
   );
 
   element.showModal();

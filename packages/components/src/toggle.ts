@@ -6,7 +6,7 @@ import styles from './toggle.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-toggle': CsToggle;
+    'glide-core-toggle': GlideCoreToggle;
   }
 }
 
@@ -19,8 +19,8 @@ declare global {
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
  */
-@customElement('cs-toggle')
-export default class CsToggle extends LitElement {
+@customElement('glide-core-toggle')
+export default class GlideCoreToggle extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -59,7 +59,7 @@ export default class CsToggle extends LitElement {
 
   override render() {
     return html`<div data-test="component">
-      <cs-label
+      <glide-core-label
         orientation=${this.orientation}
         ?disabled=${this.disabled}
         ?hide=${this.hideLabel}
@@ -113,7 +113,7 @@ export default class CsToggle extends LitElement {
           name="description"
           slot="description"
         ></slot>
-      </cs-label>
+      </glide-core-label>
     </div>`;
   }
 

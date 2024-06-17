@@ -6,7 +6,7 @@ import styles from './drawer.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-drawer': CsDrawer;
+    'glide-core-drawer': GlideCoreDrawer;
   }
 }
 
@@ -16,13 +16,13 @@ declare global {
  * @event close - Emitted when the Drawer closes.
  * @event open - Emitted when the Drawer opens.
  *
- * @method close - A method on the `cs-drawer` component to close the Drawer programmatically.
- * @method open - A method on the `cs-drawer` component to open the Drawer programmatically.
+ * @method close - A method on the `glide-core-drawer` component to close the Drawer programmatically.
+ * @method open - A method on the `glide-core-drawer` component to open the Drawer programmatically.
  *
  * @slot - The content of the Drawer.
  */
-@customElement('cs-drawer')
-export default class CsDrawer extends LitElement {
+@customElement('glide-core-drawer')
+export default class GlideCoreDrawer extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',

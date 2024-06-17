@@ -5,25 +5,25 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
-import CsRadio from './radio.js';
-import CsRadioGroup from './radio-group.js';
+import GlideCoreRadio from './radio.js';
+import GlideCoreRadioGroup from './radio-group.js';
 
-CsRadio.shadowRootOptions.mode = 'open';
-CsRadioGroup.shadowRootOptions.mode = 'open';
+GlideCoreRadio.shadowRootOptions.mode = 'open';
+GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 
 it('can be reset', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsRadioGroup>(
-    html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" checked label="One"></cs-radio>
-    </cs-radio-group>`,
+  const component = await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="label" name="name">
+      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+    </glide-core-radio-group>`,
     {
       parentNode: form,
     },
   );
 
-  const radio = component.querySelector('cs-radio');
+  const radio = component.querySelector('glide-core-radio');
   assert(radio);
 
   radio.checked = false;
@@ -35,17 +35,17 @@ it('can be reset', async () => {
 it('can reset correctly when the checked radios are changed', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsRadioGroup>(
-    html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" checked label="Two"></cs-radio>
-    </cs-radio-group>`,
+  const component = await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="label" name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
     {
       parentNode: form,
     },
   );
 
-  const radios = component.querySelectorAll<CsRadio>('cs-radio');
+  const radios = component.querySelectorAll<GlideCoreRadio>('glide-core-radio');
 
   radios[0].click();
 
@@ -68,10 +68,10 @@ it('has `formData` when a radio is checked', async () => {
   const form = document.createElement('form');
 
   await fixture(
-    html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" checked label="Two"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group label="label" name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
     {
       parentNode: form,
     },
@@ -85,10 +85,10 @@ it('has no `formData` when no radios are checked', async () => {
   const form = document.createElement('form');
 
   await fixture(
-    html`<cs-radio-group label="label" name="name">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" label="Two"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group label="label" name="name">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
     {
       parentNode: form,
     },
@@ -102,10 +102,10 @@ it('has no `formData` when the group is disabled and one radio is checked', asyn
   const form = document.createElement('form');
 
   await fixture(
-    html`<cs-radio-group label="label" name="name" disabled>
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" checked label="Two"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group label="label" name="name" disabled>
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
     {
       parentNode: form,
     },
@@ -119,10 +119,10 @@ it('has no `formData` when without a `name` but a radio is checked', async () =>
   const form = document.createElement('form');
 
   await fixture(
-    html`<cs-radio-group label="label">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" checked label="Two"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group label="label">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
     {
       parentNode: form,
     },
@@ -136,10 +136,10 @@ it('has no `formData` value when a radio is checked but without a "value"', asyn
   const form = document.createElement('form');
 
   await fixture(
-    html`<cs-radio-group label="label">
-      <cs-radio value="value-1" label="One"></cs-radio>
-      <cs-radio value="value-2" checked label="Two"></cs-radio>
-    </cs-radio-group>`,
+    html`<glide-core-radio-group label="label">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
     {
       parentNode: form,
     },

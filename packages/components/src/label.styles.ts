@@ -37,7 +37,7 @@ export default [
       }
     }
 
-    cs-tooltip {
+    glide-core-tooltip {
       display: none;
 
       &.vertical {

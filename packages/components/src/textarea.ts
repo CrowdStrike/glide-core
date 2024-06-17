@@ -7,6 +7,12 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import styles from './textarea.styles.js';
 
+declare global {
+  interface HTMLElementTagNameMap {
+    'glide-core-textarea': GlideCoreTextarea;
+  }
+}
+
 /**
  * @description A textarea with a label and optional description and toolip. Participates in forms and validation via `FormData` and various methods.
  *
@@ -16,8 +22,8 @@ import styles from './textarea.styles.js';
  * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
  */
-@customElement('cs-textarea')
-export default class CsTextarea extends LitElement {
+@customElement('glide-core-textarea')
+export default class GlideCoreTextarea extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -117,7 +123,7 @@ export default class CsTextarea extends LitElement {
   }
 
   override render() {
-    return html`<cs-label
+    return html`<glide-core-label
       orientation=${this.orientation}
       ?disabled=${this.disabled}
       ?error=${this.#isShowValidationFeedback || this.#isInvalidCharacterLength}
@@ -172,7 +178,7 @@ export default class CsTextarea extends LitElement {
               ${this.value.length}/${this.maxCharacterCount}
             </div>`,
         )}
-      </div></cs-label
+      </div></glide-core-label
     >`;
   }
 

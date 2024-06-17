@@ -24,11 +24,13 @@ const meta: Meta = {
   },
   args: {
     'slot="default"': '',
-    '<cs-tree-item>.label': 'Branch',
-    '<cs-tree-item>.selected': false,
+    '<glide-core-tree-item>.label': 'Branch',
+    '<glide-core-tree-item>.selected': false,
   },
   play(context) {
-    const links = context.canvasElement.querySelectorAll('cs-menu-link');
+    const links = context.canvasElement.querySelectorAll(
+      'glide-core-menu-link',
+    );
 
     for (const link of links) {
       // Prevent navigation. The URLs don't go anywhere.
@@ -37,36 +39,42 @@ const meta: Meta = {
   },
   render: (arguments_) => html`
     <div style="max-width: 18.75rem; height: 12rem;">
-      <cs-tree>
-        <cs-tree-item label="Branch" expanded>
-          <cs-tree-item
-            label=${arguments_['<cs-tree-item>.label']}
-            ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
-          ></cs-tree-item>
-          <cs-tree-item label="Leaf 2">
-            <cs-example-icon slot="prefix" name="share"></cs-example-icon>
-            <cs-tree-item-icon-button slot="suffix">
-              <cs-example-icon name="settings"></cs-example-icon>
-            </cs-tree-item-icon-button>
+      <glide-core-tree>
+        <glide-core-tree-item label="Branch" expanded>
+          <glide-core-tree-item
+            label=${arguments_['<glide-core-tree-item>.label']}
+            ?selected=${arguments_['<glide-core-tree-item>.selected'] ||
+            nothing}
+          ></glide-core-tree-item>
+          <glide-core-tree-item label="Leaf 2">
+            <glide-core-example-icon
+              slot="prefix"
+              name="share"
+            ></glide-core-example-icon>
+            <glide-core-tree-item-icon-button slot="suffix">
+              <glide-core-example-icon
+                name="settings"
+              ></glide-core-example-icon>
+            </glide-core-tree-item-icon-button>
             ${treeItemMenu}
-          </cs-tree-item>
-          <cs-tree-item label="Sub-branch">
-            <cs-tree-item label="Sub-leaf 1"></cs-tree-item>
-            <cs-tree-item label="Sub-leaf 2"> </cs-tree-item>
-            <cs-tree-item label="Sub-leaf 3"></cs-tree-item>
-          </cs-tree-item>
-        </cs-tree-item>
-      </cs-tree>
+          </glide-core-tree-item>
+          <glide-core-tree-item label="Sub-branch">
+            <glide-core-tree-item label="Sub-leaf 1"></glide-core-tree-item>
+            <glide-core-tree-item label="Sub-leaf 2"> </glide-core-tree-item>
+            <glide-core-tree-item label="Sub-leaf 3"></glide-core-tree-item>
+          </glide-core-tree-item>
+        </glide-core-tree-item>
+      </glide-core-tree>
     </div>
   `,
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: 'CsTreeItem' },
+        type: { summary: 'GlideCoreTreeItem' },
       },
       type: { name: 'function', required: true },
     },
-    '<cs-tree-item>.selected': {
+    '<glide-core-tree-item>.selected': {
       control: { type: 'boolean' },
       table: {
         defaultValue: {
@@ -74,7 +82,7 @@ const meta: Meta = {
         },
       },
     },
-    '<cs-tree-item>.label': {
+    '<glide-core-tree-item>.label': {
       control: { type: 'text' },
       table: {
         type: { summary: 'string' },
@@ -86,7 +94,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            'event: "item-selected", listener: (event: CustomEvent<{ item: CsTreeItem }>) => void',
+            'event: "item-selected", listener: (event: CustomEvent<{ item: GlideCoreTreeItem }>) => void',
         },
       },
       type: { name: 'function' },
@@ -98,46 +106,46 @@ export default meta;
 
 export const Tree: StoryObj = {
   args: {
-    '<cs-tree-item>.label': 'Leaf 1',
+    '<glide-core-tree-item>.label': 'Leaf 1',
   },
 };
 
 export const TreeItemDefault: StoryObj = {
   name: 'Tree Item (Default)',
   render: (arguments_) => html`
-    <cs-tree>
-      <cs-tree-item
-        label=${arguments_['<cs-tree-item>.label']}
-        ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
+    <glide-core-tree>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
         >
-      </cs-tree-item></cs-tree-item>
-    </cs-tree>
+      </glide-core-tree-item></glide-core-tree-item>
+    </glide-core-tree>
   `,
 };
 
 export const TreeItemSelected: StoryObj = {
   name: 'Tree Item (Selected)',
   args: {
-    '<cs-tree-item>.selected': true,
+    '<glide-core-tree-item>.selected': true,
   },
   render: (arguments_) => html`
-    <cs-tree>
-      <cs-tree-item
-        label=${arguments_['<cs-tree-item>.label']}
-        ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
+    <glide-core-tree>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
         >
-      </cs-tree-item></cs-tree-item>
-    </cs-tree>
+      </glide-core-tree-item></glide-core-tree-item>
+    </glide-core-tree>
   `,
 };
 
 export const TreeItemWithChildItemsCollapsed: StoryObj = {
   name: 'Tree Item (With Child Items Collapsed)',
   args: {
-    '<cs-tree-item>.expanded': false,
+    '<glide-core-tree-item>.expanded': false,
   },
   argTypes: {
-    '<cs-tree-item>.expanded': {
+    '<glide-core-tree-item>.expanded': {
       control: { type: 'boolean' },
       table: {
         defaultValue: {
@@ -145,33 +153,33 @@ export const TreeItemWithChildItemsCollapsed: StoryObj = {
         },
       },
     },
-    '<cs-tree-item>.selected': {
+    '<glide-core-tree-item>.selected': {
       table: {
         disable: true,
       },
     },
   },
   render: (arguments_) => html`
-    <cs-tree>
-      <cs-tree-item
-        label=${arguments_['<cs-tree-item>.label']}
-        ?expanded=${arguments_['<cs-tree-item>.expanded'] || nothing}
+    <glide-core-tree>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
       >
-        <cs-tree-item label="Leaf 1"></cs-tree-item>
-        <cs-tree-item label="Leaf 2"> </cs-tree-item>
-        <cs-tree-item label="Leaf 3"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+        <glide-core-tree-item label="Leaf 1"></glide-core-tree-item>
+        <glide-core-tree-item label="Leaf 2"> </glide-core-tree-item>
+        <glide-core-tree-item label="Leaf 3"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `,
 };
 
 export const TreeItemWithChildItemsExpanded: StoryObj = {
   name: 'Tree Item (With Child Items Expanded)',
   args: {
-    '<cs-tree-item>.expanded': true,
+    '<glide-core-tree-item>.expanded': true,
   },
   argTypes: {
-    '<cs-tree-item>.expanded': {
+    '<glide-core-tree-item>.expanded': {
       control: { type: 'boolean' },
       table: {
         defaultValue: {
@@ -179,53 +187,53 @@ export const TreeItemWithChildItemsExpanded: StoryObj = {
         },
       },
     },
-    '<cs-tree-item>.selected': {
+    '<glide-core-tree-item>.selected': {
       table: {
         disable: true,
       },
     },
   },
   render: (arguments_) => html`
-    <cs-tree>
-      <cs-tree-item
-        label=${arguments_['<cs-tree-item>.label']}
-        ?expanded=${arguments_['<cs-tree-item>.expanded'] || nothing}
+    <glide-core-tree>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
       >
-        <cs-tree-item label="Leaf 1"></cs-tree-item>
-        <cs-tree-item label="Leaf 2"> </cs-tree-item>
-        <cs-tree-item label="Leaf 3"></cs-tree-item>
-      </cs-tree-item>
-    </cs-tree>
+        <glide-core-tree-item label="Leaf 1"></glide-core-tree-item>
+        <glide-core-tree-item label="Leaf 2"> </glide-core-tree-item>
+        <glide-core-tree-item label="Leaf 3"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
   `,
 };
 
 export const TreeItemWithPrefixIcon: StoryObj = {
   name: 'Tree Item (With Prefix Icon)',
   render: (arguments_) => html`
-    <cs-tree>
-      <cs-tree-item
-        label=${arguments_['<cs-tree-item>.label']}
-        ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
+    <glide-core-tree>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
         >
-        <cs-example-icon slot="prefix" name="share"></cs-example-icon>
-      </cs-tree-item></cs-tree-item>
-    </cs-tree>
+        <glide-core-example-icon slot="prefix" name="share"></glide-core-example-icon>
+      </glide-core-tree-item></glide-core-tree-item>
+    </glide-core-tree>
   `,
 };
 
 export const TreeItemWithSuffixIconButton: StoryObj = {
   name: 'Tree Item (With Suffix Icon Button)',
   render: (arguments_) => html`
-    <cs-tree>
-      <cs-tree-item
-        label=${arguments_['<cs-tree-item>.label']}
-        ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
+    <glide-core-tree>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
         >
-        <cs-tree-item-icon-button slot="suffix">
-          <cs-example-icon name="settings"></cs-example-icon>
-        </cs-tree-item-icon-button>
-      </cs-tree-item></cs-tree-item>
-    </cs-tree>
+        <glide-core-tree-item-icon-button slot="suffix">
+          <glide-core-example-icon name="settings"></glide-core-example-icon>
+        </glide-core-tree-item-icon-button>
+      </glide-core-tree-item></glide-core-tree-item>
+    </glide-core-tree>
   `,
 };
 
@@ -233,14 +241,14 @@ export const TreeItemWithMenu: StoryObj = {
   name: 'Tree Item (With Menu on hover)',
   render: (arguments_) => html`
     <div style="max-width: 18.75rem; height: 8rem;">
-      <cs-tree>
-        <cs-tree-item
-          label=${arguments_['<cs-tree-item>.label']}
-          ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
+      <glide-core-tree>
+        <glide-core-tree-item
+          label=${arguments_['<glide-core-tree-item>.label']}
+          ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
           >
           ${treeItemMenu}
-        </cs-tree-item></cs-tree-item>
-      </cs-tree>
+        </glide-core-tree-item></glide-core-tree-item>
+      </glide-core-tree>
     </div>
   `,
 };
@@ -249,36 +257,48 @@ export const TreeItemWithPrefixSuffixAndMenu: StoryObj = {
   name: 'Tree Item (With Prefix, Suffix, and Menu)',
   render: (arguments_) => html`
    <div style="max-width: 18.75rem; height: 8rem;">
-      <cs-tree>
-        <cs-tree-item
-          label=${arguments_['<cs-tree-item>.label']}
-          ?selected=${arguments_['<cs-tree-item>.selected'] || nothing}
+      <glide-core-tree>
+        <glide-core-tree-item
+          label=${arguments_['<glide-core-tree-item>.label']}
+          ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
           >
-          <cs-example-icon slot="prefix" name="share"></cs-example-icon>
-          <cs-example-icon slot="suffix" name="settings"></cs-example-icon>
+          <glide-core-example-icon slot="prefix" name="share"></glide-core-example-icon>
+          <glide-core-example-icon slot="suffix" name="settings"></glide-core-example-icon>
           ${treeItemMenu}
-        </cs-tree-item></cs-tree-item>
-      </cs-tree>
+        </glide-core-tree-item></glide-core-tree-item>
+      </glide-core-tree>
     </div>
   `,
 };
 
 const treeItemMenu = html`
-  <cs-tree-item-menu slot="menu">
-    <cs-menu-link label="Edit" url="/edit">
-      <cs-example-icon slot="icon" name="pencil"></cs-example-icon>
-    </cs-menu-link>
+  <glide-core-tree-item-menu slot="menu">
+    <glide-core-menu-link label="Edit" url="/edit">
+      <glide-core-example-icon
+        slot="icon"
+        name="pencil"
+      ></glide-core-example-icon>
+    </glide-core-menu-link>
 
-    <cs-menu-link label="Move" url="/move">
-      <cs-example-icon slot="icon" name="move"></cs-example-icon>
-    </cs-menu-link>
+    <glide-core-menu-link label="Move" url="/move">
+      <glide-core-example-icon
+        slot="icon"
+        name="move"
+      ></glide-core-example-icon>
+    </glide-core-menu-link>
 
-    <cs-menu-link label="Share" url="/share">
-      <cs-example-icon slot="icon" name="share"></cs-example-icon>
-    </cs-menu-link>
+    <glide-core-menu-link label="Share" url="/share">
+      <glide-core-example-icon
+        slot="icon"
+        name="share"
+      ></glide-core-example-icon>
+    </glide-core-menu-link>
 
-    <cs-menu-link label="Settings" url="/settings">
-      <cs-example-icon slot="icon" name="settings"></cs-example-icon>
-    </cs-menu-link>
-  </cs-tree-item-menu>
+    <glide-core-menu-link label="Settings" url="/settings">
+      <glide-core-example-icon
+        slot="icon"
+        name="settings"
+      ></glide-core-example-icon>
+    </glide-core-menu-link>
+  </glide-core-tree-item-menu>
 `;

@@ -7,17 +7,17 @@ import styles from './dropdown.option.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'cs-dropdown-option': CsDropdownOption;
+    'glide-core-dropdown-option': GlideCoreDropdownOption;
   }
 }
 
 /**
- * @description An individual option for use with <cs-dropdown>.
+ * @description An individual option for use with <glide-core-dropdown>.
  *
  * @slot icon - An icon.
  */
-@customElement('cs-dropdown-option')
-export default class CsDropdownOption extends LitElement {
+@customElement('glide-core-dropdown-option')
+export default class GlideCoreDropdownOption extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -136,7 +136,9 @@ export default class CsDropdownOption extends LitElement {
 
   get #optionElements() {
     const elements =
-      this.closest('cs-dropdown')?.querySelectorAll('cs-dropdown-option') ?? [];
+      this.closest('glide-core-dropdown')?.querySelectorAll(
+        'glide-core-dropdown-option',
+      ) ?? [];
 
     return [...elements];
   }

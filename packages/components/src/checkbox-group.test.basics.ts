@@ -1,23 +1,23 @@
 import './checkbox.js';
 import { ArgumentError } from 'ow';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import CsCheckboxGroup from './checkbox-group.js';
+import GlideCoreCheckboxGroup from './checkbox-group.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
-CsCheckboxGroup.shadowRootOptions.mode = 'open';
+GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('cs-checkbox-group')).to.equal(
-    CsCheckboxGroup,
+  expect(window.customElements.get('glide-core-checkbox-group')).to.equal(
+    GlideCoreCheckboxGroup,
   );
 });
 
 it('has defaults', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
   );
 
   expect(component.hasAttribute('disabled')).to.be.false;
@@ -37,22 +37,22 @@ it('has defaults', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
       <div slot="tooltip">Tooltip</div>
       <div slot="description">Description</div>
-    </cs-checkbox-group>`,
+    </glide-core-checkbox-group>`,
   );
 
   await expect(component).to.be.accessible();
 });
 
 it('can have a label', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
   );
 
   expect(component.getAttribute('label')).to.equal('Checkbox Group');
@@ -60,11 +60,11 @@ it('can have a label', async () => {
 });
 
 it('can have a description', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
       <div slot="description">Description</div>
-    </cs-checkbox-group>`,
+    </glide-core-checkbox-group>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -75,10 +75,10 @@ it('can have a description', async () => {
 });
 
 it('can have a name', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group" name="name">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group" name="name">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
   );
 
   expect(component.getAttribute('name')).to.equal('name');
@@ -86,11 +86,11 @@ it('can have a name', async () => {
 });
 
 it('can have a tooltip', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
       <div slot="tooltip">Tooltip</div>
-    </cs-checkbox-group>`,
+    </glide-core-checkbox-group>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -101,14 +101,14 @@ it('can have a tooltip', async () => {
 });
 
 it('can be disabled initially', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group" disabled>
-      <cs-checkbox label="One"></cs-checkbox>
-      <cs-checkbox label="Two"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group" disabled>
+      <glide-core-checkbox label="One"></glide-core-checkbox>
+      <glide-core-checkbox label="Two"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
   );
 
-  const checkboxes = component.querySelectorAll('cs-checkbox');
+  const checkboxes = component.querySelectorAll('glide-core-checkbox');
 
   expect(checkboxes[0].disabled).to.equal(true);
   expect(checkboxes[1].disabled).to.equal(true);
@@ -118,17 +118,17 @@ it('can be disabled initially', async () => {
 });
 
 it('can be disabled dynamically', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="One"></cs-checkbox>
-      <cs-checkbox label="Two"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="One"></glide-core-checkbox>
+      <glide-core-checkbox label="Two"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
   );
 
   component.disabled = true;
   await elementUpdated(component);
 
-  const checkboxes = component.querySelectorAll('cs-checkbox');
+  const checkboxes = component.querySelectorAll('glide-core-checkbox');
 
   expect(checkboxes[0].disabled).to.equal(true);
   expect(checkboxes[1].disabled).to.equal(true);
@@ -138,10 +138,10 @@ it('can be disabled dynamically', async () => {
 });
 
 it('can be required', async () => {
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group" required>
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group" required>
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
   );
 
   expect(component.hasAttribute('required')).to.be.true;
@@ -151,10 +151,10 @@ it('can be required', async () => {
 it('exposes standard form control properties and methods', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsCheckboxGroup>(
-    html`<cs-checkbox-group label="Checkbox Group">
-      <cs-checkbox label="Checkbox"></cs-checkbox>
-    </cs-checkbox-group>`,
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 
@@ -169,8 +169,10 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsCheckboxGroup>(
-      html`<cs-checkbox-group label="Checkbox Group"></cs-checkbox-group>`,
+    await fixture<GlideCoreCheckboxGroup>(
+      html`<glide-core-checkbox-group
+        label="Checkbox Group"
+      ></glide-core-checkbox-group>`,
     );
   } catch (error) {
     if (error instanceof ArgumentError) {
@@ -183,10 +185,10 @@ it('throws if it does not have a default slot', async () => {
 
 it('throws if the default slot is the incorrect type', async () => {
   await expectArgumentError(() => {
-    return fixture<CsCheckboxGroup>(
-      html`<cs-checkbox-group label="Checkbox Group">
+    return fixture<GlideCoreCheckboxGroup>(
+      html`<glide-core-checkbox-group label="Checkbox Group">
         <button>Button</button>
-      </cs-checkbox-group>`,
+      </glide-core-checkbox-group>`,
     );
   });
 });
