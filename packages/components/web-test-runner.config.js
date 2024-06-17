@@ -27,7 +27,8 @@ export default {
       'src/library/ow.ts',
 
       // Istanbul claims it has a branch that's missing coverage even though
-      // there are no branches.
+      // there are no branches in this file. It's excluded so we don't have
+      // to reduce our coverage thresholds.
       'src/library/expect-argument-error.ts',
     ],
     reportDir: 'dist/coverage',
@@ -90,4 +91,13 @@ export default {
             },
           },
         ],
+  testRunnerHtml(testFramework) {
+    return `<html>
+      <body>
+        <link href="./src/styles/fonts.css" rel="stylesheet">
+        <link href="./src/styles/variables.css" rel="stylesheet">
+        <script type="module" src="${testFramework}"></script>
+      </body>
+    </html>`;
+  },
 };
