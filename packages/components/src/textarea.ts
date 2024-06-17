@@ -63,12 +63,11 @@ export default class GlideCoreTextarea extends LitElement {
 
   @property({
     type: Number,
-    attribute: 'max-character-count',
     converter(value) {
       return value && Number.parseInt(value, 10);
     },
   })
-  maxCharacterCount?: number;
+  maxlength?: number;
 
   @property({ reflect: true })
   name?: string;
@@ -166,16 +165,16 @@ export default class GlideCoreTextarea extends LitElement {
         <slot name="description"></slot>
 
         ${when(
-          this.maxCharacterCount,
+          this.maxlength,
           () =>
             html`<div
               class=${classMap({
                 'character-count': true,
                 error: this.#isInvalidCharacterLength,
               })}
-              data-test-max-character-count
+              data-test-maxlength
             >
-              ${this.value.length}/${this.maxCharacterCount}
+              ${this.value.length}/${this.maxlength}
             </div>`,
         )}
       </div></glide-core-label
@@ -232,11 +231,11 @@ export default class GlideCoreTextarea extends LitElement {
   }
 
   get #isInvalidCharacterLength() {
-    if (!this.maxCharacterCount || this.disabled) {
+    if (!this.maxlength || this.disabled) {
       return false;
     }
 
-    return this.value.length > this.maxCharacterCount;
+    return this.value.length > this.maxlength;
   }
 
   #onChange(event: Event) {

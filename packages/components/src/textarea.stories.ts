@@ -39,7 +39,7 @@ const meta: Meta = {
     rows: 2,
     readonly: false,
     disabled: false,
-    'max-character-count': '',
+    maxlength: '',
     'slot="description"': 'Description',
     name: 'name',
     'slot="tooltip"': '',
@@ -108,7 +108,7 @@ const meta: Meta = {
         type: { summary: 'number' },
       },
     },
-    'max-character-count': {
+    maxlength: {
       control: 'number',
       table: {
         type: { summary: 'number' },
@@ -168,7 +168,7 @@ const meta: Meta = {
         label=${arguments_.label}
         ?readonly=${arguments_.readonly}
         ?disabled=${arguments_.disabled}
-        max-character-count=${arguments_['max-character-count']}
+        maxlength=${arguments_.maxlength}
       >
         ${arguments_['slot="tooltip"']
           ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
@@ -218,9 +218,9 @@ export const Placeholder: StoryObj = {
   },
 };
 
-export const MaxCharacterCount: StoryObj = {
+export const MaxLength: StoryObj = {
   args: {
-    'max-character-count': 20,
+    maxlength: 20,
   },
 };
 
@@ -238,7 +238,7 @@ export const Description: StoryObj = {
         label=${arguments_.label}
         ?readonly=${arguments_.readonly}
         ?disabled=${arguments_.disabled}
-        max-character-count=${arguments_['max-character-count']}
+        maxlength=${arguments_.maxlength}
       >
         ${arguments_['slot="tooltip"']
           ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`

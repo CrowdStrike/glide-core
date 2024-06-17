@@ -34,7 +34,7 @@ const meta: Meta = {
     name: 'name',
     autocapitalize: 'on',
     spellcheck: 'true',
-    'max-character-count': '',
+    maxlength: '',
   },
   play(context) {
     const input = context.canvasElement.querySelector('glide-core-input');
@@ -64,7 +64,7 @@ const meta: Meta = {
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_['max-character-count'] || nothing}
+          maxlength=${arguments_.maxlength || nothing}
           spellcheck=${arguments_.spellcheck || nothing}
           autocapitalize=${arguments_.autocapitalize || nothing}
         >
@@ -174,7 +174,7 @@ const meta: Meta = {
         },
       },
     },
-    'max-character-count': {
+    maxlength: {
       control: 'number',
       table: {
         type: { summary: 'number' },
@@ -244,7 +244,7 @@ export const Description: StoryObj = {
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_['max-character-count'] || nothing}
+          maxlength=${arguments_.maxlength || nothing}
         >
           <div slot="description">
             Test description ... <a href="#">With link!</a>
@@ -297,7 +297,7 @@ export const SuffixIcon: StoryObj = {
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_['max-character-count'] || nothing}
+          maxlength=${arguments_.maxlength || nothing}
         >
           <div slot="suffix">
             <glide-core-example-icon
@@ -328,7 +328,7 @@ export const PrefixIcon: StoryObj = {
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          max-character-count=${arguments_['max-character-count'] || nothing}
+          maxlength=${arguments_.maxlength || nothing}
         >
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
@@ -352,19 +352,18 @@ export const SearchType: StoryObj = {
   },
 };
 
-export const MaxCharacterCount: StoryObj = {
+export const MaxLength: StoryObj = {
   args: {
-    'max-character-count': 20,
+    maxlength: 20,
     'slot="description"': undefined,
   },
 };
 
-export const MaxCharacterCountAndDescription: StoryObj = {
-  name: 'Max Character Count (With Description)',
+export const MaxLengthAndDescription: StoryObj = {
+  name: 'Max Length (With Description)',
   args: {
-    'max-character-count': 20,
-    'slot="description"':
-      'Description here lives alongside max character count',
+    maxlength: 20,
+    'slot="description"': 'Description here lives alongside maxlength',
   },
 };
 

@@ -40,9 +40,8 @@ it('is invalid if no value and required', async () => {
   expect(textarea.reportValidity()).to.be.false;
 });
 
-it('is valid when empty and does not exceed `max-character-count`', async () => {
-  const template =
-    '<glide-core-textarea max-character-count="3"></glide-core-textarea>';
+it('is valid when empty and does not exceed `maxlength`', async () => {
+  const template = '<glide-core-textarea maxlength="3"></glide-core-textarea>';
 
   const textarea = await fixture<GlideCoreTextarea>(template);
 
@@ -53,9 +52,8 @@ it('is valid when empty and does not exceed `max-character-count`', async () => 
   expect(textarea.reportValidity()).to.be.true;
 });
 
-it('is valid when filled in and does not exceed `max-character-count`', async () => {
-  const template =
-    '<glide-core-textarea max-character-count="3"></glide-core-textarea>';
+it('is valid when filled in and does not exceed `maxlength`', async () => {
+  const template = '<glide-core-textarea maxlength="3"></glide-core-textarea>';
 
   const textarea = await fixture<GlideCoreTextarea>(template);
   textarea.focus();
@@ -68,9 +66,8 @@ it('is valid when filled in and does not exceed `max-character-count`', async ()
   expect(textarea.reportValidity()).to.be.true;
 });
 
-it('is invalid when filled in and exceeds `max-character-count`', async () => {
-  const template =
-    '<glide-core-textarea max-character-count="3"></glide-core-textarea>';
+it('is invalid when filled in and exceeds `maxlength`', async () => {
+  const template = '<glide-core-textarea maxlength="3"></glide-core-textarea>';
 
   const textarea = await fixture<GlideCoreTextarea>(template);
   textarea.focus();
@@ -96,9 +93,9 @@ it('is valid if no value but required and disabled', async () => {
   expect(textarea.reportValidity()).to.be.true;
 });
 
-it('is valid when filled in, disabled, and exceeds `max-character-count`', async () => {
+it('is valid when filled in, disabled, and exceeds `maxlength`', async () => {
   const template =
-    '<glide-core-textarea value="value" disabled max-character-count="3"></glide-core-textarea>';
+    '<glide-core-textarea value="value" disabled maxlength="3"></glide-core-textarea>';
 
   const textarea = await fixture<GlideCoreTextarea>(template);
 

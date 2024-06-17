@@ -112,19 +112,17 @@ it('renders a slot with description', async () => {
   expect(contentRendered?.textContent).to.be.equal('Description');
 });
 
-it('renders a character count when attribute `max-character-count` is set greater than zero', async () => {
-  const template = `<glide-core-textarea value="value" label="label" max-character-count="10"><span slot="description">Description</span></glide-core-textarea>`;
+it('renders a character count when attribute `maxlength` is set greater than zero', async () => {
+  const template = `<glide-core-textarea value="value" label="label" maxlength="10"><span slot="description">Description</span></glide-core-textarea>`;
   const element = await fixture<GlideCoreTextarea>(template);
 
-  const container = element.shadowRoot!.querySelector(
-    '[data-test-max-character-count]',
-  );
+  const container = element.shadowRoot!.querySelector('[data-test-maxlength]');
 
   expect(container?.textContent?.trim()).to.be.equal('5/10');
 });
 
-it('does not render a character count when attribute `max-character-count` is set less than than zero', async () => {
-  const template = `<glide-core-textarea value="value" label="label" max-character-count="0"><span slot="description" data-test-content>Description</span></glide-core-textarea>`;
+it('does not render a character count when attribute `maxlength` is set less than than zero', async () => {
+  const template = `<glide-core-textarea value="value" label="label" maxlength="0"><span slot="description" data-test-content>Description</span></glide-core-textarea>`;
   const element = await fixture<GlideCoreTextarea>(template);
 
   const container = element.shadowRoot!.querySelector(
