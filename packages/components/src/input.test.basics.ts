@@ -167,12 +167,9 @@ it('label correctly displays when provided as an attribute', async () => {
   expect(labelText).to.be.equal('Test label');
 });
 
-it('displays a max character and current character count if max-character-count is provided', async () => {
+it('displays a max character and current character count if maxlength is provided', async () => {
   const element = await fixture<GlideCoreInput>(html`
-    <glide-core-input
-      label="Test label"
-      max-character-count="5"
-    ></glide-core-input>
+    <glide-core-input label="Test label" maxlength="5"></glide-core-input>
   `);
 
   const maxCharacterCountContainer =

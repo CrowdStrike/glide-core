@@ -142,9 +142,9 @@ it('does not dispatch an `invalid` event when `reportValidity` is called when re
   expect(spy.notCalled).to.be.true;
 });
 
-it('dispatches an `invalid` event after `requestSubmit` is called when `max-character-count` exceeded', async () => {
+it('dispatches an `invalid` event after `requestSubmit` is called when `maxlength` exceeded', async () => {
   const form = document.createElement('form');
-  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+  const template = `<glide-core-textarea label="label" maxlength="3"></glide-core-textarea>`;
 
   const textarea = await fixture<GlideCoreTextarea>(template, {
     parentNode: form,
@@ -161,9 +161,9 @@ it('dispatches an `invalid` event after `requestSubmit` is called when `max-char
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an `invalid` event after `checkValidity` is called when `max-character-count` exceeded', async () => {
+it('dispatches an `invalid` event after `checkValidity` is called when `maxlength` exceeded', async () => {
   const form = document.createElement('form');
-  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+  const template = `<glide-core-textarea label="label" maxlength="3"></glide-core-textarea>`;
 
   const textarea = await fixture<GlideCoreTextarea>(template, {
     parentNode: form,
@@ -180,9 +180,9 @@ it('dispatches an `invalid` event after `checkValidity` is called when `max-char
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an `invalid` event after `reportValidity` is called when `max-character-count` exceeded', async () => {
+it('dispatches an `invalid` event after `reportValidity` is called when `maxlength` exceeded', async () => {
   const form = document.createElement('form');
-  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+  const template = `<glide-core-textarea label="label" maxlength="3"></glide-core-textarea>`;
 
   const textarea = await fixture<GlideCoreTextarea>(template, {
     parentNode: form,
@@ -199,9 +199,9 @@ it('dispatches an `invalid` event after `reportValidity` is called when `max-cha
   expect(event instanceof Event).to.be.true;
 });
 
-it('does not dispatch an `invalid` event after `checkValidity` is called when `max-character-count` not exceeded', async () => {
+it('does not dispatch an `invalid` event after `checkValidity` is called when `maxlength` not exceeded', async () => {
   const form = document.createElement('form');
-  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+  const template = `<glide-core-textarea label="label" maxlength="3"></glide-core-textarea>`;
 
   const textarea = await fixture<GlideCoreTextarea>(template, {
     parentNode: form,
@@ -217,9 +217,9 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when `m
   expect(spy.notCalled).to.be.true;
 });
 
-it('does not dispatch an `invalid` event after `checkValidity` is called when `max-character-count` exceeded and disabled', async () => {
+it('does not dispatch an `invalid` event after `checkValidity` is called when `maxlength` exceeded and disabled', async () => {
   const form = document.createElement('form');
-  const template = `<glide-core-textarea label="label" max-character-count="3" disabled></glide-core-textarea>`;
+  const template = `<glide-core-textarea label="label" maxlength="3" disabled></glide-core-textarea>`;
 
   const textarea = await fixture<GlideCoreTextarea>(template, {
     parentNode: form,
@@ -235,9 +235,9 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when `m
   expect(spy.notCalled).to.be.true;
 });
 
-it('does not dispatch an `invalid` event when `reportValidity` is called and `max-character-count` is not exceeded,', async () => {
+it('does not dispatch an `invalid` event when `reportValidity` is called and `maxlength` is not exceeded,', async () => {
   const form = document.createElement('form');
-  const template = `<glide-core-textarea label="label" max-character-count="3"></glide-core-textarea>`;
+  const template = `<glide-core-textarea label="label" maxlength="3"></glide-core-textarea>`;
 
   const textarea = await fixture<GlideCoreTextarea>(template, {
     parentNode: form,
@@ -253,9 +253,9 @@ it('does not dispatch an `invalid` event when `reportValidity` is called and `ma
   expect(spy.notCalled).to.be.true;
 });
 
-it('does not dispatch an `invalid` event when `reportValidity` is called `max-character-count` exceeded and disabled,', async () => {
+it('does not dispatch an `invalid` event when `reportValidity` is called `maxlength` exceeded and disabled,', async () => {
   const form = document.createElement('form');
-  const template = `<glide-core-textarea label="label" max-character-count="3" disabled></glide-core-textarea>`;
+  const template = `<glide-core-textarea label="label" maxlength="3" disabled></glide-core-textarea>`;
 
   const textarea = await fixture<GlideCoreTextarea>(template, {
     parentNode: form,

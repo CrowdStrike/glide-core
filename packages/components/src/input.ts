@@ -111,12 +111,11 @@ export default class GlideCoreInput extends LitElement {
 
   @property({
     type: Number,
-    attribute: 'max-character-count',
     converter(value) {
       return value && Number.parseInt(value, 10);
     },
   })
-  maxCharacterCount?: number;
+  maxlength?: number;
 
   @queryAssignedNodes({ slot: 'description' })
   descriptionNodes!: NodeListOf<HTMLElement>;
@@ -343,7 +342,7 @@ export default class GlideCoreInput extends LitElement {
         <div class="meta" id="meta" slot="description">
           <slot class="description" name="description"></slot>
 
-          ${this.maxCharacterCount
+          ${this.maxlength
             ? html`
                 <div
                   class=${classMap({
@@ -351,7 +350,7 @@ export default class GlideCoreInput extends LitElement {
                     error: this.#isMaxCharacterCountExceeded,
                   })}
                 >
-                  ${this.valueCharacterCount}/${this.maxCharacterCount}
+                  ${this.valueCharacterCount}/${this.maxlength}
                 </div>
               `
             : nothing}
@@ -422,10 +421,7 @@ export default class GlideCoreInput extends LitElement {
   };
 
   get #isMaxCharacterCountExceeded() {
-    return Boolean(
-      this.maxCharacterCount &&
-        this.valueCharacterCount > this.maxCharacterCount,
-    );
+    return Boolean(this.maxlength && this.valueCharacterCount > this.maxlength);
   }
 
   get #isShowValidationFeedback() {
