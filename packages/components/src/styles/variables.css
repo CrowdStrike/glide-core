@@ -2,37 +2,3 @@
 @import 'variables/light.css';
 @import 'variables/dark.css';
 @import 'variables/not-in-figma.css';
-
-/*
-  Modal component specific styles.
-
-  A few notes on these styles:
-  - Modal's need a way to lock the body from scrolling.
-    !important ensures we don't hit specificity issues.
-  - For Modal, we need to take into account the fact that
-    users may have scrollbars enabled via their OS. When
-    scrollbars are enabled, we need to account for the
-    offset that occurs with the <dialog element. When
-    a <dialog is opened, the background content shifts if
-    the main content area has scrollbars enabled because
-    they get *removed* when the <dialog is opened.
-    To combat this, we use `scrollbar-gutter` with a fallback.
-    For browsers that don't support it yet, we use padding
-    and a runtime calculation to ensure the content doesn't shift.
-
-  Safari appears to be the only browser without this enabeld at
-  the moment https://caniuse.com/mdn-css_properties_scrollbar-gutter
-*/
-@supports (scrollbar-gutter: stable) {
-  .glide-lock-scroll {
-    scrollbar-gutter: stable !important;
-    overflow: hidden !important;
-  }
-}
-
-@supports not (scrollbar-gutter: stable) {
-  .glide-lock-scroll {
-    padding-right: var(--glide-scroll-size, 0.9375rem) !important;
-    overflow: hidden !important;
-  }
-}

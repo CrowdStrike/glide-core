@@ -18,7 +18,7 @@ after(() => {
   removeSpy.restore();
 });
 
-it('adds the "glide-lock-scroll" class to the documentElement when opened and removes it when closed', async () => {
+it('adds the "private-glide-core-modal-lock-scroll" class to the documentElement when opened and removes it when closed', async () => {
   const element = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Modal title"
       >Modal Content</glide-core-modal
@@ -28,20 +28,20 @@ it('adds the "glide-lock-scroll" class to the documentElement when opened and re
   element.showModal();
 
   expect(addSpy.callCount).to.equal(1);
-  expect(addSpy.calledWith('glide-lock-scroll')).to.be.ok;
+  expect(addSpy.calledWith('private-glide-core-modal-lock-scroll')).to.be.ok;
 
   expect(removeSpy.callCount).to.equal(0);
 
   element.close();
 
   expect(removeSpy.callCount).to.equal(1);
-  expect(removeSpy.calledWith('glide-lock-scroll')).to.be.ok;
+  expect(removeSpy.calledWith('private-glide-core-modal-lock-scroll')).to.be.ok;
 
   // Verify `add` was not called again for some reason
   expect(addSpy.callCount).to.equal(1);
 });
 
-it('removes the "glide-lock-scroll" class when the close button is clicked', async () => {
+it('removes the "private-glide-core-modal-lock-scroll" class when the close button is clicked', async () => {
   const element = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Modal title"
       >Modal Content</glide-core-modal
@@ -63,7 +63,7 @@ it('removes the "glide-lock-scroll" class when the close button is clicked', asy
   expect(removeSpy.callCount).to.equal(1);
 });
 
-it('removes the "glide-lock-scroll" class when the "close" method is called', async () => {
+it('removes the "private-glide-core-modal-lock-scroll" class when the "close" method is called', async () => {
   const element = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Modal title"
       >Modal Content</glide-core-modal
@@ -84,7 +84,7 @@ it('removes the "glide-lock-scroll" class when the "close" method is called', as
   expect(removeSpy.callCount).to.equal(1);
 });
 
-it('removes the "glide-lock-scroll" class when the escape key is pressed', async () => {
+it('removes the "private-glide-core-modal-lock-scroll" class when the escape key is pressed', async () => {
   const element = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Modal title"
       >Modal Content</glide-core-modal
@@ -100,7 +100,7 @@ it('removes the "glide-lock-scroll" class when the escape key is pressed', async
   expect(removeSpy.callCount).to.equal(1);
 });
 
-it('removes class "glide-lock-scroll" from document when click is outside dialog', async () => {
+it('removes class "private-glide-core-modal-lock-scroll" from document when click is outside dialog', async () => {
   const element = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Modal title"
       >Modal Content</glide-core-modal
@@ -113,8 +113,11 @@ it('removes class "glide-lock-scroll" from document when click is outside dialog
 
   expect(boundingRectangle).is.not.null;
 
-  expect(document.documentElement.classList.contains('glide-lock-scroll')).to.be
-    .true;
+  expect(
+    document.documentElement.classList.contains(
+      'private-glide-core-modal-lock-scroll',
+    ),
+  ).to.be.true;
 
   const { top, left } = boundingRectangle!;
 
@@ -123,6 +126,9 @@ it('removes class "glide-lock-scroll" from document when click is outside dialog
     position: [Math.floor(left - 1), Math.floor(top - 1)],
   });
 
-  expect(document.documentElement.classList.contains('glide-lock-scroll')).to.be
-    .false;
+  expect(
+    document.documentElement.classList.contains(
+      'private-glide-core-modal-lock-scroll',
+    ),
+  ).to.be.false;
 });

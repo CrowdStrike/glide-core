@@ -16,6 +16,47 @@ declare global {
   }
 }
 
+const globalStylesheet = new CSSStyleSheet();
+
+/*
+  A few notes on these styles:
+
+  - Modal's need a way to lock the body from scrolling.
+    !important ensures we don't hit specificity issues.
+
+  - For Modal, we need to take into account the fact that
+    users may have scrollbars enabled via their OS. When
+    scrollbars are enabled, we need to account for the
+    offset that occurs with the <dialog element. When
+    a <dialog is opened, the background content shifts if
+    the main content area has scrollbars enabled because
+    they get *removed* when the <dialog is opened.
+    To combat this, we use `scrollbar-gutter` with a fallback.
+    For browsers that don't support it yet, we use padding
+    and a runtime calculation to ensure the content doesn't shift.
+
+  Safari appears to be the only browser without this enabeld at
+  the moment https://caniuse.com/mdn-css_properties_scrollbar-gutter
+*/
+
+globalStylesheet.insertRule(`
+  @supports (scrollbar-gutter: stable) {
+    .private-glide-core-modal-lock-scroll {
+      scrollbar-gutter: stable !important;
+      overflow: hidden !important;
+    }
+  }
+`);
+
+globalStylesheet.insertRule(`
+  @supports not (scrollbar-gutter: stable) {
+    .private-glide-core-modal-lock-scroll {
+      padding-right: var(--glide-scroll-size, 0.9375rem) !important;
+      overflow: hidden !important;
+    }
+  }
+`);
+
 /**
  * @description A Modal dialog component which interrupts interaction with the rest of the page.
  *
@@ -66,14 +107,36 @@ export default class GlideCoreModal extends LitElement {
       return;
     }
 
-    document.documentElement.classList.remove('glide-lock-scroll');
+    document.documentElement.classList.remove(
+      'private-glide-core-modal-lock-scroll',
+    );
+
     this.dispatchEvent(new Event('close'));
     this.#componentElementRef.value?.close();
   }
 
+  override connectedCallback() {
+    super.connectedCallback();
+
+    const isAdopted = document.adoptedStyleSheets.includes(globalStylesheet);
+
+    if (!isAdopted) {
+      document.adoptedStyleSheets.push(globalStylesheet);
+    }
+  }
+
   override disconnectedCallback() {
     super.disconnectedCallback();
-    document.documentElement.classList.remove('glide-lock-scroll');
+
+    document.documentElement.classList.remove(
+      'private-glide-core-modal-lock-scroll',
+    );
+
+    document.adoptedStyleSheets = document.adoptedStyleSheets.filter(
+      (stylesheet) => {
+        return stylesheet !== globalStylesheet;
+      },
+    );
   }
 
   override firstUpdated() {
@@ -221,16 +284,18 @@ export default class GlideCoreModal extends LitElement {
       return;
     }
 
-    document.documentElement.classList.add('glide-lock-scroll');
+    document.documentElement.classList.add(
+      'private-glide-core-modal-lock-scroll',
+    );
 
     // If the body has scrollbars enabled, when the dialog is opened, those scrollbars
     // are removed as we don't want consumers to scroll the body content when the dialog is open.
-    // This is accomplished with adding the `glide-lock-scroll` class above.
+    // This is accomplished with adding the `private-glide-core-modal-lock-scroll` class above.
     // However, this is a bit problematic, because when the scrollbars are suddenly removed,
     // if you have scrollbars set to always display (or are on Windows), you'll notice layout shift.
     // To combat this, we leverage the CSS property `scrollbar-gutter`. This is great when it is supported.
     // For browsers that don't support this feature quite yet (Safari), we calculate the width of the scrollbar and
-    // set it to this CSS variable, which gets applied in the CSS of `glide-lock-scroll`.
+    // set it to this CSS variable, which gets applied in the CSS of `private-glide-core-modal-lock-scroll`.
     // https://caniuse.com/mdn-css_properties_scrollbar-gutter
     if (!window.CSS.supports('scrollbar-gutter', 'stable')) {
       const gutterSize = Math.abs(
@@ -269,7 +334,10 @@ export default class GlideCoreModal extends LitElement {
   #headerActionsSlotElementRef = createRef<HTMLSlotElement>();
 
   #onCloseButtonClick() {
-    document.documentElement.classList.remove('glide-lock-scroll');
+    document.documentElement.classList.remove(
+      'private-glide-core-modal-lock-scroll',
+    );
+
     this.dispatchEvent(new Event('close'));
     this.#componentElementRef.value?.close();
   }
@@ -306,7 +374,10 @@ export default class GlideCoreModal extends LitElement {
       return;
     }
 
-    document.documentElement.classList.remove('glide-lock-scroll');
+    document.documentElement.classList.remove(
+      'private-glide-core-modal-lock-scroll',
+    );
+
     this.dispatchEvent(new Event('close'));
     this.#componentElementRef.value?.close();
   }
@@ -332,7 +403,10 @@ export default class GlideCoreModal extends LitElement {
         event.clientX <= dialogBoundingRect.left + dialogBoundingRect.width;
 
       if (!isClickInsideDialog) {
-        document.documentElement.classList.remove('glide-lock-scroll');
+        document.documentElement.classList.remove(
+          'private-glide-core-modal-lock-scroll',
+        );
+
         this.dispatchEvent(new Event('close'));
         this.#componentElementRef.value?.close();
       }
