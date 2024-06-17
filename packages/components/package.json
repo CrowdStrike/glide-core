@@ -55,7 +55,8 @@
     "test:development": "npm-run-all --parallel test:development:*",
     "test:development:serve": "npx http-server dist/coverage/lcov-report --silent",
     "test:development:web-test-runner": "web-test-runner --watch",
-    "test:production": "web-test-runner"
+    "test:production": "web-test-runner",
+    "figma:build-css-vars": "pnpm dt export-variables && pnpm dt build-tokens && pnpm dt build-styles"
   },
   "engines": {
     "node": ">= 20",

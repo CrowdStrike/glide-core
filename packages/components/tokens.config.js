@@ -33,5 +33,7 @@ export default {
       }
     }
   },
+  fileId: 'U5EY5xuIIibSN68gGRKlqt',
+  cssPrefix: 'cs',
   outputDirectoryForStyles: 'src/styles/variables',
 };
