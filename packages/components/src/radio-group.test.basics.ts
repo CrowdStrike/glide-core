@@ -434,23 +434,6 @@ it('has reactive radio attribute "aria-invalid"', async () => {
   expect(radio).to.have.attribute('aria-invalid', 'false');
 });
 
-it('exposes standard form control properties and methods', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<GlideCoreRadioGroup>(
-    html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio value="value-1" label="One"></glide-core-radio>
-    </glide-core-radio-group>`,
-    { parentNode: form },
-  );
-
-  expect(component.form).to.equal(form);
-  expect(component.validity instanceof ValidityState).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity).to.be.a('function');
-  expect(component.reportValidity).to.be.a('function');
-});
-
 it('adds a label to radio when given', async () => {
   const component = await fixture<GlideCoreRadio>(
     html`<glide-core-radio value="value-1" label="One"></glide-core-radio>`,

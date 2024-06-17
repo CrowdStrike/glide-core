@@ -3,6 +3,21 @@ import GlideCoreCheckbox from './checkbox.js';
 
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
+it('exposes standard form control properties and methods', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+    { parentNode: form },
+  );
+
+  expect(component.form).to.equal(form);
+  expect(component.validity instanceof ValidityState).to.be.true;
+  expect(component.willValidate).to.be.true;
+  expect(component.checkValidity).to.be.a('function');
+  expect(component.reportValidity).to.be.a('function');
+});
+
 it('can be reset', async () => {
   const form = document.createElement('form');
 
