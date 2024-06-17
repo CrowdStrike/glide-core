@@ -3,25 +3,7 @@ import GlideCoreDropdownOption from './dropdown.option.js';
 
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-it('dispatches a "private-change" event', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
-    html`<glide-core-dropdown-option
-      label="Label"
-      value="value"
-    ></glide-core-dropdown-option>`,
-  );
-
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector('[role="option"]')
-      ?.dispatchEvent(new Event('click', { bubbles: true }));
-  });
-
-  const event = await oneEvent(component, 'private-change');
-  expect(event instanceof Event).to.be.true;
-});
-
-it('dispatches a "private-selected" event', async () => {
+it('dispatches a "private-selected-change" event', async () => {
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -33,11 +15,12 @@ it('dispatches a "private-selected" event', async () => {
     component.click();
   });
 
-  const event = await oneEvent(component, 'private-selected');
+  const event = await oneEvent(component, 'private-selected-change');
   expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
 });
 
-it('dispatches a "private-value" event', async () => {
+it('dispatches a "private-value-change" event', async () => {
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -49,6 +32,7 @@ it('dispatches a "private-value" event', async () => {
     component.value = '';
   });
 
-  const event = await oneEvent(component, 'private-value');
+  const event = await oneEvent(component, 'private-value-change');
   expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
 });

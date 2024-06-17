@@ -110,6 +110,10 @@ export default class GlideCoreCheckboxGroup extends LitElement {
       // Disabled because simply filtering by `Boolean` doesn't narrow the type.
       // eslint-disable-next-line unicorn/prefer-native-coercion-functions
       .filter((value): value is string => Boolean(value));
+
+    for (const checkbox of this.#checkboxes) {
+      checkbox.privateVariant = 'minimal';
+    }
   }
 
   get form() {

@@ -1,10 +1,10 @@
 import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import CsDropdown from './dropdown.js';
+import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
-CsDropdown.shadowRootOptions.mode = 'open';
+GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 // `await aTimeout(0)` is used throughout. Using `oneEvent` instead and
@@ -14,7 +14,7 @@ GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 // will have been dispatched, gets the job done as well.
 
 it('dispatches a "change" event when an option is selected via click', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
@@ -27,17 +27,16 @@ it('dispatches a "change" event when an option is selected via click', async () 
     component
       .querySelector('glide-core-dropdown-option')
       ?.shadowRoot?.querySelector('[role="option"]')
-      ?.dispatchEvent(new Event('click', { bubbles: true }));
+      ?.dispatchEvent(new Event('click'));
   });
 
   const event = await oneEvent(component, 'change');
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(event.detail).to.deep.equal(['value']);
 });
 
 it('dispatches a "change" event when an option is selected via Enter', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
@@ -52,11 +51,10 @@ it('dispatches a "change" event when an option is selected via Enter', async () 
   const event = await oneEvent(component, 'change');
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(event.detail).to.deep.equal(['value']);
 });
 
 it('dispatches a "change" event when an option is selected via Space', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
@@ -71,11 +69,10 @@ it('dispatches a "change" event when an option is selected via Space', async () 
   const event = await oneEvent(component, 'change');
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(event.detail).to.deep.equal(['value']);
 });
 
 it('dispatches a "input" event when an option is selected via click', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
@@ -88,17 +85,16 @@ it('dispatches a "input" event when an option is selected via click', async () =
     component
       .querySelector('glide-core-dropdown-option')
       ?.shadowRoot?.querySelector('[role="option"]')
-      ?.dispatchEvent(new Event('click', { bubbles: true }));
+      ?.dispatchEvent(new Event('click'));
   });
 
   const event = await oneEvent(component, 'input');
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(event.detail).to.deep.equal(['value']);
 });
 
 it('dispatches a "input" event when an option is selected via Enter', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
@@ -113,11 +109,10 @@ it('dispatches a "input" event when an option is selected via Enter', async () =
   const event = await oneEvent(component, 'input');
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(event.detail).to.deep.equal(['value']);
 });
 
 it('dispatches a "input" event when an option is selected via Space', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
@@ -132,13 +127,12 @@ it('dispatches a "input" event when an option is selected via Space', async () =
   const event = await oneEvent(component, 'input');
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(event.detail).to.deep.equal(['value']);
 });
 
 it('dispatches an "invalid" event on submit when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
       <glide-core-dropdown-option
         label="Label"
@@ -157,7 +151,7 @@ it('dispatches an "invalid" event on submit when required and no option is selec
 it('dispatches an "invalid" event when `checkValidity` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
       <glide-core-dropdown-option
         label="Label"
@@ -176,7 +170,7 @@ it('dispatches an "invalid" event when `checkValidity` is called when required a
 it('dispatches an "invalid" event when `reportValidity` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
       <glide-core-dropdown-option
         label="Label"
@@ -195,7 +189,7 @@ it('dispatches an "invalid" event when `reportValidity` is called when required 
 it('does not dispatch an "invalid" event when `checkValidity` is called when not required', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -216,7 +210,7 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when not
 it('does not dispatch an "invalid" event when `checkValidity` is called when required, disabled, and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
@@ -242,7 +236,7 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when req
 it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -263,7 +257,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
 it('does not dispatch an "invalid" event when `reportValidity` is called when required, disabled, and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"

@@ -5,14 +5,49 @@ export default [
     .component {
       align-items: center;
       border-radius: var(--glide-core-spacing-sm);
-      display: flex;
-      gap: var(--gap);
-      padding-block: var(--padding-block);
-      padding-inline: var(--padding-inline);
-      user-select: none;
 
       &.active {
         background-color: var(--glide-core-surface-hover);
+      }
+
+      &.large {
+        --height: 1.75rem;
+        --gap: var(--glide-core-spacing-sm);
+        --padding-inline: var(--glide-core-spacing-sm);
+
+        font-family: var(--glide-core-body-sm-font-family);
+        font-size: var(--glide-core-body-sm-font-size);
+        font-style: var(--glide-core-body-sm-font-style);
+        font-weight: var(--glide-core-body-sm-font-weight);
+        line-height: var(--glide-core-body-sm-line-height);
+      }
+
+      &.small {
+        --height: 1.25rem;
+        --gap: var(--glide-core-spacing-xs);
+        --padding-inline: var(--glide-core-spacing-xs);
+
+        font-family: var(--glide-core-body-xs-font-family);
+        font-size: var(--glide-core-body-xs-font-size);
+        font-style: var(--glide-core-body-xs-font-style);
+        font-weight: var(--glide-core-body-xs-font-weight);
+        line-height: var(--glide-core-body-xs-line-height);
+      }
+    }
+
+    .option {
+      align-items: center;
+      block-size: var(--height);
+      display: flex;
+      gap: var(--gap);
+      padding-inline: var(--padding-inline);
+      user-select: none;
+    }
+
+    glide-core-checkbox {
+      &::part(private-label-and-input-and-checkbox) {
+        block-size: var(--height);
+        padding-inline: var(--padding-inline);
       }
     }
 
@@ -24,6 +59,10 @@ export default [
       &.visible {
         opacity: 1;
       }
+    }
+
+    .indeterminate-icon {
+      display: none;
     }
   `,
 ];

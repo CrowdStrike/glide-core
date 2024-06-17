@@ -1,11 +1,11 @@
 import './dropdown.option.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import CsDropdown from './dropdown.js';
+import GlideCoreDropdown from './dropdown.js';
 
-CsDropdown.shadowRootOptions.mode = 'open';
+GlideCoreDropdown.shadowRootOptions.mode = 'open';
 
 it('is valid if not required and no option is selected', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -22,7 +22,7 @@ it('is valid if not required and no option is selected', async () => {
 });
 
 it('is invalid if required and no option is selected', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
       <glide-core-dropdown-option
         label="Label"
@@ -38,7 +38,7 @@ it('is invalid if required and no option is selected', async () => {
 });
 
 it('is both invalid and valid if required but disabled and no option is selected', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"

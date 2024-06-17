@@ -19,28 +19,18 @@ it('has defaults', async () => {
     ></glide-core-dropdown-option>`,
   );
 
+  expect(component.privateMultiple).to.equal(false);
+  expect(component.getAttribute('private-multiple')).to.equal(null);
+
+  expect(component.privateSize).to.equal('large');
+  expect(component.getAttribute('private-size')).to.equal('large');
+
   // None are reflected, so no attribute assertions are necessary.
   expect(component.privateActive).to.equal(false);
+  expect(component.privateIsFocusable).to.equal(true);
+  expect(component.privateIndeterminate).to.equal(false);
   expect(component.selected).to.equal(false);
   expect(component.value).to.equal('');
-});
-
-it('can be selected', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
-    html`<glide-core-dropdown-option
-      label="Label"
-      value="value"
-      selected
-    ></glide-core-dropdown-option>`,
-  );
-
-  expect(component.hasAttribute('selected')).to.be.true;
-  expect(component.selected).to.be.true;
-
-  const option = component.shadowRoot?.querySelector('[role="option"]');
-
-  expect(option?.getAttribute('aria-selected')).to.equal('true');
-  expect(option?.ariaSelected).to.equal('true');
 });
 
 it('can have a label', async () => {
