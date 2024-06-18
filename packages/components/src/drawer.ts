@@ -10,26 +10,6 @@ declare global {
   }
 }
 
-const globalStylesheet = new CSSStyleSheet();
-
-globalStylesheet.insertRule(`
-  @supports (scrollbar-gutter: stable) {
-    .private-glide-core-drawer-lock-scroll {
-      scrollbar-gutter: stable !important;
-      overflow: hidden !important;
-    }
-  }
-`);
-
-globalStylesheet.insertRule(`
-  @supports not (scrollbar-gutter: stable) {
-    .private-glide-core-drawer-lock-scroll {
-      padding-right: var(--glide-scroll-size, 0.9375rem) !important;
-      overflow: hidden !important;
-    }
-  }
-`);
-
 /**
  * @cssprop [--width] - Sets the width of the Drawer when open.
  *
@@ -69,51 +49,13 @@ export default class GlideCoreDrawer extends LitElement {
         this.currentState = 'closed';
 
         this.dispatchEvent(new Event('close'));
-
-        document.documentElement.classList.remove(
-          'private-glide-core-drawer-lock-scroll',
-        );
       },
       { once: true },
     );
 
     this.#asideElementRef?.value?.classList?.add('closing');
 
-    document.documentElement.classList.add(
-      'private-glide-core-drawer-lock-scroll',
-    );
-
     this.currentState = 'closing';
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-
-    const isAdopted = document.adoptedStyleSheets.includes(globalStylesheet);
-
-    if (!isAdopted) {
-      document.adoptedStyleSheets.push(globalStylesheet);
-    }
-  }
-
-  override disconnectedCallback() {
-    super.disconnectedCallback();
-
-    if (
-      document.documentElement.classList.contains(
-        'private-glide-core-drawer-lock-scroll',
-      )
-    ) {
-      document.documentElement.classList.remove(
-        'private-glide-core-drawer-lock-scroll',
-      );
-    }
-
-    document.adoptedStyleSheets = document.adoptedStyleSheets.filter(
-      (stylesheet) => {
-        return stylesheet !== globalStylesheet;
-      },
-    );
   }
 
   override firstUpdated() {
@@ -136,19 +78,11 @@ export default class GlideCoreDrawer extends LitElement {
         this.#asideElementRef?.value?.focus();
 
         this.dispatchEvent(new Event('open'));
-
-        document.documentElement.classList.remove(
-          'private-glide-core-drawer-lock-scroll',
-        );
       },
       { once: true },
     );
 
     this.#asideElementRef?.value?.classList?.add('open');
-
-    document.documentElement.classList.add(
-      'private-glide-core-drawer-lock-scroll',
-    );
 
     this.currentState = 'opening';
 
