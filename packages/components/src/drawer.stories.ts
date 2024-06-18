@@ -55,12 +55,13 @@ const meta: Meta = {
   render: (arguments_) => html`
     <glide-core-button>Toggle</glide-core-button>
 
-    <glide-core-drawer>
+    <glide-core-drawer label=${arguments_.label}>
       <div style="padding: 0.5rem">${arguments_['slot="default"']}</div>
     </glide-core-drawer>
   `,
   args: {
     'slot="default"': 'Drawer content',
+    label: 'label',
   },
   argTypes: {
     'slot="default"': {
@@ -87,6 +88,13 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
+    },
+    label: {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
     },
     'addEventListener(event, listener)': {
       table: {

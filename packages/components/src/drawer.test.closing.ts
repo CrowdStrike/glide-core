@@ -22,7 +22,7 @@ it('closes when the "Escape" key is pressed', async () => {
   drawer.open();
 
   drawer.shadowRoot
-    ?.querySelector<HTMLDialogElement>('dialog')
+    ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(drawer);
@@ -31,13 +31,16 @@ it('closes when the "Escape" key is pressed', async () => {
 
   setTimeout(() => {
     drawer.shadowRoot
-      ?.querySelector<HTMLDialogElement>('dialog')
+      ?.querySelector('aside')
       ?.dispatchEvent(new TransitionEvent('transitionend'));
   });
 
   await oneEvent(drawer, 'close');
 
-  expect(drawer.shadowRoot?.querySelector('dialog')?.open).to.be.false;
+  await elementUpdated(drawer);
+
+  expect(drawer?.shadowRoot?.querySelector('aside[data-test="closed"]')).to.be
+    .not.null;
 });
 
 it('does not close when a key other than "Escape" is pressed', async () => {
@@ -48,13 +51,14 @@ it('does not close when a key other than "Escape" is pressed', async () => {
   drawer.open();
 
   drawer.shadowRoot
-    ?.querySelector<HTMLDialogElement>('dialog')
+    ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(drawer);
 
-  drawer.shadowRoot?.querySelector('dialog')?.focus();
+  drawer.shadowRoot?.querySelector('aside')?.focus();
   await sendKeys({ press: 'Enter' });
 
-  expect(drawer.shadowRoot?.querySelector('dialog')?.open).to.be.true;
+  expect(drawer?.shadowRoot?.querySelector('aside[data-test="open"]')).to.be.not
+    .null;
 });

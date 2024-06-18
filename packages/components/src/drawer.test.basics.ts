@@ -1,8 +1,7 @@
 import './drawer.js';
-import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
-import sinon from 'sinon';
+import expectArgumentError from './library/expect-argument-error.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
@@ -12,12 +11,24 @@ it('registers', async () => {
   );
 });
 
-it('has defaults', async () => {
+it('adds an aria-label when "label" is set', async () => {
+  const drawer = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer label="label">Drawer content</glide-core-drawer>`,
+  );
+
+  expect(drawer.shadowRoot?.querySelector('aside')?.ariaLabel).to.equal(
+    'label',
+  );
+});
+
+it('does not add an aria-label when "label" is unset', async () => {
   const drawer = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  expect(drawer.hasAttribute('open')).to.be.false;
+  expect(drawer.shadowRoot?.querySelector('aside')).to.not.have.attribute(
+    'aria-label',
+  );
 });
 
 it('can have a default slot', async () => {
@@ -41,21 +52,11 @@ it('sets the width of the element based on the "--width" CSS variable', async ()
 
   drawer.open();
 
-  expect(drawer.shadowRoot?.querySelector('dialog')?.clientWidth).to.equal(750);
+  expect(drawer.shadowRoot?.querySelector('aside')?.clientWidth).to.equal(750);
 });
 
 it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture<GlideCoreDrawer>(
-      html`<glide-core-drawer></glide-core-drawer>`,
-    );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
+  await expectArgumentError(() => {
+    return fixture(html`<glide-core-drawer></glide-core-drawer>`);
+  });
 });

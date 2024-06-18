@@ -1,6 +1,6 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
 import styles from './drawer.styles.js';
 
@@ -50,18 +50,21 @@ export default class GlideCoreDrawer extends LitElement {
 
   static override styles = styles;
 
+  @property()
+  label = '';
+
   close() {
     if (this.currentState !== 'open') {
       return;
     }
 
-    this.#dialogElementRef?.value?.addEventListener(
+    this.#asideElementRef?.value?.addEventListener(
       'transitionend',
       () => {
         this.isOpen = false;
 
-        this.#dialogElementRef?.value?.classList?.remove('open');
-        this.#dialogElementRef?.value?.classList?.remove('closing');
+        this.#asideElementRef?.value?.classList?.remove('open');
+        this.#asideElementRef?.value?.classList?.remove('closing');
 
         this.currentState = 'closed';
 
@@ -74,7 +77,7 @@ export default class GlideCoreDrawer extends LitElement {
       { once: true },
     );
 
-    this.#dialogElementRef?.value?.classList?.add('closing');
+    this.#asideElementRef?.value?.classList?.add('closing');
 
     document.documentElement.classList.add(
       'private-glide-core-drawer-lock-scroll',
@@ -122,7 +125,7 @@ export default class GlideCoreDrawer extends LitElement {
       return;
     }
 
-    this.#dialogElementRef?.value?.addEventListener(
+    this.#asideElementRef?.value?.addEventListener(
       'transitionend',
       () => {
         this.currentState = 'open';
@@ -130,8 +133,7 @@ export default class GlideCoreDrawer extends LitElement {
         // We set `tabindex="-1"` and call focus directly based on
         // https://www.matuzo.at/blog/2023/focus-dialog/
         // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
-        // This ensures our dialog behaves as expected for screenreaders.
-        this.#dialogElementRef?.value?.focus();
+        this.#asideElementRef?.value?.focus();
 
         this.dispatchEvent(new Event('open'));
 
@@ -142,7 +144,7 @@ export default class GlideCoreDrawer extends LitElement {
       { once: true },
     );
 
-    this.#dialogElementRef?.value?.classList?.add('open');
+    this.#asideElementRef?.value?.classList?.add('open');
 
     document.documentElement.classList.add(
       'private-glide-core-drawer-lock-scroll',
@@ -155,18 +157,19 @@ export default class GlideCoreDrawer extends LitElement {
 
   override render() {
     return html`
-      <dialog
+      <aside
         class="component"
         tabindex="-1"
-        ?open=${this.isOpen}
+        data-test=${this.isOpen ? 'open' : 'closed'}
         @keydown=${this.#handleKeyDown}
-        ${ref(this.#dialogElementRef)}
+        ${ref(this.#asideElementRef)}
+        aria-label=${this.label || nothing}
       >
         <slot
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
-      </dialog>
+      </aside>
     `;
   }
 
@@ -176,9 +179,9 @@ export default class GlideCoreDrawer extends LitElement {
   @state()
   private isOpen = false;
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+  #asideElementRef = createRef<HTMLElement>();
 
-  #dialogElementRef = createRef<HTMLDialogElement>();
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #handleKeyDown(event: KeyboardEvent) {
     if (event.key !== 'Escape') {
