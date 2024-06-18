@@ -10,7 +10,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
-import CsMenuButton from './menu.button.js';
+import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
 import styles from './menu.styles.js';
 
@@ -92,7 +92,7 @@ export default class GlideCoreMenu extends LitElement {
     // a case where the only slotted content is a `repeat` whose array is empty
     // at first then populated after a fetch.
     owSlotType(this.#defaultSlotElementRef.value, [
-      CsMenuButton,
+      GlideCoreMenuButton,
       GlideCoreMenuLink,
       Text,
     ]);
@@ -208,7 +208,7 @@ export default class GlideCoreMenu extends LitElement {
     owSlot(this.#defaultSlotElementRef.value);
 
     owSlotType(this.#defaultSlotElementRef.value, [
-      CsMenuButton,
+      GlideCoreMenuButton,
       GlideCoreMenuLink,
       Text,
     ]);
@@ -300,7 +300,7 @@ export default class GlideCoreMenu extends LitElement {
   #onOptionsMouseover(event: Event) {
     if (
       event.target instanceof GlideCoreMenuLink ||
-      event.target instanceof CsMenuButton
+      event.target instanceof GlideCoreMenuButton
     ) {
       for (const option of this.#optionElements) {
         option.privateActive = option === event.target;
@@ -362,9 +362,10 @@ export default class GlideCoreMenu extends LitElement {
     return (
       this.#defaultSlotElementRef.value?.assignedElements({ flatten: true }) ??
       []
-    ).filter((element): element is GlideCoreMenuLink | CsMenuButton => {
+    ).filter((element): element is GlideCoreMenuLink | GlideCoreMenuButton => {
       return (
-        element instanceof GlideCoreMenuLink || element instanceof CsMenuButton
+        element instanceof GlideCoreMenuLink ||
+        element instanceof GlideCoreMenuButton
       );
     });
   }

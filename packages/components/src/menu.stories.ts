@@ -5,7 +5,7 @@ import './menu.link.js';
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
-import CsButton from './button.js';
+import GlideCoreButton from './button.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -31,7 +31,7 @@ const meta: Meta = {
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: 'GlideCoreMenuLink | CsMenuButton' },
+        type: { summary: 'GlideCoreMenuLink | GlideCoreMenuButton' },
       },
       type: { name: 'function', required: true },
     },
@@ -143,7 +143,7 @@ export const MenuWithIcon: StoryObj = {
   name: 'Menu (With Icon)',
   render(arguments_, context) {
     context.canvasElement.addEventListener('click', (event) => {
-      if (event.target instanceof CsButton) {
+      if (event.target instanceof GlideCoreButton) {
         const menu = context.canvasElement.querySelector('glide-core-menu');
 
         if (menu) {

@@ -1,11 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import CsMenuButton from './menu.button.js';
+import GlideCoreMenuButton from './menu.button.js';
 
-CsMenuButton.shadowRootOptions.mode = 'open';
+GlideCoreMenuButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(window.customElements.get('glide-core-menu-button')).to.equal(
-    CsMenuButton,
+    GlideCoreMenuButton,
   );
 });
 
@@ -13,7 +13,7 @@ it('has defaults', async () => {
   // Required attributes are supplied and not asserted below. The idea is that
   // this test shouldn't fail to typecheck if these templates are eventually
   // typechecked, which means supplying required attributes up front.
-  const component = await fixture<CsMenuButton>(
+  const component = await fixture<GlideCoreMenuButton>(
     html`<glide-core-menu-button label="Label"></glide-core-menu-button>`,
   );
 
@@ -22,7 +22,7 @@ it('has defaults', async () => {
 });
 
 it('can have a label', async () => {
-  const button = await fixture<CsMenuButton>(
+  const button = await fixture<GlideCoreMenuButton>(
     html`<glide-core-menu-button label="Label"></glide-core-menu-button>`,
   );
 
@@ -30,7 +30,7 @@ it('can have a label', async () => {
 });
 
 it('can have an icon', async () => {
-  const component = await fixture<CsMenuButton>(
+  const component = await fixture<GlideCoreMenuButton>(
     html`<glide-core-menu-button label="Label">
       <svg
         slot="icon"

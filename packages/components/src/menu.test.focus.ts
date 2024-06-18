@@ -1,10 +1,10 @@
 import './menu.js';
 import './menu.link.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import type CsMenu from './menu.js';
+import type GlideCoreMenu from './menu.js';
 
 it('focuses the target on `focus()`', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -19,7 +19,7 @@ it('focuses the target on `focus()`', async () => {
 });
 
 it('focuses the active option on open via click', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -38,7 +38,7 @@ it('focuses the active option on open via click', async () => {
 });
 
 it('focuses the active option on open via Space', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -59,7 +59,7 @@ it('focuses the active option on open via Space', async () => {
 });
 
 it('focuses the target on close via click', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -72,7 +72,7 @@ it('focuses the target on close via click', async () => {
 });
 
 it('focuses the target on close via Escape', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -89,7 +89,7 @@ it('focuses the target on close via Escape', async () => {
 });
 
 it('focuses the target when an option is selected via click', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -107,7 +107,7 @@ it('focuses the target when an option is selected via click', async () => {
 });
 
 it('focuses the target when an option is selected via Enter', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -128,7 +128,7 @@ it('focuses the target when an option is selected via Enter', async () => {
 });
 
 it('focuses the target when an option is selected via Space', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
