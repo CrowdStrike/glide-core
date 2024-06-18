@@ -10,15 +10,15 @@ export default [
 
     .component {
       display: contents;
-      font-family: var(--cs-body-sm-font-family);
-      font-style: var(--cs-body-sm-font-style);
-      font-weight: var(--cs-body-sm-font-weight);
+      font-family: var(--glide-core-body-sm-font-family);
+      font-style: var(--glide-core-body-sm-font-style);
+      font-weight: var(--glide-core-body-sm-font-weight);
       grid-template-columns: repeat(auto-fill, 2.5rem);
 
-      --color: var(--cs-text-body-1);
+      --color: var(--glide-core-text-body-1);
 
       &.selected {
-        --color: var(--cs-text-selected);
+        --color: var(--glide-core-text-selected);
       }
     }
 
@@ -49,40 +49,40 @@ export default [
       border-radius: 0.625rem;
       color: var(--color);
       display: flex;
-      font-size: var(--cs-body-sm-font-size);
-      padding-block: var(--cs-spacing-xxs);
-      padding-inline: var(--cs-spacing-xs);
+      font-size: var(--glide-core-body-sm-font-size);
+      padding-block: var(--glide-core-spacing-xxs);
+      padding-inline: var(--glide-core-spacing-xs);
 
       &:hover {
-        background-color: var(--cs-surface-hover);
+        background-color: var(--glide-core-surface-hover);
       }
 
       &.selected {
-        background-color: var(--cs-surface-selected);
+        background-color: var(--glide-core-surface-selected);
 
         &:hover {
-          background-color: var(--cs-color-dark-blue);
+          background-color: var(--glide-core-color-dark-blue);
         }
       }
 
       &:focus-visible {
-        outline: var(--cs-border-primary);
+        outline: var(--glide-core-border-primary);
         outline-offset: -1px;
         outline-style: auto;
         outline-width: 2px;
       }
 
       .component.selected & {
-        background-color: var(--cs-surface-selected);
+        background-color: var(--glide-core-surface-selected);
 
         &:hover {
-          background-color: var(--cs-color-dark-blue);
+          background-color: var(--glide-core-color-dark-blue);
         }
       }
     }
 
     ::slotted([slot='prefix']) {
-      margin-inline-end: var(--cs-spacing-xs);
+      margin-inline-end: var(--glide-core-spacing-xs);
     }
 
     ::slotted([slot='menu']) {
@@ -98,11 +98,11 @@ export default [
     .component.selected ::slotted([slot='prefix']),
     .component.selected ::slotted([slot='menu']),
     .component.selected ::slotted([slot='suffix']) {
-      --hovered-icon-button-color: var(--cs-icon-hover);
+      --hovered-icon-button-color: var(--glide-core-icon-hover);
     }
 
     ::slotted([slot='suffix']) {
-      padding-inline: var(--cs-spacing-xxs);
+      padding-inline: var(--glide-core-spacing-xxs);
     }
 
     .label-container:hover,

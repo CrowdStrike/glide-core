@@ -5,7 +5,7 @@ export default [
     :host(:not(:disabled)) .component {
       &.error {
         .checkbox {
-          border-color: var(--cs-status-error);
+          border-color: var(--glide-core-status-error);
         }
       }
     }
@@ -18,7 +18,7 @@ export default [
       display: flex;
       flex-direction: column;
       grid-column: 2;
-      row-gap: var(--cs-spacing-xxs);
+      row-gap: var(--glide-core-spacing-xxs);
     }
   `,
 ];

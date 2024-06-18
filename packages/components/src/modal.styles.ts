@@ -27,11 +27,11 @@ export default [
     }
 
     .component {
-      background-color: var(--cs-surface-base-lighter);
+      background-color: var(--glide-core-surface-base-lighter);
       border: none;
       border-radius: 0.5rem;
-      box-shadow: var(--cs-shadow-lg);
-      font-family: var(--cs-body-xs-font-family);
+      box-shadow: var(--glide-core-shadow-lg);
+      font-family: var(--glide-core-body-xs-font-family);
       inline-size: 35rem;
       max-block-size: 75vh;
       opacity: 0;
@@ -103,11 +103,11 @@ export default [
 
     .label {
       align-items: center;
-      color: var(--cs-text-body);
+      color: var(--glide-core-text-body);
       display: flex;
       font-size: 1.5rem;
       font-weight: 600;
-      gap: var(--cs-spacing-xs);
+      gap: var(--glide-core-spacing-xs);
       inline-size: 100%;
       line-height: 1.875rem;
       margin: 0;
@@ -145,7 +145,7 @@ export default [
 
     .actions {
       display: flex;
-      gap: var(--cs-spacing-xs);
+      gap: var(--glide-core-spacing-xs);
 
       /* Reset the default menu styles */
       list-style-type: none;

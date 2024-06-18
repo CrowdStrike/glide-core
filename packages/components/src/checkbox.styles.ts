@@ -17,18 +17,18 @@ when browsers support them.
     .label-and-input-and-checkbox {
       align-items: center;
       display: flex;
-      font-family: var(--cs-heading-xxxs-font-family);
-      font-size: var(--cs-heading-xxxs-font-size);
-      font-style: var(--cs-heading-xxxs-font-style);
-      font-variant: var(--cs-heading-xxxs-font-variant);
-      font-weight: var(--cs-body-xs-font-weight);
-      gap: var(--cs-spacing-sm);
+      font-family: var(--glide-core-heading-xxxs-font-family);
+      font-size: var(--glide-core-heading-xxxs-font-size);
+      font-style: var(--glide-core-heading-xxxs-font-style);
+      font-variant: var(--glide-core-heading-xxxs-font-variant);
+      font-weight: var(--glide-core-body-xs-font-weight);
+      gap: var(--glide-core-spacing-sm);
       line-height: 100%;
     }
 
     .input-and-checkbox-and-summary {
       display: flex;
-      gap: var(--cs-spacing-sm);
+      gap: var(--glide-core-spacing-sm);
     }
 
     .input-and-checkbox {
@@ -40,21 +40,21 @@ when browsers support them.
     .checkbox {
       align-items: center;
       block-size: 100%;
-      border: 1px solid var(--cs-border-base-dark);
+      border: 1px solid var(--glide-core-border-base-dark);
       border-radius: 0.25rem;
       box-sizing: border-box;
-      color: var(--cs-icon-selected);
+      color: var(--glide-core-icon-selected);
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
       inline-size: 100%;
       justify-content: center;
 
       &.error:not(.disabled) {
-        border-color: var(--cs-status-error);
+        border-color: var(--glide-core-status-error);
       }
 
       &:not(.disabled):hover {
-        box-shadow: var(--cs-glow-sm);
+        box-shadow: var(--glide-core-glow-sm);
       }
     }
 
@@ -69,7 +69,7 @@ when browsers support them.
       position: absolute;
 
       &:not(:disabled):hover ~ .checkbox {
-        box-shadow: var(--cs-glow-sm);
+        box-shadow: var(--glide-core-glow-sm);
       }
 
       &:checked:not(:indeterminate) ~ .checkbox .checked-icon {
@@ -81,7 +81,7 @@ when browsers support them.
       }
 
       &:disabled:not(:is(:checked, :indeterminate)) ~ .checkbox {
-        border-color: var(--cs-surface-primary-disabled);
+        border-color: var(--glide-core-surface-primary-disabled);
       }
 
       &:focus-visible ~ .checkbox {
@@ -90,12 +90,12 @@ when browsers support them.
       }
 
       &:is(:checked, :indeterminate):not(:disabled) ~ .checkbox {
-        background-color: var(--cs-surface-primary);
+        background-color: var(--glide-core-surface-primary);
         border-color: transparent;
       }
 
       &:is(:checked, :indeterminate):disabled ~ .checkbox {
-        background-color: var(--cs-surface-primary-disabled);
+        background-color: var(--glide-core-surface-primary-disabled);
         border-color: transparent;
       }
     }

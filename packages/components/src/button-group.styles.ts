@@ -5,7 +5,7 @@ export default [
   css`
     .radio-group {
       appearance: none;
-      border: 1px solid var(--cs-border-base);
+      border: 1px solid var(--glide-core-border-base);
       border-radius: 0.75rem;
       display: inline-flex;
       margin: 0;

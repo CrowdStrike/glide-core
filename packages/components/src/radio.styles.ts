@@ -12,7 +12,7 @@ export default [
       outline: none;
 
       & .component .radio-circle {
-        box-shadow: var(--cs-glow-sm);
+        box-shadow: var(--glide-core-glow-sm);
 
         ${focusOutline};
         outline-offset: 4px;
@@ -21,17 +21,17 @@ export default [
 
     .component {
       align-items: center;
-      color: var(--cs-text-body-1);
+      color: var(--glide-core-text-body-1);
       display: inline-flex;
-      font-weight: var(--cs-body-md-font-weight);
+      font-weight: var(--glide-core-body-md-font-weight);
       line-height: 1;
 
       & .radio-circle {
         align-items: center;
         appearance: none;
-        background-color: var(--cs-color-white);
+        background-color: var(--glide-core-color-white);
         block-size: 0.875rem;
-        border: 1px solid var(--cs-border-base-dark);
+        border: 1px solid var(--glide-core-border-base-dark);
         border-radius: 50%;
         box-sizing: border-box;
         content: ' ';
@@ -44,10 +44,10 @@ export default [
         position: relative;
 
         &.checked {
-          border-color: var(--cs-surface-primary);
+          border-color: var(--glide-core-surface-primary);
 
           &::after {
-            background-color: var(--cs-surface-primary);
+            background-color: var(--glide-core-surface-primary);
 
             /*
               svg in figma has viewbox 16px, with inner circle radius of 8px, however figma element has height & width of 14px;
@@ -75,20 +75,20 @@ export default [
 
       &:hover {
         & .radio-circle {
-          border-color: var(--cs-border-focus);
-          box-shadow: var(--cs-glow-sm);
+          border-color: var(--glide-core-border-focus);
+          box-shadow: var(--glide-core-glow-sm);
         }
       }
 
       &.disabled,
       &.disabled:hover {
         & .radio-circle {
-          border-color: var(--cs-surface-primary-disabled);
+          border-color: var(--glide-core-surface-primary-disabled);
           box-shadow: none;
           cursor: not-allowed;
 
           &::after {
-            background-color: var(--cs-surface-primary-disabled);
+            background-color: var(--glide-core-surface-primary-disabled);
           }
         }
       }

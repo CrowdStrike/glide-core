@@ -6,7 +6,7 @@ export default [
       align-items: center;
       background-color: transparent;
       border: none;
-      border-radius: var(--cs-spacing-sm);
+      border-radius: var(--glide-core-spacing-sm);
       box-sizing: border-box;
       color: inherit;
       display: flex;
@@ -19,7 +19,7 @@ export default [
       user-select: none;
 
       &.component-active {
-        background-color: var(--cs-surface-hover);
+        background-color: var(--glide-core-surface-hover);
       }
     }
   `,

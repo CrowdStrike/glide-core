@@ -4,27 +4,27 @@ export default [
   css`
     .component {
       align-items: center;
-      border-radius: var(--cs-spacing-sm);
-      box-shadow: var(--cs-shadow-lg);
-      column-gap: var(--cs-spacing-xs);
+      border-radius: var(--glide-core-spacing-sm);
+      box-shadow: var(--glide-core-shadow-lg);
+      column-gap: var(--glide-core-spacing-xs);
       display: grid;
-      font-family: var(--cs-body-xs-font-family);
-      font-size: var(--cs-body-sm-font-size);
-      font-weight: var(--cs-body-xs-font-weight);
+      font-family: var(--glide-core-body-xs-font-family);
+      font-size: var(--glide-core-body-sm-font-size);
+      font-weight: var(--glide-core-body-xs-font-weight);
       grid-template-columns: auto minmax(0, 1fr);
-      line-height: var(--cs-body-xs-line-height);
-      padding: var(--cs-spacing-sm);
+      line-height: var(--glide-core-body-xs-line-height);
+      padding: var(--glide-core-spacing-sm);
       transform: translateX(110%);
       transition:
         transform 0.2s ease-out,
         opacity 0.3s ease-out;
 
       &.informational {
-        background-color: var(--cs-surface-informational);
+        background-color: var(--glide-core-surface-informational);
       }
 
       &.success {
-        background-color: var(--cs-surface-success);
+        background-color: var(--glide-core-surface-success);
       }
 
       &.open {
@@ -48,8 +48,8 @@ export default [
     }
 
     .label {
-      font-size: var(--cs-heading-xs-font-size);
-      font-weight: var(--cs-heading-xs-font-weight);
+      font-size: var(--glide-core-heading-xs-font-size);
+      font-weight: var(--glide-core-heading-xs-font-weight);
       grid-column: 2;
     }
 

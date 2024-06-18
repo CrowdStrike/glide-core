@@ -3,7 +3,7 @@ import { css } from 'lit';
 export default css`
   glide-core-label::part(tooltip-and-label-container) {
     align-items: flex-start;
-    margin-block-start: var(--cs-spacing-sm);
+    margin-block-start: var(--glide-core-spacing-sm);
   }
 
   .textarea-container {
@@ -12,23 +12,23 @@ export default css`
 
   textarea {
     appearance: none;
-    background-color: var(--cs-surface-base-lighter);
-    border: 1px solid var(--cs-border-base-light);
+    background-color: var(--glide-core-surface-base-lighter);
+    border: 1px solid var(--glide-core-border-base-light);
     border-radius: 0.5rem;
-    color: var(--cs-text-body-1);
+    color: var(--glide-core-text-body-1);
     cursor: inherit;
     display: block;
     flex-grow: 1;
-    font-family: var(--cs-body-xs-font-family);
-    font-size: var(--cs-body-sm-font-size);
-    font-weight: var(--cs-body-xs-font-weight);
+    font-family: var(--glide-core-body-xs-font-family);
+    font-size: var(--glide-core-body-sm-font-size);
+    font-weight: var(--glide-core-body-xs-font-weight);
     min-block-size: 1.1875rem;
-    padding: var(--cs-spacing-xs) var(--cs-spacing-sm);
+    padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
     resize: vertical;
     transition: border-color 200ms ease-in-out;
 
     &:hover {
-      border-color: var(--cs-border-base);
+      border-color: var(--glide-core-border-base);
     }
 
     &:focus {
@@ -36,11 +36,11 @@ export default css`
     }
 
     &:focus-visible {
-      border-color: var(--cs-border-focus);
+      border-color: var(--glide-core-border-focus);
     }
 
     &.error {
-      border-color: var(--cs-status-error);
+      border-color: var(--glide-core-status-error);
     }
 
     &[readonly] {
@@ -50,22 +50,22 @@ export default css`
     }
 
     &[disabled] {
-      background-color: var(--cs-surface-base-gray-light);
-      border: 0.0625rem solid var(--cs-border-base-light);
-      color: var(--cs-text-tertiary-disabled);
+      background-color: var(--glide-core-surface-base-gray-light);
+      border: 0.0625rem solid var(--glide-core-border-base-light);
+      color: var(--glide-core-text-tertiary-disabled);
     }
   }
 
   .meta {
-    column-gap: var(--cs-spacing-xs);
+    column-gap: var(--glide-core-spacing-xs);
     display: flex;
-    font-size: var(--cs-body-xs-font-size);
+    font-size: var(--glide-core-body-xs-font-size);
     justify-content: space-between;
   }
 
   .character-count {
     &.error {
-      font-weight: var(--cs-font-weight-bold);
+      font-weight: var(--glide-core-font-weight-bold);
     }
   }
 `;

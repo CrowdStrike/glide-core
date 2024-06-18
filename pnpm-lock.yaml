@@ -40,8 +40,8 @@ importers:
         version: 1.1.1
     devDependencies:
       '@crowdstrike/design-tokens':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^2.0.0
+        version: 2.0.1
       '@crowdstrike/glide-core-eslint-plugin':
         specifier: workspace:*
         version: link:../eslint-plugin
@@ -970,8 +970,8 @@ packages:
     resolution: {integrity: sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==}
     engines: {node: '>=0.1.90'}
 
-  '@crowdstrike/design-tokens@1.2.0':
-    resolution: {integrity: sha512-UxZ/6LkF2bEn6wya39ZrDUIgqjy6lwyXV7vAXpgoiCIzYUwp73kwRQJHiUpcxRuV6rH0lxolAbCVke2vsSrs+Q==}
+  '@crowdstrike/design-tokens@2.0.1':
+    resolution: {integrity: sha512-m5xoWkLEwDonFZT6tRd7ApSAZAh5kh7BvKNDKrLIY8ST5sgNuurUM2JarZxmJ/WeUBm+lmIraSImXqQwaqGjGA==}
     hasBin: true
 
   '@csstools/css-parser-algorithms@2.6.1':
@@ -7055,7 +7055,7 @@ snapshots:
   '@colors/colors@1.5.0':
     optional: true
 
-  '@crowdstrike/design-tokens@1.2.0': {}
+  '@crowdstrike/design-tokens@2.0.1': {}
 
   '@csstools/css-parser-algorithms@2.6.1(@csstools/css-tokenizer@2.2.4)':
     dependencies:

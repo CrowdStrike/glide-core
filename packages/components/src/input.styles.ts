@@ -2,7 +2,7 @@ import { css } from 'lit';
 
 export default css`
   .meta {
-    column-gap: var(--cs-spacing-xs);
+    column-gap: var(--glide-core-spacing-xs);
     display: flex;
     font-size: 0.75rem;
     grid-column: 2;
@@ -15,7 +15,7 @@ export default css`
 
   .character-count {
     &.error {
-      font-weight: var(--cs-font-weight-bold);
+      font-weight: var(--glide-core-font-weight-bold);
     }
   }
 
@@ -26,23 +26,23 @@ export default css`
 
   .input-box {
     align-items: center;
-    background-color: var(--cs-surface-base-lighter);
+    background-color: var(--glide-core-surface-base-lighter);
     block-size: 2.125rem;
-    border: 1px solid var(--cs-border-base-light);
-    border-radius: var(--cs-spacing-xs);
+    border: 1px solid var(--glide-core-border-base-light);
+    border-radius: var(--glide-core-spacing-xs);
     box-sizing: border-box;
-    color: var(--cs-text-body-1);
+    color: var(--glide-core-text-body-1);
     display: flex;
-    gap: var(--cs-spacing-xxs);
-    line-height: var(--cs-body-xs-line-height);
-    padding-inline: var(--cs-spacing-sm);
+    gap: var(--glide-core-spacing-xxs);
+    line-height: var(--glide-core-body-xs-line-height);
+    padding-inline: var(--glide-core-spacing-sm);
 
     &.error {
-      border-color: var(--cs-status-error);
+      border-color: var(--glide-core-status-error);
     }
 
     &.focused:not(.error) {
-      border-color: var(--cs-border-focus);
+      border-color: var(--glide-core-border-focus);
     }
 
     /* We had to resort to a class selector because there may be a bug in Chrome and Safari
@@ -55,17 +55,17 @@ export default css`
     }
 
     &.disabled {
-      background-color: var(--cs-surface-base-gray-light);
-      color: var(--cs-text-tertiary-disabled);
+      background-color: var(--glide-core-surface-base-gray-light);
+      color: var(--glide-core-text-tertiary-disabled);
     }
 
     input {
       border: none;
       color: inherit;
       cursor: inherit;
-      font-family: var(--cs-font-sans);
-      font-size: var(--cs-body-sm-font-size);
-      font-weight: var(--cs-body-xs-font-weight);
+      font-family: var(--glide-core-font-sans);
+      font-size: var(--glide-core-body-sm-font-size);
+      font-weight: var(--glide-core-body-xs-font-weight);
       inline-size: 100%;
       min-inline-size: 0;
       outline: none;
@@ -91,7 +91,7 @@ export default css`
     align-items: center;
     background: none;
     border: none;
-    color: var(--cs-icon-default);
+    color: var(--glide-core-icon-default);
     display: inline-flex;
     justify-content: center;
     padding: 0;

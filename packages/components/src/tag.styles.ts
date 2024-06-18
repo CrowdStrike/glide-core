@@ -5,31 +5,31 @@ export default [
   css`
     .component {
       align-items: center;
-      background: var(--cs-surface-base);
-      border-radius: var(--cs-border-radius-round);
-      color: var(--cs-text-body-1);
+      background: var(--glide-core-surface-base);
+      border-radius: var(--glide-core-border-radius-round);
+      color: var(--glide-core-text-body-1);
       display: inline-flex;
-      font-family: var(--cs-body-xs-font-family);
-      font-size: var(--cs-body-xs-font-size);
-      font-style: var(--cs-body-xs-font-variant);
-      font-weight: var(--cs-body-xs-font-weight);
+      font-family: var(--glide-core-body-xs-font-family);
+      font-size: var(--glide-core-body-xs-font-size);
+      font-style: var(--glide-core-body-xs-font-variant);
+      font-weight: var(--glide-core-body-xs-font-weight);
       justify-content: center;
       line-height: 1;
       margin: 0;
-      min-block-size: var(--cs-spacing-md);
+      min-block-size: var(--glide-core-spacing-md);
       opacity: 1;
       overflow: hidden;
-      padding: var(--cs-spacing-xxxs) var(--cs-spacing-xs);
+      padding: var(--glide-core-spacing-xxxs) var(--glide-core-spacing-xs);
 
       &.large {
         min-block-size: 0.875rem;
-        padding: var(--cs-spacing-xxs) var(--cs-spacing-sm);
+        padding: var(--glide-core-spacing-xxs) var(--glide-core-spacing-sm);
       }
 
       &.small {
         font-size: 0.625rem;
-        min-block-size: var(--cs-spacing-md);
-        padding: 0 var(--cs-spacing-xs);
+        min-block-size: var(--glide-core-spacing-md);
+        padding: 0 var(--glide-core-spacing-xs);
       }
 
       &.activate {
@@ -42,12 +42,12 @@ export default [
       }
 
       & ::slotted([slot='prefix']) {
-        --size: var(--cs-spacing-sm);
+        --size: var(--glide-core-spacing-sm);
 
         align-items: center;
-        block-size: var(--cs-spacing-sm);
+        block-size: var(--glide-core-spacing-sm);
         display: flex;
-        inline-size: var(--cs-spacing-sm);
+        inline-size: var(--glide-core-spacing-sm);
         justify-content: center;
         margin-inline-end: 0.375rem;
       }
@@ -60,7 +60,7 @@ export default [
         display: flex;
         inline-size: 0.625rem;
         justify-content: center;
-        margin-inline-end: var(--cs-spacing-xxs);
+        margin-inline-end: var(--glide-core-spacing-xxs);
       }
 
       &.large ::slotted([slot='prefix']) {
@@ -71,7 +71,7 @@ export default [
         display: flex;
         inline-size: 0.875rem;
         justify-content: center;
-        margin-inline-end: var(--cs-spacing-xs);
+        margin-inline-end: var(--glide-core-spacing-xs);
       }
     }
 
@@ -98,12 +98,12 @@ export default [
     button {
       align-items: center;
       background-color: transparent;
-      block-size: var(--cs-spacing-sm);
+      block-size: var(--glide-core-spacing-sm);
       border: none;
-      color: var(--cs-icon-display);
+      color: var(--glide-core-icon-display);
       cursor: pointer;
       display: flex;
-      inline-size: var(--cs-spacing-sm);
+      inline-size: var(--glide-core-spacing-sm);
       justify-content: center;
       margin: 0;
       margin-inline-start: 0.375rem;
@@ -113,17 +113,17 @@ export default [
       &.large {
         block-size: 0.875rem;
         inline-size: 0.875rem;
-        margin-inline-start: var(--cs-spacing-xs);
+        margin-inline-start: var(--glide-core-spacing-xs);
       }
 
       &.small {
         block-size: 0.625rem;
         inline-size: 0.6215rem;
-        margin-inline-start: var(--cs-spacing-xxs);
+        margin-inline-start: var(--glide-core-spacing-xxs);
       }
 
       &:hover {
-        color: var(--cs-icon-primary-hover);
+        color: var(--glide-core-icon-primary-hover);
       }
 
       &:focus {

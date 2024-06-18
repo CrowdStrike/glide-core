@@ -12,7 +12,7 @@ export default [
       align-items: center;
       block-size: var(--size, 1.625rem);
       border-color: transparent;
-      border-radius: var(--cs-spacing-xs);
+      border-radius: var(--glide-core-spacing-xs);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
@@ -39,74 +39,77 @@ export default [
       }
 
       &.primary {
-        background-color: var(--cs-surface-primary);
+        background-color: var(--glide-core-surface-primary);
         border-color: transparent;
-        color: var(--icon-color, var(--cs-icon-selected));
+        color: var(--icon-color, var(--glide-core-icon-selected));
 
         &:disabled {
-          background-color: var(--cs-surface-base-gray-light);
+          background-color: var(--glide-core-surface-base-gray-light);
           border-color: transparent;
-          color: var(--cs-icon-tertiary-disabled);
+          color: var(--glide-core-icon-tertiary-disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--cs-surface-selected);
+          background-color: var(--glide-core-surface-selected);
           border-color: transparent;
-          color: var(--cs-icon-selected);
+          color: var(--glide-core-icon-selected);
         }
 
         &:not(:active):hover:not(:disabled) {
-          background-color: var(--cs-surface-hover);
+          background-color: var(--glide-core-surface-hover);
           border-color: transparent;
-          box-shadow: var(--cs-glow-sm);
-          color: var(--cs-icon-primary);
+          box-shadow: var(--glide-core-glow-sm);
+          color: var(--glide-core-icon-primary);
         }
       }
 
       &.secondary {
-        background-color: var(--cs-surface-page);
-        border-color: var(--cs-border-primary);
-        color: var(--icon-color, var(--cs-icon-primary));
+        background-color: var(--glide-core-surface-page);
+        border-color: var(--glide-core-border-primary);
+        color: var(--icon-color, var(--glide-core-icon-primary));
 
         &:disabled {
           background-color: transparent;
-          border-color: var(--cs-border-base-light);
-          color: var(--cs-icon-tertiary-disabled);
+          border-color: var(--glide-core-border-base-light);
+          color: var(--glide-core-icon-tertiary-disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--cs-surface-selected);
+          background-color: var(--glide-core-surface-selected);
           border-color: transparent;
-          color: var(--cs-icon-selected);
+          color: var(--glide-core-icon-selected);
         }
 
         &:not(:active):hover:not(:disabled) {
-          background-color: var(--cs-surface-hover);
+          background-color: var(--glide-core-surface-hover);
           border-color: transparent;
-          box-shadow: var(--cs-glow-sm);
-          color: var(--cs-icon-primary);
+          box-shadow: var(--glide-core-glow-sm);
+          color: var(--glide-core-icon-primary);
         }
       }
 
       &.tertiary {
         background-color: transparent;
         border-color: transparent;
-        color: var(--icon-color, var(--cs-icon-default));
+        color: var(--icon-color, var(--glide-core-icon-default));
 
         &:focus-visible {
           outline-offset: 0;
         }
 
         &:disabled {
-          color: var(--cs-icon-tertiary-disabled);
+          color: var(--glide-core-icon-tertiary-disabled);
         }
 
         &:not(:disabled):active {
-          color: var(--cs-icon-active);
+          color: var(--glide-core-icon-active);
         }
 
         &:not(:active):hover:not(:disabled) {
-          color: var(--hovered-icon-color, var(--cs-icon-primary-hover));
+          color: var(
+            --hovered-icon-color,
+            var(--glide-core-icon-primary-hover)
+          );
         }
       }
     }

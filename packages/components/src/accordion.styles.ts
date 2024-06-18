@@ -5,22 +5,22 @@ export default [
   css`
     .component {
       border-radius: 0.625rem;
-      box-shadow: var(--cs-shadow-sm);
-      font-family: var(--cs-body-xs-font-family);
+      box-shadow: var(--glide-core-shadow-sm);
+      font-family: var(--glide-core-body-xs-font-family);
     }
 
     .summary {
       align-items: center;
-      color: var(--cs-text-body-1);
+      color: var(--glide-core-text-body-1);
       cursor: pointer;
       display: flex;
-      font-size: var(--cs-body-sm-font-size);
+      font-size: var(--glide-core-body-sm-font-size);
       font-weight: 700;
       justify-content: space-between;
       line-height: 1.5rem;
       list-style: none;
-      padding-block: var(--cs-spacing-xs);
-      padding-inline: var(--cs-spacing-sm);
+      padding-block: var(--glide-core-spacing-xs);
+      padding-inline: var(--glide-core-spacing-sm);
       user-select: none;
 
       &:focus {
@@ -44,7 +44,7 @@ export default [
         white-space: nowrap;
 
         &.heading-box-with-prefix {
-          gap: var(--cs-spacing-xs);
+          gap: var(--glide-core-spacing-xs);
         }
 
         .prefix-slot-box {
@@ -65,19 +65,19 @@ export default [
         gap: 0.625rem;
 
         &.suffix-slot-box-with-content {
-          margin-inline-start: var(--cs-spacing-xs);
+          margin-inline-start: var(--glide-core-spacing-xs);
         }
       }
 
       .component[open] & {
-        padding-block-end: var(--cs-spacing-xxs);
+        padding-block-end: var(--glide-core-spacing-xxs);
       }
     }
 
     .chevron {
       align-items: center;
       display: flex;
-      margin-inline-end: var(--cs-spacing-xxs);
+      margin-inline-end: var(--glide-core-spacing-xxs);
       rotate: -90deg;
       transition: 250ms rotate ease;
 
@@ -87,13 +87,13 @@ export default [
     }
 
     .content {
-      color: var(--cs-text-body-1);
-      font-size: var(--cs-body-sm-font-size);
-      font-weight: var(--cs-body-xs-font-weight);
-      padding-block-end: var(--cs-spacing-sm);
+      color: var(--glide-core-text-body-1);
+      font-size: var(--glide-core-body-sm-font-size);
+      font-weight: var(--glide-core-body-xs-font-weight);
+      padding-block-end: var(--glide-core-spacing-sm);
 
       /* Hardcoded spacing here is intentional so that it better aligns with the Accordion label */
-      padding-inline: 2rem var(--cs-spacing-sm);
+      padding-inline: 2rem var(--glide-core-spacing-sm);
     }
 
     .content-with-prefix {
