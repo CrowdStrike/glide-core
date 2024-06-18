@@ -95,7 +95,10 @@ export default {
     return `<html>
       <body>
         <link href="./src/styles/fonts.css" rel="stylesheet">
-        <link href="./src/styles/variables.css" rel="stylesheet">
+        <link href="./src/styles/variables/dark.css" rel="stylesheet">
+        <link href="./src/styles/variables/light.css" rel="stylesheet">
+        <link href="./src/styles/variables/not-in-figma.css" rel="stylesheet">
+        <link href="./src/styles/variables/system.css" rel="stylesheet">
         <script type="module" src="${testFramework}"></script>
       </body>
     </html>`;
