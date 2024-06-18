@@ -56,7 +56,7 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
       }
 
       &::before {
-        background: var(--cs-surface-base-lighter);
+        background: var(--cs-surface-page);
         block-size: 0.875rem;
         border-radius: 50%;
         box-shadow:
