@@ -2,22 +2,22 @@ import './menu.button.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import { repeat } from 'lit/directives/repeat.js';
-import CsMenu from './menu.js';
+import GlideCoreMenu from './menu.js';
 import GlideCoreMenuLink from './menu.link.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
-CsMenu.shadowRootOptions.mode = 'open';
+GlideCoreMenu.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-menu')).to.equal(CsMenu);
+  expect(window.customElements.get('glide-core-menu')).to.equal(GlideCoreMenu);
 });
 
 it('has defaults', async () => {
   // Required attributes are supplied here and thus left unasserted below. The
   // idea is that this test shouldn't fail to typecheck if these templates are
   // eventually typechecked, which means supplying all required attributes and slots.
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -29,7 +29,7 @@ it('has defaults', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -40,7 +40,7 @@ it('is accessible', async () => {
 });
 
 it('can have a default slot', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -55,7 +55,7 @@ it('can have a default slot', async () => {
 });
 
 it('can have a target slot', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -73,7 +73,7 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsMenu>(
+    await fixture<GlideCoreMenu>(
       html`<glide-core-menu
         ><button slot="target">Target</button></glide-core-menu
       >`,
@@ -89,7 +89,7 @@ it('throws if it does not have a default slot', async () => {
 
 it('throws if the default slot is the incorrect type', async () => {
   await expectArgumentError(() => {
-    return fixture<CsMenu>(
+    return fixture<GlideCoreMenu>(
       html`<glide-core-menu>
         <option>Option</option>
         <button slot="target">Target</button>
@@ -102,7 +102,7 @@ it('throws if it does not have a "target" slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsMenu>(
+    await fixture<GlideCoreMenu>(
       html`<glide-core-menu>
         <glide-core-menu-link label="Link"></glide-core-menu-link>
       </glide-core-menu>`,
@@ -120,7 +120,7 @@ it('does not throw if the default slot only contains whitespace', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<CsMenu>(
+    await fixture<GlideCoreMenu>(
       html`<glide-core-menu>
         <button slot="target">Target</button>
         ${repeat(
@@ -140,7 +140,7 @@ it('does not throw if the default slot only contains whitespace', async () => {
 });
 
 it('sets accessibility attributes on the target', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>

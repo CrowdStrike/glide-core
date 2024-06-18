@@ -2,10 +2,10 @@ import './menu.js';
 import './menu.link.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import type CsMenu from './menu.js';
+import type GlideCoreMenu from './menu.js';
 
 it('opens when clicked', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -17,7 +17,7 @@ it('opens when clicked', async () => {
 });
 
 it('opens on Enter', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -31,7 +31,7 @@ it('opens on Enter', async () => {
 });
 
 it('opens on ArrowUp', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -45,7 +45,7 @@ it('opens on ArrowUp', async () => {
 });
 
 it('opens on ArrowDown', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -59,7 +59,7 @@ it('opens on ArrowDown', async () => {
 });
 
 it('opens on Space', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -76,7 +76,7 @@ it('opens on Space', async () => {
 it('opens when opened programmatically via the click handler of another element', async () => {
   const div = document.createElement('div');
 
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -93,7 +93,7 @@ it('opens when opened programmatically via the click handler of another element'
 });
 
 it('closes when clicked', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -105,7 +105,7 @@ it('closes when clicked', async () => {
 });
 
 it('closes when something outside of it is clicked', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -118,7 +118,7 @@ it('closes when something outside of it is clicked', async () => {
 });
 
 it('closes on Escape when the button has focus', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -132,7 +132,7 @@ it('closes on Escape when the button has focus', async () => {
 });
 
 it('closes on Escape when an option has focus', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -149,7 +149,7 @@ it('closes on Escape when an option has focus', async () => {
 });
 
 it('closes when an option is selected via click', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -164,7 +164,7 @@ it('closes when an option is selected via click', async () => {
 });
 
 it('closes when an option is selected via Enter', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -181,7 +181,7 @@ it('closes when an option is selected via Enter', async () => {
 });
 
 it('closes when an option is selected via Space', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -198,7 +198,7 @@ it('closes when an option is selected via Space', async () => {
 });
 
 it('activates an option on "mouseover"', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -214,7 +214,7 @@ it('activates an option on "mouseover"', async () => {
 });
 
 it('activates a menu button option on "mouseover"', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-button label="One"></glide-core-menu-button>
@@ -230,7 +230,7 @@ it('activates a menu button option on "mouseover"', async () => {
 });
 
 it('activates the first option by default', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -245,7 +245,7 @@ it('activates the first option by default', async () => {
 });
 
 it('activates the first menu-button option by default', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-button label="One"></glide-core-menu-button>
@@ -260,7 +260,7 @@ it('activates the first menu-button option by default', async () => {
 });
 
 it('activates the next option on ArrowDown', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -282,7 +282,7 @@ it('activates the next option on ArrowDown', async () => {
 });
 
 it('activates the previous option on ArrowUp', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -302,7 +302,7 @@ it('activates the previous option on ArrowUp', async () => {
 });
 
 it('activates the first option on Home', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -322,7 +322,7 @@ it('activates the first option on Home', async () => {
 });
 
 it('activates the first option on PageUp', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -342,7 +342,7 @@ it('activates the first option on PageUp', async () => {
 });
 
 it('activates the first option on ArrowUp + Meta', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -364,7 +364,7 @@ it('activates the first option on ArrowUp + Meta', async () => {
 });
 
 it('activates the last option on End', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -384,7 +384,7 @@ it('activates the last option on End', async () => {
 });
 
 it('activates the last option on PageDown', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -404,7 +404,7 @@ it('activates the last option on PageDown', async () => {
 });
 
 it('activates the last option on Meta + ArrowDown', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -426,7 +426,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
 });
 
 it('sets `aria-expanded` on open', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -441,7 +441,7 @@ it('sets `aria-expanded` on open', async () => {
 });
 
 it('sets `aria-expanded` on close', async () => {
-  const component = await fixture<CsMenu>(
+  const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-link label="Link"></glide-core-menu-link>
@@ -456,7 +456,7 @@ it('sets `aria-expanded` on close', async () => {
 });
 
 it('does not wrap on ArrowUp', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -471,7 +471,7 @@ it('does not wrap on ArrowUp', async () => {
 });
 
 it('does not wrap on ArrowDown', async () => {
-  const component = await fixture<CsMenu>(html`
+  const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-link label="One"></glide-core-menu-link>
