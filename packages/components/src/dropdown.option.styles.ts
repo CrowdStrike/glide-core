@@ -4,7 +4,7 @@ export default [
   css`
     .component {
       align-items: center;
-      border-radius: var(--cs-spacing-sm);
+      border-radius: var(--glide-core-spacing-sm);
       display: flex;
       gap: var(--gap);
       padding-block: var(--padding-block);
@@ -12,7 +12,7 @@ export default [
       user-select: none;
 
       &.active {
-        background-color: var(--cs-surface-hover);
+        background-color: var(--glide-core-surface-hover);
       }
     }
 

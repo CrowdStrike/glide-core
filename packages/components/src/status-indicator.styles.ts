@@ -11,51 +11,51 @@ export default [
     }
 
     .failed {
-      color: var(--cs-status-failed);
+      color: var(--glide-core-status-failed);
     }
 
     .idle {
-      color: var(--cs-status-unknown);
+      color: var(--glide-core-status-unknown);
     }
 
     .in-progress {
-      color: var(--cs-status-in-progress);
+      color: var(--glide-core-status-in-progress);
     }
 
     .queued {
-      color: var(--cs-status-queued);
+      color: var(--glide-core-status-queued);
     }
 
     .scheduled {
-      color: var(--cs-status-scheduled);
+      color: var(--glide-core-status-scheduled);
     }
 
     .success {
-      color: var(--cs-status-success);
+      color: var(--glide-core-status-success);
     }
 
     .warning-critical {
-      color: var(--cs-status-warning-critical);
+      color: var(--glide-core-status-warning-critical);
     }
 
     .warning-high {
-      color: var(--cs-status-warning-high);
+      color: var(--glide-core-status-warning-high);
     }
 
     .warning-informational {
-      color: var(--cs-status-warning-informational);
+      color: var(--glide-core-status-warning-informational);
     }
 
     .warning-low {
-      color: var(--cs-status-warning-low);
+      color: var(--glide-core-status-warning-low);
     }
 
     .warning-medium {
-      color: var(--cs-status-warning-medium);
+      color: var(--glide-core-status-warning-medium);
     }
 
     .warning-zero {
-      color: var(--cs-status-success);
+      color: var(--glide-core-status-success);
     }
   `,
 ];

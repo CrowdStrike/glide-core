@@ -8,21 +8,21 @@ export default [
       align-items: center;
       appearance: none;
       border: none;
-      border-inline-end: 1px solid var(--cs-border-base-lighter);
+      border-inline-end: 1px solid var(--glide-core-border-base-lighter);
       cursor: pointer;
       display: flex;
-      font-family: var(--cs-font-sans);
-      font-size: var(--cs-body-md-font-size);
-      font-style: var(--cs-heading-xxs-font-style);
-      font-weight: var(--cs-heading-xxs-font-weight);
+      font-family: var(--glide-core-font-sans);
+      font-size: var(--glide-core-body-md-font-size);
+      font-style: var(--glide-core-heading-xxs-font-style);
+      font-weight: var(--glide-core-heading-xxs-font-weight);
       gap: 0.625rem;
       justify-content: center;
       line-height: 1;
       min-block-size: 1.125rem;
       min-inline-size: 5.1875rem;
       outline: none;
-      padding-block: var(--cs-spacing-xs);
-      padding-inline: var(--cs-spacing-md);
+      padding-block: var(--glide-core-spacing-xs);
+      padding-inline: var(--glide-core-spacing-md);
       transition-duration: 150ms;
       transition-property: color, background-color, fill, stroke;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -31,7 +31,7 @@ export default [
 
       &.icon-only {
         min-inline-size: 0;
-        padding: var(--cs-spacing-xs);
+        padding: var(--glide-core-spacing-xs);
       }
 
       &.single {
@@ -49,7 +49,7 @@ export default [
 
       &.vertical {
         border: none;
-        border-block-end: 1px solid var(--cs-border-base-lighter);
+        border-block-end: 1px solid var(--glide-core-border-base-lighter);
 
         &.first {
           border-radius: 0.6875rem 0.6875rem 0 0;
@@ -61,21 +61,21 @@ export default [
       }
 
       &:not(.disabled).selected {
-        background-color: var(--cs-surface-selected);
-        border-color: var(--cs-surface-selected);
-        color: var(--cs-color-white);
+        background-color: var(--glide-core-surface-selected);
+        border-color: var(--glide-core-surface-selected);
+        color: var(--glide-core-color-white);
       }
 
       &:not(.disabled):active {
-        background-color: var(--cs-surface-selected);
-        border-color: var(--cs-border-focus);
-        color: var(--cs-color-white);
+        background-color: var(--glide-core-surface-selected);
+        border-color: var(--glide-core-border-focus);
+        color: var(--glide-core-color-white);
       }
 
       &:not(.disabled):focus-visible {
-        background-color: var(--cs-surface-selected);
-        border-color: var(--cs-border-focus);
-        color: var(--cs-color-white);
+        background-color: var(--glide-core-surface-selected);
+        border-color: var(--glide-core-border-focus);
+        color: var(--glide-core-color-white);
 
         ${focusOutline};
 
@@ -84,16 +84,16 @@ export default [
       }
 
       &:not(.disabled, :active):hover {
-        background-color: var(--cs-surface-hover);
+        background-color: var(--glide-core-surface-hover);
         border-color: transparent;
-        box-shadow: var(--cs-glow-sm);
-        color: var(--cs-text-primary);
+        box-shadow: var(--glide-core-glow-sm);
+        color: var(--glide-core-text-primary);
       }
 
       &.disabled {
-        background-color: var(--cs-border-base-lighter);
-        border-color: var(--cs-border-base-lighter);
-        color: var(--cs-text-tertiary-disabled);
+        background-color: var(--glide-core-border-base-lighter);
+        border-color: var(--glide-core-border-base-lighter);
+        color: var(--glide-core-text-tertiary-disabled);
         cursor: default;
       }
     }

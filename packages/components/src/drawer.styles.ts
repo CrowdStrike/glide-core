@@ -4,12 +4,12 @@ export default [
   css`
     .component {
       all: unset;
-      background-color: var(--cs-surface-base-lighter);
+      background-color: var(--glide-core-surface-base-lighter);
       block-size: 0;
       border-end-start-radius: 0.625rem;
       border-start-start-radius: 0.625rem;
-      box-shadow: var(--cs-shadow-xl);
-      font-family: var(--cs-body-xs-font-family);
+      box-shadow: var(--glide-core-shadow-xl);
+      font-family: var(--glide-core-body-xs-font-family);
       inline-size: 0;
       inset: 0;
       max-inline-size: 100%;

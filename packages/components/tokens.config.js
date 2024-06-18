@@ -34,6 +34,6 @@ export default {
     }
   },
   fileId: 'U5EY5xuIIibSN68gGRKlqt',
-  cssPrefix: 'cs',
+  cssPrefix: 'glide-core',
   outputDirectoryForStyles: 'src/styles/variables',
 };

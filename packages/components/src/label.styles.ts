@@ -5,7 +5,7 @@ export default [
   css`
     .component {
       &.horizontal {
-        column-gap: var(--cs-spacing-sm);
+        column-gap: var(--glide-core-spacing-sm);
         display: grid;
 
         /*
@@ -29,7 +29,7 @@ export default [
 
     .tooltip-and-label {
       align-items: center;
-      column-gap: var(--cs-spacing-xs);
+      column-gap: var(--glide-core-spacing-xs);
       display: flex;
 
       &.hidden {
@@ -63,7 +63,7 @@ probably wrap its default slot in a SPAN with "tabindex=0" and include the
 below styles so every consumer doesn't have to.
 */
       border-radius: 50%;
-      color: var(--cs-text-body-1);
+      color: var(--glide-core-text-body-1);
 
       /*
 Any "display" that's not inline-level will do. We don't want the button to
@@ -76,13 +76,13 @@ make it difficult to center vertically with the label.
     }
 
     .label {
-      color: var(--cs-text-body-1);
+      color: var(--glide-core-text-body-1);
       display: block;
-      font-family: var(--cs-heading-xxxs-font-family);
-      font-size: var(--cs-heading-xxxs-font-size);
-      font-style: var(--cs-heading-xxxs-font-style);
-      font-variant: var(--cs-heading-xxxs-font-variant);
-      font-weight: var(--cs-heading-xxxs-font-weight);
+      font-family: var(--glide-core-heading-xxxs-font-family);
+      font-size: var(--glide-core-heading-xxxs-font-size);
+      font-style: var(--glide-core-heading-xxxs-font-style);
+      font-variant: var(--glide-core-heading-xxxs-font-variant);
+      font-weight: var(--glide-core-heading-xxxs-font-weight);
       line-height: 100%;
       user-select: none;
 
@@ -95,18 +95,18 @@ make it difficult to center vertically with the label.
       }
 
       &.vertical {
-        margin-block-end: var(--cs-spacing-xxs);
+        margin-block-end: var(--glide-core-spacing-xxs);
       }
     }
 
     .required-symbol {
-      color: var(--cs-status-error);
+      color: var(--glide-core-status-error);
     }
 
     .control-and-summary {
       align-items: center;
       display: flex;
-      gap: var(--cs-spacing-sm);
+      gap: var(--glide-core-spacing-sm);
     }
 
     .control {
@@ -121,34 +121,34 @@ make it difficult to center vertically with the label.
       }
 
       &.vertical:not(.hidden-label) {
-        margin-block-start: var(--cs-spacing-xxs);
+        margin-block-start: var(--glide-core-spacing-xxs);
       }
     }
 
     .summary {
-      font-family: var(--cs-body-sm-font-family);
-      font-size: var(--cs-body-sm-font-size);
-      font-style: var(--cs-body-sm-font-style);
-      font-weight: var(--cs-body-sm-font-weight);
+      font-family: var(--glide-core-body-sm-font-family);
+      font-size: var(--glide-core-body-sm-font-size);
+      font-style: var(--glide-core-body-sm-font-style);
+      font-weight: var(--glide-core-body-sm-font-weight);
 
       &.error {
-        color: var(--cs-status-error);
+        color: var(--glide-core-status-error);
       }
     }
 
     .description {
-      color: var(--cs-text-body-1);
+      color: var(--glide-core-text-body-1);
       display: none;
-      font-family: var(--cs-body-xs-font-family);
-      font-size: var(--cs-body-xs-font-size);
-      font-style: var(--cs-body-xs-font-style);
-      font-weight: var(--cs-body-xs-font-weight);
+      font-family: var(--glide-core-body-xs-font-family);
+      font-size: var(--glide-core-body-xs-font-size);
+      font-style: var(--glide-core-body-xs-font-style);
+      font-weight: var(--glide-core-body-xs-font-weight);
       grid-column: 2;
-      line-height: var(--cs-body-xs-line-height);
-      margin-block-start: var(--cs-spacing-xxs);
+      line-height: var(--glide-core-body-xs-line-height);
+      margin-block-start: var(--glide-core-spacing-xxs);
 
       &.error {
-        color: var(--cs-status-error);
+        color: var(--glide-core-status-error);
       }
 
       &.visible {

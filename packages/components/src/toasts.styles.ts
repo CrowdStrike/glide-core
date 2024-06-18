@@ -5,14 +5,14 @@ export default [
     .component {
       display: flex;
       flex-direction: column;
-      gap: var(--cs-spacing-md);
+      gap: var(--glide-core-spacing-md);
       inline-size: 24.25rem;
       inset-block-start: 0;
       inset-inline-end: 0;
       max-block-size: 100%;
       max-inline-size: 100%;
       overflow: hidden;
-      padding: var(--cs-spacing-sm);
+      padding: var(--glide-core-spacing-sm);
       position: fixed;
     }
   `,

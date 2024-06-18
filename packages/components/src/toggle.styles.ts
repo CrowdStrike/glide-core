@@ -16,17 +16,17 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
     .toggle-and-input-and-summary {
       align-items: center;
       display: flex;
-      gap: var(--cs-spacing-sm);
+      gap: var(--glide-core-spacing-sm);
     }
 
     .toggle-and-input {
       --inline-size: 1.5rem;
 
       align-items: center;
-      background-color: var(--cs-surface-selected-disabled);
+      background-color: var(--glide-core-surface-selected-disabled);
       block-size: 0.875rem;
       border: 1px solid transparent;
-      border-radius: var(--cs-spacing-sm);
+      border-radius: var(--glide-core-spacing-sm);
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
       inline-size: var(--inline-size);
@@ -39,7 +39,7 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
       }
 
       &:has(input:checked:not(:disabled)) {
-        background-color: var(--cs-surface-primary);
+        background-color: var(--glide-core-surface-primary);
         border-color: transparent;
 
         &::before {
@@ -48,7 +48,7 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
       }
 
       &:has(input:disabled) {
-        background-color: var(--cs-surface-disabled);
+        background-color: var(--glide-core-surface-disabled);
 
         &::before {
           box-shadow: none;
@@ -56,7 +56,7 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
       }
 
       &::before {
-        background: var(--cs-surface-page);
+        background: var(--glide-core-surface-page);
         block-size: 0.875rem;
         border-radius: 50%;
         box-shadow:

@@ -15,15 +15,15 @@ export default [
       display: flex;
 
       &.primary {
-        border-block-end: 1px solid var(--cs-border-primary);
+        border-block-end: 1px solid var(--glide-core-border-primary);
       }
 
       &.secondary {
-        border-block-end: 1px solid var(--cs-border-base-lighter);
+        border-block-end: 1px solid var(--glide-core-border-base-lighter);
       }
 
       &.vertical {
-        border: 1px solid var(--cs-border-base-darker);
+        border: 1px solid var(--glide-core-border-base-darker);
         flex-direction: column;
       }
     }

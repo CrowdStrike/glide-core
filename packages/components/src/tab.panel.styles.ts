@@ -4,7 +4,7 @@ import visuallyHidden from './styles/visually-hidden.js';
 export default [
   css`
     .component {
-      font-family: var(--cs-font-sans);
+      font-family: var(--glide-core-font-sans);
     }
 
     .hidden {

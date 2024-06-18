@@ -6,7 +6,7 @@ export default [
       align-items: center;
       background-color: transparent;
       border: none;
-      border-radius: var(--cs-spacing-sm);
+      border-radius: var(--glide-core-spacing-sm);
       cursor: pointer;
       display: flex;
       font: inherit;
@@ -17,7 +17,7 @@ export default [
       user-select: none;
 
       &.component-active {
-        background-color: var(--cs-surface-hover);
+        background-color: var(--glide-core-surface-hover);
       }
     }
   `,
