@@ -1,7 +1,9 @@
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
+import GlideCoreCheckbox from './checkbox.js';
 import checkedIcon from './icons/checked.js';
 import styles from './dropdown.option.styles.js';
 
@@ -28,6 +30,9 @@ export default class GlideCoreDropdownOption extends LitElement {
   @property({ reflect: true })
   label?: string;
 
+  @property({ attribute: 'private-multiple', type: Boolean })
+  privateMultiple = false;
+
   @property({ type: Boolean })
   get selected() {
     return this.#selected;
@@ -36,23 +41,70 @@ export default class GlideCoreDropdownOption extends LitElement {
   set selected(isSelected) {
     this.#selected = isSelected;
 
-    if (this.#optionElements) {
-      // Normally, we'd dispatch an event here and let the parent component handle deselection.
-      // But `selected` can be set programmatically and we're trying to follow native convention,
-      // which is to only dispatch events in response to user interaction.
+    if (this.isMultiple) {
+      if (this.#checkboxElementRef.value) {
+        this.#checkboxElementRef.value.checked = isSelected;
+      }
+    } else {
+      // When not `this.isMultiple`, only one option may be selected at the time. This handles
+      // deselecting every other option when a new one is selected.
+      //
+      // Siblings modifying siblings is unusual but simplifies things for Dropdown. Dropdown
+      // selects and deselects options in various situations. So it's simpler and more reliable
+      // to iterate through them once here instead of doing so multiple times in Dropdown or
+      // else abstracting the deselection into a Dropdown method that will result in a bug
+      // when not used.
+      //
+      // `this.privateActive` would get the same treatment if not for Select All, which is in
+      // Dropdown's shadow DOM and so is inaccessible from this component.
       for (const option of this.#optionElements) {
-        if (option !== this && this.selected) {
+        if (option !== this && this.selected && option.selected) {
           option.selected = false;
         }
       }
     }
 
-    if (isSelected) {
-      // Marked "private" because Dropdown uses it internally to track the set of selected
-      // options in the case of multiselect. It then dispatches in response to this event
-      // a "change" event with a `details` property with the selected option values
-      // because only it knows the total set of selected values.
-      this.dispatchEvent(new Event('private-selected', { bubbles: true }));
+    // Prefixed with "private" because Dropdown uses it internally, to track the set of
+    // selected options in the case of multiselect. Dropdown itself then dispatches in
+    // response to this event a "change" event after updating its `this.value`.
+    this.dispatchEvent(new Event('private-selected-change', { bubbles: true }));
+  }
+
+  @property({ attribute: 'private-size', reflect: true })
+  privateSize: 'small' | 'large' = 'large';
+
+  // An option is considered active when it's interacted with via keyboard or hovered.
+  @state()
+  privateActive = false;
+
+  @state()
+  privateIndeterminate = false;
+
+  @state()
+  privateIsFocusable = true;
+
+  @state()
+  private get isMultiple() {
+    // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
+    // By then, however, this component has has already completed its first render. So
+    // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple` is
+    // still useful for when Dropdown's `this.multiple` is change dynamically.
+    return (
+      this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
+    );
+  }
+
+  override click() {
+    if (this.isMultiple) {
+      this.selected = !this.selected;
+    } else if (!this.selected) {
+      this.selected = true;
+    }
+  }
+
+  override firstUpdated() {
+    if (this.#checkboxElementRef.value) {
+      this.#checkboxElementRef.value.checked = this.selected;
     }
   }
 
@@ -62,71 +114,118 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   set value(value) {
+    const oldValue = this.#value;
     this.#value = value;
 
-    // `this.value` can be mutated programmatically. Dropdown needs to know when that
+    // `this.value` can be changed programmatically. Dropdown needs to know when that
     // happens so it can update its own `this.value`.
-    this.dispatchEvent(new Event('private-value', { bubbles: true }));
-  }
-
-  @property({ type: Boolean })
-  // An option is considered active when it's interacted with via keyboard or hovered.
-  privateActive = false;
-
-  // Used by Dropdown as an alternative to `document.activeElement`. When Dropdown is
-  // itself in a shadow DOM and an element in that shadow DOM receives focus, `document.activeElement`
-  // will be set to the outer host. Thus, without this, Dropdown has no way of knowing whether it's
-  // an Option that has focus or another element within it that host.
-  privateIsFocused = false;
-
-  override click() {
-    this.selected = true;
+    this.dispatchEvent(
+      new CustomEvent('private-value-change', {
+        bubbles: true,
+        // Without knowing what the old value was, Dropdown would be unable to find the
+        // value in its `this.value` and then remove it.
+        detail: oldValue,
+      }),
+    );
   }
 
   // `shadowRoot.delegatesFocus` is preferred because it's more declarative.
-  // But using here it triggers a focus-visible state whenever `this.focus` is
+  // But using it triggers a focus-visible state whenever `this.focus` is
   // called. And we only want a focus outline when the `this.focus` is called
   // as a result of keyboard interaction.
   override focus() {
     this.#componentElementRef.value?.focus();
   }
 
-  override render() {
-    // `tabindex` is set to "0" and "-1" below based on `this.privateActive`. "0"
-    // is to account for when a keyboard user tabs backward to the dropdown button.
-    // Tabbing forward from there should move focus to where it was previously,
-    // which would be on the option.
+  async privateUpdateCheckbox() {
+    // Hacky indeed. This is for the case where Dropdown is changed programmatically
+    // from a single to a multiselect. `this.isMultiple` is set to `true` but
+    // `this.#checkboxElementRef.value` in the `multiple` setter is `undefined`
+    // because this component hasn't had a chance to rerender. So we wait for it
+    // to rerender then update the checkbox to match `this.selected`. Halp!
+    await this.updateComplete;
 
-    // The linter wants a `@focus` handler, but there's nothing to be done with
-    // one in this case.
-    // eslint-disable-next-line lit-a11y/mouse-events-have-key-events
+    if (this.#checkboxElementRef.value) {
+      this.#checkboxElementRef.value.checked = this.selected;
+    }
+  }
+
+  override render() {
+    // `tabindex` is set to "0" and "-1" below based on `this.privateActive` unless
+    // Dropdown sets `this.privateIsFocusable`, which it does when it's filterable.
+    // "0" is to account for when a keyboard user tabs backward to the dropdown button.
+    // Tabbing forward from there should move focus to where it was previously, which
+    // would be on the option.
+
+    // The linter wants a keyboard listener. There's one on Dropdown itself. It's there
+    // because options aren't focusable and thus don't produce keyboard events when Dropdown
+    // is filterable.
+    /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`<div
       aria-selected=${this.selected ? 'true' : 'false'}
       class=${classMap({
         component: true,
         active: this.privateActive,
+        [this.privateSize]: true,
       })}
-      tabindex=${this.privateActive ? '0' : '-1'}
+      data-test="component"
+      tabindex=${this.privateActive && this.privateIsFocusable ? '0' : '-1'}
       role="option"
       @click=${this.#onClick}
-      @focusin=${this.#onFocusin}
-      @focusout=${this.#onFocusout}
-      @keydown=${this.#onKeydown}
       ${ref(this.#componentElementRef)}
     >
-      <div
-        class=${classMap({
-          'checked-icon': true,
-          visible: this.selected,
-        })}
-      >
-        ${checkedIcon}
-      </div>
+      ${when(
+        this.isMultiple,
+        () => {
+          return html`
+            <glide-core-checkbox
+              class=${classMap({
+                checkbox: true,
+                [this.privateSize]: true,
+              })}
+              data-test="checkbox"
+              label=${this.label ?? ''}
+              tabindex="-1"
+              private-variant="minimal"
+              value=${this.value}
+              ?indeterminate=${this.privateIndeterminate}
+              ?internally-inert=${!this.privateIsFocusable}
+              @change=${this.#onCheckboxChange}
+              ${ref(this.#checkboxElementRef)}
+            ></glide-core-checkbox>
+          `;
+        },
+        () => {
+          return html`
+          <div class=${classMap({
+            option: true,
+            [this.privateSize]: true,
+          })}
+          >
+            <div
+                class=${classMap({
+                  'checked-icon': true,
+                  visible: this.selected,
+                })}
+              >
+                ${checkedIcon}
+              </div>
 
-      <slot name="icon"></slot>
-      ${this.label}
-    </div>`;
+              <slot name="icon"></slot>
+              ${this.label}
+            </div>
+          </div>`;
+        },
+      )}
+    </div> `;
   }
+
+  constructor() {
+    super();
+    this.id = window.crypto.randomUUID();
+  }
+
+  #checkboxElementRef = createRef<GlideCoreCheckbox>();
 
   #componentElementRef = createRef<HTMLElement>();
 
@@ -143,23 +242,20 @@ export default class GlideCoreDropdownOption extends LitElement {
     return [...elements];
   }
 
-  #onClick() {
-    this.selected = true;
-    this.dispatchEvent(new Event('private-change', { bubbles: true }));
+  #onCheckboxChange() {
+    this.selected = !this.selected;
   }
 
-  #onFocusin() {
-    this.privateIsFocused = true;
-  }
+  #onClick(event: MouseEvent) {
+    // Checkboxes emit their own "click" events. Not ignoring them would mean
+    // setting `this.selected` three times: twice here (one each for the checkbox
+    // and its label) and again in `#onCheckboxChange`.
+    if (event.target === this.#checkboxElementRef.value) {
+      return;
+    }
 
-  #onFocusout() {
-    this.privateIsFocused = false;
-  }
-
-  #onKeydown(event: KeyboardEvent) {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (!this.isMultiple && !this.selected) {
       this.selected = true;
-      this.dispatchEvent(new Event('private-change', { bubbles: true }));
     }
   }
 }

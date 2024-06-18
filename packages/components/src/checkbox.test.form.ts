@@ -25,7 +25,7 @@ it('can be reset', async () => {
   expect(component.indeterminate).to.be.true;
 });
 
-it('has a `formData` value when checked', async () => {
+it('has `formData` value when checked', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreCheckbox>(
@@ -44,7 +44,7 @@ it('has a `formData` value when checked', async () => {
   expect(formData.get('name')).to.be.equal('value');
 });
 
-it('has a `formData` value when checked and indeterminate', async () => {
+it('has `formData` value when checked and indeterminate', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreCheckbox>(

@@ -3,3 +3,8 @@
     padding: 0;
   }
 }
+
+/* The "name" column can get pretty long and wraps, making it hard to read.  */
+.docblock-argstable-body tr td:first-of-type {
+  white-space: nowrap;
+}

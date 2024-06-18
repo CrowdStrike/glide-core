@@ -1,87 +1,43 @@
 import { css } from 'lit';
+import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
     .component {
-      --min-width: 9.375rem;
+      --min-inline-size: 9.375rem;
+
+      font-family: var(--glide-core-font-sans);
     }
 
-    .button-and-options {
+    .dropdown-and-options {
       position: relative;
     }
 
-    .options {
-      background-color: var(--glide-core-surface-base-lighter);
-      border: 1px solid var(--glide-core-border-base-lighter);
-      border-radius: var(--glide-core-spacing-xs);
-      box-shadow: var(--glide-core-shadow-lg);
-      box-sizing: border-box;
-      inset-block-start: 100%;
-      inset-inline-start: 0;
-      margin-block: var(--glide-core-spacing-xxs) 0;
-      min-inline-size: var(--min-width);
-      padding: var(--glide-core-spacing-xxxs);
-      position: absolute;
-      visibility: hidden;
+    .dropdown {
+      --button-and-input-height: 1.25rem;
 
-      /*
-        ".button-and-options" is relative and many Dropdowns may be stacked in a column.
-        This ensures that the ".options" of Dropdowns earlier in the column aren't obscured
-        by the ".button-and-options" that come after.
-      */
-      z-index: 1;
-
-      &.large {
-        --gap: var(--glide-core-spacing-sm);
-        --padding-inline: var(--glide-core-spacing-sm);
-        --padding-block: var(--glide-core-spacing-xxs);
-
-        font-family: var(--glide-core-body-sm-font-family);
-        font-size: var(--glide-core-body-sm-font-size);
-        font-style: var(--glide-core-body-sm-font-style);
-        font-weight: var(--glide-core-body-sm-font-weight);
-        line-height: var(--glide-core-body-sm-line-height);
-      }
-
-      &.small {
-        --gap: var(--glide-core-spacing-xs);
-        --padding-inline: var(--glide-core-spacing-xs);
-        --padding-block: var(--glide-core-spacing-xxxs);
-
-        font-family: var(--glide-core-body-xs-font-family);
-        font-size: var(--glide-core-body-xs-font-size);
-        font-style: var(--glide-core-body-xs-font-style);
-        font-weight: var(--glide-core-body-xs-font-weight);
-        line-height: var(--glide-core-body-xs-line-height);
-      }
-
-      &.visible {
-        visibility: visible;
-      }
-    }
-
-    .button {
       align-items: center;
-      background: none;
+      block-size: 2.125rem;
       border: 1px solid var(--glide-core-border-base-lighter);
       border-radius: var(--glide-core-spacing-xs);
+      box-sizing: border-box;
       color: var(--glide-core-text-body-1);
       cursor: inherit;
-      display: flex;
-      font-family: var(--glide-core-body-sm-font-family);
+      display: inline-flex;
       font-size: var(--glide-core-body-sm-font-size);
       font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-body-sm-font-weight);
+      gap: var(--glide-core-spacing-xs);
       justify-content: space-between;
-      min-inline-size: var(--min-width);
-      padding: var(--glide-core-spacing-xs);
+      min-inline-size: var(--min-inline-size);
+      padding-inline: var(--glide-core-spacing-xs);
       text-align: start;
       user-select: none;
+      white-space: nowrap;
 
-      &.quiet {
+      &.quiet:not(.multiple) {
         background-color: transparent;
         border: unset;
-        font-family: var(--glide-core-heading-xxxs-font-family);
         font-size: var(--glide-core-heading-xxxs-font-size);
         font-style: var(--glide-core-heading-xxxs-font-style);
         font-weight: var(--glide-core-heading-xxxs-font-weight);
@@ -101,12 +57,108 @@ export default [
         color: var(--glide-core-status-error);
       }
 
-      &:hover:not(&.error, &.disabled) {
-        border-color: var(--glide-core-border-focus);
+      &:has(.button:focus-visible, .input:focus-visible) {
+        ${focusOutline};
       }
 
-      &.quiet:hover:not(&.error, &.disabled) {
+      &:hover:not(&.error, &.disabled) {
+        border-color: var(--glide-core-border-base);
+      }
+
+      &.quiet:hover:not(&.error, &.disabled, &.multiple) {
         background-color: var(--glide-core-surface-hover);
+      }
+    }
+
+    .options {
+      background-color: var(--glide-core-surface-modal);
+      border: 1px solid var(--glide-core-surface-modal);
+      border-radius: var(--glide-core-spacing-xs);
+      box-shadow: var(--glide-core-shadow-lg);
+      box-sizing: border-box;
+      inset-block-start: 100%;
+      inset-inline-start: 0;
+      margin-block: var(--glide-core-spacing-xxs) 0;
+      min-inline-size: var(--min-inline-size);
+      padding: var(--glide-core-spacing-xxxs);
+      position: absolute;
+      visibility: hidden;
+
+      /*
+        ".combobox-and-options" is relative and many Dropdowns may be stacked in a column.
+        This ensures that the ".options" of Dropdowns earlier in the column aren't obscured
+        by the ".combobox-and-options" that come after.
+      */
+      z-index: 1;
+
+      &.visible {
+        visibility: visible;
+      }
+    }
+
+    .select-all {
+      border-block-end: 1px solid var(--glide-core-border-base-light);
+      margin-block-end: var(--glide-core-spacing-xxxs);
+      padding-block-end: var(--glide-core-spacing-xxxs);
+
+      &:not([hidden]) {
+        display: block;
+      }
+    }
+
+    .tags {
+      display: flex;
+      gap: var(--glide-core-spacing-xs);
+      list-style-type: none;
+      margin-block: 0;
+      padding-inline-start: 0;
+    }
+
+    .tag-container {
+      display: block;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .tag-overflow-text {
+      color: var(--glide-core-text-link);
+      margin-inline-end: var(--glide-core-spacing-md);
+    }
+
+    .button {
+      align-items: center;
+      background: none;
+      block-size: var(--button-and-input-height);
+      border: none;
+      display: flex;
+      padding: 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .input {
+      block-size: var(--button-and-input-height);
+      border: none;
+      font-size: inherit;
+      min-inline-size: var(--min-inline-size);
+      padding: 0;
+
+      &:focus {
+        outline: none;
+      }
+
+      &.single.selection:not(:focus) {
+        &::placeholder {
+          color: inherit;
+        }
+      }
+
+      &::placeholder {
+        font-family: var(--glide-core-font-sans);
       }
     }
   `,

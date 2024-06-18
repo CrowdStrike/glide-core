@@ -3,7 +3,7 @@ import './icons/storybook.js';
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
-import CsDropdown from './dropdown.js';
+import GlideCoreDropdown from './dropdown.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -24,14 +24,21 @@ const meta: Meta = {
     label: 'Label',
     placeholder: 'Placeholder',
     'slot="default"': '',
+    '<glide-core-dropdown-option>.label': 'One',
+    '<glide-core-dropdown-option>.value': 'one',
+    '<glide-core-dropdown-option>.selected': false,
+    '<glide-core-dropdown-option>[slot="icon"]': '',
     'hide-label': false,
     disabled: false,
     open: false,
     orientation: 'horizontal',
+    multiple: false,
     name: 'name',
     required: false,
+    'select-all': false,
     size: 'large',
     value: '',
+    variant: '',
     'slot="tooltip"': '',
     'slot="description"': 'Description',
   },
@@ -89,6 +96,35 @@ const meta: Meta = {
       },
       type: { name: 'function' },
     },
+    '<glide-core-dropdown-option>.label': {
+      control: 'text',
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-dropdown-option>.value': {
+      control: 'text',
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
+    },
+    '<glide-core-dropdown-option>.selected': {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-dropdown-option>[slot="icon"]': {
+      table: {
+        type: {
+          summary: 'HTMLElement',
+        },
+      },
+      type: { name: 'function' },
+    },
     disabled: {
       control: 'boolean',
       table: {
@@ -109,6 +145,13 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
+    },
+    multiple: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     open: {
       control: 'boolean',
@@ -140,6 +183,13 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     required: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    'select-all': {
       control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
@@ -179,7 +229,7 @@ const meta: Meta = {
       'Single Selection (Vertical With Error)',
     ].includes(context.name);
 
-    if (isErrorStory && dropdown instanceof CsDropdown) {
+    if (isErrorStory && dropdown instanceof GlideCoreDropdown) {
       dropdown.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -208,7 +258,7 @@ const meta: Meta = {
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="height: 11rem;">
+    return html`<form style="display: inline-block; height: 12rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -216,26 +266,37 @@ const meta: Meta = {
         placeholder=${arguments_.placeholder || nothing}
         size=${arguments_.size || nothing}
         variant=${arguments_.variant || nothing}
-        ?hide-label=${arguments_['hide-label'] || nothing}
-        ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label'] || nothing}
+        ?multiple=${arguments_.multiple}
+        ?open=${arguments_.open}
         ?required=${arguments_.required}
+        ?select-all=${arguments_['select-all']}
       >
         <glide-core-dropdown-option
-          label="One"
-          value="one"
+          label=${arguments_['<glide-core-dropdown-option>.label']}
+          value=${arguments_['<glide-core-dropdown-option>.value']}
+          ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
         ></glide-core-dropdown-option>
+
         <glide-core-dropdown-option
           label="Two"
           value="two"
         ></glide-core-dropdown-option>
+
         <glide-core-dropdown-option
           label="Three"
           value="three"
         ></glide-core-dropdown-option>
+
         <glide-core-dropdown-option
           label="Four"
           value="four"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Five"
+          value="five"
         ></glide-core-dropdown-option>
 
         <div slot="description">${arguments_['slot="description"']}</div>
@@ -250,13 +311,19 @@ const meta: Meta = {
 
 export default meta;
 
-export const SingleSelectionHorizontal: StoryObj = {};
+export const SingleSelectionHorizontal: StoryObj = {
+  name: 'Single Selection (Horizontal)',
+};
 
 export const SingleSelectionHorizontalWithIcon: StoryObj = {
   name: 'Single Selection (Horizontal With Icon)',
+  args: {
+    '<glide-core-dropdown-option>.label': 'Edit',
+    '<glide-core-dropdown-option>.value': 'edit',
+  },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="height: 11rem;">
+    return html`<form style="display: inline-block; height: 12rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -265,11 +332,17 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
         size=${arguments_.size || nothing}
         variant=${arguments_.variant || nothing}
         ?hide-label=${arguments_['hide-label'] || nothing}
+        ?multiple=${arguments_.multiple}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
+        ?select-all=${arguments_['select-all']}
       >
-        <glide-core-dropdown-option label="Edit" value="edit">
+        <glide-core-dropdown-option
+          label=${arguments_['<glide-core-dropdown-option>.label']}
+          value=${arguments_['<glide-core-dropdown-option>.value']}
+          ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
+        >
           <glide-core-example-icon
             slot="icon"
             name="pencil"
@@ -324,11 +397,13 @@ export const SingleSelectionHorizontalWithError: StoryObj = {
 export const SingleSelectionVerticalWithIcon: StoryObj = {
   args: {
     orientation: 'vertical',
+    '<glide-core-dropdown-option>.label': 'Edit',
+    '<glide-core-dropdown-option>.value': 'edit',
   },
   name: 'Single Selection (Vertical With Icon)',
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="height: 11rem;">
+    return html`<form style="display: inline-block; height: 12rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -337,11 +412,17 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         size=${arguments_.size || nothing}
         variant=${arguments_.variant || nothing}
         ?hide-label=${arguments_['hide-label'] || nothing}
+        ?multiple=${arguments_.multiple}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
+        ?select-all=${arguments_['select-all']}
       >
-        <glide-core-dropdown-option label="Edit" value="edit">
+        <glide-core-dropdown-option
+          label=${arguments_['<glide-core-dropdown-option>.label']}
+          value=${arguments_['<glide-core-dropdown-option>.value']}
+          ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
+        >
           <glide-core-example-icon
             slot="icon"
             name="pencil"
@@ -393,4 +474,186 @@ export const SingleSelectionVerticalWithError: StoryObj = {
     required: true,
   },
   name: 'Single Selection (Vertical With Error)',
+};
+
+export const SingleSelectionHorizontalWithFiltering: StoryObj = {
+  name: 'Single Selection (Horizontal With Filtering)',
+  render(arguments_) {
+    /* eslint-disable unicorn/explicit-length-check */
+    return html`<form style="display: inline-block; height: 12rem;">
+      <glide-core-dropdown
+        label=${arguments_.label || nothing}
+        name=${arguments_.name || nothing}
+        orientation=${arguments_.orientation || nothing}
+        placeholder=${arguments_.placeholder || nothing}
+        size=${arguments_.size || nothing}
+        variant=${arguments_.variant || nothing}
+        ?hide-label=${arguments_['hide-label'] || nothing}
+        ?multiple=${arguments_.multiple}
+        ?open=${arguments_.open}
+        ?disabled=${arguments_.disabled}
+        ?required=${arguments_.required}
+        ?select-all=${arguments_['select-all']}
+      >
+        <glide-core-dropdown-option
+          label=${arguments_['<glide-core-dropdown-option>.label']}
+          value=${arguments_['<glide-core-dropdown-option>.value']}
+          ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Two"
+          value="two"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Three"
+          value="three"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Four"
+          value="four"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Five"
+          value="five"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Six"
+          value="six"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Seven"
+          value="seven"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Eight"
+          value="eight"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Nine"
+          value="nine"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Ten"
+          value="ten"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Eleven"
+          value="eleven"
+        ></glide-core-dropdown-option>
+
+        <div slot="description">${arguments_['slot="description"']}</div>
+
+        ${arguments_['slot="tooltip"']
+          ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
+          : ''}
+      </glide-core-dropdown>
+    </form>`;
+  },
+};
+
+export const MultipleSelectionHorizontal: StoryObj = {
+  args: {
+    multiple: true,
+    'select-all': true,
+  },
+  name: 'Multiple Selection (Horizontal)',
+};
+
+export const MultipleSelectionHorizontalWithFiltering: StoryObj = {
+  args: {
+    multiple: true,
+    'select-all': true,
+  },
+  name: 'Multiple Selection (Horizontal With Filtering)',
+  render(arguments_) {
+    /* eslint-disable unicorn/explicit-length-check */
+    return html`<form style="display: inline-block; height: 12rem;">
+      <glide-core-dropdown
+        label=${arguments_.label || nothing}
+        name=${arguments_.name || nothing}
+        orientation=${arguments_.orientation || nothing}
+        placeholder=${arguments_.placeholder || nothing}
+        size=${arguments_.size || nothing}
+        variant=${arguments_.variant || nothing}
+        ?hide-label=${arguments_['hide-label'] || nothing}
+        ?multiple=${arguments_.multiple}
+        ?open=${arguments_.open}
+        ?disabled=${arguments_.disabled}
+        ?required=${arguments_.required}
+        ?select-all=${arguments_['select-all']}
+      >
+        <glide-core-dropdown-option
+          label=${arguments_['<glide-core-dropdown-option>.label']}
+          value=${arguments_['<glide-core-dropdown-option>.value']}
+          ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Two"
+          value="two"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Three"
+          value="three"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Four"
+          value="four"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Five"
+          value="five"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Six"
+          value="six"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Seven"
+          value="seven"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Eight"
+          value="eight"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Nine"
+          value="nine"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Ten"
+          value="ten"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Eleven"
+          value="eleven"
+        ></glide-core-dropdown-option>
+
+        <div slot="description">${arguments_['slot="description"']}</div>
+
+        ${arguments_['slot="tooltip"']
+          ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
+          : ''}
+      </glide-core-dropdown>
+    </form>`;
+  },
 };

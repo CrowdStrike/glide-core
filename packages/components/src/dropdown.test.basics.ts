@@ -1,22 +1,36 @@
 import './dropdown.option.js';
 import { ArgumentError } from 'ow';
-import { assert, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { repeat } from 'lit/directives/repeat.js';
-import CsDropdown from './dropdown.js';
+import GlideCoreDropdown from './dropdown.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
-CsDropdown.shadowRootOptions.mode = 'open';
+// You'll notice quite a few duplicated tests among the "*.single.ts", "*.multiple.ts",
+// and "*.filterable.ts" test suites. The thinking is that a test warrants
+// duplication whenever Dropdown's internal logic isn't shared among all three
+// of those states or if one state goes down a significantly different code path.
+//
+// There are still gaps. And there are exceptions to avoid excessive duplication
+// for the sake of organization. Many of the tests in `dropdown.test.interactions.ts`,
+// for example, don't apply to the filterable case and so aren't common among all
+// three states. They nonetheless reside there because moving them out and
+// duplicating them in both `dropdown.test.interactions.single.ts` and
+// `dropdown.test.interactions.multiple.ts` would add a ton of test weight.
+
+GlideCoreDropdown.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-dropdown')).to.equal(CsDropdown);
+  expect(window.customElements.get('glide-core-dropdown')).to.equal(
+    GlideCoreDropdown,
+  );
 });
 
 it('has defaults', async () => {
   // Required attributes are supplied here and thus left unasserted below. The
   // idea is that this test shouldn't fail to typecheck if these templates are
   // eventually typechecked, which means supplying all required attributes and slots.
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -41,21 +55,8 @@ it('has defaults', async () => {
   expect(component.value).to.deep.equal([]);
 });
 
-it('is accessible', async () => {
-  const component = await fixture<CsDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  await expect(component).to.be.accessible();
-});
-
 it('can have a placeholder', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -69,7 +70,7 @@ it('can have a placeholder', async () => {
 });
 
 it('can have a description', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <div slot="description">Description</div>
       <glide-core-dropdown-option
@@ -87,7 +88,7 @@ it('can have a description', async () => {
 });
 
 it('can have a tooltip', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -105,7 +106,7 @@ it('can have a tooltip', async () => {
 });
 
 it('can have a `name`', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
@@ -122,8 +123,29 @@ it('can have a `name`', async () => {
   expect(component.name).to.equal('name');
 });
 
+it('can have a `size`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      size="small"
+    >
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  expect(component.getAttribute('size')).to.equal('small');
+  expect(component.size).to.equal('small');
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  expect(option?.privateSize).to.equal('small');
+});
+
 it('can be `disabled`', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
       <glide-core-dropdown-option
         label="Label"
@@ -137,7 +159,7 @@ it('can be `disabled`', async () => {
 });
 
 it('can be `required`', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
       <glide-core-dropdown-option
         label="Label"
@@ -150,51 +172,47 @@ it('can be `required`', async () => {
   expect(component.required).to.equal(true);
 });
 
-it('exposes standard form control properties and methods', async () => {
-  const form = document.createElement('form');
+it('can be `multiple`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
 
-  const component = await fixture<CsDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  expect(component.hasAttribute('multiple')).to.be.true;
+  expect(component.multiple).to.equal(true);
+});
+
+it('can be `select-all`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      select-all
+    >
       <glide-core-dropdown-option
         label="Label"
         value="value"
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
-    { parentNode: form },
   );
 
-  expect(component.form).to.equal(form);
-  expect(component.validity instanceof ValidityState).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity).to.be.a('function');
-  expect(component.reportValidity).to.be.a('function');
-});
-
-it('updates `value` dynamically', async () => {
-  const component = await fixture<CsDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      name="name"
-    >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-        selected
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const option = component.querySelector('glide-core-dropdown-option');
-  assert(option);
-  option.value = 'two';
-
-  expect(component.value).to.deep.equal(['two']);
+  expect(component.hasAttribute('select-all')).to.be.true;
+  expect(component.selectAll).to.equal(true);
 });
 
 it('throws if the default slot is the incorrect type', async () => {
   await expectArgumentError(() => {
-    return fixture<CsDropdown>(
+    return fixture<GlideCoreDropdown>(
       html`<glide-core-dropdown label="Label" placeholder="Placeholder">
         <button>Button</button>
       </glide-core-dropdown>`,

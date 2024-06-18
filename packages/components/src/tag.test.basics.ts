@@ -137,42 +137,6 @@ it('does not throw an error when the default slot is non-empty', async () => {
   expect(spy.notCalled).to.be.true;
 });
 
-it('throws an error when the prefix slot does not exist and a removable label is given', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
-      html`<glide-core-tag removable-label="test-aria-label" size="large"
-        >Tag</glide-core-tag
-      >`,
-    );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
-});
-
-it('does not throw an error when the prefix slot exists and a removable label is given', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
-      html`<glide-core-tag removable-label="test-aria-label" size="large"
-        ><span slot="prefix">Prefix</span>Tag</glide-core-tag
-      >`,
-    );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.notCalled).to.be.true;
-});
-
 it('toggles the "activate" and "deactivate" clases when the button is clicked', async () => {
   const element = await fixture(
     html`<glide-core-tag removable-label="test-aria-label"
@@ -191,19 +155,17 @@ it('toggles the "activate" and "deactivate" clases when the button is clicked', 
 });
 
 it('removes the tag from the DOM when the button is clicked', async () => {
-  const element = await fixture(
+  const element = await fixture<GlideCoreTag>(
     html`<glide-core-tag removable-label="test-aria-label"
       ><span slot="prefix">Prefix</span
       ><span data-content>Tag</span></glide-core-tag
     >`,
   );
 
-  const iconButton = element.shadowRoot?.querySelector('button');
-
   expect(element.shadowRoot?.querySelector('.component')).to.be.not.null;
   expect(document.querySelector('[data-content]')).to.be.not.null;
 
-  iconButton?.click();
+  element?.click();
 
   // Wait for the animation to complete
   await aTimeout(300);

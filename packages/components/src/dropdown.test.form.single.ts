@@ -6,26 +6,6 @@ import GlideCoreDropdownOption from './dropdown.option.js';
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-it('exposes standard form control properties and methods', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-    { parentNode: form },
-  );
-
-  expect(component.form).to.equal(form);
-  expect(component.validity instanceof ValidityState).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity).to.be.a('function');
-  expect(component.reportValidity).to.be.a('function');
-});
-
 it('can be reset', async () => {
   const form = document.createElement('form');
 
@@ -91,6 +71,11 @@ it('can be reset to the initially selected option', async () => {
 
   form.reset();
 
+  const label = component.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
+
+  expect(label?.textContent?.trim()).to.equal('Two');
   expect(component.value).to.deep.equal(['two']);
 });
 

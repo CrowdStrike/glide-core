@@ -25,6 +25,7 @@ declare global {
 export default class GlideCoreTag extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
     mode: 'closed',
   };
 
@@ -36,9 +37,12 @@ export default class GlideCoreTag extends LitElement {
   @property({ attribute: 'removable-label' })
   removableLabel? = '';
 
+  override click() {
+    this.#buttonElementRef.value?.click();
+  }
+
   override firstUpdated(): void {
     owSlot(this.#defaultSlotElementRef.value);
-    Boolean(this.removableLabel) && owSlot(this.#prefixSlotElementRef.value);
   }
 
   override render() {
@@ -51,11 +55,7 @@ export default class GlideCoreTag extends LitElement {
         })}
         ${ref(this.#containerElementRef)}
       >
-        <slot
-          name="prefix"
-          @slotchange=${this.#onPrefixSlotChange}
-          ${ref(this.#prefixSlotElementRef)}
-        ></slot>
+        <slot name="prefix" ${ref(this.#prefixSlotElementRef)}></slot>
 
         <slot
           @slotchange=${this.#onDefaultSlotChange}
@@ -71,6 +71,8 @@ export default class GlideCoreTag extends LitElement {
                 [this.size]: true,
               })}
               aria-label="Remove ${this.removableLabel}"
+              data-test="button"
+              ${ref(this.#buttonElementRef)}
               @click=${this.#onClick}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
@@ -94,6 +96,8 @@ export default class GlideCoreTag extends LitElement {
       </div>
     `;
   }
+
+  #buttonElementRef = createRef<HTMLButtonElement>();
 
   #containerElementRef = createRef<HTMLDivElement>();
 
@@ -119,9 +123,5 @@ export default class GlideCoreTag extends LitElement {
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
-  }
-
-  #onPrefixSlotChange() {
-    Boolean(this.removableLabel) && owSlot(this.#prefixSlotElementRef.value);
   }
 }

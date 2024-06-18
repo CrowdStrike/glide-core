@@ -52,6 +52,9 @@ export default class GlideCoreCheckbox extends LitElement {
   @property({ type: Boolean })
   checked = false;
 
+  @property({ attribute: 'internally-inert', type: Boolean })
+  internallyInert = false;
+
   @property({ reflect: true, type: Boolean })
   disabled = false;
 
@@ -69,6 +72,9 @@ export default class GlideCoreCheckbox extends LitElement {
 
   @property({ reflect: true })
   name?: string;
+
+  @property({ attribute: 'private-variant' })
+  privateVariant?: 'minimal';
 
   @property({ reflect: true, type: Boolean })
   required = false;
@@ -92,22 +98,16 @@ export default class GlideCoreCheckbox extends LitElement {
     this.#inputElementRef.value?.click();
   }
 
-  override connectedCallback() {
-    super.connectedCallback();
-    this.isInCheckboxGroup = Boolean(this.closest('glide-core-checkbox-group'));
-  }
-
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
-    this.isInCheckboxGroup = Boolean(this.closest('glide-core-checkbox-group'));
   }
 
   get validity() {
     // If we're in a Checkbox Group, `disabled`, `required`, and whether or not
     // the form has been submitted don't apply because Checkbox Group handles those
     // states for the group as a whole.
-    if (this.isInCheckboxGroup) {
+    if (this.privateVariant === 'minimal') {
       return this.#internals.validity;
     }
 
@@ -142,19 +142,22 @@ export default class GlideCoreCheckbox extends LitElement {
   override render() {
     return html`<div class="component" data-test="component">
       ${when(
-        this.isInCheckboxGroup,
+        this.privateVariant === 'minimal',
         () => html`
-          <div class="label-and-input-and-checkbox">
+          <label
+            class="label-and-input-and-checkbox"
+            part="private-label-and-input-and-checkbox"
+          >
             <div class="input-and-checkbox">
               <input
                 aria-invalid=${this.#isShowValidationFeedback}
                 data-test="input"
-                id="input"
                 type="checkbox"
                 .checked=${this.checked}
                 ?disabled=${this.disabled}
                 ?required=${this.required}
-                @change=${this.#onInputChange}
+                @change=${this.#onChange}
+                ?inert=${this.internallyInert}
                 ${ref(this.#inputElementRef)}
               />
 
@@ -170,8 +173,8 @@ export default class GlideCoreCheckbox extends LitElement {
               </div>
             </div>
 
-            <label for="input">${this.label}</label>
-          </div>
+            ${this.label}
+          </label>
         `,
         () =>
           html`<glide-core-label
@@ -218,7 +221,7 @@ export default class GlideCoreCheckbox extends LitElement {
                 .checked=${this.checked}
                 ?disabled=${this.disabled}
                 ?required=${this.required}
-                @change=${this.#onInputChange}
+                @change=${this.#onChange}
                 ${ref(this.#inputElementRef)}
               />
 
@@ -305,9 +308,6 @@ export default class GlideCoreCheckbox extends LitElement {
   private isCheckingValidity = false;
 
   @state()
-  private isInCheckboxGroup = false;
-
-  @state()
   private isReportValidityOrSubmit = false;
 
   #inputElementRef = createRef<HTMLInputElement>();
@@ -323,10 +323,9 @@ export default class GlideCoreCheckbox extends LitElement {
   };
 
   get #isShowValidationFeedback() {
-    // If we're in a Checkbox Group, `disabled`, `required`, and whether or not
-    // the form has been submitted don't apply because Checkbox Group handles those
-    // states for the group as a whole.
-    if (this.isInCheckboxGroup) {
+    // If minimal, `disabled`, `required`, and whether the form has been submitted
+    // don't apply because the parent component handles those states itself.
+    if (this.privateVariant === 'minimal') {
       return !this.validity.valid;
     }
 
@@ -338,7 +337,7 @@ export default class GlideCoreCheckbox extends LitElement {
     );
   }
 
-  #onInputChange(event: Event) {
+  #onChange(event: Event) {
     if (event.target instanceof HTMLInputElement) {
       this.checked = event.target.checked;
     }

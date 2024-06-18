@@ -277,7 +277,7 @@ If so, you can implement `createRenderRoot` and attach `shadowRoot` privately to
 // component.ts
 #shadowRoot?: ShadowRoot;
 
-protected createRenderRoot() {
+override createRenderRoot() {
   this.#shadowRoot = super.createRenderRoot() as ShadowRoot;
   return this.#shadowRoot;
 }

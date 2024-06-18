@@ -6,31 +6,11 @@ import GlideCoreDropdownOption from './dropdown.option.js';
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-it('exposes standard form control properties and methods', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-    { parentNode: form },
-  );
-
-  expect(component.form).to.equal(form);
-  expect(component.validity instanceof ValidityState).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity).to.be.a('function');
-  expect(component.reportValidity).to.be.a('function');
-});
-
 it('can be reset', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -46,28 +26,34 @@ it('can be reset', async () => {
     },
   );
 
-  component
-    .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector('[role="option"]')
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  options[0]?.shadowRoot
+    ?.querySelector('[role="option"]')
+    ?.dispatchEvent(new Event('click'));
+
+  options[1]?.shadowRoot
+    ?.querySelector('[role="option"]')
     ?.dispatchEvent(new Event('click'));
 
   form.reset();
 
   await elementUpdated(component);
 
+  expect(component.value).to.deep.equal([]);
+
   const label = component.shadowRoot?.querySelector(
     '[data-test="internal-label"]',
   );
 
   expect(label?.textContent?.trim()).to.equal('Placeholder');
-  expect(component.value).to.deep.equal([]);
 });
 
-it('can be reset to the initially selected option', async () => {
+it('can be reset to the initially selected options', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -76,6 +62,12 @@ it('can be reset to the initially selected option', async () => {
       <glide-core-dropdown-option
         label="Two"
         value="two"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -91,10 +83,15 @@ it('can be reset to the initially selected option', async () => {
 
   form.reset();
 
-  expect(component.value).to.deep.equal(['two']);
+  const tags = component.shadowRoot?.querySelectorAll('[data-test="tag"]');
+
+  expect(tags?.length).to.equal(2);
+  expect(tags?.[0].textContent?.trim()).to.equal('Two');
+  expect(tags?.[1].textContent?.trim()).to.equal('Three');
+  expect(component.value).to.deep.equal(['two', 'three']);
 });
 
-it('has `formData` value when an option is selected', async () => {
+it('has `formData` value when options are selected', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreDropdown>(
@@ -102,10 +99,17 @@ it('has `formData` value when an option is selected', async () => {
         label="Label"
         placeholder="Placeholder"
         name="name"
+        multiple
       >
         <glide-core-dropdown-option
-          label="Label"
-          value="value"
+          label="One"
+          value="one"
+          selected
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Two"
+          value="two"
           selected
         ></glide-core-dropdown-option>
       </glide-core-dropdown>
@@ -116,7 +120,7 @@ it('has `formData` value when an option is selected', async () => {
   );
 
   const formData = new FormData(form);
-  expect(formData.get('name')).to.be.equal('["value"]');
+  expect(formData.get('name')).to.be.equal('["one","two"]');
 });
 
 it('has no `formData` value when no option is selected', async () => {
@@ -127,6 +131,7 @@ it('has no `formData` value when no option is selected', async () => {
       label="Label"
       placeholder="Placeholder"
       name="name"
+      multiple
     >
       <glide-core-dropdown-option
         label=""
@@ -151,6 +156,7 @@ it('has no `formData` value when disabled and an option is selected', async () =
       placeholder="Placeholder"
       name="name"
       disabled
+      multiple
     >
       <glide-core-dropdown-option
         label="Label"
@@ -175,6 +181,7 @@ it('has no `formData` value when an option is selected that has no `value`', asy
       label="Label"
       placeholder="Placeholder"
       name="name"
+      multiple
     >
       <glide-core-dropdown-option
         label="Label"

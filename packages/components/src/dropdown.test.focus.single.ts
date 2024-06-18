@@ -1,15 +1,21 @@
 import './dropdown.option.js';
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
-import CsDropdown from './dropdown.js';
+import {
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+} from '@open-wc/testing';
+import { sendKeys, sendMouse } from '@web/test-runner-commands';
+import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
-CsDropdown.shadowRootOptions.mode = 'open';
+GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('focuses the button when `focus` is called', async () => {
-  const component = await fixture<CsDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
         value="value"
@@ -20,14 +26,14 @@ it('focuses the button when `focus` is called', async () => {
   component.focus();
 
   expect(component.shadowRoot?.activeElement).to.equal(
-    component.shadowRoot?.querySelector('button'),
+    component.shadowRoot?.querySelector('[data-test="button"]'),
   );
 });
 
 it('focuses the button on submit when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
       <glide-core-dropdown-option
         label="Label"
@@ -41,14 +47,14 @@ it('focuses the button on submit when required and no option is selected', async
 
   form.requestSubmit();
 
-  const button = component.shadowRoot?.querySelector('button');
+  const button = component.shadowRoot?.querySelector('[data-test="button"]');
   expect(component.shadowRoot?.activeElement).to.be.equal(button);
 });
 
 it('focuses the button when `reportValidity` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
       <glide-core-dropdown-option
         label="Label"
@@ -60,12 +66,12 @@ it('focuses the button when `reportValidity` is called when required and no opti
 
   component.reportValidity();
 
-  const button = component.shadowRoot?.querySelector('button');
+  const button = component.shadowRoot?.querySelector('[data-test="button"]');
   expect(component.shadowRoot?.activeElement).to.equal(button);
 });
 
 it('focuses the initially selected option when clicked', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -75,19 +81,20 @@ it('focuses the initially selected option when clicked', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Open it.
   component.shadowRoot
-    ?.querySelector('button')
-    ?.dispatchEvent(new Event('click'));
+    ?.querySelector('[data-test="button"]')
+    ?.dispatchEvent(new Event('click', { bubbles: true }));
 
-  // Wait for the dropdown to open.
+  // Wait for it to open.
   await elementUpdated(component);
 
   const option = component.querySelector('glide-core-dropdown-option');
   expect(document.activeElement).to.equal(option);
 });
 
-it('focuses the active option', async () => {
-  const component = await fixture<CsDropdown>(
+it('focuses the active option when opened via click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -96,20 +103,21 @@ it('focuses the active option', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Open it.
   component.shadowRoot
-    ?.querySelector('button')
-    ?.dispatchEvent(new Event('click'));
+    ?.querySelector('[data-test="button"]')
+    ?.dispatchEvent(new Event('click', { bubbles: true }));
 
-  // Wait for the dropdown to open.
+  // Wait for it to open.
   await elementUpdated(component);
 
   const option = component.querySelector('glide-core-dropdown-option');
   expect(document.activeElement).to.equal(option);
 });
 
-it('focuses the button on close via click', async () => {
-  const component = await fixture<CsDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+it('focuses the active option when opened via Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
         value="value"
@@ -117,13 +125,18 @@ it('focuses the button on close via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  const button = component.shadowRoot?.querySelector('button');
-  button?.dispatchEvent(new Event('click'));
-  expect(component.shadowRoot?.activeElement).to.equal(button);
+  component.focus();
+  await sendKeys({ press: ' ' });
+
+  // Wait for it to open.
+  await elementUpdated(component);
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  expect(document.activeElement).to.equal(option);
 });
 
 it('focuses the button on close via Escape', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
@@ -132,7 +145,9 @@ it('focuses the button on close via Escape', async () => {
     </glide-core-dropdown>`,
   );
 
-  const button = component.shadowRoot?.querySelector('button');
+  const button = component.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="button"]',
+  );
 
   button?.focus();
   await sendKeys({ press: 'Escape' });
@@ -141,7 +156,7 @@ it('focuses the button on close via Escape', async () => {
 });
 
 it('focuses the button when an option is selected via click', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
@@ -150,18 +165,19 @@ it('focuses the button when an option is selected via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  const button = component.shadowRoot?.querySelector('button');
-  button?.dispatchEvent(new Event('click'));
+  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  button?.dispatchEvent(new Event('click', { bubbles: true }));
 
   component
-    .querySelector('glide-core-dropdown-option')
+    ?.querySelector('glide-core-dropdown-option')
+    ?.shadowRoot?.querySelector('[role="option"]')
     ?.dispatchEvent(new Event('click'));
 
   expect(component.shadowRoot?.activeElement).to.equal(button);
 });
 
 it('focuses the button when an option is selected via Enter', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -170,8 +186,8 @@ it('focuses the button when an option is selected via Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  const button = component.shadowRoot?.querySelector('button');
-  button?.dispatchEvent(new Event('click'));
+  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  button?.dispatchEvent(new Event('click', { bubbles: true }));
 
   component.querySelector('glide-core-dropdown-option')?.focus();
   await sendKeys({ press: 'Enter' });
@@ -180,7 +196,7 @@ it('focuses the button when an option is selected via Enter', async () => {
 });
 
 it('focuses the button when an option is selected via Space', async () => {
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
@@ -189,8 +205,8 @@ it('focuses the button when an option is selected via Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  const button = component.shadowRoot?.querySelector('button');
-  button?.dispatchEvent(new Event('click'));
+  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  button?.dispatchEvent(new Event('click', { bubbles: true }));
 
   component.querySelector('glide-core-dropdown-option')?.focus();
   await sendKeys({ press: ' ' });
@@ -201,7 +217,7 @@ it('focuses the button when an option is selected via Space', async () => {
 it('does not focus the button when `checkValidity` is called', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<CsDropdown>(
+  const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
       <glide-core-dropdown-option
         label="Label"
@@ -213,4 +229,32 @@ it('does not focus the button when `checkValidity` is called', async () => {
 
   component.checkValidity();
   expect(component.shadowRoot?.activeElement).to.equal(null);
+});
+
+it('retains focus on the the first option when the button is clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+
+  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  assert(button);
+
+  const { x, y } = button.getBoundingClientRect();
+
+  // A simple `option.click()` won't do because we need a "mousedown" so that
+  // `#onDropdownMousedown` gets covered.
+  await sendMouse({
+    type: 'click',
+    position: [Math.ceil(x), Math.ceil(y)],
+  });
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  expect(document.activeElement).to.equal(option);
 });

@@ -4,8 +4,36 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
-import infoCircleIcon from './icons/info-circle.js';
 import styles from './label.styles.js';
+
+import { svg } from 'lit/static-html.js';
+
+const infoCircleIcon = svg`
+  <svg
+    aria-label="More information"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+  >
+    <circle
+      cx="12"
+      cy="12"
+      r="10"
+      stroke="currentColor"
+      stroke-width="2"
+    />
+
+    <path
+      d="M12 16L12 12"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+
+    <circle cx="12" cy="8" r="1" fill="currentColor" />
+  </svg>
+`;
 
 declare global {
   interface HTMLElementTagNameMap {
