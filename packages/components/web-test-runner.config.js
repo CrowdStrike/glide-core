@@ -94,8 +94,8 @@ export default {
   testRunnerHtml(testFramework) {
     return `<html>
       <body>
-        <link href="./src/styles/fonts.css" rel="stylesheet">
-        <link href="./src/styles/variables.css" rel="stylesheet">
+        <link href="./dist/styles/fonts.css" rel="stylesheet">
+        <link href="./dist/styles/variables.css" rel="stylesheet">
         <script type="module" src="${testFramework}"></script>
       </body>
     </html>`;

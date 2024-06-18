@@ -1,4 +1,4 @@
-@import 'variables/system.css';
-@import 'variables/light.css';
-@import 'variables/dark.css';
-@import 'variables/not-in-figma.css';
+@import './variables/system.css';
+@import './variables/light.css';
+@import './variables/dark.css';
+@import './variables/not-in-figma.css';
