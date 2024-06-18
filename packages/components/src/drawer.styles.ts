@@ -20,6 +20,10 @@ export default [
         transform 0.2s ease-out,
         opacity 0.3s ease-out;
       visibility: hidden;
+
+      &.pinned {
+        box-shadow: none;
+      }
     }
 
     .open {

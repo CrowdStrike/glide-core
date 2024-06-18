@@ -60,3 +60,27 @@ it('throws if it does not have a default slot', async () => {
     return fixture(html`<glide-core-drawer></glide-core-drawer>`);
   });
 });
+
+it('adds a class when the "pinned" attribute is set', async () => {
+  const drawer = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer pinned>Drawer content</glide-core-drawer>`,
+  );
+
+  drawer.open();
+
+  expect(
+    drawer.shadowRoot?.querySelector('aside')?.classList.contains('pinned'),
+  ).to.be.true;
+});
+
+it('does not add a class when the "pinned" attribute is not set', async () => {
+  const drawer = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
+  );
+
+  drawer.open();
+
+  expect(
+    drawer.shadowRoot?.querySelector('aside')?.classList.contains('pinned'),
+  ).to.be.false;
+});

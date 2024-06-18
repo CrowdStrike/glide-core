@@ -1,4 +1,5 @@
 import { LitElement, html, nothing } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
@@ -32,6 +33,9 @@ export default class GlideCoreDrawer extends LitElement {
 
   @property()
   label = '';
+
+  @property({ type: Boolean })
+  pinned = false;
 
   close() {
     if (this.currentState !== 'open') {
@@ -92,7 +96,7 @@ export default class GlideCoreDrawer extends LitElement {
   override render() {
     return html`
       <aside
-        class="component"
+        class=${classMap({ component: true, pinned: this.pinned })}
         tabindex="-1"
         data-test=${this.isOpen ? 'open' : 'closed'}
         @keydown=${this.#handleKeyDown}
