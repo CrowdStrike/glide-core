@@ -35,9 +35,10 @@
   "scripts": {
     "start": "per-env",
     "start:development": "storybook dev --config-dir .storybook --disable-telemetry --port 6006",
-    "start:production": "npm-run-all --parallel --aggregate-output --print-label start:production:*",
+    "start:production": "npm-run-all --parallel start:production:components start:production:storybook start:production:stylesheets --aggregate-output --print-label",
     "start:production:components": "node ./esbuild.js && tsc --emitDeclarationOnly --declaration --outDir ./dist",
     "start:production:components:comment": "https://github.com/evanw/esbuild/issues/95#issuecomment-626069971",
+    "start:production:figma": "pnpm dt export-variables && pnpm dt build-tokens && pnpm dt build-styles",
     "start:production:storybook": "storybook build --config-dir .storybook --disable-telemetry --output-dir ./dist/storybook",
     "start:production:stylesheets": "mkdir -p ./dist/styles && cp ./src/styles/fonts.css ./src/styles/variables.css ./dist/styles",
     "format": "per-env",
@@ -55,8 +56,7 @@
     "test:development": "npm-run-all --parallel test:development:*",
     "test:development:serve": "npx http-server dist/coverage/lcov-report --silent",
     "test:development:web-test-runner": "web-test-runner --watch",
-    "test:production": "web-test-runner",
-    "figma:build-css-vars": "pnpm dt export-variables && pnpm dt build-tokens && pnpm dt build-styles"
+    "test:production": "web-test-runner"
   },
   "engines": {
     "node": ">= 20",

@@ -31,10 +31,11 @@ import '@crowdstrike/glide-core/button.js';
 
 ## Adding CSS Custom Properties
 
-Glide Core uses scripts from the [@crowdstrike/design-tokens](https://www.npmjs.com/package/@crowdstrike/design-tokens) package to import and transform values from Figma to CSS custom properties (aka CSS variables). This workflow allows the Glide Design System team to maintain a single point of truth (SPOT) for color, typography, spacing, etc.
+Glide Core uses scripts from [@crowdstrike/design-tokens](https://www.npmjs.com/package/@crowdstrike/design-tokens) to import variables from Figma and transform them into CSS custom properties.
+This allows us to maintain a single source of truth for color, typography, spacing, etc.
 
-To get new or updated CSS variables:
+To get new or updated custom properties:
 
 ```bash
-pnpm figma:build-css-vars
+pnpm start:production:figma
 ```

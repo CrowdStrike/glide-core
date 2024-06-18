@@ -1,7 +1,7 @@
 @import 'variables/system.css';
 @import 'variables/light.css';
 @import 'variables/dark.css';
-@import 'variables/variables-not-in-figma.css';
+@import 'variables/not-in-figma.css';
 
 /*
   Modal component specific styles.
