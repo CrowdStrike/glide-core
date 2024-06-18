@@ -1,0 +1,24 @@
+/* Generated file. Do not edit. */
+:root,
+:host {
+  color-scheme: normal;
+  --cs-border-radius-md: 0.5rem;
+  --cs-border-radius-none: 0rem;
+  --cs-border-radius-round: 3.125rem;
+  --cs-border-radius-sm: 0.25rem;
+  --cs-border-radius-xs: 0.125rem;
+  --cs-border-width-lg: 0.25rem;
+  --cs-border-width-md: 0.125rem;
+  --cs-border-width-none: 0rem;
+  --cs-border-width-sm: 0.0625rem;
+  --cs-spacing-lg: 1.5rem;
+  --cs-spacing-md: 1rem;
+  --cs-spacing-sm: 0.75rem;
+  --cs-spacing-xl: 2rem;
+  --cs-spacing-xs: 0.5rem;
+  --cs-spacing-xxl: 3rem;
+  --cs-spacing-xxs: 0.25rem;
+  --cs-spacing-xxxl: 4rem;
+  --cs-spacing-xxxs: 0.125rem;
+  --cs-spacing-zero: 0rem;
+}
