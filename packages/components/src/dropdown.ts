@@ -726,8 +726,11 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #onDropdownAndOptionsFocusout(event: FocusEvent) {
-    // If `event.relatedTarget` is `null`, focus has returned to `document.body`.
-    if (event.relatedTarget === null) {
+    // If `event.relatedTarget` is `null`, focus has moved outside this component's
+    // shadow DOM, which means the user is done interacting with Dropodown. So we
+    // close it except when focus has moved to a tag, which tells us Dropdown is
+    // still in use.
+    if (event.relatedTarget === null && !this.#isRemovingTag) {
       this.open = false;
     }
   }
