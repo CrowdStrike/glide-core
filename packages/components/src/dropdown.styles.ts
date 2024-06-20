@@ -10,6 +10,7 @@ export default [
     }
 
     .dropdown-and-options {
+      display: flex;
       position: relative;
     }
 
@@ -24,6 +25,7 @@ export default [
       color: var(--glide-core-text-body-1);
       cursor: inherit;
       display: inline-flex;
+      flex-grow: 1;
       font-size: var(--glide-core-body-sm-font-size);
       font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-body-sm-font-weight);
