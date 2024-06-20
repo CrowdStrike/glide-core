@@ -29,8 +29,8 @@
     "./styles/*": null,
     "./label.js": null,
     "./toasts.toast.js": null,
-    "./styles/fonts.js": "./dist/styles/fonts.js",
-    "./styles/variables.js": "./dist/styles/variables.js"
+    "./styles/fonts.css": "./dist/styles/fonts.css",
+    "./styles/variables.css": "./dist/styles/variables.css"
   },
   "scripts": {
     "start": "per-env",
