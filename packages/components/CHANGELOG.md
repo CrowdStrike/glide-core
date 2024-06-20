@@ -1,5 +1,69 @@
 # @crowdstrike/glide-core
 
+## 0.5.0
+
+### Minor Changes
+
+- [#189](https://github.com/CrowdStrike/glide-core/pull/189) [`7bf0fc7`](https://github.com/CrowdStrike/glide-core/commit/7bf0fc7c1e459430f97b63c1424e8ffee4d2a6f3) Thanks [@ynotdraw](https://github.com/ynotdraw)! - All component prefixes were changed from `cs-` to `glide-core-`. Component imports were **not** adjusted. To migrate your existing code to the new format, replace any `<cs-` prefix with `<glide-core-` instead.
+
+  ```diff
+  -  <cs-button>Button</cs-button>
+  +  <glide-core-button>Button</glide-core-button>
+  ```
+
+- [#196](https://github.com/CrowdStrike/glide-core/pull/196) [`49e227d`](https://github.com/CrowdStrike/glide-core/commit/49e227d30bcb67bef185a6b094aa416386fe48e4) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Refactored `max-character-count` to `maxlength` for Input and Textarea to align closer to the platform's `maxlength` attribute.
+
+  ```diff
+  -  <glide-core-input max-character-count="20"></glide-core-input>
+  -  <glide-core-textarea max-character-count="20"></glide-core-textarea>
+  +  <glide-core-input maxlength="20"></glide-core-input>
+  +  <glide-core-textarea maxlength="20"></glide-core-textarea>
+  ```
+
+- [#188](https://github.com/CrowdStrike/glide-core/pull/188) [`41185e9`](https://github.com/CrowdStrike/glide-core/commit/41185e97eea2c2a290587c2e677ba212ef85a6b6) Thanks [@ynotdraw](https://github.com/ynotdraw)! - The package has been renamed to `@crowdstrike/glide-core` for simplicity. Components and styles are now contained in a single package.
+
+- [#191](https://github.com/CrowdStrike/glide-core/pull/191) [`7ef0db7`](https://github.com/CrowdStrike/glide-core/commit/7ef0db7de9ee0d39b9775bc6a525a6f6b7e7c1fc) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown no longer dispatches "change" and "input" events with a `detail` property to align with Checkbox, Dropdown, Radio Group, and Toggle.
+
+- [#202](https://github.com/CrowdStrike/glide-core/pull/202) [`2d8c562`](https://github.com/CrowdStrike/glide-core/commit/2d8c5621cf97cc3440d4415f54764f98464147ee) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated all CSS custom properties to have a `--glide-core-` prefix rather than `--cs-` to align with our latest naming conventions.
+
+  ```diff
+  -  background-color: var(--cs-surface-primary)
+  +  background-color: var(--glide-core-surface-primary);
+  ```
+
+- [#198](https://github.com/CrowdStrike/glide-core/pull/198) [`ceb0363`](https://github.com/CrowdStrike/glide-core/commit/ceb0363247e6753ac4e4f997936597d83c923cab) Thanks [@clintcs](https://github.com/clintcs)! - Removed `.glide-lock-scroll` from `variables.css` and marked it as private.
+
+- [#133](https://github.com/CrowdStrike/glide-core/pull/133) [`b169ae5`](https://github.com/CrowdStrike/glide-core/commit/b169ae538c789a608114b3c1d0e77ff2bc579e9c) Thanks [@clintcs](https://github.com/clintcs)! - Replace `@crowdstrike/glide-core-styles` with `@crowdstrike/glide-core/styles/variables.css`.
+
+  ```diff
+  -  import '@crowdstrike/glide-core-styles';
+  +  import '@crowdstrike/glide-core/styles/variables.css';
+  ```
+
+### Patch Changes
+
+- [#187](https://github.com/CrowdStrike/glide-core/pull/187) [`c43e741`](https://github.com/CrowdStrike/glide-core/commit/c43e74136b3821cd1029bbf52259f14b94393a81) Thanks [@danwenzel](https://github.com/danwenzel)! - Fix up layout of tree item menu
+
+- [#133](https://github.com/CrowdStrike/glide-core/pull/133) [`b169ae5`](https://github.com/CrowdStrike/glide-core/commit/b169ae538c789a608114b3c1d0e77ff2bc579e9c) Thanks [@clintcs](https://github.com/clintcs)! - Add `@crowdstrike/glide-core/styles/fonts.css` containing a `@font-face` rule and inlined Nunito for easier inclusion.
+
+  If your project added the Nunito font manually, you can replace it with a single import:
+
+  ```
+  @import '@crowdstrike/glide-core/styles/fonts.css';
+  ```
+
+- [#190](https://github.com/CrowdStrike/glide-core/pull/190) [`c7f3f63`](https://github.com/CrowdStrike/glide-core/commit/c7f3f6327d4a8a72b2a9221fb067b125e4627bd8) Thanks [@danwenzel](https://github.com/danwenzel)! - Add tree item icon button
+
+- [#206](https://github.com/CrowdStrike/glide-core/pull/206) [`4293e4c`](https://github.com/CrowdStrike/glide-core/commit/4293e4c87ca771be614c0724ee9c9a728f6d1ad7) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown no longer closes when a tag is removed.
+
+- [#191](https://github.com/CrowdStrike/glide-core/pull/191) [`7ef0db7`](https://github.com/CrowdStrike/glide-core/commit/7ef0db7de9ee0d39b9775bc6a525a6f6b7e7c1fc) Thanks [@clintcs](https://github.com/clintcs)! - Add multiselection and filtering to Dropdown.
+
+- [#152](https://github.com/CrowdStrike/glide-core/pull/152) [`bdc55b2`](https://github.com/CrowdStrike/glide-core/commit/bdc55b2eb5c1ccda94ffd73b7570f7975545eabf) Thanks [@camskene](https://github.com/camskene)! - Our CSS custom properties are now generated from Figma automatically. This change introduced a few underlying color value changes you may notice; however, they now match exactly what design calls for.
+
+- [#205](https://github.com/CrowdStrike/glide-core/pull/205) [`1f5caf2`](https://github.com/CrowdStrike/glide-core/commit/1f5caf209e5240c6883868d04aa7d0d45f610601) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown now expands to fill its container.
+
+- [#195](https://github.com/CrowdStrike/glide-core/pull/195) [`3db2398`](https://github.com/CrowdStrike/glide-core/commit/3db23988d8eea08516e45a0c4fa706d99f7b57aa) Thanks [@danwenzel](https://github.com/danwenzel)! - Remove outline-offset for tertiary icon buttons
+
 ## 0.4.6
 
 ### Patch Changes
