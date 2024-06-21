@@ -32,6 +32,13 @@ export default [
       position: absolute;
       visibility: hidden;
 
+      /*
+        ".target-container" is relative and many Menus may be stacked in a column.
+        This ensures the ".options" of Menus earlier in the column aren't obscured
+        by the ".target-container" that come later.
+      */
+      z-index: 1;
+
       &.visible {
         visibility: visible;
       }
