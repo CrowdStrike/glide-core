@@ -79,14 +79,55 @@ it('selects an option on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
-        label="Label"
-        value="value"
+        label="One"
+        value="one"
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
   const option = component.querySelector('glide-core-dropdown-option');
   option?.click();
+  await elementUpdated(component);
+
+  const labels = component.shadowRoot?.querySelectorAll(
+    '[data-test="selected-option-label"]',
+  );
+
+  expect(option?.selected).to.be.true;
+  expect(labels?.length).to.equal(1);
+  expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+});
+
+it('selects an option on Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  option?.focus();
+  await sendKeys({ press: ' ' });
+
+  expect(option?.selected).to.be.true;
+});
+
+it('selects an option on Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  option?.focus();
+  await sendKeys({ press: 'Enter' });
 
   expect(option?.selected).to.be.true;
 });
@@ -494,32 +535,6 @@ it('hides Select All', async () => {
 });
 
 it('does not select an option on Enter when the option is not focused', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const option = component.querySelector('glide-core-dropdown-option');
-  option?.focus();
-
-  await sendKeys({ down: 'Tab' });
-  await sendKeys({ down: 'Shift' });
-  await sendKeys({ up: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(option?.selected).to.be.false;
-});
-
-it('does not select an option on Space when the option is not focused', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option

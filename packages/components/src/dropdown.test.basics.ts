@@ -55,6 +55,20 @@ it('has defaults', async () => {
   expect(component.value).to.deep.equal([]);
 });
 
+it('can have a label', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  expect(component.getAttribute('label')).to.equal('Label');
+  expect(component.label).to.equal('Label');
+});
+
 it('can have a placeholder', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">

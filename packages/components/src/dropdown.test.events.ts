@@ -26,7 +26,7 @@ it('dispatches a "change" event when an option is selected via click', async () 
   setTimeout(() => {
     component
       .querySelector('glide-core-dropdown-option')
-      ?.shadowRoot?.querySelector('[role="option"]')
+      ?.shadowRoot?.querySelector('[data-test="component"]')
       ?.dispatchEvent(new Event('click'));
   });
 
@@ -45,7 +45,7 @@ it('dispatches a "change" event when an option is selected via Enter', async () 
     </glide-core-dropdown>`,
   );
 
-  component.querySelector('glide-core-dropdown-option')?.focus();
+  component.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(component, 'change');
@@ -84,7 +84,7 @@ it('dispatches a "input" event when an option is selected via click', async () =
   setTimeout(() => {
     component
       .querySelector('glide-core-dropdown-option')
-      ?.shadowRoot?.querySelector('[role="option"]')
+      ?.shadowRoot?.querySelector('[data-test="component"]')
       ?.dispatchEvent(new Event('click'));
   });
 
@@ -103,7 +103,7 @@ it('dispatches a "input" event when an option is selected via Enter', async () =
     </glide-core-dropdown>`,
   );
 
-  component.querySelector('glide-core-dropdown-option')?.focus();
+  component.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(component, 'input');
@@ -121,7 +121,7 @@ it('dispatches a "input" event when an option is selected via Space', async () =
     </glide-core-dropdown>`,
   );
 
-  component.querySelector('glide-core-dropdown-option')?.focus();
+  component.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(component, 'input');

@@ -12,10 +12,18 @@ it('is selected when initially selected', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  const option = component.shadowRoot?.querySelector('[role="option"]');
-
-  expect(component.hasAttribute('selected')).to.be.true;
   expect(component.selected).to.be.true;
-  expect(option?.getAttribute('aria-selected')).to.equal('true');
-  expect(option?.ariaSelected).to.equal('true');
+  expect(component.ariaSelected).to.equal('true');
+});
+
+it('is deselected when initially deselected', async () => {
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      value="value"
+    ></glide-core-dropdown-option>`,
+  );
+
+  expect(component.selected).to.be.false;
+  expect(component.ariaSelected).to.equal('false');
 });

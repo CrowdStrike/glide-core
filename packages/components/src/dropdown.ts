@@ -272,21 +272,14 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   override render() {
-    // Using `aria-activedescendant` throughout would make announcing the active option
-    // easier technically. It would also improve the user's experience because focus would
-    // remain on the button throughout the interaction instead of moving from the button
-    // to an option when the dropdown is opened.
-    //
-    // But `aria-activedescendant` doesn't appear to be supported by VoiceOver when used on
-    // anything that isn't a button attached to a `role="menu"`. When Dropdown is filterable,
-    // however, `aria-activedescendant` is unavoidable because focus must remain on `.input`
-    // so the user can continue to type while making selections.
-
     // `hidden` is frowned upon because it adds a second source of truth for styling. However,
     // it's the simplest way to hide slotted options and to later check if they're hidden.
     // Select All is different because we can conditionally render it and check if it exists.
     // `hidden` is used with it nonetheless for consistency and to simplify the logic that
     // checks an option's visibility, such as in `#optionElementsNotHiddenIncludingSelectAll`.
+
+    // ".tag-overflow-text" is hidden from screen readers because it's redundant. The selected
+    // options are announced when Dropdown receives focus.
 
     // The linter checks that all ULs have LIs as children. It doesn't account for slots,
     // which can contain LIs.
@@ -315,6 +308,7 @@ export default class GlideCoreDropdown extends LitElement {
         ?required=${this.required}
       >
         <label id="label"> ${this.label} </label>
+
         <slot name="tooltip" slot="tooltip"></slot>
 
         <div
@@ -334,6 +328,16 @@ export default class GlideCoreDropdown extends LitElement {
             @click=${this.#onDropdownClick}
             @mousedown=${this.#onDropdownMousedown}
           >
+            <span class="selected-option-labels" id="selected-option-labels">
+              ${this.selectedOptions
+                .filter(({ label }) => typeof label === 'string')
+                .map(
+                  ({ label }) =>
+                    html`<span data-test="selected-option-label">
+                      ${label},
+                    </span>`,
+                )}
+            </span>
             ${when(this.multiple && this.selectedOptions.length > 0, () => {
               return html`<ul
                 aria-describedby="tag-overflow-text"
@@ -375,7 +379,7 @@ export default class GlideCoreDropdown extends LitElement {
                 aria-controls="options"
                 aria-describedby="description"
                 aria-expanded=${this.open}
-                aria-labelledby="label"
+                aria-labelledby="selected-option-labels label"
                 autocapitalize="off"
                 autocomplete="off"
                 class=${classMap({
@@ -403,6 +407,7 @@ export default class GlideCoreDropdown extends LitElement {
             })}
             ${when(this.selectedOptions.length > this.#tagOverflowLimit, () => {
               return html`<div
+                aria-hidden="true"
                 class="tag-overflow-text"
                 id="tag-overflow-text"
                 data-test="tag-overflow-text"
@@ -419,8 +424,9 @@ export default class GlideCoreDropdown extends LitElement {
               aria-hidden=${this.isFilterable}
               aria-expanded=${this.open}
               aria-haspopup="listbox"
-              aria-labelledby="label"
+              aria-labelledby="selected-option-labels label"
               aria-describedby="description"
+              aria-controls="options"
               class="button"
               data-test="button"
               id="button"
@@ -467,7 +473,9 @@ export default class GlideCoreDropdown extends LitElement {
             data-test-visible=${this.open &&
             !this.disabled &&
             !this.isEveryOptionFilteredOut}
+            id="options"
             role="listbox"
+            @focusin=${this.#onOptionsFocusin}
             @mousedown=${this.#onOptionsMousedown}
             @mouseover=${this.#onOptionsMouseover}
           >
@@ -481,7 +489,6 @@ export default class GlideCoreDropdown extends LitElement {
             ></glide-core-dropdown-option>
 
             <slot
-              @focusin=${this.#onOptionsFocusin}
               @private-selected-change=${this.#onOptionsSelectedChange}
               @private-value-change=${this.#onOptionsValueChange}
               @slotchange=${this.#onDefaultSlotChange}
@@ -554,7 +561,7 @@ export default class GlideCoreDropdown extends LitElement {
 
   #isRemovingTag = false;
 
-  #isSingleSelectClosingAfterSelectionViaSpaceOrEnter = false;
+  #isSelectionViaSpaceOrEnter = false;
 
   #selectAllElementRef = createRef<GlideCoreDropdownOption>();
 
@@ -648,15 +655,6 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
-  async #focusActiveOrFirstOption() {
-    if (this.activeOption) {
-      // Wait until the options are visible before trying to focus one.
-      await this.updateComplete;
-
-      this.activeOption.focus();
-    }
-  }
-
   get #isShowValidationFeedback() {
     return (
       this.required &&
@@ -676,8 +674,6 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (this.#optionElementsIncludingSelectAll) {
       for (const option of this.#optionElementsIncludingSelectAll) {
-        option.privateIsFocusable = !this.isFilterable;
-
         // Both here and in the `this.size` setter because no assignment happens on
         // first render.
         option.privateSize = this.size;
@@ -736,7 +732,8 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   // This handler is on `.dropdown-and-options` as opposed to just `.dropdown` because
-  // options can receive focus. And `.dropdown` won't emit a "keydown" if an option is focused.
+  // options can receive focus via VoiceOver, and `.dropdown` won't emit a "keydown"
+  // if an option is focused.
   #onDropdownAndOptionsKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       this.open = false;
@@ -765,10 +762,6 @@ export default class GlideCoreDropdown extends LitElement {
 
       this.open = true;
 
-      if (!this.isFilterable) {
-        this.#focusActiveOrFirstOption();
-      }
-
       // The user almost certainly wasn't intending to do both open Dropdown and change
       // the active option in the case of ArrowUp or ArrowDown. Thus return. The user
       // can press ArrowUp or ArrowDown again to change the active option.
@@ -777,27 +770,11 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (this.activeOption && this.open) {
       if (event.key === 'Enter' || event.key === ' ') {
-        // If not filterable and the button is focused, Space or Enter shouldn't select or
-        // deselect the active option. Space should close Dropdown and Enter should submit
-        // the form if there is one.
-        if (
-          !this.isFilterable &&
-          this.#shadowRoot?.activeElement === this.#buttonElementRef.value
-        ) {
-          return;
-        }
-
-        if (!this.multiple) {
-          // Dropdown closes when a selection is made when single-select. It also opens
-          // when not filterable on click via Enter or Space.
-          //
-          // So it's closed by the selection change below, then `#onDropdownClick` is called
-          // and it's immediately reopened in the same frame.
-          //
-          // This property gives `#onDropdownClick` the information it needs to guard against
-          // that.
-          this.#isSingleSelectClosingAfterSelectionViaSpaceOrEnter = true;
-        }
+        // `#onDropdownClick` is called on click, and it opens or closes Dropdown.
+        // Space and Enter produce "click" events. This property gives `#onDropdownClick`
+        // the information it needs to guard against opening or closing when the event
+        // is a result of an option being is selected or deselected.
+        this.#isSelectionViaSpaceOrEnter = true;
 
         if (event.key === 'Enter') {
           this.activeOption.selected = !this.activeOption?.selected;
@@ -843,12 +820,6 @@ export default class GlideCoreDropdown extends LitElement {
           this.#deactivateAllOptions();
           option.privateActive = true;
           this.ariaActivedescendant = option.id;
-
-          if (this.isFilterable) {
-            this.ariaActivedescendant = option.id;
-          } else {
-            option.focus();
-          }
         }
 
         return;
@@ -872,12 +843,7 @@ export default class GlideCoreDropdown extends LitElement {
         if (option) {
           this.#deactivateAllOptions();
           option.privateActive = true;
-
-          if (this.isFilterable) {
-            this.ariaActivedescendant = option.id;
-          } else {
-            option.focus();
-          }
+          this.ariaActivedescendant = option.id;
         }
 
         return;
@@ -898,12 +864,7 @@ export default class GlideCoreDropdown extends LitElement {
         if (option) {
           this.#deactivateAllOptions();
           option.privateActive = true;
-
-          if (this.isFilterable) {
-            this.ariaActivedescendant = option.id;
-          } else {
-            option.focus();
-          }
+          this.ariaActivedescendant = option.id;
         }
 
         return;
@@ -925,12 +886,7 @@ export default class GlideCoreDropdown extends LitElement {
         if (option) {
           this.#deactivateAllOptions();
           option.privateActive = true;
-
-          if (this.isFilterable) {
-            this.ariaActivedescendant = option.id;
-          } else {
-            option.focus();
-          }
+          this.ariaActivedescendant = option.id;
         }
 
         return;
@@ -947,7 +903,7 @@ export default class GlideCoreDropdown extends LitElement {
     if (
       event.target instanceof Node &&
       this.#buttonElementRef.value?.contains(event.target) &&
-      !this.#isSingleSelectClosingAfterSelectionViaSpaceOrEnter &&
+      !this.#isSelectionViaSpaceOrEnter &&
       this.open
     ) {
       this.open = false;
@@ -957,10 +913,6 @@ export default class GlideCoreDropdown extends LitElement {
       // Thus we return, with or without a form for consistency.
     } else if (!this.open && event.detail !== 0) {
       this.open = true;
-
-      if (!this.isFilterable) {
-        this.#focusActiveOrFirstOption();
-      }
     }
   }
 
@@ -978,7 +930,6 @@ export default class GlideCoreDropdown extends LitElement {
       this.focus();
     } else if (!(event.target instanceof GlideCoreTag)) {
       event.preventDefault();
-      this.#focusActiveOrFirstOption();
     }
   }
 
@@ -1029,6 +980,8 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
+  // Options don't receive focus normally but can receive programmatic focus from
+  // screen readers.
   #onOptionsFocusin(event: FocusEvent) {
     if (event.target instanceof GlideCoreDropdownOption) {
       this.#deactivateAllOptions();
@@ -1052,10 +1005,8 @@ export default class GlideCoreDropdown extends LitElement {
       event.target.privateActive = true;
 
       for (const option of this.#optionElementsNotHiddenIncludingSelectAll) {
-        if (this.isFilterable && option.privateActive) {
+        if (option.privateActive) {
           this.ariaActivedescendant = option.id;
-        } else if (!this.isFilterable && option === event.target) {
-          option.focus();
         }
       }
     }
@@ -1155,8 +1106,6 @@ export default class GlideCoreDropdown extends LitElement {
       });
     } else if (event.target instanceof GlideCoreDropdownOption) {
       this.value = event.target.value ? [event.target.value] : [];
-      this.open = false;
-      this.focus();
     }
   }
 

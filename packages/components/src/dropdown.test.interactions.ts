@@ -1,5 +1,5 @@
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
+import { assert, expect, fixture, html } from '@open-wc/testing';
+import { sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
@@ -112,44 +112,7 @@ it('closes when something outside of it is clicked', async () => {
   expect(component.open).to.be.false;
 });
 
-it('closes when it loses focus', async () => {
-  const div = document.createElement('div');
-
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const button = document.createElement('button');
-  button.textContent = 'Button';
-  div.append(button);
-
-  component.focus();
-
-  // Open it.
-  await sendKeys({ press: ' ' });
-
-  // Wait for it to open.
-  await elementUpdated(component);
-
-  await sendKeys({ press: 'Tab' });
-
-  // Wait for it to close.
-  await elementUpdated(component);
-
-  expect(component.open).to.be.false;
-});
-
-it('closes on Escape when an option has focus', async () => {
+it('closes on Escape', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -166,22 +129,6 @@ it('closes on Escape when an option has focus', async () => {
       <glide-core-dropdown-option
         label="Two"
         value="two"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  component.focus();
-  await sendKeys({ press: 'Escape' });
-
-  expect(component.open).to.be.false;
-});
-
-it('closes on Escape when itself has focus', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
@@ -515,4 +462,60 @@ it('updates `privateSize` on every option when `size` is changed programmaticall
 
   expect(options[0].privateSize).to.equal('small');
   expect(options[1].privateSize).to.equal('small');
+});
+
+it('opens when something other than the button is clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const internalLabel = component.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
+
+  assert(internalLabel);
+
+  const { x, y } = internalLabel.getBoundingClientRect();
+
+  // A simple `option.click()` won't do because we need a "mousedown" so that
+  // `#onDropdownMousedown` gets covered.
+  await sendMouse({
+    type: 'click',
+    position: [Math.ceil(x), Math.ceil(y)],
+  });
+
+  expect(component.open).to.be.true;
+});
+
+it('remains open when something other than the button is clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const internalLabel = component.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
+
+  assert(internalLabel);
+
+  const { x, y } = internalLabel.getBoundingClientRect();
+
+  // A simple `option.click()` won't do because we need a "mousedown" so that
+  // `#onDropdownMousedown` gets covered.
+  await sendMouse({
+    type: 'click',
+    position: [Math.ceil(x), Math.ceil(y)],
+  });
+
+  expect(component.open).to.be.true;
 });

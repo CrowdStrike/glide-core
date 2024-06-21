@@ -1,5 +1,6 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
+import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
@@ -7,6 +8,10 @@ export default [
       --min-inline-size: 9.375rem;
 
       font-family: var(--glide-core-font-sans);
+    }
+
+    .selected-option-labels {
+      ${visuallyHidden};
     }
 
     .dropdown-and-options {
