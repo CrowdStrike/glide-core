@@ -102,6 +102,11 @@ export default class GlideCoreDropdownOption extends LitElement {
     }
   }
 
+  override connectedCallback() {
+    super.connectedCallback();
+    this.id = this.#id;
+  }
+
   override firstUpdated() {
     if (this.#checkboxElementRef.value) {
       this.#checkboxElementRef.value.checked = this.selected;
@@ -220,14 +225,16 @@ export default class GlideCoreDropdownOption extends LitElement {
     </div> `;
   }
 
-  constructor() {
-    super();
-    this.id = window.crypto.randomUUID();
-  }
-
   #checkboxElementRef = createRef<GlideCoreCheckbox>();
 
   #componentElementRef = createRef<HTMLElement>();
+
+  // Established here instead of in `connectedCallback` so the ID remains
+  // constant even if this component is removed and re-added to the DOM.
+  // If it's not constant, Dropdown's `aria-activedescendant` will immediately
+  // point to a non-existent ID when this component is re-added. An edge case
+  // for sure. But one we can protect against with little effort.
+  #id = window.crypto.randomUUID();
 
   #selected = false;
 

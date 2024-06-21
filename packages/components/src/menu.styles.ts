@@ -18,8 +18,8 @@ export default [
     }
 
     .options {
-      background-color: var(--glide-core-surface-base-lighter);
-      border: 1px solid var(--glide-core-border-base-lighter);
+      background-color: var(--glide-core-surface-modal);
+      border: 1px solid var(--glide-core-surface-modal);
       border-radius: var(--glide-core-spacing-xs);
       box-shadow: var(--glide-core-shadow-lg);
       box-sizing: border-box;
@@ -31,6 +31,13 @@ export default [
       padding: var(--glide-core-spacing-xxxs);
       position: absolute;
       visibility: hidden;
+
+      /*
+        ".target-container" is relative and many Menus may be stacked in a column.
+        This ensures the ".options" of Menus earlier in the column aren't obscured
+        by the ".target-container" that come later.
+      */
+      z-index: 1;
 
       &.visible {
         visibility: visible;

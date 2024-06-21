@@ -87,9 +87,9 @@ export default [
       visibility: hidden;
 
       /*
-        ".combobox-and-options" is relative and many Dropdowns may be stacked in a column.
-        This ensures that the ".options" of Dropdowns earlier in the column aren't obscured
-        by the ".combobox-and-options" that come after.
+        ".dropdown-and-options" is relative and many Dropdowns may be stacked in a column.
+        This ensures the ".options" of Dropdowns earlier in the column aren't obscured by
+        the ".dropdown-and-options" that come later.
       */
       z-index: 1;
 
