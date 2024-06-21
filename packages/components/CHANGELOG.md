@@ -1,5 +1,19 @@
 # @crowdstrike/glide-core
 
+## 0.5.1
+
+### Patch Changes
+
+- [#208](https://github.com/CrowdStrike/glide-core/pull/208) [`4504393`](https://github.com/CrowdStrike/glide-core/commit/450439333192bb20a68b11e5450ee43b2a8b84cf) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated the CSS import paths in the package.json exports field so the CSS files can be imported properly by applications.
+
+- [#211](https://github.com/CrowdStrike/glide-core/pull/211) [`28be29b`](https://github.com/CrowdStrike/glide-core/commit/28be29b9af690b1b4594cd0039e9e0a799014d4d) Thanks [@clintcs](https://github.com/clintcs)! - Prevent Menus from overlapping when two or more are stacked vertically.
+
+- [#210](https://github.com/CrowdStrike/glide-core/pull/210) [`0eb453f`](https://github.com/CrowdStrike/glide-core/commit/0eb453faa4d3b728364d100b08e9d0a36be72a5e) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Adjusted Drawer to contain a blurred backdrop filter.
+
+- [#211](https://github.com/CrowdStrike/glide-core/pull/211) [`28be29b`](https://github.com/CrowdStrike/glide-core/commit/28be29b9af690b1b4594cd0039e9e0a799014d4d) Thanks [@clintcs](https://github.com/clintcs)! - Remove the opacity from Menu's background to match Dropdown.
+
+- [#211](https://github.com/CrowdStrike/glide-core/pull/211) [`28be29b`](https://github.com/CrowdStrike/glide-core/commit/28be29b9af690b1b4594cd0039e9e0a799014d4d) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown Option no longer throws in Ember applications.
+
 ## 0.5.0
 
 ### Minor Changes
