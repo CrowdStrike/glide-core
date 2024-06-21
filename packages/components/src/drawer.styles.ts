@@ -4,6 +4,7 @@ export default [
   css`
     .component {
       all: unset;
+      backdrop-filter: blur(50px);
       background-color: var(--glide-core-surface-base-lighter);
       block-size: 0;
       border-end-start-radius: 0.625rem;
