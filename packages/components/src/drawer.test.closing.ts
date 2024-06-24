@@ -39,8 +39,8 @@ it('closes when the "Escape" key is pressed', async () => {
 
   await elementUpdated(drawer);
 
-  expect(drawer?.shadowRoot?.querySelector('aside[data-test="closed"]')).to.be
-    .not.null;
+  expect(drawer?.shadowRoot?.querySelector('aside[data-test-state="closed"]'))
+    .to.be.not.null;
 });
 
 it('does not close when a key other than "Escape" is pressed', async () => {
@@ -59,6 +59,6 @@ it('does not close when a key other than "Escape" is pressed', async () => {
   drawer.shadowRoot?.querySelector('aside')?.focus();
   await sendKeys({ press: 'Enter' });
 
-  expect(drawer?.shadowRoot?.querySelector('aside[data-test="open"]')).to.be.not
-    .null;
+  expect(drawer?.shadowRoot?.querySelector('aside[data-test-state="open"]')).to
+    .be.not.null;
 });

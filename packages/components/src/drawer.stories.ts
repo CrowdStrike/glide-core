@@ -93,9 +93,11 @@ const meta: Meta = {
     label: {
       control: { type: 'text' },
       table: {
-        type: { summary: 'string' },
+        type: {
+          summary: 'string',
+          detail: 'An aria-label for the drawer.',
+        },
       },
-      type: { name: 'string' },
     },
     'addEventListener(event, listener)': {
       table: {
