@@ -1,6 +1,7 @@
 {
   "allowJs": true,
   "compilerOptions": {
+    "declaration": true,
     "experimentalDecorators": true,
     "module": "NodeNext",
     "noImplicitOverride": true,
