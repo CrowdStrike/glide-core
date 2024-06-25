@@ -35,4 +35,4 @@ runs:
       shell: bash
       # Pinning playwright version to 1.43.1 since there is a pathing issue when it installs Chromium 125.0.6422.26 (playwright build v1117)
       # using v1.44.0
-      run: pnpm dlx playwright@1.43.1 install --with-deps
+      run: pnpm dlx playwright@1.45.0 install --with-deps
