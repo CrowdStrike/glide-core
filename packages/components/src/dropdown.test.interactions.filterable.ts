@@ -580,3 +580,19 @@ it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
     options.at(-1)?.id,
   );
 });
+
+it('cannot be tabbed to when `disabled`', async () => {
+  await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      disabled
+    >
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  await sendKeys({ down: 'Tab' });
+  expect(document.activeElement).to.equal(document.body);
+});

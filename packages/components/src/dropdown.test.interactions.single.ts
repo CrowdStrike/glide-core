@@ -559,3 +559,22 @@ it('does not select an option on Enter when the option is not focused', async ()
 
   expect(option?.selected).to.be.false;
 });
+
+it('cannot be tabbed to when `disabled`', async () => {
+  await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  await sendKeys({ down: 'Tab' });
+  expect(document.activeElement).to.equal(document.body);
+});

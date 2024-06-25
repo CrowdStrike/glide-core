@@ -64,15 +64,20 @@ export default [
         color: var(--glide-core-status-error);
       }
 
+      &.readonly {
+        border-color: transparent;
+        padding-inline-start: 0;
+      }
+
       &:has(.button:focus-visible, .input:focus-visible) {
         ${focusOutline};
       }
 
-      &:hover:not(&.error, &.disabled) {
+      &:hover:not(&.error, &.disabled, &.readonly) {
         border-color: var(--glide-core-border-base);
       }
 
-      &.quiet:hover:not(&.error, &.disabled, &.multiple) {
+      &.quiet:hover:not(&.error, &.disabled, &.multiple, &.readonly) {
         background-color: var(--glide-core-surface-hover);
       }
     }
@@ -139,6 +144,7 @@ export default [
       background: none;
       block-size: var(--button-and-input-height);
       border: none;
+      cursor: inherit;
       display: flex;
       padding: 0;
 
@@ -148,8 +154,10 @@ export default [
     }
 
     .input {
+      background-color: transparent;
       block-size: var(--button-and-input-height);
       border: none;
+      cursor: inherit;
       font-size: inherit;
       min-inline-size: var(--min-inline-size);
       padding: 0;
@@ -166,6 +174,13 @@ export default [
 
       &::placeholder {
         font-family: var(--glide-core-font-sans);
+      }
+    }
+
+    .caret-icon {
+      &.disabled,
+      &.readonly {
+        color: var(--glide-core-surface-selected-disabled);
       }
     }
   `,

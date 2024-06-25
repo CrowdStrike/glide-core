@@ -34,6 +34,7 @@ const meta: Meta = {
     orientation: 'horizontal',
     multiple: false,
     name: 'name',
+    readonly: false,
     required: false,
     'select-all': false,
     size: 'large',
@@ -182,6 +183,13 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
+    readonly: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
     required: {
       control: 'boolean',
       table: {
@@ -270,6 +278,7 @@ const meta: Meta = {
         ?hide-label=${arguments_['hide-label'] || nothing}
         ?multiple=${arguments_.multiple}
         ?open=${arguments_.open}
+        ?readonly=${arguments_.readonly}
         ?required=${arguments_.required}
         ?select-all=${arguments_['select-all']}
       >
@@ -335,6 +344,7 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
         ?multiple=${arguments_.multiple}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
+        ?readonly=${arguments_.readonly}
         ?required=${arguments_.required}
         ?select-all=${arguments_['select-all']}
       >
@@ -415,6 +425,7 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         ?multiple=${arguments_.multiple}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
+        ?readonly=${arguments_.readonly}
         ?required=${arguments_.required}
         ?select-all=${arguments_['select-all']}
       >
@@ -492,6 +503,7 @@ export const SingleSelectionHorizontalWithFiltering: StoryObj = {
         ?multiple=${arguments_.multiple}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
+        ?readonly=${arguments_.readonly}
         ?required=${arguments_.required}
         ?select-all=${arguments_['select-all']}
       >
@@ -589,6 +601,7 @@ export const MultipleSelectionHorizontalWithFiltering: StoryObj = {
         ?multiple=${arguments_.multiple}
         ?open=${arguments_.open}
         ?disabled=${arguments_.disabled}
+        ?readonly=${arguments_.readonly}
         ?required=${arguments_.required}
         ?select-all=${arguments_['select-all']}
       >
