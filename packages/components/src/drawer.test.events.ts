@@ -24,7 +24,7 @@ it('dispatches an "open" event when opened via the "open" method', async () => {
   drawer.open();
 
   drawer.shadowRoot
-    ?.querySelector<HTMLDialogElement>('dialog')
+    ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(drawer);
@@ -43,7 +43,7 @@ it('dispatches a "close" event when the "Escape" key is pressed', async () => {
   drawer.open();
 
   drawer.shadowRoot
-    ?.querySelector<HTMLDialogElement>('dialog')
+    ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(drawer);
@@ -52,7 +52,7 @@ it('dispatches a "close" event when the "Escape" key is pressed', async () => {
 
   setTimeout(() => {
     drawer.shadowRoot
-      ?.querySelector<HTMLDialogElement>('dialog')
+      ?.querySelector('aside')
       ?.dispatchEvent(new TransitionEvent('transitionend'));
   });
 
@@ -70,7 +70,7 @@ it('dispatches a "close" event when closed via the "close" method', async () => 
   drawer.open();
 
   drawer.shadowRoot
-    ?.querySelector<HTMLDialogElement>('dialog')
+    ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(drawer);
@@ -79,7 +79,7 @@ it('dispatches a "close" event when closed via the "close" method', async () => 
 
   setTimeout(() => {
     drawer.shadowRoot
-      ?.querySelector<HTMLDialogElement>('dialog')
+      ?.querySelector('aside')
       ?.dispatchEvent(new TransitionEvent('transitionend'));
   });
 

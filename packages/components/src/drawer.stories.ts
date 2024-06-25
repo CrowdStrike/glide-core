@@ -55,12 +55,14 @@ const meta: Meta = {
   render: (arguments_) => html`
     <glide-core-button>Toggle</glide-core-button>
 
-    <glide-core-drawer>
+    <glide-core-drawer label=${arguments_.label} ?pinned=${arguments_.pinned}>
       <div style="padding: 0.5rem">${arguments_['slot="default"']}</div>
     </glide-core-drawer>
   `,
   args: {
     'slot="default"': 'Drawer content',
+    label: 'label',
+    pinned: false,
   },
   argTypes: {
     'slot="default"': {
@@ -88,6 +90,15 @@ const meta: Meta = {
       },
       type: { name: 'function' },
     },
+    label: {
+      control: { type: 'text' },
+      table: {
+        type: {
+          summary: 'string',
+          detail: 'An aria-label for the drawer.',
+        },
+      },
+    },
     'addEventListener(event, listener)': {
       table: {
         type: {
@@ -97,6 +108,13 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
+    },
+    pinned: {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     '--width': {
       table: {
