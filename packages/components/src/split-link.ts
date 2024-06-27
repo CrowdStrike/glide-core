@@ -48,16 +48,42 @@ export default class GlideCoreSplitLink extends LitElement {
   }
 
   override render() {
+    if (this.disabled) {
+      return html`<span
+        class=${classMap({
+          component: true,
+          disabled: true,
+          [this.variant]: true,
+          [this.size]: true,
+          'has-prefix': this.hasPrefixSlot,
+        })}
+        aria-disabled="true"
+        role="link"
+        @keydown=${this.#onKeydownLink}
+        data-test="split-link"
+      >
+        <slot
+          name="prefix"
+          @slotchange=${this.#onPrefixSlotChange}
+          ${ref(this.#prefixSlotElementRef)}
+          data-test="prefix-slot"
+        ></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+          data-test="default-slot"
+        ></slot>
+      </span>`;
+    }
+
     return html`<a
       href=${ifDefined(this.url)}
       class=${classMap({
         component: true,
-        disabled: this.disabled,
         [this.variant]: true,
         [this.size]: true,
         'has-prefix': this.hasPrefixSlot,
       })}
-      tabindex=${this.disabled ? -1 : 0}
       @keydown=${this.#onKeydownLink}
       data-test="split-link"
     >

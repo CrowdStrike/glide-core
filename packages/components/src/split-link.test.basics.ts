@@ -20,7 +20,7 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('renders a tabbable link with href with a label by default', async () => {
+it('renders a link with href with a label by default', async () => {
   const component = await fixture(html`
     <glide-core-split-link url="/">Link</glide-core-split-link>
   `);
@@ -29,7 +29,6 @@ it('renders a tabbable link with href with a label by default', async () => {
 
   expect(link).to.not.be.null;
 
-  expect(link).to.have.attribute('tabindex', '0');
   expect(link).to.have.attribute('href', '/');
 
   expect(component?.textContent).to.equal('Link');
@@ -68,14 +67,15 @@ it('adds "secondary" styling when "variant" attribute is "secondary"', async () 
   expect(link?.classList.contains('secondary')).to.be.true;
 });
 
-it('sets the link as untabbable when the "disabled" attribute exists', async () => {
+it('becomse a span when the "disabled" attribute exists', async () => {
   const component = await fixture(html`
     <glide-core-split-link disabled url="/">Link</glide-core-split-link>
   `);
 
   const link = component?.shadowRoot?.querySelector('[data-test="split-link"]');
 
-  expect(link).to.have.attribute('tabindex', '-1');
+  expect(link).to.have.attribute('aria-disabled', 'true');
+  expect(link).to.have.attribute('role', 'link');
 });
 
 it('renders a prefix slot when given', async () => {
