@@ -2,11 +2,20 @@ import './split-button.js';
 import './split-container.js';
 import './split-link.js';
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { ArgumentError } from 'ow';
+import {
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+} from '@open-wc/testing';
 import GlideCoreSplitButton from './split-button.js';
 import GlideCoreSplitContainer from './split-container.js';
 import GlideCoreSplitLink from './split-link.js';
 import expectArgumentError from './library/expect-argument-error.js';
+import sinon from 'sinon';
+import type GlideCoreMenu from './menu.js';
 
 GlideCoreSplitContainer.shadowRootOptions.mode = 'open';
 
@@ -669,16 +678,33 @@ it('throws an error when the default slot is empty', async () => {
   );
 });
 
-// This throws an error outside the test. It's related to type checking for `glide-core-menu`.
-it('throws an error when the default slot is of an unsupported type', async () => {
+it('throws an error when the default slot is an unsupported type', async () => {
   await expectArgumentError(() =>
     fixture(
       html`<glide-core-split-container menu-label="label">
-        <glide-core-split-button slot="primary-action"
-          >Button</glide-core-split-button
-        >
+        <glide-core-split-button slot="primary-action">
+          Button
+        </glide-core-split-button>
         <div>Option</div>
       </glide-core-split-container>`,
     ),
   );
+
+  const menu = document
+    .querySelector('glide-core-split-container')
+    ?.shadowRoot?.querySelector<GlideCoreMenu>('[data-test="menu"]');
+
+  assert(menu);
+
+  const spy = sinon.spy();
+
+  try {
+    await menu.updateComplete;
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
 });

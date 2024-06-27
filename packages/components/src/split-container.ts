@@ -109,13 +109,13 @@ export default class GlideCoreSplitContainer extends LitElement {
           ?open=${!this.disabled && this.open}
           size=${this.size}
           placement=${this.placement}
+          data-test="menu"
         >
           <button
             slot="target"
             type="button"
             class=${classMap({
               'menu-button': true,
-              // disabled: this.disabled,
               [this.variant]: true,
               [this.size]: true,
             })}
