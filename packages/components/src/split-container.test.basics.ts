@@ -19,7 +19,7 @@ it('registers', async () => {
 it('is accessible', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -31,10 +31,10 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('should render two buttons, one a menu button with "label", and a divider, when the menu is closed', async () => {
+it('should render a split button, a divider, and a menu button', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -48,7 +48,7 @@ it('should render two buttons, one a menu button with "label", and a divider, wh
     .be.not.null;
 
   const slot = component?.shadowRoot?.querySelector<HTMLSlotElement>(
-    'slot[data-test="main-action"]',
+    'slot[data-test="primary-action"]',
   );
 
   expect(slot).to.be.not.null;
@@ -60,10 +60,10 @@ it('should render two buttons, one a menu button with "label", and a divider, wh
   expect(defaultSlotValue?.textContent).to.equal('Button');
 });
 
-it('should render a link, a menu button with "label", and a divider, when the menu is closed', async () => {
+it('should render a split link, a divider, and a menu button', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-link slot="main-action">Link</glide-core-split-link>
+      <glide-core-split-link slot="primary-action">Link</glide-core-split-link>
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
     </glide-core-split-container>
   `);
@@ -75,7 +75,7 @@ it('should render a link, a menu button with "label", and a divider, when the me
     .be.not.null;
 
   const slot = component?.shadowRoot?.querySelector<HTMLSlotElement>(
-    'slot[data-test="main-action"]',
+    'slot[data-test="primary-action"]',
   );
 
   expect(slot).to.be.not.null;
@@ -90,7 +90,7 @@ it('should render a link, a menu button with "label", and a divider, when the me
 it('does not set the menu to "open" by default', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -105,7 +105,7 @@ it('does not set the menu to "open" by default', async () => {
 it('sets the menu component to "open" when the "open" attribute is set', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label" open>
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -120,7 +120,7 @@ it('sets the menu component to "open" when the "open" attribute is set', async (
 it('applies appropriate classes and attributes when "size" is set to "small"', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label" size="small">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -129,7 +129,7 @@ it('applies appropriate classes and attributes when "size" is set to "small"', a
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('size', 'small');
@@ -148,7 +148,7 @@ it('applies appropriate classes and attributes when "size" is set to "small"', a
 it('applies appropriate classes and attributes when "size" is set to "large"', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label" size="large">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -157,7 +157,7 @@ it('applies appropriate classes and attributes when "size" is set to "large"', a
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('size', 'large');
@@ -176,7 +176,7 @@ it('applies appropriate classes and attributes when "size" is set to "large"', a
 it('applies appropriate classes and attributes by default as "large" when "size" is not set', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -185,7 +185,7 @@ it('applies appropriate classes and attributes by default as "large" when "size"
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('size', 'large');
@@ -204,7 +204,7 @@ it('applies appropriate classes and attributes by default as "large" when "size"
 it('applies appropriate classes and attributes when "size" is dynamically changed using the split button', async () => {
   const component = await fixture<GlideCoreSplitContainer>(html`
     <glide-core-split-container menu-label="label" size="large">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -213,7 +213,7 @@ it('applies appropriate classes and attributes when "size" is dynamically change
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('size', 'large');
@@ -234,7 +234,7 @@ it('applies appropriate classes and attributes when "size" is dynamically change
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('size', 'small');
@@ -253,7 +253,7 @@ it('applies appropriate classes and attributes when "size" is dynamically change
 it('applies appropriate classes and attributes when "size" is dynamically changed using the link button', async () => {
   const component = await fixture<GlideCoreSplitContainer>(html`
     <glide-core-split-container menu-label="label" size="large">
-      <glide-core-split-link slot="main-action" url="/"
+      <glide-core-split-link slot="primary-action" url="/"
         >Button</glide-core-split-link
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -262,7 +262,7 @@ it('applies appropriate classes and attributes when "size" is dynamically change
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('size', 'large');
@@ -283,7 +283,7 @@ it('applies appropriate classes and attributes when "size" is dynamically change
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('size', 'small');
@@ -302,7 +302,7 @@ it('applies appropriate classes and attributes when "size" is dynamically change
 it('applies appropriate classes and sets the "variant" to "primary" by default', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -311,7 +311,7 @@ it('applies appropriate classes and sets the "variant" to "primary" by default',
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('variant', 'primary');
@@ -329,10 +329,10 @@ it('applies appropriate classes and sets the "variant" to "primary" by default',
   ).to.be.true;
 });
 
-it('applies appropriate classes when "variant" to set to "primary"', async () => {
+it('applies appropriate classes when "variant" is set to "primary"', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label" variant="primary">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -341,7 +341,7 @@ it('applies appropriate classes when "variant" to set to "primary"', async () =>
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('variant', 'primary');
@@ -359,10 +359,10 @@ it('applies appropriate classes when "variant" to set to "primary"', async () =>
   ).to.be.true;
 });
 
-it('applies appropriate classes when "variant" to set to "secondary"', async () => {
+it('applies appropriate classes when "variant" is set to "secondary"', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label" variant="secondary">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -371,7 +371,7 @@ it('applies appropriate classes when "variant" to set to "secondary"', async () 
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('variant', 'secondary');
@@ -392,7 +392,7 @@ it('applies appropriate classes when "variant" to set to "secondary"', async () 
 it('applies appropriate classes and attributes when "variant" is dynamically changed using the split button', async () => {
   const component = await fixture<GlideCoreSplitContainer>(html`
     <glide-core-split-container menu-label="label" variant="primary">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -401,7 +401,7 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('variant', 'primary');
@@ -424,7 +424,7 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('variant', 'secondary');
@@ -445,7 +445,7 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
 it('applies appropriate classes and attributes when "variant" is dynamically changed using the link button', async () => {
   const component = await fixture<GlideCoreSplitContainer>(html`
     <glide-core-split-container menu-label="label" variant="primary">
-      <glide-core-split-link slot="main-action" url="/"
+      <glide-core-split-link slot="primary-action" url="/"
         >Button</glide-core-split-link
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -454,7 +454,7 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('variant', 'primary');
@@ -477,7 +477,7 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('variant', 'secondary');
@@ -498,7 +498,7 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
 it('sets the appropriate classes and attributes when the "disabled" attribute is set', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label" disabled>
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -507,16 +507,16 @@ it('sets the appropriate classes and attributes when the "disabled" attribute is
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('disabled');
 
   expect(
-    component.shadowRoot
-      ?.querySelector<HTMLElement>('[data-test="split-menu-button"]')
-      ?.classList.contains('disabled'),
-  ).to.be.true;
+    component.shadowRoot?.querySelector<HTMLSlotElement>(
+      '[data-test="split-menu-button"]',
+    ),
+  ).to.have.attribute('disabled');
 
   expect(
     component.shadowRoot?.querySelector<HTMLElement>(
@@ -528,7 +528,7 @@ it('sets the appropriate classes and attributes when the "disabled" attribute is
 it('applies appropriate classes and attributes when "disabled" is dynamically changed using the split button', async () => {
   const component = await fixture<GlideCoreSplitContainer>(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -537,16 +537,10 @@ it('applies appropriate classes and attributes when "disabled" is dynamically ch
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.not.have.attribute('disabled');
-
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLElement>('[data-test="split-menu-button"]')
-      ?.classList.contains('disabled'),
-  ).to.be.false;
 
   expect(
     component.shadowRoot?.querySelector<HTMLElement>(
@@ -560,16 +554,10 @@ it('applies appropriate classes and attributes when "disabled" is dynamically ch
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('disabled');
-
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLElement>('[data-test="split-menu-button"]')
-      ?.classList.contains('disabled'),
-  ).to.be.true;
 
   expect(
     component.shadowRoot?.querySelector<HTMLElement>(
@@ -581,7 +569,7 @@ it('applies appropriate classes and attributes when "disabled" is dynamically ch
 it('applies appropriate classes and attributes when "disabled" is dynamically changed using the link button', async () => {
   const component = await fixture<GlideCoreSplitContainer>(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-link slot="main-action" url="/"
+      <glide-core-split-link slot="primary-action" url="/"
         >Button</glide-core-split-link
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -590,16 +578,10 @@ it('applies appropriate classes and attributes when "disabled" is dynamically ch
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.not.have.attribute('disabled');
-
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLElement>('[data-test="split-menu-button"]')
-      ?.classList.contains('disabled'),
-  ).to.be.false;
 
   expect(
     component.shadowRoot?.querySelector<HTMLElement>(
@@ -613,16 +595,10 @@ it('applies appropriate classes and attributes when "disabled" is dynamically ch
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.attribute('disabled');
-
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLElement>('[data-test="split-menu-button"]')
-      ?.classList.contains('disabled'),
-  ).to.be.true;
 
   expect(
     component.shadowRoot?.querySelector<HTMLElement>(
@@ -634,7 +610,7 @@ it('applies appropriate classes and attributes when "disabled" is dynamically ch
 it('sets the default "menu-placement" as "bottom-end"', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -649,7 +625,7 @@ it('sets the default "menu-placement" as "bottom-end"', async () => {
 it('sets the "menu-placement" attribute as specified', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label" menu-placement="bottom">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -661,10 +637,10 @@ it('sets the "menu-placement" attribute as specified', async () => {
   ).to.have.attribute('placement', 'bottom');
 });
 
-it('focuses the "main-action" slotted element when the container component is focused', async () => {
+it('focuses the "primary-action" slotted element when the container component is focused', async () => {
   const component = await fixture<GlideCoreSplitContainer>(html`
     <glide-core-split-container menu-label="label" menu-placement="bottom">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -675,7 +651,7 @@ it('focuses the "main-action" slotted element when the container component is fo
 
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="main-action"]')
+      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
       ?.assignedNodes()
       ?.at(0),
   ).to.have.focus;
@@ -685,7 +661,7 @@ it('throws an error when the default slot is empty', async () => {
   await expectArgumentError(() =>
     fixture(
       html`<glide-core-split-container menu-label="label">
-        <glide-core-split-button slot="main-action"
+        <glide-core-split-button slot="primary-action"
           >Button</glide-core-split-button
         >
       </glide-core-split-container>`,
@@ -698,7 +674,7 @@ it('throws an error when the default slot is of an unsupported type', async () =
   await expectArgumentError(() =>
     fixture(
       html`<glide-core-split-container menu-label="label">
-        <glide-core-split-button slot="main-action"
+        <glide-core-split-button slot="primary-action"
           >Button</glide-core-split-button
         >
         <div>Option</div>

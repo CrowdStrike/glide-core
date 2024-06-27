@@ -21,7 +21,7 @@ declare global {
  * @description A split button that provides a button action and a menu of alternate actions.
  *
  * @slot - One or more of `<glide-core-menu-link>` or `<glide-core-menu-button>`.
- * @slot main-action - One of either `<glide-core-split-button>` or `<glide-core-split-link>`.
+ * @slot primary-action - One of either `<glide-core-split-button>` or `<glide-core-split-link>`.
  *
  */
 @customElement('glide-core-split-container')
@@ -53,24 +53,24 @@ export default class GlideCoreSplitContainer extends LitElement {
 
   override firstUpdated() {
     this.#testDefaultSlotType();
-    this.#testMainActionSlotType();
+    this.#testPrimaryActionSlotType();
 
-    const mainActionElement = this.#mainActionElementRef.value
+    const primaryActionElement = this.#primaryActionElementRef.value
       ?.assignedNodes()
       .at(0);
 
     if (
-      mainActionElement instanceof GlideCoreSplitButton ||
-      mainActionElement instanceof GlideCoreSplitLink
+      primaryActionElement instanceof GlideCoreSplitButton ||
+      primaryActionElement instanceof GlideCoreSplitLink
     ) {
-      mainActionElement.disabled = this.disabled;
-      mainActionElement.variant = this.variant;
-      mainActionElement.size = this.size;
+      primaryActionElement.disabled = this.disabled;
+      primaryActionElement.variant = this.variant;
+      primaryActionElement.size = this.size;
     }
   }
 
   override focus(options?: FocusOptions) {
-    const node = this.#mainActionElementRef.value?.assignedNodes()?.at(0);
+    const node = this.#primaryActionElementRef.value?.assignedNodes()?.at(0);
 
     node instanceof HTMLElement && node.focus(options);
   }
@@ -96,10 +96,10 @@ export default class GlideCoreSplitContainer extends LitElement {
         @click=${this.onClick}
       >
         <slot
-          name="main-action"
-          @slotchange=${this.#onMainActionSlotChange}
-          ${ref(this.#mainActionElementRef)}
-          data-test="main-action"
+          name="primary-action"
+          @slotchange=${this.#onPrimaryActionSlotChange}
+          ${ref(this.#primaryActionElementRef)}
+          data-test="primary-action"
         ></slot>
         <span
           class=${classMap({ divider: true, [this.variant]: true })}
@@ -115,7 +115,7 @@ export default class GlideCoreSplitContainer extends LitElement {
             type="button"
             class=${classMap({
               'menu-button': true,
-              disabled: this.disabled,
+              // disabled: this.disabled,
               [this.variant]: true,
               [this.size]: true,
             })}
@@ -152,41 +152,41 @@ export default class GlideCoreSplitContainer extends LitElement {
   override willUpdate(
     changedProperties: PropertyValueMap<GlideCoreSplitContainer>,
   ): void {
-    const mainActionElement = this.#mainActionElementRef.value
+    const primaryActionElement = this.#primaryActionElementRef.value
       ?.assignedNodes()
       .at(0);
 
     if (
       this.hasUpdated &&
-      (mainActionElement instanceof GlideCoreSplitButton ||
-        mainActionElement instanceof GlideCoreSplitLink)
+      (primaryActionElement instanceof GlideCoreSplitButton ||
+        primaryActionElement instanceof GlideCoreSplitLink)
     ) {
       if (changedProperties.has('disabled')) {
-        mainActionElement.disabled = this.disabled;
+        primaryActionElement.disabled = this.disabled;
       }
 
       if (changedProperties.has('variant')) {
-        mainActionElement.variant = this.variant;
+        primaryActionElement.variant = this.variant;
       }
 
       if (changedProperties.has('size')) {
-        mainActionElement.size = this.size;
+        primaryActionElement.size = this.size;
       }
     }
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #mainActionElementRef = createRef<HTMLSlotElement>();
-
   #menuButtonElementRef = createRef<HTMLButtonElement>();
+
+  #primaryActionElementRef = createRef<HTMLSlotElement>();
 
   #onDefaultSlotChange() {
     this.#testDefaultSlotType();
   }
 
-  #onMainActionSlotChange() {
-    this.#testMainActionSlotType();
+  #onPrimaryActionSlotChange() {
+    this.#testPrimaryActionSlotType();
   }
 
   #testDefaultSlotType() {
@@ -200,10 +200,10 @@ export default class GlideCoreSplitContainer extends LitElement {
     ]);
   }
 
-  #testMainActionSlotType() {
-    owSlot(this.#mainActionElementRef.value);
+  #testPrimaryActionSlotType() {
+    owSlot(this.#primaryActionElementRef.value);
 
-    owSlotType(this.#mainActionElementRef.value, [
+    owSlotType(this.#primaryActionElementRef.value, [
       GlideCoreSplitButton,
       GlideCoreSplitLink,
     ]);

@@ -12,7 +12,7 @@ it('the menu remains closed when the component is disabled and the menu button i
 
   const component = await fixture(html`
     <glide-core-split-container menu-label="label" disabled>
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -37,7 +37,7 @@ it('the menu remains closed when the component is disabled and the menu button i
 it('the menu opens when the menu button is clicked', async () => {
   const component = await fixture(html`
     <glide-core-split-container menu-label="label">
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>

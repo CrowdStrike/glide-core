@@ -6,8 +6,7 @@ export default [
     .component {
       align-items: center;
       border-color: transparent;
-      border-radius: var(--glide-core-spacing-sm) 0 0
-        var(--glide-core-spacing-sm);
+      border-radius: 0.75rem 0 0 0.75rem;
       border-style: solid;
       border-width: 1px 0 1px 1px;
       cursor: pointer;
@@ -92,15 +91,12 @@ export default [
 
       &.small {
         block-size: 1.75rem;
-        box-sizing: border-box;
         font-size: var(--glide-core-body-xs-font-size);
         line-height: 1rem;
-        min-inline-size: fit-content;
       }
 
       &.large {
         block-size: 2.125rem;
-        box-sizing: border-box;
         font-size: var(--glide-core-body-xxs-font-size);
         line-height: 1.5rem;
       }

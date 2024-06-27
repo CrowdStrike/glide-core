@@ -35,8 +35,7 @@ export default [
       & .menu-button {
         align-items: center;
         border-color: transparent;
-        border-radius: 0 var(--glide-core-spacing-sm)
-          var(--glide-core-spacing-sm) 0;
+        border-radius: 0 0.75rem 0.75rem 0;
         border-style: solid;
         border-width: 1px 1px 1px 0;
         cursor: pointer;
@@ -62,7 +61,7 @@ export default [
           ${focusOutline};
         }
 
-        &.disabled {
+        &:disabled {
           cursor: default;
           opacity: 1;
           pointer-events: none;
@@ -73,19 +72,19 @@ export default [
           border-color: transparent;
           color: var(--glide-core-text-selected);
 
-          &.disabled {
+          &:disabled {
             background-color: var(--glide-core-surface-disabled);
             border-color: transparent;
             color: var(--glide-core-text-tertiary-disabled);
           }
 
-          &:not(.disabled):active {
+          &:not(:disabled):active {
             background-color: var(--glide-core-surface-selected-hover);
             border-color: transparent;
             color: var(--glide-core-text-selected);
           }
 
-          &:not(:active):hover:not(.disabled) {
+          &:not(:active):hover:not(:disabled) {
             background-color: var(--glide-core-surface-hover);
             border-color: transparent;
             box-shadow: var(--glide-core-glow-sm);
@@ -98,19 +97,19 @@ export default [
           border-color: var(--glide-core-border-primary);
           color: var(--glide-core-text-primary);
 
-          &.disabled {
+          &:disabled {
             background-color: var(--glide-core-surface-disabled);
             border-color: transparent;
             color: var(--glide-core-text-tertiary-disabled);
           }
 
-          &:not(.disabled):active {
+          &:not(:disabled):active {
             background-color: var(--glide-core-surface-selected-hover);
             border-color: transparent;
             color: var(--glide-core-text-selected);
           }
 
-          &:not(:active):hover:not(.disabled) {
+          &:not(:active):hover:not(:disabled) {
             background-color: var(--glide-core-surface-hover);
             border-color: transparent;
             box-shadow: var(--glide-core-glow-sm);

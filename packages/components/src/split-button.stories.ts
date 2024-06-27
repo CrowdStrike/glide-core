@@ -23,7 +23,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'A split button provides a main action and a menu of alternate actions.',
+          'A split button provides a primary action and a menu of alternate actions.',
       },
     },
   },
@@ -36,7 +36,7 @@ const meta: Meta = {
       menu-label=${arguments_['menu-label']}
       menu-placement=${arguments_['menu-placement']}
     >
-      <glide-core-split-button slot="main-action"
+      <glide-core-split-button slot="primary-action"
         >Button</glide-core-split-button
       >
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
@@ -51,7 +51,7 @@ const meta: Meta = {
     disabled: false,
     'menu-label': 'Button menu',
     'menu-placement': 'bottom-end',
-    'slot="main-action"': '',
+    'slot="primary-action"': '',
   },
   argTypes: {
     variant: {
@@ -105,7 +105,7 @@ const meta: Meta = {
         },
       },
     },
-    'slot="main-action"': {
+    'slot="primary-action"': {
       table: {
         type: { summary: 'GlideCoreSplitButton | GlideCoreSplitLink' },
       },
@@ -128,7 +128,7 @@ export const PrimaryWithPrefixIcon: StoryObj = {
       menu-label=${arguments_['menu-label']}
       menu-placement=${arguments_['menu-placement']}
     >
-      <glide-core-split-button slot="main-action">
+      <glide-core-split-button slot="primary-action">
         <glide-core-example-icon
           slot="prefix"
           name="info"
@@ -159,7 +159,7 @@ export const PrimaryWithLink: StoryObj = {
       menu-label=${arguments_['menu-label']}
       menu-placement=${arguments_['menu-placement']}
     >
-      <glide-core-split-link slot="main-action" url="/">
+      <glide-core-split-link slot="primary-action" url="/">
         <glide-core-example-icon
           slot="prefix"
           name="info"
@@ -192,7 +192,7 @@ export const SecondaryWithPrefixIcon: StoryObj = {
       menu-label=${arguments_['menu-label']}
       menu-placement=${arguments_['menu-placement']}
     >
-      <glide-core-split-button slot="main-action">
+      <glide-core-split-button slot="primary-action">
         <glide-core-example-icon
           slot="prefix"
           name="info"
@@ -226,7 +226,7 @@ export const SecondaryWithLink: StoryObj = {
       menu-label=${arguments_['menu-label']}
       menu-placement=${arguments_['menu-placement']}
     >
-      <glide-core-split-link slot="main-action" url="/">
+      <glide-core-split-link slot="primary-action" url="/">
         <glide-core-example-icon
           slot="prefix"
           name="info"

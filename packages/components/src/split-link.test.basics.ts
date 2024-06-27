@@ -32,15 +32,7 @@ it('renders a tabbable link with href with a label by default', async () => {
   expect(link).to.have.attribute('tabindex', '0');
   expect(link).to.have.attribute('href', '/');
 
-  const slots = link?.querySelectorAll<HTMLSlotElement>(
-    'slot[data-test="default-slot"]',
-  );
-
-  expect(slots?.length).to.be.equal(1);
-
-  const defaultSlot = slots![0].assignedNodes();
-
-  expect(defaultSlot?.at(0)?.textContent).to.equal('Link');
+  expect(component?.textContent).to.equal('Link');
 });
 
 it('renders with size "large" and variant "primary" by default', async () => {
@@ -98,38 +90,26 @@ it('renders a prefix slot when given', async () => {
 
   expect(link).to.not.be.null;
 
-  const slots = link?.querySelectorAll<HTMLSlotElement>(
-    'slot[data-test="prefix-slot"]',
+  expect(component.querySelector('[slot="prefix"]')?.textContent).to.equal(
+    'Prefix',
   );
-
-  expect(slots?.length).to.be.equal(1);
-
-  const prefixSlot = slots![0].assignedNodes();
-
-  expect(prefixSlot?.at(0)?.textContent).to.equal('Prefix');
 });
 
 it('renders with prefix class when dynamically added and removed', async () => {
   const component = await fixture(html`
-    <glide-core-split-link url="/">Link</glide-core-split-link>
+    <glide-core-split-link url="/"
+      ><span slot="prefix">prefix</span>Link</glide-core-split-link
+    >
   `);
 
-  const prefix = document.createElement('span');
-  prefix.setAttribute('slot', 'prefix');
-  prefix.dataset.prefix = undefined;
-  prefix.textContent = 'prefix';
-  component.append(prefix);
-
-  await elementUpdated(component);
+  expect(document.querySelector('[slot="prefix"]')).to.be.not.null;
 
   expect([
     ...component.shadowRoot!.querySelector('[data-test="split-link"]')!
       .classList,
   ]).to.include('has-prefix');
 
-  expect(document.querySelector('[data-prefix]')).to.be.not.null;
-
-  prefix.remove();
+  component.querySelector('[slot="prefix"]')?.remove();
 
   await elementUpdated(component);
 

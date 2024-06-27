@@ -13,7 +13,7 @@ declare global {
 }
 
 /**
- * @description A button to be used in the `main-action` slot of `glide-core-split-container`.
+ * @description A button to be used in the `primary-action` slot of `glide-core-split-container`.
  *
  * @slot prefix - An optional icon slot to display before the label.
  * @slot - A label for the contents of the button.

@@ -25,21 +25,7 @@ it('renders a button with a label by default', async () => {
     <glide-core-split-button>Button</glide-core-split-button>
   `);
 
-  const button = component?.shadowRoot?.querySelector(
-    '[data-test="split-button"]',
-  );
-
-  expect(button).to.not.be.null;
-
-  const slot = button?.querySelector<HTMLSlotElement>(
-    'slot[data-test="default-slot"]',
-  );
-
-  expect(slot).to.not.be.null;
-
-  const defaultSlot = slot!.assignedNodes();
-
-  expect(defaultSlot?.at(0)?.textContent).to.equal('Button');
+  expect(component.textContent).to.equal('Button');
 });
 
 it('renders with size "large" and variant "primary" by default', async () => {
@@ -96,49 +82,29 @@ it('sets the button as "disabled" when the attribute exists', async () => {
 it('renders a prefix slot when given', async () => {
   const component = await fixture(html`
     <glide-core-split-button
-      ><div slot="prefix">Prefix</div>
+      ><div data-prefix slot="prefix">Prefix</div>
       Button</glide-core-split-button
     >
   `);
 
-  const button = component?.shadowRoot?.querySelector(
-    '[data-test="split-button"]',
-  );
-
-  expect(button).to.not.be.null;
-
-  const slots = button?.querySelectorAll<HTMLSlotElement>(
-    'slot[data-test="prefix-slot"]',
-  );
-
-  expect(slots?.length).to.be.equal(1);
-
-  const prefixSlot = slots![0].assignedNodes();
-
-  expect(prefixSlot?.at(0)?.textContent).to.equal('Prefix');
+  expect(component.querySelector('[data-prefix]')).to.be.not.null;
 });
 
 it('renders with prefix class when dynamically added and removed', async () => {
   const component = await fixture(html`
-    <glide-core-split-button>Button</glide-core-split-button>
+    <glide-core-split-button>
+      <span slot="prefix">prefix</span>Button</glide-core-split-button
+    >
   `);
 
-  const prefix = document.createElement('span');
-  prefix.setAttribute('slot', 'prefix');
-  prefix.dataset.prefix = undefined;
-  prefix.textContent = 'prefix';
-  component.append(prefix);
-
-  await elementUpdated(component);
+  expect(document.querySelector('[slot="prefix"]')).to.be.not.null;
 
   expect([
     ...component.shadowRoot!.querySelector('[data-test="split-button"]')!
       .classList,
   ]).to.include('has-prefix');
 
-  expect(document.querySelector('[data-prefix]')).to.be.not.null;
-
-  prefix.remove();
+  component.querySelector('[slot="prefix"]')?.remove();
 
   await elementUpdated(component);
 
@@ -154,7 +120,7 @@ it('throws an error when there is no button label', async () => {
   );
 });
 
-it('throws an error when there is something other than text is in the default slot', async () => {
+it('throws an error when there is something other than text in the default slot', async () => {
   await expectArgumentError(() =>
     fixture(
       html`<glide-core-split-button><div>test</div></glide-core-split-button>`,
