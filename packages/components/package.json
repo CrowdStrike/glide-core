@@ -57,8 +57,10 @@
     "test:development:web-test-runner": "web-test-runner --watch",
     "test:production": "npm-run-all --parallel test:production:* start:production:stylesheets --aggregate-output --print-label",
     "test:production:web-test-runner": "web-test-runner",
-    "vrt": "playwright test --ui",
-    "vrt:report": "playwright show-report"
+    "vrt": "playwright test",
+    "vrt:ui": "playwright test --ui",
+    "vrt:report": "playwright show-report",
+    "vrt:update": "playwright test --update-snapshots"
   },
   "engines": {
     "node": ">= 20",
