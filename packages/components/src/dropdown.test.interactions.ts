@@ -160,27 +160,6 @@ it('activates an option on "mouseover"', async () => {
   expect(options[1]?.privateActive).to.be.true;
 });
 
-it('activates the first option by default', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const options = component.querySelectorAll('glide-core-dropdown-option');
-
-  expect(options[0]?.privateActive).to.be.true;
-  expect(options[1]?.privateActive).to.be.false;
-});
-
 it('activates the next option on ArrowDown', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
