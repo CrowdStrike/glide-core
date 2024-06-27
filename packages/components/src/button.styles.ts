@@ -11,7 +11,7 @@ export default [
     .component {
       align-items: center;
       border-color: transparent;
-      border-radius: var(--glide-core-spacing-sm);
+      border-radius: 0.75rem;
       border-style: solid;
       border-width: 1px;
       cursor: pointer;

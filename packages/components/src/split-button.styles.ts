@@ -1,6 +1,7 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
 
+// These styles are shared between `glide-core-split-button` and `glide-core-split-link`.
 export default [
   css`
     .component {
@@ -32,6 +33,8 @@ export default [
       &:focus-visible {
         ${focusOutline};
       }
+
+      /* Since the "disabled" styles are shared between a link and a button, we use a disabled class and not a pseudo-class */
 
       &.disabled {
         cursor: default;
