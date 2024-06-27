@@ -91,12 +91,14 @@ export default [
 
       &.small {
         block-size: 1.75rem;
+        box-sizing: border-box;
         font-size: var(--glide-core-body-xs-font-size);
         line-height: 1rem;
       }
 
       &.large {
         block-size: 2.125rem;
+        box-sizing: border-box;
         font-size: var(--glide-core-body-xxs-font-size);
         line-height: 1.5rem;
       }
