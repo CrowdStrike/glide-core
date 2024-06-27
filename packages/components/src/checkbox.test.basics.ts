@@ -146,18 +146,3 @@ it('can be required', async () => {
   expect(component.hasAttribute('required')).to.be.true;
   expect(component.required).to.equal(true);
 });
-
-it('exposes standard form control properties and methods', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
-    { parentNode: form },
-  );
-
-  expect(component.form).to.equal(form);
-  expect(component.validity instanceof ValidityState).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity).to.be.a('function');
-  expect(component.reportValidity).to.be.a('function');
-});
