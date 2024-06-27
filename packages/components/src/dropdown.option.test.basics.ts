@@ -27,7 +27,6 @@ it('has defaults', async () => {
 
   // None are reflected, so no attribute assertions are necessary.
   expect(component.privateActive).to.equal(false);
-  expect(component.privateIsFocusable).to.equal(true);
   expect(component.privateIndeterminate).to.equal(false);
   expect(component.selected).to.equal(false);
   expect(component.value).to.equal('');

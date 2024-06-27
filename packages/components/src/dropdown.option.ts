@@ -40,6 +40,7 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   set selected(isSelected) {
     this.#selected = isSelected;
+    this.ariaSelected = isSelected.toString();
 
     if (this.isMultiple) {
       if (this.#checkboxElementRef.value) {
@@ -81,14 +82,11 @@ export default class GlideCoreDropdownOption extends LitElement {
   privateIndeterminate = false;
 
   @state()
-  privateIsFocusable = true;
-
-  @state()
   private get isMultiple() {
     // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
     // By then, however, this component has has already completed its first render. So
-    // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple` is
-    // still useful for when Dropdown's `this.multiple` is change dynamically.
+    // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple`
+    // is still useful for when Dropdown's `this.multiple` is change dynamically.
     return (
       this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
     );
@@ -105,6 +103,15 @@ export default class GlideCoreDropdownOption extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     this.id = this.#id;
+
+    // So VoiceOver can apply focus programmatically. For whatever reason, it's unable
+    // to when `.component` has a `tabindex`.
+    this.tabIndex = -1;
+
+    // `role` and `ariaSelected` are also set on the host due to the above. They're only
+    // announced by VoiceOver when they're set on the element that receives focus.
+    this.role = 'option';
+    this.ariaSelected = this.selected.toString();
   }
 
   override firstUpdated() {
@@ -134,14 +141,6 @@ export default class GlideCoreDropdownOption extends LitElement {
     );
   }
 
-  // `shadowRoot.delegatesFocus` is preferred because it's more declarative.
-  // But using it triggers a focus-visible state whenever `this.focus` is
-  // called. And we only want a focus outline when the `this.focus` is called
-  // as a result of keyboard interaction.
-  override focus() {
-    this.#componentElementRef.value?.focus();
-  }
-
   async privateUpdateCheckbox() {
     // Hacky indeed. This is for the case where Dropdown is changed programmatically
     // from a single to a multiselect. `this.isMultiple` is set to `true` but
@@ -156,26 +155,18 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   override render() {
-    // `tabindex` is set to "0" and "-1" below based on `this.privateActive` unless
-    // Dropdown sets `this.privateIsFocusable`, which it does when it's filterable.
-    // "0" is to account for when a keyboard user tabs backward to the dropdown button.
-    // Tabbing forward from there should move focus to where it was previously, which
-    // would be on the option.
-
     // The linter wants a keyboard listener. There's one on Dropdown itself. It's there
     // because options aren't focusable and thus don't produce keyboard events when Dropdown
     // is filterable.
+
     /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`<div
-      aria-selected=${this.selected ? 'true' : 'false'}
       class=${classMap({
         component: true,
         active: this.privateActive,
         [this.privateSize]: true,
       })}
       data-test="component"
-      tabindex=${this.privateActive && this.privateIsFocusable ? '0' : '-1'}
-      role="option"
       @click=${this.#onClick}
       ${ref(this.#componentElementRef)}
     >
@@ -193,8 +184,8 @@ export default class GlideCoreDropdownOption extends LitElement {
               tabindex="-1"
               private-variant="minimal"
               value=${this.value}
+              internally-inert
               ?indeterminate=${this.privateIndeterminate}
-              ?internally-inert=${!this.privateIsFocusable}
               @change=${this.#onCheckboxChange}
               ${ref(this.#checkboxElementRef)}
             ></glide-core-checkbox>

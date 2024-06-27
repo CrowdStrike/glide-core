@@ -21,11 +21,24 @@ it('is selected on click', async () => {
   component.click();
   await elementUpdated(component);
 
-  const option = component.shadowRoot?.querySelector('[role="option"]');
-
   expect(component.selected).to.be.true;
-  expect(option?.getAttribute('aria-selected')).to.equal('true');
-  expect(option?.ariaSelected).to.equal('true');
+  expect(component.ariaSelected).to.equal('true');
+});
+
+it('is deselected on click', async () => {
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      private-multiple
+      selected
+    ></glide-core-dropdown-option>`,
+  );
+
+  component.click();
+  await elementUpdated(component);
+
+  expect(component.selected).to.be.false;
+  expect(component.ariaSelected).to.equal('false');
 });
 
 it('is selected on click when the checkbox itself is clicked', async () => {
@@ -52,12 +65,39 @@ it('is selected on click when the checkbox itself is clicked', async () => {
 
   await elementUpdated(component);
 
-  const option = component.shadowRoot?.querySelector('[role="option"]');
-
   expect(component.selected).to.be.true;
-  expect(option?.getAttribute('aria-selected')).to.equal('true');
-  expect(option?.ariaSelected).to.equal('true');
+  expect(component.ariaSelected).to.equal('true');
   expect(checkbox?.checked).to.be.true;
+});
+
+it('is deselected on click when the checkbox itself is clicked', async () => {
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      private-multiple
+      selected
+    ></glide-core-dropdown-option>`,
+  );
+
+  // Checkbox has its own lifecycle. Wait until it's ready.
+  waitUntil(() => {
+    return (
+      component.shadowRoot?.querySelector('[data-test="checkbox"]') instanceof
+      GlideCoreCheckbox
+    );
+  });
+
+  const checkbox = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="checkbox"]',
+  );
+
+  checkbox?.click();
+
+  await elementUpdated(component);
+
+  expect(component.selected).to.be.false;
+  expect(component.ariaSelected).to.equal('false');
+  expect(checkbox?.checked).to.be.false;
 });
 
 it('is selected when programmatically selected', async () => {
@@ -73,14 +113,34 @@ it('is selected when programmatically selected', async () => {
 
   await elementUpdated(component);
 
-  const option = component.shadowRoot?.querySelector('[role="option"]');
-
   const checkbox = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="checkbox"]',
   );
 
   expect(component.selected).to.be.true;
-  expect(option?.getAttribute('aria-selected')).to.equal('true');
-  expect(option?.ariaSelected).to.equal('true');
+  expect(component.ariaSelected).to.equal('true');
   expect(checkbox?.checked).to.be.true;
+});
+
+it('is deselected when programmatically deselected', async () => {
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      value="value"
+      private-multiple
+      selected
+    ></glide-core-dropdown-option>`,
+  );
+
+  component.selected = false;
+
+  await elementUpdated(component);
+
+  const checkbox = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="checkbox"]',
+  );
+
+  expect(component.selected).to.be.false;
+  expect(component.ariaSelected).to.equal('false');
+  expect(checkbox?.checked).to.be.false;
 });

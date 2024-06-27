@@ -102,7 +102,7 @@ it('does not toggle open and closed when the button overflow text is clicked', a
   expect(component.open).to.be.true;
 });
 
-it('selects an option on click', async () => {
+it('selects options on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -111,16 +111,111 @@ it('selects an option on click', async () => {
       multiple
     >
       <glide-core-dropdown-option
-        label="Label"
-        value="value"
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  const option = component.querySelector('glide-core-dropdown-option');
-  option?.click();
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+  options[0]?.click();
+  options[1]?.click();
 
-  expect(option?.selected).to.be.true;
+  await elementUpdated(component);
+
+  const labels = component.shadowRoot?.querySelectorAll(
+    '[data-test="selected-option-label"]',
+  );
+
+  expect(options[0]?.selected).to.be.true;
+  expect(labels?.length).to.equal(2);
+  expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+  expect(labels?.[1]?.textContent?.trim()).to.equal('Two,');
+});
+
+it('selects options on Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  options[0]?.focus();
+  await sendKeys({ press: ' ' });
+
+  options[1]?.focus();
+  await sendKeys({ press: ' ' });
+
+  await elementUpdated(component);
+
+  const labels = component.shadowRoot?.querySelectorAll(
+    '[data-test="selected-option-label"]',
+  );
+
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.true;
+  expect(labels?.length).to.equal(2);
+  expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+  expect(labels?.[1]?.textContent?.trim()).to.equal('Two,');
+});
+
+it('selects options on Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  options[0]?.focus();
+  await sendKeys({ press: 'Enter' });
+
+  options[1]?.focus();
+  await sendKeys({ press: 'Enter' });
+
+  const labels = component.shadowRoot?.querySelectorAll(
+    '[data-test="selected-option-label"]',
+  );
+
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.true;
+  expect(labels?.length).to.equal(2);
+  expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+  expect(labels?.[1]?.textContent?.trim()).to.equal('Two,');
 });
 
 it('activates Select All by default', async () => {
@@ -1002,37 +1097,6 @@ it('remains open when a tag is clicked', async () => {
 });
 
 it('does not select an option on Enter when the option is not focused', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      open
-      multiple
-    >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const option = component.querySelector('glide-core-dropdown-option');
-  option?.focus();
-
-  await sendKeys({ down: 'Tab' });
-  await sendKeys({ down: 'Shift' });
-  await sendKeys({ up: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(option?.selected).to.be.false;
-});
-
-it('does not select an option on Space when the option is not focused', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"

@@ -24,6 +24,32 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
+it('has selected option labels when options are initially selected', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const labels = component.shadowRoot?.querySelectorAll(
+    '[data-test="selected-option-label"]',
+  );
+
+  expect(labels?.length).to.equal(2);
+  expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+  expect(labels?.[1]?.textContent?.trim()).to.equal('Two,');
+});
+
 it('has a tag when an option is initially selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>

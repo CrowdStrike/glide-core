@@ -29,11 +29,11 @@ it('can be reset', async () => {
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.shadowRoot
-    ?.querySelector('[role="option"]')
+    ?.querySelector('[data-test="component"]')
     ?.dispatchEvent(new Event('click'));
 
   options[1]?.shadowRoot
-    ?.querySelector('[role="option"]')
+    ?.querySelector('[data-test="component"]')
     ?.dispatchEvent(new Event('click'));
 
   form.reset();
@@ -78,7 +78,7 @@ it('can be reset to the initially selected options', async () => {
 
   component
     .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector('[role="option"]')
+    ?.shadowRoot?.querySelector('[data-test="component"]')
     ?.dispatchEvent(new Event('click'));
 
   form.reset();

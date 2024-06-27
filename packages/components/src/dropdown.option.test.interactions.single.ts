@@ -13,11 +13,8 @@ it('is selected on click', async () => {
   component.click();
   await elementUpdated(component);
 
-  const option = component.shadowRoot?.querySelector('[role="option"]');
-
   expect(component.selected).to.be.true;
-  expect(option?.getAttribute('aria-selected')).to.equal('true');
-  expect(option?.ariaSelected).to.equal('true');
+  expect(component.ariaSelected).to.equal('true');
 });
 
 it('is selected when programmatically selected', async () => {
@@ -31,9 +28,6 @@ it('is selected when programmatically selected', async () => {
   component.selected = true;
   await elementUpdated(component);
 
-  const option = component.shadowRoot?.querySelector('[role="option"]');
-
   expect(component.selected).to.be.true;
-  expect(option?.getAttribute('aria-selected')).to.equal('true');
-  expect(option?.ariaSelected).to.equal('true');
+  expect(component.ariaSelected).to.equal('true');
 });
