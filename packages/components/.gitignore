@@ -3,3 +3,7 @@ dist/
 node_modules/
 variables.json
 tokens.json
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
