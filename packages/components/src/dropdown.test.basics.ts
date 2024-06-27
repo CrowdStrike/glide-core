@@ -224,6 +224,56 @@ it('can be `select-all`', async () => {
   expect(component.selectAll).to.equal(true);
 });
 
+it('activates the first option when no options are initially selected', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0]?.privateActive).to.be.true;
+  expect(options[1]?.privateActive).to.be.false;
+});
+
+it('activates the last selected option when options are initially selected', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0]?.privateActive).to.be.false;
+  expect(options[1]?.privateActive).to.be.false;
+  expect(options[2]?.privateActive).to.be.true;
+});
+
 it('throws if the default slot is the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture<GlideCoreDropdown>(

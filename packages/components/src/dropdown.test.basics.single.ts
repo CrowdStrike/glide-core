@@ -60,6 +60,31 @@ it('sets its internal label to the last initially selected option', async () => 
   expect(label?.textContent?.trim()).to.equal('Two');
 });
 
+it('sets `value` to that of the last initially selected option', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  expect(component.value).to.deep.equal(['three']);
+});
+
 it('hides Select All', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">

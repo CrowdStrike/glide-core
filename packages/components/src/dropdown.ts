@@ -96,15 +96,15 @@ export default class GlideCoreDropdown extends LitElement {
 
       // A single-select can only have one option selected. All but the last one
       // are deselected.
-      if (wasMultiple && option !== this.lastSelectedOptionWithValue) {
+      if (wasMultiple && option !== this.lastSelectedOption) {
         option.selected = false;
       }
     }
 
-    if (wasMultiple && this.lastSelectedOptionWithValue) {
-      this.value = [this.lastSelectedOptionWithValue.value];
-    } else if (wasSingle && this.lastSelectedOptionWithValue) {
-      this.lastSelectedOptionWithValue.privateUpdateCheckbox();
+    if (wasMultiple && this.lastSelectedOption?.value) {
+      this.value = [this.lastSelectedOption.value];
+    } else if (wasSingle && this.lastSelectedOption) {
+      this.lastSelectedOption.privateUpdateCheckbox();
     }
   }
 
@@ -129,10 +129,8 @@ export default class GlideCoreDropdown extends LitElement {
     );
   }
 
-  private get lastSelectedOptionWithValue() {
-    return this.#optionElements.findLast(
-      (option) => option.selected && option.value,
-    );
+  private get lastSelectedOption() {
+    return this.#optionElements.findLast((option) => option.selected);
   }
 
   private get isAllSelected() {
@@ -681,19 +679,25 @@ export default class GlideCoreDropdown extends LitElement {
       }
     }
 
+    const firstOption = this.#optionElementsNotHiddenIncludingSelectAll?.at(0);
+
     // Even with single-select, there's nothing to stop developers from adding
     // a `selected` attribute to more than one option. How native handles this
     // when setting `value` is to choose the last selected option.
     //
     // We're not setting `value` here. But we follow native's behavior elsewhere
     // when setting `value`. So we do the same here when setting `privateActive`.
-    if (this.lastSelectedOptionWithValue?.value) {
+    if (this.lastSelectedOption) {
       this.#deactivateAllOptions();
-      this.lastSelectedOptionWithValue.privateActive = true;
-      this.ariaActivedescendant = this.lastSelectedOptionWithValue.id;
+      this.lastSelectedOption.privateActive = true;
+      this.ariaActivedescendant = this.lastSelectedOption.id;
+    } else if (firstOption) {
+      this.#deactivateAllOptions();
+      firstOption.privateActive = true;
+      this.ariaActivedescendant = firstOption.id;
     }
 
-    // Update Select All to reflect the latest selection change.
+    // Update Select All to reflect the selected options.
     if (this.#selectAllElementRef.value) {
       this.#isInternalSelectAllChange = true;
       this.#selectAllElementRef.value.selected = this.isAllSelected;
@@ -702,22 +706,13 @@ export default class GlideCoreDropdown extends LitElement {
         this.isSomeSelected && !this.isAllSelected;
     }
 
-    const firstOption = this.#optionElementsNotHiddenIncludingSelectAll?.at(0);
-
-    // Activate the first option.
-    if (firstOption) {
-      this.#deactivateAllOptions();
-      firstOption.privateActive = true;
-      this.ariaActivedescendant = firstOption.id;
-    }
-
     // Set `value`.
     if (this.multiple) {
       this.value = this.selectedOptions
         .filter((option) => Boolean(option.value))
         .map(({ value }) => value);
-    } else if (this.lastSelectedOptionWithValue?.value) {
-      this.value = [this.lastSelectedOptionWithValue.value];
+    } else if (this.lastSelectedOption?.value) {
+      this.value = [this.lastSelectedOption.value];
     }
   }
 

@@ -24,6 +24,31 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
+it('sets `value` to that of the initially selected options', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  expect(component.value).to.deep.equal(['two', 'three']);
+});
+
 it('has selected option labels when options are initially selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
