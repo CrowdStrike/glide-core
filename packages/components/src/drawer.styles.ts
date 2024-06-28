@@ -4,6 +4,10 @@ export default [
   css`
     .component {
       all: unset;
+
+      /* prefix required for Safari */
+      /* stylelint-disable-next-line property-no-vendor-prefix */
+      -webkit-backdrop-filter: blur(50px);
       backdrop-filter: blur(50px);
       background-color: var(--glide-core-surface-base-lighter);
       block-size: 0;
