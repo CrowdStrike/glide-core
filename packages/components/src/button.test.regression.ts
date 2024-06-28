@@ -16,6 +16,16 @@ it('renders a disabled primary button', async ({ page }) => {
   ]);
 });
 
+it('renders a small primary button', async ({ page }) => {
+  await page.goto(
+    '/iframe.html?args=size:small&id=button--primary&viewMode=story',
+  );
+
+  await expect(page).toHaveScreenshot([
+    'button.test.regression.primary.small.png',
+  ]);
+});
+
 it('renders a hovered primary button', async ({ page }) => {
   await page.goto('/iframe.html?args=&id=button--primary&viewMode=story');
 
@@ -86,6 +96,16 @@ it('renders a disabled secondary button', async ({ page }) => {
   ]);
 });
 
+it('renders a small secondary button', async ({ page }) => {
+  await page.goto(
+    '/iframe.html?args=size:small&id=button--secondary&viewMode=story',
+  );
+
+  await expect(page).toHaveScreenshot([
+    'button.test.regression.secondary.small.png',
+  ]);
+});
+
 it('renders a hovered secondary button', async ({ page }) => {
   await page.goto('/iframe.html?args=&id=button--secondary&viewMode=story');
 
@@ -153,6 +173,16 @@ it('renders a disabled tertiary button', async ({ page }) => {
 
   await expect(page).toHaveScreenshot([
     'button.test.regression.tertiary.disabled.png',
+  ]);
+});
+
+it('renders a small tertiary button', async ({ page }) => {
+  await page.goto(
+    '/iframe.html?args=size:small&id=button--tertiary&viewMode=story',
+  );
+
+  await expect(page).toHaveScreenshot([
+    'button.test.regression.tertiary.small.png',
   ]);
 });
 
