@@ -11,7 +11,7 @@ export default [
       align-items: center;
       block-size: var(--size, 1.625rem);
       border-color: transparent;
-      border-radius: var(--glide-core-spacing-xs);
+      border-radius: 0.5rem;
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
@@ -94,7 +94,7 @@ export default [
         padding: 0;
 
         &:focus-visible {
-          border-radius: 4px;
+          border-radius: 0.25rem;
           outline: 2px solid var(--glide-core-surface-primary);
           outline-offset: 0;
         }
