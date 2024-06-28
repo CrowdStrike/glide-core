@@ -6,6 +6,7 @@
 - [Forking the repository](#forking-the-repository)
 - [Don't reference internal systems, issues, or links](#dont-reference-internal-systems-issues-or-links)
 - [Versioning a package](#versioning-a-package)
+- [Visual regression testing](#visual-regression-testing)
 - [Coding Guidelines](#coding-guidelines)
   - [Prefer encapsulation](#prefer-encapsulation)
     - [Avoid styling `:host`](#avoid-styling-host)
@@ -44,7 +45,7 @@ For a Pull Request to be approved and merged in the Glide Core repository, the f
 
 - The Pull Request must go through a Design Review prior to merging. Contact the owners of this repository for information on formally requesting a Design Review.
 - The code must be as accessible as possible by using semantic HTML, `role` and `aria` attributes, and other accessibility techniques. Sometimes this requires the developer to research the best ways to make a component accessible. The [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) is a great resource to start with. If you are not sure how to make a component accessible, reach out to the team - we'd be happy to help!
-- PRs must include tests. If something cannot be tested, it should be documented as to why via code comments.
+- PRs must include unit and visual regression tests. If something cannot be tested, it should be documented as to why via code comments.
 - New or updated functionality must be documented with Storybook.
 - Static strings must be [localized](https://lit.dev/docs/localization/overview/).
 - The PR must follow our established patterns under our [Coding Guidelines](#coding-guidelines). Anything that deviates from these patterns must be discussed with the team.
@@ -73,6 +74,13 @@ pnpm changeset
 Select the packages that include changes and write a meaningful changeset description.
 These descriptions are used to generate release notes to consumers, so be sure to be as descriptive and helpful as possible.
 Please ensure we are following [semantic versioning](https://semver.org/) when selecting a version bump.
+
+## Visual regression testing
+
+We use [Playwright](https://playwright.dev/) for visual regression testing.
+Visual regression testing gives us confidence as we make style changes in our components and helps prevent bugs from reaching our customers.
+When writing visual regression tests, it is recommended that all available visual states are exercised and receive a snapshot.
+This may include clicking elements, hovering them, or any other interaction that adjusts things visually for the component.
 
 ## Coding Guidelines
 

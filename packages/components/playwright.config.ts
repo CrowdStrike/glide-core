@@ -44,9 +44,16 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
+    // TODO:
     // I think if in CI, we will want to use a different command
-    // to start storybook as we'll need to serve it over http-server
+    // to start storybook as we'll need to serve it over http-server (?)
+    // We will see.  It may just work? Will need to test within GitHub
+    // Actions.
     command: 'pnpm start:development',
+    // TODO:
+    // For local development, we probably want to serve storybook
+    // from another port so that developers can run their local
+    // instance of storybook while also running tests at the same time
     url: 'http://localhost:6006/',
     reuseExistingServer: !process.env.CI,
   },

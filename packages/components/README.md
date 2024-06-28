@@ -29,7 +29,7 @@ import '@crowdstrike/glide-core/button.js';
 <glide-core-button size="small">Button</glide-core-button>
 ```
 
-## Adding CSS Custom Properties
+## Adding CSS custom properties
 
 Glide Core uses scripts from [@crowdstrike/design-tokens](https://www.npmjs.com/package/@crowdstrike/design-tokens) to import variables from Figma and transform them into CSS custom properties.
 This allows us to maintain a single source of truth for color, typography, spacing, etc.
@@ -39,3 +39,23 @@ To get new or updated custom properties:
 ```bash
 pnpm start:production:figma
 ```
+
+## Running visual regression tests
+
+Visual regression tests are written with [Playwright](https://playwright.dev/).
+
+When developing, run your tests using the following script:
+
+```bash
+pnpm test:production:playwright
+```
+
+If a change is made that affects the visuals of a component, Playwright will detect those changes and fail one or more tests. When this occurs, it is up to the developer to decide if the change is expected or not. If the change **is** expected, you can update the existing baseline images by running the following:
+
+```bash
+pnpm test:production:playwright:update
+```
+
+> [!NOTE]
+>
+> Playwright does not yet support watch mode, so it must be restarted manually via the command line whenever visual changes are added.
