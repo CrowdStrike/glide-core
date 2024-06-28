@@ -43,8 +43,6 @@ export default {
     'src/**/*.test.ts',
     'src/**/*.test.*.ts',
     '!src/**/*.test.regression.ts',
-    // TODO: Remove when writing real tests
-    '/tests-examples',
   ],
   nodeResolve: {
     // Ow is an example of a module that supports both the browser and Node.js
