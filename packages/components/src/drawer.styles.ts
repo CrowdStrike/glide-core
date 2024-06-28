@@ -1,14 +1,9 @@
 import { css } from 'lit';
+import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
     .component {
-      all: unset;
-
-      /* prefix required for Safari */
-      /* stylelint-disable-next-line property-no-vendor-prefix */
-      -webkit-backdrop-filter: blur(50px);
-      backdrop-filter: blur(50px);
       background-color: var(--glide-core-surface-base-lighter);
       block-size: 0;
       border-end-start-radius: 0.625rem;
@@ -29,9 +24,21 @@ export default [
       &.pinned {
         box-shadow: none;
       }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:focus-visible {
+        ${focusOutline};
+      }
     }
 
     .open {
+      /* prefix required for Safari */
+      /* stylelint-disable-next-line property-no-vendor-prefix */
+      -webkit-backdrop-filter: blur(50px);
+      backdrop-filter: blur(50px);
       block-size: auto;
       inline-size: var(--width, 27.375rem);
       inset: 0 0 0 auto;
