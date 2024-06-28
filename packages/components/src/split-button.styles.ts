@@ -34,8 +34,6 @@ export default [
         ${focusOutline};
       }
 
-      /* Since the "disabled" styles are shared between a link and a button, we use a disabled class and not a pseudo-class */
-
       &.disabled {
         cursor: default;
         opacity: 1;
@@ -47,6 +45,7 @@ export default [
         border-color: transparent;
         color: var(--glide-core-text-selected);
 
+        /* Since the "disabled" styles are shared between a link and a button, we use a disabled class and not a pseudo-class */
         &.disabled {
           background-color: var(--glide-core-surface-disabled);
           border-color: transparent;

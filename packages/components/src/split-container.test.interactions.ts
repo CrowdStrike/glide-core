@@ -32,6 +32,10 @@ it('the menu remains closed when the component is disabled and the menu button i
   expect(spy).to.have.been.called;
 
   spy.restore();
+
+  expect(
+    component.shadowRoot?.querySelector('glide-core-menu'),
+  ).to.not.have.attribute('open');
 });
 
 it('the menu opens when the menu button is clicked', async () => {

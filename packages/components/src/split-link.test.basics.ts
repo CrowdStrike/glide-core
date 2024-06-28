@@ -67,7 +67,7 @@ it('adds "secondary" styling when "variant" attribute is "secondary"', async () 
   expect(link?.classList.contains('secondary')).to.be.true;
 });
 
-it('becomse a span when the "disabled" attribute exists', async () => {
+it('becomes a span when the "disabled" attribute exists', async () => {
   const component = await fixture(html`
     <glide-core-split-link disabled url="/">Link</glide-core-split-link>
   `);
@@ -125,7 +125,7 @@ it('throws an error when there is no link label', async () => {
   );
 });
 
-it('throws an error when there is something other than text is in the default slot', async () => {
+it('throws an error when there is something other than text in the default slot', async () => {
   await expectArgumentError(() =>
     fixture(
       html`<glide-core-split-link url="#"
