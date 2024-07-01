@@ -57,7 +57,7 @@ it('is selected on click when the checkbox itself is clicked', async () => {
     );
   });
 
-  const checkbox = component.shadowRoot?.querySelector<HTMLInputElement>(
+  const checkbox = component.shadowRoot?.querySelector<GlideCoreCheckbox>(
     '[data-test="checkbox"]',
   );
 

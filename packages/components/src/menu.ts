@@ -8,7 +8,7 @@ import {
 } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
@@ -43,14 +43,17 @@ export default class GlideCoreMenu extends LitElement {
   set open(isOpen) {
     this.#isOpen = isOpen;
 
-    if (isOpen) {
+    if (isOpen && !this.isTargetDisabled) {
       this.#setUpFloatingUi();
+      this.ariaActivedescendant = this.activeOption?.id ?? '';
     } else {
       this.#cleanUpFloatingUi?.();
+      this.ariaActivedescendant = '';
     }
 
     if (this.#targetElement) {
-      this.#targetElement.ariaExpanded = isOpen ? 'true' : 'false';
+      this.#targetElement.ariaExpanded =
+        isOpen && !this.isTargetDisabled ? 'true' : 'false';
     }
   }
 
@@ -59,6 +62,10 @@ export default class GlideCoreMenu extends LitElement {
 
   @property({ reflect: true })
   size: 'small' | 'large' = 'large';
+
+  private get activeOption() {
+    return this.#optionElements?.find(({ privateActive }) => privateActive);
+  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -74,6 +81,11 @@ export default class GlideCoreMenu extends LitElement {
     document.addEventListener('click', this.#onDocumentClick, {
       capture: true,
     });
+  }
+
+  override createRenderRoot() {
+    this.#shadowRoot = super.createRenderRoot() as ShadowRoot;
+    return this.#shadowRoot;
   }
 
   override disconnectedCallback() {
@@ -97,70 +109,60 @@ export default class GlideCoreMenu extends LitElement {
       Text,
     ]);
 
-    // For when Menu is open initially via the `open` attribute.
-    this.#setUpFloatingUi();
-
     const firstOption = this.#optionElements.at(0);
 
-    if (firstOption) {
-      firstOption.privateActive = true;
-    }
+    if (this.open && firstOption) {
+      this.#setUpFloatingUi();
 
-    if (this.#targetElement && this.#optionsElementRef.value) {
-      this.#targetElement.ariaHasPopup = 'true';
-      this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
+      firstOption.privateActive = true;
+      this.ariaActivedescendant = firstOption.id;
     }
   }
 
   override focus() {
-    const target = this.#targetSlotElementRef.value?.assignedElements().at(0);
-
-    if (target && 'focus' in target) {
-      (target as { focus: () => void })?.focus();
+    if (this.#targetElement && 'focus' in this.#targetElement) {
+      (this.#targetElement as { focus: () => void })?.focus();
     }
   }
 
   override render() {
-    // The linter checks that all ULs have LIs as children. It doesn't account for
-    // slots, which can contain LIs. The linter also wants a focus listener on the
-    // slot, but there's nothing to be done with one in this case.
-
-    /*  eslint-disable lit-a11y/list, lit-a11y/mouse-events-have-key-events */
+    // The linter wants a "focus" listener on the slot and apparently "focusin" doesn't satisfy it.
+    /* eslint-disable lit-a11y/mouse-events-have-key-events */
     return html`
       <div
-        @focusout=${this.#onTargetAndOptionsFocusout}
-        @keydown=${this.#onTargetAndOptionsKeydown}
-        ${ref(this.#componentElementRef)}
         class="component"
+        @focusout=${this.#onFocusout}
+        ${ref(this.#componentElementRef)}
       >
-        <div
-          class="target-container"
-          @click=${this.#onTargetContainerClick}
-          @keydown=${this.#onTargetContainerKeydown}
-          id="target-container"
-        >
+        <div class="container" id="container">
           <slot
             name="target"
+            @click=${this.#onTargetSlotClick}
+            @keydown=${this.#onSlotKeydown}
             @slotchange=${this.#onTargetSlotChange}
             ${ref(this.#targetSlotElementRef)}
           ></slot>
         </div>
 
         <div
-          aria-labelledby="target-container"
+          aria-activedescendant=${this.ariaActivedescendant}
+          aria-labelledby="container"
           class=${classMap({
-            options: true,
+            menu: true,
             large: this.size === 'large',
             small: this.size === 'small',
-            visible: this.open,
+            visible: this.open && !this.isTargetDisabled,
           })}
+          data-test="menu"
           role="menu"
+          tabindex="-1"
           ${ref(this.#optionsElementRef)}
         >
           <slot
-            @click=${this.#onOptionsClick}
-            @keydown=${this.#onOptionsKeydown}
-            @mouseover=${this.#onOptionsMouseover}
+            @click=${this.#onDefaultSlotClick}
+            @focusin=${this.#onDefaultSlotFocusin}
+            @keydown=${this.#onSlotKeydown}
+            @mouseover=${this.#onDefaultSlotMouseover}
             @slotchange=${this.#onDefaultSlotChange}
             ${ref(this.#defaultSlotElementRef)}
           ></slot>
@@ -169,15 +171,30 @@ export default class GlideCoreMenu extends LitElement {
     `;
   }
 
+  // A getter that returns `this.activeOption?.id` would nicer. But
+  // `ariaActivedescendant` isn't always equal to `this.activeOption.id`
+  // because `ariaActiveDescendant` is set to an empty string when Menu
+  // is closed, and `this.activeOption` is left alone so the active option
+  // is preserved when Menu is reopened.
+  @state()
+  private ariaActivedescendant = '';
+
+  @state()
+  private isTargetDisabled = false;
+
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
   #componentElementRef = createRef<HTMLDivElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
+  #isClosingAfterSelection = false;
+
   #isOpen = false;
 
   #optionsElementRef = createRef<HTMLUListElement>();
+
+  #shadowRoot?: ShadowRoot;
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -189,20 +206,8 @@ export default class GlideCoreMenu extends LitElement {
     }
 
     this.open = false;
+    this.ariaActivedescendant = '';
   };
-
-  async #focusActiveOption() {
-    const option = this.#optionElements.find(
-      (element) => element.privateActive,
-    );
-
-    if (option) {
-      // Wait until the options are visible before trying to focus one.
-      await this.updateComplete;
-
-      option.focus();
-    }
-  }
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
@@ -212,37 +217,100 @@ export default class GlideCoreMenu extends LitElement {
       GlideCoreMenuLink,
       Text,
     ]);
+
+    const firstOption = this.#optionElements.at(0);
+
+    if (firstOption) {
+      firstOption.privateActive = true;
+    }
   }
 
-  #onOptionsClick() {
+  #onDefaultSlotClick() {
     this.open = false;
+    this.ariaActivedescendant = '';
   }
 
-  #onOptionsKeydown(event: KeyboardEvent) {
-    if ([' ', 'Enter'].includes(event.key)) {
+  #onDefaultSlotFocusin(event: FocusEvent) {
+    const isButtonOrLink =
+      event.target instanceof GlideCoreMenuButton ||
+      event.target instanceof GlideCoreMenuLink;
+
+    if (isButtonOrLink && this.activeOption) {
+      this.activeOption.privateActive = false;
+      event.target.privateActive = true;
+      this.ariaActivedescendant = event.target.id;
+    }
+  }
+
+  #onDefaultSlotMouseover(event: Event) {
+    if (
+      event.target instanceof GlideCoreMenuLink ||
+      event.target instanceof GlideCoreMenuButton
+    ) {
+      for (const option of this.#optionElements) {
+        option.privateActive = option === event.target;
+      }
+
+      this.ariaActivedescendant = event.target.id;
+    }
+  }
+
+  #onFocusout(event: FocusEvent) {
+    const isMenuFocused =
+      event.relatedTarget instanceof HTMLElement &&
+      this.#shadowRoot?.contains(event.relatedTarget);
+
+    const isOptionFocused =
+      event.relatedTarget instanceof HTMLElement &&
+      this.contains(event.relatedTarget);
+
+    if (!isMenuFocused && !isOptionFocused) {
       this.open = false;
+    }
+  }
+
+  #onSlotKeydown(event: KeyboardEvent) {
+    if ([' ', 'Enter', 'Escape'].includes(event.key) && this.open) {
+      this.open = false;
+      this.ariaActivedescendant = '';
       this.focus();
+
+      // `#onTargetSlotClick` is called on click, and it opens or closes Menu.
+      // Space and Enter produce "click" events. This property gives `#onTargetSlotClick`
+      // the information it needs to guard against immediately reopening Menu
+      // after it's closed here.
+      this.#isClosingAfterSelection = true;
       return;
     }
 
-    const activeOptionIndex = this.#optionElements.findIndex(
-      (element) => element.privateActive,
-    );
+    if (
+      [' ', 'ArrowUp', 'ArrowDown'].includes(event.key) &&
+      !this.open &&
+      this.activeOption
+    ) {
+      event.preventDefault(); // Prevent scroll.
 
-    const activeOption = this.#optionElements.at(activeOptionIndex);
+      this.open = true;
+      this.ariaActivedescendant = this.activeOption.id;
 
-    if (activeOption) {
+      return;
+    }
+
+    if (this.open && this.activeOption) {
+      const activeOptionIndex = this.#optionElements.indexOf(this.activeOption);
+
       // All the logic below could just as well go in a `@keydown` in Button and Link.
       // It's here to mirror the tests, which necessarily test against Menu as a whole
       // because more than one Button or Link is required to test these interactions.
       if (event.key === 'ArrowUp' && !event.metaKey) {
         event.preventDefault(); // Prevent scroll.
+
         const option = this.#optionElements.at(activeOptionIndex - 1);
 
         if (option && activeOptionIndex !== 0) {
-          activeOption.privateActive = false;
+          this.activeOption.privateActive = false;
+          this.ariaActivedescendant = option.id;
           option.privateActive = true;
-          option.focus();
         }
 
         return;
@@ -250,12 +318,13 @@ export default class GlideCoreMenu extends LitElement {
 
       if (event.key === 'ArrowDown' && !event.metaKey) {
         event.preventDefault(); // Prevent scroll.
+
         const option = this.#optionElements.at(activeOptionIndex + 1);
 
         if (option) {
-          activeOption.privateActive = false;
+          this.activeOption.privateActive = false;
+          this.ariaActivedescendant = option.id;
           option.privateActive = true;
-          option.focus();
         }
 
         return;
@@ -267,12 +336,13 @@ export default class GlideCoreMenu extends LitElement {
         event.key === 'PageUp'
       ) {
         event.preventDefault(); // Prevent scroll.
+
         const option = this.#optionElements.at(0);
 
         if (option) {
-          activeOption.privateActive = false;
+          this.activeOption.privateActive = false;
+          this.ariaActivedescendant = option.id;
           option.privateActive = true;
-          option.focus();
         }
 
         return;
@@ -284,12 +354,13 @@ export default class GlideCoreMenu extends LitElement {
         event.key === 'PageDown'
       ) {
         event.preventDefault(); // Prevent scroll.
+
         const option = this.#optionElements.at(-1);
 
         if (option) {
-          activeOption.privateActive = false;
+          this.activeOption.privateActive = false;
+          this.ariaActivedescendant = option.id;
           option.privateActive = true;
-          option.focus();
         }
 
         return;
@@ -297,65 +368,45 @@ export default class GlideCoreMenu extends LitElement {
     }
   }
 
-  #onOptionsMouseover(event: Event) {
-    if (
-      event.target instanceof GlideCoreMenuLink ||
-      event.target instanceof GlideCoreMenuButton
-    ) {
-      for (const option of this.#optionElements) {
-        option.privateActive = option === event.target;
-      }
+  #onTargetSlotChange() {
+    owSlot(this.#targetSlotElementRef.value);
 
-      event.target.focus();
+    const isDisabled =
+      this.#targetElement &&
+      'disabled' in this.#targetElement &&
+      this.#targetElement.disabled;
+
+    const isAriaDisabled =
+      this.#targetElement && this.#targetElement.ariaDisabled === 'true';
+
+    this.isTargetDisabled = Boolean(isDisabled) || Boolean(isAriaDisabled);
+
+    if (this.#targetElement && this.#optionsElementRef.value) {
+      this.#targetElement.ariaHasPopup = 'true';
+
+      this.#targetElement.ariaExpanded =
+        this.open && !this.isTargetDisabled ? 'true' : 'false';
     }
   }
 
-  #onTargetAndOptionsFocusout() {
-    // `document.body` receives focus immediately after focus is moved. So we
-    // wait a frame to see where focus ultimately landed.
-    setTimeout(() => {
-      const isOptionFocused = this.#optionElements.some(
-        ({ privateIsFocused }) => privateIsFocused,
-      );
-
-      if (!isOptionFocused) {
-        this.open = false;
-      }
-    });
-  }
-
-  #onTargetAndOptionsKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      this.open = false;
-      this.focus();
+  #onTargetSlotClick() {
+    if (this.isTargetDisabled || this.#isClosingAfterSelection) {
+      this.#isClosingAfterSelection = false;
+      return;
     }
-  }
 
-  #onTargetContainerClick() {
     if (this.#targetElement instanceof HTMLElement) {
       this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
     }
 
     this.open = !this.open;
 
-    if (this.open) {
-      this.#focusActiveOption();
-    } else {
+    if (this.open && this.activeOption) {
+      this.ariaActivedescendant = this.activeOption.id;
+    } else if (!this.open) {
+      this.ariaActivedescendant = '';
       this.focus();
     }
-  }
-
-  #onTargetContainerKeydown(event: KeyboardEvent) {
-    if ([' ', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
-      event.preventDefault(); // Prevent scroll.
-
-      this.open = true;
-      this.#focusActiveOption();
-    }
-  }
-
-  #onTargetSlotChange() {
-    owSlot(this.#targetSlotElementRef.value);
   }
 
   get #optionElements() {

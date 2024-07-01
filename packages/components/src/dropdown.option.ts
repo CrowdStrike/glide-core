@@ -102,16 +102,17 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+
+    // On the host instead of inside the shadow DOM so screenreaders can find this
+    // ID when with it's assigned to `aria-activedescendant`.
     this.id = this.#id;
 
-    // So VoiceOver can apply focus programmatically. For whatever reason, it's unable
-    // to when `.component` has a `tabindex`.
-    this.tabIndex = -1;
-
-    // `role` and `ariaSelected` are also set on the host due to the above. They're only
-    // announced by VoiceOver when they're set on the element that receives focus.
-    this.role = 'option';
+    // These three are likewise on the host due to `aria-activedescendant`. The active
+    // descendant must be the element with `ariaSelected` and `role`, and also has
+    // to be programmatically focusable.
     this.ariaSelected = this.selected.toString();
+    this.role = 'option';
+    this.tabIndex = -1;
   }
 
   override firstUpdated() {

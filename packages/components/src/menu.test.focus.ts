@@ -1,7 +1,15 @@
-import './menu.js';
 import './menu.link.js';
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import type GlideCoreMenu from './menu.js';
+import {
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+} from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
+import GlideCoreMenu from './menu.js';
+
+GlideCoreMenu.shadowRootOptions.mode = 'open';
 
 it('focuses the target on `focus()`', async () => {
   const component = await fixture<GlideCoreMenu>(
@@ -14,133 +22,83 @@ it('focuses the target on `focus()`', async () => {
   component.focus();
 
   const target = component.querySelector('button');
-  expect(target).to.not.be.null;
+  assert(target);
+
   expect(document.activeElement).to.equal(target);
 });
 
-it('focuses the active option on open via click', async () => {
+it('closes when it loses focus', async () => {
   const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
+    html`<glide-core-menu open>
       <button slot="target">Target</button>
-      <glide-core-menu-link label="One"></glide-core-menu-link>
-      <glide-core-menu-link label="Two"></glide-core-menu-link>
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
     </glide-core-menu>`,
   );
 
-  component.querySelector('button')?.click();
+  component.focus();
+  await sendKeys({ press: 'Tab' });
 
-  // Wait for the menu to open.
+  const menu = component?.shadowRoot?.querySelector('[data-test="menu"]');
+
+  expect(component.open).to.be.false;
+  expect(menu?.checkVisibility({ checkVisibilityCSS: true })).to.be.false;
+  expect(menu?.getAttribute('aria-activedescendant')).to.equal('');
+});
+
+it('remains open when the menu focused', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
+    </glide-core-menu>`,
+  );
+
+  component.focus();
+
+  const menu = component.shadowRoot?.querySelector('[data-test="menu"]');
+  assert(menu instanceof HTMLElement);
+  menu.focus();
+
+  expect(component.open).to.be.true;
+  expect(menu?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+});
+
+it('remains open when an option is focused', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
+    </glide-core-menu>`,
+  );
+
+  component.focus();
+
+  const option = component.querySelector('glide-core-menu-link');
+  assert(option);
+  option?.focus();
+
+  expect(component.open).to.be.true;
+});
+
+it('sets the focused option as active', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+      <glide-core-menu-button label="Button"></glide-core-menu-button>
+      <glide-core-menu-link label="Link"></glide-core-menu-link>
+    </glide-core-menu>`,
+  );
+
+  component.focus();
+
+  const target = component.querySelector('glide-core-menu-button');
+  const link = component.querySelector('glide-core-menu-link');
+  const menu = component.shadowRoot?.querySelector('[data-test="menu"]');
+
+  link?.focus();
   await elementUpdated(component);
 
-  expect(document.activeElement).to.equal(
-    component.querySelector('glide-core-menu-link'),
-  );
-});
-
-it('focuses the active option on open via Space', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-      <glide-core-menu-link label="One"></glide-core-menu-link>
-      <glide-core-menu-link label="Two"></glide-core-menu-link>
-    </glide-core-menu>`,
-  );
-
-  component
-    .querySelector('button')
-    ?.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: ' ' }));
-
-  // Wait for the menu to open.
-  await elementUpdated(component);
-
-  expect(document.activeElement).to.equal(
-    component.querySelector('glide-core-menu-link'),
-  );
-});
-
-it('focuses the target on close via click', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu open>
-      <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
-    </glide-core-menu>`,
-  );
-
-  const button = component.querySelector('button');
-  button?.click();
-  expect(document.activeElement).to.equal(button);
-});
-
-it('focuses the target on close via Escape', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu open>
-      <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
-    </glide-core-menu>`,
-  );
-
-  const button = component.querySelector('button');
-
-  button?.dispatchEvent(
-    new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
-  );
-
-  expect(document.activeElement).to.equal(button);
-});
-
-it('focuses the target when an option is selected via click', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu open>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
-    </glide-core-menu>`,
-  );
-
-  const button = component.querySelector('button');
-
-  button?.click();
-  const menuLink = component.querySelector('glide-core-menu-link');
-  menuLink?.click();
-
-  expect(document.activeElement).to.equal(button);
-});
-
-it('focuses the target when an option is selected via Enter', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
-    </glide-core-menu>`,
-  );
-
-  const button = component.querySelector('button');
-
-  button?.click();
-
-  component
-    .querySelector('glide-core-menu-link')
-    ?.dispatchEvent(
-      new KeyboardEvent('keydown', { bubbles: true, key: 'Enter' }),
-    );
-
-  expect(document.activeElement).to.equal(button);
-});
-
-it('focuses the target when an option is selected via Space', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
-    </glide-core-menu>`,
-  );
-
-  const button = component.querySelector('button');
-  button?.click();
-
-  component
-    .querySelector('glide-core-menu-link')
-    ?.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: ' ' }));
-
-  expect(document.activeElement).to.equal(button);
+  expect(target?.privateActive).to.be.false;
+  expect(link?.privateActive).to.be.true;
+  expect(menu?.getAttribute('aria-activedescendant')).to.equal(link?.id);
 });

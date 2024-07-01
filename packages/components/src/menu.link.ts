@@ -1,6 +1,5 @@
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './menu.link.styles.js';
@@ -35,19 +34,18 @@ export default class GlideCoreMenuLink extends LitElement {
   // A link is considered active when it's interacted with via keyboard or hovered.
   privateActive = false;
 
-  // Used by Menu as an alternative to `document.activeElement`. When Menu is
-  // itself in a shadow DOM and an element in that shadow DOM receives focus,
-  // `document.activeElement` will be set to the outer host. Thus, without this,
-  // Menu has no way of knowing whether it's a Menu Button or Menu Link that has
-  // focus or another element within it that host.
-  privateIsFocused = false;
+  override connectedCallback() {
+    super.connectedCallback();
 
-  // `shadowRoot.delegatesFocus` is preferred because it's more declarative.
-  // But using here it triggers a focus-visible state whenever `this.focus` is
-  // called. And we only want a focus outline when the `this.focus` is called
-  // as a result of keyboard interaction.
-  override focus() {
-    this.#componentElementRef.value?.focus();
+    // On the host instead of inside the shadow DOM so screenreaders can find this
+    // ID when with it's assigned to `aria-activedescendant`.
+    this.id = this.#id;
+
+    // These two are likewise on the host due to `aria-activedescendant`. The active
+    // descendant must be the element with `role` and has to be programmatically
+    // focusable.
+    this.role = 'menuitem';
+    this.tabIndex = -1;
   }
 
   override render() {
@@ -58,28 +56,20 @@ export default class GlideCoreMenuLink extends LitElement {
     return html`<a
       class=${classMap({
         component: true,
-        'component-active': this.privateActive,
+        active: this.privateActive,
       })}
       data-test="component"
       href=${ifDefined(this.url)}
-      role="menuitem"
-      tabindex=${this.privateActive ? '0' : '-1'}
-      @focusin=${this.#onFocusin}
-      @focusout=${this.#onFocusout}
-      ${ref(this.#componentElementRef)}
     >
       <slot name="icon"></slot>
       ${this.label}
     </a>`;
   }
 
-  #componentElementRef = createRef<HTMLElement>();
-
-  #onFocusin() {
-    this.privateIsFocused = true;
-  }
-
-  #onFocusout() {
-    this.privateIsFocused = false;
-  }
+  // Established here instead of in `connectedCallback` so the ID remains
+  // constant even if this component is removed and re-added to the DOM.
+  // If it's not constant, Dropdown's `aria-activedescendant` will immediately
+  // point to a non-existent ID when this component is re-added. An edge case
+  // for sure. But one we can protect against with little effort.
+  #id = window.crypto.randomUUID();
 }
