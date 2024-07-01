@@ -25,6 +25,38 @@ it('opens on ArrowUp', async () => {
   expect(option?.privateActive).to.be.true;
 });
 
+it('does not open on ArrowUp when `disabled`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: 'ArrowUp' });
+
+  expect(component.open).to.be.false;
+});
+
+it('does not open on ArrowUp when `readonly`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" readonly>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: 'ArrowUp' });
+
+  expect(component.open).to.be.false;
+});
+
 it('opens on ArrowDown', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
@@ -49,6 +81,48 @@ it('opens on ArrowDown', async () => {
   expect(option?.privateActive).to.be.true;
 });
 
+it('does not open on ArrowDown when `disabled`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: 'ArrowDown' });
+
+  expect(component.open).to.be.false;
+});
+
+it('does not open on ArrowDown when `readonly`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" readonly>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: 'ArrowDown' });
+
+  expect(component.open).to.be.false;
+});
+
 it('opens on Space', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
@@ -63,6 +137,38 @@ it('opens on Space', async () => {
   await sendKeys({ press: ' ' });
 
   expect(component.open).to.be.true;
+});
+
+it('does not open on Space when `disabled`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: ' ' });
+
+  expect(component.open).to.be.false;
+});
+
+it('does not open on Space when `readonly`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" readonly>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: ' ' });
+
+  expect(component.open).to.be.false;
 });
 
 // See the `document` click listener comment in `dropdown.ts` for an explanation.

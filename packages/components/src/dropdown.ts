@@ -62,6 +62,9 @@ export default class GlideCoreDropdown extends LitElement {
   @property({ reflect: true })
   placeholder?: string;
 
+  @property({ type: Boolean })
+  readonly = false;
+
   @property({ attribute: 'select-all', reflect: true, type: Boolean })
   selectAll = false;
 
@@ -321,6 +324,7 @@ export default class GlideCoreDropdown extends LitElement {
               quiet: this.variant === 'quiet',
               disabled: this.disabled,
               error: this.#isShowValidationFeedback,
+              readonly: this.readonly,
               multiple: this.multiple,
             })}
             @click=${this.#onDropdownClick}
@@ -393,6 +397,9 @@ export default class GlideCoreDropdown extends LitElement {
                   : this.selectedOptions.at(-1)?.label ?? ''}
                 role="combobox"
                 spellcheck="false"
+                tabindex=${this.disabled ? '-1' : '0'}
+                ?disabled=${this.disabled}
+                ?readonly=${this.readonly}
                 @input=${this.#onInputInput}
                 @keydown=${this.#onInputKeydown}
                 ${ref(this.#inputElementRef)}
@@ -428,7 +435,7 @@ export default class GlideCoreDropdown extends LitElement {
               class="button"
               data-test="button"
               id="button"
-              tabindex=${this.isFilterable ? '-1' : '0'}
+              tabindex=${this.isFilterable || this.disabled ? '-1' : '0'}
               type="button"
               ${ref(this.#buttonElementRef)}
             >
@@ -442,6 +449,11 @@ export default class GlideCoreDropdown extends LitElement {
                 () => {
                   return svg`<svg
                     aria-label="Open"
+                    class=${classMap({
+                      'caret-icon': true,
+                      disabled: this.disabled,
+                      readonly: this.readonly,
+                    })}
                     width="16"
                     height="16"
                     viewBox="0 0 24 24"
@@ -730,6 +742,10 @@ export default class GlideCoreDropdown extends LitElement {
   // options can receive focus via VoiceOver, and `.dropdown` won't emit a "keydown"
   // if an option is focused.
   #onDropdownAndOptionsKeydown(event: KeyboardEvent) {
+    if (this.disabled || this.readonly) {
+      return;
+    }
+
     if (event.key === 'Escape') {
       this.open = false;
       this.focus();
@@ -890,6 +906,10 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #onDropdownClick(event: MouseEvent) {
+    if (this.disabled || this.readonly) {
+      return;
+    }
+
     if (this.#isRemovingTag) {
       this.#isRemovingTag = false;
       return;
