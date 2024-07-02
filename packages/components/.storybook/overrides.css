@@ -8,3 +8,9 @@
 .docblock-argstable-body tr td:first-of-type {
   white-space: nowrap;
 }
+
+html {
+  .docs-story {
+    background-color: var(--glide-core-surface-base-lightest);
+  }
+}
