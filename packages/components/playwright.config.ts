@@ -57,4 +57,10 @@ export default defineConfig({
     url: 'http://localhost:6006/',
     reuseExistingServer: !process.env.CI,
   },
+
+  expect: {
+    // https://github.com/microsoft/playwright/issues/20097#issuecomment-1382672908
+    // @ts-expect-error experimental feature
+    toHaveScreenshot: { _comparator: 'ssim-cie94' },
+  },
 });
