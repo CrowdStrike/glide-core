@@ -3,7 +3,7 @@ import { LitElement, type PropertyValueMap, html } from 'lit';
 import { type Placement } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, eventOptions, property } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
@@ -75,25 +75,13 @@ export default class GlideCoreSplitContainer extends LitElement {
     node instanceof HTMLElement && node.focus(options);
   }
 
-  // Can't disable `glide-core-menu`, so capture the event before it arrives.
-  // Disabling the trigger button doesn't resolve the issue.
-  @eventOptions({ capture: true })
-  private onClick(event: MouseEvent) {
-    if (this.disabled) {
-      event.stopPropagation();
-    }
-  }
-
   override render() {
-    // A click event is only included on the containing div as a work-around to disable the `glide-core-menu`.
-    /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`
       <div
         class=${classMap({
           component: true,
           disabled: this.disabled,
         })}
-        @click=${this.onClick}
       >
         <slot
           name="primary-action"
@@ -106,7 +94,7 @@ export default class GlideCoreSplitContainer extends LitElement {
           data-test="split-divider"
         ></span>
         <glide-core-menu
-          ?open=${!this.disabled && this.open}
+          ?open=${this.open}
           size=${this.size}
           placement=${this.placement}
           data-test="menu"
