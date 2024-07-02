@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<file target-language="es-419" source-language="en" original="lit-localize-inputs" datatype="plaintext">
+<body>
+<trans-unit id="sad9d5481474d4f5b">
+  <source>Static</source>
+</trans-unit>
+<trans-unit id="saed7d3734ce7f09d">
+  <source>Hello <x id="0" equiv-text="${this.dynamicString}"/></source>
+</trans-unit>
+</body>
+</file>
+</xliff>
