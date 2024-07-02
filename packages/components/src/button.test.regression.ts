@@ -5,14 +5,6 @@ it('renders a primary button', async ({ page }) => {
 
   await page.waitForSelector('glide-core-button');
 
-  await page.addStyleTag({
-    content: 'glide-core-button { -webkit-font-smoothing: none; }',
-  });
-
-  await page.evaluate(() => document.fonts.ready);
-
-  await page.waitForTimeout(5000);
-
   await expect(page).toHaveScreenshot(['button.test.regression.primary4.png']);
 });
 
