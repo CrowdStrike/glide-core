@@ -54,7 +54,9 @@ export default [
 
       &.primary {
         background-color: var(--glide-core-surface-primary);
-        border-color: transparent;
+        /* stylelint-disable-next-line comment-empty-line-before */
+        /* border-color: transparent; */
+        border-color: red;
         color: var(--glide-core-text-selected);
 
         &:disabled {
