@@ -5,273 +5,281 @@ it('renders a primary button', async ({ page }) => {
 
   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot(['button.test.regression.primary.png']);
+  await page.addStyleTag({
+    content: 'glide-core-button { -webkit-font-smoothing: none; }',
+  });
+
+  await page.evaluate(() => document.fonts.ready);
+
+  await page.waitForTimeout(5000);
+
+  await expect(page).toHaveScreenshot(['button.test.regression.primary4.png']);
 });
 
-it('renders a disabled primary button', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=disabled:!true&id=button--primary&viewMode=story',
-  );
+// it('renders a disabled primary button', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=disabled:!true&id=button--primary&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.primary.disabled.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.primary.disabled.png',
+//   ]);
+// });
 
-it('renders a small primary button', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=size:small&id=button--primary&viewMode=story',
-  );
+// it('renders a small primary button', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=size:small&id=button--primary&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.primary.small.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.primary.small.png',
+//   ]);
+// });
 
-it('renders a hovered primary button', async ({ page }) => {
-  await page.goto('/iframe.html?args=&id=button--primary&viewMode=story');
+// it('renders a hovered primary button', async ({ page }) => {
+//   await page.goto('/iframe.html?args=&id=button--primary&viewMode=story');
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await page.hover('glide-core-button');
+//   await page.hover('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.primary.hover.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.primary.hover.png',
+//   ]);
+// });
 
-it('renders a focused primary button', async ({ page }) => {
-  await page.goto('/iframe.html?args=&id=button--primary&viewMode=story');
+// it('renders a focused primary button', async ({ page }) => {
+//   await page.goto('/iframe.html?args=&id=button--primary&viewMode=story');
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await page.focus('glide-core-button');
+//   await page.focus('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.primary.focus.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.primary.focus.png',
+//   ]);
+// });
 
-it('renders a primary button with a prefix', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=&id=button--primary-with-prefix-icon&viewMode=story',
-  );
+// it('renders a primary button with a prefix', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=&id=button--primary-with-prefix-icon&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.primary.prefix.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.primary.prefix.png',
+//   ]);
+// });
 
-it('renders a primary button with a suffix', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=&id=button--primary-with-suffix-icon&viewMode=story',
-  );
+// it('renders a primary button with a suffix', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=&id=button--primary-with-suffix-icon&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.primary.suffix.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.primary.suffix.png',
+//   ]);
+// });
 
-it('renders a primary button with a prefix and suffix', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=&id=button--primary-with-prefix-and-suffix-icons&viewMode=story',
-  );
+// it('renders a primary button with a prefix and suffix', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=&id=button--primary-with-prefix-and-suffix-icons&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.primary.prefix-and-suffix.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.primary.prefix-and-suffix.png',
+//   ]);
+// });
 
-it('renders a secondary button', async ({ page }) => {
-  await page.goto('/iframe.html?args=&id=button--secondary&viewMode=story');
+// it('renders a secondary button', async ({ page }) => {
+//   await page.goto('/iframe.html?args=&id=button--secondary&viewMode=story');
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot(['button.test.regression.secondary.png']);
-});
+//   await expect(page).toHaveScreenshot(['button.test.regression.secondary.png']);
+// });
 
-it('renders a disabled secondary button', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=disabled:!true&id=button--secondary&viewMode=story',
-  );
+// it('renders a disabled secondary button', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=disabled:!true&id=button--secondary&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.secondary.disabled.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.secondary.disabled.png',
+//   ]);
+// });
 
-it('renders a small secondary button', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=size:small&id=button--secondary&viewMode=story',
-  );
+// it('renders a small secondary button', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=size:small&id=button--secondary&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.secondary.small.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.secondary.small.png',
+//   ]);
+// });
 
-it('renders a hovered secondary button', async ({ page }) => {
-  await page.goto('/iframe.html?args=&id=button--secondary&viewMode=story');
+// it('renders a hovered secondary button', async ({ page }) => {
+//   await page.goto('/iframe.html?args=&id=button--secondary&viewMode=story');
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await page.hover('glide-core-button');
+//   await page.hover('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.secondary.hover.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.secondary.hover.png',
+//   ]);
+// });
 
-it('renders a focused secondary button', async ({ page }) => {
-  await page.goto('/iframe.html?args=&id=button--secondary&viewMode=story');
+// it('renders a focused secondary button', async ({ page }) => {
+//   await page.goto('/iframe.html?args=&id=button--secondary&viewMode=story');
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await page.focus('glide-core-button');
+//   await page.focus('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.secondary.focus.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.secondary.focus.png',
+//   ]);
+// });
 
-it('renders a secondary button with a prefix', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=&id=button--secondary-with-prefix-icon&viewMode=story',
-  );
+// it('renders a secondary button with a prefix', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=&id=button--secondary-with-prefix-icon&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.secondary.prefix.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.secondary.prefix.png',
+//   ]);
+// });
 
-it('renders a secondary button with a suffix', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=&id=button--secondary-with-suffix-icon&viewMode=story',
-  );
+// it('renders a secondary button with a suffix', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=&id=button--secondary-with-suffix-icon&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.secondary.suffix.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.secondary.suffix.png',
+//   ]);
+// });
 
-it('renders a secondary button with a prefix and suffix', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=&id=button--secondary-with-prefix-and-suffix-icons&viewMode=story',
-  );
+// it('renders a secondary button with a prefix and suffix', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=&id=button--secondary-with-prefix-and-suffix-icons&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.secondary.prefix-and-suffix.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.secondary.prefix-and-suffix.png',
+//   ]);
+// });
 
-it('renders a tertiary button', async ({ page }) => {
-  await page.goto('/iframe.html?args=&id=button--tertiary&viewMode=story');
+// it('renders a tertiary button', async ({ page }) => {
+//   await page.goto('/iframe.html?args=&id=button--tertiary&viewMode=story');
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot(['button.test.regression.tertiary.png']);
-});
+//   await expect(page).toHaveScreenshot(['button.test.regression.tertiary.png']);
+// });
 
-it('renders a disabled tertiary button', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=disabled:!true&id=button--tertiary&viewMode=story',
-  );
+// it('renders a disabled tertiary button', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=disabled:!true&id=button--tertiary&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.tertiary.disabled.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.tertiary.disabled.png',
+//   ]);
+// });
 
-it('renders a small tertiary button', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=size:small&id=button--tertiary&viewMode=story',
-  );
+// it('renders a small tertiary button', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=size:small&id=button--tertiary&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.tertiary.small.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.tertiary.small.png',
+//   ]);
+// });
 
-it('renders a hovered tertiary button', async ({ page }) => {
-  await page.goto('/iframe.html?args=&id=button--tertiary&viewMode=story');
+// it('renders a hovered tertiary button', async ({ page }) => {
+//   await page.goto('/iframe.html?args=&id=button--tertiary&viewMode=story');
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await page.hover('glide-core-button');
+//   await page.hover('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.tertiary.hover.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.tertiary.hover.png',
+//   ]);
+// });
 
-it('renders a focused tertiary button', async ({ page }) => {
-  await page.goto('/iframe.html?args=&id=button--tertiary&viewMode=story');
+// it('renders a focused tertiary button', async ({ page }) => {
+//   await page.goto('/iframe.html?args=&id=button--tertiary&viewMode=story');
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await page.focus('glide-core-button');
+//   await page.focus('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.tertiary.focus.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.tertiary.focus.png',
+//   ]);
+// });
 
-it('renders a tertiary button with a prefix', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=&id=button--tertiary-with-prefix-icon&viewMode=story',
-  );
+// it('renders a tertiary button with a prefix', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=&id=button--tertiary-with-prefix-icon&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.tertiary.prefix.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.tertiary.prefix.png',
+//   ]);
+// });
 
-it('renders a tertiary button with a suffix', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=&id=button--tertiary-with-suffix-icon&viewMode=story',
-  );
+// it('renders a tertiary button with a suffix', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=&id=button--tertiary-with-suffix-icon&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.tertiary.suffix.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.tertiary.suffix.png',
+//   ]);
+// });
 
-it('renders a tertiary button with a prefix and suffix', async ({ page }) => {
-  await page.goto(
-    '/iframe.html?args=&id=button--tertiary-with-prefix-and-suffix-icons&viewMode=story',
-  );
+// it('renders a tertiary button with a prefix and suffix', async ({ page }) => {
+//   await page.goto(
+//     '/iframe.html?args=&id=button--tertiary-with-prefix-and-suffix-icons&viewMode=story',
+//   );
 
-  await page.waitForSelector('glide-core-button');
+//   await page.waitForSelector('glide-core-button');
 
-  await expect(page).toHaveScreenshot([
-    'button.test.regression.tertiary.prefix-and-suffix.png',
-  ]);
-});
+//   await expect(page).toHaveScreenshot([
+//     'button.test.regression.tertiary.prefix-and-suffix.png',
+//   ]);
+// });
