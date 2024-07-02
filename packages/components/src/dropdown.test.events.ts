@@ -17,116 +17,200 @@ it('dispatches a "change" event when an option is selected via click', async () 
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
-        label="Label"
-        value="value"
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
+  const spy = sinon.spy();
+  component.addEventListener('change', spy);
+
   setTimeout(() => {
-    component
-      .querySelector('glide-core-dropdown-option')
-      ?.shadowRoot?.querySelector('[data-test="component"]')
-      ?.dispatchEvent(new Event('click'));
+    component.querySelector('glide-core-dropdown-option')?.click();
   });
 
   const event = await oneEvent(component, 'change');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(spy.calledOnce).to.be.true;
 });
 
 it('dispatches a "change" event when an option is selected via Enter', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
-        label="Label"
-        value="value"
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  const spy = sinon.spy();
+  component.addEventListener('change', spy);
+
+  // Activate the first option before selecting it. The second option is
+  // currently active because it's selected.
+  component
+    .querySelector('glide-core-dropdown-option')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   component.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(component, 'change');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(spy.calledOnce).to.be.true;
 });
 
 it('dispatches a "change" event when an option is selected via Space', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
-        label="Label"
-        value="value"
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  component.querySelector('glide-core-dropdown-option')?.focus();
+  const spy = sinon.spy();
+  component.addEventListener('change', spy);
+
+  // Activate the first option before selecting it. The second option is
+  // currently active because it's selected.
+  component
+    .querySelector('glide-core-dropdown-option')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  component.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(component, 'change');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(spy.calledOnce).to.be.true;
 });
 
-it('dispatches a "input" event when an option is selected via click', async () => {
+it('dispatches an "input" event when an option is selected via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
-        label="Label"
-        value="value"
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
+  const spy = sinon.spy();
+  component.addEventListener('input', spy);
+
   setTimeout(() => {
-    component
-      .querySelector('glide-core-dropdown-option')
-      ?.shadowRoot?.querySelector('[data-test="component"]')
-      ?.dispatchEvent(new Event('click'));
+    component.querySelector('glide-core-dropdown-option')?.click();
   });
 
   const event = await oneEvent(component, 'input');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(spy.calledOnce).to.be.true;
 });
 
-it('dispatches a "input" event when an option is selected via Enter', async () => {
+it('dispatches an "input" event when an option is selected via Enter', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
-        label="Label"
-        value="value"
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  const spy = sinon.spy();
+  component.addEventListener('input', spy);
+
+  // Activate the first option before selecting it. The second option is
+  // currently active because it's selected.
+  component
+    .querySelector('glide-core-dropdown-option')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   component.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(component, 'input');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(spy.calledOnce).to.be.true;
 });
 
-it('dispatches a "input" event when an option is selected via Space', async () => {
+it('dispatches an "input" event when an option is selected via Space', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
-        label="Label"
-        value="value"
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  const spy = sinon.spy();
+  component.addEventListener('input', spy);
+
+  // Activate the first option before selecting it. The second option is
+  // currently active because it's selected.
+  component
+    .querySelector('glide-core-dropdown-option')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   component.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(component, 'input');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(spy.calledOnce).to.be.true;
 });
 
 it('dispatches an "invalid" event on submit when required and no option is selected', async () => {

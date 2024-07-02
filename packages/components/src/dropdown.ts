@@ -565,6 +565,13 @@ export default class GlideCoreDropdown extends LitElement {
 
   #internals: ElementInternals;
 
+  // When Select All is changed, only a single event should be dispatched.
+  // `#onOptionsSelectedChange` uses this to guard against dispatching "change"
+  // and "input" events in addition to those of `#onSelectAllSelectedChange`
+  #isExternalSelectAllChange = false;
+
+  // Prevents an infinite loop when `selected` of Select All changes due to an
+  // option's `selected` changing.
   #isInternalSelectAllChange = false;
 
   #isMultiple = false;
@@ -1050,7 +1057,7 @@ export default class GlideCoreDropdown extends LitElement {
       }
     }
 
-    // Now update `value`, `open`, focus, and the value of the input if filterable.
+    // Update `value`, `open`, focus, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {
       if (this.multiple) {
         this.value =
@@ -1064,23 +1071,30 @@ export default class GlideCoreDropdown extends LitElement {
                   value !== event.target.value
                 );
               });
+
+        if (!this.#isExternalSelectAllChange) {
+          this.dispatchEvent(new Event('change', { bubbles: true }));
+          this.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
         // The event this handler listens to is dispatched on both selection and deselection.
         // In the case of single-select, we don't care if the target has been deselected. We
         // also don't want any changes to focus or the state of `this.open` as a result.
-      } else if (event.target.selected) {
+      } else if (!this.multiple && event.target.selected) {
         this.value = event.target.value ? [event.target.value] : [];
-
         this.open = false;
         this.focus();
 
         if (this.isFilterable && this.#inputElementRef.value) {
           this.isFiltering = false;
         }
+
+        // Dispatched here instead of outside both conditions so it's not dispatched
+        // twice as a result of the previously selected option being deselected.
+        this.dispatchEvent(new Event('change', { bubbles: true }));
+        this.dispatchEvent(new Event('input', { bubbles: true }));
       }
     }
-
-    this.dispatchEvent(new Event('change', { bubbles: true }));
-    this.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
   #onOptionsValueChange(event: CustomEvent<string>) {
@@ -1125,12 +1139,12 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #onSelectAllSelectedChange() {
-    // Not great! Prevents an infinite loop when `selected` of Select All changes
-    // due to an option's `selected` changing.
     if (this.#isInternalSelectAllChange) {
       this.#isInternalSelectAllChange = false;
       return;
     }
+
+    this.#isExternalSelectAllChange = true;
 
     // Cached so the `option.selected` changes below aren't taken into account.
     const isAllSelected = this.isAllSelected;
@@ -1138,6 +1152,14 @@ export default class GlideCoreDropdown extends LitElement {
     for (const option of this.#optionElements) {
       option.selected = !isAllSelected;
     }
+
+    // `false` now that `#onOptionsSelectedChange` has been called for every option.
+    // Otherwise, future selection and deselection of options won't produce "change"
+    // and "input" events.
+    this.#isExternalSelectAllChange = false;
+
+    this.dispatchEvent(new Event('change', { bubbles: true }));
+    this.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
   async #onTagRemove(id: string) {
