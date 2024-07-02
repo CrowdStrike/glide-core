@@ -104,7 +104,7 @@ export default class GlideCoreDropdownOption extends LitElement {
     super.connectedCallback();
 
     // On the host instead of inside the shadow DOM so screenreaders can find this
-    // ID when with it's assigned to `aria-activedescendant`.
+    // ID when it's assigned to `aria-activedescendant`.
     this.id = this.#id;
 
     // These three are likewise on the host due to `aria-activedescendant`. The active
