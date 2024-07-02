@@ -252,6 +252,12 @@ export default [
   {
     files: ['*.js', '*.ts', '**/*.test.ts', '.storybook/**/*'],
     languageOptions: {
+      globals: globals.browser,
+    },
+  },
+  {
+    files: ['.storybook/**/*', 'web-test-runner.config.js'],
+    languageOptions: {
       globals: globals.node,
     },
   },

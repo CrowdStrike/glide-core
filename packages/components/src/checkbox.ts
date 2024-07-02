@@ -154,10 +154,10 @@ export default class GlideCoreCheckbox extends LitElement {
                 data-test="input"
                 type="checkbox"
                 .checked=${this.checked}
+                .inert=${this.internallyInert}
                 ?disabled=${this.disabled}
                 ?required=${this.required}
                 @change=${this.#onChange}
-                ?inert=${this.internallyInert}
                 ${ref(this.#inputElementRef)}
               />
 
