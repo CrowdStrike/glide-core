@@ -1,6 +1,5 @@
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import styles from './menu.button.styles.js';
 
@@ -31,51 +30,38 @@ export default class GlideCoreMenuButton extends LitElement {
   // A button is considered active when it's interacted with via keyboard or hovered.
   privateActive = false;
 
-  // Used by Menu as an alternative to `document.activeElement`. When Menu is
-  // itself in a shadow DOM and an element in that shadow DOM receives focus,
-  // `document.activeElement` will be set to the outer host. Thus, without this,
-  // Menu has no way of knowing whether it's a Menu Button or Menu Link that has
-  // focus or another element within it that host.
-  privateIsFocused = false;
+  override connectedCallback() {
+    super.connectedCallback();
 
-  // `shadowRoot.delegatesFocus` is preferred because it's more declarative.
-  // But using it here triggers a focus-visible state whenever `this.focus` is
-  // called. And we only want a focus outline when the `this.focus` is called
-  // as a result of keyboard interaction.
-  override focus() {
-    this.#componentElementRef.value?.focus();
+    // On the host instead of inside the shadow DOM so screenreaders can find this
+    // ID when it's assigned to `aria-activedescendant`.
+    this.id = this.#id;
+
+    // These two are likewise on the host due to `aria-activedescendant`. The active
+    // descendant must be the element with `role` and has to be programmatically
+    // focusable.
+    this.role = 'menuitem';
+    this.tabIndex = -1;
   }
 
   override render() {
-    // `tabindex` is set to "0" and "-1" below based on `this.privateActive`. "0"
-    // is to account for when a keyboard user tabs backward to the dropdown button.
-    // Tabbing forward from there should move focus to where it was previously,
-    // which would be on the option.
     return html`<button
       class=${classMap({
         component: true,
-        'component-active': this.privateActive,
+        active: this.privateActive,
       })}
       data-test="component"
-      role="menuitem"
-      tabindex=${this.privateActive ? '0' : '-1'}
       type="button"
-      @focusin=${this.#onFocusin}
-      @focusout=${this.#onFocusout}
-      ${ref(this.#componentElementRef)}
     >
       <slot name="icon"></slot>
       ${this.label}
     </button>`;
   }
 
-  #componentElementRef = createRef<HTMLElement>();
-
-  #onFocusin() {
-    this.privateIsFocused = true;
-  }
-
-  #onFocusout() {
-    this.privateIsFocused = false;
-  }
+  // Established here instead of in `connectedCallback` so the ID remains
+  // constant even if this component is removed and re-added to the DOM.
+  // If it's not constant, Menus's `aria-activedescendant` will immediately
+  // point to a non-existent ID when this component is re-added. An edge case
+  // for sure. But one we can protect against with little effort.
+  #id = window.crypto.randomUUID();
 }

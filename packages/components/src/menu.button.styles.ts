@@ -16,7 +16,7 @@ export default [
       padding-inline: var(--padding-inline);
       user-select: none;
 
-      &.component-active {
+      &.active {
         background-color: var(--glide-core-surface-hover);
       }
     }

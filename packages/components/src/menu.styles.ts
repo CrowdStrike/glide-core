@@ -12,12 +12,12 @@ export default [
       display: flex;
     }
 
-    .target-container {
+    .container {
       display: flex;
       position: relative;
     }
 
-    .options {
+    .menu {
       background-color: var(--glide-core-surface-modal);
       border: 1px solid var(--glide-core-surface-modal);
       border-radius: var(--glide-core-spacing-xs);
@@ -33,8 +33,8 @@ export default [
       visibility: hidden;
 
       /*
-        ".target-container" is relative and many Menus may be stacked in a column.
-        This ensures the ".options" of Menus earlier in the column aren't obscured
+        ".container" is relative and many Menus may be stacked in a column.
+        This ensures the ".menu" of Menus earlier in the column aren't obscured
         by the ".target-container" that come later.
       */
       z-index: 1;

@@ -18,7 +18,7 @@ export default [
       text-decoration: none;
       user-select: none;
 
-      &.component-active {
+      &.active {
         background-color: var(--glide-core-surface-hover);
       }
     }
