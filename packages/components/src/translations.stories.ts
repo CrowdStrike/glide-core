@@ -1,9 +1,12 @@
-import './translate-with-lit.js';
+import './translate-with-lit-i18n.js';
+import './translate-with-lit-localize.js';
 import * as templates_es_419 from './generated/locales/es-419.js';
 import * as templates_zh_hans from './generated/locales/zh-Hans.js';
 import { configureLocalization } from '@lit/localize';
 import { html } from 'lit';
+import { initLitI18n } from 'lit-i18n';
 import { sourceLocale, targetLocales } from './generated/locale-codes.js';
+import i18next from 'i18next';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -19,6 +22,14 @@ const meta: Meta = {
       },
     },
   },
+  render: () => html` <div></div> `,
+};
+
+export default meta;
+
+export const Default: StoryObj = {};
+
+export const LitLocalize: StoryObj = {
   async play() {
     const localizedTemplates = new Map([
       ['es-419', templates_es_419],
@@ -35,9 +46,25 @@ const meta: Meta = {
 
     await setLocale('es-419');
   },
-  render: () => html` <translate-with-lit> </translate-with-lit> `,
+  render: () => html`
+    <translate-with-lit-localize> </translate-with-lit-localize>
+  `,
 };
 
-export default meta;
-
-export const Default: StoryObj = {};
+export const LitI18n: StoryObj = {
+  name: 'Lit I18n (i18next)',
+  play() {
+    i18next.use(initLitI18n).init({
+      lng: 'en',
+      resources: {
+        en: {
+          translation: {
+            Static: 'Static - translated',
+            Dynamic: '{{dynamicString}} - translated',
+          },
+        },
+      },
+    });
+  },
+  render: () => html` <translate-with-lit-i18n> </translate-with-lit-i18n> `,
+};

@@ -66,6 +66,8 @@
   "dependencies": {
     "@floating-ui/dom": "^1.5.4",
     "@lit/localize": "^0.12.1",
+    "i18next": "^23.10.1",
+    "lit-i18n": "^4.1.0",
     "ow": "^1.1.1"
   },
   "devDependencies": {
@@ -104,6 +106,7 @@
     "globals": "^13.24.0",
     "globby": "^14.0.0",
     "http-server": "^14.1.1",
+    "i18next-parser": "^8.13.0",
     "lint-staged": "^14.0.1",
     "lit": "^3.1.2",
     "lit-analyzer": "^2.0.3",
