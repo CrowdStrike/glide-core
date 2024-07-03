@@ -55,7 +55,7 @@ export default [
       }
 
       &.disabled {
-        background: var(--glide-core-surface-base-gray-light);
+        background: var(--glide-core-surface-disabled);
         color: var(--glide-core-text-tertiary-disabled);
       }
 
