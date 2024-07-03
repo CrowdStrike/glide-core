@@ -29,7 +29,6 @@ export default [
       & .radio-circle {
         align-items: center;
         appearance: none;
-        background-color: var(--glide-core-color-white);
         block-size: 0.875rem;
         border: 1px solid var(--glide-core-border-base-dark);
         border-radius: 50%;
