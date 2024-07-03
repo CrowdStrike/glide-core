@@ -45,7 +45,7 @@ export default {
         icon: 'circlehollow',
         items: [
           { value: 'light', icon: 'sun', title: 'Light' },
-          { value: 'dark', icon: 'moon', title: 'Dark' },
+          { value: 'dark', icon: 'moon', title: 'Dark (beta)' },
         ],
         dynamicTitle: true,
       },
