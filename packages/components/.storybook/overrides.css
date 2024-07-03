@@ -9,8 +9,6 @@
   white-space: nowrap;
 }
 
-html {
-  .docs-story {
-    background-color: var(--glide-core-surface-base-lightest);
-  }
+.docs-story {
+  background-color: var(--glide-core-surface-base-lightest);
 }
