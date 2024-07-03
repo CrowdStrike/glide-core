@@ -250,13 +250,13 @@ export default [
     },
   },
   {
-    files: ['*.js', '*.ts', '**/*.test.ts', '.storybook/**/*'],
+    files: ['*.ts', '**/*.test.ts', '.storybook/**/*'],
     languageOptions: {
       globals: globals.browser,
     },
   },
   {
-    files: ['.storybook/**/*', 'web-test-runner.config.js'],
+    files: ['*.js', '.storybook/**/*'],
     languageOptions: {
       globals: globals.node,
     },
