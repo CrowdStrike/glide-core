@@ -55,7 +55,7 @@ export default css`
     }
 
     &.disabled {
-      background-color: var(--glide-core-surface-base-gray-light);
+      background-color: var(--glide-core-surface-disabled);
       color: var(--glide-core-text-tertiary-disabled);
     }
 

@@ -50,7 +50,7 @@ export default css`
     }
 
     &[disabled] {
-      background-color: var(--glide-core-surface-base-gray-light);
+      background-color: var(--glide-core-surface-disabled);
       border: 0.0625rem solid var(--glide-core-border-base-light);
       color: var(--glide-core-text-tertiary-disabled);
     }
