@@ -43,6 +43,7 @@ export default [
         position: relative;
 
         &.checked {
+          background-color: var(--glide-core-color-white);
           border-color: var(--glide-core-surface-primary);
 
           &::after {
