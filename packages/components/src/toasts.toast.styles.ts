@@ -55,11 +55,9 @@ export default [
     }
 
     .close-button {
-      grid-column: 3;
+      --icon-color: var(--glide-core-icon-default2);
 
-      .icon {
-        color: var(--glide-core-icon-default2);
-      }
+      grid-column: 3;
     }
 
     .description {

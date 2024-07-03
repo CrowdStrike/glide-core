@@ -101,13 +101,7 @@ export default class GlideCoreToast extends LitElement {
           class="close-button"
           @click=${this.#handleCloseButtonClick}
         >
-          <svg
-            class="icon"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path
               d="M6 6L18 18"
               stroke="currentColor"
