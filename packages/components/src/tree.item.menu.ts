@@ -1,5 +1,6 @@
 import './icon-button.js';
 import './menu.js';
+import './menu.options.js';
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement } from 'lit/decorators.js';
@@ -41,10 +42,12 @@ export default class GlideCoreTreeItemMenu extends LitElement {
   override render() {
     return html`
       <glide-core-menu class="component">
-        <slot
-          @slotchange=${this.#onDefaultSlotChange}
-          ${ref(this.#defaultSlotElementRef)}
-        ></slot>
+        <glide-core-menu-options>
+          <slot
+            @slotchange=${this.#onDefaultSlotChange}
+            ${ref(this.#defaultSlotElementRef)}
+          ></slot>
+        </glide-core-menu-options>
 
         <glide-core-icon-button slot="target" variant="tertiary">
           <!-- 3-dot -->

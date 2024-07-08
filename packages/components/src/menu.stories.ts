@@ -2,6 +2,7 @@ import './icons/storybook.js';
 import './menu.button.js';
 import './menu.js';
 import './menu.link.js';
+import './menu.options.js';
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -31,7 +32,7 @@ const meta: Meta = {
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: 'GlideCoreMenuLink | GlideCoreMenuButton' },
+        type: { summary: 'GlideCoreMenuOptions' },
       },
       type: { name: 'function', required: true },
     },
@@ -119,13 +120,15 @@ const meta: Meta = {
         size=${arguments_.size || nothing}
         ?open=${arguments_.open}
       >
-        <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
-        <glide-core-menu-link label="Two" url="/two"> </glide-core-menu-link>
-        <!--
+        <glide-core-menu-options>
+          <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
+          <glide-core-menu-link label="Two" url="/two"> </glide-core-menu-link>
+          <!--
           If an option does not have an associated url,
           you can use <glide-core-menu-button> and provide your own click handler
         -->
-        <glide-core-menu-button label="Three"> </glide-core-menu-button>
+          <glide-core-menu-button label="Three"> </glide-core-menu-button>
+        </glide-core-menu-options>
 
         <glide-core-button slot="target" variant="secondary">
           Target
@@ -159,40 +162,42 @@ export const MenuWithIcon: StoryObj = {
     });
 
     return html`<div
-      style="height: 100vh; display: flex; align-items: center; justify-content: center;"
+      style="height: 17rem; display: flex; align-items: center; justify-content: center;"
     >
       <glide-core-menu
         placement=${arguments_.placement}
         size=${arguments_.size || nothing}
         ?open=${arguments_.open}
       >
-        <glide-core-menu-link label="Edit" url="/edit">
-          <glide-core-example-icon
-            slot="icon"
-            name="pencil"
-          ></glide-core-example-icon>
-        </glide-core-menu-link>
+        <glide-core-menu-options>
+          <glide-core-menu-link label="Edit" url="/edit">
+            <glide-core-example-icon
+              slot="icon"
+              name="pencil"
+            ></glide-core-example-icon>
+          </glide-core-menu-link>
 
-        <glide-core-menu-link label="Move" url="/move">
-          <glide-core-example-icon
-            slot="icon"
-            name="move"
-          ></glide-core-example-icon>
-        </glide-core-menu-link>
+          <glide-core-menu-link label="Move" url="/move">
+            <glide-core-example-icon
+              slot="icon"
+              name="move"
+            ></glide-core-example-icon>
+          </glide-core-menu-link>
 
-        <glide-core-menu-link label="Share" url="/share">
-          <glide-core-example-icon
-            slot="icon"
-            name="share"
-          ></glide-core-example-icon>
-        </glide-core-menu-link>
+          <glide-core-menu-link label="Share" url="/share">
+            <glide-core-example-icon
+              slot="icon"
+              name="share"
+            ></glide-core-example-icon>
+          </glide-core-menu-link>
 
-        <glide-core-menu-link label="Settings" url="/settings">
-          <glide-core-example-icon
-            slot="icon"
-            name="settings"
-          ></glide-core-example-icon>
-        </glide-core-menu-link>
+          <glide-core-menu-link label="Settings" url="/settings">
+            <glide-core-example-icon
+              slot="icon"
+              name="settings"
+            ></glide-core-example-icon>
+          </glide-core-menu-link>
+        </glide-core-menu-options>
 
         <glide-core-button slot="target" variant="secondary">
           Target

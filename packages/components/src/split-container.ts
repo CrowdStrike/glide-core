@@ -1,4 +1,5 @@
 import './menu.js';
+import './menu.options.js';
 import { LitElement, type PropertyValueMap, html } from 'lit';
 import { type Placement } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
@@ -97,7 +98,6 @@ export default class GlideCoreSplitContainer extends LitElement {
           ?open=${this.open}
           size=${this.size}
           placement=${this.placement}
-          data-test="menu"
         >
           <button
             slot="target"
@@ -128,10 +128,13 @@ export default class GlideCoreSplitContainer extends LitElement {
               />
             </svg>
           </button>
-          <slot
-            @slotchange=${this.#onDefaultSlotChange}
-            ${ref(this.#defaultSlotElementRef)}
-          ></slot>
+
+          <glide-core-menu-options>
+            <slot
+              @slotchange=${this.#onDefaultSlotChange}
+              ${ref(this.#defaultSlotElementRef)}
+            ></slot>
+          </glide-core-menu-options>
         </glide-core-menu>
       </div>
     `;

@@ -28,10 +28,16 @@ it('has defaults', async () => {
   expect(component.type).to.equal('button');
   expect(component.disabled).to.equal(false);
   expect(component.textContent).to.equal('Button');
+  expect(component?.ariaHasPopup).to.equal(null);
+  expect(component?.ariaExpanded).to.equal(null);
+  expect(component?.ariaControls).to.equal(null);
 
   const button = component.shadowRoot?.querySelector('button');
 
   expect(button?.getAttribute('type')).to.equal('button');
+  expect(button?.getAttribute('aria-controls')).to.equal(null);
+  expect(button?.ariaExpanded).to.equal(null);
+  expect(button?.ariaHasPopup).to.equal(null);
   expect(button?.disabled).to.equal(false);
 
   expect([...button!.classList]).to.deep.equal([

@@ -1,9 +1,9 @@
 import './menu.button.js';
+import './menu.link.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import { repeat } from 'lit/directives/repeat.js';
 import GlideCoreMenu from './menu.js';
-import GlideCoreMenuLink from './menu.link.js';
+import GlideCoreMenuOptions from './menu.options.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
@@ -20,22 +20,36 @@ it('has defaults', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
+  const options = component.querySelector('glide-core-menu-options');
+
   expect(component.getAttribute('size')).to.equal('large');
   expect(component.size).to.equal('large');
+  expect(options?.privateSize).to.equal('large');
 });
 
 it('is accessible', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
+  const target = component.querySelector('button');
+  const options = component.querySelector('glide-core-menu-options');
+
+  expect(target?.getAttribute('aria-controls')).to.equal(options?.id);
+  expect(options?.ariaLabelledby).to.equal(target?.id);
   await expect(component).to.be.accessible();
 });
 
@@ -43,15 +57,20 @@ it('can be opened', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
-  const menu = component.shadowRoot?.querySelector('[data-test="menu"]');
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
   const target = component.querySelector('button');
 
   expect(component.open).to.be.true;
-  expect(menu?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
   expect(target?.ariaExpanded).to.equal('true');
 });
 
@@ -59,7 +78,10 @@ it('can have a default slot', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
@@ -67,14 +89,17 @@ it('can have a default slot', async () => {
     ?.querySelectorAll('slot')[1]
     .assignedElements();
 
-  expect(assignedElements?.at(0) instanceof GlideCoreMenuLink).to.be.true;
+  expect(assignedElements?.at(0) instanceof GlideCoreMenuOptions).to.be.true;
 });
 
 it('can have a target slot', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
@@ -89,48 +114,62 @@ it('activates the first menu link by default', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
-      <glide-core-menu-link label="One"></glide-core-menu-link>
-      <glide-core-menu-link label="Two"></glide-core-menu-link>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="One"></glide-core-menu-link>
+        <glide-core-menu-link label="Two"></glide-core-menu-link>
+      </glide-core-menu-options>
     </glide-core-menu>
   `);
 
-  const options = component.querySelectorAll('glide-core-menu-link');
-  const menu = component?.shadowRoot?.querySelector('[data-test="menu"]');
+  const links = component.querySelectorAll('glide-core-menu-link');
+  const options = component.querySelector('glide-core-menu-options');
 
-  expect(options[0].privateActive).to.be.true;
-  expect(options[1].privateActive).to.be.false;
-  expect(menu?.getAttribute('aria-activedescendant')).to.equal(options[0].id);
+  expect(links[0].privateActive).to.be.true;
+  expect(links[1].privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0].id);
 });
 
 it('activates the first menu button by default', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
-      <glide-core-menu-button label="One"></glide-core-menu-button>
-      <glide-core-menu-button label="Two"></glide-core-menu-button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-button label="One"></glide-core-menu-button>
+        <glide-core-menu-button label="Two"></glide-core-menu-button>
+      </glide-core-menu-options>
     </glide-core-menu>
   `);
 
-  const options = component.querySelectorAll('glide-core-menu-button');
-  const menu = component?.shadowRoot?.querySelector('[data-test="menu"]');
+  const buttons = component.querySelectorAll('glide-core-menu-button');
+  const options = component.querySelector('glide-core-menu-options');
 
-  expect(options[0].privateActive).to.be.true;
-  expect(options[1].privateActive).to.be.false;
-  expect(menu?.getAttribute('aria-activedescendant')).to.equal(options[0].id);
+  expect(buttons[0].privateActive).to.be.true;
+  expect(buttons[1].privateActive).to.be.false;
+
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(
+    buttons[0].id,
+  );
 });
 
 it('is not opened when initially `open` and its target is `disabled`', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target" disabled>Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
-  const menu = component.shadowRoot?.querySelector('[data-test="menu"]');
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
   const target = component.querySelector('button');
 
-  expect(menu?.checkVisibility({ checkVisibilityCSS: true })).to.not.be.ok;
+  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.be.ok;
   expect(target?.ariaExpanded).to.equal('false');
 });
 
@@ -169,7 +208,9 @@ it('throws if it does not have a "target" slot', async () => {
   try {
     await fixture<GlideCoreMenu>(
       html`<glide-core-menu>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-options>
+          <glide-core-menu-link label="Link"></glide-core-menu-link>
+        </glide-core-menu-options>
       </glide-core-menu>`,
     );
   } catch (error) {
@@ -181,42 +222,23 @@ it('throws if it does not have a "target" slot', async () => {
   expect(spy.called).to.be.true;
 });
 
-it('does not throw if the default slot only contains whitespace', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture<GlideCoreMenu>(
-      html`<glide-core-menu>
-        <button slot="target">Target</button>
-        ${repeat(
-          [],
-          () =>
-            html`<glide-core-menu-link label="Link"></glide-core-menu-link>`,
-        )}
-      </glide-core-menu>`,
-    );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.notCalled).to.be.true;
-});
-
-it('sets accessibility attributes on the target', async () => {
+it('sets accessibility attributes', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
-      <glide-core-menu-link label="Link"></glide-core-menu-link>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
   const target = component.querySelector('button');
+  const options = component.querySelector('glide-core-menu-options');
 
   expect(target?.getAttribute('aria-expanded')).to.equal('false');
   expect(target?.getAttribute('aria-haspopup')).to.equal('true');
-
   expect(target?.ariaExpanded).to.equal('false');
   expect(target?.ariaHasPopup).to.equal('true');
+  expect(options?.ariaLabelledby).to.equal(target?.id);
 });

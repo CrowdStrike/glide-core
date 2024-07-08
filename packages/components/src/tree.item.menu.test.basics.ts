@@ -28,15 +28,13 @@ it('throws if the default slot is the incorrect type', async () => {
 
   // Menu is rendered asynchronously outside of Tree Menu Item's lifecycle
   // and asserts against its default slot. That assertion, which is expected
-  // to fail, results in an unhandled rejection that gets logged.
+  // to fail in this case, results in an unhandled rejection that gets logged.
+  // `console.error` is stubbed so the logs aren't muddied.
   const stub = sinon.stub(console, 'error');
 
-  // Menu asserts against its default slot once on `firstUpdated` and
-  // again on "slotchange". It also renders asynchronously. So we have
-  // to wait until the stub has been called before restoring it.
-  await waitUntil(() => stub.called);
+  // Menu asserts against its default slot once on `firstUpdated` and again
+  // on "slotchange". So we wait until the stub is called twice before restoring
+  // it.
+  await waitUntil(() => stub.calledTwice);
   stub.restore();
-
-  // eslint-disable-next-line unicorn/prefer-add-event-listener
-  window.onerror = onerror;
 });
