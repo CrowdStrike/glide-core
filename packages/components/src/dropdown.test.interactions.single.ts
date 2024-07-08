@@ -1,3 +1,4 @@
+import { ArgumentError } from 'ow';
 import {
   assert,
   elementUpdated,
@@ -8,6 +9,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import sinon from 'sinon';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -236,6 +238,58 @@ it('deselects all other options when one is newly selected', async () => {
   expect(options[0].selected).to.be.false;
   expect(options[1].selected).to.be.true;
   expect(options[2].selected).to.be.false;
+});
+
+it('selects and deselects options when `value` is changed programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.value = ['two'];
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0].selected).to.be.false;
+  expect(options[1].selected).to.be.true;
+});
+
+it('throws when `value` is changed programmatically to include more than one value', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+
+  try {
+    component.value = ['one', 'two'];
+  } catch (error) {
+    if (error instanceof ArgumentError) {
+      spy();
+    }
+  }
+
+  expect(spy.called).to.be.true;
 });
 
 it('updates `value` when an option `value` is changed programmatically', async () => {
@@ -491,11 +545,11 @@ it('updates the its internal label when an option is newly selected', async () =
     </glide-core-dropdown>`,
   );
 
-  component
-    .querySelector<GlideCoreDropdownOption>(
-      'glide-core-dropdown-option:last-of-type',
-    )
-    ?.click();
+  const option = component.querySelector<GlideCoreDropdownOption>(
+    'glide-core-dropdown-option:last-of-type',
+  );
+
+  option?.click();
 
   await elementUpdated(component);
 
@@ -503,7 +557,7 @@ it('updates the its internal label when an option is newly selected', async () =
     '[data-test="internal-label"]',
   );
 
-  expect(label?.textContent?.trim()).to.equal('Two');
+  expect(label?.textContent?.trim()).to.equal(option?.label);
 });
 
 it('hides Select All', async () => {

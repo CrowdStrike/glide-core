@@ -5,13 +5,13 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { owSlotType } from './library/ow.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { svg } from 'lit/static-html.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
+import ow, { owSlotType } from './library/ow.js';
 import styles from './dropdown.styles.js';
 
 declare global {
@@ -105,7 +105,7 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     if (wasMultiple && this.lastSelectedOption?.value) {
-      this.value = [this.lastSelectedOption.value];
+      this.#value = [this.lastSelectedOption.value];
     } else if (wasSingle && this.lastSelectedOption) {
       this.lastSelectedOption.privateUpdateCheckbox();
     }
@@ -115,11 +115,30 @@ export default class GlideCoreDropdown extends LitElement {
   required = false;
 
   @property({ type: Array })
-  value: string[] = [];
+  get value() {
+    return this.#value;
+  }
+
+  set value(value: string[]) {
+    this.#value = value;
+
+    ow(
+      this.multiple || (!this.multiple && value.length <= 1),
+      ow.boolean.true.message('Only one value is allowed when not `multiple`.'),
+    );
+
+    for (const option of this.#optionElements) {
+      // If multiple options have the same `value`, they'll all be selected. No way
+      // to avoid that. If `value` is an empty string, all options are left deselected
+      // so every `option.value` that's an empty string isn't selected, which would
+      // be wacky.
+      option.selected = value.some((value) => value && value === option.value);
+    }
+  }
 
   /*
     Waiting on visual treatment from Design. For now, this only applies when multiselection
-    isn't enabled and there are 10 or fewer options.
+    isn't enabled and filtering is disabled.
   */
   @property({ reflect: true })
   variant?: 'quiet';
@@ -264,7 +283,7 @@ export default class GlideCoreDropdown extends LitElement {
     // seems reasonable.
     const lastValue = initiallySelectedOptionElementsWithValue.at(-1)?.value;
 
-    this.value =
+    this.#value =
       this.multiple && initiallySelectedOptionElementsWithValue.length > 0
         ? initiallySelectedOptionElementsWithValue.map(({ value }) => value)
         : !this.multiple && lastValue
@@ -592,6 +611,8 @@ export default class GlideCoreDropdown extends LitElement {
 
   #tagsElementRef = createRef<HTMLElement>();
 
+  #value: string[] = [];
+
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = (event: MouseEvent) => {
@@ -727,11 +748,11 @@ export default class GlideCoreDropdown extends LitElement {
 
     // Set `value`.
     if (this.multiple) {
-      this.value = this.selectedOptions
+      this.#value = this.selectedOptions
         .filter((option) => Boolean(option.value))
         .map(({ value }) => value);
     } else if (this.lastSelectedOption?.value) {
-      this.value = [this.lastSelectedOption.value];
+      this.#value = [this.lastSelectedOption.value];
     }
   }
 
@@ -1035,7 +1056,7 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #onOptionsSelectedChange(event: Event) {
-    // Update Select All to reflect the selection or deselection.
+    // Update Select All to reflect the new selection or deselection.
     if (
       this.#selectAllElementRef.value &&
       event.target !== this.#selectAllElementRef.value
@@ -1047,7 +1068,7 @@ export default class GlideCoreDropdown extends LitElement {
         this.isSomeSelected && !this.isAllSelected;
     }
 
-    // Reset the input and select all the options.
+    // Reset .`input` and unhide the options.
     if (this.isFilterable && this.#inputElementRef.value) {
       this.#inputElementRef.value.value = '';
       this.isFiltering = false;
@@ -1060,7 +1081,7 @@ export default class GlideCoreDropdown extends LitElement {
     // Update `value`, `open`, focus, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {
       if (this.multiple) {
-        this.value =
+        this.#value =
           event.target.selected && event.target.value
             ? [...this.value, event.target.value]
             : this.value.filter((value) => {
@@ -1081,7 +1102,7 @@ export default class GlideCoreDropdown extends LitElement {
         // In the case of single-select, we don't care if the target has been deselected. We
         // also don't want any changes to focus or the state of `this.open` as a result.
       } else if (!this.multiple && event.target.selected) {
-        this.value = event.target.value ? [event.target.value] : [];
+        this.#value = event.target.value ? [event.target.value] : [];
         this.open = false;
         this.focus();
 
@@ -1095,6 +1116,13 @@ export default class GlideCoreDropdown extends LitElement {
         this.dispatchEvent(new Event('input', { bubbles: true }));
       }
     }
+
+    // Dropdown's internal label now needs updating. `this.internalLabel` uses the
+    // `this.selectedOptions` getter, whose return value is derived from the state
+    // of another component: Dropdown Option. For whatever reason, and even though
+    // that state is reactive, a change to it doesn't result in a rerender of this
+    // component. So we force one.
+    this.requestUpdate();
   }
 
   #onOptionsValueChange(event: CustomEvent<string>) {
@@ -1114,10 +1142,10 @@ export default class GlideCoreDropdown extends LitElement {
       event.target.value
     ) {
       // There shouldn't be duplicate values. But this will fall short if there are.
-      // Both instances of the value will be removed from `this.value` when, strictly
+      // Both instances of the value will be removed from `this.#value` when, strictly
       // speaking, only one of them should. Knowing which to remove would involve a
       // map. Probably not worth the trouble.
-      this.value = [
+      this.#value = [
         ...this.value.filter((value) => value !== event.detail),
         event.target.value,
       ];
@@ -1125,7 +1153,7 @@ export default class GlideCoreDropdown extends LitElement {
       event.target instanceof GlideCoreDropdownOption &&
       this.multiple
     ) {
-      this.value = this.value.filter((value) => {
+      this.#value = this.value.filter((value) => {
         return (
           // No idea why TypeScript thinks `event.target` is possibly `null` when
           // filtering given it's narrowed out above.
@@ -1134,7 +1162,7 @@ export default class GlideCoreDropdown extends LitElement {
         );
       });
     } else if (event.target instanceof GlideCoreDropdownOption) {
-      this.value = event.target.value ? [event.target.value] : [];
+      this.#value = event.target.value ? [event.target.value] : [];
     }
   }
 
@@ -1176,7 +1204,7 @@ export default class GlideCoreDropdown extends LitElement {
       if (option.id === id) {
         option.selected = false;
 
-        this.value = this.value.filter((value) => {
+        this.#value = this.value.filter((value) => {
           return value !== option.value;
         });
       }

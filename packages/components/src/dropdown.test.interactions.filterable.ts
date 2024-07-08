@@ -316,7 +316,9 @@ it('uses the label of the selected option as a placeholder when not `multiple`',
     </glide-core-dropdown>`,
   );
 
-  component?.querySelector('glide-core-dropdown-option')?.click();
+  const option = component?.querySelector('glide-core-dropdown-option');
+
+  option?.click();
 
   await elementUpdated(component);
 
@@ -324,7 +326,7 @@ it('uses the label of the selected option as a placeholder when not `multiple`',
     '[data-test="input"]',
   );
 
-  expect(input?.placeholder).to.equal('One');
+  expect(input?.placeholder).to.equal(option?.label);
 });
 
 it('uses `placeholder` as a placeholder when `multiple` and an option is selected', async () => {

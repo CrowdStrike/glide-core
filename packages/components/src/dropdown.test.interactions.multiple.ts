@@ -415,6 +415,58 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
   expect(options[0]?.privateActive).to.be.true;
 });
 
+it('selects and deselects options when `value` is changed programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.value = ['two', 'three'];
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0].selected).to.be.false;
+  expect(options[1].selected).to.be.true;
+  expect(options[2].selected).to.be.true;
+});
+
+it('selects no options when `value` is changed programmatically to an empty string and some options have no `value`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.value = [''];
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0].selected).to.be.false;
+  expect(options[1].selected).to.be.false;
+  expect(options[2].selected).to.be.false;
+});
+
 it('updates `value` when an option is selected or deselected via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
