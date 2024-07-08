@@ -1,19 +1,15 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
 
+// These styles are shared between `glide-core-split-button` and `glide-core-split-link`.
 export default [
   css`
-    :host {
-      /* Contains elements with "padding" and "width". Inline by default. */
-      display: inline-block;
-    }
-
     .component {
       align-items: center;
       border-color: transparent;
-      border-radius: 0.75rem;
+      border-radius: 0.75rem 0 0 0.75rem;
       border-style: solid;
-      border-width: 1px;
+      border-width: 1px 0 1px 1px;
       cursor: pointer;
       display: inline-flex;
       font-family: var(--glide-core-heading-xxs-font-family);
@@ -23,6 +19,8 @@ export default [
       justify-content: center;
       padding-block: var(--glide-core-spacing-xs);
       padding-inline: var(--glide-core-spacing-md);
+      padding-inline-end: var(--glide-core-spacing-xs);
+      text-decoration: none;
       transition-duration: 150ms;
       transition-property: color, background-color, border-color, fill, stroke;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -36,20 +34,10 @@ export default [
         ${focusOutline};
       }
 
-      &:disabled {
+      &.disabled {
         cursor: default;
         opacity: 1;
-      }
-
-      /* We remove spacing using negative margin when an icon is present to help with empty space balancing */
-      &.has-prefx,
-      ::slotted([slot='prefix']) {
-        margin-inline-start: -0.125rem;
-      }
-
-      &.has-suffix,
-      ::slotted([slot='suffix']) {
-        margin-inline-end: -0.125rem;
+        pointer-events: none;
       }
 
       &.primary {
@@ -57,19 +45,20 @@ export default [
         border-color: transparent;
         color: var(--glide-core-text-selected);
 
-        &:disabled {
+        /* Since the "disabled" styles are shared between a link and a button, we use a disabled class and not a pseudo-class */
+        &.disabled {
           background-color: var(--glide-core-surface-disabled);
           border-color: transparent;
           color: var(--glide-core-text-tertiary-disabled);
         }
 
-        &:not(:disabled):active {
+        &:not(.disabled):active {
           background-color: var(--glide-core-surface-selected-hover);
           border-color: transparent;
           color: var(--glide-core-text-selected);
         }
 
-        &:not(:active):hover:not(:disabled) {
+        &:not(:active):hover:not(.disabled) {
           background-color: var(--glide-core-surface-hover);
           border-color: transparent;
           box-shadow: var(--glide-core-glow-sm);
@@ -82,19 +71,19 @@ export default [
         border-color: var(--glide-core-border-primary);
         color: var(--glide-core-text-primary);
 
-        &:disabled {
+        &.disabled {
           background-color: var(--glide-core-surface-disabled);
           border-color: transparent;
           color: var(--glide-core-text-tertiary-disabled);
         }
 
-        &:not(:disabled):active {
+        &:not(.disabled):active {
           background-color: var(--glide-core-surface-selected-hover);
           border-color: transparent;
           color: var(--glide-core-text-selected);
         }
 
-        &:not(:active):hover:not(:disabled) {
+        &:not(:active):hover:not(.disabled) {
           background-color: var(--glide-core-surface-hover);
           border-color: transparent;
           box-shadow: var(--glide-core-glow-sm);
@@ -102,36 +91,18 @@ export default [
         }
       }
 
-      &.tertiary {
-        background-color: transparent;
-        border-color: transparent;
-        color: var(--glide-core-text-primary);
-
-        &:disabled {
-          color: var(--glide-core-text-tertiary-disabled);
-        }
-
-        &:not(:disabled):active {
-          color: var(--glide-core-text-secondary);
-        }
-
-        &:not(:active):hover:not(:disabled) {
-          color: var(--glide-core-text-primary-hover);
-        }
+      &.small {
+        block-size: 1.75rem;
+        box-sizing: border-box;
+        font-size: var(--glide-core-body-xs-font-size);
+        line-height: 1rem;
       }
 
       &.large {
         block-size: 2.125rem;
-        font-size: var(--glide-core-heading-xxs-font-size);
+        box-sizing: border-box;
+        font-size: var(--glide-core-body-xxs-font-size);
         line-height: 1.5rem;
-        min-inline-size: 5.1875rem;
-      }
-
-      &.small {
-        block-size: 1.75rem;
-        font-size: var(--glide-core-body-xs-font-size);
-        line-height: 1rem;
-        min-inline-size: 4.375rem;
       }
     }
   `,
