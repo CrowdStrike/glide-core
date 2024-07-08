@@ -56,7 +56,8 @@
     "test:development:serve": "npx http-server dist/coverage/lcov-report --silent",
     "test:development:web-test-runner": "web-test-runner --watch",
     "test:production": "npm-run-all --parallel test:production:* start:production:stylesheets --aggregate-output --print-label",
-    "test:production:web-test-runner": "web-test-runner"
+    "test:production:web-test-runner": "web-test-runner",
+    "postinstall": "pnpm dlx playwright install --with-deps"
   },
   "engines": {
     "node": ">= 20",

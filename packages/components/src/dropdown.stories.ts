@@ -216,7 +216,7 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '[]' },
         type: {
-          summary: 'readonly string[]',
+          summary: 'string[]',
         },
       },
       type: { name: 'function' },
