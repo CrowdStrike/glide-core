@@ -60,7 +60,7 @@ export default [
 
       .suffix-slot-box {
         align-items: center;
-        color: #00000080;
+        color: var(--glide-core-icon-primary);
         display: flex;
         gap: 0.625rem;
 

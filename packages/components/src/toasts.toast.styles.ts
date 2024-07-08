@@ -6,6 +6,7 @@ export default [
       align-items: center;
       border-radius: var(--glide-core-spacing-sm);
       box-shadow: var(--glide-core-shadow-lg);
+      color: var(--glide-core-text-body-2);
       column-gap: var(--glide-core-spacing-xs);
       display: grid;
       font-family: var(--glide-core-body-xs-font-family);
@@ -54,6 +55,8 @@ export default [
     }
 
     .close-button {
+      --icon-color: var(--glide-core-icon-default2);
+
       grid-column: 3;
     }
 
