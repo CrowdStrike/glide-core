@@ -95,7 +95,6 @@ export default [
 
         &:focus-visible {
           border-radius: 0.25rem;
-          outline: 2px solid var(--glide-core-surface-primary);
           outline-offset: 0;
         }
 
