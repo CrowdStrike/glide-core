@@ -1,5 +1,45 @@
 # @crowdstrike/glide-core
 
+## 0.5.2
+
+### Patch Changes
+
+- [#226](https://github.com/CrowdStrike/glide-core/pull/226) [`94322e6`](https://github.com/CrowdStrike/glide-core/commit/94322e6992c0b078d2bb7d6afe89405f29a84533) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown no longer dispatches multiple "change" and "input" events when Select All is clicked or when single-select and an option is already selected.
+
+- [#221](https://github.com/CrowdStrike/glide-core/pull/221) [`4c7326c`](https://github.com/CrowdStrike/glide-core/commit/4c7326cc0299353dd58a16737984408ca7ebe657) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Add the -webkit prefix for backdrop-filter in Drawer
+
+- [#214](https://github.com/CrowdStrike/glide-core/pull/214) [`74405bc`](https://github.com/CrowdStrike/glide-core/commit/74405bcd80c3f58b13a578487894e7ed0194c895) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown now has a `readonly` attribute.
+
+  - Dropdown is no longer tabbable when disabled.
+  - Dropdown no longer opens on ArrowDown, ArrowUp, and Space when disabled.
+  - The background color of the filtering field now matches the rest of Dropdown when disabled.
+
+- [#207](https://github.com/CrowdStrike/glide-core/pull/207) [`b5d9180`](https://github.com/CrowdStrike/glide-core/commit/b5d9180d2478afc3cab80fd81c6c3b7eb504b8c9) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Adds `glide-core-split-container`, `glide-core-split-button`, and `glide-core-split-link`.
+
+- [#228](https://github.com/CrowdStrike/glide-core/pull/228) [`2f6fa05`](https://github.com/CrowdStrike/glide-core/commit/2f6fa05777a43f576c5b9cff2960aa7b1787d49c) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated Accordion's suffix color to work with dark mode.
+
+- [#216](https://github.com/CrowdStrike/glide-core/pull/216) [`c1e75fa`](https://github.com/CrowdStrike/glide-core/commit/c1e75fae095436cfcdf09ae556a92874e8986e71) Thanks [@clintcs](https://github.com/clintcs)! - Class names are no longer minified in slot error messages.
+
+- [#212](https://github.com/CrowdStrike/glide-core/pull/212) [`6ab566d`](https://github.com/CrowdStrike/glide-core/commit/6ab566dddcd37b6a93e871b162a1d91e512c728b) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown options are now announced and selectable via VoiceOver when Dropdown is filterable.
+  Additionally, selected options are announced when Dropdown receives focus.
+
+- [#225](https://github.com/CrowdStrike/glide-core/pull/225) [`3cc3d4d`](https://github.com/CrowdStrike/glide-core/commit/3cc3d4d5bfdedd04fcaee5804c5ebeec9d0e6535) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown's `value` is no longer read-only.
+
+- [#199](https://github.com/CrowdStrike/glide-core/pull/199) [`868f6a2`](https://github.com/CrowdStrike/glide-core/commit/868f6a26493a6d3f7732d1a4e1f4c9ff1be2410a) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Refactor `glide-core-drawer` to use `aside` rather than `dialog`.
+  Includes a "pinned" attribute to apply styling specific to when the drawer is "pinned".
+
+- [#223](https://github.com/CrowdStrike/glide-core/pull/223) [`045947b`](https://github.com/CrowdStrike/glide-core/commit/045947b9d972dc1c97735c24d0f4abdaf5d95526) Thanks [@clintcs](https://github.com/clintcs)! - - Menu no longer opens when its target is `disabled` or `aria-disabled`.
+
+  - Menu options are now announced and selectable via VoiceOver.
+
+- [#228](https://github.com/CrowdStrike/glide-core/pull/228) [`2f6fa05`](https://github.com/CrowdStrike/glide-core/commit/2f6fa05777a43f576c5b9cff2960aa7b1787d49c) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated Toast's text color to work with dark mode.
+
+- [#218](https://github.com/CrowdStrike/glide-core/pull/218) [`a070949`](https://github.com/CrowdStrike/glide-core/commit/a070949fb8febec9a945fa44f22558049f87767c) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown.
+  Activate the last initially selected option on first open instead of the first option.
+  Activate the first option only if no options are selected.
+
+- [#228](https://github.com/CrowdStrike/glide-core/pull/228) [`2f6fa05`](https://github.com/CrowdStrike/glide-core/commit/2f6fa05777a43f576c5b9cff2960aa7b1787d49c) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated the Radio's circle color to work with dark mode.
+
 ## 0.5.1
 
 ### Patch Changes
