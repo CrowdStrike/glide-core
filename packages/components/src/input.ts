@@ -150,8 +150,10 @@ export default class GlideCoreInput extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
+    const validity = this.#internals.checkValidity();
+    this.isCheckingValidity = false;
 
-    return this.#internals.checkValidity();
+    return validity;
   }
 
   override disconnectedCallback() {
@@ -355,7 +357,14 @@ export default class GlideCoreInput extends LitElement {
   }
 
   reportValidity() {
-    return this.#internals.reportValidity();
+    this.isReportValidityOrSubmit = true;
+
+    const isValid = this.#internals.reportValidity();
+
+    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    this.requestUpdate();
+
+    return isValid;
   }
 
   get valueCharacterCount() {
@@ -372,9 +381,19 @@ export default class GlideCoreInput extends LitElement {
     this.addEventListener('invalid', (event) => {
       event?.preventDefault(); // Canceled so a native validation message isn't shown.
 
-      if (!this.isCheckingValidity) {
-        this.isReportValidityOrSubmit = true;
+      // We only want to focus the input if the invalid event resulted from either:
+      // 1. Form submission
+      // 2. a call to reportValidity that did NOT result from the input blur event
+      if (this.isCheckingValidity || this.isBlurring) {
+        return;
+      }
 
+      this.isReportValidityOrSubmit = true;
+
+      const isFirstInvalidFormElement =
+        this.form?.querySelector(':invalid') === this;
+
+      if (isFirstInvalidFormElement) {
         // - `this.#internals.delegatesFocus` is preferred because it's declarative. But
         //    it's limited to focusing the first focusable element. That doesn't work for
         //    us because our first focusable element is the tooltip when it's present.
@@ -397,7 +416,10 @@ export default class GlideCoreInput extends LitElement {
   @state() private hasFocus = false;
 
   @state()
-  private isCheckingValidity?: boolean;
+  private isBlurring = false;
+
+  @state()
+  private isCheckingValidity = false;
 
   @state()
   private isReportValidityOrSubmit = false;
@@ -432,6 +454,10 @@ export default class GlideCoreInput extends LitElement {
   }
 
   #onBlur() {
+    this.isBlurring = true;
+    this.reportValidity();
+    this.isBlurring = false;
+
     this.hasFocus = false;
   }
 
@@ -481,5 +507,9 @@ export default class GlideCoreInput extends LitElement {
       this.#inputElement?.validationMessage,
       this.#inputElement,
     );
+
+    if (this.isReportValidityOrSubmit) {
+      this.reportValidity();
+    }
   }
 }
