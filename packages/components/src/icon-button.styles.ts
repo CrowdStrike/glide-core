@@ -1,18 +1,17 @@
 import { css } from 'lit';
-import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
     :host {
       /* Contains elements with "padding" and "width". Inline by default. */
-      display: inline-block;
+      display: inline-flex;
     }
 
     .component {
       align-items: center;
       block-size: var(--size, 1.625rem);
       border-color: transparent;
-      border-radius: var(--glide-core-spacing-xs);
+      border-radius: 0.5rem;
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
@@ -29,8 +28,8 @@ export default [
       }
 
       &:focus-visible {
-        ${focusOutline};
-        outline-offset: 3px;
+        outline: 2px solid var(--glide-core-surface-primary);
+        outline-offset: 1px;
       }
 
       &:disabled {
@@ -65,12 +64,11 @@ export default [
 
       &.secondary {
         background-color: var(--glide-core-surface-page);
-        border-color: var(--glide-core-border-primary);
-        color: var(--icon-color, var(--glide-core-icon-primary));
+        border-color: transparent;
+        color: var(--icon-color, var(--glide-core-icon-default));
 
         &:disabled {
           background-color: transparent;
-          border-color: var(--glide-core-border-base-light);
           color: var(--glide-core-icon-tertiary-disabled);
         }
 
@@ -83,17 +81,20 @@ export default [
         &:not(:active):hover:not(:disabled) {
           background-color: var(--glide-core-surface-hover);
           border-color: transparent;
-          box-shadow: var(--glide-core-glow-sm);
           color: var(--glide-core-icon-primary);
         }
       }
 
       &.tertiary {
         background-color: transparent;
+        block-size: var(--size, 1rem);
         border-color: transparent;
         color: var(--icon-color, var(--glide-core-icon-default));
+        inline-size: var(--size, 1rem);
+        padding: 0;
 
         &:focus-visible {
+          border-radius: 0.25rem;
           outline-offset: 0;
         }
 
