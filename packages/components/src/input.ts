@@ -1,6 +1,7 @@
 import './icon-button.js';
 import './label.js';
 import { LitElement, html, nothing } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import {
@@ -226,7 +227,6 @@ export default class GlideCoreInput extends LitElement {
             ${ref(this.#inputElementRef)}
           />
 
-          <!-- TODO: We should localize the aria-labels in the future -->
           ${this.hasClearIcon
             ? html`
                 <glide-core-icon-button
@@ -235,7 +235,7 @@ export default class GlideCoreInput extends LitElement {
                     'clear-icon-button': true,
                     'clear-icon-button--visible': this.isClearIconVisible,
                   })}
-                  aria-label="Clear entry"
+                  aria-label=${this.#localize.term('clearEntry')}
                   @click=${this.#onClearClick}
                   tabindex="-1"
                 >
@@ -399,6 +399,8 @@ export default class GlideCoreInput extends LitElement {
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
+
+  #localize = new LocalizeController(this);
 
   #onFormdata = ({ formData }: FormDataEvent) => {
     if (this.name && this.value && !this.disabled) {

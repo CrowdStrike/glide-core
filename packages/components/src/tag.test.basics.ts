@@ -56,7 +56,12 @@ it('renders an icon button with aria-label when "removable-label" attribute is s
 
   const iconButton = element.shadowRoot?.querySelector('button');
   expect(iconButton).to.be.not.null;
-  expect(iconButton).to.have.attribute('aria-label', `Remove test-aria-label`);
+
+  expect(iconButton).to.have.attribute(
+    'aria-label',
+    `Remove tag: test-aria-label`,
+  );
+
   expect(iconButton).to.have.attribute('type', 'button');
 });
 

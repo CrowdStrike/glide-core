@@ -1,38 +1,31 @@
 import './tooltip.js';
 import { LitElement, html } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
 import styles from './label.styles.js';
 
-import { svg } from 'lit/static-html.js';
+import { svg } from 'lit';
 
 const infoCircleIcon = svg`
-  <svg
-    aria-label="More information"
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-  >
-    <circle
-      cx="12"
-      cy="12"
-      r="10"
-      stroke="currentColor"
-      stroke-width="2"
-    />
+  <circle
+    cx="12"
+    cy="12"
+    r="10"
+    stroke="currentColor"
+    stroke-width="2"
+  />
 
-    <path
-      d="M12 16L12 12"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-    />
+  <path
+    d="M12 16L12 12"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
 
-    <circle cx="12" cy="8" r="1" fill="currentColor" />
-  </svg>
+  <circle cx="12" cy="8" r="1" fill="currentColor" />
 `;
 
 declare global {
@@ -107,7 +100,15 @@ export default class GlideCoreLabel extends LitElement {
             placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
           >
             <span class="tooltip-target" slot="target" tabindex="0">
-              ${infoCircleIcon}
+              <svg
+                aria-label=${this.#localize.term('moreInformation')}
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                ${infoCircleIcon}
+              </svg>
             </span>
 
             <slot
@@ -195,6 +196,8 @@ export default class GlideCoreLabel extends LitElement {
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #descriptionSlotElementRef = createRef<HTMLSlotElement>();
+
+  #localize = new LocalizeController(this);
 
   #summarySlotElementRef = createRef<HTMLSlotElement>();
 

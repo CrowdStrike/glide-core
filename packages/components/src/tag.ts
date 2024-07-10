@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
@@ -70,7 +71,11 @@ export default class GlideCoreTag extends LitElement {
               class=${classMap({
                 [this.size]: true,
               })}
-              aria-label="Remove ${this.removableLabel}"
+              aria-label=${this.#localize.term(
+                'removeTag',
+                // ! required because the when directive doesn't seem to properly type narrow
+                this.removableLabel!,
+              )}
               data-test="button"
               ${ref(this.#buttonElementRef)}
               @click=${this.#onClick}
@@ -102,6 +107,8 @@ export default class GlideCoreTag extends LitElement {
   #containerElementRef = createRef<HTMLDivElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #localize = new LocalizeController(this);
 
   #prefixSlotElementRef = createRef<HTMLSlotElement>();
 

@@ -2,6 +2,7 @@ import './icon-button.js';
 import './status-indicator.js';
 import './tooltip.js';
 import { LitElement, html } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
@@ -96,7 +97,7 @@ export default class GlideCoreToast extends LitElement {
         <div class="label" id="label">${this.label}</div>
 
         <glide-core-icon-button
-          label="Close"
+          label=${this.#localize.term('close')}
           variant="tertiary"
           class="close-button"
           @click=${this.#handleCloseButtonClick}
@@ -125,6 +126,8 @@ export default class GlideCoreToast extends LitElement {
   }
 
   #componentElementRef = createRef<HTMLDivElement>();
+
+  #localize = new LocalizeController(this);
 
   #handleCloseButtonClick() {
     this.close();
