@@ -2,4 +2,4 @@
 '@crowdstrike/glide-core': patch
 ---
 
-Added `role="switch"` and `aria-checked` to Toggle.
+Improves screenreader support for Toggle so that it is announced as a switch rather than a checkbox.
