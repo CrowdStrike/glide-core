@@ -494,6 +494,51 @@ it('sets `aria-activedescendant` on ArrowUp + Meta', async () => {
   expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0].id);
 });
 
+it('sets `aria-activedescendant` on open via click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
+  // which puts us in a guard in the event handler. `Event` has no `detail` property
+  // and would work. `CustomEvent` is used for completeness and to get us as close as
+  // possible to a real click. See the comment in the handler for more information.
+  component.shadowRoot
+    ?.querySelector('[data-test="button"]')
+    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+
+  await elementUpdated(component);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
+});
+
+it('sets `aria-activedescendant` on open via Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: ' ' });
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
+});
+
 it('sets `aria-activedescendant` on End', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
