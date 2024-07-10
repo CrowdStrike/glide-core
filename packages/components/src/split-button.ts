@@ -3,6 +3,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import styles from './split-button.styles.js';
 
@@ -28,6 +29,23 @@ export default class GlideCoreSplitButton extends LitElement {
 
   static override styles = styles;
 
+  @property({ attribute: 'aria-controls', reflect: true })
+  ariaControls: string | null = null;
+
+  @property({ attribute: 'aria-expanded', reflect: true })
+  override ariaExpanded: 'true' | 'false' | null = null;
+
+  @property({ attribute: 'aria-haspopup', reflect: true })
+  override ariaHasPopup:
+    | 'true'
+    | 'false'
+    | 'menu'
+    | 'listbox'
+    | 'tree'
+    | 'grid'
+    | 'dialog'
+    | null = null;
+
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
@@ -45,7 +63,9 @@ export default class GlideCoreSplitButton extends LitElement {
 
   override render() {
     return html`<button
-      type="button"
+      aria-controls=${ifDefined(this.ariaControls ?? undefined)}
+      aria-expanded=${ifDefined(this.ariaExpanded ?? undefined)}
+      aria-haspopup=${ifDefined(this.ariaHasPopup ?? undefined)}
       class=${classMap({
         component: true,
         disabled: this.disabled,
@@ -53,8 +73,9 @@ export default class GlideCoreSplitButton extends LitElement {
         [this.size]: true,
         'has-prefix': this.hasPrefixSlot,
       })}
-      ?disabled=${this.disabled}
       data-test="split-button"
+      type="button"
+      ?disabled=${this.disabled}
     >
       <slot
         name="prefix"

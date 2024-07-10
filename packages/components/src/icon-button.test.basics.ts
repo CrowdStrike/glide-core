@@ -1,6 +1,6 @@
 import './icon-button.js';
 import { ArgumentError } from 'ow';
-import { expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreIconButton from './icon-button.js';
 import sinon from 'sinon';
 
@@ -43,17 +43,20 @@ it('has defaults', async () => {
     >`,
   );
 
-  expect(component.shadowRoot?.querySelector('button')?.type).to.equal(
-    'button',
-  );
+  const button = component.shadowRoot?.querySelector('button');
+  assert(button);
 
-  expect(component.shadowRoot?.querySelector('button')?.disabled).to.equal(
-    false,
-  );
+  expect(component.ariaControls).to.equal(null);
+  expect(component.ariaExpanded).to.equal(null);
+  expect(component.ariaHasPopup).to.equal(null);
+  expect(component.disabled).to.equal(false);
+  expect(component.variant).to.equal('primary');
 
-  expect([
-    ...component.shadowRoot!.querySelector('button')!.classList,
-  ]).to.deep.equal(['component', 'primary']);
+  expect(button.getAttribute('aria-controls')).to.equal(null);
+  expect(button.ariaExpanded).to.equal(null);
+  expect(button.ariaHasPopup).to.equal(null);
+  expect(button.disabled).to.equal(false);
+  expect([...button.classList]).to.deep.equal(['component', 'primary']);
 });
 
 it('delegates focus', async () => {
