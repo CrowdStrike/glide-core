@@ -583,6 +583,77 @@ it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
   );
 });
 
+it('sets `aria-activedescendant` when closed via click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="button"]')
+    ?.click();
+
+  await elementUpdated(component);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal('');
+});
+
+it('sets `aria-activedescendant` when closed because it lost focus', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: 'Tab' });
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal('');
+});
+
+it('sets `aria-activedescendant` when closed because something outside of it was clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  document.body.click();
+  await elementUpdated(component);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal('');
+});
+
+it('sets `aria-activedescendant` when closed via Escape', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: 'Escape' });
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal('');
+});
+
 it('cannot be tabbed to when `disabled`', async () => {
   await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown

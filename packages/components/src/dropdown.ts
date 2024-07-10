@@ -359,6 +359,7 @@ export default class GlideCoreDropdown extends LitElement {
                     </span>`,
                 )}
             </span>
+
             ${when(this.multiple && this.selectedOptions.length > 0, () => {
               return html`<ul
                 aria-describedby="tag-overflow-text"
@@ -624,8 +625,10 @@ export default class GlideCoreDropdown extends LitElement {
       )
     ) {
       this.open = false;
+      this.ariaActivedescendant = '';
     } else if (!this.multiple && !(event.target instanceof GlideCoreDropdown)) {
       this.open = false;
+      this.ariaActivedescendant = '';
     }
   };
 
@@ -763,6 +766,7 @@ export default class GlideCoreDropdown extends LitElement {
     // still in use.
     if (event.relatedTarget === null && !this.#isRemovingTag) {
       this.open = false;
+      this.ariaActivedescendant = '';
     }
   }
 
@@ -776,6 +780,7 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (event.key === 'Escape') {
       this.open = false;
+      this.ariaActivedescendant = '';
       this.focus();
       return;
     }
@@ -950,6 +955,8 @@ export default class GlideCoreDropdown extends LitElement {
       this.open
     ) {
       this.open = false;
+      this.ariaActivedescendant = '';
+
       // `event.detail` is an integer set to the number of clicks. When it's zero,
       // the event most likely originated from an Enter press. And, if Dropdown is part
       // of a form, Enter should result in a submit and the dropdown shouldn't be opened.
@@ -1104,6 +1111,7 @@ export default class GlideCoreDropdown extends LitElement {
       } else if (!this.multiple && event.target.selected) {
         this.#value = event.target.value ? [event.target.value] : [];
         this.open = false;
+        this.ariaActivedescendant = '';
         this.focus();
 
         if (this.isFilterable && this.#inputElementRef.value) {
