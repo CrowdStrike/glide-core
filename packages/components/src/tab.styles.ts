@@ -45,7 +45,7 @@ export default [
     .disabled {
       border: none;
       color: var(--glide-core-text-tertiary-disabled);
-      pointer-events: none;
+      cursor: not-allowed;
     }
 
     /* Secondary */

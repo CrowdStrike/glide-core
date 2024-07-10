@@ -37,7 +37,7 @@ export default [
       }
 
       &:disabled {
-        cursor: default;
+        cursor: not-allowed;
         opacity: 1;
       }
 

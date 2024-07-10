@@ -950,6 +950,7 @@ export default class GlideCoreDropdown extends LitElement {
       this.open
     ) {
       this.open = false;
+
       // `event.detail` is an integer set to the number of clicks. When it's zero,
       // the event most likely originated from an Enter press. And, if Dropdown is part
       // of a form, Enter should result in a submit and the dropdown shouldn't be opened.

@@ -128,11 +128,13 @@ export default class GlideCoreRadioGroup extends LitElement {
       >
         <glide-core-label
           orientation="horizontal"
+          ?disabled=${this.disabled}
           ?error=${this.#isShowValidationFeedback}
           ?hide=${this.hideLabel}
           ?required=${this.required}
         >
-          <label id="label" data-test="label">${this.label}</label>
+          <label id="label" data-test="label"> ${this.label} </label>
+
           <div
             class=${classMap({
               'radio-container': true,

@@ -35,7 +35,6 @@ export default [
       }
 
       &.disabled {
-        cursor: default;
         opacity: 1;
         pointer-events: none;
       }
