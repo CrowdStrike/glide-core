@@ -43,6 +43,8 @@ export default [
       inset-block-start: 50%;
       inset-block-start: 0;
       inset-inline-start: 0;
+      max-inline-size: 11.25rem;
+      overflow-wrap: break-word;
       padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
       position: fixed;
       z-index: 1;
