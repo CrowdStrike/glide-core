@@ -13,7 +13,6 @@ const config = {
         `
     : undefined,
   docs: {
-    autodocs: 'tag',
     defaultName: 'Overview',
   },
   staticDirs: ['./assets'],
