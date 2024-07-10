@@ -94,9 +94,11 @@ export default class GlideCoreToggle extends LitElement {
             - The ":checked" pseudo class.
           -->
           <input
+            aria-checked=${this.checked}
             aria-describedby="summary description"
             data-test="input"
             id="input"
+            role="switch"
             type="checkbox"
             ?checked=${this.checked}
             ?disabled=${this.disabled}
