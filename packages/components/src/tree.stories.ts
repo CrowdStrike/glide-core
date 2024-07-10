@@ -1,5 +1,6 @@
 import './icon-button.js';
 import './icons/storybook.js';
+import './menu.link.js';
 import './tree.item.icon-button.js';
 import './tree.item.js';
 import './tree.js';

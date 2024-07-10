@@ -12,6 +12,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
+import GlideCoreMenuOptions from './menu.options.js';
 import styles from './menu.styles.js';
 
 declare global {
@@ -23,7 +24,7 @@ declare global {
 /**
  * @description A basic menu.
  *
- * @slot - One or more of <glide-core-menu-link> or <glide-core-menu-button>.
+ * @slot - <glide-core-menu-options>.
  * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
  */
 @customElement('glide-core-menu')
@@ -43,12 +44,12 @@ export default class GlideCoreMenu extends LitElement {
   set open(isOpen) {
     this.#isOpen = isOpen;
 
-    if (isOpen && !this.isTargetDisabled) {
+    if (isOpen && !this.isTargetDisabled && this.#optionsElement) {
       this.#setUpFloatingUi();
-      this.ariaActivedescendant = this.activeOption?.id ?? '';
-    } else {
+      this.#optionsElement.ariaActivedescendant = this.#activeOption?.id ?? '';
+    } else if (this.#optionsElement) {
       this.#cleanUpFloatingUi?.();
-      this.ariaActivedescendant = '';
+      this.#optionsElement.ariaActivedescendant = '';
     }
 
     if (this.#targetElement) {
@@ -61,10 +62,16 @@ export default class GlideCoreMenu extends LitElement {
   placement: Placement = 'bottom-start';
 
   @property({ reflect: true })
-  size: 'small' | 'large' = 'large';
+  get size() {
+    return this.#size;
+  }
 
-  private get activeOption() {
-    return this.#optionElements?.find(({ privateActive }) => privateActive);
+  set size(size: 'small' | 'large') {
+    this.#size = size;
+
+    if (this.#optionsElement) {
+      this.#optionsElement.privateSize = size;
+    }
   }
 
   override connectedCallback() {
@@ -99,23 +106,15 @@ export default class GlideCoreMenu extends LitElement {
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
     owSlot(this.#targetSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreMenuOptions]);
 
-    // `Text` is allowed so slotted content can be rendered asychronously. Think of
-    // a case where the only slotted content is a `repeat` whose array is empty
-    // at first then populated after a fetch.
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreMenuButton,
-      GlideCoreMenuLink,
-      Text,
-    ]);
+    const firstOption = this.#optionElements?.at(0);
 
-    const firstOption = this.#optionElements.at(0);
-
-    if (this.open && firstOption) {
+    if (this.open && firstOption && this.#optionsElement) {
       this.#setUpFloatingUi();
 
       firstOption.privateActive = true;
-      this.ariaActivedescendant = firstOption.id;
+      this.#optionsElement.ariaActivedescendant = firstOption.id;
     }
   }
 
@@ -134,50 +133,30 @@ export default class GlideCoreMenu extends LitElement {
         @focusout=${this.#onFocusout}
         ${ref(this.#componentElementRef)}
       >
-        <div class="container" id="container">
-          <slot
-            name="target"
-            @click=${this.#onTargetSlotClick}
-            @keydown=${this.#onSlotKeydown}
-            @slotchange=${this.#onTargetSlotChange}
-            ${ref(this.#targetSlotElementRef)}
-          ></slot>
-        </div>
+        <slot
+          class="target-slot"
+          name="target"
+          @click=${this.#onTargetSlotClick}
+          @keydown=${this.#onSlotKeydown}
+          @slotchange=${this.#onTargetSlotChange}
+          ${ref(this.#targetSlotElementRef)}
+        ></slot>
 
-        <div
-          aria-activedescendant=${this.ariaActivedescendant}
-          aria-labelledby="container"
+        <slot
           class=${classMap({
-            menu: true,
-            large: this.size === 'large',
-            small: this.size === 'small',
+            'default-slot': true,
             visible: this.open && !this.isTargetDisabled,
           })}
-          data-test="menu"
-          role="menu"
-          tabindex="-1"
-          ${ref(this.#optionsElementRef)}
-        >
-          <slot
-            @click=${this.#onDefaultSlotClick}
-            @focusin=${this.#onDefaultSlotFocusin}
-            @keydown=${this.#onSlotKeydown}
-            @mouseover=${this.#onDefaultSlotMouseover}
-            @slotchange=${this.#onDefaultSlotChange}
-            ${ref(this.#defaultSlotElementRef)}
-          ></slot>
-        </div>
+          @click=${this.#onDefaultSlotClick}
+          @focusin=${this.#onDefaultSlotFocusin}
+          @keydown=${this.#onSlotKeydown}
+          @mouseover=${this.#onDefaultSlotMouseover}
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </div>
     `;
   }
-
-  // A getter that returns `this.activeOption?.id` would nicer. But
-  // `ariaActivedescendant` isn't always equal to `this.activeOption.id`
-  // because `ariaActiveDescendant` is set to an empty string when Menu
-  // is closed, and `this.activeOption` is left alone so the active option
-  // is preserved when Menu is reopened.
-  @state()
-  private ariaActivedescendant = '';
 
   @state()
   private isTargetDisabled = false;
@@ -192,11 +171,25 @@ export default class GlideCoreMenu extends LitElement {
 
   #isOpen = false;
 
-  #optionsElementRef = createRef<HTMLUListElement>();
-
   #shadowRoot?: ShadowRoot;
 
+  #size: 'small' | 'large' = 'large';
+
   #targetSlotElementRef = createRef<HTMLSlotElement>();
+
+  get #activeOption() {
+    return this.#optionElements?.find(({ privateActive }) => privateActive);
+  }
+
+  get #optionsElement() {
+    const firstAssignedElement = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .at(0);
+
+    return firstAssignedElement
+      ? (firstAssignedElement as GlideCoreMenuOptions)
+      : null;
+  }
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
@@ -206,28 +199,33 @@ export default class GlideCoreMenu extends LitElement {
     }
 
     this.open = false;
-    this.ariaActivedescendant = '';
+
+    if (this.#optionsElement) {
+      this.#optionsElement.ariaActivedescendant = '';
+    }
   };
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreMenuOptions]);
 
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreMenuButton,
-      GlideCoreMenuLink,
-      Text,
-    ]);
-
-    const firstOption = this.#optionElements.at(0);
+    const firstOption = this.#optionElements?.at(0);
 
     if (firstOption) {
       firstOption.privateActive = true;
+    }
+
+    if (this.#optionsElement) {
+      this.#optionsElement.privateSize = this.size;
     }
   }
 
   #onDefaultSlotClick() {
     this.open = false;
-    this.ariaActivedescendant = '';
+
+    if (this.#optionsElement) {
+      this.#optionsElement.ariaActivedescendant = '';
+    }
   }
 
   #onDefaultSlotFocusin(event: FocusEvent) {
@@ -235,10 +233,10 @@ export default class GlideCoreMenu extends LitElement {
       event.target instanceof GlideCoreMenuButton ||
       event.target instanceof GlideCoreMenuLink;
 
-    if (isButtonOrLink && this.activeOption) {
-      this.activeOption.privateActive = false;
+    if (isButtonOrLink && this.#activeOption && this.#optionsElement) {
+      this.#activeOption.privateActive = false;
       event.target.privateActive = true;
-      this.ariaActivedescendant = event.target.id;
+      this.#optionsElement.ariaActivedescendant = event.target.id;
     }
   }
 
@@ -247,11 +245,15 @@ export default class GlideCoreMenu extends LitElement {
       event.target instanceof GlideCoreMenuLink ||
       event.target instanceof GlideCoreMenuButton
     ) {
-      for (const option of this.#optionElements) {
-        option.privateActive = option === event.target;
+      if (this.#optionElements) {
+        for (const option of this.#optionElements) {
+          option.privateActive = option === event.target;
+        }
       }
 
-      this.ariaActivedescendant = event.target.id;
+      if (this.#optionsElement) {
+        this.#optionsElement.ariaActivedescendant = event.target.id;
+      }
     }
   }
 
@@ -270,9 +272,13 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   #onSlotKeydown(event: KeyboardEvent) {
-    if ([' ', 'Enter', 'Escape'].includes(event.key) && this.open) {
+    if (
+      [' ', 'Enter', 'Escape'].includes(event.key) &&
+      this.open &&
+      this.#optionsElement
+    ) {
       this.open = false;
-      this.ariaActivedescendant = '';
+      this.#optionsElement.ariaActivedescendant = '';
       this.focus();
 
       // `#onTargetSlotClick` is called on click, and it opens or closes Menu.
@@ -286,44 +292,48 @@ export default class GlideCoreMenu extends LitElement {
     if (
       [' ', 'ArrowUp', 'ArrowDown'].includes(event.key) &&
       !this.open &&
-      this.activeOption
+      this.#activeOption &&
+      this.#optionsElement
     ) {
       event.preventDefault(); // Prevent scroll.
 
       this.open = true;
-      this.ariaActivedescendant = this.activeOption.id;
+      this.#optionsElement.ariaActivedescendant = this.#activeOption.id;
 
       return;
     }
 
-    if (this.open && this.activeOption) {
-      const activeOptionIndex = this.#optionElements.indexOf(this.activeOption);
+    if (this.open && this.#activeOption && this.#optionElements) {
+      const activeOptionIndex = this.#optionElements.indexOf(
+        this.#activeOption,
+      );
 
-      // All the logic below could just as well go in a `@keydown` in Button and Link.
-      // It's here to mirror the tests, which necessarily test against Menu as a whole
-      // because more than one Button or Link is required to test these interactions.
+      // All the logic below could just as well go in a `@keydown` in Menu Button
+      // and Menu Link. It's here to mirror the tests, which necessarily test against
+      // Menu as a whole because more than one Button or Link is required to test
+      // these interactions.
       if (event.key === 'ArrowUp' && !event.metaKey) {
         event.preventDefault(); // Prevent scroll.
 
-        const option = this.#optionElements.at(activeOptionIndex - 1);
+        const option = this.#optionElements?.at(activeOptionIndex - 1);
 
-        if (option && activeOptionIndex !== 0) {
-          this.activeOption.privateActive = false;
-          this.ariaActivedescendant = option.id;
+        if (option && activeOptionIndex !== 0 && this.#optionsElement) {
+          this.#activeOption.privateActive = false;
+          this.#optionsElement.ariaActivedescendant = option.id;
           option.privateActive = true;
         }
 
         return;
       }
 
-      if (event.key === 'ArrowDown' && !event.metaKey) {
+      if (event.key === 'ArrowDown' && !event.metaKey && this.#optionsElement) {
         event.preventDefault(); // Prevent scroll.
 
-        const option = this.#optionElements.at(activeOptionIndex + 1);
+        const option = this.#optionElements?.at(activeOptionIndex + 1);
 
         if (option) {
-          this.activeOption.privateActive = false;
-          this.ariaActivedescendant = option.id;
+          this.#activeOption.privateActive = false;
+          this.#optionsElement.ariaActivedescendant = option.id;
           option.privateActive = true;
         }
 
@@ -337,11 +347,11 @@ export default class GlideCoreMenu extends LitElement {
       ) {
         event.preventDefault(); // Prevent scroll.
 
-        const option = this.#optionElements.at(0);
+        const option = this.#optionElements?.at(0);
 
-        if (option) {
-          this.activeOption.privateActive = false;
-          this.ariaActivedescendant = option.id;
+        if (option && this.#optionsElement) {
+          this.#activeOption.privateActive = false;
+          this.#optionsElement.ariaActivedescendant = option.id;
           option.privateActive = true;
         }
 
@@ -355,11 +365,11 @@ export default class GlideCoreMenu extends LitElement {
       ) {
         event.preventDefault(); // Prevent scroll.
 
-        const option = this.#optionElements.at(-1);
+        const option = this.#optionElements?.at(-1);
 
-        if (option) {
-          this.activeOption.privateActive = false;
-          this.ariaActivedescendant = option.id;
+        if (option && this.#optionsElement) {
+          this.#activeOption.privateActive = false;
+          this.#optionsElement.ariaActivedescendant = option.id;
           option.privateActive = true;
         }
 
@@ -381,11 +391,20 @@ export default class GlideCoreMenu extends LitElement {
 
     this.isTargetDisabled = Boolean(isDisabled) || Boolean(isAriaDisabled);
 
-    if (this.#targetElement && this.#optionsElementRef.value) {
+    if (this.#targetElement && this.#optionsElement) {
       this.#targetElement.ariaHasPopup = 'true';
 
       this.#targetElement.ariaExpanded =
         this.open && !this.isTargetDisabled ? 'true' : 'false';
+
+      this.#targetElement.id = window.crypto.randomUUID();
+
+      this.#targetElement.setAttribute(
+        'aria-controls',
+        this.#optionsElement.id,
+      );
+
+      this.#optionsElement.ariaLabelledby = this.#targetElement.id;
     }
   }
 
@@ -401,37 +420,47 @@ export default class GlideCoreMenu extends LitElement {
 
     this.open = !this.open;
 
-    if (this.open && this.activeOption) {
-      this.ariaActivedescendant = this.activeOption.id;
-    } else if (!this.open) {
-      this.ariaActivedescendant = '';
+    if (this.open && this.#activeOption && this.#optionsElement) {
+      this.#optionsElement.ariaActivedescendant = this.#activeOption.id;
+    } else if (!this.open && this.#optionsElement) {
+      this.#optionsElement.ariaActivedescendant = '';
       this.focus();
     }
   }
 
   get #optionElements() {
-    return (
-      this.#defaultSlotElementRef.value?.assignedElements({ flatten: true }) ??
-      []
-    ).filter((element): element is GlideCoreMenuLink | GlideCoreMenuButton => {
-      return (
-        element instanceof GlideCoreMenuLink ||
-        element instanceof GlideCoreMenuButton
+    // A cleaner approach, which would obviate all the optional chaining and
+    // conditions throughout, would be to return an empty array if `children`
+    // is `undefined`. The problem is test coverage. `GlideCoreMenuOptions`
+    // throws if its default slot is empty. So the branch where `children` is
+    // `undefined` is never reached.
+    const children = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      ?.at(0)?.children;
+
+    if (children) {
+      return [...children].filter(
+        (element): element is GlideCoreMenuLink | GlideCoreMenuButton => {
+          return (
+            element instanceof GlideCoreMenuLink ||
+            element instanceof GlideCoreMenuButton
+          );
+        },
       );
-    });
+    }
   }
 
   #setUpFloatingUi() {
-    if (this.#targetElement && this.#optionsElementRef.value) {
+    if (this.#targetElement && this.#defaultSlotElementRef.value) {
       this.#cleanUpFloatingUi = autoUpdate(
         this.#targetElement,
-        this.#optionsElementRef.value,
+        this.#defaultSlotElementRef.value,
         () => {
           (async () => {
-            if (this.#targetElement && this.#optionsElementRef.value) {
+            if (this.#targetElement && this.#defaultSlotElementRef.value) {
               const { x, y, placement } = await computePosition(
                 this.#targetElement,
-                this.#optionsElementRef.value,
+                this.#defaultSlotElementRef.value,
                 {
                   placement: this.placement,
                   middleware: [
@@ -448,9 +477,9 @@ export default class GlideCoreMenu extends LitElement {
                 },
               );
 
-              this.#optionsElementRef.value.dataset.placement = placement;
+              this.#defaultSlotElementRef.value.dataset.placement = placement;
 
-              Object.assign(this.#optionsElementRef.value.style, {
+              Object.assign(this.#defaultSlotElementRef.value.style, {
                 left: `${x}px`,
                 top: `${y}px`,
               });

@@ -49,14 +49,6 @@ it('is selected on click when the checkbox itself is clicked', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  // Checkbox has its own lifecycle. Wait until it's ready.
-  waitUntil(() => {
-    return (
-      component.shadowRoot?.querySelector('[data-test="checkbox"]') instanceof
-      GlideCoreCheckbox
-    );
-  });
-
   const checkbox = component.shadowRoot?.querySelector<GlideCoreCheckbox>(
     '[data-test="checkbox"]',
   );
@@ -80,7 +72,7 @@ it('is deselected on click when the checkbox itself is clicked', async () => {
   );
 
   // Checkbox has its own lifecycle. Wait until it's ready.
-  waitUntil(() => {
+  await waitUntil(() => {
     return (
       component.shadowRoot?.querySelector('[data-test="checkbox"]') instanceof
       GlideCoreCheckbox
