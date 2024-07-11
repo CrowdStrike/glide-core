@@ -17,6 +17,9 @@ it('has defaults', async () => {
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
 
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.getAttribute('aria-checked')).to.equal('false');
+
   expect(component.hasAttribute('disabled')).to.be.false;
   expect(component.disabled).to.be.false;
 
@@ -94,6 +97,9 @@ it('can be checked', async () => {
 
   expect(component.hasAttribute('checked')).to.be.true;
   expect(component.checked).to.equal(true);
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.getAttribute('aria-checked')).to.equal('true');
 });
 
 it('can be disabled', async () => {

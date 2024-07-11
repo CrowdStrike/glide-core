@@ -13,6 +13,9 @@ it('is checked after being clicked', async () => {
 
   expect(component.checked).to.equal(true);
   expect(component.hasAttribute('checked')).to.be.false;
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.getAttribute('aria-checked')).to.equal('true');
 });
 
 it('is unchecked after being clicked', async () => {
@@ -25,6 +28,9 @@ it('is unchecked after being clicked', async () => {
 
   expect(component.checked).to.equal(false);
   expect(component.hasAttribute('checked')).to.be.true;
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.getAttribute('aria-checked')).to.equal('false');
 });
 
 it('is still checked after being clicked when checked but disabled', async () => {
@@ -41,6 +47,9 @@ it('is still checked after being clicked when checked but disabled', async () =>
 
   expect(component.checked).to.equal(true);
   expect(component.hasAttribute('checked')).to.be.true;
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.getAttribute('aria-checked')).to.equal('true');
 });
 
 it('is still unchecked after being clicked when unchecked and disabled', async () => {
@@ -53,4 +62,7 @@ it('is still unchecked after being clicked when unchecked and disabled', async (
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.equal(false);
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.getAttribute('aria-checked')).to.equal('false');
 });
