@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { owSlot } from './library/ow.js';
 import styles from './button.styles.js';
 
@@ -28,11 +29,22 @@ export default class GlideCoreButton extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true })
-  override ariaExpanded: string | null = null;
+  @property({ attribute: 'aria-expanded', reflect: true })
+  override ariaExpanded: 'true' | 'false' | null = null;
 
-  @property({ reflect: true })
-  override ariaHasPopup: string | null = null;
+  @property({ attribute: 'aria-haspopup', reflect: true })
+  override ariaHasPopup:
+    | 'true'
+    | 'false'
+    | 'menu'
+    | 'listbox'
+    | 'tree'
+    | 'grid'
+    | 'dialog'
+    | null = null;
+
+  @property({ attribute: 'aria-controls', reflect: true })
+  ariaControls: string | null = null;
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
@@ -54,6 +66,9 @@ export default class GlideCoreButton extends LitElement {
 
   override render() {
     return html`<button
+      aria-controls=${ifDefined(this.ariaControls ?? undefined)}
+      aria-expanded=${ifDefined(this.ariaExpanded ?? undefined)}
+      aria-haspopup=${ifDefined(this.ariaHasPopup ?? undefined)}
       class=${classMap({
         component: true,
         primary: this.variant === 'primary',

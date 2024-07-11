@@ -18,7 +18,6 @@ it('closes when it loses focus', async () => {
   );
 
   component.focus();
-
   await sendKeys({ press: 'Tab' });
 
   expect(component.open).to.be.false;

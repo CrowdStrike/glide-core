@@ -328,7 +328,6 @@ export default class GlideCoreDropdown extends LitElement {
         ?required=${this.required}
       >
         <label id="label"> ${this.label} </label>
-
         <slot name="tooltip" slot="tooltip"></slot>
 
         <div
@@ -359,6 +358,7 @@ export default class GlideCoreDropdown extends LitElement {
                     </span>`,
                 )}
             </span>
+
             ${when(this.multiple && this.selectedOptions.length > 0, () => {
               return html`<ul
                 aria-describedby="tag-overflow-text"
@@ -624,8 +624,10 @@ export default class GlideCoreDropdown extends LitElement {
       )
     ) {
       this.open = false;
+      this.ariaActivedescendant = '';
     } else if (!this.multiple && !(event.target instanceof GlideCoreDropdown)) {
       this.open = false;
+      this.ariaActivedescendant = '';
     }
   };
 
@@ -730,11 +732,11 @@ export default class GlideCoreDropdown extends LitElement {
     if (this.lastSelectedOption) {
       this.#deactivateAllOptions();
       this.lastSelectedOption.privateActive = true;
-      this.ariaActivedescendant = this.lastSelectedOption.id;
+      this.ariaActivedescendant = this.open ? this.lastSelectedOption.id : '';
     } else if (firstOption) {
       this.#deactivateAllOptions();
       firstOption.privateActive = true;
-      this.ariaActivedescendant = firstOption.id;
+      this.ariaActivedescendant = this.open ? firstOption.id : '';
     }
 
     // Update Select All to reflect the selected options.
@@ -754,6 +756,13 @@ export default class GlideCoreDropdown extends LitElement {
     } else if (this.lastSelectedOption?.value) {
       this.#value = [this.lastSelectedOption.value];
     }
+
+    // Dropdown's internal label now needs to be updated to reflect the selected option
+    // or options. `this.internalLabel` uses the `this.selectedOptions` getter, whose
+    // return value is derived from the state of another component: Dropdown Option.
+    // For whatever reason, and even though that component's state is reactive, a change
+    // to it doesn't result in a rerender of this component. So one is forced.
+    this.requestUpdate();
   }
 
   #onDropdownAndOptionsFocusout(event: FocusEvent) {
@@ -763,6 +772,7 @@ export default class GlideCoreDropdown extends LitElement {
     // still in use.
     if (event.relatedTarget === null && !this.#isRemovingTag) {
       this.open = false;
+      this.ariaActivedescendant = '';
     }
   }
 
@@ -776,6 +786,7 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (event.key === 'Escape') {
       this.open = false;
+      this.ariaActivedescendant = '';
       this.focus();
       return;
     }
@@ -793,13 +804,18 @@ export default class GlideCoreDropdown extends LitElement {
       return;
     }
 
-    if (!this.open && [' ', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
+    if (
+      !this.open &&
+      [' ', 'ArrowUp', 'ArrowDown'].includes(event.key) &&
+      this.activeOption
+    ) {
       // Prevents page scroll. Also prevents the insertion point moving to beginning or
       // end of the field and a " " character from being entered in addition to making the
       // options visible when `this.isFilterable`.
       event.preventDefault();
 
       this.open = true;
+      this.ariaActivedescendant = this.activeOption.id;
 
       // The user almost certainly wasn't intending to do both open Dropdown and change
       // the active option in the case of ArrowUp or ArrowDown. Thus return. The user
@@ -950,13 +966,15 @@ export default class GlideCoreDropdown extends LitElement {
       this.open
     ) {
       this.open = false;
+      this.ariaActivedescendant = '';
 
       // `event.detail` is an integer set to the number of clicks. When it's zero,
       // the event most likely originated from an Enter press. And, if Dropdown is part
       // of a form, Enter should result in a submit and the dropdown shouldn't be opened.
       // Thus we return, with or without a form for consistency.
-    } else if (!this.open && event.detail !== 0) {
+    } else if (!this.open && event.detail !== 0 && this.activeOption) {
       this.open = true;
+      this.ariaActivedescendant = this.activeOption.id;
     }
   }
 
@@ -978,9 +996,9 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #onInputInput() {
-    if (this.#inputElementRef.value) {
+    if (this.#inputElementRef.value && this.activeOption) {
       this.open = true;
-
+      this.ariaActivedescendant = this.activeOption.id;
       this.isFiltering = this.#inputElementRef.value.value.trim() !== '';
 
       for (const option of this.#optionElements) {
@@ -1105,6 +1123,7 @@ export default class GlideCoreDropdown extends LitElement {
       } else if (!this.multiple && event.target.selected) {
         this.#value = event.target.value ? [event.target.value] : [];
         this.open = false;
+        this.ariaActivedescendant = '';
         this.focus();
 
         if (this.isFilterable && this.#inputElementRef.value) {
@@ -1118,11 +1137,11 @@ export default class GlideCoreDropdown extends LitElement {
       }
     }
 
-    // Dropdown's internal label now needs updating. `this.internalLabel` uses the
-    // `this.selectedOptions` getter, whose return value is derived from the state
-    // of another component: Dropdown Option. For whatever reason, and even though
-    // that state is reactive, a change to it doesn't result in a rerender of this
-    // component. So we force one.
+    // Dropdown's internal label now needs to be updated to reflect the selected option
+    // or options. `this.internalLabel` uses the `this.selectedOptions` getter, whose
+    // return value is derived from the state of another component: Dropdown Option.
+    // For whatever reason, and even though that component's state is reactive, a change
+    // to it doesn't result in a rerender of this component. So one is forced.
     this.requestUpdate();
   }
 

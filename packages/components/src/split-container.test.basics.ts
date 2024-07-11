@@ -2,20 +2,18 @@ import './split-button.js';
 import './split-container.js';
 import './split-link.js';
 
-import { ArgumentError } from 'ow';
 import {
-  assert,
   elementUpdated,
   expect,
   fixture,
   html,
+  waitUntil,
 } from '@open-wc/testing';
 import GlideCoreSplitButton from './split-button.js';
 import GlideCoreSplitContainer from './split-container.js';
 import GlideCoreSplitLink from './split-link.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
-import type GlideCoreMenu from './menu.js';
 
 GlideCoreSplitContainer.shadowRootOptions.mode = 'open';
 
@@ -690,21 +688,15 @@ it('throws an error when the default slot is an unsupported type', async () => {
     ),
   );
 
-  const menu = document
-    .querySelector('glide-core-split-container')
-    ?.shadowRoot?.querySelector<GlideCoreMenu>('[data-test="menu"]');
+  // Menu is rendered asynchronously outside of Split Container's lifecycle
+  // and asserts against its default slot. That assertion, which is expected
+  // to fail in this case, results in an unhandled rejection that gets logged.
+  // `console.error` is stubbed so the logs aren't muddied.
+  const stub = sinon.stub(console, 'error');
 
-  assert(menu);
-
-  const spy = sinon.spy();
-
-  try {
-    await menu.updateComplete;
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
+  // Menu asserts against its default slot once on `firstUpdated` and
+  // again on "slotchange". So we wait until the stub has been called
+  // twice before restoring it.
+  await waitUntil(() => stub.calledTwice);
+  stub.restore();
 });

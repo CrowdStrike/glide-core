@@ -1,6 +1,12 @@
 import './split-button.js';
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import {
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+} from '@open-wc/testing';
 import GlideCoreSplitButton from './split-button.js';
 import expectArgumentError from './library/expect-argument-error.js';
 
@@ -18,6 +24,27 @@ it('is accessible', async () => {
   `);
 
   await expect(component).to.be.accessible();
+});
+
+it('has defaults', async () => {
+  const component = await fixture<GlideCoreSplitButton>(
+    html`<glide-core-split-button>Button</glide-core-split-button>`,
+  );
+
+  const button = component.shadowRoot?.querySelector('button');
+  assert(button);
+
+  expect(component.ariaExpanded).to.equal(null);
+  expect(component.ariaControls).to.equal(null);
+  expect(component.ariaHasPopup).to.equal(null);
+  expect(component.disabled).to.equal(false);
+  expect(component.size).to.equal('large');
+  expect(component.variant).to.equal('primary');
+
+  expect(button.getAttribute('aria-controls')).to.equal(null);
+  expect(button.ariaExpanded).to.equal(null);
+  expect(button.ariaHasPopup).to.equal(null);
+  expect(button.disabled).to.equal(false);
 });
 
 it('renders a button with a label by default', async () => {
