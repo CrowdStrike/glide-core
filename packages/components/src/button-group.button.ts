@@ -115,7 +115,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
       class=${classMap({
         component: true,
         selected: this.selected,
-        disabled: Boolean(this.disabled),
+        disabled: this.disabled,
         [this.position]: true,
         vertical: this.vertical,
         single: this.isSingleButton,

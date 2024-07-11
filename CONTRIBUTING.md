@@ -21,6 +21,7 @@
   - [Avoid side effects in setters](#avoid-side-effects-in-setters)
   - [Prefer `.component` for the root element CSS selector](#prefer-component-for-the-root-element-css-selector)
   - [Bubble events by default](#bubble-events-by-default)
+  - [Override and decorate inherited properties used in templates](#override-and-decorate-inherited-properties-used-in-templates)
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
 
@@ -572,6 +573,17 @@ this.dispatchEvent(new Event('change');
 
 There are some exceptions such as Modal, whose "close" event doesn't bubble similar to `<dialog>`.
 When deciding to bubble, consider whether the native equivalent bubbles.
+
+### Override and decorate inherited properties used in templates
+
+Properties inherited from `Element` or `HTMLElement` aren't fully reactive.
+
+When a consumer changes an inherited property, Lit handles reactivity via `attributeChangedCallback`.
+But when one is changed internally—say, via a click handler—the change won't be reflected in the template.
+
+Many components don't change inherited properties internally.
+However, if one is made to after the fact, it may result in a subtle bug.
+So it's best to always override and decorate (using `@property`) inherited properties used in templates.
 
 ## Questions
 

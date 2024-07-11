@@ -27,6 +27,8 @@ export default [
 
       &.disabled,
       &.disabled:hover {
+        cursor: not-allowed;
+
         & .divider {
           background-color: var(--glide-core-border-base-light);
         }

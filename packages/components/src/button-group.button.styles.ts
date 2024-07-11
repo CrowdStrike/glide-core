@@ -94,7 +94,7 @@ export default [
         background-color: var(--glide-core-border-base-lighter);
         border-color: var(--glide-core-border-base-lighter);
         color: var(--glide-core-text-tertiary-disabled);
-        cursor: default;
+        cursor: not-allowed;
       }
     }
 
