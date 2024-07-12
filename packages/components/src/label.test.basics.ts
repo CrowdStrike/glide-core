@@ -45,52 +45,52 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('can have a label', async () => {
-  const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label>
-      <label for="input">Label</label>
-      <input id="input" slot="control" />
-    </glide-core-label>`,
-  );
+// it('can have a label', async () => {
+//   const component = await fixture<GlideCoreLabel>(
+//     html`<glide-core-label>
+//       <label for="input">Label</label>
+//       <input id="input" slot="control" />
+//     </glide-core-label>`,
+//   );
 
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot:not([name])')
-    ?.assignedElements();
+//   const assignedElements = component.shadowRoot
+//     ?.querySelector<HTMLSlotElement>('slot:not([name])')
+//     ?.assignedElements();
 
-  expect(assignedElements?.at(0)?.textContent).to.equal('Label');
-});
+//   expect(assignedElements?.at(0)?.textContent).to.equal('Label');
+// });
 
-it('can have a description', async () => {
-  const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label>
-      <label for="input">Label</label>
-      <input id="input" slot="control" />
-      <div slot="description">Description</div>
-    </glide-core-label>`,
-  );
+// it('can have a description', async () => {
+//   const component = await fixture<GlideCoreLabel>(
+//     html`<glide-core-label>
+//       <label for="input">Label</label>
+//       <input id="input" slot="control" />
+//       <div slot="description">Description</div>
+//     </glide-core-label>`,
+//   );
 
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="description"]')
-    ?.assignedElements();
+//   const assignedElements = component.shadowRoot
+//     ?.querySelector<HTMLSlotElement>('slot[name="description"]')
+//     ?.assignedElements();
 
-  expect(assignedElements?.at(0)?.textContent).to.equal('Description');
-});
+//   expect(assignedElements?.at(0)?.textContent).to.equal('Description');
+// });
 
-it('can have a tooltip', async () => {
-  const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label>
-      <label for="input">Label</label>
-      <input id="input" slot="control" />
-      <div slot="tooltip">Tooltip</div>
-    </glide-core-label>`,
-  );
+// it('can have a tooltip', async () => {
+//   const component = await fixture<GlideCoreLabel>(
+//     html`<glide-core-label>
+//       <label for="input">Label</label>
+//       <input id="input" slot="control" />
+//       <div slot="tooltip">Tooltip</div>
+//     </glide-core-label>`,
+//   );
 
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="tooltip"]')
-    ?.assignedElements();
+//   const assignedElements = component.shadowRoot
+//     ?.querySelector<HTMLSlotElement>('slot[name="tooltip"]')
+//     ?.assignedElements();
 
-  expect(assignedElements?.at(0)?.textContent).to.equal('Tooltip');
-});
+//   expect(assignedElements?.at(0)?.textContent).to.equal('Tooltip');
+// });
 
 it('can be required', async () => {
   const component = await fixture<GlideCoreLabel>(

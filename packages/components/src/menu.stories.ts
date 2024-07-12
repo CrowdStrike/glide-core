@@ -15,7 +15,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A basic menu.',
+        component: 'A menu with optional icons.',
       },
       story: {
         autoplay: true,

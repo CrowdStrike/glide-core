@@ -19,6 +19,7 @@ const meta: Meta = {
     'slot="default"': 'Tooltip <kbd>CMD + K</kbd>',
     'slot="target"': '',
     placement: 'bottom',
+    disabled: false,
   },
   argTypes: {
     'slot="default"': {
@@ -29,9 +30,16 @@ const meta: Meta = {
     },
     'slot="target"': {
       table: {
-        type: { summary: 'Element', detail: 'Any focusable element.' },
+        type: { summary: 'Element' },
       },
       type: { name: 'function', required: true },
+    },
+    disabled: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     placement: {
       control: { type: 'radio' },
@@ -52,7 +60,10 @@ const meta: Meta = {
       <div
         style="align-items: center; display: flex; height: 8rem; justify-content: center;"
       >
-        <glide-core-tooltip placement=${arguments_.placement}>
+        <glide-core-tooltip
+          placement=${arguments_.placement}
+          ?disabled=${arguments_.disabled}
+        >
           ${unsafeHTML(arguments_['slot="default"'])}
 
           <span

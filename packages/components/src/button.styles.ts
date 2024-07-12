@@ -42,7 +42,7 @@ export default [
       }
 
       /* We remove spacing using negative margin when an icon is present to help with empty space balancing */
-      &.has-prefx,
+      &.has-prefix,
       ::slotted([slot='prefix']) {
         margin-inline-start: -0.125rem;
       }

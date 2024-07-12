@@ -21,6 +21,14 @@ export default [
         flex-direction: column;
       }
 
+      &.left {
+        grid-template-columns: calc(100% / 3) 1fr;
+      }
+
+      &.middle {
+        grid-template-columns: 1fr 1fr;
+      }
+
       &.hidden-label {
         display: flex;
         flex-direction: column;
@@ -32,12 +40,18 @@ export default [
       column-gap: var(--glide-core-spacing-xs);
       display: flex;
 
+      /* TODO: can it always be flex end? */
+      justify-content: flex-end;
+
+      /* TODO: explain */
+      min-inline-size: 0;
+
       &.hidden {
         ${visuallyHidden};
       }
     }
 
-    glide-core-tooltip {
+    .optional-tooltip {
       display: none;
 
       &.vertical {
@@ -53,7 +67,7 @@ export default [
       }
     }
 
-    .tooltip-target {
+    .optional-tooltip-target {
       background-color: transparent;
       border: none;
 
@@ -84,7 +98,12 @@ make it difficult to center vertically with the label.
       font-variant: var(--glide-core-heading-xxxs-font-variant);
       font-weight: var(--glide-core-heading-xxxs-font-weight);
       line-height: 100%;
+      margin-inline-start: auto;
+      overflow: hidden;
+      text-align: end;
+      text-overflow: ellipsis;
       user-select: none;
+      white-space: nowrap;
 
       &.disabled ::slotted(*) {
         cursor: not-allowed;
@@ -97,6 +116,10 @@ make it difficult to center vertically with the label.
       &.vertical {
         margin-block-end: var(--glide-core-spacing-xxs);
       }
+    }
+
+    .label-overflow-tooltip {
+      inline-size: 100%;
     }
 
     .required-symbol {

@@ -36,7 +36,7 @@ export default [
         }
       }
 
-      glide-core-label::part(tooltip-and-label-container) {
+      glide-core-label::part(tooltip-and-label) {
         align-items: flex-start;
       }
     }

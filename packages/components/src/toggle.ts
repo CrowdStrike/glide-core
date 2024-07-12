@@ -2,6 +2,7 @@ import './label.js';
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './toggle.styles.js';
 
 declare global {
@@ -46,6 +47,9 @@ export default class GlideCoreToggle extends LitElement {
   @property({ reflect: true })
   name?: string;
 
+  @property()
+  privateSplit?: 'left' | 'middle';
+
   @property({ reflect: true })
   summary?: string;
 
@@ -61,6 +65,7 @@ export default class GlideCoreToggle extends LitElement {
     return html`<div data-test="component">
       <glide-core-label
         orientation=${this.orientation}
+        split=${ifDefined(this.privateSplit ?? undefined)}
         ?disabled=${this.disabled}
         ?hide=${this.hideLabel}
       >

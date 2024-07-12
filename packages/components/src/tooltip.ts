@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import {
   arrow,
   autoUpdate,
@@ -32,6 +32,9 @@ export default class GlideCoreTooltip extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
 
   /* The placement of the tooltip relative to its target. Automatic placement will take over if the tooltip is cut off by the viewport. */
   @property()
@@ -77,7 +80,7 @@ export default class GlideCoreTooltip extends LitElement {
         @mouseout=${this.#onMouseout}
       >
         <div
-          aria-labelledby="tooltip"
+          aria-labelledby=${this.disabled ? nothing : 'tooltip'}
           class="target"
           slot="target"
           @focusin=${this.#onFocusin}
@@ -95,13 +98,13 @@ export default class GlideCoreTooltip extends LitElement {
         <div
           class=${classMap({
             tooltip: true,
-            visible: this.isVisible,
+            visible: this.isVisible && !this.disabled,
           })}
           id="tooltip"
-          role="tooltip"
+          role=${this.disabled ? 'none' : 'tooltip'}
           ${ref(this.#tooltipElementRef)}
         >
-          <span aria-label="Tooltip: "></span>
+          <span aria-label=${this.disabled ? nothing : 'Tooltip: '}></span>
 
           <slot
             @slotchange=${this.#onDefaultSlotChange}
@@ -113,9 +116,6 @@ export default class GlideCoreTooltip extends LitElement {
       </div>
     `;
   }
-
-  @state()
-  private effectivePlacement?: string;
 
   #arrowElementRef = createRef<HTMLDivElement>();
 
@@ -223,8 +223,6 @@ export default class GlideCoreTooltip extends LitElement {
                 bottom: '',
                 [staticSide]: '-3px',
               });
-
-              this.effectivePlacement = placement;
             }
           })();
         },

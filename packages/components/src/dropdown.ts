@@ -5,6 +5,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { svg } from 'lit/static-html.js';
 import { when } from 'lit/directives/when.js';
@@ -61,6 +62,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   @property({ reflect: true })
   placeholder?: string;
+
+  @property()
+  privateSplit?: 'left' | 'middle';
 
   @property({ type: Boolean })
   readonly = false;
@@ -321,6 +325,7 @@ export default class GlideCoreDropdown extends LitElement {
       })}
     >
       <glide-core-label
+        split=${ifDefined(this.privateSplit ?? undefined)}
         orientation=${this.orientation}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}

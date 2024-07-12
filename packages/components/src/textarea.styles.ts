@@ -1,7 +1,7 @@
 import { css } from 'lit';
 
 export default css`
-  glide-core-label::part(tooltip-and-label-container) {
+  glide-core-label::part(tooltip-and-label) {
     align-items: flex-start;
     margin-block-start: var(--glide-core-spacing-sm);
   }
