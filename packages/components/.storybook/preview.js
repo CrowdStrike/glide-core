@@ -3,7 +3,7 @@
 import '../src/styles/fonts.css';
 import '../src/styles/variables.css';
 import './overrides.css';
-import { create } from '@storybook/theming/create';
+import { create } from '@storybook/theming';
 import { html } from 'lit';
 
 export default {
@@ -24,18 +24,6 @@ export default {
       return html`${story()}`;
     },
   ],
-  parameters: {
-    docs: {
-      canvas: {
-        sourceState: 'shown',
-      },
-      theme: create({
-        base: 'light',
-        fontBase: '"Nunito", sans-serif',
-        fontCode: 'monospace',
-      }),
-    },
-  },
   globalTypes: {
     theme: {
       description: 'Sets the global theme for components',
@@ -51,4 +39,17 @@ export default {
       },
     },
   },
+  parameters: {
+    docs: {
+      canvas: {
+        sourceState: 'shown',
+      },
+      theme: create({
+        base: 'light',
+        fontBase: '"Nunito", sans-serif',
+        fontCode: 'monospace',
+      }),
+    },
+  },
+  tags: ['autodocs'],
 };
