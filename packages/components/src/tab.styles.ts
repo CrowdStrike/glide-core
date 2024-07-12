@@ -7,6 +7,7 @@ export default [
       outline: none;
     }
 
+    /* Using nesting creates an issue on Safari with :host */
     /* stylelint-disable-next-line csstools/use-nesting */
     :host(:focus-visible) .component .container {
       ${focusOutline};
