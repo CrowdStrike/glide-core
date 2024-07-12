@@ -22,23 +22,35 @@ export default [
         flex-direction: column;
       }
 
+      &.left {
+        grid-template-columns: calc(100% / 3) 1fr;
+      }
+
+      &.middle {
+        grid-template-columns: 1fr 1fr;
+      }
+
       &.hidden-label {
         display: flex;
         flex-direction: column;
       }
     }
 
-    .tooltip-and-label {
+    .tooltips-and-label {
       align-items: center;
       column-gap: var(--glide-core-spacing-xs);
       display: flex;
+      justify-content: flex-end;
+
+      /* Prevent it from growing larger than its column percentage when a child of Form Controls Layout. */
+      min-inline-size: 0;
 
       &.hidden {
         ${visuallyHidden};
       }
     }
 
-    glide-core-tooltip {
+    .optional-tooltip {
       display: none;
 
       &.vertical {
@@ -54,7 +66,7 @@ export default [
       }
     }
 
-    .tooltip-target {
+    .optional-tooltip-target {
       background-color: transparent;
       border: none;
       border-radius: 0.0625rem;
@@ -83,7 +95,12 @@ export default [
       font-variant: var(--glide-core-heading-xxxs-font-variant);
       font-weight: var(--glide-core-heading-xxxs-font-weight);
       line-height: 100%;
+      margin-inline-start: auto;
+      overflow: hidden;
+      text-align: end;
+      text-overflow: ellipsis;
       user-select: none;
+      white-space: nowrap;
 
       &.disabled ::slotted(*) {
         cursor: not-allowed;
@@ -96,6 +113,10 @@ export default [
       &.vertical {
         margin-block-end: var(--glide-core-spacing-xxs);
       }
+    }
+
+    .label-overflow-tooltip {
+      inline-size: 100%;
     }
 
     .required-symbol {

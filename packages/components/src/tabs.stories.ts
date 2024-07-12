@@ -34,13 +34,19 @@ const meta: Meta = {
       <glide-core-tab slot="nav" panel="3" disabled>Disabled</glide-core-tab>
 
       <glide-core-tab-panel name="1"
-        ><div style="margin:10px">Content for tab 1</div></glide-core-tab-panel
+        ><div style="margin: 0.625rem">
+          Content for tab 1
+        </div></glide-core-tab-panel
       >
       <glide-core-tab-panel name="2"
-        ><div style="margin:10px">Content for tab 2</div></glide-core-tab-panel
+        ><div style="margin: 0.625rem">
+          Content for tab 2
+        </div></glide-core-tab-panel
       >
       <glide-core-tab-panel name="3"
-        ><div style="margin:10px">Content for tab 3</div></glide-core-tab-panel
+        ><div style="margin: 0.625rem">
+          Content for tab 3
+        </div></glide-core-tab-panel
       >
     </glide-core-tab-group>
   `,

@@ -1,5 +1,5 @@
 import { ArgumentError } from 'ow';
-import { expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import GlideCoreLabel from './label.js';
 import sinon from 'sinon';
 
@@ -155,10 +155,8 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<GlideCoreLabel>(
-      html`<glide-core-label orientation="vertical"
-        ><input slot="control"
-      /></glide-core-label>`,
+    await fixture(
+      html`<glide-core-label><input slot="control" /></glide-core-label>`,
     );
   } catch (error) {
     if (error instanceof ArgumentError) {
@@ -171,10 +169,11 @@ it('throws if it does not have a default slot', async () => {
 
 it('throws if it does not have a "control" slot', async () => {
   const spy = sinon.spy();
+  const stub = sinon.stub(console, 'error');
 
   try {
-    await fixture<GlideCoreLabel>(
-      html`<glide-core-label orientation="vertical">
+    await fixture(
+      html`<glide-core-label>
         <label>Label</label>
       </glide-core-label>`,
     );
@@ -185,4 +184,10 @@ it('throws if it does not have a "control" slot', async () => {
   }
 
   expect(spy.called).to.be.true;
+
+  // It's not clear to me why the error logged by Ow shows up in the console
+  // here and not in the above test or elsewhere. A bug in Web Test Runner?
+  // Something I don't understand about Lit's lifecycle?
+  await waitUntil(() => stub.called);
+  stub.restore();
 });

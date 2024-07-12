@@ -10,6 +10,14 @@ it('registers', async () => {
   );
 });
 
+it('is accessible', async () => {
+  const element = await fixture<GlideCoreInput>(html`
+    <glide-core-input label="Test" value="lorem"></glide-core-input>
+  `);
+
+  await expect(element).to.be.accessible();
+});
+
 it('accepts and contains "value" attribute', async () => {
   const element = await fixture<GlideCoreInput>(html`
     <glide-core-input label="Test" value="lorem"></glide-core-input>

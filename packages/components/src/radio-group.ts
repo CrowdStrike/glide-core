@@ -4,6 +4,7 @@ import { LitElement, type PropertyValueMap, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreRadio from './radio.js';
 import styles from './radio-group.styles.js';
@@ -49,6 +50,9 @@ export default class GlideCoreRadioGroup extends LitElement {
 
   @property()
   name = '';
+
+  @property()
+  privateSplit?: 'left' | 'middle';
 
   @property({ type: Boolean, reflect: true })
   required = false;
@@ -128,6 +132,7 @@ export default class GlideCoreRadioGroup extends LitElement {
       >
         <glide-core-label
           orientation="horizontal"
+          split=${ifDefined(this.privateSplit ?? undefined)}
           ?disabled=${this.disabled}
           ?error=${this.#isShowValidationFeedback}
           ?hide=${this.hideLabel}

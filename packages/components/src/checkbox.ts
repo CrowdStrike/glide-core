@@ -3,6 +3,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { svg } from 'lit/static-html.js';
 import { when } from 'lit/directives/when.js';
 import checkedIcon from './icons/checked.js';
@@ -64,6 +65,9 @@ export default class GlideCoreCheckbox extends LitElement {
 
   @property({ reflect: true })
   name?: string;
+
+  @property()
+  privateSplit?: 'left' | 'middle';
 
   @property({ attribute: 'private-variant' })
   privateVariant?: 'minimal';
@@ -171,6 +175,7 @@ export default class GlideCoreCheckbox extends LitElement {
         () =>
           html`<glide-core-label
             orientation=${this.orientation}
+            split=${ifDefined(this.privateSplit ?? undefined)}
             ?disabled=${this.disabled}
             ?error=${this.#isShowValidationFeedback}
             ?hide=${this.hideLabel}

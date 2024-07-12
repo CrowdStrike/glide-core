@@ -9,7 +9,7 @@ import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 export default {
   filterBrowserLogs(log) {
     // Uncaught Ow errors are expected from "slotchange" handlers and shouldn't muddy the logs.
-    return log.type === 'error' && log.args.at(0)?.includes('ow.ts')
+    return log.type === 'error' && log.args.at(0)?.includes('node_modules/ow')
       ? false
       : true;
   },
