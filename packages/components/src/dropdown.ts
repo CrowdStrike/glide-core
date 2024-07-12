@@ -2,6 +2,7 @@ import './checkbox.js';
 import './dropdown.option.js';
 import './label.js';
 import { LitElement, html } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -467,7 +468,7 @@ export default class GlideCoreDropdown extends LitElement {
                 },
                 () => {
                   return svg`<svg
-                    aria-label="Open"
+                    aria-label=${this.#localize.term('open')}
                     class=${classMap({
                       'caret-icon': true,
                       disabled: this.disabled,
@@ -511,7 +512,7 @@ export default class GlideCoreDropdown extends LitElement {
             <glide-core-dropdown-option
               class="select-all"
               data-test="select-all"
-              label="Select All"
+              label=${this.#localize.term('selectAll')}
               ?hidden=${!this.selectAll || !this.multiple || this.isFiltering}
               @private-selected-change=${this.#onSelectAllSelectedChange}
               ${ref(this.#selectAllElementRef)}
@@ -598,6 +599,8 @@ export default class GlideCoreDropdown extends LitElement {
   #isRemovingTag = false;
 
   #isSelectionViaSpaceOrEnter = false;
+
+  #localize = new LocalizeController(this);
 
   #selectAllElementRef = createRef<GlideCoreDropdownOption>();
 

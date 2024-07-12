@@ -1,5 +1,6 @@
 import './toasts.toast.js';
 import { LitElement, html } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement } from 'lit/decorators.js';
 import styles from './toasts.styles.js';
@@ -62,11 +63,13 @@ export default class GlideCoreToasts extends LitElement {
         class="component"
         role="region"
         tabindex="-1"
-        aria-label="Notifications"
+        aria-label=${this.#localize.term('notifications')}
         ${ref(this.#componentElementRef)}
       ></div>
     `;
   }
 
   #componentElementRef = createRef<HTMLDivElement>();
+
+  #localize = new LocalizeController(this);
 }
