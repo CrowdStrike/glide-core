@@ -70,3 +70,25 @@ it('does not focus the input after `checkValidity` is called', async () => {
 
   expect(component.shadowRoot?.activeElement).to.equal(null);
 });
+
+it('blurs the input and reports validity if `blur` is called', async () => {
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox required></glide-core-checkbox>`,
+  );
+
+  component.focus();
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(component.shadowRoot?.activeElement).to.equal(input);
+
+  component.blur();
+  await component.updateComplete;
+
+  expect(component.shadowRoot?.activeElement).to.equal(null);
+
+  expect(component.validity.valid).to.equal(false);
+
+  expect(
+    component.shadowRoot?.querySelector('glide-core-label')?.error,
+  ).to.equal(true);
+});

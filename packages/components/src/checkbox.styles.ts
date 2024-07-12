@@ -84,7 +84,8 @@ when browsers support them.
         border-color: var(--glide-core-surface-primary-disabled);
       }
 
-      &:focus-visible ~ .checkbox {
+      &:focus-visible ~ .checkbox,
+      &:focus ~ .checkbox {
         ${focusOutline};
       }
 
