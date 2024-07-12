@@ -78,6 +78,7 @@ export default [
         color: var(--glide-core-color-white);
 
         ${focusOutline};
+        outline-offset: 2px;
 
         /* create a stacking context so the outline doesn't become obscured behind other elements */
         transform: translateX(0);

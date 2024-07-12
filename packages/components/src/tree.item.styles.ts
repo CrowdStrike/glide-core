@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
@@ -46,7 +47,7 @@ export default [
 
     .label-container {
       align-items: center;
-      border-radius: 0.625rem;
+      border-radius: 0.5rem;
       color: var(--color);
       display: flex;
       font-size: var(--glide-core-body-sm-font-size);
@@ -66,10 +67,15 @@ export default [
       }
 
       &:focus-visible {
-        outline: var(--glide-core-border-primary);
-        outline-offset: -1px;
-        outline-style: auto;
-        outline-width: 2px;
+        ${focusOutline};
+
+        /* The outline is inside the component since children have overflow hidden */
+        outline-offset: -2px;
+
+        .component.selected & {
+          outline: 1px solid var(--glide-core-icon-selected);
+          outline-offset: -3px;
+        }
       }
 
       .component.selected & {

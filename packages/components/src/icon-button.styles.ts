@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
@@ -28,8 +29,7 @@ export default [
       }
 
       &:focus-visible {
-        outline: 2px solid var(--glide-core-surface-primary);
-        outline-offset: 1px;
+        ${focusOutline};
       }
 
       &:disabled {
@@ -94,8 +94,7 @@ export default [
         padding: 0;
 
         &:focus-visible {
-          border-radius: 0.25rem;
-          outline-offset: 0;
+          border-radius: 0.0625rem;
         }
 
         &:disabled {

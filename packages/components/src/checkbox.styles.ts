@@ -86,7 +86,6 @@ when browsers support them.
 
       &:focus-visible ~ .checkbox {
         ${focusOutline};
-        outline-offset: 4px;
       }
 
       &:is(:checked, :indeterminate):not(:disabled) ~ .checkbox {

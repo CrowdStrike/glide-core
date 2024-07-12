@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import focusOutline from './styles/focus-outline.js';
 import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
@@ -56,23 +57,21 @@ export default [
     .tooltip-target {
       background-color: transparent;
       border: none;
-
-      /* TODO
-We want the focus outline to wrap neatly around the trigger. Tooltip should
-probably wrap its default slot in a SPAN with "tabindex=0" and include the
-below styles so every consumer doesn't have to.
-*/
-      border-radius: 50%;
+      border-radius: 0.0625rem;
       color: var(--glide-core-text-body-1);
 
       /*
-Any "display" that's not inline-level will do. We don't want the button to
-acquire a line box, which will make it taller than its content and thus
-make it difficult to center vertically with the label.
-*/
+      Any "display" that's not inline-level will do. We don't want the button to
+      acquire a line box, which will make it taller than its content and thus
+      make it difficult to center vertically with the label.
+      */
+
       display: flex;
-      outline-offset: 1px;
       padding: 0;
+
+      &:focus-visible {
+        ${focusOutline};
+      }
     }
 
     .label {

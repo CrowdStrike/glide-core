@@ -11,6 +11,7 @@ export default [
 
     .summary {
       align-items: center;
+      border-radius: 0.625rem;
       color: var(--glide-core-text-body-1);
       cursor: pointer;
       display: flex;
