@@ -115,6 +115,10 @@ when browsers support them.
 
     .indeterminate-icon {
       display: none;
+
+      /* Hard-coded colors since the value of --glide-core-icon-active presently doesn't work in dark mode */
+      fill: #0073e6;
+      stroke: #0073e6;
     }
   `,
 ];

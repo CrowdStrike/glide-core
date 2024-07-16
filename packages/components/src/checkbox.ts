@@ -16,7 +16,7 @@ declare global {
 
 const indeterminateIcon = svg`
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="indeterminate-icon">
-    <rect x="0.5" y="0.5" width="13" height="13" rx="3.5" fill="var(--glide-core-icon-active)" stroke="var(--glide-core-icon-active)"/>
+    <rect x="0.5" y="0.5" width="13" height="13" rx="3.5" />
     <path d="M3 5C3 3.89543 3.89543 3 5 3H9.79289C10.2383 3 10.4614 3.53857 10.1464 3.85355L3.85355 10.1464C3.53857 10.4614 3 10.2383 3 9.79289V5Z" fill="currentColor"/>
   </svg>
 `;
