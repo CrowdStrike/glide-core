@@ -5,18 +5,13 @@ export default [
   css`
     :host {
       display: flex;
+      outline: none;
     }
 
+    /* Using nesting creates an issue on Safari with :host */
     /* stylelint-disable-next-line csstools/use-nesting */
-    :host(:focus-visible) {
-      outline: none;
-
-      & .component .radio-circle {
-        box-shadow: var(--glide-core-glow-sm);
-
-        ${focusOutline};
-        outline-offset: 4px;
-      }
+    :host(:focus-visible) .component .radio-circle {
+      ${focusOutline};
     }
 
     .component {

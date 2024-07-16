@@ -1,5 +1,4 @@
 import { css } from 'lit';
-import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
@@ -27,10 +26,6 @@ export default [
 
       &:focus {
         outline: none;
-      }
-
-      &:focus-visible {
-        ${focusOutline};
       }
     }
 

@@ -46,10 +46,6 @@ export default [
         outline: none;
       }
 
-      &:focus-visible {
-        ${focusOutline};
-      }
-
       &::backdrop {
         animation: backdrop-fade-in 250ms;
 

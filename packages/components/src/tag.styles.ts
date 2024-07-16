@@ -100,6 +100,7 @@ export default [
       background-color: transparent;
       block-size: var(--glide-core-spacing-sm);
       border: none;
+      border-radius: 0.0625rem;
       color: var(--glide-core-icon-display);
       cursor: pointer;
       display: flex;
