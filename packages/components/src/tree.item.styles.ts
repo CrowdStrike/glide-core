@@ -115,7 +115,10 @@ export default [
     }
 
     .label {
-      flex-grow: 1;
+      min-inline-size: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .child-items {
@@ -129,6 +132,12 @@ export default [
       .child-items {
         block-size: auto;
       }
+    }
+
+    .icon-container {
+      display: flex;
+      flex: 1;
+      justify-content: right;
     }
   `,
 ];

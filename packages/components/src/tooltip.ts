@@ -191,7 +191,7 @@ export default class GlideCoreTooltip extends LitElement {
                   placement: this.placement,
                   strategy: 'fixed',
                   middleware: [
-                    offset(10),
+                    offset(4),
                     flip({
                       fallbackStrategy: 'initialPlacement',
                     }),
