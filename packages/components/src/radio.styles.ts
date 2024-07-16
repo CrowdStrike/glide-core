@@ -29,16 +29,16 @@ export default [
       & .radio-circle {
         align-items: center;
         appearance: none;
-        block-size: 0.875rem;
+        block-size: 1rem;
         border: 1px solid var(--glide-core-border-base-dark);
         border-radius: 50%;
         box-sizing: border-box;
         content: ' ';
         display: inline-flex;
-        inline-size: 0.875rem;
+        inline-size: 1rem;
         margin: 0;
         margin-inline-end: 0.625rem;
-        min-inline-size: 0.875rem;
+        min-inline-size: 1rem;
         padding: 0;
         position: relative;
 
@@ -48,26 +48,14 @@ export default [
 
           &::after {
             background-color: var(--glide-core-surface-primary);
-
-            /*
-              svg in figma has viewbox 16px, with inner circle radius of 8px, however figma element has height & width of 14px;
-              14px = 0.875rem;
-              8px * 0.875 = 7px = 0.4375rem;
-            */
-            block-size: 0.4375rem;
+            block-size: 0.5rem;
             border-radius: 50%;
             box-sizing: border-box;
             content: ' ';
             display: block;
-            inline-size: 0.4375rem;
-
-            /*
-              svg in figma has viewbox 16px, however figma element has height & width of 14px;
-              14px/16px = 0.875;
-              4px radius * 0.875 = 3.5px = 0.21875rem;
-            */
-            inset-block-start: calc(50% - 0.2187rem);
-            inset-inline-start: calc(50% - 0.2187rem);
+            inline-size: 0.5rem;
+            inset-block-start: calc(50% - 0.25rem);
+            inset-inline-start: calc(50% - 0.25rem);
             position: absolute;
           }
         }

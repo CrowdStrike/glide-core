@@ -15,7 +15,7 @@ export default [
 
     .radio-container {
       display: flex;
-      gap: var(--glide-core-spacing-xs);
+      gap: 0.375rem;
       inline-size: min-content;
 
       &.invalid {
