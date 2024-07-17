@@ -10,6 +10,7 @@
     "target": "ESNext",
     "useDefineForClassFields": false, // https://lit.dev/docs/components/decorators#decorators-typescript
     "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
     "plugins": [
       {
         "name": "ts-lit-plugin",
