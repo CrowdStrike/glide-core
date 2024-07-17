@@ -119,7 +119,7 @@ export default class GlideCoreTreeItem extends LitElement {
           )}
         </div>
         <slot name="prefix" @slotchange=${this.#onPrefixSlotChange}></slot>
-        <div slot="target" class="label">${this.label}</div>
+        <div class="label">${this.label}</div>
         <div class="icon-container">
           <slot name="menu" @slotchange=${this.#onMenuSlotChange}></slot>
           <slot name="suffix" @slotchange=${this.#onSuffixSlotChange}></slot>
