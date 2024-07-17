@@ -34,7 +34,17 @@ import '@crowdstrike/glide-core/button.js';
 Glide Core uses scripts from [@crowdstrike/design-tokens](https://www.npmjs.com/package/@crowdstrike/design-tokens) to import variables from Figma and transform them into CSS custom properties.
 This allows us to maintain a single source of truth for color, typography, spacing, etc.
 
-To get new or updated custom properties:
+Prior to running the script, you'll need to follow the steps to [generate a Figma personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens).
+
+Store this access token in your `.zshrc` or `.bashrc` as the following:
+
+```bash
+export FIGMA_TOKEN="<your-token-here>"
+```
+
+This setup is required only once; however, your access token may expire and require an update now and then. An error will be thrown if this occurs. Review the link above on managing access tokens in Figma if this happens.
+
+After the steps above are completed, to get new or updated custom properties run the following command:
 
 ```bash
 pnpm start:production:figma
