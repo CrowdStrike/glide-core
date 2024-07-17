@@ -90,6 +90,10 @@ export default class GlideCoreCheckbox extends LitElement {
   @property({ reflect: true })
   value?: string = '';
 
+  // Not private, so that a parent checkbox group can programmatically set
+  @state()
+  isReportValidityOrSubmit = false;
+
   get form() {
     return this.#internals.form;
   }
@@ -341,9 +345,6 @@ export default class GlideCoreCheckbox extends LitElement {
   @state()
   private isCheckingValidity = false;
 
-  @state()
-  private isReportValidityOrSubmit = false;
-
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
@@ -360,7 +361,7 @@ export default class GlideCoreCheckbox extends LitElement {
     // If minimal, `disabled`, `required`, and whether the form has been submitted
     // don't apply because the parent component handles those states itself.
     if (this.privateVariant === 'minimal') {
-      return !this.validity.valid;
+      return !this.validity.valid && this.isReportValidityOrSubmit;
     }
 
     return (
