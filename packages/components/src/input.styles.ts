@@ -60,6 +60,7 @@ export default css`
     }
 
     input {
+      background-color: transparent;
       border: none;
       color: inherit;
       cursor: inherit;

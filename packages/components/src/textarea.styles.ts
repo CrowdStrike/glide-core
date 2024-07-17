@@ -35,7 +35,8 @@ export default css`
       outline: none;
     }
 
-    &:focus-visible {
+    &:focus-visible,
+    &:focus-visible[readonly] {
       border-color: var(--glide-core-border-focus);
     }
 
