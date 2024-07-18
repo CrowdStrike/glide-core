@@ -23,6 +23,7 @@ export default [
       --button-and-input-height: 1.25rem;
 
       align-items: center;
+      background-color: var(--glide-core-surface-base-lighter);
       block-size: 2.125rem;
       border: 1px solid var(--glide-core-border-base-lighter);
       border-radius: var(--glide-core-spacing-xs);
