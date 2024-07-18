@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "per-env",
-    "start:development": "storybook dev --config-dir .storybook --disable-telemetry --port 6006",
+    "start:development": "storybook dev --config-dir .storybook --disable-telemetry --port 6006 --ci",
     "start:production": "rimraf ./dist && npm-run-all --parallel start:production:components start:production:storybook start:production:stylesheets --aggregate-output --print-label",
     "start:production:components": "tsc --outDir ./dist && node ./terser.js",
     "start:production:figma": "pnpm dt export-variables && pnpm dt build-tokens && pnpm dt build-styles",
