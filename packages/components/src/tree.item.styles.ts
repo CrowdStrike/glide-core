@@ -137,7 +137,7 @@ export default [
     .icon-container {
       display: flex;
       flex: 1;
-      justify-content: right;
+      justify-content: flex-end;
     }
   `,
 ];
