@@ -88,7 +88,7 @@ export default class GlideCoreTreeItem extends LitElement {
         tabindex="-1"
         ${ref(this.#labelContainerElementRef)}
       >
-        <div style="width:${this.#indentationWidth};"></div>
+        <div style="flex-shrink: 0; width:${this.#indentationWidth};"></div>
         <div class="expand-icon-container">
           ${when(
             this.hasChildTreeItems,
@@ -120,8 +120,10 @@ export default class GlideCoreTreeItem extends LitElement {
         </div>
         <slot name="prefix" @slotchange=${this.#onPrefixSlotChange}></slot>
         <div class="label">${this.label}</div>
-        <slot name="menu" @slotchange=${this.#onMenuSlotChange}></slot>
-        <slot name="suffix" @slotchange=${this.#onSuffixSlotChange}></slot>
+        <div class="icon-container">
+          <slot name="menu" @slotchange=${this.#onMenuSlotChange}></slot>
+          <slot name="suffix" @slotchange=${this.#onSuffixSlotChange}></slot>
+        </div>
       </div>
       <div class="child-items" role="group">
         <slot></slot>
