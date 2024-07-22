@@ -23,6 +23,7 @@ export default [
     }
 
     .expand-icon-container {
+      flex-shrink: 0;
       min-inline-size: 1.5625rem;
     }
 

@@ -88,7 +88,7 @@ export default class GlideCoreTreeItem extends LitElement {
         tabindex="-1"
         ${ref(this.#labelContainerElementRef)}
       >
-        <div style="width:${this.#indentationWidth};"></div>
+        <div style="flex-shrink: 0; width:${this.#indentationWidth};"></div>
         <div class="expand-icon-container">
           ${when(
             this.hasChildTreeItems,
