@@ -1,0 +1,10 @@
+{
+  "close": "Fermer",
+  "dismiss": "Congédier",
+  "open": "Ouvrir",
+  "selectAll": "Tout sélectionner",
+  "clearEntry": "Effacer l’entrée",
+  "moreInformation": "Plus d’informations",
+  "notifications": "Notifications",
+  "removeTag": "Supprimer la balise : {label}"
+}
