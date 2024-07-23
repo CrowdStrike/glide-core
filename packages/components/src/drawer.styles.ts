@@ -15,9 +15,6 @@ export default [
       opacity: 0;
       position: absolute;
       transform: translateX(100%);
-      transition:
-        transform 0.2s ease-out,
-        opacity 0.3s ease-out;
       visibility: hidden;
 
       &.pinned {
@@ -39,11 +36,15 @@ export default [
       inset: 0 0 0 auto;
       opacity: 1;
       transform: none;
+      transition:
+        transform 0.3s ease-out,
+        opacity 0.3s ease-in;
       visibility: visible;
     }
 
     .closing {
       transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
     }
   `,
 ];

@@ -96,12 +96,12 @@ export default class GlideCoreDrawer extends LitElement {
   override render() {
     return html`
       <aside
+        aria-label=${this.label || nothing}
         class=${classMap({ component: true, pinned: this.pinned })}
-        tabindex="-1"
         data-test-state=${this.isOpen ? 'open' : 'closed'}
+        tabindex="-1"
         @keydown=${this.#handleKeyDown}
         ${ref(this.#asideElementRef)}
-        aria-label=${this.label || nothing}
       >
         <slot
           @slotchange=${this.#onDefaultSlotChange}
