@@ -1,0 +1,11 @@
+{
+  "close": "Close",
+  "dismiss": "Dismiss",
+  "open": "Open",
+  "selectAll": "Select all",
+  "clearEntry": "Clear entry",
+  "moreInformation": "More information",
+  "notifications": "Notifications",
+
+  "removeTag": "Remove tag: {label}"
+}
