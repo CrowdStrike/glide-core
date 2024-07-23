@@ -5,6 +5,8 @@ const translation: Translation = {
   $name: 'English',
   $dir: 'ltr',
 
+  // All of these should have corresponding entries in ./en.json,
+  // using ICU message syntax in place of any of dynamic functions
   close: 'Close',
   dismiss: 'Dismiss',
   open: 'Open',
