@@ -7,11 +7,16 @@ import GlideCoreDropdownOption from './dropdown.option.js';
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-it('closes when it loses focus', async () => {
+it('closes and reports validity when it loses focus', async () => {
   const div = document.createElement('div');
 
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      required
+    >
       <glide-core-dropdown-option
         label="Label"
         value="value"
@@ -38,4 +43,12 @@ it('closes when it loses focus', async () => {
   await sendKeys({ press: 'Tab' });
 
   expect(component.open).to.be.false;
+
+  expect(component.shadowRoot?.activeElement).to.equal(null);
+
+  expect(component.validity.valid).to.equal(false);
+
+  expect(
+    component.shadowRoot?.querySelector('glide-core-label')?.error,
+  ).to.equal(true);
 });
