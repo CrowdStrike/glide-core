@@ -200,7 +200,10 @@ export default class GlideCoreDropdown extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
-    return this.#internals.checkValidity();
+    const validity = this.#internals.checkValidity();
+    this.isCheckingValidity = false;
+
+    return validity;
   }
 
   override connectedCallback() {
@@ -335,6 +338,7 @@ export default class GlideCoreDropdown extends LitElement {
         horizontal: this.orientation === 'horizontal',
         vertical: this.orientation === 'vertical',
       })}
+      @blur=${this.#onBlur}
     >
       <glide-core-label
         split=${ifDefined(this.privateSplit ?? undefined)}
@@ -343,6 +347,7 @@ export default class GlideCoreDropdown extends LitElement {
         ?error=${this.#isShowValidationFeedback}
         ?hide=${this.hideLabel}
         ?required=${this.required}
+        @blur=${this.#onBlur}
       >
         <label id="label"> ${this.label} </label>
         <slot name="tooltip" slot="tooltip"></slot>
@@ -549,7 +554,14 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   reportValidity() {
-    return this.#internals.reportValidity();
+    this.isReportValidityOrSubmit = true;
+
+    const isValid = this.#internals.reportValidity();
+
+    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    this.requestUpdate();
+
+    return isValid;
   }
 
   constructor() {
@@ -562,9 +574,19 @@ export default class GlideCoreDropdown extends LitElement {
     this.addEventListener('invalid', (event) => {
       event?.preventDefault(); // Canceled so a native validation message isn't shown.
 
-      if (!this.isCheckingValidity) {
-        this.isReportValidityOrSubmit = true;
+      // We only want to focus the input if the invalid event resulted from either:
+      // 1. Form submission
+      // 2. a call to reportValidity that did NOT result from the checkbox blur event
+      if (this.isCheckingValidity || this.isBlurring) {
+        return;
+      }
 
+      this.isReportValidityOrSubmit = true;
+
+      const isFirstInvalidFormElement =
+        this.form?.querySelector(':invalid') === this;
+
+      if (isFirstInvalidFormElement) {
         // - Canceling this event means Dropdown won't get focus, even if we were to use
         //   `this.#internals.delegatesFocus`.
         //
@@ -577,6 +599,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   @state()
   private ariaActivedescendant = '';
+
+  @state()
+  private isBlurring = false;
 
   @state()
   private isCheckingValidity = false;
@@ -726,6 +751,12 @@ export default class GlideCoreDropdown extends LitElement {
     );
   }
 
+  #onBlur() {
+    this.isBlurring = true;
+    this.reportValidity();
+    this.isBlurring = false;
+  }
+
   #onDefaultSlotChange() {
     owSlotType(this.#defaultSlotElementRef.value, [
       GlideCoreDropdownOption,
@@ -803,6 +834,8 @@ export default class GlideCoreDropdown extends LitElement {
       this.open = false;
       this.ariaActivedescendant = '';
     }
+
+    this.#onBlur();
   }
 
   // This handler is on `.dropdown-and-options` as opposed to just `.dropdown` because
