@@ -1,0 +1,10 @@
+{
+  "close": "閉じる",
+  "dismiss": "無視",
+  "open": "オープン",
+  "selectAll": "すべて選択",
+  "clearEntry": "入力のクリア",
+  "moreInformation": "詳細情報",
+  "notifications": "通知",
+  "removeTag": "タグを削除: {label}"
+}
