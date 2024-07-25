@@ -9,6 +9,7 @@ import { when } from 'lit/directives/when.js';
 import GlideCoreButton from './button.js';
 import GlideCoreModalIconButton from './modal.icon-button.js';
 import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
+import GlideCoreTooltip from './tooltip.js';
 import styles from './modal.styles.js';
 
 declare global {
@@ -347,6 +348,19 @@ export default class GlideCoreModal extends LitElement {
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
+
+    const defaultSlotElements =
+      this.#defaultSlotElementRef.value!.assignedElements();
+
+    const tooltips = defaultSlotElements.filter((element) => {
+      return element instanceof GlideCoreTooltip;
+    });
+
+    const containingBlock = this.#componentElementRef.value!;
+
+    for (const tooltip of tooltips) {
+      tooltip.containingBlock = containingBlock;
+    }
   }
 
   #onFooterMenuPrimarySlotChange() {
@@ -364,6 +378,18 @@ export default class GlideCoreModal extends LitElement {
       GlideCoreModalTertiaryIcon,
       GlideCoreButton,
     ]);
+
+    const tertiarySlotElements =
+      this.#footerMenuTertiarySlotElementRef.value!.assignedElements();
+
+    const tertiaryIcons: GlideCoreModalTertiaryIcon[] =
+      tertiarySlotElements.filter((element) => {
+        return element instanceof GlideCoreModalTertiaryIcon;
+      });
+
+    for (const tertiaryIcon of tertiaryIcons) {
+      tertiaryIcon.setTooltipContainingBlock(this.#componentElementRef.value!);
+    }
   }
 
   #onHeaderActionsSlotChange() {
