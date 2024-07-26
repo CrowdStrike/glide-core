@@ -1,5 +1,13 @@
+import './button.js';
+import './checkbox-group.js';
+import './checkbox.js';
+import './dropdown.js';
+import './dropdown.option.js';
 import './icons/storybook.js';
 import './input.js';
+import './radio-group.js';
+import './radio.js';
+import './textarea.js';
 import { html, nothing } from 'lit';
 import Input, { SUPPORTED_TYPES } from './input.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -51,17 +59,25 @@ const meta: Meta = {
   },
   render: (arguments_) => {
     return html`
-      <div style="height: 5rem;">
+      <form
+        style="height: 35rem;display:flex;flex-direction:column;gap:10px;max-width:500px"
+        @submit=${(event: SubmitEvent) => {
+          event.preventDefault();
+          const data = new FormData(event.target as HTMLFormElement);
+          // eslint-disable-next-line no-console
+          console.log('Form submitted. Form data:', [...data.entries()]);
+        }}
+      >
         <glide-core-input
           type=${arguments_.type}
-          value=${arguments_.value}
+          value=""
           label=${arguments_.label}
           placeholder=${arguments_.placeholder || nothing}
           ?hide-label=${arguments_['hide-label']}
           ?clearable=${arguments_.clearable}
           ?password-toggle=${arguments_.passwordToggle || nothing}
           orientation=${arguments_.orientation}
-          ?required=${arguments_.required}
+          ?required=${true}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
           maxlength=${arguments_.maxlength || nothing}
@@ -77,7 +93,68 @@ const meta: Meta = {
               </div>`
             : ''}
         </glide-core-input>
-      </div>
+        <glide-core-checkbox
+          label="label"
+          name="checkbox"
+          summary="summary"
+          required
+        >
+        </glide-core-checkbox>
+        <glide-core-checkbox-group label="label" name="checkbox-group" required>
+          <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
+          <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
+          <glide-core-checkbox
+            label="Three"
+            value="three"
+          ></glide-core-checkbox>
+        </glide-core-checkbox-group>
+        <glide-core-dropdown
+          placeholder="Placeholder"
+          label="Label"
+          name="dropdown"
+          required
+        >
+          <glide-core-dropdown-option
+            label=${arguments_['<glide-core-dropdown-option>.label']}
+            value=${arguments_['<glide-core-dropdown-option>.value']}
+            ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
+          ></glide-core-dropdown-option>
+
+          <glide-core-dropdown-option
+            label="Two"
+            value="two"
+          ></glide-core-dropdown-option>
+
+          <glide-core-dropdown-option
+            label="Three"
+            value="three"
+          ></glide-core-dropdown-option>
+
+          <glide-core-dropdown-option
+            label="Four"
+            value="four"
+          ></glide-core-dropdown-option>
+
+          <glide-core-dropdown-option
+            label="Five"
+            value="five"
+          ></glide-core-dropdown-option>
+        </glide-core-dropdown>
+        <glide-core-textarea
+          name="textarea"
+          placeholder="Placeholder"
+          required
+          label="Label"
+        >
+        </glide-core-textarea>
+
+        <glide-core-radio-group label="Label" name="Radio group" required>
+          <glide-core-radio value="value-1" label="One"></glide-core-radio>
+          <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+          <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+        </glide-core-radio-group>
+        <glide-core-button type="submit">Submit</glide-core-button>
+      </form>
     `;
   },
   argTypes: {
