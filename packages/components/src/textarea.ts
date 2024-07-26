@@ -91,7 +91,10 @@ export default class GlideCoreTextarea extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
-    return this.#internals.checkValidity();
+    const validity = this.#internals.checkValidity();
+    this.isCheckingValidity = false;
+
+    return validity;
   }
 
   override disconnectedCallback() {
@@ -152,6 +155,7 @@ export default class GlideCoreTextarea extends LitElement {
           ${ref(this.#textareaElementRef)}
           @input=${this.#onInput}
           @change=${this.#onChange}
+          @blur=${this.#onBlur}
         >
         </textarea>
       </div>
@@ -182,7 +186,14 @@ export default class GlideCoreTextarea extends LitElement {
   }
 
   reportValidity() {
-    return this.#internals.reportValidity();
+    this.isReportValidityOrSubmit = true;
+
+    const isValid = this.#internals.reportValidity();
+
+    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    this.requestUpdate();
+
+    return isValid;
   }
 
   override updated() {
@@ -202,6 +213,9 @@ export default class GlideCoreTextarea extends LitElement {
     this.#internals = this.attachInternals();
     this.addEventListener('invalid', this.#onInvalid);
   }
+
+  @state()
+  private isBlurring = false;
 
   @state()
   private isCheckingValidity = false;
@@ -238,6 +252,12 @@ export default class GlideCoreTextarea extends LitElement {
     return this.value.length > this.maxlength;
   }
 
+  #onBlur() {
+    this.isBlurring = true;
+    this.reportValidity();
+    this.isBlurring = false;
+  }
+
   #onChange(event: Event) {
     const textAreaValue = this.#textareaElementRef.value!.value;
     this.value = textAreaValue;
@@ -257,11 +277,37 @@ export default class GlideCoreTextarea extends LitElement {
   }
 
   #onInvalid(event: Event) {
-    event.preventDefault();
+    event?.preventDefault(); // Canceled so a native validation message isn't shown.
 
-    if (!this.isCheckingValidity) {
-      this.isCheckingValidity = false;
-      this.isReportValidityOrSubmit = true;
+    // We only want to focus the textarea if the invalid event resulted from either:
+    // 1. Form submission
+    // 2. a call to reportValidity that did NOT result from the textarea blur event
+
+    if (this.isCheckingValidity || this.isBlurring) {
+      return;
+    }
+
+    this.isReportValidityOrSubmit = true;
+
+    const isFirstInvalidFormElement =
+      this.form?.querySelector(':invalid') === this;
+
+    if (isFirstInvalidFormElement) {
+      // - `this.#internals.delegatesFocus` is preferred because it's declarative. But
+      //    it's limited to focusing the first focusable element. That doesn't work for
+      //    us because our first focusable element is the tooltip when it's present.
+      //
+      // - Canceling this event means the textarea won't get focus, even if we were to use
+      //   `this.#internals.delegatesFocus`.
+      //
+      // - The browser will ignore this if textarea isn't the first invalid form control.
+      //
+      // TODO
+      // Try passing `focusVisible` after browsers support it. It may prevent the issue
+      // where the textarea itself has a focus outline after this call.
+      //
+      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#focusvisible
+      this.focus();
     }
   }
 
