@@ -1,4 +1,4 @@
-import { expect, fixture } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTextarea from './textarea.js';
 
@@ -104,4 +104,25 @@ it('is valid when filled in, disabled, and exceeds `maxlength`', async () => {
   expect(textarea.validity?.tooLong).to.be.false;
   expect(textarea.checkValidity()).to.be.true;
   expect(textarea.reportValidity()).to.be.true;
+});
+
+it('blurs the textarea and reports validity if `blur` is called', async () => {
+  const textarea = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea required></glide-core-textarea>`,
+  );
+
+  textarea.focus();
+
+  const textareaElement = textarea.shadowRoot?.querySelector('textarea');
+  expect(textarea.shadowRoot?.activeElement === textareaElement).to.be.true;
+
+  textarea.blur();
+  await textarea.updateComplete;
+
+  expect(textarea.shadowRoot?.activeElement === null).to.be.true;
+
+  expect(textarea.validity.valid).to.equal(false);
+
+  expect(textarea.shadowRoot?.querySelector('glide-core-label')?.error).to.be
+    .true;
 });
