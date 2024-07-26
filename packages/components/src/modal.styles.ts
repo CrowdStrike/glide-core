@@ -27,6 +27,7 @@ export default [
     }
 
     .component {
+      backdrop-filter: blur(100px);
       background-color: var(--glide-core-surface-base-lighter);
       border: none;
       border-radius: 0.5rem;

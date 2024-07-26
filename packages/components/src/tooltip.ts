@@ -5,11 +5,13 @@ import {
   computePosition,
   flip,
   offset,
+  platform,
   shift,
 } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { offsetParent } from 'composed-offset-position';
 import { owSlot } from './library/ow.js';
 import styles from './tooltip.styles.js';
 
@@ -36,6 +38,17 @@ export default class GlideCoreTooltip extends LitElement {
   /* The placement of the tooltip relative to its target. Automatic placement will take over if the tooltip is cut off by the viewport. */
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
+
+  /**
+   * Allows a consumer to explicitly set the containing block,
+   * for cases where that containing block element is inside a closed shadow DOM,
+   * and therefore wouldn't be able to be detected by platform.getOffsetParent below.
+   * Necessary when the containing block has something like a backdrop-filter
+   * https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
+   * https://github.com/floating-ui/floating-ui/issues/2955
+   */
+  @state()
+  containingBlock?: HTMLElement;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
@@ -188,6 +201,20 @@ export default class GlideCoreTooltip extends LitElement {
                 this.#targetElementRef.value,
                 this.#tooltipElementRef.value,
                 {
+                  platform: {
+                    ...platform,
+                    getOffsetParent: (element) => {
+                      if (
+                        this.containingBlock &&
+                        // The arrow element's offsetParent is the tooltip itself
+                        element !== this.#arrowElementRef.value
+                      ) {
+                        return this.containingBlock;
+                      }
+
+                      return platform.getOffsetParent(element, offsetParent);
+                    },
+                  },
                   placement: this.placement,
                   strategy: 'fixed',
                   middleware: [
