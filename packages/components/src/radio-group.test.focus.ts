@@ -1,6 +1,7 @@
 import './radio-group.js';
 import './radio.js';
 import { expect, fixture, html } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadio from './radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
 
@@ -125,4 +126,37 @@ it('focuses the first tabbable radio when none are checked', async () => {
 
   const radio = component.querySelector('glide-core-radio[value="value-2"]');
   expect(radio).to.have.focus;
+});
+
+it('reports validity if blurred', async () => {
+  const component = await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="Checkbox Group" required>
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
+  );
+
+  component.focus();
+
+  const radioItems = component.querySelectorAll('glide-core-radio');
+
+  expect(document.activeElement === radioItems[0]).to.be.true;
+
+  expect(
+    component.shadowRoot
+      ?.querySelector('glide-core-label')
+      ?.hasAttribute('error'),
+  ).to.be.false;
+
+  await sendKeys({ press: 'Tab' });
+
+  expect(document.activeElement === document.body).to.be.true;
+
+  expect(component.validity.valid).to.equal(false);
+
+  expect(
+    component.shadowRoot
+      ?.querySelector('glide-core-label')
+      ?.hasAttribute('error'),
+  ).to.be.true;
 });

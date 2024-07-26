@@ -58,7 +58,10 @@ export default class GlideCoreRadioGroup extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
-    return this.#internals.checkValidity();
+    const validity = this.#internals.checkValidity();
+    this.isCheckingValidity = false;
+
+    return validity;
   }
 
   override disconnectedCallback() {
@@ -75,7 +78,7 @@ export default class GlideCoreRadioGroup extends LitElement {
     // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#value
     this.#initialCheckedRadio = this.#radioItems.find((radio) => radio.checked);
 
-    this.#intializeRadios();
+    this.#initializeRadios();
   }
 
   override focus(options?: FocusOptions): void {
@@ -144,6 +147,7 @@ export default class GlideCoreRadioGroup extends LitElement {
             role="radiogroup"
             slot="control"
             aria-labelledby="label description"
+            @blur=${this.#onBlur}
           >
             <slot
               ${ref(this.#defaultSlotElementRef)}
@@ -159,7 +163,14 @@ export default class GlideCoreRadioGroup extends LitElement {
   }
 
   reportValidity() {
-    return this.#internals.reportValidity();
+    this.isReportValidityOrSubmit = true;
+
+    const isValid = this.#internals.reportValidity();
+
+    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    this.requestUpdate();
+
+    return isValid;
   }
 
   override updated(
@@ -207,6 +218,9 @@ export default class GlideCoreRadioGroup extends LitElement {
   }
 
   @state()
+  private isBlurring = false;
+
+  @state()
   private isCheckingValidity = false;
 
   @state()
@@ -232,7 +246,7 @@ export default class GlideCoreRadioGroup extends LitElement {
     }
   };
 
-  #intializeRadios() {
+  #initializeRadios() {
     // Set the default checked radio item to be the first checked radio, if it exists
     // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#value
     const intialCheckedRadio = this.#radioItems.find((radio) => radio.checked);
@@ -254,6 +268,8 @@ export default class GlideCoreRadioGroup extends LitElement {
       } else {
         this.#setDisabledRadio(radioItem.disabled, radioItem);
       }
+
+      radioItem.addEventListener('blur', this.#onRadioItemBlur.bind(this));
     }
 
     !this.disabled && this.#setRadiosTabindex();
@@ -266,6 +282,12 @@ export default class GlideCoreRadioGroup extends LitElement {
     this.#setInvalidRadios(isInvalid);
 
     return isInvalid;
+  }
+
+  #onBlur() {
+    this.isBlurring = true;
+    this.reportValidity();
+    this.isBlurring = false;
   }
 
   #onClick(event: MouseEvent) {
@@ -305,15 +327,30 @@ export default class GlideCoreRadioGroup extends LitElement {
     owSlot(this.#defaultSlotElementRef.value);
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreRadio]);
 
-    this.#intializeRadios();
+    this.#initializeRadios();
   }
 
   #onInvalid(event: Event) {
     event.preventDefault();
 
     if (!this.isCheckingValidity) {
+      event?.preventDefault(); // Canceled so a native validation message isn't shown.
+
+      // We only want to focus the radios if the invalid event resulted from either:
+      // 1. Form submission
+      // 2. a call to reportValidity that did NOT result from the input blur event
+      if (this.isCheckingValidity || this.isBlurring) {
+        return;
+      }
+
       this.isReportValidityOrSubmit = true;
-      this.focus();
+
+      const isFirstInvalidFormElement =
+        this.form?.querySelector(':invalid') === this;
+
+      if (isFirstInvalidFormElement) {
+        this.focus();
+      }
     }
   }
 
@@ -415,6 +452,18 @@ export default class GlideCoreRadioGroup extends LitElement {
           break;
         }
       }
+    }
+  }
+
+  #onRadioItemBlur(event: FocusEvent) {
+    const newlyFocusedElement = event.relatedTarget;
+
+    if (
+      !newlyFocusedElement ||
+      !(newlyFocusedElement instanceof GlideCoreRadio) ||
+      !this.#radioItems.includes(newlyFocusedElement)
+    ) {
+      this.#onBlur();
     }
   }
 
