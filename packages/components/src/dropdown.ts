@@ -773,7 +773,14 @@ export default class GlideCoreDropdown extends LitElement {
     // shadow DOM, which means the user is done interacting with Dropodown. So we
     // close it except when focus has moved to a tag, which tells us Dropdown is
     // still in use.
-    if (event.relatedTarget === null && !this.#isRemovingTag) {
+
+    const isFocusLost =
+      event.relatedTarget === null ||
+      (event.relatedTarget instanceof Node &&
+        !this.shadowRoot?.contains(event.relatedTarget) &&
+        !this.contains(event.relatedTarget));
+
+    if (isFocusLost && !this.#isRemovingTag) {
       this.open = false;
       this.ariaActivedescendant = '';
     }
