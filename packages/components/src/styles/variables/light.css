@@ -21,6 +21,7 @@
   --glide-core-icon-default: #212121;
   --glide-core-icon-default2: #212121;
   --glide-core-icon-display: #212121;
+  --glide-core-icon-display-light: #6d6d6d;
   --glide-core-icon-hover: #8babf1;
   --glide-core-icon-primary: #054fb9;
   --glide-core-icon-primary-hover: #0461cf;
@@ -80,7 +81,9 @@
   --glide-core-text-header-1: #424242;
   --glide-core-text-header-2: #6d6d6d;
   --glide-core-text-link: #0461cf;
-  --glide-core-text-link-2: #0461cf;
+  --glide-core-text-link-dark-surface: #8babf1;
+  --glide-core-text-link-table: #0461cf;
+  --glide-core-text-placeholder: #6d6d6d;
   --glide-core-text-primary: #054fb9;
   --glide-core-text-primary-hover: #0461cf;
   --glide-core-text-secondary: #0073e6;
