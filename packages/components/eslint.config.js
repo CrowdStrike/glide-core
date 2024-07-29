@@ -4,6 +4,7 @@ import eslintGlideCorePlugin from '@crowdstrike/glide-core-eslint-plugin';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import js from '@eslint/js';
+import noOnlyTests from 'eslint-plugin-no-only-tests';
 import sortClassMembers from 'eslint-plugin-sort-class-members';
 import stylistic from '@stylistic/eslint-plugin';
 import typescriptEslint from 'typescript-eslint';
@@ -27,6 +28,7 @@ export default [
     plugins: {
       '@stylistic': stylistic,
       '@crowdstrike/glide-core-eslint-plugin': eslintGlideCorePlugin,
+      'no-only-tests': noOnlyTests,
     },
     languageOptions: {
       parserOptions: {
@@ -111,6 +113,8 @@ export default [
         'always',
         { exceptAfterSingleLine: false },
       ],
+
+      'no-only-tests/no-only-tests': 'error',
 
       // We work with the DOM enough that this rule also became tiresome.
       'unicorn/no-null': 'off',

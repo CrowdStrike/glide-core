@@ -129,6 +129,9 @@ importers:
       eslint-plugin-lit-a11y:
         specifier: ^4.1.2
         version: 4.1.2(eslint@8.57.0)
+      eslint-plugin-no-only-tests:
+        specifier: ^3.1.0
+        version: 3.1.0
       eslint-plugin-sort-class-members:
         specifier: ^1.20.0
         version: 1.20.0(eslint@8.57.0)
@@ -2994,6 +2997,10 @@ packages:
     engines: {node: '>= 12'}
     peerDependencies:
       eslint: '>= 5'
+
+  eslint-plugin-no-only-tests@3.1.0:
+    resolution: {integrity: sha512-Lf4YW/bL6Un1R6A76pRZyE1dl1vr31G/ev8UzIc/geCgFWyrKil8hVjYqWVKGB/UIGmb6Slzs9T0wNezdSVegw==}
+    engines: {node: '>=5.0.0'}
 
   eslint-plugin-sort-class-members@1.20.0:
     resolution: {integrity: sha512-xNaik4GQ/pRwd1soIVI28HEXZbrWoLR5krau2+E8YcHj7N09UviPg5mYhf/rELG29bIFJdXDOFJazN90+luMOw==}
@@ -8937,6 +8944,8 @@ snapshots:
       parse5: 6.0.1
       parse5-htmlparser2-tree-adapter: 6.0.1
       requireindex: 1.2.0
+
+  eslint-plugin-no-only-tests@3.1.0: {}
 
   eslint-plugin-sort-class-members@1.20.0(eslint@8.57.0):
     dependencies:

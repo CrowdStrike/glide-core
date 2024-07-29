@@ -99,6 +99,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-lit": "^1.11.0",
     "eslint-plugin-lit-a11y": "^4.1.2",
+    "eslint-plugin-no-only-tests": "^3.1.0",
     "eslint-plugin-sort-class-members": "^1.20.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "eslint-plugin-unicorn": "^50.0.1",
