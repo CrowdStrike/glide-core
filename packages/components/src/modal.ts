@@ -5,11 +5,11 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
+import { setContainingBlock } from './library/set-containing-block.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreButton from './button.js';
 import GlideCoreModalIconButton from './modal.icon-button.js';
 import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
-import GlideCoreTooltip from './tooltip.js';
 import styles from './modal.styles.js';
 
 declare global {
@@ -352,15 +352,10 @@ export default class GlideCoreModal extends LitElement {
     const defaultSlotElements =
       this.#defaultSlotElementRef.value!.assignedElements();
 
-    const tooltips = defaultSlotElements.filter((element) => {
-      return element instanceof GlideCoreTooltip;
+    setContainingBlock({
+      elements: defaultSlotElements,
+      containingBlock: this.#componentElementRef.value!,
     });
-
-    const containingBlock = this.#componentElementRef.value!;
-
-    for (const tooltip of tooltips) {
-      tooltip.containingBlock = containingBlock;
-    }
   }
 
   #onFooterMenuPrimarySlotChange() {
@@ -388,7 +383,7 @@ export default class GlideCoreModal extends LitElement {
       });
 
     for (const tertiaryIcon of tertiaryIcons) {
-      tertiaryIcon.setTooltipContainingBlock(this.#componentElementRef.value!);
+      tertiaryIcon.setContainingBlock(this.#componentElementRef.value!);
     }
   }
 

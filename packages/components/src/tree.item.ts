@@ -9,6 +9,7 @@ import {
   state,
 } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import GlideCoreMenu from './menu.js';
 
 import { when } from 'lit/directives/when.js';
 import styles from './tree.item.styles.js';
@@ -46,7 +47,7 @@ export default class GlideCoreTreeItem extends LitElement {
   @property({ type: Boolean }) selected = false;
 
   @queryAssignedElements({ slot: 'menu' })
-  menuSlotAssignedElements!: HTMLElement[];
+  menuSlotAssignedElements!: GlideCoreMenu[];
 
   @queryAssignedElements({ slot: 'prefix' })
   prefixSlotAssignedElements!: HTMLElement[];
@@ -157,6 +158,12 @@ export default class GlideCoreTreeItem extends LitElement {
     }
 
     return selectedItem;
+  }
+
+  setContainingBlock(containingBlock: Element) {
+    for (const treeItemMenu of this.menuSlotAssignedElements) {
+      treeItemMenu.setContainingBlock(containingBlock);
+    }
   }
 
   toggleExpand() {
