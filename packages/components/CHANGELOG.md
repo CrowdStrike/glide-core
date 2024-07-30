@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.6.1
+
+### Patch Changes
+
+- [#262](https://github.com/CrowdStrike/glide-core/pull/262) [`8ec777a`](https://github.com/CrowdStrike/glide-core/commit/8ec777aadf45db94d7f644750f6782384638ff51) Thanks [@clintcs](https://github.com/clintcs)! - Prevent components from throwing `window.crypto.randomUUID is not a function` when they're served through HTTP instead of HTTPS.
+
 ## 0.6.0
 
 ### Minor Changes
