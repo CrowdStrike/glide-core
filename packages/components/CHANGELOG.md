@@ -1,5 +1,80 @@
 # @crowdstrike/glide-core
 
+## 0.6.0
+
+### Minor Changes
+
+- [#254](https://github.com/CrowdStrike/glide-core/pull/254) [`a307053`](https://github.com/CrowdStrike/glide-core/commit/a307053006a9346510a29899b2d48e7e4eb6b702) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Removed the `--glide-core-text-link-2` CSS custom property.
+
+- [#230](https://github.com/CrowdStrike/glide-core/pull/230) [`66a529a`](https://github.com/CrowdStrike/glide-core/commit/66a529aed3328624ff1421e094c2dece950c97f5) Thanks [@clintcs](https://github.com/clintcs)! - Menu's target button is now accessibly associated with its options.
+  To make the association possible, Menu options must now be wrapped in `<glide-core-menu-options>`
+  so that the ID of Menu's target is available to the options (`aria-labelledby`) and vice versa (`aria-controls`).
+
+  ```diff
+  <glide-core-menu>
+   <glide-core-button slot="target"></glide-core-button>
+
+  - <glide-core-menu-link></glide-core-menu-link>
+  - <glide-core-menu-link></glide-core-menu-link>
+  + <glide-core-menu-options>
+  +    <glide-core-menu-link></glide-core-menu-link>
+  +    <glide-core-menu-link></glide-core-menu-link>
+  +  </glide-core-menu.options>
+  </glide-core-menu>
+  ```
+
+### Patch Changes
+
+- [#234](https://github.com/CrowdStrike/glide-core/pull/234) [`eeb727b`](https://github.com/CrowdStrike/glide-core/commit/eeb727b0e49d094ac21ac61a9f4f47bcd66cbe7e) Thanks [@clintcs](https://github.com/clintcs)! - - Icon Button support for `aria-controls`.
+
+  - Icon Button's `ariaExpanded` and `ariaHasPopup` properties are correctly reflected as `aria-expanded` and `aria-haspopup` instead of `ariaexpanded` and `ariahaspopup`.
+  - Split Button support for `aria-controls`, `aria-expanded`, and `aria-haspopup`.
+  - All three attributes are passed to each component's underlying `<button>` for better compatibility with screen readers.
+
+- [#230](https://github.com/CrowdStrike/glide-core/pull/230) [`66a529a`](https://github.com/CrowdStrike/glide-core/commit/66a529aed3328624ff1421e094c2dece950c97f5) Thanks [@clintcs](https://github.com/clintcs)! - - Button supports `aria-controls`.
+
+  - Button's `ariaExpanded` and `ariaHasPopup` properties are correctly reflected as `aria-expanded` and `aria-haspopup` instead of `ariaexpanded` and `ariahaspopup`.
+  - All three attributes are passed to the underlying `<button>` for better compatibility with screen readers.
+
+- [#260](https://github.com/CrowdStrike/glide-core/pull/260) [`a73e56a`](https://github.com/CrowdStrike/glide-core/commit/a73e56a3bfc2a4bff52d61aab4aff742e9c635c4) Thanks [@clintcs](https://github.com/clintcs)! - Fix Dropdown not closing when it loses focus.
+
+- [#256](https://github.com/CrowdStrike/glide-core/pull/256) [`c577453`](https://github.com/CrowdStrike/glide-core/commit/c577453710dbebff5e5cea3ce55a50eb4e8b51bd) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated the Tooltip offset to be closer to the target.
+
+- [#231](https://github.com/CrowdStrike/glide-core/pull/231) [`aa2fa81`](https://github.com/CrowdStrike/glide-core/commit/aa2fa816c6ca33a7bfac66687ef01929d350afeb) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tooltips now have a max-width and overflow wrap the provided text rather than growing for eternity in length.
+
+- [#237](https://github.com/CrowdStrike/glide-core/pull/237) [`9f08a14`](https://github.com/CrowdStrike/glide-core/commit/9f08a1414e4cde4291b35ea31c0b863c07911aad) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Increases the size of the Radio circle from 14px to 16px. Adjusts the spacing between radio elements.
+
+- [#244](https://github.com/CrowdStrike/glide-core/pull/244) [`3657dc7`](https://github.com/CrowdStrike/glide-core/commit/3657dc794a9bdaee2d8e212d1d3cb7c2390b2076) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Updates `glide-core-tree-item` text to use ellipses on overflow.
+
+- [#238](https://github.com/CrowdStrike/glide-core/pull/238) [`b436d86`](https://github.com/CrowdStrike/glide-core/commit/b436d866fe0781de9a9d6570035d015f847f3478) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Improves screenreader support for Toggle so that it is announced as a switch rather than a checkbox.
+
+- [#255](https://github.com/CrowdStrike/glide-core/pull/255) [`afd65e9`](https://github.com/CrowdStrike/glide-core/commit/afd65e99af262e4e6fbc86b639fec53ee8bd5caa) Thanks [@danwenzel](https://github.com/danwenzel)! - Fix alignment for tooltips inside backdrop-filter elements
+
+- [#252](https://github.com/CrowdStrike/glide-core/pull/252) [`72fbb47`](https://github.com/CrowdStrike/glide-core/commit/72fbb4718cb9d54d269bad86bc4764f5b4d8690c) Thanks [@danwenzel](https://github.com/danwenzel)! - Add Japanese and French translations
+
+- [#236](https://github.com/CrowdStrike/glide-core/pull/236) [`67be392`](https://github.com/CrowdStrike/glide-core/commit/67be392249ea9be7f71034f93e2de7b664a489a1) Thanks [@clintcs](https://github.com/clintcs)! - Button, Button Group Button, Icon Button, Split Button, Tab, and Radio Group have a "not-allowed" cursor when disabled to match other components.
+
+- [#222](https://github.com/CrowdStrike/glide-core/pull/222) [`32b1d6f`](https://github.com/CrowdStrike/glide-core/commit/32b1d6f9bdccf1db28037b9dd372d224a34f5bde) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Updates `glide-core-icon-button` styling.
+
+- [#246](https://github.com/CrowdStrike/glide-core/pull/246) [`ea133fa`](https://github.com/CrowdStrike/glide-core/commit/ea133fa57927ecd32aec94d7fb628d01de3dae28) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Updates `glide-core-input` and `glide-core-textarea` styling.
+
+- [#240](https://github.com/CrowdStrike/glide-core/pull/240) [`6746d64`](https://github.com/CrowdStrike/glide-core/commit/6746d64dd92557632b6349b04b72e115e3bd95ab) Thanks [@danwenzel](https://github.com/danwenzel)! - Localize all static strings within glide core
+
+- [#259](https://github.com/CrowdStrike/glide-core/pull/259) [`ea910d6`](https://github.com/CrowdStrike/glide-core/commit/ea910d6db80a3803dea87f1d319504a9d2124f38) Thanks [@danwenzel](https://github.com/danwenzel)! - Apply backdrop-filter fix for all floating components
+
+  Including Menu, and Tree Item Menu
+
+- [#239](https://github.com/CrowdStrike/glide-core/pull/239) [`223fe2b`](https://github.com/CrowdStrike/glide-core/commit/223fe2bd95a5b5aad28418f4492e07bedeee2a63) Thanks [@clintcs](https://github.com/clintcs)! - Improve Dropdown accessibility by setting `aria-activedescendant` to an empty string on close.
+
+- [#255](https://github.com/CrowdStrike/glide-core/pull/255) [`afd65e9`](https://github.com/CrowdStrike/glide-core/commit/afd65e99af262e4e6fbc86b639fec53ee8bd5caa) Thanks [@danwenzel](https://github.com/danwenzel)! - Add `backdrop-filter` to the Modal component as the designs call for to fix the background from bleeding into the Modal content.
+
+- [#254](https://github.com/CrowdStrike/glide-core/pull/254) [`a307053`](https://github.com/CrowdStrike/glide-core/commit/a307053006a9346510a29899b2d48e7e4eb6b702) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated CSS custom property values for dark mode to be more accessible.
+  Added `--glide-core-icon-display-light`, `--glide-core-text-link-dark-surface`, `--glide-core-text-link-table`, and `--glide-core-text-placeholder`.
+
+- [#249](https://github.com/CrowdStrike/glide-core/pull/249) [`0ad7c77`](https://github.com/CrowdStrike/glide-core/commit/0ad7c77daa8b8c783b3c5d52c0900c1b7b22a57e) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Updates `glide-core-dropdown` to be consistent with `glide-core-input` and `glide-core-textarea`.
+
+- [#235](https://github.com/CrowdStrike/glide-core/pull/235) [`6fa171e`](https://github.com/CrowdStrike/glide-core/commit/6fa171e53b918f8b689bbed9c95bd5a7b5873ba9) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Updates focus ring styling.
+
 ## 0.5.2
 
 ### Patch Changes
