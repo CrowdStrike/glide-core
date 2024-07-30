@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { nanoid } from 'nanoid';
 import styles from './menu.link.styles.js';
 
 declare global {
@@ -71,5 +72,5 @@ export default class GlideCoreMenuLink extends LitElement {
   // If it's not constant, Dropdown's `aria-activedescendant` will immediately
   // point to a non-existent ID when this component is re-added. An edge case
   // for sure. But one we can protect against with little effort.
-  #id = window.crypto.randomUUID();
+  #id = nanoid();
 }
