@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { nanoid } from 'nanoid';
 import { when } from 'lit/directives/when.js';
 import GlideCoreCheckbox from './checkbox.js';
 import checkedIcon from './icons/checked.js';
@@ -226,7 +227,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   // If it's not constant, Dropdown's `aria-activedescendant` will immediately
   // point to a non-existent ID when this component is re-added. An edge case
   // for sure. But one we can protect against with little effort.
-  #id = window.crypto.randomUUID();
+  #id = nanoid();
 
   #selected = false;
 

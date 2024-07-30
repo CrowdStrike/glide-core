@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { nanoid } from 'nanoid';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
@@ -86,7 +87,7 @@ export default class GlideCoreMenuOptions extends LitElement {
   // If it's not constant, the target's `aria-controls` will immediately
   // point to a non-existent ID when this component is re-added. An edge case
   // for sure. But one we can protect against with little effort.
-  #id = window.crypto.randomUUID();
+  #id = nanoid();
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);

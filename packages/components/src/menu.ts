@@ -10,6 +10,7 @@ import {
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { nanoid } from 'nanoid';
 import { offsetParent } from 'composed-offset-position';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuButton from './menu.button.js';
@@ -406,7 +407,7 @@ export default class GlideCoreMenu extends LitElement {
       this.#targetElement.ariaExpanded =
         this.open && !this.isTargetDisabled ? 'true' : 'false';
 
-      this.#targetElement.id = window.crypto.randomUUID();
+      this.#targetElement.id = nanoid();
 
       this.#targetElement.setAttribute(
         'aria-controls',
