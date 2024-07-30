@@ -29,6 +29,7 @@
     "./styles/*": null,
     "./label.js": null,
     "./toasts.toast.js": null,
+    "./library/set-containing-block.js": "./dist/set-containing-block.js",
     "./styles/fonts.css": "./dist/styles/fonts.css",
     "./styles/variables.css": "./dist/styles/variables.css"
   },

@@ -52,7 +52,7 @@ export default class GlideCoreModalTertiaryIcon extends LitElement {
     `;
   }
 
-  setTooltipContainingBlock(containingBlock: HTMLElement) {
+  setContainingBlock(containingBlock: HTMLElement) {
     this.#tooltipElementRef.value!.containingBlock = containingBlock;
   }
 

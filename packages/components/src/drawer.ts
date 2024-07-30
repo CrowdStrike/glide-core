@@ -3,7 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
-import GlideCoreTooltip from './tooltip.js';
+import { setContainingBlock } from './library/set-containing-block.js';
 import styles from './drawer.styles.js';
 
 declare global {
@@ -135,12 +135,9 @@ export default class GlideCoreDrawer extends LitElement {
 
     const slotElements = this.#defaultSlotElementRef.value!.assignedElements();
 
-    const tooltips = slotElements.filter((element) => {
-      return element instanceof GlideCoreTooltip;
+    setContainingBlock({
+      elements: slotElements,
+      containingBlock: this.#asideElementRef.value!,
     });
-
-    for (const tooltip of tooltips) {
-      tooltip.containingBlock = this.#asideElementRef?.value;
-    }
   }
 }

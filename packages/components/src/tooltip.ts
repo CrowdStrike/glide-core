@@ -39,16 +39,8 @@ export default class GlideCoreTooltip extends LitElement {
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
-  /**
-   * Allows a consumer to explicitly set the containing block,
-   * for cases where that containing block element is inside a closed shadow DOM,
-   * and therefore wouldn't be able to be detected by platform.getOffsetParent below.
-   * Necessary when the containing block has something like a backdrop-filter
-   * https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
-   * https://github.com/floating-ui/floating-ui/issues/2955
-   */
   @state()
-  containingBlock?: HTMLElement;
+  containingBlock?: Element;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
@@ -125,6 +117,10 @@ export default class GlideCoreTooltip extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  setContainingBlock(containingBlock: Element) {
+    this.containingBlock = containingBlock;
   }
 
   @state()

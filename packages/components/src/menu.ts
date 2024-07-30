@@ -5,10 +5,12 @@ import {
   computePosition,
   flip,
   offset,
+  platform,
 } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { offsetParent } from 'composed-offset-position';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
@@ -60,6 +62,9 @@ export default class GlideCoreMenu extends LitElement {
 
   @property({ reflect: true })
   placement: Placement = 'bottom-start';
+
+  @state()
+  containingBlock?: Element;
 
   @property({ reflect: true })
   get size() {
@@ -156,6 +161,10 @@ export default class GlideCoreMenu extends LitElement {
         ></slot>
       </div>
     `;
+  }
+
+  setContainingBlock(containingBlock: Element) {
+    this.containingBlock = containingBlock;
   }
 
   @state()
@@ -462,6 +471,15 @@ export default class GlideCoreMenu extends LitElement {
                 this.#targetElement,
                 this.#defaultSlotElementRef.value,
                 {
+                  platform: {
+                    ...platform,
+                    getOffsetParent: (element) => {
+                      return (
+                        this.containingBlock ??
+                        platform.getOffsetParent(element, offsetParent)
+                      );
+                    },
+                  },
                   placement: this.placement,
                   middleware: [
                     offset({
