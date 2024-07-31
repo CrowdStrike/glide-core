@@ -1,8 +1,14 @@
 import './menu.link.js';
 import './menu.options.js';
 import { LitElement } from 'lit';
+import {
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+} from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
 
@@ -51,7 +57,7 @@ it('opens when clicked', async () => {
   expect(target?.ariaExpanded).to.equal('true');
 });
 
-it('does not open when clicked when its target is `disabled`', async () => {
+it('does not open when `disabled` is set on its target', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target" disabled>Target</button>
@@ -76,7 +82,36 @@ it('does not open when clicked when its target is `disabled`', async () => {
   expect(target?.ariaExpanded).to.equal('false');
 });
 
-it('does not open when clicked when its target is `aria-disabled`', async () => {
+it('does not open when `disabled` is set programmatically on its target', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  const target = component.querySelector('button');
+  assert(target);
+
+  target.click();
+  target.disabled = true;
+  await elementUpdated(component);
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+
+  expect(component.open).to.be.false;
+  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(target?.ariaExpanded).to.equal('false');
+});
+
+it('does not open when `aria-disabled` is set on its target', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button aria-disabled="true" slot="target">Target</button>
@@ -87,7 +122,38 @@ it('does not open when clicked when its target is `aria-disabled`', async () => 
     </glide-core-menu>`,
   );
 
-  component.querySelector('button')?.click();
+  const target = component.querySelector('button');
+
+  target?.click();
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+
+  expect(component.open).to.be.false;
+  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(target?.ariaExpanded).to.equal('false');
+});
+
+it('does not open when `aria-disabled` is set programmatically on its target', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  const button = component.querySelector('button');
+  assert(button);
+
+  button?.click();
+  button.ariaDisabled = 'true';
+  await elementUpdated(component);
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -233,56 +299,6 @@ it('opens when opened programmatically', async () => {
   expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
   expect(target?.ariaExpanded).to.equal('true');
-});
-
-it('does not open when opened programmatically and its target is `disabled`', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target" disabled>Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  component.open = true;
-  await elementUpdated(component);
-
-  const defaultSlot =
-    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
-
-  const options = component.querySelector('glide-core-menu-options');
-  const target = component.querySelector('button');
-
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
-  expect(target?.ariaExpanded).to.equal('false');
-});
-
-it('does not open when opened programmatically and its target is `aria-disabled`', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button aria-disabled="true" slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  component.open = true;
-  await elementUpdated(component);
-
-  const defaultSlot =
-    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
-
-  const options = component.querySelector('glide-core-menu-options');
-  const target = component.querySelector('button');
-
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
-  expect(target?.ariaExpanded).to.equal('false');
 });
 
 // See the `document` click listener comment in `menu.ts` for an explanation.

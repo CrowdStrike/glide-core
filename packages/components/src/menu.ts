@@ -151,7 +151,7 @@ export default class GlideCoreMenu extends LitElement {
         <slot
           class=${classMap({
             'default-slot': true,
-            visible: this.open && !this.isTargetDisabled,
+            visible: this.open,
           })}
           @click=${this.#onDefaultSlotClick}
           @focusin=${this.#onDefaultSlotFocusin}
@@ -398,22 +398,40 @@ export default class GlideCoreMenu extends LitElement {
   #onTargetSlotChange() {
     owSlot(this.#targetSlotElementRef.value);
 
-    const isDisabled =
-      this.#targetElement &&
-      'disabled' in this.#targetElement &&
-      this.#targetElement.disabled;
+    this.#setIsTargetDisabled();
 
-    const isAriaDisabled =
-      this.#targetElement && this.#targetElement.ariaDisabled === 'true';
+    if (this.isTargetDisabled) {
+      this.open = false;
+    }
 
-    this.isTargetDisabled = Boolean(isDisabled) || Boolean(isAriaDisabled);
+    const observer = new MutationObserver((records) => {
+      const isDisabledMutated = records.some((record) => {
+        return (
+          record.attributeName === 'disabled' ||
+          record.attributeName === 'aria-disabled'
+        );
+      });
+
+      if (isDisabledMutated) {
+        this.#setIsTargetDisabled();
+
+        if (this.isTargetDisabled) {
+          this.open = false;
+        }
+      }
+    });
+
+    const assignedElements = this.#targetSlotElementRef.value
+      ?.assignedElements()
+      .at(0);
+
+    if (assignedElements) {
+      observer.observe(assignedElements, { attributes: true });
+    }
 
     if (this.#targetElement && this.#optionsElement) {
       this.#targetElement.ariaHasPopup = 'true';
-
-      this.#targetElement.ariaExpanded =
-        this.open && !this.isTargetDisabled ? 'true' : 'false';
-
+      this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
       this.#targetElement.id = nanoid();
 
       this.#targetElement.setAttribute(
@@ -473,6 +491,18 @@ export default class GlideCoreMenu extends LitElement {
         },
       );
     }
+  }
+
+  #setIsTargetDisabled() {
+    const isDisabled =
+      this.#targetElement &&
+      'disabled' in this.#targetElement &&
+      this.#targetElement.disabled;
+
+    const isAriaDisabled =
+      this.#targetElement && this.#targetElement.ariaDisabled === 'true';
+
+    this.isTargetDisabled = Boolean(isDisabled) || Boolean(isAriaDisabled);
   }
 
   #setUpFloatingUi() {
