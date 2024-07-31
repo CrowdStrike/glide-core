@@ -3,6 +3,8 @@ import GlideCoreTreeItemMenu from './tree.item.menu.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
+GlideCoreTreeItemMenu.shadowRootOptions.mode = 'open';
+
 it('registers', async () => {
   expect(window.customElements.get('glide-core-tree-item-menu')).to.equal(
     GlideCoreTreeItemMenu,
@@ -37,4 +39,28 @@ it('throws if the default slot is the incorrect type', async () => {
   // it.
   await waitUntil(() => stub.calledTwice);
   stub.restore();
+});
+
+it('defaults the placement of the menu to bottom start', async () => {
+  const treeItemMenu = await fixture<GlideCoreTreeItemMenu>(html`
+    <glide-core-tree-item-menu>
+      <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
+    </glide-core-tree-item-menu>
+  `);
+
+  expect(
+    treeItemMenu.shadowRoot?.querySelector('glide-core-menu')?.placement,
+  ).to.equal('bottom-start');
+});
+
+it('can set placement of the menu', async () => {
+  const treeItemMenu = await fixture<GlideCoreTreeItemMenu>(html`
+    <glide-core-tree-item-menu placement="bottom-end">
+      <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
+    </glide-core-tree-item-menu>
+  `);
+
+  expect(
+    treeItemMenu.shadowRoot?.querySelector('glide-core-menu')?.placement,
+  ).to.equal('bottom-end');
 });

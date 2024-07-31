@@ -27,6 +27,7 @@ const meta: Meta = {
     'slot="default"': '',
     '<glide-core-tree-item>.label': 'Branch',
     '<glide-core-tree-item>.selected': false,
+    '<glide-core-tree-item-menu>.placement': 'bottom-start',
   },
   play(context) {
     const links = context.canvasElement.querySelectorAll(
@@ -57,7 +58,12 @@ const meta: Meta = {
                 name="settings"
               ></glide-core-example-icon>
             </glide-core-tree-item-icon-button>
-            ${treeItemMenu}
+            <glide-core-tree-item-menu
+              slot="menu"
+              placement=${arguments_['<glide-core-tree-item-menu>.placement']}
+            >
+              ${treeItemMenu}
+            </glide-core-tree-item-menu>
           </glide-core-tree-item>
           <glide-core-tree-item label="Sub-branch">
             <glide-core-tree-item label="Sub-leaf 1"></glide-core-tree-item>
@@ -89,6 +95,30 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
+    },
+    '<glide-core-tree-item-menu>.placement': {
+      control: { type: 'select' },
+      options: [
+        'bottom',
+        'left',
+        'right',
+        'top',
+        'bottom-start',
+        'bottom-end',
+        'left-start',
+        'left-end',
+        'right-start',
+        'right-end',
+        'top-start',
+        'top-end',
+      ],
+      table: {
+        defaultValue: { summary: '"bottom-start"' },
+        type: {
+          summary:
+            '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start"| "top-end"',
+        },
+      },
     },
     'addEventListener(event)': {
       table: {
@@ -247,7 +277,11 @@ export const TreeItemWithMenu: StoryObj = {
           label=${arguments_['<glide-core-tree-item>.label']}
           ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
           >
-          ${treeItemMenu}
+          <glide-core-tree-item-menu slot="menu" placement=${
+            arguments_['<glide-core-tree-item-menu>.placement']
+          }>
+            ${treeItemMenu}
+          </glide-core-tree-item-menu>
         </glide-core-tree-item></glide-core-tree-item>
       </glide-core-tree>
     </div>
@@ -265,7 +299,11 @@ export const TreeItemWithPrefixSuffixAndMenu: StoryObj = {
           >
           <glide-core-example-icon slot="prefix" name="share"></glide-core-example-icon>
           <glide-core-example-icon slot="suffix" name="settings"></glide-core-example-icon>
-          ${treeItemMenu}
+          <glide-core-tree-item-menu slot="menu" placement=${
+            arguments_['<glide-core-tree-item-menu>.placement']
+          }>
+            ${treeItemMenu}
+          </glide-core-tree-item-menu>
         </glide-core-tree-item></glide-core-tree-item>
       </glide-core-tree>
     </div>
@@ -273,33 +311,25 @@ export const TreeItemWithPrefixSuffixAndMenu: StoryObj = {
 };
 
 const treeItemMenu = html`
-  <glide-core-tree-item-menu slot="menu">
-    <glide-core-menu-link label="Edit" url="/edit">
-      <glide-core-example-icon
-        slot="icon"
-        name="pencil"
-      ></glide-core-example-icon>
-    </glide-core-menu-link>
+  <glide-core-menu-link label="Edit" url="/edit">
+    <glide-core-example-icon
+      slot="icon"
+      name="pencil"
+    ></glide-core-example-icon>
+  </glide-core-menu-link>
 
-    <glide-core-menu-link label="Move" url="/move">
-      <glide-core-example-icon
-        slot="icon"
-        name="move"
-      ></glide-core-example-icon>
-    </glide-core-menu-link>
+  <glide-core-menu-link label="Move" url="/move">
+    <glide-core-example-icon slot="icon" name="move"></glide-core-example-icon>
+  </glide-core-menu-link>
 
-    <glide-core-menu-link label="Share" url="/share">
-      <glide-core-example-icon
-        slot="icon"
-        name="share"
-      ></glide-core-example-icon>
-    </glide-core-menu-link>
+  <glide-core-menu-link label="Share" url="/share">
+    <glide-core-example-icon slot="icon" name="share"></glide-core-example-icon>
+  </glide-core-menu-link>
 
-    <glide-core-menu-link label="Settings" url="/settings">
-      <glide-core-example-icon
-        slot="icon"
-        name="settings"
-      ></glide-core-example-icon>
-    </glide-core-menu-link>
-  </glide-core-tree-item-menu>
+  <glide-core-menu-link label="Settings" url="/settings">
+    <glide-core-example-icon
+      slot="icon"
+      name="settings"
+    ></glide-core-example-icon>
+  </glide-core-menu-link>
 `;
