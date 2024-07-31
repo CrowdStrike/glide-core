@@ -37,7 +37,7 @@ export default [
       opacity: 1;
       transform: none;
       transition:
-        transform 0.3s ease-out,
+        transform 0.3s cubic-bezier(0.33, 1, 0.68, 1),
         opacity 0.3s ease-in;
       visibility: visible;
     }
