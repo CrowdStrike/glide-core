@@ -2,6 +2,7 @@ import './label.js';
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreCheckbox from './checkbox.js';
 import styles from './checkbox-group.styles.js';
@@ -51,6 +52,9 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
   @property({ reflect: true })
   name?: string;
+
+  @property()
+  privateSplit?: 'left' | 'middle';
 
   @property({ reflect: true, type: Boolean })
   get required() {
@@ -170,6 +174,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
       ${ref(this.#componentElementRef)}
     >
       <glide-core-label
+        split=${ifDefined(this.privateSplit ?? undefined)}
         ?hide=${this.hideLabel}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}

@@ -15,6 +15,9 @@ export default [
 
       /* Additional whitespace from line height and the tooltip won't be vertically centered. */
       display: flex;
+
+      /* Allows the consumer to style the target using "text-overflow: ellipsis". */
+      inline-size: 100%;
       padding: 0;
       position: relative;
 

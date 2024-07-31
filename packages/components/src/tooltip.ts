@@ -11,6 +11,7 @@ import {
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { offsetParent } from 'composed-offset-position';
 import { owSlot } from './library/ow.js';
 import styles from './tooltip.styles.js';
@@ -34,6 +35,9 @@ export default class GlideCoreTooltip extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
 
   /* The placement of the tooltip relative to its target. Automatic placement will take over if the tooltip is cut off by the viewport. */
   @property()
@@ -82,7 +86,7 @@ export default class GlideCoreTooltip extends LitElement {
         @mouseout=${this.#onMouseout}
       >
         <div
-          aria-labelledby="tooltip"
+          aria-labelledby=${ifDefined(this.disabled ? undefined : 'tooltip')}
           class="target"
           slot="target"
           @focusin=${this.#onFocusin}
@@ -100,13 +104,15 @@ export default class GlideCoreTooltip extends LitElement {
         <div
           class=${classMap({
             tooltip: true,
-            visible: this.isVisible,
+            visible: this.isVisible && !this.disabled,
           })}
           id="tooltip"
-          role="tooltip"
+          role=${ifDefined(this.disabled ? undefined : 'tooltip')}
           ${ref(this.#tooltipElementRef)}
         >
-          <span aria-label="Tooltip: "></span>
+          <span
+            aria-label=${ifDefined(this.disabled ? undefined : 'Tooltip: ')}
+          ></span>
 
           <slot
             @slotchange=${this.#onDefaultSlotChange}
@@ -122,9 +128,6 @@ export default class GlideCoreTooltip extends LitElement {
   setContainingBlock(containingBlock: Element) {
     this.containingBlock = containingBlock;
   }
-
-  @state()
-  private effectivePlacement?: string;
 
   #arrowElementRef = createRef<HTMLDivElement>();
 
@@ -246,8 +249,6 @@ export default class GlideCoreTooltip extends LitElement {
                 bottom: '',
                 [staticSide]: '-3px',
               });
-
-              this.effectivePlacement = placement;
             }
           })();
         },

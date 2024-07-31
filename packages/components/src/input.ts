@@ -111,6 +111,9 @@ export default class GlideCoreInput extends LitElement {
   @property({ type: Boolean })
   disabled = false;
 
+  @property()
+  privateSplit?: 'left' | 'middle';
+
   @property({
     type: Number,
     converter(value) {
@@ -182,7 +185,12 @@ export default class GlideCoreInput extends LitElement {
   override render() {
     return html`
       <glide-core-label
+        class=${classMap({
+          left: this.privateSplit === 'left',
+          middle: this.privateSplit === 'middle',
+        })}
         orientation=${this.orientation}
+        split=${ifDefined(this.privateSplit ?? undefined)}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback ||
         this.#isMaxCharacterCountExceeded}

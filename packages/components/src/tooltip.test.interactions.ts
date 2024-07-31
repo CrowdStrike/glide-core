@@ -25,6 +25,25 @@ it('is visible on "focusin"', async () => {
   ).to.be.true;
 });
 
+it('is hidden on "focusin" when disabled', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip disabled>
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector('[aria-labelledby="tooltip"]')
+    ?.dispatchEvent(new FocusEvent('focusin'));
+
+  await elementUpdated(component);
+
+  expect(
+    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
+  ).to.not.be.ok;
+});
+
 it('is hidden on "blur"', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip>
@@ -94,6 +113,25 @@ it('is visible on "mouseover"', async () => {
   expect(
     component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
   ).to.be.true;
+});
+
+it('is hidden on "mouseover" when disabled', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip disabled>
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector('.component')
+    ?.dispatchEvent(new MouseEvent('mouseover'));
+
+  await elementUpdated(component);
+
+  expect(
+    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
+  ).to.not.be.ok;
 });
 
 it('is hidden on "mouseout"', async () => {

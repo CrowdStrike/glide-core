@@ -85,6 +85,9 @@ export default class GlideCoreTextarea extends LitElement {
     | 'words'
     | 'characters' = 'on';
 
+  @property()
+  privateSplit?: 'left' | 'middle';
+
   override blur() {
     this.#textareaElementRef.value?.blur();
   }
@@ -123,6 +126,7 @@ export default class GlideCoreTextarea extends LitElement {
 
   override render() {
     return html`<glide-core-label
+      split=${ifDefined(this.privateSplit ?? undefined)}
       orientation=${this.orientation}
       ?disabled=${this.disabled}
       ?error=${this.#isShowValidationFeedback || this.#isInvalidCharacterLength}

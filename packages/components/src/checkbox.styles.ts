@@ -33,6 +33,9 @@ when browsers support them.
 
     .input-and-checkbox {
       block-size: 0.875rem;
+
+      /* Prevent shrinkage when the summary wraps. */
+      flex-shrink: 0;
       inline-size: 0.875rem;
       position: relative;
     }
