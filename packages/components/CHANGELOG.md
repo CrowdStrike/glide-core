@@ -1,5 +1,15 @@
 # @crowdstrike/glide-core
 
+## 0.6.2
+
+### Patch Changes
+
+- [#267](https://github.com/CrowdStrike/glide-core/pull/267) [`b2c6e25`](https://github.com/CrowdStrike/glide-core/commit/b2c6e25c6e48cfe8fb0d516118bd8e204be28c2e) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown no longer dispatches multiple "change" and "input" events when `value` is changed programmatically.
+
+- [#266](https://github.com/CrowdStrike/glide-core/pull/266) [`a8c7aa7`](https://github.com/CrowdStrike/glide-core/commit/a8c7aa747c50a4ef762c6d0a2046c0b056af5b38) Thanks [@danwenzel](https://github.com/danwenzel)! - Allow setting the placement of tree item menu
+
+- [#264](https://github.com/CrowdStrike/glide-core/pull/264) [`e2d5f7c`](https://github.com/CrowdStrike/glide-core/commit/e2d5f7c7eda7cb85acdce532193d804e533c0b71) Thanks [@clintcs](https://github.com/clintcs)! - Fix Menu options not responding to hover and closing without calling the target's click handler.
+
 ## 0.6.1
 
 ### Patch Changes
