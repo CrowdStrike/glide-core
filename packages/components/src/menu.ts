@@ -204,7 +204,11 @@ export default class GlideCoreMenu extends LitElement {
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = (event: MouseEvent) => {
-    if (event.target && this.contains(event.target as Node)) {
+    if (
+      event.target &&
+      event.target instanceof Node &&
+      this.contains(event.target)
+    ) {
       return;
     }
 
@@ -272,11 +276,14 @@ export default class GlideCoreMenu extends LitElement {
       event.relatedTarget instanceof HTMLElement &&
       this.#shadowRoot?.contains(event.relatedTarget);
 
-    const isOptionFocused =
-      event.relatedTarget instanceof HTMLElement &&
-      this.contains(event.relatedTarget);
+    const isOptionsFocused =
+      event.relatedTarget instanceof GlideCoreMenuOptions;
 
-    if (!isMenuFocused && !isOptionFocused) {
+    const isOptionFocused =
+      event.relatedTarget instanceof GlideCoreMenuButton ||
+      event.relatedTarget instanceof GlideCoreMenuLink;
+
+    if (!isMenuFocused && !isOptionsFocused && !isOptionFocused) {
       this.open = false;
     }
   }
@@ -444,12 +451,20 @@ export default class GlideCoreMenu extends LitElement {
     // is `undefined`. The problem is test coverage. `GlideCoreMenuOptions`
     // throws if its default slot is empty. So the branch where `children` is
     // `undefined` is never reached.
-    const children = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      ?.at(0)?.children;
+    let elements: HTMLCollection | Element[] | undefined =
+      this.#defaultSlotElementRef.value?.assignedElements()?.at(0)?.children;
 
-    if (children) {
-      return [...children].filter(
+    const element = elements?.[0];
+
+    // If we're dealing with a slot, then the consumer of this component has
+    // placed a slot inside Menu Options, in which case we need to get its
+    // assigned elements instead. Tree Menu is one consumer that does this.
+    if (element instanceof HTMLSlotElement) {
+      elements = element.assignedElements();
+    }
+
+    if (elements) {
+      return [...elements].filter(
         (element): element is GlideCoreMenuLink | GlideCoreMenuButton => {
           return (
             element instanceof GlideCoreMenuLink ||
