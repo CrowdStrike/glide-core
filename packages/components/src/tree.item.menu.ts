@@ -3,12 +3,13 @@ import './menu.js';
 import './menu.options.js';
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenu from './menu.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
 import styles from './tree.item.menu.styles.js';
+import type { Placement } from '@floating-ui/dom';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,6 +32,9 @@ export default class GlideCoreTreeItemMenu extends LitElement {
 
   static override styles = styles;
 
+  @property({ reflect: true })
+  placement: Placement = 'bottom-start';
+
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
 
@@ -42,7 +46,11 @@ export default class GlideCoreTreeItemMenu extends LitElement {
 
   override render() {
     return html`
-      <glide-core-menu class="component" ${ref(this.#menuElementRef)}>
+      <glide-core-menu
+        class="component"
+        placement=${this.placement}
+        ${ref(this.#menuElementRef)}
+      >
         <glide-core-menu-options>
           <slot
             @slotchange=${this.#onDefaultSlotChange}
