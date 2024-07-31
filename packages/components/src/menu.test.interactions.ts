@@ -1,10 +1,31 @@
 import './menu.link.js';
 import './menu.options.js';
+import { LitElement } from 'lit';
+import { customElement } from 'lit/decorators.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
 
+@customElement('glide-core-nested-slot')
+class GlideCoreNestedSlot extends LitElement {
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    mode: 'closed',
+  };
+
+  override render() {
+    return html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <slot></slot>
+      </glide-core-menu-options>
+    </glide-core-menu>`;
+  }
+}
+
 GlideCoreMenu.shadowRootOptions.mode = 'open';
+GlideCoreNestedSlot.shadowRootOptions.mode = 'open';
 
 it('opens when clicked', async () => {
   const component = await fixture<GlideCoreMenu>(
@@ -546,6 +567,28 @@ it('activates a menu link on "mouseover"', async () => {
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
+it('activates a menu link on "mouseover" when the link is in a nested slot', async () => {
+  const component = await fixture<GlideCoreMenu>(html`
+    <glide-core-nested-slot>
+      <glide-core-menu-link label="One"></glide-core-menu-link>
+      <glide-core-menu-link label="Two"></glide-core-menu-link>
+    </glide-core-nested-slot>
+  `);
+
+  const links = component.querySelectorAll('glide-core-menu-link');
+
+  const options = component.shadowRoot?.querySelector(
+    'glide-core-menu-options',
+  );
+
+  links[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  await elementUpdated(component);
+
+  expect(links[0].privateActive).to.be.false;
+  expect(links[1].privateActive).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+});
+
 it('activates a menu button on "mouseover"', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
@@ -567,6 +610,28 @@ it('activates a menu button on "mouseover"', async () => {
   expect(buttons[0].privateActive).to.be.false;
   expect(buttons[1].privateActive).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).equal(buttons[1].id);
+});
+
+it('activates a menu button on "mouseover" when the button is in a nested slot', async () => {
+  const component = await fixture<GlideCoreMenu>(html`
+    <glide-core-nested-slot>
+      <glide-core-menu-button label="One"></glide-core-menu-button>
+      <glide-core-menu-button label="Two"></glide-core-menu-button>
+    </glide-core-nested-slot>
+  `);
+
+  const links = component.querySelectorAll('glide-core-menu-button');
+
+  const options = component.shadowRoot?.querySelector(
+    'glide-core-menu-options',
+  );
+
+  links[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  await elementUpdated(component);
+
+  expect(links[0].privateActive).to.be.false;
+  expect(links[1].privateActive).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
 it('activates the next option on ArrowDown', async () => {
