@@ -76,6 +76,80 @@ it('dispatches one "input" event when Select All is clicked', async () => {
   expect(spy.calledOnce).to.be.true;
 });
 
+it('dispatches one "change" event when `value` is changed programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  component.addEventListener('change', spy);
+
+  setTimeout(() => {
+    component.value = ['one', 'two'];
+  });
+
+  await aTimeout(0);
+  expect(spy.calledOnce).to.be.true;
+});
+
+it('dispatches one "input" event when `value` is changed programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  component.addEventListener('input', spy);
+
+  setTimeout(() => {
+    component.value = ['one', 'two'];
+  });
+
+  await aTimeout(0);
+  expect(spy.calledOnce).to.be.true;
+});
+
 it('dispatches a "change" event when an option is selected after Select All is clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
