@@ -5,7 +5,6 @@ export default [
   css`
     .component {
       display: inline-flex;
-      gap: 0;
       position: relative;
 
       & .divider {
