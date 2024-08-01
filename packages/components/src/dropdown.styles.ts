@@ -38,7 +38,7 @@ export default [
       gap: var(--glide-core-spacing-xs);
       justify-content: space-between;
       min-inline-size: var(--min-inline-size);
-      padding-inline: var(--glide-core-spacing-xs);
+      padding-inline: var(--glide-core-spacing-sm);
       text-align: start;
       user-select: none;
       white-space: nowrap;
