@@ -1,14 +1,19 @@
 import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
-import { expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTabGroup from './tab.group.js';
 import GlideCoreTabPanel from './tab.panel.js';
 import expectArgumentError from './library/expect-argument-error.js';
+import sinon from 'sinon';
 
 GlideCoreTabGroup.shadowRootOptions.mode = 'open';
 GlideCoreTabPanel.shadowRootOptions.mode = 'open';
+
+function isPanelHidden(panel: GlideCoreTabPanel) {
+  return panel.shadowRoot?.firstElementChild?.classList.contains('hidden');
+}
 
 it('registers', async () => {
   expect(window.customElements.get('glide-core-tab-group')).to.equal(
@@ -37,15 +42,13 @@ it('renders correct markup and sets correct attributes for the default case', as
     'activeTab defaults to first tab',
   );
 
-  expect(tabGroup.variant).to.equal('primary');
-
   expect([...tabGroup.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
     'component',
   ]);
 
   expect([
     ...tabGroup.shadowRoot!.querySelector('.tab-group')!.classList,
-  ]).to.deep.equal(['tab-group', 'primary']);
+  ]).to.deep.equal(['tab-group']);
 
   const slot = tabGroup.shadowRoot!.querySelector<HTMLSlotElement>(
     'slot:not([name="nav"])',
@@ -53,32 +56,6 @@ it('renders correct markup and sets correct attributes for the default case', as
 
   expect(slot).to.exist;
   expect(slot!.assignedElements.length).to.equal(0);
-});
-
-it('renders a secondary variant', async () => {
-  const element = await fixture(html`
-    <glide-core-tab-group variant="secondary">
-      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
-      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
-    </glide-core-tab-group>
-  `);
-
-  expect([
-    ...element.shadowRoot!.querySelector('.tab-group')!.classList,
-  ]).to.deep.equal(['tab-group', 'secondary']);
-});
-
-it('renders a vertical variant', async () => {
-  const element = await fixture(html`
-    <glide-core-tab-group variant="vertical">
-      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
-      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
-    </glide-core-tab-group>
-  `);
-
-  expect([
-    ...element.shadowRoot!.querySelector('.tab-group')!.classList,
-  ]).to.deep.equal(['tab-group', 'vertical']);
 });
 
 it('can switch tabs', async () => {
@@ -226,43 +203,402 @@ it('can use left/right, home and end keys to focus on tabs', async () => {
   expect(thirdTab.active).to.equal(true);
 });
 
-it('can use up/down keys to focus on vertical tabs', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
-    <glide-core-tab-group variant="vertical">
-      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
-      <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+it('renders an end overflow button on end overflow', async () => {
+  const element = await fixture(html`
+    <div style="width:25rem">
+      <glide-core-tab-group>
+        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+        <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+        <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+        <glide-core-tab slot="nav" panel="4">Tab 4</glide-core-tab>
+        <glide-core-tab slot="nav" panel="5">Tab 5</glide-core-tab>
+        <glide-core-tab slot="nav" panel="6">Tab 6</glide-core-tab>
 
-      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
-      <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
-    </glide-core-tab-group>
+        <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+        <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+        <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+        <glide-core-tab-panel name="4">Content for Tab 4</glide-core-tab-panel>
+        <glide-core-tab-panel name="5">Content for Tab 5</glide-core-tab-panel>
+        <glide-core-tab-panel name="6">Content for Tab 6</glide-core-tab-panel>
+      </glide-core-tab-group>
+    </div>
   `);
 
-  const [firstTab, secondTab, thirdTab] = tabGroup.tabElements;
+  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+    'glide-core-tab-group',
+  );
 
-  firstTab.focus();
-  await sendKeys({ press: 'ArrowDown' });
-  await sendKeys({ press: 'Enter' });
-  expect(secondTab.active).to.equal(true, 'down works');
+  const endOverflowButton = tabGroup?.shadowRoot?.querySelector(
+    '[data-test="overflow-end-button"]',
+  );
 
-  await sendKeys({ press: 'ArrowUp' });
-  await sendKeys({ press: 'Enter' });
-  expect(firstTab.active).to.equal(true, 'up works');
+  expect(endOverflowButton).to.be.not.null;
+});
 
-  await sendKeys({ press: 'ArrowUp' });
-  await sendKeys({ press: 'Enter' });
-  expect(thirdTab.active).to.equal(true, 'up from first goes to last');
+it('does not render an end overflow button when there is no end overflow', async () => {
+  const element = await fixture(html`
+    <div style="width:25rem">
+      <glide-core-tab-group>
+        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+        <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+        <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+        <glide-core-tab slot="nav" panel="4">Tab 4</glide-core-tab>
+        <glide-core-tab slot="nav" panel="5">Tab 5</glide-core-tab>
+        <glide-core-tab slot="nav" panel="6">Tab 6</glide-core-tab>
 
-  await sendKeys({ press: 'ArrowDown' });
-  await sendKeys({ press: 'Enter' });
-  expect(firstTab.active).to.equal(true, 'down from last goes to first');
+        <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+        <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+        <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+        <glide-core-tab-panel name="4">Content for Tab 4</glide-core-tab-panel>
+        <glide-core-tab-panel name="5">Content for Tab 5</glide-core-tab-panel>
+        <glide-core-tab-panel name="6">Content for Tab 6</glide-core-tab-panel>
+      </glide-core-tab-group>
+    </div>
+  `);
+
+  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+    'glide-core-tab-group',
+  );
+
+  let endOverflowButton =
+    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="overflow-end-button"]',
+    );
+
+  expect(endOverflowButton).to.be.not.null;
+
+  endOverflowButton?.click();
+  await aTimeout(500);
+
+  endOverflowButton = tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="overflow-end-button"]',
+  );
+
+  expect(endOverflowButton).to.be.null;
+});
+
+it('renders a start overflow button on start overflow', async () => {
+  const element = await fixture(html`
+    <div style="width:25rem">
+      <glide-core-tab-group>
+        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+        <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+        <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+        <glide-core-tab slot="nav" panel="4">Tab 4</glide-core-tab>
+        <glide-core-tab slot="nav" panel="5">Tab 5</glide-core-tab>
+        <glide-core-tab slot="nav" panel="6">Tab 6</glide-core-tab>
+
+        <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+        <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+        <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+        <glide-core-tab-panel name="4">Content for Tab 4</glide-core-tab-panel>
+        <glide-core-tab-panel name="5">Content for Tab 5</glide-core-tab-panel>
+        <glide-core-tab-panel name="6">Content for Tab 6</glide-core-tab-panel>
+      </glide-core-tab-group>
+    </div>
+  `);
+
+  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+    'glide-core-tab-group',
+  );
+
+  // Need to get the tab group into a state where there
+  // is overflow on the right -- do this by first scrolling to the right
+
+  const endOverflowButton =
+    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="overflow-end-button"]',
+    );
+
+  expect(endOverflowButton).to.be.not.null;
+
+  endOverflowButton?.click();
+  await aTimeout(500);
+
+  const startOverflowButton =
+    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="overflow-start-button"]',
+    );
+
+  expect(startOverflowButton).to.be.not.null;
+});
+
+it('does not render a start overflow button when there is no start overflow', async () => {
+  const element = await fixture(html`
+    <div style="width:25rem">
+      <glide-core-tab-group>
+        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+        <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+        <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+        <glide-core-tab slot="nav" panel="4">Tab 4</glide-core-tab>
+        <glide-core-tab slot="nav" panel="5">Tab 5</glide-core-tab>
+        <glide-core-tab slot="nav" panel="6">Tab 6</glide-core-tab>
+
+        <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+        <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+        <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+        <glide-core-tab-panel name="4">Content for Tab 4</glide-core-tab-panel>
+        <glide-core-tab-panel name="5">Content for Tab 5</glide-core-tab-panel>
+        <glide-core-tab-panel name="6">Content for Tab 6</glide-core-tab-panel>
+      </glide-core-tab-group>
+    </div>
+  `);
+
+  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+    'glide-core-tab-group',
+  );
+
+  const endOverflowButton =
+    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="overflow-end-button"]',
+    );
+
+  let startOverflowButton =
+    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="overflow-start-button"]',
+    );
+
+  expect(endOverflowButton).to.be.not.null;
+  expect(startOverflowButton).to.be.null;
+
+  endOverflowButton?.click();
+  await aTimeout(500);
+
+  startOverflowButton = tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="overflow-start-button"]',
+  );
+
+  expect(startOverflowButton).to.be.not.null;
+
+  startOverflowButton?.click();
+  await aTimeout(500);
+
+  startOverflowButton = tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="overflow-start-button"]',
+  );
+
+  expect(startOverflowButton).to.be.null;
+});
+
+it('scrolls tabs when overflow buttons are clicked', async () => {
+  const spy = sinon.spy();
+
+  const element = await fixture(html`
+    <div style="width:25rem">
+      <glide-core-tab-group>
+        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+        <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+        <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+        <glide-core-tab slot="nav" panel="4">Tab 4</glide-core-tab>
+        <glide-core-tab slot="nav" panel="5">Tab 5</glide-core-tab>
+        <glide-core-tab slot="nav" panel="6">Tab 6</glide-core-tab>
+
+        <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+        <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+        <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+        <glide-core-tab-panel name="4">Content for Tab 4</glide-core-tab-panel>
+        <glide-core-tab-panel name="5">Content for Tab 5</glide-core-tab-panel>
+        <glide-core-tab-panel name="6">Content for Tab 6</glide-core-tab-panel>
+      </glide-core-tab-group>
+    </div>
+  `);
+
+  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+    'glide-core-tab-group',
+  );
+
+  tabGroup?.shadowRoot
+    ?.querySelector('[role="tablist"]')
+    ?.addEventListener('scroll', spy);
+
+  const endOverflowButton =
+    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="overflow-end-button"]',
+    );
+
+  expect(endOverflowButton).to.be.not.null;
+
+  endOverflowButton?.click();
+  await aTimeout(500);
+
+  expect(spy.called).to.be.true;
+
+  spy.resetHistory();
+
+  const startOverflowButton =
+    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="overflow-start-button"]',
+    );
+
+  expect(startOverflowButton).to.be.not.null;
+
+  startOverflowButton?.click();
+  await aTimeout(500);
+
+  expect(spy.called).to.be.true;
+});
+
+it('removes overflow buttons when the component is resized and there is no overflow', async () => {
+  const element = await fixture(html`
+    <div style="width:25rem" data-test="test-parent">
+      <glide-core-tab-group>
+        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+        <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+        <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+        <glide-core-tab slot="nav" panel="4">Tab 4</glide-core-tab>
+        <glide-core-tab slot="nav" panel="5">Tab 5</glide-core-tab>
+        <glide-core-tab slot="nav" panel="6">Tab 6</glide-core-tab>
+
+        <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+        <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+        <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+        <glide-core-tab-panel name="4">Content for Tab 4</glide-core-tab-panel>
+        <glide-core-tab-panel name="5">Content for Tab 5</glide-core-tab-panel>
+        <glide-core-tab-panel name="6">Content for Tab 6</glide-core-tab-panel>
+      </glide-core-tab-group>
+    </div>
+  `);
+
+  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+    'glide-core-tab-group',
+  );
+
+  let endOverflowButton =
+    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="overflow-end-button"]',
+    );
+
+  expect(endOverflowButton).to.be.not.null;
+
+  const container = document?.querySelector<HTMLDivElement>(
+    '[data-test="test-parent"]',
+  );
+
+  expect(container).to.be.not.null;
+
+  container!.style.width = 'auto';
+
+  await aTimeout(500);
+
+  endOverflowButton = tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="overflow-end-button"]',
+  );
+
+  expect(endOverflowButton).to.be.null;
+});
+
+it('renders overflow buttons when the component is resized and there is overflow', async () => {
+  const element = await fixture(html`
+    <div data-test="test-parent">
+      <glide-core-tab-group>
+        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+        <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+        <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+        <glide-core-tab slot="nav" panel="4">Tab 4</glide-core-tab>
+        <glide-core-tab slot="nav" panel="5">Tab 5</glide-core-tab>
+        <glide-core-tab slot="nav" panel="6">Tab 6</glide-core-tab>
+
+        <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+        <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+        <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+        <glide-core-tab-panel name="4">Content for Tab 4</glide-core-tab-panel>
+        <glide-core-tab-panel name="5">Content for Tab 5</glide-core-tab-panel>
+        <glide-core-tab-panel name="6">Content for Tab 6</glide-core-tab-panel>
+      </glide-core-tab-group>
+    </div>
+  `);
+
+  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+    'glide-core-tab-group',
+  );
+
+  let endOverflowButton =
+    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="overflow-end-button"]',
+    );
+
+  expect(endOverflowButton).to.be.null;
+
+  const container = document?.querySelector<HTMLDivElement>(
+    '[data-test="test-parent"]',
+  );
+
+  expect(container).to.be.not.null;
+
+  container!.style.width = '25rem';
+
+  await aTimeout(500);
+
+  endOverflowButton = tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="overflow-end-button"]',
+  );
+
+  expect(endOverflowButton).to.be.not.null;
+});
+
+it('scrolls using keyboard when there is overflow and only a few pixels of overflowed tabs are on-screen', async () => {
+  const spy = sinon.spy();
+
+  const element = await fixture(html`
+    <div style="width: 17rem;">
+      <glide-core-tab-group>
+        <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+        <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+        <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+        <glide-core-tab slot="nav" panel="4">Tab 4</glide-core-tab>
+
+        <glide-core-tab-panel name="1">Content for tab 1 </glide-core-tab-panel>
+        <glide-core-tab-panel name="2">
+          Content for tab 2
+        </glide-core-tab-panel>
+        <glide-core-tab-panel name="3">
+          Content for tab 3
+        </glide-core-tab-panel>
+        <glide-core-tab-panel name="4">
+          Content for tab 4
+        </glide-core-tab-panel>
+      </glide-core-tab-group>
+    </div>
+  `);
+
+  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+    'glide-core-tab-group',
+  );
+
+  expect(tabGroup).to.be.not.null;
+
+  tabGroup?.shadowRoot
+    ?.querySelector('[role="tablist"]')
+    ?.addEventListener('scroll', spy);
+
+  tabGroup?.tabElements[0].focus();
+  await sendKeys({ press: 'ArrowRight' });
+  await sendKeys({ press: 'ArrowRight' });
+  await sendKeys({ press: 'ArrowRight' });
+
+  await aTimeout(500);
+
+  expect(tabGroup?.tabElements[3]).to.have.focus;
+
+  expect(spy.called).to.be.true;
+
+  spy.resetHistory();
+
+  await sendKeys({ press: 'ArrowLeft' });
+  await sendKeys({ press: 'ArrowLeft' });
+  await sendKeys({ press: 'ArrowLeft' });
+
+  await aTimeout(500);
+
+  expect(tabGroup?.tabElements[0]).to.have.focus;
+
+  expect(spy.called).to.be.true;
 });
 
 it('throws an error when an element other than `glide-core-tab` is a child of the `nav` slot', async () => {
   await expectArgumentError(() => {
     return fixture(html`
-      <glide-core-tab-group variant="vertical">
+      <glide-core-tab-group>
         <div slot="nav">Tab 1</div>
         <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
       </glide-core-tab-group>
@@ -273,14 +609,10 @@ it('throws an error when an element other than `glide-core-tab` is a child of th
 it('throws an error when an element other than `glide-core-tab-panel` is a child of the default slot', async () => {
   await expectArgumentError(() => {
     return fixture(html`
-      <glide-core-tab-group variant="vertical">
+      <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
         <div>Default Content</div>
       </glide-core-tab-group>
     `);
   });
 });
-
-function isPanelHidden(panel: GlideCoreTabPanel) {
-  return panel.shadowRoot?.firstElementChild?.classList.contains('hidden');
-}

@@ -36,9 +36,6 @@ export default class GlideCoreTab extends LitElement {
   /** Sets the active attribute on the tab. */
   @property({ type: Boolean, reflect: true }) active = false;
 
-  /** Sets the variant attribute on the tab. */
-  @property({ reflect: true }) variant = 'primary';
-
   /** Disables the tab. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
@@ -54,9 +51,6 @@ export default class GlideCoreTab extends LitElement {
     return html`<div
       class=${classMap({
         component: true,
-        primary: this.variant === 'primary',
-        secondary: this.variant === 'secondary',
-        vertical: this.variant === 'vertical',
         active: this.active,
         disabled: this.disabled,
       })}

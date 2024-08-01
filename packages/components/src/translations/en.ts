@@ -13,7 +13,9 @@ const translation: Translation = {
   selectAll: 'Select all',
   clearEntry: 'Clear entry',
   moreInformation: 'More information',
+  nextTab: 'Next tab',
   notifications: 'Notifications',
+  previousTab: 'Previous tab',
 
   removeTag: (label: string) => `Remove tag: ${label}`,
 };

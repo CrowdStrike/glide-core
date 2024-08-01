@@ -16,7 +16,6 @@ it('renders correct markup and sets correct attributes for the default case', as
   await expect(element).to.not.be.accessible();
   expect(element.active).to.equal(false, 'active defaults to false');
   expect(element.disabled).to.equal(false, 'disabled defaults to false');
-  expect(element.variant).to.equal('primary');
 
   expect(element.getAttribute('aria-disabled')).to.equal(
     null,
@@ -25,29 +24,6 @@ it('renders correct markup and sets correct attributes for the default case', as
 
   expect([...element.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
     'component',
-    'primary',
-  ]);
-});
-
-it('renders a secondary variant', async () => {
-  const element = await fixture<GlideCoreTab>(html`
-    <glide-core-tab variant="secondary">Tab</glide-core-tab>
-  `);
-
-  expect([...element.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
-    'component',
-    'secondary',
-  ]);
-});
-
-it('renders a vertical variant', async () => {
-  const element = await fixture<GlideCoreTab>(html`
-    <glide-core-tab variant="vertical">Tab</glide-core-tab>
-  `);
-
-  expect([...element.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
-    'component',
-    'vertical',
   ]);
 });
 

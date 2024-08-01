@@ -6,5 +6,7 @@
   "clearEntry": "Effacer l’entrée",
   "moreInformation": "Plus d’informations",
   "notifications": "Notifications",
-  "removeTag": "Supprimer la balise : {label}"
+  "removeTag": "Supprimer la balise : {label}",
+  "nextTab": "",
+  "previousTab": ""
 }

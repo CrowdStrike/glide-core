@@ -1,14 +1,10 @@
 import './icon-button.js';
 import { LitElement, html } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
+import { LocalizeController } from './library/localize.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from 'lit/decorators.js';
+import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
 import { owSlotType } from './library/ow.js';
+import { when } from 'lit/directives/when.js';
 import GlideCoreTab from './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
 import styles from './tab.group.styles.js';
@@ -36,15 +32,15 @@ export default class GlideCoreTabGroup extends LitElement {
   static override styles = styles;
 
   /**
-   * Sets the variant attribute on the tab group.
-   * Automatically sets this variant on all <glide-core-tab> components inside the default slot
-   * */
-  @property({ reflect: true }) variant = 'primary';
-
-  /**
    * The tab element that is currently active
    * */
   @state() activeTab?: GlideCoreTab;
+
+  @state()
+  isShowOverflowStartButton = false;
+
+  @state()
+  isShowOverflowEndButton = false;
 
   @queryAssignedElements()
   panelElements!: GlideCoreTabPanel[];
@@ -52,34 +48,109 @@ export default class GlideCoreTabGroup extends LitElement {
   @queryAssignedElements({ slot: 'nav' })
   tabElements!: GlideCoreTab[];
 
+  override disconnectedCallback() {
+    if (this.#resizeObserver) {
+      this.#resizeObserver.disconnect();
+      this.#resizeObserver = null;
+    }
+  }
+
   override firstUpdated() {
     owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
     this.#setupTabs();
     this.#setActiveTab();
+    this.#setupResizeObserver();
   }
 
   override render() {
     return html`<div
-      class=${classMap({
-        component: true,
-        vertical: this.variant === 'vertical',
-      })}
+      class="component"
       @click=${this.#onClick}
       @keydown=${this.#onKeydown}
     >
-      <div
-        role="tablist"
-        class=${classMap({
-          'tab-group': true,
-          [this.variant]: true,
-        })}
-      >
-        <slot
-          name="nav"
-          @slotchange=${this.#onNavSlotChange}
-          ${ref(this.#navSlotElementRef)}
-        ></slot>
+      <div class="tab-container">
+        <div
+          class="overflow-button-container"
+          style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+        >
+          ${when(
+            this.isShowOverflowStartButton,
+            () =>
+              html`<button
+                style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+                class="overflow"
+                @click=${this.#onClickOverflowStartButton}
+                tabindex="-1"
+                aria-label=${this.#localize.term('previousTab')}
+                data-test="overflow-start-button"
+                ${ref(this.#overflowStartButtonElementRef)}
+              >
+                <svg
+                  aria-hidden="true"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M15 6L9 12L15 18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>`,
+          )}
+        </div>
+        <div
+          role="tablist"
+          class="tab-group"
+          ${ref(this.#tabListElementRef)}
+          @scroll=${this.#onScroll}
+        >
+          <slot
+            name="nav"
+            @slotchange=${this.#onNavSlotChange}
+            ${ref(this.#navSlotElementRef)}
+          ></slot>
+        </div>
+        <div
+          class="overflow-button-container"
+          style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+        >
+          ${when(
+            this.isShowOverflowEndButton,
+            () => html`
+              <button
+                style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+                class="overflow"
+                @click=${this.#onClickOverflowEndButton}
+                tabindex="-1"
+                aria-label=${this.#localize.term('nextTab')}
+                data-test="overflow-end-button"
+                ${ref(this.#overflowEndButtonElementRef)}
+              >
+                <svg
+                  aria-hidden="true"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M9 18L15 12L9 6"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            `,
+          )}
+        </div>
       </div>
       <slot
         @slotchange=${this.#onDefaultSlotChange}
@@ -94,7 +165,21 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
+  #localize = new LocalizeController(this);
+
   #navSlotElementRef = createRef<HTMLSlotElement>();
+
+  #overflowEndButtonElementRef = createRef<HTMLButtonElement>();
+
+  #overflowStartButtonElementRef = createRef<HTMLButtonElement>();
+
+  #resizeObserver: ResizeObserver | null = null;
+
+  #resizeTimeout: NodeJS.Timeout | null = null;
+
+  #scrollTimeout: NodeJS.Timeout | null = null;
+
+  #tabListElementRef = createRef<HTMLDivElement>();
 
   #onClick = (event: Event) => {
     const target = event.target as HTMLElement;
@@ -107,6 +192,14 @@ export default class GlideCoreTabGroup extends LitElement {
     ) {
       this.#showTab(clickedTab);
     }
+  };
+
+  #onClickOverflowEndButton = () => {
+    this.#scrollTabsList('right', true);
+  };
+
+  #onClickOverflowStartButton = () => {
+    this.#scrollTabsList('left', true);
   };
 
   #onKeydown = (event: KeyboardEvent) => {
@@ -143,22 +236,18 @@ export default class GlideCoreTabGroup extends LitElement {
         switch (event.key) {
           case 'Home': {
             index = 0;
-
             break;
           }
           case 'End': {
             index = this.tabElements.length - 1;
-
             break;
           }
-          case this.variant === 'vertical' ? 'ArrowUp' : 'ArrowLeft': {
+          case 'ArrowLeft': {
             index--;
-
             break;
           }
-          case this.variant === 'vertical' ? 'ArrowDown' : 'ArrowRight': {
+          case 'ArrowRight': {
             index++;
-
             break;
           }
           // No default
@@ -172,10 +261,77 @@ export default class GlideCoreTabGroup extends LitElement {
           index = 0;
         }
 
-        this.tabElements[index].focus({ preventScroll: true });
+        this.tabElements[index].focus({
+          preventScroll: false,
+        });
+
+        this.#setOverflowButtonsVisibility();
+
+        // Since tab widths and the tab list are of variable length, its possible that
+        // when scrolling to the left or right only a few pixels of tab padding
+        // are on-screen. When this happens, focus does not scroll the tab list and the tab
+        // text isn't brought clearly into view. To protect against this case, determine whether to
+        // scroll by comparing the overflow button's edge to the tab's text's edge.
+        if (
+          this.isShowOverflowStartButton &&
+          this.#overflowStartButtonElementRef.value &&
+          event.key === 'ArrowLeft'
+        ) {
+          // Since the shadowdom of a tab is closed, we can't know what
+          // the padding is (presently 1 rem). This could be solved in a number of ways, but this
+          // works for now.
+          const tabPadding = Number.parseInt(
+            window.getComputedStyle(document.documentElement).fontSize,
+          );
+
+          const buttonRect =
+            this.#overflowStartButtonElementRef.value?.getBoundingClientRect();
+
+          const { right: buttonRight } = buttonRect;
+
+          const tabRect = this.tabElements[index]?.getBoundingClientRect();
+          const { right: tabRight } = tabRect;
+
+          // tabRight - tabPadding is the edge of the tab's text.
+          if (buttonRight > tabRight - tabPadding) {
+            this.#scrollTabsList('left');
+          }
+        }
+
+        if (
+          this.isShowOverflowEndButton &&
+          this.#overflowEndButtonElementRef.value &&
+          event.key === 'ArrowRight'
+        ) {
+          // Since the shadowdom of a tab is closed, we can't know what
+          // the padding is (presently 1 rem). This could be solved in a number of ways, but this
+          // works for now.
+          const tabPadding = Number.parseInt(
+            window.getComputedStyle(document.documentElement).fontSize,
+          );
+
+          const buttonRect =
+            this.#overflowEndButtonElementRef.value?.getBoundingClientRect();
+
+          const { left: buttonLeft } = buttonRect;
+
+          const tabRect = this.tabElements[index]?.getBoundingClientRect();
+          const { left: tabLeft } = tabRect;
+
+          // tabLeft + tabPadding is the edge of the tab's text
+          if (buttonLeft < tabLeft + tabPadding) {
+            this.#scrollTabsList('right');
+          }
+        }
+
         event.preventDefault();
       }
     }
+  };
+
+  #setOverflowButtonsVisibility = () => {
+    this.#setStartOverflowButtonVisibility();
+    this.#setEndOverflowButtonVisibility();
   };
 
   #onDefaultSlotChange() {
@@ -184,6 +340,34 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #onNavSlotChange() {
     owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
+    this.#setOverflowButtonsVisibility();
+  }
+
+  #onScroll() {
+    // Debounce overflow button visibility calculations.
+    this.#scrollTimeout && clearTimeout(this.#scrollTimeout);
+
+    this.#scrollTimeout = setTimeout(() => {
+      this.#setOverflowButtonsVisibility();
+    }, 100);
+  }
+
+  #scrollTabsList(buttonPlacement: 'left' | 'right', isSmooth?: boolean) {
+    const directionFactor = buttonPlacement === 'right' ? 1 : -1;
+    const percentageFactor = 0.5;
+
+    if (this.#tabListElementRef.value) {
+      const scrollDistance =
+        directionFactor *
+        this.#tabListElementRef.value?.clientWidth *
+        percentageFactor;
+
+      this.#tabListElementRef.value?.scrollBy({
+        left: scrollDistance,
+        top: 0,
+        behavior: isSmooth ? 'smooth' : 'auto',
+      });
+    }
   }
 
   #setActiveTab() {
@@ -209,10 +393,54 @@ export default class GlideCoreTabGroup extends LitElement {
     }
   }
 
+  #setEndOverflowButtonVisibility() {
+    const tabListElement = this.#tabListElementRef.value;
+    const tabListElementRect = tabListElement?.getBoundingClientRect();
+
+    // Scroll to within 1px (rounding).
+    const roundingDelta = 1;
+
+    if (tabListElement && tabListElementRect) {
+      const { width: tabListElementWidth } = tabListElementRect;
+
+      // `scrollLeft` needn't be an integer
+      // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollLeft
+      const tabListElementScrollRight =
+        tabListElement.scrollLeft + tabListElementWidth;
+
+      const tabListElementScrollWidth = tabListElement.scrollWidth;
+
+      this.isShowOverflowEndButton =
+        tabListElementScrollWidth - tabListElementScrollRight > roundingDelta;
+    }
+  }
+
+  #setStartOverflowButtonVisibility() {
+    if (this.#tabListElementRef.value) {
+      this.isShowOverflowStartButton =
+        this.#tabListElementRef.value.scrollLeft > 0;
+    }
+  }
+
+  #setupResizeObserver() {
+    this.#resizeObserver = new ResizeObserver((entries) => {
+      if (entries?.at(0)?.target === this.#tabListElementRef.value) {
+        // Debounce overflow visibility calculations.
+        /* c8 ignore next */
+        this.#resizeTimeout && clearTimeout(this.#resizeTimeout);
+
+        this.#resizeTimeout = setTimeout(() => {
+          this.#setOverflowButtonsVisibility();
+        }, 100);
+      }
+    });
+
+    this.#tabListElementRef.value &&
+      this.#resizeObserver.observe(this.#tabListElementRef.value);
+  }
+
   #setupTabs() {
     for (const tabElement of this.tabElements) {
-      tabElement.variant = this.variant;
-
       for (const panel of this.panelElements) {
         tabElement.setAttribute('aria-controls', panel.getAttribute('id')!);
         panel.setAttribute('aria-labelledby', tabElement.getAttribute('id')!);

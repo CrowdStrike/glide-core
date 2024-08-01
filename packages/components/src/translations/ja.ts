@@ -13,6 +13,8 @@ const translation: Translation = {
   clearEntry: '入力のクリア',
   moreInformation: '詳細情報',
   notifications: '通知',
+  nextTab: '',
+  previousTab: '',
 
   removeTag: (label: string) => `タグを削除: ${label}`,
 };
