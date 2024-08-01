@@ -6,6 +6,9 @@ const config = {
     name: '@storybook/web-components-vite',
     options: {},
   },
+  core: {
+    disableWhatsNewNotifications: true,
+  },
   managerHead: process.env.BASE_URL
     ? (head) => `
           <base href="/${process.env.BASE_URL}/" />
