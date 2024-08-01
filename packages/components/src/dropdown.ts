@@ -16,6 +16,28 @@ import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import ow, { owSlotType } from './library/ow.js';
 import styles from './dropdown.styles.js';
 
+interface GlideCoreDropdownEvents {
+  change: Event;
+  custom: CustomEvent<boolean>;
+}
+
+interface AllEvents extends HTMLElementEventMap, GlideCoreDropdownEvents {}
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
+interface GlideCoreDropdown {
+  addEventListener<Type extends keyof AllEvents>(
+    type: Type,
+    listener: (this: GlideCoreDropdown, event: AllEvents[Type]) => void,
+    options?: boolean | AddEventListenerOptions,
+  ): void;
+
+  removeEventListener<Type extends keyof AllEvents>(
+    type: Type,
+    listener: (this: GlideCoreDropdown, event: AllEvents[Type]) => void,
+    options?: boolean | EventListenerOptions,
+  ): void;
+}
+
 declare global {
   interface HTMLElementTagNameMap {
     'glide-core-dropdown': GlideCoreDropdown;
@@ -33,7 +55,8 @@ declare global {
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-dropdown')
-export default class GlideCoreDropdown extends LitElement {
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
+class GlideCoreDropdown extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -1277,3 +1300,5 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 }
+
+export default GlideCoreDropdown;
