@@ -3,6 +3,7 @@ import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement } from 'lit/decorators.js';
+import ow from './library/ow.js';
 import styles from './toasts.styles.js';
 
 declare global {
@@ -19,7 +20,7 @@ export interface Toast {
 }
 
 /**
- * @description A container and controller for toast messages
+ * @description A container and controller for toast messages.
 
  */
 @customElement('glide-core-toasts')
@@ -44,7 +45,8 @@ export default class GlideCoreToasts extends LitElement {
       },
     );
 
-    this.#componentElementRef.value!.append(toastElement);
+    ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
+    this.#componentElementRef.value.append(toastElement);
 
     toastElement.addEventListener(
       'close',

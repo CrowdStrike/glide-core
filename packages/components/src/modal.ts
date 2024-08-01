@@ -4,12 +4,12 @@ import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { owSlot, owSlotType } from './library/ow.js';
 import { setContainingBlock } from './library/set-containing-block.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreButton from './button.js';
 import GlideCoreModalIconButton from './modal.icon-button.js';
 import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
+import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './modal.styles.js';
 
 declare global {
@@ -347,14 +347,19 @@ export default class GlideCoreModal extends LitElement {
   }
 
   #onDefaultSlotChange() {
+    ow(
+      this.#componentElementRef.value,
+      ow.object.instanceOf(HTMLDialogElement),
+    );
+
     owSlot(this.#defaultSlotElementRef.value);
 
     const defaultSlotElements =
-      this.#defaultSlotElementRef.value!.assignedElements();
+      this.#defaultSlotElementRef.value.assignedElements();
 
     setContainingBlock({
       elements: defaultSlotElements,
-      containingBlock: this.#componentElementRef.value!,
+      containingBlock: this.#componentElementRef.value,
     });
   }
 
@@ -369,21 +374,27 @@ export default class GlideCoreModal extends LitElement {
   }
 
   #onFooterMenuTertiarySlotChange() {
+    ow(
+      this.#componentElementRef.value,
+      ow.object.instanceOf(HTMLDialogElement),
+    );
+
     owSlotType(this.#footerMenuTertiarySlotElementRef.value, [
       GlideCoreModalTertiaryIcon,
       GlideCoreButton,
     ]);
 
-    const tertiarySlotElements =
-      this.#footerMenuTertiarySlotElementRef.value!.assignedElements();
+    const tertiarySlotAssignedElements =
+      this.#footerMenuTertiarySlotElementRef.value.assignedElements();
 
-    const tertiaryIcons: GlideCoreModalTertiaryIcon[] =
-      tertiarySlotElements.filter((element) => {
+    const tertiaryIcons = tertiarySlotAssignedElements.filter(
+      (element): element is GlideCoreModalTertiaryIcon => {
         return element instanceof GlideCoreModalTertiaryIcon;
-      });
+      },
+    );
 
     for (const tertiaryIcon of tertiaryIcons) {
-      tertiaryIcon.setContainingBlock(this.#componentElementRef.value!);
+      tertiaryIcon.setContainingBlock(this.#componentElementRef.value);
     }
   }
 

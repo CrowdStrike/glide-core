@@ -3,8 +3,8 @@ import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { owSlot } from './library/ow.js';
 import GlideCoreTooltip from './tooltip.js';
+import ow, { owSlot } from './library/ow.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -53,7 +53,8 @@ export default class GlideCoreModalTertiaryIcon extends LitElement {
   }
 
   setContainingBlock(containingBlock: HTMLElement) {
-    this.#tooltipElementRef.value!.containingBlock = containingBlock;
+    ow(this.#tooltipElementRef.value, ow.object.instanceOf(GlideCoreTooltip));
+    this.#tooltipElementRef.value.containingBlock = containingBlock;
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();

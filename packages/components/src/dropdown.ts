@@ -1025,7 +1025,9 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #onInputInput() {
-    if (this.#inputElementRef.value && this.activeOption) {
+    ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
+
+    if (this.activeOption) {
       this.open = true;
       this.ariaActivedescendant = this.activeOption.id;
       this.isFiltering = this.#inputElementRef.value.value.trim() !== '';

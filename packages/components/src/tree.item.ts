@@ -119,11 +119,11 @@ export default class GlideCoreTreeItem extends LitElement {
             `,
           )}
         </div>
-        <slot name="prefix" @slotchange=${this.#onPrefixSlotChange}></slot>
+        <slot name="prefix"></slot>
         <div class="label">${this.label}</div>
         <div class="icon-container">
-          <slot name="menu" @slotchange=${this.#onMenuSlotChange}></slot>
-          <slot name="suffix" @slotchange=${this.#onSuffixSlotChange}></slot>
+          <slot name="menu"></slot>
+          <slot name="suffix"></slot>
         </div>
       </div>
       <div class="child-items" role="group">
@@ -173,15 +173,6 @@ export default class GlideCoreTreeItem extends LitElement {
   @state()
   private childTreeItems: GlideCoreTreeItem[] = [];
 
-  @state()
-  private hasMenuSlot = false;
-
-  @state()
-  private hasPrefixSlot = false;
-
-  @state()
-  private hasSuffixSlot = false;
-
   #labelContainerElementRef = createRef<HTMLInputElement>();
 
   get #ariaExpanded() {
@@ -202,18 +193,6 @@ export default class GlideCoreTreeItem extends LitElement {
 
   get #indentationWidth() {
     return `${(this.level - 1) * 20}px`;
-  }
-
-  #onMenuSlotChange() {
-    this.hasMenuSlot = this.menuSlotAssignedElements.length > 0;
-  }
-
-  #onPrefixSlotChange() {
-    this.hasPrefixSlot = this.prefixSlotAssignedElements.length > 0;
-  }
-
-  #onSuffixSlotChange() {
-    this.hasSuffixSlot = this.suffixSlotAssignedElements.length > 0;
   }
 
   #setupChildren() {

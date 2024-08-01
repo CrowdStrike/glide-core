@@ -133,7 +133,7 @@ export default class GlideCoreDrawer extends LitElement {
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
 
-    const slotElements = this.#defaultSlotElementRef.value!.assignedElements();
+    const slotElements = this.#defaultSlotElementRef.value.assignedElements();
 
     setContainingBlock({
       elements: slotElements,
