@@ -1,5 +1,48 @@
 # @crowdstrike/glide-core
 
+## 0.6.3
+
+### Patch Changes
+
+- [#243](https://github.com/CrowdStrike/glide-core/pull/243) [`c2ad82b`](https://github.com/CrowdStrike/glide-core/commit/c2ad82bd74fdb21faff7d4ae2e70b8c8250fe4f8) Thanks [@clintcs](https://github.com/clintcs)! - Remove the left margin on Button when a prefix icon is present to improve visual balancing.
+
+- [#243](https://github.com/CrowdStrike/glide-core/pull/243) [`c2ad82b`](https://github.com/CrowdStrike/glide-core/commit/c2ad82bd74fdb21faff7d4ae2e70b8c8250fe4f8) Thanks [@clintcs](https://github.com/clintcs)! - Form control labels now truncate with an ellipsis when too long, and they show a tooltip when the truncated label is hovered.
+
+- [#273](https://github.com/CrowdStrike/glide-core/pull/273) [`007e4ad`](https://github.com/CrowdStrike/glide-core/commit/007e4ad454874362e9d05412f20c84c3e3f2de5d) Thanks [@clintcs](https://github.com/clintcs)! - Menu no longer opens, showing an empty menu, when no options are provided.
+
+- [#261](https://github.com/CrowdStrike/glide-core/pull/261) [`e6f5415`](https://github.com/CrowdStrike/glide-core/commit/e6f541501d51ac03006c0f0c018e891ff1db9a66) Thanks [@clintcs](https://github.com/clintcs)! - Menu no longer opens when its target is disabled programmatically.
+
+- [#243](https://github.com/CrowdStrike/glide-core/pull/243) [`c2ad82b`](https://github.com/CrowdStrike/glide-core/commit/c2ad82bd74fdb21faff7d4ae2e70b8c8250fe4f8) Thanks [@clintcs](https://github.com/clintcs)! - Add a Form Controls Layout component.
+
+  Form Controls Layout accepts any number of Glide Core form controls in its default slot.
+  It supports a single attribute, `split`, whose value can be `"left"` or `"middle"`:
+
+  - `"left"`, the default, puts the controls' labels into a one-third column and the controls themselves into a two-thirds column.
+  - `"middle"` puts the controls' labels and controls into two equal-width columns.
+
+  ```html
+  <glide-core-form-controls-layout split="left">
+    <glide-core-input label="Label" placeholder="Placeholder" />
+    <glide-core-checkbox label="Label" />
+  </glide-core-form-controls-layout>
+  ```
+
+- [#243](https://github.com/CrowdStrike/glide-core/pull/243) [`c2ad82b`](https://github.com/CrowdStrike/glide-core/commit/c2ad82bd74fdb21faff7d4ae2e70b8c8250fe4f8) Thanks [@clintcs](https://github.com/clintcs)! - Add a `disabled` attribute to Tooltip.
+
+- [#243](https://github.com/CrowdStrike/glide-core/pull/243) [`c2ad82b`](https://github.com/CrowdStrike/glide-core/commit/c2ad82bd74fdb21faff7d4ae2e70b8c8250fe4f8) Thanks [@clintcs](https://github.com/clintcs)! - Prevent Checkbox's checkbox from shrinking when its summary wraps.
+
+- [#270](https://github.com/CrowdStrike/glide-core/pull/270) [`16e5625`](https://github.com/CrowdStrike/glide-core/commit/16e5625dd0c90fed4b9b77ee020da8b31219a009) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Adjusted the padding of Dropdown to match Input and Textarea.
+
+- [#269](https://github.com/CrowdStrike/glide-core/pull/269) [`281628c`](https://github.com/CrowdStrike/glide-core/commit/281628cf7dfd99fb63f9fa51f96cfaa5c0f35e59) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated the color value of `--glide-core-icon-display-light` for improved dark mode support. Increased the rounding value of `--glide-core-border-radius-round` which adjusted the Tag's border radius.
+
+- [#272](https://github.com/CrowdStrike/glide-core/pull/272) [`86a012a`](https://github.com/CrowdStrike/glide-core/commit/86a012a10f16533faca022a26eed6d1d83484f45) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Added `position: relative` to the Split Container component so that the menu is properly positioned.
+
+- [#271](https://github.com/CrowdStrike/glide-core/pull/271) [`8f1859d`](https://github.com/CrowdStrike/glide-core/commit/8f1859d52227747b92803a6de3ee97841eb35ce4) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated the set-containing-block export so that it can be imported properly by consumers.
+
+  ```js
+  import { setContainingBlock } from '@crowdstrike/glide-core/library/set-containing-block.js';
+  ```
+
 ## 0.6.2
 
 ### Patch Changes
