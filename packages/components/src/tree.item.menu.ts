@@ -8,6 +8,7 @@ import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenu from './menu.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
+import ow from './library/ow.js';
 import styles from './tree.item.menu.styles.js';
 import type { Placement } from '@floating-ui/dom';
 
@@ -84,7 +85,8 @@ export default class GlideCoreTreeItemMenu extends LitElement {
   }
 
   setContainingBlock(containingBlock: Element) {
-    this.#menuElementRef.value!.setContainingBlock(containingBlock);
+    ow(this.#menuElementRef.value, ow.object.instanceOf(Element));
+    this.#menuElementRef.value.setContainingBlock(containingBlock);
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();

@@ -12,6 +12,7 @@ import {
 } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
+import ow from './library/ow.js';
 import styles from './input.styles.js';
 
 declare global {
@@ -435,8 +436,9 @@ export default class GlideCoreInput extends LitElement {
   }
 
   #onChange(event: Event) {
-    this.value = this.#inputElement!.value;
+    ow(this.#inputElement, ow.object.instanceOf(HTMLInputElement));
 
+    this.value = this.#inputElement.value;
     this.#setValidityToInputValidity();
 
     // Unlike "input" events, "change" events aren't composed. So we manually
@@ -458,9 +460,8 @@ export default class GlideCoreInput extends LitElement {
   }
 
   #onInput() {
-    const value = this.#inputElement!.value;
-    this.value = value;
-
+    ow(this.#inputElement, ow.object.instanceOf(HTMLInputElement));
+    this.value = this.#inputElement.value;
     this.#setValidityToInputValidity();
   }
 

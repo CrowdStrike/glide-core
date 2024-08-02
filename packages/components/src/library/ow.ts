@@ -9,7 +9,9 @@ const isDevelopment =
  *
  * @param slot - The slot to assert against.
  */
-export function owSlot(slot?: HTMLSlotElement) {
+export function owSlot(
+  slot?: HTMLSlotElement,
+): asserts slot is HTMLSlotElement {
   if (!isDevelopment) {
     return;
   }
@@ -40,7 +42,7 @@ export function owSlot(slot?: HTMLSlotElement) {
 export function owSlotType(
   slot?: HTMLSlotElement,
   slotted: (typeof Element | typeof Text)[] = [],
-) {
+): asserts slot is HTMLSlotElement {
   if (!isDevelopment) {
     return;
   }

@@ -33,7 +33,7 @@ class GlideCoreNestedSlot extends LitElement {
 GlideCoreMenu.shadowRootOptions.mode = 'open';
 GlideCoreNestedSlot.shadowRootOptions.mode = 'open';
 
-it('opens when clicked', async () => {
+it('opens on click', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
@@ -55,6 +55,28 @@ it('opens when clicked', async () => {
   expect(component.open).to.be.true;
   expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
   expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('does not open on click when there are no options', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <button slot="target">Target</button>
+      <glide-core-menu-options> </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  component.querySelector('button')?.click();
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+  const target = component.querySelector('button');
+
+  expect(component.open).to.be.false;
+  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.not.ok;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(target?.ariaExpanded).to.equal('false');
 });
 
 it('does not open when `disabled` is set on its target', async () => {
@@ -273,6 +295,29 @@ it('opens on Space', async () => {
   expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
   expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('does not open on Space when there are no options', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <button slot="target">Target</button>
+      <glide-core-menu-options> </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  component.querySelector('button')?.focus();
+  await sendKeys({ press: ' ' });
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+  const target = component.querySelector('button');
+
+  expect(component.open).to.be.false;
+  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.not.ok;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(target?.ariaExpanded).to.equal('false');
 });
 
 it('opens when opened programmatically', async () => {

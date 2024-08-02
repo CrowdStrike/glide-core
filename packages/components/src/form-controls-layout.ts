@@ -40,13 +40,11 @@ export default class GlideCoreFormControlsLayout extends LitElement {
   set split(split: 'left' | 'middle') {
     this.#split = split;
 
-    const assignedElements = this.#slotElementRef.value?.assignedElements();
+    owSlot(this.#slotElementRef.value);
 
-    if (assignedElements) {
-      for (const element of assignedElements) {
-        if ('privateSplit' in element) {
-          element.privateSplit = this.split;
-        }
+    for (const element of this.#slotElementRef.value.assignedElements()) {
+      if ('privateSplit' in element) {
+        element.privateSplit = this.split;
       }
     }
   }
@@ -79,16 +77,14 @@ export default class GlideCoreFormControlsLayout extends LitElement {
   #split: 'left' | 'middle' = 'left';
 
   #assertHorizontalControls() {
-    const assignedElements = this.#slotElementRef.value?.assignedElements();
+    owSlot(this.#slotElementRef.value);
 
-    if (assignedElements) {
-      for (const element of assignedElements) {
-        if ('orientation' in element) {
-          ow(
-            element.orientation === 'horizontal',
-            ow.boolean.true.message('Only horizontal controls are supported.'),
-          );
-        }
+    for (const element of this.#slotElementRef.value.assignedElements()) {
+      if ('orientation' in element) {
+        ow(
+          element.orientation === 'horizontal',
+          ow.boolean.true.message('Only horizontal controls are supported.'),
+        );
       }
     }
   }
@@ -106,13 +102,9 @@ export default class GlideCoreFormControlsLayout extends LitElement {
 
     this.#assertHorizontalControls();
 
-    const assignedElements = this.#slotElementRef.value?.assignedElements();
-
-    if (assignedElements) {
-      for (const element of assignedElements) {
-        if ('privateSplit' in element) {
-          element.privateSplit = this.split;
-        }
+    for (const element of this.#slotElementRef.value.assignedElements()) {
+      if ('privateSplit' in element) {
+        element.privateSplit = this.split;
       }
     }
   }

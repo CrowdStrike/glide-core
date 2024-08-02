@@ -174,21 +174,13 @@ it('is not opened when initially `open` and its target is `disabled`', async () 
 });
 
 it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture<GlideCoreMenu>(
+  await expectArgumentError(() => {
+    return fixture<GlideCoreMenu>(
       html`<glide-core-menu
         ><button slot="target">Target</button></glide-core-menu
       >`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
+  });
 });
 
 it('throws if the default slot is the incorrect type', async () => {

@@ -4,9 +4,9 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { svg } from 'lit/static-html.js';
 import { when } from 'lit/directives/when.js';
 import checkedIcon from './icons/checked.js';
+import ow from './library/ow.js';
 import styles from './checkbox.styles.js';
 
 declare global {
@@ -15,10 +15,19 @@ declare global {
   }
 }
 
-const indeterminateIcon = svg`
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="indeterminate-icon">
+const indeterminateIcon = html`
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 14 14"
+    fill="none"
+    class="indeterminate-icon"
+  >
     <rect x="0.5" y="0.5" width="13" height="13" rx="3.5" />
-    <path d="M3 5C3 3.89543 3.89543 3 5 3H9.79289C10.2383 3 10.4614 3.53857 10.1464 3.85355L3.85355 10.1464C3.53857 10.4614 3 10.2383 3 9.79289V5Z" fill="currentColor"/>
+    <path
+      d="M3 5C3 3.89543 3.89543 3 5 3H9.79289C10.2383 3 10.4614 3.53857 10.1464 3.85355L3.85355 10.1464C3.53857 10.4614 3 10.2383 3 9.79289V5Z"
+      fill="currentColor"
+    />
   </svg>
 `;
 
@@ -259,14 +268,14 @@ export default class GlideCoreCheckbox extends LitElement {
   }
 
   override updated() {
-    if (this.#inputElementRef.value) {
-      // `indeterminate` needs to be updated both on initial render and after it has
-      // changed. This handles both cases.
-      //
-      // TODO
-      // No need for this when browsers support the ":indeterminate" on the host.
-      this.#inputElementRef.value.indeterminate = this.indeterminate;
-    }
+    ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
+
+    // `indeterminate` needs to be updated both on initial render and after it has
+    // changed. This handles both cases.
+    //
+    // TODO
+    // No need for this when browsers support the ":indeterminate" on the host.
+    this.#inputElementRef.value.indeterminate = this.indeterminate;
   }
 
   constructor() {

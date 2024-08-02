@@ -5,6 +5,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
+import ow from './library/ow.js';
 import styles from './textarea.styles.js';
 
 declare global {
@@ -243,7 +244,12 @@ export default class GlideCoreTextarea extends LitElement {
   }
 
   #onChange(event: Event) {
-    const textAreaValue = this.#textareaElementRef.value!.value;
+    ow(
+      this.#textareaElementRef.value,
+      ow.object.instanceOf(HTMLTextAreaElement),
+    );
+
+    const textAreaValue = this.#textareaElementRef.value.value;
     this.value = textAreaValue;
 
     this.#onUpdateValidityState();
@@ -253,7 +259,12 @@ export default class GlideCoreTextarea extends LitElement {
   }
 
   #onInput() {
-    const textAreaValue = this.#textareaElementRef.value!.value;
+    ow(
+      this.#textareaElementRef.value,
+      ow.object.instanceOf(HTMLTextAreaElement),
+    );
+
+    const textAreaValue = this.#textareaElementRef.value.value;
     this.value = textAreaValue;
     this.#internals.setFormValue(this.value);
 

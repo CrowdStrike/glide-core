@@ -4,7 +4,7 @@ import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { owSlot } from './library/ow.js';
+import ow, { owSlot } from './library/ow.js';
 import styles from './label.styles.js';
 
 import { svg } from 'lit';
@@ -238,29 +238,30 @@ export default class GlideCoreLabel extends LitElement {
 
     const labelElement = this.#labelElementRef.value;
 
-    if (defaultSlotAssignedElement && labelElement) {
-      if (defaultSlotAssignedElement.textContent) {
-        this.label = defaultSlotAssignedElement.textContent;
-      }
+    ow(defaultSlotAssignedElement, ow.object.instanceOf(Element));
+    ow(labelElement, ow.object.instanceOf(HTMLElement));
 
-      const observer = new ResizeObserver(() => {
-        // `getBoundingClientRect` is used so we're comparing apples to apples.
-        //
-        // `clientWidth` on `defaultSlotAssignedElement` is zero if the element
-        // is `display` is `inline`. `labelElement`, on the other hand, isn't
-        // inline.
-        //
-        // But `clientWidth` returns an integer and `getBoundingClientRect().width`
-        // return a float. So using `clientWidth` for `labelElement` would mean the
-        // width of `defaultSlotAssignedElement` is always fractionally greater than
-        // that of `labelElement`.
-        this.isLabelTooltip =
-          defaultSlotAssignedElement.getBoundingClientRect().width >
-          labelElement.getBoundingClientRect().width;
-      });
-
-      observer.observe(labelElement);
+    if (defaultSlotAssignedElement.textContent) {
+      this.label = defaultSlotAssignedElement.textContent;
     }
+
+    const observer = new ResizeObserver(() => {
+      // `getBoundingClientRect` is used so we're comparing apples to apples.
+      //
+      // `clientWidth` on `defaultSlotAssignedElement` is zero if the element
+      // is `display` is `inline`. `labelElement`, on the other hand, isn't
+      // inline.
+      //
+      // But `clientWidth` returns an integer and `getBoundingClientRect().width`
+      // return a float. So using `clientWidth` for `labelElement` would mean the
+      // width of `defaultSlotAssignedElement` is always fractionally greater than
+      // that of `labelElement`.
+      this.isLabelTooltip =
+        defaultSlotAssignedElement.getBoundingClientRect().width >
+        labelElement.getBoundingClientRect().width;
+    });
+
+    observer.observe(labelElement);
   }
 
   #onDescriptionSlotChange() {
