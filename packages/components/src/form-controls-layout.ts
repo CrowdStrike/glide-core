@@ -40,11 +40,11 @@ export default class GlideCoreFormControlsLayout extends LitElement {
   set split(split: 'left' | 'middle') {
     this.#split = split;
 
-    owSlot(this.#slotElementRef.value);
-
-    for (const element of this.#slotElementRef.value.assignedElements()) {
-      if ('privateSplit' in element) {
-        element.privateSplit = this.split;
+    if (this.#slotElementRef.value) {
+      for (const element of this.#slotElementRef.value.assignedElements()) {
+        if ('privateSplit' in element) {
+          element.privateSplit = this.split;
+        }
       }
     }
   }
