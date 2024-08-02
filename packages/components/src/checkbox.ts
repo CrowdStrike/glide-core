@@ -90,13 +90,24 @@ export default class GlideCoreCheckbox extends LitElement {
   @property({ reflect: true })
   value?: string = '';
 
+  // Not private, so that a parent checkbox group can programmatically set
+  @state()
+  isReportValidityOrSubmit = false;
+
   get form() {
     return this.#internals.form;
   }
 
+  override blur() {
+    this.#inputElementRef.value?.blur();
+  }
+
   checkValidity() {
     this.isCheckingValidity = true;
-    return this.#internals.checkValidity();
+    const validity = this.#internals.checkValidity();
+    this.isCheckingValidity = false;
+
+    return validity;
   }
 
   override click() {
@@ -228,6 +239,7 @@ export default class GlideCoreCheckbox extends LitElement {
                 ?disabled=${this.disabled}
                 ?required=${this.required}
                 @change=${this.#onChange}
+                @blur=${this.#onBlur}
                 ${ref(this.#inputElementRef)}
               />
 
@@ -252,7 +264,14 @@ export default class GlideCoreCheckbox extends LitElement {
   }
 
   reportValidity() {
-    return this.#internals.reportValidity();
+    this.isReportValidityOrSubmit = true;
+
+    const isValid = this.#internals.reportValidity();
+
+    // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
+    this.requestUpdate();
+
+    return isValid;
   }
 
   setValidity(
@@ -288,9 +307,19 @@ export default class GlideCoreCheckbox extends LitElement {
     this.addEventListener('invalid', (event) => {
       event?.preventDefault(); // Canceled so a native validation message isn't shown.
 
-      if (!this.isCheckingValidity) {
-        this.isReportValidityOrSubmit = true;
+      // We only want to focus the input if the invalid event resulted from either:
+      // 1. Form submission
+      // 2. a call to reportValidity that did NOT result from the checkbox blur event
+      if (this.isCheckingValidity || this.isBlurring) {
+        return;
+      }
 
+      this.isReportValidityOrSubmit = true;
+
+      const isFirstInvalidFormElement =
+        this.form?.querySelector(':invalid') === this;
+
+      if (isFirstInvalidFormElement) {
         // - `this.#internals.delegatesFocus` is preferred because it's declarative. But
         //    it's limited to focusing the first focusable element. That doesn't work for
         //    us because our first focusable element is the tooltip when it's present.
@@ -311,10 +340,10 @@ export default class GlideCoreCheckbox extends LitElement {
   }
 
   @state()
-  private isCheckingValidity = false;
+  private isBlurring = false;
 
   @state()
-  private isReportValidityOrSubmit = false;
+  private isCheckingValidity = false;
 
   #inputElementRef = createRef<HTMLInputElement>();
 
@@ -332,7 +361,7 @@ export default class GlideCoreCheckbox extends LitElement {
     // If minimal, `disabled`, `required`, and whether the form has been submitted
     // don't apply because the parent component handles those states itself.
     if (this.privateVariant === 'minimal') {
-      return !this.validity.valid;
+      return !this.validity.valid && this.isReportValidityOrSubmit;
     }
 
     return (
@@ -341,6 +370,12 @@ export default class GlideCoreCheckbox extends LitElement {
       !this.validity.valid &&
       this.isReportValidityOrSubmit
     );
+  }
+
+  #onBlur() {
+    this.isBlurring = true;
+    this.reportValidity();
+    this.isBlurring = false;
   }
 
   #onChange(event: Event) {
