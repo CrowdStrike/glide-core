@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.6.4
+
+### Patch Changes
+
+- [#275](https://github.com/CrowdStrike/glide-core/pull/275) [`0ae63be`](https://github.com/CrowdStrike/glide-core/commit/0ae63be383389a6c25fdbccce297b40f0150100d) Thanks [@clintcs](https://github.com/clintcs)! - Prevent Form Controls Layout from throwing on rerender.
+
 ## 0.6.3
 
 ### Patch Changes
