@@ -63,7 +63,7 @@ export default [
       }
 
       &.secondary {
-        background-color: var(--glide-core-surface-page);
+        background-color: transparent;
         border-color: transparent;
         color: var(--icon-color, var(--glide-core-icon-default));
 
