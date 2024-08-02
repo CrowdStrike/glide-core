@@ -119,6 +119,10 @@ export default [
       }
     }
 
+    .placeholder {
+      color: var(--glide-core-text-placeholder);
+    }
+
     .tags {
       display: flex;
       gap: var(--glide-core-spacing-xs);

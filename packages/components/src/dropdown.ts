@@ -190,7 +190,7 @@ export default class GlideCoreDropdown extends LitElement {
 
   private get internalLabel() {
     return !this.isFilterable && this.selectedOptions.length === 0
-      ? this.placeholder
+      ? html`<span class="placeholder">${this.placeholder}</span>`
       : !this.multiple &&
           !this.isFilterable &&
           this.selectedOptions.at(-1)?.label
