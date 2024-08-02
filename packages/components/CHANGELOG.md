@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.6.5
+
+### Patch Changes
+
+- [#277](https://github.com/CrowdStrike/glide-core/pull/277) [`cc02368`](https://github.com/CrowdStrike/glide-core/commit/cc023682c63b3059991ee33a3b76fa54e0bb8952) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated the Icon Button secondary variant background color to be transparent.
+
 ## 0.6.4
 
 ### Patch Changes
