@@ -42,7 +42,17 @@ const meta: Meta = {
   render: (arguments_) => html`
     <div style="max-width: 18.75rem; height: 12rem;">
       <glide-core-tree>
+        <glide-core-tree-item label="Back home" remove-indentation>
+          <glide-core-example-icon
+            slot="prefix"
+            name="arrow-left"
+          ></glide-core-example-icon>
+        </glide-core-tree-item>
         <glide-core-tree-item label="Branch" expanded>
+          <glide-core-example-icon
+            slot="prefix"
+            name="share"
+          ></glide-core-example-icon>
           <glide-core-tree-item
             label=${arguments_['<glide-core-tree-item>.label']}
             ?selected=${arguments_['<glide-core-tree-item>.selected'] ||

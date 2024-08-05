@@ -15,6 +15,19 @@ it('renders and sets default attributes', async () => {
   expect(treeItem.expanded).to.equal(false);
   expect(treeItem.label).to.equal('Item');
   expect(treeItem.level).to.equal(1);
+  expect(treeItem.shadowRoot?.querySelector('.expand-icon-container')).to.be.ok;
+});
+
+it('does not render expand-icon-container if remove-indentation is true', async () => {
+  const treeItem = await fixture<TreeItem>(html`
+    <glide-core-tree-item
+      label="Item"
+      remove-indentation
+    ></glide-core-tree-item>
+  `);
+
+  expect(treeItem.shadowRoot?.querySelector('.expand-icon-container')).to.be
+    .null;
 });
 
 it('renders with a prefix slot', async () => {
