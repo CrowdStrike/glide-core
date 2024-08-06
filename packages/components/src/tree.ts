@@ -68,14 +68,14 @@ export default class GlideCoreTree extends LitElement {
         this.selectedItem = treeItem;
       } else {
         treeItem.removeAttribute('selected');
+      }
 
-        // Also traverse down the tree to select/deselect all children
-        const nestedSelectedItem: GlideCoreTreeItem | undefined =
-          treeItem.selectItem(item);
+      // Also traverse down the tree to select/deselect all children
+      const nestedSelectedItem: GlideCoreTreeItem | undefined =
+        treeItem.selectItem(item);
 
-        if (nestedSelectedItem) {
-          this.selectedItem = nestedSelectedItem;
-        }
+      if (nestedSelectedItem) {
+        this.selectedItem = nestedSelectedItem;
       }
     }
 
@@ -137,7 +137,7 @@ export default class GlideCoreTree extends LitElement {
     const clickedItem = target.closest('glide-core-tree-item');
 
     if (clickedItem) {
-      if (clickedItem.hasChildTreeItems) {
+      if (clickedItem.hasChildTreeItems && !clickedItem.nonCollapsible) {
         clickedItem.toggleExpand();
       } else {
         this.selectItem(clickedItem);
@@ -201,7 +201,7 @@ export default class GlideCoreTree extends LitElement {
     }
 
     if (event.key === 'ArrowLeft') {
-      if (focusedItem?.expanded) {
+      if (focusedItem?.expanded && !focusedItem.nonCollapsible) {
         focusedItem.toggleExpand();
       } else {
         const parentTreeItem = focusedItem?.parentElement?.closest(
@@ -233,7 +233,7 @@ export default class GlideCoreTree extends LitElement {
     }
 
     if (event.key === 'Enter' && focusedItem) {
-      if (focusedItem.hasChildTreeItems) {
+      if (focusedItem.hasChildTreeItems && !focusedItem.nonCollapsible) {
         focusedItem.toggleExpand();
       } else {
         this.selectItem(focusedItem);

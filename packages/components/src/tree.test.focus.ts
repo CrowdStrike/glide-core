@@ -106,6 +106,24 @@ it('collapses an expanded tree item if left arrow is pressed', async () => {
   );
 });
 
+it(`focuses on a non-collapsible tree item's parent if left arrow is pressed`, async () => {
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1" expanded non-collapsible>
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2"></glide-core-tree-item>
+    </glide-core-tree>
+  `);
+
+  const childItems = tree.slotElements;
+  const grandchildItems = childItems[0].slotElements;
+  grandchildItems[0].focus();
+  await sendKeys({ press: 'ArrowLeft' });
+  assert(document.activeElement instanceof GlideCoreTreeItem);
+  expect(document.activeElement?.label).to.equal(childItems[0].label);
+});
+
 it(`focuses on a collapsed tree item's parent if left arrow is pressed`, async () => {
   const tree = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
@@ -280,6 +298,25 @@ it('selects or expands/collapses node when Enter is pressed', async () => {
   grandchildItems[0].focus();
   await sendKeys({ press: 'Enter' });
   expect(grandchildItems[0].selected).to.equal(true);
+});
+
+it('selects a non-collapsible parent node when Enter is pressed', async () => {
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1" expanded non-collapsible>
+        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
+  `);
+
+  const childItems = tree.slotElements;
+  const grandchildItems = childItems?.[0].slotElements;
+
+  grandchildItems[0].focus();
+  childItems[0].focus();
+  await sendKeys({ press: 'Enter' });
+  expect(grandchildItems[0].selected).to.equal(false);
+  expect(childItems[0].selected).to.equal(true);
 });
 
 it('does nothing if some other key is pressed', async () => {

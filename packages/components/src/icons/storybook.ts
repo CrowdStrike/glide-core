@@ -125,4 +125,7 @@ const ICONS = {
     <path d="M16 11C16.5523 11 17 11.4477 17 12C17 12.5523 16.5523 13 16 13C15.4477 13 15 12.5523 15 12C15 11.4477 15.4477 11 16 11Z" stroke="currentColor" stroke-width="2"/>
     <path d="M16 4C16.5523 4 17 4.44772 17 5C17 5.55228 16.5523 6 16 6C15.4477 6 15 5.55228 15 5C15 4.44772 15.4477 4 16 4Z" stroke="currentColor" stroke-width="2"/>
   `,
+  'arrow-left': svg`
+    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+  `,
 };

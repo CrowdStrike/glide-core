@@ -58,6 +58,9 @@ it('can click child and grandchild items to expand or select them', async () => 
       <glide-core-tree-item label="Child Item 2">
         <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
       </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 3" expanded non-collapsible>
+        <glide-core-tree-item label="Grandchild Item 2"></glide-core-tree-item>
+      </glide-core-tree-item>
     </glide-core-tree>
   `);
 
@@ -79,6 +82,10 @@ it('can click child and grandchild items to expand or select them', async () => 
   // Can click and select a grandchild item
   grandchildItems[0].click();
   expect(grandchildItems[0].selected).to.equal(true);
+
+  // Can click and select a non-collapsible parent item
+  childItems[2].click();
+  expect(childItems[2].selected).to.equal(true);
 });
 
 it('does not select an item if a tree-item-icon-button is clicked', async () => {

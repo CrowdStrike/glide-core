@@ -46,6 +46,12 @@ export default class GlideCoreTreeItem extends LitElement {
 
   @property({ type: Boolean }) selected = false;
 
+  @property({ type: Boolean, attribute: 'remove-indentation' })
+  removeIndentation = false;
+
+  @property({ type: Boolean, attribute: 'non-collapsible' })
+  nonCollapsible = false;
+
   @queryAssignedElements({ slot: 'menu' })
   menuSlotAssignedElements!: GlideCoreMenu[];
 
@@ -70,6 +76,10 @@ export default class GlideCoreTreeItem extends LitElement {
     return this.childTreeItems.length > 0;
   }
 
+  get hasExpandIcon() {
+    return this.hasChildTreeItems && !this.nonCollapsible;
+  }
+
   override render() {
     return html`<div
       class=${classMap({
@@ -90,35 +100,48 @@ export default class GlideCoreTreeItem extends LitElement {
         ${ref(this.#labelContainerElementRef)}
       >
         <div style="flex-shrink: 0; width:${this.#indentationWidth};"></div>
-        <div class="expand-icon-container">
-          ${when(
-            this.hasChildTreeItems,
-            () => html`
-              <div>
-                <!-- chevron-right -->
-                <svg
-                  aria-hidden="true"
-                  class=${classMap({
-                    'expand-icon': true,
-                    'expand-icon-expanded': this.expanded,
-                  })}
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </div>
-            `,
-          )}
-        </div>
+        ${when(
+          /**
+           * By default, we indent the width of the expand icon,
+           * even if the item doesn't have children.
+           * This is to allow the sibling tree items' labels to line up vertically
+           * if some have children and some don't.
+           * But the user can opt out of this behavior via remove-indentation
+           */
+          !this.removeIndentation || this.hasExpandIcon,
+          () => html`
+            <div class="expand-icon-container">
+              ${when(
+                this.hasExpandIcon,
+                () => html`
+                  <div>
+                    <!-- chevron-right -->
+                    <svg
+                      aria-hidden="true"
+                      class=${classMap({
+                        'expand-icon': true,
+                        'expand-icon-expanded': this.expanded,
+                      })}
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M9 18L15 12L9 6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                `,
+              )}
+            </div>
+          `,
+        )}
+
         <slot name="prefix"></slot>
         <div class="label">${this.label}</div>
         <div class="icon-container">
