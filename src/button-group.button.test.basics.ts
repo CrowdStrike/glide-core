@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
+import './button-group.button.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButtonGroupButton from './button-group.button.js';
@@ -13,190 +14,127 @@ it('registers', async () => {
   );
 });
 
+it('has defaults', async () => {
+  const component = await fixture<GlideCoreButtonGroupButton>(html`
+    <glide-core-button-group-button
+      label="Button"
+    ></glide-core-button-group-button>
+  `);
+
+  expect(component.disabled).to.be.false;
+  expect(component.selected).to.be.false;
+  expect(component.value).to.equal('');
+
+  expect(component).to.have.attribute('value', '');
+  expect(component).to.not.have.attribute('disabled');
+  expect(component).to.not.have.attribute('selected');
+});
+
 it('is accessible', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value"
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  await expect(element).to.be.accessible();
-});
-
-it('renders an li with role "radio"', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value"
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const liElement = element.shadowRoot?.querySelector('li');
-
-  expect(liElement).to.have.attribute('role', 'radio');
-});
-
-it('renders "aria-checked" equal to "false" and "tabindex" equal to "-1" by default', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value"
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const liElement = element.shadowRoot?.querySelector('li');
-
-  expect(liElement).to.not.be.null;
-  expect(liElement).to.have.attribute('aria-checked', 'false');
-  expect(liElement).to.have.attribute('tabindex', '-1');
-});
-
-it('renders "aria-checked" equal to "true" and "tabindex" equal to "0" when attribute "selected" exists', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value" selected
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const liElement = element.shadowRoot?.querySelector('li');
-
-  expect(liElement).to.have.attribute('aria-checked', 'true');
-  expect(liElement).to.have.attribute('tabindex', '0');
-});
-
-it('renders two slots, where one has name "prefix", and the other is default with given text', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value" selected
-      ><span slot="prefix" data-prefix>Prefix</span
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const prefixSlot = element.shadowRoot?.querySelector('slot[name="prefix"]');
-
-  const defaultSlot = element.shadowRoot?.querySelector(
-    'slot:not([name="prefix"])',
-  );
-
-  // verify the slots exist
-  expect(prefixSlot).to.not.be.null;
-  expect(defaultSlot).to.not.be.null;
-
-  const prefixContent = document.querySelector('[data-prefix]');
-  const content = document.querySelector('glide-core-button-group-button');
-
-  // verify the content of the slots exist
-  expect(prefixContent).to.not.be.null;
-  expect(prefixContent?.textContent).to.equal('Prefix');
-  expect(content?.textContent).to.contain('Button');
-});
-
-it('is has a disabled presentation when the "disabled" attribute is true', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value" disabled
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const liElement = element.shadowRoot?.querySelector('li');
-
-  expect(liElement).to.have.attribute('aria-disabled', 'true');
-});
-
-it('does not have a disabled presentation when "disabled" attribute is false', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value"
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const liElement = element.shadowRoot?.querySelector('li');
-
-  expect(liElement).to.have.attribute('aria-disabled', 'false');
-});
-
-it('has a vertical presention when the "vertical" attribute is set', async () => {
-  await fixture(
-    html` <glide-core-button-group-button value="value" vertical
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const buttonElement = document.querySelector(
-    'glide-core-button-group-button',
-  );
-
-  const liElement = buttonElement?.shadowRoot?.querySelector('li');
-
-  expect(liElement).to.have.class('vertical');
-});
-
-it('does not have a vertical presention when the "vertical" attribute is not set', async () => {
-  await fixture(
-    html` <glide-core-button-group-button value="value"
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const buttonElement = document.querySelector(
-    'glide-core-button-group-button',
-  );
-
-  const liElement = buttonElement?.shadowRoot?.querySelector('li');
-
-  expect(liElement).to.not.have.class('vertical');
-});
-
-it('sets buttons as not tabbable by default', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value"
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const liElement = element.shadowRoot?.querySelector('li');
-
-  await expect(liElement).to.have.attribute('tabindex', '-1');
-});
-
-it('sets a "selected" button as tabbable', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value" selected
-      >Button</glide-core-button-group-button
-    >`,
-  );
-
-  const liElement = element.shadowRoot?.querySelector('li');
-
-  await expect(liElement).to.have.attribute('tabindex', '0');
-});
-
-it('has a presentation for variant "icon-only"', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-button-group-button
-      value="value"
+      label="Button"
+    ></glide-core-button-group-button>`,
+  );
+
+  await expect(component).to.be.accessible();
+});
+
+it('can have a label', async () => {
+  const component = await fixture(
+    html`<glide-core-button-group-button
+      label="Button"
       selected
-      variant="icon-only"
-      ><span slot="prefix">Prefix</span>Button</glide-core-button-group-button
-    >`,
+    ></glide-core-button-group-button>`,
   );
 
-  const liElement = element.shadowRoot?.querySelector('li');
-
-  expect(liElement).to.have.class('icon-only');
+  expect(component.shadowRoot?.textContent?.trim()).to.equal('Button');
 });
 
-it('does not apply class "icon-only" when variant "icon-only" is absent', async () => {
-  const element = await fixture(
-    html`<glide-core-button-group-button value="value"
-      >Button</glide-core-button-group-button
-    >`,
+it('can have a "prefix" slot', async () => {
+  const component = await fixture(
+    html`<glide-core-button-group-button label="Button">
+      <span slot="prefix">Prefix</span>
+    </glide-core-button-group-button>`,
   );
 
-  const liElement = element.shadowRoot?.querySelector('li');
+  const assignedElements = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="prefix"]')
+    ?.assignedElements();
 
-  expect(liElement).to.not.have.class('icon-only');
+  expect(assignedElements?.at(0)?.textContent).to.equal('Prefix');
 });
 
-it('throws an error when no label is present and variant is `icon-only`', async () => {
+it('sets `aria-checked` when selected', async () => {
+  const component = await fixture(
+    html`<glide-core-button-group-button
+      label="Button"
+      selected
+    ></glide-core-button-group-button>`,
+  );
+
+  const radio = component.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio).to.have.attribute('aria-checked', 'true');
+});
+
+it('sets `aria-checked` when not selected', async () => {
+  const component = await fixture(
+    html`<glide-core-button-group-button
+      label="Button"
+    ></glide-core-button-group-button>`,
+  );
+
+  const radio = component.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio).to.have.attribute('aria-checked', 'false');
+});
+
+it('sets `aria-disabled` when disabled', async () => {
+  const component = await fixture(
+    html`<glide-core-button-group-button
+      label="Button"
+      disabled
+    ></glide-core-button-group-button>`,
+  );
+
+  const radio = component.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio).to.have.attribute('aria-disabled', 'true');
+});
+
+it('sets `aria-disabled` when not disabled', async () => {
+  const component = await fixture(
+    html`<glide-core-button-group-button
+      label="Button"
+    ></glide-core-button-group-button>`,
+  );
+
+  const radio = component.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio).to.have.attribute('aria-disabled', 'false');
+});
+
+it('is tabbable when selected', async () => {
+  const component = await fixture(
+    html`<glide-core-button-group-button
+      label="Button"
+      selected
+    ></glide-core-button-group-button>`,
+  );
+
+  const radio = component.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio).to.have.attribute('tabindex', '0');
+});
+
+it('is not tabbable when not selected', async () => {
+  const component = await fixture(
+    html`<glide-core-button-group-button
+      label="Button"
+    ></glide-core-button-group-button>`,
+  );
+
+  const radio = component.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio).to.have.attribute('tabindex', '-1');
+});
+
+it('throws when icon-only and no "prefix" slot', async () => {
   const spy = sinon.spy();
 
   try {
@@ -204,9 +142,8 @@ it('throws an error when no label is present and variant is `icon-only`', async 
       html`<glide-core-button-group-button
         value="value"
         selected
-        variant="icon-only"
-        ><span slot="prefix">Prefix</span></glide-core-button-group-button
-      >`,
+        privateVariant="icon-only"
+      ></glide-core-button-group-button>`,
     );
   } catch (error) {
     if (error instanceof ArgumentError) {
@@ -215,49 +152,4 @@ it('throws an error when no label is present and variant is `icon-only`', async 
   }
 
   expect(spy.called).to.be.true;
-});
-
-it('throws an error when prefix slot is empty and variant is `icon-only`', async () => {
-  const spy = sinon.spy();
-
-  // Not sure how to resolve the below, despite the test passing, so disabling console errors for now:
-  //
-  // Browser logs:
-  //     An error was thrown in a Promise outside a test. Did you forget to await a function or assertion?
-  sinon.stub(console, 'error'); // Disable console.error
-
-  try {
-    await fixture(
-      html`<glide-core-button-group-button
-        value="value"
-        selected
-        variant="icon-only"
-        >Button</glide-core-button-group-button
-      >`,
-    );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.called).to.be.true;
-});
-
-it('does not throw an error when prefix slot is empty and no variant is set', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
-      html`<glide-core-button-group-button value="value" selected
-        >Button</glide-core-button-group-button
-      >`,
-    );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.notCalled).to.be.true;
 });

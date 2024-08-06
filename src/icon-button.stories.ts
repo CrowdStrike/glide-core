@@ -23,7 +23,7 @@ const meta: Meta = {
     </glide-core-icon-button>
   `,
   args: {
-    label: 'For screenreaders',
+    label: 'Label',
     'slot="default"': '',
     disabled: false,
   },
@@ -46,7 +46,7 @@ const meta: Meta = {
     label: {
       control: { type: 'text' },
       table: {
-        type: { summary: 'string' },
+        type: { summary: 'string', detail: '// For screenreaders.' },
       },
       type: { name: 'string', required: true },
     },

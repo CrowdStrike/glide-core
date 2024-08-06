@@ -1,7 +1,7 @@
 import './button-group.button.js';
 import './button-group.js';
 import './icons/storybook.js';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -10,7 +10,8 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A button group allowing for text and icon content.',
+        component:
+          'A group of buttons that work like radios—with labels and optional icons.',
       },
     },
   },
@@ -18,28 +19,41 @@ const meta: Meta = {
     <glide-core-button-group
       label=${arguments_.label}
       orientation=${arguments_.orientation}
+      variant=${arguments_.variant || nothing}
     >
-      <glide-core-button-group-button value="button-1" selected
-        >Button 1</glide-core-button-group-button
+      <glide-core-button-group-button
+        label=${arguments_['<glide-core-button-group-button>.label']}
+        value=${arguments_['<glide-core-button-group-button>.value']}
+        ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
+        ?selected=${arguments_['<glide-core-button-group-button>.selected']}
       >
-      <glide-core-button-group-button value="button-2"
-        >Button 2</glide-core-button-group-button
-      >
-      <glide-core-button-group-button value="button-3"
-        >Button 3</glide-core-button-group-button
-      >
+      </glide-core-button-group-button>
+
+      <glide-core-button-group-button
+        label="Two"
+        value="two"
+      ></glide-core-button-group-button>
+
+      <glide-core-button-group-button
+        label="Three"
+        value="three"
+      ></glide-core-button-group-button>
     </glide-core-button-group>
   `,
   args: {
-    label: 'Group label',
+    label: 'Label',
     'slot="default"': '',
     variant: '',
     orientation: 'horizontal',
+    '<glide-core-button-group-button>.label': 'One',
+    '<glide-core-button-group-button>.disabled': false,
+    '<glide-core-button-group-button>.selected': true,
+    '<glide-core-button-group-button>.value': 'one',
   },
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: '<glide-core-button-group-button>' },
+        type: { summary: 'GlideCoreButtonGroupButton' },
       },
       type: { name: 'function', required: true },
     },
@@ -47,12 +61,14 @@ const meta: Meta = {
       control: { type: 'text' },
       type: { name: 'string', required: true },
       table: {
-        type: { summary: 'A screen reader label for the group' },
+        type: { summary: 'string', detail: '// For screenreaders.' },
       },
     },
     variant: {
+      control: { type: 'select' },
+      options: ['', 'icon-only'],
       table: {
-        type: { summary: '"icon-only" | undefined' },
+        type: { summary: '"icon-only"' },
       },
     },
     orientation: {
@@ -64,12 +80,25 @@ const meta: Meta = {
         type: { summary: '"horizontal" | "vertical"' },
       },
     },
-    'addEventListener(event)': {
+    '<glide-core-button-group-button>.label': {
+      control: { type: 'text' },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-button-group-button>.value': {
+      control: { type: 'text' },
+      table: {
+        type: {
+          summary: 'string',
+          detail:
+            "// Set `value` when you need something other a button's `label` to identify the selected button.",
+        },
+      },
+    },
+    'addEventListener(event, listener)': {
       table: {
         type: {
           summary: 'method',
-          detail:
-            'event: "change" | "input", listener: (event: CustomEvent<{ value: string }>) => void',
+          detail: 'event: "change" | "input", listener: (event: Event) => void',
         },
       },
       type: { name: 'function' },
@@ -96,27 +125,32 @@ export const DefaultWithPrefixIcon: StoryObj = {
     <glide-core-button-group
       label=${arguments_.label}
       orientation=${arguments_.orientation}
+      variant=${arguments_.variant || nothing}
     >
-      <glide-core-button-group-button value="button-1" selected>
+      <glide-core-button-group-button
+        label=${arguments_['<glide-core-button-group-button>.label']}
+        value=${arguments_['<glide-core-button-group-button>.value']}
+        ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
+        ?selected=${arguments_['<glide-core-button-group-button>.selected']}
+      >
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 1
       </glide-core-button-group-button>
-      <glide-core-button-group-button value="button-2">
+
+      <glide-core-button-group-button label="Two" value="two">
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 2
       </glide-core-button-group-button>
-      <glide-core-button-group-button value="button-3">
+
+      <glide-core-button-group-button label="Three" value="three">
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 3
       </glide-core-button-group-button>
     </glide-core-button-group>
   `,
@@ -131,60 +165,72 @@ export const DefaultWithOrientationVerticalPrefixIcon: StoryObj = {
     <glide-core-button-group
       label=${arguments_.label}
       orientation=${arguments_.orientation}
+      variant=${arguments_.variant || nothing}
     >
-      <glide-core-button-group-button value="button-1" selected>
+      <glide-core-button-group-button
+        label=${arguments_['<glide-core-button-group-button>.label']}
+        value=${arguments_['<glide-core-button-group-button>.value']}
+        ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
+        ?selected=${arguments_['<glide-core-button-group-button>.selected']}
+      >
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 1
       </glide-core-button-group-button>
-      <glide-core-button-group-button value="button-2">
+
+      <glide-core-button-group-button label="Two" value="two">
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 2
       </glide-core-button-group-button>
-      <glide-core-button-group-button value="button-3">
+
+      <glide-core-button-group-button label="Three" value="three">
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 3
       </glide-core-button-group-button>
     </glide-core-button-group>
   `,
 };
 
-export const DefaultWithVariantIconOnly: StoryObj = {
-  name: 'Button Group (With Variant Icon Only)',
+export const DefaultWithIconOnly: StoryObj = {
+  args: {
+    variant: 'icon-only',
+  },
+  name: 'Button Group (With Icon Only)',
   render: (arguments_) => html`
     <glide-core-button-group
       label=${arguments_.label}
-      variant="icon-only"
       orientation=${arguments_.orientation}
+      variant=${arguments_.variant || nothing}
     >
-      <glide-core-button-group-button value="button-1" selected>
+      <glide-core-button-group-button
+        label=${arguments_['<glide-core-button-group-button>.label']}
+        value=${arguments_['<glide-core-button-group-button>.value']}
+        ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
+        ?selected=${arguments_['<glide-core-button-group-button>.selected']}
+      >
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 1
       </glide-core-button-group-button>
-      <glide-core-button-group-button value="button-2">
+
+      <glide-core-button-group-button label="Two" value="two">
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 2
       </glide-core-button-group-button>
-      <glide-core-button-group-button value="button-3">
+
+      <glide-core-button-group-button label="Three" value="three">
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 3
       </glide-core-button-group-button>
     </glide-core-button-group>
   `,
@@ -194,96 +240,39 @@ export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
   name: 'Button Group (With Orientation Vertical and Variant Only Icon)',
   args: {
     orientation: 'vertical',
+    variant: 'icon-only',
   },
   render: (arguments_) => html`
     <glide-core-button-group
       label=${arguments_.label}
       orientation=${arguments_.orientation}
-      variant="icon-only"
+      variant=${arguments_.variant || nothing}
     >
-      <glide-core-button-group-button value="button-1" selected>
+      <glide-core-button-group-button
+        label=${arguments_['<glide-core-button-group-button>.label']}
+        value=${arguments_['<glide-core-button-group-button>.value']}
+        ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
+        ?selected=${arguments_['<glide-core-button-group-button>.selected']}
+      >
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 1
       </glide-core-button-group-button>
-      <glide-core-button-group-button value="button-2">
+
+      <glide-core-button-group-button label="Two" value="two">
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 2
       </glide-core-button-group-button>
-      <glide-core-button-group-button value="button-3">
+
+      <glide-core-button-group-button label="Three" value="three">
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
-        Button 3
       </glide-core-button-group-button>
-    </glide-core-button-group>
-  `,
-};
-
-export const DefaultWithNoneSelected: StoryObj = {
-  name: 'Button Group (With None Selected)',
-  render: (arguments_) => html`
-    <glide-core-button-group label=${arguments_.label}>
-      <glide-core-button-group-button value="button-1"
-        >Button 1</glide-core-button-group-button
-      >
-      <glide-core-button-group-button value="button-2"
-        >Button 2</glide-core-button-group-button
-      >
-      <glide-core-button-group-button value="button-3"
-        >Button 3</glide-core-button-group-button
-      >
-    </glide-core-button-group>
-  `,
-};
-
-export const DefaultWithSelected: StoryObj = {
-  name: 'Button Group (With Second Button Selected)',
-  render: (arguments_) => html`
-    <glide-core-button-group label=${arguments_.label}>
-      <glide-core-button-group-button value="button-1"
-        >Button 1</glide-core-button-group-button
-      >
-      <glide-core-button-group-button value="button-2" selected
-        >Button 2</glide-core-button-group-button
-      >
-      <glide-core-button-group-button value="button-3"
-        >Button 3</glide-core-button-group-button
-      >
-    </glide-core-button-group>
-  `,
-};
-
-export const DefaultWithDisabled: StoryObj = {
-  name: 'Button Group (With Disabled)',
-  render: (arguments_) => html`
-    <glide-core-button-group label=${arguments_.label}>
-      <glide-core-button-group-button value="button-1" disabled
-        >Button 1</glide-core-button-group-button
-      >
-      <glide-core-button-group-button value="button-2" selected
-        >Button 2</glide-core-button-group-button
-      >
-      <glide-core-button-group-button value="button-3"
-        >Button 3</glide-core-button-group-button
-      >
-    </glide-core-button-group>
-  `,
-};
-
-export const DefaultWithOneButton: StoryObj = {
-  name: 'Button Group (With One Button)',
-  render: (arguments_) => html`
-    <glide-core-button-group label=${arguments_.label}>
-      <glide-core-button-group-button value="button"
-        >Button</glide-core-button-group-button
-      >
     </glide-core-button-group>
   `,
 };

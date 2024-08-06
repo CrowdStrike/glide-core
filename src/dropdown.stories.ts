@@ -62,7 +62,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input", listener: (event: CustomEvent<string[]>)) => void) => void \n\n// `event.detail` is an array of selected option values.',
+            '(event: "change" | "input", listener: (event: Event)) => void) => void',
         },
       },
       type: { name: 'function' },

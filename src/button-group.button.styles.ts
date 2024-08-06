@@ -4,11 +4,37 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
+    :host(:first-of-type) {
+      .component {
+        &.horizontal {
+          border-end-start-radius: 0.6875rem;
+          border-start-start-radius: 0.6875rem;
+        }
+
+        &.vertical {
+          border-start-end-radius: 0.6875rem;
+          border-start-start-radius: 0.6875rem;
+        }
+      }
+    }
+
+    :host(:last-of-type) {
+      .component {
+        &.horizontal {
+          border-end-end-radius: 0.6875rem;
+          border-start-end-radius: 0.6875rem;
+        }
+
+        &.vertical {
+          border-end-end-radius: 0.6875rem;
+          border-end-start-radius: 0.6875rem;
+        }
+      }
+    }
+
     .component {
       align-items: center;
       appearance: none;
-      border: none;
-      border-inline-end: 1px solid var(--glide-core-border-base-lighter);
       cursor: pointer;
       display: flex;
       font-family: var(--glide-core-font-sans);
@@ -20,7 +46,6 @@ export default [
       line-height: 1;
       min-block-size: 1.125rem;
       min-inline-size: 5.1875rem;
-      outline: none;
       padding-block: var(--glide-core-spacing-xs);
       padding-inline: var(--glide-core-spacing-md);
       transition-duration: 150ms;
@@ -29,50 +54,11 @@ export default [
       user-select: none;
       white-space: nowrap;
 
-      &.icon-only {
-        min-inline-size: 0;
-        padding: var(--glide-core-spacing-xs);
+      &:focus {
+        outline: none;
       }
 
-      &.single {
-        border: none;
-        border-radius: 0.6875rem;
-      }
-
-      &.first {
-        border-radius: 0.6875rem 0 0 0.6875rem;
-      }
-
-      &.last {
-        border-radius: 0 0.6875rem 0.6875rem 0;
-      }
-
-      &.vertical {
-        border: none;
-        border-block-end: 1px solid var(--glide-core-border-base-lighter);
-
-        &.first {
-          border-radius: 0.6875rem 0.6875rem 0 0;
-        }
-
-        &.last {
-          border-radius: 0 0 0.6875rem 0.6875rem;
-        }
-      }
-
-      &:not(.disabled).selected {
-        background-color: var(--glide-core-surface-selected);
-        border-color: var(--glide-core-surface-selected);
-        color: var(--glide-core-color-white);
-      }
-
-      &:not(.disabled):active {
-        background-color: var(--glide-core-surface-selected);
-        border-color: var(--glide-core-border-focus);
-        color: var(--glide-core-color-white);
-      }
-
-      &:not(.disabled):focus-visible {
+      &:focus-visible {
         background-color: var(--glide-core-surface-selected);
         border-color: var(--glide-core-border-focus);
         color: var(--glide-core-color-white);
@@ -80,15 +66,27 @@ export default [
         ${focusOutline};
         outline-offset: 2px;
 
-        /* create a stacking context so the outline doesn't become obscured behind other elements */
+        /* Create a stacking context so the outline isn't obscured by other elements. */
         transform: translateX(0);
       }
 
-      &:not(.disabled, :active):hover {
-        background-color: var(--glide-core-surface-hover);
-        border-color: transparent;
-        box-shadow: var(--glide-core-glow-sm);
-        color: var(--glide-core-text-primary);
+      &.horizontal {
+        border-inline-end: 1px solid var(--glide-core-border-base-lighter);
+      }
+
+      &.vertical {
+        border-block-end: 1px solid var(--glide-core-border-base-lighter);
+
+        &.prefix {
+          &:not(.icon-only) {
+            justify-content: flex-start;
+          }
+        }
+      }
+
+      &.icon-only {
+        min-inline-size: 0;
+        padding: var(--glide-core-spacing-xs);
       }
 
       &.disabled {
@@ -97,10 +95,35 @@ export default [
         color: var(--glide-core-text-tertiary-disabled);
         cursor: not-allowed;
       }
+
+      &:not(.disabled) {
+        &:active {
+          background-color: var(--glide-core-surface-selected);
+          border-color: var(--glide-core-border-focus);
+          color: var(--glide-core-color-white);
+        }
+
+        &.selected {
+          background-color: var(--glide-core-surface-selected);
+          border-color: var(--glide-core-surface-selected);
+          color: var(--glide-core-color-white);
+        }
+      }
+
+      &:not(.disabled, :active) {
+        &:hover {
+          background-color: var(--glide-core-surface-hover);
+          border-color: transparent;
+          box-shadow: var(--glide-core-glow-sm);
+          color: var(--glide-core-text-primary);
+        }
+      }
     }
 
-    .visually-hidden {
-      ${visuallyHidden};
+    .label {
+      &.visually-hidden {
+        ${visuallyHidden};
+      }
     }
   `,
 ];
