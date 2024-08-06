@@ -2,6 +2,4 @@
 '@crowdstrike/glide-core': minor
 ---
 
-- Adds overflow buttons to `glide-core-tab-group`.
-- Removed `secondary` and `tertiary` variants.
-- Changed styling of `primary` variant to match the removed `secondary` variant.
+Adjustments were made to the Tab components to remove all existing variants in favor of a single design. Overflow buttons are added to `glide-core-tab-group` when the tabs overflow their container.

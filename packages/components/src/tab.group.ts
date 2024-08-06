@@ -163,6 +163,9 @@ export default class GlideCoreTabGroup extends LitElement {
     this.#setupTabs();
   }
 
+  // Abitrary debounce delay
+  #debounceDelay = 100;
+
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #localize = new LocalizeController(this);
@@ -175,11 +178,12 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #resizeObserver: ResizeObserver | null = null;
 
-  #resizeTimeout: NodeJS.Timeout | null = null;
+  // https://stackoverflow.com/questions/45802988/typescript-use-correct-version-of-settimeout-node-vs-window
+  #resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  #scrollTimeout: NodeJS.Timeout | null = null;
+  #scrollTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  #tabListElementRef = createRef<HTMLDivElement>();
+  #tabListElementRef = createRef<HTMLElement>();
 
   #onClick = (event: Event) => {
     const target = event.target as HTMLElement;
@@ -277,7 +281,7 @@ export default class GlideCoreTabGroup extends LitElement {
           this.#overflowStartButtonElementRef.value &&
           event.key === 'ArrowLeft'
         ) {
-          // Since the shadowdom of a tab is closed, we can't know what
+          // Since the shadow root of a tab is closed, we can't know what
           // the padding is (presently 1 rem). This could be solved in a number of ways, but this
           // works for now.
           const tabPadding = Number.parseInt(
@@ -349,7 +353,7 @@ export default class GlideCoreTabGroup extends LitElement {
 
     this.#scrollTimeout = setTimeout(() => {
       this.#setOverflowButtonsVisibility();
-    }, 100);
+    }, this.#debounceDelay);
   }
 
   #scrollTabsList(buttonPlacement: 'left' | 'right', isSmooth?: boolean) {
@@ -426,12 +430,11 @@ export default class GlideCoreTabGroup extends LitElement {
     this.#resizeObserver = new ResizeObserver((entries) => {
       if (entries?.at(0)?.target === this.#tabListElementRef.value) {
         // Debounce overflow visibility calculations.
-        /* c8 ignore next */
         this.#resizeTimeout && clearTimeout(this.#resizeTimeout);
 
         this.#resizeTimeout = setTimeout(() => {
           this.#setOverflowButtonsVisibility();
-        }, 100);
+        }, this.#debounceDelay);
       }
     });
 

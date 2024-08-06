@@ -20,7 +20,14 @@ const meta: Meta = {
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" slot="icon">
+        <svg
+          aria-hidden="true"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          slot="icon"
+        >
           <path
             d="M4 13L9 18L20 7"
             stroke="currentColor"
@@ -78,6 +85,7 @@ export const Overflow: StoryObj = {
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
         <glide-core-tab slot="nav" panel="2">
           <svg
+            aria-hidden="true"
             width="18"
             height="18"
             viewBox="0 0 24 24"
