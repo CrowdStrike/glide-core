@@ -1188,7 +1188,6 @@ export default class GlideCoreDropdown extends LitElement {
         this.#value = event.target.value ? [event.target.value] : [];
         this.open = false;
         this.ariaActivedescendant = '';
-        this.focus();
 
         if (this.isFilterable && this.#inputElementRef.value) {
           this.isFiltering = false;
