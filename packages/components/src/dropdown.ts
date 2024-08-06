@@ -142,6 +142,8 @@ export default class GlideCoreDropdown extends LitElement {
       option.selected = value.some((value) => value && value === option.value);
     }
 
+    this.#isExternalSelectAllOrExternalValueChange = false;
+
     // These events are normally dispatched when an option is selected. However, the consumer
     // changing `value` programmatically can result in multiple selections and deselections, and
     // thus multiple events. `this.#isValueOrExternalSelectAllChange` is set above and used in
