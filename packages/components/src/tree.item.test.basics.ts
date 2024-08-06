@@ -18,7 +18,7 @@ it('renders and sets default attributes', async () => {
   expect(treeItem.shadowRoot?.querySelector('.expand-icon-container')).to.be.ok;
 });
 
-it('does not render expand-icon-container if remove-indentation is true', async () => {
+it('does not render expand-icon-container if remove-indentation is set', async () => {
   const treeItem = await fixture<TreeItem>(html`
     <glide-core-tree-item
       label="Item"

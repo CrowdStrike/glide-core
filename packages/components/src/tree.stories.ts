@@ -48,7 +48,13 @@ const meta: Meta = {
             name="arrow-left"
           ></glide-core-example-icon>
         </glide-core-tree-item>
-        <glide-core-tree-item label="Branch" expanded>
+        <glide-core-tree-item
+          label="Branch"
+          expanded
+          ?non-collapsible=${arguments_[
+            '<glide-core-tree-item>.non-collapsible'
+          ] || nothing}
+        >
           <glide-core-example-icon
             slot="prefix"
             name="share"
@@ -57,6 +63,9 @@ const meta: Meta = {
             label=${arguments_['<glide-core-tree-item>.label']}
             ?selected=${arguments_['<glide-core-tree-item>.selected'] ||
             nothing}
+            ?remove-indentation=${arguments_[
+              '<glide-core-tree-item>.remove-indentation'
+            ] || nothing}
           ></glide-core-tree-item>
           <glide-core-tree-item label="Leaf 2">
             <glide-core-example-icon
@@ -240,6 +249,68 @@ export const TreeItemWithChildItemsExpanded: StoryObj = {
         label=${arguments_['<glide-core-tree-item>.label']}
         ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
       >
+        <glide-core-tree-item label="Leaf 1"></glide-core-tree-item>
+        <glide-core-tree-item label="Leaf 2"> </glide-core-tree-item>
+        <glide-core-tree-item label="Leaf 3"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
+  `,
+};
+
+export const TreeItemWithChildItemsNonCollapsible: StoryObj = {
+  name: 'Tree Item (With Child Items Non-Collapsible)',
+  args: {
+    '<glide-core-tree-item>.expanded': true,
+    '<glide-core-tree-item>.non-collapsible': true,
+    '<glide-core-tree-item>.remove-indentation': true,
+  },
+  argTypes: {
+    '<glide-core-tree-item>.expanded': {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    '<glide-core-tree-item>.non-collapsible': {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    '<glide-core-tree-item>.remove-indentation': {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    '<glide-core-tree-item>.selected': {
+      table: {
+        disable: true,
+      },
+    },
+  },
+  render: (arguments_) => html`
+    <glide-core-tree>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
+        ?non-collapsible=${arguments_[
+          '<glide-core-tree-item>.non-collapsible'
+        ] || nothing}
+        ?remove-indentation=${arguments_[
+          '<glide-core-tree-item>.remove-indentation'
+        ] || nothing}
+      >
+        <glide-core-example-icon
+          slot="prefix"
+          name="share"
+        ></glide-core-example-icon>
         <glide-core-tree-item label="Leaf 1"></glide-core-tree-item>
         <glide-core-tree-item label="Leaf 2"> </glide-core-tree-item>
         <glide-core-tree-item label="Leaf 3"></glide-core-tree-item>

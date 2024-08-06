@@ -49,6 +49,9 @@ export default class GlideCoreTreeItem extends LitElement {
   @property({ type: Boolean, attribute: 'remove-indentation' })
   removeIndentation = false;
 
+  @property({ type: Boolean, attribute: 'non-collapsible' })
+  nonCollapsible = false;
+
   @queryAssignedElements({ slot: 'menu' })
   menuSlotAssignedElements!: GlideCoreMenu[];
 
@@ -71,6 +74,10 @@ export default class GlideCoreTreeItem extends LitElement {
 
   get hasChildTreeItems() {
     return this.childTreeItems.length > 0;
+  }
+
+  get hasExpandIcon() {
+    return this.hasChildTreeItems && !this.nonCollapsible;
   }
 
   override render() {
@@ -101,11 +108,11 @@ export default class GlideCoreTreeItem extends LitElement {
            * if some have children and some don't.
            * But the user can opt out of this behavior via remove-indentation
            */
-          !this.removeIndentation || this.hasChildTreeItems,
+          !this.removeIndentation || this.hasExpandIcon,
           () => html`
             <div class="expand-icon-container">
               ${when(
-                this.hasChildTreeItems,
+                this.hasExpandIcon,
                 () => html`
                   <div>
                     <!-- chevron-right -->
