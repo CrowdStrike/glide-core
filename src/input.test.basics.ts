@@ -80,8 +80,9 @@ it('changes to type text when password is revealed', async () => {
   expect(inputElement).to.exist;
   expect(inputElement?.getAttribute('type')).to.equal('password');
 
-  const passwordToggle =
-    element.shadowRoot?.querySelector<HTMLButtonElement>('.password-toggle');
+  const passwordToggle = element.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="password-toggle"]',
+  );
 
   passwordToggle?.click();
   await element.updateComplete;
@@ -100,8 +101,9 @@ it('shows search icon with type search', async () => {
   expect(inputElement).to.exist;
   expect(inputElement?.getAttribute('type')).to.equal('search');
 
-  const searchIcon =
-    element.shadowRoot?.querySelector<HTMLButtonElement>('.search-icon');
+  const searchIcon = element.shadowRoot?.querySelector(
+    '[data-test="search-icon"]',
+  );
 
   expect(searchIcon).to.exist;
 });
@@ -151,8 +153,9 @@ it('clearable attribute allows for a button which can clear input', async () => 
     <glide-core-input label="Test" clearable></glide-core-input>
   `);
 
-  const clearButton =
-    element.shadowRoot?.querySelector<HTMLButtonElement>('.clear-icon-button');
+  const clearButton = element.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="clear-button"]',
+  );
 
   element.focus();
 
