@@ -130,15 +130,45 @@ export default class GlideCoreTextarea extends LitElement {
 
   override render() {
     return html`<glide-core-private-label
-        split=${ifDefined(this.privateSplit ?? undefined)}
-        orientation=${this.orientation}
-        ?disabled=${this.disabled}
-        ?error=${this.#isShowValidationFeedback ||
-        this.#isInvalidCharacterLength}
-        ?hide=${this.hideLabel}
-        ?required=${this.required}
-      >
-        <slot name="tooltip" slot="tooltip"></slot>
+      split=${ifDefined(this.privateSplit ?? undefined)}
+      orientation=${this.orientation}
+      ?disabled=${this.disabled}
+      ?error=${this.#isShowValidationFeedback || this.#isInvalidCharacterLength}
+      ?hide=${this.hideLabel}
+      ?required=${this.required}
+    >
+      <slot name="tooltip" slot="tooltip"></slot>
+
+      <label class="label" for="textarea"> ${this.label} </label>
+
+      <div class="textarea-container" slot="control">
+        <textarea
+          aria-invalid=${this.#isShowValidationFeedback ||
+          this.#isInvalidCharacterLength}
+          class=${classMap({
+            error:
+              this.#isShowValidationFeedback || this.#isInvalidCharacterLength,
+          })}
+          id="textarea"
+          name=${ifDefined(this.name)}
+          placeholder=${ifDefined(this.placeholder)}
+          rows=${this.rows}
+          autocapitalize=${ifDefined(this.autocapitalize)}
+          spellcheck=${this.spellcheck}
+          ?required=${this.required}
+          ?readonly=${this.readonly}
+          ?disabled=${this.disabled}
+          aria-describedby="meta"
+          ${ref(this.#textareaElementRef)}
+          @input=${this.#onInput}
+          @change=${this.#onChange}
+          @blur=${this.#onBlur}
+        >
+        </textarea>
+      </div>
+
+      <div class="meta" id="meta" slot="description">
+        <slot name="description"></slot>
 
         <label class="label" for="textarea"> ${this.label} </label>
 
@@ -201,9 +231,9 @@ export default class GlideCoreTextarea extends LitElement {
                 >
               </div>`
             : nothing}
-        </div></glide-core-private-label
-      >
-      >`;
+        </div>
+      </div>
+    </glide-core-private-label>`;
   }
 
   reportValidity() {

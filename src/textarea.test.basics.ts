@@ -126,11 +126,11 @@ it('renders a character count when attribute `maxlength` is set greater than zer
 });
 
 it('does not render a character count when attribute `maxlength` is set less than than zero', async () => {
-  const template = `<glide-core-textarea value="value" label="label" maxlength="0"><span slot="description" data-test-content>Description</span></glide-core-textarea>`;
+  const template = `<glide-core-textarea value="value" label="label" maxlength="0"><span slot="description">Description</span></glide-core-textarea>`;
   const element = await fixture<GlideCoreTextarea>(template);
 
-  const container = element.shadowRoot!.querySelector(
-    '[data-test-description-container]',
+  const container = element.shadowRoot?.querySelector(
+    'slot[name="description"]',
   );
 
   expect(container?.textContent?.trim()).to.be.equal('');
