@@ -421,14 +421,13 @@ There's less mental overhead when you look at the file system and see the genera
 
 ```bash
 # ✅ -- GOOD
-components/
-├─ src/
-│  ├─ checkbox.test.basics.ts
-│  ├─ checkbox.test.events.ts
-│  ├─ checkbox.test.focus.ts
-│  ├─ checkbox.test.form.ts
-│  ├─ checkbox.test.states.ts
-│  ├─ checkbox.test.validity.ts
+src/
+├─ checkbox.test.basics.ts
+├─ checkbox.test.events.ts
+├─ checkbox.test.focus.ts
+├─ checkbox.test.form.ts
+├─ checkbox.test.states.ts
+├─ checkbox.test.validity.ts
 ```
 
 ```js

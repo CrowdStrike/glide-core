@@ -1,9 +1,12 @@
 .DS_Store
+.npmrc
+.yarnrc
 .vscode/**/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+variables.json
+tokens.json
+dist/
 node_modules/
-.npmrc
-.yarnrc
