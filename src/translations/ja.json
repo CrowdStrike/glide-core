@@ -8,5 +8,7 @@
   "notifications": "通知",
   "removeTag": "タグを削除: {label}",
   "nextTab": "",
-  "previousTab": ""
+  "previousTab": "",
+  "announcedCharacterCount": "Character count {current} of {maximum}",
+  "displayedCharacterCount": "{current}/{maximum}",
 }

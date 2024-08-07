@@ -17,6 +17,10 @@ const translation: Translation = {
   notifications: 'Notifications',
   previousTab: 'Previous tab',
 
+  announcedCharacterCount: (current: number, maximum: number) =>
+    `Character count ${current} of ${maximum}`,
+  displayedCharacterCount: (current: number, maximum: number) =>
+    `${current}/${maximum}`,
   removeTag: (label: string) => `Remove tag: ${label}`,
 };
 

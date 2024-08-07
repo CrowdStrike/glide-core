@@ -9,5 +9,7 @@
   "nextTab": "Next tab",
   "previousTab": "Previous tab",
 
+  "announcedCharacterCount": "Character count {current} of {maximum}",
+  "displayedCharacterCount": "{current}/{maximum}",
   "removeTag": "Remove tag: {label}"
 }
