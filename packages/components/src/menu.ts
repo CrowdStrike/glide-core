@@ -8,6 +8,8 @@ import {
   platform,
 } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
+import { consume } from '@lit/context';
+import { containingBlockContext } from './library/containing-block-context.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
@@ -61,11 +63,12 @@ export default class GlideCoreMenu extends LitElement {
     }
   }
 
+  @consume({ context: containingBlockContext, subscribe: true })
+  @property({ attribute: false })
+  containingBlock?: HTMLElement;
+
   @property({ reflect: true })
   placement: Placement = 'bottom-start';
-
-  @state()
-  containingBlock?: Element;
 
   @property({ reflect: true })
   get size() {
@@ -163,10 +166,6 @@ export default class GlideCoreMenu extends LitElement {
         ></slot>
       </div>
     `;
-  }
-
-  setContainingBlock(containingBlock: Element) {
-    this.containingBlock = containingBlock;
   }
 
   @state()

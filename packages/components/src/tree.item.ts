@@ -183,12 +183,6 @@ export default class GlideCoreTreeItem extends LitElement {
     return selectedItem;
   }
 
-  setContainingBlock(containingBlock: Element) {
-    for (const treeItemMenu of this.menuSlotAssignedElements) {
-      treeItemMenu.setContainingBlock(containingBlock);
-    }
-  }
-
   toggleExpand() {
     this.expanded = !this.expanded;
   }

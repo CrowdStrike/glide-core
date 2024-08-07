@@ -2,9 +2,10 @@ import './modal.icon-button.js';
 import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
+import { containingBlockContext } from './library/containing-block-context.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { setContainingBlock } from './library/set-containing-block.js';
+import { provide } from '@lit/context';
 import { when } from 'lit/directives/when.js';
 import GlideCoreButton from './button.js';
 import GlideCoreModalIconButton from './modal.icon-button.js';
@@ -101,6 +102,9 @@ export default class GlideCoreModal extends LitElement {
   @property({ reflect: true })
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
 
+  @provide({ context: containingBlockContext })
+  containingBlock?: HTMLElement;
+
   /**
    * Event called by consumers to programmatically close the Modal.
    */
@@ -158,6 +162,8 @@ export default class GlideCoreModal extends LitElement {
       GlideCoreModalTertiaryIcon,
       GlideCoreButton,
     ]);
+
+    this.containingBlock = this.#componentElementRef.value;
   }
 
   override render() {
@@ -353,14 +359,6 @@ export default class GlideCoreModal extends LitElement {
     );
 
     owSlot(this.#defaultSlotElementRef.value);
-
-    const defaultSlotElements =
-      this.#defaultSlotElementRef.value.assignedElements();
-
-    setContainingBlock({
-      elements: defaultSlotElements,
-      containingBlock: this.#componentElementRef.value,
-    });
   }
 
   #onFooterMenuPrimarySlotChange() {
@@ -383,19 +381,6 @@ export default class GlideCoreModal extends LitElement {
       GlideCoreModalTertiaryIcon,
       GlideCoreButton,
     ]);
-
-    const tertiarySlotAssignedElements =
-      this.#footerMenuTertiarySlotElementRef.value.assignedElements();
-
-    const tertiaryIcons = tertiarySlotAssignedElements.filter(
-      (element): element is GlideCoreModalTertiaryIcon => {
-        return element instanceof GlideCoreModalTertiaryIcon;
-      },
-    );
-
-    for (const tertiaryIcon of tertiaryIcons) {
-      tertiaryIcon.setContainingBlock(this.#componentElementRef.value);
-    }
   }
 
   #onHeaderActionsSlotChange() {

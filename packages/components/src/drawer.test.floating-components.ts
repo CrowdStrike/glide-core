@@ -1,4 +1,7 @@
 import './drawer.js';
+import './tooltip.js';
+import './tree.item.js';
+import './tree.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';

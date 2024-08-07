@@ -1,9 +1,10 @@
 import { LitElement, html, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { containingBlockContext } from './library/containing-block-context.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
-import { setContainingBlock } from './library/set-containing-block.js';
+import { provide } from '@lit/context';
 import styles from './drawer.styles.js';
 
 declare global {
@@ -38,6 +39,9 @@ export default class GlideCoreDrawer extends LitElement {
   @property({ type: Boolean })
   pinned = false;
 
+  @provide({ context: containingBlockContext })
+  containingBlock?: HTMLElement;
+
   close() {
     if (this.currentState !== 'open') {
       return;
@@ -65,6 +69,8 @@ export default class GlideCoreDrawer extends LitElement {
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
+
+    this.containingBlock = this.#asideElementRef.value;
   }
 
   open() {
@@ -132,12 +138,5 @@ export default class GlideCoreDrawer extends LitElement {
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
-
-    const slotElements = this.#defaultSlotElementRef.value.assignedElements();
-
-    setContainingBlock({
-      elements: slotElements,
-      containingBlock: this.#asideElementRef.value!,
-    });
   }
 }

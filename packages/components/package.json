@@ -29,7 +29,7 @@
     "./styles/*": null,
     "./label.js": null,
     "./toasts.toast.js": null,
-    "./library/set-containing-block.js": "./dist/library/set-containing-block.js",
+    "./library/containing-block-context.js": "./dist/library/containing-block-context.js",
     "./styles/fonts.css": "./dist/styles/fonts.css",
     "./styles/variables.css": "./dist/styles/variables.css"
   },
@@ -68,6 +68,7 @@
   "packageManager": "pnpm@9.0.6+sha512.f6d863130973207cb7a336d6b439a242a26ac8068077df530d6a86069419853dc1ffe64029ec594a9c505a3a410d19643c870aba6776330f5cfddcf10a9c1617",
   "dependencies": {
     "@floating-ui/dom": "^1.6.8",
+    "@lit/context": "^1.1.1",
     "@shoelace-style/localize": "^3.1.2",
     "composed-offset-position": "^0.0.6",
     "nanoid": "^5.0.7",

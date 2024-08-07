@@ -9,6 +9,8 @@ import {
   shift,
 } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
+import { consume } from '@lit/context';
+import { containingBlockContext } from './library/containing-block-context.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -43,8 +45,9 @@ export default class GlideCoreTooltip extends LitElement {
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
-  @state()
-  containingBlock?: Element;
+  @consume({ context: containingBlockContext, subscribe: true })
+  @property({ attribute: false })
+  containingBlock?: HTMLElement;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
@@ -123,10 +126,6 @@ export default class GlideCoreTooltip extends LitElement {
         </div>
       </div>
     `;
-  }
-
-  setContainingBlock(containingBlock: Element) {
-    this.containingBlock = containingBlock;
   }
 
   #arrowElementRef = createRef<HTMLDivElement>();
