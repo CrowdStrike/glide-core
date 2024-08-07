@@ -95,6 +95,25 @@ it('is invalid after value is cleared when required', async () => {
   );
 });
 
+it('is valid when empty and does not exceed `maxlength`', async () => {
+  const input = await fixture<Input>(
+    html`<glide-core-input maxlength="3"></glide-core-input>`,
+  );
+
+  expect(input.validity?.valid).to.be.true;
+  expect(input.validity?.valueMissing).to.be.false;
+  expect(input.validity?.tooLong).to.be.false;
+  expect(input.checkValidity()).to.be.true;
+  expect(input.reportValidity()).to.be.true;
+
+  await elementUpdated(input);
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
+});
+
 it('is valid when filled in and does not exceed `maxlength`', async () => {
   const input = await fixture<Input>(
     html`<glide-core-input maxlength="3"></glide-core-input>`,
