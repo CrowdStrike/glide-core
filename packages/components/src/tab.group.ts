@@ -3,10 +3,10 @@ import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
-import { owSlotType } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreTab from './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
+import ow, { owSlotType } from './library/ow.js';
 import styles from './tab.group.styles.js';
 
 declare global {
@@ -49,10 +49,8 @@ export default class GlideCoreTabGroup extends LitElement {
   tabElements!: GlideCoreTab[];
 
   override disconnectedCallback() {
-    if (this.#resizeObserver) {
-      this.#resizeObserver.disconnect();
-      this.#resizeObserver = null;
-    }
+    this.#resizeObserver?.disconnect();
+    this.#resizeObserver = null;
   }
 
   override firstUpdated() {
@@ -163,7 +161,7 @@ export default class GlideCoreTabGroup extends LitElement {
     this.#setupTabs();
   }
 
-  // Abitrary debounce delay
+  // Arbitrary debounce delay
   #debounceDelay = 100;
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
@@ -360,18 +358,18 @@ export default class GlideCoreTabGroup extends LitElement {
     const directionFactor = buttonPlacement === 'right' ? 1 : -1;
     const percentageFactor = 0.5;
 
-    if (this.#tabListElementRef.value) {
-      const scrollDistance =
-        directionFactor *
-        this.#tabListElementRef.value?.clientWidth *
-        percentageFactor;
+    ow(this.#tabListElementRef.value, ow.object.instanceOf(HTMLElement));
 
-      this.#tabListElementRef.value?.scrollBy({
-        left: scrollDistance,
-        top: 0,
-        behavior: isSmooth ? 'smooth' : 'auto',
-      });
-    }
+    const scrollDistance =
+      directionFactor *
+      this.#tabListElementRef.value?.clientWidth *
+      percentageFactor;
+
+    this.#tabListElementRef.value?.scrollBy({
+      left: scrollDistance,
+      top: 0,
+      behavior: isSmooth ? 'smooth' : 'auto',
+    });
   }
 
   #setActiveTab() {
@@ -401,10 +399,12 @@ export default class GlideCoreTabGroup extends LitElement {
     const tabListElement = this.#tabListElementRef.value;
     const tabListElementRect = tabListElement?.getBoundingClientRect();
 
+    ow(tabListElement, ow.object.instanceOf(HTMLElement));
+
     // Scroll to within 1px (rounding).
     const roundingDelta = 1;
 
-    if (tabListElement && tabListElementRect) {
+    if (tabListElementRect) {
       const { width: tabListElementWidth } = tabListElementRect;
 
       // `scrollLeft` needn't be an integer
@@ -420,10 +420,10 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #setStartOverflowButtonVisibility() {
-    if (this.#tabListElementRef.value) {
-      this.isShowOverflowStartButton =
-        this.#tabListElementRef.value.scrollLeft > 0;
-    }
+    ow(this.#tabListElementRef.value, ow.object.instanceOf(HTMLElement));
+
+    this.isShowOverflowStartButton =
+      this.#tabListElementRef.value.scrollLeft > 0;
   }
 
   #setupResizeObserver() {
@@ -438,8 +438,9 @@ export default class GlideCoreTabGroup extends LitElement {
       }
     });
 
-    this.#tabListElementRef.value &&
-      this.#resizeObserver.observe(this.#tabListElementRef.value);
+    ow(this.#tabListElementRef.value, ow.object.instanceOf(HTMLElement));
+
+    this.#resizeObserver.observe(this.#tabListElementRef.value);
   }
 
   #setupTabs() {
