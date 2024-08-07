@@ -1,10 +1,10 @@
 import './label.js';
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { when } from 'lit/directives/when.js';
 import ow from './library/ow.js';
 import styles from './textarea.styles.js';
 
@@ -130,64 +130,80 @@ export default class GlideCoreTextarea extends LitElement {
 
   override render() {
     return html`<glide-core-private-label
-      split=${ifDefined(this.privateSplit ?? undefined)}
-      orientation=${this.orientation}
-      ?disabled=${this.disabled}
-      ?error=${this.#isShowValidationFeedback || this.#isInvalidCharacterLength}
-      ?hide=${this.hideLabel}
-      ?required=${this.required}
-    >
-      <slot name="tooltip" slot="tooltip"></slot>
-
-      <label class="label" for="textarea"> ${this.label} </label>
-
-      <div class="textarea-container" slot="control">
-        <textarea
-          class=${classMap({
-            error:
-              this.#isShowValidationFeedback || this.#isInvalidCharacterLength,
-          })}
-          id="textarea"
-          name=${ifDefined(this.name)}
-          placeholder=${ifDefined(this.placeholder)}
-          rows=${this.rows}
-          autocapitalize=${ifDefined(this.autocapitalize)}
-          spellcheck=${this.spellcheck}
-          ?required=${this.required}
-          ?readonly=${this.readonly}
-          ?disabled=${this.disabled}
-          aria-describedby="meta"
-          ${ref(this.#textareaElementRef)}
-          @input=${this.#onInput}
-          @change=${this.#onChange}
-          @blur=${this.#onBlur}
-        >
-        </textarea>
-      </div>
-
-      <div
-        class="meta"
-        data-test-description-container
-        id="meta"
-        slot="description"
+        split=${ifDefined(this.privateSplit ?? undefined)}
+        orientation=${this.orientation}
+        ?disabled=${this.disabled}
+        ?error=${this.#isShowValidationFeedback ||
+        this.#isInvalidCharacterLength}
+        ?hide=${this.hideLabel}
+        ?required=${this.required}
       >
-        <slot name="description"></slot>
+        <slot name="tooltip" slot="tooltip"></slot>
 
-        ${when(
-          this.maxlength,
-          () =>
-            html`<div
-              class=${classMap({
-                'character-count': true,
-                error: this.#isInvalidCharacterLength,
-              })}
-              data-test-maxlength
-            >
-              ${this.value.length}/${this.maxlength}
-            </div>`,
-        )}
-      </div></glide-core-private-label
-    >`;
+        <label class="label" for="textarea"> ${this.label} </label>
+
+        <div class="textarea-container" slot="control">
+          <textarea
+            aria-invalid=${this.#isShowValidationFeedback ||
+            this.#isInvalidCharacterLength}
+            class=${classMap({
+              error:
+                this.#isShowValidationFeedback ||
+                this.#isInvalidCharacterLength,
+            })}
+            id="textarea"
+            name=${ifDefined(this.name)}
+            placeholder=${ifDefined(this.placeholder)}
+            rows=${this.rows}
+            autocapitalize=${ifDefined(this.autocapitalize)}
+            spellcheck=${this.spellcheck}
+            ?required=${this.required}
+            ?readonly=${this.readonly}
+            ?disabled=${this.disabled}
+            aria-describedby="meta"
+            ${ref(this.#textareaElementRef)}
+            @input=${this.#onInput}
+            @change=${this.#onChange}
+            @blur=${this.#onBlur}
+          >
+          </textarea>
+        </div>
+
+        <div
+          class="meta"
+          data-test-description-container
+          id="meta"
+          slot="description"
+        >
+          <slot name="description"></slot>
+
+          ${this.maxlength
+            ? html`<div
+                class=${classMap({
+                  'character-count': true,
+                  error: this.#isInvalidCharacterLength,
+                })}
+              >
+                <span aria-hidden="true" data-test="character-count-text">
+                  ${this.#localize.term(
+                    'displayedCharacterCount',
+                    this.value.length,
+                    this.maxlength,
+                  )}
+                </span>
+
+                <span class="hidden" data-test="character-count-announcement"
+                  >${this.#localize.term(
+                    'announcedCharacterCount',
+                    this.value.length,
+                    this.maxlength,
+                  )}</span
+                >
+              </div>`
+            : nothing}
+        </div></glide-core-private-label
+      >
+      >`;
   }
 
   reportValidity() {
@@ -229,6 +245,8 @@ export default class GlideCoreTextarea extends LitElement {
   private isReportValidityOrSubmit = false;
 
   #internals: ElementInternals;
+
+  #localize = new LocalizeController(this);
 
   #textareaElementRef = createRef<HTMLTextAreaElement>();
 

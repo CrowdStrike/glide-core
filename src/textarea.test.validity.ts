@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { expect, fixture, html } from '@open-wc/testing';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTextarea from './textarea.js';
 
@@ -15,6 +15,13 @@ it('is valid by default', async () => {
   expect(textarea.validity?.tooLong).to.be.false;
   expect(textarea.checkValidity()).to.be.true;
   expect(textarea.reportValidity()).to.be.true;
+
+  await elementUpdated(textarea);
+
+  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
 });
 
 it('is valid after being filled in and required', async () => {
@@ -28,6 +35,13 @@ it('is valid after being filled in and required', async () => {
   expect(textarea.validity?.tooLong).to.be.false;
   expect(textarea.checkValidity()).to.be.true;
   expect(textarea.reportValidity()).to.be.true;
+
+  await elementUpdated(textarea);
+
+  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
 });
 
 it('is invalid if no value and required', async () => {
@@ -40,6 +54,13 @@ it('is invalid if no value and required', async () => {
   expect(textarea.willValidate).to.be.true;
   expect(textarea.checkValidity()).to.be.false;
   expect(textarea.reportValidity()).to.be.false;
+
+  await elementUpdated(textarea);
+
+  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
+    'aria-invalid',
+    'true',
+  );
 });
 
 it('is valid when empty and does not exceed `maxlength`', async () => {
@@ -52,6 +73,13 @@ it('is valid when empty and does not exceed `maxlength`', async () => {
   expect(textarea.validity?.tooLong).to.be.false;
   expect(textarea.checkValidity()).to.be.true;
   expect(textarea.reportValidity()).to.be.true;
+
+  await elementUpdated(textarea);
+
+  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
 });
 
 it('is valid when filled in and does not exceed `maxlength`', async () => {
@@ -66,6 +94,13 @@ it('is valid when filled in and does not exceed `maxlength`', async () => {
   expect(textarea.validity?.tooLong).to.be.false;
   expect(textarea.checkValidity()).to.be.true;
   expect(textarea.reportValidity()).to.be.true;
+
+  await elementUpdated(textarea);
+
+  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
 });
 
 it('is invalid when filled in and exceeds `maxlength`', async () => {
@@ -80,6 +115,13 @@ it('is invalid when filled in and exceeds `maxlength`', async () => {
   expect(textarea.validity?.tooLong).to.be.true;
   expect(textarea.checkValidity()).to.be.false;
   expect(textarea.reportValidity()).to.be.false;
+
+  await elementUpdated(textarea);
+
+  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
+    'aria-invalid',
+    'true',
+  );
 });
 
 it('is valid if no value but required and disabled', async () => {
@@ -93,6 +135,13 @@ it('is valid if no value but required and disabled', async () => {
   expect(textarea.validity?.tooLong).to.be.false;
   expect(textarea.checkValidity()).to.be.true;
   expect(textarea.reportValidity()).to.be.true;
+
+  await elementUpdated(textarea);
+
+  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
 });
 
 it('is valid when filled in, disabled, and exceeds `maxlength`', async () => {
@@ -106,6 +155,13 @@ it('is valid when filled in, disabled, and exceeds `maxlength`', async () => {
   expect(textarea.validity?.tooLong).to.be.false;
   expect(textarea.checkValidity()).to.be.true;
   expect(textarea.reportValidity()).to.be.true;
+
+  await elementUpdated(textarea);
+
+  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
 });
 
 it('blurs the textarea and reports validity if `blur` is called', async () => {
