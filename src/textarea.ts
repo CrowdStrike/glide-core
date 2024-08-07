@@ -176,6 +176,7 @@ export default class GlideCoreTextarea extends LitElement {
                 'character-count': true,
                 error: this.#isInvalidCharacterLength,
               })}
+              data-test="character-count-container"
             >
               <span aria-hidden="true" data-test="character-count-text">
                 ${this.#localize.term(
