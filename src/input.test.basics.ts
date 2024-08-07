@@ -182,10 +182,27 @@ it('displays a max character and current character count if maxlength is provide
     <glide-core-input label="Test label" maxlength="5"></glide-core-input>
   `);
 
-  const maxCharacterCountContainer =
-    element.shadowRoot?.querySelector<HTMLDivElement>('.character-count');
+  const maxCharacterCountText =
+    element.shadowRoot?.querySelector<HTMLDivElement>(
+      '[data-test="character-count-text"]',
+    );
 
-  expect(maxCharacterCountContainer?.textContent?.trim()).to.be.equal('0/5');
+  expect(maxCharacterCountText?.textContent?.trim()).to.be.equal('0/5');
+});
+
+it('displays visually hidden character count text for screenreaders', async () => {
+  const element = await fixture<GlideCoreInput>(html`
+    <glide-core-input label="Test label" maxlength="5"></glide-core-input>
+  `);
+
+  const maxCharacterCountAnnouncement =
+    element.shadowRoot?.querySelector<HTMLDivElement>(
+      '[data-test="character-count-announcement"]',
+    );
+
+  expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.be.equal(
+    'Character count 0 of 5',
+  );
 });
 
 it('supports a "tooltip" slot', async () => {

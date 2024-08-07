@@ -220,6 +220,8 @@ export default class GlideCoreInput extends LitElement {
 
           <input
             aria-describedby="meta"
+            aria-invalid=${this.#isShowValidationFeedback ||
+            this.#isMaxCharacterCountExceeded}
             id="input"
             type=${this.type === 'password' && this.passwordVisible
               ? 'text'
@@ -248,7 +250,6 @@ export default class GlideCoreInput extends LitElement {
                   })}
                   aria-label=${this.#localize.term('clearEntry')}
                   @click=${this.#onClearClick}
-                  tabindex="-1"
                 >
                   <slot name="clear-icon">
                     <!-- X icon -->
@@ -347,7 +348,26 @@ export default class GlideCoreInput extends LitElement {
                     error: this.#isMaxCharacterCountExceeded,
                   })}
                 >
-                  ${this.valueCharacterCount}/${this.maxlength}
+                  <!--
+                    "aria-hidden" is used here so that the character counter
+                    is not read aloud to screenreaders twice as we have a
+                    more accesible, verbose description below.
+                  -->
+                  <span aria-hidden="true" data-test="character-count-text">
+                    ${this.#localize.term(
+                      'displayedCharacterCount',
+                      this.valueCharacterCount,
+                      this.maxlength,
+                    )}
+                  </span>
+
+                  <span class="hidden" data-test="character-count-announcement"
+                    >${this.#localize.term(
+                      'announcedCharacterCount',
+                      this.valueCharacterCount,
+                      this.maxlength,
+                    )}</span
+                  >
                 </div>
               `
             : nothing}
@@ -502,11 +522,19 @@ export default class GlideCoreInput extends LitElement {
   async #setValidityToInputValidity() {
     await this.updateComplete;
 
-    this.#internals.setValidity(
-      this.#inputElement?.validity,
-      this.#inputElement?.validationMessage,
-      this.#inputElement,
-    );
+    if (this.#isMaxCharacterCountExceeded) {
+      this.#internals.setValidity(
+        { tooLong: true },
+        ' ',
+        this.#inputElementRef.value,
+      );
+    } else {
+      this.#internals.setValidity(
+        this.#inputElement?.validity,
+        this.#inputElement?.validationMessage,
+        this.#inputElement,
+      );
+    }
 
     if (this.isReportValidityOrSubmit) {
       this.reportValidity();

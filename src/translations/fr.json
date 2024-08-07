@@ -8,5 +8,7 @@
   "notifications": "Notifications",
   "removeTag": "Supprimer la balise : {label}",
   "nextTab": "",
-  "previousTab": ""
+  "previousTab": "",
+  "announcedCharacterCount": "Character count {current} of {maximum}",
+  "displayedCharacterCount": "{current}/{maximum}"
 }
