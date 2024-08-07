@@ -16,6 +16,10 @@ const translation: Translation = {
   nextTab: '',
   previousTab: '',
 
+  announcedCharacterCount: (current: number, maximum: number) =>
+    `Character count ${current} of ${maximum}`,
+  displayedCharacterCount: (current: number, maximum: number) =>
+    `${current}/${maximum}`,
   removeTag: (label: string) => `Supprimer la balise : ${label}`,
 };
 

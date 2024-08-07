@@ -167,12 +167,7 @@ export default class GlideCoreTextarea extends LitElement {
         </textarea>
       </div>
 
-      <div
-        class="meta"
-        data-test-description-container
-        id="meta"
-        slot="description"
-      >
+      <div class="meta" id="meta" slot="description">
         <slot name="description"></slot>
 
         ${this.maxlength
