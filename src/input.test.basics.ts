@@ -185,10 +185,9 @@ it('displays a max character and current character count if maxlength is provide
     <glide-core-input label="Test label" maxlength="5"></glide-core-input>
   `);
 
-  const maxCharacterCountText =
-    element.shadowRoot?.querySelector<HTMLDivElement>(
-      '[data-test="character-count-text"]',
-    );
+  const maxCharacterCountText = element.shadowRoot?.querySelector(
+    '[data-test="character-count-text"]',
+  );
 
   expect(maxCharacterCountText?.textContent?.trim()).to.be.equal('0/5');
 });
@@ -198,10 +197,9 @@ it('displays visually hidden character count text for screenreaders', async () =
     <glide-core-input label="Test label" maxlength="5"></glide-core-input>
   `);
 
-  const maxCharacterCountAnnouncement =
-    element.shadowRoot?.querySelector<HTMLDivElement>(
-      '[data-test="character-count-announcement"]',
-    );
+  const maxCharacterCountAnnouncement = element.shadowRoot?.querySelector(
+    '[data-test="character-count-announcement"]',
+  );
 
   expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.be.equal(
     'Character count 0 of 5',
