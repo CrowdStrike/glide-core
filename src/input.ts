@@ -248,6 +248,7 @@ export default class GlideCoreInput extends LitElement {
                     'clear-icon-button': true,
                     'clear-icon-button--visible': this.isClearIconVisible,
                   })}
+                  data-test="clear-button"
                   aria-label=${this.#localize.term('clearEntry')}
                   @click=${this.#onClearClick}
                 >
@@ -282,6 +283,7 @@ export default class GlideCoreInput extends LitElement {
                 <glide-core-icon-button
                   variant="tertiary"
                   class="password-toggle"
+                  data-test="password-toggle"
                   aria-label=${this.passwordVisible
                     ? 'Hide password'
                     : 'Show password'}

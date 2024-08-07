@@ -3,6 +3,7 @@ import { svg } from 'lit/static-html.js';
 export default svg`
   <svg
     class="search-icon"
+    data-test="search-icon"
     fill="none"
     width="16"
     height="16"

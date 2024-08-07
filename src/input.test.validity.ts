@@ -75,8 +75,9 @@ it('is invalid after value is cleared when required', async () => {
     ></glide-core-input>`,
   );
 
-  const clearButton =
-    input.shadowRoot?.querySelector<HTMLButtonElement>('.clear-icon-button');
+  const clearButton = input.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="clear-button"]',
+  );
 
   clearButton?.click();
   await input.updateComplete;
