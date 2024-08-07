@@ -170,70 +170,32 @@ export default class GlideCoreTextarea extends LitElement {
       <div class="meta" id="meta" slot="description">
         <slot name="description"></slot>
 
-        <label class="label" for="textarea"> ${this.label} </label>
-
-        <div class="textarea-container" slot="control">
-          <textarea
-            aria-invalid=${this.#isShowValidationFeedback ||
-            this.#isInvalidCharacterLength}
-            class=${classMap({
-              error:
-                this.#isShowValidationFeedback ||
-                this.#isInvalidCharacterLength,
-            })}
-            id="textarea"
-            name=${ifDefined(this.name)}
-            placeholder=${ifDefined(this.placeholder)}
-            rows=${this.rows}
-            autocapitalize=${ifDefined(this.autocapitalize)}
-            spellcheck=${this.spellcheck}
-            ?required=${this.required}
-            ?readonly=${this.readonly}
-            ?disabled=${this.disabled}
-            aria-describedby="meta"
-            ${ref(this.#textareaElementRef)}
-            @input=${this.#onInput}
-            @change=${this.#onChange}
-            @blur=${this.#onBlur}
-          >
-          </textarea>
-        </div>
-
-        <div
-          class="meta"
-          data-test-description-container
-          id="meta"
-          slot="description"
-        >
-          <slot name="description"></slot>
-
-          ${this.maxlength
-            ? html`<div
-                class=${classMap({
-                  'character-count': true,
-                  error: this.#isInvalidCharacterLength,
-                })}
+        ${this.maxlength
+          ? html`<div
+              class=${classMap({
+                'character-count': true,
+                error: this.#isInvalidCharacterLength,
+              })}
+              data-test="character-count-container"
+            >
+              <span aria-hidden="true" data-test="character-count-text">
+                ${this.#localize.term(
+                  'displayedCharacterCount',
+                  this.value.length,
+                  this.maxlength,
+                )}
+              </span>
+              <span class="hidden" data-test="character-count-announcement"
+                >${this.#localize.term(
+                  'announcedCharacterCount',
+                  this.value.length,
+                  this.maxlength,
+                )}</span
               >
-                <span aria-hidden="true" data-test="character-count-text">
-                  ${this.#localize.term(
-                    'displayedCharacterCount',
-                    this.value.length,
-                    this.maxlength,
-                  )}
-                </span>
-
-                <span class="hidden" data-test="character-count-announcement"
-                  >${this.#localize.term(
-                    'announcedCharacterCount',
-                    this.value.length,
-                    this.maxlength,
-                  )}</span
-                >
-              </div>`
-            : nothing}
-        </div>
-      </div>
-    </glide-core-private-label>`;
+            </div>`
+          : nothing}
+      </div></glide-core-private-label
+    >`;
   }
 
   reportValidity() {

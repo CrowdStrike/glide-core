@@ -349,6 +349,7 @@ export default class GlideCoreInput extends LitElement {
                     'character-count': true,
                     error: this.#isMaxCharacterCountExceeded,
                   })}
+                  data-test="character-count-container"
                 >
                   <!--
                     "aria-hidden" is used here so that the character counter

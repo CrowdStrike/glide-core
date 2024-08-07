@@ -206,6 +206,18 @@ it('displays visually hidden character count text for screenreaders', async () =
   );
 });
 
+it('does not render a character count when attribute `maxlength` is set less than than zero', async () => {
+  const element = await fixture<GlideCoreInput>(html`
+    <glide-core-input label="Test label" maxlength="0"></glide-core-input>
+  `);
+
+  const container = element.shadowRoot?.querySelector(
+    '[data-test="character-count-container"]',
+  );
+
+  expect(container).to.be.null;
+});
+
 it('supports a "tooltip" slot', async () => {
   const component = await fixture<GlideCoreInput>(
     html`<glide-core-input label="test">
