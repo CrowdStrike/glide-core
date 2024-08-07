@@ -1,5 +1,27 @@
 # @crowdstrike/glide-core
 
+## 0.7.0
+
+### Minor Changes
+
+- [#232](https://github.com/CrowdStrike/glide-core/pull/232) [`e7538c0`](https://github.com/CrowdStrike/glide-core/commit/e7538c0cd4db5f7d4c899a7b5d0c5a4a107da2f2) Thanks [@danwenzel](https://github.com/danwenzel)! - Change form elements to start validating on blur
+
+### Patch Changes
+
+- [#250](https://github.com/CrowdStrike/glide-core/pull/250) [`d76b8d3`](https://github.com/CrowdStrike/glide-core/commit/d76b8d3e56c1a3589f123623a3a5cd5b53516b97) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Adjusted the open and closing animations to use a cubic ease out timing function for Drawer to better align with designs.
+
+- [#281](https://github.com/CrowdStrike/glide-core/pull/281) [`b06705c`](https://github.com/CrowdStrike/glide-core/commit/b06705c3c5695989bc1aaa3cf44d21f55671a0c8) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown no longer steals focus when an option is selected.
+
+- [#284](https://github.com/CrowdStrike/glide-core/pull/284) [`fb8ff76`](https://github.com/CrowdStrike/glide-core/commit/fb8ff76b8538f827da0ad9d3cab63a0273d5ae9b) Thanks [@danwenzel](https://github.com/danwenzel)! - 2 new attributes have been added to Tree Item:
+
+  - Allow tree items without an expand icon to have that indentation removed via the `remove-indentation` attribute.
+  - Added a `non-collapsible` attribute for tree item. For such tree items:
+    - Child tree items remain expanded
+    - Expand/collapse caret will not be shown
+    - Clicking on the parent will select it
+
+- [#283](https://github.com/CrowdStrike/glide-core/pull/283) [`b41d20d`](https://github.com/CrowdStrike/glide-core/commit/b41d20d2dff2dc62d591c95906d7179186a44da7) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown now emits "change" and "input" events after `value` is changed programmatically.
+
 ## 0.6.5
 
 ### Patch Changes
