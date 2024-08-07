@@ -255,6 +255,7 @@ export default class GlideCoreInput extends LitElement {
                   <slot name="clear-icon">
                     <!-- X icon -->
                     <svg
+                      aria-hidden="true"
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
@@ -295,6 +296,7 @@ export default class GlideCoreInput extends LitElement {
                   ${this.passwordVisible
                     ? // Eye icon with slash
                       html`<svg
+                        aria-hidden="true"
                         width="16"
                         height="16"
                         fill="none"
@@ -310,6 +312,7 @@ export default class GlideCoreInput extends LitElement {
                       </svg> `
                     : // Eye icon
                       html`<svg
+                        aria-hidden="true"
                         width="16"
                         height="16"
                         fill="none"
