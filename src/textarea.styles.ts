@@ -1,4 +1,5 @@
 import { css } from 'lit';
+import visuallyHidden from './styles/visually-hidden.js';
 
 export default css`
   glide-core-label::part(tooltips-and-label) {
@@ -67,6 +68,10 @@ export default css`
   .character-count {
     &.error {
       font-weight: var(--glide-core-font-weight-bold);
+    }
+
+    .hidden {
+      ${visuallyHidden};
     }
   }
 `;

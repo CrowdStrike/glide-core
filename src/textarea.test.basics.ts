@@ -118,7 +118,9 @@ it('renders a character count when attribute `maxlength` is set greater than zer
   const template = `<glide-core-textarea value="value" label="label" maxlength="10"><span slot="description">Description</span></glide-core-textarea>`;
   const element = await fixture<GlideCoreTextarea>(template);
 
-  const container = element.shadowRoot!.querySelector('[data-test-maxlength]');
+  const container = element.shadowRoot!.querySelector(
+    '[data-test="character-count-text"]',
+  );
 
   expect(container?.textContent?.trim()).to.be.equal('5/10');
 });
