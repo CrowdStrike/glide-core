@@ -37,8 +37,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
+      # TODO
       # We must build our internal ESLint plugin before we can use it in other packages that lint
-      - run: NODE_ENV=production pnpm --filter "@crowdstrike/glide-core-eslint-plugin" start
+      - run: NODE_ENV=production pnpm start
       - run: NODE_ENV=production pnpm lint
 
   typecheck:
@@ -74,7 +75,7 @@ jobs:
           BASE_URL: ${{ github.head_ref }}
       - uses: actions/upload-artifact@v4
         with:
-          path: packages/components/dist/storybook
+          path: dist/storybook
 
   deploy:
     name: Deploy

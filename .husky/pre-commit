@@ -1,4 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# Transpile our ESLint rules before the linter runs.
+npx tsc -outDir ./dist
+
 pnpm lint-staged

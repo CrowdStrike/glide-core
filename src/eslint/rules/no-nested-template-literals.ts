@@ -1,0 +1,41 @@
+import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
+
+// https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L109
+const createRule = ESLintUtils.RuleCreator<{
+  recommended: boolean;
+}>(
+  (name) =>
+    `https://github.com/CrowdStrike/glide-core/blob/main/packages/eslint-plugin/src/rules/${name}.ts`,
+);
+
+export const noNestedTemplateLiterals = createRule({
+  name: 'no-nested-template-literals',
+  meta: {
+    docs: {
+      description:
+        'Forbids the use of a template literal inside of another template literal.',
+      recommended: true,
+    },
+    type: 'suggestion',
+    messages: {
+      noNestedTemplateLiterals: 'Nested template literals are not allowed.',
+    },
+    schema: [],
+    fixable: 'code',
+  },
+  defaultOptions: [],
+  create: (context) => {
+    return {
+      TemplateLiteral(node) {
+        for (const expression of node.expressions) {
+          if (expression.type === AST_NODE_TYPES.TemplateLiteral) {
+            context.report({
+              node: expression,
+              messageId: 'noNestedTemplateLiterals',
+            });
+          }
+        }
+      },
+    };
+  },
+});

@@ -52,7 +52,7 @@ jobs:
           BASE_URL: main
       - uses: actions/upload-artifact@v4
         with:
-          path: packages/components/dist/storybook
+          path: dist/storybook
 
   deploy:
     name: Deploy
