@@ -13,7 +13,6 @@
     "dist",
     "!dist/eslint",
     "!dist/icons/storybook.*",
-    "!dist/src",
     "!dist/storybook",
     "!dist/*.test.js",
     "!dist/*.stories.js"

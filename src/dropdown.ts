@@ -133,19 +133,12 @@ export default class GlideCoreDropdown extends LitElement {
     );
 
     for (const option of this.#optionElements) {
-      // Changes to `value` can result in selection changes, which normally produce
-      // events. However, similar to native, `value` changes should not produce events.
-      // `#onOptionsSelectedChange` uses this to guard against dispatching them.
-      this.#isProgrammaticSelectAllOrValueChange = true;
-
       // If multiple options have the same `value`, they'll all be selected. No way
       // to avoid that. If `value` is an empty string, all options are left deselected
       // so every `option.value` that's an empty string isn't selected, which would
       // be wacky.
       option.selected = value.some((value) => value && value === option.value);
     }
-
-    this.#isProgrammaticSelectAllOrValueChange = false;
   }
 
   /*
@@ -244,11 +237,11 @@ export default class GlideCoreDropdown extends LitElement {
 
   // The button doesn't receive focus when `shadowRoot.delegatesFocus` is set,
   // and the inherited `this.focus` is called. It's not clear why. Thus the override.
-  override focus() {
+  override focus(options?: FocusOptions) {
     if (this.isFilterable) {
-      this.#inputElementRef.value?.focus();
+      this.#inputElementRef.value?.focus(options);
     } else {
-      this.#buttonElementRef.value?.focus();
+      this.#buttonElementRef.value?.focus(options);
     }
   }
 
@@ -522,22 +515,25 @@ export default class GlideCoreDropdown extends LitElement {
             !this.isEveryOptionFilteredOut}
             id="options"
             role="listbox"
+            @click=${this.#onOptionsClick}
+            @input=${this.#onOptionsInput}
             @focusin=${this.#onOptionsFocusin}
             @mousedown=${this.#onOptionsMousedown}
             @mouseover=${this.#onOptionsMouseover}
+            @private-selected-change=${this.#onOptionsSelectedChange}
+            @private-value-change=${this.#onOptionsValueChange}
           >
             <glide-core-dropdown-option
               class="select-all"
               data-test="select-all"
               label=${this.#localize.term('selectAll')}
               ?hidden=${!this.selectAll || !this.multiple || this.isFiltering}
-              @private-selected-change=${this.#onSelectAllSelectedChange}
+              ?private-indeterminate=${this.isSomeSelected &&
+              !this.isAllSelected}
               ${ref(this.#selectAllElementRef)}
             ></glide-core-dropdown-option>
 
             <slot
-              @private-selected-change=${this.#onOptionsSelectedChange}
-              @private-value-change=${this.#onOptionsValueChange}
               @slotchange=${this.#onDefaultSlotChange}
               ${ref(this.#defaultSlotElementRef)}
             ></slot>
@@ -622,21 +618,13 @@ export default class GlideCoreDropdown extends LitElement {
 
   #internals: ElementInternals;
 
-  // Prevents an infinite loop when `selected` of Select All changes due to `selected`
-  // of one or more options changing.
-  #isInternalSelectAllChange = false;
-
   #isMultiple = false;
 
-  // When Select All is changed, only a single event should be dispatched.
-  // `#onOptionsSelectedChange` uses this to guard against dispatching "change"
-  // and "input" events in addition to those of `#onSelectAllSelectedChange`.
-  //
-  // Similar for when `value` is changed externally. There's a comment in the
-  // `value` setter with more detail.
-  #isProgrammaticSelectAllOrValueChange = false;
-
   #isRemovingTag = false;
+
+  // Used in `#onOptionsSelectedChange` to guard against resetting Select All
+  // back to its previous value after Select All is selected or deselected.
+  #isSelectionChangeFromSelectAll = false;
 
   #isSelectionViaSpaceOrEnter = false;
 
@@ -666,11 +654,9 @@ export default class GlideCoreDropdown extends LitElement {
         event.target instanceof GlideCoreDropdownOption
       )
     ) {
-      this.open = false;
-      this.ariaActivedescendant = '';
+      this.#close();
     } else if (!this.multiple && !(event.target instanceof GlideCoreDropdown)) {
-      this.open = false;
-      this.ariaActivedescendant = '';
+      this.#close();
     }
   };
 
@@ -681,6 +667,11 @@ export default class GlideCoreDropdown extends LitElement {
       formData.append(this.name, JSON.stringify(this.value));
     }
   };
+
+  #close() {
+    this.open = false;
+    this.ariaActivedescendant = '';
+  }
 
   get #optionElements() {
     return (
@@ -790,11 +781,7 @@ export default class GlideCoreDropdown extends LitElement {
 
     // Update Select All to reflect the selected options.
     if (this.#selectAllElementRef.value) {
-      this.#isInternalSelectAllChange = true;
       this.#selectAllElementRef.value.selected = this.isAllSelected;
-
-      this.#selectAllElementRef.value.privateIndeterminate =
-        this.isSomeSelected && !this.isAllSelected;
     }
 
     // Set `value`.
@@ -815,20 +802,18 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #onDropdownAndOptionsFocusout(event: FocusEvent) {
-    // If `event.relatedTarget` is `null`, focus has moved outside this component's
-    // shadow DOM, which means the user is done interacting with Dropodown. So we
-    // close it except when focus has moved to a tag, which tells us Dropdown is
-    // still in use.
-
+    // If `event.relatedTarget` is `null`, the user has clicked an element outside
+    // Dropdown that cannot receive focus. Otherwise, the user has either clicked
+    // an element outside Dropdown that can receive focus or else has tabbed away
+    // from Dropdown.
     const isFocusLost =
       event.relatedTarget === null ||
       (event.relatedTarget instanceof Node &&
-        !this.shadowRoot?.contains(event.relatedTarget) &&
+        !this.#shadowRoot?.contains(event.relatedTarget) &&
         !this.contains(event.relatedTarget));
 
     if (isFocusLost && !this.#isRemovingTag) {
-      this.open = false;
-      this.ariaActivedescendant = '';
+      this.#close();
     }
 
     this.#onBlur();
@@ -843,8 +828,7 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     if (event.key === 'Escape') {
-      this.open = false;
-      this.ariaActivedescendant = '';
+      this.#close();
       this.focus();
       return;
     }
@@ -889,19 +873,30 @@ export default class GlideCoreDropdown extends LitElement {
         // is a result of an option being is selected or deselected.
         this.#isSelectionViaSpaceOrEnter = true;
 
-        if (event.key === 'Enter') {
-          this.activeOption.selected = !this.activeOption?.selected;
-
-          return;
-        }
-
         // Space is excluded when Dropdown isn't filterable because the user may want to
         // include a space in his filter and because he expects pressing Space to result
         // in a space. So we either cancel Space and let it select and deselect as when
         // Dropdown isn't filterable, or we let the user type it. Neither is ideal.
-        if (event.key === ' ' && !this.isFilterable) {
-          this.activeOption.selected = !this.activeOption?.selected;
+        if (
+          event.key === 'Enter' ||
+          (event.key === ' ' && !this.isFilterable)
+        ) {
+          this.activeOption.selected = this.multiple
+            ? !this.activeOption.selected
+            : true;
 
+          if (this.activeOption === this.#selectAllElementRef.value) {
+            this.#selectAllOrNone();
+          }
+
+          this.#unfilter();
+
+          if (!this.multiple) {
+            this.#close();
+          }
+
+          this.dispatchEvent(new Event('change', { bubbles: true }));
+          this.dispatchEvent(new Event('input', { bubbles: true }));
           return;
         }
       }
@@ -1023,8 +1018,7 @@ export default class GlideCoreDropdown extends LitElement {
       !this.#isSelectionViaSpaceOrEnter &&
       this.open
     ) {
-      this.open = false;
-      this.ariaActivedescendant = '';
+      this.#close();
 
       // `event.detail` is an integer set to the number of clicks. When it's zero,
       // the event most likely originated from an Enter press. And, if Dropdown is part
@@ -1053,8 +1047,12 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
-  #onInputInput() {
+  #onInputInput(event: Event) {
     ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
+
+    // Allowing these "input" events to propagate would break things for consumers,
+    // who expect "input" events only when an option is selected or deselected.
+    event.stopPropagation();
 
     if (this.activeOption) {
       this.open = true;
@@ -1102,6 +1100,23 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
+  #onOptionsClick(event: PointerEvent) {
+    if (
+      event.target instanceof GlideCoreDropdownOption &&
+      !event.target.selected
+    ) {
+      event.target.selected = true;
+      this.#unfilter();
+
+      if (!this.multiple) {
+        this.#close();
+      }
+
+      this.dispatchEvent(new Event('change', { bubbles: true }));
+      this.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  }
+
   // Options don't receive focus normally but can receive programmatic focus from
   // screen readers.
   #onOptionsFocusin(event: FocusEvent) {
@@ -1109,6 +1124,25 @@ export default class GlideCoreDropdown extends LitElement {
       this.#deactivateAllOptions();
       event.target.privateActive = true;
     }
+  }
+
+  // "input" is handled instead of the usual "change" because, for historical reasons,
+  //  "change" isn't composed and so won't escape Dropdown Option's shadow DOM.
+  #onOptionsInput(event: Event) {
+    // So we don't emit duplicate events: one internally and one from the checkbox.
+    event.stopPropagation();
+
+    if (event.target instanceof GlideCoreDropdownOption) {
+      event.target.selected = !event.target.selected;
+    }
+
+    if (event.target === this.#selectAllElementRef.value) {
+      this.#selectAllOrNone();
+    }
+
+    this.#unfilter();
+    this.dispatchEvent(new Event('change', { bubbles: true }));
+    this.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
   #onOptionsMousedown(event: MouseEvent) {
@@ -1137,27 +1171,14 @@ export default class GlideCoreDropdown extends LitElement {
   #onOptionsSelectedChange(event: Event) {
     // Update Select All to reflect the new selection or deselection.
     if (
-      this.#selectAllElementRef.value &&
-      event.target !== this.#selectAllElementRef.value
+      event.target !== this.#selectAllElementRef.value &&
+      !this.#isSelectionChangeFromSelectAll &&
+      this.#selectAllElementRef.value
     ) {
-      this.#isInternalSelectAllChange = true;
       this.#selectAllElementRef.value.selected = this.isAllSelected;
-
-      this.#selectAllElementRef.value.privateIndeterminate =
-        this.isSomeSelected && !this.isAllSelected;
     }
 
-    // Reset .`input` and unhide the options.
-    if (this.isFilterable && this.#inputElementRef.value) {
-      this.#inputElementRef.value.value = '';
-      this.isFiltering = false;
-
-      for (const option of this.#optionElements) {
-        option.hidden = false;
-      }
-    }
-
-    // Update `value`, `open`, focus, and the value of `.input` if filterable.
+    // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {
       if (this.multiple) {
         this.#value =
@@ -1172,29 +1193,11 @@ export default class GlideCoreDropdown extends LitElement {
                 );
               });
 
-        if (!this.#isProgrammaticSelectAllOrValueChange) {
-          this.dispatchEvent(new Event('change', { bubbles: true }));
-          this.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-
         // The event this handler listens to is dispatched on both selection and deselection.
         // In the case of single-select, we don't care if the target has been deselected. We
         // also don't want any changes to focus or the state of `this.open` as a result.
       } else if (!this.multiple && event.target.selected) {
         this.#value = event.target.value ? [event.target.value] : [];
-        this.open = false;
-        this.ariaActivedescendant = '';
-
-        if (this.isFilterable && this.#inputElementRef.value) {
-          this.isFiltering = false;
-        }
-
-        if (!this.#isProgrammaticSelectAllOrValueChange) {
-          // Dispatched here instead of outside both conditions so it's not dispatched
-          // twice as a result of the previously selected option being deselected.
-          this.dispatchEvent(new Event('change', { bubbles: true }));
-          this.dispatchEvent(new Event('input', { bubbles: true }));
-        }
       }
     }
 
@@ -1202,7 +1205,7 @@ export default class GlideCoreDropdown extends LitElement {
     // or options. `this.internalLabel` uses the `this.selectedOptions` getter, whose
     // return value is derived from the state of another component: Dropdown Option.
     // For whatever reason, and even though that component's state is reactive, a change
-    // to it doesn't result in a rerender of this component. So one is forced.
+    // to it doesn't result in a rerender of this component.
     this.requestUpdate();
   }
 
@@ -1247,30 +1250,6 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
-  #onSelectAllSelectedChange() {
-    if (this.#isInternalSelectAllChange) {
-      this.#isInternalSelectAllChange = false;
-      return;
-    }
-
-    this.#isProgrammaticSelectAllOrValueChange = true;
-
-    // Cached so the `option.selected` changes below aren't taken into account.
-    const isAllSelected = this.isAllSelected;
-
-    for (const option of this.#optionElements) {
-      option.selected = !isAllSelected;
-    }
-
-    // `false` now that `#onOptionsSelectedChange` has been called for every option.
-    // Otherwise, future selection and deselection of options won't produce "change"
-    // and "input" events.
-    this.#isProgrammaticSelectAllOrValueChange = false;
-
-    this.dispatchEvent(new Event('change', { bubbles: true }));
-    this.dispatchEvent(new Event('input', { bubbles: true }));
-  }
-
   async #onTagRemove(id: string) {
     this.#isRemovingTag = true;
 
@@ -1304,6 +1283,35 @@ export default class GlideCoreDropdown extends LitElement {
       tags[index < tags.length - 1 ? index + 1 : index - 1]?.focus();
     } else {
       this.focus();
+    }
+
+    this.dispatchEvent(new Event('change', { bubbles: true }));
+    this.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  #selectAllOrNone() {
+    ow(
+      this.#selectAllElementRef.value,
+      ow.object.instanceOf(GlideCoreDropdownOption),
+    );
+
+    this.#isSelectionChangeFromSelectAll = true;
+
+    for (const option of this.#optionElements) {
+      option.selected = this.#selectAllElementRef.value.selected;
+    }
+
+    this.#isSelectionChangeFromSelectAll = false;
+  }
+
+  #unfilter() {
+    if (this.isFilterable && this.#inputElementRef.value) {
+      this.#inputElementRef.value.value = '';
+      this.isFiltering = false;
+
+      for (const option of this.#optionElements) {
+        option.hidden = false;
+      }
     }
   }
 }

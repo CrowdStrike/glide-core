@@ -34,7 +34,12 @@ it('opens on click', async () => {
     ?.querySelector('[data-test="button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
+  await elementUpdated(component);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.true;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
 it('toggles open and closed when the button is clicked', async () => {
@@ -55,7 +60,12 @@ it('toggles open and closed when the button is clicked', async () => {
     ?.querySelector('[data-test="button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
+  await elementUpdated(component);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.false;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.not.be.ok;
 });
 
 it('does not toggle open and closed when the button overflow text is clicked', async () => {
@@ -76,7 +86,12 @@ it('does not toggle open and closed when the button overflow text is clicked', a
     ?.querySelector('[data-test="tag-overflow-text"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
+  await elementUpdated(component);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.true;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
 it('selects an option on click', async () => {
@@ -116,6 +131,24 @@ it('selects an option on Space', async () => {
   option?.focus();
   await sendKeys({ press: ' ' });
 
+  expect(option?.selected).to.be.true;
+});
+
+it('does not deselect options on Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component?.focus();
+  await sendKeys({ press: ' ' });
+
+  const option = component.querySelector('glide-core-dropdown-option');
   expect(option?.selected).to.be.true;
 });
 
@@ -171,6 +204,38 @@ it('closes when an option is selected via click', async () => {
   );
 
   component.querySelector('glide-core-dropdown-option')?.click();
+
+  expect(component.open).to.be.false;
+});
+
+it('closes when an option is selected via Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: ' ' });
+
+  expect(component.open).to.be.false;
+});
+
+it('closes when an option is selected via Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ press: 'Enter' });
 
   expect(component.open).to.be.false;
 });

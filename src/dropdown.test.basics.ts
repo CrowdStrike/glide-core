@@ -57,6 +57,24 @@ it('has defaults', async () => {
   expect(component.value).to.deep.equal([]);
 });
 
+it('can be open', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
+  expect(component.open).to.be.true;
+  expect(component.hasAttribute('open')).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
+});
+
 it('can have a label', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
