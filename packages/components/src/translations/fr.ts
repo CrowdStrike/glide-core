@@ -13,6 +13,8 @@ const translation: Translation = {
   clearEntry: 'Effacer l’entrée',
   moreInformation: 'Plus d’informations',
   notifications: 'Notifications',
+  nextTab: '',
+  previousTab: '',
 
   removeTag: (label: string) => `Supprimer la balise : ${label}`,
 };

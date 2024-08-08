@@ -10,6 +10,10 @@ import expectArgumentError from './library/expect-argument-error.js';
 GlideCoreTabGroup.shadowRootOptions.mode = 'open';
 GlideCoreTabPanel.shadowRootOptions.mode = 'open';
 
+function isPanelHidden(panel: GlideCoreTabPanel) {
+  return panel.shadowRoot?.firstElementChild?.classList.contains('hidden');
+}
+
 it('registers', async () => {
   expect(window.customElements.get('glide-core-tab-group')).to.equal(
     GlideCoreTabGroup,
@@ -37,15 +41,13 @@ it('renders correct markup and sets correct attributes for the default case', as
     'activeTab defaults to first tab',
   );
 
-  expect(tabGroup.variant).to.equal('primary');
-
   expect([...tabGroup.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
     'component',
   ]);
 
   expect([
     ...tabGroup.shadowRoot!.querySelector('.tab-group')!.classList,
-  ]).to.deep.equal(['tab-group', 'primary']);
+  ]).to.deep.equal(['tab-group']);
 
   const slot = tabGroup.shadowRoot!.querySelector<HTMLSlotElement>(
     'slot:not([name="nav"])',
@@ -53,32 +55,6 @@ it('renders correct markup and sets correct attributes for the default case', as
 
   expect(slot).to.exist;
   expect(slot!.assignedElements.length).to.equal(0);
-});
-
-it('renders a secondary variant', async () => {
-  const element = await fixture(html`
-    <glide-core-tab-group variant="secondary">
-      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
-      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
-    </glide-core-tab-group>
-  `);
-
-  expect([
-    ...element.shadowRoot!.querySelector('.tab-group')!.classList,
-  ]).to.deep.equal(['tab-group', 'secondary']);
-});
-
-it('renders a vertical variant', async () => {
-  const element = await fixture(html`
-    <glide-core-tab-group variant="vertical">
-      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
-      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
-    </glide-core-tab-group>
-  `);
-
-  expect([
-    ...element.shadowRoot!.querySelector('.tab-group')!.classList,
-  ]).to.deep.equal(['tab-group', 'vertical']);
 });
 
 it('can switch tabs', async () => {
@@ -226,43 +202,10 @@ it('can use left/right, home and end keys to focus on tabs', async () => {
   expect(thirdTab.active).to.equal(true);
 });
 
-it('can use up/down keys to focus on vertical tabs', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
-    <glide-core-tab-group variant="vertical">
-      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
-      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
-      <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
-
-      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
-      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
-      <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
-    </glide-core-tab-group>
-  `);
-
-  const [firstTab, secondTab, thirdTab] = tabGroup.tabElements;
-
-  firstTab.focus();
-  await sendKeys({ press: 'ArrowDown' });
-  await sendKeys({ press: 'Enter' });
-  expect(secondTab.active).to.equal(true, 'down works');
-
-  await sendKeys({ press: 'ArrowUp' });
-  await sendKeys({ press: 'Enter' });
-  expect(firstTab.active).to.equal(true, 'up works');
-
-  await sendKeys({ press: 'ArrowUp' });
-  await sendKeys({ press: 'Enter' });
-  expect(thirdTab.active).to.equal(true, 'up from first goes to last');
-
-  await sendKeys({ press: 'ArrowDown' });
-  await sendKeys({ press: 'Enter' });
-  expect(firstTab.active).to.equal(true, 'down from last goes to first');
-});
-
 it('throws an error when an element other than `glide-core-tab` is a child of the `nav` slot', async () => {
   await expectArgumentError(() => {
     return fixture(html`
-      <glide-core-tab-group variant="vertical">
+      <glide-core-tab-group>
         <div slot="nav">Tab 1</div>
         <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
       </glide-core-tab-group>
@@ -273,14 +216,10 @@ it('throws an error when an element other than `glide-core-tab` is a child of th
 it('throws an error when an element other than `glide-core-tab-panel` is a child of the default slot', async () => {
   await expectArgumentError(() => {
     return fixture(html`
-      <glide-core-tab-group variant="vertical">
+      <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
         <div>Default Content</div>
       </glide-core-tab-group>
     `);
   });
 });
-
-function isPanelHidden(panel: GlideCoreTabPanel) {
-  return panel.shadowRoot?.firstElementChild?.classList.contains('hidden');
-}

@@ -26,6 +26,8 @@ export interface Translation extends DefaultTranslation {
   clearEntry: string;
   moreInformation: string;
   notifications: string;
+  nextTab: string;
+  previousTab: string;
 
   removeTag: (name: string) => string;
 }

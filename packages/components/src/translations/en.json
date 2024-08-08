@@ -6,6 +6,8 @@
   "clearEntry": "Clear entry",
   "moreInformation": "More information",
   "notifications": "Notifications",
+  "nextTab": "Next tab",
+  "previousTab": "Previous tab",
 
   "removeTag": "Remove tag: {label}"
 }

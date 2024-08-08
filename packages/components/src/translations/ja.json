@@ -6,5 +6,7 @@
   "clearEntry": "入力のクリア",
   "moreInformation": "詳細情報",
   "notifications": "通知",
-  "removeTag": "タグを削除: {label}"
+  "removeTag": "タグを削除: {label}",
+  "nextTab": "",
+  "previousTab": ""
 }
