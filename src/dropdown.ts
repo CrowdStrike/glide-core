@@ -67,7 +67,7 @@ export default class GlideCoreDropdown extends LitElement {
   @property()
   privateSplit?: 'left' | 'middle';
 
-  @property({ type: Boolean })
+  @property({ reflect: true, type: Boolean })
   readonly = false;
 
   @property({ attribute: 'select-all', reflect: true, type: Boolean })
@@ -133,7 +133,10 @@ export default class GlideCoreDropdown extends LitElement {
     );
 
     for (const option of this.#optionElements) {
-      this.#isExternalSelectAllOrExternalValueChange = true;
+      // Changes to `value` can result in selection changes, which normally produce
+      // events. However, similar to native, `value` changes should not produce events.
+      // `#onOptionsSelectedChange` uses this to guard against dispatching them.
+      this.#isProgrammaticSelectAllOrValueChange = true;
 
       // If multiple options have the same `value`, they'll all be selected. No way
       // to avoid that. If `value` is an empty string, all options are left deselected
@@ -142,16 +145,7 @@ export default class GlideCoreDropdown extends LitElement {
       option.selected = value.some((value) => value && value === option.value);
     }
 
-    this.#isExternalSelectAllOrExternalValueChange = false;
-
-    // These events are normally dispatched when an option is selected. However, the consumer
-    // changing `value` programmatically can result in multiple selections and deselections, and
-    // thus multiple events. `this.#isValueOrExternalSelectAllChange` is set above and used in
-    // `#onOptionsSelectedChange` to guard against dispatching these events. The events are instead
-    // dispatched here after the selections and deselections have taken place, ensuring they're
-    // only dispatched once.
-    this.dispatchEvent(new Event('change', { bubbles: true }));
-    this.dispatchEvent(new Event('input', { bubbles: true }));
+    this.#isProgrammaticSelectAllOrValueChange = false;
   }
 
   /*
@@ -628,19 +622,19 @@ export default class GlideCoreDropdown extends LitElement {
 
   #internals: ElementInternals;
 
+  // Prevents an infinite loop when `selected` of Select All changes due to `selected`
+  // of one or more options changing.
+  #isInternalSelectAllChange = false;
+
+  #isMultiple = false;
+
   // When Select All is changed, only a single event should be dispatched.
   // `#onOptionsSelectedChange` uses this to guard against dispatching "change"
   // and "input" events in addition to those of `#onSelectAllSelectedChange`.
   //
   // Similar for when `value` is changed externally. There's a comment in the
   // `value` setter with more detail.
-  #isExternalSelectAllOrExternalValueChange = false;
-
-  // Prevents an infinite loop when `selected` of Select All changes due to `selected`
-  // of one or more options changing.
-  #isInternalSelectAllChange = false;
-
-  #isMultiple = false;
+  #isProgrammaticSelectAllOrValueChange = false;
 
   #isRemovingTag = false;
 
@@ -1178,7 +1172,7 @@ export default class GlideCoreDropdown extends LitElement {
                 );
               });
 
-        if (!this.#isExternalSelectAllOrExternalValueChange) {
+        if (!this.#isProgrammaticSelectAllOrValueChange) {
           this.dispatchEvent(new Event('change', { bubbles: true }));
           this.dispatchEvent(new Event('input', { bubbles: true }));
         }
@@ -1195,7 +1189,7 @@ export default class GlideCoreDropdown extends LitElement {
           this.isFiltering = false;
         }
 
-        if (!this.#isExternalSelectAllOrExternalValueChange) {
+        if (!this.#isProgrammaticSelectAllOrValueChange) {
           // Dispatched here instead of outside both conditions so it's not dispatched
           // twice as a result of the previously selected option being deselected.
           this.dispatchEvent(new Event('change', { bubbles: true }));
@@ -1259,7 +1253,7 @@ export default class GlideCoreDropdown extends LitElement {
       return;
     }
 
-    this.#isExternalSelectAllOrExternalValueChange = true;
+    this.#isProgrammaticSelectAllOrValueChange = true;
 
     // Cached so the `option.selected` changes below aren't taken into account.
     const isAllSelected = this.isAllSelected;
@@ -1271,7 +1265,7 @@ export default class GlideCoreDropdown extends LitElement {
     // `false` now that `#onOptionsSelectedChange` has been called for every option.
     // Otherwise, future selection and deselection of options won't produce "change"
     // and "input" events.
-    this.#isExternalSelectAllOrExternalValueChange = false;
+    this.#isProgrammaticSelectAllOrValueChange = false;
 
     this.dispatchEvent(new Event('change', { bubbles: true }));
     this.dispatchEvent(new Event('input', { bubbles: true }));
