@@ -28,7 +28,7 @@ export default [
 
     .component {
       backdrop-filter: blur(100px);
-      background-color: var(--glide-core-surface-base-lighter);
+      background-color: var(--glide-core-surface-modal);
       border: none;
       border-radius: 0.5rem;
       box-shadow: var(--glide-core-shadow-lg);
