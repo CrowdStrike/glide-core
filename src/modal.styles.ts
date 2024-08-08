@@ -35,6 +35,7 @@ export default [
       font-family: var(--glide-core-body-xs-font-family);
       inline-size: 35rem;
       max-block-size: 75vh;
+      max-inline-size: 90vw;
       opacity: 0;
       padding: 1.25rem;
 
