@@ -1,5 +1,28 @@
 # @crowdstrike/glide-core
 
+## 0.8.0
+
+### Minor Changes
+
+- [#253](https://github.com/CrowdStrike/glide-core/pull/253) [`51f14b0`](https://github.com/CrowdStrike/glide-core/commit/51f14b0344f27e1caf518c66b36daeade47f3eb5) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Adjustments were made to the Tab components to remove all existing variants in favor of a single design. Overflow buttons are added to `glide-core-tab-group` when the tabs overflow their container.
+
+  See the example below.
+
+  ```diff
+  + <glide-core-tab-group>
+  - <glide-core-tab-group variant="secondary">
+  ```
+
+- [#290](https://github.com/CrowdStrike/glide-core/pull/290) [`e2bf2ff`](https://github.com/CrowdStrike/glide-core/commit/e2bf2ff4d359666f9fe564faaf403a9ccec3e3b7) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown doesn't dispatch events when `value` is changed programmatically.
+
+### Patch Changes
+
+- [#282](https://github.com/CrowdStrike/glide-core/pull/282) [`7441afb`](https://github.com/CrowdStrike/glide-core/commit/7441afbc9b24697105295ac1cdf9e20cb1d51e8f) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Checkbox's indeterminate state works with both light and dark modes.
+
+- [#286](https://github.com/CrowdStrike/glide-core/pull/286) [`1ace9d0`](https://github.com/CrowdStrike/glide-core/commit/1ace9d08f229524b516ec64ad453a115959673f7) Thanks [@clintcs](https://github.com/clintcs)! - Checkbox no longer throws locally on render.
+
+- [#290](https://github.com/CrowdStrike/glide-core/pull/290) [`e2bf2ff`](https://github.com/CrowdStrike/glide-core/commit/e2bf2ff4d359666f9fe564faaf403a9ccec3e3b7) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown's `readonly` attribute is reflected.
+
 ## 0.7.0
 
 ### Minor Changes
