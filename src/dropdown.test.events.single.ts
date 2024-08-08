@@ -7,7 +7,7 @@ import GlideCoreDropdown from './dropdown.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 
-it('dispatches one "change" event when `value` is changed programmatically', async () => {
+it('does not dispatch a "change" event when `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
@@ -31,7 +31,7 @@ it('dispatches one "change" event when `value` is changed programmatically', asy
   });
 
   await aTimeout(0);
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.called).to.be.false;
 });
 
 it('continues to dispatch "change" events upon selection after `value` is changed programmatically', async () => {
@@ -60,7 +60,7 @@ it('continues to dispatch "change" events upon selection after `value` is change
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches one "input" event when `value` is changed programmatically', async () => {
+it('does not dispatch an "input" event when `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
@@ -84,7 +84,7 @@ it('dispatches one "input" event when `value` is changed programmatically', asyn
   });
 
   await aTimeout(0);
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.called).to.be.false;
 });
 
 it('continues to dispatch "input" events upon selection after `value` is changed programmatically', async () => {
