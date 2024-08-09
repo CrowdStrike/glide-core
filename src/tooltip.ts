@@ -46,7 +46,7 @@ export default class GlideCoreTooltip extends LitElement {
   @state()
   containingBlock?: Element;
 
-  override disconnectedCallback(): void {
+  override disconnectedCallback() {
     super.disconnectedCallback();
 
     clearTimeout(this.#closeTimeoutId);
