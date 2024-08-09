@@ -46,6 +46,13 @@ export default class GlideCoreTooltip extends LitElement {
   @state()
   containingBlock?: Element;
 
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+
+    clearTimeout(this.#closeTimeoutId);
+    clearTimeout(this.#openTimeoutId);
+  }
+
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
     owSlot(this.#targetSlotElementRef.value);
@@ -139,6 +146,8 @@ export default class GlideCoreTooltip extends LitElement {
 
   #isVisible = false;
 
+  #openTimeoutId?: ReturnType<typeof setTimeout>;
+
   #targetElementRef = createRef<HTMLSpanElement>();
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
@@ -169,11 +178,16 @@ export default class GlideCoreTooltip extends LitElement {
 
   #onMouseout() {
     this.#scheduleClose();
+
+    clearTimeout(this.#openTimeoutId);
   }
 
   #onMouseover() {
     this.#cancelClose();
-    this.isVisible = true;
+
+    this.#openTimeoutId = setTimeout(() => {
+      this.isVisible = true;
+    }, 300);
   }
 
   #onTargetSlotChange() {

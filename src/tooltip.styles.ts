@@ -3,6 +3,18 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    @keyframes animate-tooltip {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
     .component {
       /* https://github.com/CrowdStrike/glide-core/pull/119#issuecomment-2113314591 */
       display: flex;
@@ -61,6 +73,7 @@ export default [
       }
 
       &.visible {
+        animation: animate-tooltip 250ms cubic-bezier(0.25, 0, 0.3, 1);
         display: unset;
       }
     }
