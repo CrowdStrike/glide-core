@@ -12,8 +12,8 @@ const translation: Translation = {
   selectAll: 'Tout sélectionner',
   moreInformation: 'Plus d’informations',
   notifications: 'Notifications',
-  nextTab: '',
-  previousTab: '',
+  nextTab: 'Next tab',
+  previousTab: 'Previous tab',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `Character count ${current} of ${maximum}`,
