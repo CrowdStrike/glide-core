@@ -18,7 +18,7 @@ GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('opens on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option
         label="One"
         value="one"
