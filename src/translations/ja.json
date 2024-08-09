@@ -6,8 +6,8 @@
   "moreInformation": "詳細情報",
   "notifications": "通知",
   "removeTag": "タグを削除: {label}",
-  "nextTab": "",
-  "previousTab": "",
+  "nextTab": "Next tab",
+  "previousTab": "Previous tab",
   "announcedCharacterCount": "Character count {current} of {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
   "clearEntry": "Clear {label} entry"

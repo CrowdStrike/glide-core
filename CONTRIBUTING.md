@@ -22,6 +22,7 @@
   - [Prefer `.component` for the root element CSS selector](#prefer-component-for-the-root-element-css-selector)
   - [Bubble events by default](#bubble-events-by-default)
   - [Override and decorate inherited properties used in templates](#override-and-decorate-inherited-properties-used-in-templates)
+  - [Translations and static strings](#translations-and-static-strings)
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
 
@@ -583,6 +584,22 @@ But when one is changed internally—say, via a click handler—the change won't
 Many components don't change inherited properties internally.
 However, if one is made to after the fact, it may result in a subtle bug.
 So it's best to always override and decorate (using `@property`) inherited properties used in templates.
+
+### Translations and static strings
+
+Most of the text we render is provided by the consumer directly; however, we do have a few cases where we have static strings in place.
+In particular, static strings are helpful for screenreaders so that our components can provide additional context for accessibility.
+
+The process for adding static strings is as follows:
+
+1. Update the type definition at `src/library/localize.ts` to include your new string.
+2. Add the new string directly to `src/translations/en.ts`. This is what will be used in code.
+3. Add the new string in the JSON format to `src/translations/en.json`.
+4. Copy the additions from `src/translations/en.ts` and `src/translations/en.json` to the other language files.
+
+The non-English languages will fallback to English until they are translated.
+The `src/translations/en.json` will be sent to our translation team and returned for each language we support.
+When a new file is received from the translators, please update all `src/translations/*.json` and `src/translations/*.ts` files with the updated strings.
 
 ## Questions
 
