@@ -3,13 +3,12 @@
   "dismiss": "Dismiss",
   "open": "Open",
   "selectAll": "Select all",
-  "clearEntry": "Clear entry",
   "moreInformation": "More information",
   "notifications": "Notifications",
   "nextTab": "Next tab",
   "previousTab": "Previous tab",
-
   "announcedCharacterCount": "Character count {current} of {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
+  "clearEntry": "Clear {label} entry",
   "removeTag": "Remove tag: {label}"
 }

@@ -23,7 +23,6 @@ export interface Translation extends DefaultTranslation {
   dismiss: string;
   open: string;
   selectAll: string;
-  clearEntry: string;
   moreInformation: string;
   notifications: string;
   nextTab: string;
@@ -31,5 +30,6 @@ export interface Translation extends DefaultTranslation {
 
   announcedCharacterCount: (current: number, maximum: number) => string;
   displayedCharacterCount: (current: number, maximum: number) => string;
+  clearEntry: (label: string) => string;
   removeTag: (name: string) => string;
 }

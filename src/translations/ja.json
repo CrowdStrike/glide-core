@@ -3,12 +3,12 @@
   "dismiss": "無視",
   "open": "オープン",
   "selectAll": "すべて選択",
-  "clearEntry": "入力のクリア",
   "moreInformation": "詳細情報",
   "notifications": "通知",
   "removeTag": "タグを削除: {label}",
   "nextTab": "",
   "previousTab": "",
   "announcedCharacterCount": "Character count {current} of {maximum}",
-  "displayedCharacterCount": "{current}/{maximum}"
+  "displayedCharacterCount": "{current}/{maximum}",
+  "clearEntry": "Clear {label} entry"
 }
