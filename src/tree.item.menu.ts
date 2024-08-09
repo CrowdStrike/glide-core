@@ -7,7 +7,6 @@ import { customElement, property } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
-import ow from './library/ow.js';
 import styles from './tree.item.menu.styles.js';
 import type { Placement } from '@floating-ui/dom';
 import type GlideCoreMenu from './menu.js';
@@ -82,11 +81,6 @@ export default class GlideCoreTreeItemMenu extends LitElement {
         </glide-core-icon-button>
       </glide-core-menu>
     `;
-  }
-
-  setContainingBlock(containingBlock: Element) {
-    ow(this.#menuElementRef.value, ow.object.instanceOf(Element));
-    this.#menuElementRef.value.setContainingBlock(containingBlock);
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();

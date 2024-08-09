@@ -1,6 +1,4 @@
-import GlideCoreMenu from '../menu.js';
 import GlideCoreTooltip from '../tooltip.js';
-import GlideCoreTree from '../tree.js';
 
 interface Arguments {
   elements: Element[];
@@ -17,16 +15,8 @@ interface Arguments {
  * https://github.com/floating-ui/floating-ui/issues/2955
  */
 export function setContainingBlock({ elements, containingBlock }: Arguments) {
-  const floatingComponents: (
-    | GlideCoreTooltip
-    | GlideCoreMenu
-    | GlideCoreTree
-  )[] = elements.filter((element) => {
-    return (
-      element instanceof GlideCoreTooltip ||
-      element instanceof GlideCoreMenu ||
-      element instanceof GlideCoreTree
-    );
+  const floatingComponents: GlideCoreTooltip[] = elements.filter((element) => {
+    return element instanceof GlideCoreTooltip;
   });
 
   for (const floatingComponent of floatingComponents) {

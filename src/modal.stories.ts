@@ -1,7 +1,10 @@
 import './button.js';
-import './dropdown.js';
-import './dropdown.option.js';
 import './icons/storybook.js';
+import './menu.button.js';
+import './menu.js';
+import './menu.js';
+import './menu.link.js';
+import './menu.options.js';
 import './modal.js';
 import './modal.tertiary-icon.js';
 import './tooltip.js';
@@ -37,39 +40,21 @@ const meta: Meta = {
       size=${arguments_.size ?? nothing}
     >
       ${arguments_['slot="default"']}
+      <glide-core-menu>
+        <glide-core-menu-options>
+          <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
+          <glide-core-menu-link label="Two" url="/two"> </glide-core-menu-link>
+          <!--
+          If an option does not have an associated url,
+          you can use <glide-core-menu-button> and provide your own click handler
+        -->
+          <glide-core-menu-button label="Three"> </glide-core-menu-button>
+        </glide-core-menu-options>
 
-      <glide-core-dropdown label="Label" placeholder="Placeholder">
-        <glide-core-dropdown-option
-          label="One"
-          value="one"
-        ></glide-core-dropdown-option>
-
-        <glide-core-dropdown-option
-          label="Two"
-          value="two"
-        ></glide-core-dropdown-option>
-
-        <glide-core-dropdown-option
-          label="Three"
-          value="three"
-        ></glide-core-dropdown-option>
-
-        <glide-core-dropdown-option
-          label="Four"
-          value="four"
-        ></glide-core-dropdown-option>
-
-        <glide-core-dropdown-option
-          label="Five"
-          value="five"
-        ></glide-core-dropdown-option>
-
-        <div slot="description">${arguments_['slot="description"']}</div>
-
-        ${arguments_['slot="tooltip"']
-          ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
-          : ''}
-      </glide-core-dropdown>
+        <glide-core-button slot="target" variant="secondary">
+          Target
+        </glide-core-button>
+      </glide-core-menu>
 
       <glide-core-button slot="secondary" variant="tertiary"
         >Secondary</glide-core-button

@@ -10,6 +10,8 @@ import {
   html,
   waitUntil,
 } from '@open-wc/testing';
+import GlideCoreMenuButton from './menu.button.js';
+import GlideCoreMenuLink from './menu.link.js';
 import GlideCoreSplitButton from './split-button.js';
 import GlideCoreSplitContainer from './split-container.js';
 import GlideCoreSplitLink from './split-link.js';
@@ -17,6 +19,8 @@ import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
 GlideCoreSplitContainer.shadowRootOptions.mode = 'open';
+GlideCoreMenuButton.shadowRootOptions.mode = 'open';
+GlideCoreMenuLink.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(window.customElements.get('glide-core-split-container')).to.equal(

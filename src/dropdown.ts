@@ -260,8 +260,8 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (this.#optionsElementRef.value) {
       // `popover` is used so the options can break out of Modal or another container
-      // when the container is `overflow: hidden`. Though it's slightly more complicated
-      // than that. See the comment in `#show` for more.
+      // that with `overflow: hidden`. And elements with `popover` are positioned
+      // relative to the viewport. Thus Floating UI in addition to `popover`.
       //
       // Set here instead of in the template to escape Lit Analyzer, which isn't
       // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
@@ -1357,23 +1357,6 @@ export default class GlideCoreDropdown extends LitElement {
     this.#cleanUpFloatingUi?.();
 
     if (this.#dropdownElementRef.value && this.#optionsElementRef.value) {
-      // Dropdown's use of `popover` necessitates Floating UI and vice versa.
-      //
-      // Dropdown's options need to be able to break out of Modal or another container
-      // with `overflow: hidden`.
-      //
-      // `popover` breaks out but isn't sufficient because `popover` elements are
-      // positioned relative to the viewport, even when they're `position: absolute`.
-      // So they require manual positioning.
-      //
-      // `position: fixed` and Floating UI (without `popover`) won't work either because
-      // Floating UI incorrectly positions elements that have an ancestor (like Modal)
-      // with a backdrop filter.
-      //
-      // Thus both `popover` and Floating UI. `popover` to work around a Floating UI bug.
-      // Or Floating UI to position `popover`. Whichever way you want to look at it.
-      //
-      //  https://github.com/floating-ui/floating-ui/issues/2955
       this.#cleanUpFloatingUi = autoUpdate(
         this.#dropdownElementRef.value,
         this.#optionsElementRef.value,

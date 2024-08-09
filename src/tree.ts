@@ -84,12 +84,6 @@ export default class GlideCoreTree extends LitElement {
     );
   }
 
-  setContainingBlock(containingBlock: Element) {
-    for (const treeItem of this.#getAllTreeItems()) {
-      treeItem.setContainingBlock(containingBlock);
-    }
-  }
-
   constructor() {
     super();
     this.addEventListener('focusin', this.#handleFocusIn);

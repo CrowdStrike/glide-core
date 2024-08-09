@@ -149,9 +149,7 @@ it('is hidden on "mouseover" when disabled', async () => {
   // Advance time to get past the tooltip opening delay
   clock.tick(500);
 
-  expect(
-    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
-  ).to.not.be.ok;
+  expect(component.shadowRoot?.querySelector('[role="tooltip"]')).to.be.null;
 
   clock.restore();
 });

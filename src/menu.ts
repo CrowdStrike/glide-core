@@ -5,13 +5,10 @@ import {
   computePosition,
   flip,
   offset,
-  platform,
 } from '@floating-ui/dom';
-import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
-import { offsetParent } from 'composed-offset-position';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
 import GlideCoreMenuOptions from './menu.options.js';
@@ -27,7 +24,7 @@ declare global {
 /**
  * @description A basic menu.
  *
- * @slot - <glide-core-menu-options>.
+ * @slot - `<glide-core-menu-options>`.
  * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
  */
 @customElement('glide-core-menu')
@@ -47,25 +44,15 @@ export default class GlideCoreMenu extends LitElement {
   set open(isOpen) {
     this.#isOpen = isOpen;
 
-    if (isOpen && !this.isTargetDisabled && this.#optionsElement) {
-      this.#setUpFloatingUi();
-      this.#optionsElement.ariaActivedescendant = this.#activeOption?.id ?? '';
-    } else if (this.#optionsElement) {
-      this.#cleanUpFloatingUi?.();
-      this.#optionsElement.ariaActivedescendant = '';
-    }
-
-    if (this.#targetElement) {
-      this.#targetElement.ariaExpanded =
-        isOpen && !this.isTargetDisabled ? 'true' : 'false';
+    if (isOpen && !this.isTargetDisabled) {
+      this.#show();
+    } else {
+      this.#hide();
     }
   }
 
   @property({ reflect: true })
   placement: Placement = 'bottom-start';
-
-  @state()
-  containingBlock?: Element;
 
   @property({ reflect: true })
   get size() {
@@ -115,13 +102,25 @@ export default class GlideCoreMenu extends LitElement {
     owSlot(this.#targetSlotElementRef.value);
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreMenuOptions]);
 
+    // `popover` is used so the options can break out of Modal or another container
+    // that with `overflow: hidden`. And elements with `popover` are positioned
+    // relative to the viewport. Thus Floating UI in addition to `popover`.
+    //
+    // Set here instead of in the template to escape Lit Analzyer, which isn't
+    // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+    //
+    // "auto" means only one popover can be open at a time. Consumers, however, may
+    // have popovers in own components that need to be open while this one is open.
+    //
+    // "auto" also automatically opens the popover when its target is clicked. We want
+    // it to remain closed when clicked when there are no menu options.
+    this.#defaultSlotElementRef.value.popover = 'manual';
+
     const firstOption = this.#optionElements?.at(0);
 
-    if (this.open && firstOption) {
-      this.#setUpFloatingUi();
-
+    if (this.open && firstOption && !this.isTargetDisabled) {
       firstOption.privateActive = true;
-      this.#optionsElement.ariaActivedescendant = firstOption.id;
+      this.#show();
     }
   }
 
@@ -131,6 +130,18 @@ export default class GlideCoreMenu extends LitElement {
         this.#targetElement as { focus: (options?: FocusOptions) => void }
       )?.focus(options);
     }
+  }
+
+  private get isTargetDisabled() {
+    const isDisabled =
+      this.#targetElement &&
+      'disabled' in this.#targetElement &&
+      this.#targetElement.disabled;
+
+    const isAriaDisabled =
+      this.#targetElement && this.#targetElement.ariaDisabled === 'true';
+
+    return Boolean(isDisabled) || Boolean(isAriaDisabled);
   }
 
   override render() {
@@ -152,10 +163,7 @@ export default class GlideCoreMenu extends LitElement {
         ></slot>
 
         <slot
-          class=${classMap({
-            'default-slot': true,
-            visible: this.open,
-          })}
+          class="default-slot"
           @click=${this.#onDefaultSlotClick}
           @focusin=${this.#onDefaultSlotFocusin}
           @keydown=${this.#onSlotKeydown}
@@ -166,13 +174,6 @@ export default class GlideCoreMenu extends LitElement {
       </div>
     `;
   }
-
-  setContainingBlock(containingBlock: Element) {
-    this.containingBlock = containingBlock;
-  }
-
-  @state()
-  private isTargetDisabled = false;
 
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
@@ -194,16 +195,6 @@ export default class GlideCoreMenu extends LitElement {
     return this.#optionElements?.find(({ privateActive }) => privateActive);
   }
 
-  get #optionsElement() {
-    const firstAssignedElement = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .at(0);
-
-    return firstAssignedElement
-      ? (firstAssignedElement as GlideCoreMenuOptions)
-      : null;
-  }
-
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = (event: MouseEvent) => {
@@ -222,6 +213,30 @@ export default class GlideCoreMenu extends LitElement {
     }
   };
 
+  #hide() {
+    this.#cleanUpFloatingUi?.();
+
+    if (this.#optionsElement) {
+      this.#optionsElement.ariaActivedescendant = '';
+    }
+
+    if (this.#targetElement) {
+      this.#targetElement.ariaExpanded = 'false';
+    }
+
+    this.#defaultSlotElementRef.value?.hidePopover();
+  }
+
+  get #optionsElement() {
+    const firstAssignedElement = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .at(0);
+
+    return firstAssignedElement instanceof GlideCoreMenuOptions
+      ? firstAssignedElement
+      : null;
+  }
+
   #onDefaultSlotChange() {
     ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
     owSlot(this.#defaultSlotElementRef.value);
@@ -238,10 +253,6 @@ export default class GlideCoreMenu extends LitElement {
 
   #onDefaultSlotClick() {
     this.open = false;
-
-    if (this.#optionsElement) {
-      this.#optionsElement.ariaActivedescendant = '';
-    }
   }
 
   #onDefaultSlotFocusin(event: FocusEvent) {
@@ -295,7 +306,6 @@ export default class GlideCoreMenu extends LitElement {
 
     if ([' ', 'Enter', 'Escape'].includes(event.key) && this.open) {
       this.open = false;
-      this.#optionsElement.ariaActivedescendant = '';
       this.focus();
 
       // `#onTargetSlotClick` is called on click, and it opens or closes Menu.
@@ -411,12 +421,6 @@ export default class GlideCoreMenu extends LitElement {
     ow(this.#targetElement, ow.object.instanceOf(Element));
     ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
 
-    this.#setIsTargetDisabled();
-
-    if (this.isTargetDisabled) {
-      this.open = false;
-    }
-
     const observer = new MutationObserver((records) => {
       const isDisabledMutated = records.some((record) => {
         return (
@@ -426,10 +430,10 @@ export default class GlideCoreMenu extends LitElement {
       });
 
       if (isDisabledMutated) {
-        this.#setIsTargetDisabled();
-
-        if (this.isTargetDisabled) {
-          this.open = false;
+        if (this.open && !this.isTargetDisabled) {
+          this.#show();
+        } else {
+          this.#hide();
         }
       }
     });
@@ -437,30 +441,33 @@ export default class GlideCoreMenu extends LitElement {
     observer.observe(this.#targetElement, { attributes: true });
 
     this.#targetElement.ariaHasPopup = 'true';
-    this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
     this.#targetElement.id = nanoid();
     this.#targetElement.setAttribute('aria-controls', this.#optionsElement.id);
     this.#optionsElement.ariaLabelledby = this.#targetElement.id;
+
+    if (this.open && !this.isTargetDisabled) {
+      this.#show();
+    } else {
+      this.#hide();
+    }
   }
 
   #onTargetSlotClick() {
-    if (this.isTargetDisabled || this.#isClosingAfterSelection) {
-      this.#isClosingAfterSelection = false;
+    if (this.isTargetDisabled) {
+      this.#hide();
       return;
     }
 
-    if (this.#targetElement instanceof HTMLElement) {
-      this.#targetElement.ariaExpanded = this.open ? 'true' : 'false';
+    if (this.#isClosingAfterSelection) {
+      this.#isClosingAfterSelection = false;
+      return;
     }
 
     if (this.#optionElements && this.#optionElements.length > 0) {
       this.open = !this.open;
     }
 
-    if (this.open && this.#activeOption && this.#optionsElement) {
-      this.#optionsElement.ariaActivedescendant = this.#activeOption.id;
-    } else if (!this.open && this.#optionsElement) {
-      this.#optionsElement.ariaActivedescendant = '';
+    if (!this.open && this.#optionsElement) {
       this.focus();
     }
   }
@@ -495,19 +502,9 @@ export default class GlideCoreMenu extends LitElement {
     }
   }
 
-  #setIsTargetDisabled() {
-    const isDisabled =
-      this.#targetElement &&
-      'disabled' in this.#targetElement &&
-      this.#targetElement.disabled;
+  #show() {
+    this.#cleanUpFloatingUi?.();
 
-    const isAriaDisabled =
-      this.#targetElement && this.#targetElement.ariaDisabled === 'true';
-
-    this.isTargetDisabled = Boolean(isDisabled) || Boolean(isAriaDisabled);
-  }
-
-  #setUpFloatingUi() {
     if (this.#targetElement && this.#defaultSlotElementRef.value) {
       this.#cleanUpFloatingUi = autoUpdate(
         this.#targetElement,
@@ -519,15 +516,6 @@ export default class GlideCoreMenu extends LitElement {
                 this.#targetElement,
                 this.#defaultSlotElementRef.value,
                 {
-                  platform: {
-                    ...platform,
-                    getOffsetParent: (element) => {
-                      return (
-                        this.containingBlock ??
-                        platform.getOffsetParent(element, offsetParent)
-                      );
-                    },
-                  },
                   placement: this.placement,
                   middleware: [
                     offset({
@@ -553,6 +541,17 @@ export default class GlideCoreMenu extends LitElement {
                 left: `${x}px`,
                 top: `${y}px`,
               });
+            }
+
+            this.#defaultSlotElementRef.value?.showPopover();
+
+            if (this.#optionsElement) {
+              this.#optionsElement.ariaActivedescendant =
+                this.#activeOption?.id ?? '';
+            }
+
+            if (this.#targetElement) {
+              this.#targetElement.ariaExpanded = 'true';
             }
           })();
         },
