@@ -15,19 +15,20 @@ it('renders dynamic strings in Japanese', async () => {
   `);
 
   document.documentElement.setAttribute('lang', 'ja');
+
   await elementUpdated(element);
 
   const maxCharacterCountText = element.shadowRoot?.querySelector(
     '[data-test="character-count-text"]',
   );
 
-  expect(maxCharacterCountText?.textContent?.trim()).to.be.equal('5/40');
+  expect(maxCharacterCountText?.textContent?.trim()).to.equal('5/40');
 
   const maxCharacterCountAnnouncement = element.shadowRoot?.querySelector(
     '[data-test="character-count-announcement"]',
   );
 
-  expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.be.equal(
+  expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.equal(
     'Character count 5 of 40',
   );
 });
@@ -42,19 +43,20 @@ it('renders dynamic strings in French', async () => {
   `);
 
   document.documentElement.setAttribute('lang', 'fr');
+
   await elementUpdated(element);
 
   const maxCharacterCountText = element.shadowRoot?.querySelector(
     '[data-test="character-count-text"]',
   );
 
-  expect(maxCharacterCountText?.textContent?.trim()).to.be.equal('5/40');
+  expect(maxCharacterCountText?.textContent?.trim()).to.equal('5/40');
 
   const maxCharacterCountAnnouncement = element.shadowRoot?.querySelector(
     '[data-test="character-count-announcement"]',
   );
 
-  expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.be.equal(
+  expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.equal(
     'Character count 5 of 40',
   );
 });

@@ -249,7 +249,7 @@ export default class GlideCoreInput extends LitElement {
                     'clear-icon-button--visible': this.isClearIconVisible,
                   })}
                   data-test="clear-button"
-                  aria-label=${this.#localize.term('clearEntry')}
+                  label=${this.#localize.term('clearEntry', this.label!)}
                   @click=${this.#onClearClick}
                 >
                   <slot name="clear-icon">

@@ -189,7 +189,7 @@ it('displays a max character and current character count if maxlength is provide
     '[data-test="character-count-text"]',
   );
 
-  expect(maxCharacterCountText?.textContent?.trim()).to.be.equal('0/5');
+  expect(maxCharacterCountText?.textContent?.trim()).to.equal('0/5');
 });
 
 it('displays visually hidden character count text for screenreaders', async () => {
@@ -201,7 +201,7 @@ it('displays visually hidden character count text for screenreaders', async () =
     '[data-test="character-count-announcement"]',
   );
 
-  expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.be.equal(
+  expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.equal(
     'Character count 0 of 5',
   );
 });

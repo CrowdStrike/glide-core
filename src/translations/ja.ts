@@ -10,7 +10,6 @@ const translation: Translation = {
   dismiss: '無視',
   open: 'オープン',
   selectAll: 'すべて選択',
-  clearEntry: '入力のクリア',
   moreInformation: '詳細情報',
   notifications: '通知',
   nextTab: '',
@@ -20,6 +19,7 @@ const translation: Translation = {
     `Character count ${current} of ${maximum}`,
   displayedCharacterCount: (current: number, maximum: number) =>
     `${current}/${maximum}`,
+  clearEntry: (label: string) => `Clear ${label} entry`,
   removeTag: (label: string) => `タグを削除: ${label}`,
 };
 
