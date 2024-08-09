@@ -28,13 +28,14 @@ export default [
 
     .component {
       backdrop-filter: blur(100px);
-      background-color: var(--glide-core-surface-base-lighter);
+      background-color: var(--glide-core-surface-modal);
       border: none;
       border-radius: 0.5rem;
       box-shadow: var(--glide-core-shadow-lg);
       font-family: var(--glide-core-body-xs-font-family);
       inline-size: 35rem;
       max-block-size: 75vh;
+      max-inline-size: 90vw;
       opacity: 0;
       padding: 1.25rem;
 
