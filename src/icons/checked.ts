@@ -1,6 +1,6 @@
-import { svg } from 'lit/static-html.js';
+import { html } from 'lit';
 
-export default svg`
+export default html`
   <svg
     fill="none"
     viewBox="0 0 24 24"

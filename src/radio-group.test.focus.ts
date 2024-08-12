@@ -146,7 +146,7 @@ it('reports validity if blurred', async () => {
 
   expect(
     component.shadowRoot
-      ?.querySelector('glide-core-label')
+      ?.querySelector('glide-core-private-label')
       ?.hasAttribute('error'),
   ).to.be.false;
 
@@ -158,7 +158,7 @@ it('reports validity if blurred', async () => {
 
   expect(
     component.shadowRoot
-      ?.querySelector('glide-core-label')
+      ?.querySelector('glide-core-private-label')
       ?.hasAttribute('error'),
   ).to.be.true;
 });

@@ -129,7 +129,7 @@ export default class GlideCoreTextarea extends LitElement {
   }
 
   override render() {
-    return html`<glide-core-label
+    return html`<glide-core-private-label
       split=${ifDefined(this.privateSplit ?? undefined)}
       orientation=${this.orientation}
       ?disabled=${this.disabled}
@@ -186,7 +186,7 @@ export default class GlideCoreTextarea extends LitElement {
               ${this.value.length}/${this.maxlength}
             </div>`,
         )}
-      </div></glide-core-label
+      </div></glide-core-private-label
     >`;
   }
 

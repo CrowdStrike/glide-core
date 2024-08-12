@@ -135,7 +135,7 @@ export default class GlideCoreRadioGroup extends LitElement {
         @keydown=${this.#onKeydown}
         ${ref(this.#componentElementRef)}
       >
-        <glide-core-label
+        <glide-core-private-label
           orientation="horizontal"
           split=${ifDefined(this.privateSplit ?? undefined)}
           ?disabled=${this.disabled}
@@ -164,7 +164,7 @@ export default class GlideCoreRadioGroup extends LitElement {
 
           <slot name="tooltip" slot="tooltip"></slot>
           <slot id="description" name="description" slot="description"></slot>
-        </glide-core-label>
+        </glide-core-private-label>
       </div>
     `;
   }

@@ -187,7 +187,7 @@ export default class GlideCoreInput extends LitElement {
 
   override render() {
     return html`
-      <glide-core-label
+      <glide-core-private-label
         class=${classMap({
           left: this.privateSplit === 'left',
           middle: this.privateSplit === 'middle',
@@ -352,7 +352,7 @@ export default class GlideCoreInput extends LitElement {
               `
             : nothing}
         </div>
-      </glide-core-label>
+      </glide-core-private-label>
     `;
   }
 

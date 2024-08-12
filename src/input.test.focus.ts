@@ -50,9 +50,9 @@ it('blurs the input and reports validity if `blur` is called', async () => {
 
   expect(input.validity.valid).to.equal(false);
 
-  expect(input.shadowRoot?.querySelector('glide-core-label')?.error).to.equal(
-    true,
-  );
+  expect(
+    input.shadowRoot?.querySelector('glide-core-private-label')?.error,
+  ).to.equal(true);
 });
 
 it('focuses the input after `reportValidity` is called when required and no value', async () => {

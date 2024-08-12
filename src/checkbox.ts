@@ -192,7 +192,7 @@ export default class GlideCoreCheckbox extends LitElement {
           </label>
         `,
         () =>
-          html`<glide-core-label
+          html`<glide-core-private-label
             orientation=${this.orientation}
             split=${ifDefined(this.privateSplit ?? undefined)}
             ?disabled=${this.disabled}
@@ -257,7 +257,7 @@ export default class GlideCoreCheckbox extends LitElement {
             <div id="summary" slot="summary">${this.summary}</div>
 
             <slot id="description" name="description" slot="description"></slot>
-          </glide-core-label>`,
+          </glide-core-private-label>`,
       )}
     </div>`;
   }
