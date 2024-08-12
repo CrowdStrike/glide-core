@@ -127,7 +127,7 @@ it('throws an error when the default slot is empty', async () => {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('does not throw an error when the default slot is non-empty', async () => {
@@ -141,7 +141,7 @@ it('does not throw an error when the default slot is non-empty', async () => {
     }
   }
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('toggles the "activate" and "deactivate" clases when the button is clicked', async () => {

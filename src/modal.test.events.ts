@@ -20,11 +20,11 @@ it('dispatches a "close" event when the modal is closed via the "close" method',
   element.addEventListener('close', spy);
   element.showModal();
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 
   element.close();
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches a "close" event when the modal is closed via the close button', async () => {
@@ -47,7 +47,7 @@ it('dispatches a "close" event when the modal is closed via the close button', a
 
   button?.click();
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches a "close" event when the modal is closed via the escape key', async () => {
@@ -64,7 +64,7 @@ it('dispatches a "close" event when the modal is closed via the escape key', asy
 
   await sendKeys({ press: 'Escape' });
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('does not dispatch a "close" event when the modal is open and non-escape keys are pressed', async () => {
@@ -83,11 +83,11 @@ it('does not dispatch a "close" event when the modal is open and non-escape keys
   // Tests only a couple keys.
   await sendKeys({ press: ' ' });
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 
   await sendKeys({ press: 'Enter' });
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('dispatches a "close" event when the modal is closed via "show-back-button"', async () => {
@@ -110,7 +110,7 @@ it('dispatches a "close" event when the modal is closed via "show-back-button"',
 
   button?.click();
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('does not emit a "close" event when clicking inside the dialog and the mouse is not positioned on a "close" button', async () => {
@@ -136,7 +136,7 @@ it('does not emit a "close" event when clicking inside the dialog and the mouse 
     position: [Math.ceil(left + 1), Math.ceil(top + 1)],
   });
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it(`does not emit a "close" event if a mousedown event's origin does not come from the dialog element`, async () => {
@@ -160,7 +160,7 @@ it(`does not emit a "close" event if a mousedown event's origin does not come fr
 
   button?.dispatchEvent(new Event('mousedown', { bubbles: true }));
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('emits a "close" event when clicking outside the dialog', async () => {
@@ -186,5 +186,5 @@ it('emits a "close" event when clicking outside the dialog', async () => {
     position: [Math.floor(left - 1), Math.floor(top - 1)],
   });
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });

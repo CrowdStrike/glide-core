@@ -166,7 +166,7 @@ it('throws if it does not have a default slot', async () => {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if it does not have a "control" slot', async () => {
@@ -185,7 +185,7 @@ it('throws if it does not have a "control" slot', async () => {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 
   // It's not clear to me why the error logged by Ow shows up in the console
   // here and not in the above test or elsewhere. A bug in Web Test Runner?

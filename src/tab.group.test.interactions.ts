@@ -413,7 +413,7 @@ it('scrolls using keyboard when there is overflow and only a few pixels of overf
 
   expect(tabGroup?.tabElements[3]).to.have.focus;
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 
   spy.resetHistory();
 
@@ -430,5 +430,5 @@ it('scrolls using keyboard when there is overflow and only a few pixels of overf
 
   expect(tabGroup?.tabElements[0]).to.have.focus;
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });

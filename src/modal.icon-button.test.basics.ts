@@ -75,5 +75,5 @@ it('throws if it does not have a default slot', async () => {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });

@@ -25,7 +25,7 @@ it('throws if it does not have a default slot', async () => {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if the default slot is the incorrect type', async () => {
@@ -57,5 +57,5 @@ it('does not throw if the default slot only contains whitespace', async () => {
     }
   }
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });

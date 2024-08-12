@@ -108,7 +108,7 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when no
   input.checkValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an "invalid" event after `checkValidity` is called when required and no value but disabled', async () => {
@@ -125,7 +125,7 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when re
   input.checkValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
@@ -144,7 +144,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
   input.reportValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an "invalid" event when `reportValidity` is called when required and no value but disabled', async () => {
@@ -161,5 +161,5 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when re
   input.reportValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });

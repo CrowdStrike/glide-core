@@ -356,7 +356,7 @@ it('throws when `value` is changed programmatically to include more than one val
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('updates `value` when an option `value` is changed programmatically', async () => {

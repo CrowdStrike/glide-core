@@ -86,7 +86,7 @@ it('does not emit an "change" event when clicked button is clicked and already s
   });
 
   await aTimeout(0);
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not emit an "input" event when clicked button is clicked and already selected', async () => {
@@ -113,7 +113,7 @@ it('does not emit an "input" event when clicked button is clicked and already se
   });
 
   await aTimeout(0);
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('emits a "change" event when arrowing', async () => {
@@ -266,7 +266,7 @@ it('does not emit a "change" event when an already selected button is selected v
   component.addEventListener('change', spy);
 
   sendKeys({ press: 'Space' });
-  expect(spy.called).to.be.false;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not emit a "change" event a button is selected programmatically', async () => {
@@ -292,7 +292,7 @@ it('does not emit a "change" event a button is selected programmatically', async
     buttons[1].selected = true;
   });
 
-  expect(spy.called).to.be.false;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not emit a "input" event a button is selected programmatically', async () => {
@@ -318,5 +318,5 @@ it('does not emit a "input" event a button is selected programmatically', async 
     buttons[1].selected = true;
   });
 
-  expect(spy.called).to.be.false;
+  expect(spy.callCount).to.equal(0);
 });

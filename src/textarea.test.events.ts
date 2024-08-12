@@ -93,7 +93,7 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when no
   textarea.checkValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an `invalid` event after `checkValidity` is called when required, no value, and disabled', async () => {
@@ -109,7 +109,7 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when re
   textarea.checkValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an `invalid` event when `reportValidity` is called when not required,', async () => {
@@ -125,7 +125,7 @@ it('does not dispatch an `invalid` event when `reportValidity` is called when no
   textarea.reportValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an `invalid` event when `reportValidity` is called when required, no value, and disabled', async () => {
@@ -141,7 +141,7 @@ it('does not dispatch an `invalid` event when `reportValidity` is called when re
   textarea.reportValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('dispatches an `invalid` event after `requestSubmit` is called when `maxlength` exceeded', async () => {
@@ -216,7 +216,7 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when `m
   textarea.checkValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an `invalid` event after `checkValidity` is called when `maxlength` exceeded and disabled', async () => {
@@ -234,7 +234,7 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when `m
   textarea.checkValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an `invalid` event when `reportValidity` is called and `maxlength` is not exceeded,', async () => {
@@ -252,7 +252,7 @@ it('does not dispatch an `invalid` event when `reportValidity` is called and `ma
   textarea.reportValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an `invalid` event when `reportValidity` is called `maxlength` exceeded and disabled,', async () => {
@@ -270,5 +270,5 @@ it('does not dispatch an `invalid` event when `reportValidity` is called `maxlen
   textarea.reportValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });

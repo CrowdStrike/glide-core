@@ -96,7 +96,7 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when not
   component.checkValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an "invalid" event when `checkValidity` is called when required, disabled, and no option is selected', async () => {
@@ -122,7 +122,7 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when req
   component.checkValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
@@ -143,7 +143,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
   component.reportValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch an "invalid" event when `reportValidity` is called when required, disabled, and no option is selected', async () => {
@@ -169,7 +169,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when re
   component.reportValidity();
   await aTimeout(0);
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch a "change" event when an option is selected programmatically', async () => {
@@ -198,7 +198,7 @@ it('does not dispatch a "change" event when an option is selected programmatical
   });
 
   await aTimeout(0);
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch a "input" event when an option is selected programmatically', async () => {
@@ -227,5 +227,5 @@ it('does not dispatch a "input" event when an option is selected programmaticall
   });
 
   await aTimeout(0);
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });

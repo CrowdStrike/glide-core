@@ -72,7 +72,7 @@ it('throws if it does not have a default slot', async () => {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if it does not have a "target" slot', async () => {
@@ -88,5 +88,5 @@ it('throws if it does not have a "target" slot', async () => {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });

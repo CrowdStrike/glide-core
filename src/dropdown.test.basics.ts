@@ -326,5 +326,5 @@ it('does not throw if the default slot only contains whitespace', async () => {
     }
   }
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });
