@@ -86,7 +86,12 @@ it('opens on click', async () => {
     ?.querySelector('[data-test="input"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
+  await elementUpdated(component);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.true;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
 it('filters', async () => {
@@ -106,7 +111,7 @@ it('filters', async () => {
   expect(options.length).to.equal(1);
 });
 
-it('clears the filter term when an option is selected', async () => {
+it('unfilters when an option is selected via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       ${defaultSlot}
@@ -121,6 +126,29 @@ it('clears the filter term when an option is selected', async () => {
   ].find(({ hidden }) => !hidden);
 
   option?.click();
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  const options = [
+    ...component.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ hidden }) => !hidden);
+
+  expect(input?.value).to.equal('');
+  expect(options.length).to.equal(11);
+});
+
+it('unfilters when an option is selected via Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: ' one ' });
+  await sendKeys({ press: 'Enter' });
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -285,6 +313,26 @@ it('updates `value` when an option `value` is changed programmatically', async (
   option.value = 'two';
 
   expect(component.value).to.deep.equal(['two']);
+});
+
+it('does not select options on Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+    >
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  options[0]?.focus();
+  await sendKeys({ press: ' ' });
+
+  expect(options[0]?.selected).to.be.false;
 });
 
 it('deselects options on Backspace', async () => {

@@ -5,6 +5,7 @@ export default [
     .component {
       align-items: center;
       border-radius: var(--glide-core-spacing-sm);
+      user-select: none;
 
       &.active {
         background-color: var(--glide-core-surface-hover);

@@ -39,7 +39,12 @@ it('opens on click', async () => {
     ?.querySelector('[data-test="button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
+  await elementUpdated(component);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.true;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
 it('toggles open and closed when the button is clicked', async () => {
@@ -70,7 +75,12 @@ it('toggles open and closed when the button is clicked', async () => {
     ?.querySelector('[data-test="button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
+  await elementUpdated(component);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.false;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.not.be.ok;
 });
 
 it('does not toggle open and closed when the button overflow text is clicked', async () => {
@@ -101,7 +111,12 @@ it('does not toggle open and closed when the button overflow text is clicked', a
     ?.querySelector('[data-test="tag-overflow-text"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
+  await elementUpdated(component);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.true;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
 it('selects options on click', async () => {
@@ -498,11 +513,9 @@ it('updates `value` when an option is selected or deselected via click', async (
   expect(component.value).to.deep.equal(['one', 'two']);
 
   options[1].click();
-
   expect(component.value).to.deep.equal(['one']);
 
   options[2].click();
-
   expect(component.value).to.deep.equal(['one']);
 });
 
@@ -832,7 +845,7 @@ it('deselects all but the last selected option when `multiple` is changed to `fa
   expect(options[1].selected).be.true;
 });
 
-it('selects all options when none are selected and Select All is clicked', async () => {
+it('selects all options when none are selected and Select All is selected via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -862,7 +875,7 @@ it('selects all options when none are selected and Select All is clicked', async
   expect(options[1].selected).to.be.true;
 });
 
-it('selects all options when some are selected and Select All is clicked', async () => {
+it('selects all options when some are selected and Select All is selected via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -888,11 +901,12 @@ it('selects all options when some are selected and Select All is clicked', async
     ?.click();
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
+
   expect(options[0].selected).to.be.true;
   expect(options[1].selected).to.be.true;
 });
 
-it('deelects all options when all are selected and Select All is clicked', async () => {
+it('deselects all options when all are selected and Select All is selected via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -919,6 +933,217 @@ it('deelects all options when all are selected and Select All is clicked', async
     ?.click();
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0].selected).to.be.false;
+  expect(options[1].selected).to.be.false;
+});
+
+it('selects all options when none are selected and Select All is selected via Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+      select-all
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component?.shadowRoot
+    ?.querySelector('[data-test="select-all"]')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  component.focus();
+  await sendKeys({ press: ' ' });
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0].selected).to.be.true;
+  expect(options[1].selected).to.be.true;
+});
+
+it('selects all options when some are selected and Select All is selected via Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+      select-all
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component?.shadowRoot
+    ?.querySelector('[data-test="select-all"]')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  component.focus();
+  await sendKeys({ press: ' ' });
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0].selected).to.be.true;
+  expect(options[1].selected).to.be.true;
+});
+
+it('deselects all options when all are selected and Select All is selected via Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+      select-all
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component?.shadowRoot
+    ?.querySelector('[data-test="select-all"]')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  component.focus();
+  await sendKeys({ press: ' ' });
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0].selected).to.be.false;
+  expect(options[1].selected).to.be.false;
+});
+
+it('selects all options when none are selected and Select All is selected via Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+      select-all
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component?.shadowRoot
+    ?.querySelector('[data-test="select-all"]')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  component.focus();
+  await sendKeys({ press: 'Enter' });
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0].selected).to.be.true;
+  expect(options[1].selected).to.be.true;
+});
+
+it('selects all options when some are selected and Select All is selected via Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+      select-all
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component?.shadowRoot
+    ?.querySelector('[data-test="select-all"]')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  component.focus();
+  await sendKeys({ press: 'Enter' });
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0].selected).to.be.true;
+  expect(options[1].selected).to.be.true;
+});
+
+it('deselects all options when all are selected and Select All is selected via Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+      select-all
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component?.shadowRoot
+    ?.querySelector('[data-test="select-all"]')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  component.focus();
+  await sendKeys({ press: 'Enter' });
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
   expect(options[0].selected).to.be.false;
   expect(options[1].selected).to.be.false;
 });
@@ -1041,6 +1266,7 @@ it('sets Select All as indeterminate when not all options are selected', async (
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0].click();
+  await elementUpdated(component);
 
   const selectAll =
     component.shadowRoot?.querySelector<GlideCoreDropdownOption>(

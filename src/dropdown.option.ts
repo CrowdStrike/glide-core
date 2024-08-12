@@ -32,10 +32,13 @@ export default class GlideCoreDropdownOption extends LitElement {
   @property({ reflect: true })
   label?: string;
 
+  @property({ attribute: 'private-indeterminate', type: Boolean })
+  privateIndeterminate = false;
+
   @property({ attribute: 'private-multiple', type: Boolean })
   privateMultiple = false;
 
-  @property({ type: Boolean })
+  @property({ reflect: true, type: Boolean })
   get selected() {
     return this.#selected;
   }
@@ -81,9 +84,6 @@ export default class GlideCoreDropdownOption extends LitElement {
   privateActive = false;
 
   @state()
-  privateIndeterminate = false;
-
-  @state()
   private get isMultiple() {
     // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
     // By then, however, this component has has already completed its first render. So
@@ -95,10 +95,10 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   override click() {
-    if (this.isMultiple) {
-      this.selected = !this.selected;
-    } else if (!this.selected) {
-      this.selected = true;
+    if (this.privateMultiple) {
+      this.#checkboxElementRef.value?.click();
+    } else {
+      this.#componentElementRef.value?.click();
     }
   }
 
@@ -106,7 +106,7 @@ export default class GlideCoreDropdownOption extends LitElement {
     super.connectedCallback();
 
     // On the host instead of inside the shadow DOM so screenreaders can find this
-    // ID when it's assigned to `aria-activedescendant`.
+    // ID when it's assigned to `aria-activedescendant` in Dropdown itself.
     this.id = this.#id;
 
     // These three are likewise on the host due to `aria-activedescendant`. The active
@@ -123,7 +123,7 @@ export default class GlideCoreDropdownOption extends LitElement {
     }
   }
 
-  @property()
+  @property({ reflect: true })
   get value() {
     return this.#value;
   }
@@ -170,7 +170,6 @@ export default class GlideCoreDropdownOption extends LitElement {
         [this.privateSize]: true,
       })}
       data-test="component"
-      @click=${this.#onClick}
       ${ref(this.#componentElementRef)}
     >
       ${when(
@@ -188,8 +187,8 @@ export default class GlideCoreDropdownOption extends LitElement {
               private-variant="minimal"
               value=${this.value}
               internally-inert
+              @click=${this.#onCheckboxClick}
               ?indeterminate=${this.privateIndeterminate}
-              @change=${this.#onCheckboxChange}
               ${ref(this.#checkboxElementRef)}
             ></glide-core-checkbox>
           `;
@@ -243,20 +242,11 @@ export default class GlideCoreDropdownOption extends LitElement {
     return [...elements];
   }
 
-  #onCheckboxChange() {
-    this.selected = !this.selected;
-  }
-
-  #onClick(event: MouseEvent) {
-    // Checkboxes emit their own "click" events. Not ignoring them would mean
-    // setting `this.selected` three times: twice here (one each for the checkbox
-    // and its label) and again in `#onCheckboxChange`.
-    if (event.target === this.#checkboxElementRef.value) {
-      return;
-    }
-
-    if (!this.isMultiple && !this.selected) {
-      this.selected = true;
-    }
+  #onCheckboxClick(event: MouseEvent) {
+    // Checkboxes emit their own "click" events. Letting them propagate would
+    // mean Dropdown handling multiple "click" events and thus dispatching
+    // duplicate "change" and "input" events. So Dropdown listens for "input"
+    // for multiselect and "click" for single-select.
+    event.stopPropagation();
   }
 }

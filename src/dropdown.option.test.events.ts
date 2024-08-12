@@ -14,7 +14,7 @@ it('dispatches a "private-selected-change" event', async () => {
   );
 
   setTimeout(() => {
-    component.click();
+    component.selected = true;
   });
 
   const event = await oneEvent(component, 'private-selected-change');

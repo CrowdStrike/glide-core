@@ -27,11 +27,15 @@ it('has defaults', async () => {
   expect(component.privateSize).to.equal('large');
   expect(component.getAttribute('private-size')).to.equal('large');
 
+  expect(component.selected).to.equal(false);
+  expect(component.hasAttribute('selected')).to.be.false;
+
+  expect(component.value).to.equal('');
+  expect(component.getAttribute('value')).to.equal('');
+
   // None are reflected, so no attribute assertions are necessary.
   expect(component.privateActive).to.equal(false);
   expect(component.privateIndeterminate).to.equal(false);
-  expect(component.selected).to.equal(false);
-  expect(component.value).to.equal('');
 });
 
 it('can have a label', async () => {

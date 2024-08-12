@@ -1,12 +1,35 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { assert, expect, fixture, html } from '@open-wc/testing';
+import {
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+} from '@open-wc/testing';
 import { sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
+
+it('opens when opened programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.open = true;
+  await elementUpdated(component);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+});
 
 it('opens on ArrowUp', async () => {
   const component = await fixture<GlideCoreDropdown>(
@@ -21,10 +44,10 @@ it('opens on ArrowUp', async () => {
   component.focus();
   await sendKeys({ press: 'ArrowUp' });
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(option?.privateActive).to.be.true;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
 it('does not open on ArrowUp when `disabled`', async () => {
@@ -40,7 +63,10 @@ it('does not open on ArrowUp when `disabled`', async () => {
   component.focus();
   await sendKeys({ press: 'ArrowUp' });
 
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.false;
+  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
 });
 
 it('does not open on ArrowUp when `readonly`', async () => {
@@ -56,7 +82,10 @@ it('does not open on ArrowUp when `readonly`', async () => {
   component.focus();
   await sendKeys({ press: 'ArrowUp' });
 
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.false;
+  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
 });
 
 it('opens on ArrowDown', async () => {
@@ -77,10 +106,10 @@ it('opens on ArrowDown', async () => {
   component.focus();
   await sendKeys({ press: 'ArrowDown' });
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(option?.privateActive).to.be.true;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
 it('does not open on ArrowDown when `disabled`', async () => {
@@ -101,7 +130,10 @@ it('does not open on ArrowDown when `disabled`', async () => {
   component.focus();
   await sendKeys({ press: 'ArrowDown' });
 
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.false;
+  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
 });
 
 it('does not open on ArrowDown when `readonly`', async () => {
@@ -122,7 +154,10 @@ it('does not open on ArrowDown when `readonly`', async () => {
   component.focus();
   await sendKeys({ press: 'ArrowDown' });
 
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.false;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.not.be.ok;
 });
 
 it('opens on Space', async () => {
@@ -138,7 +173,10 @@ it('opens on Space', async () => {
   component.focus();
   await sendKeys({ press: ' ' });
 
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.true;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
 it('does not open on Space when `disabled`', async () => {
@@ -154,7 +192,10 @@ it('does not open on Space when `disabled`', async () => {
   component.focus();
   await sendKeys({ press: ' ' });
 
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.false;
+  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
 });
 
 it('does not open on Space when `readonly`', async () => {
@@ -170,7 +211,10 @@ it('does not open on Space when `readonly`', async () => {
   component.focus();
   await sendKeys({ press: ' ' });
 
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.false;
+  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
 });
 
 // See the `document` click listener comment in `dropdown.ts` for an explanation.
@@ -192,7 +236,12 @@ it('opens when opened programmatically via the click handler of another element'
   div.append(button);
   button.click();
 
+  await elementUpdated(component);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
   expect(component.open).to.be.true;
+  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
 it('closes when something outside of it is clicked', async () => {
