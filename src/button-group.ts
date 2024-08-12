@@ -143,7 +143,8 @@ export default class GlideCoreButtonGroup extends LitElement {
     if (event.target instanceof HTMLElement) {
       const button = event.target.closest('glide-core-button-group-button');
 
-      // TODO: say why not selected
+      // Guards against `button.selected` to prevent duplicate "change" and
+      // "input" events.
       if (button && !button.disabled && !button.selected) {
         button.selected = true;
       }

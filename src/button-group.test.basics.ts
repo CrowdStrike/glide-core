@@ -48,7 +48,7 @@ it('is accessible', async () => {
   );
 
   // It's unfortunate to ignore this rule. But the label doesn't meet color
-  // contrast requirements and doesn't need to because it's visually hidden.
+  // contrast requirements.
   // Axe has an `ignoreTags` but no `ignoreSelectors`.
   await expect(component).to.be.accessible({
     ignoredRules: ['color-contrast'],
