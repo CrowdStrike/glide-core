@@ -41,9 +41,7 @@ const meta: Meta = {
       >
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
-    <glide-core-button data-open
-      >Open Modal ${arguments_.size}</glide-core-button
-    >
+    <glide-core-button data-open>Open</glide-core-button>
   `,
   args: {
     label: 'Basic Modal',
@@ -132,7 +130,7 @@ export const WithBackButton: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open Modal</glide-core-button>
+    <glide-core-button data-open>Open</glide-core-button>
   `,
 };
 
@@ -154,7 +152,7 @@ export const HeaderActions: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open Modal</glide-core-button>
+    <glide-core-button data-open>Open</glide-core-button>
   `,
 };
 
@@ -176,7 +174,7 @@ export const HeaderActionsWithBackButton: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open Modal</glide-core-button>
+    <glide-core-button data-open>Open</glide-core-button>
   `,
 };
 
@@ -194,7 +192,7 @@ export const TertiaryButton: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open Modal</glide-core-button>
+    <glide-core-button data-open>Open</glide-core-button>
   `,
 };
 
@@ -224,6 +222,6 @@ export const TertiaryIcon: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open Modal</glide-core-button>
+    <glide-core-button data-open>Open</glide-core-button>
   `,
 };
