@@ -135,7 +135,7 @@ export const Default: StoryObj = {};
 export const WithCSSVariable: StoryObj = {
   name: 'Custom Width',
   render: () => html`
-    <glide-core-button data-trigger>Open/Close</glide-core-button>
+    <glide-core-button data-trigger>Toggle</glide-core-button>
 
     <glide-core-drawer style="--width: 20rem;">
       <div style="padding: 0.5rem">Width of 20rem</div>
