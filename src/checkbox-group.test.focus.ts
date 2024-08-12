@@ -9,17 +9,18 @@ import GlideCoreCheckboxGroup from './checkbox-group.js';
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
-it('focuses the first checkbox when `focus` is called', async () => {
+it('focuses the first enabled checkbox when `focus()` is called', async () => {
   const component = await fixture<GlideCoreCheckboxGroup>(
     html`<glide-core-checkbox-group label="Checkbox Group">
-      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+      <glide-core-checkbox label="One" disabled></glide-core-checkbox>
+      <glide-core-checkbox label="Two"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
   );
 
   component.focus();
 
   expect(document.activeElement).to.equal(
-    component.querySelector('glide-core-checkbox'),
+    component.querySelector('glide-core-checkbox:last-of-type'),
   );
 });
 

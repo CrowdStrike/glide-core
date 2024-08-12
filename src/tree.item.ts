@@ -68,8 +68,8 @@ export default class GlideCoreTreeItem extends LitElement {
     this.#setupChildren();
   }
 
-  override focus() {
-    this.#labelContainerElementRef.value?.focus();
+  override focus(options?: FocusOptions) {
+    this.#labelContainerElementRef.value?.focus(options);
   }
 
   get hasChildTreeItems() {

@@ -10,7 +10,7 @@ import GlideCoreRadioGroup from './radio-group.js';
 GlideCoreRadio.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 
-it('focuses the first radio when `focus` is called', async () => {
+it('focuses the first radio when `focus()` is called', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
       <glide-core-radio value="value-1" label="One"></glide-core-radio>

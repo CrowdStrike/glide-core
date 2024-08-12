@@ -7,7 +7,7 @@ import type GlideCoreTag from './tag.js';
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-it('focuses the button when `focus` is called', async () => {
+it('focuses the button when `focus()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option

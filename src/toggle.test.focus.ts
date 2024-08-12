@@ -3,7 +3,7 @@ import GlideCoreToggle from './toggle.js';
 
 GlideCoreToggle.shadowRootOptions.mode = 'open';
 
-it('focuses the input when `focus` is called', async () => {
+it('focuses the input when `focus()` is called', async () => {
   const component = await fixture<GlideCoreToggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );

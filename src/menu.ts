@@ -125,9 +125,11 @@ export default class GlideCoreMenu extends LitElement {
     }
   }
 
-  override focus() {
+  override focus(options?: FocusOptions) {
     if (this.#targetElement && 'focus' in this.#targetElement) {
-      (this.#targetElement as { focus: () => void })?.focus();
+      (
+        this.#targetElement as { focus: (options?: FocusOptions) => void }
+      )?.focus(options);
     }
   }
 

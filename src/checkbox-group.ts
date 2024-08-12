@@ -159,7 +159,9 @@ export default class GlideCoreCheckboxGroup extends LitElement {
   }
 
   override focus(options?: FocusOptions) {
-    this.#checkboxes.at(0)?.focus(options);
+    const checkbox = this.#checkboxes.find(({ disabled }) => !disabled);
+
+    checkbox?.focus(options);
   }
 
   formAssociatedCallback() {

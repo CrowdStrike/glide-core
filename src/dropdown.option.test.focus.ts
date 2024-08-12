@@ -3,7 +3,7 @@ import GlideCoreDropdownOption from './dropdown.option.js';
 
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-it('focuses itself when `focus` is called', async () => {
+it('focuses itself when `focus()` is called', async () => {
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
