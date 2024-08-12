@@ -1,5 +1,20 @@
-import { css } from 'lit';
+import { css, unsafeCSS } from 'lit';
 import visuallyHidden from './styles/visually-hidden.js';
+
+/**
+ * `field-sizing` is only supported in Chrome and Edge
+ * at the moment (https://caniuse.com/mdn-css_properties_field-sizing),
+ * making this a progressive enhancement. This functionality is additive,
+ * rather than required for use.
+ *
+ * `field-sizing` is also not recognized by lit-plugin, so we are seeing
+ * https://github.com/runem/lit-analyzer/issues/157 when
+ * attempting to use it directly in our CSS below. So this is a workaround
+ * for that bug for the time being.
+ */
+const fieldSizingContent = unsafeCSS(`
+  field-sizing: content;
+`);
 
 export default css`
   glide-core-label::part(tooltips-and-label) {
@@ -23,10 +38,13 @@ export default css`
     font-family: var(--glide-core-body-xs-font-family);
     font-size: var(--glide-core-body-sm-font-size);
     font-weight: var(--glide-core-body-xs-font-weight);
-    min-block-size: 1.1875rem;
+    max-block-size: 3lh;
+    min-block-size: 2lh;
     padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
     resize: vertical;
     transition: border-color 200ms ease-in-out;
+
+    ${fieldSizingContent};
 
     &:hover {
       border-color: var(--glide-core-border-base);
