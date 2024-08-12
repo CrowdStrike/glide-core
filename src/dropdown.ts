@@ -3,6 +3,7 @@ import './dropdown.option.js';
 import './label.js';
 import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
+import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -43,7 +44,19 @@ export default class GlideCoreDropdown extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true, type: Boolean })
-  disabled = false;
+  get disabled() {
+    return this.#isDisabled;
+  }
+
+  set disabled(isDisabled: boolean) {
+    this.#isDisabled = isDisabled;
+
+    if (this.open && isDisabled) {
+      this.#hide();
+    } else if (this.open) {
+      this.#show();
+    }
+  }
 
   @property({ attribute: 'hide-label', reflect: true, type: Boolean })
   hideLabel = false;
@@ -55,7 +68,19 @@ export default class GlideCoreDropdown extends LitElement {
   name?: string;
 
   @property({ reflect: true, type: Boolean })
-  open = false;
+  get open() {
+    return this.#isOpen;
+  }
+
+  set open(isOpen: boolean) {
+    this.#isOpen = isOpen;
+
+    if (isOpen && !this.disabled) {
+      this.#show();
+    } else {
+      this.#hide();
+    }
+  }
 
   @property({ reflect: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
@@ -232,6 +257,27 @@ export default class GlideCoreDropdown extends LitElement {
       GlideCoreDropdownOption,
       Text,
     ]);
+
+    if (this.#optionsElementRef.value) {
+      // `popover` is used so the options can break out of Modal or another container
+      // when the container is `overflow: hidden`. Though it's slightly more complicated
+      // than that. See the comment in `#show` for more.
+      //
+      // Set here instead of in the template to escape Lit Analzyer, which isn't
+      // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+      //
+      // "auto" means only one popover can be open at a time. Consumers, however, may
+      // have popovers in own components that need to be open while this one is open.
+      //
+      // "auto" also automatically opens the popover when its target is clicked. We want
+      // it to remain closed when clicked when there are no options. We also want it to
+      // close when every option has been filtered out.
+      this.#optionsElementRef.value.popover = 'manual';
+    }
+
+    if (this.open && !this.disabled) {
+      this.#show();
+    }
   }
 
   // The button doesn't receive focus when `shadowRoot.delegatesFocus` is set,
@@ -357,6 +403,7 @@ export default class GlideCoreDropdown extends LitElement {
             })}
             @click=${this.#onDropdownClick}
             @mousedown=${this.#onDropdownMousedown}
+            ${ref(this.#dropdownElementRef)}
           >
             <span class="selected-option-labels" id="selected-option-labels">
               ${this.selectedOptions
@@ -503,15 +550,8 @@ export default class GlideCoreDropdown extends LitElement {
 
           <div
             aria-labelledby=${this.isFilterable ? 'input' : 'button'}
-            class=${classMap({
-              options: true,
-              visible:
-                this.open && !this.disabled && !this.isEveryOptionFilteredOut,
-            })}
+            class="options"
             data-test="options"
-            data-test-visible=${this.open &&
-            !this.disabled &&
-            !this.isEveryOptionFilteredOut}
             id="options"
             role="listbox"
             @click=${this.#onOptionsClick}
@@ -521,6 +561,7 @@ export default class GlideCoreDropdown extends LitElement {
             @mouseover=${this.#onOptionsMouseover}
             @private-selected-change=${this.#onOptionsSelectedChange}
             @private-value-change=${this.#onOptionsValueChange}
+            ${ref(this.#optionsElementRef)}
           >
             <glide-core-dropdown-option
               class="select-all"
@@ -598,9 +639,6 @@ export default class GlideCoreDropdown extends LitElement {
   private isCheckingValidity = false;
 
   @state()
-  private isEveryOptionFilteredOut = false;
-
-  @state()
   private isFilterable = false;
 
   @state()
@@ -611,13 +649,21 @@ export default class GlideCoreDropdown extends LitElement {
 
   #buttonElementRef = createRef<HTMLButtonElement>();
 
+  #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
+
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #dropdownElementRef = createRef<HTMLElement>();
 
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
 
+  #isDisabled = false;
+
   #isMultiple = false;
+
+  #isOpen = false;
 
   #isRemovingTag = false;
 
@@ -628,6 +674,8 @@ export default class GlideCoreDropdown extends LitElement {
   #isSelectionViaSpaceOrEnter = false;
 
   #localize = new LocalizeController(this);
+
+  #optionsElementRef = createRef<HTMLElement>();
 
   #selectAllElementRef = createRef<GlideCoreDropdownOption>();
 
@@ -653,9 +701,9 @@ export default class GlideCoreDropdown extends LitElement {
         event.target instanceof GlideCoreDropdownOption
       )
     ) {
-      this.#close();
+      this.open = false;
     } else if (!this.multiple && !(event.target instanceof GlideCoreDropdown)) {
-      this.#close();
+      this.open = false;
     }
   };
 
@@ -667,8 +715,17 @@ export default class GlideCoreDropdown extends LitElement {
     }
   };
 
-  #close() {
-    this.open = false;
+  #deactivateAllOptions() {
+    if (this.#optionElementsIncludingSelectAll) {
+      for (const option of this.#optionElementsIncludingSelectAll) {
+        option.privateActive = false;
+      }
+    }
+  }
+
+  #hide() {
+    this.#cleanUpFloatingUi?.();
+    this.#optionsElementRef.value?.hidePopover();
     this.ariaActivedescendant = '';
   }
 
@@ -718,14 +775,6 @@ export default class GlideCoreDropdown extends LitElement {
       assignedElementsNotHidden
       ? [this.#selectAllElementRef.value, ...assignedElementsNotHidden]
       : assignedElementsNotHidden;
-  }
-
-  #deactivateAllOptions() {
-    if (this.#optionElementsIncludingSelectAll) {
-      for (const option of this.#optionElementsIncludingSelectAll) {
-        option.privateActive = false;
-      }
-    }
   }
 
   get #isShowValidationFeedback() {
@@ -812,7 +861,7 @@ export default class GlideCoreDropdown extends LitElement {
         !this.contains(event.relatedTarget));
 
     if (isFocusLost && !this.#isRemovingTag) {
-      this.#close();
+      this.open = false;
     }
 
     this.#onBlur();
@@ -827,7 +876,7 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     if (event.key === 'Escape') {
-      this.#close();
+      this.open = false;
       this.focus();
       return;
     }
@@ -856,7 +905,6 @@ export default class GlideCoreDropdown extends LitElement {
       event.preventDefault();
 
       this.open = true;
-      this.ariaActivedescendant = this.activeOption.id;
 
       // The user almost certainly wasn't intending to do both open Dropdown and change
       // the active option in the case of ArrowUp or ArrowDown. Thus return. The user
@@ -891,7 +939,7 @@ export default class GlideCoreDropdown extends LitElement {
           this.#unfilter();
 
           if (!this.multiple) {
-            this.#close();
+            this.open = false;
           }
 
           this.dispatchEvent(new Event('change', { bubbles: true }));
@@ -1017,7 +1065,7 @@ export default class GlideCoreDropdown extends LitElement {
       !this.#isSelectionViaSpaceOrEnter &&
       this.open
     ) {
-      this.#close();
+      this.open = false;
 
       // `event.detail` is an integer set to the number of clicks. When it's zero,
       // the event most likely originated from an Enter press. And, if Dropdown is part
@@ -1025,7 +1073,6 @@ export default class GlideCoreDropdown extends LitElement {
       // Thus we return, with or without a form for consistency.
     } else if (!this.open && event.detail !== 0 && this.activeOption) {
       this.open = true;
-      this.ariaActivedescendant = this.activeOption.id;
     }
   }
 
@@ -1054,7 +1101,6 @@ export default class GlideCoreDropdown extends LitElement {
     event.stopPropagation();
 
     if (this.activeOption) {
-      this.open = true;
       this.ariaActivedescendant = this.activeOption.id;
       this.isFiltering = this.#inputElementRef.value.value.trim() !== '';
 
@@ -1071,12 +1117,13 @@ export default class GlideCoreDropdown extends LitElement {
       if (firstVisibleOption && this.activeOption?.hidden) {
         this.#deactivateAllOptions();
         firstVisibleOption.privateActive = true;
-        this.ariaActivedescendant = firstVisibleOption.id;
       }
 
-      this.isEveryOptionFilteredOut =
+      this.open =
         !this.#optionElementsNotHidden ||
-        this.#optionElementsNotHidden.length === 0;
+        this.#optionElementsNotHidden.length === 0
+          ? false
+          : true;
     }
   }
 
@@ -1108,7 +1155,7 @@ export default class GlideCoreDropdown extends LitElement {
       this.#unfilter();
 
       if (!this.multiple) {
-        this.#close();
+        this.#hide();
       }
 
       this.dispatchEvent(new Event('change', { bubbles: true }));
@@ -1301,6 +1348,77 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     this.#isSelectionChangeFromSelectAll = false;
+  }
+
+  #show() {
+    // `#show` is called whenever `open` is set. And `open` can be set arbitrarily
+    // by the consumer. Rather than guarding against calling `#show` everywhere,
+    // Floating UI is simply cleaned up every time `#show` is called.
+    this.#cleanUpFloatingUi?.();
+
+    if (this.#dropdownElementRef.value && this.#optionsElementRef.value) {
+      // Dropdown's use of `popover` necessitates Floating UI and vice versa.
+      //
+      // Dropdown's options need to be able to break of Modal or another container
+      // with `overflow: hidden`.
+      //
+      // `popover` breaks out but isn't sufficient because `popover` elements are
+      // positioned relative to the viewport, even when they're `position: absolute`.
+      // So they require manual positioning.
+      //
+      // `position: fixed` and Floating UI (without `popover`) won't work either because
+      // Floating UI incorrectly positions elements that have an ancestor (like Modal)
+      // with a backdrop filter.
+      //
+      // Thus both `popover` and Floating UI. `popover` to work around a Floating UI bug.
+      // Or Floating UI to position `popover`. Whichever way you want to look at it.
+      //
+      //  https://github.com/floating-ui/floating-ui/issues/2955
+      this.#cleanUpFloatingUi = autoUpdate(
+        this.#dropdownElementRef.value,
+        this.#optionsElementRef.value,
+        () => {
+          (async () => {
+            if (
+              this.#dropdownElementRef.value &&
+              this.#optionsElementRef.value
+            ) {
+              const { x, y, placement } = await computePosition(
+                this.#dropdownElementRef.value,
+                this.#optionsElementRef.value,
+                {
+                  placement: 'bottom-start',
+                  middleware: [
+                    offset({
+                      mainAxis:
+                        Number.parseFloat(
+                          window
+                            .getComputedStyle(document.body)
+                            .getPropertyValue('--glide-core-spacing-xxs'),
+                        ) * 16,
+                    }),
+                    flip(),
+                  ],
+                },
+              );
+
+              this.#optionsElementRef.value.dataset.placement = placement;
+
+              Object.assign(this.#optionsElementRef.value.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+              });
+
+              this.#optionsElementRef.value?.showPopover();
+
+              if (this.activeOption) {
+                this.ariaActivedescendant = this.activeOption.id;
+              }
+            }
+          })();
+        },
+      );
+    }
   }
 
   #unfilter() {

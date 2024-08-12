@@ -2,6 +2,7 @@
 
 import { ArgumentError } from 'ow';
 import {
+  aTimeout,
   assert,
   elementUpdated,
   expect,
@@ -34,12 +35,13 @@ it('opens on click', async () => {
     ?.querySelector('[data-test="button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  await elementUpdated(component);
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('toggles open and closed when the button is clicked', async () => {
@@ -65,7 +67,7 @@ it('toggles open and closed when the button is clicked', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.not.be.ok;
+  expect(options?.checkVisibility()).to.not.be.ok;
 });
 
 it('does not toggle open and closed when the button overflow text is clicked', async () => {
@@ -86,12 +88,13 @@ it('does not toggle open and closed when the button overflow text is clicked', a
     ?.querySelector('[data-test="tag-overflow-text"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  await elementUpdated(component);
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('selects an option on click', async () => {
@@ -104,8 +107,12 @@ it('selects an option on click', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const option = component.querySelector('glide-core-dropdown-option');
   option?.click();
+
   await elementUpdated(component);
 
   const labels = component.shadowRoot?.querySelectorAll(
@@ -126,6 +133,9 @@ it('selects an option on Space', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
   option?.focus();
@@ -161,6 +171,9 @@ it('selects an option on Enter', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
   option?.focus();
@@ -250,6 +263,9 @@ it('closes when an option is selected via Enter', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.querySelector('glide-core-dropdown-option')?.focus();
   await sendKeys({ press: 'Enter' });
 
@@ -265,6 +281,9 @@ it('closes when an option is selected via Space', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
 
@@ -439,6 +458,9 @@ it('updates `value` when an option is selected via Enter', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0].focus();
@@ -451,7 +473,7 @@ it('updates `value` when an option is selected via Enter', async () => {
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
   // Wait for it to open.
-  await elementUpdated(component);
+  await aTimeout(0);
 
   options[1].focus();
   await sendKeys({ press: 'Enter' });
@@ -463,7 +485,7 @@ it('updates `value` when an option is selected via Enter', async () => {
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
   // Wait for it to open.
-  await elementUpdated(component);
+  await aTimeout(0);
 
   options[2].focus();
   await sendKeys({ press: 'Enter' });
@@ -487,6 +509,9 @@ it('updates `value` when an option is selected via Space', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0].focus();
@@ -499,7 +524,7 @@ it('updates `value` when an option is selected via Space', async () => {
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
   // Wait for it to open.
-  await elementUpdated(component);
+  await aTimeout(0);
 
   options[1].focus();
   await sendKeys({ press: ' ' });
@@ -512,7 +537,7 @@ it('updates `value` when an option is selected via Space', async () => {
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
   // Wait for it to open.
-  await elementUpdated(component);
+  await aTimeout(0);
 
   options[2].focus();
   await sendKeys({ press: ' ' });
@@ -669,6 +694,9 @@ it('does not select an option on Enter when the option is not focused', async ()
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
   option?.focus();

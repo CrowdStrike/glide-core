@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import {
+  aTimeout,
   assert,
   elementUpdated,
   expect,
@@ -39,12 +40,13 @@ it('opens on click', async () => {
     ?.querySelector('[data-test="button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  await elementUpdated(component);
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('toggles open and closed when the button is clicked', async () => {
@@ -80,7 +82,7 @@ it('toggles open and closed when the button is clicked', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.not.be.ok;
+  expect(options?.checkVisibility()).to.not.be.ok;
 });
 
 it('does not toggle open and closed when the button overflow text is clicked', async () => {
@@ -111,12 +113,13 @@ it('does not toggle open and closed when the button overflow text is clicked', a
     ?.querySelector('[data-test="tag-overflow-text"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  await elementUpdated(component);
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('selects options on click', async () => {
@@ -175,6 +178,9 @@ it('selects options on Space', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.focus();
@@ -215,6 +221,9 @@ it('selects options on Enter', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
@@ -537,6 +546,9 @@ it('updates `value` when a option is selected or deselected via Enter', async ()
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1].focus();
@@ -572,6 +584,9 @@ it('updates `value` when an option is selected or deselected via Space', async (
       <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
@@ -1150,7 +1165,12 @@ it('deselects all options when all are selected and Select All is selected via E
 
 it('shows Select All', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -1163,6 +1183,9 @@ it('shows Select All', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   component.selectAll = true;
   await elementUpdated(component);
@@ -1395,6 +1418,9 @@ it('does not select an option on Enter when the option is not focused', async ()
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
   option?.focus();

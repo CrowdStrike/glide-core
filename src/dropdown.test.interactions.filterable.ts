@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import {
+  aTimeout,
   assert,
   elementUpdated,
   expect,
@@ -86,12 +87,13 @@ it('opens on click', async () => {
     ?.querySelector('[data-test="input"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  await elementUpdated(component);
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('filters', async () => {
@@ -117,6 +119,9 @@ it('unfilters when an option is selected via click', async () => {
       ${defaultSlot}
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   component.focus();
   await sendKeys({ type: ' one ' });
@@ -195,10 +200,13 @@ it('hides the magnifying glass icon when there is no filter term', async () => {
 
 it('hides the magnifying glass icon when an option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       ${defaultSlot}
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   component.focus();
   await sendKeys({ type: ' one ' });
@@ -241,14 +249,20 @@ it('hides the options when all of them are filtered out', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
-  await sendKeys({ type: 'twelve' });
+  await sendKeys({ type: 'fifty' });
+
+  // Wait for it to close.
+  await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="options"]',
   );
 
-  expect(options?.dataset.testVisible).to.equal('false');
+  expect(options?.checkVisibility()).to.be.not.ok;
 });
 
 it('hides Select All when filtering', async () => {
@@ -426,6 +440,9 @@ it('sets `aria-activedescendant` on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.focus();
@@ -449,6 +466,9 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
       ${defaultSlot}
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
@@ -476,6 +496,9 @@ it('sets `aria-activedescendant` on Home', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
@@ -502,6 +525,9 @@ it('sets `aria-activedescendant` on PageUp', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
@@ -516,7 +542,7 @@ it('sets `aria-activedescendant` on PageUp', async () => {
   expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0].id);
 });
 
-it('sets `aria-activedescendant` on ArrowUp + Meta', async () => {
+it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -528,11 +554,14 @@ it('sets `aria-activedescendant` on ArrowUp + Meta', async () => {
     </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
+  // Wait for it to open.
+  await aTimeout(0);
 
+  component.focus();
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
-  options[1].focus();
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowUp' });
   await sendKeys({ up: 'Meta' });
@@ -559,7 +588,8 @@ it('sets `aria-activedescendant` on open via click', async () => {
     ?.querySelector('[data-test="button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  await elementUpdated(component);
+  // Wait for it to open.
+  await aTimeout(0);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -601,12 +631,16 @@ it('sets `aria-activedescendant` on End', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
+  component.focus();
+
   // Made into an array because the linter forces `at(-1)` instead of
   // `[options.length - 1]` but doesn't take into account that `options`
   // isn't an actual array and doesn't have an `at()` method.
   const options = [...component.querySelectorAll('glide-core-dropdown-option')];
 
-  options[0]?.focus();
   await sendKeys({ press: 'End' });
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
@@ -630,11 +664,15 @@ it('sets `aria-activedescendant` on PageDown', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
+  component.focus();
+
   // Made into an array because the linter forces `at(-1)` instead of
   // `[options.length - 1]` but doesn't take into account that `options`
   // isn't an actual array and doesn't have an `at()` method.
   const options = [...component.querySelectorAll('glide-core-dropdown-option')];
-  options[0]?.focus();
 
   await sendKeys({ press: 'PageDown' });
 
@@ -659,11 +697,15 @@ it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
+  component.focus();
+
   // Spread into an array because the linter forces `at(-1)` instead of
   // `[options.length - 1]` but doesn't take into account that `options`
   // isn't an actual array and doesn't have an `at()` method.
   const options = [...component.querySelectorAll('glide-core-dropdown-option')];
-  options[0]?.focus();
 
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowDown' });

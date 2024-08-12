@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './dropdown.option.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdown from './dropdown.js';
 import type GlideCoreDropdownOption from './dropdown.option.js';
 
@@ -144,6 +144,7 @@ it('shows Select All', async () => {
       placeholder="Placeholder"
       multiple
       select-all
+      open
     >
       <glide-core-dropdown-option
         label="One"
@@ -158,12 +159,15 @@ it('shows Select All', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const selectAll =
     component.shadowRoot?.querySelector<GlideCoreDropdownOption>(
       '[data-test="select-all"]',
     );
 
-  expect(selectAll?.checkVisibility()).to.be.ok;
+  expect(selectAll?.checkVisibility()).to.be.true;
 });
 
 it('sets Select All as selected when all options are initially selected', async () => {
