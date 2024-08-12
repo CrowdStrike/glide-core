@@ -107,6 +107,7 @@ export default class GlideCoreTabGroup extends LitElement {
           class="tab-group"
           ${ref(this.#tabListElementRef)}
           @scroll=${this.#onScroll}
+          @focusout=${this.#onFocusout}
         >
           <slot
             name="nav"
@@ -204,6 +205,16 @@ export default class GlideCoreTabGroup extends LitElement {
     this.#scrollTabsList('left', true);
   };
 
+  #onFocusout = () => {
+    // Set the last active as tabbable so that when pressing shift + tab on the tab panel
+    // focus goes back to the last active tab.
+    // The `focusout` event is used since it bubbles up from the tab.
+
+    for (const [, tabElement] of this.tabElements.entries()) {
+      tabElement.tabIndex = tabElement === this.activeTab ? 0 : -1;
+    }
+  };
+
   #onKeydown = (event: KeyboardEvent) => {
     const target = event.target as HTMLElement;
     const targetTab = target.closest('glide-core-tab');
@@ -266,6 +277,15 @@ export default class GlideCoreTabGroup extends LitElement {
         this.tabElements[index].focus({
           preventScroll: false,
         });
+
+        // Set the last tab nagivated to as tabbable so that, if the tab
+        // button is pressed, then focus moves to the tab's panel and not back
+        // to the last active tab. This is particularly noticeable when the active tab
+        // is to the left of the tab navigated to by keyboard.
+
+        for (const [, tabElement] of this.tabElements.entries()) {
+          tabElement.tabIndex = this.tabElements[index] === tabElement ? 0 : -1;
+        }
 
         this.#setOverflowButtonsVisibility();
 
@@ -376,17 +396,15 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #setActiveTab() {
     for (const [index, tabElement] of this.tabElements.entries()) {
-      let isActive;
-
       // If there is no current active tab, default to the first tab
       if (!this.activeTab && index === 0) {
         this.activeTab = tabElement;
-        isActive = true;
+        this.activeTab.active = true;
+        this.activeTab.tabIndex = 0;
       } else {
-        isActive = this.activeTab === tabElement;
+        tabElement.active = this.activeTab === tabElement;
+        tabElement.tabIndex = this.activeTab === tabElement ? 0 : -1;
       }
-
-      tabElement.active = isActive;
     }
 
     for (const panel of this.panelElements) {
@@ -394,6 +412,7 @@ export default class GlideCoreTabGroup extends LitElement {
       const thisPanelName = panel.getAttribute('name');
 
       panel.isActive = thisPanelName === activeTabPanelName;
+      panel.tabIndex = thisPanelName === activeTabPanelName ? 0 : -1;
     }
   }
 
@@ -449,10 +468,21 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #setupTabs() {
     for (const tabElement of this.tabElements) {
-      for (const panel of this.panelElements) {
-        tabElement.setAttribute('aria-controls', panel.getAttribute('id')!);
-        panel.setAttribute('aria-labelledby', tabElement.getAttribute('id')!);
-      }
+      const relatedPanel = this.panelElements
+        .filter((panel) => panel.name === tabElement.panel)
+        ?.at(0);
+
+      ow(relatedPanel, ow.object.instanceOf(GlideCoreTabPanel));
+
+      tabElement.setAttribute(
+        'aria-controls',
+        relatedPanel.getAttribute('id')!,
+      );
+
+      relatedPanel.setAttribute(
+        'aria-labelledby',
+        tabElement.getAttribute('id')!,
+      );
     }
   }
 

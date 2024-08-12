@@ -432,3 +432,246 @@ it('scrolls using keyboard when there is overflow and only a few pixels of overf
 
   expect(spy.called).to.be.true;
 });
+
+it('has only one active tab that is tabbable when using the keyboard to make selections', async () => {
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+      <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+      <glide-core-tab slot="nav" panel="4">Tab 4</glide-core-tab>
+
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+      <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+      <glide-core-tab-panel name="4">Content for Tab 4</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const [firstTab, secondTab, thirdTab, fourthTab] = tabGroup.tabElements;
+
+  expect(firstTab.active).to.be.true;
+  expect(secondTab.active).to.be.false;
+  expect(thirdTab.active).to.be.false;
+  expect(fourthTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(0);
+  expect(secondTab.tabIndex).to.equal(-1);
+  expect(thirdTab.tabIndex).to.equal(-1);
+  expect(fourthTab.tabIndex).to.equal(-1);
+
+  firstTab.focus();
+  await sendKeys({ press: 'ArrowRight' });
+  await sendKeys({ press: 'Enter' });
+
+  expect(firstTab.active).to.be.false;
+  expect(secondTab.active).to.be.true;
+  expect(thirdTab.active).to.be.false;
+  expect(fourthTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(-1);
+  expect(secondTab.tabIndex).to.equal(0);
+  expect(thirdTab.tabIndex).to.equal(-1);
+  expect(fourthTab.tabIndex).to.equal(-1);
+
+  fourthTab.focus();
+  await sendKeys({ press: 'Enter' });
+  await sendKeys({ press: 'ArrowLeft' });
+  await sendKeys({ press: 'Enter' });
+
+  expect(firstTab.active).to.be.false;
+  expect(secondTab.active).to.be.false;
+  expect(thirdTab.active).to.be.true;
+  expect(fourthTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(-1);
+  expect(secondTab.tabIndex).to.equal(-1);
+  expect(thirdTab.tabIndex).to.equal(0);
+  expect(fourthTab.tabIndex).to.equal(-1);
+
+  await sendKeys({ press: 'Home' });
+  await sendKeys({ press: 'Enter' });
+
+  expect(firstTab.active).to.be.true;
+  expect(secondTab.active).to.be.false;
+  expect(thirdTab.active).to.be.false;
+  expect(fourthTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(0);
+  expect(secondTab.tabIndex).to.equal(-1);
+  expect(thirdTab.tabIndex).to.equal(-1);
+  expect(fourthTab.tabIndex).to.equal(-1);
+
+  await sendKeys({ press: 'End' });
+  await sendKeys({ press: 'Enter' });
+
+  expect(firstTab.active).to.be.false;
+  expect(secondTab.active).to.be.false;
+  expect(thirdTab.active).to.be.false;
+  expect(fourthTab.active).to.be.true;
+  expect(firstTab.tabIndex).to.equal(-1);
+  expect(secondTab.tabIndex).to.equal(-1);
+  expect(thirdTab.tabIndex).to.equal(-1);
+  expect(fourthTab.tabIndex).to.equal(0);
+});
+
+it('has only one active tab that is tabbable when clicked', async () => {
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+      <glide-core-tab slot="nav" panel="3">Tab 3</glide-core-tab>
+
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+      <glide-core-tab-panel name="3">Content for Tab 3</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const [firstTab, secondTab, thirdTab] = tabGroup.tabElements;
+
+  expect(firstTab.active).to.be.true;
+  expect(secondTab.active).to.be.false;
+  expect(thirdTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(0);
+  expect(secondTab.tabIndex).to.equal(-1);
+  expect(thirdTab.tabIndex).to.equal(-1);
+
+  secondTab.click();
+
+  expect(firstTab.active).to.be.false;
+  expect(secondTab.active).to.be.true;
+  expect(thirdTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(-1);
+  expect(secondTab.tabIndex).to.equal(0);
+  expect(thirdTab.tabIndex).to.equal(-1);
+
+  thirdTab.click();
+
+  expect(firstTab.active).to.be.false;
+  expect(secondTab.active).to.be.false;
+  expect(thirdTab.active).to.be.true;
+  expect(firstTab.tabIndex).to.equal(-1);
+  expect(secondTab.tabIndex).to.equal(-1);
+  expect(thirdTab.tabIndex).to.equal(0);
+});
+
+it('has only one tab panel that is active and tabbable when a tab clicked', async () => {
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const [, secondTab] = tabGroup.tabElements;
+  const [firstPanel, secondPanel] = tabGroup.panelElements;
+
+  expect(firstPanel.isActive).to.be.true;
+  expect(secondPanel.isActive).to.be.false;
+  expect(firstPanel.tabIndex).to.equal(0);
+  expect(secondPanel.tabIndex).to.equal(-1);
+
+  secondTab.click();
+
+  expect(firstPanel.isActive).to.be.false;
+  expect(secondPanel.isActive).to.be.true;
+  expect(firstPanel.tabIndex).to.equal(-1);
+  expect(secondPanel.tabIndex).to.equal(0);
+});
+
+it('has only one tab panel that is active and tabbable when using the keyboard to make selections', async () => {
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const [firstTab] = tabGroup.tabElements;
+  const [firstPanel, secondPanel] = tabGroup.panelElements;
+
+  expect(firstPanel.isActive).to.be.true;
+  expect(secondPanel.isActive).to.be.false;
+  expect(firstPanel.tabIndex).to.equal(0);
+  expect(secondPanel.tabIndex).to.equal(-1);
+
+  firstTab.focus();
+
+  await sendKeys({ press: 'ArrowRight' });
+  await sendKeys({ press: 'Enter' });
+
+  expect(firstPanel.isActive).to.be.false;
+  expect(secondPanel.isActive).to.be.true;
+  expect(firstPanel.tabIndex).to.equal(-1);
+  expect(secondPanel.tabIndex).to.equal(0);
+});
+
+it('sets the last keyboard focused tab as tabbable ', async () => {
+  // This behavior is to ensure that the next tabbable element in the component is
+  // the corresponding tab's panel.
+
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const [firstTab, secondTab] = tabGroup.tabElements;
+
+  expect(firstTab.active).to.be.true;
+  expect(secondTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(0);
+  expect(secondTab.tabIndex).to.equal(-1);
+
+  firstTab.focus();
+  await sendKeys({ press: 'ArrowRight' });
+
+  expect(firstTab.active).to.be.true;
+  expect(secondTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(-1);
+  expect(secondTab.tabIndex).to.equal(0);
+});
+
+it('sets the active tab as tabbable on tab blur', async () => {
+  // This behavior is to ensure that the last active tab is the first tabbable
+  // element in the component.
+
+  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+      <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
+
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Content for Tab 2</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const [firstTab, secondTab] = tabGroup.tabElements;
+
+  expect(firstTab.active).to.be.true;
+  expect(secondTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(0);
+  expect(secondTab.tabIndex).to.equal(-1);
+
+  firstTab.focus();
+  await sendKeys({ press: 'ArrowRight' });
+
+  expect(firstTab.active).to.be.true;
+  expect(secondTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(-1);
+  expect(secondTab.tabIndex).to.equal(0);
+
+  secondTab.blur();
+
+  expect(firstTab.active).to.be.true;
+  expect(secondTab.active).to.be.false;
+  expect(firstTab.tabIndex).to.equal(0);
+  expect(secondTab.tabIndex).to.equal(-1);
+});

@@ -1,6 +1,7 @@
 import { LitElement, type PropertyValues, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
+import { nanoid } from 'nanoid';
 import styles from './tab.panel.styles.js';
 
 declare global {
@@ -37,9 +38,7 @@ export default class GlideCoreTabPanel extends LitElement {
   protected override firstUpdated() {
     this.setAttribute('role', 'tabpanel');
 
-    if (!this.hasAttribute('id')) {
-      this.id = `glide-core-tab-panel-${GlideCoreTabPanel.instanceCount++}`;
-    }
+    this.id = this.#id;
   }
 
   override render() {
@@ -60,4 +59,6 @@ export default class GlideCoreTabPanel extends LitElement {
       this.setAttribute('aria-hidden', this.isActive ? 'false' : 'true');
     }
   }
+
+  #id = nanoid();
 }
