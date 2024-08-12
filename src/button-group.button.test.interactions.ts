@@ -51,6 +51,7 @@ it('sets `aria-disabled` when enabled programmatically', async () => {
   const component = await fixture<GlideCoreButtonGroupButton>(
     html`<glide-core-button-group-button
       label="Button"
+      disabled
     ></glide-core-button-group-button>`,
   );
 
