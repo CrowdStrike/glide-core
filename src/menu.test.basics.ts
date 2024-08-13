@@ -213,7 +213,7 @@ it('throws if it does not have a "target" slot', async () => {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('sets accessibility attributes', async () => {

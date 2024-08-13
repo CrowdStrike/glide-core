@@ -23,7 +23,7 @@ it('navigates when the spacebar is pressed', async () => {
 
   await sendKeys({ press: ' ' });
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 
   window.open = windowOpen;
 });

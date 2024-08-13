@@ -151,5 +151,5 @@ it('throws when icon-only and no "prefix" slot', async () => {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });

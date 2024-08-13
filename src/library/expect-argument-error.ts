@@ -32,7 +32,7 @@ export default async function (callback: () => Promise<unknown>) {
     }
   }
 
-  expect(spy.called).to.be.true;
+  expect(spy.callCount).to.equal(1);
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = onerror;

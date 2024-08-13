@@ -78,5 +78,5 @@ it('does not dispatch "input" events on input', async () => {
   component.focus();
   await sendKeys({ type: ' one ' });
 
-  expect(spy.notCalled).to.be.true;
+  expect(spy.callCount).to.equal(0);
 });

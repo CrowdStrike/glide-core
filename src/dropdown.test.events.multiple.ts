@@ -49,7 +49,7 @@ it('dispatches one "change" event when an option is selected via click', async (
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "change" event when an option is selected via Enter', async () => {
@@ -89,7 +89,7 @@ it('dispatches one "change" event when an option is selected via Enter', async (
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "change" event when an option is selected via Space', async () => {
@@ -129,7 +129,7 @@ it('dispatches one "change" event when an option is selected via Space', async (
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "input" event when an option is selected via click', async () => {
@@ -172,7 +172,7 @@ it('dispatches one "input" event when an option is selected via click', async ()
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "input" event when an option is selected via Enter', async () => {
@@ -212,7 +212,7 @@ it('dispatches one "input" event when an option is selected via Enter', async ()
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "input" event when an option is selected via Space', async () => {
@@ -252,7 +252,7 @@ it('dispatches one "input" event when an option is selected via Space', async ()
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "change" event when Select All is clicked', async () => {
@@ -287,7 +287,7 @@ it('dispatches one "change" event when Select All is clicked', async () => {
   });
 
   await aTimeout(0);
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "input" event when Select All is clicked', async () => {
@@ -322,7 +322,7 @@ it('dispatches one "input" event when Select All is clicked', async () => {
   });
 
   await aTimeout(0);
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('does not dispatch a "change" event when `value` is changed programmatically', async () => {
@@ -359,7 +359,7 @@ it('does not dispatch a "change" event when `value` is changed programmatically'
   });
 
   await aTimeout(0);
-  expect(spy.called).to.be.false;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('continues to dispatch "change" events upon selection after `value` is changed programmatically', async () => {
@@ -437,7 +437,7 @@ it('does not dispatch an "input" event when `value` is changed programmatically'
   });
 
   await aTimeout(0);
-  expect(spy.called).to.be.false;
+  expect(spy.callCount).to.equal(0);
 });
 
 it('continues to dispatch "input" events upon selection after `value` is changed programmatically', async () => {
@@ -519,7 +519,7 @@ it('dispatches one "change" event when an option is selected after Select All is
   });
 
   await aTimeout(0);
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "input" event when an option is selected after Select All is clicked', async () => {
@@ -560,7 +560,7 @@ it('dispatches one "input" event when an option is selected after Select All is 
   });
 
   await aTimeout(0);
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "change" event when a tag is removed', async () => {
@@ -594,7 +594,7 @@ it('dispatches one "change" event when a tag is removed', async () => {
   component.addEventListener('change', spy);
 
   await aTimeout(0);
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
 
 it('dispatches one "input" event when a tag is removed', async () => {
@@ -628,5 +628,5 @@ it('dispatches one "input" event when a tag is removed', async () => {
   component.addEventListener('input', spy);
 
   await aTimeout(0);
-  expect(spy.calledOnce).to.be.true;
+  expect(spy.callCount).to.equal(1);
 });
