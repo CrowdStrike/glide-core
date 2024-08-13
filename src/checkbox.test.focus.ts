@@ -3,7 +3,7 @@ import GlideCoreCheckbox from './checkbox.js';
 
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
-it('focuses the input when `focus` is called', async () => {
+it('focuses the input when `focus()` is called', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );

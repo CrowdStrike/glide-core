@@ -6,7 +6,7 @@ import Input from './input.js';
 
 Input.shadowRootOptions.mode = 'open';
 
-it('focuses the input when `focus` is called', async () => {
+it('focuses the input when `focus()` is called', async () => {
   const input = await fixture<Input>(
     html`<glide-core-input required></glide-core-input>`,
   );

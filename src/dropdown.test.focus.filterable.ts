@@ -64,7 +64,7 @@ const defaultSlot = html`
   ></glide-core-dropdown-option>
 `;
 
-it('focuses the input when `focus` is called', async () => {
+it('focuses the input when `focus()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       ${defaultSlot}

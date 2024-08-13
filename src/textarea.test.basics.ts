@@ -178,7 +178,7 @@ it('returns the content of the textarea when getting the `value` property', asyn
   expect(element.value).to.equal('test text');
 });
 
-it('focuses the textarea when `focus` is called', async () => {
+it('focuses the textarea when `focus()` is called', async () => {
   const template = `<glide-core-textarea value="" label="label"></glide-core-textarea>`;
   const element = await fixture<GlideCoreTextarea>(template);
   element.focus();
