@@ -206,7 +206,7 @@ export default class GlideCoreTabGroup extends LitElement {
   };
 
   #onFocusout = () => {
-    // Set the last active as tabbable so that when pressing shift + tab on the tab panel
+    // Set the last active tab as tabbable so that when pressing shift + tab on the tab panel
     // focus goes back to the last active tab.
     // The `focusout` event is used since it bubbles up from the tab.
 
@@ -278,7 +278,7 @@ export default class GlideCoreTabGroup extends LitElement {
           preventScroll: false,
         });
 
-        // Set the last tab nagivated to as tabbable so that, if the tab
+        // Set the last tab navigated to as tabbable so that, if the tab
         // button is pressed, then focus moves to the tab's panel and not back
         // to the last active tab. This is particularly noticeable when the active tab
         // is to the left of the tab navigated to by keyboard.

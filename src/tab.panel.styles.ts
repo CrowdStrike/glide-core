@@ -16,10 +16,6 @@ export default [
     .component {
       font-family: var(--glide-core-font-sans);
       outline: none;
-
-      &:focus {
-        outline: none;
-      }
     }
 
     .hidden {

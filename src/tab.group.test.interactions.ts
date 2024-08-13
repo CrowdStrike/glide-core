@@ -433,7 +433,7 @@ it('scrolls using keyboard when there is overflow and only a few pixels of overf
   expect(spy.called).to.be.true;
 });
 
-it('has only one active tab that is tabbable when using the keyboard to make selections', async () => {
+it('has only one active tab that is tabbable after pressing the Enter key', async () => {
   const tabGroup = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -472,8 +472,18 @@ it('has only one active tab that is tabbable when using the keyboard to make sel
   expect(thirdTab.tabIndex).to.equal(-1);
   expect(fourthTab.tabIndex).to.equal(-1);
 
-  fourthTab.focus();
+  await sendKeys({ press: 'End' });
   await sendKeys({ press: 'Enter' });
+
+  expect(firstTab.active).to.be.false;
+  expect(secondTab.active).to.be.false;
+  expect(thirdTab.active).to.be.false;
+  expect(fourthTab.active).to.be.true;
+  expect(firstTab.tabIndex).to.equal(-1);
+  expect(secondTab.tabIndex).to.equal(-1);
+  expect(thirdTab.tabIndex).to.equal(-1);
+  expect(fourthTab.tabIndex).to.equal(0);
+
   await sendKeys({ press: 'ArrowLeft' });
   await sendKeys({ press: 'Enter' });
 
@@ -497,18 +507,6 @@ it('has only one active tab that is tabbable when using the keyboard to make sel
   expect(secondTab.tabIndex).to.equal(-1);
   expect(thirdTab.tabIndex).to.equal(-1);
   expect(fourthTab.tabIndex).to.equal(-1);
-
-  await sendKeys({ press: 'End' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(firstTab.active).to.be.false;
-  expect(secondTab.active).to.be.false;
-  expect(thirdTab.active).to.be.false;
-  expect(fourthTab.active).to.be.true;
-  expect(firstTab.tabIndex).to.equal(-1);
-  expect(secondTab.tabIndex).to.equal(-1);
-  expect(thirdTab.tabIndex).to.equal(-1);
-  expect(fourthTab.tabIndex).to.equal(0);
 });
 
 it('has only one active tab that is tabbable when clicked', async () => {
@@ -552,7 +550,7 @@ it('has only one active tab that is tabbable when clicked', async () => {
   expect(thirdTab.tabIndex).to.equal(0);
 });
 
-it('has only one tab panel that is active and tabbable when a tab clicked', async () => {
+it('has only one tab panel that is active and tabbable when a tab is clicked', async () => {
   const tabGroup = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -610,9 +608,6 @@ it('has only one tab panel that is active and tabbable when using the keyboard t
 });
 
 it('sets the last keyboard focused tab as tabbable ', async () => {
-  // This behavior is to ensure that the next tabbable element in the component is
-  // the corresponding tab's panel.
-
   const tabGroup = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
