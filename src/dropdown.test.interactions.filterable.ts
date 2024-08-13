@@ -262,7 +262,7 @@ it('hides the options when all of them are filtered out', async () => {
     '[data-test="options"]',
   );
 
-  expect(options?.checkVisibility()).to.be.not.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('hides Select All when filtering', async () => {

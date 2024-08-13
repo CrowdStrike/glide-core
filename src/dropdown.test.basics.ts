@@ -95,7 +95,7 @@ it('cannot be open when disabled', async () => {
 
   const options = component?.shadowRoot?.querySelector('[data-test="options"]');
 
-  expect(options?.checkVisibility()).to.not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('can have a label', async () => {

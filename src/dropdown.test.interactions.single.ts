@@ -67,7 +67,7 @@ it('toggles open and closed when the button is clicked', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility()).to.not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('does not toggle open and closed when the button overflow text is clicked', async () => {

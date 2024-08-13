@@ -263,11 +263,11 @@ export default class GlideCoreDropdown extends LitElement {
       // when the container is `overflow: hidden`. Though it's slightly more complicated
       // than that. See the comment in `#show` for more.
       //
-      // Set here instead of in the template to escape Lit Analzyer, which isn't
+      // Set here instead of in the template to escape Lit Analyzer, which isn't
       // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
       //
       // "auto" means only one popover can be open at a time. Consumers, however, may
-      // have popovers in own components that need to be open while this one is open.
+      // have popovers in their own components that need to be open while this one is open.
       //
       // "auto" also automatically opens the popover when its target is clicked. We want
       // it to remain closed when clicked when there are no options. We also want it to
@@ -1359,7 +1359,7 @@ export default class GlideCoreDropdown extends LitElement {
     if (this.#dropdownElementRef.value && this.#optionsElementRef.value) {
       // Dropdown's use of `popover` necessitates Floating UI and vice versa.
       //
-      // Dropdown's options need to be able to break of Modal or another container
+      // Dropdown's options need to be able to break out of Modal or another container
       // with `overflow: hidden`.
       //
       // `popover` breaks out but isn't sufficient because `popover` elements are

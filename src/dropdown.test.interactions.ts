@@ -60,7 +60,7 @@ it('does not open on ArrowUp when `disabled`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility()).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('does not open on ArrowUp when `readonly`', async () => {
@@ -79,7 +79,7 @@ it('does not open on ArrowUp when `readonly`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility()).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('opens on ArrowDown', async () => {
@@ -127,7 +127,7 @@ it('does not open on ArrowDown when `disabled`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility()).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('does not open on ArrowDown when `readonly`', async () => {
@@ -151,7 +151,7 @@ it('does not open on ArrowDown when `readonly`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility()).to.not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('opens on Space', async () => {
@@ -189,7 +189,7 @@ it('does not open on Space when `disabled`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility()).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('does not open on Space when `readonly`', async () => {
@@ -208,7 +208,7 @@ it('does not open on Space when `readonly`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility()).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 // See the `document` click listener comment in `dropdown.ts` for an explanation.
@@ -343,7 +343,7 @@ it('closes when open and disabled programmatically', async () => {
   component.disabled = true;
 
   const options = component?.shadowRoot?.querySelector('[data-test="options"]');
-  expect(options?.checkVisibility()).to.not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('activates an option on "mouseover"', async () => {
