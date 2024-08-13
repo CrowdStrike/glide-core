@@ -1395,7 +1395,11 @@ export default class GlideCoreDropdown extends LitElement {
                           window
                             .getComputedStyle(document.body)
                             .getPropertyValue('--glide-core-spacing-xxs'),
-                        ) * 16,
+                        ) *
+                        Number.parseFloat(
+                          window.getComputedStyle(document.documentElement)
+                            .fontSize,
+                        ),
                     }),
                     flip(),
                   ],
