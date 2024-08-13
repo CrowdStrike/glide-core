@@ -18,6 +18,9 @@ export default [
     .component {
       /* https://github.com/CrowdStrike/glide-core/pull/119#issuecomment-2113314591 */
       display: flex;
+
+      /* https://css-tricks.com/flexbox-truncated-text/#aa-the-solution-is-min-width-0-on-the-flex-child */
+      min-inline-size: 0;
       position: relative;
     }
 
@@ -25,10 +28,13 @@ export default [
       background-color: transparent;
       border-width: 0;
 
-      /* Additional whitespace from line height and the tooltip won't be vertically centered. */
+      /* 
+        Additional whitespace from line height and the tooltip won't be vertically 
+        centered against its target. 
+      */
       display: flex;
 
-      /* Allows the consumer to style the target using "text-overflow: ellipsis". */
+      /* Allows the consumer to style the target with an ellipsis when its text is truncated. */
       inline-size: 100%;
       padding: 0;
       position: relative;

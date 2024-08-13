@@ -1,4 +1,6 @@
 import './button.js';
+import './dropdown.js';
+import './dropdown.option.js';
 import './icons/storybook.js';
 import './modal.js';
 import './modal.tertiary-icon.js';
@@ -35,6 +37,39 @@ const meta: Meta = {
       size=${arguments_.size ?? nothing}
     >
       ${arguments_['slot="default"']}
+
+      <glide-core-dropdown label="Label" placeholder="Placeholder">
+        <glide-core-dropdown-option
+          label="One"
+          value="one"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Two"
+          value="two"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Three"
+          value="three"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Four"
+          value="four"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Five"
+          value="five"
+        ></glide-core-dropdown-option>
+
+        <div slot="description">${arguments_['slot="description"']}</div>
+
+        ${arguments_['slot="tooltip"']
+          ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
+          : ''}
+      </glide-core-dropdown>
 
       <glide-core-button slot="secondary" variant="tertiary"
         >Secondary</glide-core-button

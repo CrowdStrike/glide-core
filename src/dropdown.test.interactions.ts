@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
@@ -25,10 +19,10 @@ it('opens when opened programmatically', async () => {
   );
 
   component.open = true;
-  await elementUpdated(component);
+  await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('opens on ArrowUp', async () => {
@@ -47,7 +41,7 @@ it('opens on ArrowUp', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('does not open on ArrowUp when `disabled`', async () => {
@@ -66,7 +60,7 @@ it('does not open on ArrowUp when `disabled`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('does not open on ArrowUp when `readonly`', async () => {
@@ -85,7 +79,7 @@ it('does not open on ArrowUp when `readonly`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('opens on ArrowDown', async () => {
@@ -109,7 +103,7 @@ it('opens on ArrowDown', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('does not open on ArrowDown when `disabled`', async () => {
@@ -133,7 +127,7 @@ it('does not open on ArrowDown when `disabled`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('does not open on ArrowDown when `readonly`', async () => {
@@ -157,7 +151,7 @@ it('does not open on ArrowDown when `readonly`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('opens on Space', async () => {
@@ -176,7 +170,7 @@ it('opens on Space', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('does not open on Space when `disabled`', async () => {
@@ -195,7 +189,7 @@ it('does not open on Space when `disabled`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('does not open on Space when `readonly`', async () => {
@@ -214,7 +208,7 @@ it('does not open on Space when `readonly`', async () => {
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
-  expect(options?.checkVisibility({ visibilityProperty: true })).not.be.ok;
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 // See the `document` click listener comment in `dropdown.ts` for an explanation.
@@ -236,12 +230,13 @@ it('opens when opened programmatically via the click handler of another element'
   div.append(button);
   button.click();
 
-  await elementUpdated(component);
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
-  expect(options?.checkVisibility({ visibilityProperty: true })).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('closes when something outside of it is clicked', async () => {
@@ -296,6 +291,61 @@ it('closes on Escape', async () => {
   expect(component.open).to.be.false;
 });
 
+it('opens when open and enabled programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      disabled
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.disabled = false;
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const options = component?.shadowRoot?.querySelector('[data-test="options"]');
+  expect(options?.checkVisibility()).to.be.true;
+});
+
+it('closes when open and disabled programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  component.disabled = true;
+
+  const options = component?.shadowRoot?.querySelector('[data-test="options"]');
+  expect(options?.checkVisibility()).to.be.false;
+});
+
 it('activates an option on "mouseover"', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
@@ -332,6 +382,9 @@ it('activates the next option on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.focus();
@@ -355,6 +408,9 @@ it('activates the previous option on ArrowUp', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
@@ -383,6 +439,9 @@ it('activates the first option on Home', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
@@ -410,6 +469,9 @@ it('activates the first option on PageUp', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
@@ -436,6 +498,9 @@ it('activates the first option on ArrowUp + Meta', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
@@ -466,6 +531,9 @@ it('activates the last option on End', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.focus();
@@ -490,6 +558,9 @@ it('activates the last option on PageDown', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
   options[0]?.focus();
 
@@ -513,6 +584,9 @@ it('activates the last option on Meta + ArrowDown', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
   options[0]?.focus();

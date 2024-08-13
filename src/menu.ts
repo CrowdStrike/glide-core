@@ -536,7 +536,11 @@ export default class GlideCoreMenu extends LitElement {
                           window
                             .getComputedStyle(document.body)
                             .getPropertyValue('--glide-core-spacing-xxs'),
-                        ) * 16,
+                        ) *
+                        Number.parseFloat(
+                          window.getComputedStyle(document.documentElement)
+                            .fontSize,
+                        ),
                     }),
                     flip(),
                   ],

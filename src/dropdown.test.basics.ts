@@ -2,7 +2,7 @@
 
 import './dropdown.option.js';
 import { ArgumentError } from 'ow';
-import { expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { repeat } from 'lit/directives/repeat.js';
 import GlideCoreDropdown from './dropdown.js';
 import expectArgumentError from './library/expect-argument-error.js';
@@ -68,11 +68,34 @@ it('can be open', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.true;
   expect(component.hasAttribute('open')).to.be.true;
   expect(options?.checkVisibility()).to.be.true;
+});
+
+it('cannot be open when disabled', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      disabled
+    >
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = component?.shadowRoot?.querySelector('[data-test="options"]');
+
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('can have a label', async () => {

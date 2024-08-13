@@ -89,24 +89,10 @@ export default [
       border-radius: var(--glide-core-spacing-xs);
       box-shadow: var(--glide-core-shadow-lg);
       box-sizing: border-box;
-      inset-block-start: 100%;
-      inset-inline-start: 0;
-      margin-block: var(--glide-core-spacing-xxs) 0;
+      inset: unset;
       min-inline-size: var(--min-inline-size);
       padding: var(--glide-core-spacing-xxxs);
       position: absolute;
-      visibility: hidden;
-
-      /*
-      ".dropdown-and-options" is relative and many Dropdowns may be stacked in a column.
-      This ensures the ".options" of Dropdowns earlier in the column aren't obscured by
-      the ".dropdown-and-options" that come later.
-    */
-      z-index: 1;
-
-      &.visible {
-        visibility: visible;
-      }
     }
 
     .select-all {

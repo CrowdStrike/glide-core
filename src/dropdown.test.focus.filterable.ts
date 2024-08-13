@@ -1,5 +1,5 @@
 import './dropdown.option.js';
-import { assert, expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
@@ -89,6 +89,9 @@ it('retains focus on the input when an option is selected via click', async () =
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const option = component.querySelector('glide-core-dropdown-option');
@@ -97,7 +100,7 @@ it('retains focus on the input when an option is selected via click', async () =
   const { x, y } = option.getBoundingClientRect();
 
   // A simple `option.click()` won't do because we need a "mousedown" so that
-  // `#onOptionsMousedown` gets covered.
+  // `#onOptionsMousedown` is covered.
   await sendMouse({
     type: 'click',
     position: [Math.ceil(x), Math.ceil(y)],
@@ -109,10 +112,13 @@ it('retains focus on the input when an option is selected via click', async () =
 
 it('retains focus on the the input when an option is selected via Enter', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       ${defaultSlot}
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   component.focus();
 
@@ -129,7 +135,7 @@ it('retains focus on the the input when an option is selected via Enter', async 
 
 it('retains focus on the the input when the button is clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       ${defaultSlot}
     </glide-core-dropdown>`,
   );

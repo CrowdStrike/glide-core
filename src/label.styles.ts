@@ -116,7 +116,9 @@ export default [
     }
 
     .label-overflow-tooltip {
+      display: flex;
       inline-size: 100%;
+      justify-content: flex-start;
     }
 
     .required-symbol {
