@@ -8,7 +8,6 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
-import { svg } from 'lit/static-html.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
@@ -329,7 +328,7 @@ export default class GlideCoreDropdown extends LitElement {
       })}
       @blur=${this.#onBlur}
     >
-      <glide-core-label
+      <glide-core-private-label
         split=${ifDefined(this.privateSplit ?? undefined)}
         orientation=${this.orientation}
         ?disabled=${this.disabled}
@@ -477,7 +476,7 @@ export default class GlideCoreDropdown extends LitElement {
                   </div>`;
                 },
                 () => {
-                  return svg`<svg
+                  return html`<svg
                     aria-label=${this.#localize.term('open')}
                     class=${classMap({
                       'caret-icon': true,
@@ -541,7 +540,7 @@ export default class GlideCoreDropdown extends LitElement {
         </div>
 
         <slot id="description" name="description" slot="description"></slot>
-      </glide-core-label>
+      </glide-core-private-label>
     </div>`;
   }
 

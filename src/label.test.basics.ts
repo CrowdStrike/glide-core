@@ -8,17 +8,17 @@ import sinon from 'sinon';
 GlideCoreLabel.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-label')).to.equal(
+  expect(window.customElements.get('glide-core-private-label')).to.equal(
     GlideCoreLabel,
   );
 });
 
 it('has defaults', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label>
+    html`<glide-core-private-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
-    </glide-core-label>`,
+    </glide-core-private-label>`,
   );
 
   expect(component.getAttribute('error')).to.equal(null);
@@ -36,12 +36,12 @@ it('has defaults', async () => {
 
 it('is accessible', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label>
+    html`<glide-core-private-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="tooltip">Tooltip</div>
       <div slot="description">Description</div>
-    </glide-core-label>`,
+    </glide-core-private-label>`,
   );
 
   await expect(component).to.be.accessible();
@@ -49,10 +49,10 @@ it('is accessible', async () => {
 
 it('can have a label', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label>
+    html`<glide-core-private-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
-    </glide-core-label>`,
+    </glide-core-private-label>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -64,11 +64,11 @@ it('can have a label', async () => {
 
 it('can have a description', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label>
+    html`<glide-core-private-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="description">Description</div>
-    </glide-core-label>`,
+    </glide-core-private-label>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -80,11 +80,11 @@ it('can have a description', async () => {
 
 it('can have a tooltip', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label>
+    html`<glide-core-private-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="tooltip">Tooltip</div>
-    </glide-core-label>`,
+    </glide-core-private-label>`,
   );
 
   const assignedElements = component.shadowRoot
@@ -96,10 +96,10 @@ it('can have a tooltip', async () => {
 
 it('can be required', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label required>
+    html`<glide-core-private-label required>
       <label for="input">Label</label>
       <input id="input" slot="control" />
-    </glide-core-label>`,
+    </glide-core-private-label>`,
   );
 
   expect(component.hasAttribute('required')).to.be.true;
@@ -111,10 +111,10 @@ it('can be required', async () => {
 
 it('can have an `error`', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label ?error=${true}>
+    html`<glide-core-private-label ?error=${true}>
       <label for="input">Label</label>
       <input id="input" slot="control" />
-    </glide-core-label>`,
+    </glide-core-private-label>`,
   );
 
   expect(component.hasAttribute('error')).to.be.true;
@@ -123,11 +123,11 @@ it('can have an `error`', async () => {
 
 it('places the tooltip on the bottom when horizontal', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label>
+    html`<glide-core-private-label>
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="tooltip">Tooltip</div>
-    </glide-core-label>`,
+    </glide-core-private-label>`,
   );
 
   expect(
@@ -139,11 +139,11 @@ it('places the tooltip on the bottom when horizontal', async () => {
 
 it('places the tooltip on the right when vertical', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-label orientation="vertical">
+    html`<glide-core-private-label orientation="vertical">
       <label for="input">Label</label>
       <input id="input" slot="control" />
       <div slot="tooltip">Tooltip</div>
-    </glide-core-label>`,
+    </glide-core-private-label>`,
   );
 
   expect(
@@ -158,7 +158,9 @@ it('throws if it does not have a default slot', async () => {
 
   try {
     await fixture(
-      html`<glide-core-label><input slot="control" /></glide-core-label>`,
+      html`<glide-core-private-label
+        ><input slot="control"
+      /></glide-core-private-label>`,
     );
   } catch (error) {
     if (error instanceof ArgumentError) {
@@ -175,9 +177,9 @@ it('throws if it does not have a "control" slot', async () => {
 
   try {
     await fixture(
-      html`<glide-core-label>
+      html`<glide-core-private-label>
         <label>Label</label>
-      </glide-core-label>`,
+      </glide-core-private-label>`,
     );
   } catch (error) {
     if (error instanceof ArgumentError) {

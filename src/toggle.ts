@@ -63,7 +63,7 @@ export default class GlideCoreToggle extends LitElement {
 
   override render() {
     return html`<div data-test="component">
-      <glide-core-label
+      <glide-core-private-label
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         ?disabled=${this.disabled}
@@ -120,7 +120,7 @@ export default class GlideCoreToggle extends LitElement {
           name="description"
           slot="description"
         ></slot>
-      </glide-core-label>
+      </glide-core-private-label>
     </div>`;
   }
 

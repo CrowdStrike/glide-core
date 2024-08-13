@@ -125,6 +125,6 @@ it('blurs the textarea and reports validity if `blur` is called', async () => {
 
   expect(textarea.validity.valid).to.equal(false);
 
-  expect(textarea.shadowRoot?.querySelector('glide-core-label')?.error).to.be
-    .true;
+  expect(textarea.shadowRoot?.querySelector('glide-core-private-label')?.error)
+    .to.be.true;
 });

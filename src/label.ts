@@ -30,7 +30,7 @@ const infoCircleIcon = svg`
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-label': GlideCoreLabel;
+    'glide-core-private-label': GlideCoreLabel;
   }
 }
 
@@ -45,7 +45,7 @@ declare global {
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
  */
-@customElement('glide-core-label')
+@customElement('glide-core-private-label')
 export default class GlideCoreLabel extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

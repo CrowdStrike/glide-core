@@ -180,7 +180,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
       data-test="component"
       ${ref(this.#componentElementRef)}
     >
-      <glide-core-label
+      <glide-core-private-label
         split=${ifDefined(this.privateSplit ?? undefined)}
         ?hide=${this.hideLabel}
         ?disabled=${this.disabled}
@@ -201,7 +201,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
         </div>
 
         <slot id="description" name="description" slot="description"></slot>
-      </glide-core-label>
+      </glide-core-private-label>
     </div>`;
   }
 

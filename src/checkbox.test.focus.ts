@@ -89,6 +89,6 @@ it('blurs the input and reports validity if `blur` is called', async () => {
   expect(component.validity.valid).to.equal(false);
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-label')?.error,
+    component.shadowRoot?.querySelector('glide-core-private-label')?.error,
   ).to.equal(true);
 });
