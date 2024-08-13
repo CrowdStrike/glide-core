@@ -592,9 +592,9 @@ In particular, static strings are helpful for screenreaders so that our componen
 
 The process for adding static strings is as follows:
 
-1. Update the type definition at `src/library/localize.ts` to include your new string.
-2. Add the new string directly to `src/translations/en.ts`. This is what will be used in code.
-3. Add the new string in the JSON format to `src/translations/en.json`.
+1. Update the type definition at [`src/library/localize.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/library/localize.ts) to include your new string.
+2. Add the new string directly to [`src/translations/en.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.ts). This is what will be used in code.
+3. Add the new string in the JSON format to [`src/translations/en.json`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.json).
 4. Copy the additions from `src/translations/en.ts` and `src/translations/en.json` to the other language files.
 
 The non-English languages will fallback to English until they are translated.
