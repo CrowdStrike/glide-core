@@ -174,3 +174,23 @@ it('is valid if no value and required but disabled', async () => {
     'false',
   );
 });
+
+it('updates validity when `required` and `value` is changed programmatically', async () => {
+  const input = await fixture<Input>(
+    html`<glide-core-input label="Label" required></glide-core-input>`,
+  );
+
+  expect(input.validity?.valid).to.be.false;
+  expect(input.validity?.valueMissing).to.be.true;
+  expect(input.checkValidity()).to.be.false;
+  expect(input.reportValidity()).to.be.false;
+
+  input.value = 'text';
+
+  await elementUpdated(input);
+
+  expect(input.validity?.valid).to.be.true;
+  expect(input.validity?.valueMissing).to.be.false;
+  expect(input.checkValidity()).to.be.true;
+  expect(input.reportValidity()).to.be.true;
+});

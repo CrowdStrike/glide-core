@@ -137,6 +137,10 @@ export default class GlideCoreInput extends LitElement {
   }
 
   get validity() {
+    if (this.required && this.value) {
+      this.#internals.setValidity({});
+    }
+
     return this.#internals.validity;
   }
 
