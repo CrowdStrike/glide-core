@@ -11,12 +11,16 @@ const translation: Translation = {
   dismiss: 'Dismiss',
   open: 'Open',
   selectAll: 'Select all',
-  clearEntry: 'Clear entry',
   moreInformation: 'More information',
   nextTab: 'Next tab',
   notifications: 'Notifications',
   previousTab: 'Previous tab',
 
+  announcedCharacterCount: (current: number, maximum: number) =>
+    `Character count ${current} of ${maximum}`,
+  displayedCharacterCount: (current: number, maximum: number) =>
+    `${current}/${maximum}`,
+  clearEntry: (label: string) => `Clear ${label} entry`,
   removeTag: (label: string) => `Remove tag: ${label}`,
 };
 

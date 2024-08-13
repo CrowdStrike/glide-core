@@ -1,10 +1,10 @@
 import './label.js';
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { when } from 'lit/directives/when.js';
 import ow from './library/ow.js';
 import styles from './textarea.styles.js';
 
@@ -143,6 +143,8 @@ export default class GlideCoreTextarea extends LitElement {
 
       <div class="textarea-container" slot="control">
         <textarea
+          aria-invalid=${this.#isShowValidationFeedback ||
+          this.#isInvalidCharacterLength}
           class=${classMap({
             error:
               this.#isShowValidationFeedback || this.#isInvalidCharacterLength,
@@ -165,27 +167,33 @@ export default class GlideCoreTextarea extends LitElement {
         </textarea>
       </div>
 
-      <div
-        class="meta"
-        data-test-description-container
-        id="meta"
-        slot="description"
-      >
+      <div class="meta" id="meta" slot="description">
         <slot name="description"></slot>
 
-        ${when(
-          this.maxlength,
-          () =>
-            html`<div
+        ${this.maxlength
+          ? html`<div
               class=${classMap({
                 'character-count': true,
                 error: this.#isInvalidCharacterLength,
               })}
-              data-test-maxlength
+              data-test="character-count-container"
             >
-              ${this.value.length}/${this.maxlength}
-            </div>`,
-        )}
+              <span aria-hidden="true" data-test="character-count-text">
+                ${this.#localize.term(
+                  'displayedCharacterCount',
+                  this.value.length,
+                  this.maxlength,
+                )}
+              </span>
+              <span class="hidden" data-test="character-count-announcement"
+                >${this.#localize.term(
+                  'announcedCharacterCount',
+                  this.value.length,
+                  this.maxlength,
+                )}</span
+              >
+            </div>`
+          : nothing}
       </div></glide-core-private-label
     >`;
   }
@@ -229,6 +237,8 @@ export default class GlideCoreTextarea extends LitElement {
   private isReportValidityOrSubmit = false;
 
   #internals: ElementInternals;
+
+  #localize = new LocalizeController(this);
 
   #textareaElementRef = createRef<HTMLTextAreaElement>();
 

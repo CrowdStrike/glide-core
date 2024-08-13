@@ -3,10 +3,12 @@
   "dismiss": "Congédier",
   "open": "Ouvrir",
   "selectAll": "Tout sélectionner",
-  "clearEntry": "Effacer l’entrée",
   "moreInformation": "Plus d’informations",
   "notifications": "Notifications",
   "removeTag": "Supprimer la balise : {label}",
-  "nextTab": "",
-  "previousTab": ""
+  "nextTab": "Next tab",
+  "previousTab": "Previous tab",
+  "announcedCharacterCount": "Character count {current} of {maximum}",
+  "displayedCharacterCount": "{current}/{maximum}",
+  "clearEntry": "Clear {label} entry"
 }

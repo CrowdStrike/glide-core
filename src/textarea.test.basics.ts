@@ -114,24 +114,39 @@ it('renders a slot with description', async () => {
   expect(contentRendered?.textContent).to.be.equal('Description');
 });
 
+it('displays visually hidden character count text for screenreaders', async () => {
+  const template = `<glide-core-textarea label="label" maxlength="10"></glide-core-textarea>`;
+  const element = await fixture<GlideCoreTextarea>(template);
+
+  const maxCharacterCountAnnouncement = element.shadowRoot?.querySelector(
+    '[data-test="character-count-announcement"]',
+  );
+
+  expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.equal(
+    'Character count 0 of 10',
+  );
+});
+
 it('renders a character count when attribute `maxlength` is set greater than zero', async () => {
   const template = `<glide-core-textarea value="value" label="label" maxlength="10"><span slot="description">Description</span></glide-core-textarea>`;
   const element = await fixture<GlideCoreTextarea>(template);
 
-  const container = element.shadowRoot!.querySelector('[data-test-maxlength]');
+  const container = element.shadowRoot!.querySelector(
+    '[data-test="character-count-text"]',
+  );
 
   expect(container?.textContent?.trim()).to.be.equal('5/10');
 });
 
 it('does not render a character count when attribute `maxlength` is set less than than zero', async () => {
-  const template = `<glide-core-textarea value="value" label="label" maxlength="0"><span slot="description" data-test-content>Description</span></glide-core-textarea>`;
+  const template = `<glide-core-textarea value="value" label="label" maxlength="0"><span slot="description">Description</span></glide-core-textarea>`;
   const element = await fixture<GlideCoreTextarea>(template);
 
-  const container = element.shadowRoot!.querySelector(
-    '[data-test-description-container]',
+  const container = element.shadowRoot?.querySelector(
+    '[data-test="character-count-container"]',
   );
 
-  expect(container?.textContent?.trim()).to.be.equal('');
+  expect(container).to.be.null;
 });
 
 it('focuses the textarea when the label is clicked', async () => {

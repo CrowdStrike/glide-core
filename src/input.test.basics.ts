@@ -80,8 +80,9 @@ it('changes to type text when password is revealed', async () => {
   expect(inputElement).to.exist;
   expect(inputElement?.getAttribute('type')).to.equal('password');
 
-  const passwordToggle =
-    element.shadowRoot?.querySelector<HTMLButtonElement>('.password-toggle');
+  const passwordToggle = element.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="password-toggle"]',
+  );
 
   passwordToggle?.click();
   await element.updateComplete;
@@ -100,8 +101,9 @@ it('shows search icon with type search', async () => {
   expect(inputElement).to.exist;
   expect(inputElement?.getAttribute('type')).to.equal('search');
 
-  const searchIcon =
-    element.shadowRoot?.querySelector<HTMLButtonElement>('.search-icon');
+  const searchIcon = element.shadowRoot?.querySelector(
+    '[data-test="search-icon"]',
+  );
 
   expect(searchIcon).to.exist;
 });
@@ -151,8 +153,9 @@ it('clearable attribute allows for a button which can clear input', async () => 
     <glide-core-input label="Test" clearable></glide-core-input>
   `);
 
-  const clearButton =
-    element.shadowRoot?.querySelector<HTMLButtonElement>('.clear-icon-button');
+  const clearButton = element.shadowRoot?.querySelector<HTMLButtonElement>(
+    '[data-test="clear-button"]',
+  );
 
   element.focus();
 
@@ -182,10 +185,37 @@ it('displays a max character and current character count if maxlength is provide
     <glide-core-input label="Test label" maxlength="5"></glide-core-input>
   `);
 
-  const maxCharacterCountContainer =
-    element.shadowRoot?.querySelector<HTMLDivElement>('.character-count');
+  const maxCharacterCountText = element.shadowRoot?.querySelector(
+    '[data-test="character-count-text"]',
+  );
 
-  expect(maxCharacterCountContainer?.textContent?.trim()).to.be.equal('0/5');
+  expect(maxCharacterCountText?.textContent?.trim()).to.equal('0/5');
+});
+
+it('displays visually hidden character count text for screenreaders', async () => {
+  const element = await fixture<GlideCoreInput>(html`
+    <glide-core-input label="Test label" maxlength="5"></glide-core-input>
+  `);
+
+  const maxCharacterCountAnnouncement = element.shadowRoot?.querySelector(
+    '[data-test="character-count-announcement"]',
+  );
+
+  expect(maxCharacterCountAnnouncement?.textContent?.trim()).to.equal(
+    'Character count 0 of 5',
+  );
+});
+
+it('does not render a character count when attribute `maxlength` is set less than than zero', async () => {
+  const element = await fixture<GlideCoreInput>(html`
+    <glide-core-input label="Test label" maxlength="0"></glide-core-input>
+  `);
+
+  const container = element.shadowRoot?.querySelector(
+    '[data-test="character-count-container"]',
+  );
+
+  expect(container).to.be.null;
 });
 
 it('supports a "tooltip" slot', async () => {

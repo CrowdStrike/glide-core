@@ -220,6 +220,8 @@ export default class GlideCoreInput extends LitElement {
 
           <input
             aria-describedby="meta"
+            aria-invalid=${this.#isShowValidationFeedback ||
+            this.#isMaxCharacterCountExceeded}
             id="input"
             type=${this.type === 'password' && this.passwordVisible
               ? 'text'
@@ -246,13 +248,14 @@ export default class GlideCoreInput extends LitElement {
                     'clear-icon-button': true,
                     'clear-icon-button--visible': this.isClearIconVisible,
                   })}
-                  aria-label=${this.#localize.term('clearEntry')}
+                  data-test="clear-button"
+                  label=${this.#localize.term('clearEntry', this.label!)}
                   @click=${this.#onClearClick}
-                  tabindex="-1"
                 >
                   <slot name="clear-icon">
                     <!-- X icon -->
                     <svg
+                      aria-hidden="true"
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
@@ -281,6 +284,7 @@ export default class GlideCoreInput extends LitElement {
                 <glide-core-icon-button
                   variant="tertiary"
                   class="password-toggle"
+                  data-test="password-toggle"
                   aria-label=${this.passwordVisible
                     ? 'Hide password'
                     : 'Show password'}
@@ -292,6 +296,7 @@ export default class GlideCoreInput extends LitElement {
                   ${this.passwordVisible
                     ? // Eye icon with slash
                       html`<svg
+                        aria-hidden="true"
                         width="16"
                         height="16"
                         fill="none"
@@ -307,6 +312,7 @@ export default class GlideCoreInput extends LitElement {
                       </svg> `
                     : // Eye icon
                       html`<svg
+                        aria-hidden="true"
                         width="16"
                         height="16"
                         fill="none"
@@ -346,8 +352,28 @@ export default class GlideCoreInput extends LitElement {
                     'character-count': true,
                     error: this.#isMaxCharacterCountExceeded,
                   })}
+                  data-test="character-count-container"
                 >
-                  ${this.valueCharacterCount}/${this.maxlength}
+                  <!--
+                    "aria-hidden" is used here so that the character counter
+                    is not read aloud to screenreaders twice as we have a
+                    more accesible, verbose description below.
+                  -->
+                  <span aria-hidden="true" data-test="character-count-text">
+                    ${this.#localize.term(
+                      'displayedCharacterCount',
+                      this.valueCharacterCount,
+                      this.maxlength,
+                    )}
+                  </span>
+
+                  <span class="hidden" data-test="character-count-announcement"
+                    >${this.#localize.term(
+                      'announcedCharacterCount',
+                      this.valueCharacterCount,
+                      this.maxlength,
+                    )}</span
+                  >
                 </div>
               `
             : nothing}
@@ -502,11 +528,19 @@ export default class GlideCoreInput extends LitElement {
   async #setValidityToInputValidity() {
     await this.updateComplete;
 
-    this.#internals.setValidity(
-      this.#inputElement?.validity,
-      this.#inputElement?.validationMessage,
-      this.#inputElement,
-    );
+    if (this.#isMaxCharacterCountExceeded) {
+      this.#internals.setValidity(
+        { tooLong: true },
+        ' ',
+        this.#inputElementRef.value,
+      );
+    } else {
+      this.#internals.setValidity(
+        this.#inputElement?.validity,
+        this.#inputElement?.validationMessage,
+        this.#inputElement,
+      );
+    }
 
     if (this.isReportValidityOrSubmit) {
       this.reportValidity();

@@ -10,12 +10,16 @@ const translation: Translation = {
   dismiss: 'Congédier',
   open: 'Ouvrir',
   selectAll: 'Tout sélectionner',
-  clearEntry: 'Effacer l’entrée',
   moreInformation: 'Plus d’informations',
   notifications: 'Notifications',
-  nextTab: '',
-  previousTab: '',
+  nextTab: 'Next tab',
+  previousTab: 'Previous tab',
 
+  announcedCharacterCount: (current: number, maximum: number) =>
+    `Character count ${current} of ${maximum}`,
+  displayedCharacterCount: (current: number, maximum: number) =>
+    `${current}/${maximum}`,
+  clearEntry: (label: string) => `Clear ${label} entry`,
   removeTag: (label: string) => `Supprimer la balise : ${label}`,
 };
 
