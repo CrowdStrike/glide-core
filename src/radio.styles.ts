@@ -109,11 +109,5 @@ export default [
         }
       }
     }
-
-    /* @media (prefers-reduced-motion: reduce) {
-      .component .radio-circle.checked::after {
-        animation: none !important;
-      }
-    } */
   `,
 ];
