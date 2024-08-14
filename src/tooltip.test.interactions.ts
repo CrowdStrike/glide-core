@@ -2,6 +2,7 @@
 
 import './tooltip.js';
 import {
+  aTimeout,
   elementUpdated,
   expect,
   fixture,
@@ -26,7 +27,8 @@ it('is visible on "focusin"', async () => {
     ?.querySelector('[aria-labelledby="tooltip"]')
     ?.dispatchEvent(new FocusEvent('focusin'));
 
-  await elementUpdated(component);
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   expect(
     component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
@@ -225,4 +227,39 @@ it('remains hidden if "mouseout" fires before the "mouseover" delay completes', 
   ).to.be.false;
 
   clock.restore();
+});
+
+// This would be better served by a visual regression test. It exists only
+// to meet our coverage threshold, so the `middlewareData.arrow.y` branch
+// is hit.
+it('positions the tooltip when `placement="right"`', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip
+      placement="right"
+      style="align-items: center; display: flex; height: 100vh; justify-content:center; width: 100vw;"
+    >
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector('[aria-labelledby="tooltip"]')
+    ?.dispatchEvent(new FocusEvent('focusin'));
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const tooltipContainer = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  const arrow = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="arrow"]',
+  );
+
+  expect(tooltipContainer?.style.left).to.not.be.empty.string;
+  expect(tooltipContainer?.style.top).to.not.be.empty.string;
+  expect(arrow?.style.left).to.be.empty.string;
+  expect(arrow?.style.top).to.not.be.empty.string;
 });

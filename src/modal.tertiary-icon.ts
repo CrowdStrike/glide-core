@@ -3,8 +3,8 @@ import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { owSlot } from './library/ow.js';
 import GlideCoreTooltip from './tooltip.js';
-import ow, { owSlot } from './library/ow.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -37,10 +37,7 @@ export default class GlideCoreModalTertiaryIcon extends LitElement {
 
   override render() {
     return html`
-      <glide-core-tooltip
-        placement=${this.tooltipPlacement}
-        ${ref(this.#tooltipElementRef)}
-      >
+      <glide-core-tooltip placement="left" ${ref(this.#tooltipElementRef)}>
         ${this.label}
         <span tabindex="0" aria-label=${ifDefined(this.label)} slot="target">
           <slot
@@ -50,11 +47,6 @@ export default class GlideCoreModalTertiaryIcon extends LitElement {
         </span>
       </glide-core-tooltip>
     `;
-  }
-
-  setContainingBlock(containingBlock: HTMLElement) {
-    ow(this.#tooltipElementRef.value, ow.object.instanceOf(GlideCoreTooltip));
-    this.#tooltipElementRef.value.containingBlock = containingBlock;
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();

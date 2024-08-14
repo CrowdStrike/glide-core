@@ -49,7 +49,7 @@ it('opens on click', async () => {
 
   component.querySelector('button')?.click();
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -78,7 +78,7 @@ it('opens when `open` is set programmatically', async () => {
 
   component.open = true;
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -111,7 +111,7 @@ it('opens when `disabled` is set programmatically on its target', async () => {
   target.disabled = false;
   target.click();
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -143,7 +143,7 @@ it('opens when `aria-disabled` is set programmatically on its target', async () 
   target.ariaDisabled = 'false';
   target.click();
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -169,7 +169,7 @@ it('closes when `open` is set programmatically', async () => {
     </glide-core-menu>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.open = false;
@@ -197,7 +197,7 @@ it('does not open on click when there are no options', async () => {
 
   component.querySelector('button')?.click();
 
-  // Wait for it to not open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -225,7 +225,7 @@ it('does not open when `disabled` is set on its target', async () => {
 
   component.querySelector('button')?.click();
 
-  // Wait for it to not open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -257,7 +257,7 @@ it('does not open when `disabled` is set programmatically on its target', async 
   target.disabled = true;
   target.click();
 
-  // Wait for it to not open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -286,7 +286,7 @@ it('does not open when `aria-disabled` is set on its target', async () => {
 
   target?.click();
 
-  // Wait for it to not open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -472,7 +472,7 @@ it('opens when opened programmatically', async () => {
 
   component.open = true;
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -507,7 +507,7 @@ it('opens when opened programmatically via the click handler of another element'
   div.append(anotherElement);
   anotherElement.click();
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -714,7 +714,7 @@ it('activates the first menu link by default', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -739,7 +739,7 @@ it('activates the first menu button by default when opened via click', async () 
 
   component.querySelector('button')?.click();
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const buttons = component.querySelectorAll('glide-core-menu-button');
@@ -762,7 +762,7 @@ it('activates a menu link on "mouseover"', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -784,7 +784,7 @@ it('activates a menu link on "mouseover" when the link is in a nested slot', asy
     </glide-core-nested-slot>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -813,7 +813,7 @@ it('activates a menu button on "mouseover"', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const buttons = component.querySelectorAll('glide-core-menu-button');
@@ -835,7 +835,7 @@ it('activates a menu button on "mouseover" when the button is in a nested slot',
     </glide-core-nested-slot>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const links = component.querySelectorAll('glide-core-menu-button');
@@ -865,7 +865,7 @@ it('activates the next option on ArrowDown', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -894,7 +894,7 @@ it('activates the previous option on ArrowUp', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -922,7 +922,7 @@ it('activates the first option on Home', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -950,7 +950,7 @@ it('activates the first option on PageUp', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -978,7 +978,7 @@ it('activates the first option on Meta + ArrowUp', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -1008,7 +1008,7 @@ it('activates the last option on End', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -1037,7 +1037,7 @@ it('activates the last option on PageDown', async () => {
 
   component.querySelector('button')?.click();
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -1065,7 +1065,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -1097,7 +1097,7 @@ it('sets `aria-activedescendant` on open', async () => {
 
   component.querySelector('button')?.click();
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const link = component.querySelector('glide-core-menu-link');
@@ -1117,7 +1117,7 @@ it('sets `aria-activedescendant` on close', async () => {
     </glide-core-menu>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.querySelector('button')?.click();
@@ -1140,7 +1140,7 @@ it('sets `aria-expanded` on open', async () => {
 
   component.querySelector('button')?.click();
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const button = component.querySelector('button');
@@ -1176,7 +1176,7 @@ it('does not wrap on ArrowUp', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   await sendKeys({ press: 'ArrowUp' });
@@ -1197,7 +1197,7 @@ it('does not wrap on Meta + ArrowUp', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   await sendKeys({ down: 'Meta' });
@@ -1219,7 +1219,7 @@ it('does not wrap on ArrowDown', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-menu-link');
@@ -1242,7 +1242,7 @@ it('does not wrap on ArrowDown', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-menu-link');

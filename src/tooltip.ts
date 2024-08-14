@@ -1,19 +1,20 @@
 import { LitElement, html } from 'lit';
 import {
+  type Placement,
   arrow,
   autoUpdate,
   computePosition,
   flip,
+  limitShift,
   offset,
-  platform,
   shift,
 } from '@floating-ui/dom';
+import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { offsetParent } from 'composed-offset-position';
-import { owSlot } from './library/ow.js';
+import ow, { owSlot } from './library/ow.js';
 import styles from './tooltip.styles.js';
 
 declare global {
@@ -39,12 +40,12 @@ export default class GlideCoreTooltip extends LitElement {
   @property({ reflect: true, type: Boolean })
   disabled = false;
 
-  /* The placement of the tooltip relative to its target. Automatic placement will take over if the tooltip is cut off by the viewport. */
+  /* 
+    The placement of the tooltip relative to its target. Automatic placement will 
+    take over if the tooltip is cut off by the viewport. "bottom" by default.
+  */
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
-
-  @state()
-  containingBlock?: Element;
 
   override disconnectedCallback() {
     super.disconnectedCallback();
@@ -56,22 +57,22 @@ export default class GlideCoreTooltip extends LitElement {
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
     owSlot(this.#targetSlotElementRef.value);
-    this.#setUpFloatingUi();
-  }
 
-  @state()
-  private get isVisible() {
-    return this.#isVisible;
-  }
+    ow(this.#tooltipElementRef.value, ow.object.instanceOf(HTMLElement));
 
-  private set isVisible(isVisible: boolean) {
-    this.#isVisible = isVisible;
-
-    if (this.isVisible) {
-      this.#setUpFloatingUi();
-    } else {
-      this.#cleanUpFloatingUi?.();
-    }
+    // `popover` is used so the tooltip can break out of Modal or another container
+    // that has `overflow: hidden`. And elements with `popover` are positioned
+    // relative to the viewport. Thus Floating UI in addition to `popover`.
+    //
+    // Set here instead of in the template to escape Lit Analzyer, which isn't
+    // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+    //
+    // "auto" means only one popover can be open at a time. Consumers, however, may
+    // have popovers in own components that need to be open while this one is open.
+    //
+    // "auto" also automatically opens the popover when its target is clicked. We want
+    // it to remain closed when clicked when there are no menu options.
+    this.#tooltipElementRef.value.popover = 'manual';
   }
 
   override render() {
@@ -111,32 +112,87 @@ export default class GlideCoreTooltip extends LitElement {
         <div
           class=${classMap({
             tooltip: true,
-            visible: this.isVisible && !this.disabled,
+            [this.effectivePlacement]: true,
           })}
           id="tooltip"
+          data-test="tooltip"
           role=${ifDefined(this.disabled ? undefined : 'tooltip')}
           ${ref(this.#tooltipElementRef)}
         >
+          <div
+            class=${classMap({
+              arrow: true,
+              [this.effectivePlacement]: true,
+            })}
+            data-test="arrow"
+            ${ref(this.#arrowElementRef)}
+          >
+            ${choose(this.effectivePlacement, [
+              [
+                'top',
+                () => html`
+                  <svg viewBox="0 0 10 6" fill="none">
+                    <path
+                      d="M4.23178 5.07814C4.63157 5.55789 5.36843 5.55789 5.76822 5.07813L10 -7.9486e-08L-2.62268e-07 3.57628e-07L4.23178 5.07814Z"
+                      fill="#212121"
+                    />
+                  </svg>
+                `,
+              ],
+              [
+                'right',
+                () => html`
+                  <svg viewBox="0 0 6 10" fill="none">
+                    <path
+                      d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
+                      fill="#212121"
+                    />
+                  </svg>
+                `,
+              ],
+              [
+                'bottom',
+                () => html`
+                  <svg viewBox="0 0 10 6" fill="none">
+                    <path
+                      d="M4.23178 0.921865C4.63157 0.442111 5.36843 0.442112 5.76822 0.921866L10 6L-2.62268e-07 6L4.23178 0.921865Z"
+                      fill="#212121"
+                    />
+                  </svg>
+                `,
+              ],
+              [
+                'left',
+                () => html`
+                  <svg viewBox="0 0 6 10" fill="none">
+                    <path
+                      d="M5.07814 4.23178C5.55789 4.63157 5.55789 5.36843 5.07813 5.76822L-4.37114e-07 10L0 -2.62268e-07L5.07814 4.23178Z"
+                      fill="#212121"
+                    />
+                  </svg>
+                `,
+              ],
+            ])}
+          </div>
+
           <span
             aria-label=${ifDefined(this.disabled ? undefined : 'Tooltip: ')}
           ></span>
 
           <slot
+            class="default-slot"
             @slotchange=${this.#onDefaultSlotChange}
             ${ref(this.#defaultSlotElementRef)}
           ></slot>
-
-          <div class="arrow" ${ref(this.#arrowElementRef)}></div>
         </div>
       </div>
     `;
   }
 
-  setContainingBlock(containingBlock: Element) {
-    this.containingBlock = containingBlock;
-  }
+  @state()
+  private effectivePlacement: Placement = this.placement ?? 'bottom';
 
-  #arrowElementRef = createRef<HTMLDivElement>();
+  #arrowElementRef = createRef<HTMLElement>();
 
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
@@ -144,18 +200,21 @@ export default class GlideCoreTooltip extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #isVisible = false;
-
   #openTimeoutId?: ReturnType<typeof setTimeout>;
 
-  #targetElementRef = createRef<HTMLSpanElement>();
+  #targetElementRef = createRef<HTMLElement>();
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
-  #tooltipElementRef = createRef<HTMLSpanElement>();
+  #tooltipElementRef = createRef<HTMLElement>();
 
   #cancelClose() {
     clearTimeout(this.#closeTimeoutId);
+  }
+
+  #hide() {
+    this.#cleanUpFloatingUi?.();
+    this.#tooltipElementRef.value?.hidePopover();
   }
 
   #onDefaultSlotChange() {
@@ -163,16 +222,16 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   #onFocusin() {
-    this.isVisible = true;
+    this.#show();
   }
 
   #onFocusout() {
-    this.isVisible = false;
+    this.#hide();
   }
 
   #onKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
-      this.isVisible = false;
+      this.#hide();
     }
   }
 
@@ -186,7 +245,7 @@ export default class GlideCoreTooltip extends LitElement {
     this.#cancelClose();
 
     this.#openTimeoutId = setTimeout(() => {
-      this.isVisible = true;
+      this.#show();
     }, 300);
   }
 
@@ -196,47 +255,44 @@ export default class GlideCoreTooltip extends LitElement {
 
   #scheduleClose() {
     this.#closeTimeoutId = setTimeout(() => {
-      this.isVisible = false;
+      this.#hide();
     }, 200);
   }
 
-  #setUpFloatingUi() {
+  #show() {
+    this.#cleanUpFloatingUi?.();
+
     if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
       this.#cleanUpFloatingUi = autoUpdate(
         this.#targetElementRef.value,
         this.#tooltipElementRef.value,
         () => {
           (async () => {
-            if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
-              const arrowElement = this.#arrowElementRef.value!;
-
-              const { placement, x, y, middlewareData } = await computePosition(
+            if (
+              this.#targetElementRef.value &&
+              this.#tooltipElementRef.value &&
+              this.#arrowElementRef.value
+            ) {
+              const { x, y, placement, middlewareData } = await computePosition(
                 this.#targetElementRef.value,
                 this.#tooltipElementRef.value,
                 {
-                  platform: {
-                    ...platform,
-                    getOffsetParent: (element) => {
-                      if (
-                        this.containingBlock &&
-                        // The arrow element's offsetParent is the tooltip itself
-                        element !== this.#arrowElementRef.value
-                      ) {
-                        return this.containingBlock;
-                      }
-
-                      return platform.getOffsetParent(element, offsetParent);
-                    },
-                  },
                   placement: this.placement,
-                  strategy: 'fixed',
                   middleware: [
-                    offset(6),
+                    offset(4),
                     flip({
                       fallbackStrategy: 'initialPlacement',
                     }),
-                    shift(),
-                    arrow({ element: arrowElement }),
+                    shift({
+                      limiter: limitShift({
+                        // Shifting is limited so the arrow is never near tooltip's rounded
+                        // corners, which would leave a gap between the arrow and the part of
+                        // the corner that's missing due to rounding. `20` is just a rough number.
+                        // `15` isn't enough.
+                        offset: 20,
+                      }),
+                    }),
+                    arrow({ element: this.#arrowElementRef.value }),
                   ],
                 },
               );
@@ -246,23 +302,17 @@ export default class GlideCoreTooltip extends LitElement {
                 top: `${y}px`,
               });
 
-              const arrowX = middlewareData.arrow?.x ?? null;
-              const arrowY = middlewareData.arrow?.y ?? null;
-
-              const staticSide = {
-                top: 'bottom',
-                right: 'left',
-                bottom: 'top',
-                left: 'right',
-              }[placement.split('-')[0]]!;
-
-              Object.assign(arrowElement.style, {
-                left: arrowX === null ? '' : `${arrowX}px`,
-                top: arrowY === null ? '' : `${arrowY}px`,
-                right: '',
-                bottom: '',
-                [staticSide]: '-3px',
+              Object.assign(this.#arrowElementRef.value.style, {
+                left: middlewareData.arrow?.x
+                  ? `${middlewareData.arrow.x}px`
+                  : null,
+                top: middlewareData.arrow?.y
+                  ? `${middlewareData.arrow.y}px`
+                  : null,
               });
+
+              this.effectivePlacement = placement;
+              this.#tooltipElementRef.value.showPopover();
             }
           })();
         },

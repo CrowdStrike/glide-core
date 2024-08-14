@@ -103,7 +103,7 @@ export default class GlideCoreMenu extends LitElement {
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreMenuOptions]);
 
     // `popover` is used so the options can break out of Modal or another container
-    // that with `overflow: hidden`. And elements with `popover` are positioned
+    // that has `overflow: hidden`. And elements with `popover` are positioned
     // relative to the viewport. Thus Floating UI in addition to `popover`.
     //
     // Set here instead of in the template to escape Lit Analzyer, which isn't
@@ -546,8 +546,7 @@ export default class GlideCoreMenu extends LitElement {
             this.#defaultSlotElementRef.value?.showPopover();
 
             if (this.#optionsElement && this.#activeOption?.id) {
-              this.#optionsElement.ariaActivedescendant =
-                this.#activeOption?.id;
+              this.#optionsElement.ariaActivedescendant = this.#activeOption.id;
             }
 
             if (this.#targetElement) {

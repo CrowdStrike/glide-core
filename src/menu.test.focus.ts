@@ -69,7 +69,7 @@ it('remains open when the options component is focused', async () => {
     </glide-core-menu>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -96,7 +96,7 @@ it('remains open when an option is focused', async () => {
     </glide-core-menu>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -125,7 +125,7 @@ it('sets the focused option as active', async () => {
     </glide-core-menu>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();

@@ -3,7 +3,7 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    @keyframes animate-tooltip {
+    @keyframes tooltip {
       from {
         opacity: 0;
         transform: scale(0.95);
@@ -13,6 +13,10 @@ export default [
         opacity: 1;
         transform: scale(1);
       }
+    }
+
+    :host {
+      display: inline-block;
     }
 
     .component {
@@ -53,22 +57,11 @@ export default [
     }
 
     .tooltip {
-      background-color: var(--glide-core-surface-base-dark);
-      border-radius: var(--glide-core-spacing-xs);
-      color: var(--glide-core-text-selected);
-      display: none;
-      font-family: var(--glide-core-body-md-font-family);
-      font-style: var(--glide-core-body-md-font-style);
-      font-weight: var(--glide-core-body-md-font-weight);
-      inline-size: max-content;
-      inset-block-start: 50%;
-      inset-block-start: 0;
-      inset-inline-start: 0;
-      max-inline-size: 11.25rem;
-      overflow-wrap: break-word;
-      padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
-      position: fixed;
-      z-index: 1;
+      background-color: transparent;
+      border: none;
+      inset: unset;
+      padding: 0;
+      position: absolute;
 
       ::slotted(kbd) {
         color: var(--glide-core-text-header-2);
@@ -78,18 +71,71 @@ export default [
         white-space: nowrap;
       }
 
-      &.visible {
-        animation: animate-tooltip 250ms cubic-bezier(0.25, 0, 0.3, 1);
-        display: unset;
+      &:popover-open {
+        animation: tooltip 250ms cubic-bezier(0.25, 0, 0.3, 1);
+        display: flex;
+
+        /* 
+          Elements with a "popover" attribute don't allow overflow. So the arrow can't
+          be positioned with "position: absolute". Relative positioning is used instead. 
+          Flex is used to get the arrow on the correct side of the tooltip. Floating UI 
+          handles the rest. 
+          
+          A simple "transform" could replace Floating UI for the arrow if not for a Chrome 
+          bug with "popover" when "scale()" is animated on the popover or a container within 
+          it. With "transform" on the arrow, the arrow is initially offset by a couple pixels 
+          before landing in the correct position when the animation finishes. It only happens 
+          when the tooltip is left or right of its target.
+        */
+
+        &.top {
+          flex-direction: column-reverse;
+        }
+
+        &.right {
+          flex-direction: row-reverse;
+        }
+
+        &.bottom {
+          flex-direction: column;
+        }
       }
     }
 
     .arrow {
-      background: var(--glide-core-surface-base-dark);
-      block-size: 0.375rem;
-      inline-size: 0.375rem;
-      position: absolute;
-      transform: rotate(45deg);
+      --arrow-height: 0.375rem;
+      --arrow-width: 0.625rem;
+
+      display: flex;
+      position: relative;
+
+      &.top,
+      &.bottom {
+        block-size: var(--arrow-height);
+        inline-size: var(--arrow-width);
+      }
+
+      &.right,
+      &.left {
+        block-size: var(--arrow-width);
+        inline-size: var(--arrow-height);
+        order: 2;
+      }
+    }
+
+    .default-slot {
+      background-color: var(--glide-core-surface-base-dark);
+      border-radius: var(--glide-core-spacing-xs);
+      color: var(--glide-core-text-selected);
+      display: block;
+      font-family: var(--glide-core-body-md-font-family);
+      font-style: var(--glide-core-body-md-font-style);
+      font-weight: var(--glide-core-body-md-font-weight);
+      inline-size: max-content;
+      inset-block-start: 50%;
+      max-inline-size: 11.25rem;
+      overflow-wrap: break-word;
+      padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
     }
   `,
 ];
