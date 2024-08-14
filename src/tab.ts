@@ -1,6 +1,7 @@
 import { LitElement, type PropertyValues, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
+import { nanoid } from 'nanoid';
 import styles from './tab.styles.js';
 
 declare global {
@@ -19,8 +20,6 @@ declare global {
  */
 @customElement('glide-core-tab')
 export default class GlideCoreTab extends LitElement {
-  static instanceCount = 0;
-
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -42,9 +41,7 @@ export default class GlideCoreTab extends LitElement {
   protected override firstUpdated() {
     this.setAttribute('role', 'tab');
 
-    if (!this.hasAttribute('id')) {
-      this.id = `glide-core-tab-${GlideCoreTab.instanceCount++}`;
-    }
+    this.id = this.#id;
   }
 
   override render() {
@@ -75,8 +72,9 @@ export default class GlideCoreTab extends LitElement {
         this.setAttribute('tabindex', '-1');
       } else {
         this.removeAttribute('aria-disabled');
-        this.setAttribute('tabindex', '0');
       }
     }
   }
+
+  #id = nanoid();
 }

@@ -121,7 +121,7 @@ it('can switch tabs', async () => {
   );
 
   secondTab.focus();
-  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: 'ArrowRight' });
   // Should be focused on third tab. Press Enter on it
   await sendKeys({ press: 'Enter' });
   const secondTriggeredEvent = await listener;
