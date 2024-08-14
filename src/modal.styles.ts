@@ -26,6 +26,22 @@ export default [
       }
     }
 
+    @media (prefers-reduced-motion) {
+      /**
+        ':host' is targeted here to increase specificity so that
+        we don't need to use '!important' to turn off the animation.
+      */
+      :host .component {
+        &[open] {
+          animation: none;
+        }
+
+        &::backdrop {
+          animation: none;
+        }
+      }
+    }
+
     .component {
       backdrop-filter: blur(100px);
       background-color: var(--glide-core-surface-modal);
@@ -62,18 +78,6 @@ export default [
         --size: 1rem;
 
         size: 1rem;
-      }
-    }
-
-    @media (prefers-reduced-motion) {
-      dialog {
-        &[open] {
-          animation: none;
-        }
-
-        &::backdrop {
-          animation: none;
-        }
       }
     }
 
