@@ -193,4 +193,15 @@ it('updates validity when `required` and `value` is changed programmatically', a
   expect(input.validity?.valueMissing).to.be.false;
   expect(input.checkValidity()).to.be.true;
   expect(input.reportValidity()).to.be.true;
+
+  // Resetting the value to empty to ensure it goes
+  // back to an invalid state
+  input.value = '';
+
+  await elementUpdated(input);
+
+  expect(input.validity?.valid).to.be.false;
+  expect(input.validity?.valueMissing).to.be.true;
+  expect(input.checkValidity()).to.be.false;
+  expect(input.reportValidity()).to.be.false;
 });
