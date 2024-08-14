@@ -545,9 +545,9 @@ export default class GlideCoreMenu extends LitElement {
 
             this.#defaultSlotElementRef.value?.showPopover();
 
-            if (this.#optionsElement) {
+            if (this.#optionsElement && this.#activeOption?.id) {
               this.#optionsElement.ariaActivedescendant =
-                this.#activeOption?.id ?? '';
+                this.#activeOption?.id;
             }
 
             if (this.#targetElement) {
