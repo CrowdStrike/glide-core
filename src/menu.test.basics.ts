@@ -1,15 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './menu.button.js';
-import './menu.link.js';
 import { ArgumentError } from 'ow';
-import { expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreMenu from './menu.js';
+import GlideCoreMenuButton from './menu.button.js';
+import GlideCoreMenuLink from './menu.link.js';
 import GlideCoreMenuOptions from './menu.options.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
 GlideCoreMenu.shadowRootOptions.mode = 'open';
+GlideCoreMenuButton.shadowRootOptions.mode = 'open';
+GlideCoreMenuLink.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(window.customElements.get('glide-core-menu')).to.equal(GlideCoreMenu);
@@ -51,6 +53,7 @@ it('is accessible', async () => {
   const options = component.querySelector('glide-core-menu-options');
 
   expect(target?.getAttribute('aria-controls')).to.equal(options?.id);
+  expect(target?.getAttribute('aria-haspopup')).to.equal('true');
   expect(options?.ariaLabelledby).to.equal(target?.id);
   await expect(component).to.be.accessible();
 });
@@ -66,14 +69,20 @@ it('can be opened', async () => {
     </glide-core-menu>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
+  const options = component.querySelector('glide-core-menu-options');
   const target = component.querySelector('button');
+  const link = component.querySelector('glide-core-menu-link');
 
   expect(component.open).to.be.true;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(target?.ariaExpanded).to.equal('true');
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
 });
 
 it('can have a default slot', async () => {
@@ -124,6 +133,9 @@ it('activates the first menu link by default', async () => {
     </glide-core-menu>
   `);
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
 
@@ -143,6 +155,9 @@ it('activates the first menu button by default', async () => {
       </glide-core-menu-options>
     </glide-core-menu>
   `);
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const buttons = component.querySelectorAll('glide-core-menu-button');
   const options = component.querySelector('glide-core-menu-options');
@@ -166,13 +181,18 @@ it('is not opened when initially `open` and its target is `disabled`', async () 
     </glide-core-menu>`,
   );
 
+  // Wait for it to not open.
+  await aTimeout(0);
+
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
   const target = component.querySelector('button');
+  const options = component.querySelector('glide-core-menu-options');
 
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.be.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(target?.ariaExpanded).to.equal('false');
+  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
 });
 
 it('throws if it does not have a default slot', async () => {

@@ -37,8 +37,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      # TODO
-      # We must build our internal ESLint plugin before we can use it in other packages that lint
       - run: NODE_ENV=production pnpm start
       - run: NODE_ENV=production pnpm lint
 

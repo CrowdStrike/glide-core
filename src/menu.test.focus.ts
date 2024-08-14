@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './menu.link.js';
+import './menu.options.js';
 import {
+  aTimeout,
   assert,
   elementUpdated,
   expect,
@@ -10,7 +12,6 @@ import {
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
-import GlideCoreMenuOptions from './menu.options.js';
 
 GlideCoreMenu.shadowRootOptions.mode = 'open';
 
@@ -53,7 +54,7 @@ it('closes when it loses focus', async () => {
   const options = component.querySelector('glide-core-menu-options');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).be.false;
+  expect(defaultSlot?.checkVisibility()).be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
 });
 
@@ -68,18 +69,20 @@ it('remains open when the options component is focused', async () => {
     </glide-core-menu>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const options = component.querySelector('glide-core-menu-options');
 
-  assert(options instanceof GlideCoreMenuOptions);
-  options.focus();
-
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
+  options?.focus();
+
   expect(component.open).to.be.true;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
 });
 
 it('remains open when an option is focused', async () => {
@@ -93,13 +96,21 @@ it('remains open when an option is focused', async () => {
     </glide-core-menu>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
   const option = component.querySelector('glide-core-menu-link');
+
   assert(option);
   option?.focus();
 
   expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
 });
 
 it('sets the focused option as active', async () => {
@@ -114,11 +125,13 @@ it('sets the focused option as active', async () => {
     </glide-core-menu>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const target = component.querySelector('glide-core-menu-button');
   const link = component.querySelector('glide-core-menu-link');
-
   const options = component.querySelector('glide-core-menu-options');
 
   link?.focus();

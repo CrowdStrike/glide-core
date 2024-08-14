@@ -4,6 +4,7 @@ import './menu.link.js';
 import './menu.options.js';
 import { LitElement } from 'lit';
 import {
+  aTimeout,
   assert,
   elementUpdated,
   expect,
@@ -47,16 +48,143 @@ it('opens on click', async () => {
   );
 
   component.querySelector('button')?.click();
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const target = component.querySelector('button');
+  const options = component.querySelector('glide-core-menu-options');
+  const link = component.querySelector('glide-core-menu-link');
+
+  expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
+});
+
+it('opens when `open` is set programmatically', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  component.open = true;
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const target = component.querySelector('button');
+  const options = component.querySelector('glide-core-menu-options');
+  const link = component.querySelector('glide-core-menu-link');
+
+  expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
+});
+
+it('opens when `disabled` is set programmatically on its target', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <button slot="target" disabled>Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  const target = component.querySelector('button');
+  assert(target);
+
+  target.disabled = false;
+  target.click();
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+  const link = component.querySelector('glide-core-menu-link');
+
+  expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
+  expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('opens when `aria-disabled` is set programmatically on its target', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <button slot="target" aria-disabled="true">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  const target = component.querySelector('button');
+  assert(target);
+
+  target.ariaDisabled = 'false';
+  target.click();
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+  const link = component.querySelector('glide-core-menu-link');
+
+  expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
+  expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('closes when `open` is set programmatically', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  component.open = false;
   await elementUpdated(component);
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
   const target = component.querySelector('button');
+  const options = component.querySelector('glide-core-menu-options');
 
-  expect(component.open).to.be.true;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
-  expect(target?.ariaExpanded).to.equal('true');
+  expect(component.open).to.be.false;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
 });
 
 it('does not open on click when there are no options', async () => {
@@ -69,6 +197,9 @@ it('does not open on click when there are no options', async () => {
 
   component.querySelector('button')?.click();
 
+  // Wait for it to not open.
+  await aTimeout(0);
+
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
@@ -76,7 +207,7 @@ it('does not open on click when there are no options', async () => {
   const target = component.querySelector('button');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -94,6 +225,9 @@ it('does not open when `disabled` is set on its target', async () => {
 
   component.querySelector('button')?.click();
 
+  // Wait for it to not open.
+  await aTimeout(0);
+
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
@@ -101,7 +235,7 @@ it('does not open when `disabled` is set on its target', async () => {
   const target = component.querySelector('button');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -120,9 +254,11 @@ it('does not open when `disabled` is set programmatically on its target', async 
   const target = component.querySelector('button');
   assert(target);
 
-  target.click();
   target.disabled = true;
-  await elementUpdated(component);
+  target.click();
+
+  // Wait for it to not open.
+  await aTimeout(0);
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -130,7 +266,7 @@ it('does not open when `disabled` is set programmatically on its target', async 
   const options = component.querySelector('glide-core-menu-options');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -150,13 +286,16 @@ it('does not open when `aria-disabled` is set on its target', async () => {
 
   target?.click();
 
+  // Wait for it to not open.
+  await aTimeout(0);
+
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
   const options = component.querySelector('glide-core-menu-options');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -175,9 +314,8 @@ it('does not open when `aria-disabled` is set programmatically on its target', a
   const button = component.querySelector('button');
   assert(button);
 
-  button?.click();
   button.ariaDisabled = 'true';
-  await elementUpdated(component);
+  button?.click();
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -185,8 +323,7 @@ it('does not open when `aria-disabled` is set programmatically on its target', a
   const options = component.querySelector('glide-core-menu-options');
   const target = component.querySelector('button');
 
-  expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -213,7 +350,7 @@ it('opens on Enter', async () => {
   const link = component.querySelector('glide-core-menu-link');
 
   expect(component.open).to.be.true;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
   expect(target?.ariaExpanded).to.equal('true');
 });
@@ -240,7 +377,7 @@ it('opens on ArrowUp', async () => {
   const link = component.querySelector('glide-core-menu-link');
 
   expect(component.open).to.be.true;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
   expect(target?.ariaExpanded).to.equal('true');
 });
@@ -267,7 +404,7 @@ it('opens on ArrowDown', async () => {
   const link = component.querySelector('glide-core-menu-link');
 
   expect(component.open).to.be.true;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
   expect(target?.ariaExpanded).to.equal('true');
 });
@@ -294,7 +431,7 @@ it('opens on Space', async () => {
   const link = component.querySelector('glide-core-menu-link');
 
   expect(component.open).to.be.true;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
   expect(target?.ariaExpanded).to.equal('true');
 });
@@ -317,7 +454,7 @@ it('does not open on Space when there are no options', async () => {
   const target = component.querySelector('button');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -334,7 +471,9 @@ it('opens when opened programmatically', async () => {
   );
 
   component.open = true;
-  await elementUpdated(component);
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -343,7 +482,7 @@ it('opens when opened programmatically', async () => {
   const target = component.querySelector('button');
   const link = component.querySelector('glide-core-menu-link');
 
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
   expect(target?.ariaExpanded).to.equal('true');
 });
@@ -367,7 +506,9 @@ it('opens when opened programmatically via the click handler of another element'
   anotherElement.addEventListener('click', () => (component.open = true));
   div.append(anotherElement);
   anotherElement.click();
-  await elementUpdated(component);
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -377,7 +518,7 @@ it('opens when opened programmatically via the click handler of another element'
   const link = component.querySelector('glide-core-menu-link');
 
   expect(component.open).to.be.true;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
   expect(target?.ariaExpanded).to.equal('true');
 });
@@ -411,7 +552,6 @@ it('closes when clicked', async () => {
   );
 
   component.querySelector('button')?.click();
-  await elementUpdated(component);
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -420,7 +560,7 @@ it('closes when clicked', async () => {
   const target = component.querySelector('button');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -446,7 +586,7 @@ it('closes when something outside of it is clicked', async () => {
   const target = component.querySelector('button');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -462,6 +602,9 @@ it('closes on Escape when the button has focus', async () => {
     </glide-core-menu>`,
   );
 
+  // Wait for it to open
+  await aTimeout(0);
+
   component.querySelector('button')?.click();
   await sendKeys({ press: 'Escape' });
 
@@ -472,7 +615,7 @@ it('closes on Escape when the button has focus', async () => {
   const target = component.querySelector('button');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -489,7 +632,6 @@ it('closes when an option is selected via click', async () => {
   );
 
   component.querySelector('glide-core-menu-link')?.click();
-  await elementUpdated(component);
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -498,7 +640,7 @@ it('closes when an option is selected via click', async () => {
   const target = component.querySelector('button');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -521,7 +663,6 @@ it('closes when an option is selected via Enter', async () => {
     ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   await sendKeys({ press: 'Enter' });
-  await elementUpdated(component);
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -530,7 +671,7 @@ it('closes when an option is selected via Enter', async () => {
   const target = component.querySelector('button');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
@@ -556,14 +697,14 @@ it('closes when an option is selected via Space', async () => {
   const target = component.querySelector('button');
 
   expect(component.open).to.be.false;
-  expect(defaultSlot?.checkVisibility({ checkVisibilityCSS: true })).not.ok;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
 });
 
 it('activates the first menu link by default', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -573,8 +714,8 @@ it('activates the first menu link by default', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
-  await elementUpdated(component);
+  // Wait for it to open.
+  await aTimeout(0);
 
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
@@ -584,7 +725,7 @@ it('activates the first menu link by default', async () => {
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0]?.id);
 });
 
-it('activates the first menu button by default', async () => {
+it('activates the first menu button by default when opened via click', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
@@ -597,7 +738,9 @@ it('activates the first menu button by default', async () => {
   `);
 
   component.querySelector('button')?.click();
-  await elementUpdated(component);
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const buttons = component.querySelectorAll('glide-core-menu-button');
   const options = component.querySelector('glide-core-menu-options');
@@ -619,6 +762,9 @@ it('activates a menu link on "mouseover"', async () => {
     </glide-core-menu>
   `);
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
 
@@ -637,6 +783,9 @@ it('activates a menu link on "mouseover" when the link is in a nested slot', asy
       <glide-core-menu-link label="Two"></glide-core-menu-link>
     </glide-core-nested-slot>
   `);
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const links = component.querySelectorAll('glide-core-menu-link');
 
@@ -664,6 +813,9 @@ it('activates a menu button on "mouseover"', async () => {
     </glide-core-menu>
   `);
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const buttons = component.querySelectorAll('glide-core-menu-button');
   const options = component.querySelector('glide-core-menu-options');
 
@@ -683,6 +835,9 @@ it('activates a menu button on "mouseover" when the button is in a nested slot',
     </glide-core-nested-slot>
   `);
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const links = component.querySelectorAll('glide-core-menu-button');
 
   const options = component.shadowRoot?.querySelector(
@@ -699,7 +854,7 @@ it('activates a menu button on "mouseover" when the button is in a nested slot',
 
 it('activates the next option on ArrowDown', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -710,7 +865,9 @@ it('activates the next option on ArrowDown', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -727,7 +884,7 @@ it('activates the next option on ArrowDown', async () => {
 
 it('activates the previous option on ArrowUp', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -737,7 +894,9 @@ it('activates the previous option on ArrowUp', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -753,7 +912,7 @@ it('activates the previous option on ArrowUp', async () => {
 
 it('activates the first option on Home', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -763,7 +922,9 @@ it('activates the first option on Home', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -779,7 +940,7 @@ it('activates the first option on Home', async () => {
 
 it('activates the first option on PageUp', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -789,7 +950,9 @@ it('activates the first option on PageUp', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -803,9 +966,9 @@ it('activates the first option on PageUp', async () => {
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0].id);
 });
 
-it('activates the first option on ArrowUp + Meta', async () => {
+it('activates the first option on Meta + ArrowUp', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -815,7 +978,9 @@ it('activates the first option on ArrowUp + Meta', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -833,7 +998,7 @@ it('activates the first option on ArrowUp + Meta', async () => {
 
 it('activates the last option on End', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -843,7 +1008,9 @@ it('activates the last option on End', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   await sendKeys({ press: 'End' });
@@ -869,6 +1036,10 @@ it('activates the last option on PageDown', async () => {
   `);
 
   component.querySelector('button')?.click();
+
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -884,7 +1055,7 @@ it('activates the last option on PageDown', async () => {
 
 it('activates the last option on Meta + ArrowDown', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -894,7 +1065,9 @@ it('activates the last option on Meta + ArrowDown', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -923,7 +1096,9 @@ it('sets `aria-activedescendant` on open', async () => {
   );
 
   component.querySelector('button')?.click();
-  await elementUpdated(component);
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const link = component.querySelector('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
@@ -941,6 +1116,9 @@ it('sets `aria-activedescendant` on close', async () => {
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   component.querySelector('button')?.click();
   await elementUpdated(component);
@@ -961,6 +1139,9 @@ it('sets `aria-expanded` on open', async () => {
   );
 
   component.querySelector('button')?.click();
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   const button = component.querySelector('button');
   expect(button?.getAttribute('aria-expanded')).to.equal('true');
@@ -985,7 +1166,7 @@ it('sets `aria-expanded` on close', async () => {
 
 it('does not wrap on ArrowUp', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -995,7 +1176,31 @@ it('does not wrap on ArrowUp', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
+
+  await sendKeys({ press: 'ArrowUp' });
+
+  const link = component.querySelector('glide-core-menu-link');
+  expect(link?.privateActive).to.be.true;
+});
+
+it('does not wrap on Meta + ArrowUp', async () => {
+  const component = await fixture<GlideCoreMenu>(html`
+    <glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="One"></glide-core-menu-link>
+        <glide-core-menu-link label="Two"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>
+  `);
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowUp' });
 
   const link = component.querySelector('glide-core-menu-link');
@@ -1004,7 +1209,7 @@ it('does not wrap on ArrowUp', async () => {
 
 it('does not wrap on ArrowDown', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
@@ -1014,11 +1219,36 @@ it('does not wrap on ArrowDown', async () => {
     </glide-core-menu>
   `);
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-menu-link');
-
   options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  await sendKeys({ press: 'ArrowDown' });
+
+  expect(options[1].privateActive).to.be.true;
+});
+
+it('does not wrap on ArrowDown', async () => {
+  const component = await fixture<GlideCoreMenu>(html`
+    <glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="One"></glide-core-menu-link>
+        <glide-core-menu-link label="Two"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>
+  `);
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const options = component.querySelectorAll('glide-core-menu-link');
+  options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowDown' });
 
   expect(options[1].privateActive).to.be.true;
