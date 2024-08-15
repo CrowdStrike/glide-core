@@ -213,8 +213,12 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   #hide() {
-    this.#cleanUpFloatingUi?.();
     this.#tooltipElementRef.value?.hidePopover();
+
+    // https://github.com/CrowdStrike/glide-core/pull/307/files#r1718822821
+    if (this.#cleanUpFloatingUi) {
+      this.#cleanUpFloatingUi();
+    }
   }
 
   #onDefaultSlotChange() {
