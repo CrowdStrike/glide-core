@@ -7,6 +7,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
+import ow from './library/ow.js';
 import styles from './input.styles.js';
 
 declare global {
@@ -478,16 +479,12 @@ export default class GlideCoreInput extends LitElement {
   }
 
   #onChange(event: Event) {
-    if (
-      this.#inputElementRef.value &&
-      event.target instanceof HTMLInputElement
-    ) {
-      this.value = this.#inputElementRef.value?.value;
+    ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
+    this.value = this.#inputElementRef.value?.value;
 
-      // Unlike "input" events, "change" events aren't composed. So we manually
-      // dispatch them from the host.
-      this.dispatchEvent(new Event(event.type, event));
-    }
+    // Unlike "input" events, "change" events aren't composed. So we manually
+    // dispatch them from the host.
+    this.dispatchEvent(new Event(event.type, event));
   }
 
   #onClearClick(event: MouseEvent) {
@@ -502,13 +499,9 @@ export default class GlideCoreInput extends LitElement {
     this.hasFocus = true;
   }
 
-  #onInput(event: Event) {
-    if (
-      this.#inputElementRef.value &&
-      event.target instanceof HTMLInputElement
-    ) {
-      this.value = this.#inputElementRef.value.value;
-    }
+  #onInput() {
+    ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
+    this.value = this.#inputElementRef.value.value;
   }
 
   #onPasswordToggle() {
