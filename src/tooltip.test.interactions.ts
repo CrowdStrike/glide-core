@@ -1,16 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './tooltip.js';
-import {
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-  waitUntil,
-} from '@open-wc/testing';
+import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTooltip from './tooltip.js';
-import sinon from 'sinon';
 
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
@@ -23,13 +16,16 @@ it('is visible on "focusin"', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-labelledby="tooltip"]')
+    ?.querySelector('[data-test="target"]')
     ?.dispatchEvent(new FocusEvent('focusin'));
 
-  await elementUpdated(component);
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   expect(
-    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
+    component.shadowRoot
+      ?.querySelector('[data-test="tooltip"]')
+      ?.checkVisibility(),
   ).to.be.true;
 });
 
@@ -42,14 +38,17 @@ it('is hidden on "focusin" when disabled', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-labelledby="tooltip"]')
+    ?.querySelector('[data-test="target"]')
     ?.dispatchEvent(new FocusEvent('focusin'));
 
-  await elementUpdated(component);
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   expect(
-    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
-  ).to.not.be.ok;
+    component.shadowRoot
+      ?.querySelector('[data-test="tooltip"]')
+      ?.checkVisibility(),
+  ).to.be.false;
 });
 
 it('is hidden on "blur"', async () => {
@@ -60,20 +59,18 @@ it('is hidden on "blur"', async () => {
     </glide-core-tooltip>`,
   );
 
-  component.shadowRoot
-    ?.querySelector('[aria-labelledby="tooltip"]')
-    ?.dispatchEvent(new FocusEvent('focusin'));
+  const target = component.shadowRoot?.querySelector('[data-test="target"]');
+  target?.dispatchEvent(new FocusEvent('focusin'));
 
-  await elementUpdated(component);
+  // Wait for Floating UI.
+  await aTimeout(0);
 
-  component.shadowRoot
-    ?.querySelector('[aria-labelledby="tooltip"]')
-    ?.dispatchEvent(new FocusEvent('focusout'));
-
-  await elementUpdated(component);
+  target?.dispatchEvent(new FocusEvent('focusout'));
 
   expect(
-    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
+    component.shadowRoot
+      ?.querySelector('[data-test="tooltip"]')
+      ?.checkVisibility(),
   ).to.be.false;
 });
 
@@ -86,21 +83,19 @@ it('is hidden on Escape', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector('[aria-labelledby="tooltip"]')
+    ?.querySelector('[data-test="target"]')
     ?.dispatchEvent(new FocusEvent('focusin'));
 
-  await elementUpdated(component);
+  // Wait for Floating UI.
+  await aTimeout(0);
 
-  // So the key is sent to the component instead of `<body>`. It's not
-  // clear why `component.focus()` doesn't focus the span when using
-  // Playwright.
   component.querySelector('span')?.focus();
-
   await sendKeys({ press: 'Escape' });
-  await elementUpdated(component);
 
   expect(
-    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
+    component.shadowRoot
+      ?.querySelector('[data-test="tooltip"]')
+      ?.checkVisibility(),
   ).to.be.false;
 });
 
@@ -112,27 +107,25 @@ it('is visible on "mouseover"', async () => {
     </glide-core-tooltip>`,
   );
 
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  assert(tooltip);
+
+  tooltip.dataset.openDelay = '0';
+
   component.shadowRoot
     ?.querySelector('.component')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
-  await elementUpdated(component);
+  // Wait for Floating UI and the open delay.
+  await aTimeout(0);
 
-  await waitUntil(
-    () =>
-      component.shadowRoot
-        ?.querySelector('[role="tooltip"]')
-        ?.checkVisibility(),
-  );
-
-  expect(
-    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
-  ).to.be.true;
+  expect(tooltip.checkVisibility()).to.be.true;
 });
 
 it('is hidden on "mouseover" when disabled', async () => {
-  const clock = sinon.useFakeTimers();
-
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip disabled>
       Tooltip
@@ -140,23 +133,25 @@ it('is hidden on "mouseover" when disabled', async () => {
     </glide-core-tooltip>`,
   );
 
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  assert(tooltip);
+
+  tooltip.dataset.openDelay = '0';
+
   component.shadowRoot
     ?.querySelector('.component')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
-  await elementUpdated(component);
+  // Wait for Floating UI.
+  await aTimeout(0);
 
-  // Advance time to get past the tooltip opening delay
-  clock.tick(500);
-
-  expect(component.shadowRoot?.querySelector('[role="tooltip"]')).to.be.null;
-
-  clock.restore();
+  expect(tooltip.checkVisibility()).to.be.false;
 });
 
 it('is hidden on "mouseout"', async () => {
-  const clock = sinon.useFakeTimers();
-
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip>
       Tooltip
@@ -164,34 +159,34 @@ it('is hidden on "mouseout"', async () => {
     </glide-core-tooltip>`,
   );
 
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  assert(tooltip);
+
+  tooltip.dataset.openDelay = '0';
+
   component.shadowRoot
     ?.querySelector('.component')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
-  await elementUpdated(component);
+  // Wait for Floating UI and the open delay.
+  await aTimeout(0);
 
-  // Advance time to get past the tooltip opening delay
-  clock.tick(500);
+  tooltip.dataset.closeDelay = '0';
 
   component.shadowRoot
     ?.querySelector('.component')
     ?.dispatchEvent(new MouseEvent('mouseout'));
 
-  // Advance time to get past the tooltip closing delay
-  clock.tick(300);
+  // Wait for the close delay.
+  await aTimeout(0);
 
-  await elementUpdated(component);
-
-  expect(
-    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
-  ).to.be.false;
-
-  clock.restore();
+  expect(tooltip.checkVisibility()).to.be.false;
 });
 
-it('remains hidden if "mouseout" fires before the "mouseover" delay completes', async () => {
-  const clock = sinon.useFakeTimers();
-
+it('remains hidden if "mouseout" fires before the "mouseover" delay', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip>
       Tooltip
@@ -199,30 +194,61 @@ it('remains hidden if "mouseout" fires before the "mouseover" delay completes', 
     </glide-core-tooltip>`,
   );
 
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  assert(tooltip);
+
+  tooltip.dataset.openDelay = '1';
+  tooltip.dataset.closeDelay = '0';
+
   component.shadowRoot
     ?.querySelector('.component')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
-  await elementUpdated(component);
-
-  // We need to be between 0 and the tooltip opening delay
-  // so that we can "mouseout" of it before it has a chance
-  // to open
-  clock.tick(200);
-
-  expect(
-    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
-  ).to.be.false;
+  expect(tooltip?.checkVisibility()).to.be.false;
 
   component.shadowRoot
     ?.querySelector('.component')
     ?.dispatchEvent(new MouseEvent('mouseout'));
 
-  await elementUpdated(component);
+  await aTimeout(1);
 
-  expect(
-    component.shadowRoot?.querySelector('[role="tooltip"]')?.checkVisibility(),
-  ).to.be.false;
+  expect(tooltip.checkVisibility()).to.be.false;
+});
 
-  clock.restore();
+// This would be better served by a visual regression test. It exists only
+// to meet our coverage threshold, so the `middlewareData.arrow.y` branch
+// is hit.
+it('positions the tooltip when `placement="right"`', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip
+      placement="right"
+      style="align-items: center; display: flex; height: 100vh; justify-content:center; width: 100vw;"
+    >
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector('[data-test="target"]')
+    ?.dispatchEvent(new FocusEvent('focusin'));
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const tooltipContainer = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  const arrow = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="arrow"]',
+  );
+
+  expect(tooltipContainer?.style.left).to.not.be.empty.string;
+  expect(tooltipContainer?.style.top).to.not.be.empty.string;
+  expect(arrow?.style.left).to.be.empty.string;
+  expect(arrow?.style.top).to.not.be.empty.string;
 });

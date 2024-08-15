@@ -28,7 +28,6 @@
     "./styles/*": null,
     "./label.js": null,
     "./toasts.toast.js": null,
-    "./library/set-containing-block.js": "./dist/library/set-containing-block.js",
     "./styles/fonts.css": "./dist/styles/fonts.css",
     "./styles/variables.css": "./dist/styles/variables.css"
   },
@@ -68,7 +67,6 @@
   "dependencies": {
     "@floating-ui/dom": "^1.6.8",
     "@shoelace-style/localize": "^3.1.2",
-    "composed-offset-position": "^0.0.6",
     "nanoid": "^5.0.7",
     "ow": "^1.1.1"
   },

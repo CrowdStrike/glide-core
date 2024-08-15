@@ -69,7 +69,7 @@ it('can be opened', async () => {
     </glide-core-menu>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =
@@ -133,7 +133,7 @@ it('activates the first menu link by default', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const links = component.querySelectorAll('glide-core-menu-link');
@@ -156,7 +156,7 @@ it('activates the first menu button by default', async () => {
     </glide-core-menu>
   `);
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const buttons = component.querySelectorAll('glide-core-menu-button');
@@ -181,7 +181,7 @@ it('is not opened when initially `open` and its target is `disabled`', async () 
     </glide-core-menu>`,
   );
 
-  // Wait for it to not open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const defaultSlot =

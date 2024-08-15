@@ -1,13 +1,11 @@
 import './tooltip.js';
-import { LitElement, html } from 'lit';
+import { LitElement, html, svg } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import ow, { owSlot } from './library/ow.js';
 import styles from './label.styles.js';
-
-import { svg } from 'lit';
 
 const infoCircleIcon = svg`
   <circle

@@ -260,7 +260,7 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (this.#optionsElementRef.value) {
       // `popover` is used so the options can break out of Modal or another container
-      // that with `overflow: hidden`. And elements with `popover` are positioned
+      // that has `overflow: hidden`. And elements with `popover` are positioned
       // relative to the viewport. Thus Floating UI in addition to `popover`.
       //
       // Set here instead of in the template to escape Lit Analyzer, which isn't

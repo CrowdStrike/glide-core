@@ -53,8 +53,7 @@ export default {
     exportConditions: ['production'],
   },
   plugins: [
-    // Some modules still use CommonJS-style exports. This plugin handles them
-    // for us.
+    // Some modules still use CommonJS-style exports. This plugin handles them.
     //
     // https://github.com/modernweb-dev/web/issues/1700#issuecomment-1059441615
     fromRollup(rollupPluginCommonjs)({
