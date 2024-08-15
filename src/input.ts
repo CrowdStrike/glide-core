@@ -174,11 +174,11 @@ export default class GlideCoreInput extends LitElement {
   }
 
   get hasClearIcon() {
-    return Boolean(this.clearable && !this.disabled && !this.readonly);
+    return this.clearable && !this.disabled && !this.readonly;
   }
 
   get isClearIconVisible() {
-    return Boolean(this.hasClearIcon && this.value.length > 0);
+    return this.hasClearIcon && this.value.length > 0;
   }
 
   override render() {
@@ -465,8 +465,8 @@ export default class GlideCoreInput extends LitElement {
   }
 
   get #isShowValidationFeedback() {
-    return Boolean(
-      !this.disabled && !this.validity?.valid && this.isReportValidityOrSubmit,
+    return (
+      !this.disabled && !this.validity?.valid && this.isReportValidityOrSubmit
     );
   }
 
