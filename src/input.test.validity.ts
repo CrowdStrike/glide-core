@@ -3,12 +3,12 @@
 import './input.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import Input from './input.js';
+import GlideCoreInput from './input.js';
 
-Input.shadowRootOptions.mode = 'open';
+GlideCoreInput.shadowRootOptions.mode = 'open';
 
 it('is valid if empty but not required', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input></glide-core-input>`,
   );
 
@@ -26,7 +26,7 @@ it('is valid if empty but not required', async () => {
 });
 
 it('is valid after being filled in when empty and required', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
   );
 
@@ -48,7 +48,7 @@ it('is valid after being filled in when empty and required', async () => {
 });
 
 it('is invalid if no value and required', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
   );
 
@@ -67,7 +67,7 @@ it('is invalid if no value and required', async () => {
 });
 
 it('is invalid after value is cleared when required', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input
       clearable
       value="value"
@@ -96,7 +96,7 @@ it('is invalid after value is cleared when required', async () => {
 });
 
 it('is valid when empty and does not exceed `maxlength`', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input maxlength="3"></glide-core-input>`,
   );
 
@@ -115,7 +115,7 @@ it('is valid when empty and does not exceed `maxlength`', async () => {
 });
 
 it('is valid when filled in and does not exceed `maxlength`', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input maxlength="3"></glide-core-input>`,
   );
 
@@ -137,7 +137,7 @@ it('is valid when filled in and does not exceed `maxlength`', async () => {
 });
 
 it('is invalid when filled in and exceeds `maxlength`', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input maxlength="3"></glide-core-input>`,
   );
 
@@ -158,7 +158,7 @@ it('is invalid when filled in and exceeds `maxlength`', async () => {
 });
 
 it('is valid if no value and required but disabled', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input disabled required></glide-core-input>`,
   );
 
@@ -176,7 +176,7 @@ it('is valid if no value and required but disabled', async () => {
 });
 
 it('updates validity when `required` and `value` is changed programmatically', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
@@ -226,7 +226,7 @@ it('updates validity when `required` and `value` is changed programmatically', a
 });
 
 it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
@@ -258,7 +258,7 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
 });
 
 it('is valid when `value` is empty and `required` is set to `false` programmatically', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
