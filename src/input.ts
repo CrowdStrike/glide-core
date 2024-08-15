@@ -280,13 +280,12 @@ export default class GlideCoreInput extends LitElement {
                   variant="tertiary"
                   class="password-toggle"
                   data-test="password-toggle"
-                  aria-label=${this.passwordVisible
+                  label=${this.passwordVisible
                     ? 'Hide password'
                     : 'Show password'}
                   aria-controls="input"
                   aria-expanded=${this.passwordVisible ? 'true' : 'false'}
                   @click=${this.#onPasswordToggle}
-                  tabindex="-1"
                 >
                   ${this.passwordVisible
                     ? // Eye icon with slash
