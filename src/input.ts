@@ -273,7 +273,7 @@ export default class GlideCoreInput extends LitElement {
                   </slot>
                 </glide-core-icon-button>
               `
-            : ''}
+            : nothing}
           ${this.type === 'password' && this.passwordToggle && !this.disabled
             ? html`
                 <glide-core-icon-button
@@ -327,7 +327,7 @@ export default class GlideCoreInput extends LitElement {
                       </svg>`}
                 </glide-core-icon-button>
               `
-            : ''}
+            : nothing}
 
           <div class="suffix">
             ${this.type === 'search'
