@@ -2,6 +2,7 @@
 :root,
 :host {
   color-scheme: normal;
+  --glide-core-border-radius-lg: 0.75rem;
   --glide-core-border-radius-md: 0.5rem;
   --glide-core-border-radius-none: 0rem;
   --glide-core-border-radius-round: 7.5rem;

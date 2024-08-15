@@ -22,7 +22,7 @@
   --glide-core-icon-display: #ffffff;
   --glide-core-icon-display-light: #d7e7ff;
   --glide-core-icon-hover: #eef5ff;
-  --glide-core-icon-primary: #054fb9;
+  --glide-core-icon-primary: #ffffff;
   --glide-core-icon-primary-hover: #d7e7ff;
   --glide-core-icon-secondary-disabled: #d7e7ff;
   --glide-core-icon-selected: #ffffff;
@@ -46,7 +46,7 @@
   --glide-core-surface-attention: #fffbeb;
   --glide-core-surface-base: #424242;
   --glide-core-surface-base-dark: #212121;
-  --glide-core-surface-base-gray: #0000001a;
+  --glide-core-surface-base-gray: #ffffff8c;
   --glide-core-surface-base-gray-dark: #ffffff8c;
   --glide-core-surface-base-gray-light: #00000066;
   --glide-core-surface-base-light: #0000008c;
@@ -66,10 +66,10 @@
   --glide-core-surface-secondary: #f0f0f0;
   --glide-core-surface-secondary-disabled: #f0f0f0;
   --glide-core-surface-selected: #0073e6;
-  --glide-core-surface-selected-disabled: #c9c9c9;
+  --glide-core-surface-selected-disabled: #8a8a8a;
   --glide-core-surface-selected-hover: #054fb9;
   --glide-core-surface-success: #f1fdf4;
-  --glide-core-surface-unselected-disabled: #ffffff;
+  --glide-core-surface-unselected-disabled: #e3e3e3;
   --glide-core-surface-warning: #fff6e9;
   --glide-core-surface-white-1percent: #ffffff;
   --glide-core-text-body-1: #ffffff;
