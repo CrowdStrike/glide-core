@@ -134,3 +134,32 @@ it('removes a closed toast from the DOM', async () => {
 
   expect(toasts?.length).to.equal(0);
 });
+
+it('is hidden unless there are toasts displayed', async () => {
+  const component = await fixture<GlideCoreToasts>(
+    html`<glide-core-toasts></glide-core-toasts>`,
+  );
+
+  const shadowComponent = component.shadowRoot?.querySelector('.component');
+  assert(shadowComponent);
+
+  expect(shadowComponent.hasAttribute('popover')).to.equal(false);
+  expect(getComputedStyle(shadowComponent).display).to.equal('none');
+
+  component.add({
+    label: 'Test toast',
+    description: 'Test toast description',
+    variant: 'informational',
+  });
+
+  expect(shadowComponent.getAttribute('popover')).to.equal('manual');
+  expect(getComputedStyle(shadowComponent).display).to.equal('flex');
+
+  const toasts = component.shadowRoot?.querySelectorAll('glide-core-toast');
+  assert(toasts);
+  const toast = toasts[0];
+  toast.close();
+  toast.dispatchEvent(new Event('close', { bubbles: true }));
+
+  expect(getComputedStyle(shadowComponent).display).to.equal('none');
+});

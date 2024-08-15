@@ -33,6 +33,9 @@ export default class GlideCoreToasts extends LitElement {
   static override styles = styles;
 
   add(toast: Toast) {
+    ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
+    this.#componentElementRef.value.popover = 'manual';
+    this.#componentElementRef.value.showPopover();
     const { variant, label, description, duration } = toast;
 
     const toastElement = Object.assign(
@@ -45,13 +48,19 @@ export default class GlideCoreToasts extends LitElement {
       },
     );
 
-    ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
     this.#componentElementRef.value.append(toastElement);
 
     toastElement.addEventListener(
       'close',
       () => {
         toastElement.remove();
+
+        if (
+          this.#componentElementRef.value?.querySelectorAll('glide-core-toast')
+            .length === 0
+        ) {
+          this.#componentElementRef.value?.hidePopover();
+        }
       },
       { once: true },
     );
