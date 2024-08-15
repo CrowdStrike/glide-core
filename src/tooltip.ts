@@ -96,6 +96,7 @@ export default class GlideCoreTooltip extends LitElement {
         <div
           aria-labelledby=${ifDefined(this.disabled ? undefined : 'tooltip')}
           class="target"
+          data-test="target"
           slot="target"
           @focusin=${this.#onFocusin}
           @focusout=${this.#onFocusout}
@@ -116,6 +117,8 @@ export default class GlideCoreTooltip extends LitElement {
           })}
           id="tooltip"
           data-test="tooltip"
+          data-open-delay="300"
+          data-close-delay="200"
           role=${ifDefined(this.disabled ? undefined : 'tooltip')}
           ${ref(this.#tooltipElementRef)}
         >
@@ -246,11 +249,20 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   #onMouseover() {
+    ow(this.#tooltipElementRef.value, ow.object.instanceOf(HTMLElement));
+
     this.#cancelClose();
 
+    // The open and close delays are stored in data attributes so tests can
+    // configure them. Tests configure them, rather than using fake timers,
+    // because they need real timers so they can await Floating UI's setup.
+    //
+    // Conditionals here and in `#scheduleClose` based on `navigator.webdriver`
+    // would be a lot nicer. But the non-`navigator.webdriver` condition would
+    // never get hit in tests, so we'd fail to meet our coverage thresholds.
     this.#openTimeoutId = setTimeout(() => {
       this.#show();
-    }, 300);
+    }, Number(this.#tooltipElementRef.value.dataset.openDelay));
   }
 
   #onTargetSlotChange() {
@@ -258,69 +270,74 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   #scheduleClose() {
+    ow(this.#tooltipElementRef.value, ow.object.instanceOf(HTMLElement));
+
     this.#closeTimeoutId = setTimeout(() => {
       this.#hide();
-    }, 200);
+    }, Number(this.#tooltipElementRef.value.dataset.closeDelay));
   }
 
   #show() {
-    this.#cleanUpFloatingUi?.();
+    if (!this.disabled) {
+      this.#cleanUpFloatingUi?.();
 
-    if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
-      this.#cleanUpFloatingUi = autoUpdate(
-        this.#targetElementRef.value,
-        this.#tooltipElementRef.value,
-        () => {
-          (async () => {
-            if (
-              this.#targetElementRef.value &&
-              this.#tooltipElementRef.value &&
-              this.#arrowElementRef.value
-            ) {
-              const { x, y, placement, middlewareData } = await computePosition(
-                this.#targetElementRef.value,
-                this.#tooltipElementRef.value,
-                {
-                  placement: this.placement,
-                  middleware: [
-                    offset(4),
-                    flip({
-                      fallbackStrategy: 'initialPlacement',
-                    }),
-                    shift({
-                      limiter: limitShift({
-                        // Shifting is limited so the arrow is never near tooltip's rounded
-                        // corners, which would leave a gap between the arrow and the part of
-                        // the corner that's missing due to rounding. `20` is just a rough number.
-                        // `15` isn't enough.
-                        offset: 20,
-                      }),
-                    }),
-                    arrow({ element: this.#arrowElementRef.value }),
-                  ],
-                },
-              );
+      if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
+        this.#cleanUpFloatingUi = autoUpdate(
+          this.#targetElementRef.value,
+          this.#tooltipElementRef.value,
+          () => {
+            (async () => {
+              if (
+                this.#targetElementRef.value &&
+                this.#tooltipElementRef.value &&
+                this.#arrowElementRef.value
+              ) {
+                const { x, y, placement, middlewareData } =
+                  await computePosition(
+                    this.#targetElementRef.value,
+                    this.#tooltipElementRef.value,
+                    {
+                      placement: this.placement,
+                      middleware: [
+                        offset(4),
+                        flip({
+                          fallbackStrategy: 'initialPlacement',
+                        }),
+                        shift({
+                          limiter: limitShift({
+                            // Shifting is limited so the arrow is never near tooltip's rounded
+                            // corners, which would leave a gap between the arrow and the part of
+                            // the corner that's missing due to rounding. `20` is just a rough number.
+                            // `15` isn't enough.
+                            offset: 20,
+                          }),
+                        }),
+                        arrow({ element: this.#arrowElementRef.value }),
+                      ],
+                    },
+                  );
 
-              Object.assign(this.#tooltipElementRef.value.style, {
-                left: `${x}px`,
-                top: `${y}px`,
-              });
+                Object.assign(this.#tooltipElementRef.value.style, {
+                  left: `${x}px`,
+                  top: `${y}px`,
+                });
 
-              Object.assign(this.#arrowElementRef.value.style, {
-                left: middlewareData.arrow?.x
-                  ? `${middlewareData.arrow.x}px`
-                  : null,
-                top: middlewareData.arrow?.y
-                  ? `${middlewareData.arrow.y}px`
-                  : null,
-              });
+                Object.assign(this.#arrowElementRef.value.style, {
+                  left: middlewareData.arrow?.x
+                    ? `${middlewareData.arrow.x}px`
+                    : null,
+                  top: middlewareData.arrow?.y
+                    ? `${middlewareData.arrow.y}px`
+                    : null,
+                });
 
-              this.effectivePlacement = placement;
-              this.#tooltipElementRef.value.showPopover();
-            }
-          })();
-        },
-      );
+                this.effectivePlacement = placement;
+                this.#tooltipElementRef.value.showPopover();
+              }
+            })();
+          },
+        );
+      }
     }
   }
 }
