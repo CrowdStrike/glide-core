@@ -185,6 +185,13 @@ it('updates validity when `required` and `value` is changed programmatically', a
   expect(input.checkValidity()).to.be.false;
   expect(input.reportValidity()).to.be.false;
 
+  await elementUpdated(input);
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'true',
+  );
+
   input.value = 'text';
 
   await elementUpdated(input);
@@ -193,6 +200,13 @@ it('updates validity when `required` and `value` is changed programmatically', a
   expect(input.validity?.valueMissing).to.be.false;
   expect(input.checkValidity()).to.be.true;
   expect(input.reportValidity()).to.be.true;
+
+  await elementUpdated(input);
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
 
   // Resetting the value to empty to ensure it goes
   // back to an invalid state
@@ -204,4 +218,73 @@ it('updates validity when `required` and `value` is changed programmatically', a
   expect(input.validity?.valueMissing).to.be.true;
   expect(input.checkValidity()).to.be.false;
   expect(input.reportValidity()).to.be.false;
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'true',
+  );
+});
+
+it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
+  const input = await fixture<Input>(
+    html`<glide-core-input label="Label"></glide-core-input>`,
+  );
+
+  expect(input.validity?.valid).to.be.true;
+  expect(input.validity?.valueMissing).to.be.false;
+  expect(input.checkValidity()).to.be.true;
+  expect(input.reportValidity()).to.be.true;
+
+  await elementUpdated(input);
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
+
+  input.required = true;
+
+  await elementUpdated(input);
+
+  expect(input.validity?.valid).to.be.false;
+  expect(input.validity?.valueMissing).to.be.true;
+  expect(input.checkValidity()).to.be.false;
+  expect(input.reportValidity()).to.be.false;
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'true',
+  );
+});
+
+it('is valid when `value` is empty and `required` is set to `false` programmatically', async () => {
+  const input = await fixture<Input>(
+    html`<glide-core-input label="Label" required></glide-core-input>`,
+  );
+
+  expect(input.validity?.valid).to.be.false;
+  expect(input.validity?.valueMissing).to.be.true;
+  expect(input.checkValidity()).to.be.false;
+  expect(input.reportValidity()).to.be.false;
+
+  await elementUpdated(input);
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'true',
+  );
+
+  input.required = false;
+
+  await elementUpdated(input);
+
+  expect(input.validity?.valid).to.be.true;
+  expect(input.validity?.valueMissing).to.be.false;
+  expect(input.checkValidity()).to.be.true;
+  expect(input.reportValidity()).to.be.true;
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
 });
