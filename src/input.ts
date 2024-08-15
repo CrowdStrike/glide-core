@@ -12,7 +12,6 @@ import {
 } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
-import ow from './library/ow.js';
 import styles from './input.styles.js';
 
 declare global {
@@ -22,10 +21,9 @@ declare global {
 }
 
 /*
- * These are selected from native types listed on MDN:
+ * A selection of `type` attributes that align with native that we support
+ * with our component.
  * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
- *
- * This is subject to change pending discussion with the designers
  */
 export const SUPPORTED_TYPES = [
   'email',
@@ -68,6 +66,7 @@ export default class GlideCoreInput extends LitElement {
   @property({ reflect: true })
   name?: string;
 
+  // `value` is intentionally not reflected here to match native
   @property()
   value = '';
 
@@ -137,14 +136,22 @@ export default class GlideCoreInput extends LitElement {
   }
 
   get validity() {
-    if (this.required && this.value) {
-      this.#internals.setValidity({});
-    } else if (this.required && !this.value && !this.disabled) {
+    if (this.required && !this.value && !this.disabled) {
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         { valueMissing: true },
         ' ',
         this.#inputElementRef.value,
       );
+    } else if (this.#isMaxCharacterCountExceeded) {
+      this.#internals.setValidity(
+        { tooLong: true },
+        ' ',
+        this.#inputElementRef.value,
+      );
+    } else {
+      this.#internals.setValidity({});
     }
 
     return this.#internals.validity;
@@ -155,7 +162,7 @@ export default class GlideCoreInput extends LitElement {
   }
 
   override blur() {
-    this.#inputElement?.blur();
+    this.#inputElementRef.value?.blur();
   }
 
   checkValidity() {
@@ -171,10 +178,6 @@ export default class GlideCoreInput extends LitElement {
     this.form?.removeEventListener('formdata', this.#onFormdata);
   }
 
-  override firstUpdated() {
-    this.#setValidityToInputValidity();
-  }
-
   formAssociatedCallback() {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
@@ -183,16 +186,12 @@ export default class GlideCoreInput extends LitElement {
     this.value = this.getAttribute('value') ?? '';
   }
 
-  get isTypeSearch() {
-    return this.type === 'search';
-  }
-
   get hasClearIcon() {
-    return this.clearable && !this.disabled && !this.readonly;
+    return Boolean(this.clearable && !this.disabled && !this.readonly);
   }
 
   get isClearIconVisible() {
-    return this.hasClearIcon && this.value.length > 0;
+    return Boolean(this.hasClearIcon && this.value.length > 0);
   }
 
   override render() {
@@ -346,7 +345,7 @@ export default class GlideCoreInput extends LitElement {
             : ''}
 
           <div class="suffix">
-            ${this.isTypeSearch
+            ${this.type === 'search'
               ? magnifyingGlassIcon
               : html`<slot name="suffix"></slot>`}
           </div>
@@ -372,7 +371,7 @@ export default class GlideCoreInput extends LitElement {
                   <span aria-hidden="true" data-test="character-count-text">
                     ${this.#localize.term(
                       'displayedCharacterCount',
-                      this.valueCharacterCount,
+                      this.#valueCharacterCount,
                       this.maxlength,
                     )}
                   </span>
@@ -380,7 +379,7 @@ export default class GlideCoreInput extends LitElement {
                   <span class="hidden" data-test="character-count-announcement"
                     >${this.#localize.term(
                       'announcedCharacterCount',
-                      this.valueCharacterCount,
+                      this.#valueCharacterCount,
                       this.maxlength,
                     )}</span
                   >
@@ -401,10 +400,6 @@ export default class GlideCoreInput extends LitElement {
     this.requestUpdate();
 
     return isValid;
-  }
-
-  get valueCharacterCount() {
-    return this.value.length;
   }
 
   constructor() {
@@ -469,6 +464,10 @@ export default class GlideCoreInput extends LitElement {
 
   #localize = new LocalizeController(this);
 
+  get #valueCharacterCount() {
+    return this.value.length;
+  }
+
   #onFormdata = ({ formData }: FormDataEvent) => {
     if (this.name && this.value && !this.disabled) {
       formData.append(this.name, this.value);
@@ -476,17 +475,15 @@ export default class GlideCoreInput extends LitElement {
   };
 
   get #isMaxCharacterCountExceeded() {
-    return Boolean(this.maxlength && this.valueCharacterCount > this.maxlength);
-  }
-
-  get #isShowValidationFeedback() {
-    return (
-      !this.disabled && !this.validity?.valid && this.isReportValidityOrSubmit
+    return Boolean(
+      this.maxlength && this.#valueCharacterCount > this.maxlength,
     );
   }
 
-  get #inputElement() {
-    return this.#inputElementRef.value;
+  get #isShowValidationFeedback() {
+    return Boolean(
+      !this.disabled && !this.validity?.valid && this.isReportValidityOrSubmit,
+    );
   }
 
   #onBlur() {
@@ -498,21 +495,22 @@ export default class GlideCoreInput extends LitElement {
   }
 
   #onChange(event: Event) {
-    ow(this.#inputElement, ow.object.instanceOf(HTMLInputElement));
+    if (
+      this.#inputElementRef.value &&
+      event.target instanceof HTMLInputElement
+    ) {
+      this.value = this.#inputElementRef.value?.value;
 
-    this.value = this.#inputElement.value;
-    this.#setValidityToInputValidity();
-
-    // Unlike "input" events, "change" events aren't composed. So we manually
-    // dispatch them from the host.
-    this.dispatchEvent(new Event(event.type, event));
+      // Unlike "input" events, "change" events aren't composed. So we manually
+      // dispatch them from the host.
+      this.dispatchEvent(new Event(event.type, event));
+    }
   }
 
   #onClearClick(event: MouseEvent) {
     this.value = '';
     this.dispatchEvent(new Event('clear', { bubbles: true }));
-    this.#inputElement?.focus();
-    this.#setValidityToInputValidity();
+    this.#inputElementRef.value?.focus();
 
     event.stopPropagation();
   }
@@ -521,39 +519,16 @@ export default class GlideCoreInput extends LitElement {
     this.hasFocus = true;
   }
 
-  #onInput() {
-    ow(this.#inputElement, ow.object.instanceOf(HTMLInputElement));
-    this.value = this.#inputElement.value;
-    this.#setValidityToInputValidity();
+  #onInput(event: Event) {
+    if (
+      this.#inputElementRef.value &&
+      event.target instanceof HTMLInputElement
+    ) {
+      this.value = this.#inputElementRef.value.value;
+    }
   }
 
   #onPasswordToggle() {
     this.passwordVisible = !this.passwordVisible;
-  }
-
-  /**
-   * this.#internals.setValidity is required to properly attach the validation state to the form.
-   * We're simply setting our validity to be the same as the input element's validity
-   */
-  async #setValidityToInputValidity() {
-    await this.updateComplete;
-
-    if (this.#isMaxCharacterCountExceeded) {
-      this.#internals.setValidity(
-        { tooLong: true },
-        ' ',
-        this.#inputElementRef.value,
-      );
-    } else {
-      this.#internals.setValidity(
-        this.#inputElement?.validity,
-        this.#inputElement?.validationMessage,
-        this.#inputElement,
-      );
-    }
-
-    if (this.isReportValidityOrSubmit) {
-      this.reportValidity();
-    }
   }
 }
