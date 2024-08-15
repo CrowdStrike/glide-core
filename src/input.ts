@@ -4,12 +4,7 @@ import { LitElement, html, nothing } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import {
-  customElement,
-  property,
-  queryAssignedNodes,
-  state,
-} from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import ow from './library/ow.js';
@@ -22,10 +17,9 @@ declare global {
 }
 
 /*
- * These are selected from native types listed on MDN:
+ * A selection of `type` attributes that align with native that we support
+ * with our component.
  * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
- *
- * This is subject to change pending discussion with the designers
  */
 export const SUPPORTED_TYPES = [
   'email',
@@ -68,6 +62,7 @@ export default class GlideCoreInput extends LitElement {
   @property({ reflect: true })
   name?: string;
 
+  // `value` is intentionally not reflected here to match native
   @property()
   value = '';
 
@@ -123,20 +118,29 @@ export default class GlideCoreInput extends LitElement {
   })
   maxlength?: number;
 
-  @queryAssignedNodes({ slot: 'description' })
-  descriptionNodes!: NodeListOf<HTMLElement>;
-
-  @queryAssignedNodes({ slot: 'prefix' })
-  prefixIconNodes!: NodeListOf<HTMLElement>;
-
-  @queryAssignedNodes({ slot: 'suffix' })
-  suffixIconNodes!: NodeListOf<HTMLElement>;
-
   get form() {
     return this.#internals.form;
   }
 
   get validity() {
+    if (this.required && !this.value && !this.disabled) {
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
+      this.#internals.setValidity(
+        { valueMissing: true },
+        ' ',
+        this.#inputElementRef.value,
+      );
+    } else if (this.#isMaxCharacterCountExceeded) {
+      this.#internals.setValidity(
+        { tooLong: true },
+        ' ',
+        this.#inputElementRef.value,
+      );
+    } else {
+      this.#internals.setValidity({});
+    }
+
     return this.#internals.validity;
   }
 
@@ -145,7 +149,7 @@ export default class GlideCoreInput extends LitElement {
   }
 
   override blur() {
-    this.#inputElement?.blur();
+    this.#inputElementRef.value?.blur();
   }
 
   checkValidity() {
@@ -161,20 +165,12 @@ export default class GlideCoreInput extends LitElement {
     this.form?.removeEventListener('formdata', this.#onFormdata);
   }
 
-  override firstUpdated() {
-    this.#setValidityToInputValidity();
-  }
-
   formAssociatedCallback() {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
 
   formResetCallback() {
     this.value = this.getAttribute('value') ?? '';
-  }
-
-  get isTypeSearch() {
-    return this.type === 'search';
   }
 
   get hasClearIcon() {
@@ -252,46 +248,43 @@ export default class GlideCoreInput extends LitElement {
                   label=${this.#localize.term('clearEntry', this.label!)}
                   @click=${this.#onClearClick}
                 >
-                  <slot name="clear-icon">
-                    <!-- X icon -->
-                    <svg
-                      aria-hidden="true"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path
-                        d="M6 6L18 18"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M18 6L6 18"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </slot>
+                  <!-- X icon -->
+                  <svg
+                    aria-hidden="true"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path
+                      d="M6 6L18 18"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M18 6L6 18"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
                 </glide-core-icon-button>
               `
-            : ''}
+            : nothing}
           ${this.type === 'password' && this.passwordToggle && !this.disabled
             ? html`
                 <glide-core-icon-button
                   variant="tertiary"
                   class="password-toggle"
                   data-test="password-toggle"
-                  aria-label=${this.passwordVisible
+                  label=${this.passwordVisible
                     ? 'Hide password'
                     : 'Show password'}
                   aria-controls="input"
                   aria-expanded=${this.passwordVisible ? 'true' : 'false'}
                   @click=${this.#onPasswordToggle}
-                  tabindex="-1"
                 >
                   ${this.passwordVisible
                     ? // Eye icon with slash
@@ -333,10 +326,10 @@ export default class GlideCoreInput extends LitElement {
                       </svg>`}
                 </glide-core-icon-button>
               `
-            : ''}
+            : nothing}
 
           <div class="suffix">
-            ${this.isTypeSearch
+            ${this.type === 'search'
               ? magnifyingGlassIcon
               : html`<slot name="suffix"></slot>`}
           </div>
@@ -362,7 +355,7 @@ export default class GlideCoreInput extends LitElement {
                   <span aria-hidden="true" data-test="character-count-text">
                     ${this.#localize.term(
                       'displayedCharacterCount',
-                      this.valueCharacterCount,
+                      this.#valueCharacterCount,
                       this.maxlength,
                     )}
                   </span>
@@ -370,7 +363,7 @@ export default class GlideCoreInput extends LitElement {
                   <span class="hidden" data-test="character-count-announcement"
                     >${this.#localize.term(
                       'announcedCharacterCount',
-                      this.valueCharacterCount,
+                      this.#valueCharacterCount,
                       this.maxlength,
                     )}</span
                   >
@@ -391,10 +384,6 @@ export default class GlideCoreInput extends LitElement {
     this.requestUpdate();
 
     return isValid;
-  }
-
-  get valueCharacterCount() {
-    return this.value.length;
   }
 
   constructor() {
@@ -459,6 +448,10 @@ export default class GlideCoreInput extends LitElement {
 
   #localize = new LocalizeController(this);
 
+  get #valueCharacterCount() {
+    return this.value.length;
+  }
+
   #onFormdata = ({ formData }: FormDataEvent) => {
     if (this.name && this.value && !this.disabled) {
       formData.append(this.name, this.value);
@@ -466,17 +459,15 @@ export default class GlideCoreInput extends LitElement {
   };
 
   get #isMaxCharacterCountExceeded() {
-    return Boolean(this.maxlength && this.valueCharacterCount > this.maxlength);
+    return Boolean(
+      this.maxlength && this.#valueCharacterCount > this.maxlength,
+    );
   }
 
   get #isShowValidationFeedback() {
     return (
       !this.disabled && !this.validity?.valid && this.isReportValidityOrSubmit
     );
-  }
-
-  get #inputElement() {
-    return this.#inputElementRef.value;
   }
 
   #onBlur() {
@@ -488,10 +479,8 @@ export default class GlideCoreInput extends LitElement {
   }
 
   #onChange(event: Event) {
-    ow(this.#inputElement, ow.object.instanceOf(HTMLInputElement));
-
-    this.value = this.#inputElement.value;
-    this.#setValidityToInputValidity();
+    ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
+    this.value = this.#inputElementRef.value?.value;
 
     // Unlike "input" events, "change" events aren't composed. So we manually
     // dispatch them from the host.
@@ -501,8 +490,7 @@ export default class GlideCoreInput extends LitElement {
   #onClearClick(event: MouseEvent) {
     this.value = '';
     this.dispatchEvent(new Event('clear', { bubbles: true }));
-    this.#inputElement?.focus();
-    this.#setValidityToInputValidity();
+    this.#inputElementRef.value?.focus();
 
     event.stopPropagation();
   }
@@ -512,38 +500,11 @@ export default class GlideCoreInput extends LitElement {
   }
 
   #onInput() {
-    ow(this.#inputElement, ow.object.instanceOf(HTMLInputElement));
-    this.value = this.#inputElement.value;
-    this.#setValidityToInputValidity();
+    ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
+    this.value = this.#inputElementRef.value.value;
   }
 
   #onPasswordToggle() {
     this.passwordVisible = !this.passwordVisible;
-  }
-
-  /**
-   * this.#internals.setValidity is required to properly attach the validation state to the form.
-   * We're simply setting our validity to be the same as the input element's validity
-   */
-  async #setValidityToInputValidity() {
-    await this.updateComplete;
-
-    if (this.#isMaxCharacterCountExceeded) {
-      this.#internals.setValidity(
-        { tooLong: true },
-        ' ',
-        this.#inputElementRef.value,
-      );
-    } else {
-      this.#internals.setValidity(
-        this.#inputElement?.validity,
-        this.#inputElement?.validationMessage,
-        this.#inputElement,
-      );
-    }
-
-    if (this.isReportValidityOrSubmit) {
-      this.reportValidity();
-    }
   }
 }

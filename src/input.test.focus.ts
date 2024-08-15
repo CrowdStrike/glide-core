@@ -2,12 +2,12 @@
 
 import './input.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import Input from './input.js';
+import GlideCoreInput from './input.js';
 
-Input.shadowRootOptions.mode = 'open';
+GlideCoreInput.shadowRootOptions.mode = 'open';
 
 it('focuses the input when `focus()` is called', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
   );
 
@@ -20,7 +20,7 @@ it('focuses the input when `focus()` is called', async () => {
 it('focuses the input after submit when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
@@ -34,7 +34,7 @@ it('focuses the input after submit when required and no value', async () => {
 });
 
 it('blurs the input and reports validity if `blur` is called', async () => {
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
   );
 
@@ -58,7 +58,7 @@ it('blurs the input and reports validity if `blur` is called', async () => {
 it('focuses the input after `reportValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
@@ -74,7 +74,7 @@ it('focuses the input after `reportValidity` is called when required and no valu
 it('focuses the input after `requestSubmit` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
@@ -91,7 +91,7 @@ it('focuses the input after `requestSubmit` is called when required and no value
 it('does not focus the input after `checkValidity` is called', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const input = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
