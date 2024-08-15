@@ -37,7 +37,10 @@ export default class GlideCoreModalTertiaryIcon extends LitElement {
 
   override render() {
     return html`
-      <glide-core-tooltip placement="left" ${ref(this.#tooltipElementRef)}>
+      <glide-core-tooltip
+        placement=${this.tooltipPlacement}
+        ${ref(this.#tooltipElementRef)}
+      >
         ${this.label}
         <span tabindex="0" aria-label=${ifDefined(this.label)} slot="target">
           <slot
