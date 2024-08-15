@@ -4,12 +4,7 @@ import { LitElement, html, nothing } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import {
-  customElement,
-  property,
-  queryAssignedNodes,
-  state,
-} from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import styles from './input.styles.js';
@@ -121,15 +116,6 @@ export default class GlideCoreInput extends LitElement {
     },
   })
   maxlength?: number;
-
-  @queryAssignedNodes({ slot: 'description' })
-  descriptionNodes!: NodeListOf<HTMLElement>;
-
-  @queryAssignedNodes({ slot: 'prefix' })
-  prefixIconNodes!: NodeListOf<HTMLElement>;
-
-  @queryAssignedNodes({ slot: 'suffix' })
-  suffixIconNodes!: NodeListOf<HTMLElement>;
 
   get form() {
     return this.#internals.form;
