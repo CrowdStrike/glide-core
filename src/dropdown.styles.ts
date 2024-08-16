@@ -1,9 +1,17 @@
+import {
+  animation,
+  disableAnimation,
+  keyframes,
+} from './styles/opacity-scale-keyframes.js';
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
 import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
+    /* TODO Having this at the top breaks stuff... for some reason?  */
+    ${keyframes};
+
     .component {
       --min-inline-size: 9.375rem;
 
@@ -187,6 +195,12 @@ export default [
       &.disabled,
       &.readonly {
         color: var(--glide-core-surface-selected-disabled);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .options:popover-open {
+        ${disableAnimation};
       }
     }
   `,
