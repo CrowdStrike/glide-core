@@ -8,13 +8,7 @@ export default [
       &.horizontal {
         column-gap: var(--glide-core-spacing-sm);
         display: grid;
-
-        /*
-       Since 1fr is actually minmax(auto, 1fr), this explicit minmax will make it so
-       the first column is sized to its content, and the second column fills the rest
-       of the space.
-      */
-        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-columns: auto minmax(min-content, 1fr);
       }
 
       &.vertical {
@@ -27,7 +21,7 @@ export default [
       }
 
       &.middle {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 50% 50%;
       }
 
       &.hidden-label {
@@ -40,10 +34,14 @@ export default [
       align-items: center;
       column-gap: var(--glide-core-spacing-xs);
       display: flex;
-      justify-content: flex-end;
 
       /* Prevent it from growing larger than its column percentage when a child of Form Controls Layout. */
       min-inline-size: 0;
+
+      &.middle,
+      &.left {
+        justify-content: flex-end;
+      }
 
       &.hidden {
         ${visuallyHidden};
@@ -117,8 +115,10 @@ export default [
 
     .label-overflow-tooltip {
       display: flex;
-      inline-size: 100%;
-      justify-content: flex-start;
+      max-inline-size: 100%;
+
+      /* https://css-tricks.com/flexbox-truncated-text/#aa-the-solution-is-min-width-0-on-the-flex-child */
+      min-inline-size: 0;
     }
 
     .required-symbol {
