@@ -35,6 +35,7 @@ export default class GlideCoreTextarea extends LitElement {
 
   static override styles = styles;
 
+  // `value` is intentionally not reflected here to match native
   @property()
   value = '';
 
@@ -105,14 +106,31 @@ export default class GlideCoreTextarea extends LitElement {
     super.disconnectedCallback();
 
     this.form?.removeEventListener('formdata', this.#onFormdata);
-    this.removeEventListener('invalid', this.#onInvalid);
   }
 
   get form() {
     return this.#internals.form;
   }
 
-  get validity(): ValidityState {
+  get validity() {
+    if (this.required && !this.value && !this.disabled) {
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
+      this.#internals.setValidity(
+        { valueMissing: true },
+        ' ',
+        this.#textareaElementRef.value,
+      );
+    } else if (this.#isMaxCharacterCountExceeded) {
+      this.#internals.setValidity(
+        { tooLong: true },
+        ' ',
+        this.#textareaElementRef.value,
+      );
+    } else {
+      this.#internals.setValidity({});
+    }
+
     return this.#internals.validity;
   }
 
@@ -133,21 +151,24 @@ export default class GlideCoreTextarea extends LitElement {
       split=${ifDefined(this.privateSplit ?? undefined)}
       orientation=${this.orientation}
       ?disabled=${this.disabled}
-      ?error=${this.#isShowValidationFeedback || this.#isInvalidCharacterLength}
+      ?error=${this.#isShowValidationFeedback ||
+      this.#isMaxCharacterCountExceeded}
       ?hide=${this.hideLabel}
       ?required=${this.required}
     >
       <slot name="tooltip" slot="tooltip"></slot>
 
-      <label class="label" for="textarea"> ${this.label} </label>
+      <label class="label" for="textarea">${this.label}</label>
 
       <div class="textarea-container" slot="control">
         <textarea
+          aria-describedby="meta"
           aria-invalid=${this.#isShowValidationFeedback ||
-          this.#isInvalidCharacterLength}
+          this.#isMaxCharacterCountExceeded}
           class=${classMap({
             error:
-              this.#isShowValidationFeedback || this.#isInvalidCharacterLength,
+              this.#isShowValidationFeedback ||
+              this.#isMaxCharacterCountExceeded,
           })}
           id="textarea"
           name=${ifDefined(this.name)}
@@ -155,10 +176,10 @@ export default class GlideCoreTextarea extends LitElement {
           rows=${this.rows}
           autocapitalize=${ifDefined(this.autocapitalize)}
           spellcheck=${this.spellcheck}
+          .value=${this.value}
           ?required=${this.required}
           ?readonly=${this.readonly}
           ?disabled=${this.disabled}
-          aria-describedby="meta"
           ${ref(this.#textareaElementRef)}
           @input=${this.#onInput}
           @change=${this.#onChange}
@@ -174,21 +195,21 @@ export default class GlideCoreTextarea extends LitElement {
           ? html`<div
               class=${classMap({
                 'character-count': true,
-                error: this.#isInvalidCharacterLength,
+                error: this.#isMaxCharacterCountExceeded,
               })}
               data-test="character-count-container"
             >
               <span aria-hidden="true" data-test="character-count-text">
                 ${this.#localize.term(
                   'displayedCharacterCount',
-                  this.value.length,
+                  this.#valueCharacterCount,
                   this.maxlength,
                 )}
               </span>
               <span class="hidden" data-test="character-count-announcement"
                 >${this.#localize.term(
                   'announcedCharacterCount',
-                  this.value.length,
+                  this.#valueCharacterCount,
                   this.maxlength,
                 )}</span
               >
@@ -209,22 +230,47 @@ export default class GlideCoreTextarea extends LitElement {
     return isValid;
   }
 
-  override updated() {
-    if (this.#textareaElementRef.value) {
-      this.#textareaElementRef.value.value = this.value;
-    }
-
-    // This ensures validity is re-evaluated when an attribute changes.
-    // Although this causes onUpdateValidityState to run twice when typing,
-    // the overhead should be insignificant
-    this.#onUpdateValidityState();
-  }
-
   constructor() {
     super();
 
     this.#internals = this.attachInternals();
-    this.addEventListener('invalid', this.#onInvalid);
+
+    // Event listeners on the host aren't great because consumers can remove them.
+    // Unfortunately, the host is the only thing on which this event is dispatched
+    // because it's the host that is form-associated.
+    this.addEventListener('invalid', (event) => {
+      event?.preventDefault(); // Canceled so a native validation message isn't shown.
+
+      // We only want to focus the input if the invalid event resulted from either:
+      // 1. Form submission
+      // 2. a call to reportValidity that did NOT result from the input blur event
+      if (this.isCheckingValidity || this.isBlurring) {
+        return;
+      }
+
+      this.isReportValidityOrSubmit = true;
+
+      const isFirstInvalidFormElement =
+        this.form?.querySelector(':invalid') === this;
+
+      if (isFirstInvalidFormElement) {
+        // - `this.#internals.delegatesFocus` is preferred because it's declarative. But
+        //    it's limited to focusing the first focusable element. That doesn't work for
+        //    us because our first focusable element is the tooltip when it's present.
+        //
+        // - Canceling this event means the input won't get focus, even if we were to use
+        //   `this.#internals.delegatesFocus`.
+        //
+        // - The browser will ignore this if Input isn't the first invalid form control.
+        //
+        // TODO
+        // Try passing `focusVisible` after browsers support it. It may prevent the issue
+        // where the input itself has a focus outline after this call.
+        //
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#focusvisible
+        this.focus();
+      }
+    });
   }
 
   @state()
@@ -245,7 +291,7 @@ export default class GlideCoreTextarea extends LitElement {
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onFormdata = ({ formData }: FormDataEvent) => {
-    if (this.value.length > 0 && this.name && this.value && !this.disabled) {
+    if (this.name && this.value && !this.disabled) {
       formData.append(this.name, this.value);
     }
   };
@@ -259,12 +305,14 @@ export default class GlideCoreTextarea extends LitElement {
     );
   }
 
-  get #isInvalidCharacterLength() {
-    if (!this.maxlength || this.disabled) {
-      return false;
-    }
+  get #valueCharacterCount() {
+    return this.value.length;
+  }
 
-    return this.value.length > this.maxlength;
+  get #isMaxCharacterCountExceeded() {
+    return Boolean(
+      this.maxlength && this.#valueCharacterCount > this.maxlength,
+    );
   }
 
   #onBlur() {
@@ -279,12 +327,10 @@ export default class GlideCoreTextarea extends LitElement {
       ow.object.instanceOf(HTMLTextAreaElement),
     );
 
-    const textAreaValue = this.#textareaElementRef.value.value;
-    this.value = textAreaValue;
+    this.value = this.#textareaElementRef.value.value;
 
-    this.#onUpdateValidityState();
-
-    // Unlike "input" events, these don't bubble. We have to manually dispatch them.
+    // Unlike "input" events, "change" events aren't composed. So we manually
+    // dispatch them from the host.
     this.dispatchEvent(new Event(event.type, event));
   }
 
@@ -294,68 +340,6 @@ export default class GlideCoreTextarea extends LitElement {
       ow.object.instanceOf(HTMLTextAreaElement),
     );
 
-    const textAreaValue = this.#textareaElementRef.value.value;
-    this.value = textAreaValue;
-    this.#internals.setFormValue(this.value);
-
-    this.#onUpdateValidityState();
-  }
-
-  #onInvalid(event: Event) {
-    event?.preventDefault(); // Canceled so a native validation message isn't shown.
-
-    // We only want to focus the textarea if the invalid event resulted from either:
-    // 1. Form submission
-    // 2. a call to reportValidity that did NOT result from the textarea blur event
-
-    if (this.isCheckingValidity || this.isBlurring) {
-      return;
-    }
-
-    this.isReportValidityOrSubmit = true;
-
-    const isFirstInvalidFormElement =
-      this.form?.querySelector(':invalid') === this;
-
-    if (isFirstInvalidFormElement) {
-      // - `this.#internals.delegatesFocus` is preferred because it's declarative. But
-      //    it's limited to focusing the first focusable element. That doesn't work for
-      //    us because our first focusable element is the tooltip when it's present.
-      //
-      // - Canceling this event means the textarea won't get focus, even if we were to use
-      //   `this.#internals.delegatesFocus`.
-      //
-      // - The browser will ignore this if textarea isn't the first invalid form control.
-      //
-      // TODO
-      // Try passing `focusVisible` after browsers support it. It may prevent the issue
-      // where the textarea itself has a focus outline after this call.
-      //
-      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#focusvisible
-      this.focus();
-    }
-  }
-
-  async #onUpdateValidityState() {
-    const textareaElement = this.#textareaElementRef.value;
-
-    if (this.#isInvalidCharacterLength) {
-      this.#internals.setValidity(
-        {
-          ...textareaElement?.validity,
-          tooLong: true,
-        },
-        ' ',
-        textareaElement,
-      );
-    } else {
-      this.#internals.setValidity(
-        textareaElement?.validity,
-        textareaElement?.validationMessage,
-        textareaElement,
-      );
-    }
-
-    await this.updateComplete;
+    this.value = this.#textareaElementRef.value.value;
   }
 }
