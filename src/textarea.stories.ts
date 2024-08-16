@@ -187,40 +187,11 @@ export default meta;
 
 export const Default: StoryObj = {};
 
-export const Required: StoryObj = {
+export const WithError: StoryObj = {
+  name: 'With Error',
   args: {
     required: true,
-  },
-};
-
-export const Vertical: StoryObj = {
-  args: {
-    orientation: 'vertical',
-  },
-};
-
-export const Readonly: StoryObj = {
-  args: {
-    readonly: true,
-  },
-};
-
-export const Disabled: StoryObj = {
-  args: {
-    disabled: true,
-  },
-};
-
-export const Placeholder: StoryObj = {
-  args: {
-    placholder: 'Placeholder...',
     value: '',
-  },
-};
-
-export const MaxLength: StoryObj = {
-  args: {
-    maxlength: 20,
   },
 };
 
@@ -252,11 +223,37 @@ export const Description: StoryObj = {
   },
 };
 
-export const WithError: StoryObj = {
-  name: 'With Error',
+export const Readonly: StoryObj = {
   args: {
-    required: true,
+    readonly: true,
+  },
+};
+
+export const Disabled: StoryObj = {
+  args: {
+    disabled: true,
+  },
+};
+
+export const Placeholder: StoryObj = {
+  args: {
+    placholder: 'Placeholder...',
     value: '',
+  },
+};
+
+export const MaxLength: StoryObj = {
+  args: {
+    maxlength: 20,
+    'slot="description"': undefined,
+  },
+};
+
+export const MaxLengthAndDescription: StoryObj = {
+  name: 'Max Length (With Description)',
+  args: {
+    maxlength: 20,
+    'slot="description"': 'Description here lives alongside maxlength',
   },
 };
 

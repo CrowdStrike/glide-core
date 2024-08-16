@@ -271,6 +271,7 @@ export const Disabled: StoryObj = {
 
 export const Placeholder: StoryObj = {
   args: {
+    placholder: 'Placeholder...',
     value: '',
   },
 };
