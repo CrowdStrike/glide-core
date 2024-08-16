@@ -122,5 +122,15 @@ when browsers support them.
       fill: var(--glide-core-icon-active);
       stroke: var(--glide-core-icon-active);
     }
+
+    .label-tooltip {
+      overflow: hidden;
+    }
+
+    .label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   `,
 ];

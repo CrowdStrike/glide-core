@@ -294,7 +294,7 @@ const meta: Meta = {
         ></glide-core-dropdown-option>
 
         <glide-core-dropdown-option
-          label="Three"
+          label="Three three three three three three three three three three"
           value="three"
         ></glide-core-dropdown-option>
 
@@ -306,6 +306,31 @@ const meta: Meta = {
         <glide-core-dropdown-option
           label="Five"
           value="five"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Six"
+          value="six"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Seven"
+          value="seven"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Eight"
+          value="eight"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Nine"
+          value="nine"
+        ></glide-core-dropdown-option>
+
+        <glide-core-dropdown-option
+          label="Ten"
+          value="ten"
         ></glide-core-dropdown-option>
 
         <div slot="description">${arguments_['slot="description"']}</div>

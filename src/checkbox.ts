@@ -1,4 +1,5 @@
 import './label.js';
+import './tooltip.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -66,13 +67,41 @@ export default class GlideCoreCheckbox extends LitElement {
   indeterminate = false;
 
   @property({ reflect: true })
-  label?: string;
+  get label() {
+    return this.#label;
+  }
+
+  set label(label) {
+    this.#label = label;
+
+    // Wait for the label to render. A rerender won't be scheduled by Lit
+    // until after this setter finishes. So awaiting `this.updateComplete`
+    // won't fly.
+    setTimeout(() => {
+      this.#updateLabelOverflow();
+    });
+  }
 
   @property({ reflect: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property({ reflect: true })
   name?: string;
+
+  @property({
+    attribute: 'private-label-tooltip-offset',
+    reflect: true,
+    type: Number,
+  })
+  // Unfortunate. Used by Dropdown Option to offset the tooltip by the option's padding.
+  privateLabelTooltipOffset = 4;
+
+  @property({
+    attribute: 'private-show-label-tooltip',
+    reflect: true,
+    type: Boolean,
+  })
+  privateShowLabelTooltip = false;
 
   @property()
   privateSplit?: 'left' | 'middle';
@@ -113,9 +142,27 @@ export default class GlideCoreCheckbox extends LitElement {
     this.#inputElementRef.value?.click();
   }
 
+  override connectedCallback() {
+    super.connectedCallback();
+
+    // Checkbox can be abitrarily shown and hidden as it is in Dropdown. So calling
+    // `#updateLabelOverflow` in the `label` setter isn't sufficient because the
+    // label's `scrollWidth` and `clientWidth` will both be zero until Checkbox is
+    // visible. So, rather than Checkbox expose a pseudo-private method, Checkbox
+    // simply monitors its own visibility.
+    this.#intersectionObserver = new IntersectionObserver(() => {
+      if (this.checkVisibility()) {
+        this.#updateLabelOverflow();
+      }
+    });
+
+    this.#intersectionObserver.observe(this);
+  }
+
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
+    this.#intersectionObserver?.disconnect();
   }
 
   get validity() {
@@ -188,7 +235,18 @@ export default class GlideCoreCheckbox extends LitElement {
               </div>
             </div>
 
-            ${this.label}
+            <glide-core-tooltip
+              class="label-tooltip"
+              offset=${this.privateLabelTooltipOffset}
+              ?disabled=${!this.isLabelOverflow}
+              ?open=${this.privateShowLabelTooltip}
+            >
+              <div aria-hidden="true" data-test="tooltip">${this.label}</div>
+
+              <div class="label" slot="target" ${ref(this.#labelElementRef)}>
+                ${this.label}
+              </div>
+            </glide-core-tooltip>
           </label>
         `,
         () =>
@@ -344,9 +402,18 @@ export default class GlideCoreCheckbox extends LitElement {
   @state()
   private isCheckingValidity = false;
 
+  @state()
+  private isLabelOverflow = false;
+
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
+
+  #intersectionObserver?: IntersectionObserver;
+
+  #label = '';
+
+  #labelElementRef = createRef<HTMLElement>();
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
@@ -388,5 +455,13 @@ export default class GlideCoreCheckbox extends LitElement {
     // Unlike "input" events, "change" events aren't composed. So we manually
     // dispatch them from the host.
     this.dispatchEvent(new Event(event.type, event));
+  }
+
+  #updateLabelOverflow() {
+    if (this.#labelElementRef.value) {
+      this.isLabelOverflow =
+        this.#labelElementRef.value.scrollWidth >
+        this.#labelElementRef.value.clientWidth;
+    }
   }
 }

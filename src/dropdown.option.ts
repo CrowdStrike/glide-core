@@ -1,4 +1,5 @@
 import './checkbox.js';
+import './tooltip.js';
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -30,7 +31,20 @@ export default class GlideCoreDropdownOption extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  label?: string;
+  get label() {
+    return this.#label;
+  }
+
+  set label(label) {
+    this.#label = label;
+
+    // Wait for the label to render. A rerender won't be scheduled by Lit
+    // until after this setter finishes. So awaiting `this.updateComplete`
+    // won't fly.
+    setTimeout(() => {
+      this.#updateLabelOverflow();
+    });
+  }
 
   @property({ attribute: 'private-indeterminate', type: Boolean })
   privateIndeterminate = false;
@@ -115,6 +129,24 @@ export default class GlideCoreDropdownOption extends LitElement {
     this.ariaSelected = this.selected.toString();
     this.role = 'option';
     this.tabIndex = -1;
+
+    // Options are abitrarily shown and hidden when Dropdown is opened and closed. So
+    // calling `#updateLabelOverflow` in the `label` setter isn't sufficient because
+    // the label's `scrollWidth` and `clientWidth` will both be zero until Dropdown
+    // is open. So, rather than expose a pseudo-private method for Dropdown to call
+    // on open, Dropdown Option simply monitors its own visibility.
+    this.#intersectionObserver = new IntersectionObserver(() => {
+      if (this.checkVisibility()) {
+        this.#updateLabelOverflow();
+      }
+    });
+
+    this.#intersectionObserver.observe(this);
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.#intersectionObserver?.disconnect();
   }
 
   override firstUpdated() {
@@ -184,11 +216,13 @@ export default class GlideCoreDropdownOption extends LitElement {
               data-test="checkbox"
               label=${this.label ?? ''}
               tabindex="-1"
+              private-label-tooltip-offset=${12}
               private-variant="minimal"
               value=${this.value}
               internally-inert
               @click=${this.#onCheckboxClick}
               ?indeterminate=${this.privateIndeterminate}
+              ?private-show-label-tooltip=${this.privateActive}
               ${ref(this.#checkboxElementRef)}
             ></glide-core-checkbox>
           `;
@@ -210,13 +244,29 @@ export default class GlideCoreDropdownOption extends LitElement {
               </div>
 
               <slot name="icon"></slot>
-              ${this.label}
+
+              <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${!this
+                .isLabelOverflow} ?open=${this.privateActive}>
+
+                <div aria-hidden="true" data-test="tooltip">
+                  ${this.label}
+                </div>
+
+                <div class="label" data-test="label" slot="target" ${ref(
+                  this.#labelElementRef,
+                )}>
+                  ${this.label}
+                </div>
+              </glide-core-tooltip>
             </div>
           </div>`;
         },
       )}
     </div> `;
   }
+
+  @state()
+  private isLabelOverflow = false;
 
   #checkboxElementRef = createRef<GlideCoreCheckbox>();
 
@@ -228,6 +278,12 @@ export default class GlideCoreDropdownOption extends LitElement {
   // point to a non-existent ID when this component is re-added. An edge case
   // for sure. But one we can protect against with little effort.
   #id = nanoid();
+
+  #intersectionObserver?: IntersectionObserver;
+
+  #label = '';
+
+  #labelElementRef = createRef<HTMLElement>();
 
   #selected = false;
 
@@ -248,5 +304,13 @@ export default class GlideCoreDropdownOption extends LitElement {
     // duplicate "change" and "input" events. So Dropdown listens for "input"
     // for multiselect and "click" for single-select.
     event.stopPropagation();
+  }
+
+  #updateLabelOverflow() {
+    if (this.#labelElementRef.value) {
+      this.isLabelOverflow =
+        this.#labelElementRef.value.scrollWidth >
+        this.#labelElementRef.value.clientWidth;
+    }
   }
 }

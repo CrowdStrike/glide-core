@@ -38,7 +38,37 @@ export default class GlideCoreTooltip extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true, type: Boolean })
-  disabled = false;
+  get disabled() {
+    return this.#isDisabled;
+  }
+
+  set disabled(isDisabled: boolean) {
+    this.#isDisabled = isDisabled;
+
+    if (this.open && !isDisabled) {
+      this.#show();
+    } else {
+      this.#hide();
+    }
+  }
+
+  @property({ reflect: true, type: Number })
+  offset = 4;
+
+  @property({ reflect: true, type: Boolean })
+  get open() {
+    return this.#isOpen;
+  }
+
+  set open(isOpen: boolean) {
+    this.#isOpen = isOpen;
+
+    if (isOpen && !this.disabled) {
+      this.#show();
+    } else {
+      this.#hide();
+    }
+  }
 
   /* 
     The placement of the tooltip relative to its target. Automatic placement will 
@@ -73,6 +103,10 @@ export default class GlideCoreTooltip extends LitElement {
     // "auto" also automatically opens the popover when its target is clicked. We want
     // it to remain closed when clicked when there are no menu options.
     this.#tooltipElementRef.value.popover = 'manual';
+
+    if (this.open && !this.disabled) {
+      this.#show();
+    }
   }
 
   override render() {
@@ -203,6 +237,10 @@ export default class GlideCoreTooltip extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
+  #isDisabled = false;
+
+  #isOpen = false;
+
   #openTimeoutId?: ReturnType<typeof setTimeout>;
 
   #targetElementRef = createRef<HTMLElement>();
@@ -229,16 +267,16 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   #onFocusin() {
-    this.#show();
+    this.open = true;
   }
 
   #onFocusout() {
-    this.#hide();
+    this.open = false;
   }
 
   #onKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
-      this.#hide();
+      this.open = false;
     }
   }
 
@@ -261,7 +299,7 @@ export default class GlideCoreTooltip extends LitElement {
     // would be a lot nicer. But the non-`navigator.webdriver` condition would
     // never get hit in tests, so we'd fail to meet our coverage thresholds.
     this.#openTimeoutId = setTimeout(() => {
-      this.#show();
+      this.open = true;
     }, Number(this.#tooltipElementRef.value.dataset.openDelay));
   }
 
@@ -273,7 +311,7 @@ export default class GlideCoreTooltip extends LitElement {
     ow(this.#tooltipElementRef.value, ow.object.instanceOf(HTMLElement));
 
     this.#closeTimeoutId = setTimeout(() => {
-      this.#hide();
+      this.open = false;
     }, Number(this.#tooltipElementRef.value.dataset.closeDelay));
   }
 
@@ -299,7 +337,7 @@ export default class GlideCoreTooltip extends LitElement {
                     {
                       placement: this.placement,
                       middleware: [
-                        offset(4),
+                        offset(this.offset),
                         flip({
                           fallbackStrategy: 'initialPlacement',
                         }),

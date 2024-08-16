@@ -115,7 +115,7 @@ export default [
       }
     }
 
-    .label-overflow-tooltip {
+    .label-tooltip {
       display: flex;
       inline-size: 100%;
       justify-content: flex-start;
