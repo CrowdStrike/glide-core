@@ -1,7 +1,14 @@
+import {
+  animation,
+  disableAnimation,
+  keyframes,
+} from './styles/opacity-scale-keyframes.js';
 import { css } from 'lit';
 
 export default [
   css`
+    ${keyframes};
+
     :host {
       /* Contains elements with "padding", "margin", and "width". Inline by default. */
       display: inline-block;
@@ -29,6 +36,17 @@ export default [
       min-inline-size: 9.375rem;
       padding: var(--glide-core-spacing-xxxs);
       position: absolute;
+
+      &:popover-open {
+        ${animation};
+      }
+    }
+
+    /* TODO When using a mixin, if this isn't at the bottom it doesn't work */
+    @media (prefers-reduced-motion: reduce) {
+      .default-slot:popover-open {
+        ${disableAnimation};
+      }
     }
   `,
 ];

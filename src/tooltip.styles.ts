@@ -1,19 +1,14 @@
+import {
+  animation,
+  disableAnimation,
+  keyframes,
+} from './styles/opacity-scale-keyframes.js';
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    @keyframes tooltip {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+    ${keyframes};
 
     :host {
       display: inline-block;
@@ -32,9 +27,9 @@ export default [
       background-color: transparent;
       border-width: 0;
 
-      /* 
-        Additional whitespace from line height and the tooltip won't be vertically 
-        centered against its target. 
+      /*
+        Additional whitespace from line height and the tooltip won't be vertically
+        centered against its target.
       */
       display: flex;
 
@@ -72,19 +67,20 @@ export default [
       }
 
       &:popover-open {
-        animation: tooltip 250ms cubic-bezier(0.25, 0, 0.3, 1);
+        ${animation};
+
         display: flex;
 
-        /* 
+        /*
           Elements with a "popover" attribute don't allow overflow. So the arrow can't
-          be positioned with "position: absolute". Relative positioning is used instead. 
-          Flex is used to get the arrow on the correct side of the tooltip. Floating UI 
-          handles the rest. 
-          
-          A simple "transform" could replace Floating UI for the arrow if not for a Chrome 
-          bug with "popover" when "scale()" is animated on the popover or a container within 
-          it. With "transform" on the arrow, the arrow is initially offset by a couple pixels 
-          before landing in the correct position when the animation finishes. It only happens 
+          be positioned with "position: absolute". Relative positioning is used instead.
+          Flex is used to get the arrow on the correct side of the tooltip. Floating UI
+          handles the rest.
+
+          A simple "transform" could replace Floating UI for the arrow if not for a Chrome
+          bug with "popover" when "scale()" is animated on the popover or a container within
+          it. With "transform" on the arrow, the arrow is initially offset by a couple pixels
+          before landing in the correct position when the animation finishes. It only happens
           when the tooltip is left or right of its target.
         */
 
@@ -136,6 +132,12 @@ export default [
       max-inline-size: 11.25rem;
       overflow-wrap: break-word;
       padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tooltip:popover-open {
+        ${disableAnimation};
+      }
     }
   `,
 ];
