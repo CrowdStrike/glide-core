@@ -29,7 +29,7 @@ export default css`
     display: flex;
   }
 
-  .input-box {
+  .input-container {
     align-items: center;
     background-color: var(--glide-core-surface-base-lighter);
     block-size: 2.125rem;
@@ -48,6 +48,7 @@ export default css`
 
     &.focused:not(.error) {
       border-color: var(--glide-core-border-focus);
+      transition: border-color 200ms ease-in-out;
     }
 
     /* We had to resort to a class selector because there may be a bug in Chrome and Safari

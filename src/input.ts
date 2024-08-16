@@ -201,7 +201,7 @@ export default class GlideCoreInput extends LitElement {
 
         <div
           class=${classMap({
-            'input-box': true,
+            'input-container': true,
             focused: this.hasFocus,
             empty: this.value === '',
             disabled: this.disabled,
