@@ -144,9 +144,29 @@ it('is valid if no value but required and disabled', async () => {
   );
 });
 
-it('is valid when filled in, disabled, and exceeds `maxlength`', async () => {
+it('is valid when filled in, disabled, and value exceeds `maxlength`', async () => {
   const template =
     '<glide-core-textarea value="value" disabled maxlength="3"></glide-core-textarea>';
+
+  const textarea = await fixture<GlideCoreTextarea>(template);
+
+  expect(textarea.validity?.valid).to.be.true;
+  expect(textarea.validity?.valueMissing).to.be.false;
+  expect(textarea.validity?.tooLong).to.be.false;
+  expect(textarea.checkValidity()).to.be.true;
+  expect(textarea.reportValidity()).to.be.true;
+
+  await elementUpdated(textarea);
+
+  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
+});
+
+it('is valid when filled in, readonly, and value exceeds `maxlength`', async () => {
+  const template =
+    '<glide-core-textarea value="value" readonly maxlength="3"></glide-core-textarea>';
 
   const textarea = await fixture<GlideCoreTextarea>(template);
 

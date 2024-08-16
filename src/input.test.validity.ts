@@ -136,6 +136,52 @@ it('is valid when filled in and does not exceed `maxlength`', async () => {
   );
 });
 
+it('is valid when filled in, disabled, and value exceeds `maxlength`', async () => {
+  const input = await fixture<GlideCoreInput>(
+    html`<glide-core-input
+      value="value"
+      maxlength="3"
+      disabled
+    ></glide-core-input>`,
+  );
+
+  expect(input.validity?.valid).to.be.true;
+  expect(input.validity?.valueMissing).to.be.false;
+  expect(input.validity?.tooLong).to.be.false;
+  expect(input.checkValidity()).to.be.true;
+  expect(input.reportValidity()).to.be.true;
+
+  await elementUpdated(input);
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
+});
+
+it('is valid when filled in, readonly, and value exceeds `maxlength`', async () => {
+  const input = await fixture<GlideCoreInput>(
+    html`<glide-core-input
+      value="value"
+      maxlength="3"
+      readonly
+    ></glide-core-input>`,
+  );
+
+  expect(input.validity?.valid).to.be.true;
+  expect(input.validity?.valueMissing).to.be.false;
+  expect(input.validity?.tooLong).to.be.false;
+  expect(input.checkValidity()).to.be.true;
+  expect(input.reportValidity()).to.be.true;
+
+  await elementUpdated(input);
+
+  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
+    'aria-invalid',
+    'false',
+  );
+});
+
 it('is invalid when filled in and exceeds `maxlength`', async () => {
   const input = await fixture<GlideCoreInput>(
     html`<glide-core-input maxlength="3"></glide-core-input>`,

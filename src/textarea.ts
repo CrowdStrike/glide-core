@@ -311,7 +311,10 @@ export default class GlideCoreTextarea extends LitElement {
 
   get #isMaxCharacterCountExceeded() {
     return Boolean(
-      this.maxlength && this.#valueCharacterCount > this.maxlength,
+      !this.disabled &&
+        !this.readonly &&
+        this.maxlength &&
+        this.#valueCharacterCount > this.maxlength,
     );
   }
 
