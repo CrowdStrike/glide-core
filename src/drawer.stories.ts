@@ -56,11 +56,17 @@ const meta: Meta = {
     <glide-core-button>Toggle</glide-core-button>
 
     <glide-core-drawer label=${arguments_.label} ?pinned=${arguments_.pinned}>
-      <div style="padding: 0.5rem">${arguments_['slot="default"']}</div>
+      ${arguments_['slot="default"']}
     </glide-core-drawer>
+
+    <style>
+      glide-core-drawer div {
+        padding: 0.5rem;
+      }
+    </style>
   `,
   args: {
-    'slot="default"': 'Drawer content',
+    'slot="default"': '',
     label: 'label',
     pinned: false,
   },
@@ -95,7 +101,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'string',
-          detail: 'An aria-label for the drawer.',
+          detail: 'For screenreaders.',
         },
       },
     },
@@ -138,7 +144,13 @@ export const WithCSSVariable: StoryObj = {
     <glide-core-button data-trigger>Toggle</glide-core-button>
 
     <glide-core-drawer style="--width: 20rem;">
-      <div style="padding: 0.5rem">Width of 20rem</div>
+      <div>Width of 20rem</div>
     </glide-core-drawer>
+
+    <style>
+      glide-core-drawer div {
+        padding: 0.5rem;
+      }
+    </style>
   `,
 };

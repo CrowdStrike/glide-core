@@ -44,11 +44,11 @@ const meta: Meta = {
     },
     placement: {
       control: { type: 'radio' },
-      options: ['bottom', 'left', 'right', 'top'],
+      options: ['top', 'right', 'bottom', 'left'],
       table: {
         defaultValue: { summary: '"bottom"' },
         type: {
-          summary: '"bottom" | "left" | "right" | "top"',
+          summary: '"top" | "right" | "bottom" | "left"',
           detail:
             '// Tooltip will try to move itself to the opposite of this value if it results in an overflow.\n// For example, if "bottom" results in an overflow Tooltip will try "top" but not "right" or "left".',
         },
@@ -66,14 +66,15 @@ const meta: Meta = {
           ?disabled=${arguments_.disabled}
         >
           ${unsafeHTML(arguments_['slot="default"'])}
-          <span slot="target" class="icon" tabindex="0">
+
+          <span slot="target" tabindex="0">
             <glide-core-example-icon name="info"></glide-core-example-icon>
           </span>
         </glide-core-tooltip>
       </div>
 
       <style>
-        .icon {
+        [slot="target"] {
           border-radius: 0.0625rem;
           display: inline-flex;
           /* Consumers are advised to implement a similar focus ring on a trigger element. */

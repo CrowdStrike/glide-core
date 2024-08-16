@@ -36,9 +36,10 @@ const meta: Meta = {
       menu-label=${arguments_['menu-label']}
       menu-placement=${arguments_['menu-placement']}
     >
-      <glide-core-split-button slot="primary-action"
-        >Button</glide-core-split-button
-      >
+      <glide-core-split-button slot="primary-action">
+        Button
+      </glide-core-split-button>
+
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
       <glide-core-menu-link label="Two" url="/two"></glide-core-menu-link>
       <glide-core-menu-button label="Three"></glide-core-menu-button>

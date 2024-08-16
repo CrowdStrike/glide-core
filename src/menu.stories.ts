@@ -120,6 +120,10 @@ const meta: Meta = {
         size=${arguments_.size || nothing}
         ?open=${arguments_.open}
       >
+        <glide-core-button slot="target" variant="secondary">
+          Target
+        </glide-core-button>
+
         <glide-core-menu-options>
           <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
           <glide-core-menu-link label="Two" url="/two"> </glide-core-menu-link>
@@ -129,10 +133,6 @@ const meta: Meta = {
         -->
           <glide-core-menu-button label="Three"> </glide-core-menu-button>
         </glide-core-menu-options>
-
-        <glide-core-button slot="target" variant="secondary">
-          Target
-        </glide-core-button>
       </glide-core-menu>
     </div>`;
   },

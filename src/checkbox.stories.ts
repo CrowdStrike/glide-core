@@ -26,11 +26,11 @@ const meta: Meta = {
     'hide-label': false,
     disabled: false,
     indeterminate: false,
-    name: 'name',
+    name: '',
     orientation: 'horizontal',
     summary: 'Summary',
     required: false,
-    value: 'value',
+    value: '',
   },
   argTypes: {
     'slot="description"': {

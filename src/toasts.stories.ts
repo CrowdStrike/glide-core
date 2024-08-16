@@ -29,11 +29,12 @@ const meta: Meta = {
   render() {
     return html`
       <!--
-        Add <glide-core-toasts> somewhere in your application template.
-        This will be the container for toast messages,
-        and provides an add() method that you will use to generate toast messages.
-      -->
+  Add <glide-core-toasts> somewhere in your application template.
+  This will be the container for toast messages,
+  and provides an add() method that you will use to generate toast messages.
+-->
       <glide-core-toasts></glide-core-toasts>
+
       <div style="display:flex; flex-direction: column; gap: 0.25rem;">
         <glide-core-button variant="secondary" data-add-informational
           >Informational</glide-core-button

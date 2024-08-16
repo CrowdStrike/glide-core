@@ -21,8 +21,8 @@ const meta: Meta = {
   args: {
     label: 'Label',
     type: 'text',
-    value: 'Value',
-    placeholder: 'Placeholder...',
+    value: '',
+    placeholder: 'Placeholder',
     clearable: false,
     'hide-label': false,
     orientation: 'horizontal',
@@ -54,7 +54,7 @@ const meta: Meta = {
       <div style="height: 5rem;">
         <glide-core-input
           type=${arguments_.type}
-          value=${arguments_.value}
+          value=${arguments_.value || nothing}
           label=${arguments_.label}
           placeholder=${arguments_.placeholder || nothing}
           ?hide-label=${arguments_['hide-label']}

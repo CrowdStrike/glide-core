@@ -33,7 +33,7 @@ const meta: Meta = {
     open: false,
     orientation: 'horizontal',
     multiple: false,
-    name: 'name',
+    name: '',
     readonly: false,
     required: false,
     'select-all': false,
@@ -266,7 +266,7 @@ const meta: Meta = {
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: inline-block; height: 12rem;">
+    return html`<form style="display: inline-block; height: 8rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -298,16 +298,6 @@ const meta: Meta = {
           value="three"
         ></glide-core-dropdown-option>
 
-        <glide-core-dropdown-option
-          label="Four"
-          value="four"
-        ></glide-core-dropdown-option>
-
-        <glide-core-dropdown-option
-          label="Five"
-          value="five"
-        ></glide-core-dropdown-option>
-
         <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
@@ -332,7 +322,7 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: inline-block; height: 12rem;">
+    return html`<form style="display: inline-block; height: 8rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -370,13 +360,6 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
           <glide-core-example-icon
             slot="icon"
             name="share"
-          ></glide-core-example-icon>
-        </glide-core-dropdown-option>
-
-        <glide-core-dropdown-option label="Settings" value="settings">
-          <glide-core-example-icon
-            slot="icon"
-            name="settings"
           ></glide-core-example-icon>
         </glide-core-dropdown-option>
 
@@ -413,7 +396,7 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
   name: 'Single Selection (Vertical With Icon)',
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: inline-block; height: 12rem;">
+    return html`<form style="display: inline-block; height: 8rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -454,13 +437,6 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
           ></glide-core-example-icon>
         </glide-core-dropdown-option>
 
-        <glide-core-dropdown-option label="Settings" value="settings">
-          <glide-core-example-icon
-            slot="icon"
-            name="settings"
-          ></glide-core-example-icon>
-        </glide-core-dropdown-option>
-
         <div slot="description">${arguments_['slot="description"']}</div>
 
         ${arguments_['slot="tooltip"']
@@ -491,7 +467,7 @@ export const SingleSelectionHorizontalWithFiltering: StoryObj = {
   name: 'Single Selection (Horizontal With Filtering)',
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: inline-block; height: 12rem;">
+    return html`<form style="display: inline-block; height: 8rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -589,7 +565,7 @@ export const MultipleSelectionHorizontalWithFiltering: StoryObj = {
   name: 'Multiple Selection (Horizontal With Filtering)',
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: inline-block; height: 12rem;">
+    return html`<form style="display: inline-block; height: 8rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}

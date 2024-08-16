@@ -1,6 +1,6 @@
 import './radio-group.js';
 import './radio.js';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import GlideCoreRadioGroup from './radio-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -40,18 +40,15 @@ const meta: Meta = {
       <form style="padding: 1.5rem;">
         <glide-core-radio-group
           label=${arguments_.label}
-          name=${arguments_.name}
+          name=${arguments_.name || nothing}
           value=${arguments_.value}
           ?disabled=${arguments_.disabled}
           ?required=${arguments_.required}
         >
-          <glide-core-radio
-            value="value-1"
-            label="One"
-            checked
-          ></glide-core-radio>
-          <glide-core-radio value="value-2" label="Two"></glide-core-radio>
-          <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+          <glide-core-radio value="one" label="One" checked></glide-core-radio>
+          <glide-core-radio value="two" label="Two"></glide-core-radio>
+          <glide-core-radio value="three" label="Three"></glide-core-radio>
+
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
             : ''}
@@ -65,7 +62,7 @@ const meta: Meta = {
     'slot="tooltip"': '',
     'slot="description"': 'Description',
     disabled: false,
-    name: 'name',
+    name: '',
     required: false,
     value: '',
   },
@@ -165,9 +162,10 @@ export const VerticalWithError: StoryObj = {
           ?disabled=${arguments_.disabled}
           ?required=${arguments_.required}
         >
-          <glide-core-radio value="value-1" label="One"></glide-core-radio>
-          <glide-core-radio value="value-2" label="Two"></glide-core-radio>
-          <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+          <glide-core-radio value="one" label="One"></glide-core-radio>
+          <glide-core-radio value="two" label="Two"></glide-core-radio>
+          <glide-core-radio value="three" label="Three"></glide-core-radio>
+
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
             : ''}

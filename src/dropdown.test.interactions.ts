@@ -230,7 +230,7 @@ it('opens when opened programmatically via the click handler of another element'
   div.append(button);
   button.click();
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
@@ -314,7 +314,7 @@ it('opens when open and enabled programmatically', async () => {
 
   component.disabled = false;
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component?.shadowRoot?.querySelector('[data-test="options"]');
@@ -337,7 +337,7 @@ it('closes when open and disabled programmatically', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.disabled = true;
@@ -382,7 +382,7 @@ it('activates the next option on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -409,7 +409,7 @@ it('activates the previous option on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -439,7 +439,7 @@ it('activates the first option on Home', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -469,7 +469,7 @@ it('activates the first option on PageUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -499,7 +499,7 @@ it('activates the first option on ArrowUp + Meta', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -531,7 +531,7 @@ it('activates the last option on End', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -558,7 +558,7 @@ it('activates the last option on PageDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -585,7 +585,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');

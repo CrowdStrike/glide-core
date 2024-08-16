@@ -31,8 +31,8 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    value: 'Value',
-    placeholder: 'Placeholder...',
+    value: '',
+    placeholder: 'Placeholder',
     'hide-label': false,
     orientation: 'horizontal',
     required: false,
@@ -41,7 +41,7 @@ const meta: Meta = {
     disabled: false,
     maxlength: '',
     'slot="description"': 'Description',
-    name: 'name',
+    name: '',
     'slot="tooltip"': '',
   },
   argTypes: {
@@ -158,8 +158,8 @@ const meta: Meta = {
   render: (arguments_) => {
     return html`<form>
       <glide-core-textarea
-        value=${arguments_.value}
-        name=${arguments_.name}
+        value=${arguments_.value || nothing}
+        name=${arguments_.name || nothing}
         orientation=${arguments_.orientation}
         placeholder=${arguments_.placeholder}
         rows=${arguments_.rows}
@@ -168,7 +168,7 @@ const meta: Meta = {
         label=${arguments_.label}
         ?readonly=${arguments_.readonly}
         ?disabled=${arguments_.disabled}
-        maxlength=${arguments_.maxlength}
+        maxlength=${arguments_.maxlength || nothing}
       >
         ${arguments_['slot="tooltip"']
           ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`

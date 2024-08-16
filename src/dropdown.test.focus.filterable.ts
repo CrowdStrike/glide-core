@@ -89,7 +89,7 @@ it('retains focus on the input when an option is selected via click', async () =
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -117,7 +117,7 @@ it('retains focus on the the input when an option is selected via Enter', async 
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();

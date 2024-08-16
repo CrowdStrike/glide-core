@@ -19,6 +19,7 @@ const meta: Meta = {
   render: () => html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+
       <glide-core-tab slot="nav" panel="2">
         <svg
           aria-hidden="true"
@@ -36,15 +37,16 @@ const meta: Meta = {
             stroke-linejoin="round"
           />
         </svg>
+
         <span>With icon</span>
       </glide-core-tab>
+
       <glide-core-tab slot="nav" panel="3" disabled>Disabled</glide-core-tab>
 
-      <glide-core-tab-panel name="1"
-        ><div style="margin: 0.625rem">
-          Content for tab 1
-        </div></glide-core-tab-panel
-      >
+      <glide-core-tab-panel name="1">
+        <div style="margin: 0.625rem">Content for tab 1</div>
+      </glide-core-tab-panel>
+
       <glide-core-tab-panel name="2"
         ><div style="margin: 0.625rem">
           Content for tab 2

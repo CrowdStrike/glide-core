@@ -87,7 +87,7 @@ it('opens on click', async () => {
     ?.querySelector('[data-test="input"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
@@ -120,7 +120,7 @@ it('unfilters when an option is selected via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -205,7 +205,7 @@ it('hides the magnifying glass icon when an option is selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -249,7 +249,7 @@ it('hides the options when all of them are filtered out', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -440,7 +440,7 @@ it('sets `aria-activedescendant` on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -467,7 +467,7 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -496,7 +496,7 @@ it('sets `aria-activedescendant` on Home', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -525,7 +525,7 @@ it('sets `aria-activedescendant` on PageUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -554,7 +554,7 @@ it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -588,7 +588,7 @@ it('sets `aria-activedescendant` on open via click', async () => {
     ?.querySelector('[data-test="button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
@@ -631,7 +631,7 @@ it('sets `aria-activedescendant` on End', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -664,7 +664,7 @@ it('sets `aria-activedescendant` on PageDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -697,7 +697,7 @@ it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();

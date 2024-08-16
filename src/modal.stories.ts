@@ -21,14 +21,17 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const button =
-      context.canvasElement.querySelector<HTMLButtonElement>('[data-open]');
+    const button = context.canvasElement.querySelector<HTMLButtonElement>(
+      'glide-core-modal ~ glide-core-button',
+    );
 
     const modal = context.canvasElement.querySelector('glide-core-modal');
 
     button?.addEventListener('click', () => modal?.showModal());
   },
   render: (arguments_) => html`
+    <glide-core-button>Open</glide-core-button>
+
     <glide-core-modal
       label=${arguments_.label}
       ?show-back-button=${arguments_['show-back-button'] || nothing}
@@ -36,17 +39,17 @@ const meta: Meta = {
     >
       ${arguments_['slot="default"']}
 
-      <glide-core-button slot="secondary" variant="tertiary"
-        >Secondary</glide-core-button
-      >
+      <glide-core-button slot="secondary" variant="tertiary">
+        Secondary
+      </glide-core-button>
+
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
-    <glide-core-button data-open>Open</glide-core-button>
   `,
   args: {
     label: 'Basic Modal',
     size: 'medium',
-    'slot="default"': 'Modal content area',
+    'slot="default"': 'Content',
     'show-back-button': false,
   },
   argTypes: {
@@ -130,7 +133,7 @@ export const WithBackButton: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open</glide-core-button>
+    <glide-core-button>Open</glide-core-button>
   `,
 };
 
@@ -152,7 +155,7 @@ export const HeaderActions: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open</glide-core-button>
+    <glide-core-button>Open</glide-core-button>
   `,
 };
 
@@ -174,7 +177,7 @@ export const HeaderActionsWithBackButton: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open</glide-core-button>
+    <glide-core-button>Open</glide-core-button>
   `,
 };
 
@@ -192,7 +195,7 @@ export const TertiaryButton: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open</glide-core-button>
+    <glide-core-button>Open</glide-core-button>
   `,
 };
 
@@ -222,6 +225,6 @@ export const TertiaryIcon: StoryObj = {
       <glide-core-button slot="primary">Primary</glide-core-button>
     </glide-core-modal>
 
-    <glide-core-button data-open>Open</glide-core-button>
+    <glide-core-button>Open</glide-core-button>
   `,
 };

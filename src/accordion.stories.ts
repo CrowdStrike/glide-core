@@ -52,8 +52,8 @@ const meta: Meta = {
     `;
   },
   args: {
-    label: 'Accordion',
-    'slot="default"': 'Inner content',
+    label: 'Summary',
+    'slot="default"': 'Details',
     open: false,
   },
   argTypes: {

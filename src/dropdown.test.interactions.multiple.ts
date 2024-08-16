@@ -40,7 +40,7 @@ it('opens on click', async () => {
     ?.querySelector('[data-test="button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
@@ -113,7 +113,7 @@ it('does not toggle open and closed when the button overflow text is clicked', a
     ?.querySelector('[data-test="tag-overflow-text"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
@@ -178,7 +178,7 @@ it('selects options on Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -222,7 +222,7 @@ it('selects options on Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -546,7 +546,7 @@ it('updates `value` when a option is selected or deselected via Enter', async ()
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -585,7 +585,7 @@ it('updates `value` when an option is selected or deselected via Space', async (
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -1184,7 +1184,7 @@ it('shows Select All', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.selectAll = true;
@@ -1419,7 +1419,7 @@ it('does not select an option on Enter when the option is not focused', async ()
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
