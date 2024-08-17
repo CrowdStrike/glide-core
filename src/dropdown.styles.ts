@@ -1,25 +1,25 @@
-import {
-  animation,
-  disableAnimation,
-  keyframes,
-} from './styles/opacity-scale-keyframes.js';
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
+import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
-    /* TODO Having this at the top breaks stuff... for some reason?  */
-    ${keyframes};
-
+    ${focusOutline(
+      '.dropdown:has(.button:focus-visible, .input:focus-visible)',
+    )},
+  `,
+  css`
+    ${opacityAndScaleAnimation('.options:popover-open')}
+  `,
+  css`
+    ${visuallyHidden('.selected-option-labels')}
+  `,
+  css`
     .component {
       --min-inline-size: 9.375rem;
 
       font-family: var(--glide-core-font-sans);
-    }
-
-    .selected-option-labels {
-      ${visuallyHidden};
     }
 
     .dropdown-and-options {
@@ -75,10 +75,6 @@ export default [
       &.readonly {
         border-color: transparent;
         padding-inline-start: 0;
-      }
-
-      &:has(.button:focus-visible, .input:focus-visible) {
-        ${focusOutline};
       }
 
       &:hover:not(&.error, &.disabled, &.readonly) {
@@ -195,12 +191,6 @@ export default [
       &.disabled,
       &.readonly {
         color: var(--glide-core-surface-selected-disabled);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .options:popover-open {
-        ${disableAnimation};
       }
     }
   `,

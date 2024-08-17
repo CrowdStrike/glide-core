@@ -4,6 +4,12 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
+    ${focusOutline('.component:focus-visible')}
+  `,
+  css`
+    ${visuallyHidden('.label.visually-hidden')}
+  `,
+  css`
     :host(:first-of-type) {
       .component {
         &.horizontal {
@@ -63,8 +69,6 @@ export default [
         background-color: var(--glide-core-surface-selected);
         border-color: var(--glide-core-border-focus);
         color: var(--glide-core-color-white);
-
-        ${focusOutline};
         outline-offset: 2px;
 
         /* Create a stacking context so the outline isn't obscured by other elements. */
@@ -118,12 +122,6 @@ export default [
           box-shadow: var(--glide-core-glow-sm);
           color: var(--glide-core-text-primary);
         }
-      }
-    }
-
-    .label {
-      &.visually-hidden {
-        ${visuallyHidden};
       }
     }
   `,

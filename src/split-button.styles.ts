@@ -4,6 +4,9 @@ import focusOutline from './styles/focus-outline.js';
 // These styles are shared between `glide-core-split-button` and `glide-core-split-link`.
 export default [
   css`
+    ${focusOutline('.component:focus-visible')}
+  `,
+  css`
     .component {
       align-items: center;
       border-color: transparent;
@@ -28,10 +31,6 @@ export default [
 
       &:focus {
         outline: none;
-      }
-
-      &:focus-visible {
-        ${focusOutline};
       }
 
       &.disabled {

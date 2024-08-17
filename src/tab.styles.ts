@@ -3,14 +3,12 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    /* Using nesting creates an issue on Safari with :host */
+    ${focusOutline(':host(:focus-visible) .container')}
+  `,
+  css`
     :host {
       outline: none;
-    }
-
-    /* Using nesting creates an issue on Safari with :host */
-    /* stylelint-disable-next-line csstools/use-nesting */
-    :host(:focus-visible) .component .container {
-      ${focusOutline};
     }
 
     .component {

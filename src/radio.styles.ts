@@ -3,6 +3,10 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    /* Using nesting creates an issue on Safari with :host */
+    ${focusOutline(':host(:focus-visible) .component .radio-circle')}
+  `,
+  css`
     @keyframes animate-radio {
       from {
         opacity: 0;
@@ -28,12 +32,6 @@ export default [
     :host {
       display: flex;
       outline: none;
-    }
-
-    /* Using nesting creates an issue on Safari with :host */
-    /* stylelint-disable-next-line csstools/use-nesting */
-    :host(:focus-visible) .component .radio-circle {
-      ${focusOutline};
     }
 
     .component {

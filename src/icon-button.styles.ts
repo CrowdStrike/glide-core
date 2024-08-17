@@ -3,6 +3,9 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline('.component:focus-visible')}
+  `,
+  css`
     :host {
       /* Contains elements with "padding" and "width". Inline by default. */
       display: inline-flex;
@@ -26,10 +29,6 @@ export default [
 
       &:focus {
         outline: none;
-      }
-
-      &:focus-visible {
-        ${focusOutline};
       }
 
       &:disabled {

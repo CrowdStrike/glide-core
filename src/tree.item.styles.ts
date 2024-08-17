@@ -3,6 +3,9 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline('.label-container:focus-visible')}
+  `,
+  css`
     :host {
       cursor: pointer;
       display: flex;
@@ -68,8 +71,6 @@ export default [
       }
 
       &:focus-visible {
-        ${focusOutline};
-
         /* The outline is inside the component since children have overflow hidden */
         outline-offset: -2px;
 

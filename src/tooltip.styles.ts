@@ -1,15 +1,15 @@
-import {
-  animation,
-  disableAnimation,
-  keyframes,
-} from './styles/opacity-scale-keyframes.js';
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
+import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 
 export default [
   css`
-    ${keyframes};
-
+    ${focusOutline('.target:focus-visible')},
+  `,
+  css`
+    ${opacityAndScaleAnimation('.tooltip:popover-open')}
+  `,
+  css`
     :host {
       display: inline-block;
     }
@@ -42,10 +42,6 @@ export default [
         outline: none;
       }
 
-      &:focus-visible {
-        ${focusOutline};
-      }
-
       ::slotted svg {
         display: block;
       }
@@ -67,8 +63,6 @@ export default [
       }
 
       &:popover-open {
-        ${animation};
-
         display: flex;
 
         /*
@@ -132,12 +126,6 @@ export default [
       max-inline-size: 11.25rem;
       overflow-wrap: break-word;
       padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .tooltip:popover-open {
-        ${disableAnimation};
-      }
     }
   `,
 ];

@@ -4,6 +4,12 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
+    ${focusOutline('.optional-tooltip-target:focus-visible ')}
+  `,
+  css`
+    ${visuallyHidden('.tooltips-and-label.hidden')}
+  `,
+  css`
     .component {
       &.horizontal {
         --column-gap: var(--glide-core-spacing-sm);
@@ -39,11 +45,11 @@ export default [
       column-gap: var(--glide-core-spacing-xs);
       display: flex;
 
-      /* 
-        Allows for an ellipsis on the label. See the linked comment for why it's "3ch" 
+      /*
+        Allows for an ellipsis on the label. See the linked comment for why it's "3ch"
         instead of "0".
 
-        - https://github.com/CrowdStrike/glide-core/pull/317#issuecomment-2297025365 
+        - https://github.com/CrowdStrike/glide-core/pull/317#issuecomment-2297025365
         - https://css-tricks.com/flexbox-truncated-text/#aa-the-solution-is-min-width-0-on-the-flex-child
       */
       min-inline-size: 3ch;
@@ -51,10 +57,6 @@ export default [
       &.middle,
       &.left {
         justify-content: flex-end;
-      }
-
-      &.hidden {
-        ${visuallyHidden};
       }
     }
 
@@ -88,10 +90,6 @@ export default [
 
       display: flex;
       padding: 0;
-
-      &:focus-visible {
-        ${focusOutline};
-      }
     }
 
     .label {
