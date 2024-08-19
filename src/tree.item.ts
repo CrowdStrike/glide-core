@@ -12,6 +12,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import type GlideCoreMenu from './menu.js';
 
 import { when } from 'lit/directives/when.js';
+import GlideCoreIconButton from './icon-button.js';
 import styles from './tree.item.styles.js';
 
 declare global {
@@ -70,6 +71,9 @@ export default class GlideCoreTreeItem extends LitElement {
 
   override focus(options?: FocusOptions) {
     this.#labelContainerElementRef.value?.focus(options);
+    this.#labelContainerElementRef.value!.tabIndex = 0;
+
+    this.#setTabIndexForIconButtons(0);
   }
 
   get hasChildTreeItems() {
@@ -97,6 +101,8 @@ export default class GlideCoreTreeItem extends LitElement {
           'label-container': true,
         })}
         tabindex="-1"
+        @focusout=${this.#handleFocusOut}
+        @focusin=${this.#handleFocusIn}
         ${ref(this.#labelContainerElementRef)}
       >
         <div style="flex-shrink: 0; width:${this.#indentationWidth};"></div>
@@ -208,8 +214,43 @@ export default class GlideCoreTreeItem extends LitElement {
     }
   }
 
+  #handleFocusIn(event: FocusEvent) {
+    if (this.#isFocusTargetInternal(event.target)) {
+      event.stopPropagation();
+    }
+  }
+
+  #handleFocusOut(event: FocusEvent) {
+    if (this.#isFocusTargetInternal(event.relatedTarget)) {
+      event.stopPropagation();
+    } else {
+      this.#labelContainerElementRef.value!.tabIndex = -1;
+
+      this.#setTabIndexForIconButtons(-1);
+    }
+  }
+
   get #indentationWidth() {
     return `${(this.level - 1) * 20}px`;
+  }
+
+  // Checks if focus has moved to an element within this tree item itself,
+  // not including this tree item itself or one of its child tree items
+  #isFocusTargetInternal(target: EventTarget | null) {
+    return (
+      target &&
+      target instanceof HTMLElement &&
+      !(target instanceof GlideCoreTreeItem) &&
+      this.contains(target)
+    );
+  }
+
+  #setTabIndexForIconButtons(tabIndex: -1 | 0) {
+    for (const iconButton of this.querySelectorAll<GlideCoreIconButton>(
+      '& > glide-core-tree-item-icon-button',
+    )) {
+      iconButton.tabIndex = tabIndex;
+    }
   }
 
   #setupChildren() {

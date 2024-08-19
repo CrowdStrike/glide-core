@@ -153,11 +153,13 @@ export default class GlideCoreTree extends LitElement {
   }
 
   #handleFocusOut(event: FocusEvent) {
-    const relatedTarget = event.relatedTarget as HTMLElement;
-
     // If they've focused out of the tree,
     // restore this tree's tabindex 0, so they can focus back in
-    if (!relatedTarget || !this.contains(relatedTarget)) {
+    if (
+      !event.relatedTarget ||
+      !(event.relatedTarget instanceof HTMLElement) ||
+      !this.contains(event.relatedTarget)
+    ) {
       this.privateTabIndex = 0;
       this.focusedItem = undefined;
     }
@@ -175,6 +177,15 @@ export default class GlideCoreTree extends LitElement {
         'End',
         'Enter',
       ].includes(event.key)
+    ) {
+      return;
+    }
+
+    if (
+      event.target &&
+      event.target instanceof HTMLElement &&
+      (event.target.closest('glide-core-tree-item-icon-button') ??
+        event.target.closest('glide-core-tree-item-menu'))
     ) {
       return;
     }

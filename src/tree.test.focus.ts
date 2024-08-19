@@ -382,3 +382,92 @@ it('can use the keyboard to navigate to a tree item menu', async () => {
 
   assert(document.activeElement instanceof GlideCoreTreeItemMenu);
 });
+
+it('does not focus on a tree item icon button unless that tree item is focused', async () => {
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1"> </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item-icon-button slot="suffix">
+          <svg viewBox="0 0 24 24">
+            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </glide-core-tree-item-icon-button>
+      </glide-core-tree-item>
+    </glide-core-tree>
+  `);
+
+  tree.dispatchEvent(new Event('focusin'));
+
+  const childItems = tree.slotElements;
+  childItems[0].focus();
+  await sendKeys({ press: 'Tab' });
+
+  expect(document.activeElement === document.body).to.equal(true);
+
+  childItems[1].focus();
+
+  await sendKeys({ press: 'Tab' });
+
+  expect(
+    document.activeElement instanceof GlideCoreTreeItemIconButton,
+  ).to.equal(true);
+});
+
+it('does not focus on a tree item menu unless that tree item is focused', async () => {
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1"> </glide-core-tree-item>
+      <glide-core-tree-item label="Child Item 2">
+        <glide-core-tree-item-menu slot="menu">
+          <glide-core-menu-link label="Edit" url="/edit">
+          </glide-core-menu-link>
+        </glide-core-tree-item-menu>
+      </glide-core-tree-item>
+    </glide-core-tree>
+  `);
+
+  tree.dispatchEvent(new Event('focusin'));
+
+  const childItems = tree.slotElements;
+  childItems[0].focus();
+  await sendKeys({ press: 'Tab' });
+
+  expect(document.activeElement === document.body).to.equal(true);
+
+  childItems[1].focus();
+
+  await sendKeys({ press: 'Tab' });
+
+  expect(document.activeElement instanceof GlideCoreTreeItemMenu).to.equal(
+    true,
+  );
+});
+
+it('does not select a tree item if Enter is pressed while its tree item icon button is focused', async () => {
+  const tree = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="Child Item 1">
+        <glide-core-tree-item-icon-button slot="suffix">
+          <svg viewBox="0 0 24 24">
+            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+          </svg>
+        </glide-core-tree-item-icon-button>
+      </glide-core-tree-item>
+    </glide-core-tree>
+  `);
+
+  tree.dispatchEvent(new Event('focusin'));
+
+  const childItems = tree.slotElements;
+  childItems[0].focus();
+  await sendKeys({ press: 'Tab' });
+
+  expect(
+    document.activeElement instanceof GlideCoreTreeItemIconButton,
+  ).to.equal(true);
+
+  await sendKeys({ press: 'Enter' });
+
+  expect(childItems[0].hasAttribute('selected')).to.equal(false);
+});

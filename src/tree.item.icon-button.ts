@@ -32,7 +32,11 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
 
   override render() {
     return html`
-      <glide-core-icon-button class="component" variant="tertiary">
+      <glide-core-icon-button
+        class="component"
+        variant="tertiary"
+        tabindex="-1"
+      >
         <slot
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
