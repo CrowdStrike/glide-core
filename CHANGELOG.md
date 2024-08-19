@@ -1,5 +1,138 @@
 # @crowdstrike/glide-core
 
+## 0.9.0
+
+### Minor Changes
+
+- [#309](https://github.com/CrowdStrike/glide-core/pull/309) [`ffc70d1`](https://github.com/CrowdStrike/glide-core/commit/ffc70d19d135b72ddfd5ac8063421c4833a4510c) Thanks [@ynotdraw](https://github.com/ynotdraw)! - - Breaking Change: The `clear-icon` slot for Input was removed, as consumers should not be adjusting the clear icon themselves.
+
+- [#307](https://github.com/CrowdStrike/glide-core/pull/307) [`bb18490`](https://github.com/CrowdStrike/glide-core/commit/bb184902bdf535d3301ce2910f40eb8713c2ffa0) Thanks [@clintcs](https://github.com/clintcs)! - - Tooltip's `setContainingBlock` method was removed.
+
+  - `library/set-containing-block.js` was removed.
+
+- [#296](https://github.com/CrowdStrike/glide-core/pull/296) [`b1cb732`](https://github.com/CrowdStrike/glide-core/commit/b1cb73210d0d8504fc936ebedd3cd27713f4b16b) Thanks [@clintcs](https://github.com/clintcs)! - Menu, Tree, Tree Item, and Tree Item Menu no longer offer a `setContainingBlock` method.
+  Each component's menu now positions itself correctly without `setContainingBlock`.
+
+- [#289](https://github.com/CrowdStrike/glide-core/pull/289) [`500ae69`](https://github.com/CrowdStrike/glide-core/commit/500ae69b80aa99975e532182415e017984f2b92e) Thanks [@clintcs](https://github.com/clintcs)! - - Button Group's `ButtonGroupVariant` and `ButtonGroupOrientation` types are not exported.
+  - Button Group Button has a `label` attribute instead of a default slot to restrict arbitrary content.
+  - Button Group instead of Button Group Button emits "change" and "input" events.
+  - Button Group Button's `variant` attribute was renamed to `privateVariant` and should not be used.
+  - Button Group Button's `vertical` renamed to `privateOrientation` and should not be used.
+  - Button Group throws if it only contains one Button Group Button.
+  - Button Group dispatches an `Event` instead of a `CustomEvent`
+
+### Patch Changes
+
+- [#314](https://github.com/CrowdStrike/glide-core/pull/314) [`2364551`](https://github.com/CrowdStrike/glide-core/commit/2364551a9698aa584c03d2956af11770a8413c9f) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Fixed a bug with Input where if it were `disabled` or `readonly` and the value exceeded `maxlength`, it would be invalid. This is a valid state because the user cannot interact with the element.
+
+- [#314](https://github.com/CrowdStrike/glide-core/pull/314) [`2364551`](https://github.com/CrowdStrike/glide-core/commit/2364551a9698aa584c03d2956af11770a8413c9f) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Multiple adjustments to Textarea were added:
+
+  - Resolved a bug where if a description was not provided, but `maxlength` was, the character counter would be in the incorrect position.
+  - Textarea now properly updates validity when set as `required` if `value` is updated programmatically.
+  - Textarea now properly updates validity and its visual error state when `required` is removed programmatically.
+  - Fixed a bug where if Textarea was `disabled` or `readonly` and the value exceeded `maxlength`, it would be invalid. This is a valid state because the user cannot interact with the element.
+
+- [#303](https://github.com/CrowdStrike/glide-core/pull/303) [`9f1ad06`](https://github.com/CrowdStrike/glide-core/commit/9f1ad06e7f4bad2a9a4888b8b76a3f86fc2a6758) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Radio's checked state is now animated and properly respects the user's `prefers-reduced-motion` browser preference.
+
+- [#291](https://github.com/CrowdStrike/glide-core/pull/291) [`e8e5799`](https://github.com/CrowdStrike/glide-core/commit/e8e57991a72b7158dabfae9fe95e9bd6c88a73af) Thanks [@ynotdraw](https://github.com/ynotdraw)! - - Removed the opacity from the Modal background so that content no longer bleeds into it.
+
+  - Modal is now given a maximum width to prevent it from colliding with the horizontal edges of the browser window as the screen width adjusts.
+
+- [#294](https://github.com/CrowdStrike/glide-core/pull/294) [`107cc02`](https://github.com/CrowdStrike/glide-core/commit/107cc0248e923f00ccf48fb26d17af41c2518dc8) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Decrease the max-width of Modal.
+
+- [#307](https://github.com/CrowdStrike/glide-core/pull/307) [`bb18490`](https://github.com/CrowdStrike/glide-core/commit/bb184902bdf535d3301ce2910f40eb8713c2ffa0) Thanks [@clintcs](https://github.com/clintcs)! - - Tooltip reliably breaks out of containers that have `overflow: hidden`.
+
+  - Tooltip's `:host` is now `display: inline-block` by default so the tooltip remains aligned with its target when its target is less than the full width of its container.
+  - There's no longer a small gap between Tooltip's arrow and the tooltip itself when the target is near the edge of the viewport.
+  - To better match the mockups, Tooltip's arrow is rounded and larger. And the space between the tooltip and its target has increased.
+
+- [#302](https://github.com/CrowdStrike/glide-core/pull/302) [`ec6a1f8`](https://github.com/CrowdStrike/glide-core/commit/ec6a1f81c41c049594c1c7390e978f89d0e83da7) Thanks [@clintcs](https://github.com/clintcs)! - - Checkbox Group's `focus()` method now focuses the first checkbox that isn't `disabled`.
+
+  - Menu and Tree Item's `focus()` methods now accept a `FocusOptions` argument.
+
+- [#311](https://github.com/CrowdStrike/glide-core/pull/311) [`0a1c3ad`](https://github.com/CrowdStrike/glide-core/commit/0a1c3ade4b70816fc1f89ffde6874eab5ba9b346) Thanks [@ynotdraw](https://github.com/ynotdraw)! - CSS variables were updated to align with the latest designs.
+
+  - Updated the color values for `--glide-core-icon-primary`, `--glide-core-surface-base-gray`, `--glide-core-surface-selected-disabled`, and `--glide-core-surface-unselected-disabled` to be more dark mode friendly.
+  - `--glide-core-border-radius-lg` was added.
+
+- [#312](https://github.com/CrowdStrike/glide-core/pull/312) [`b3605ab`](https://github.com/CrowdStrike/glide-core/commit/b3605ab685ae5e0ed8b261122021b7d8a62b0966) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Textarea now has a progressive enhancement where it'll grow in height as needed up to a maximum of 5 lines in browsers that support [`field-sizing`](https://caniuse.com/mdn-css_properties_field-sizing).
+
+- [#310](https://github.com/CrowdStrike/glide-core/pull/310) [`ba94241`](https://github.com/CrowdStrike/glide-core/commit/ba94241f4db951270a1ad69b4577184cea5dfb7b) Thanks [@danwenzel](https://github.com/danwenzel)! - Add popover attribute to Toasts
+
+  Ensures that toasts will appear at the top layer,
+  avoiding the need to play z-index wars with other elements
+
+  Also, toasts now get picked up by screenreaders properly
+
+- [#296](https://github.com/CrowdStrike/glide-core/pull/296) [`b1cb732`](https://github.com/CrowdStrike/glide-core/commit/b1cb73210d0d8504fc936ebedd3cd27713f4b16b) Thanks [@clintcs](https://github.com/clintcs)! - - Menu opens when `open` and its target is enabled programmatically.
+
+  - Menu more reliably breaks out of containers with `overflow: hidden`.
+
+- [#288](https://github.com/CrowdStrike/glide-core/pull/288) [`5828515`](https://github.com/CrowdStrike/glide-core/commit/58285156c08af07d126c3af280619f1ad612ce3a) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Many accessibility enhancements to Textarea:
+
+  - The invalid state is now announced to screenreaders.
+  - The character count information is now announced to screenreaders in a more accessible format.
+
+- [#292](https://github.com/CrowdStrike/glide-core/pull/292) [`9e3fdff`](https://github.com/CrowdStrike/glide-core/commit/9e3fdff1152887e7b3d8a58211e545eff0cb9b93) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown no longer dispatches "change" or "input" events when an option is selected or deselected programmatically.
+
+  - Dropdown no longer closes when Select All is clicked after an option is clicked.
+  - Dropdown no longer deselects options on Enter or Space when single-select, matching its behavior on click.
+  - Dropdown no longer dispatches "change" and "input" events when single-select and an already selected option is clicked.
+  - Dropdown no longer immediately closes when initially open with an option selected.
+  - Dropdown no longer dispatches "input" events on input when filtering.
+  - Dropdown's `focus()` method accepts an `options` object.
+  - Dropdown Option's `selected` and `value` properties are reflected.
+
+- [#295](https://github.com/CrowdStrike/glide-core/pull/295) [`a69b0ed`](https://github.com/CrowdStrike/glide-core/commit/a69b0edd764ead711fc9a0caecf43c77cf2f5871) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - - Fixes incorrect values for `aria-controls` and `aria-labelledby` for `glide-core-tab` and `glide-core-tab-panel`, respectively
+
+  - Tabbing to the tablist now lands only on the active tab.
+  - `glide-core-tab-panel` is tabbable
+
+- [#299](https://github.com/CrowdStrike/glide-core/pull/299) [`bd5c143`](https://github.com/CrowdStrike/glide-core/commit/bd5c143006b5cd311866fff99de1d2d7f738997b) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown now breaks out of Modal instead of expanding it.
+
+  - Dropdown now closes when `open` and disabled and opens when `open` and enabled.
+  - Dropdown now waits to open until its menu has been positioned, preventing a flicker in some cases.
+
+- [#288](https://github.com/CrowdStrike/glide-core/pull/288) [`5828515`](https://github.com/CrowdStrike/glide-core/commit/58285156c08af07d126c3af280619f1ad612ce3a) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated Input to set itself as invalid when the `value` exceeds `maxlength`.
+
+  Many accessibility enhancements to Input:
+
+  - The invalid state is now announced to screenreaders.
+  - The character count information is now announced to screenreaders in a more accessible format.
+  - The clear button is added as a tab stop to clear the input value.
+
+- [#280](https://github.com/CrowdStrike/glide-core/pull/280) [`ca0faec`](https://github.com/CrowdStrike/glide-core/commit/ca0faeccdd857f6a051ad92905e5f6d0db18d043) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tooltip only appears when hovered for 300ms.
+
+- [#309](https://github.com/CrowdStrike/glide-core/pull/309) [`ffc70d1`](https://github.com/CrowdStrike/glide-core/commit/ffc70d19d135b72ddfd5ac8063421c4833a4510c) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Multiple adjustments to Input were added:
+
+  - Input now properly updates validity when set as `required` if `value` is updated programmatically.
+  - Input now properly updates validity and its visual error state when `required` is removed programmatically.
+  - The password toggle is now keyboard accessible.
+
+- [#315](https://github.com/CrowdStrike/glide-core/pull/315) [`3bb3ffc`](https://github.com/CrowdStrike/glide-core/commit/3bb3ffca287124b705b9633ae7d3bc55fa9398d0) Thanks [@clintcs](https://github.com/clintcs)! - - Tooltip now supports an `offset` attribute for adjusting the space between the tooltip and its target.
+
+  - Tooltip now supports an `open` attribute to force its visibility.
+  - Dropdown now scrolls when it contains more than nine options.
+  - Dropdown options now truncate with an ellipsis and tooltip when they exceed a certain width.
+
+- [#314](https://github.com/CrowdStrike/glide-core/pull/314) [`2364551`](https://github.com/CrowdStrike/glide-core/commit/2364551a9698aa584c03d2956af11770a8413c9f) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Input now transitions its border-color to align with Textarea.
+
+- [#317](https://github.com/CrowdStrike/glide-core/pull/317) [`1acb546`](https://github.com/CrowdStrike/glide-core/commit/1acb546275d4ef6a8d11b95d3c07025657fb6935) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown's input field now expands to fill the available space.
+
+- [#289](https://github.com/CrowdStrike/glide-core/pull/289) [`500ae69`](https://github.com/CrowdStrike/glide-core/commit/500ae69b80aa99975e532182415e017984f2b92e) Thanks [@clintcs](https://github.com/clintcs)! - - Button Group reacts to default slot changes.
+
+  - Button Group's `label`, `orientation`, and `variant` are reflected.
+  - Button Group Buttons are not misaligned when vertical with an icon.
+  - Button Group Buttons have a `click()` method.
+  - Button Group Button's `value` is reflected.
+
+- [#303](https://github.com/CrowdStrike/glide-core/pull/303) [`9f1ad06`](https://github.com/CrowdStrike/glide-core/commit/9f1ad06e7f4bad2a9a4888b8b76a3f86fc2a6758) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Modal now properly respects the user's `prefers-reduced-motion` browser preference.
+
+- [#316](https://github.com/CrowdStrike/glide-core/pull/316) [`9a53f3b`](https://github.com/CrowdStrike/glide-core/commit/9a53f3b1e4abd1a6e7db9f793f12330f47e8f4f3) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown's label and tooltip are now left-aligned instead of right-aligned when Dropdown is vertical.
+  - Dropdown's button now maintains its minimum width instead of shrinking when Dropdown is width-constrained.
+  - Form Controls Layout's columns no longer shrink when `split="middle"` when width-constrained.
+  - Form Controls Layout's label column is now right-aligned instead of left-aligned.
+
 ## 0.8.0
 
 ### Minor Changes
