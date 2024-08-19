@@ -28,6 +28,29 @@ it('is accessible', async () => {
   });
 });
 
+it('has defaults', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip>
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  expect(component.offset).to.equal(4);
+  expect(component.open).to.be.false;
+  expect(component.placement).to.be.be.undefined;
+  expect(component.disabled).to.be.false;
+  expect(component.hasAttribute('disabled')).to.be.false;
+  expect(tooltip?.checkVisibility()).to.be.false;
+});
+
 it('can be open', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip aria-label="Label" open>
