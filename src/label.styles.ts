@@ -5,8 +5,6 @@ import visuallyHidden from './styles/visually-hidden.js';
 export default [
   css`
     ${focusOutline('.optional-tooltip-target:focus-visible ')}
-  `,
-  css`
     ${visuallyHidden('.tooltips-and-label.hidden')}
   `,
   css`

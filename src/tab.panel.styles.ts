@@ -5,8 +5,6 @@ import visuallyHidden from './styles/visually-hidden.js';
 export default [
   css`
     ${focusOutline(':host(:focus-visible) .component')}
-  `,
-  css`
     ${visuallyHidden('.hidden')}
   `,
   css`

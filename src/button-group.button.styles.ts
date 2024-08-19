@@ -5,8 +5,6 @@ import visuallyHidden from './styles/visually-hidden.js';
 export default [
   css`
     ${focusOutline('.component:focus-visible')}
-  `,
-  css`
     ${visuallyHidden('.label.visually-hidden')}
   `,
   css`

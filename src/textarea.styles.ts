@@ -18,7 +18,7 @@ const fieldSizingContent = unsafeCSS(`
 
 export default [
   css`
-    ${visuallyHidden('.character-count.hidden')}
+    ${visuallyHidden('.character-count .hidden')}
   `,
   css`
     glide-core-private-label::part(tooltips-and-label) {
@@ -28,6 +28,10 @@ export default [
 
     .textarea-container {
       display: flex;
+    }
+
+    .description {
+      display: block;
     }
 
     textarea {
@@ -42,7 +46,8 @@ export default [
       font-family: var(--glide-core-body-xs-font-family);
       font-size: var(--glide-core-body-sm-font-size);
       font-weight: var(--glide-core-body-xs-font-weight);
-      min-block-size: 1.1875rem;
+      max-block-size: 5lh;
+      min-block-size: 3lh;
       padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
       resize: vertical;
       transition: border-color 200ms ease-in-out;

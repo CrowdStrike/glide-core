@@ -4,9 +4,7 @@ import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 
 export default [
   css`
-    ${focusOutline('.target:focus-visible')},
-  `,
-  css`
+    ${focusOutline('.target:focus-visible')}
     ${opacityAndScaleAnimation('.tooltip:popover-open')}
   `,
   css`

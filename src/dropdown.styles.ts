@@ -7,12 +7,8 @@ export default [
   css`
     ${focusOutline(
       '.dropdown:has(.button:focus-visible, .input:focus-visible)',
-    )},
-  `,
-  css`
+    )}
     ${opacityAndScaleAnimation('.options:popover-open')}
-  `,
-  css`
     ${visuallyHidden('.selected-option-labels')}
   `,
   css`

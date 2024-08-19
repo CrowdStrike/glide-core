@@ -37,7 +37,7 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
       position: relative;
 
       &:has(input:focus-visible) {
-        outline-offset: 2px;
+        outline-offset: 4px;
       }
 
       &:has(input:checked:not(:disabled)) {
