@@ -130,7 +130,7 @@ export default class GlideCoreDropdownOption extends LitElement {
     this.role = 'option';
     this.tabIndex = -1;
 
-    // Options are abitrarily shown and hidden when Dropdown is opened and closed. So
+    // Options are arbitrarily shown and hidden when Dropdown is opened and closed. So
     // calling `#updateLabelOverflow` in the `label` setter isn't sufficient because
     // the label's `scrollWidth` and `clientWidth` will both be zero until Dropdown
     // is open. So, rather than expose a pseudo-private method for Dropdown to call

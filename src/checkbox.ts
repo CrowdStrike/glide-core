@@ -145,7 +145,7 @@ export default class GlideCoreCheckbox extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    // Checkbox can be abitrarily shown and hidden as it is in Dropdown. So calling
+    // Checkbox can be arbitrarily shown and hidden as it is in Dropdown. So calling
     // `#updateLabelOverflow` in the `label` setter isn't sufficient because the
     // label's `scrollWidth` and `clientWidth` will both be zero until Checkbox is
     // visible. So, rather than Checkbox expose a pseudo-private method, Checkbox
