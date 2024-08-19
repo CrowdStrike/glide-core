@@ -36,7 +36,6 @@ export default [
       font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-body-sm-font-weight);
       gap: var(--glide-core-spacing-xs);
-      justify-content: space-between;
       min-inline-size: var(--min-inline-size);
       padding-inline: var(--glide-core-spacing-sm);
       text-align: start;
@@ -135,9 +134,14 @@ export default [
       }
     }
 
+    .tag-overflow-text-and-button {
+      column-gap: var(--glide-core-spacing-md);
+      display: flex;
+      margin-inline-start: auto;
+    }
+
     .tag-overflow-text {
       color: var(--glide-core-text-link);
-      margin-inline-end: var(--glide-core-spacing-md);
     }
 
     .button {
@@ -159,6 +163,7 @@ export default [
       block-size: var(--button-and-input-height);
       border: none;
       cursor: inherit;
+      flex-grow: 1;
       font-size: inherit;
       min-inline-size: var(--min-inline-size);
       padding: 0;

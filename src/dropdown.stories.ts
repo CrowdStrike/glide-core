@@ -266,7 +266,7 @@ const meta: Meta = {
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: block; height: 12rem;">
+    return html`<form style="display: block; height: 12rem; width: 20rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -332,7 +332,7 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: block; height: 12rem;">
+    return html`<form style="display: block; height: 12rem; width: 20rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -413,7 +413,7 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
   name: 'Single Selection (Vertical With Icon)',
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: block; height: 12rem;">
+    return html`<form style="display: block; height: 12rem; width: 20rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -491,7 +491,7 @@ export const SingleSelectionHorizontalWithFiltering: StoryObj = {
   name: 'Single Selection (Horizontal With Filtering)',
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: block; height: 12rem;">
+    return html`<form style="display: block; height: 12rem; width: 20rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
@@ -589,7 +589,7 @@ export const MultipleSelectionHorizontalWithFiltering: StoryObj = {
   name: 'Multiple Selection (Horizontal With Filtering)',
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<form style="display: block; height: 12rem;">
+    return html`<form style="display: block; height: 12rem; width: 20rem;">
       <glide-core-dropdown
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}

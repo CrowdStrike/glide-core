@@ -487,66 +487,72 @@ export default class GlideCoreDropdown extends LitElement {
                 ${this.internalLabel}
               </div>`;
             })}
-            ${when(this.selectedOptions.length > this.#tagOverflowLimit, () => {
-              return html`<div
-                aria-hidden="true"
-                class="tag-overflow-text"
-                id="tag-overflow-text"
-                data-test="tag-overflow-text"
-              >
-                +
-                <span data-test="tag-overflow-count">
-                  ${this.selectedOptions.length - this.#tagOverflowLimit}
-                </span>
-                more
-              </div>`;
-            })}
 
-            <button
-              aria-hidden=${this.isFilterable}
-              aria-expanded=${this.open}
-              aria-haspopup="listbox"
-              aria-labelledby="selected-option-labels label"
-              aria-describedby="description"
-              aria-controls="options"
-              class="button"
-              data-test="button"
-              id="button"
-              tabindex=${this.isFilterable || this.disabled ? '-1' : '0'}
-              type="button"
-              ${ref(this.#buttonElementRef)}
-            >
+            <div class="tag-overflow-text-and-button">
               ${when(
-                this.isFiltering,
+                this.selectedOptions.length > this.#tagOverflowLimit,
                 () => {
-                  return html`<div data-test="magnifying-glass-icon">
-                    ${magnifyingGlassIcon}
+                  return html`<div
+                    aria-hidden="true"
+                    class="tag-overflow-text"
+                    id="tag-overflow-text"
+                    data-test="tag-overflow-text"
+                  >
+                    +
+                    <span data-test="tag-overflow-count">
+                      ${this.selectedOptions.length - this.#tagOverflowLimit}
+                    </span>
+                    more
                   </div>`;
                 },
-                () => {
-                  return html`<svg
-                    aria-label=${this.#localize.term('open')}
-                    class=${classMap({
-                      'caret-icon': true,
-                      disabled: this.disabled,
-                      readonly: this.readonly,
-                    })}
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      d="M6 9L12 15L18 9"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>`;
-                },
               )}
-            </button>
+
+              <button
+                aria-hidden=${this.isFilterable}
+                aria-expanded=${this.open}
+                aria-haspopup="listbox"
+                aria-labelledby="selected-option-labels label"
+                aria-describedby="description"
+                aria-controls="options"
+                class="button"
+                data-test="button"
+                id="button"
+                tabindex=${this.isFilterable || this.disabled ? '-1' : '0'}
+                type="button"
+                ${ref(this.#buttonElementRef)}
+              >
+                ${when(
+                  this.isFiltering,
+                  () => {
+                    return html`<div data-test="magnifying-glass-icon">
+                      ${magnifyingGlassIcon}
+                    </div>`;
+                  },
+                  () => {
+                    return html`<svg
+                      aria-label=${this.#localize.term('open')}
+                      class=${classMap({
+                        'caret-icon': true,
+                        disabled: this.disabled,
+                        readonly: this.readonly,
+                      })}
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M6 9L12 15L18 9"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>`;
+                  },
+                )}
+              </button>
+            </div>
           </div>
 
           <div
