@@ -11,6 +11,10 @@ export default css`
     display: flex;
   }
 
+  .description {
+    display: block;
+  }
+
   textarea {
     appearance: none;
     background-color: var(--glide-core-surface-base-lighter);

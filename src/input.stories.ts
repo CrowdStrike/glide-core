@@ -271,6 +271,7 @@ export const Disabled: StoryObj = {
 
 export const Placeholder: StoryObj = {
   args: {
+    placholder: 'Placeholder...',
     value: '',
   },
 };
@@ -363,7 +364,7 @@ export const MaxLengthAndDescription: StoryObj = {
   name: 'Max Length (With Description)',
   args: {
     maxlength: 20,
-    'slot="description"': 'Description here lives alongside maxlength',
+    'slot="description"': 'Description',
   },
 };
 

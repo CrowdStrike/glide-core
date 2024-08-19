@@ -201,7 +201,7 @@ export default class GlideCoreInput extends LitElement {
 
         <div
           class=${classMap({
-            'input-box': true,
+            'input-container': true,
             focused: this.hasFocus,
             empty: this.value === '',
             disabled: this.disabled,
@@ -460,7 +460,10 @@ export default class GlideCoreInput extends LitElement {
 
   get #isMaxCharacterCountExceeded() {
     return Boolean(
-      this.maxlength && this.#valueCharacterCount > this.maxlength,
+      !this.disabled &&
+        !this.readonly &&
+        this.maxlength &&
+        this.#valueCharacterCount > this.maxlength,
     );
   }
 
