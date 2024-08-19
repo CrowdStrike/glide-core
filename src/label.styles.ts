@@ -35,8 +35,15 @@ export default [
       column-gap: var(--glide-core-spacing-xs);
       display: flex;
 
-      /* Prevent it from growing larger than its column percentage when a child of Form Controls Layout. */
-      min-inline-size: 0;
+      /* 
+        Prevents it from growing larger than its column percentage when a child of Form Controls 
+        Layout. Also allows for an ellipsis on the label. See the linked comment for why it's "3ch" 
+        instead of "0".
+
+        - https://css-tricks.com/flexbox-truncated-text/#aa-the-solution-is-min-width-0-on-the-flex-child
+        - https://github.com/CrowdStrike/glide-core/pull/317#issuecomment-2297025365 
+      */
+      min-inline-size: 3ch;
 
       &.middle,
       &.left {
