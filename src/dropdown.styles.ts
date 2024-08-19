@@ -84,15 +84,25 @@ export default [
     }
 
     .options {
+      --border-width: 1px;
+      --padding: var(--glide-core-spacing-xxxs);
+      --private-option-height: 1.75rem;
+
       background-color: var(--glide-core-surface-modal);
-      border: 1px solid var(--glide-core-surface-modal);
+      border: var(--border-width) solid var(--glide-core-surface-modal);
       border-radius: var(--glide-core-spacing-xs);
       box-shadow: var(--glide-core-shadow-lg);
       box-sizing: border-box;
       inset: unset;
+      max-block-size: calc(
+        var(--private-option-height) * 9 + var(--padding) * 2 +
+          var(--border-width) * 2
+      );
       min-inline-size: var(--min-inline-size);
-      padding: var(--glide-core-spacing-xxxs);
+      overflow: auto;
+      padding: var(--padding);
       position: absolute;
+      scroll-behavior: smooth;
     }
 
     .select-all {

@@ -4,7 +4,9 @@ export default [
   css`
     .component {
       align-items: center;
+      block-size: var(--private-option-height);
       border-radius: var(--glide-core-spacing-sm);
+      max-inline-size: 21.875rem;
       user-select: none;
 
       &.active {
@@ -64,6 +66,16 @@ export default [
 
     .indeterminate-icon {
       display: none;
+    }
+
+    .tooltip {
+      overflow: hidden;
+    }
+
+    .label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   `,
 ];

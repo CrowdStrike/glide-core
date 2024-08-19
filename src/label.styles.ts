@@ -113,7 +113,7 @@ export default [
       }
     }
 
-    .label-overflow-tooltip {
+    .label-tooltip {
       display: flex;
       max-inline-size: 100%;
 

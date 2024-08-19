@@ -7,6 +7,89 @@ import GlideCoreTooltip from './tooltip.js';
 
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
+it('is open when opened programmatically', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip aria-label="Label">
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  component.open = true;
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  expect(tooltip?.checkVisibility()).to.be.true;
+});
+
+it('is open when `open` and enabled programmatically', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip aria-label="Label" open disabled>
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  component.disabled = false;
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  expect(tooltip?.checkVisibility()).to.be.true;
+});
+
+it('is not open when `open` and disabled programmatically', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip aria-label="Label" open>
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  component.disabled = true;
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  expect(tooltip?.checkVisibility()).to.be.false;
+});
+
+it('is not open when opened programmatically and disabled', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip aria-label="Label" disabled>
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  component.open = true;
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  expect(tooltip?.checkVisibility()).to.be.false;
+});
+
 it('is visible on "focusin"', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip>

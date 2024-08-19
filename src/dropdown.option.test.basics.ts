@@ -46,7 +46,8 @@ it('can have a label', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  expect(component.shadowRoot?.textContent?.trim()).to.equal('Label');
+  const label = component.shadowRoot?.querySelector('[data-test="label"]');
+  expect(label?.textContent?.trim()).to.equal('Label');
 });
 
 it('can have an icon', async () => {

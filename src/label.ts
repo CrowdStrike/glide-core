@@ -126,7 +126,7 @@ export default class GlideCoreLabel extends LitElement {
         </glide-core-tooltip>
 
         <glide-core-tooltip
-          class="label-overflow-tooltip"
+          class="label-tooltip"
           placement="right"
           ?disabled=${!this.isLabelTooltip}
         >

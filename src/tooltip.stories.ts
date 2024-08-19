@@ -21,6 +21,7 @@ const meta: Meta = {
     'slot="target"': '',
     placement: 'bottom',
     disabled: false,
+    offset: '4',
   },
   argTypes: {
     'slot="default"': {
@@ -36,6 +37,20 @@ const meta: Meta = {
       type: { name: 'function', required: true },
     },
     disabled: {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    offset: {
+      control: 'number',
+      table: {
+        defaultValue: { summary: '4' },
+        type: { summary: 'number' },
+      },
+    },
+    open: {
       control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
@@ -62,8 +77,10 @@ const meta: Meta = {
         style="align-items: center; display: flex; height: 8rem; justify-content: center;"
       >
         <glide-core-tooltip
+          offset=${arguments_.offset}
           placement=${arguments_.placement}
           ?disabled=${arguments_.disabled}
+          ?open=${arguments_.open}
         >
           ${unsafeHTML(arguments_['slot="default"'])}
           <span slot="target" class="icon" tabindex="0">

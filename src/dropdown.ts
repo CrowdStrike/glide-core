@@ -1,6 +1,7 @@
 import './checkbox.js';
 import './dropdown.option.js';
 import './label.js';
+import './tooltip.js';
 import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
@@ -928,6 +929,10 @@ export default class GlideCoreDropdown extends LitElement {
           event.key === 'Enter' ||
           (event.key === ' ' && !this.isFilterable)
         ) {
+          // Prevent the options from scrolling when a focused option is selected via Space
+          // when using VoiceOver.
+          event.preventDefault();
+
           this.activeOption.selected = this.multiple
             ? !this.activeOption.selected
             : true;
@@ -974,6 +979,7 @@ export default class GlideCoreDropdown extends LitElement {
         if (option && activeOptionIndex !== 0) {
           this.#deactivateAllOptions();
           option.privateActive = true;
+          option.scrollIntoView({ block: 'center' });
           this.ariaActivedescendant = option.id;
         }
 
@@ -998,6 +1004,7 @@ export default class GlideCoreDropdown extends LitElement {
         if (option) {
           this.#deactivateAllOptions();
           option.privateActive = true;
+          option.scrollIntoView({ block: 'center' });
           this.ariaActivedescendant = option.id;
         }
 
@@ -1019,6 +1026,7 @@ export default class GlideCoreDropdown extends LitElement {
         if (option) {
           this.#deactivateAllOptions();
           option.privateActive = true;
+          option.scrollIntoView({ block: 'end' });
           this.ariaActivedescendant = option.id;
         }
 
@@ -1041,6 +1049,7 @@ export default class GlideCoreDropdown extends LitElement {
         if (option) {
           this.#deactivateAllOptions();
           option.privateActive = true;
+          option.scrollIntoView();
           this.ariaActivedescendant = option.id;
         }
 

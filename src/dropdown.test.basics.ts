@@ -2,7 +2,7 @@
 
 import './dropdown.option.js';
 import { ArgumentError } from 'ow';
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { repeat } from 'lit/directives/repeat.js';
 import GlideCoreDropdown from './dropdown.js';
 import expectArgumentError from './library/expect-argument-error.js';
@@ -315,6 +315,129 @@ it('activates the last selected option when options are initially selected', asy
   expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.false;
   expect(options[2]?.privateActive).to.be.true;
+});
+
+it('is scrollable', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Four"
+        value="four"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Five"
+        value="five"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Six"
+        value="six"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Seven"
+        value="seven"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Eight"
+        value="eight"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Nine"
+        value="nine"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Ten"
+        value="ten"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+  assert(options);
+
+  expect(options.scrollHeight).to.be.greaterThan(options.clientHeight);
+});
+
+it('is not scrollable', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Four"
+        value="four"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Five"
+        value="five"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Six"
+        value="six"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Seven"
+        value="seven"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Eight"
+        value="eight"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Nine"
+        value="nine"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+  assert(options);
+
+  expect(options.scrollHeight).to.equal(options.clientHeight);
 });
 
 it('throws if the default slot is the incorrect type', async () => {
