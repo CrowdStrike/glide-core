@@ -65,10 +65,6 @@ it('adds aria-label to menu', async () => {
   expect(menuShadowRoot?.getAttribute('aria-label')).to.equal(
     'Actions for Item',
   );
-
-  document.documentElement.setAttribute('lang', 'ja');
-
-  await elementUpdated(treeItem);
 });
 
 it('adds Japanese aria-label to menu', async () => {

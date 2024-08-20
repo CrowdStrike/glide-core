@@ -72,7 +72,10 @@ const meta: Meta = {
               slot="prefix"
               name="share"
             ></glide-core-example-icon>
-            <glide-core-tree-item-icon-button slot="suffix">
+            <glide-core-tree-item-icon-button
+              slot="suffix"
+              label="Settings for Leaf 2"
+            >
               <glide-core-example-icon
                 name="settings"
               ></glide-core-example-icon>
@@ -341,7 +344,9 @@ export const TreeItemWithSuffixIconButton: StoryObj = {
         label=${arguments_['<glide-core-tree-item>.label']}
         ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
         >
-        <glide-core-tree-item-icon-button slot="suffix">
+        <glide-core-tree-item-icon-button slot="suffix" label="Settings for ${
+          arguments_['<glide-core-tree-item>.label']
+        }">
           <glide-core-example-icon name="settings"></glide-core-example-icon>
         </glide-core-tree-item-icon-button>
       </glide-core-tree-item></glide-core-tree-item>

@@ -10,10 +10,10 @@ import {
   state,
 } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { owSlotType } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreIconButton from './icon-button.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
+import ow, { owSlotType } from './library/ow.js';
 import styles from './tree.item.styles.js';
 
 declare global {
@@ -66,9 +66,8 @@ export default class GlideCoreTreeItem extends LitElement {
 
   override focus(options?: FocusOptions) {
     this.#labelContainerElementRef.value?.focus(options);
-    this.#labelContainerElementRef.value!.tabIndex = 0;
 
-    this.#setTabIndexForIconButtons(0);
+    this.#setTabIndexes(0);
   }
 
   get hasChildTreeItems() {
@@ -227,9 +226,7 @@ export default class GlideCoreTreeItem extends LitElement {
     if (this.#isFocusTargetInternal(event.relatedTarget)) {
       event.stopPropagation();
     } else {
-      this.#labelContainerElementRef.value!.tabIndex = -1;
-
-      this.#setTabIndexForIconButtons(-1);
+      this.#setTabIndexes(-1);
     }
   }
 
@@ -257,9 +254,11 @@ export default class GlideCoreTreeItem extends LitElement {
       }
     }
   }
-  // Checks if focus has moved to an element within this tree item itself,
 
-  #setTabIndexForIconButtons(tabIndex: -1 | 0) {
+  #setTabIndexes(tabIndex: -1 | 0) {
+    ow(this.#labelContainerElementRef.value, ow.object.instanceOf(HTMLElement));
+    this.#labelContainerElementRef.value.tabIndex = tabIndex;
+
     for (const iconButton of this.querySelectorAll<GlideCoreIconButton>(
       '& > glide-core-tree-item-icon-button',
     )) {

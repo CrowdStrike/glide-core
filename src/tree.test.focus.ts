@@ -412,6 +412,15 @@ it('does not focus on a tree item icon button unless that tree item is focused',
   expect(
     document.activeElement instanceof GlideCoreTreeItemIconButton,
   ).to.equal(true);
+
+  await sendKeys({ down: 'Shift' });
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ up: 'Shift' });
+
+  expect(document.activeElement === childItems[1]).to.equal(
+    true,
+    'can keyboard navigate back to the parent Tree Item',
+  );
 });
 
 it('does not focus on a tree item menu unless that tree item is focused', async () => {
