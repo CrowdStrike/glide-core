@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { expect, fixture, html } from '@open-wc/testing';
+import './menu.link.js';
+import './tree.item.menu.js';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import Menu from './menu.js';
 import TreeItem from './tree.item.js';
+import TreeItemMenu from './tree.item.menu.js';
 
 TreeItem.shadowRootOptions.mode = 'open';
+TreeItemMenu.shadowRootOptions.mode = 'open';
+Menu.shadowRootOptions.mode = 'open';
 
 it('registers', () => {
   expect(window.customElements.get('glide-core-tree-item')).to.equal(TreeItem);
@@ -42,14 +48,77 @@ it('renders with a prefix slot', async () => {
   expect(document.querySelector('[data-prefix]')).to.be.ok;
 });
 
-it('renders with a menu slot', async () => {
-  await fixture<TreeItem>(html`
+it('adds aria-label to menu', async () => {
+  const treeItem = await fixture<TreeItem>(html`
     <glide-core-tree-item label="Item">
-      <span slot="menu" data-menu>menu</span>
+      <glide-core-tree-item-menu slot="menu" data-menu>
+        <glide-core-menu-link label="Move" url="/move"> </glide-core-menu-link>
+      </glide-core-tree-item-menu>
     </glide-core-tree-item>
   `);
 
-  expect(document.querySelector('[data-menu]')).to.be.ok;
+  const menuShadowRoot = treeItem
+    .querySelector('glide-core-tree-item-menu')
+    ?.shadowRoot?.querySelector('glide-core-menu')
+    ?.shadowRoot?.querySelector('.component');
+
+  expect(menuShadowRoot?.getAttribute('aria-label')).to.equal(
+    'Actions for Item',
+  );
+
+  document.documentElement.setAttribute('lang', 'ja');
+
+  await elementUpdated(treeItem);
+});
+
+it('adds Japanese aria-label to menu', async () => {
+  document.documentElement.setAttribute('lang', 'ja');
+
+  const treeItem = await fixture<TreeItem>(html`
+    <glide-core-tree-item label="Item">
+      <glide-core-tree-item-menu slot="menu" data-menu>
+        <glide-core-menu-link label="Move" url="/move"> </glide-core-menu-link>
+      </glide-core-tree-item-menu>
+    </glide-core-tree-item>
+  `);
+
+  const menuShadowRoot = treeItem
+    .querySelector('glide-core-tree-item-menu')
+    ?.shadowRoot?.querySelector('glide-core-menu')
+    ?.shadowRoot?.querySelector('.component');
+
+  expect(menuShadowRoot?.getAttribute('aria-label')).to.equal(
+    'Actions for Item',
+  );
+
+  document.documentElement.setAttribute('lang', 'ja');
+
+  await elementUpdated(treeItem);
+});
+
+it('adds French aria-label to menu', async () => {
+  document.documentElement.setAttribute('lang', 'fr');
+
+  const treeItem = await fixture<TreeItem>(html`
+    <glide-core-tree-item label="Item">
+      <glide-core-tree-item-menu slot="menu" data-menu>
+        <glide-core-menu-link label="Move" url="/move"> </glide-core-menu-link>
+      </glide-core-tree-item-menu>
+    </glide-core-tree-item>
+  `);
+
+  const menuShadowRoot = treeItem
+    .querySelector('glide-core-tree-item-menu')
+    ?.shadowRoot?.querySelector('glide-core-menu')
+    ?.shadowRoot?.querySelector('.component');
+
+  expect(menuShadowRoot?.getAttribute('aria-label')).to.equal(
+    'Actions for Item',
+  );
+
+  document.documentElement.setAttribute('lang', 'ja');
+
+  await elementUpdated(treeItem);
 });
 
 it('renders with a suffix slot', async () => {

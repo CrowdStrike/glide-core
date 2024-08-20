@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import {
   type Placement,
   autoUpdate,
@@ -35,6 +35,9 @@ export default class GlideCoreMenu extends LitElement {
   };
 
   static override styles = styles;
+
+  @property()
+  label = '';
 
   @property({ reflect: true, type: Boolean })
   get open() {
@@ -152,6 +155,7 @@ export default class GlideCoreMenu extends LitElement {
         class="component"
         @focusout=${this.#onFocusout}
         ${ref(this.#componentElementRef)}
+        aria-label=${this.label || nothing}
       >
         <slot
           class="target-slot"

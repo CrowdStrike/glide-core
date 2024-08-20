@@ -10,5 +10,6 @@
   "previousTab": "Previous tab",
   "announcedCharacterCount": "Character count {current} of {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
-  "clearEntry": "Clear {label} entry"
+  "clearEntry": "Clear {label} entry",
+  "actionsFor": "Actions for {label}"
 }

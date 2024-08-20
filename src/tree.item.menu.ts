@@ -35,6 +35,9 @@ export default class GlideCoreTreeItemMenu extends LitElement {
   @property({ reflect: true })
   placement: Placement = 'bottom-start';
 
+  @property()
+  label = '';
+
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
 
@@ -49,6 +52,7 @@ export default class GlideCoreTreeItemMenu extends LitElement {
       <glide-core-menu
         class="component"
         placement=${this.placement}
+        label=${this.label}
         ${ref(this.#menuElementRef)}
       >
         <glide-core-menu-options>
@@ -61,6 +65,7 @@ export default class GlideCoreTreeItemMenu extends LitElement {
         <glide-core-icon-button slot="target" variant="tertiary">
           <!-- 3-dot -->
           <svg
+            aria-hidden="true"
             width="4"
             height="14"
             viewBox="0 0 4 18"

@@ -21,6 +21,7 @@ const translation: Translation = {
     `${current}/${maximum}`,
   clearEntry: (label: string) => `Clear ${label} entry`,
   removeTag: (label: string) => `タグを削除: ${label}`,
+  actionsFor: (label: string) => `Actions for ${label}`,
 };
 
 export default translation;

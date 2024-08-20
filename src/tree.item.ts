@@ -1,5 +1,6 @@
 import './tree.item.menu.js';
 import { LitElement, html } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import {
@@ -9,10 +10,10 @@ import {
   state,
 } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import type GlideCoreMenu from './menu.js';
-
+import { owSlotType } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreIconButton from './icon-button.js';
+import GlideCoreTreeItemMenu from './tree.item.menu.js';
 import styles from './tree.item.styles.js';
 
 declare global {
@@ -52,12 +53,6 @@ export default class GlideCoreTreeItem extends LitElement {
 
   @property({ type: Boolean, attribute: 'non-collapsible' })
   nonCollapsible = false;
-
-  @queryAssignedElements({ slot: 'menu' })
-  menuSlotAssignedElements!: GlideCoreMenu[];
-
-  @queryAssignedElements({ slot: 'prefix' })
-  prefixSlotAssignedElements!: HTMLElement[];
 
   @queryAssignedElements()
   slotElements!: GlideCoreTreeItem[];
@@ -151,7 +146,11 @@ export default class GlideCoreTreeItem extends LitElement {
         <slot name="prefix"></slot>
         <div class="label">${this.label}</div>
         <div class="icon-container">
-          <slot name="menu"></slot>
+          <slot
+            name="menu"
+            ${ref(this.#menuSlotElementRef)}
+            @slotchange=${this.#onMenuSlotChange}
+          ></slot>
           <slot name="suffix"></slot>
         </div>
       </div>
@@ -197,6 +196,10 @@ export default class GlideCoreTreeItem extends LitElement {
   private childTreeItems: GlideCoreTreeItem[] = [];
 
   #labelContainerElementRef = createRef<HTMLInputElement>();
+
+  #localize = new LocalizeController(this);
+
+  #menuSlotElementRef = createRef<HTMLSlotElement>();
 
   get #ariaExpanded() {
     if (this.hasChildTreeItems) {
@@ -244,6 +247,17 @@ export default class GlideCoreTreeItem extends LitElement {
       this.contains(target)
     );
   }
+
+  #onMenuSlotChange() {
+    owSlotType(this.#menuSlotElementRef.value, [GlideCoreTreeItemMenu]);
+
+    for (const assignedElement of this.#menuSlotElementRef.value.assignedElements()) {
+      if (assignedElement instanceof GlideCoreTreeItemMenu) {
+        assignedElement.label = this.#localize.term('actionsFor', this.label);
+      }
+    }
+  }
+  // Checks if focus has moved to an element within this tree item itself,
 
   #setTabIndexForIconButtons(tabIndex: -1 | 0) {
     for (const iconButton of this.querySelectorAll<GlideCoreIconButton>(
