@@ -133,11 +133,13 @@ export default [
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      visibility: hidden;
     }
 
     .expanded {
       .child-items {
         block-size: auto;
+        visibility: visible;
       }
     }
 

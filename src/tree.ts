@@ -143,7 +143,11 @@ export default class GlideCoreTree extends LitElement {
     let itemToFocus;
 
     if (event.target === this) {
-      itemToFocus = this.selectedItem ?? this.slotElements[0];
+      itemToFocus = this.selectedItem?.checkVisibility({
+        visibilityProperty: true,
+      })
+        ? this.selectedItem
+        : this.slotElements[0];
     } else if (event.target instanceof GlideCoreTreeItem) {
       itemToFocus = event.target;
       this.privateTabIndex = -1;
