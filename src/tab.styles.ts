@@ -15,20 +15,16 @@ export default [
 
     .component {
       align-items: center;
+      block-size: 2.125rem;
+      box-sizing: border-box;
       cursor: pointer;
+      display: flex;
       font-family: var(--glide-core-heading-xxs-font-family);
       font-size: var(--glide-core-heading-xxxs-font-size);
       font-style: var(--glide-core-heading-xxs-font-style);
       font-weight: var(--glide-core-body-sm-font-weight);
       gap: 0.4375rem;
       justify-content: center;
-      line-height: 1.1875rem;
-      padding-block: var(--glide-core-spacing-xs);
-      padding-inline: var(--glide-core-spacing-md);
-
-      &.active {
-        border-block-end: 2px solid var(--glide-core-border-focus);
-      }
 
       &:hover {
         color: var(--glide-core-text-primary);
@@ -41,6 +37,7 @@ export default [
       }
 
       & .container {
+        align-items: center;
         border-radius: 0.0625rem;
         display: flex;
         flex-shrink: 0;

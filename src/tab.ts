@@ -52,12 +52,12 @@ export default class GlideCoreTab extends LitElement {
         disabled: this.disabled,
       })}
     >
-      <span class="container">
+      <div class="container">
         <slot name="icon"></slot>
         <div class="default-slot">
           <slot></slot>
         </div>
-      </span>
+      </div>
     </div> `;
   }
 

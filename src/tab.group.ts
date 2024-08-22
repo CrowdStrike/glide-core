@@ -1,6 +1,7 @@
 import './icon-button.js';
 import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
+import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
@@ -34,7 +35,18 @@ export default class GlideCoreTabGroup extends LitElement {
   /**
    * The tab element that is currently active
    * */
-  @state() activeTab?: GlideCoreTab;
+  @state()
+  get activeTab() {
+    return this.#currentActiveTab;
+  }
+
+  set activeTab(tab: GlideCoreTab | null) {
+    this.#previousActiveTab = this.#currentActiveTab;
+    this.#currentActiveTab = tab;
+  }
+
+  @state()
+  isAfterFirstUpdated = false;
 
   @state()
   isShowOverflowStartButton = false;
@@ -58,6 +70,7 @@ export default class GlideCoreTabGroup extends LitElement {
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
     this.#setupTabs();
     this.#setActiveTab();
+    this.#setupActiveTabIndicator();
     this.#setupResizeObserver();
   }
 
@@ -104,10 +117,14 @@ export default class GlideCoreTabGroup extends LitElement {
         </div>
         <div
           role="tablist"
-          class="tab-group"
+          class=${classMap({
+            'tab-group': true,
+            'animated-active-tab-indicator': this.isAfterFirstUpdated,
+          })}
           ${ref(this.#tabListElementRef)}
           @scroll=${this.#onScroll}
           @focusout=${this.#onFocusout}
+          tabindex="-1"
         >
           <slot
             name="nav"
@@ -162,6 +179,8 @@ export default class GlideCoreTabGroup extends LitElement {
     this.#setupTabs();
   }
 
+  #currentActiveTab: GlideCoreTab | null = null;
+
   // Arbitrary debounce delay
   #debounceDelay = 100;
 
@@ -174,6 +193,10 @@ export default class GlideCoreTabGroup extends LitElement {
   #overflowEndButtonElementRef = createRef<HTMLButtonElement>();
 
   #overflowStartButtonElementRef = createRef<HTMLButtonElement>();
+
+  #prefersReducedMotion = false;
+
+  #previousActiveTab: GlideCoreTab | null = null;
 
   #resizeObserver: ResizeObserver | null = null;
 
@@ -198,11 +221,11 @@ export default class GlideCoreTabGroup extends LitElement {
   };
 
   #onClickOverflowEndButton = () => {
-    this.#scrollTabsList('right', true);
+    this.#scrollTabsList('right');
   };
 
   #onClickOverflowStartButton = () => {
-    this.#scrollTabsList('left', true);
+    this.#scrollTabsList('left');
   };
 
   #onFocusout = () => {
@@ -289,63 +312,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
         this.#setOverflowButtonsVisibility();
 
-        // Since tab widths and the tab list are of variable length, its possible that
-        // when scrolling to the left or right only a few pixels of tab padding
-        // are on-screen. When this happens, focus does not scroll the tab list and the tab
-        // text isn't brought clearly into view. To protect against this case, determine whether to
-        // scroll by comparing the overflow button's edge to the tab's text's edge.
-        if (
-          this.isShowOverflowStartButton &&
-          this.#overflowStartButtonElementRef.value &&
-          event.key === 'ArrowLeft'
-        ) {
-          // Since the shadow root of a tab is closed, we can't know what
-          // the padding is (presently 1 rem). This could be solved in a number of ways, but this
-          // works for now.
-          const tabPadding = Number.parseInt(
-            window.getComputedStyle(document.documentElement).fontSize,
-          );
-
-          const buttonRect =
-            this.#overflowStartButtonElementRef.value?.getBoundingClientRect();
-
-          const { right: buttonRight } = buttonRect;
-
-          const tabRect = this.tabElements[index]?.getBoundingClientRect();
-          const { right: tabRight } = tabRect;
-
-          // tabRight - tabPadding is the edge of the tab's text.
-          if (buttonRight > tabRight - tabPadding) {
-            this.#scrollTabsList('left');
-          }
-        }
-
-        if (
-          this.isShowOverflowEndButton &&
-          this.#overflowEndButtonElementRef.value &&
-          event.key === 'ArrowRight'
-        ) {
-          // Since the shadowdom of a tab is closed, we can't know what
-          // the padding is (presently 1 rem). This could be solved in a number of ways, but this
-          // works for now.
-          const tabPadding = Number.parseInt(
-            window.getComputedStyle(document.documentElement).fontSize,
-          );
-
-          const buttonRect =
-            this.#overflowEndButtonElementRef.value?.getBoundingClientRect();
-
-          const { left: buttonLeft } = buttonRect;
-
-          const tabRect = this.tabElements[index]?.getBoundingClientRect();
-          const { left: tabLeft } = tabRect;
-
-          // tabLeft + tabPadding is the edge of the tab's text
-          if (buttonLeft < tabLeft + tabPadding) {
-            this.#scrollTabsList('right');
-          }
-        }
-
         event.preventDefault();
       }
     }
@@ -376,7 +342,7 @@ export default class GlideCoreTabGroup extends LitElement {
     }, this.#debounceDelay);
   }
 
-  #scrollTabsList(buttonPlacement: 'left' | 'right', isSmooth?: boolean) {
+  #scrollTabsList(buttonPlacement: 'left' | 'right') {
     const directionFactor = buttonPlacement === 'right' ? 1 : -1;
     const percentageFactor = 0.5;
 
@@ -390,7 +356,6 @@ export default class GlideCoreTabGroup extends LitElement {
     this.#tabListElementRef.value?.scrollBy({
       left: scrollDistance,
       top: 0,
-      behavior: isSmooth ? 'smooth' : 'auto',
     });
   }
 
@@ -413,6 +378,45 @@ export default class GlideCoreTabGroup extends LitElement {
 
       panel.isActive = thisPanelName === activeTabPanelName;
       panel.tabIndex = thisPanelName === activeTabPanelName ? 0 : -1;
+    }
+
+    this.#setActiveTabIndicator();
+  }
+
+  #setActiveTabIndicator() {
+    if (this.activeTab === this.#previousActiveTab) return;
+
+    if (this.activeTab && this.tabElements.length > 0) {
+      const activeTabInlinePadding = Number.parseInt(
+        window
+          .getComputedStyle(this.activeTab)
+          .getPropertyValue(
+            `padding-inline-${
+              this.activeTab === this.tabElements[0] ? 'start' : 'end'
+            }`,
+          ),
+      );
+
+      const activeTabIndicatorTranslateLeft =
+        this.activeTab === this.tabElements[0]
+          ? activeTabInlinePadding
+          : this.activeTab.offsetLeft - this.tabElements[0].offsetLeft;
+
+      this.style.setProperty(
+        '--active-tab-indicator-left',
+        `${activeTabIndicatorTranslateLeft}px`,
+      );
+
+      const activeTabIndicatorWidthAdjustment =
+        this.activeTab === this.tabElements[0] ||
+        this.activeTab === this.tabElements.at(-1)
+          ? activeTabInlinePadding
+          : 0;
+
+      this.style.setProperty(
+        '--active-tab-indicator-width',
+        `${this.activeTab.clientWidth - activeTabIndicatorWidthAdjustment}px`,
+      );
     }
   }
 
@@ -447,6 +451,36 @@ export default class GlideCoreTabGroup extends LitElement {
       this.#tabListElementRef.value.scrollLeft > 0;
   }
 
+  #setupActiveTabIndicator() {
+    // Use setTimeout to allow tabs to render.
+    setTimeout(() => {
+      if (this.activeTab) {
+        const activeTabPaddingInlineStart = Number.parseInt(
+          window
+            .getComputedStyle(this.activeTab)
+            .getPropertyValue('padding-inline-start'),
+        );
+
+        this.style.setProperty(
+          '--active-tab-indicator-width',
+          `${this.activeTab.clientWidth - activeTabPaddingInlineStart}px`,
+        );
+
+        this.style.setProperty(
+          '--active-tab-indicator-left',
+          `${activeTabPaddingInlineStart}px`,
+        );
+
+        // We only want the animation to run *after*
+        // the user interacts with it directly. By adding
+        // this check, it ensures the animation does not play
+        // on first render to prevent distractions for the
+        // user.
+        this.isAfterFirstUpdated = true;
+      }
+    });
+  }
+
   #setupResizeObserver() {
     this.#resizeObserver = new ResizeObserver((entries) => {
       if (entries?.at(0)?.target === this.#tabListElementRef.value) {
@@ -472,17 +506,17 @@ export default class GlideCoreTabGroup extends LitElement {
         .filter((panel) => panel.name === tabElement.panel)
         ?.at(0);
 
-      ow(relatedPanel, ow.object.instanceOf(GlideCoreTabPanel));
+      if (relatedPanel) {
+        tabElement.setAttribute(
+          'aria-controls',
+          relatedPanel.getAttribute('id')!,
+        );
 
-      tabElement.setAttribute(
-        'aria-controls',
-        relatedPanel.getAttribute('id')!,
-      );
-
-      relatedPanel.setAttribute(
-        'aria-labelledby',
-        tabElement.getAttribute('id')!,
-      );
+        relatedPanel.setAttribute(
+          'aria-labelledby',
+          tabElement.getAttribute('id')!,
+        );
+      }
     }
   }
 
