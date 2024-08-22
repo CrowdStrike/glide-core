@@ -591,7 +591,7 @@ it('closes when something outside of it is clicked', async () => {
   expect(target?.ariaExpanded).to.equal('false');
 });
 
-it('closes on Escape when the button has focus', async () => {
+it('closes on Escape', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
@@ -605,7 +605,7 @@ it('closes on Escape when the button has focus', async () => {
   // Wait for it to open
   await aTimeout(0);
 
-  component.querySelector('button')?.click();
+  component.focus();
   await sendKeys({ press: 'Escape' });
 
   const defaultSlot =
