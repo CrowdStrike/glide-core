@@ -35,6 +35,7 @@ export default [
     .component {
       align-items: center;
       appearance: none;
+      background-color: var(--glide-core-surface-page);
       cursor: pointer;
       display: flex;
       font-family: var(--glide-core-font-sans);
