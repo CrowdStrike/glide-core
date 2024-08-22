@@ -14,9 +14,9 @@ declare global {
 /**
  * @description A toggle with a label and optional tooltip, summary, and description.
  *
- * @event change - Dispatched when checked or unchecked.
- * @event input - Dispatched when checked or unchecked.
-
+ * @event change - `(event: Event) => void`
+ * @event input - `(event: Event) => void`
+ *
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
  */

@@ -43,6 +43,10 @@ const meta: Meta = {
   },
   render(arguments_) {
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/form-controls-layout.js';
+      </script>
+
       <form style="height: 15rem;">
         <glide-core-form-controls-layout split=${arguments_.split}>
           <glide-core-checkbox-group label="Label">

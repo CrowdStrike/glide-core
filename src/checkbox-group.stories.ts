@@ -10,7 +10,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'A checkbox group with a label and optional tooltip and description. Participates in forms and validation via `FormData` and various methods.',
+          'A checkbox group with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.',
       },
       story: {
         autoplay: true,
@@ -19,15 +19,50 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    'slot="description"': 'Description',
+    'slot="default"': '',
+    'addEventListener(event, listener)': '',
+    'checkValidity()': '',
     disabled: false,
     'hide-label': false,
-    name: 'name',
+    name: '',
+    'reportValidity()': '',
     required: false,
+    'slot="description"': 'Description',
+    'slot="tooltip"': '',
     value: '',
   },
   argTypes: {
+    'slot="default"': {
+      control: false,
+      table: {
+        type: { summary: 'GlideCoreCheckbox' },
+      },
+      type: { name: 'function', required: true },
+    },
+    'slot="description"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'Element | string' },
+      },
+    },
+    'slot="tooltip"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'HTMLKBDElement | string' },
+      },
+    },
+    'addEventListener(event, listener)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '(event: "change" | "input" | "invalid", listener: (event: Event) => void) => void',
+        },
+      },
+    },
     'checkValidity()': {
+      control: false,
       table: {
         type: {
           summary: 'method',
@@ -35,9 +70,9 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
         },
       },
-      type: { name: 'function' },
     },
     'reportValidity()': {
+      control: false,
       table: {
         type: {
           summary: 'method',
@@ -45,7 +80,6 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
         },
       },
-      type: { name: 'function' },
     },
     'hide-label': {
       control: 'boolean',
@@ -82,13 +116,13 @@ const meta: Meta = {
       },
     },
     value: {
+      control: false,
       table: {
         defaultValue: { summary: '[]' },
         type: {
           summary: 'readonly string[]',
         },
       },
-      type: { name: 'function' },
     },
   },
   play(context) {
@@ -110,25 +144,32 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    return html`<form style="padding: 1.5rem;">
-      <glide-core-checkbox-group
-        label=${arguments_.label || nothing}
-        name=${arguments_.name || nothing}
-        ?disabled=${arguments_.disabled}
-        ?hide-label=${arguments_['hide-label'] || nothing}
-        ?required=${arguments_.required}
-      >
-        <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
-        <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
-        <glide-core-checkbox label="Three" value="three"></glide-core-checkbox>
+    return html`<script type="ignore">
+        import '@crowdstrike/glide-core/checkbox-group.js';
+        import '@crowdstrike/glide-core/checkbox.js';
+      </script>
 
-        <div slot="description">${arguments_['slot="description"']}</div>
+      <form style="padding: 1.5rem;">
+        <glide-core-checkbox-group
+          label=${arguments_.label || nothing}
+          name=${arguments_.name || nothing}
+          ?disabled=${arguments_.disabled}
+          ?hide-label=${arguments_['hide-label'] || nothing}
+          ?required=${arguments_.required}
+        >
+          <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
+          <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
+          <glide-core-checkbox
+            label="Three"
+            value="three"
+          ></glide-core-checkbox>
 
-        ${arguments_['slot="tooltip"']
-          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-          : ''}
-      </glide-core-checkbox-group>
-    </form>`;
+          <div slot="description">${arguments_['slot="description"']}</div>
+          ${arguments_['slot="tooltip"']
+            ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
+            : ''}
+        </glide-core-checkbox-group>
+      </form>`;
   },
 };
 
@@ -136,7 +177,7 @@ export default meta;
 
 export const Vertical: StoryObj = {};
 
-export const VerticalWithToolip: StoryObj = {
+export const VerticalWithTooltip: StoryObj = {
   args: {
     'slot="tooltip"': 'Tooltip',
     orientation: 'vertical',

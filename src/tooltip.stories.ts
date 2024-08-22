@@ -19,20 +19,27 @@ const meta: Meta = {
   args: {
     'slot="default"': 'Tooltip <kbd>CMD + K</kbd>',
     'slot="target"': '',
-    placement: 'bottom',
     disabled: false,
     offset: '4',
+    open: false,
+    placement: 'bottom',
   },
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: 'Element' },
+        type: {
+          summary: 'HTMLKBDElement | string',
+          detail: '// The content of the tooltip',
+        },
       },
       type: { name: 'function', required: true },
     },
     'slot="target"': {
       table: {
-        type: { summary: 'Element' },
+        type: {
+          summary: 'Element',
+          detail: '// The element to which the tooltip should anchor',
+        },
       },
       type: { name: 'function', required: true },
     },
@@ -40,7 +47,10 @@ const meta: Meta = {
       control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
+        type: {
+          summary: 'boolean',
+          detail: `// Never show the tooltip. Useful when you have markup conditionally rendering Tooltip. Instead, always render Tooltip and simply disable it when appropriate.`,
+        },
       },
     },
     offset: {
@@ -54,16 +64,20 @@ const meta: Meta = {
       control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
+        type: {
+          summary: 'boolean',
+          detail:
+            '// Force tooltip visibility. Useful when the tooltip should be visible based on something other than hover or focus.',
+        },
       },
     },
     placement: {
       control: { type: 'radio' },
-      options: ['bottom', 'left', 'right', 'top'],
+      options: ['top', 'right', 'bottom', 'left'],
       table: {
         defaultValue: { summary: '"bottom"' },
         type: {
-          summary: '"bottom" | "left" | "right" | "top"',
+          summary: '"top" | "right" | "bottom" | "left"',
           detail:
             '// Tooltip will try to move itself to the opposite of this value if it results in an overflow.\n// For example, if "bottom" results in an overflow Tooltip will try "top" but not "right" or "left".',
         },
@@ -73,6 +87,10 @@ const meta: Meta = {
   render: (arguments_) => {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/tooltip.js';
+      </script>
+
       <div
         style="align-items: center; display: flex; height: 8rem; justify-content: center;"
       >
@@ -83,17 +101,19 @@ const meta: Meta = {
           ?open=${arguments_.open}
         >
           ${unsafeHTML(arguments_['slot="default"'])}
-          <span slot="target" class="icon" tabindex="0">
-            <glide-core-example-icon name="info"></glide-core-example-icon>
-          </span>
+
+          <glide-core-example-icon
+            name="info"
+            slot="target"
+            tabindex="0"
+          ></glide-core-example-icon>
         </glide-core-tooltip>
       </div>
 
       <style>
-        .icon {
+        [slot="target"] {
           border-radius: 0.0625rem;
           display: inline-flex;
-          /* Consumers are advised to implement a similar focus ring on a trigger element. */
           &:focus-visible {${focusOutline};}
         }
       </style>

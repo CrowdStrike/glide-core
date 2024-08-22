@@ -10,7 +10,7 @@ declare global {
 }
 
 /**
- * @cssprop [--size] - Sets the size of the icon.
+ * @cssprop [--size] - The size of the icon.
  */
 @customElement('glide-core-status-indicator')
 export default class GlideCoreStatusIndicator extends LitElement {

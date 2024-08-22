@@ -15,7 +15,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A menu with optional icons.',
+        component: 'A basic menu.',
       },
       story: {
         autoplay: true,
@@ -100,7 +100,7 @@ const meta: Meta = {
       arguments_ = event.args as typeof context.args;
     });
 
-    context.canvasElement?.addEventListener('click', () => {
+    context.canvasElement.addEventListener('click', () => {
       addons.getChannel().emit(STORY_ARGS_UPDATED, {
         storyId: context.id,
         args: {
@@ -112,29 +112,32 @@ const meta: Meta = {
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<div
-      style="height: 13rem; display: flex; align-items: center; justify-content: center;"
-    >
-      <glide-core-menu
-        placement=${arguments_.placement}
-        size=${arguments_.size || nothing}
-        ?open=${arguments_.open}
-      >
-        <glide-core-menu-options>
-          <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
-          <glide-core-menu-link label="Two" url="/two"> </glide-core-menu-link>
-          <!--
-          If an option does not have an associated url,
-          you can use <glide-core-menu-button> and provide your own click handler
-        -->
-          <glide-core-menu-button label="Three"> </glide-core-menu-button>
-        </glide-core-menu-options>
+    return html`<script type="ignore">
+        import '@crowdstrike/glide-core/menu.js';
+        import '@crowdstrike/glide-core/menu.options.js';
+        import '@crowdstrike/glide-core/menu.link.js';
+        import '@crowdstrike/glide-core/menu.button.js';
+      </script>
 
-        <glide-core-button slot="target" variant="secondary">
-          Target
-        </glide-core-button>
-      </glide-core-menu>
-    </div>`;
+      <div
+        style="height: 13rem; display: flex; align-items: center; justify-content: center;"
+      >
+        <glide-core-menu
+          placement=${arguments_.placement}
+          size=${arguments_.size || nothing}
+          ?open=${arguments_.open}
+        >
+          <glide-core-button slot="target"> Target </glide-core-button>
+
+          <glide-core-menu-options>
+            <glide-core-menu-link label="One" url="/one">
+            </glide-core-menu-link>
+            <glide-core-menu-link label="Two" url="/two">
+            </glide-core-menu-link>
+            <glide-core-menu-button label="Three"> </glide-core-menu-button>
+          </glide-core-menu-options>
+        </glide-core-menu>
+      </div>`;
   },
 };
 
@@ -161,48 +164,53 @@ export const MenuWithIcon: StoryObj = {
       }
     });
 
-    return html`<div
-      style="height: 17rem; display: flex; align-items: center; justify-content: center;"
-    >
-      <glide-core-menu
-        placement=${arguments_.placement}
-        size=${arguments_.size || nothing}
-        ?open=${arguments_.open}
+    return html`<script type="ignore">
+        import '@crowdstrike/glide-core/menu.js';
+        import '@crowdstrike/glide-core/menu.options.js';
+        import '@crowdstrike/glide-core/menu.link.js';
+        import '@crowdstrike/glide-core/menu.button.js';
+      </script>
+
+      <div
+        style="height: 17rem; display: flex; align-items: center; justify-content: center;"
       >
-        <glide-core-menu-options>
-          <glide-core-menu-link label="Edit" url="/edit">
-            <glide-core-example-icon
-              slot="icon"
-              name="pencil"
-            ></glide-core-example-icon>
-          </glide-core-menu-link>
+        <glide-core-menu
+          placement=${arguments_.placement}
+          size=${arguments_.size || nothing}
+          ?open=${arguments_.open}
+        >
+          <glide-core-menu-options>
+            <glide-core-menu-link label="Edit" url="/edit">
+              <glide-core-example-icon
+                slot="icon"
+                name="pencil"
+              ></glide-core-example-icon>
+            </glide-core-menu-link>
 
-          <glide-core-menu-link label="Move" url="/move">
-            <glide-core-example-icon
-              slot="icon"
-              name="move"
-            ></glide-core-example-icon>
-          </glide-core-menu-link>
+            <glide-core-menu-link label="Move" url="/move">
+              <glide-core-example-icon
+                slot="icon"
+                name="move"
+              ></glide-core-example-icon>
+            </glide-core-menu-link>
 
-          <glide-core-menu-link label="Share" url="/share">
-            <glide-core-example-icon
-              slot="icon"
-              name="share"
-            ></glide-core-example-icon>
-          </glide-core-menu-link>
+            <glide-core-menu-link label="Share" url="/share">
+              <glide-core-example-icon
+                slot="icon"
+                name="share"
+              ></glide-core-example-icon>
+            </glide-core-menu-link>
 
-          <glide-core-menu-link label="Settings" url="/settings">
-            <glide-core-example-icon
-              slot="icon"
-              name="settings"
-            ></glide-core-example-icon>
-          </glide-core-menu-link>
-        </glide-core-menu-options>
+            <glide-core-menu-link label="Settings" url="/settings">
+              <glide-core-example-icon
+                slot="icon"
+                name="settings"
+              ></glide-core-example-icon>
+            </glide-core-menu-link>
+          </glide-core-menu-options>
 
-        <glide-core-button slot="target" variant="secondary">
-          Target
-        </glide-core-button>
-      </glide-core-menu>
-    </div>`;
+          <glide-core-button slot="target"> Target </glide-core-button>
+        </glide-core-menu>
+      </div>`;
   },
 };

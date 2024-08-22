@@ -13,6 +13,8 @@ declare global {
 }
 
 /**
+ * @description A button with only an icon.
+ *
  * @slot - Reserved for the icon to display inside of the button.
  */
 @customElement('glide-core-icon-button')

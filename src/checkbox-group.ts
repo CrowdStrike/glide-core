@@ -14,7 +14,11 @@ declare global {
 }
 
 /**
- * @description A group of checkboxes with a label and optional tooltip and description. Participates in forms and validation via `FormData` and various methods.
+ * @description A group of checkboxes with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.
+ *
+ * @event change - `(event: Event) => void`
+ * @event input - `(event: Event) => void`
+ * @event invalid - `(event: Event) => void`
  *
  * @slot - One or more of `<glide-core-checkbox>`.
  * @slot description - Additional information or context.
@@ -86,7 +90,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
   summary?: string;
 
   @property({ type: Array })
-  value: string[] = [];
+  value: readonly string[] = [];
 
   checkValidity() {
     this.isCheckingValidity = true;

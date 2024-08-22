@@ -12,10 +12,14 @@ declare global {
 }
 
 /**
- * @event toggle - Emitted when the Accordion opens or closes.
- * @slot - The content of the Accordion.
+ * @description An accordion with optional icons.
+ *
+ * @event toggle - `(event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void) => void`.
+ *                 Emitted when the Accordion opens or closes.
+ *
+ * @slot - The content of the accordion.
  * @slot prefix - An optional icon to display before the label.
- * @slot suffix - An optional section to add additional iconography.
+ * @slot suffix - Optional icons to display after the label.
  */
 @customElement('glide-core-accordion')
 export default class GlideCoreAccordion extends LitElement {

@@ -24,8 +24,8 @@ declare global {
 }
 
 /**
- * @slot - The contents of the tooltip.
- * @slot target - The element to which the tooltip should attach.
+ * @slot - The content of the tooltip.
+ * @slot target - The element to which the tooltip should anchor.
  */
 @customElement('glide-core-tooltip')
 export default class GlideCoreTooltip extends LitElement {

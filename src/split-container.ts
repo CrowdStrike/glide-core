@@ -19,7 +19,7 @@ declare global {
 }
 
 /**
- * @description A split button that provides a button action and a menu of alternate actions.
+ * @description A pair of buttons. One is the primary action. The other controls a menu of alternate actions.
  *
  * @slot - One or more of `<glide-core-menu-link>` or `<glide-core-menu-button>`.
  * @slot primary-action - One of either `<glide-core-split-button>` or `<glide-core-split-link>`.

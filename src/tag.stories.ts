@@ -6,14 +6,11 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Tag',
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: 'A tag component to categorize information.',
-      },
-    },
-  },
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/tag.js';
+    </script>
+
     <glide-core-tag
       removable-label=${arguments_['removable-label'] || nothing}
       size=${arguments_.size}
@@ -23,6 +20,7 @@ const meta: Meta = {
   `,
   args: {
     'slot="default"': 'Tag',
+    'addEventListener(event, listener)': '',
     'removable-label': '',
     size: 'medium',
   },
@@ -54,7 +52,6 @@ const meta: Meta = {
         },
         type: {
           summary: '"small" | "medium" | "large"',
-          detail: "The Tag's size",
         },
       },
     },
@@ -68,14 +65,14 @@ const meta: Meta = {
         },
       },
     },
-    'addEventListener(event)': {
+    'addEventListener(event, listener)': {
       type: {
         name: 'function',
       },
       table: {
         type: {
           summary: 'method',
-          detail: 'event: "remove", listener: (event: Event) => void',
+          detail: '(event: "remove", listener: (event: Event) => void) => void',
         },
       },
     },
@@ -91,6 +88,10 @@ export const Default: StoryObj = {
 export const DefaultWithPrefixIcon: StoryObj = {
   name: 'Tag (With Prefix Icon)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/tag.js';
+    </script>
+
     <glide-core-tag>
       <span slot="prefix">
         <glide-core-example-icon name="drag-dots"></glide-core-example-icon>
@@ -103,6 +104,10 @@ export const DefaultWithPrefixIcon: StoryObj = {
 export const Removable: StoryObj = {
   name: 'Tag (With Removable Label)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/tag.js';
+    </script>
+
     <glide-core-tag removable-label="Tag">
       ${arguments_['slot="default"']}</glide-core-tag
     >
@@ -112,6 +117,10 @@ export const Removable: StoryObj = {
 export const RemovableWithIcon: StoryObj = {
   name: 'Tag (With Removable Label and Prefix Icon)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/tag.js';
+    </script>
+
     <glide-core-tag removable-label="Tag">
       <span slot="prefix">
         <glide-core-example-icon name="drag-dots"></glide-core-example-icon>

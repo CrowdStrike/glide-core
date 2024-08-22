@@ -6,6 +6,8 @@ export default [
   css`
     .component {
       &.horizontal {
+        --column-gap: var(--glide-core-spacing-sm);
+
         column-gap: var(--glide-core-spacing-sm);
         display: grid;
         grid-template-columns: auto minmax(min-content, 1fr);
@@ -21,7 +23,9 @@ export default [
       }
 
       &.middle {
-        grid-template-columns: 50% 50%;
+        grid-template-columns: calc(50% - var(--column-gap) / 2) calc(
+            50% - var(--column-gap) / 2
+          );
       }
 
       &.hidden-label {
@@ -36,12 +40,11 @@ export default [
       display: flex;
 
       /* 
-        Prevents it from growing larger than its column percentage when a child of Form Controls 
-        Layout. Also allows for an ellipsis on the label. See the linked comment for why it's "3ch" 
+        Allows for an ellipsis on the label. See the linked comment for why it's "3ch" 
         instead of "0".
 
-        - https://css-tricks.com/flexbox-truncated-text/#aa-the-solution-is-min-width-0-on-the-flex-child
         - https://github.com/CrowdStrike/glide-core/pull/317#issuecomment-2297025365 
+        - https://css-tricks.com/flexbox-truncated-text/#aa-the-solution-is-min-width-0-on-the-flex-child
       */
       min-inline-size: 3ch;
 

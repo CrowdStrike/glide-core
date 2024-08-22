@@ -14,13 +14,10 @@ declare global {
 }
 
 /**
- * @description A tag component to categorize information.
+ * @event remove - Emitted when the tag is removed.
  *
- * @event remove - Emitted when `glide-core-tag` is removed
- *
- * @slot - The content of the tag
- *
- * @slot prefix - A slot for an optional icon
+ * @slot - The content of the tag.
+ * @slot prefix - A slot for an optional icon.
  */
 @customElement('glide-core-tag')
 export default class GlideCoreTag extends LitElement {

@@ -12,7 +12,7 @@ declare global {
 }
 
 /**
- * @description A tree element, containing a hierarchy of tree items
+ * @description A tree containing a hierarchy of Tree Items.
  *
  * @slot - One or more of <glide-core-tree-item>
  */

@@ -15,10 +15,11 @@ declare global {
 }
 
 /**
- * @description A textarea with a label and optional description and toolip. Participates in forms and validation via `FormData` and various methods.
+ * @description A text area with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.
  *
- * @event change - (same as native textarea's `change` event)
- * @event input - (same as native textarea's `input` event)
+ * @event change - `(event: Event) => void`
+ * @event input - `(event: Event) => void`
+ * @event invalid - `(event: Event) => void`
  *
  * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
