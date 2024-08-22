@@ -304,15 +304,33 @@ export default class GlideCoreMenu extends LitElement {
   #onSlotKeydown(event: KeyboardEvent) {
     ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
 
-    if ([' ', 'Enter', 'Escape'].includes(event.key) && this.open) {
+    if ([' ', 'Enter'].includes(event.key) && this.open) {
       this.open = false;
+
+      // For VoiceOver. Options normally don't receive focus. But VoiceOver
+      // can focus them programmatically.
       this.focus();
+
+      this.#activeOption?.dispatchEvent(
+        new PointerEvent('click', { bubbles: true }),
+      );
 
       // `#onTargetSlotClick` is called on click, and it opens or closes Menu.
       // Space and Enter produce "click" events. This property gives `#onTargetSlotClick`
       // the information it needs to guard against immediately reopening Menu
       // after it's closed here.
       this.#isClosingAfterSelection = true;
+
+      return;
+    }
+
+    if (['Escape'].includes(event.key) && this.open) {
+      this.open = false;
+
+      // For VoiceOver. Options normally don't receive focus. But VoiceOver
+      // can focus them programmatically.
+      this.focus();
+
       return;
     }
 
@@ -465,10 +483,6 @@ export default class GlideCoreMenu extends LitElement {
 
     if (this.#optionElements && this.#optionElements.length > 0) {
       this.open = !this.open;
-    }
-
-    if (!this.open && this.#optionsElement) {
-      this.focus();
     }
   }
 
