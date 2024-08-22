@@ -15,7 +15,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import type GlideCoreMenu from './menu.js';
 
-it('dispatches one link "click" event when a link selected via click', async () => {
+it('dispatches one link "click" event when a link is selected via click', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
