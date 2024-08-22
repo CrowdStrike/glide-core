@@ -485,8 +485,8 @@ export default class GlideCoreInput extends LitElement {
     ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
     this.value = this.#inputElementRef.value?.value;
 
-    // Unlike "input" events, "change" events aren't composed. So we manually
-    // dispatch them from the host.
+    // Unlike "input" events, "change" events aren't composed. So we have to
+    // manually dispatch them.
     this.dispatchEvent(new Event(event.type, event));
   }
 

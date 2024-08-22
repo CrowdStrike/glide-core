@@ -68,3 +68,43 @@ it('is still unchecked after being clicked when unchecked and disabled', async (
   const input = component.shadowRoot?.querySelector('[data-test="input"]');
   expect(input?.getAttribute('aria-checked')).to.equal('false');
 });
+
+it('is unchecked after being clicked then forcibly unchecked via a "change" listener', async () => {
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle>`,
+  );
+
+  component.addEventListener('change', async () => {
+    await component.updateComplete;
+    component.checked = false;
+  });
+
+  component.click();
+  await elementUpdated(component);
+
+  expect(component.hasAttribute('checked')).to.be.false;
+  expect(component.checked).to.equal(false);
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.getAttribute('aria-checked')).to.equal('false');
+});
+
+it('is unchecked after being clicked then forcibly unchecked via an "input" listener', async () => {
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle>`,
+  );
+
+  component.addEventListener('input', async () => {
+    await component.updateComplete;
+    component.checked = false;
+  });
+
+  component.click();
+  await elementUpdated(component);
+
+  expect(component.hasAttribute('checked')).to.be.false;
+  expect(component.checked).to.equal(false);
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.getAttribute('aria-checked')).to.equal('false');
+});

@@ -83,7 +83,10 @@ it('can have a description', async () => {
 
 it('can have a name', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox name="name"></glide-core-checkbox> `,
+    html`<glide-core-checkbox
+      label="Label"
+      name="name"
+    ></glide-core-checkbox> `,
   );
 
   expect(component.getAttribute('name')).to.equal('name');
@@ -92,7 +95,10 @@ it('can have a name', async () => {
 
 it('can have a summary', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox summary="Summary"></glide-core-checkbox> `,
+    html`<glide-core-checkbox
+      label="Label"
+      summary="Summary"
+    ></glide-core-checkbox> `,
   );
 
   expect(component.getAttribute('summary')).to.equal('Summary');
@@ -115,7 +121,7 @@ it('can have a tooltip', async () => {
 
 it('can be checked', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox checked></glide-core-checkbox> `,
+    html`<glide-core-checkbox label="Label" checked></glide-core-checkbox> `,
   );
 
   expect(component.hasAttribute('checked')).to.be.true;
@@ -124,7 +130,7 @@ it('can be checked', async () => {
 
 it('can be disabled', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox disabled></glide-core-checkbox> `,
+    html`<glide-core-checkbox label="Label" disabled></glide-core-checkbox> `,
   );
 
   expect(component.hasAttribute('disabled')).to.be.true;
@@ -133,7 +139,10 @@ it('can be disabled', async () => {
 
 it('can be indeterminate', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox indeterminate></glide-core-checkbox> `,
+    html`<glide-core-checkbox
+      label="Label"
+      indeterminate
+    ></glide-core-checkbox> `,
   );
 
   expect(component.hasAttribute('indeterminate')).to.be.true;
@@ -142,7 +151,7 @@ it('can be indeterminate', async () => {
 
 it('can be required', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox required></glide-core-checkbox> `,
+    html`<glide-core-checkbox label="Label" required></glide-core-checkbox> `,
   );
 
   expect(component.hasAttribute('required')).to.be.true;

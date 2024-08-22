@@ -105,9 +105,10 @@ export default class GlideCoreToggle extends LitElement {
             id="input"
             role="switch"
             type="checkbox"
-            ?checked=${this.checked}
+            .checked=${this.checked}
             ?disabled=${this.disabled}
-            @change=${this.#onInputChange}
+            @change=${this.#onChangeOrInput}
+            @input=${this.#onChangeOrInput}
             ${ref(this.#inputElementRef)}
           />
         </div>
@@ -126,13 +127,33 @@ export default class GlideCoreToggle extends LitElement {
 
   #inputElementRef = createRef<HTMLInputElement>();
 
-  #onInputChange(event: Event) {
+  // Only "change" would need to be handled if not for some consumers needing
+  // to force Toggle checked or unchecked until the user has completed some action.
+  //
+  // The way to force Toggle checked or unchecked is to add an "input" or
+  // "change" listener and then immediately set `checked` back to its desired
+  // state inside that listener.
+  //
+  // To do that, consumers need to await `this.updateComplete` so `checked` isn't
+  // immediately reverted after Toggle updates, which happens asynchronously and
+  // so would happen after their listener runs.
+  //
+  // To await `this.updateComplete`, however, an update has to be pending. That's
+  // why we're handling "input" as well: so that "input", like "change", results
+  // in an update that can be awaited.
+  //
+  // If "input" events were dispatched after "change" events, only handling
+  // "change" here would suffice because an update from "change" would already
+  // be pending by the time "input" is dispatched.
+  #onChangeOrInput(event: Event) {
     if (event.target instanceof HTMLInputElement) {
       this.checked = event.target.checked;
     }
 
-    // Unlike "input" events, "change" events aren't composed. So we manually
-    // dispatch them from the host.
-    this.dispatchEvent(new Event(event.type, event));
+    if (event.type === 'change') {
+      // Unlike "input" events, "change" events aren't composed. So we have to
+      // manually dispatch them.
+      this.dispatchEvent(new Event(event.type, event));
+    }
   }
 }
