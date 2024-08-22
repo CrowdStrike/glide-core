@@ -12,7 +12,7 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'An accordion component with optional slots for icons.',
+        component: 'An accordion with optional icons.',
       },
       story: {
         autoplay: true,
@@ -46,14 +46,21 @@ const meta: Meta = {
   },
   render: (arguments_) => {
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/accordion.js';
+      </script>
+
       <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}
         >${arguments_['slot="default"']}</glide-core-accordion
       >
     `;
   },
   args: {
-    label: 'Accordion',
-    'slot="default"': 'Inner content',
+    label: 'Label',
+    'slot="default"': 'Content',
+    'addEventListener(event, listener)': '',
+    'slot="prefix"': '',
+    'slot="suffix"': '',
     open: false,
   },
   argTypes: {
@@ -79,24 +86,25 @@ const meta: Meta = {
       type: { name: 'function', required: true },
     },
     'slot="prefix"': {
+      control: false,
       table: {
         type: {
           summary: 'Element',
-          detail: 'Add a prefix, leading icon to the Accordion.',
+          detail: '// An optional icon to display before the label',
         },
       },
-      type: { name: 'function' },
     },
     'slot="suffix"': {
+      control: false,
       table: {
         type: {
           summary: 'Element',
-          detail: 'Add any number of suffix, trailing icons to the Accordion.',
+          detail: '// Optional icons to display after the label',
         },
       },
-      type: { name: 'function' },
     },
     'addEventListener(event, listener)': {
+      control: false,
       table: {
         type: {
           summary: 'method',
@@ -104,7 +112,6 @@ const meta: Meta = {
             '(event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void) => void',
         },
       },
-      type: { name: 'function' },
     },
   },
 };
@@ -116,63 +123,65 @@ export const Default: StoryObj = {};
 export const WithPrefixIcon: StoryObj = {
   name: 'Default (With Prefix Icon)',
   render: (arguments_) => {
-    return html` <glide-core-accordion
-      label=${arguments_.label}
-      ?open=${arguments_.open}
-    >
-      <glide-core-example-icon
-        slot="prefix"
-        name="share"
-      ></glide-core-example-icon>
+    return html`<script type="ignore">
+        import '@crowdstrike/glide-core/accordion.js';
+      </script>
 
-      ${arguments_['slot="default"']}
-    </glide-core-accordion>`;
+      <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}>
+        ${arguments_['slot="default"']}
+
+        <glide-core-example-icon
+          slot="prefix"
+          name="share"
+        ></glide-core-example-icon>
+      </glide-core-accordion>`;
   },
 };
 
 export const WithSuffix: StoryObj = {
   name: 'Default (With Suffix Icons)',
   render: (arguments_) => {
-    return html` <glide-core-accordion
-      label=${arguments_.label}
-      ?open=${arguments_.open}
-    >
-      ${arguments_['slot="default"']}
+    return html`<script type="ignore">
+        import '@crowdstrike/glide-core/accordion.js';
+      </script>
 
-      <glide-core-example-icon
-        slot="suffix"
-        name="pencil"
-      ></glide-core-example-icon>
-      <glide-core-example-icon
-        slot="suffix"
-        name="settings"
-      ></glide-core-example-icon>
-    </glide-core-accordion>`;
+      <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}>
+        ${arguments_['slot="default"']}
+
+        <glide-core-example-icon
+          slot="suffix"
+          name="pencil"
+        ></glide-core-example-icon>
+        <glide-core-example-icon
+          slot="suffix"
+          name="settings"
+        ></glide-core-example-icon>
+      </glide-core-accordion>`;
   },
 };
 
 export const WithPrefixAndSuffix: StoryObj = {
   name: 'Default (With Prefix & Suffix Icons)',
   render: (arguments_) => {
-    return html` <glide-core-accordion
-      label=${arguments_.label}
-      ?open=${arguments_.open}
-    >
-      <glide-core-example-icon
-        slot="prefix"
-        name="share"
-      ></glide-core-example-icon>
+    return html`<script type="ignore">
+        import '@crowdstrike/glide-core/accordion.js';
+      </script>
 
-      ${arguments_['slot="default"']}
+      <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}>
+        ${arguments_['slot="default"']}
 
-      <glide-core-example-icon
-        slot="suffix"
-        name="pencil"
-      ></glide-core-example-icon>
-      <glide-core-example-icon
-        slot="suffix"
-        name="settings"
-      ></glide-core-example-icon>
-    </glide-core-accordion>`;
+        <glide-core-example-icon
+          slot="prefix"
+          name="share"
+        ></glide-core-example-icon>
+        <glide-core-example-icon
+          slot="suffix"
+          name="pencil"
+        ></glide-core-example-icon>
+        <glide-core-example-icon
+          slot="suffix"
+          name="settings"
+        ></glide-core-example-icon>
+      </glide-core-accordion>`;
   },
 };

@@ -1,6 +1,6 @@
 import './radio-group.js';
 import './radio.js';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import GlideCoreRadioGroup from './radio-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -11,7 +11,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'A radio group with a label, and optional tooltip and description. Participates in forms and validation via `FormData` and various methods.',
+          'A radio group with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.',
       },
       story: {
         autoplay: true,
@@ -36,25 +36,35 @@ const meta: Meta = {
   },
 
   render: (arguments_) => {
+    /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/radio-group.js';
+        import '@crowdstrike/glide-core/radio.js';
+      </script>
+
       <form style="padding: 1.5rem;">
         <glide-core-radio-group
-          label=${arguments_.label}
-          name=${arguments_.name}
-          value=${arguments_.value}
+          label=${arguments_.label || nothing}
+          name=${arguments_.name || nothing}
+          value=${arguments_.value || nothing}
           ?disabled=${arguments_.disabled}
           ?required=${arguments_.required}
         >
           <glide-core-radio
-            value="value-1"
-            label="One"
-            checked
+            label=${arguments_['<glide-core-radio>.label'] || nothing}
+            value=${arguments_['<glide-core-radio>.value'] || nothing}
+            ?checked=${arguments_['<glide-core-radio>.checked']}
           ></glide-core-radio>
-          <glide-core-radio value="value-2" label="Two"></glide-core-radio>
-          <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+          <glide-core-radio label="Two" value="two"></glide-core-radio>
+          <glide-core-radio label="Three" value="three"></glide-core-radio>
+
           ${arguments_['slot="tooltip"']
-            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+            ? html`<span slot="tooltip">
+                ${arguments_['slot="tooltip"']}
+              </span>`
             : ''}
+
           <div slot="description">${arguments_['slot="description"']}</div>
         </glide-core-radio-group>
       </form>
@@ -62,15 +72,50 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    'slot="tooltip"': '',
-    'slot="description"': 'Description',
+    'slot="default"': '',
+    '<glide-core-radio>.label': 'One',
+    'addEventListener(event, listener)': '',
+    'checkValidity()': '',
     disabled: false,
-    name: 'name',
+    name: '',
     required: false,
+    'slot="description"': 'Description',
+    'slot="tooltip"': '',
+    'reportValidity()': '',
     value: '',
+    '<glide-core-radio>.checked': true,
+    '<glide-core-radio>.value': 'one',
   },
   argTypes: {
+    'slot="default"': {
+      table: {
+        type: { summary: 'GlideCoreRadio' },
+      },
+      type: { name: 'function', required: true },
+    },
+    'slot="description"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'Element | string' },
+      },
+    },
+    'slot="tooltip"': {
+      table: {
+        type: { summary: 'Element | string' },
+      },
+    },
+    'addEventListener(event, listener)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '(event: "change" | "input" | "invalid, listener: (event: Event)) => void) => void',
+        },
+      },
+    },
     'checkValidity()': {
+      control: false,
       table: {
         type: {
           summary: 'method',
@@ -78,9 +123,9 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
         },
       },
-      type: { name: 'function' },
     },
     'reportValidity()': {
+      control: false,
       table: {
         type: {
           summary: 'method',
@@ -88,7 +133,6 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
         },
       },
-      type: { name: 'function' },
     },
     disabled: {
       control: 'boolean',
@@ -102,7 +146,7 @@ const meta: Meta = {
       table: {
         type: { summary: 'string' },
       },
-      type: { name: 'string' },
+      type: { name: 'string', required: true },
     },
     name: {
       control: 'text',
@@ -124,16 +168,25 @@ const meta: Meta = {
         defaultValue: { summary: '' },
         type: { summary: 'string' },
       },
-      type: { name: 'function' },
     },
-    'addEventListener(event)': {
+    '<glide-core-radio>.label': {
       table: {
-        type: {
-          summary: 'method',
-          detail: 'event: "change" | "input", listener: (event: Event) => void',
-        },
+        type: { summary: 'string' },
       },
-      type: { name: 'function' },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-radio>.value': {
+      table: {
+        defaultValue: { summary: '' },
+        type: { summary: 'string' },
+      },
+    },
+    '<glide-core-radio>.checked': {
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
   },
 };
@@ -142,7 +195,7 @@ export default meta;
 
 export const Vertical: StoryObj = {};
 
-export const VerticalWithToolip: StoryObj = {
+export const VerticalWithTooltip: StoryObj = {
   args: {
     'slot="tooltip"': 'Tooltip',
   },
@@ -157,6 +210,11 @@ export const VerticalWithError: StoryObj = {
   name: 'Vertical (With Error)',
   render: (arguments_) => {
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/radio-group.js';
+        import '@crowdstrike/glide-core/radio.js';
+      </script>
+
       <form style="padding: 1.5rem;">
         <glide-core-radio-group
           label=${arguments_.label}
@@ -165,9 +223,14 @@ export const VerticalWithError: StoryObj = {
           ?disabled=${arguments_.disabled}
           ?required=${arguments_.required}
         >
-          <glide-core-radio value="value-1" label="One"></glide-core-radio>
-          <glide-core-radio value="value-2" label="Two"></glide-core-radio>
-          <glide-core-radio value="value-3" label="Three"></glide-core-radio>
+          <glide-core-radio
+            label=${arguments_['<glide-core-radio>.label'] || nothing}
+            value=${arguments_['<glide-core-radio>.value'] || nothing}
+            ?checked=${arguments_['<glide-core-radio>.checked']}
+          ></glide-core-radio>
+          <glide-core-radio label="Two"></glide-core-radio>
+          <glide-core-radio label="Three"></glide-core-radio>
+
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
             : ''}

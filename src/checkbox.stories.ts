@@ -20,17 +20,20 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    'slot="tooltip"': '',
-    'slot="description"': 'Description',
-    checked: false,
-    'hide-label': false,
-    disabled: false,
-    indeterminate: false,
-    name: 'name',
-    orientation: 'horizontal',
     summary: 'Summary',
+    'addEventListener(event, listener)': '',
+    checked: false,
+    'checkValidity()': '',
+    disabled: false,
+    'hide-label': false,
+    indeterminate: false,
+    name: '',
+    orientation: 'horizontal',
+    'reportValidity()': '',
     required: false,
-    value: 'value',
+    'slot="description"': 'Description',
+    'slot="tooltip"': '',
+    value: '',
   },
   argTypes: {
     'slot="description"': {
@@ -38,19 +41,25 @@ const meta: Meta = {
       table: {
         type: { summary: 'Element | string' },
       },
-      type: { name: 'function' },
+    },
+    'slot="tooltip"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'HTMLKBDElement | string' },
+      },
     },
     'addEventListener(event, listener)': {
+      control: false,
       table: {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input",  listener: (event: Event) => void) => void\n\n // Dispatched when checked or unchecked.',
+            '(event: "change" | "input" | "invalid", listener: (event: Event) => void) => void',
         },
       },
-      type: { name: 'function' },
     },
     'checkValidity()': {
+      control: false,
       table: {
         type: {
           summary: 'method',
@@ -58,9 +67,9 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
         },
       },
-      type: { name: 'function' },
     },
     'reportValidity()': {
+      control: false,
       table: {
         type: {
           summary: 'method',
@@ -68,7 +77,6 @@ const meta: Meta = {
             '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
         },
       },
-      type: { name: 'function' },
     },
     'hide-label': {
       control: 'boolean',
@@ -136,10 +144,12 @@ const meta: Meta = {
       table: {
         type: { summary: 'string' },
       },
+      type: { name: 'string', required: true },
     },
     value: {
       control: 'text',
       table: {
+        defaultValue: { summary: '""' },
         type: { summary: 'string' },
       },
     },
@@ -183,26 +193,30 @@ const meta: Meta = {
       });
   },
   render(arguments_) {
-    return html`<form style="padding: 1.5rem;">
-      <glide-core-checkbox
-        label=${arguments_.label || nothing}
-        name=${arguments_.name || nothing}
-        orientation=${arguments_.orientation || nothing}
-        summary=${arguments_.summary || nothing}
-        value=${arguments_.value || nothing}
-        ?checked=${arguments_.checked}
-        ?disabled=${arguments_.disabled}
-        ?hide-label=${arguments_['hide-label'] || nothing}
-        ?indeterminate=${arguments_.indeterminate}
-        ?required=${arguments_.required}
-      >
-        <div slot="description">${arguments_['slot="description"']}</div>
+    return html`<script type="ignore">
+        import '@crowdstrike/glide-core/checkbox.js';
+      </script>
 
-        ${arguments_['slot="tooltip"']
-          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-          : ''}
-      </glide-core-checkbox>
-    </form>`;
+      <form style="padding: 1.5rem;">
+        <glide-core-checkbox
+          label=${arguments_.label || nothing}
+          name=${arguments_.name || nothing}
+          orientation=${arguments_.orientation || nothing}
+          summary=${arguments_.summary || nothing}
+          value=${arguments_.value || nothing}
+          ?checked=${arguments_.checked}
+          ?disabled=${arguments_.disabled}
+          ?hide-label=${arguments_['hide-label'] || nothing}
+          ?indeterminate=${arguments_.indeterminate}
+          ?required=${arguments_.required}
+        >
+          <div slot="description">${arguments_['slot="description"']}</div>
+
+          ${arguments_['slot="tooltip"']
+            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+            : ''}
+        </glide-core-checkbox>
+      </form>`;
   },
 };
 
@@ -230,7 +244,7 @@ export const Vertical: StoryObj = {
   },
 };
 
-export const VerticalWithToolip: StoryObj = {
+export const VerticalWithTooltip: StoryObj = {
   args: {
     'slot="tooltip"': 'Tooltip',
     orientation: 'vertical',

@@ -34,9 +34,10 @@ const indeterminateIcon = html`
 /**
  * @description A checkbox with a label and optional tooltip, summary, and description. Participates in forms and validation via `FormData` and various methods.
  *
- * @event change - Dispatched when checked or unchecked.
- * @event input - Dispatched when checked or unchecked.
-
+ * @event change - `(event: Event) => void`
+ * @event input - `(event: Event) => void`
+ * @event invalid - `(event: Event) => void`
+ *
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
  */
@@ -116,7 +117,7 @@ export default class GlideCoreCheckbox extends LitElement {
   summary?: string;
 
   @property({ reflect: true })
-  value?: string = '';
+  value = '';
 
   // Not private, so that a parent checkbox group can programmatically set
   @state()

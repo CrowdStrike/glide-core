@@ -18,10 +18,11 @@ declare global {
 }
 /**
  /**
- * @description A radio group with a label, and optional tooltip and description. Participates in forms and validation via `FormData` and various methods.
- *
- * @event change - Dispatched when a radio is clicked or checked by key press.
- * @event input - Dispatched when a radio is clicked or checked by key press.
+ * @description A radio group with a label, and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.
+ * 
+ * @event change - `(event: Event) => void`
+ * @event input - `(event: Event) => void`
+ * @event invalid - `(event: Event) => void`
  *
  * @slot - One or more of `<glide-core-radio>`.
  * @slot description - Additional information or context.

@@ -1,14 +1,20 @@
 .docs-story {
   & > div {
-    padding: 0;
+    padding: 0 !important;
   }
 }
 
-/* The "name" column can get pretty long and wraps, making it hard to read.  */
+/* The "name" column can get pretty long and wraps, making it hard to read. */
 .docblock-argstable-body tr td:first-of-type {
-  white-space: nowrap;
+  white-space: nowrap !important;
 }
 
 .docs-story {
-  background-color: var(--glide-core-surface-base-lightest);
+  background-color: var(--glide-core-surface-base-lightest) !important;
+}
+
+[data-popper-interactive] * {
+  overflow: visible !important;
+  text-wrap: pretty !important;
+  width: auto !important;
 }

@@ -11,7 +11,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'An input with a label and optional description. Participates in forms and validation via `FormData` and various methods.',
+          'An input with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.',
       },
       story: {
         autoplay: true,
@@ -20,21 +20,24 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    type: 'text',
-    value: 'Value',
-    placeholder: 'Placeholder...',
-    clearable: false,
-    'hide-label': false,
-    orientation: 'horizontal',
-    required: false,
-    'slot="tooltip"': '',
-    'slot="description"': 'Description',
-    readonly: false,
-    disabled: false,
-    name: 'name',
+    'addEventListener(event, listener)': '',
     autocapitalize: 'on',
-    spellcheck: 'true',
+    'checkValidity()': '',
+    clearable: false,
+    disabled: false,
+    'hide-label': false,
     maxlength: '',
+    name: '',
+    orientation: 'horizontal',
+    placeholder: 'Placeholder',
+    readonly: false,
+    'reportValidity()': '',
+    required: false,
+    'slot="description"': 'Description',
+    'slot="tooltip"': '',
+    spellcheck: 'false',
+    type: 'text',
+    value: '',
   },
   play(context) {
     const input = context.canvasElement.querySelector('glide-core-input');
@@ -51,22 +54,27 @@ const meta: Meta = {
   },
   render: (arguments_) => {
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/input.js';
+      </script>
+
       <div style="height: 5rem;">
         <glide-core-input
-          type=${arguments_.type}
-          value=${arguments_.value}
-          label=${arguments_.label}
+          autocapitalize=${arguments_.autocapitalize || nothing}
+          label=${arguments_.label || nothing}
+          maxlength=${arguments_.maxlength || nothing}
+          name=${arguments_.name || nothing}
+          orientation=${arguments_.orientation}
           placeholder=${arguments_.placeholder || nothing}
+          spellcheck=${arguments_.spellcheck || nothing}
+          type=${arguments_.type || nothing}
+          value=${arguments_.value || nothing}
           ?hide-label=${arguments_['hide-label']}
           ?clearable=${arguments_.clearable}
           ?password-toggle=${arguments_.passwordToggle || nothing}
-          orientation=${arguments_.orientation}
           ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          maxlength=${arguments_.maxlength || nothing}
-          spellcheck=${arguments_.spellcheck || nothing}
-          autocapitalize=${arguments_.autocapitalize || nothing}
         >
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
@@ -98,6 +106,7 @@ const meta: Meta = {
     value: {
       control: 'text',
       table: {
+        defaultValue: { summary: '""' },
         type: { summary: 'string' },
       },
     },
@@ -154,10 +163,10 @@ const meta: Meta = {
     },
     spellcheck: {
       control: 'radio',
-      defaultValue: '"true"',
+      defaultValue: '"false"',
       options: ['true', 'false'],
       table: {
-        defaultValue: { summary: '"true"' },
+        defaultValue: { summary: '"false"' },
         type: { summary: '"true" | "false"' },
       },
     },
@@ -189,10 +198,11 @@ const meta: Meta = {
     'slot="description"': {
       control: { type: 'text' },
       table: {
-        type: { summary: 'string | html' },
+        type: { summary: 'Element | string' },
       },
     },
-    'addEventListener(event)': {
+    'addEventListener(event, listener)': {
+      control: false,
       table: {
         type: {
           summary: 'method',
@@ -200,7 +210,26 @@ const meta: Meta = {
             'event: "change" | "input" | "invalid", listener: (event: Event) => void',
         },
       },
-      type: { name: 'function' },
+    },
+    'checkValidity()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
+        },
+      },
+    },
+    'reportValidity()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
+        },
+      },
     },
   },
 };
@@ -231,6 +260,10 @@ export const WithError: StoryObj = {
 export const Description: StoryObj = {
   render: (arguments_) => {
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/input.js';
+      </script>
+
       <div style="height: 5rem;">
         <glide-core-input
           type=${arguments_.type}
@@ -285,6 +318,10 @@ export const Clearable: StoryObj = {
 export const SuffixIcon: StoryObj = {
   render: (arguments_) => {
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/input.js';
+      </script>
+
       <div style="height: 5rem;">
         <glide-core-input
           type=${arguments_.type}
@@ -316,6 +353,10 @@ export const SuffixIcon: StoryObj = {
 export const PrefixIcon: StoryObj = {
   render: (arguments_) => {
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/input.js';
+      </script>
+
       <div style="height: 5rem;">
         <glide-core-input
           type=${arguments_.type}

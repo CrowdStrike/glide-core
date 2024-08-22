@@ -12,13 +12,13 @@ declare global {
 }
 
 /**
- * @cssprop [--width] - Sets the width of the Drawer when open.
  *
- * @event close - Emitted when the Drawer closes.
- * @event open - Emitted when the Drawer opens.
+ * @description A drawer for arbitrary content.
  *
- * @method close - A method on the `glide-core-drawer` component to close the Drawer programmatically.
- * @method open - A method on the `glide-core-drawer` component to open the Drawer programmatically.
+ * @cssprop [--width] - The width the drawer.
+ *
+ * @event close
+ * @event open
  *
  * @slot - The content of the Drawer.
  */

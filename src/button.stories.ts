@@ -9,11 +9,15 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A button with optional slots for icons.',
+        component: 'A button with an optional icon.',
       },
     },
   },
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
@@ -24,8 +28,8 @@ const meta: Meta = {
   args: {
     'slot="default"': 'Button',
     disabled: false,
-    variant: 'primary',
     size: 'large',
+    variant: 'primary',
   },
   argTypes: {
     variant: {
@@ -76,6 +80,10 @@ export const PrimaryWithPrefixIcon: StoryObj = {
 
   name: 'Primary (With Prefix Icon)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
@@ -94,6 +102,10 @@ export const PrimaryWithPrefixIcon: StoryObj = {
 export const PrimaryWithSuffixIcon: StoryObj = {
   name: 'Primary (With Suffix Icon)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
@@ -112,6 +124,10 @@ export const PrimaryWithSuffixIcon: StoryObj = {
 export const PrimaryWithPrefixAndSuffixIcons: StoryObj = {
   name: 'Primary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
@@ -143,6 +159,10 @@ export const SecondaryWithPrefixIcon: StoryObj = {
   },
   name: 'Secondary (With Prefix Icon)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
@@ -164,6 +184,10 @@ export const SecondaryWithSuffixIcon: StoryObj = {
   },
   name: 'Secondary (With Suffix Icon)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
@@ -185,6 +209,10 @@ export const SecondaryWithPrefixAndSuffixIcons: StoryObj = {
   },
   name: 'Secondary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
@@ -216,6 +244,10 @@ export const TertiaryWithPrefixIcon: StoryObj = {
   },
   name: 'Tertiary (With Prefix Icon)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
@@ -237,6 +269,10 @@ export const TertiaryWithSuffixIcon: StoryObj = {
   },
   name: 'Tertiary (With Suffix Icon)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}
@@ -258,6 +294,10 @@ export const TertiaryWithPrefixAndSuffixIcons: StoryObj = {
   },
   name: 'Tertiary (With Prefix + Suffix Icons)',
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/button.js';
+    </script>
+
     <glide-core-button
       size=${arguments_.size}
       variant=${arguments_.variant}

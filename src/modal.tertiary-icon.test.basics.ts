@@ -32,8 +32,8 @@ it('renders and sets default attributes', async () => {
   const spanTag = element.shadowRoot?.querySelector('span');
   expect(spanTag?.getAttribute('tabindex')).to.equal('0');
 
-  const toolip = element.shadowRoot?.querySelector('glide-core-tooltip');
-  expect(toolip).to.not.be.null;
+  const tooltip = element.shadowRoot?.querySelector('glide-core-tooltip');
+  expect(tooltip).to.not.be.null;
 });
 
 it('adds an accessible label when given', async () => {

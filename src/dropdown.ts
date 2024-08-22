@@ -26,8 +26,9 @@ declare global {
 /**
  * @description A dropdown with optional description and tooltip. Participates in forms and validation via `FormData` and various methods.
  *
- * @event change - Dispatched when an option is selected. An array of the selected option values is assigned to `event.detail`.
- * @event input - Dispatched when an option is selected. An array of the selected option values is assigned to `event.detail`.
+ * @event change - `(event: Event) => void`
+ * @event input - `(event: Event) => void`
+ * @event invalid - `(event: Event) => void`
  *
  * @slot - One or more of `<glide-core-dropdown-option>`.
  * @slot tooltip - Content for the tooltip.

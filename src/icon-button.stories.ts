@@ -1,6 +1,6 @@
 import './icon-button.js';
 import './icons/storybook.js';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -9,13 +9,17 @@ const meta: Meta = {
   parameters: {
     docs: {
       description: {
-        component: 'A button with a default slot for an icon.',
+        component: 'A button with only an icon.',
       },
     },
   },
   render: (arguments_) => html`
+    <script type="ignore">
+      import '@crowdstrike/glide-core/icon-button.js';
+    </script>
+
     <glide-core-icon-button
-      label=${arguments_.label}
+      label=${arguments_.label || nothing}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
@@ -30,7 +34,7 @@ const meta: Meta = {
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: 'Element', detail: 'The icon.' },
+        type: { summary: 'Element', detail: 'An icon' },
       },
       type: { name: 'function', required: true },
     },
@@ -46,7 +50,7 @@ const meta: Meta = {
     label: {
       control: { type: 'text' },
       table: {
-        type: { summary: 'string', detail: '// For screenreaders.' },
+        type: { summary: 'string', detail: '// For screenreaders' },
       },
       type: { name: 'string', required: true },
     },

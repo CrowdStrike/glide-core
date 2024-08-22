@@ -10,7 +10,6 @@ declare global {
 }
 /**
  * @description A radio element for use with `<glide-core-radio-group>`.
- *
  */
 @customElement('glide-core-radio')
 export default class GlideCoreRadio extends LitElement {
@@ -37,7 +36,7 @@ export default class GlideCoreRadio extends LitElement {
   value = '';
 
   @property({ reflect: true })
-  label = '';
+  label?: string;
 
   override firstUpdated() {
     this.role = 'radio';
@@ -45,7 +44,10 @@ export default class GlideCoreRadio extends LitElement {
     this.ariaDisabled = this.disabled.toString();
     this.ariaInvalid = this.invalid.toString();
     this.ariaRequired = this.required.toString();
-    this.ariaLabel = this.label;
+
+    if (this.label) {
+      this.ariaLabel = this.label;
+    }
 
     // We only want the animation to run *after*
     // the user interacts with it directly. By adding
@@ -73,9 +75,7 @@ export default class GlideCoreRadio extends LitElement {
     `;
   }
 
-  override willUpdate(
-    changedProperties: PropertyValueMap<GlideCoreRadio>,
-  ): void {
+  override willUpdate(changedProperties: PropertyValueMap<GlideCoreRadio>) {
     if (this.hasUpdated) {
       if (changedProperties.has('checked')) {
         this.ariaChecked = this.checked.toString();
@@ -93,7 +93,7 @@ export default class GlideCoreRadio extends LitElement {
         this.ariaInvalid = this.invalid.toString();
       }
 
-      if (changedProperties.has('label')) {
+      if (changedProperties.has('label') && this.label) {
         this.ariaLabel = this.label;
       }
     }

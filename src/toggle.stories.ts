@@ -20,21 +20,28 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    'slot="description"': 'Description',
-    'slot="tooltip"': '',
+    'addEventListener(event, listener)': '',
     checked: false,
     disabled: false,
     'hide-label': false,
     orientation: 'horizontal',
+    'slot="description"': 'Description',
+    'slot="tooltip"': '',
     summary: 'Summary',
   },
   argTypes: {
+    'slot="tooltip"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'HTMLKBDElement | string' },
+      },
+    },
     'addEventListener(event, listener)': {
       table: {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input",  listener: (event: Event) => void) => void\n\n // Dispatched when checked or unchecked.',
+            '(event: "change" | "input", listener: (event: Event) => void) => void',
         },
       },
       type: { name: 'function' },
@@ -108,22 +115,26 @@ const meta: Meta = {
   },
 
   render(arguments_) {
-    return html`<form style="padding: 1.5rem;">
-      <glide-core-toggle
-        label=${arguments_.label || nothing}
-        orientation=${arguments_.orientation || nothing}
-        summary=${arguments_.summary || nothing}
-        ?checked=${arguments_.checked}
-        ?disabled=${arguments_.disabled}
-        ?hide-label=${arguments_['hide-label'] || nothing}
-      >
-        <div slot="description">${arguments_['slot="description"']}</div>
+    return html`<script type="ignore">
+        import '@crowdstrike/glide-core/toggle.js';
+      </script>
 
-        ${arguments_['slot="tooltip"']
-          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-          : ''}
-      </glide-core-toggle>
-    </form>`;
+      <form style="padding: 1.5rem;">
+        <glide-core-toggle
+          label=${arguments_.label || nothing}
+          orientation=${arguments_.orientation || nothing}
+          summary=${arguments_.summary || nothing}
+          ?checked=${arguments_.checked}
+          ?disabled=${arguments_.disabled}
+          ?hide-label=${arguments_['hide-label'] || nothing}
+        >
+          <div slot="description">${arguments_['slot="description"']}</div>
+
+          ${arguments_['slot="tooltip"']
+            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+            : ''}
+        </glide-core-toggle>
+      </form>`;
   },
 };
 
@@ -144,7 +155,7 @@ export const Vertical: StoryObj = {
   },
 };
 
-export const VerticalWithToolip: StoryObj = {
+export const VerticalWithTooltip: StoryObj = {
   args: {
     'slot="tooltip"': 'Tooltip',
     orientation: 'vertical',

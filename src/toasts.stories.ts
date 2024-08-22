@@ -5,53 +5,52 @@ import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  decorators: [(story) => html`<div style="height: 20rem;">${story()}</div>`],
   title: 'Toasts',
   tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
-        component: 'A container and controller for toast messages',
+        component: 'A container and controller for toast messages.',
       },
     },
   },
   argTypes: {
-    'add(toast: Toast)': {
-      type: 'function',
+    'add(toast)': {
+      control: false,
       table: {
         type: {
           summary: 'method',
-          detail: 'Adds a toast.',
+          detail: '(toast: Toast) => void',
         },
       },
     },
   },
   render() {
     return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/toasts.js';
+      </script>
+
       <!--
-        Add <glide-core-toasts> somewhere in your application template.
-        This will be the container for toast messages,
-        and provides an add() method that you will use to generate toast messages.
-      -->
+  Add \`<glide-core-toasts>\` to your template. It's the container for 
+  messages. It supports an \`add()\` method for generating them.
+-->
       <glide-core-toasts></glide-core-toasts>
+
       <div style="display:flex; flex-direction: column; gap: 0.25rem;">
-        <glide-core-button variant="secondary" data-add-informational
-          >Informational</glide-core-button
-        >
-        <glide-core-button variant="secondary" data-add-success
-          >Success</glide-core-button
-        >
-        <glide-core-button variant="secondary" data-add-longer
-          >Longer duration</glide-core-button
-        >
-        <glide-core-button variant="secondary" data-add-infinite
-          >Infinite duration</glide-core-button
-        >
+        <glide-core-button data-informational>
+          Informational
+        </glide-core-button>
+        <glide-core-button data-success> Success </glide-core-button>
+        <glide-core-button data-longer> Longer duration </glide-core-button>
+        <glide-core-button data-infinite> Infinite duration </glide-core-button>
       </div>
+
       <script>
         const toasts = document.querySelector('glide-core-toasts');
+
         document
-          .querySelector('[data-add-informational]')
+          .querySelector('[data-informational]')
           .addEventListener('click', () => {
             toasts.add({
               variant: 'informational',
@@ -59,8 +58,9 @@ const meta: Meta = {
               description: 'This will stick around for 5 seconds',
             });
           });
+
         document
-          .querySelector('[data-add-success]')
+          .querySelector('[data-success]')
           .addEventListener('click', () => {
             toasts.add({
               variant: 'success',
@@ -68,8 +68,9 @@ const meta: Meta = {
               description: 'This will stick around for 5 seconds',
             });
           });
+
         document
-          .querySelector('[data-add-longer]')
+          .querySelector('[data-longer]')
           .addEventListener('click', () => {
             toasts.add({
               variant: 'informational',
@@ -78,8 +79,9 @@ const meta: Meta = {
               duration: 10000, // Minimum is 5000 (5 seconds)
             });
           });
+
         document
-          .querySelector('[data-add-infinite]')
+          .querySelector('[data-infinite]')
           .addEventListener('click', () => {
             toasts.add({
               variant: 'success',
