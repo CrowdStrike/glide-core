@@ -62,7 +62,6 @@ export default class GlideCoreTreeItemMenu extends LitElement {
       <glide-core-menu
         class="component"
         placement=${this.placement}
-        label=${this.label}
         ${ref(this.#menuElementRef)}
       >
         <glide-core-menu-options>
@@ -75,6 +74,7 @@ export default class GlideCoreTreeItemMenu extends LitElement {
         <glide-core-icon-button
           slot="target"
           variant="tertiary"
+          label=${this.label}
           ${ref(this.#iconButtonElementRef)}
         >
           <!-- 3-dot -->

@@ -2,7 +2,7 @@
 
 import './menu.link.js';
 import './tree.item.menu.js';
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import Menu from './menu.js';
 import TreeItem from './tree.item.js';
 import TreeItemMenu from './tree.item.menu.js';
@@ -48,7 +48,7 @@ it('renders with a prefix slot', async () => {
   expect(document.querySelector('[data-prefix]')).to.be.ok;
 });
 
-it('adds aria-label to menu', async () => {
+it('adds label to menu target', async () => {
   const treeItem = await fixture<TreeItem>(html`
     <glide-core-tree-item label="Item">
       <glide-core-tree-item-menu slot="menu" data-menu>
@@ -57,17 +57,15 @@ it('adds aria-label to menu', async () => {
     </glide-core-tree-item>
   `);
 
-  const menuShadowRoot = treeItem
+  const menuTarget = treeItem
     .querySelector('glide-core-tree-item-menu')
     ?.shadowRoot?.querySelector('glide-core-menu')
-    ?.shadowRoot?.querySelector('.component');
+    ?.querySelector('glide-core-icon-button');
 
-  expect(menuShadowRoot?.getAttribute('aria-label')).to.equal(
-    'Actions for Item',
-  );
+  expect(menuTarget?.label).to.equal('Actions for Item');
 });
 
-it('adds Japanese aria-label to menu', async () => {
+it('adds Japanese label to menu', async () => {
   document.documentElement.setAttribute('lang', 'ja');
 
   const treeItem = await fixture<TreeItem>(html`
@@ -78,21 +76,15 @@ it('adds Japanese aria-label to menu', async () => {
     </glide-core-tree-item>
   `);
 
-  const menuShadowRoot = treeItem
+  const menuTarget = treeItem
     .querySelector('glide-core-tree-item-menu')
     ?.shadowRoot?.querySelector('glide-core-menu')
-    ?.shadowRoot?.querySelector('.component');
+    ?.querySelector('glide-core-icon-button');
 
-  expect(menuShadowRoot?.getAttribute('aria-label')).to.equal(
-    'Actions for Item',
-  );
-
-  document.documentElement.setAttribute('lang', 'ja');
-
-  await elementUpdated(treeItem);
+  expect(menuTarget?.label).to.equal('Actions for Item');
 });
 
-it('adds French aria-label to menu', async () => {
+it('adds French label to menu', async () => {
   document.documentElement.setAttribute('lang', 'fr');
 
   const treeItem = await fixture<TreeItem>(html`
@@ -103,18 +95,12 @@ it('adds French aria-label to menu', async () => {
     </glide-core-tree-item>
   `);
 
-  const menuShadowRoot = treeItem
+  const menuTarget = treeItem
     .querySelector('glide-core-tree-item-menu')
     ?.shadowRoot?.querySelector('glide-core-menu')
-    ?.shadowRoot?.querySelector('.component');
+    ?.querySelector('glide-core-icon-button');
 
-  expect(menuShadowRoot?.getAttribute('aria-label')).to.equal(
-    'Actions for Item',
-  );
-
-  document.documentElement.setAttribute('lang', 'ja');
-
-  await elementUpdated(treeItem);
+  expect(menuTarget?.label).to.equal('Actions for Item');
 });
 
 it('renders with a suffix slot', async () => {

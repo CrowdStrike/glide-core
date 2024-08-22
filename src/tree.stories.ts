@@ -28,6 +28,7 @@ const meta: Meta = {
     '<glide-core-tree-item>.label': 'Branch',
     '<glide-core-tree-item>.selected': false,
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
+    '<glide-core-tree-item-icon-button>.label': 'Settings for Leaf 2',
   },
   play(context) {
     const links = context.canvasElement.querySelectorAll(
@@ -74,7 +75,7 @@ const meta: Meta = {
             ></glide-core-example-icon>
             <glide-core-tree-item-icon-button
               slot="suffix"
-              label="Settings for Leaf 2"
+              label=${arguments_['<glide-core-tree-item-icon-button>.label']}
             >
               <glide-core-example-icon
                 name="settings"
@@ -141,6 +142,13 @@ const meta: Meta = {
             '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start"| "top-end"',
         },
       },
+    },
+    '<glide-core-tree-icon-button>.label': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
     },
     'addEventListener(event)': {
       table: {
