@@ -100,6 +100,7 @@ export default {
             const isSlotted = $element.attr('slot');
             const isScriptTag = $element.prop('tagName') === 'SCRIPT';
             const isStyleTag = $element.prop('tagName') === 'STYLE';
+            const isKbdTag = $element.prop('tagName') === 'KBD'; // Tooltip
 
             if (isScriptTag) {
               if ($element.attr('type') === 'ignore') {
@@ -110,7 +111,12 @@ export default {
               }
             } else if (isStyleTag) {
               $element.remove();
-            } else if (!isCoreElement && !isSlotted && !isScriptTag) {
+            } else if (
+              !isCoreElement &&
+              !isSlotted &&
+              !isScriptTag &&
+              !isKbdTag
+            ) {
               if ($element.children().length === 0) {
                 $element.replaceWith($element.text());
               } else {
