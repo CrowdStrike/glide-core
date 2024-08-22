@@ -28,6 +28,7 @@ const meta: Meta = {
     '<glide-core-tree-item>.label': 'Branch',
     '<glide-core-tree-item>.selected': false,
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
+    '<glide-core-tree-item-icon-button>.label': 'Settings for Leaf 2',
   },
   play(context) {
     const links = context.canvasElement.querySelectorAll(
@@ -72,7 +73,10 @@ const meta: Meta = {
               slot="prefix"
               name="share"
             ></glide-core-example-icon>
-            <glide-core-tree-item-icon-button slot="suffix">
+            <glide-core-tree-item-icon-button
+              slot="suffix"
+              label=${arguments_['<glide-core-tree-item-icon-button>.label']}
+            >
               <glide-core-example-icon
                 name="settings"
               ></glide-core-example-icon>
@@ -138,6 +142,13 @@ const meta: Meta = {
             '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start"| "top-end"',
         },
       },
+    },
+    '<glide-core-tree-icon-button>.label': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
     },
     'addEventListener(event)': {
       table: {
@@ -341,7 +352,9 @@ export const TreeItemWithSuffixIconButton: StoryObj = {
         label=${arguments_['<glide-core-tree-item>.label']}
         ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
         >
-        <glide-core-tree-item-icon-button slot="suffix">
+        <glide-core-tree-item-icon-button slot="suffix" label="Settings for ${
+          arguments_['<glide-core-tree-item>.label']
+        }">
           <glide-core-example-icon name="settings"></glide-core-example-icon>
         </glide-core-tree-item-icon-button>
       </glide-core-tree-item></glide-core-tree-item>

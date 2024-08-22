@@ -10,5 +10,6 @@
   "announcedCharacterCount": "Character count {current} of {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
   "clearEntry": "Clear {label} entry",
-  "removeTag": "Remove tag: {label}"
+  "removeTag": "Remove tag: {label}",
+  "actionsFor": "Actions for {label}"
 }

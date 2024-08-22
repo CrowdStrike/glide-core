@@ -4,9 +4,10 @@ import './menu.options.js';
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { owSlot, owSlotType } from './library/ow.js';
+import GlideCoreIconButton from './icon-button.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
+import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './tree.item.menu.styles.js';
 import type { Placement } from '@floating-ui/dom';
 import type GlideCoreMenu from './menu.js';
@@ -35,6 +36,18 @@ export default class GlideCoreTreeItemMenu extends LitElement {
   @property({ reflect: true })
   placement: Placement = 'bottom-start';
 
+  @property()
+  label = '';
+
+  override click() {
+    ow(
+      this.#iconButtonElementRef.value,
+      ow.object.instanceOf(GlideCoreIconButton),
+    );
+
+    this.#iconButtonElementRef.value.click();
+  }
+
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
 
@@ -58,9 +71,15 @@ export default class GlideCoreTreeItemMenu extends LitElement {
           ></slot>
         </glide-core-menu-options>
 
-        <glide-core-icon-button slot="target" variant="tertiary">
+        <glide-core-icon-button
+          slot="target"
+          variant="tertiary"
+          label=${this.label}
+          ${ref(this.#iconButtonElementRef)}
+        >
           <!-- 3-dot -->
           <svg
+            aria-hidden="true"
             width="4"
             height="14"
             viewBox="0 0 4 18"
@@ -84,6 +103,8 @@ export default class GlideCoreTreeItemMenu extends LitElement {
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #iconButtonElementRef = createRef<GlideCoreIconButton>();
 
   #menuElementRef = createRef<GlideCoreMenu>();
 

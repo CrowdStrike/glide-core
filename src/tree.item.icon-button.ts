@@ -1,7 +1,7 @@
 import './icon-button.js';
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
 import styles from './tree.item.icon-button.styles.js';
 
@@ -26,13 +26,21 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
 
   static override styles = styles;
 
+  @property()
+  label = '';
+
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
   }
 
   override render() {
     return html`
-      <glide-core-icon-button class="component" variant="tertiary">
+      <glide-core-icon-button
+        class="component"
+        variant="tertiary"
+        tabindex="-1"
+        label=${this.label}
+      >
         <slot
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}

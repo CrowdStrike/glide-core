@@ -64,3 +64,27 @@ it('can set placement of the menu', async () => {
     treeItemMenu.shadowRoot?.querySelector('glide-core-menu')?.placement,
   ).to.equal('bottom-end');
 });
+
+it('can be opened programmatically', async () => {
+  const treeItemMenu = await fixture<GlideCoreTreeItemMenu>(html`
+    <glide-core-tree-item-menu>
+      <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
+    </glide-core-tree-item-menu>
+  `);
+
+  expect(
+    treeItemMenu.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('open'),
+  ).to.equal(null);
+
+  treeItemMenu.click();
+
+  await treeItemMenu.updateComplete;
+
+  expect(
+    treeItemMenu.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('open'),
+  ).to.equal('');
+});

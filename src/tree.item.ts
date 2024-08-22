@@ -1,5 +1,6 @@
 import './tree.item.menu.js';
 import { LitElement, html } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import {
@@ -9,9 +10,10 @@ import {
   state,
 } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import type GlideCoreMenu from './menu.js';
-
 import { when } from 'lit/directives/when.js';
+import GlideCoreIconButton from './icon-button.js';
+import GlideCoreTreeItemMenu from './tree.item.menu.js';
+import ow, { owSlotType } from './library/ow.js';
 import styles from './tree.item.styles.js';
 
 declare global {
@@ -52,12 +54,6 @@ export default class GlideCoreTreeItem extends LitElement {
   @property({ type: Boolean, attribute: 'non-collapsible' })
   nonCollapsible = false;
 
-  @queryAssignedElements({ slot: 'menu' })
-  menuSlotAssignedElements!: GlideCoreMenu[];
-
-  @queryAssignedElements({ slot: 'prefix' })
-  prefixSlotAssignedElements!: HTMLElement[];
-
   @queryAssignedElements()
   slotElements!: GlideCoreTreeItem[];
 
@@ -70,6 +66,8 @@ export default class GlideCoreTreeItem extends LitElement {
 
   override focus(options?: FocusOptions) {
     this.#labelContainerElementRef.value?.focus(options);
+
+    this.#setTabIndexes(0);
   }
 
   get hasChildTreeItems() {
@@ -97,6 +95,8 @@ export default class GlideCoreTreeItem extends LitElement {
           'label-container': true,
         })}
         tabindex="-1"
+        @focusout=${this.#handleFocusOut}
+        @focusin=${this.#handleFocusIn}
         ${ref(this.#labelContainerElementRef)}
       >
         <div style="flex-shrink: 0; width:${this.#indentationWidth};"></div>
@@ -145,7 +145,11 @@ export default class GlideCoreTreeItem extends LitElement {
         <slot name="prefix"></slot>
         <div class="label">${this.label}</div>
         <div class="icon-container">
-          <slot name="menu"></slot>
+          <slot
+            name="menu"
+            ${ref(this.#menuSlotElementRef)}
+            @slotchange=${this.#onMenuSlotChange}
+          ></slot>
           <slot name="suffix"></slot>
         </div>
       </div>
@@ -192,6 +196,10 @@ export default class GlideCoreTreeItem extends LitElement {
 
   #labelContainerElementRef = createRef<HTMLInputElement>();
 
+  #localize = new LocalizeController(this);
+
+  #menuSlotElementRef = createRef<HTMLSlotElement>();
+
   get #ariaExpanded() {
     if (this.hasChildTreeItems) {
       return this.expanded ? 'true' : 'false';
@@ -208,8 +216,54 @@ export default class GlideCoreTreeItem extends LitElement {
     }
   }
 
+  #handleFocusIn(event: FocusEvent) {
+    if (this.#isFocusTargetInternal(event.target)) {
+      event.stopPropagation();
+    }
+  }
+
+  #handleFocusOut(event: FocusEvent) {
+    if (this.#isFocusTargetInternal(event.relatedTarget)) {
+      event.stopPropagation();
+    } else {
+      this.#setTabIndexes(-1);
+    }
+  }
+
   get #indentationWidth() {
     return `${(this.level - 1) * 20}px`;
+  }
+
+  // Checks if focus has moved to an element within this tree item itself,
+  // not including this tree item itself or one of its child tree items
+  #isFocusTargetInternal(target: EventTarget | null) {
+    return (
+      target &&
+      target instanceof HTMLElement &&
+      !(target instanceof GlideCoreTreeItem) &&
+      this.contains(target)
+    );
+  }
+
+  #onMenuSlotChange() {
+    owSlotType(this.#menuSlotElementRef.value, [GlideCoreTreeItemMenu]);
+
+    for (const assignedElement of this.#menuSlotElementRef.value.assignedElements()) {
+      if (assignedElement instanceof GlideCoreTreeItemMenu) {
+        assignedElement.label = this.#localize.term('actionsFor', this.label);
+      }
+    }
+  }
+
+  #setTabIndexes(tabIndex: -1 | 0) {
+    ow(this.#labelContainerElementRef.value, ow.object.instanceOf(HTMLElement));
+    this.#labelContainerElementRef.value.tabIndex = tabIndex;
+
+    for (const iconButton of this.querySelectorAll<GlideCoreIconButton>(
+      '& > glide-core-tree-item-icon-button',
+    )) {
+      iconButton.tabIndex = tabIndex;
+    }
   }
 
   #setupChildren() {

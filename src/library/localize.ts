@@ -32,4 +32,5 @@ export interface Translation extends DefaultTranslation {
   displayedCharacterCount: (current: number, maximum: number) => string;
   clearEntry: (label: string) => string;
   removeTag: (name: string) => string;
+  actionsFor: (label: string) => string;
 }
