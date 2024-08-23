@@ -13,7 +13,7 @@ GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('is checked after being clicked', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox></glide-core-checkbox>`,
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
   component.click();
@@ -25,7 +25,7 @@ it('is checked after being clicked', async () => {
 
 it('is unchecked after being clicked', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox checked></glide-core-checkbox>`,
+    html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
   );
 
   component.click();
@@ -37,7 +37,10 @@ it('is unchecked after being clicked', async () => {
 
 it('is checked and not indeterminate after being clicked when unchecked and indeterminate', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox indeterminate></glide-core-checkbox>`,
+    html`<glide-core-checkbox
+      label="Label"
+      indeterminate
+    ></glide-core-checkbox>`,
   );
 
   component.click();
@@ -56,7 +59,11 @@ it('is checked and not indeterminate after being clicked when unchecked and inde
 
 it('is unchecked and not indeterminate after being clicked when checked and indeterminate', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox checked indeterminate></glide-core-checkbox>`,
+    html`<glide-core-checkbox
+      label="Label"
+      checked
+      indeterminate
+    ></glide-core-checkbox>`,
   );
 
   component.click();
@@ -75,7 +82,11 @@ it('is unchecked and not indeterminate after being clicked when checked and inde
 
 it('is still checked after being clicked when checked but disabled', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox checked disabled></glide-core-checkbox>`,
+    html`<glide-core-checkbox
+      label="Label"
+      checked
+      disabled
+    ></glide-core-checkbox>`,
   );
 
   component.click();
@@ -87,8 +98,42 @@ it('is still checked after being clicked when checked but disabled', async () =>
 
 it('is still unchecked after being clicked when unchecked and disabled', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox disabled></glide-core-checkbox>`,
+    html`<glide-core-checkbox label="Label" disabled></glide-core-checkbox>`,
   );
+
+  component.click();
+  await elementUpdated(component);
+
+  expect(component.hasAttribute('checked')).to.be.false;
+  expect(component.checked).to.equal(false);
+});
+
+it('is unchecked after being clicked then forcibly unchecked via a "input" listener', async () => {
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+  );
+
+  component.addEventListener('input', async () => {
+    await component.updateComplete;
+    component.checked = false;
+  });
+
+  component.click();
+  await elementUpdated(component);
+
+  expect(component.hasAttribute('checked')).to.be.false;
+  expect(component.checked).to.equal(false);
+});
+
+it('is unchecked after being clicked then forcibly unchecked via an "change" listener', async () => {
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+  );
+
+  component.addEventListener('change', async () => {
+    await component.updateComplete;
+    component.checked = false;
+  });
 
   component.click();
   await elementUpdated(component);
@@ -99,7 +144,11 @@ it('is still unchecked after being clicked when unchecked and disabled', async (
 
 it('is still indeterminate after being clicked when unchecked and disabled', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox disabled indeterminate></glide-core-checkbox>`,
+    html`<glide-core-checkbox
+      label="Label"
+      disabled
+      indeterminate
+    ></glide-core-checkbox>`,
   );
 
   component.click();

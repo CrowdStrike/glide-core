@@ -66,6 +66,7 @@ it('has `formData` value when checked and indeterminate', async () => {
 
   await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
+      label="Label"
       name="name"
       value="value"
       checked

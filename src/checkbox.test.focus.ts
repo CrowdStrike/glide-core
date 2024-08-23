@@ -73,7 +73,7 @@ it('does not focus the input after `checkValidity` is called', async () => {
 
 it('blurs the input and reports validity if `blur` is called', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox required></glide-core-checkbox>`,
+    html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
   );
 
   component.focus();
