@@ -24,7 +24,7 @@ export default [
       font-weight: var(--glide-core-body-sm-font-weight);
       gap: 0.4375rem;
       justify-content: center;
-      padding-block: 7px;
+      padding-block: 0.4375rem;
 
       &:hover {
         color: var(--glide-core-text-primary);
