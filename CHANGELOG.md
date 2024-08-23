@@ -1,5 +1,42 @@
 # @crowdstrike/glide-core
 
+## 0.9.1
+
+### Patch Changes
+
+- [#322](https://github.com/CrowdStrike/glide-core/pull/322) [`c577f7d`](https://github.com/CrowdStrike/glide-core/commit/c577f7d20afb155247f1d09a7e4255008c003786) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated Button Group Button's background color to no longer be transparent so that the background won't bleed through the component.
+
+- [#318](https://github.com/CrowdStrike/glide-core/pull/318) [`b4bedc4`](https://github.com/CrowdStrike/glide-core/commit/b4bedc4a54f1f7ac6b4b5daea5ac5b27f5d37450) Thanks [@danwenzel](https://github.com/danwenzel)! - Add click method to Tree Item Menu, allowing programmatic opening of the menu
+
+- [#324](https://github.com/CrowdStrike/glide-core/pull/324) [`83174ce`](https://github.com/CrowdStrike/glide-core/commit/83174ce65da370f31168d1cc48b2307c6aea832a) Thanks [@clintcs](https://github.com/clintcs)! - Checkbox and Toggle can now be forced checked or unchecked.
+
+  To do this, add a "change" or "input" listener that sets `checked` to the
+  desired state after waiting for the component to update so your `checked`
+  change isn't reverted after the update completes:
+
+  ```ts
+  document
+    .querySelector('glide-core-toggle')
+    .addEventListener('change', async (event) => {
+      await event.target.updateComplete;
+      event.target.checked = false;
+    });
+  ```
+
+- [#318](https://github.com/CrowdStrike/glide-core/pull/318) [`b4bedc4`](https://github.com/CrowdStrike/glide-core/commit/b4bedc4a54f1f7ac6b4b5daea5ac5b27f5d37450) Thanks [@danwenzel](https://github.com/danwenzel)! - Accessibility improvements to Tree:
+
+  - Removes the ability to focus on a Tree Item Menu or Tree Item Icon Button unless the tree item is focused
+  - Stops event propagation on click or keyboard events when originating from Tree Item Menu or Tree Item Icon Button
+  - Added a `label` attribute to Tree Item Icon Button and Tree Item Menu for accessibility
+  - Prevent keyboard navigation to selected tree item if collapsed
+
+- [#320](https://github.com/CrowdStrike/glide-core/pull/320) [`2d1c7f4`](https://github.com/CrowdStrike/glide-core/commit/2d1c7f4d278c6394ba003324e8af1d056c88d5cc) Thanks [@clintcs](https://github.com/clintcs)! - - Input's `spellcheck` property is now reflected.
+
+  - Form Controls Layout no longer overflows slightly when `split="middle"`.
+  - Radio's `label` is now `undefined` by default instead of an empty string to match other components.
+
+- [#321](https://github.com/CrowdStrike/glide-core/pull/321) [`69723ab`](https://github.com/CrowdStrike/glide-core/commit/69723abc4488ad142505ba4dfcdd2af6b9947662) Thanks [@clintcs](https://github.com/clintcs)! - Menu buttons and links now emit "click" events when selected via Space or Enter.
+
 ## 0.9.0
 
 ### Minor Changes
