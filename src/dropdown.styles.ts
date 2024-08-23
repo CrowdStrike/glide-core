@@ -1,6 +1,6 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
-import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
+import menuOpeningAnimation from './styles/menu-opening-animation.js';
 import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
@@ -8,7 +8,7 @@ export default [
     ${focusOutline(
       '.dropdown:has(.button:focus-visible, .input:focus-visible)',
     )}
-    ${opacityAndScaleAnimation('.options:popover-open')}
+    ${menuOpeningAnimation('.options:popover-open')}
     ${visuallyHidden('.selected-option-labels')}
   `,
   css`

@@ -1,9 +1,9 @@
 import { css } from 'lit';
-import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
+import menuOpeningAnimation from './styles/menu-opening-animation.js';
 
 export default [
   css`
-    ${opacityAndScaleAnimation('.default-slot:popover-open')}
+    ${menuOpeningAnimation('.default-slot:popover-open')}
   `,
   css`
     :host {

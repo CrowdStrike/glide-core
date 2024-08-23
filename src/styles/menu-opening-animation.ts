@@ -1,25 +1,24 @@
 import { css, unsafeCSS } from 'lit';
 
-// TODO: Can put this inline with Tooltip now if we want since it
-// isn't getting used in multiple places.
-
 export default (selector: string) => {
   return css`
     /* stylelint-disable selector-type-case, selector-type-no-unknown */
-    @keyframes opacity-and-scale {
+    @keyframes menu-opening {
       from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: scaleY(0);
+        transform-origin: 0% 0%;
       }
 
       to {
         opacity: 1;
-        transform: scale(1);
+        transform: scaleY(1);
+        transform-origin: 0% 0%;
       }
     }
 
     ${unsafeCSS(selector)} {
-      animation: opacity-and-scale 250ms cubic-bezier(0.25, 0, 0.3, 1);
+      animation: menu-opening 250ms cubic-bezier(0.25, 0, 0.3, 1);
     }
 
     @media (prefers-reduced-motion: reduce) {
