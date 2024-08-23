@@ -8,7 +8,6 @@ export default [
       flex-direction: column;
 
       & .tab-container {
-        block-size: 2.125rem;
         border-block-end: 1px solid var(--glide-core-border-base-lighter);
         box-sizing: border-box;
         display: flex;

@@ -15,7 +15,6 @@ export default [
 
     .component {
       align-items: center;
-      block-size: 2.125rem;
       box-sizing: border-box;
       cursor: pointer;
       display: flex;
@@ -25,6 +24,7 @@ export default [
       font-weight: var(--glide-core-body-sm-font-weight);
       gap: 0.4375rem;
       justify-content: center;
+      padding-block: 7px;
 
       &:hover {
         color: var(--glide-core-text-primary);
