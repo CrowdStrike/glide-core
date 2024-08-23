@@ -53,6 +53,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs:
       - install_dependencies
     steps:
