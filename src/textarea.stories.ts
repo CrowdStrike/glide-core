@@ -50,6 +50,16 @@ const meta: Meta = {
     value: '',
   },
   argTypes: {
+    'addEventListener(event, listener)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            'event: "change" | "input" | "invalid", listener: (event: Event) => void',
+        },
+      },
+    },
     label: {
       control: 'text',
       table: {
