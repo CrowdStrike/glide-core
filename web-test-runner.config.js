@@ -64,6 +64,34 @@ export default {
       // https://github.com/lit/lit/issues/3807#issuecomment-1513369439
       tsconfig: fileURLToPath(new URL('tsconfig.json', import.meta.url)),
     }),
+    {
+      // In the test environment, we set `prefers-reduced-motion: reduce`
+      // as tests shouldn't need to rely on animations to finish before
+      // interacting with a component. Doing so leads to hardcoded
+      // waits, which extends testing time and doesn't actually provide
+      // any value.
+      //
+      // https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+      name: 'prefers-reduced-motion-plugin',
+      transform(context) {
+        if (context.path.includes('.test.')) {
+          const emulateMediaScript = `
+            import { emulateMedia } from '@web/test-runner-commands';
+
+            before(async () => {
+              await emulateMedia({ reducedMotion: 'reduce' });
+            });
+          `;
+
+          return {
+            body: `${emulateMediaScript}\n${context.body}`,
+            map: context.map,
+          };
+        }
+
+        return context.body;
+      },
+    },
   ],
   reporters:
     process.env.NODE_ENV === 'production'
