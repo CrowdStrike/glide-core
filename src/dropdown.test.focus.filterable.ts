@@ -107,6 +107,7 @@ it('retains focus on the input when an option is selected via click', async () =
   });
 
   const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  assert(component.shadowRoot?.activeElement);
   expect(component.shadowRoot?.activeElement).to.equal(input);
 });
 
