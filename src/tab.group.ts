@@ -194,8 +194,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #overflowStartButtonElementRef = createRef<HTMLButtonElement>();
 
-  #prefersReducedMotion = false;
-
   #previousActiveTab: GlideCoreTab | null = null;
 
   #resizeObserver: ResizeObserver | null = null;
@@ -380,10 +378,8 @@ export default class GlideCoreTabGroup extends LitElement {
       panel.tabIndex = thisPanelName === activeTabPanelName ? 0 : -1;
     }
 
-    this.#setActiveTabIndicator();
-  }
+    // Set the active tab indicator.
 
-  #setActiveTabIndicator() {
     if (this.activeTab === this.#previousActiveTab) return;
 
     if (this.activeTab && this.tabElements.length > 0) {
@@ -506,7 +502,7 @@ export default class GlideCoreTabGroup extends LitElement {
         .filter((panel) => panel.name === tabElement.panel)
         ?.at(0);
 
-      if (relatedPanel) {
+      if (relatedPanel?.getAttribute('id')) {
         tabElement.setAttribute(
           'aria-controls',
           relatedPanel.getAttribute('id')!,

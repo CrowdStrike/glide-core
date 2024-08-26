@@ -36,7 +36,7 @@ export default [
 
         &::after {
           background: var(--glide-core-border-focus);
-          block-size: 2px;
+          block-size: 0.125rem;
           content: '';
           inline-size: var(--active-tab-indicator-width);
           inset-block-end: 0;
@@ -72,7 +72,7 @@ export default [
       padding-inline-end: var(--glide-core-spacing-md);
     }
 
-    @media (prefers-reduced-motion) {
+    @media (prefers-reduced-motion: reduce) {
       .component .tab-group {
         scroll-behavior: auto;
 
