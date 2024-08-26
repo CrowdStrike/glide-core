@@ -253,7 +253,7 @@ export const Description: StoryObj = {
           label=${arguments_.label}
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          maxlength=${arguments_.maxlength}
+          maxlength=${arguments_.maxlength || nothing}
         >
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
@@ -264,25 +264,6 @@ export const Description: StoryObj = {
           </div>
         </glide-core-textarea>
       </form>`;
-  },
-};
-
-export const Readonly: StoryObj = {
-  args: {
-    readonly: true,
-  },
-};
-
-export const Disabled: StoryObj = {
-  args: {
-    disabled: true,
-  },
-};
-
-export const Placeholder: StoryObj = {
-  args: {
-    placholder: 'Placeholder...',
-    value: '',
   },
 };
 

@@ -288,27 +288,6 @@ export const Description: StoryObj = {
   },
 };
 
-export const Readonly: StoryObj = {
-  args: {
-    readonly: true,
-    value: 'Some example text',
-  },
-};
-
-export const Disabled: StoryObj = {
-  args: {
-    disabled: true,
-    value: 'Some example text',
-  },
-};
-
-export const Placeholder: StoryObj = {
-  args: {
-    placholder: 'Placeholder...',
-    value: '',
-  },
-};
-
 export const Clearable: StoryObj = {
   args: {
     clearable: true,

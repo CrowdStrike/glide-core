@@ -108,3 +108,21 @@ it('is unchecked after being clicked then forcibly unchecked via an "input" list
   const input = component.shadowRoot?.querySelector('[data-test="input"]');
   expect(input?.getAttribute('aria-checked')).to.equal('false');
 });
+
+it('remains unchecked when its "click" event is canceled', async () => {
+  const component = await fixture<GlideCoreToggle>(
+    html`<glide-core-toggle label="Label"></glide-core-toggle>`,
+  );
+
+  component.addEventListener('click', async (event) => {
+    event.preventDefault();
+  });
+
+  component.click();
+
+  expect(component.hasAttribute('checked')).to.be.false;
+  expect(component.checked).to.equal(false);
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.getAttribute('aria-checked')).to.equal('false');
+});

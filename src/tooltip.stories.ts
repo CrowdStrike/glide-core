@@ -32,7 +32,7 @@ const meta: Meta = {
           detail: '// The content of the tooltip',
         },
       },
-      type: { name: 'function', required: true },
+      type: { name: 'string', required: true },
     },
     'slot="target"': {
       table: {

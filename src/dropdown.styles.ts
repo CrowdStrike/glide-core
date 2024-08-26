@@ -102,6 +102,10 @@ export default [
       padding: var(--padding);
       position: absolute;
       scroll-behavior: smooth;
+
+      &.hidden {
+        display: none;
+      }
     }
 
     .select-all {
@@ -170,12 +174,6 @@ export default [
 
       &:focus {
         outline: none;
-      }
-
-      &.single.selection:not(:focus) {
-        &::placeholder {
-          color: inherit;
-        }
       }
 
       &::placeholder {

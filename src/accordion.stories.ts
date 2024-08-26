@@ -59,9 +59,9 @@ const meta: Meta = {
     label: 'Label',
     'slot="default"': 'Content',
     'addEventListener(event, listener)': '',
+    open: false,
     'slot="prefix"': '',
     'slot="suffix"': '',
-    open: false,
   },
   argTypes: {
     label: {
