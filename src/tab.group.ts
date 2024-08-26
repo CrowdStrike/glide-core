@@ -32,9 +32,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
   static override styles = styles;
 
-  /**
-   * The tab element that is currently active
-   * */
   @state()
   get activeTab() {
     return this.#currentActiveTab;
@@ -79,6 +76,7 @@ export default class GlideCoreTabGroup extends LitElement {
       class="component"
       @click=${this.#onClick}
       @keydown=${this.#onKeydown}
+      ${ref(this.#componentElementRef)}
     >
       <div class="tab-container">
         <div
@@ -119,7 +117,7 @@ export default class GlideCoreTabGroup extends LitElement {
           role="tablist"
           class=${classMap({
             'tab-group': true,
-            'animated-active-tab-indicator': this.isAfterFirstUpdated,
+            animated: this.isAfterFirstUpdated,
           })}
           ${ref(this.#tabListElementRef)}
           @scroll=${this.#onScroll}
@@ -179,6 +177,8 @@ export default class GlideCoreTabGroup extends LitElement {
     this.#setupTabs();
   }
 
+  #componentElementRef = createRef<HTMLElement>();
+
   #currentActiveTab: GlideCoreTab | null = null;
 
   // Arbitrary debounce delay
@@ -205,7 +205,7 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #tabListElementRef = createRef<HTMLElement>();
 
-  #onClick = (event: Event) => {
+  #onClick(event: Event) {
     const target = event.target as HTMLElement;
     const clickedTab = target.closest('glide-core-tab');
 
@@ -216,17 +216,21 @@ export default class GlideCoreTabGroup extends LitElement {
     ) {
       this.#showTab(clickedTab);
     }
-  };
+  }
 
-  #onClickOverflowEndButton = () => {
+  #onClickOverflowEndButton() {
     this.#scrollTabsList('right');
-  };
+  }
 
-  #onClickOverflowStartButton = () => {
+  #onClickOverflowStartButton() {
     this.#scrollTabsList('left');
-  };
+  }
 
-  #onFocusout = () => {
+  #onDefaultSlotChange() {
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
+  }
+
+  #onFocusout() {
     // Set the last active tab as tabbable so that when pressing shift + tab on the tab panel
     // focus goes back to the last active tab.
     // The `focusout` event is used since it bubbles up from the tab.
@@ -234,9 +238,9 @@ export default class GlideCoreTabGroup extends LitElement {
     for (const [, tabElement] of this.tabElements.entries()) {
       tabElement.tabIndex = tabElement === this.activeTab ? 0 : -1;
     }
-  };
+  }
 
-  #onKeydown = (event: KeyboardEvent) => {
+  #onKeydown(event: KeyboardEvent) {
     const target = event.target as HTMLElement;
     const targetTab = target.closest('glide-core-tab');
 
@@ -313,15 +317,6 @@ export default class GlideCoreTabGroup extends LitElement {
         event.preventDefault();
       }
     }
-  };
-
-  #setOverflowButtonsVisibility = () => {
-    this.#setStartOverflowButtonVisibility();
-    this.#setEndOverflowButtonVisibility();
-  };
-
-  #onDefaultSlotChange() {
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
   }
 
   #onNavSlotChange() {
@@ -382,34 +377,38 @@ export default class GlideCoreTabGroup extends LitElement {
 
     if (this.activeTab === this.#previousActiveTab) return;
 
-    if (this.activeTab && this.tabElements.length > 0) {
+    if (
+      this.activeTab &&
+      this.tabElements.length > 0 &&
+      this.#componentElementRef.value
+    ) {
       const activeTabInlinePadding = Number.parseInt(
         window
           .getComputedStyle(this.activeTab)
           .getPropertyValue(
             `padding-inline-${
-              this.activeTab === this.tabElements[0] ? 'start' : 'end'
+              this.activeTab === this.tabElements.at(0) ? 'start' : 'end'
             }`,
           ),
       );
 
       const activeTabIndicatorTranslateLeft =
-        this.activeTab === this.tabElements[0]
+        this.activeTab === this.tabElements.at(0)
           ? activeTabInlinePadding
           : this.activeTab.offsetLeft - this.tabElements[0].offsetLeft;
 
-      this.style.setProperty(
-        '--active-tab-indicator-left',
+      this.#componentElementRef.value.style.setProperty(
+        '--active-tab-indicator-translate',
         `${activeTabIndicatorTranslateLeft}px`,
       );
 
       const activeTabIndicatorWidthAdjustment =
-        this.activeTab === this.tabElements[0] ||
+        this.activeTab === this.tabElements.at(0) ||
         this.activeTab === this.tabElements.at(-1)
           ? activeTabInlinePadding
           : 0;
 
-      this.style.setProperty(
+      this.#componentElementRef.value.style.setProperty(
         '--active-tab-indicator-width',
         `${this.activeTab.clientWidth - activeTabIndicatorWidthAdjustment}px`,
       );
@@ -440,6 +439,11 @@ export default class GlideCoreTabGroup extends LitElement {
     }
   }
 
+  #setOverflowButtonsVisibility() {
+    this.#setStartOverflowButtonVisibility();
+    this.#setEndOverflowButtonVisibility();
+  }
+
   #setStartOverflowButtonVisibility() {
     ow(this.#tabListElementRef.value, ow.object.instanceOf(HTMLElement));
 
@@ -448,22 +452,26 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #setupActiveTabIndicator() {
-    // Use setTimeout to allow tabs to render.
-    setTimeout(() => {
-      if (this.activeTab) {
+    // Use `requestAnimationFrame` to wait for the active tab to render and measure.
+    // https://github.com/lit/lit-element/issues/219#issuecomment-423685669
+    requestAnimationFrame(() => {
+      if (this.activeTab && this.#componentElementRef.value) {
         const activeTabPaddingInlineStart = Number.parseInt(
           window
             .getComputedStyle(this.activeTab)
             .getPropertyValue('padding-inline-start'),
         );
 
-        this.style.setProperty(
+        const { width: activeTabWidth } =
+          this.activeTab.getBoundingClientRect();
+
+        this.#componentElementRef.value.style.setProperty(
           '--active-tab-indicator-width',
-          `${this.activeTab.clientWidth - activeTabPaddingInlineStart}px`,
+          `${activeTabWidth - activeTabPaddingInlineStart}px`,
         );
 
-        this.style.setProperty(
-          '--active-tab-indicator-left',
+        this.#componentElementRef.value.style.setProperty(
+          '--active-tab-indicator-translate',
           `${activeTabPaddingInlineStart}px`,
         );
 

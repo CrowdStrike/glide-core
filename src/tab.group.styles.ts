@@ -43,10 +43,10 @@ export default [
           inset-inline: 0;
           position: absolute;
           transform-origin: left;
-          translate: var(--active-tab-indicator-left, 0) 0;
+          translate: var(--active-tab-indicator-translate, 0) 0;
         }
 
-        &.animated-active-tab-indicator::after {
+        &.animated::after {
           transition:
             inline-size 250ms,
             translate 250ms;
