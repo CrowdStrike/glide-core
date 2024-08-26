@@ -65,44 +65,6 @@ it('adds label to menu target', async () => {
   expect(menuTarget?.label).to.equal('Actions for Item');
 });
 
-it('adds Japanese label to menu', async () => {
-  document.documentElement.setAttribute('lang', 'ja');
-
-  const treeItem = await fixture<TreeItem>(html`
-    <glide-core-tree-item label="Item">
-      <glide-core-tree-item-menu slot="menu" data-menu>
-        <glide-core-menu-link label="Move" url="/move"> </glide-core-menu-link>
-      </glide-core-tree-item-menu>
-    </glide-core-tree-item>
-  `);
-
-  const menuTarget = treeItem
-    .querySelector('glide-core-tree-item-menu')
-    ?.shadowRoot?.querySelector('glide-core-menu')
-    ?.querySelector('glide-core-icon-button');
-
-  expect(menuTarget?.label).to.equal('Actions for Item');
-});
-
-it('adds French label to menu', async () => {
-  document.documentElement.setAttribute('lang', 'fr');
-
-  const treeItem = await fixture<TreeItem>(html`
-    <glide-core-tree-item label="Item">
-      <glide-core-tree-item-menu slot="menu" data-menu>
-        <glide-core-menu-link label="Move" url="/move"> </glide-core-menu-link>
-      </glide-core-tree-item-menu>
-    </glide-core-tree-item>
-  `);
-
-  const menuTarget = treeItem
-    .querySelector('glide-core-tree-item-menu')
-    ?.shadowRoot?.querySelector('glide-core-menu')
-    ?.querySelector('glide-core-icon-button');
-
-  expect(menuTarget?.label).to.equal('Actions for Item');
-});
-
 it('renders with a suffix slot', async () => {
   await fixture<TreeItem>(html`
     <glide-core-tree-item label="Item">

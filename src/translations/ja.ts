@@ -1,6 +1,17 @@
 import type { Translation } from '../library/localize.js';
 
-const translation: Translation = {
+export const PENDING_STRINGS = [
+  'nextTab',
+  'previousTab',
+  'announcedCharacterCount',
+  'displayedCharacterCount',
+  'clearEntry',
+  'actionsFor',
+] as const;
+
+type PendingTranslation = (typeof PENDING_STRINGS)[number];
+
+const translation: Omit<Translation, PendingTranslation> = {
   $code: 'ja',
   $name: 'Japanese',
   $dir: 'ltr',
@@ -12,16 +23,8 @@ const translation: Translation = {
   selectAll: 'すべて選択',
   moreInformation: '詳細情報',
   notifications: '通知',
-  nextTab: 'Next tab',
-  previousTab: 'Previous tab',
 
-  announcedCharacterCount: (current: number, maximum: number) =>
-    `Character count ${current} of ${maximum}`,
-  displayedCharacterCount: (current: number, maximum: number) =>
-    `${current}/${maximum}`,
-  clearEntry: (label: string) => `Clear ${label} entry`,
   removeTag: (label: string) => `タグを削除: ${label}`,
-  actionsFor: (label: string) => `Actions for ${label}`,
 };
 
 export default translation;

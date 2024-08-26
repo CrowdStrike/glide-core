@@ -263,7 +263,12 @@ export default [
     },
   },
   {
-    files: ['**/*.js', 'src/*.test.*.ts', 'src/*.*.test.*.ts'],
+    files: [
+      '**/*.js',
+      'src/**/*.test.ts',
+      'src/*.test.*.ts',
+      'src/*.*.test.*.ts',
+    ],
     rules: {
       '@typescript-eslint/no-unused-expressions': 'off',
     },
