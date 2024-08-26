@@ -33,7 +33,7 @@ export default [
       align-items: center;
       background-color: var(--glide-core-surface-base-lighter);
       block-size: 2.125rem;
-      border: 1px solid var(--glide-core-border-base-light);
+      border: 1px solid var(--glide-core-border-base);
       border-radius: var(--glide-core-spacing-xs);
       box-sizing: border-box;
       color: var(--glide-core-text-body-1);
@@ -42,13 +42,14 @@ export default [
       line-height: var(--glide-core-body-xs-line-height);
       padding-inline: var(--glide-core-spacing-sm);
 
-      &.error {
-        border-color: var(--glide-core-status-error);
-      }
-
-      &.focused:not(.error) {
+      &.focused,
+      &:hover {
         border-color: var(--glide-core-border-focus);
         transition: border-color 200ms ease-in-out;
+      }
+
+      &.error {
+        border-color: var(--glide-core-status-error);
       }
 
       /* We had to resort to a class selector because there may be a bug in Chrome and Safari
@@ -62,6 +63,7 @@ export default [
 
       &.disabled {
         background-color: var(--glide-core-surface-disabled);
+        border-color: var(--glide-core-border-base-light);
         color: var(--glide-core-text-tertiary-disabled);
       }
 

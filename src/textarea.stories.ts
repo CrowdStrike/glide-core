@@ -260,7 +260,12 @@ export const Description: StoryObj = {
             : ''}
 
           <div slot="description">
-            Text description... <a href="#">With link!</a>
+            Description with
+            <a
+              href="#"
+              style="text-decoration:none;color:var(--glide-core-text-link);"
+              >link</a
+            >
           </div>
         </glide-core-textarea>
       </form>`;

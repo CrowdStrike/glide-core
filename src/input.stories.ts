@@ -280,7 +280,12 @@ export const Description: StoryObj = {
           maxlength=${arguments_.maxlength || nothing}
         >
           <div slot="description">
-            Test description ... <a href="#">With link!</a>
+            Description with
+            <a
+              href="#"
+              style="text-decoration:none;color:var(--glide-core-text-link);"
+              >link</a
+            >
           </div>
         </glide-core-input>
       </div>

@@ -29,7 +29,7 @@ export default [
       align-items: center;
       background-color: var(--glide-core-surface-base-lighter);
       block-size: 2.125rem;
-      border: 1px solid var(--glide-core-border-base-lighter);
+      border: 1px solid var(--glide-core-border-base);
       border-radius: var(--glide-core-spacing-xs);
       box-sizing: border-box;
       color: var(--glide-core-text-body-1);
@@ -60,6 +60,7 @@ export default [
 
       &.disabled {
         background: var(--glide-core-surface-disabled);
+        border-color: var(--glide-core-border-base-light);
         color: var(--glide-core-text-tertiary-disabled);
       }
 
@@ -74,7 +75,7 @@ export default [
       }
 
       &:hover:not(&.error, &.disabled, &.readonly) {
-        border-color: var(--glide-core-border-base);
+        border-color: var(--glide-core-border-focus);
       }
 
       &.quiet:hover:not(&.error, &.disabled, &.multiple, &.readonly) {
