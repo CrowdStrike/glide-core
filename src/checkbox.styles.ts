@@ -108,9 +108,8 @@ when browsers support them.
 
         svg {
           path {
-            /* TODO: Switch to rems */
-            stroke-dasharray: 24px;
-            stroke-dashoffset: 48px;
+            stroke-dasharray: calc(var(--size) * 2);
+            stroke-dashoffset: calc(var(--size) * 4);
             transition:
               stroke-dasharray 500ms ease,
               stroke-dashoffset 500ms ease;
@@ -136,8 +135,7 @@ when browsers support them.
 
       svg {
         path {
-          /* TODO: Switch to rems */
-          stroke-dashoffset: 24px;
+          stroke-dashoffset: calc(var(--size) * 2);
         }
       }
     }
