@@ -51,6 +51,7 @@ when browsers support them.
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
       inline-size: 100%;
       justify-content: center;
+      transition: box-shadow 200ms ease-in-out;
 
       &.error:not(.disabled) {
         border-color: var(--glide-core-status-error);
@@ -101,6 +102,21 @@ when browsers support them.
         background-color: var(--glide-core-surface-primary-disabled);
         border-color: transparent;
       }
+
+      &:is(:checked) ~ .checkbox > .checked-icon {
+        visibility: visible;
+
+        svg {
+          path {
+            /* TODO: Switch to rems */
+            stroke-dasharray: 24px;
+            stroke-dashoffset: 48px;
+            transition:
+              stroke-dasharray 500ms ease,
+              stroke-dashoffset 500ms ease;
+          }
+        }
+      }
     }
 
     .checked-icon {
@@ -108,13 +124,22 @@ when browsers support them.
 
       align-items: center;
       block-size: 100%;
-      display: none;
       inline-size: 100%;
       inset-block-start: 0;
       inset-inline-start: 0;
       justify-content: center;
       pointer-events: none;
       position: absolute;
+
+      /* We must rely on 'visibility: hidden' over 'display: none' for the animation transition to play properly */
+      visibility: hidden;
+
+      svg {
+        path {
+          /* TODO: Switch to rems */
+          stroke-dashoffset: 24px;
+        }
+      }
     }
 
     .indeterminate-icon {

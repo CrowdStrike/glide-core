@@ -2,6 +2,7 @@ import { html } from 'lit';
 
 export default html`
   <svg
+    aria-hidden="true"
     fill="none"
     viewBox="0 0 24 24"
     style="height: var(--size, 0.875rem); width: var(--size, 0.875rem);"
