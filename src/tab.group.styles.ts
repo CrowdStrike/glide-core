@@ -76,7 +76,7 @@ export default [
       .component .tab-group {
         scroll-behavior: auto;
 
-        &.animated-active-tab-indicator::after {
+        &.animated::after {
           transition: none;
         }
       }
