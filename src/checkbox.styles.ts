@@ -106,14 +106,12 @@ when browsers support them.
       &:is(:checked) ~ .checkbox > .checked-icon {
         visibility: visible;
 
-        svg {
-          path {
-            stroke-dasharray: calc(var(--size) * 2);
-            stroke-dashoffset: calc(var(--size) * 4);
-            transition:
-              stroke-dasharray 500ms ease,
-              stroke-dashoffset 500ms ease;
-          }
+        .check {
+          stroke-dasharray: calc(var(--size) * 2);
+          stroke-dashoffset: calc(var(--size) * 4);
+          transition:
+            stroke-dasharray 500ms ease,
+            stroke-dashoffset 500ms ease;
         }
       }
     }
@@ -133,10 +131,8 @@ when browsers support them.
       /* We must rely on 'visibility: hidden' over 'display: none' for the animation transition to play properly */
       visibility: hidden;
 
-      svg {
-        path {
-          stroke-dashoffset: calc(var(--size) * 2);
-        }
+      .check {
+        stroke-dashoffset: calc(var(--size) * 2);
       }
     }
 
@@ -154,6 +150,12 @@ when browsers support them.
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .checked-icon .check {
+        transition: none !important;
+      }
     }
   `,
 ];
