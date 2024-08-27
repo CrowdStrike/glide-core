@@ -32,6 +32,11 @@ export default class GlideCoreToasts extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @param {number} [toast.duration=5000]
+   *  Optional: Number of milliseconds before the Toast auto-hides.
+   *  Minimum: `5000`. Default: `5000`. For a Toast that never auto-hides, set to `Infinity`
+   *  */
   add(toast: Toast) {
     ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
     this.#componentElementRef.value.popover = 'manual';
