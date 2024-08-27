@@ -53,6 +53,9 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    # It's possible our tests can hang and we don't want to blow through our
+    # GitHub Action minutes, so we'll timeout after 10 minutes to protect
+    # that from happening.
     timeout-minutes: 10
     needs:
       - install_dependencies
