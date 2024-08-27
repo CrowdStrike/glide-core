@@ -5,5 +5,11 @@
   "selectAll": "すべて選択",
   "moreInformation": "詳細情報",
   "notifications": "通知",
-  "removeTag": "タグを削除: {label}"
+  "nextTab": "次のタブ",
+  "previousTab": "前のタブ",
+  "announcedCharacterCount": "{maximum} 文字数の{current}",
+  "displayedCharacterCount": "{current}/{maximum}",
+  "clearEntry": "{label}エントリのクリア",
+  "removeTag": "タグを削除: {label}",
+  "actionsFor": "{label}のアクション"
 }

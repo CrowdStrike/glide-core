@@ -1,13 +1,6 @@
 import type { Translation } from '../library/localize.js';
 
-export const PENDING_STRINGS = [
-  'nextTab',
-  'previousTab',
-  'announcedCharacterCount',
-  'displayedCharacterCount',
-  'clearEntry',
-  'actionsFor',
-] as const;
+export const PENDING_STRINGS = [] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
 
@@ -23,8 +16,16 @@ const translation: Omit<Translation, PendingTranslation> = {
   selectAll: 'Tout sélectionner',
   moreInformation: 'Plus d’informations',
   notifications: 'Notifications',
+  nextTab: 'Onglet suivant',
+  previousTab: 'Onglet précédent',
 
+  announcedCharacterCount: (current: number, maximum: number) =>
+    `Nombre de caractères ${current} de ${maximum}`,
+  displayedCharacterCount: (current: number, maximum: number) =>
+    `${current}/${maximum}`,
+  clearEntry: (label: string) => `Effacer l'entrée ${label}`,
   removeTag: (label: string) => `Supprimer la balise : ${label}`,
+  actionsFor: (label: string) => `Actions pour ${label}`,
 };
 
 export default translation;
