@@ -18,7 +18,7 @@ export default (selector: string) => {
     }
 
     ${unsafeCSS(selector)} {
-      animation: menu-opening 250ms cubic-bezier(0.25, 0, 0.3, 1);
+      animation: menu-opening 150ms cubic-bezier(0.25, 0, 0.3, 1);
     }
 
     @media (prefers-reduced-motion: reduce) {

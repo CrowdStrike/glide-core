@@ -1,13 +1,29 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
-import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 
 export default [
   css`
     ${focusOutline('.target:focus-visible')}
-    ${opacityAndScaleAnimation('.tooltip:popover-open')}
   `,
   css`
+    @keyframes opacity-and-scale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tooltip:popover-open {
+        animation: none !important;
+      }
+    }
+
     :host {
       display: inline-block;
     }
@@ -61,6 +77,7 @@ export default [
       }
 
       &:popover-open {
+        animation: opacity-and-scale 250ms cubic-bezier(0.25, 0, 0.3, 1);
         display: flex;
 
         /*
