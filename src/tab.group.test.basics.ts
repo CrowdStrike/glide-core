@@ -49,7 +49,7 @@ it('renders correct markup and sets correct attributes for the default case', as
 
   expect([
     ...tabGroup.shadowRoot!.querySelector('.tab-group')!.classList,
-  ]).to.deep.equal(['tab-group']);
+  ]).to.deep.equal(['tab-group', 'animated']);
 
   const slot = tabGroup.shadowRoot!.querySelector<HTMLSlotElement>(
     'slot:not([name="nav"])',
