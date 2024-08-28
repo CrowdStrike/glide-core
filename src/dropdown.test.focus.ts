@@ -43,6 +43,7 @@ it('closes and reports validity when it loses focus', async () => {
   // Move focus to the button.
   await sendKeys({ down: 'Shift' });
   await sendKeys({ press: 'Tab' });
+  await sendKeys({ up: 'Shift' });
 
   expect(component.open).to.be.false;
 

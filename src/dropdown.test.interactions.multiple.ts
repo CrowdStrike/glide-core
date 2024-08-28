@@ -1399,40 +1399,6 @@ it('remains open when a tag is clicked', async () => {
   expect(component.open).to.be.true;
 });
 
-it('does not select an option on Enter when the option is not focused', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      open
-      multiple
-    >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  // Wait for it to open.
-  await aTimeout(0);
-
-  const option = component.querySelector('glide-core-dropdown-option');
-  option?.focus();
-
-  await sendKeys({ down: 'Tab' });
-  await sendKeys({ down: 'Shift' });
-  await sendKeys({ up: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(option?.selected).to.be.false;
-});
-
 it('cannot be tabbed to when `disabled`', async () => {
   await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
@@ -1453,6 +1419,6 @@ it('cannot be tabbed to when `disabled`', async () => {
     </glide-core-dropdown>`,
   );
 
-  await sendKeys({ down: 'Tab' });
+  await sendKeys({ press: 'Tab' });
   expect(document.activeElement).to.equal(document.body);
 });

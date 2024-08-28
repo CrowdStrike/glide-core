@@ -13,7 +13,7 @@ GlideCoreTabGroup.shadowRootOptions.mode = 'open';
 GlideCoreTabPanel.shadowRootOptions.mode = 'open';
 
 it('renders an end overflow button on end overflow', async () => {
-  const element = await fixture(html`
+  const component = await fixture(html`
     <div style="width:25rem">
       <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -33,7 +33,7 @@ it('renders an end overflow button on end overflow', async () => {
     </div>
   `);
 
-  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+  const tabGroup = component.querySelector<GlideCoreTabGroup>(
     'glide-core-tab-group',
   );
 
@@ -45,7 +45,7 @@ it('renders an end overflow button on end overflow', async () => {
 });
 
 it('does not render an end overflow button when there is no end overflow', async () => {
-  const element = await fixture(html`
+  const component = await fixture(html`
     <div style="width:25rem">
       <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -65,7 +65,7 @@ it('does not render an end overflow button when there is no end overflow', async
     </div>
   `);
 
-  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+  const tabGroup = component.querySelector<GlideCoreTabGroup>(
     'glide-core-tab-group',
   );
 
@@ -87,7 +87,7 @@ it('does not render an end overflow button when there is no end overflow', async
 });
 
 it('renders a start overflow button on start overflow', async () => {
-  const element = await fixture(html`
+  const component = await fixture(html`
     <div style="width:25rem">
       <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -107,7 +107,7 @@ it('renders a start overflow button on start overflow', async () => {
     </div>
   `);
 
-  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+  const tabGroup = component.querySelector<GlideCoreTabGroup>(
     'glide-core-tab-group',
   );
 
@@ -132,7 +132,7 @@ it('renders a start overflow button on start overflow', async () => {
 });
 
 it('does not render a start overflow button when there is no start overflow', async () => {
-  const element = await fixture(html`
+  const component = await fixture(html`
     <div style="width:25rem">
       <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -152,7 +152,7 @@ it('does not render a start overflow button when there is no start overflow', as
     </div>
   `);
 
-  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+  const tabGroup = component.querySelector<GlideCoreTabGroup>(
     'glide-core-tab-group',
   );
 
@@ -195,7 +195,7 @@ it('does not render a start overflow button when there is no start overflow', as
 it('scrolls tabs when overflow buttons are clicked', async () => {
   const spy = sinon.spy();
 
-  const element = await fixture(html`
+  const component = await fixture(html`
     <div style="width:25rem">
       <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -215,7 +215,7 @@ it('scrolls tabs when overflow buttons are clicked', async () => {
     </div>
   `);
 
-  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+  const tabGroup = component.querySelector<GlideCoreTabGroup>(
     'glide-core-tab-group',
   );
 
@@ -263,7 +263,7 @@ it('scrolls tabs when overflow buttons are clicked', async () => {
 });
 
 it('removes overflow buttons when the component is resized and there is no overflow', async () => {
-  const element = await fixture(html`
+  const component = await fixture(html`
     <div style="width:25rem" data-test="test-parent">
       <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -283,7 +283,7 @@ it('removes overflow buttons when the component is resized and there is no overf
     </div>
   `);
 
-  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+  const tabGroup = component.querySelector<GlideCoreTabGroup>(
     'glide-core-tab-group',
   );
 
@@ -314,7 +314,7 @@ it('removes overflow buttons when the component is resized and there is no overf
 });
 
 it('renders overflow buttons when the component is resized and there is overflow', async () => {
-  const element = await fixture(html`
+  const component = await fixture(html`
     <div data-test="test-parent">
       <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -334,7 +334,7 @@ it('renders overflow buttons when the component is resized and there is overflow
     </div>
   `);
 
-  const tabGroup = element.querySelector<GlideCoreTabGroup>(
+  const tabGroup = component.querySelector<GlideCoreTabGroup>(
     'glide-core-tab-group',
   );
 
@@ -567,7 +567,7 @@ it('sets the last keyboard focused tab as tabbable ', async () => {
 
 it('sets the active tab as tabbable on tab blur', async () => {
   // This behavior is to ensure that the last active tab is the first tabbable
-  // element in the component.
+  // component in the component.
 
   const tabGroup = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>

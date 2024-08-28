@@ -199,7 +199,7 @@ it('is visible on "mouseover"', async () => {
   tooltip.dataset.openDelay = '0';
 
   component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('[data-test="component"')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
   // Wait for Floating UI and the open delay.
@@ -225,7 +225,7 @@ it('is hidden on "mouseover" when disabled', async () => {
   tooltip.dataset.openDelay = '0';
 
   component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('[data-test="component"')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
   // Wait for Floating UI.
@@ -251,7 +251,7 @@ it('is hidden on "mouseout"', async () => {
   tooltip.dataset.openDelay = '0';
 
   component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('[data-test="component"')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
   // Wait for Floating UI and the open delay.
@@ -260,7 +260,7 @@ it('is hidden on "mouseout"', async () => {
   tooltip.dataset.closeDelay = '0';
 
   component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('[data-test="component"')
     ?.dispatchEvent(new MouseEvent('mouseout'));
 
   // Wait for the close delay.
@@ -287,13 +287,13 @@ it('remains hidden if "mouseout" fires before the "mouseover" delay', async () =
   tooltip.dataset.closeDelay = '0';
 
   component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('[data-test="component"')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
   expect(tooltip?.checkVisibility()).to.be.false;
 
   component.shadowRoot
-    ?.querySelector('.component')
+    ?.querySelector('[data-test="component"')
     ?.dispatchEvent(new MouseEvent('mouseout'));
 
   await aTimeout(1);

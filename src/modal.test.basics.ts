@@ -17,98 +17,99 @@ it('registers', async () => {
   );
 });
 
-it('is closed by default', async () => {
-  const element = await fixture(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
-    </glide-core-modal>`,
+it('has defaults', async () => {
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
-  const dialog = element.shadowRoot?.querySelector<HTMLDialogElement>('dialog');
+  const dialog =
+    component.shadowRoot?.querySelector<HTMLDialogElement>('dialog');
 
   expect(dialog).to.be.ok;
   expect(dialog?.hasAttribute('open')).to.be.false;
+
+  expect(component.size).to.equal('medium');
+  expect(component.getAttribute('size')).to.equal('medium');
+
+  expect(component.showBackButton).to.be.false;
+  expect(component.hasAttribute('show-back-button')).to.be.false;
 });
 
 it('renders the provided "label"', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
-    </glide-core-modal>`,
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
-  const label = element.shadowRoot?.querySelector<HTMLHeadingElement>(
+  const label = component.shadowRoot?.querySelector<HTMLHeadingElement>(
     '[data-test="heading"]',
   );
 
   expect(label).to.be.ok;
-  expect(label?.textContent?.trim()).to.equal('Modal title');
+  expect(label?.textContent?.trim()).to.equal('Label');
 });
 
 it('does not render the show back button in the label by default', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
-    </glide-core-modal>`,
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
   expect(
-    element.shadowRoot?.querySelector<HTMLButtonElement>(
+    component.shadowRoot?.querySelector<HTMLButtonElement>(
       '[data-test="back-button"]',
     ),
   ).to.be.null;
 });
 
 it('renders the show back button in the label when provided with "show-back-button"', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title" show-back-button>
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" show-back-button>
+      Content
     </glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
   expect(
-    element.shadowRoot?.querySelector<HTMLButtonElement>(
+    component.shadowRoot?.querySelector<HTMLButtonElement>(
       '[data-test="back-button"]',
     ),
   ).to.be.ok;
 });
 
 it('renders the provided default slotted content', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">
       <p data-body>Inner content</p>
     </glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
-  const body = element.querySelector<HTMLParagraphElement>('[data-body]');
+  const body = component.querySelector<HTMLParagraphElement>('[data-body]');
 
   expect(body).to.be.ok;
 });
 
 it('renders the provided primary slot content', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">
+      Content
       <glide-core-button slot="primary" data-primary>Primary</glide-core-button>
     </glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
   const slotContent =
-    element.querySelector<HTMLButtonElement>('[data-primary]');
+    component.querySelector<HTMLButtonElement>('[data-primary]');
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element.shadowRoot
+  const slotNodes = component.shadowRoot
     ?.querySelector<HTMLSlotElement>('slot[name="primary"]')
     ?.assignedNodes();
 
@@ -116,23 +117,23 @@ it('renders the provided primary slot content', async () => {
 });
 
 it('renders the provided secondary slot content', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">
+      Content
       <glide-core-button slot="secondary" data-secondary
         >Secondary</glide-core-button
       >
     </glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
   const slotContent =
-    element.querySelector<HTMLButtonElement>('[data-secondary]');
+    component.querySelector<HTMLButtonElement>('[data-secondary]');
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element.shadowRoot
+  const slotNodes = component.shadowRoot
     ?.querySelector<HTMLSlotElement>('slot[name="secondary"]')
     ?.assignedNodes();
 
@@ -140,23 +141,23 @@ it('renders the provided secondary slot content', async () => {
 });
 
 it('renders the provided tertiary slot content', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">
+      Content
       <glide-core-button slot="tertiary" data-tertiary
         >Tertiary</glide-core-button
       >
     </glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
   const slotContent =
-    element.querySelector<HTMLButtonElement>('[data-tertiary]');
+    component.querySelector<HTMLButtonElement>('[data-tertiary]');
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element.shadowRoot
+  const slotNodes = component.shadowRoot
     ?.querySelector<HTMLSlotElement>('slot[name="tertiary"]')
     ?.assignedNodes();
 
@@ -164,9 +165,9 @@ it('renders the provided tertiary slot content', async () => {
 });
 
 it('renders the provided header-actions slot content', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">
+      Content
 
       <glide-core-modal-icon-button slot="header-actions" data-actions="1"
         >action1</glide-core-modal-icon-button
@@ -178,14 +179,14 @@ it('renders the provided header-actions slot content', async () => {
     </glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
   const slotContent =
-    element.querySelector<HTMLButtonElement>('[data-actions]');
+    component.querySelector<HTMLButtonElement>('[data-actions]');
 
   expect(slotContent).to.be.ok;
 
-  const slotNodes = element.shadowRoot
+  const slotNodes = component.shadowRoot
     ?.querySelector<HTMLSlotElement>('slot[name="header-actions"]')
     ?.assignedNodes();
 
@@ -193,66 +194,64 @@ it('renders the provided header-actions slot content', async () => {
 });
 
 it('defaults the size to "medium"', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
-    </glide-core-modal>`,
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
   expect([
-    ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
+    ...component.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
   ]).to.deep.equal(['component', 'medium']);
 });
 
 it('sets the size to "small"', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title" size="small">
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" size="small">
+      Content
     </glide-core-modal>`,
   );
 
   expect([
-    ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
+    ...component.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
   ]).to.deep.equal(['component', 'small']);
 });
 
 it('sets the size to "medium"', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title" size="medium">
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" size="medium">
+      Content
     </glide-core-modal>`,
   );
 
   expect([
-    ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
+    ...component.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
   ]).to.deep.equal(['component', 'medium']);
 });
 
 it('sets the size to "large"', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title" size="large">
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" size="large">
+      Content
     </glide-core-modal>`,
   );
 
   expect([
-    ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
+    ...component.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
   ]).to.deep.equal(['component', 'large']);
 });
 
 it('sets the size to "xlarge"', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title" size="xlarge">
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" size="xlarge">
+      Content
     </glide-core-modal>`,
   );
 
   expect([
-    ...element.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
+    ...component.shadowRoot!.querySelector<HTMLDialogElement>('dialog')!
       .classList,
   ]).to.deep.equal(['component', 'xlarge']);
 });
@@ -261,9 +260,7 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture(
-      html`<glide-core-modal label="Modal title"></glide-core-modal>`,
-    );
+    await fixture(html`<glide-core-modal label="Label"></glide-core-modal>`);
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();
@@ -276,8 +273,8 @@ it('throws if it does not have a default slot', async () => {
 it('throws an error when the "primary" footer slot has the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture(
-      html`<glide-core-modal label="Modal title">
-        Modal Content
+      html`<glide-core-modal label="Label">
+        Content
         <span slot="primary">Primary</span>
       </glide-core-modal>`,
     );
@@ -287,8 +284,8 @@ it('throws an error when the "primary" footer slot has the incorrect type', asyn
 it('throws an error when the "secondary" footer slot has the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture(
-      html`<glide-core-modal label="Modal title">
-        Modal Content
+      html`<glide-core-modal label="Label">
+        Content
         <span slot="secondary">Secondary</span>
       </glide-core-modal>`,
     );
@@ -298,8 +295,8 @@ it('throws an error when the "secondary" footer slot has the incorrect type', as
 it('throws an error when the "header actions" slot has the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture(
-      html`<glide-core-modal label="Modal title">
-        Modal Content
+      html`<glide-core-modal label="Label">
+        Content
         <span slot="header-actions">Header Action</span>
       </glide-core-modal>`,
     );
@@ -309,8 +306,8 @@ it('throws an error when the "header actions" slot has the incorrect type', asyn
 it('throws an error when the "tertiary" footer slot has the incorrect type', async () => {
   await expectArgumentError(() => {
     return fixture(
-      html`<glide-core-modal label="Modal title">
-        Modal Content
+      html`<glide-core-modal label="Label">
+        Content
         <span slot="tertiary">Tertiary</span>
       </glide-core-modal>`,
     );

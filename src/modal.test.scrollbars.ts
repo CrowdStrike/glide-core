@@ -16,13 +16,11 @@ afterEach(() => {
 });
 
 it('sets the "--glide-scroll-size" variable when the browser does not support scrollbar-gutter', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
-    </glide-core-modal>`,
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
   expect(cssSupportsStub.calledWith('scrollbar-gutter')).to.be.ok;
   expect(setPropertySpy.callCount).to.equal(1);

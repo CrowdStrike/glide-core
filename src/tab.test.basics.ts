@@ -9,58 +9,58 @@ it('registers', async () => {
 });
 
 it('renders correct markup and sets correct attributes for the default case', async () => {
-  const element = await fixture<GlideCoreTab>(html`
+  const component = await fixture<GlideCoreTab>(html`
     <glide-core-tab>Tab</glide-core-tab>
   `);
 
-  await expect(element).to.not.be.accessible();
-  expect(element.active).to.equal(false, 'active defaults to false');
-  expect(element.disabled).to.equal(false, 'disabled defaults to false');
+  await expect(component).to.not.be.accessible();
+  expect(component.active).to.equal(false, 'active defaults to false');
+  expect(component.disabled).to.equal(false, 'disabled defaults to false');
 
-  expect(element.getAttribute('aria-disabled')).to.equal(
+  expect(component.getAttribute('aria-disabled')).to.equal(
     null,
     'does not set aria-disabled',
   );
 
-  expect([...element.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
-    'component',
-  ]);
+  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
+    ['component'],
+  );
 });
 
 it('sets the panel attribute', async () => {
-  const element = await fixture<GlideCoreTab>(html`
+  const component = await fixture<GlideCoreTab>(html`
     <glide-core-tab panel="details">Tab</glide-core-tab>
   `);
 
-  expect(element.panel).to.equal('details');
+  expect(component.panel).to.equal('details');
 });
 
 it('sets the active attribute', async () => {
-  const element = await fixture<GlideCoreTab>(html`
+  const component = await fixture<GlideCoreTab>(html`
     <glide-core-tab active>Tab</glide-core-tab>
   `);
 
-  expect(element.active).to.equal(true);
+  expect(component.active).to.equal(true);
 });
 
 it('sets the disabled attribute', async () => {
-  const element = await fixture<GlideCoreTab>(html`
+  const component = await fixture<GlideCoreTab>(html`
     <glide-core-tab disabled>Tab</glide-core-tab>
   `);
 
-  expect(element.disabled).to.equal(true);
-  expect(element).to.have.attribute('aria-disabled', 'true');
+  expect(component.disabled).to.equal(true);
+  expect(component).to.have.attribute('aria-disabled', 'true');
 });
 
 it('renders the icon slot', async () => {
-  const element = await fixture<GlideCoreTab>(html`
+  const component = await fixture<GlideCoreTab>(html`
     <glide-core-tab>
       <span slot="icon">Icon</span>
       <span>Tab</span>
     </glide-core-tab>
   `);
 
-  const slotNodes = element
+  const slotNodes = component
     .shadowRoot!.querySelector<HTMLSlotElement>('slot[name="icon"]')
     ?.assignedNodes();
 

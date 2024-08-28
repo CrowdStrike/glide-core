@@ -4,15 +4,15 @@ import GlideCoreTag from './tag.js';
 GlideCoreTag.shadowRootOptions.mode = 'open';
 
 it('calling `focus()` focuses the button', async () => {
-  const element = await fixture<GlideCoreTag>(
+  const component = await fixture<GlideCoreTag>(
     html`<glide-core-tag removable-label="Removable Label"
       >Tag</glide-core-tag
     >`,
   );
 
-  element.focus();
+  component.focus();
 
-  const button = element.shadowRoot?.querySelector('[data-test="button"]');
+  const button = component.shadowRoot?.querySelector('[data-test="button"]');
 
-  expect(element.shadowRoot?.activeElement).to.equal(button);
+  expect(component.shadowRoot?.activeElement).to.equal(button);
 });

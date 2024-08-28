@@ -7,15 +7,13 @@ import GlideCoreModal from './modal.js';
 GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('closes the modal when the close button is clicked', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
-    </glide-core-modal>`,
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
-  const button = element.shadowRoot!.querySelector<HTMLButtonElement>(
+  const button = component.shadowRoot!.querySelector<HTMLButtonElement>(
     '[data-test="close-button"]',
   );
 
@@ -24,23 +22,21 @@ it('closes the modal when the close button is clicked', async () => {
   button?.click();
 
   expect(
-    element
+    component
       .shadowRoot!.querySelector<HTMLDialogElement>('dialog')
       ?.hasAttribute('open'),
   ).to.be.false;
 });
 
 it('closes the modal when the escape key is pressed', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title">
-      Modal Content
-    </glide-core-modal>`,
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
   const dialogElement =
-    element.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
+    component.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
 
   expect(dialogElement?.hasAttribute('open')).to.be.true;
 
@@ -50,20 +46,20 @@ it('closes the modal when the escape key is pressed', async () => {
 });
 
 it('closes the modal via "show-back-button"', async () => {
-  const element = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Modal title" show-back-button>
-      Modal Content
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" show-back-button>
+      Content
     </glide-core-modal>`,
   );
 
-  element.showModal();
+  component.showModal();
 
   const dialogElement =
-    element.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
+    component.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
 
   expect(dialogElement?.hasAttribute('open')).to.be.true;
 
-  const button = element.shadowRoot!.querySelector<HTMLButtonElement>(
+  const button = component.shadowRoot!.querySelector<HTMLButtonElement>(
     '[data-test="back-button"]',
   );
 

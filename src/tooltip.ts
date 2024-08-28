@@ -124,6 +124,7 @@ export default class GlideCoreTooltip extends LitElement {
     return html`
       <div
         class="component"
+        data-test="component"
         @mouseover=${this.#onMouseover}
         @mouseout=${this.#onMouseout}
       >

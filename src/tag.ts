@@ -51,6 +51,7 @@ export default class GlideCoreTag extends LitElement {
           activate: true,
           [this.size]: true,
         })}
+        data-test="component"
         ${ref(this.#containerElementRef)}
       >
         <slot name="prefix" ${ref(this.#prefixSlotElementRef)}></slot>
