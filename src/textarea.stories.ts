@@ -44,7 +44,14 @@ const meta: Meta = {
     'reportValidity()': '',
     required: false,
     rows: 2,
-    'slot="description"': 'Description',
+    'slot="description"': html`
+      <span>Description with</span>
+      <a
+        href="#"
+        style="text-decoration:none;color:var(--glide-core-text-link);"
+        >link</a
+      >
+    `,
     'slot="tooltip"': '',
     spellcheck: 'false',
     value: '',
@@ -232,43 +239,6 @@ export const WithError: StoryObj = {
   args: {
     required: true,
     value: '',
-  },
-};
-
-export const Description: StoryObj = {
-  render: (arguments_) => {
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/textarea.js';
-      </script>
-
-      <form>
-        <glide-core-textarea
-          value=${arguments_.value}
-          name=${arguments_.name}
-          orientation=${arguments_.orientation}
-          placeholder=${arguments_.placeholder}
-          rows=${arguments_.rows || nothing}
-          ?hide-label=${arguments_['hide-label']}
-          ?required=${arguments_.required}
-          label=${arguments_.label}
-          ?readonly=${arguments_.readonly}
-          ?disabled=${arguments_.disabled}
-          maxlength=${arguments_.maxlength || nothing}
-        >
-          ${arguments_['slot="tooltip"']
-            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-            : ''}
-
-          <div slot="description">
-            Description with
-            <a
-              href="#"
-              style="text-decoration:none;color:var(--glide-core-text-link);"
-              >link</a
-            >
-          </div>
-        </glide-core-textarea>
-      </form>`;
   },
 };
 

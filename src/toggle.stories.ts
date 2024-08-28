@@ -25,7 +25,14 @@ const meta: Meta = {
     disabled: false,
     'hide-label': false,
     orientation: 'horizontal',
-    'slot="description"': 'Description',
+    'slot="description"': html`
+      <span>Description with</span>
+      <a
+        href="#"
+        style="text-decoration:none;color:var(--glide-core-text-link);"
+        >link</a
+      >
+    `,
     'slot="tooltip"': '',
     summary: 'Summary',
   },
