@@ -2,10 +2,23 @@ import { css } from 'lit';
 
 export default [
   css`
-    .component {
-      align-items: center;
+    :host([popover]:popover-open) {
+      border: none;
       border-radius: var(--glide-core-spacing-sm);
       box-shadow: var(--glide-core-shadow-lg);
+      inset: unset;
+      inset-block-start: 1rem;
+      inset-inline-end: 1rem;
+      margin: 0;
+      outline: none;
+      padding: 0;
+      position: absolute;
+      transform: translateX(110%);
+    }
+
+    .component {
+      align-items: center;
+      box-sizing: border-box;
       color: var(--glide-core-text-body-2);
       column-gap: var(--glide-core-spacing-xs);
       display: grid;
@@ -13,9 +26,11 @@ export default [
       font-size: var(--glide-core-body-sm-font-size);
       font-weight: var(--glide-core-body-xs-font-weight);
       grid-template-columns: auto minmax(0, 1fr);
+      inline-size: 24.25rem;
       line-height: var(--glide-core-body-xs-line-height);
       padding: var(--glide-core-spacing-sm);
-      transform: translateX(110%);
+
+      /* transform: translateX(110%); */
       transition:
         transform 0.2s ease-out,
         opacity 0.3s ease-out;
@@ -26,17 +41,6 @@ export default [
 
       &.success {
         background-color: var(--glide-core-surface-success);
-      }
-
-      &.open {
-        opacity: 1;
-        transform: none;
-        visibility: visible;
-      }
-
-      &.closing {
-        opacity: 0;
-        transform: none;
       }
 
       &.closed {

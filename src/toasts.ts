@@ -39,8 +39,8 @@ export default class GlideCoreToasts extends LitElement {
    *  */
   add(toast: Toast) {
     ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
-    this.#componentElementRef.value.popover = 'manual';
-    this.#componentElementRef.value.showPopover();
+    // this.#componentElementRef.value.popover = 'manual';
+    // this.#componentElementRef.value.showPopover();
     const { variant, label, description, duration } = toast;
 
     const toastElement = Object.assign(
@@ -53,7 +53,41 @@ export default class GlideCoreToasts extends LitElement {
       },
     );
 
-    this.#componentElementRef.value.append(toastElement);
+    toastElement.popover = 'manual';
+    this.append(toastElement);
+
+    toastElement.showPopover();
+
+    requestAnimationFrame(() => {
+      const { height: toastHeight } = toastElement.getBoundingClientRect();
+
+      const toasts = this.querySelectorAll('glide-core-toast');
+
+      if (toasts && toasts.length > 1) {
+        for (const toast of toasts) {
+          if (toast === toastElement) continue;
+
+          const { top: toastTop } = toast.getBoundingClientRect();
+
+          toast.animate(
+            [
+              {
+                transform: `translateY(${toastTop + toastHeight}px)`,
+              },
+            ],
+            {
+              duration: 200,
+              fill: 'forwards',
+            },
+          );
+        }
+      }
+
+      toastElement.animate([{ transform: 'none' }], {
+        duration: 200,
+        fill: 'forwards',
+      });
+    });
 
     toastElement.addEventListener(
       'close',
@@ -81,11 +115,15 @@ export default class GlideCoreToasts extends LitElement {
         tabindex="-1"
         aria-label=${this.#localize.term('notifications')}
         ${ref(this.#componentElementRef)}
-      ></div>
+      >
+        <slot ${ref(this.#defaultSlotElementRef)}></slot>
+      </div>
     `;
   }
 
   #componentElementRef = createRef<HTMLDivElement>();
+
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #localize = new LocalizeController(this);
 }
