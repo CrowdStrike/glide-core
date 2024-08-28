@@ -103,7 +103,7 @@ when browsers support them.
         border-color: transparent;
       }
 
-      &:is(:checked) ~ .checkbox > .checked-icon {
+      &:checked ~ .checkbox > .checked-icon {
         visibility: visible;
 
         .check {
