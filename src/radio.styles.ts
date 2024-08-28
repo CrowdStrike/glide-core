@@ -3,7 +3,6 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    /* Using nesting creates an issue on Safari with :host */
     ${focusOutline(':host(:focus-visible) .component .radio-circle')}
   `,
   css`
