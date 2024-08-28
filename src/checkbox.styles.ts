@@ -107,8 +107,8 @@ when browsers support them.
         visibility: visible;
 
         .check {
-          stroke-dasharray: calc(var(--size) * 2);
-          stroke-dashoffset: calc(var(--size) * 4);
+          stroke-dasharray: 24;
+          stroke-dashoffset: 48;
           transition:
             stroke-dasharray 500ms ease,
             stroke-dashoffset 500ms ease;
@@ -132,7 +132,8 @@ when browsers support them.
       visibility: hidden;
 
       .check {
-        stroke-dashoffset: calc(var(--size) * 2);
+        stroke-dasharray: 24;
+        stroke-dashoffset: 24;
       }
     }
 
