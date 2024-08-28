@@ -49,15 +49,51 @@ export default class GlideCoreButton extends LitElement {
   @property({ attribute: 'aria-controls', reflect: true })
   ariaControls: string | null = null;
 
+  @property({ type: Boolean, reflect: true }) override autofocus = false;
+
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  @property() type: 'button' | 'submit' | 'reset' = 'button';
+  @property({ attribute: 'formaction', reflect: true }) formAction = '';
 
-  @property({ reflect: true })
-  variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
+  @property({ attribute: 'formenctype', reflect: true }) formEncType:
+    | ''
+    | 'application/x-www-form-urlencoded'
+    | 'multipart/form-data'
+    | 'text/plain' = '';
+
+  @property({ attribute: 'formmethod', reflect: true }) formMethod:
+    | ''
+    | 'dialog'
+    | 'get'
+    | 'post' = '';
+
+  @property({ attribute: 'formnovalidate', type: Boolean, reflect: true })
+  formNoValidate = false;
+
+  @property({ attribute: 'formtarget', reflect: true }) formTarget:
+    | ''
+    | '_blank'
+    | '_parent'
+    | '_self'
+    | '_top' = '';
+
+  @property({ reflect: true }) name = '';
+
+  @property({ attribute: 'popovertarget', reflect: true })
+  popoverTarget?: string;
+
+  @property({ attribute: 'popovertargetaction', reflect: true })
+  popoverTargetAction: '' | 'hide' | 'show' | 'toggle' = '';
 
   @property({ reflect: true })
   size: 'large' | 'small' = 'large';
+
+  @property({ reflect: true }) type: 'button' | 'submit' | 'reset' = 'button';
+
+  @property({ reflect: true }) value = '';
+
+  @property({ reflect: true })
+  variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   get form() {
     return this.#internals.form;
@@ -76,6 +112,7 @@ export default class GlideCoreButton extends LitElement {
       aria-controls=${ifDefined(this.ariaControls ?? undefined)}
       aria-expanded=${ifDefined(this.ariaExpanded ?? undefined)}
       aria-haspopup=${ifDefined(this.ariaHasPopup ?? undefined)}
+      ?autofocus=${this.autofocus}
       class=${classMap({
         component: true,
         primary: this.variant === 'primary',
@@ -86,7 +123,6 @@ export default class GlideCoreButton extends LitElement {
         'has-prefix': this.hasPrefixSlot,
         'has-suffix': this.hasSuffixSlot,
       })}
-      type=${this.type}
       ?disabled=${this.disabled}
       @click=${this.#onClick}
       ${ref(this.#buttonElementRef)}
@@ -149,15 +185,11 @@ export default class GlideCoreButton extends LitElement {
 
   #onPrefixSlotChange() {
     const assignedNodes = this.#prefixSlotElementRef.value?.assignedNodes();
-
-    this.hasPrefixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
+    this.hasPrefixSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
   #onSuffixSlotChange() {
     const assignedNodes = this.#suffixSlotElementRef.value?.assignedNodes();
-
-    this.hasSuffixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
+    this.hasSuffixSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }
