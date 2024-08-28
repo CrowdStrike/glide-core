@@ -243,7 +243,7 @@ export default class GlideCoreDropdownOption extends LitElement {
                 ${checkedIcon}
               </div>
 
-              <slot name="icon"></slot>
+              <slot data-test="icon-slot" name="icon"></slot>
 
               <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${!this
                 .isLabelOverflow} ?open=${this.privateActive}>
