@@ -1,5 +1,6 @@
 import './dropdown.option.js';
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import { sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
@@ -209,4 +210,35 @@ it('does not focus the input when `checkValidity` is called', async () => {
 
   component.checkValidity();
   expect(component.shadowRoot?.activeElement).to.equal(null);
+});
+
+it('sets the `value` of the `<input>` to the selected option when focus is lost', async () => {
+  document.body.tabIndex = -1;
+
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.selected = true;
+
+  // Now type something other than "One" so we can check that it's reverted
+  // back to "One" when focus is lost.
+  component.focus();
+  await sendKeys({ type: 'o' });
+
+  document.body.focus();
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('One');
 });

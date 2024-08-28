@@ -7,6 +7,7 @@ import {
   expect,
   fixture,
   html,
+  oneEvent,
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
@@ -126,21 +127,14 @@ it('unfilters when an option is selected via click', async () => {
   component.focus();
   await sendKeys({ type: ' one ' });
 
-  const option = [
-    ...component.querySelectorAll('glide-core-dropdown-option'),
-  ].find(({ hidden }) => !hidden);
-
-  option?.click();
-
-  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="input"]',
-  );
+  [...component.querySelectorAll('glide-core-dropdown-option')]
+    .find(({ hidden }) => !hidden)
+    ?.click();
 
   const options = [
     ...component.querySelectorAll('glide-core-dropdown-option'),
   ].filter(({ hidden }) => !hidden);
 
-  expect(input?.value).to.equal('');
   expect(options.length).to.equal(11);
 });
 
@@ -155,15 +149,10 @@ it('unfilters when an option is selected via Enter', async () => {
   await sendKeys({ type: ' one ' });
   await sendKeys({ press: 'Enter' });
 
-  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="input"]',
-  );
-
   const options = [
     ...component.querySelectorAll('glide-core-dropdown-option'),
   ].filter(({ hidden }) => !hidden);
 
-  expect(input?.value).to.equal('');
   expect(options.length).to.equal(11);
 });
 
@@ -222,6 +211,33 @@ it('hides the magnifying glass icon when an option is selected', async () => {
   );
 
   await elementUpdated(component);
+  expect(icon?.checkVisibility()).to.be.not.ok;
+});
+
+it('hides the magnifying glass icon when closed programmatically and an option is selected', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.selected = true;
+  component.focus();
+  await sendKeys({ type: 'two' });
+
+  const icon = component?.shadowRoot?.querySelector(
+    '[data-test="magnifying-glass-icon"]',
+  );
+
+  component.open = false;
+  await elementUpdated(component);
+
   expect(icon?.checkVisibility()).to.be.not.ok;
 });
 
@@ -349,7 +365,7 @@ it('does not select options on Space', async () => {
   expect(options[0]?.selected).to.be.false;
 });
 
-it('deselects options on Backspace', async () => {
+it('deselects the last selected option on Backspace', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       ${defaultSlot}
@@ -361,8 +377,15 @@ it('deselects options on Backspace', async () => {
   options[0].selected = true;
   options[1].selected = true;
 
+  await elementUpdated(component);
+
   component.focus();
 
+  component.shadowRoot
+    ?.querySelector<HTMLInputElement>('[data-test="input"]')
+    ?.setSelectionRange(0, 0);
+
+  await aTimeout(0);
   await sendKeys({ press: 'Backspace' });
 
   expect(options[1].selected).to.be.false;
@@ -373,7 +396,35 @@ it('deselects options on Backspace', async () => {
   expect(options[0].selected).to.be.false;
 });
 
-it('uses the label of the selected option as a placeholder when not `multiple`', async () => {
+it('deselects all options on Meta + Backspace', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  options[0].selected = true;
+  options[1].selected = true;
+
+  await elementUpdated(component);
+
+  component.focus();
+
+  component.shadowRoot
+    ?.querySelector<HTMLInputElement>('[data-test="input"]')
+    ?.setSelectionRange(0, 0);
+
+  await sendKeys({ down: 'Meta' });
+  await sendKeys({ press: 'Backspace' });
+  await sendKeys({ up: 'Meta' });
+
+  expect(options[1].selected).to.be.false;
+  expect(options[0].selected).to.be.false;
+});
+
+it('set the `value` of the `<input>` to the label of the selected option when not `multiple`', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       ${defaultSlot}
@@ -381,19 +432,16 @@ it('uses the label of the selected option as a placeholder when not `multiple`',
   );
 
   const option = component?.querySelector('glide-core-dropdown-option');
-
   option?.click();
-
-  await elementUpdated(component);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
   );
 
-  expect(input?.placeholder).to.equal(option?.label);
+  expect(input?.value).to.equal(option?.label);
 });
 
-it('uses `placeholder` as a placeholder when `multiple` and an option is selected', async () => {
+it('uses `placeholder` as a placeholder when `multiple` and no option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       ${defaultSlot}
@@ -443,14 +491,14 @@ it('sets `aria-activedescendant` on ArrowDown', async () => {
   // Wait for it to open.
   await aTimeout(0);
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
-
-  options[0]?.focus();
+  component.focus();
   await sendKeys({ press: 'ArrowDown' });
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
   );
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
 
   expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1].id);
 });
@@ -805,4 +853,112 @@ it('cannot be tabbed to when `disabled`', async () => {
 
   await sendKeys({ down: 'Tab' });
   expect(document.activeElement).to.equal(document.body);
+});
+
+it('sets the `value` of the `<input>` back to the label of selected option when something else is clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.selected = true;
+
+  // Now type something other than "One" so we can check that it's reverted
+  // back to "One" when something else is clicked.
+  component.focus();
+  await sendKeys({ type: 'o' });
+
+  document.body.click();
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('One');
+});
+
+it('selects the filter text when `click()` is called', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+  component.click();
+
+  expect(window.getSelection()?.toString()).to.equal('one');
+});
+
+it('selects the filter text when the `<input>` is clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+
+  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
+  // which puts us in a guard in the event handler. `Event` has no `detail` property
+  // and would work. `CustomEvent` is used for completeness and to get us as close as
+  // possible to a real click. See the comment in the handler for more information.
+  component.shadowRoot
+    ?.querySelector('[data-test="input"]')
+    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+
+  expect(window.getSelection()?.toString()).to.equal('one');
+});
+
+it('selects the filter text when closed and the button is clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+
+  component.open = false;
+  await elementUpdated(component);
+
+  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
+  // which puts us in a guard in the event handler. `Event` has no `detail` property
+  // and would work. `CustomEvent` is used for completeness and to get us as close as
+  // possible to a real click. See the comment in the handler for more information.
+  component.shadowRoot
+    ?.querySelector('[data-test="button"]')
+    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+
+  await elementUpdated(component);
+
+  expect(window.getSelection()?.toString()).to.equal('one');
+});
+
+it('clicks the `<input>` when `click()` is called', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  const button = component.shadowRoot?.querySelector('[data-test="input"]');
+  assert(button);
+
+  setTimeout(() => {
+    component.click();
+  });
+
+  const event = await oneEvent(button, 'click');
+  expect(event instanceof PointerEvent).to.be.true;
 });

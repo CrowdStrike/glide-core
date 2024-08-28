@@ -79,6 +79,14 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (isOpen && !this.disabled) {
       this.#show();
+    } else if (
+      !this.multiple &&
+      this.#inputElementRef.value &&
+      this.selectedOptions.length > 0
+    ) {
+      this.#inputElementRef.value.value = this.selectedOptions[0].label;
+      this.isFiltering = false;
+      this.#hide();
     } else {
       this.#hide();
     }
@@ -174,6 +182,29 @@ export default class GlideCoreDropdown extends LitElement {
   @property({ reflect: true })
   variant?: 'quiet';
 
+  private get activeOption() {
+    return this.#optionElementsIncludingSelectAll?.find(
+      ({ privateActive }) => privateActive,
+    );
+  }
+
+  checkValidity() {
+    this.isCheckingValidity = true;
+    const validity = this.#internals.checkValidity();
+    this.isCheckingValidity = false;
+
+    return validity;
+  }
+
+  override click() {
+    if (this.#inputElementRef.value) {
+      this.#inputElementRef.value.click();
+      this.#inputElementRef.value.select();
+    } else {
+      this.#buttonElementRef.value?.click();
+    }
+  }
+
   private get selectedOptions() {
     return this.#optionElements.filter(
       (option): option is GlideCoreDropdownOption => {
@@ -197,12 +228,6 @@ export default class GlideCoreDropdown extends LitElement {
     return this.#optionElements.some(({ selected }) => selected);
   }
 
-  private get activeOption() {
-    return this.#optionElementsIncludingSelectAll?.find(
-      ({ privateActive }) => privateActive,
-    );
-  }
-
   private get internalLabel() {
     return !this.isFilterable && this.selectedOptions.length === 0
       ? html`<span class="placeholder">${this.placeholder}</span>`
@@ -211,14 +236,6 @@ export default class GlideCoreDropdown extends LitElement {
           this.selectedOptions.at(-1)?.label
         ? this.selectedOptions.at(-1)?.label
         : '';
-  }
-
-  checkValidity() {
-    this.isCheckingValidity = true;
-    const validity = this.#internals.checkValidity();
-    this.isCheckingValidity = false;
-
-    return validity;
   }
 
   override connectedCallback() {
@@ -462,17 +479,13 @@ export default class GlideCoreDropdown extends LitElement {
                 aria-labelledby="selected-option-labels label"
                 autocapitalize="off"
                 autocomplete="off"
-                class=${classMap({
-                  input: true,
-                  selection: Boolean(this.selectedOptions.at(0)),
-                  single: !this.multiple,
-                })}
+                class="input"
                 data-test="input"
                 id="input"
                 placeholder=${this.multiple ||
                 !this.selectedOptions.at(-1)?.label
                   ? this.placeholder ?? ''
-                  : this.selectedOptions.at(-1)?.label ?? ''}
+                  : ''}
                 role="combobox"
                 spellcheck="false"
                 tabindex=${this.disabled ? '-1' : '0'}
@@ -558,7 +571,10 @@ export default class GlideCoreDropdown extends LitElement {
 
           <div
             aria-labelledby=${this.isFilterable ? 'input' : 'button'}
-            class="options"
+            class=${classMap({
+              options: true,
+              hidden: this.isOptionsHidden,
+            })}
             data-test="options"
             id="options"
             role="listbox"
@@ -651,6 +667,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   @state()
   private isFiltering = false;
+
+  @state()
+  private isOptionsHidden = false;
 
   @state()
   private isReportValidityOrSubmit = false;
@@ -1087,8 +1106,9 @@ export default class GlideCoreDropdown extends LitElement {
       // the event most likely originated from an Enter press. And, if Dropdown is part
       // of a form, Enter should result in a submit and the dropdown shouldn't be opened.
       // Thus we return, with or without a form for consistency.
-    } else if (!this.open && event.detail !== 0 && this.activeOption) {
+    } else if (event.detail !== 0) {
       this.open = true;
+      this.#inputElementRef.value?.select();
     }
   }
 
@@ -1135,11 +1155,13 @@ export default class GlideCoreDropdown extends LitElement {
         firstVisibleOption.privateActive = true;
       }
 
-      this.open =
+      this.open = true;
+
+      this.isOptionsHidden =
         !this.#optionElementsNotHidden ||
         this.#optionElementsNotHidden.length === 0
-          ? false
-          : true;
+          ? true
+          : false;
     }
   }
 
@@ -1154,11 +1176,32 @@ export default class GlideCoreDropdown extends LitElement {
     if (
       lastSelectedAndNotOverflowingOption &&
       event.key === 'Backspace' &&
+      !event.metaKey &&
       this.multiple &&
       this.#inputElementRef.value &&
       this.#inputElementRef.value.selectionStart === 0
     ) {
       lastSelectedAndNotOverflowingOption.selected = false;
+      return;
+    }
+
+    const selectedAndNotOverflowingOptions = this.selectedOptions.filter(
+      (_, index) => index <= this.#tagOverflowLimit - 1,
+    );
+
+    if (
+      lastSelectedAndNotOverflowingOption &&
+      event.key === 'Backspace' &&
+      event.metaKey &&
+      this.multiple &&
+      this.#inputElementRef.value &&
+      this.#inputElementRef.value.selectionStart === 0
+    ) {
+      for (const option of selectedAndNotOverflowingOptions) {
+        option.selected = false;
+      }
+
+      return;
     }
   }
 
@@ -1261,6 +1304,10 @@ export default class GlideCoreDropdown extends LitElement {
         // also don't want any changes to focus or the state of `this.open` as a result.
       } else if (!this.multiple && event.target.selected) {
         this.#value = event.target.value ? [event.target.value] : [];
+
+        if (this.#inputElementRef.value) {
+          this.#inputElementRef.value.value = event.target.label;
+        }
       }
     }
 
@@ -1427,7 +1474,6 @@ export default class GlideCoreDropdown extends LitElement {
 
   #unfilter() {
     if (this.isFilterable && this.#inputElementRef.value) {
-      this.#inputElementRef.value.value = '';
       this.isFiltering = false;
 
       for (const option of this.#optionElements) {

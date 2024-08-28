@@ -195,3 +195,16 @@ it('has no tooltip when minimal and with a short label', async () => {
   const tooltip = component.shadowRoot?.querySelector('[data-test="tooltip"]');
   expect(tooltip?.checkVisibility()).to.be.false;
 });
+
+it('remains unchecked when its "click" event is canceled', async () => {
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+  );
+
+  component.addEventListener('click', (event) => {
+    event.preventDefault();
+  });
+
+  component.click();
+  expect(component.checked).to.be.false;
+});

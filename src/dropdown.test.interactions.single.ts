@@ -8,6 +8,7 @@ import {
   expect,
   fixture,
   html,
+  oneEvent,
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
@@ -762,4 +763,25 @@ it('cannot be tabbed to when `disabled`', async () => {
 
   await sendKeys({ down: 'Tab' });
   expect(document.activeElement).to.equal(document.body);
+});
+
+it('clicks the button when `click()` is called', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  assert(button);
+
+  setTimeout(() => {
+    component.click();
+  });
+
+  const event = await oneEvent(button, 'click');
+  expect(event instanceof PointerEvent).to.be.true;
 });
