@@ -1,6 +1,10 @@
 import { css } from 'lit';
+import menuOpeningAnimation from './styles/menu-opening-animation.js';
 
 export default [
+  css`
+    ${menuOpeningAnimation('.default-slot:popover-open')}
+  `,
   css`
     :host {
       /* Contains elements with "padding", "margin", and "width". Inline by default. */

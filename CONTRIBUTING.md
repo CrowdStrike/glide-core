@@ -13,6 +13,7 @@
     - [Prefer JavaScript's `#` over TypeScript's `private`](#prefer-javascripts--over-typescripts-private)
     - [Prefer a closed shadow root](#prefer-a-closed-shadow-root)
     - [Prefer using a `ref` for querying a single element/node](#prefer-using-a-ref-for-querying-a-single-elementnode)
+    - [Prefer turning animations off with `prefers-reduced-motion`](#prefer-turning-animations-off-with-prefers-reduced-motion)
   - [Prefer `rem`s](#prefer-rems)
   - [Prefer throwing to letting invalid state propagate](#prefer-throwing-to-letting-invalid-state-propagate)
   - [Prefer conventions set by built-in elements](#prefer-conventions-set-by-built-in-elements)
@@ -329,6 +330,34 @@ export default class GlideCoreExample extends LitElement {
       </button>
     `;
   }
+}
+```
+
+#### Prefer turning animations off with `prefers-reduced-motion`
+
+The [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) media query is used to detect if a user has enabled a setting on their device to minimize the amount of non-essential motion.
+Checking in with our accessibility team, fully disabling animations is the preferred approach for Glide Core.
+
+```css
+/* ✅ -- GOOD */
+.animation {
+  animation: pulse 1s linear infinite both;
+  background-color: purple;
+}
+
+/* Use the media query to turn off animations based on preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animation {
+    animation: none;
+  }
+}
+```
+
+```css
+/* ❌ -- BAD */
+.animation {
+  animation: pulse 1s linear infinite both;
+  background-color: purple;
 }
 ```
 

@@ -4,22 +4,17 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
+    ${focusOutline(':host(:focus-visible) .component')}
+    ${visuallyHidden('.hidden')}
+  `,
+  css`
     :host(:focus-visible) {
       outline: none;
-    }
-
-    /* stylelint-disable-next-line csstools/use-nesting */
-    :host(:focus-visible) .component {
-      ${focusOutline};
     }
 
     .component {
       font-family: var(--glide-core-font-sans);
       outline: none;
-    }
-
-    .hidden {
-      ${visuallyHidden};
     }
   `,
 ];

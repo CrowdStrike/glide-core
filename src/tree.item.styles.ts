@@ -3,6 +3,9 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline('.label-container:focus-visible')}
+  `,
+  css`
     :host {
       cursor: pointer;
       display: flex;
@@ -68,13 +71,18 @@ export default [
       }
 
       &:focus-visible {
-        ${focusOutline};
-
         /* The outline is inside the component since children have overflow hidden */
         outline-offset: -2px;
 
         .component.selected & {
-          outline: 1px solid var(--glide-core-icon-selected);
+          /*
+            We need !important here as we must override the focusVisible mixin
+            that also includes !important.
+            This component is a bit of a unique case as we want to override the
+            default outline styles when a tree item is also focus-visible, but
+            also selected.
+          */
+          outline: 1px solid var(--glide-core-icon-selected) !important;
           outline-offset: -3px;
         }
       }

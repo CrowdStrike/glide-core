@@ -1,17 +1,21 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
+import menuOpeningAnimation from './styles/menu-opening-animation.js';
 import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
+  css`
+    ${focusOutline(
+      '.dropdown:has(.button:focus-visible, .input:focus-visible)',
+    )}
+    ${menuOpeningAnimation('.options:popover-open')}
+    ${visuallyHidden('.selected-option-labels')}
+  `,
   css`
     .component {
       --min-inline-size: 9.375rem;
 
       font-family: var(--glide-core-font-sans);
-    }
-
-    .selected-option-labels {
-      ${visuallyHidden};
     }
 
     .dropdown-and-options {
@@ -67,10 +71,6 @@ export default [
       &.readonly {
         border-color: transparent;
         padding-inline-start: 0;
-      }
-
-      &:has(.button:focus-visible, .input:focus-visible) {
-        ${focusOutline};
       }
 
       &:hover:not(&.error, &.disabled, &.readonly) {

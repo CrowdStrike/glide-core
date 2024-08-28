@@ -3,6 +3,9 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
+    ${visuallyHidden('.label')}
+  `,
+  css`
     .component {
       border: 1px solid var(--glide-core-border-base);
       border-radius: 0.75rem;
@@ -17,8 +20,6 @@ export default [
         checking for the entire component.
       */
       color: var(--glide-core-color-white);
-
-      ${visuallyHidden};
     }
 
     .container {

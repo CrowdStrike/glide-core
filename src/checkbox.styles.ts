@@ -3,6 +3,11 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline(
+      'input:focus-visible ~ .checkbox, input:focus ~ .checkbox.error',
+    )}
+  `,
+  css`
     /*
 Most states are handled on the host. But ":checked" and ":indeterminate" are
 handled on the input because browsers don't support those classes on the host.
@@ -85,11 +90,6 @@ when browsers support them.
 
       &:disabled:not(:is(:checked, :indeterminate)) ~ .checkbox {
         border-color: var(--glide-core-surface-primary-disabled);
-      }
-
-      &:focus-visible ~ .checkbox,
-      &:focus ~ .checkbox.error {
-        ${focusOutline};
       }
 
       &:is(:checked, :indeterminate):not(:disabled) ~ .checkbox {

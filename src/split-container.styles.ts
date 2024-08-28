@@ -3,6 +3,9 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline('.menu-button:focus-visible')}
+  `,
+  css`
     .component {
       display: inline-flex;
       position: relative;
@@ -57,10 +60,6 @@ export default [
 
         &:focus {
           outline: none;
-        }
-
-        &:focus-visible {
-          ${focusOutline};
         }
 
         &:disabled {

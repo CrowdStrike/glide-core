@@ -3,6 +3,9 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline('button:focus-visible')}
+  `,
+  css`
     .component {
       align-items: center;
       background: var(--glide-core-surface-base);
@@ -129,10 +132,6 @@ export default [
 
       &:focus {
         outline: none;
-      }
-
-      &:focus-visible {
-        ${focusOutline};
       }
     }
   `,

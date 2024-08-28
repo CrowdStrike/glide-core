@@ -3,6 +3,9 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline('.body:focus-visible')}
+  `,
+  css`
     /* When browser support improves, we can have nicer animations with https://caniuse.com/mdn-css_at-rules_starting-style */
     @keyframes backdrop-fade-in {
       from {
@@ -133,10 +136,6 @@ export default [
 
       &:focus {
         outline: none;
-      }
-
-      &:focus-visible {
-        ${focusOutline};
       }
     }
 

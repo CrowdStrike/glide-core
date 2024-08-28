@@ -3,6 +3,9 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline('.summary:focus-visible')}
+  `,
+  css`
     .component {
       border-radius: 0.625rem;
       box-shadow: var(--glide-core-shadow-sm);
@@ -26,10 +29,6 @@ export default [
 
       &:focus {
         outline: none;
-      }
-
-      &:focus-visible {
-        ${focusOutline};
       }
 
       &::marker,

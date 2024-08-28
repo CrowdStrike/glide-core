@@ -3,6 +3,9 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
+    ${focusOutline('.toggle-and-input:has(input:focus-visible)')}
+  `,
+  css`
     /*
 Most states are handled on the host. But ":checked" is handled on the input
 because browsers don't support that class on the host. And using attribute
@@ -34,7 +37,6 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
       position: relative;
 
       &:has(input:focus-visible) {
-        ${focusOutline};
         outline-offset: 4px;
       }
 
