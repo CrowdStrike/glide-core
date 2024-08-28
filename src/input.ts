@@ -234,6 +234,7 @@ export default class GlideCoreInput extends LitElement {
             @blur=${this.#onBlur}
             @change=${this.#onChange}
             @input=${this.#onInput}
+            @keydown=${this.#onKeydown}
             ${ref(this.#inputElementRef)}
           />
 
@@ -506,6 +507,12 @@ export default class GlideCoreInput extends LitElement {
   #onInput() {
     ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
     this.value = this.#inputElementRef.value.value;
+  }
+
+  #onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.form?.requestSubmit();
+    }
   }
 
   #onPasswordToggle() {

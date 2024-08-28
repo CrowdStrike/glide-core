@@ -374,6 +374,10 @@ export default class GlideCoreRadioGroup extends LitElement {
       const radioTarget = event.target;
 
       switch (event.key) {
+        case 'Enter': {
+          this.form?.requestSubmit();
+          break;
+        }
         case 'ArrowUp':
         case 'ArrowLeft': {
           event.preventDefault();

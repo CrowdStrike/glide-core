@@ -264,7 +264,10 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/dropdown.option.js';
       </script>
 
-      <form style="display: block; height: 8rem; width: max-content;">
+      <form
+        action="/"
+        style="display: block; height: 8rem; width: max-content;"
+      >
         <glide-core-dropdown
           label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}
@@ -324,7 +327,10 @@ export const SingleSelectionHorizontalWithIcon: StoryObj = {
         import '@crowdstrike/glide-core/dropdown.option.js';
       </script>
 
-      <form style="display: block; height: 8rem; width: max-content;">
+      <form
+        action="/"
+        style="display: block; height: 8rem; width: max-content;"
+      >
         <glide-core-dropdown
           label=${arguments_.label}
           name=${arguments_.name}
@@ -402,7 +408,10 @@ export const SingleSelectionVerticalWithIcon: StoryObj = {
         import '@crowdstrike/glide-core/dropdown.option.js';
       </script>
 
-      <form style="display: block; height: 8rem; width: max-content;">
+      <form
+        action="/"
+        style="display: block; height: 8rem; width: max-content;"
+      >
         <glide-core-dropdown
           label=${arguments_.label}
           name=${arguments_.name}
@@ -477,7 +486,10 @@ export const SingleSelectionHorizontalWithFiltering: StoryObj = {
         import '@crowdstrike/glide-core/dropdown.option.js';
       </script>
 
-      <form style="display: block; height: 8rem; width: max-content;">
+      <form
+        action="/"
+        style="display: block; height: 8rem; width: max-content;"
+      >
         <glide-core-dropdown
           label=${arguments_.label}
           name=${arguments_.name}
@@ -579,7 +591,10 @@ export const MultipleSelectionHorizontalWithFiltering: StoryObj = {
         import '@crowdstrike/glide-core/dropdown.option.js';
       </script>
 
-      <form style="display: block; height: 8rem; width: max-content;">
+      <form
+        action="/"
+        style="display: block; height: 8rem; width: max-content;"
+      >
         <glide-core-dropdown
           label=${arguments_.label}
           name=${arguments_.name}
