@@ -37,7 +37,7 @@ export default [
     textarea {
       appearance: none;
       background-color: var(--glide-core-surface-base-lighter);
-      border: 1px solid var(--glide-core-border-base-light);
+      border: 1px solid var(--glide-core-border-base);
       border-radius: 0.5rem;
       color: var(--glide-core-text-body-1);
       cursor: inherit;
@@ -54,16 +54,13 @@ export default [
 
       ${fieldSizingContent};
 
-      &:hover {
-        border-color: var(--glide-core-border-base);
-      }
-
       &:focus {
         outline: none;
       }
 
       &:focus-visible,
-      &:focus-visible[readonly] {
+      &:focus-visible[readonly],
+      &:hover {
         border-color: var(--glide-core-border-focus);
       }
 

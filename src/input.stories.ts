@@ -33,7 +33,14 @@ const meta: Meta = {
     readonly: false,
     'reportValidity()': '',
     required: false,
-    'slot="description"': 'Description',
+    'slot="description"': html`
+      <span>Description with</span>
+      <a
+        href="#"
+        style="text-decoration:none;color:var(--glide-core-text-link);"
+        >link</a
+      >
+    `,
     'slot="tooltip"': '',
     spellcheck: 'false',
     type: 'text',
@@ -255,37 +262,6 @@ export const WithError: StoryObj = {
     value: '',
   },
   name: 'With Error',
-};
-
-export const Description: StoryObj = {
-  render: (arguments_) => {
-    return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/input.js';
-      </script>
-
-      <div style="height: 5rem;">
-        <glide-core-input
-          type=${arguments_.type}
-          value=${arguments_.value}
-          label=${arguments_.label}
-          placeholder=${arguments_.placeholder || nothing}
-          ?hide-label=${arguments_['hide-label']}
-          ?clearable=${arguments_.clearable}
-          ?password-toggle=${arguments_.passwordToggle || nothing}
-          orientation=${arguments_.orientation}
-          ?required=${arguments_.required}
-          ?readonly=${arguments_.readonly}
-          ?disabled=${arguments_.disabled}
-          maxlength=${arguments_.maxlength || nothing}
-        >
-          <div slot="description">
-            Test description ... <a href="#">With link!</a>
-          </div>
-        </glide-core-input>
-      </div>
-    `;
-  },
 };
 
 export const Clearable: StoryObj = {

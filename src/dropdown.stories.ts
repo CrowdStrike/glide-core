@@ -39,7 +39,14 @@ const meta: Meta = {
     'select-all': false,
     size: 'large',
     'slot="tooltip"': '',
-    'slot="description"': 'Description',
+    'slot="description"': html`
+      <span>Description with</span>
+      <a
+        href="#"
+        style="text-decoration:none;color:var(--glide-core-text-link);"
+        >link</a
+      >
+    `,
     value: '',
     variant: '',
     '<glide-core-dropdown-option>.value': 'one',

@@ -27,7 +27,14 @@ const meta: Meta = {
     name: '',
     'reportValidity()': '',
     required: false,
-    'slot="description"': 'Description',
+    'slot="description"': html`
+      <span>Description with</span>
+      <a
+        href="#"
+        style="text-decoration:none;color:var(--glide-core-text-link);"
+        >link</a
+      >
+    `,
     'slot="tooltip"': '',
     value: '',
   },
