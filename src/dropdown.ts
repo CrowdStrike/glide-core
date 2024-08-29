@@ -902,6 +902,11 @@ export default class GlideCoreDropdown extends LitElement {
       return;
     }
 
+    if (!this.open && event.key === 'Enter') {
+      this.form?.requestSubmit();
+      return;
+    }
+
     if (event.key === 'Escape') {
       this.open = false;
       this.focus();

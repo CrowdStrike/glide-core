@@ -7,8 +7,10 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadio from './radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
+import sinon from 'sinon';
 
 GlideCoreRadio.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
@@ -166,4 +168,30 @@ it('has no `formData` value when a radio is checked but without a "value"', asyn
 
   const formData = new FormData(form);
   expect(formData.get('name')).to.be.null;
+});
+
+it('submits its form on Enter', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="label">
+      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+    </glide-core-radio-group>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const spy = sinon.spy();
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    spy();
+  });
+
+  component.focus();
+  await sendKeys({ press: 'Enter' });
+
+  expect(spy.callCount).to.equal(1);
 });

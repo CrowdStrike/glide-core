@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { expect, fixture, html } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreCheckbox from './checkbox.js';
+import sinon from 'sinon';
 
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
@@ -171,4 +173,27 @@ it('has no `formData` value when checked but without a `value`', async () => {
 
   const formData = new FormData(form);
   expect(formData.get('name')).to.be.null;
+});
+
+it('submits its form on Enter', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const spy = sinon.spy();
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    spy();
+  });
+
+  component.focus();
+  await sendKeys({ press: 'Enter' });
+
+  expect(spy.callCount).to.equal(1);
 });

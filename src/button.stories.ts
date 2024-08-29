@@ -20,6 +20,7 @@ const meta: Meta = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled || nothing}
       >${arguments_['slot="default"']}</glide-core-button
@@ -29,6 +30,7 @@ const meta: Meta = {
     'slot="default"': 'Button',
     disabled: false,
     size: 'large',
+    type: 'button',
     variant: 'primary',
   },
   argTypes: {
@@ -62,6 +64,16 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
+    type: {
+      control: { type: 'select' },
+      options: ['button', 'reset', 'submit'],
+      table: {
+        defaultValue: {
+          summary: '"button"',
+        },
+        type: { summary: '"button" | "reset" | "submit"' },
+      },
+    },
   },
 };
 
@@ -86,6 +98,7 @@ export const PrimaryWithPrefixIcon: StoryObj = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
@@ -108,6 +121,7 @@ export const PrimaryWithSuffixIcon: StoryObj = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
@@ -130,6 +144,7 @@ export const PrimaryWithPrefixAndSuffixIcons: StoryObj = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
@@ -165,6 +180,7 @@ export const SecondaryWithPrefixIcon: StoryObj = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
@@ -190,6 +206,7 @@ export const SecondaryWithSuffixIcon: StoryObj = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
@@ -215,6 +232,7 @@ export const SecondaryWithPrefixAndSuffixIcons: StoryObj = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
@@ -250,6 +268,7 @@ export const TertiaryWithPrefixIcon: StoryObj = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
@@ -275,6 +294,7 @@ export const TertiaryWithSuffixIcon: StoryObj = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >
@@ -300,6 +320,7 @@ export const TertiaryWithPrefixAndSuffixIcons: StoryObj = {
 
     <glide-core-button
       size=${arguments_.size}
+      type=${arguments_.type}
       variant=${arguments_.variant}
       ?disabled=${arguments_.disabled}
     >

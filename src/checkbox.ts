@@ -222,6 +222,7 @@ export default class GlideCoreCheckbox extends LitElement {
                 ?required=${this.required}
                 @change=${this.#onChangeOrInput}
                 @input=${this.#onChangeOrInput}
+                @keydown=${this.#onKeydown}
                 ${ref(this.#inputElementRef)}
               />
 
@@ -297,9 +298,10 @@ export default class GlideCoreCheckbox extends LitElement {
                 .checked=${this.checked}
                 ?disabled=${this.disabled}
                 ?required=${this.required}
+                @blur=${this.#onBlur}
                 @change=${this.#onChangeOrInput}
                 @input=${this.#onChangeOrInput}
-                @blur=${this.#onBlur}
+                @keydown=${this.#onKeydown}
                 ${ref(this.#inputElementRef)}
               />
 
@@ -477,6 +479,12 @@ export default class GlideCoreCheckbox extends LitElement {
       // Unlike "input" events, "change" events aren't composed. So we have to
       // manually dispatch them.
       this.dispatchEvent(new Event(event.type, event));
+    }
+  }
+
+  #onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.form?.requestSubmit();
     }
   }
 
