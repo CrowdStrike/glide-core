@@ -5,5 +5,11 @@
   "selectAll": "Tout sélectionner",
   "moreInformation": "Plus d’informations",
   "notifications": "Notifications",
-  "removeTag": "Supprimer la balise : {label}"
+  "nextTab": "Onglet suivant",
+  "previousTab": "Onglet précédent",
+  "announcedCharacterCount": "Nombre de caractères {current} de {maximum}",
+  "displayedCharacterCount": "{current}/{maximum}",
+  "clearEntry": "Effacer l'entrée {label}",
+  "removeTag": "Supprimer la balise : {label}",
+  "actionsFor": "Actions pour {label}"
 }

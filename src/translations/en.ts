@@ -12,8 +12,8 @@ const translation: Translation = {
   open: 'Open',
   selectAll: 'Select all',
   moreInformation: 'More information',
-  nextTab: 'Next tab',
   notifications: 'Notifications',
+  nextTab: 'Next tab',
   previousTab: 'Previous tab',
 
   announcedCharacterCount: (current: number, maximum: number) =>
