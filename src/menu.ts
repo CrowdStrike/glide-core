@@ -261,8 +261,12 @@ export default class GlideCoreMenu extends LitElement {
       event.target instanceof GlideCoreMenuLink;
 
     if (isButtonOrLink && this.#activeOption && this.#optionsElement) {
-      event.target.privateActive = true;
+      // The order in which these are set matters when `this.#activeOption` and
+      // `event.target` are the same element. Setting `this.#activeOption.privateActive`
+      // second will result in no active option.
       this.#activeOption.privateActive = false;
+      event.target.privateActive = true;
+
       this.#optionsElement.ariaActivedescendant = event.target.id;
     }
   }
@@ -308,7 +312,8 @@ export default class GlideCoreMenu extends LitElement {
       this.open = false;
 
       // For VoiceOver. Options normally don't receive focus. But VoiceOver
-      // can focus them programmatically.
+      // can focus them programmatically. So we move focus back to the target
+      // now that Menu is closed.
       this.focus();
 
       this.#activeOption?.dispatchEvent(
@@ -318,7 +323,7 @@ export default class GlideCoreMenu extends LitElement {
       // `#onTargetSlotClick` is called on click, and it opens or closes Menu.
       // Space and Enter produce "click" events. This property gives `#onTargetSlotClick`
       // the information it needs to guard against immediately reopening Menu
-      // after it's closed here.
+      // after it's closed above.
       this.#isClosingAfterSelection = true;
 
       return;
@@ -328,14 +333,15 @@ export default class GlideCoreMenu extends LitElement {
       this.open = false;
 
       // For VoiceOver. Options normally don't receive focus. But VoiceOver
-      // can focus them programmatically.
+      // can focus them programmatically. So we move focus back to the target
+      // now that Menu is closed.
       this.focus();
 
       return;
     }
 
     if (
-      [' ', 'ArrowUp', 'ArrowDown'].includes(event.key) &&
+      ['ArrowUp', 'ArrowDown'].includes(event.key) &&
       !this.open &&
       this.#activeOption
     ) {
