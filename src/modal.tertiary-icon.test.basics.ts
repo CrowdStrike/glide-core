@@ -15,67 +15,67 @@ it('registers', async () => {
 });
 
 it('is accessible', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-modal-tertiary-icon>Test</glide-core-modal-tertiary-icon>`,
   );
 
-  await expect(element).to.be.accessible();
+  await expect(component).to.be.accessible();
 });
 
 it('renders and sets default attributes', async () => {
-  const element = await fixture(html`
+  const component = await fixture(html`
     <glide-core-modal-tertiary-icon>Test</glide-core-modal-tertiary-icon>
   `);
 
-  expect(element).to.be.ok;
+  expect(component).to.be.ok;
 
-  const spanTag = element.shadowRoot?.querySelector('span');
+  const spanTag = component.shadowRoot?.querySelector('span');
   expect(spanTag?.getAttribute('tabindex')).to.equal('0');
 
-  const tooltip = element.shadowRoot?.querySelector('glide-core-tooltip');
+  const tooltip = component.shadowRoot?.querySelector('glide-core-tooltip');
   expect(tooltip).to.not.be.null;
 });
 
 it('adds an accessible label when given', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-modal-tertiary-icon label="test-label"
       >Test</glide-core-modal-tertiary-icon
     >`,
   );
 
-  const spanElement = element.shadowRoot?.querySelector('span');
+  const spanElement = component.shadowRoot?.querySelector('span');
 
   expect(spanElement).to.have.attribute('aria-label', 'test-label');
 });
 
 it('does not add an acceessible label when not given', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-modal-tertiary-icon>Test</glide-core-modal-tertiary-icon>`,
   );
 
-  const spanElement = element.shadowRoot?.querySelector('span');
+  const spanElement = component.shadowRoot?.querySelector('span');
 
   expect(spanElement).to.not.have.attribute('aria-label');
 });
 
 it('sets the tooltip placement when attribute "tooltip-placement" is given', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-modal-tertiary-icon tooltip-placement="right"
       >Test</glide-core-modal-tertiary-icon
     >`,
   );
 
-  const toolTip = element.shadowRoot?.querySelector('glide-core-tooltip');
+  const toolTip = component.shadowRoot?.querySelector('glide-core-tooltip');
 
   expect(toolTip).to.have.attribute('placement', 'right');
 });
 
 it('sets the tooltip placement to "bottom" when attribute "tooltip-placement" is not given', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-modal-tertiary-icon>Test</glide-core-modal-tertiary-icon>`,
   );
 
-  const toolTip = element.shadowRoot?.querySelector('glide-core-tooltip');
+  const toolTip = component.shadowRoot?.querySelector('glide-core-tooltip');
 
   expect(toolTip).to.have.attribute('placement', 'bottom');
 });

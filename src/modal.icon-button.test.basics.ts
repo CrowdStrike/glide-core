@@ -14,21 +14,21 @@ it('registers', async () => {
 });
 
 it('is accessible', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-modal-icon-button>Test</glide-core-modal-icon-button>`,
   );
 
-  await expect(element).to.be.accessible();
+  await expect(component).to.be.accessible();
 });
 
 it('renders and sets default attributes', async () => {
-  const element = await fixture(html`
+  const component = await fixture(html`
     <glide-core-modal-icon-button>Test</glide-core-modal-icon-button>
   `);
 
-  expect(element).to.be.ok;
+  expect(component).to.be.ok;
 
-  const buttonElement = element.shadowRoot?.querySelector(
+  const buttonElement = component.shadowRoot?.querySelector(
     'glide-core-icon-button',
   );
 
@@ -37,13 +37,13 @@ it('renders and sets default attributes', async () => {
 });
 
 it('adds an accessible label when given', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-modal-icon-button label="test-label"
       >Test</glide-core-modal-icon-button
     >`,
   );
 
-  const buttonElement = element.shadowRoot?.querySelector(
+  const buttonElement = component.shadowRoot?.querySelector(
     'glide-core-icon-button',
   );
 
@@ -51,11 +51,11 @@ it('adds an accessible label when given', async () => {
 });
 
 it('does not add an acceessible label when not given', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-modal-icon-button>Test</glide-core-modal-icon-button>`,
   );
 
-  const buttonElement = element.shadowRoot?.querySelector(
+  const buttonElement = component.shadowRoot?.querySelector(
     'glide-core-icon-button',
   );
 

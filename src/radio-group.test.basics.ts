@@ -21,7 +21,7 @@ it('registers', async () => {
 });
 
 it('is accessible', async () => {
-  const element = await fixture(html`
+  const component = await fixture(html`
     <glide-core-radio-group label="label" name="name" value="value-1">
       <glide-core-radio value="value-1" label="One"></glide-core-radio>
       <glide-core-radio value="value-2" label="Two"></glide-core-radio>
@@ -31,7 +31,7 @@ it('is accessible', async () => {
     </glide-core-radio-group>
   `);
 
-  await expect(element).to.be.accessible();
+  await expect(component).to.be.accessible();
 });
 
 it('renders appropriate attributes on glide-core-radio', async () => {
@@ -221,7 +221,7 @@ it('sets the group "value" when a radio is set as "checked"', async () => {
   expect(group).to.have.attribute('value', 'value-2');
 });
 
-it('throws an error when an element other than `glide-core-radio` is a child of the default slot', async () => {
+it('throws an error when an component other than `glide-core-radio` is a child of the default slot', async () => {
   await expectArgumentError(() => {
     return fixture(html`
       <glide-core-radio-group label="label" name="name">

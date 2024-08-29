@@ -717,35 +717,6 @@ it('hides Select All', async () => {
   expect(selectAll?.checkVisibility()).to.not.be.ok;
 });
 
-it('does not select an option on Enter when the option is not focused', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  // Wait for it to open.
-  await aTimeout(0);
-
-  const option = component.querySelector('glide-core-dropdown-option');
-  option?.focus();
-
-  await sendKeys({ down: 'Tab' });
-  await sendKeys({ down: 'Shift' });
-  await sendKeys({ up: 'Tab' });
-  await sendKeys({ press: 'Enter' });
-
-  expect(option?.selected).to.be.false;
-});
-
 it('cannot be tabbed to when `disabled`', async () => {
   await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>

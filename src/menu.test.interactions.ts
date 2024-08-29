@@ -990,6 +990,7 @@ it('activates the first option on Meta + ArrowUp', async () => {
 
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowUp' });
+  await sendKeys({ up: 'Meta' });
 
   expect(links[0].privateActive).to.be.true;
   expect(links[1].privateActive).to.be.false;
@@ -1202,6 +1203,7 @@ it('does not wrap on Meta + ArrowUp', async () => {
 
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowUp' });
+  await sendKeys({ up: 'Meta' });
 
   const link = component.querySelector('glide-core-menu-link');
   expect(link?.privateActive).to.be.true;
@@ -1250,6 +1252,7 @@ it('does not wrap on ArrowDown', async () => {
 
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowDown' });
+  await sendKeys({ up: 'Meta' });
 
   expect(options[1].privateActive).to.be.true;
 });

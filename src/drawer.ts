@@ -52,7 +52,7 @@ export default class GlideCoreDrawer extends LitElement {
 
         this.currentState = 'closed';
 
-        this.dispatchEvent(new Event('close'));
+        this.dispatchEvent(new Event('close', { bubbles: true }));
       },
       { once: true },
     );
@@ -81,7 +81,7 @@ export default class GlideCoreDrawer extends LitElement {
         // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
         this.#asideElementRef?.value?.focus();
 
-        this.dispatchEvent(new Event('open'));
+        this.dispatchEvent(new Event('open', { bubbles: true }));
       },
       { once: true },
     );

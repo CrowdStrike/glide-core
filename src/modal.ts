@@ -63,10 +63,6 @@ globalStylesheet.insertRule(`
  *
  * @event close - Emitted when the Modal closes.
  *
- * @function showModal - A method on the `glide-core-modal` component to open the Modal programmatically.
- *
- * @function close - A method on the `glide-core-modal` component to close the Modal programmatically.
- *
  * @slot - The content of the modal.
  *
  * @slot header-actions - A slot for placing additional header actions. These are co-located with the close button.
@@ -100,9 +96,6 @@ export default class GlideCoreModal extends LitElement {
   @property({ reflect: true })
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
 
-  /**
-   * Event called by consumers to programmatically close the Modal.
-   */
   close() {
     if (!this.#componentElementRef.value?.open) {
       return;

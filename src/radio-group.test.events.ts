@@ -259,7 +259,7 @@ it('does not move focus if there is only one button when pressing arrow keys', a
 });
 
 it('changes the "checked" attribute when clicking', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-radio-group name="name">
       <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
       <glide-core-radio value="value-2" label="Two"></glide-core-radio>
@@ -271,7 +271,7 @@ it('changes the "checked" attribute when clicking', async () => {
 
   expect(radios.length).to.equal(3);
   radios[2].click();
-  await elementUpdated(element);
+  await elementUpdated(component);
 
   expect(radios[2]).to.have.focus;
   expect(radios[2]).to.have.attribute('checked');
@@ -279,7 +279,7 @@ it('changes the "checked" attribute when clicking', async () => {
 });
 
 it('does not change focus nor the "checked" attribute when clicking a disabled radio', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-radio-group name="name">
       <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
       <glide-core-radio value="value-2" disabled label="Two"></glide-core-radio>
@@ -290,7 +290,7 @@ it('does not change focus nor the "checked" attribute when clicking a disabled r
 
   expect(radios.length).to.equal(2);
   radios[1].click();
-  await elementUpdated(element);
+  await elementUpdated(component);
 
   expect(radios[0]).to.have.focus;
   expect(radios[0]).to.have.attribute('checked');
@@ -298,7 +298,7 @@ it('does not change focus nor the "checked" attribute when clicking a disabled r
 });
 
 it('does not change focus nor the "checked" attribute when clicking a disabled group', async () => {
-  const element = await fixture(
+  const component = await fixture(
     html`<glide-core-radio-group name="name" disabled>
       <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
       <glide-core-radio value="value-2" label="Two"></glide-core-radio>
@@ -309,7 +309,7 @@ it('does not change focus nor the "checked" attribute when clicking a disabled g
 
   expect(radios.length).to.equal(2);
   radios[1].click();
-  await elementUpdated(element);
+  await elementUpdated(component);
 
   expect(radios[0]).to.not.have.focus;
   expect(radios[0]).to.have.attribute('checked');
