@@ -113,7 +113,7 @@ it('remains open when an option is focused', async () => {
   expect(defaultSlot?.checkVisibility()).to.be.true;
 });
 
-it('sets the focused option as active', async () => {
+it('sets an inactive option as active when focused', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
@@ -130,14 +130,45 @@ it('sets the focused option as active', async () => {
 
   component.focus();
 
-  const target = component.querySelector('glide-core-menu-button');
+  const button = component.querySelector('glide-core-menu-button');
   const link = component.querySelector('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
 
   link?.focus();
   await elementUpdated(component);
 
-  expect(target?.privateActive).to.be.false;
   expect(link?.privateActive).to.be.true;
+  expect(button?.privateActive).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
+});
+
+// Kind of an odd test. There's a comment in `#onDefaultSlotFocusin` that
+// explains it.
+it('sets an already active option as active when focused', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-button label="Button"></glide-core-menu-button>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  component.focus();
+
+  const button = component.querySelector('glide-core-menu-button');
+  const link = component.querySelector('glide-core-menu-link');
+  const options = component.querySelector('glide-core-menu-options');
+
+  button?.focus();
+  await elementUpdated(component);
+
+  expect(button?.privateActive).to.be.true;
+  expect(link?.privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(button?.id);
 });

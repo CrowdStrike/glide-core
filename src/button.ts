@@ -63,6 +63,10 @@ export default class GlideCoreButton extends LitElement {
     return this.#internals.form;
   }
 
+  override click() {
+    this.#buttonElementRef.value?.click();
+  }
+
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
   }
@@ -84,8 +88,8 @@ export default class GlideCoreButton extends LitElement {
       })}
       type=${this.type}
       ?disabled=${this.disabled}
-      @click=${this.#handleClick}
-      @keydown=${this.#onKeydown}
+      @click=${this.#onClick}
+      ${ref(this.#buttonElementRef)}
     >
       <slot
         name="prefix"
@@ -117,6 +121,8 @@ export default class GlideCoreButton extends LitElement {
   @state()
   private hasSuffixSlot = false;
 
+  #buttonElementRef = createRef<HTMLButtonElement>();
+
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #internals: ElementInternals;
@@ -125,30 +131,20 @@ export default class GlideCoreButton extends LitElement {
 
   #suffixSlotElementRef = createRef<HTMLSlotElement>();
 
-  #handleClick() {
-    if (this.type === 'button') {
-      return;
-    }
-
+  #onClick() {
     if (this.type === 'submit') {
       this.form?.requestSubmit();
       return;
     }
 
-    this.form?.reset();
-    return;
+    if (this.type === 'reset') {
+      this.form?.reset();
+      return;
+    }
   }
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
-  }
-
-  #onKeydown(event: KeyboardEvent) {
-    if (['Enter'].includes(event.key)) {
-      event.preventDefault();
-
-      this.#handleClick();
-    }
   }
 
   #onPrefixSlotChange() {
