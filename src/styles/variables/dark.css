@@ -49,6 +49,7 @@
   --glide-core-surface-base-gray: #ffffff8c;
   --glide-core-surface-base-gray-dark: #ffffff8c;
   --glide-core-surface-base-gray-light: #00000066;
+  --glide-core-surface-base-gray-lighter: #ffffff1a;
   --glide-core-surface-base-light: #0000008c;
   --glide-core-surface-base-lighter: #000000bf;
   --glide-core-surface-base-lightest: #000000cc;
@@ -71,7 +72,7 @@
   --glide-core-surface-success: #f1fdf4;
   --glide-core-surface-unselected-disabled: #e3e3e3;
   --glide-core-surface-warning: #fff6e9;
-  --glide-core-surface-white-1percent: #ffffff;
+  --glide-core-surface-white-1percent: #000000e5;
   --glide-core-text-body-1: #ffffff;
   --glide-core-text-body-2: #212121;
   --glide-core-text-body-light: #ffffff;
