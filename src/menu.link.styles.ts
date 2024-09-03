@@ -16,6 +16,7 @@ export default [
       padding-block: var(--padding-block);
       padding-inline: var(--padding-inline);
       text-decoration: none;
+      transition: background-color 100ms ease-in-out;
       user-select: none;
 
       &.active {

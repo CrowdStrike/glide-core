@@ -7,6 +7,7 @@ export default [
       block-size: var(--private-option-height);
       border-radius: var(--glide-core-spacing-sm);
       max-inline-size: 21.875rem;
+      transition: background-color 100ms ease-in-out;
       user-select: none;
 
       &.active {

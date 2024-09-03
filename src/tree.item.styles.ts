@@ -57,6 +57,7 @@ export default [
       font-size: var(--glide-core-body-sm-font-size);
       padding-block: var(--glide-core-spacing-xxs);
       padding-inline: var(--glide-core-spacing-xs);
+      transition: background-color 150ms ease-in-out;
 
       &:hover {
         background-color: var(--glide-core-surface-hover);
