@@ -57,6 +57,7 @@ export default [
     .checked-icon {
       display: inline-flex;
       justify-content: center;
+      margin-inline-start: auto;
       opacity: 0;
 
       &.visible {

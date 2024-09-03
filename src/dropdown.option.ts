@@ -234,15 +234,6 @@ export default class GlideCoreDropdownOption extends LitElement {
             [this.privateSize]: true,
           })}
           >
-            <div
-                class=${classMap({
-                  'checked-icon': true,
-                  visible: this.selected,
-                })}
-              >
-                ${checkedIcon}
-              </div>
-
               <slot data-test="icon-slot" name="icon"></slot>
 
               <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${!this
@@ -258,6 +249,15 @@ export default class GlideCoreDropdownOption extends LitElement {
                   ${this.label}
                 </div>
               </glide-core-tooltip>
+
+              <div
+                class=${classMap({
+                  'checked-icon': true,
+                  visible: this.selected,
+                })}
+              >
+                ${checkedIcon}
+              </div>
             </div>
           </div>`;
         },
