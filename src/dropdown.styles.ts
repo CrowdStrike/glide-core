@@ -1,13 +1,9 @@
 import { css } from 'lit';
-import focusOutline from './styles/focus-outline.js';
 import menuOpeningAnimation from './styles/menu-opening-animation.js';
 import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
-    ${focusOutline(
-      '.dropdown:has(.button:focus-visible, .input:focus-visible)',
-    )}
     ${menuOpeningAnimation('.options:popover-open')}
     ${visuallyHidden('.selected-option-labels')}
   `,
@@ -48,7 +44,9 @@ export default [
 
       &.quiet:not(.multiple) {
         background-color: transparent;
-        border: unset;
+        block-size: 1.5rem;
+        border-color: transparent;
+        border-radius: var(--glide-core-border-radius-round);
         font-size: var(--glide-core-heading-xxxs-font-size);
         font-style: var(--glide-core-heading-xxxs-font-style);
         font-weight: var(--glide-core-heading-xxxs-font-weight);
@@ -74,12 +72,31 @@ export default [
         padding-inline-start: 0;
       }
 
-      &:hover:not(&.error, &.disabled, &.readonly) {
+      &.quiet {
+        &:is(:hover, :has(.button:focus-visible, .input:focus-visible)):not(
+            &.error,
+            &.disabled,
+            &.multiple,
+            &.readonly
+          ) {
+          background-color: var(--glide-core-surface-hover);
+          color: var(--glide-core-text-body-1);
+        }
+      }
+
+      &:is(:hover, :has(.button:focus-visible, .input:focus-visible)):not(
+          &.disabled,
+          &.error,
+          &.quiet,
+          &.readonly
+        ) {
         border-color: var(--glide-core-border-focus);
       }
 
-      &.quiet:hover:not(&.error, &.disabled, &.multiple, &.readonly) {
-        background-color: var(--glide-core-surface-hover);
+      &:has(.button:focus-visible, .input:focus-visible) {
+        &.quiet {
+          border-color: var(--glide-core-border-focus);
+        }
       }
     }
 
@@ -121,6 +138,16 @@ export default [
 
     .placeholder {
       color: var(--glide-core-text-placeholder);
+
+      &.quiet {
+        &:not(.disabled) {
+          color: var(--glide-core-text-body-1);
+        }
+      }
+
+      &.disabled {
+        color: var(--glide-core-text-tertiary-disabled);
+      }
     }
 
     .tags {
@@ -179,13 +206,6 @@ export default [
 
       &::placeholder {
         font-family: var(--glide-core-font-sans);
-      }
-    }
-
-    .caret-icon {
-      &.disabled,
-      &.readonly {
-        color: var(--glide-core-surface-selected-disabled);
       }
     }
   `,
