@@ -45,7 +45,7 @@ const meta: Meta = {
       },
     },
     disabled: {
-      control: { type: 'boolean' },
+      control: 'boolean',
     },
     size: {
       control: { type: 'radio' },
@@ -89,7 +89,6 @@ export const PrimaryWithPrefixIcon: StoryObj = {
   args: {
     variant: 'primary',
   },
-
   name: 'Primary (With Prefix Icon)',
   render: (arguments_) => html`
     <script type="ignore">

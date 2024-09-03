@@ -230,7 +230,14 @@ export default class GlideCoreDropdown extends LitElement {
 
   private get internalLabel() {
     return !this.isFilterable && this.selectedOptions.length === 0
-      ? html`<span class="placeholder">${this.placeholder}</span>`
+      ? html`<span
+          class=${classMap({
+            placeholder: true,
+            disabled: this.disabled,
+            quiet: this.variant === 'quiet',
+          })}
+          >${this.placeholder}</span
+        >`
       : !this.multiple &&
           !this.isFilterable &&
           this.selectedOptions.at(-1)?.label
@@ -545,11 +552,6 @@ export default class GlideCoreDropdown extends LitElement {
                   () => {
                     return html`<svg
                       aria-label=${this.#localize.term('open')}
-                      class=${classMap({
-                        'caret-icon': true,
-                        disabled: this.disabled,
-                        readonly: this.readonly,
-                      })}
                       width="16"
                       height="16"
                       viewBox="0 0 24 24"
