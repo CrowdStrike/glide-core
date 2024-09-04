@@ -6,7 +6,7 @@ export default [
       background-color: transparent;
       border: none;
       display: none;
-      flex-direction: column;
+      flex-direction: column-reverse;
       gap: var(--glide-core-spacing-md);
       inline-size: 24.25rem;
       inset-block-start: 0;
