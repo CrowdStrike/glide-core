@@ -11,11 +11,6 @@ export default [
         border-block-end: 1px solid var(--glide-core-border-base-lighter);
         box-sizing: border-box;
         display: flex;
-
-        & .overflow-button-container {
-          flex-shrink: 0;
-          inline-size: 1.875rem;
-        }
       }
 
       & .tab-group {
@@ -56,20 +51,26 @@ export default [
       & .overflow {
         background-color: transparent;
         border: none;
+        color: var(--glide-core-icon-default);
         cursor: pointer;
+        flex-shrink: 0;
         inline-size: 1.875rem;
         margin: 0;
         outline: none;
         padding: 0;
+
+        &.disabled {
+          color: var(--glide-core-icon-tertiary-disabled);
+        }
       }
     }
 
     ::slotted([slot='nav']:first-of-type) {
-      padding-inline-start: var(--glide-core-spacing-md);
+      padding-inline-start: 0.1875rem;
     }
 
     ::slotted([slot='nav']:last-of-type) {
-      padding-inline-end: var(--glide-core-spacing-md);
+      padding-inline-end: 0.1875rem;
     }
 
     @media (prefers-reduced-motion: reduce) {

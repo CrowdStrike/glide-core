@@ -46,10 +46,13 @@ export default class GlideCoreTabGroup extends LitElement {
   isAfterFirstUpdated = false;
 
   @state()
-  isShowOverflowStartButton = false;
+  isDisableOverflowStartButton = false;
 
   @state()
-  isShowOverflowEndButton = false;
+  isDisableOverflowEndButton = false;
+
+  @state()
+  isShowOverflowButtons = false;
 
   @queryAssignedElements()
   panelElements!: GlideCoreTabPanel[];
@@ -79,40 +82,40 @@ export default class GlideCoreTabGroup extends LitElement {
       ${ref(this.#componentElementRef)}
     >
       <div class="tab-container">
-        <div
-          class="overflow-button-container"
-          style="height: ${this.#tabListElementRef.value?.clientHeight}px"
-        >
-          ${when(
-            this.isShowOverflowStartButton,
-            () =>
-              html`<button
-                style="height: ${this.#tabListElementRef.value?.clientHeight}px"
-                class="overflow"
-                @click=${this.#onClickOverflowStartButton}
-                tabindex="-1"
-                aria-label=${this.#localize.term('previousTab')}
-                data-test="overflow-start-button"
-                ${ref(this.#overflowStartButtonElementRef)}
+        ${when(
+          this.isShowOverflowButtons,
+          () => html`
+            <button
+              style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+              class=${classMap({
+                overflow: true,
+                disabled: this.isDisableOverflowStartButton,
+              })}
+              @click=${this.#onClickOverflowStartButton}
+              tabindex="-1"
+              aria-label=${this.#localize.term('previousTab')}
+              data-test="overflow-start-button"
+              ${ref(this.#overflowStartButtonElementRef)}
+              ?disabled=${this.isDisableOverflowStartButton}
+            >
+              <svg
+                aria-hidden="true"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
               >
-                <svg
-                  aria-hidden="true"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M15 6L9 12L15 18"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </button>`,
-          )}
-        </div>
+                <path
+                  d="M15 6L9 12L15 18"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          `,
+        )}
         <div
           role="tablist"
           class=${classMap({
@@ -130,41 +133,40 @@ export default class GlideCoreTabGroup extends LitElement {
             ${ref(this.#navSlotElementRef)}
           ></slot>
         </div>
-        <div
-          class="overflow-button-container"
-          style="height: ${this.#tabListElementRef.value?.clientHeight}px"
-        >
-          ${when(
-            this.isShowOverflowEndButton,
-            () => html`
-              <button
-                style="height: ${this.#tabListElementRef.value?.clientHeight}px"
-                class="overflow"
-                @click=${this.#onClickOverflowEndButton}
-                tabindex="-1"
-                aria-label=${this.#localize.term('nextTab')}
-                data-test="overflow-end-button"
-                ${ref(this.#overflowEndButtonElementRef)}
+        ${when(
+          this.isShowOverflowButtons,
+          () => html`
+            <button
+              style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+              class=${classMap({
+                overflow: true,
+                disabled: this.isDisableOverflowEndButton,
+              })}
+              @click=${this.#onClickOverflowEndButton}
+              tabindex="-1"
+              aria-label=${this.#localize.term('nextTab')}
+              data-test="overflow-end-button"
+              ${ref(this.#overflowEndButtonElementRef)}
+              ?disabled=${this.isDisableOverflowEndButton}
+            >
+              <svg
+                aria-hidden="true"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
               >
-                <svg
-                  aria-hidden="true"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                >
-                  <path
-                    d="M9 18L15 12L9 6"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </button>
-            `,
-          )}
-        </div>
+                <path
+                  d="M9 18L15 12L9 6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          `,
+        )}
       </div>
       <slot
         @slotchange=${this.#onDefaultSlotChange}
@@ -189,6 +191,9 @@ export default class GlideCoreTabGroup extends LitElement {
   #localize = new LocalizeController(this);
 
   #navSlotElementRef = createRef<HTMLSlotElement>();
+
+  // Theshold (in px) used to determine when to display overflow buttons.
+  #overflowButtonsScrollDelta = 1;
 
   #overflowEndButtonElementRef = createRef<HTMLButtonElement>();
 
@@ -312,7 +317,7 @@ export default class GlideCoreTabGroup extends LitElement {
           tabElement.tabIndex = this.tabElements[index] === tabElement ? 0 : -1;
         }
 
-        this.#setOverflowButtonsVisibility();
+        this.#setOverflowButtonsState();
 
         event.preventDefault();
       }
@@ -321,7 +326,7 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #onNavSlotChange() {
     owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
-    this.#setOverflowButtonsVisibility();
+    this.#setOverflowButtonsState();
   }
 
   #onScroll() {
@@ -331,7 +336,7 @@ export default class GlideCoreTabGroup extends LitElement {
     }
 
     this.#scrollTimeout = setTimeout(() => {
-      this.#setOverflowButtonsVisibility();
+      this.#setOverflowButtonsState();
     }, this.#debounceDelay);
   }
 
@@ -415,14 +420,11 @@ export default class GlideCoreTabGroup extends LitElement {
     }
   }
 
-  #setEndOverflowButtonVisibility() {
+  #setEndOverflowButtonState() {
     const tabListElement = this.#tabListElementRef.value;
     const tabListElementRect = tabListElement?.getBoundingClientRect();
 
     ow(tabListElement, ow.object.instanceOf(HTMLElement));
-
-    // Scroll to within 1px (rounding).
-    const roundingDelta = 1;
 
     if (tabListElementRect) {
       const { width: tabListElementWidth } = tabListElementRect;
@@ -434,21 +436,33 @@ export default class GlideCoreTabGroup extends LitElement {
 
       const tabListElementScrollWidth = tabListElement.scrollWidth;
 
-      this.isShowOverflowEndButton =
-        tabListElementScrollWidth - tabListElementScrollRight > roundingDelta;
+      this.isDisableOverflowEndButton =
+        tabListElementScrollWidth - tabListElementScrollRight <=
+        this.#overflowButtonsScrollDelta;
     }
   }
 
-  #setOverflowButtonsVisibility() {
-    this.#setStartOverflowButtonVisibility();
-    this.#setEndOverflowButtonVisibility();
+  #setOverflowButtonsState() {
+    const tabListElement = this.#tabListElementRef.value;
+    const tabListElementRect = tabListElement?.getBoundingClientRect();
+
+    if (tabListElement && tabListElementRect) {
+      const { width: tabListElementWidth } = tabListElementRect;
+
+      this.isShowOverflowButtons =
+        tabListElement.scrollWidth - tabListElementWidth >
+        this.#overflowButtonsScrollDelta;
+    }
+
+    this.#setStartOverflowButtonState();
+    this.#setEndOverflowButtonState();
   }
 
-  #setStartOverflowButtonVisibility() {
+  #setStartOverflowButtonState() {
     ow(this.#tabListElementRef.value, ow.object.instanceOf(HTMLElement));
 
-    this.isShowOverflowStartButton =
-      this.#tabListElementRef.value.scrollLeft > 0;
+    this.isDisableOverflowStartButton =
+      this.#tabListElementRef.value.scrollLeft <= 0;
   }
 
   #setupActiveTabIndicator() {
@@ -475,12 +489,17 @@ export default class GlideCoreTabGroup extends LitElement {
           `${activeTabPaddingInlineStart}px`,
         );
 
-        // We only want the animation to run *after*
-        // the user interacts with it directly. By adding
-        // this check, it ensures the animation does not play
-        // on first render to prevent distractions for the
-        // user.
-        this.isAfterFirstUpdated = true;
+        setTimeout(() => {
+          // We only want the animation to run *after*
+          // the user interacts with it directly. By adding
+          // this check, it ensures the animation does not play
+          // on first render to prevent distractions for the
+          // user.
+          // Use a `setTimeout` for otherwise this appears to
+          // be batched into an early update and the animation runs
+          // when there are no overflow buttons.
+          this.isAfterFirstUpdated = true;
+        });
       }
     });
   }
@@ -494,7 +513,7 @@ export default class GlideCoreTabGroup extends LitElement {
         }
 
         this.#resizeTimeout = setTimeout(() => {
-          this.#setOverflowButtonsVisibility();
+          this.#setOverflowButtonsState();
         }, this.#debounceDelay);
       }
     });

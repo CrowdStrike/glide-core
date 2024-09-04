@@ -3,11 +3,12 @@
 import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
-import { expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTabGroup from './tab.group.js';
 import GlideCoreTabPanel from './tab.panel.js';
 import expectArgumentError from './library/expect-argument-error.js';
+import sinon from 'sinon';
 
 GlideCoreTabGroup.shadowRootOptions.mode = 'open';
 GlideCoreTabPanel.shadowRootOptions.mode = 'open';
@@ -216,6 +217,12 @@ it('throws an error when an element other than `glide-core-tab` is a child of th
 });
 
 it('throws an error when an element other than `glide-core-tab-panel` is a child of the default slot', async () => {
+  const spy = sinon.spy();
+  window.addEventListener('unhandledrejection', spy);
+
+  // https://github.com/CrowdStrike/glide-core/pull/335#issuecomment-2327451869
+  const stub = sinon.stub(console, 'error');
+
   await expectArgumentError(() => {
     return fixture(html`
       <glide-core-tab-group>
@@ -224,4 +231,7 @@ it('throws an error when an element other than `glide-core-tab-panel` is a child
       </glide-core-tab-group>
     `);
   });
+
+  await waitUntil(() => spy.callCount === 1);
+  stub.restore();
 });
