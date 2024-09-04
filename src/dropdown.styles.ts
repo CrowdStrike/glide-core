@@ -39,6 +39,9 @@ export default [
       min-inline-size: var(--min-inline-size);
       padding-inline: var(--glide-core-spacing-sm);
       text-align: start;
+      transition:
+        background-color 200ms ease-in-out,
+        border-color 200ms ease-in-out;
       user-select: none;
       white-space: nowrap;
 
