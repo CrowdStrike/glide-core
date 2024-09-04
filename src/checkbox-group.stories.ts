@@ -27,14 +27,7 @@ const meta: Meta = {
     name: '',
     'reportValidity()': '',
     required: false,
-    'slot="description"': html`
-      <span>Description with</span>
-      <a
-        href="#"
-        style="text-decoration:none;color:var(--glide-core-text-link);"
-        >link</a
-      >
-    `,
+    'slot="description"': 'Description',
     'slot="tooltip"': '',
     value: '',
   },
@@ -47,7 +40,6 @@ const meta: Meta = {
       type: { name: 'function', required: true },
     },
     'slot="description"': {
-      control: { type: 'text' },
       table: {
         type: { summary: 'Element | string' },
       },

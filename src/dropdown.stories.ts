@@ -39,14 +39,7 @@ const meta: Meta = {
     'select-all': false,
     size: 'large',
     'slot="tooltip"': '',
-    'slot="description"': html`
-      <span>Description with</span>
-      <a
-        href="#"
-        style="text-decoration:none;color:var(--glide-core-text-link);"
-        >link</a
-      >
-    `,
+    'slot="description"': 'Description',
     value: '',
     variant: '',
     '<glide-core-dropdown-option>.value': 'one',
@@ -61,7 +54,6 @@ const meta: Meta = {
       type: { name: 'function', required: true },
     },
     'slot="description"': {
-      control: { type: 'text' },
       table: {
         type: { summary: 'Element | string' },
       },
@@ -202,6 +194,11 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    'slot="tooltip"': {
+      table: {
+        type: { summary: 'HTMLKBDElement | string' },
       },
     },
     size: {
