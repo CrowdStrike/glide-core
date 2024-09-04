@@ -192,6 +192,9 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #navSlotElementRef = createRef<HTMLSlotElement>();
 
+  // Theshold (in px) used to determine when to display overflow buttons.
+  #overflowButtonsScrollDelta = 1;
+
   #overflowEndButtonElementRef = createRef<HTMLButtonElement>();
 
   #overflowStartButtonElementRef = createRef<HTMLButtonElement>();
@@ -423,9 +426,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
     ow(tabListElement, ow.object.instanceOf(HTMLElement));
 
-    // Scroll to within 1px.
-    const delta = 1;
-
     if (tabListElementRect) {
       const { width: tabListElementWidth } = tabListElementRect;
 
@@ -437,7 +437,8 @@ export default class GlideCoreTabGroup extends LitElement {
       const tabListElementScrollWidth = tabListElement.scrollWidth;
 
       this.isDisableOverflowEndButton =
-        tabListElementScrollWidth - tabListElementScrollRight <= delta;
+        tabListElementScrollWidth - tabListElementScrollRight <=
+        this.#overflowButtonsScrollDelta;
     }
   }
 
@@ -445,14 +446,12 @@ export default class GlideCoreTabGroup extends LitElement {
     const tabListElement = this.#tabListElementRef.value;
     const tabListElementRect = tabListElement?.getBoundingClientRect();
 
-    // Scroll to within 1px.
-    const delta = 1;
-
     if (tabListElement && tabListElementRect) {
       const { width: tabListElementWidth } = tabListElementRect;
 
       this.isShowOverflowButtons =
-        tabListElement.scrollWidth - tabListElementWidth > delta;
+        tabListElement.scrollWidth - tabListElementWidth >
+        this.#overflowButtonsScrollDelta;
     }
 
     this.#setStartOverflowButtonState();
