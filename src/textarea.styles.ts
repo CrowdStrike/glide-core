@@ -71,6 +71,7 @@ export default [
       &[readonly] {
         border-color: transparent;
         outline: none;
+        resize: none;
         transition: none;
       }
 
