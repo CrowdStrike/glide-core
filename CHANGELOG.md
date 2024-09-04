@@ -1,5 +1,63 @@
 # @crowdstrike/glide-core
 
+## 0.9.2
+
+### Patch Changes
+
+- [#344](https://github.com/CrowdStrike/glide-core/pull/344) [`4a23547`](https://github.com/CrowdStrike/glide-core/commit/4a23547a3b7c569ddf849db965df5f93bd900e97) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Design Tokens were synced with Figma.
+
+  - `--glide-core-surface-base-gray-lighter` was added.
+  - `--glide-core-surface-white-1percent`'s value was updated for Dark Mode to add an opacity.
+
+- [#337](https://github.com/CrowdStrike/glide-core/pull/337) [`5a13414`](https://github.com/CrowdStrike/glide-core/commit/5a13414322c8a9e53b4c3bc91cdfaa1d97641860) Thanks [@clintcs](https://github.com/clintcs)! - Form controls except Textarea now submit their form on Enter to match native controls and to improve accessibility.
+
+- [#335](https://github.com/CrowdStrike/glide-core/pull/335) [`18567fb`](https://github.com/CrowdStrike/glide-core/commit/18567fb762ef1fb05d1294d1eb11b1df09ee977a) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - - Updates `glide-core-tab-group` to align with new design changes relating to overflow button behavior and styling.
+
+- [#333](https://github.com/CrowdStrike/glide-core/pull/333) [`1ee4297`](https://github.com/CrowdStrike/glide-core/commit/1ee429777e4e90a1a8d452e11565b611104327fc) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Checkbox's checkmark now animates. The animation is disabled when the relevant reduced motion system preference is enabled.
+
+- [#343](https://github.com/CrowdStrike/glide-core/pull/343) [`ddd3103`](https://github.com/CrowdStrike/glide-core/commit/ddd3103310484a656dab73094f6de937b7b4e29b) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Textarea's resize handle was removed when the component is in the readonly state to align with the latest designs.
+
+- [#339](https://github.com/CrowdStrike/glide-core/pull/339) [`28c0b34`](https://github.com/CrowdStrike/glide-core/commit/28c0b347a7881b4c234b927bdb1189dfe617a97d) Thanks [@clintcs](https://github.com/clintcs)! - - Menu's target now emits a "click" event when clicked.
+
+  - Menu's active option remains active after being clicked and Menu is reopened.
+  - Button emits a "click" event on Enter.
+  - Buttons with `type="button"` no longer reset forms.
+  - Button's `click()` method now submits or resets the form when `type="submit"` or `type="reset"`.
+
+- [#319](https://github.com/CrowdStrike/glide-core/pull/319) [`2f03a51`](https://github.com/CrowdStrike/glide-core/commit/2f03a5176c8d19c3b4d93da87c8019b1099980da) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Menu and Dropdown now animate when opening. The animations are disabled when the relevant reduced motion system preference is enabled.
+
+- [#336](https://github.com/CrowdStrike/glide-core/pull/336) [`03e795a`](https://github.com/CrowdStrike/glide-core/commit/03e795aceab5e224a3fdf672d1f7876e05570e9d) Thanks [@clintcs](https://github.com/clintcs)! - Drawer's "open" and "close" events now bubble.
+
+- [#332](https://github.com/CrowdStrike/glide-core/pull/332) [`d02058e`](https://github.com/CrowdStrike/glide-core/commit/d02058e03b063fa4ddb11bdd6877290d287df717) Thanks [@danwenzel](https://github.com/danwenzel)! - Add newly-translated Japanese and French strings
+
+- [#328](https://github.com/CrowdStrike/glide-core/pull/328) [`784d455`](https://github.com/CrowdStrike/glide-core/commit/784d455285be15804b59cee5b11d091227963943) Thanks [@danwenzel](https://github.com/danwenzel)! - Add intellisense info for `Toasts.add()` `toast.duration` param
+
+- [#334](https://github.com/CrowdStrike/glide-core/pull/334) [`8e9c233`](https://github.com/CrowdStrike/glide-core/commit/8e9c233055f8c10c0517783cb34f9023d60a6feb) Thanks [@clintcs](https://github.com/clintcs)! - Clicking a Dropdown option's icon now selects the option.
+
+- [#340](https://github.com/CrowdStrike/glide-core/pull/340) [`0fc9fa5`](https://github.com/CrowdStrike/glide-core/commit/0fc9fa53fd46e0786b827a262fe43852109baa38) Thanks [@ynotdraw](https://github.com/ynotdraw)! - The latest Toast message appears at the top of the list rather than the bottom.
+
+- [#308](https://github.com/CrowdStrike/glide-core/pull/308) [`289ba3d`](https://github.com/CrowdStrike/glide-core/commit/289ba3d8af7abc52479290ffb2532128d46bb9d4) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - - Adds an animated active tab indicator to `glide-core-tab-group` that respects `prefers-reduced-motion`.
+
+  - Aligns the width of the active tab indicator to the width of the tab's text.
+  - Slightly decreases the height of the tab bar.
+
+- [#342](https://github.com/CrowdStrike/glide-core/pull/342) [`d18df39`](https://github.com/CrowdStrike/glide-core/commit/d18df398326a75cdb4a6cf44c0387686e92e54da) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Subtle hover transitions were added to Dropdown, Dropdown Option, Menu Button, Menu Link, and Tree components.
+
+- [#330](https://github.com/CrowdStrike/glide-core/pull/330) [`986976d`](https://github.com/CrowdStrike/glide-core/commit/986976dc19e91eaa63e88dd71bef431d5b1cf1b4) Thanks [@clintcs](https://github.com/clintcs)! - - When filterable and an option is selected, Dropdown now sets the underlying `<input>`'s `value` instead of `placeholder` to match the updated interaction specification.
+
+  - Pressing `Meta` + `Backspace` when the insertion point is at the beginning of a filterable Dropdown now removes every non-overflowing, selected option.
+  - Dropdown now has a `click()` method.
+  - Dropdown no longer shows an empty menu when opened after every option have been filtered out.
+
+- [#341](https://github.com/CrowdStrike/glide-core/pull/341) [`a9ccc70`](https://github.com/CrowdStrike/glide-core/commit/a9ccc70a88ed85eee022d6ef006919129db52c4e) Thanks [@clintcs](https://github.com/clintcs)! - - The height of Dropdown when `variant="quiet"` has been greatly reduced.
+
+  - Dropdown no longer has a focus outline on focus. Its border color changes instead.
+
+- [#331](https://github.com/CrowdStrike/glide-core/pull/331) [`1db87d8`](https://github.com/CrowdStrike/glide-core/commit/1db87d8d78969e70ac470c129746191d95106b87) Thanks [@danwenzel](https://github.com/danwenzel)! - Border color updates to Input, Textarea, and Dropdown:
+
+  - Default border color updated to a darker gray
+  - When hovering, border changes to a more prominent blue color
+
 ## 0.9.1
 
 ### Patch Changes
