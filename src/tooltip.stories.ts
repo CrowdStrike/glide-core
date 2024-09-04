@@ -123,4 +123,6 @@ const meta: Meta = {
 
 export default meta;
 
-export const Tooltip: StoryObj = {};
+export const Tooltip: StoryObj = {
+  tags: ['!dev'],
+};

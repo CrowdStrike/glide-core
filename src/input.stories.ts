@@ -1,7 +1,7 @@
 import './icons/storybook.js';
 import './input.js';
 import { html, nothing } from 'lit';
-import Input, { SUPPORTED_TYPES } from './input.js';
+import GlideCoreInput, { SUPPORTED_TYPES } from './input.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -42,9 +42,7 @@ const meta: Meta = {
   play(context) {
     const input = context.canvasElement.querySelector('glide-core-input');
 
-    const isErrorStory = context.name === 'With Error';
-
-    if (isErrorStory && input instanceof Input) {
+    if (context.name.includes('Error') && input instanceof GlideCoreInput) {
       input.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -234,69 +232,17 @@ const meta: Meta = {
 
 export default meta;
 
-export const Default: StoryObj = {};
-
-export const Password: StoryObj = {
-  args: {
-    label: 'Password',
-    type: 'password',
-    placeholder: false,
-    clearable: true,
-    passwordToggle: true,
-    value: '',
-  },
+export const Input: StoryObj = {
+  tags: ['!autodocs', '!dev'],
 };
 
 export const WithError: StoryObj = {
   args: {
     required: true,
-    value: '',
-  },
-  name: 'With Error',
-};
-
-export const Clearable: StoryObj = {
-  args: {
-    clearable: true,
   },
 };
 
-export const SuffixIcon: StoryObj = {
-  render: (arguments_) => {
-    return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/input.js';
-      </script>
-
-      <div style="height: 5rem;">
-        <glide-core-input
-          type=${arguments_.type}
-          value=${arguments_.value}
-          label=${arguments_.label}
-          placeholder=${arguments_.placeholder || nothing}
-          ?hide-label=${arguments_['hide-label']}
-          ?clearable=${arguments_.clearable}
-          ?password-toggle=${arguments_.passwordToggle || nothing}
-          orientation=${arguments_.orientation}
-          ?required=${arguments_.required}
-          ?readonly=${arguments_.readonly}
-          ?disabled=${arguments_.disabled}
-          maxlength=${arguments_.maxlength || nothing}
-        >
-          <div slot="suffix">
-            <glide-core-example-icon
-              slot="suffix"
-              name="share"
-            ></glide-core-example-icon>
-          </div>
-          >
-        </glide-core-input>
-      </div>
-    `;
-  },
-};
-
-export const PrefixIcon: StoryObj = {
+export const WithIcons: StoryObj = {
   render: (arguments_) => {
     return html`
       <script type="ignore">
@@ -322,41 +268,16 @@ export const PrefixIcon: StoryObj = {
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
             : ''}
 
-          <div slot="prefix">
-            <glide-core-example-icon
-              slot="prefix"
-              name="pencil"
-            ></glide-core-example-icon>
-          </div>
+          <glide-core-example-icon
+            slot="prefix"
+            name="pencil"
+          ></glide-core-example-icon>
+          <glide-core-example-icon
+            slot="suffix"
+            name="share"
+          ></glide-core-example-icon>
         </glide-core-input>
       </div>
     `;
-  },
-};
-
-export const SearchType: StoryObj = {
-  args: {
-    type: 'search',
-  },
-};
-
-export const MaxLength: StoryObj = {
-  args: {
-    maxlength: 20,
-    'slot="description"': undefined,
-  },
-};
-
-export const MaxLengthAndDescription: StoryObj = {
-  name: 'Max Length (With Description)',
-  args: {
-    maxlength: 20,
-    'slot="description"': 'Description',
-  },
-};
-
-export const Tooltip: StoryObj = {
-  args: {
-    'slot="tooltip"': 'Tooltip',
   },
 };

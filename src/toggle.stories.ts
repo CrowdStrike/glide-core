@@ -140,25 +140,6 @@ const meta: Meta = {
 
 export default meta;
 
-export const Horizontal: StoryObj = {};
-
-export const HorizontalWithTooltip: StoryObj = {
-  args: {
-    'slot="tooltip"': 'Tooltip',
-  },
-  name: 'Horizontal (With Tooltip)',
-};
-
-export const Vertical: StoryObj = {
-  args: {
-    orientation: 'vertical',
-  },
-};
-
-export const VerticalWithTooltip: StoryObj = {
-  args: {
-    'slot="tooltip"': 'Tooltip',
-    orientation: 'vertical',
-  },
-  name: 'Vertical (With Tooltip)',
+export const Toggle: StoryObj = {
+  tags: ['!dev'],
 };

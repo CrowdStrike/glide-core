@@ -118,50 +118,11 @@ const meta: Meta = {
 
 export default meta;
 
-export const Default: StoryObj = {};
-
-export const WithPrefixIcon: StoryObj = {
-  name: 'Default (With Prefix Icon)',
-  render: (arguments_) => {
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/accordion.js';
-      </script>
-
-      <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}>
-        ${arguments_['slot="default"']}
-
-        <glide-core-example-icon
-          slot="prefix"
-          name="share"
-        ></glide-core-example-icon>
-      </glide-core-accordion>`;
-  },
+export const Accordion: StoryObj = {
+  tags: ['!autodocs', '!dev'],
 };
 
-export const WithSuffix: StoryObj = {
-  name: 'Default (With Suffix Icons)',
-  render: (arguments_) => {
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/accordion.js';
-      </script>
-
-      <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}>
-        ${arguments_['slot="default"']}
-
-        <glide-core-example-icon
-          slot="suffix"
-          name="pencil"
-        ></glide-core-example-icon>
-        <glide-core-example-icon
-          slot="suffix"
-          name="settings"
-        ></glide-core-example-icon>
-      </glide-core-accordion>`;
-  },
-};
-
-export const WithPrefixAndSuffix: StoryObj = {
-  name: 'Default (With Prefix & Suffix Icons)',
+export const WithIcons: StoryObj = {
   render: (arguments_) => {
     return html`<script type="ignore">
         import '@crowdstrike/glide-core/accordion.js';

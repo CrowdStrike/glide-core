@@ -129,31 +129,11 @@ const meta: Meta = {
 
 export default meta;
 
-export const Modal: StoryObj = {};
-
-export const WithBackButton: StoryObj = {
-  name: 'Modal (With Back Button)',
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/modal.js';
-    </script>
-
-    <glide-core-button>Open</glide-core-button>
-
-    <glide-core-modal label=${arguments_.label} show-back-button>
-      ${arguments_['slot="default"']}
-
-      <glide-core-button slot="primary">Primary</glide-core-button>
-
-      <glide-core-button slot="secondary" variant="tertiary">
-        Secondary
-      </glide-core-button>
-    </glide-core-modal>
-  `,
+export const Modal: StoryObj = {
+  tags: ['!autodocs', '!dev'],
 };
 
-export const HeaderActions: StoryObj = {
-  name: 'Modal (With Header Actions)',
+export const WithHeaderActions: StoryObj = {
   render: (arguments_) => html`
     <script type="ignore">
       import '@crowdstrike/glide-core/modal.js';
@@ -181,39 +161,7 @@ export const HeaderActions: StoryObj = {
   `,
 };
 
-export const HeaderActionsWithBackButton: StoryObj = {
-  name: 'Modal (With Header Actions and Back Button)',
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/modal.js';
-      import '@crowdstrike/glide-core/modal.icon-button.js';
-    </script>
-
-    <glide-core-button>Open</glide-core-button>
-
-    <glide-core-modal label=${arguments_.label} show-back-button>
-      ${arguments_['slot="default"']}
-
-      <glide-core-button slot="primary">Primary</glide-core-button>
-
-      <glide-core-button slot="secondary" variant="tertiary">
-        Secondary
-      </glide-core-button>
-
-      <!-- Only "glide-core-modal-icon-button" components should be used with header-actions -->
-      <glide-core-modal-icon-button slot="header-actions" label="Edit">
-        <glide-core-example-icon name="pencil"></glide-core-example-icon>
-      </glide-core-modal-icon-button>
-
-      <glide-core-modal-icon-button slot="header-actions" label="Settings">
-        <glide-core-example-icon name="settings"></glide-core-example-icon>
-      </glide-core-modal-icon-button>
-    </glide-core-modal>
-  `,
-};
-
-export const TertiaryButton: StoryObj = {
-  name: 'Modal (With Tertiary Content Button)',
+export const WithTertiaryButton: StoryObj = {
   render: (arguments_) => html`
     <script type="ignore">
       import '@crowdstrike/glide-core/modal.js';
@@ -237,8 +185,7 @@ export const TertiaryButton: StoryObj = {
   `,
 };
 
-export const TertiaryIcon: StoryObj = {
-  name: 'Modal (With Tertiary Content Icon)',
+export const WithTertiaryIconAndButton: StoryObj = {
   render: (arguments_) => html`
     <script type="ignore">
       import '@crowdstrike/glide-core/modal.js';

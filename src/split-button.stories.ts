@@ -154,9 +154,11 @@ const meta: Meta = {
 
 export default meta;
 
-export const Primary: StoryObj = {};
+export const SplitButton: StoryObj = {
+  tags: ['!autodocs', '!dev'],
+};
 
-export const PrimaryWithPrefixIcon: StoryObj = {
+export const WithIcon: StoryObj = {
   render: (arguments_) => html`
     <script type="ignore">
       import '@crowdstrike/glide-core/split-container.js';
@@ -189,14 +191,7 @@ export const PrimaryWithPrefixIcon: StoryObj = {
   `,
 };
 
-export const PrimaryWithSizeSmall: StoryObj = {
-  args: {
-    variant: 'primary',
-    size: 'small',
-  },
-};
-
-export const PrimaryWithLink: StoryObj = {
+export const WithSplitLink: StoryObj = {
   render: (arguments_) => html`
     <script type="ignore">
       import '@crowdstrike/glide-core/split-container.js';
@@ -214,93 +209,9 @@ export const PrimaryWithLink: StoryObj = {
       menu-placement=${arguments_['menu-placement']}
     >
       <glide-core-split-link slot="primary-action" url="/">
-        <glide-core-example-icon
-          slot="prefix"
-          name="info"
-        ></glide-core-example-icon>
         Button
       </glide-core-split-link>
-      <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
-      <glide-core-menu-link label="Two" url="/two"></glide-core-menu-link>
-      <glide-core-menu-button label="Three"></glide-core-menu-button>
-    </glide-core-split-container>
-  `,
-};
 
-export const Secondary: StoryObj = {
-  args: {
-    variant: 'secondary',
-  },
-};
-
-export const SecondaryWithPrefixIcon: StoryObj = {
-  args: {
-    variant: 'secondary',
-  },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/split-container.js';
-      import '@crowdstrike/glide-core/split-button.js';
-      import '@crowdstrike/glide-core/menu.link.js';
-      import '@crowdstrike/glide-core/menu.button.js';
-    </script>
-
-    <glide-core-split-container
-      ?open=${arguments_.open || nothing}
-      size=${arguments_.size}
-      variant=${arguments_.variant}
-      ?disabled=${arguments_.disabled || nothing}
-      menu-label=${arguments_['menu-label']}
-      menu-placement=${arguments_['menu-placement']}
-    >
-      <glide-core-split-button slot="primary-action">
-        <glide-core-example-icon
-          slot="prefix"
-          name="info"
-        ></glide-core-example-icon>
-        Button
-      </glide-core-split-button>
-      <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
-      <glide-core-menu-link label="Two" url="/two"></glide-core-menu-link>
-      <glide-core-menu-button label="Three"></glide-core-menu-button>
-    </glide-core-split-container>
-  `,
-};
-
-export const SecondaryWithSizeSmall: StoryObj = {
-  args: {
-    variant: 'secondary',
-    size: 'small',
-  },
-};
-
-export const SecondaryWithLink: StoryObj = {
-  args: {
-    variant: 'secondary',
-  },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/split-container.js';
-      import '@crowdstrike/glide-core/split-button.js';
-      import '@crowdstrike/glide-core/menu.link.js';
-      import '@crowdstrike/glide-core/menu.button.js';
-    </script>
-
-    <glide-core-split-container
-      ?open=${arguments_.open || nothing}
-      size=${arguments_.size}
-      variant=${arguments_.variant}
-      ?disabled=${arguments_.disabled || nothing}
-      menu-label=${arguments_['menu-label']}
-      menu-placement=${arguments_['menu-placement']}
-    >
-      <glide-core-split-link slot="primary-action" url="/">
-        <glide-core-example-icon
-          slot="prefix"
-          name="info"
-        ></glide-core-example-icon>
-        Button
-      </glide-core-split-link>
       <glide-core-menu-link label="One" url="/one"></glide-core-menu-link>
       <glide-core-menu-link label="Two" url="/two"></glide-core-menu-link>
       <glide-core-menu-button label="Three"></glide-core-menu-button>

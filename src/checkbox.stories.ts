@@ -155,12 +155,10 @@ const meta: Meta = {
   play(context) {
     const checkbox = context.canvasElement.querySelector('glide-core-checkbox');
 
-    const isErrorStory = [
-      'Horizontal (With Error)',
-      'Vertical (With Error)',
-    ].includes(context.name);
-
-    if (isErrorStory && checkbox instanceof GlideCoreCheckbox) {
+    if (
+      context.name.includes('Error') &&
+      checkbox instanceof GlideCoreCheckbox
+    ) {
       checkbox.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -220,40 +218,12 @@ const meta: Meta = {
 
 export default meta;
 
-export const Horizontal: StoryObj = {};
-
-export const HorizontalWithTooltip: StoryObj = {
-  args: {
-    'slot="tooltip"': 'Tooltip',
-  },
-  name: 'Horizontal (With Tooltip)',
+export const Checkbox: StoryObj = {
+  tags: ['!autodocs', '!dev'],
 };
 
-export const HorizontalWithError: StoryObj = {
+export const WithError: StoryObj = {
   args: {
     required: true,
   },
-  name: 'Horizontal (With Error)',
-};
-
-export const Vertical: StoryObj = {
-  args: {
-    orientation: 'vertical',
-  },
-};
-
-export const VerticalWithTooltip: StoryObj = {
-  args: {
-    'slot="tooltip"': 'Tooltip',
-    orientation: 'vertical',
-  },
-  name: 'Vertical (With Tooltip)',
-};
-
-export const VerticalWithError: StoryObj = {
-  args: {
-    orientation: 'vertical',
-    required: true,
-  },
-  name: 'Vertical (With Error)',
 };

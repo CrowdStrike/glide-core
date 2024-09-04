@@ -46,7 +46,7 @@ export default class GlideCoreIconButton extends LitElement {
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** Text read aloud for screenreaders. For accessibility, this should always be provided. */
+  /** For screenreaders. Required. */
   @property()
   label = '';
 

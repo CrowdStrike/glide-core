@@ -159,19 +159,11 @@ const meta: Meta = {
 
 export default meta;
 
-export const Default: StoryObj = {
-  name: 'Button Group',
+export const ButtonGroup: StoryObj = {
+  tags: ['!autodocs', '!dev'],
 };
 
-export const DefaultWithOrientationVertical: StoryObj = {
-  name: 'Button Group (With Orientation Vertical)',
-  args: {
-    orientation: 'vertical',
-  },
-};
-
-export const DefaultWithPrefixIcon: StoryObj = {
-  name: 'Button Group (With Prefix Icon)',
+export const WithIcons: StoryObj = {
   render: (arguments_) => html`
     <script type="ignore">
       import '@crowdstrike/glide-core/button-group.js';
@@ -210,64 +202,4 @@ export const DefaultWithPrefixIcon: StoryObj = {
       </glide-core-button-group-button>
     </glide-core-button-group>
   `,
-};
-
-export const DefaultWithOrientationVerticalPrefixIcon: StoryObj = {
-  name: 'Button Group (With Orientation Vertical and Prefix Icon)',
-  args: {
-    orientation: 'vertical',
-  },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/button-group.js';
-      import '@crowdstrike/glide-core/button-group.button.js';
-    </script>
-
-    <glide-core-button-group
-      label=${arguments_.label}
-      orientation=${arguments_.orientation}
-      variant=${arguments_.variant || nothing}
-    >
-      <glide-core-button-group-button
-        label=${arguments_['<glide-core-button-group-button>.label']}
-        value=${arguments_['<glide-core-button-group-button>.value']}
-        ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
-        ?selected=${arguments_['<glide-core-button-group-button>.selected']}
-      >
-        <glide-core-example-icon
-          slot="prefix"
-          name="info"
-        ></glide-core-example-icon>
-      </glide-core-button-group-button>
-
-      <glide-core-button-group-button label="Two" value="two">
-        <glide-core-example-icon
-          slot="prefix"
-          name="info"
-        ></glide-core-example-icon>
-      </glide-core-button-group-button>
-
-      <glide-core-button-group-button label="Three" value="three">
-        <glide-core-example-icon
-          slot="prefix"
-          name="info"
-        ></glide-core-example-icon>
-      </glide-core-button-group-button>
-    </glide-core-button-group>
-  `,
-};
-
-export const DefaultWithIconOnly: StoryObj = {
-  args: {
-    variant: 'icon-only',
-  },
-  name: 'Button Group (With Icon Only)',
-};
-
-export const DefaultWithOrientationVerticalOnlyIcon: StoryObj = {
-  name: 'Button Group (With Orientation Vertical and Variant Only Icon)',
-  args: {
-    orientation: 'vertical',
-    variant: 'icon-only',
-  },
 };
