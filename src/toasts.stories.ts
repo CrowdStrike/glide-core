@@ -37,7 +37,7 @@ const meta: Meta = {
 -->
       <glide-core-toasts></glide-core-toasts>
 
-      <div style="display:flex; flex-direction: column; gap: 0.25rem;">
+      <div style="display: inline-flex; flex-direction: column; gap: 0.25rem;">
         <glide-core-button data-informational>
           Informational
         </glide-core-button>
