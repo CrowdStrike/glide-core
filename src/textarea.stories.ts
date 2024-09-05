@@ -20,7 +20,7 @@ const meta: Meta = {
     const textarea = context.canvasElement.querySelector('glide-core-textarea');
 
     if (
-      context.name === 'With Error' &&
+      context.name.includes('Error') &&
       textarea instanceof GlideCoreTextarea
     ) {
       textarea.reportValidity();
@@ -225,33 +225,12 @@ const meta: Meta = {
 
 export default meta;
 
-export const Default: StoryObj = {};
+export const Textarea: StoryObj = {
+  tags: ['!autodocs'],
+};
 
 export const WithError: StoryObj = {
-  name: 'With Error',
   args: {
     required: true,
-    value: '',
-  },
-};
-
-export const MaxLength: StoryObj = {
-  args: {
-    maxlength: 20,
-    'slot="description"': undefined,
-  },
-};
-
-export const MaxLengthAndDescription: StoryObj = {
-  name: 'Max Length (With Description)',
-  args: {
-    maxlength: 20,
-    'slot="description"': 'Description',
-  },
-};
-
-export const Tooltip: StoryObj = {
-  args: {
-    'slot="tooltip"': 'Tooltip',
   },
 };

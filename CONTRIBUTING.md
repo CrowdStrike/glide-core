@@ -77,11 +77,21 @@ Select the packages that include changes and write a meaningful changeset descri
 These descriptions are used to generate release notes to consumers, so be sure to be as descriptive and helpful as possible.
 Please ensure we are following [semantic versioning](https://semver.org/) when selecting a version bump.
 
-## Coding Guidelines
+## Coding guidelines
 
 Below are guidelines that are difficult to enforce with ESLint and prettier.
 These rules help us drive consistency; however, they can be tough to automate due to nuances with them.
 Instead, we've opted to document our opinions here so that they can be referenced during Pull Request reviews.
+
+### Prefer controls over stories
+
+We can't write a story for every state of a component.
+Stories are costly to write and maintain—and too many of them clutters the sidebar.
+So we follow a simple rule, which is the only kind likely to be followed:
+only write stories for component states that can't reasonably be changed via a control.
+
+A story showing the use of an optional slot that requires specific markup is one example.
+A story showing an error state triggered by a form submission is another.
 
 ### Prefer encapsulation
 

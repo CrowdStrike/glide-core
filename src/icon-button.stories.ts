@@ -70,20 +70,4 @@ const meta: Meta = {
 
 export default meta;
 
-export const Primary: StoryObj = {
-  args: {
-    variant: 'primary',
-  },
-};
-
-export const Secondary: StoryObj = {
-  args: {
-    variant: 'secondary',
-  },
-};
-
-export const Tertiary: StoryObj = {
-  args: {
-    variant: 'tertiary',
-  },
-};
+export const IconButton: StoryObj = {};

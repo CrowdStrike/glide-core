@@ -24,7 +24,7 @@ const meta: Meta = {
     );
 
     if (
-      context.name === 'Vertical (With Error)' &&
+      context.name.includes('Error') &&
       radioGroup instanceof GlideCoreRadioGroup
     ) {
       radioGroup.reportValidity();
@@ -34,7 +34,6 @@ const meta: Meta = {
       document.documentElement.scrollTop = 0;
     }
   },
-
   render: (arguments_) => {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
@@ -193,50 +192,14 @@ const meta: Meta = {
 
 export default meta;
 
-export const Vertical: StoryObj = {};
-
-export const VerticalWithTooltip: StoryObj = {
-  args: {
-    'slot="tooltip"': 'Tooltip',
-  },
-  name: 'Vertical (With Tooltip)',
+export const RadioGroup: StoryObj = {
+  tags: ['!autodocs'],
 };
 
-export const VerticalWithError: StoryObj = {
+export const WithError: StoryObj = {
   args: {
+    '<glide-core-radio>.checked': false,
     required: true,
     value: '',
-  },
-  name: 'Vertical (With Error)',
-  render: (arguments_) => {
-    return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/radio-group.js';
-        import '@crowdstrike/glide-core/radio.js';
-      </script>
-
-      <form action="/" style="padding: 1.5rem;">
-        <glide-core-radio-group
-          label=${arguments_.label}
-          name=${arguments_.name}
-          value=${arguments_.value}
-          ?disabled=${arguments_.disabled}
-          ?required=${arguments_.required}
-        >
-          <glide-core-radio
-            label=${arguments_['<glide-core-radio>.label'] || nothing}
-            value=${arguments_['<glide-core-radio>.value'] || nothing}
-            ?checked=${arguments_['<glide-core-radio>.checked']}
-          ></glide-core-radio>
-          <glide-core-radio label="Two"></glide-core-radio>
-          <glide-core-radio label="Three"></glide-core-radio>
-
-          ${arguments_['slot="tooltip"']
-            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-            : ''}
-          <div slot="description">${arguments_['slot="description"']}</div>
-        </glide-core-radio-group>
-      </form>
-    `;
   },
 };

@@ -64,12 +64,11 @@ const meta: Meta = {
 
 export default meta;
 
-export const Primary: StoryObj = {
-  name: 'Tabs',
+export const Tabs: StoryObj = {
+  tags: ['!autodocs'],
 };
 
-export const Overflow: StoryObj = {
-  name: 'Tabs (With Overflow)',
+export const WithOverflow: StoryObj = {
   render: () => html`
     <script type="ignore">
       import '@crowdstrike/glide-core/tab.group.js';

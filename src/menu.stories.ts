@@ -143,10 +143,11 @@ const meta: Meta = {
 
 export default meta;
 
-export const Menu: StoryObj = {};
+export const Menu: StoryObj = {
+  tags: ['!autodocs'],
+};
 
-export const MenuWithIcon: StoryObj = {
-  name: 'Menu (With Icon)',
+export const WithIcons: StoryObj = {
   render(arguments_, context) {
     context.canvasElement.addEventListener('click', (event) => {
       if (event.target instanceof GlideCoreButton) {

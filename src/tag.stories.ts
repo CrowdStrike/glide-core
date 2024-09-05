@@ -81,51 +81,23 @@ const meta: Meta = {
 
 export default meta;
 
-export const Default: StoryObj = {
-  name: 'Tag',
+export const Tag: StoryObj = {
+  tags: ['!autodocs'],
 };
 
-export const DefaultWithPrefixIcon: StoryObj = {
-  name: 'Tag (With Prefix Icon)',
+export const WithIcon: StoryObj = {
   render: (arguments_) => html`
     <script type="ignore">
       import '@crowdstrike/glide-core/tag.js';
     </script>
 
     <glide-core-tag>
-      <span slot="prefix">
-        <glide-core-example-icon name="drag-dots"></glide-core-example-icon>
-      </span>
-      ${arguments_['slot="default"']}</glide-core-tag
-    >
-  `,
-};
+      ${arguments_['slot="default"']}
 
-export const Removable: StoryObj = {
-  name: 'Tag (With Removable Label)',
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tag.js';
-    </script>
-
-    <glide-core-tag removable-label="Tag">
-      ${arguments_['slot="default"']}</glide-core-tag
-    >
-  `,
-};
-
-export const RemovableWithIcon: StoryObj = {
-  name: 'Tag (With Removable Label and Prefix Icon)',
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tag.js';
-    </script>
-
-    <glide-core-tag removable-label="Tag">
-      <span slot="prefix">
-        <glide-core-example-icon name="drag-dots"></glide-core-example-icon>
-      </span>
-      ${arguments_['slot="default"']}</glide-core-tag
-    >
+      <glide-core-example-icon
+        name="drag-dots"
+        slot="prefix"
+      ></glide-core-example-icon>
+    </glide-core-tag>
   `,
 };

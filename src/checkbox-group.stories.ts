@@ -129,12 +129,10 @@ const meta: Meta = {
       'glide-core-checkbox-group',
     );
 
-    const isErrorStory = [
-      'Horizontal (With Error)',
-      'Vertical (With Error)',
-    ].includes(context.name);
-
-    if (isErrorStory && checkboxGroup instanceof GlideCoreCheckboxGroup) {
+    if (
+      context.name.includes('Error') &&
+      checkboxGroup instanceof GlideCoreCheckboxGroup
+    ) {
       checkboxGroup.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -174,20 +172,12 @@ const meta: Meta = {
 
 export default meta;
 
-export const Vertical: StoryObj = {};
-
-export const VerticalWithTooltip: StoryObj = {
-  args: {
-    'slot="tooltip"': 'Tooltip',
-    orientation: 'vertical',
-  },
-  name: 'Vertical (With Tooltip)',
+export const CheckboxGroup: StoryObj = {
+  tags: ['!autodocs'],
 };
 
-export const VerticalWithError: StoryObj = {
+export const WithError: StoryObj = {
   args: {
-    orientation: 'vertical',
     required: true,
   },
-  name: 'Vertical (With Error)',
 };

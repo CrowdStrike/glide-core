@@ -19,8 +19,8 @@ const meta: Meta = {
     ></glide-core-status-indicator>
   `,
   args: {
+    variant: 'idle',
     '--size': '',
-    variant: 'failed',
   },
   argTypes: {
     variant: {
@@ -61,85 +61,4 @@ const meta: Meta = {
 
 export default meta;
 
-export const Failed: StoryObj = {
-  args: {
-    variant: 'failed',
-  },
-};
-
-export const Idle: StoryObj = {
-  args: {
-    variant: 'idle',
-  },
-};
-
-export const InProgress: StoryObj = {
-  args: {
-    variant: 'in-progress',
-  },
-};
-
-export const Queued: StoryObj = {
-  args: {
-    variant: 'queued',
-  },
-};
-
-export const Scheduled: StoryObj = {
-  args: {
-    variant: 'scheduled',
-  },
-};
-
-export const Success: StoryObj = {
-  args: {
-    variant: 'success',
-  },
-};
-
-export const WarningCritical: StoryObj = {
-  args: {
-    variant: 'warning-critical',
-  },
-};
-
-export const WarningHigh: StoryObj = {
-  args: {
-    variant: 'warning-high',
-  },
-};
-
-export const WarningInformational: StoryObj = {
-  args: {
-    variant: 'warning-informational',
-  },
-};
-
-export const WarningLow: StoryObj = {
-  args: {
-    variant: 'warning-low',
-  },
-};
-
-export const WarningMedium: StoryObj = {
-  args: {
-    variant: 'warning-medium',
-  },
-};
-
-export const WarningZero: StoryObj = {
-  args: {
-    variant: 'warning-zero',
-  },
-};
-
-export const CustomSize: StoryObj = {
-  render: (arguments_) => html`
-    <glide-core-status-indicator
-      style=${ifDefined(
-        arguments_['--size'] ? `--size: ${arguments_['--size']};` : undefined,
-      )}
-      variant=${arguments_.variant}
-    ></glide-core-status-indicator>
-  `,
-};
+export const StatusIndicator: StoryObj = {};

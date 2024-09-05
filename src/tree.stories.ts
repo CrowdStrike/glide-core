@@ -25,11 +25,14 @@ const meta: Meta = {
   },
   args: {
     'slot="default"': '',
-    'addEventListener(event, listener)': '',
     '<glide-core-tree-item>.label': 'Branch',
+    '<glide-core-tree-item-icon-button>.label': 'Settings',
+    'addEventListener(event, listener)': '',
+    '<glide-core-tree-item>.expanded': true,
+    '<glide-core-tree-item>.non-collapsible': false,
+    '<glide-core-tree-item>.remove-indentation': false,
     '<glide-core-tree-item>.selected': false,
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
-    '<glide-core-tree-item-icon-button>.label': 'Settings for Leaf 2',
   },
   play(context) {
     const links = context.canvasElement.querySelectorAll(
@@ -52,7 +55,12 @@ const meta: Meta = {
 
     <div style="max-width: 18.75rem; height: 12rem;">
       <glide-core-tree>
-        <glide-core-tree-item label="Back home" remove-indentation>
+        <glide-core-tree-item
+          label="Back"
+          ?remove-indentation=${arguments_[
+            '<glide-core-tree-item>.remove-indentation'
+          ] || nothing}
+        >
           <glide-core-example-icon
             slot="prefix"
             name="arrow-left"
@@ -60,31 +68,19 @@ const meta: Meta = {
         </glide-core-tree-item>
 
         <glide-core-tree-item
-          label="Branch"
-          expanded
+          label=${arguments_['<glide-core-tree-item>.label']}
+          ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
           ?non-collapsible=${arguments_[
             '<glide-core-tree-item>.non-collapsible'
           ] || nothing}
+          ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
         >
           <glide-core-example-icon
             slot="prefix"
             name="share"
           ></glide-core-example-icon>
-          <glide-core-tree-item
-            label=${arguments_['<glide-core-tree-item>.label']}
-            ?selected=${arguments_['<glide-core-tree-item>.selected'] ||
-            nothing}
-            ?remove-indentation=${arguments_[
-              '<glide-core-tree-item>.remove-indentation'
-            ] || nothing}
-          ></glide-core-tree-item>
 
-          <glide-core-tree-item label="Leaf 2">
-            <glide-core-example-icon
-              slot="prefix"
-              name="share"
-            ></glide-core-example-icon>
-
+          <glide-core-tree-item label="Leaf">
             <glide-core-tree-item-icon-button
               slot="suffix"
               label=${arguments_['<glide-core-tree-item-icon-button>.label']}
@@ -98,14 +94,24 @@ const meta: Meta = {
               slot="menu"
               placement=${arguments_['<glide-core-tree-item-menu>.placement']}
             >
-              ${treeItemMenu}
+              <glide-core-menu-link label="Edit" url="/edit">
+                <glide-core-example-icon
+                  slot="icon"
+                  name="pencil"
+                ></glide-core-example-icon>
+              </glide-core-menu-link>
+
+              <glide-core-menu-link label="Move" url="/move">
+                <glide-core-example-icon
+                  slot="icon"
+                  name="move"
+                ></glide-core-example-icon>
+              </glide-core-menu-link>
             </glide-core-tree-item-menu>
           </glide-core-tree-item>
 
-          <glide-core-tree-item label="Sub-branch">
-            <glide-core-tree-item label="Sub-leaf 1"></glide-core-tree-item>
-            <glide-core-tree-item label="Sub-leaf 2"> </glide-core-tree-item>
-            <glide-core-tree-item label="Sub-leaf 3"></glide-core-tree-item>
+          <glide-core-tree-item label="Branch">
+            <glide-core-tree-item label="Leaf"></glide-core-tree-item>
           </glide-core-tree-item>
         </glide-core-tree-item>
       </glide-core-tree>
@@ -117,6 +123,30 @@ const meta: Meta = {
         type: { summary: 'GlideCoreTreeItem' },
       },
       type: { name: 'function', required: true },
+    },
+    '<glide-core-tree-item>.expanded': {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    '<glide-core-tree-item>.non-collapsible': {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    '<glide-core-tree-item>.remove-indentation': {
+      control: { type: 'boolean' },
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
     },
     '<glide-core-tree-item>.selected': {
       control: { type: 'boolean' },
@@ -130,6 +160,13 @@ const meta: Meta = {
       control: { type: 'text' },
       table: {
         type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-tree-item-icon-button>.label': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string', detail: '// For screenreaders' },
       },
       type: { name: 'string', required: true },
     },
@@ -172,316 +209,4 @@ const meta: Meta = {
 
 export default meta;
 
-export const Tree: StoryObj = {
-  args: {
-    '<glide-core-tree-item>.label': 'Leaf 1',
-  },
-};
-
-export const TreeItemDefault: StoryObj = {
-  name: 'Tree Item (Default)',
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-    </script>
-
-    <glide-core-tree>
-      <glide-core-tree-item
-        label=${arguments_['<glide-core-tree-item>.label']}
-        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
-        >
-      </glide-core-tree-item></glide-core-tree-item>
-    </glide-core-tree>
-  `,
-};
-
-export const TreeItemSelected: StoryObj = {
-  name: 'Tree Item (Selected)',
-  args: {
-    '<glide-core-tree-item>.selected': true,
-  },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-    </script>
-
-    <glide-core-tree>
-      <glide-core-tree-item
-        label=${arguments_['<glide-core-tree-item>.label']}
-        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
-        >
-      </glide-core-tree-item></glide-core-tree-item>
-    </glide-core-tree>
-  `,
-};
-
-export const TreeItemWithChildItemsCollapsed: StoryObj = {
-  name: 'Tree Item (With Child Items Collapsed)',
-  args: {
-    '<glide-core-tree-item>.expanded': false,
-  },
-  argTypes: {
-    '<glide-core-tree-item>.expanded': {
-      control: { type: 'boolean' },
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-      },
-    },
-    '<glide-core-tree-item>.selected': {
-      table: {
-        disable: true,
-      },
-    },
-  },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-    </script>
-
-    <glide-core-tree>
-      <glide-core-tree-item
-        label=${arguments_['<glide-core-tree-item>.label']}
-        ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
-      >
-        <glide-core-tree-item label="Leaf 1"></glide-core-tree-item>
-        <glide-core-tree-item label="Leaf 2"> </glide-core-tree-item>
-        <glide-core-tree-item label="Leaf 3"></glide-core-tree-item>
-      </glide-core-tree-item>
-    </glide-core-tree>
-  `,
-};
-
-export const TreeItemWithChildItemsExpanded: StoryObj = {
-  name: 'Tree Item (With Child Items Expanded)',
-  args: {
-    '<glide-core-tree-item>.expanded': true,
-  },
-  argTypes: {
-    '<glide-core-tree-item>.expanded': {
-      control: { type: 'boolean' },
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-      },
-    },
-    '<glide-core-tree-item>.selected': {
-      table: {
-        disable: true,
-      },
-    },
-  },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-    </script>
-
-    <glide-core-tree>
-      <glide-core-tree-item
-        label=${arguments_['<glide-core-tree-item>.label']}
-        ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
-      >
-        <glide-core-tree-item label="Leaf 1"></glide-core-tree-item>
-        <glide-core-tree-item label="Leaf 2"> </glide-core-tree-item>
-        <glide-core-tree-item label="Leaf 3"></glide-core-tree-item>
-      </glide-core-tree-item>
-    </glide-core-tree>
-  `,
-};
-
-export const TreeItemWithChildItemsNonCollapsible: StoryObj = {
-  name: 'Tree Item (With Child Items Non-Collapsible)',
-  args: {
-    '<glide-core-tree-item>.expanded': true,
-    '<glide-core-tree-item>.non-collapsible': true,
-    '<glide-core-tree-item>.remove-indentation': true,
-  },
-  argTypes: {
-    '<glide-core-tree-item>.expanded': {
-      control: { type: 'boolean' },
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-      },
-    },
-    '<glide-core-tree-item>.non-collapsible': {
-      control: { type: 'boolean' },
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-      },
-    },
-    '<glide-core-tree-item>.remove-indentation': {
-      control: { type: 'boolean' },
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-      },
-    },
-    '<glide-core-tree-item>.selected': {
-      table: {
-        disable: true,
-      },
-    },
-  },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-    </script>
-
-    <glide-core-tree>
-      <glide-core-tree-item
-        label=${arguments_['<glide-core-tree-item>.label']}
-        ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
-        ?non-collapsible=${arguments_[
-          '<glide-core-tree-item>.non-collapsible'
-        ] || nothing}
-        ?remove-indentation=${arguments_[
-          '<glide-core-tree-item>.remove-indentation'
-        ] || nothing}
-      >
-        <glide-core-example-icon
-          slot="prefix"
-          name="share"
-        ></glide-core-example-icon>
-        <glide-core-tree-item label="Leaf 1"></glide-core-tree-item>
-        <glide-core-tree-item label="Leaf 2"> </glide-core-tree-item>
-        <glide-core-tree-item label="Leaf 3"></glide-core-tree-item>
-      </glide-core-tree-item>
-    </glide-core-tree>
-  `,
-};
-
-export const TreeItemWithPrefixIcon: StoryObj = {
-  name: 'Tree Item (With Prefix Icon)',
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-    </script>
-
-    <glide-core-tree>
-      <glide-core-tree-item
-        label=${arguments_['<glide-core-tree-item>.label']}
-        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
-        >
-        <glide-core-example-icon slot="prefix" name="share"></glide-core-example-icon>
-      </glide-core-tree-item></glide-core-tree-item>
-    </glide-core-tree>
-  `,
-};
-
-export const TreeItemWithSuffixIconButton: StoryObj = {
-  name: 'Tree Item (With Suffix Icon Button)',
-  render: (arguments_) => html`
-      <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-      import '@crowdstrike/glide-core/tree.item.icon-button.js';
-    </script>
-
-    <glide-core-tree>
-      <glide-core-tree-item
-        label=${arguments_['<glide-core-tree-item>.label']}
-        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
-        >
-        <glide-core-tree-item-icon-button slot="suffix" label="Settings for ${
-          arguments_['<glide-core-tree-item>.label']
-        }">
-          <glide-core-example-icon name="settings"></glide-core-example-icon>
-        </glide-core-tree-item-icon-button>
-      </glide-core-tree-item></glide-core-tree-item>
-    </glide-core-tree>
-  `,
-};
-
-export const TreeItemWithMenu: StoryObj = {
-  name: 'Tree Item (With Menu on hover)',
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-      import '@crowdstrike/glide-core/tree.item.menu.js';
-      import '@crowdstrike/glide-core/menu.link.js';
-    </script>
-
-    <div style="max-width: 18.75rem; height: 8rem;">
-      <glide-core-tree>
-        <glide-core-tree-item
-          label=${arguments_['<glide-core-tree-item>.label']}
-          ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
-          >
-          <glide-core-tree-item-menu slot="menu" placement=${
-            arguments_['<glide-core-tree-item-menu>.placement']
-          }>
-            ${treeItemMenu}
-          </glide-core-tree-item-menu>
-        </glide-core-tree-item></glide-core-tree-item>
-      </glide-core-tree>
-    </div>
-  `,
-};
-
-export const TreeItemWithPrefixSuffixAndMenu: StoryObj = {
-  name: 'Tree Item (With Prefix, Suffix, and Menu)',
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-      import '@crowdstrike/glide-core/tree.item.menu.js';
-      import '@crowdstrike/glide-core/menu.link.js';
-    </script>
-
-    <div style="max-width: 18.75rem; height: 8rem;">
-      <glide-core-tree>
-        <glide-core-tree-item
-          label=${arguments_['<glide-core-tree-item>.label']}
-          ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
-          >
-          <glide-core-example-icon slot="prefix" name="share"></glide-core-example-icon>
-          <glide-core-example-icon slot="suffix" name="settings"></glide-core-example-icon>
-
-          <glide-core-tree-item-menu slot="menu" placement=${
-            arguments_['<glide-core-tree-item-menu>.placement']
-          }>
-            ${treeItemMenu}
-          </glide-core-tree-item-menu>
-        </glide-core-tree-item></glide-core-tree-item>
-      </glide-core-tree>
-    </div>
-  `,
-};
-
-const treeItemMenu = html`
-  <glide-core-menu-link label="Edit" url="/edit">
-    <glide-core-example-icon
-      slot="icon"
-      name="pencil"
-    ></glide-core-example-icon>
-  </glide-core-menu-link>
-
-  <glide-core-menu-link label="Move" url="/move">
-    <glide-core-example-icon slot="icon" name="move"></glide-core-example-icon>
-  </glide-core-menu-link>
-
-  <glide-core-menu-link label="Share" url="/share">
-    <glide-core-example-icon slot="icon" name="share"></glide-core-example-icon>
-  </glide-core-menu-link>
-
-  <glide-core-menu-link label="Settings" url="/settings">
-    <glide-core-example-icon
-      slot="icon"
-      name="settings"
-    ></glide-core-example-icon>
-  </glide-core-menu-link>
-`;
+export const Tree: StoryObj = {};
