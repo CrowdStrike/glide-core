@@ -79,7 +79,6 @@ const meta: Meta = {
             slot="prefix"
             name="share"
           ></glide-core-example-icon>
-          <glide-core-tree-item></glide-core-tree-item>
 
           <glide-core-tree-item label="Leaf">
             <glide-core-tree-item-icon-button
