@@ -1,10 +1,10 @@
 import { css } from 'lit';
-import menuOpeningAnimation from './styles/menu-opening-animation.js';
+import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
-    ${menuOpeningAnimation('.options:popover-open')}
+    ${opacityAndScaleAnimation('.options:popover-open')}
     ${visuallyHidden('.selected-option-labels')}
   `,
   css`
