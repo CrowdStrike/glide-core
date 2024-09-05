@@ -3,7 +3,6 @@ import eslint from '@eslint/js';
 import glideCore from './dist/eslint/plugin.js';
 import globals from 'globals';
 import noOnlyTests from 'eslint-plugin-no-only-tests';
-import noSkipTests from 'eslint-plugin-no-skip-tests';
 import prettier from 'eslint-config-prettier';
 import sortClassMembers from 'eslint-plugin-sort-class-members';
 import stylistic from '@stylistic/eslint-plugin';
@@ -30,7 +29,6 @@ export default [
       '@stylistic': stylistic,
       '@crowdstrike/glide-core': glideCore,
       'no-only-tests': noOnlyTests,
-      'no-skip-tests': noSkipTests,
     },
     languageOptions: {
       parserOptions: {
@@ -45,6 +43,7 @@ export default [
       '@crowdstrike/glide-core/no-nested-template-literals': 'error',
       '@crowdstrike/glide-core/no-redundant-property-attribute': 'error',
       '@crowdstrike/glide-core/no-redundant-property-string-type': 'error',
+      '@crowdstrike/glide-core/no-skip-tests': 'error',
       '@crowdstrike/glide-core/prefer-closed-shadow-root': 'error',
       '@crowdstrike/glide-core/prefixed-lit-element-class-declaration': 'error',
 
@@ -111,7 +110,6 @@ export default [
       ],
 
       'no-only-tests/no-only-tests': 'error',
-      'no-skip-tests/no-skip-tests': 'error',
 
       // We work with the DOM enough that this rule also became tiresome.
       'unicorn/no-null': 'off',

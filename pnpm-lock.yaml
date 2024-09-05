@@ -129,9 +129,6 @@ importers:
       eslint-plugin-no-only-tests:
         specifier: ^3.1.0
         version: 3.1.0
-      eslint-plugin-no-skip-tests:
-        specifier: ^1.1.0
-        version: 1.1.0
       eslint-plugin-sort-class-members:
         specifier: ^1.20.0
         version: 1.20.0(eslint@8.57.0)
@@ -3440,10 +3437,6 @@ packages:
   eslint-plugin-no-only-tests@3.1.0:
     resolution: {integrity: sha512-Lf4YW/bL6Un1R6A76pRZyE1dl1vr31G/ev8UzIc/geCgFWyrKil8hVjYqWVKGB/UIGmb6Slzs9T0wNezdSVegw==}
     engines: {node: '>=5.0.0'}
-
-  eslint-plugin-no-skip-tests@1.1.0:
-    resolution: {integrity: sha512-o4Siv+8PqR8IilHnxdMogvZ2kAVpt3Zrz+LEQaWbremRn4cHcrrj+v+i4sr+ivQrsjz2NTxIRTTCEdYE90+ieQ==}
-    engines: {node: '>=0.10.0'}
 
   eslint-plugin-sort-class-members@1.20.0:
     resolution: {integrity: sha512-xNaik4GQ/pRwd1soIVI28HEXZbrWoLR5krau2+E8YcHj7N09UviPg5mYhf/rELG29bIFJdXDOFJazN90+luMOw==}
@@ -9811,8 +9804,6 @@ snapshots:
       requireindex: 1.2.0
 
   eslint-plugin-no-only-tests@3.1.0: {}
-
-  eslint-plugin-no-skip-tests@1.1.0: {}
 
   eslint-plugin-sort-class-members@1.20.0(eslint@8.57.0):
     dependencies:
