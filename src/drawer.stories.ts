@@ -153,6 +153,4 @@ const meta: Meta = {
 
 export default meta;
 
-export const Drawer: StoryObj = {
-  tags: ['!dev'],
-};
+export const Drawer: StoryObj = {};

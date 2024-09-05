@@ -70,6 +70,4 @@ const meta: Meta = {
 
 export default meta;
 
-export const Basic: StoryObj = {
-  tags: ['!autodocs', '!dev'],
-};
+export const IconButton: StoryObj = {};

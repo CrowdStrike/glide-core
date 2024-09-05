@@ -98,6 +98,4 @@ const meta: Meta = {
 
 export default meta;
 
-export const Toasts: StoryObj = {
-  tags: ['!dev'],
-};
+export const Toasts: StoryObj = {};

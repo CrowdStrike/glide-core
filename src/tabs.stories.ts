@@ -65,7 +65,7 @@ const meta: Meta = {
 export default meta;
 
 export const Tabs: StoryObj = {
-  tags: ['!autodocs', '!dev'],
+  tags: ['!autodocs'],
 };
 
 export const WithOverflow: StoryObj = {

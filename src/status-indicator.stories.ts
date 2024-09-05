@@ -61,6 +61,4 @@ const meta: Meta = {
 
 export default meta;
 
-export const StatusIndicator: StoryObj = {
-  tags: ['!dev'],
-};
+export const StatusIndicator: StoryObj = {};

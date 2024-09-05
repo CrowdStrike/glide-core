@@ -82,7 +82,7 @@ const meta: Meta = {
 export default meta;
 
 export const Tag: StoryObj = {
-  tags: ['!autodocs', '!dev'],
+  tags: ['!autodocs'],
 };
 
 export const WithIcon: StoryObj = {

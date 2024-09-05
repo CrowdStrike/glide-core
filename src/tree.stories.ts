@@ -210,6 +210,4 @@ const meta: Meta = {
 
 export default meta;
 
-export const Tree: StoryObj = {
-  tags: ['!dev'],
-};
+export const Tree: StoryObj = {};

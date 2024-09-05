@@ -193,7 +193,7 @@ const meta: Meta = {
 export default meta;
 
 export const RadioGroup: StoryObj = {
-  tags: ['!autodocs', '!dev'],
+  tags: ['!autodocs'],
 };
 
 export const WithError: StoryObj = {

@@ -155,7 +155,7 @@ const meta: Meta = {
 export default meta;
 
 export const SplitButton: StoryObj = {
-  tags: ['!autodocs', '!dev'],
+  tags: ['!autodocs'],
 };
 
 export const WithIcon: StoryObj = {

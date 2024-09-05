@@ -226,7 +226,7 @@ const meta: Meta = {
 export default meta;
 
 export const Textarea: StoryObj = {
-  tags: ['!autodocs', '!dev'],
+  tags: ['!autodocs'],
 };
 
 export const WithError: StoryObj = {

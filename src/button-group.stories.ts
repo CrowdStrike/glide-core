@@ -160,7 +160,7 @@ const meta: Meta = {
 export default meta;
 
 export const ButtonGroup: StoryObj = {
-  tags: ['!autodocs', '!dev'],
+  tags: ['!autodocs'],
 };
 
 export const WithIcons: StoryObj = {

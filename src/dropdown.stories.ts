@@ -313,7 +313,7 @@ const meta: Meta = {
 export default meta;
 
 export const Dropdown: StoryObj = {
-  tags: ['!autodocs', '!dev'],
+  tags: ['!autodocs'],
 };
 
 export const WithError: StoryObj = {

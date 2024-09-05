@@ -173,7 +173,7 @@ const meta: Meta = {
 export default meta;
 
 export const CheckboxGroup: StoryObj = {
-  tags: ['!autodocs', '!dev'],
+  tags: ['!autodocs'],
 };
 
 export const WithError: StoryObj = {
