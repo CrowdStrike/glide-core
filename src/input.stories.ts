@@ -33,14 +33,7 @@ const meta: Meta = {
     readonly: false,
     'reportValidity()': '',
     required: false,
-    'slot="description"': html`
-      <span>Description with</span>
-      <a
-        href="#"
-        style="text-decoration:none;color:var(--glide-core-text-link);"
-        >link</a
-      >
-    `,
+    'slot="description"': 'Description',
     'slot="tooltip"': '',
     spellcheck: 'false',
     type: 'text',
@@ -197,13 +190,11 @@ const meta: Meta = {
       },
     },
     'slot="tooltip"': {
-      control: { type: 'text' },
       table: {
-        type: { summary: 'string' },
+        type: { summary: 'HTMLKBDElement | string' },
       },
     },
     'slot="description"': {
-      control: { type: 'text' },
       table: {
         type: { summary: 'Element | string' },
       },

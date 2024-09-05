@@ -31,26 +31,17 @@ const meta: Meta = {
     orientation: 'horizontal',
     'reportValidity()': '',
     required: false,
-    'slot="description"': html`
-      <span>Description with</span>
-      <a
-        href="#"
-        style="text-decoration:none;color:var(--glide-core-text-link);"
-        >link</a
-      >
-    `,
+    'slot="description"': 'Description',
     'slot="tooltip"': '',
     value: '',
   },
   argTypes: {
     'slot="description"': {
-      control: { type: 'text' },
       table: {
         type: { summary: 'Element | string' },
       },
     },
     'slot="tooltip"': {
-      control: { type: 'text' },
       table: {
         type: { summary: 'HTMLKBDElement | string' },
       },

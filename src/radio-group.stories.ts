@@ -79,14 +79,7 @@ const meta: Meta = {
     disabled: false,
     name: '',
     required: false,
-    'slot="description"': html`
-      <span>Description with</span>
-      <a
-        href="#"
-        style="text-decoration:none;color:var(--glide-core-text-link);"
-        >link</a
-      >
-    `,
+    'slot="description"': 'Description',
     'slot="tooltip"': '',
     'reportValidity()': '',
     value: '',
@@ -101,14 +94,14 @@ const meta: Meta = {
       type: { name: 'function', required: true },
     },
     'slot="description"': {
-      control: { type: 'text' },
       table: {
         type: { summary: 'Element | string' },
       },
     },
     'slot="tooltip"': {
+      control: { type: 'text' },
       table: {
-        type: { summary: 'Element | string' },
+        type: { summary: 'HTMLKBDElement | string' },
       },
     },
     'addEventListener(event, listener)': {

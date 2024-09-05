@@ -44,14 +44,7 @@ const meta: Meta = {
     'reportValidity()': '',
     required: false,
     rows: 2,
-    'slot="description"': html`
-      <span>Description with</span>
-      <a
-        href="#"
-        style="text-decoration:none;color:var(--glide-core-text-link);"
-        >link</a
-      >
-    `,
+    'slot="description"': 'Description',
     'slot="tooltip"': '',
     spellcheck: 'false',
     value: '',
