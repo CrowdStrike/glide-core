@@ -13,39 +13,157 @@ const meta: Meta = {
       },
     },
   },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/button.js';
-    </script>
+  render: (arguments_) => {
+    /* eslint-disable unicorn/explicit-length-check */
+    return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/button.js';
+      </script>
 
-    <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
-      variant=${arguments_.variant}
-      ?disabled=${arguments_.disabled || nothing}
-      >${arguments_['slot="default"']}</glide-core-button
-    >
-  `,
+      <form>
+        <glide-core-button
+          formaction=${arguments_.formaction || nothing}
+          formenctype=${arguments_.formenctype || nothing}
+          formmethod=${arguments_.formmethod || nothing}
+          formtarget=${arguments_.formtarget || nothing}
+          name=${arguments_.name || nothing}
+          popovertarget=${arguments_.popovertarget || nothing}
+          popovertargetaction=${arguments_.popovertargetaction || nothing}
+          size=${arguments_.size || nothing}
+          type=${arguments_.type || nothing}
+          value=${arguments_.value || nothing}
+          variant=${arguments_.variant || nothing}
+          ?autofocus=${arguments_.autofocus}
+          ?disabled=${arguments_.disabled || nothing}
+          ?formnovalidate=${arguments_.formnovalidate}
+          >${arguments_['slot="default"']}</glide-core-button
+        >
+      </form>
+    `;
+  },
   args: {
     'slot="default"': 'Button',
+    autofocus: false,
     disabled: false,
+    form: '',
+    formaction: '',
+    formenctype: 'application/x-www-form-urlencoded',
+    formmethod: 'get',
+    formnovalidate: false,
+    formtarget: '_self',
+    name: '',
+    popovertarget: '',
+    popovertargetaction: 'toggle',
     size: 'large',
     type: 'button',
+    value: '',
     variant: 'primary',
   },
   argTypes: {
-    variant: {
-      control: { type: 'radio' },
-      options: ['primary', 'secondary', 'tertiary'],
+    'slot="default"': {
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'Element | string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    autofocus: {
       table: {
         defaultValue: {
-          summary: '"primary"',
+          summary: 'false',
         },
-        type: { summary: '"primary" | "secondary" | "tertiary"' },
       },
     },
     disabled: {
-      control: 'boolean',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    form: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: 'null',
+        },
+        type: { summary: 'readonly HTMLFormElement | readonly null' },
+      },
+    },
+    formaction: {
+      table: {
+        defaultValue: {
+          summary: '""',
+        },
+      },
+    },
+    formenctype: {
+      control: { type: 'select' },
+      options: [
+        '',
+        'application/x-www-form-urlencoded',
+        'multipart/form-data',
+        'text/plain',
+      ],
+      table: {
+        defaultValue: {
+          summary: '"application/x-www-form-urlencoded"',
+        },
+        type: {
+          summary:
+            '"application/x-www-form-urlencoded" | "multipart/form-data" | "text/plain"',
+        },
+      },
+    },
+    formmethod: {
+      control: { type: 'select' },
+      options: ['', 'dialog', 'get', 'post'],
+      table: {
+        defaultValue: {
+          summary: '"get"',
+        },
+        type: {
+          summary: '"dialog" | "get" | "post"',
+        },
+      },
+    },
+    formnovalidate: {
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    formtarget: {
+      control: { type: 'select' },
+      options: ['', '_blank', '_parent', '_self', '_top'],
+      table: {
+        defaultValue: {
+          summary: '"_self"',
+        },
+        type: {
+          summary: '"_blank" | "_parent" | "_self" | "_top"',
+        },
+      },
+    },
+    name: {
+      table: {
+        defaultValue: {
+          summary: '""',
+        },
+      },
+    },
+    popovertargetaction: {
+      control: { type: 'select' },
+      options: ['', 'hide', 'show', 'toggle'],
+      table: {
+        defaultValue: {
+          summary: '"toggle"',
+        },
+        type: {
+          summary: '"hide" | "show" | "toggle"',
+        },
+      },
     },
     size: {
       control: { type: 'radio' },
@@ -57,13 +175,6 @@ const meta: Meta = {
         type: { summary: '"large" | "small"' },
       },
     },
-    'slot="default"': {
-      control: { type: 'text' },
-      table: {
-        type: { summary: 'Element | string' },
-      },
-      type: { name: 'string', required: true },
-    },
     type: {
       control: { type: 'select' },
       options: ['button', 'reset', 'submit'],
@@ -72,6 +183,25 @@ const meta: Meta = {
           summary: '"button"',
         },
         type: { summary: '"button" | "reset" | "submit"' },
+      },
+    },
+    value: {
+      control: { type: 'text' },
+      table: {
+        defaultValue: {
+          summary: '""',
+        },
+        type: { summary: 'string' },
+      },
+    },
+    variant: {
+      control: { type: 'radio' },
+      options: ['primary', 'secondary', 'tertiary'],
+      table: {
+        defaultValue: {
+          summary: '"primary"',
+        },
+        type: { summary: '"primary" | "secondary" | "tertiary"' },
       },
     },
   },
@@ -96,10 +226,20 @@ export const PrimaryWithPrefixIcon: StoryObj = {
     </script>
 
     <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
-      variant=${arguments_.variant}
+      formaction=${arguments_.formaction || nothing}
+      formenctype=${arguments_.formenctype || nothing}
+      formmethod=${arguments_.formmethod || nothing}
+      formtarget=${arguments_.formtarget || nothing}
+      name=${arguments_.name || nothing}
+      popovertarget=${arguments_.popovertarget || nothing}
+      popovertargetaction=${arguments_.popovertargetaction || nothing}
+      size=${arguments_.size || nothing}
+      type=${arguments_.type || nothing}
+      value=${arguments_.value || nothing}
+      variant=${arguments_.variant || nothing}
+      ?autofocus=${arguments_.autofocus}
       ?disabled=${arguments_.disabled}
+      ?formnovalidate=${arguments_.formnovalidate}
     >
       ${arguments_['slot="default"']}
 
@@ -119,10 +259,20 @@ export const PrimaryWithSuffixIcon: StoryObj = {
     </script>
 
     <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
+      formaction=${arguments_.formaction || nothing}
+      formenctype=${arguments_.formenctype || nothing}
+      formmethod=${arguments_.formmethod || nothing}
+      formtarget=${arguments_.formtarget || nothing}
+      name=${arguments_.name || nothing}
+      popovertarget=${arguments_.popovertarget || nothing}
+      popovertargetaction=${arguments_.popovertargetaction || nothing}
+      size=${arguments_.size || nothing}
+      type=${arguments_.type || nothing}
+      value=${arguments_.value || nothing}
       variant=${arguments_.variant}
+      ?autofocus=${arguments_.autofocus}
       ?disabled=${arguments_.disabled}
+      ?formnovalidate=${arguments_.formnovalidate}
     >
       ${arguments_['slot="default"']}
 
@@ -142,10 +292,20 @@ export const PrimaryWithPrefixAndSuffixIcons: StoryObj = {
     </script>
 
     <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
+      formaction=${arguments_.formaction || nothing}
+      formenctype=${arguments_.formenctype || nothing}
+      formmethod=${arguments_.formmethod || nothing}
+      formtarget=${arguments_.formtarget || nothing}
+      name=${arguments_.name || nothing}
+      popovertarget=${arguments_.popovertarget || nothing}
+      popovertargetaction=${arguments_.popovertargetaction || nothing}
+      size=${arguments_.size || nothing}
+      type=${arguments_.type || nothing}
+      value=${arguments_.value || nothing}
       variant=${arguments_.variant}
+      ?autofocus=${arguments_.autofocus}
       ?disabled=${arguments_.disabled}
+      ?formnovalidate=${arguments_.formnovalidate}
     >
       ${arguments_['slot="default"']}
 
@@ -178,10 +338,20 @@ export const SecondaryWithPrefixIcon: StoryObj = {
     </script>
 
     <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
+      formaction=${arguments_.formaction || nothing}
+      formenctype=${arguments_.formenctype || nothing}
+      formmethod=${arguments_.formmethod || nothing}
+      formtarget=${arguments_.formtarget || nothing}
+      name=${arguments_.name || nothing}
+      popovertarget=${arguments_.popovertarget || nothing}
+      popovertargetaction=${arguments_.popovertargetaction || nothing}
+      size=${arguments_.size || nothing}
+      type=${arguments_.type || nothing}
+      value=${arguments_.value || nothing}
       variant=${arguments_.variant}
+      ?autofocus=${arguments_.autofocus}
       ?disabled=${arguments_.disabled}
+      ?formnovalidate=${arguments_.formnovalidate}
     >
       ${arguments_['slot="default"']}
 
@@ -204,10 +374,20 @@ export const SecondaryWithSuffixIcon: StoryObj = {
     </script>
 
     <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
-      variant=${arguments_.variant}
+      formaction=${arguments_.formaction || nothing}
+      formenctype=${arguments_.formenctype || nothing}
+      formmethod=${arguments_.formmethod || nothing}
+      formtarget=${arguments_.formtarget || nothing}
+      name=${arguments_.name || nothing}
+      popovertarget=${arguments_.popovertarget || nothing}
+      popovertargetaction=${arguments_.popovertargetaction || nothing}
+      size=${arguments_.size || nothing}
+      type=${arguments_.type || nothing}
+      value=${arguments_.value || nothing}
+      variant=${arguments_.variant || nothing}
+      ?autofocus=${arguments_.autofocus}
       ?disabled=${arguments_.disabled}
+      ?formnovalidate=${arguments_.formnovalidate}
     >
       ${arguments_['slot="default"']}
 
@@ -230,10 +410,20 @@ export const SecondaryWithPrefixAndSuffixIcons: StoryObj = {
     </script>
 
     <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
-      variant=${arguments_.variant}
+      formaction=${arguments_.formaction || nothing}
+      formenctype=${arguments_.formenctype || nothing}
+      formmethod=${arguments_.formmethod || nothing}
+      formtarget=${arguments_.formtarget || nothing}
+      name=${arguments_.name || nothing}
+      popovertarget=${arguments_.popovertarget || nothing}
+      popovertargetaction=${arguments_.popovertargetaction || nothing}
+      size=${arguments_.size || nothing}
+      type=${arguments_.type || nothing}
+      value=${arguments_.value || nothing}
+      variant=${arguments_.variant || nothing}
+      ?autofocus=${arguments_.autofocus}
       ?disabled=${arguments_.disabled}
+      ?formnovalidate=${arguments_.formnovalidate}
     >
       ${arguments_['slot="default"']}
 
@@ -266,10 +456,20 @@ export const TertiaryWithPrefixIcon: StoryObj = {
     </script>
 
     <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
-      variant=${arguments_.variant}
+      formaction=${arguments_.formaction || nothing}
+      formenctype=${arguments_.formenctype || nothing}
+      formmethod=${arguments_.formmethod || nothing}
+      formtarget=${arguments_.formtarget || nothing}
+      name=${arguments_.name || nothing}
+      popovertarget=${arguments_.popovertarget || nothing}
+      popovertargetaction=${arguments_.popovertargetaction || nothing}
+      size=${arguments_.size || nothing}
+      type=${arguments_.type || nothing}
+      value=${arguments_.value || nothing}
+      variant=${arguments_.variant || nothing}
+      ?autofocus=${arguments_.autofocus}
       ?disabled=${arguments_.disabled}
+      ?formnovalidate=${arguments_.formnovalidate}
     >
       ${arguments_['slot="default"']}
 
@@ -292,10 +492,20 @@ export const TertiaryWithSuffixIcon: StoryObj = {
     </script>
 
     <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
-      variant=${arguments_.variant}
+      formaction=${arguments_.formaction || nothing}
+      formenctype=${arguments_.formenctype || nothing}
+      formmethod=${arguments_.formmethod || nothing}
+      formtarget=${arguments_.formtarget || nothing}
+      name=${arguments_.name || nothing}
+      popovertarget=${arguments_.popovertarget || nothing}
+      popovertargetaction=${arguments_.popovertargetaction || nothing}
+      size=${arguments_.size || nothing}
+      type=${arguments_.type || nothing}
+      value=${arguments_.value || nothing}
+      variant=${arguments_.variant || nothing}
+      ?autofocus=${arguments_.autofocus}
       ?disabled=${arguments_.disabled}
+      ?formnovalidate=${arguments_.formnovalidate}
     >
       ${arguments_['slot="default"']}
 
@@ -318,10 +528,19 @@ export const TertiaryWithPrefixAndSuffixIcons: StoryObj = {
     </script>
 
     <glide-core-button
-      size=${arguments_.size}
-      type=${arguments_.type}
+      formaction=${arguments_.formaction || nothing}
+      formenctype=${arguments_.formenctype || nothing}
+      formmethod=${arguments_.formmethod || nothing}
+      name=${arguments_.name || nothing}
+      popovertarget=${arguments_.popovertarget || nothing}
+      popovertargetaction=${arguments_.popovertargetaction || nothing}
+      size=${arguments_.size || nothing}
+      type=${arguments_.type || nothing}
+      value=${arguments_.value || nothing}
       variant=${arguments_.variant}
+      ?autofocus=${arguments_.autofocus}
       ?disabled=${arguments_.disabled}
+      ?formnovalidate=${arguments_.formnovalidate}
     >
       ${arguments_['slot="default"']}
 
