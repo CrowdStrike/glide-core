@@ -126,9 +126,6 @@ importers:
       eslint-plugin-lit-a11y:
         specifier: ^4.1.2
         version: 4.1.2(eslint@8.57.0)
-      eslint-plugin-no-only-tests:
-        specifier: ^3.1.0
-        version: 3.1.0
       eslint-plugin-sort-class-members:
         specifier: ^1.20.0
         version: 1.20.0(eslint@8.57.0)

@@ -1,15 +1,15 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import { noSkipTests } from './no-skip-tests.js';
+import { noOnlyTests } from './no-only-tests.js';
 
 const ruleTester = new RuleTester();
 
-ruleTester.run('no-skip-tests', noSkipTests, {
+ruleTester.run('no-only-tests', noOnlyTests, {
   valid: [
     {
       code: "it('is a valid test', function () {})",
     },
     {
-      code: "it.only('uses some other method on it', function () {})",
+      code: "it.skip('uses some other method on it', function () {})",
     },
     {
       // Verifies we ignore CallExpressions without `arguments`, which would mean
@@ -19,8 +19,8 @@ ruleTester.run('no-skip-tests', noSkipTests, {
   ],
   invalid: [
     {
-      code: "it.skip('is skipping a test', function () {})",
-      errors: [{ messageId: 'noSkip' }],
+      code: "it.only('is onlying a test', function () {})",
+      errors: [{ messageId: 'noOnly' }],
     },
   ],
 });

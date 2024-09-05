@@ -2,7 +2,6 @@ import { FlatCompat } from '@eslint/eslintrc';
 import eslint from '@eslint/js';
 import glideCore from './dist/eslint/plugin.js';
 import globals from 'globals';
-import noOnlyTests from 'eslint-plugin-no-only-tests';
 import prettier from 'eslint-config-prettier';
 import sortClassMembers from 'eslint-plugin-sort-class-members';
 import stylistic from '@stylistic/eslint-plugin';
@@ -28,7 +27,6 @@ export default [
     plugins: {
       '@stylistic': stylistic,
       '@crowdstrike/glide-core': glideCore,
-      'no-only-tests': noOnlyTests,
     },
     languageOptions: {
       parserOptions: {
@@ -41,6 +39,7 @@ export default [
         'error',
       '@crowdstrike/glide-core/no-glide-core-prefixed-event-name': 'error',
       '@crowdstrike/glide-core/no-nested-template-literals': 'error',
+      '@crowdstrike/glide-core/no-only-tests': 'error',
       '@crowdstrike/glide-core/no-redundant-property-attribute': 'error',
       '@crowdstrike/glide-core/no-redundant-property-string-type': 'error',
       '@crowdstrike/glide-core/no-skip-tests': 'error',
@@ -108,8 +107,6 @@ export default [
         'always',
         { exceptAfterSingleLine: false },
       ],
-
-      'no-only-tests/no-only-tests': 'error',
 
       // We work with the DOM enough that this rule also became tiresome.
       'unicorn/no-null': 'off',
