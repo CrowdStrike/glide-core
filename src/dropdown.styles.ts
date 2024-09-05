@@ -50,9 +50,6 @@ export default [
         block-size: 1.5rem;
         border-color: transparent;
         border-radius: var(--glide-core-border-radius-round);
-        font-size: var(--glide-core-heading-xxxs-font-size);
-        font-style: var(--glide-core-heading-xxxs-font-style);
-        font-weight: var(--glide-core-heading-xxxs-font-weight);
         gap: var(--glide-core-spacing-xxs);
         min-inline-size: 3.75rem;
         padding-block: 0;
