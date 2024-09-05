@@ -72,7 +72,7 @@ export default [
         color: var(--glide-core-text-header-2);
         display: inline-block;
         font-family: inherit;
-        margin-inline-start: var(--glide-core-spacing-sm);
+        font-size: inherit;
         white-space: nowrap;
       }
 
@@ -129,13 +129,17 @@ export default [
     }
 
     .default-slot {
+      align-items: center;
       background-color: var(--glide-core-surface-base-dark);
       border-radius: var(--glide-core-spacing-xs);
       color: var(--glide-core-text-selected);
-      display: block;
+      column-gap: var(--glide-core-spacing-xs);
+      display: flex;
       font-family: var(--glide-core-body-md-font-family);
+      font-size: var(--glide-core-body-sm-font-size);
       font-style: var(--glide-core-body-md-font-style);
       font-weight: var(--glide-core-body-md-font-weight);
+      hyphens: auto;
       inline-size: max-content;
       inset-block-start: 50%;
       max-inline-size: 11.25rem;
