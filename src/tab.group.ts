@@ -68,9 +68,6 @@ export default class GlideCoreTabGroup extends LitElement {
   override firstUpdated() {
     owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
-    this.#setupTabs();
-    this.#setActiveTab();
-    this.#setupResizeObserver();
   }
 
   override render() {
@@ -325,7 +322,10 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #onNavSlotChange() {
     owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
+    this.#setupTabs();
+    this.#setActiveTab();
     this.#setupActiveTabIndicator();
+    this.#setupResizeObserver();
     this.#setOverflowButtonsState();
   }
 
