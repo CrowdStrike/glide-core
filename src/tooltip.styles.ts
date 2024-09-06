@@ -138,7 +138,7 @@ export default [
       font-family: var(--glide-core-body-md-font-family);
       font-size: var(--glide-core-body-sm-font-size);
       font-style: var(--glide-core-body-sm-font-style);
-      font-weight: var(--glide-core-body-md-font-weight);
+      font-weight: var(--glide-core-body-sm-font-weight);
       hyphens: auto;
       inline-size: max-content;
       inset-block-start: 50%;
