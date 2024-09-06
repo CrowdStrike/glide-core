@@ -30,6 +30,7 @@ const meta: Meta = {
     label: 'Label',
     'slot="default"': '',
     disabled: false,
+    variant: 'primary',
   },
   argTypes: {
     'slot="default"': {
