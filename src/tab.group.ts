@@ -68,9 +68,6 @@ export default class GlideCoreTabGroup extends LitElement {
   override firstUpdated() {
     owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
-    this.#setupTabs();
-    this.#setActiveTab();
-    this.#setupActiveTabIndicator();
     this.#setupResizeObserver();
   }
 
@@ -326,6 +323,9 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #onNavSlotChange() {
     owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
+    this.#setupTabs();
+    this.#setActiveTab();
+    this.#setupActiveTabIndicator();
     this.#setOverflowButtonsState();
   }
 
@@ -466,42 +466,32 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #setupActiveTabIndicator() {
-    // Use `requestAnimationFrame` to wait for the active tab to render and measure.
-    // https://github.com/lit/lit-element/issues/219#issuecomment-423685669
-    requestAnimationFrame(() => {
-      if (this.activeTab && this.#componentElementRef.value) {
-        const activeTabPaddingInlineStart = Number.parseInt(
-          window
-            .getComputedStyle(this.activeTab)
-            .getPropertyValue('padding-inline-start'),
-        );
+    if (this.activeTab && this.#componentElementRef.value) {
+      const activeTabPaddingInlineStart = Number.parseInt(
+        window
+          .getComputedStyle(this.activeTab)
+          .getPropertyValue('padding-inline-start'),
+      );
 
-        const { width: activeTabWidth } =
-          this.activeTab.getBoundingClientRect();
+      const { width: activeTabWidth } = this.activeTab.getBoundingClientRect();
 
-        this.#componentElementRef.value.style.setProperty(
-          '--active-tab-indicator-width',
-          `${activeTabWidth - activeTabPaddingInlineStart}px`,
-        );
+      this.#componentElementRef.value.style.setProperty(
+        '--active-tab-indicator-width',
+        `${activeTabWidth - activeTabPaddingInlineStart}px`,
+      );
 
-        this.#componentElementRef.value.style.setProperty(
-          '--active-tab-indicator-translate',
-          `${activeTabPaddingInlineStart}px`,
-        );
+      this.#componentElementRef.value.style.setProperty(
+        '--active-tab-indicator-translate',
+        `${activeTabPaddingInlineStart}px`,
+      );
 
-        setTimeout(() => {
-          // We only want the animation to run *after*
-          // the user interacts with it directly. By adding
-          // this check, it ensures the animation does not play
-          // on first render to prevent distractions for the
-          // user.
-          // Use a `setTimeout` for otherwise this appears to
-          // be batched into an early update and the animation runs
-          // when there are no overflow buttons.
-          this.isAfterFirstUpdated = true;
-        });
-      }
-    });
+      // We only want the animation to run *after*
+      // the user interacts with it directly. By adding
+      // this check, it ensures the animation does not play
+      // on first render to prevent distractions for the
+      // user.
+      this.isAfterFirstUpdated = true;
+    }
   }
 
   #setupResizeObserver() {
