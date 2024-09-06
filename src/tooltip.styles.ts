@@ -137,7 +137,7 @@ export default [
       display: flex;
       font-family: var(--glide-core-body-md-font-family);
       font-size: var(--glide-core-body-sm-font-size);
-      font-style: var(--glide-core-body-md-font-style);
+      font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-body-md-font-weight);
       hyphens: auto;
       inline-size: max-content;
