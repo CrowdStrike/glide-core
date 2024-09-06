@@ -1,12 +1,12 @@
 # Contributing Guidelines
 
-- [Overview](#overview)
 - [Development setup](#development-setup)
-- [Pull request expectations](#pull-request-expectations)
 - [Forking the repository](#forking-the-repository)
 - [Don't reference internal systems, issues, or links](#dont-reference-internal-systems-issues-or-links)
 - [Versioning a package](#versioning-a-package)
-- [Coding Guidelines](#coding-guidelines)
+- [Best practices](#best-practices)
+  - [Proceed with caution when upgrading Storybook](#proceed-with-caution-when-upgrading-storybook)
+  - [Prefer controls over stories](#prefer-controls-over-stories)
   - [Prefer encapsulation](#prefer-encapsulation)
     - [Avoid styling `:host`](#avoid-styling-host)
     - [Avoid exposing `part`s](#avoid-exposing-parts)
@@ -15,6 +15,7 @@
     - [Prefer using a `ref` for querying a single element/node](#prefer-using-a-ref-for-querying-a-single-elementnode)
     - [Prefer turning animations off with `prefers-reduced-motion`](#prefer-turning-animations-off-with-prefers-reduced-motion)
   - [Prefer `rem`s](#prefer-rems)
+  - [Prefer assertions to narrow types](#prefer-assertions-to-narrow-types)
   - [Prefer throwing to letting invalid state propagate](#prefer-throwing-to-letting-invalid-state-propagate)
   - [Prefer conventions set by built-in elements](#prefer-conventions-set-by-built-in-elements)
   - [Prefer separate test files](#prefer-separate-test-files)
@@ -27,61 +28,42 @@
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
 
-## Overview
+## Development
 
-The Glide Core repository is setup as a `pnpm` workspace, containing the following published package:
-
-- `packages/components` - Glide Design System components built with [Lit](https://lit.dev/)
-
-The root directory also contains the following directories that are not published as packages:
-
-- `storybook` - Glide Design System Storybook instance for documenting everything in Glide Core
-
-## Development setup
-
-Follow the instructions outlined in the [README](./README.md) to setup your machine to develop in this repository.
-
-## Pull request expectations
-
-For a Pull Request to be approved and merged in the Glide Core repository, the following expectations must be met:
-
-- The Pull Request must go through a Design Review prior to merging. Contact the owners of this repository for information on formally requesting a Design Review.
-- The code must be as accessible as possible by using semantic HTML, `role` and `aria` attributes, and other accessibility techniques. Sometimes this requires the developer to research the best ways to make a component accessible. The [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) is a great resource to start with. If you are not sure how to make a component accessible, reach out to the team - we'd be happy to help!
-- PRs must include tests. If something cannot be tested, it should be documented as to why via code comments.
-- New or updated functionality must be documented with Storybook.
-- Static strings must be [localized](https://lit.dev/docs/localization/overview/).
-- The PR must follow our established patterns under our [Coding Guidelines](#coding-guidelines). Anything that deviates from these patterns must be discussed with the team.
+Follow the instructions in [README](./README.md) to set up your machine for development.
 
 ## Forking the repository
 
-If you are a member of the CrowdStrike GitHub organization, you can create branches off of the `main` branch directly.
-For those not in the CrowdStrike GitHub organization, you may [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and contribute as if you were contributing to any other open source project on GitHub.
+If you are a member of the CrowdStrike GitHub organization, you can branch off of `main`.
+For those not in the organization, you can [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and contribute as if you were contributing to any other open source project on GitHub.
 
 ## Don't reference internal systems, issues, or links
 
 When writing commit messages, providing Pull Request feedback, and creating Pull Request descriptions, one must take caution in what is written.
 This content **cannot** contain references to internal systems, proprietary images or source code, or anything else that could harm CrowdStrike or any other organization or individual contributing to this repository.
-Use common sense, but if you're unsure, please ask the team for guidance.
+Use common sense. If you're unsure, please ask the team for guidance.
 
 ## Versioning a package
 
-We use [changesets](https://github.com/changesets/changesets) to help manage releases.
-If your PR adds or adjusts functionality in one of our packages, be sure to include a changeset with your Pull Request.
-This can be completed by running the following at the root of the repository:
+We use [changesets](https://github.com/changesets/changesets) to manage our release notes.
+Include a changeset with your Pull Request if the change you made is one that consumers should know about:
 
 ```bash
 pnpm changeset
 ```
 
-Select the packages that include changes and write a meaningful changeset description.
-These descriptions are used to generate release notes to consumers, so be sure to be as descriptive and helpful as possible.
-Please ensure we are following [semantic versioning](https://semver.org/) when selecting a version bump.
+You'll be prompted to select the type of change according to [Semantic Versioning](https://semver.org).
+You'll also be prompted for a description.
+Descriptions are used in our release notes for consumers.
+So be sure to be as descriptive and helpful as possible.
 
-## Coding guidelines
+## Best practices
 
-Below are guidelines that are difficult to enforce with ESLint and prettier.
-These rules help us drive consistency; however, they can be tough to automate due to nuances with them.
-Instead, we've opted to document our opinions here so that they can be referenced during Pull Request reviews.
+### Proceed with caution when upgrading Storybook
+
+We [override](https://github.com/CrowdStrike/glide-core/blob/main/.storybook/overrides.css) a number of internal Storybook styles to improve Storybook's presentation.
+Storybook, of course, [does not](https://storybook.js.org/docs/configure/user-interface/theming#css-escape-hatches) guarantee they won't break our overrides with a new release.
+So be sure to verify and adjust the overrides as necessary when upgrading Storybook.
 
 ### Prefer controls over stories
 
@@ -389,6 +371,29 @@ button {
   min-width: 32px;
 }
 ```
+
+### Prefer assertions to narrow types
+
+Assert using `ow` to narrow instead of conditional when you're certain of a thing's type but nonetheless need to appease the typesystem.
+The difference in readability is often minor as it is below.
+But it can be significant when replacing big blocks wrapped in a conditional.
+
+```ts
+// ✅ -- GOOD
+ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
+this.value = this.#inputElementRef.value.value;
+this.dispatchEvent(new Event(event.type, event));
+```
+
+```ts
+// ❌ -- BAD
+if (this.#inputElementRef.value && event.target instanceof HTMLInputElement) {
+  this.value = this.#inputElementRef.value?.value;
+  this.dispatchEvent(new Event(event.type, event));
+}
+```
+
+> Be sure to import `ow` from `./library/ow.js`, which exports a modified `ow` that only throws locally.
 
 ### Prefer throwing to letting invalid state propagate
 
