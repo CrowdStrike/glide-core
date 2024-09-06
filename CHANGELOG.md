@@ -1,5 +1,20 @@
 # @crowdstrike/glide-core
 
+## 0.9.3
+
+### Patch Changes
+
+- [#350](https://github.com/CrowdStrike/glide-core/pull/350) [`68fa69b`](https://github.com/CrowdStrike/glide-core/commit/68fa69b5f966ee248d77906b8415107f554d0e83) Thanks [@clintcs](https://github.com/clintcs)! - The weight of Dropdown's button font is no longer bold when `variant="quiet"`.
+
+- [#351](https://github.com/CrowdStrike/glide-core/pull/351) [`cda0918`](https://github.com/CrowdStrike/glide-core/commit/cda0918ef8d9dbe02a39062d96f461d6c4323120) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated Dropdown and Menu open animations to align with Tooltip.
+
+- [#345](https://github.com/CrowdStrike/glide-core/pull/345) [`c7d13aa`](https://github.com/CrowdStrike/glide-core/commit/c7d13aa740e4951e3103501ca9f79fc9ad7afb17) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown Option's checkmark icon is now on the right to match new design requirements.
+
+- [#354](https://github.com/CrowdStrike/glide-core/pull/354) [`0cc1af3`](https://github.com/CrowdStrike/glide-core/commit/0cc1af34d1380802157031336ac88688d0d740e2) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - `glide-core-tab-group` active tab indicator is reevaluated on tab slot changes.
+
+- [#338](https://github.com/CrowdStrike/glide-core/pull/338) [`c72aa3f`](https://github.com/CrowdStrike/glide-core/commit/c72aa3fd4ac0344786c14036b03f247d55e023e8) Thanks [@clintcs](https://github.com/clintcs)! - - Button's `type` attribute is now reflected.
+  - Button now supports the full set of native `<button>` attributes such as `formenctype`, `name`, `popovertarget`, and others.
+
 ## 0.9.2
 
 ### Patch Changes
