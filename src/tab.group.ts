@@ -325,7 +325,6 @@ export default class GlideCoreTabGroup extends LitElement {
     owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
     this.#setupTabs();
     this.#setActiveTab();
-    this.#setupActiveTabIndicator();
     this.#setOverflowButtonsState();
   }
 
@@ -390,11 +389,7 @@ export default class GlideCoreTabGroup extends LitElement {
       const activeTabInlinePadding = Number.parseInt(
         window
           .getComputedStyle(this.activeTab)
-          .getPropertyValue(
-            `padding-inline-${
-              this.activeTab === this.tabElements.at(0) ? 'start' : 'end'
-            }`,
-          ),
+          .getPropertyValue('padding-inline-start'),
       );
 
       const activeTabIndicatorTranslateLeft =
@@ -413,10 +408,14 @@ export default class GlideCoreTabGroup extends LitElement {
           ? activeTabInlinePadding
           : 0;
 
+      const { width: activeTabWidth } = this.activeTab.getBoundingClientRect();
+
       this.#componentElementRef.value.style.setProperty(
         '--active-tab-indicator-width',
-        `${this.activeTab.clientWidth - activeTabIndicatorWidthAdjustment}px`,
+        `${activeTabWidth - activeTabIndicatorWidthAdjustment}px`,
       );
+
+      this.isAfterFirstUpdated = true;
     }
   }
 
@@ -463,35 +462,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
     this.isDisableOverflowStartButton =
       this.#tabListElementRef.value.scrollLeft <= 0;
-  }
-
-  #setupActiveTabIndicator() {
-    if (this.activeTab && this.#componentElementRef.value) {
-      const activeTabPaddingInlineStart = Number.parseInt(
-        window
-          .getComputedStyle(this.activeTab)
-          .getPropertyValue('padding-inline-start'),
-      );
-
-      const { width: activeTabWidth } = this.activeTab.getBoundingClientRect();
-
-      this.#componentElementRef.value.style.setProperty(
-        '--active-tab-indicator-width',
-        `${activeTabWidth - activeTabPaddingInlineStart}px`,
-      );
-
-      this.#componentElementRef.value.style.setProperty(
-        '--active-tab-indicator-translate',
-        `${activeTabPaddingInlineStart}px`,
-      );
-
-      // We only want the animation to run *after*
-      // the user interacts with it directly. By adding
-      // this check, it ensures the animation does not play
-      // on first render to prevent distractions for the
-      // user.
-      this.isAfterFirstUpdated = true;
-    }
   }
 
   #setupResizeObserver() {
