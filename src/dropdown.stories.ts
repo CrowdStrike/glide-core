@@ -133,7 +133,7 @@ const meta: Meta = {
         type: {
           summary: 'boolean',
           detail:
-            '// Dropdown will be filterable regardless of this attribute when there more than 10 options',
+            '// Dropdown will be filterable regardless of this attribute when there are more than 10 options',
         },
       },
     },
