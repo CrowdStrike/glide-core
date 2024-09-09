@@ -17,7 +17,12 @@ const meta: Meta = {
     },
   },
   args: {
-    'slot="default"': 'Tooltip <kbd>CMD + K</kbd>',
+    'slot="default"': `Tooltip 
+<kbd> 
+  <kbd style="font: inherit;"> CMD </kbd> 
+  + 
+  <kbd style="font: inherit;"> K </kbd> 
+</kbd>`,
     'slot="target"': '',
     disabled: false,
     offset: '4',
@@ -91,6 +96,13 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/tooltip.js';
       </script>
 
+      <style>
+        textarea {
+          height: 6lh !important;
+          width: 21.875rem !important;
+        }
+      </style>
+
       <div
         style="align-items: center; display: flex; height: 8rem; justify-content: center;"
       >
@@ -106,6 +118,7 @@ const meta: Meta = {
             name="info"
             slot="target"
             tabindex="0"
+            style="border-radius: 50%; outline-offset: 1px;"
           ></glide-core-example-icon>
         </glide-core-tooltip>
       </div>
