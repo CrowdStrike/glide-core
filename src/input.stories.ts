@@ -134,7 +134,6 @@ const meta: Meta = {
     placeholder: {
       control: 'text',
       table: {
-        defaultValue: { summary: 'Placeholder' },
         type: { summary: 'string' },
       },
     },
@@ -251,18 +250,18 @@ export const WithIcons: StoryObj = {
 
       <div style="height: 5rem;">
         <glide-core-input
+          label=${arguments_.label}
+          maxlength=${arguments_.maxlength || nothing}
+          orientation=${arguments_.orientation}
+          placeholder=${arguments_.placeholder || nothing}
           type=${arguments_.type}
           value=${arguments_.value}
-          label=${arguments_.label}
-          placeholder=${arguments_.placeholder || nothing}
-          ?hide-label=${arguments_['hide-label']}
           ?clearable=${arguments_.clearable}
-          ?password-toggle=${arguments_.passwordToggle || nothing}
-          orientation=${arguments_.orientation}
-          ?required=${arguments_.required}
-          ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
-          maxlength=${arguments_.maxlength || nothing}
+          ?hide-label=${arguments_['hide-label']}
+          ?password-toggle=${arguments_.passwordToggle || nothing}
+          ?readonly=${arguments_.readonly}
+          ?required=${arguments_.required}
         >
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
