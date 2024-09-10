@@ -8,32 +8,28 @@ export default [
     ${visuallyHidden('.label.visually-hidden')}
   `,
   css`
-    :host(:first-of-type) {
-      .component {
-        &.horizontal {
-          border-end-start-radius: 0.6875rem;
-          border-start-start-radius: 0.6875rem;
-        }
-
-        &.vertical {
-          border-start-end-radius: 0.6875rem;
-          border-start-start-radius: 0.6875rem;
-        }
-      }
+    /*
+    Nesting within :host does not work as expected in Safari
+    https://bugs.webkit.org/show_bug.cgi?id=275341#c1
+    */
+    :host(:first-of-type) .component.horizontal {
+      border-end-start-radius: 0.6875rem;
+      border-start-start-radius: 0.6875rem;
     }
 
-    :host(:last-of-type) {
-      .component {
-        &.horizontal {
-          border-end-end-radius: 0.6875rem;
-          border-start-end-radius: 0.6875rem;
-        }
+    :host(:first-of-type) .component.vertical {
+      border-start-end-radius: 0.6875rem;
+      border-start-start-radius: 0.6875rem;
+    }
 
-        &.vertical {
-          border-end-end-radius: 0.6875rem;
-          border-end-start-radius: 0.6875rem;
-        }
-      }
+    :host(:last-of-type) .component.horizontal {
+      border-end-end-radius: 0.6875rem;
+      border-start-end-radius: 0.6875rem;
+    }
+
+    :host(:last-of-type) .component.vertical {
+      border-end-end-radius: 0.6875rem;
+      border-end-start-radius: 0.6875rem;
     }
 
     .component {
