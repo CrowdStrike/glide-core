@@ -48,14 +48,14 @@ const meta: Meta = {
               ></glide-core-example-icon>
             </glide-core-button-group-button>
 
-            <glide-core-button-group-button label="Two" value="two">
+            <glide-core-button-group-button label="Two">
               <glide-core-example-icon
                 slot="prefix"
                 name="info"
               ></glide-core-example-icon>
             </glide-core-button-group-button>
 
-            <glide-core-button-group-button label="Three" value="three">
+            <glide-core-button-group-button label="Three">
               <glide-core-example-icon
                 slot="prefix"
                 name="info"
@@ -79,12 +79,10 @@ const meta: Meta = {
 
             <glide-core-button-group-button
               label="Two"
-              value="two"
             ></glide-core-button-group-button>
 
             <glide-core-button-group-button
               label="Three"
-              value="three"
             ></glide-core-button-group-button>`;
         },
       )}
@@ -99,7 +97,7 @@ const meta: Meta = {
     variant: '',
     '<glide-core-button-group-button>.disabled': false,
     '<glide-core-button-group-button>.selected': true,
-    '<glide-core-button-group-button>.value': 'one',
+    '<glide-core-button-group-button>.value': '',
   },
   argTypes: {
     'slot="default"': {
@@ -127,7 +125,7 @@ const meta: Meta = {
       options: ['horizontal', 'vertical'],
       defaultValue: '"horizontal"',
       table: {
-        defaultValue: { summary: 'horizontal' },
+        defaultValue: { summary: '"horizontal"' },
         type: { summary: '"horizontal" | "vertical"' },
       },
     },
@@ -187,14 +185,14 @@ export const WithIcons: StoryObj = {
         ></glide-core-example-icon>
       </glide-core-button-group-button>
 
-      <glide-core-button-group-button label="Two" value="two">
+      <glide-core-button-group-button label="Two">
         <glide-core-example-icon
           slot="prefix"
           name="info"
         ></glide-core-example-icon>
       </glide-core-button-group-button>
 
-      <glide-core-button-group-button label="Three" value="three">
+      <glide-core-button-group-button label="Three">
         <glide-core-example-icon
           slot="prefix"
           name="info"

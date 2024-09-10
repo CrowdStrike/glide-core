@@ -55,8 +55,8 @@ const meta: Meta = {
             value=${arguments_['<glide-core-radio>.value'] || nothing}
             ?checked=${arguments_['<glide-core-radio>.checked']}
           ></glide-core-radio>
-          <glide-core-radio label="Two" value="two"></glide-core-radio>
-          <glide-core-radio label="Three" value="three"></glide-core-radio>
+          <glide-core-radio label="Two"></glide-core-radio>
+          <glide-core-radio label="Three"></glide-core-radio>
 
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">
@@ -77,13 +77,13 @@ const meta: Meta = {
     'checkValidity()': '',
     disabled: false,
     name: '',
+    'reportValidity()': '',
     required: false,
     'slot="description"': 'Description',
     'slot="tooltip"': '',
-    'reportValidity()': '',
     value: '',
     '<glide-core-radio>.checked': true,
-    '<glide-core-radio>.value': 'one',
+    '<glide-core-radio>.value': '',
   },
   argTypes: {
     'slot="default"': {

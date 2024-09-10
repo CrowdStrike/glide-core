@@ -20,7 +20,7 @@ const meta: Meta = {
 
     <glide-core-icon-button
       label=${arguments_.label || nothing}
-      variant=${arguments_.variant}
+      variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
     >
       <glide-core-example-icon name="clipboard"></glide-core-example-icon>
@@ -30,6 +30,7 @@ const meta: Meta = {
     label: 'Label',
     'slot="default"': '',
     disabled: false,
+    variant: 'primary',
   },
   argTypes: {
     'slot="default"': {
@@ -57,7 +58,7 @@ const meta: Meta = {
     variant: {
       control: { type: 'radio' },
       defaultValue: 'primary',
-      options: ['primary', 'secondary', 'tertiary'],
+      options: ['"primary"', '"secondary"', '"tertiary"'],
       table: {
         defaultValue: {
           summary: '"primary"',
