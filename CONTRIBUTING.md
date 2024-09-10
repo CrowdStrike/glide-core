@@ -7,6 +7,7 @@
 - [Don't reference internal systems, issues, or links](#dont-reference-internal-systems-issues-or-links)
 - [Versioning a package](#versioning-a-package)
 - [Coding Guidelines](#coding-guidelines)
+  - [Prefer controls over stories](#prefer-controls-over-stories)
   - [Prefer encapsulation](#prefer-encapsulation)
     - [Avoid styling `:host`](#avoid-styling-host)
     - [Avoid exposing `part`s](#avoid-exposing-parts)

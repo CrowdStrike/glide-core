@@ -60,6 +60,9 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
+  @property({ reflect: true, type: Boolean })
+  filterable = false;
+
   @property({ attribute: 'hide-label', reflect: true, type: Boolean })
   hideLabel = false;
 
@@ -229,18 +232,19 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   private get internalLabel() {
-    return !this.isFilterable && this.selectedOptions.length === 0
+    const isFilterable = this.filterable || this.isFilterable;
+
+    return !isFilterable && this.selectedOptions.length === 0
       ? html`<span
           class=${classMap({
             placeholder: true,
             disabled: this.disabled,
             quiet: this.variant === 'quiet',
           })}
-          >${this.placeholder}</span
-        >`
-      : !this.multiple &&
-          !this.isFilterable &&
-          this.selectedOptions.at(-1)?.label
+        >
+          ${this.placeholder}
+        </span>`
+      : !this.multiple && !isFilterable && this.selectedOptions.at(-1)?.label
         ? this.selectedOptions.at(-1)?.label
         : '';
   }
@@ -309,7 +313,7 @@ export default class GlideCoreDropdown extends LitElement {
   // The button doesn't receive focus when `shadowRoot.delegatesFocus` is set,
   // and the inherited `this.focus` is called. It's not clear why. Thus the override.
   override focus(options?: FocusOptions) {
-    if (this.isFilterable) {
+    if (this.filterable || this.isFilterable) {
       this.#inputElementRef.value?.focus(options);
     } else {
       this.#buttonElementRef.value?.focus(options);
@@ -477,7 +481,7 @@ export default class GlideCoreDropdown extends LitElement {
                 })}
               </ul>`;
             })}
-            ${when(this.isFilterable, () => {
+            ${when(this.filterable || this.isFilterable, () => {
               return html`<input
                 aria-activedescendant=${this.ariaActivedescendant}
                 aria-controls="options"
@@ -529,16 +533,18 @@ export default class GlideCoreDropdown extends LitElement {
               )}
 
               <button
-                aria-hidden=${this.isFilterable}
                 aria-expanded=${this.open}
                 aria-haspopup="listbox"
+                aria-hidden=${this.filterable || this.isFilterable}
                 aria-labelledby="selected-option-labels label"
                 aria-describedby="description"
                 aria-controls="options"
                 class="button"
                 data-test="button"
                 id="button"
-                tabindex=${this.isFilterable || this.disabled ? '-1' : '0'}
+                tabindex=${this.filterable || this.isFilterable || this.disabled
+                  ? '-1'
+                  : '0'}
                 type="button"
                 ${ref(this.#buttonElementRef)}
               >
@@ -572,7 +578,9 @@ export default class GlideCoreDropdown extends LitElement {
           </div>
 
           <div
-            aria-labelledby=${this.isFilterable ? 'input' : 'button'}
+            aria-labelledby=${this.filterable || this.isFilterable
+              ? 'input'
+              : 'button'}
             class=${classMap({
               options: true,
               hidden: this.isOptionsHidden,
@@ -935,7 +943,7 @@ export default class GlideCoreDropdown extends LitElement {
     ) {
       // Prevents page scroll. Also prevents the insertion point moving to beginning or
       // end of the field and a " " character from being entered in addition to making the
-      // options visible when `this.isFilterable`.
+      // options visible when Dropdown is filterable.
       event.preventDefault();
 
       this.open = true;
@@ -960,7 +968,7 @@ export default class GlideCoreDropdown extends LitElement {
         // Dropdown isn't filterable, or we let the user type it. Neither is ideal.
         if (
           event.key === 'Enter' ||
-          (event.key === ' ' && !this.isFilterable)
+          (event.key === ' ' && !this.filterable && !this.isFilterable)
         ) {
           // Prevent the options from scrolling when a focused option is selected via Space
           // when using VoiceOver.
@@ -1128,7 +1136,10 @@ export default class GlideCoreDropdown extends LitElement {
     // label or padding shouldn't cause the input to lose focus. The trouble is we
     // don't know it if was the tag's removal button that was clicked because it's
     // in a shadow DOM.
-    if (!(event.target instanceof GlideCoreTag) && this.isFilterable) {
+
+    const isFilterable = this.filterable || this.isFilterable;
+
+    if (!(event.target instanceof GlideCoreTag) && isFilterable) {
       event.preventDefault();
       this.focus();
     } else if (!(event.target instanceof GlideCoreTag)) {
@@ -1260,7 +1271,7 @@ export default class GlideCoreDropdown extends LitElement {
 
   #onOptionsMousedown(event: MouseEvent) {
     // Keep focus on the input so the user can continue filtering while selecting options.
-    if (this.isFilterable) {
+    if (this.filterable || this.isFilterable) {
       event.preventDefault();
     }
   }
@@ -1480,7 +1491,9 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #unfilter() {
-    if (this.isFilterable && this.#inputElementRef.value) {
+    const isFilterable = this.filterable || this.isFilterable;
+
+    if (isFilterable && this.#inputElementRef.value) {
       this.isFiltering = false;
 
       for (const option of this.#optionElements) {
