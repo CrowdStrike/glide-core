@@ -8,7 +8,7 @@ export default [
     ${visuallyHidden('.label.visually-hidden')}
   `,
   css`
-    /* Remove nesting within :host for Safari */
+    /* Nesting within :host does not work as expected in Safari */
     :host(:first-of-type) .component.horizontal {
       border-end-start-radius: 0.6875rem;
       border-start-start-radius: 0.6875rem;
