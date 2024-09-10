@@ -137,7 +137,12 @@ export default [
     }
 
     .placeholder {
-      color: var(--glide-core-text-placeholder);
+      /*
+        Using the browser's default placeholder color for now, as
+        '--glide-core-text-placeholder' has dark mode issues. Aligns
+        with Input and Textarea as suggested by design.
+      */
+      color: rgb(117 117 117);
 
       &.quiet {
         &:not(.disabled) {
