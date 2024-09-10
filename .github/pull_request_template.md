@@ -11,7 +11,7 @@
 - I have followed the [Contributing Guidelines](https://github.com/crowdstrike/glide-core/blob/main/CONTRIBUTING.md).
 - I have added tests to cover new or updated functionality.
 - I have added or updated Storybook stories.
-- I have [localized](https://lit.dev/docs/localization/overview/) new strings.
+- I have [localized](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#translations-and-static-strings) new strings.
 - I have followed the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) or met with the Accessibility Team.
 - I have included a [changeset](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#versioning-a-package).
 - I have scheduled a design review.
