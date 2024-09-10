@@ -42,19 +42,16 @@ export default class GlideCoreToast extends LitElement {
   close() {
     const componentElement = this.#componentElementRef?.value;
 
+    componentElement?.classList?.remove('open');
+    componentElement?.classList?.add('closed');
+
     componentElement?.addEventListener(
       'transitionend',
       () => {
-        componentElement?.classList?.remove('open');
-        componentElement?.classList?.remove('closing');
-        componentElement?.classList?.add('closed');
-
         this.dispatchEvent(new Event('close', { bubbles: true }));
       },
       { once: true },
     );
-
-    componentElement?.classList?.add('closing');
   }
 
   override firstUpdated() {

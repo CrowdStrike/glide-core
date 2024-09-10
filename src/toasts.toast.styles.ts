@@ -4,8 +4,6 @@ export default [
   css`
     :host([popover]:popover-open) {
       border: none;
-      border-radius: var(--glide-core-spacing-sm);
-      box-shadow: var(--glide-core-shadow-lg);
       inset: unset;
       inset-block-start: 1rem;
       inset-inline-end: 1rem;
@@ -18,6 +16,8 @@ export default [
 
     .component {
       align-items: center;
+      border-radius: var(--glide-core-spacing-sm);
+      box-shadow: var(--glide-core-shadow-lg);
       box-sizing: border-box;
       color: var(--glide-core-text-body-2);
       column-gap: var(--glide-core-spacing-xs);
@@ -28,6 +28,7 @@ export default [
       grid-template-columns: auto minmax(0, 1fr);
       inline-size: 24.25rem;
       line-height: var(--glide-core-body-xs-line-height);
+      margin: 1rem;
       padding: var(--glide-core-spacing-sm);
 
       /* transform: translateX(110%); */
@@ -44,7 +45,7 @@ export default [
       }
 
       &.closed {
-        display: none;
+        opacity: 0;
       }
     }
 
@@ -66,6 +67,7 @@ export default [
 
     .description {
       grid-column: 2;
+      white-space: normal;
     }
   `,
 ];

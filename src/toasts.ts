@@ -5,6 +5,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement } from 'lit/decorators.js';
 import ow from './library/ow.js';
 import styles from './toasts.styles.js';
+import GlideCoreToast from './toasts.toast.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,74 +34,64 @@ export default class GlideCoreToasts extends LitElement {
    *  Optional: Number of milliseconds before the Toast auto-hides.
    *  Minimum: `5000`. Default: `5000`. For a Toast that never auto-hides, set to `Infinity`
    *  */
-  add(toast: Toast) {
+  async add(toast: Toast) {
     ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
-    // this.#componentElementRef.value.popover = 'manual';
-    // this.#componentElementRef.value.showPopover();
     const { variant, label, description, duration } = toast;
 
-    const toastElement = Object.assign(
-      document.createElement('glide-core-toast'),
-      {
-        variant,
-        label,
-        description,
-        duration,
-      },
-    );
+    this.#queueProxy.push({
+      variant,
+      label,
+      description,
+      duration,
+    });
+  }
 
-    toastElement.popover = 'manual';
-    this.append(toastElement);
-
-    toastElement.showPopover();
-
-    requestAnimationFrame(() => {
-      const { height: toastHeight } = toastElement.getBoundingClientRect();
-
-      const toasts = this.querySelectorAll('glide-core-toast');
-
-      if (toasts && toasts.length > 1) {
-        for (const toast of toasts) {
-          if (toast === toastElement) continue;
-
-          const { top: toastTop } = toast.getBoundingClientRect();
-
-          toast.animate(
-            [
-              {
-                transform: `translateY(${toastTop + toastHeight}px)`,
-              },
-            ],
-            {
-              duration: 200,
-              fill: 'forwards',
-            },
-          );
-        }
-      }
-
-      toastElement.animate([{ transform: 'none' }], {
-        duration: 200,
-        fill: 'forwards',
-      });
+  override firstUpdated() {
+    this.#queueProxy = new Proxy(this.#queue, {
+      set: this.#proxHandlerSet,
     });
 
-    toastElement.addEventListener(
+    this.#componentElementRef.value?.addEventListener(
       'close',
-      () => {
-        toastElement.remove();
+      (event: Event) => {
+        const toastTarget = event?.target;
 
-        if (
-          this.#componentElementRef.value?.querySelectorAll('glide-core-toast')
-            .length === 0
-        ) {
-          this.#componentElementRef.value?.hidePopover();
+        if (toastTarget instanceof GlideCoreToast) {
+          const { height: targetToastElementHeight } =
+            toastTarget.getBoundingClientRect();
+
+          toastTarget.hidePopover();
+
+          const toasts = this.querySelectorAll('glide-core-toast');
+
+          if (toasts && toasts.length > 1) {
+            for (const toast of toasts) {
+              if (toast === toastTarget) break;
+
+              if (toast) {
+                const { top: toastTop } = toast.getBoundingClientRect();
+
+                const toastAnimation = toast.animate(
+                  [
+                    {
+                      transform: `translateY(${
+                        toastTop - targetToastElementHeight
+                      }px)`,
+                    },
+                  ],
+                  {
+                    duration: 500,
+                    fill: 'forwards',
+                  },
+                );
+
+                this.#animationPromises.push(toastAnimation.finished);
+              }
+            }
+          }
         }
       },
-      { once: true },
     );
-
-    return toastElement;
   }
 
   override render() {
@@ -117,9 +108,103 @@ export default class GlideCoreToasts extends LitElement {
     `;
   }
 
+  #animationPromises: Promise<Animation>[] = [];
+
   #componentElementRef = createRef<HTMLDivElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #localize = new LocalizeController(this);
+
+  #isQueueWorking = false;
+
+  // Use an arrow function to bind `this`
+  #proxHandlerSet = (target: any, property: string, value: any) => {
+    if (Number.parseInt(property) >= 0) {
+      target[property] = value;
+      if (!this.#isQueueWorking) {
+        this.#isQueueWorking = true;
+
+        this.#queueWorker();
+      }
+    } else {
+      target[property] = value;
+    }
+    return true;
+  };
+
+  #queue: {
+    label: string;
+    description: string;
+    variant: 'informational' | 'success';
+    duration?: number;
+  }[] = [];
+
+  #queueProxy: any = null;
+
+  async #queueWorker() {
+    while (this.#queue.length > 0) {
+      await Promise.all(this.#animationPromises);
+
+      const config = this.#queue.shift();
+
+      const newToastElement = Object.assign(
+        document.createElement('glide-core-toast'),
+        config,
+      );
+
+      newToastElement.popover = 'manual';
+      this.append(newToastElement);
+      newToastElement.showPopover();
+
+      await newToastElement.updateComplete;
+
+      const { height: newToastElementHeight } =
+        newToastElement.getBoundingClientRect();
+
+      const toasts = this.querySelectorAll('glide-core-toast');
+
+      if (toasts && toasts.length > 1) {
+        for (const toast of toasts) {
+          if (toast === newToastElement) continue;
+
+          const { top: toastTop } = toast.getBoundingClientRect();
+
+          const toastAnimation = toast.animate(
+            [
+              {
+                transform: `translateY(${
+                  toastTop +
+                  newToastElementHeight -
+                  32 /* 32 for extra margin added */
+                }px)`,
+              },
+            ],
+            {
+              duration: 500,
+              fill: 'forwards',
+            },
+          );
+
+          this.#animationPromises.push(toastAnimation.finished);
+        }
+      }
+
+      await Promise.all(this.#animationPromises);
+
+      const newToastElementAnimation = newToastElement.animate(
+        [{ transform: 'none' }],
+        {
+          duration: 500,
+          fill: 'forwards',
+        },
+      );
+
+      this.#animationPromises.push(newToastElementAnimation.finished);
+
+      await Promise.all(this.#animationPromises);
+    }
+    this.#animationPromises = [];
+    this.#isQueueWorking = false;
+  }
 }
