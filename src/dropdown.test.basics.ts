@@ -44,6 +44,9 @@ it('has defaults', async () => {
   expect(component.hasAttribute('disabled')).to.be.false;
   expect(component.disabled).to.equal(false);
 
+  expect(component.hasAttribute('filterable')).to.be.false;
+  expect(component.filterable).to.equal(false);
+
   expect(component.getAttribute('name')).to.be.null;
   expect(component.name).to.equal(undefined);
 
@@ -96,6 +99,21 @@ it('cannot be open when disabled', async () => {
   const options = component?.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(options?.checkVisibility()).to.be.false;
+});
+
+it('can be filterable', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.checkVisibility()).to.be.true;
 });
 
 it('can have a label', async () => {
