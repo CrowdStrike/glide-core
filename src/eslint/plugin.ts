@@ -19,6 +19,7 @@ const rules = {
   'no-skip-tests': noSkipTests,
   'prefer-closed-shadow-root': preferClosedShadowRoot,
   'prefixed-lit-element-class-declaration': prefixedClassDeclaration,
+  // TODO: add no-to-have-attribute rule
 };
 
 export default { rules };
