@@ -16,7 +16,9 @@ export default {
   },
   browsers: [
     // https://github.com/modernweb-dev/web/issues/2588
-    playwrightLauncher(),
+    playwrightLauncher({
+      product: 'webkit',
+    }),
   ],
   coverage: true,
   coverageConfig: {
