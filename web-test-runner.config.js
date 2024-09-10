@@ -3,6 +3,7 @@ import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { fileURLToPath } from 'node:url';
 import { fromRollup } from '@web/dev-server-rollup';
 import { playwrightLauncher } from '@web/test-runner-playwright';
+import { visualRegressionPlugin } from '@web/test-runner-visual-regression/plugin';
 import chalk from 'chalk';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 
@@ -53,6 +54,9 @@ export default {
     exportConditions: ['production'],
   },
   plugins: [
+    visualRegressionPlugin({
+      update: process.argv.includes('--update-visual-baseline'),
+    }),
     // Some modules still use CommonJS-style exports. This plugin handles them.
     //
     // https://github.com/modernweb-dev/web/issues/1700#issuecomment-1059441615

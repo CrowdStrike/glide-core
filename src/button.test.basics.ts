@@ -3,6 +3,9 @@
 import './button.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/* @ts-expect-error */
+import { visualDiff } from '@web/test-runner-visual-regression';
 import GlideCoreButton from './button.js';
 import sinon from 'sinon';
 
@@ -63,6 +66,8 @@ it('has defaults', async () => {
   expect(button?.ariaExpanded).to.be.null;
   expect(button?.ariaHasPopup).to.be.null;
   expect(button?.disabled).to.equal(false);
+
+  await visualDiff(component, 'glide-core-button');
 });
 
 it('delegates focus', async () => {
