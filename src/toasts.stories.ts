@@ -32,7 +32,7 @@ const meta: Meta = {
       </script>
 
       <!--
-  Add \`<glide-core-toasts>\` to your template. It's the container for 
+  Add \`<glide-core-toasts>\` to your template. It's the container for
   messages. It supports an \`add()\` method for generating them.
 -->
       <glide-core-toasts></glide-core-toasts>
@@ -55,7 +55,8 @@ const meta: Meta = {
             toasts.add({
               variant: 'informational',
               label: 'Informational',
-              description: 'This will stick around for 5 seconds',
+              description:
+                'This will stick around for 5 seconds longer longer longer longer longer longer longer longer longer longer',
             });
           });
 
@@ -87,7 +88,7 @@ const meta: Meta = {
               variant: 'success',
               label: 'Success',
               description:
-                'This will stick around until close button is clicked',
+                'This will stick around until close button is clicked longer longer longer longer longer longer longer longer longer longer',
               duration: Infinity,
             });
           });
