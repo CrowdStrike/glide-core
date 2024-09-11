@@ -19,10 +19,11 @@ it('is valid by default', async () => {
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is valid after being filled in and required', async () => {
@@ -41,10 +42,11 @@ it('is valid after being filled in and required', async () => {
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is invalid if no value and required', async () => {
@@ -61,10 +63,11 @@ it('is invalid if no value and required', async () => {
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('is valid when empty and does not exceed `maxlength`', async () => {
@@ -80,10 +83,11 @@ it('is valid when empty and does not exceed `maxlength`', async () => {
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is valid when filled in and does not exceed `maxlength`', async () => {
@@ -102,10 +106,11 @@ it('is valid when filled in and does not exceed `maxlength`', async () => {
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is invalid when filled in and exceeds `maxlength`', async () => {
@@ -124,10 +129,11 @@ it('is invalid when filled in and exceeds `maxlength`', async () => {
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('is valid if no value but required and disabled', async () => {
@@ -143,10 +149,11 @@ it('is valid if no value but required and disabled', async () => {
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('updates validity when `required` and `value` is changed programmatically', async () => {
@@ -161,10 +168,11 @@ it('updates validity when `required` and `value` is changed programmatically', a
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 
   textarea.value = 'text';
 
@@ -177,10 +185,11 @@ it('updates validity when `required` and `value` is changed programmatically', a
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 
   // Resetting the value to empty to ensure it goes
   // back to an invalid state
@@ -193,10 +202,11 @@ it('updates validity when `required` and `value` is changed programmatically', a
   expect(textarea.checkValidity()).to.be.false;
   expect(textarea.reportValidity()).to.be.false;
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
@@ -211,10 +221,11 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 
   textarea.required = true;
 
@@ -225,10 +236,11 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
   expect(textarea.checkValidity()).to.be.false;
   expect(textarea.reportValidity()).to.be.false;
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('is valid when `value` is empty and `required` is set to `false` programmatically', async () => {
@@ -243,10 +255,11 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 
   textarea.required = false;
 
@@ -257,10 +270,11 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
   expect(textarea.checkValidity()).to.be.true;
   expect(textarea.reportValidity()).to.be.true;
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is valid when filled in, disabled, and value exceeds `maxlength`', async () => {
@@ -280,10 +294,11 @@ it('is valid when filled in, disabled, and value exceeds `maxlength`', async () 
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is valid when filled in, readonly, and value exceeds `maxlength`', async () => {
@@ -303,10 +318,11 @@ it('is valid when filled in, readonly, and value exceeds `maxlength`', async () 
 
   await elementUpdated(textarea);
 
-  expect(textarea.shadowRoot?.querySelector('textarea')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    textarea.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('blurs the textarea and reports validity if `blur` is called', async () => {

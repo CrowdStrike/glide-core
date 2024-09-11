@@ -30,7 +30,7 @@ it('renders a link with href with a label by default', async () => {
 
   expect(link).to.not.be.null;
 
-  expect(link).to.have.attribute('href', '/');
+  expect(link?.getAttribute('href')).to.equal('/');
 
   expect(component?.textContent).to.equal('Link');
 });
@@ -75,8 +75,8 @@ it('becomes a span when the "disabled" attribute exists', async () => {
 
   const link = component?.shadowRoot?.querySelector('[data-test="split-link"]');
 
-  expect(link).to.have.attribute('aria-disabled', 'true');
-  expect(link).to.have.attribute('role', 'link');
+  expect(link?.getAttribute('aria-disabled')).to.equal('true');
+  expect(link?.getAttribute('role')).to.equal('link');
 });
 
 it('renders a prefix slot when given', async () => {

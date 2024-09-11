@@ -72,7 +72,7 @@ it('can reset correctly when the checked radios are changed', async () => {
 
   await elementUpdated(component);
 
-  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
   expect(component.value).to.equal('value-1');
 
@@ -81,7 +81,7 @@ it('can reset correctly when the checked radios are changed', async () => {
   await elementUpdated(component);
 
   expect(radios[0]).to.not.have.attribute('checked');
-  expect(radios[1]).to.have.attribute('checked');
+  expect(radios[1]?.hasAttribute('checked')).to.be.true;
   expect(component.value).to.equal('value-2');
 });
 

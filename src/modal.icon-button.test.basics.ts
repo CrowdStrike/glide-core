@@ -33,7 +33,7 @@ it('renders and sets default attributes', async () => {
   );
 
   expect(buttonElement).to.be.not.null;
-  expect(buttonElement).to.have.attribute('variant', 'tertiary');
+  expect(buttonElement?.getAttribute('variant')).to.equal('tertiary');
 });
 
 it('adds an accessible label when given', async () => {
@@ -47,7 +47,7 @@ it('adds an accessible label when given', async () => {
     'glide-core-icon-button',
   );
 
-  expect(buttonElement).to.have.attribute('label', 'test-label');
+  expect(buttonElement?.getAttribute('label')).to.equal('test-label');
 });
 
 it('does not add an acceessible label when not given', async () => {
@@ -59,7 +59,7 @@ it('does not add an acceessible label when not given', async () => {
     'glide-core-icon-button',
   );
 
-  expect(buttonElement).to.have.attribute('label', '');
+  expect(buttonElement?.getAttribute('label')).to.equal('');
 });
 
 it('throws if it does not have a default slot', async () => {

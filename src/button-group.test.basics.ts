@@ -30,7 +30,7 @@ it('has defaults', async () => {
 
   expect(component.orientation).to.equal('horizontal');
   expect(component.variant).to.equal(undefined);
-  expect(component).to.have.attribute('orientation', 'horizontal');
+  expect(component.getAttribute('orientation')).to.equal('horizontal');
   expect(component).to.not.have.attribute('variant');
 });
 
@@ -72,7 +72,7 @@ it('can have a label', async () => {
   const radioGroup = component.shadowRoot?.querySelector('[role="radiogroup"]');
 
   expect(label?.textContent).to.equal('label');
-  expect(radioGroup).to.have.attribute('aria-labelledby', label?.id);
+  expect(radioGroup?.getAttribute('aria-labelledby')).to.equal(label?.id);
 });
 
 it('sets the orientation of each button when horizontal', async () => {

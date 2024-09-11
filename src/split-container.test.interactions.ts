@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import './split-container.js';
 
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
@@ -26,6 +27,8 @@ it('the menu opens when the menu button is clicked', async () => {
   await elementUpdated(component);
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('open');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.hasAttribute('open'),
+  ).to.be.true;
 });

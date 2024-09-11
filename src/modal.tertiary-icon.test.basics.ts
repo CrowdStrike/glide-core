@@ -45,7 +45,7 @@ it('adds an accessible label when given', async () => {
 
   const spanElement = component.shadowRoot?.querySelector('span');
 
-  expect(spanElement).to.have.attribute('aria-label', 'test-label');
+  expect(spanElement?.getAttribute('aria-label')).to.equal('test-label');
 });
 
 it('does not add an acceessible label when not given', async () => {
@@ -67,7 +67,7 @@ it('sets the tooltip placement when attribute "tooltip-placement" is given', asy
 
   const toolTip = component.shadowRoot?.querySelector('glide-core-tooltip');
 
-  expect(toolTip).to.have.attribute('placement', 'right');
+  expect(toolTip?.getAttribute('placement')).to.equal('right');
 });
 
 it('sets the tooltip placement to "bottom" when attribute "tooltip-placement" is not given', async () => {
@@ -77,7 +77,7 @@ it('sets the tooltip placement to "bottom" when attribute "tooltip-placement" is
 
   const toolTip = component.shadowRoot?.querySelector('glide-core-tooltip');
 
-  expect(toolTip).to.have.attribute('placement', 'bottom');
+  expect(toolTip?.getAttribute('placement')).to.equal('bottom');
 });
 
 it('throws if it does not have a default slot', async () => {

@@ -19,10 +19,9 @@ it('is valid if empty but not required', async () => {
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is valid after being filled in when empty and required', async () => {
@@ -41,10 +40,9 @@ it('is valid after being filled in when empty and required', async () => {
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is invalid if no value and required', async () => {
@@ -60,10 +58,9 @@ it('is invalid if no value and required', async () => {
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('is invalid after value is cleared when required', async () => {
@@ -89,10 +86,9 @@ it('is invalid after value is cleared when required', async () => {
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('is valid when empty and does not exceed `maxlength`', async () => {
@@ -108,10 +104,9 @@ it('is valid when empty and does not exceed `maxlength`', async () => {
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is valid when filled in and does not exceed `maxlength`', async () => {
@@ -130,10 +125,9 @@ it('is valid when filled in and does not exceed `maxlength`', async () => {
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is valid when filled in, disabled, and value exceeds `maxlength`', async () => {
@@ -153,10 +147,9 @@ it('is valid when filled in, disabled, and value exceeds `maxlength`', async () 
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is valid when filled in, readonly, and value exceeds `maxlength`', async () => {
@@ -176,10 +169,9 @@ it('is valid when filled in, readonly, and value exceeds `maxlength`', async () 
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('is invalid when filled in and exceeds `maxlength`', async () => {
@@ -197,10 +189,9 @@ it('is invalid when filled in and exceeds `maxlength`', async () => {
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('is valid if no value and required but disabled', async () => {
@@ -215,10 +206,9 @@ it('is valid if no value and required but disabled', async () => {
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });
 
 it('updates validity when `required` and `value` is changed programmatically', async () => {
@@ -233,10 +223,9 @@ it('updates validity when `required` and `value` is changed programmatically', a
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 
   input.value = 'text';
 
@@ -249,10 +238,9 @@ it('updates validity when `required` and `value` is changed programmatically', a
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 
   // Resetting the value to empty to ensure it goes
   // back to an invalid state
@@ -265,10 +253,9 @@ it('updates validity when `required` and `value` is changed programmatically', a
   expect(input.checkValidity()).to.be.false;
   expect(input.reportValidity()).to.be.false;
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
@@ -283,10 +270,9 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 
   input.required = true;
 
@@ -297,10 +283,9 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
   expect(input.checkValidity()).to.be.false;
   expect(input.reportValidity()).to.be.false;
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 });
 
 it('is valid when `value` is empty and `required` is set to `false` programmatically', async () => {
@@ -315,10 +300,9 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
 
   await elementUpdated(input);
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'true',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('true');
 
   input.required = false;
 
@@ -329,8 +313,7 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
   expect(input.checkValidity()).to.be.true;
   expect(input.reportValidity()).to.be.true;
 
-  expect(input.shadowRoot?.querySelector('input')).to.have.attribute(
-    'aria-invalid',
-    'false',
-  );
+  expect(
+    input.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+  ).to.equal('false');
 });

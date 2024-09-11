@@ -4,6 +4,7 @@ import './split-button.js';
 import './split-container.js';
 import './split-link.js';
 import {
+  assert,
   elementUpdated,
   expect,
   fixture,
@@ -125,8 +126,10 @@ it('sets the menu component to "open" when the "open" attribute is set', async (
   `);
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('open');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.hasAttribute('open'),
+  ).to.be.true;
 });
 
 it('applies appropriate classes and attributes when "size" is set to "small"', async () => {
@@ -139,12 +142,14 @@ it('applies appropriate classes and attributes when "size" is set to "small"', a
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('size', 'small');
+  const primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('size')).to.equal('small');
 
   expect(
     component.shadowRoot
@@ -153,8 +158,10 @@ it('applies appropriate classes and attributes when "size" is set to "small"', a
   ).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('size', 'small');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('size'),
+  ).to.equal('small');
 });
 
 it('applies appropriate classes and attributes when "size" is set to "large"', async () => {
@@ -167,12 +174,14 @@ it('applies appropriate classes and attributes when "size" is set to "large"', a
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('size', 'large');
+  const primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('size')).to.equal('large');
 
   expect(
     component.shadowRoot
@@ -181,8 +190,10 @@ it('applies appropriate classes and attributes when "size" is set to "large"', a
   ).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('size', 'large');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('size'),
+  ).to.equal('large');
 });
 
 it('applies appropriate classes and attributes by default as "large" when "size" is not set', async () => {
@@ -195,12 +206,14 @@ it('applies appropriate classes and attributes by default as "large" when "size"
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('size', 'large');
+  const primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('size')).to.equal('large');
 
   expect(
     component.shadowRoot
@@ -209,8 +222,10 @@ it('applies appropriate classes and attributes by default as "large" when "size"
   ).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('size', 'large');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('size'),
+  ).to.equal('large');
 });
 
 it('applies appropriate classes and attributes when "size" is dynamically changed using the split button', async () => {
@@ -223,12 +238,14 @@ it('applies appropriate classes and attributes when "size" is dynamically change
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('size', 'large');
+  let primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('size')).to.equal('large');
 
   expect(
     component.shadowRoot
@@ -237,19 +254,23 @@ it('applies appropriate classes and attributes when "size" is dynamically change
   ).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('size', 'large');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('size'),
+  ).to.equal('large');
 
   component.size = 'small';
 
   await elementUpdated(component);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('size', 'small');
+  primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('size')).to.equal('small');
 
   expect(
     component.shadowRoot
@@ -258,8 +279,10 @@ it('applies appropriate classes and attributes when "size" is dynamically change
   ).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('size', 'small');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('size'),
+  ).to.equal('small');
 });
 
 it('applies appropriate classes and attributes when "size" is dynamically changed using the link button', async () => {
@@ -272,12 +295,14 @@ it('applies appropriate classes and attributes when "size" is dynamically change
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('size', 'large');
+  let primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('size')).to.equal('large');
 
   expect(
     component.shadowRoot
@@ -286,19 +311,23 @@ it('applies appropriate classes and attributes when "size" is dynamically change
   ).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('size', 'large');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('size'),
+  ).to.equal('large');
 
   component.size = 'small';
 
   await elementUpdated(component);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('size', 'small');
+  primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('size')).to.equal('small');
 
   expect(
     component.shadowRoot
@@ -307,8 +336,10 @@ it('applies appropriate classes and attributes when "size" is dynamically change
   ).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('size', 'small');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('size'),
+  ).to.equal('small');
 });
 
 it('applies appropriate classes and sets the "variant" to "primary" by default', async () => {
@@ -321,12 +352,14 @@ it('applies appropriate classes and sets the "variant" to "primary" by default',
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('variant', 'primary');
+  const primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('variant')).to.equal('primary');
 
   expect(
     component.shadowRoot
@@ -351,12 +384,14 @@ it('applies appropriate classes when "variant" is set to "primary"', async () =>
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('variant', 'primary');
+  const primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('variant')).to.equal('primary');
 
   expect(
     component.shadowRoot
@@ -381,12 +416,14 @@ it('applies appropriate classes when "variant" is set to "secondary"', async () 
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('variant', 'secondary');
+  const primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('variant')).to.equal('secondary');
 
   expect(
     component.shadowRoot
@@ -411,12 +448,14 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('variant', 'primary');
+  let primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('variant')).to.equal('primary');
 
   expect(
     component.shadowRoot
@@ -434,12 +473,14 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
 
   await elementUpdated(component);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('variant', 'secondary');
+  primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('variant')).to.equal('secondary');
 
   expect(
     component.shadowRoot
@@ -464,12 +505,14 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
     </glide-core-split-container>
   `);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('variant', 'primary');
+  let primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('variant')).to.equal('primary');
 
   expect(
     component.shadowRoot
@@ -487,12 +530,14 @@ it('applies appropriate classes and attributes when "variant" is dynamically cha
 
   await elementUpdated(component);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('variant', 'secondary');
+  primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.getAttribute('variant')).to.equal('secondary');
 
   expect(
     component.shadowRoot
@@ -517,24 +562,26 @@ it('sets the appropriate classes and attributes when the "disabled" attribute is
     </glide-core-split-container>
   `);
 
+  const primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.hasAttribute('disabled')).to.be.true;
+
   expect(
     component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('disabled');
+      ?.querySelector<HTMLSlotElement>('[data-test="split-menu-button"]')
+      ?.hasAttribute('disabled'),
+  ).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector<HTMLSlotElement>(
-      '[data-test="split-menu-button"]',
-    ),
-  ).to.have.attribute('disabled');
-
-  expect(
-    component.shadowRoot?.querySelector<HTMLElement>(
-      '[data-test="split-menu-button"]',
-    ),
-  ).to.have.attribute('disabled');
+    component.shadowRoot
+      ?.querySelector<HTMLElement>('[data-test="split-menu-button"]')
+      ?.hasAttribute('disabled'),
+  ).to.be.true;
 });
 
 it('applies appropriate classes and attributes when "disabled" is dynamically changed using the split button', async () => {
@@ -564,18 +611,20 @@ it('applies appropriate classes and attributes when "disabled" is dynamically ch
 
   await elementUpdated(component);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('disabled');
+  const primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.hasAttribute('disabled')).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector<HTMLElement>(
-      '[data-test="split-menu-button"]',
-    ),
-  ).to.have.attribute('disabled');
+    component.shadowRoot
+      ?.querySelector<HTMLElement>('[data-test="split-menu-button"]')
+      ?.hasAttribute('disabled'),
+  ).to.be.true;
 });
 
 it('applies appropriate classes and attributes when "disabled" is dynamically changed using the link button', async () => {
@@ -605,18 +654,20 @@ it('applies appropriate classes and attributes when "disabled" is dynamically ch
 
   await elementUpdated(component);
 
-  expect(
-    component.shadowRoot
-      ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
-      ?.assignedNodes()
-      ?.at(0),
-  ).to.have.attribute('disabled');
+  const primaryAction = component.shadowRoot
+    ?.querySelector<HTMLSlotElement>('[data-test="primary-action"]')
+    ?.assignedNodes()
+    ?.at(0);
+
+  assert(primaryAction instanceof HTMLElement);
+
+  expect(primaryAction.hasAttribute('disabled')).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector<HTMLElement>(
-      '[data-test="split-menu-button"]',
-    ),
-  ).to.have.attribute('disabled');
+    component.shadowRoot
+      ?.querySelector<HTMLElement>('[data-test="split-menu-button"]')
+      ?.hasAttribute('disabled'),
+  ).to.be.true;
 });
 
 it('sets the default "menu-placement" as "bottom-end"', async () => {
@@ -630,8 +681,10 @@ it('sets the default "menu-placement" as "bottom-end"', async () => {
   `);
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('placement', 'bottom-end');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('placement'),
+  ).to.equal('bottom-end');
 });
 
 it('sets the "menu-placement" attribute as specified', async () => {
@@ -645,8 +698,10 @@ it('sets the "menu-placement" attribute as specified', async () => {
   `);
 
   expect(
-    component.shadowRoot?.querySelector('glide-core-menu'),
-  ).to.have.attribute('placement', 'bottom');
+    component.shadowRoot
+      ?.querySelector('glide-core-menu')
+      ?.getAttribute('placement'),
+  ).to.equal('bottom');
 });
 
 it('focuses the "primary-action" slotted element when the container component is focused', async () => {

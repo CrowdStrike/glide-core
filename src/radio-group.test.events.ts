@@ -274,7 +274,7 @@ it('changes the "checked" attribute when clicking', async () => {
   await elementUpdated(component);
 
   expect(radios[2]).to.have.focus;
-  expect(radios[2]).to.have.attribute('checked');
+  expect(radios[2]?.hasAttribute('checked')).to.be.true;
   expect(radios[0]).to.not.have.attribute('checked');
 });
 
@@ -293,7 +293,7 @@ it('does not change focus nor the "checked" attribute when clicking a disabled r
   await elementUpdated(component);
 
   expect(radios[0]).to.have.focus;
-  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
 });
 
@@ -312,7 +312,7 @@ it('does not change focus nor the "checked" attribute when clicking a disabled g
   await elementUpdated(component);
 
   expect(radios[0]).to.not.have.focus;
-  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
 });
 
@@ -331,31 +331,31 @@ it('changes the "checked" attribute when pressing arrow and space keys', async (
   await sendKeys({ press: 'ArrowRight' });
 
   expect(radios[1]).to.have.focus;
-  expect(radios[1]).to.have.attribute('checked');
+  expect(radios[1]?.hasAttribute('checked')).to.be.true;
   expect(radios[0]).to.not.have.attribute('checked');
 
   await sendKeys({ press: 'ArrowDown' });
 
   expect(radios[2]).to.have.focus;
-  expect(radios[2]).to.have.attribute('checked');
+  expect(radios[2]?.hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
 
   await sendKeys({ press: 'ArrowUp' });
 
   expect(radios[1]).to.have.focus;
-  expect(radios[1]).to.have.attribute('checked');
+  expect(radios[1]?.hasAttribute('checked')).to.be.true;
   expect(radios[2]).to.not.have.attribute('checked');
 
   await sendKeys({ press: 'ArrowLeft' });
 
   expect(radios[0]).to.have.focus;
-  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
 
   radios[2].focus();
   await sendKeys({ press: ' ' });
   expect(radios[2]).to.have.focus;
-  expect(radios[2]).to.have.attribute('checked');
+  expect(radios[2]?.hasAttribute('checked')).to.be.true;
   expect(radios[0]).to.not.have.attribute('checked');
 });
 
@@ -375,30 +375,30 @@ it('does not change the "checked" attribute nor focus when pressing arrow and sp
   await sendKeys({ press: 'ArrowRight' });
 
   expect(radios[0]).to.have.focus;
-  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
   expect(radios[2]).to.not.have.attribute('checked');
 
   await sendKeys({ press: 'ArrowDown' });
 
   expect(radios[0]).to.have.focus;
-  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
   expect(radios[2]).to.not.have.attribute('checked');
 
   await sendKeys({ press: 'ArrowUp' });
 
   expect(radios[0]).to.have.focus;
-  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
 
   await sendKeys({ press: 'ArrowLeft' });
 
   expect(radios[0]).to.have.focus;
-  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
 
   radios[1].focus();
   await sendKeys({ press: ' ' });
 
-  expect(radios[0]).to.have.attribute('checked');
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
 });

@@ -44,23 +44,23 @@ it('renders appropriate attributes on glide-core-radio', async () => {
 
   const radios = document.querySelectorAll('glide-core-radio');
 
-  expect(radios[0]).to.have.attribute('value', 'value-1');
-  expect(radios[0]).to.have.attribute('tabindex', '-1');
+  expect(radios[0].getAttribute('value')).to.equal('value-1');
+  expect(radios[0].getAttribute('tabindex')).to.equal('-1');
   expect(radios[0]).to.not.have.attribute('checked');
-  expect(radios[0]).to.have.attribute('role', 'radio');
-  expect(radios[0]).to.have.attribute('aria-checked', 'false');
-  expect(radios[0]).to.have.attribute('aria-disabled', 'false');
-  expect(radios[0]).to.have.attribute('aria-invalid', 'false');
-  expect(radios[0]).to.have.attribute('aria-required', 'false');
+  expect(radios[0].getAttribute('role')).to.equal('radio');
+  expect(radios[0].getAttribute('aria-checked')).to.equal('false');
+  expect(radios[0].getAttribute('aria-disabled')).to.equal('false');
+  expect(radios[0].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[0].getAttribute('aria-required')).to.equal('false');
 
-  expect(radios[1]).to.have.attribute('value', 'value-2');
-  expect(radios[1]).to.have.attribute('tabindex', '0');
-  expect(radios[1]).to.have.attribute('checked');
-  expect(radios[1]).to.have.attribute('role', 'radio');
-  expect(radios[1]).to.have.attribute('aria-checked', 'true');
-  expect(radios[1]).to.have.attribute('aria-disabled', 'false');
-  expect(radios[1]).to.have.attribute('aria-invalid', 'false');
-  expect(radios[1]).to.have.attribute('aria-required', 'false');
+  expect(radios[1].getAttribute('value')).to.equal('value-2');
+  expect(radios[1].getAttribute('tabindex')).to.equal('0');
+  expect(radios[1].hasAttribute('checked')).to.equal(true);
+  expect(radios[1].getAttribute('role')).to.equal('radio');
+  expect(radios[1].getAttribute('aria-checked')).to.equal('true');
+  expect(radios[1].getAttribute('aria-disabled')).to.equal('false');
+  expect(radios[1].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[1].getAttribute('aria-required')).to.equal('false');
 });
 
 it('renders a label, radio group, description, and tooltip when given', async () => {
@@ -111,10 +111,10 @@ it('sets "required" attributes on radios when "required" is set on the group', a
 
   const radios = document.querySelectorAll('glide-core-radio');
 
-  expect(radios[0]).to.have.attribute('required');
-  expect(radios[0]).to.have.attribute('aria-required', 'true');
-  expect(radios[1]).to.have.attribute('required');
-  expect(radios[1]).to.have.attribute('aria-required', 'true');
+  expect(radios[0].hasAttribute('required')).to.equal(true);
+  expect(radios[0].getAttribute('aria-required')).to.equal('true');
+  expect(radios[1].hasAttribute('required')).to.equal(true);
+  expect(radios[1].getAttribute('aria-required')).to.equal('true');
 });
 
 it('does not set "required" attributes on radios when "required" is not set on the group', async () => {
@@ -128,9 +128,9 @@ it('does not set "required" attributes on radios when "required" is not set on t
   const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios[0]).to.not.have.attribute('required');
-  expect(radios[0]).to.have.attribute('aria-required', 'false');
+  expect(radios[0].getAttribute('aria-required')).to.equal('false');
   expect(radios[1]).to.not.have.attribute('required');
-  expect(radios[1]).to.have.attribute('aria-required', 'false');
+  expect(radios[1].getAttribute('aria-required')).to.equal('false');
 });
 
 it('renders radios as "disabled" when "disabled" is set on the group', async () => {
@@ -142,8 +142,8 @@ it('renders radios as "disabled" when "disabled" is set on the group', async () 
 
   const radio = document.querySelector('glide-core-radio');
 
-  expect(radio).to.have.attribute('disabled');
-  expect(radio).to.have.attribute('aria-disabled', 'true');
+  expect(radio?.hasAttribute('disabled')).to.equal(true);
+  expect(radio?.getAttribute('aria-disabled')).to.equal('true');
   expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.not.null;
 });
 
@@ -157,7 +157,7 @@ it('does not render radios as "disabled" when "disabled" is not set on the group
   const radio = document.querySelector('glide-core-radio');
 
   expect(radio).to.not.have.attribute('disabled');
-  expect(radio).to.have.attribute('aria-disabled', 'false');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('false');
   expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.null;
 });
 
@@ -171,21 +171,21 @@ it('renders radios as "disabled" when "disabled" is dynamically set and removed 
   const radio = document.querySelector('glide-core-radio');
 
   expect(radio).to.not.have.attribute('disabled');
-  expect(radio).to.have.attribute('aria-disabled', 'false');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('false');
   expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.null;
 
   component.disabled = true;
   await elementUpdated(component);
 
-  expect(radio).to.have.attribute('disabled');
-  expect(radio).to.have.attribute('aria-disabled', 'true');
+  expect(radio?.hasAttribute('disabled')).to.equal(true);
+  expect(radio?.getAttribute('aria-disabled')).to.equal('true');
   expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.not.null;
 
   component.disabled = false;
   await elementUpdated(component);
 
   expect(radio).to.not.have.attribute('disabled');
-  expect(radio).to.have.attribute('aria-disabled', 'false');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('false');
   expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.null;
 });
 
@@ -203,9 +203,9 @@ it('sets the radio group to an empty value when no radio is "checked"', async ()
   expect(radios.length).to.equal(2);
 
   expect(radios[0]).to.not.have.attribute('checked');
-  expect(radios[0]).to.have.attribute('aria-checked', 'false');
+  expect(radios[0]?.getAttribute('aria-checked')).to.equal('false');
   expect(radios[1]).to.not.have.attribute('checked');
-  expect(radios[1]).to.have.attribute('aria-checked', 'false');
+  expect(radios[1]?.getAttribute('aria-checked')).to.equal('false');
 });
 
 it('sets the group "value" when a radio is set as "checked"', async () => {
@@ -218,7 +218,7 @@ it('sets the group "value" when a radio is set as "checked"', async () => {
 
   const group = document.querySelector('glide-core-radio-group');
 
-  expect(group).to.have.attribute('value', 'value-2');
+  expect(group?.getAttribute('value')).to.equal('value-2');
 });
 
 it('throws an error when an component other than `glide-core-radio` is a child of the default slot', async () => {
@@ -253,9 +253,9 @@ it('sets the first radio to be tabbable when none are checked', async () => {
   const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(3);
-  expect(radios[0]).to.have.attribute('tabindex', '0');
-  expect(radios[1]).to.have.attribute('tabindex', '-1');
-  expect(radios[2]).to.have.attribute('tabindex', '-1');
+  expect(radios[0]?.getAttribute('tabindex')).to.equal('0');
+  expect(radios[1]?.getAttribute('tabindex')).to.equal('-1');
+  expect(radios[2]?.getAttribute('tabindex')).to.equal('-1');
 });
 
 it('sets the first non-disabled radio as tabbable when none are checked', async () => {
@@ -270,9 +270,9 @@ it('sets the first non-disabled radio as tabbable when none are checked', async 
   const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(3);
-  expect(radios[0]).to.have.attribute('tabindex', '-1');
-  expect(radios[1]).to.have.attribute('tabindex', '0');
-  expect(radios[2]).to.have.attribute('tabindex', '-1');
+  expect(radios[0]?.getAttribute('tabindex')).to.equal('-1');
+  expect(radios[1]?.getAttribute('tabindex')).to.equal('0');
+  expect(radios[2]?.getAttribute('tabindex')).to.equal('-1');
 });
 
 it('no radios are tabbable when the group is "disabled"', async () => {
@@ -291,9 +291,9 @@ it('no radios are tabbable when the group is "disabled"', async () => {
   const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(3);
-  expect(radios[0]).to.have.attribute('tabindex', '-1');
-  expect(radios[1]).to.have.attribute('tabindex', '-1');
-  expect(radios[2]).to.have.attribute('tabindex', '-1');
+  expect(radios[0]?.getAttribute('tabindex')).to.equal('-1');
+  expect(radios[1]?.getAttribute('tabindex')).to.equal('-1');
+  expect(radios[2]?.getAttribute('tabindex')).to.equal('-1');
 });
 
 it('disabled radios are not tabbable', async () => {
@@ -307,8 +307,8 @@ it('disabled radios are not tabbable', async () => {
   const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(2);
-  expect(radios[0]).to.have.attribute('tabindex', '-1');
-  expect(radios[1]).to.have.attribute('tabindex', '-1');
+  expect(radios[0]?.getAttribute('tabindex')).to.equal('-1');
+  expect(radios[1]?.getAttribute('tabindex')).to.equal('-1');
 });
 
 it('sets only the "checked" radio as tabbable', async () => {
@@ -327,9 +327,9 @@ it('sets only the "checked" radio as tabbable', async () => {
   const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(3);
-  expect(radios[0]).to.have.attribute('tabindex', '-1');
-  expect(radios[1]).to.have.attribute('tabindex', '-1');
-  expect(radios[2]).to.have.attribute('tabindex', '0');
+  expect(radios[0]?.getAttribute('tabindex')).to.equal('-1');
+  expect(radios[1]?.getAttribute('tabindex')).to.equal('-1');
+  expect(radios[2]?.getAttribute('tabindex')).to.equal('0');
 });
 
 it('has reactive radio attribute "aria-checked"', async () => {
@@ -343,19 +343,19 @@ it('has reactive radio attribute "aria-checked"', async () => {
 
   expect(radio).to.not.be.null;
 
-  expect(radio).to.have.attribute('aria-checked', 'false');
+  expect(radio?.getAttribute('aria-checked')).to.equal('false');
 
   radio?.setAttribute('checked', '');
 
   await elementUpdated(radio!);
 
-  expect(radio).to.have.attribute('aria-checked', 'true');
+  expect(radio?.getAttribute('aria-checked')).to.equal('true');
 
   radio?.removeAttribute('checked');
 
   await elementUpdated(radio!);
 
-  expect(radio).to.have.attribute('aria-checked', 'false');
+  expect(radio?.getAttribute('aria-checked')).to.equal('false');
 });
 
 it('has reactive radio attribute "aria-disabled"', async () => {
@@ -369,19 +369,19 @@ it('has reactive radio attribute "aria-disabled"', async () => {
 
   expect(radio).to.not.be.null;
 
-  expect(radio).to.have.attribute('aria-disabled', 'false');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('false');
 
   radio?.setAttribute('disabled', '');
 
   await elementUpdated(radio!);
 
-  expect(radio).to.have.attribute('aria-disabled', 'true');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('true');
 
   radio?.removeAttribute('disabled');
 
   await elementUpdated(radio!);
 
-  expect(radio).to.have.attribute('aria-disabled', 'false');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('false');
 });
 
 it('has reactive radio attribute "aria-required"', async () => {
@@ -395,19 +395,19 @@ it('has reactive radio attribute "aria-required"', async () => {
 
   expect(radio).to.not.be.null;
 
-  expect(radio).to.have.attribute('aria-required', 'false');
+  expect(radio?.getAttribute('aria-required')).to.equal('false');
 
   radio?.setAttribute('required', '');
 
   await elementUpdated(radio!);
 
-  expect(radio).to.have.attribute('aria-required', 'true');
+  expect(radio?.getAttribute('aria-required')).to.equal('true');
 
   radio?.removeAttribute('required');
 
   await elementUpdated(radio!);
 
-  expect(radio).to.have.attribute('aria-required', 'false');
+  expect(radio?.getAttribute('aria-required')).to.equal('false');
 });
 
 it('has reactive radio attribute "aria-invalid"', async () => {
@@ -421,19 +421,19 @@ it('has reactive radio attribute "aria-invalid"', async () => {
 
   expect(radio).to.not.be.null;
 
-  expect(radio).to.have.attribute('aria-invalid', 'false');
+  expect(radio?.getAttribute('aria-invalid')).to.equal('false');
 
   radio?.setAttribute('invalid', '');
 
   await elementUpdated(radio!);
 
-  expect(radio).to.have.attribute('aria-invalid', 'true');
+  expect(radio?.getAttribute('aria-invalid')).to.equal('true');
 
   radio?.removeAttribute('invalid');
 
   await elementUpdated(radio!);
 
-  expect(radio).to.have.attribute('aria-invalid', 'false');
+  expect(radio?.getAttribute('aria-invalid')).to.equal('false');
 });
 
 it('adds a label to radio when given', async () => {

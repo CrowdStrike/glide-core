@@ -25,7 +25,7 @@ it('has defaults', async () => {
   expect(component.selected).to.be.false;
   expect(component.value).to.equal('');
 
-  expect(component).to.have.attribute('value', '');
+  expect(component.getAttribute('value')).to.equal('');
   expect(component).to.not.have.attribute('disabled');
   expect(component).to.not.have.attribute('selected');
 });
@@ -74,7 +74,7 @@ it('sets `aria-checked` when selected', async () => {
   );
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('aria-checked', 'true');
+  expect(radio?.getAttribute('aria-checked')).to.equal('true');
 });
 
 it('sets `aria-checked` when not selected', async () => {
@@ -85,7 +85,7 @@ it('sets `aria-checked` when not selected', async () => {
   );
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('aria-checked', 'false');
+  expect(radio?.getAttribute('aria-checked')).to.equal('false');
 });
 
 it('sets `aria-disabled` when disabled', async () => {
@@ -97,7 +97,7 @@ it('sets `aria-disabled` when disabled', async () => {
   );
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('aria-disabled', 'true');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('true');
 });
 
 it('sets `aria-disabled` when not disabled', async () => {
@@ -108,7 +108,7 @@ it('sets `aria-disabled` when not disabled', async () => {
   );
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('aria-disabled', 'false');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('false');
 });
 
 it('is tabbable when selected', async () => {
@@ -120,7 +120,7 @@ it('is tabbable when selected', async () => {
   );
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('tabindex', '0');
+  expect(radio?.getAttribute('tabindex')).to.equal('0');
 });
 
 it('is not tabbable when not selected', async () => {
@@ -131,7 +131,7 @@ it('is not tabbable when not selected', async () => {
   );
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('tabindex', '-1');
+  expect(radio?.getAttribute('tabindex')).to.equal('-1');
 });
 
 it('throws when icon-only and no "prefix" slot', async () => {

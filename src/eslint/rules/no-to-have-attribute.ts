@@ -13,7 +13,7 @@ export const noToHaveAttribute = createRule({
   meta: {
     docs: {
       description:
-        'Using `.to.have.attribute()` causes tests to hang when they are falsy, so we should stay away from using it to prevent footguns.',
+        'Using `.to.have.attribute()` causes tests to hang when it is falsy, so we should not use it.',
       recommended: true,
     },
     type: 'suggestion',
