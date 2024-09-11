@@ -37,14 +37,14 @@ export default [
       opacity: 1;
       transform: none;
       transition:
-        transform 0.3s cubic-bezier(0.33, 1, 0.68, 1),
-        opacity 0.3s ease-in;
+        transform 200ms cubic-bezier(0.33, 1, 0.68, 1),
+        opacity 200ms ease-in;
       visibility: visible;
     }
 
     .closing {
       transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+      transition: transform 200ms cubic-bezier(0.33, 1, 0.68, 1);
     }
   `,
 ];
