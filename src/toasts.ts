@@ -57,7 +57,9 @@ export default class GlideCoreToasts extends LitElement {
 
     this.#componentElementRef.value?.addEventListener(
       'close',
-      (event: Event) => {
+      async (event: Event) => {
+        await Promise.all(this.#animationPromises);
+
         const toastTarget = event?.target;
 
         if (toastTarget instanceof GlideCoreToast) {
@@ -78,13 +80,13 @@ export default class GlideCoreToasts extends LitElement {
                 const toastAnimation = toast.animate(
                   [
                     {
-                      transform: `translateY(${
+                      transform: `translate(0,${
                         toastTop - targetToastElementHeight
                       }px)`,
                     },
                   ],
                   {
-                    duration: 500,
+                    duration: this.#animationDuration,
                     fill: 'forwards',
                   },
                 );
@@ -93,6 +95,8 @@ export default class GlideCoreToasts extends LitElement {
               }
             }
           }
+
+          await Promise.all(this.#animationPromises);
         }
       },
     );
@@ -111,6 +115,8 @@ export default class GlideCoreToasts extends LitElement {
       </div>
     `;
   }
+
+  #animationDuration = 200;
 
   #animationPromises: Promise<Animation>[] = [];
 
@@ -177,7 +183,7 @@ export default class GlideCoreToasts extends LitElement {
           const toastAnimation = toast.animate(
             [
               {
-                transform: `translateY(${
+                transform: `translate(0,${
                   toastTop +
                   newToastElementHeight -
                   32 /* 32 for extra margin added */
@@ -185,7 +191,7 @@ export default class GlideCoreToasts extends LitElement {
               },
             ],
             {
-              duration: 500,
+              duration: this.#animationDuration,
               fill: 'forwards',
             },
           );
@@ -197,9 +203,9 @@ export default class GlideCoreToasts extends LitElement {
       await Promise.all(this.#animationPromises);
 
       const newToastElementAnimation = newToastElement.animate(
-        [{ transform: 'none' }],
+        [{ transform: 'translateX(0)' }],
         {
-          duration: 500,
+          duration: this.#animationDuration,
           fill: 'forwards',
         },
       );

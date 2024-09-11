@@ -39,7 +39,13 @@ export default class GlideCoreToast extends LitElement {
   variant!: Toast['variant'];
 
   @property({ type: Number })
-  duration? = 5000;
+  get duration() {
+    return this.#duration;
+  }
+  set duration(value: number) {
+    this.#duration = Math.max(value ?? 0, 5000);
+    this.#remainingDuration = this.#duration;
+  }
 
   close() {
     const componentElement = this.#componentElementRef?.value;
@@ -65,8 +71,9 @@ export default class GlideCoreToast extends LitElement {
   open() {
     const duration = Math.max(this.duration ?? 0, 5000);
 
+    this.#lastTimestamp = Date.now();
     if (duration < Number.POSITIVE_INFINITY) {
-      setTimeout(() => {
+      this.#durationTimeout = setTimeout(() => {
         this.close();
       }, duration);
     }
@@ -84,6 +91,8 @@ export default class GlideCoreToast extends LitElement {
         role="alert"
         aria-labelledby="label description"
         ${ref(this.#componentElementRef)}
+        @mouseenter=${this.#onMouseEnter}
+        @mouseleave=${this.#onMouseLeave}
       >
         <glide-core-status-indicator
           style="--size: 1.25rem;"
@@ -124,10 +133,53 @@ export default class GlideCoreToast extends LitElement {
 
   #componentElementRef = createRef<HTMLDivElement>();
 
+  #duration = 0;
+
+  #durationTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  #lastTimestamp = 0;
+
   #localize = new LocalizeController(this);
+
+  #remainingDuration = 0;
 
   #handleCloseButtonClick() {
     this.close();
+  }
+
+  #onMouseEnter() {
+    console.log('onMouseEnter');
+
+    if (this.duration !== Number.POSITIVE_INFINITY) {
+      if (this.#durationTimeout) {
+        clearTimeout(this.#durationTimeout);
+      }
+
+      const timeElaspsed = Date.now() - this.#lastTimestamp;
+
+      this.#remainingDuration = Math.max(
+        this.#remainingDuration - timeElaspsed,
+        0,
+      );
+
+      // console.group();
+      // console.log('timeElaspsed', timeElaspsed);
+      // console.log('this.#remainingDuration', this.#remainingDuration);
+      // console.log('this.#lastTimestamp', this.#lastTimestamp);
+      // console.groupEnd();
+
+      this.#lastTimestamp = Date.now();
+    }
+  }
+
+  #onMouseLeave() {
+    // console.log('onMouseLeave');
+
+    if (this.duration !== Number.POSITIVE_INFINITY) {
+      this.#durationTimeout = setTimeout(() => {
+        this.close();
+      }, this.#remainingDuration);
+    }
   }
 
   get #statusIndicatorVariant(): 'warning-informational' | 'success' {
