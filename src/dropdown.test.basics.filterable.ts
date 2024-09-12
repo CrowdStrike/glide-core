@@ -102,7 +102,7 @@ it('uses `placeholder` as a placeholder when not `multiple` and no option is sel
   expect(input?.placeholder).to.equal('Placeholder');
 });
 
-it('sets `value` of the `<input>` when an option is initially seleccted', async () => {
+it('sets `value` of its `<input>` when an option is initially selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
