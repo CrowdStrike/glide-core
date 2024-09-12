@@ -3,6 +3,7 @@ import { css } from 'lit';
 export default [
   css`
     :host([popover]:popover-open) {
+      background-color: transparent;
       border: none;
       inset: unset;
       inset-block-start: 1rem;
@@ -11,7 +12,7 @@ export default [
       outline: none;
       padding: 0;
       position: absolute;
-      transform: translateX(110%);
+      transform: translate(110%, 0);
     }
 
     .component {
@@ -30,11 +31,7 @@ export default [
       line-height: var(--glide-core-body-xs-line-height);
       margin: 1rem;
       padding: var(--glide-core-spacing-sm);
-
-      /* transform: translateX(110%); */
-      transition:
-        transform 0.2s ease-out,
-        opacity 0.3s ease-out;
+      transition: opacity 0.3s ease-out;
 
       &.informational {
         background-color: var(--glide-core-surface-informational);
