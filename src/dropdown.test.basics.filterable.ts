@@ -103,12 +103,8 @@ it('uses `placeholder` as a placeholder when not `multiple` and no option is sel
 });
 
 it('sets `value` of its `<input>` when an option is initially selected', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      filterable
-    >
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -118,6 +114,51 @@ it('sets `value` of its `<input>` when an option is initially selected', async (
       <glide-core-dropdown-option
         label="Two"
         value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Four"
+        value="four"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Five"
+        value="five"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Six"
+        value="six"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Seven"
+        value="seven"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Eight"
+        value="eight"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Nine"
+        value="nine"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Ten"
+        value="ten"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Eleven"
+        value="eleven"
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
