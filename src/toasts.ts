@@ -38,7 +38,7 @@ export default class GlideCoreToasts extends LitElement {
     ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
     const { variant, label, description, duration } = toast;
 
-    this.#queueProxy.push({
+    this.#queueProxy?.push({
       variant,
       label,
       description,
@@ -47,11 +47,11 @@ export default class GlideCoreToasts extends LitElement {
   }
 
   override firstUpdated() {
-    this.#queueProxy = new Proxy(this.#queue, {
+    this.#queueProxy = new Proxy<ToastConfig[]>(this.#queue, {
       set: this.#proxHandlerSet,
     });
 
-    this.#queueRemoveProxy = new Proxy(this.#queueRemove, {
+    this.#queueRemoveProxy = new Proxy<GlideCoreToast[]>(this.#queueRemove, {
       set: this.#proxyHandlerRemoveSet,
     });
 
@@ -61,7 +61,7 @@ export default class GlideCoreToasts extends LitElement {
         if (event?.target instanceof GlideCoreToast) {
           const target = event.target;
 
-          this.#queueRemoveProxy.push(target);
+          this.#queueRemoveProxy?.push(target);
         }
       },
     );
@@ -95,55 +95,46 @@ export default class GlideCoreToasts extends LitElement {
 
   #localize = new LocalizeController(this);
 
-  #queue: {
-    label: string;
-    description: string;
-    variant: 'informational' | 'success';
-    duration?: number;
-  }[] = [];
+  #queue: ToastConfig[] = [];
 
-  #queueProxy: any = null;
+  #queueProxy: ToastConfig[] | null = null;
 
   #queueRemove: GlideCoreToast[] = [];
 
-  #queueRemoveProxy: any = null;
+  #queueRemoveProxy: GlideCoreToast[] | null = null;
 
   // Use an arrow function to bind `this`
-  #proxHandlerSet = (target: any, property: string, value: any) => {
-    if (Number.parseInt(property) >= 0) {
-      target[property] = value;
+  #proxHandlerSet = (
+    target: ToastConfig[],
+    property: string,
+    value: ToastConfig,
+  ) => {
+    Reflect.set(target, property, value);
 
-      if (!this.#isQueueWorking) {
-        this.#isQueueWorking = true;
+    if (Number.parseInt(property) >= 0 && !this.#isQueueWorking) {
+      this.#isQueueWorking = true;
 
-        requestAnimationFrame(() => {
-          this.#queueWorker();
-        });
-      }
-    } else {
-      target[property] = value;
+      requestAnimationFrame(() => {
+        this.#queueWorker();
+      });
     }
 
     return true;
   };
 
-  #proxyHandlerRemoveSet = (target: any, property: string, value: any) => {
-    // console.log('proxyHandlerRemoveSet');
+  #proxyHandlerRemoveSet = (
+    target: GlideCoreToast[],
+    property: string,
+    value: GlideCoreToast,
+  ) => {
+    Reflect.set(target, property, value);
 
-    if (Number.parseInt(property) >= 0) {
-      target[property] = value;
+    if (Number.parseInt(property) >= 0 && !this.#isQueueRemoving) {
+      this.#isQueueRemoving = true;
 
-      // console.log('proxyHandlerRemoveSet in condition');
-
-      if (!this.#isQueueRemoving) {
-        this.#isQueueRemoving = true;
-
-        requestAnimationFrame(() => {
-          this.#queueRemovingWorker();
-        });
-      }
-    } else {
-      target[property] = value;
+      requestAnimationFrame(() => {
+        this.#queueRemovingWorker();
+      });
     }
 
     return true;
@@ -165,7 +156,6 @@ export default class GlideCoreToasts extends LitElement {
         const toasts = this.querySelectorAll('glide-core-toast');
 
         if (toasts && toasts.length > 1) {
-          // debugger;
           for (const toast of toasts) {
             if (toast === toastTarget) break;
 
@@ -269,7 +259,7 @@ export default class GlideCoreToasts extends LitElement {
 
       // Only Chrome occasionally rerenders the entire component,
       // triggering a horizontal translation. By adding this, the
-      // horizontal translation is prevented
+      // horizontal translation is prevented.
       newToastElement.style.transform = 'none';
     }
 
