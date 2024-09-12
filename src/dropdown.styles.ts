@@ -196,7 +196,7 @@ export default [
       border: none;
       cursor: inherit;
       flex-grow: 1;
-      font-family: inherit;
+      font-family: var(--glide-core-font-sans);
       font-size: inherit;
       min-inline-size: var(--min-inline-size);
       padding: 0;
