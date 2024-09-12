@@ -38,7 +38,7 @@ export default class GlideCoreToasts extends LitElement {
     ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
     const { variant, label, description, duration } = toast;
 
-    this.#queueProxy?.push({
+    this.#addQueueProxy?.push({
       variant,
       label,
       description,
@@ -47,12 +47,40 @@ export default class GlideCoreToasts extends LitElement {
   }
 
   override firstUpdated() {
-    this.#queueProxy = new Proxy<ToastConfig[]>(this.#queue, {
-      set: this.#proxHandlerSet,
+    this.#addQueueProxy = new Proxy<Toast[]>(this.#addQueue, {
+      set: (target: Toast[], property: string, value: Toast) => {
+        Reflect.set(target, property, value);
+
+        if (Number.parseInt(property) >= 0 && !this.#isAddQueueWorking) {
+          this.#isAddQueueWorking = true;
+
+          requestAnimationFrame(() => {
+            this.#processAddQueue();
+          });
+        }
+
+        return true;
+      },
     });
 
-    this.#queueRemoveProxy = new Proxy<GlideCoreToast[]>(this.#queueRemove, {
-      set: this.#proxyHandlerRemoveSet,
+    this.#removeQueueProxy = new Proxy<GlideCoreToast[]>(this.#removeQueue, {
+      set: (
+        target: GlideCoreToast[],
+        property: string,
+        value: GlideCoreToast,
+      ) => {
+        Reflect.set(target, property, value);
+
+        if (Number.parseInt(property) >= 0 && !this.#isRemoveQueueWorking) {
+          this.#isRemoveQueueWorking = true;
+
+          requestAnimationFrame(() => {
+            this.#processRemoveQueue();
+          });
+        }
+
+        return true;
+      },
     });
 
     this.#componentElementRef.value?.addEventListener(
@@ -61,7 +89,7 @@ export default class GlideCoreToasts extends LitElement {
         if (event?.target instanceof GlideCoreToast) {
           const target = event.target;
 
-          this.#queueRemoveProxy?.push(target);
+          this.#removeQueueProxy?.push(target);
         }
       },
     );
@@ -81,6 +109,10 @@ export default class GlideCoreToasts extends LitElement {
     `;
   }
 
+  #addQueue: Toast[] = [];
+
+  #addQueueProxy: Toast[] | null = null;
+
   #animationDuration = 250;
 
   #animationPromises: Promise<Animation>[] = [];
@@ -89,115 +121,21 @@ export default class GlideCoreToasts extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #isQueueRemoving = false;
+  #isAddQueueWorking = false;
 
-  #isQueueWorking = false;
+  #isRemoveQueueWorking = false;
 
   #localize = new LocalizeController(this);
 
-  #queue: ToastConfig[] = [];
+  #removeQueue: GlideCoreToast[] = [];
 
-  #queueProxy: ToastConfig[] | null = null;
+  #removeQueueProxy: GlideCoreToast[] | null = null;
 
-  #queueRemove: GlideCoreToast[] = [];
-
-  #queueRemoveProxy: GlideCoreToast[] | null = null;
-
-  // Use an arrow function to bind `this`
-  #proxHandlerSet = (
-    target: ToastConfig[],
-    property: string,
-    value: ToastConfig,
-  ) => {
-    Reflect.set(target, property, value);
-
-    if (Number.parseInt(property) >= 0 && !this.#isQueueWorking) {
-      this.#isQueueWorking = true;
-
-      requestAnimationFrame(() => {
-        this.#queueWorker();
-      });
-    }
-
-    return true;
-  };
-
-  #proxyHandlerRemoveSet = (
-    target: GlideCoreToast[],
-    property: string,
-    value: GlideCoreToast,
-  ) => {
-    Reflect.set(target, property, value);
-
-    if (Number.parseInt(property) >= 0 && !this.#isQueueRemoving) {
-      this.#isQueueRemoving = true;
-
-      requestAnimationFrame(() => {
-        this.#queueRemovingWorker();
-      });
-    }
-
-    return true;
-  };
-
-  async #queueRemovingWorker() {
+  async #processAddQueue() {
     await Promise.all(this.#animationPromises);
 
-    // debugger;
-    const toastToRemove = this.#queueRemove.at(0);
-
-    while (this.#queueRemove.length > 0) {
-      const toastTarget = this.#queueRemove.shift();
-
-      if (toastTarget instanceof GlideCoreToast) {
-        const { height: targetToastElementHeight } =
-          toastTarget.getBoundingClientRect();
-
-        const toasts = this.querySelectorAll('glide-core-toast');
-
-        if (toasts && toasts.length > 1) {
-          for (const toast of toasts) {
-            if (toast === toastTarget) break;
-
-            if (toast) {
-              const { top: toastTop } = toast.getBoundingClientRect();
-
-              const toastAnimation = toast.animate(
-                [
-                  {
-                    transform: `translate(0,${
-                      toastTop - targetToastElementHeight
-                    }px)`,
-                  },
-                ],
-                {
-                  duration: this.#animationDuration,
-                  fill: 'forwards',
-                  easing: 'ease-in-out',
-                },
-              );
-
-              this.#animationPromises.push(toastAnimation.finished);
-            }
-          }
-        }
-      }
-
-      await Promise.all(this.#animationPromises);
-    }
-
-    toastToRemove?.hidePopover();
-    toastToRemove?.remove();
-
-    if (this.#queue.length === 0) this.#animationPromises = [];
-    this.#isQueueRemoving = false;
-  }
-
-  async #queueWorker() {
-    await Promise.all(this.#animationPromises);
-
-    while (this.#queue.length > 0) {
-      const config = this.#queue.shift();
+    while (this.#addQueue.length > 0) {
+      const config = this.#addQueue.shift();
 
       const newToastElement = Object.assign(
         document.createElement('glide-core-toast'),
@@ -263,7 +201,59 @@ export default class GlideCoreToasts extends LitElement {
       newToastElement.style.transform = 'none';
     }
 
-    if (this.#queueRemove.length === 0) this.#animationPromises = [];
-    this.#isQueueWorking = false;
+    if (this.#removeQueue.length === 0) this.#animationPromises = [];
+    this.#isAddQueueWorking = false;
+  }
+
+  async #processRemoveQueue() {
+    await Promise.all(this.#animationPromises);
+
+    while (this.#removeQueue.length > 0) {
+      const toastTarget = this.#removeQueue.shift();
+
+      if (toastTarget instanceof GlideCoreToast) {
+        const { height: targetToastElementHeight } =
+          toastTarget.getBoundingClientRect();
+
+        const toasts = this.querySelectorAll('glide-core-toast');
+
+        if (toasts && toasts.length > 1) {
+          for (const toast of toasts) {
+            if (toast === toastTarget) break;
+
+            if (toast) {
+              const { top: toastTop } = toast.getBoundingClientRect();
+
+              const toastAnimation = toast.animate(
+                [
+                  {
+                    transform: `translate(0,${
+                      toastTop - targetToastElementHeight
+                    }px)`,
+                  },
+                ],
+                {
+                  duration: this.#animationDuration,
+                  fill: 'forwards',
+                  easing: 'ease-in-out',
+                },
+              );
+
+              this.#animationPromises.push(toastAnimation.finished);
+            }
+          }
+        }
+      }
+
+      await Promise.all(this.#animationPromises);
+    }
+
+    const toastToRemove = this.#removeQueue.at(0);
+
+    toastToRemove?.hidePopover();
+    toastToRemove?.remove();
+
+    if (this.#addQueue.length === 0) this.#animationPromises = [];
+    this.#isRemoveQueueWorking = false;
   }
 }
