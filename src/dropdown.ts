@@ -874,6 +874,9 @@ export default class GlideCoreDropdown extends LitElement {
       this.#value = this.selectedOptions
         .filter((option) => Boolean(option.value))
         .map(({ value }) => value);
+    } else if (this.lastSelectedOption?.value && this.#inputElementRef.value) {
+      this.#value = [this.lastSelectedOption.value];
+      this.#inputElementRef.value.value = this.lastSelectedOption.label;
     } else if (this.lastSelectedOption?.value) {
       this.#value = [this.lastSelectedOption.value];
     }
