@@ -208,6 +208,8 @@ export default class GlideCoreToasts extends LitElement {
   async #processRemoveQueue() {
     await Promise.all(this.#animationPromises);
 
+    const toastToRemove = this.#removeQueue.at(0);
+
     while (this.#removeQueue.length > 0) {
       const toastTarget = this.#removeQueue.shift();
 
@@ -247,8 +249,6 @@ export default class GlideCoreToasts extends LitElement {
 
       await Promise.all(this.#animationPromises);
     }
-
-    const toastToRemove = this.#removeQueue.at(0);
 
     toastToRemove?.hidePopover();
     toastToRemove?.remove();

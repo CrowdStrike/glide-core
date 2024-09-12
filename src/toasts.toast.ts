@@ -47,10 +47,7 @@ export default class GlideCoreToast extends LitElement {
   }
 
   close() {
-    // console.log('close');
     const componentElement = this.#componentElementRef?.value;
-
-    componentElement?.classList?.add('closed');
 
     componentElement?.addEventListener(
       'transitionend',
@@ -59,21 +56,17 @@ export default class GlideCoreToast extends LitElement {
       },
       { once: true },
     );
+
+    componentElement?.classList?.add('closed');
   }
 
   override firstUpdated() {
-    // console.log('firstUpdated');
-    // debugger;
     requestAnimationFrame(() => {
       this.open();
-      // this.isOnScreen = true;
     });
   }
 
   open() {
-    // console.log('open');
-    // const duration = Math.max(this.duration ?? 0, 5000);
-
     this.#lastTimestamp = Date.now();
 
     if (this.duration < Number.POSITIVE_INFINITY) {
@@ -81,8 +74,6 @@ export default class GlideCoreToast extends LitElement {
         this.close();
       }, this.duration);
     }
-
-    // this.classList?.add('open');
   }
 
   override render() {
@@ -164,19 +155,11 @@ export default class GlideCoreToast extends LitElement {
         0,
       );
 
-      // console.group();
-      // console.log('timeElaspsed', timeElaspsed);
-      // console.log('this.#remainingDuration', this.#remainingDuration);
-      // console.log('this.#lastTimestamp', this.#lastTimestamp);
-      // console.groupEnd();
-
       this.#lastTimestamp = Date.now();
     }
   }
 
   #onMouseLeave() {
-    // console.log('onMouseLeave');
-
     if (this.duration !== Number.POSITIVE_INFINITY) {
       this.#durationTimeout = setTimeout(() => {
         this.close();
