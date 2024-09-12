@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.9.5
+
+### Patch Changes
+
+- [#372](https://github.com/CrowdStrike/glide-core/pull/372) [`b7167c3`](https://github.com/CrowdStrike/glide-core/commit/b7167c3516c6310e8dba54c291460799525f5a34) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown when filterable and single-select now sets the value of its `<input>` when an option is selected on initial render.
+
 ## 0.9.4
 
 ### Patch Changes
