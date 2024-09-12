@@ -132,9 +132,9 @@ export default class GlideCoreToasts extends LitElement {
   #removeQueueProxy: GlideCoreToast[] | null = null;
 
   async #processAddQueue() {
-    await Promise.all(this.#animationPromises);
-
     while (this.#addQueue.length > 0) {
+      await Promise.all(this.#animationPromises);
+
       const config = this.#addQueue.shift();
 
       const newToastElement = Object.assign(
@@ -195,8 +195,8 @@ export default class GlideCoreToasts extends LitElement {
 
       await Promise.all(this.#animationPromises);
 
-      // Only Chrome occasionally rerenders the entire component,
-      // triggering a horizontal translation. By adding this, the
+      // Only Chrome appears to occasionally rerender the entire component,
+      // triggering a horizontal translation. By adding transform 'none', the
       // horizontal translation is prevented.
       newToastElement.style.transform = 'none';
     }
@@ -211,6 +211,8 @@ export default class GlideCoreToasts extends LitElement {
     const toastToRemove = this.#removeQueue.at(0);
 
     while (this.#removeQueue.length > 0) {
+      await Promise.all(this.#animationPromises);
+
       const toastTarget = this.#removeQueue.shift();
 
       if (toastTarget instanceof GlideCoreToast) {
@@ -246,9 +248,9 @@ export default class GlideCoreToasts extends LitElement {
           }
         }
       }
-
-      await Promise.all(this.#animationPromises);
     }
+
+    await Promise.all(this.#animationPromises);
 
     toastToRemove?.hidePopover();
     toastToRemove?.remove();
