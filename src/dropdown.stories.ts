@@ -290,7 +290,7 @@ const meta: Meta = {
           size=${arguments_.size || nothing}
           variant=${arguments_.variant || nothing}
           ?disabled=${arguments_.disabled}
-          filterable
+          ?filterable=${arguments_.filterable}
           ?hide-label=${arguments_['hide-label'] || nothing}
           ?multiple=${arguments_.multiple}
           ?open=${arguments_.open}
@@ -301,7 +301,7 @@ const meta: Meta = {
           <glide-core-dropdown-option
             label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
             value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
-            selected
+            ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
           ></glide-core-dropdown-option>
 
           <glide-core-dropdown-option
