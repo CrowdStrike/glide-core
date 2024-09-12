@@ -17,8 +17,6 @@
 
 - [#357](https://github.com/CrowdStrike/glide-core/pull/357) [`03e30d6`](https://github.com/CrowdStrike/glide-core/commit/03e30d6c284347f36fc40f5c6d705bb6dbaa09d6) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated `--glide-core-surface-base-gray`'s color value to have better Dark Mode support.
 
-- [#370](https://github.com/CrowdStrike/glide-core/pull/370) [`aac0ade`](https://github.com/CrowdStrike/glide-core/commit/aac0ade9d27df1600d51541f780bd5a42ad486b0) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown when filterable and single-select now sets the value of its `<input>` when an option is selected on initial render.
-
 - [#356](https://github.com/CrowdStrike/glide-core/pull/356) [`bd2696e`](https://github.com/CrowdStrike/glide-core/commit/bd2696e005547d469a526cf88863d86f3da31bdc) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown now has a `filterable` attribute.
   Use it to force Dropdown to be filterable when there are fewer than 11 options.
   When there are 11 or more options, Dropdown will be filterable regardless of `filterable`.

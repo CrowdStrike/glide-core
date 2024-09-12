@@ -874,9 +874,6 @@ export default class GlideCoreDropdown extends LitElement {
       this.#value = this.selectedOptions
         .filter((option) => Boolean(option.value))
         .map(({ value }) => value);
-    } else if (this.lastSelectedOption?.value && this.#inputElementRef.value) {
-      this.#value = [this.lastSelectedOption.value];
-      this.#inputElementRef.value.value = this.lastSelectedOption.label;
     } else if (this.lastSelectedOption?.value) {
       this.#value = [this.lastSelectedOption.value];
     }
@@ -887,6 +884,24 @@ export default class GlideCoreDropdown extends LitElement {
     // For whatever reason, and even though that component's state is reactive, a change
     // to it doesn't result in a rerender of this component. So one is forced.
     this.requestUpdate();
+
+    // Dropdown becomes filterable if there are more than 10 options. But the `<input>`
+    // won't have rendered yet given we just set `this.isFilterable` above. So we piggyback
+    // off of `this.requestUpdate()` and then wait for the update to complete before setting
+    // the `value` of the `<input>`.
+    //
+    // `then` instead of `await` so the `owSlotType` assertion above isn't thrown in a promise,
+    // causing the dreaded "An error was thrown in a Promise outside a test" in tests for that
+    // the assertion.
+    this.updateComplete.then(() => {
+      if (
+        !this.multiple &&
+        this.#inputElementRef.value &&
+        this.lastSelectedOption?.value
+      ) {
+        this.#inputElementRef.value.value = this.lastSelectedOption.label;
+      }
+    });
   }
 
   #onDropdownAndOptionsFocusout(event: FocusEvent) {
