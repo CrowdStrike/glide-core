@@ -1,5 +1,28 @@
 # @crowdstrike/glide-core
 
+## 0.9.4
+
+### Patch Changes
+
+- [#362](https://github.com/CrowdStrike/glide-core/pull/362) [`16e14de`](https://github.com/CrowdStrike/glide-core/commit/16e14dea806cbef07fbd659478eae448ef386fe9) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated Dropdown's placeholder color to align with Input and Textarea. This is improves Dark Mode support.
+
+- [#366](https://github.com/CrowdStrike/glide-core/pull/366) [`739dc82`](https://github.com/CrowdStrike/glide-core/commit/739dc825546f72c5b6c8dd28fc368955494171fc) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated Dropdown to use the proper font when filtering.
+
+- [#352](https://github.com/CrowdStrike/glide-core/pull/352) [`57d3b26`](https://github.com/CrowdStrike/glide-core/commit/57d3b26f2549cea42ad2fecb312e5c0db4ee58f4) Thanks [@clintcs](https://github.com/clintcs)! - - Tooltip's content is now shown in two columns to better support the appearance of keyboard shortcuts when non-shortcut content wraps.
+
+  - The font size of Tooltip's content has been slightly reduced.
+  - The gap between Tooltip's shortcut content and non-shortcut content has been slightly reduced.
+
+- [#360](https://github.com/CrowdStrike/glide-core/pull/360) [`8c7841c`](https://github.com/CrowdStrike/glide-core/commit/8c7841c6b8f299a94e9f7bb5b2a108cd931c1957) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Button Group Buttons are now rounded in Safari.
+
+- [#357](https://github.com/CrowdStrike/glide-core/pull/357) [`03e30d6`](https://github.com/CrowdStrike/glide-core/commit/03e30d6c284347f36fc40f5c6d705bb6dbaa09d6) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated `--glide-core-surface-base-gray`'s color value to have better Dark Mode support.
+
+- [#370](https://github.com/CrowdStrike/glide-core/pull/370) [`aac0ade`](https://github.com/CrowdStrike/glide-core/commit/aac0ade9d27df1600d51541f780bd5a42ad486b0) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown when filterable and single-select now sets the value of its `<input>` when an option is selected on initial render.
+
+- [#356](https://github.com/CrowdStrike/glide-core/pull/356) [`bd2696e`](https://github.com/CrowdStrike/glide-core/commit/bd2696e005547d469a526cf88863d86f3da31bdc) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown now has a `filterable` attribute.
+  Use it to force Dropdown to be filterable when there are fewer than 11 options.
+  When there are 11 or more options, Dropdown will be filterable regardless of `filterable`.
+
 ## 0.9.3
 
 ### Patch Changes
