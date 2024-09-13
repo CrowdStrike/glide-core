@@ -35,16 +35,16 @@ export default [
         padding: 0 var(--glide-core-spacing-xs);
       }
 
-      &.activate {
+      &.added {
         animation: fade-in 100ms ease-in-out;
       }
 
-      &.deactivate {
+      &.removed {
         animation: fade-out 200ms ease-in-out;
         animation-fill-mode: forwards;
       }
 
-      & ::slotted([slot='prefix']) {
+      & ::slotted([slot='icon']) {
         --size: var(--glide-core-spacing-sm);
 
         align-items: center;
@@ -55,7 +55,7 @@ export default [
         margin-inline-end: 0.375rem;
       }
 
-      &.small ::slotted([slot='prefix']) {
+      &.small ::slotted([slot='icon']) {
         --size: 0.625rem;
 
         align-items: center;
@@ -66,7 +66,7 @@ export default [
         margin-inline-end: var(--glide-core-spacing-xxs);
       }
 
-      &.large ::slotted([slot='prefix']) {
+      &.large ::slotted([slot='icon']) {
         --size: 0.875rem;
 
         align-items: center;
