@@ -21,7 +21,7 @@ it('closes when the "Escape" key is pressed', async () => {
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  component.open();
+  component.show();
 
   component.shadowRoot
     ?.querySelector('aside')
@@ -51,7 +51,7 @@ it('does not close when a key other than "Escape" is pressed', async () => {
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  component.open();
+  component.show();
 
   component.shadowRoot
     ?.querySelector('aside')

@@ -45,9 +45,9 @@ it('closes the modal when the escape key is pressed', async () => {
   expect(dialogElement?.hasAttribute('open')).to.be.false;
 });
 
-it('closes the modal via "show-back-button"', async () => {
+it('closes the modal via "back-button"', async () => {
   const component = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Label" show-back-button>
+    html`<glide-core-modal label="Label" back-button>
       Content
     </glide-core-modal>`,
   );

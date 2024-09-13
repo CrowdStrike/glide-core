@@ -31,8 +31,8 @@ it('has defaults', async () => {
   expect(component.size).to.equal('medium');
   expect(component.getAttribute('size')).to.equal('medium');
 
-  expect(component.showBackButton).to.be.false;
-  expect(component.hasAttribute('show-back-button')).to.be.false;
+  expect(component.backButton).to.be.false;
+  expect(component.hasAttribute('back-button')).to.be.false;
 });
 
 it('renders the provided "label"', async () => {
@@ -64,9 +64,9 @@ it('does not render the show back button in the label by default', async () => {
   ).to.be.null;
 });
 
-it('renders the show back button in the label when provided with "show-back-button"', async () => {
+it('renders the show back button in the label when provided with "back-button"', async () => {
   const component = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Label" show-back-button>
+    html`<glide-core-modal label="Label" back-button>
       Content
     </glide-core-modal>`,
   );

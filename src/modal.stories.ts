@@ -40,8 +40,8 @@ const meta: Meta = {
 
     <glide-core-modal
       label=${arguments_.label}
-      ?show-back-button=${arguments_['show-back-button'] || nothing}
       size=${arguments_.size ?? nothing}
+      ?back-button=${arguments_['back-button'] || nothing}
     >
       ${arguments_['slot="default"']}
 
@@ -57,7 +57,7 @@ const meta: Meta = {
     'slot="default"': 'Content',
     'addEventListener(event, listener)': '',
     'close()': '',
-    'show-back-button': false,
+    'back-button': false,
     'showModal()': '',
     size: 'medium',
   },
@@ -79,7 +79,7 @@ const meta: Meta = {
         type: { summary: '"small" | "medium" | "large" | "xlarge"' },
       },
     },
-    'show-back-button': {
+    'back-button': {
       control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
@@ -102,7 +102,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: 'event: "close", listener: (event: Event) => void',
+          detail: '(event: "close", listener: (event: Event)) => void) => void',
         },
       },
     },

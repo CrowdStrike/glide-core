@@ -82,11 +82,11 @@ it('does not dispatch a "close" event when the modal is open and non-escape keys
   expect(spy.callCount).to.equal(0);
 });
 
-it('dispatches a "close" event when the modal is closed via "show-back-button"', async () => {
+it('dispatches a "close" event when the modal is closed via "back-button"', async () => {
   const spy = sinon.spy();
 
   const component = await fixture<GlideCoreModal>(
-    html`<glide-core-modal label="Label" show-back-button>
+    html`<glide-core-modal label="Label" back-button>
       Content
     </glide-core-modal>`,
   );

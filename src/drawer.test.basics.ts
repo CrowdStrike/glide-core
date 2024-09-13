@@ -38,7 +38,7 @@ it('can have a default slot', async () => {
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  component.open();
+  component.show();
 
   expect(component.textContent).to.equal('Drawer content');
 });
@@ -52,7 +52,7 @@ it('sets the width of the element based on the "--width" CSS variable', async ()
     { parentNode: styledDiv },
   );
 
-  component.open();
+  component.show();
 
   expect(component.shadowRoot?.querySelector('aside')?.clientWidth).to.equal(
     750,
@@ -70,7 +70,7 @@ it('adds a class when the "pinned" attribute is set', async () => {
     html`<glide-core-drawer pinned>Drawer content</glide-core-drawer>`,
   );
 
-  component.open();
+  component.show();
 
   expect(
     component.shadowRoot?.querySelector('aside')?.classList.contains('pinned'),
@@ -82,7 +82,7 @@ it('does not add a class when the "pinned" attribute is not set', async () => {
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  component.open();
+  component.show();
 
   expect(
     component.shadowRoot?.querySelector('aside')?.classList.contains('pinned'),

@@ -47,7 +47,7 @@ const meta: Meta = {
         return;
       }
 
-      drawer?.open();
+      drawer?.show();
     });
 
     drawer.addEventListener('open', () => (isOpen = true));
@@ -82,7 +82,7 @@ const meta: Meta = {
     'slot="default"': '',
     'addEventListener(event, listener)': '',
     'close()': '',
-    'open()': '',
+    'show()': '',
     pinned: false,
     '--width': '',
   },
@@ -94,11 +94,12 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    'open()': {
+    'show()': {
       control: false,
       table: {
         type: {
           summary: 'method',
+          detail: '() => void',
         },
       },
     },
@@ -107,6 +108,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
+          detail: '() => void',
         },
       },
     },
@@ -125,8 +127,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '(event: "open" | "close", listener: (event: Event) => void) => void',
+          detail: '(event: "close", listener: (event: Event)) => void) => void',
         },
       },
     },

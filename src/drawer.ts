@@ -18,7 +18,6 @@ declare global {
  * @cssprop [--width] - The width the drawer.
  *
  * @event close
- * @event open
  *
  * @slot - The content of the Drawer.
  */
@@ -38,7 +37,7 @@ export default class GlideCoreDrawer extends LitElement {
   pinned = false;
 
   close() {
-    if (this.currentState !== 'open') {
+    if (this.state !== 'open') {
       return;
     }
 
@@ -46,11 +45,9 @@ export default class GlideCoreDrawer extends LitElement {
       'transitionend',
       () => {
         this.isOpen = false;
-
         this.#asideElementRef?.value?.classList?.remove('open');
         this.#asideElementRef?.value?.classList?.remove('closing');
-
-        this.currentState = 'closed';
+        this.state = 'closed';
 
         this.dispatchEvent(new Event('close', { bubbles: true }));
       },
@@ -58,39 +55,11 @@ export default class GlideCoreDrawer extends LitElement {
     );
 
     this.#asideElementRef?.value?.classList?.add('closing');
-
-    this.currentState = 'closing';
+    this.state = 'closing';
   }
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
-  }
-
-  open() {
-    if (this.currentState !== 'closed') {
-      return;
-    }
-
-    this.#asideElementRef?.value?.addEventListener(
-      'transitionend',
-      () => {
-        this.currentState = 'open';
-
-        // We set `tabindex="-1"` and call focus directly based on
-        // https://www.matuzo.at/blog/2023/focus-dialog/
-        // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
-        this.#asideElementRef?.value?.focus();
-
-        this.dispatchEvent(new Event('open', { bubbles: true }));
-      },
-      { once: true },
-    );
-
-    this.#asideElementRef?.value?.classList?.add('open');
-
-    this.currentState = 'opening';
-
-    this.isOpen = true;
   }
 
   override render() {
@@ -99,7 +68,7 @@ export default class GlideCoreDrawer extends LitElement {
         class=${classMap({ component: true, pinned: this.pinned })}
         tabindex="-1"
         data-test-state=${this.isOpen ? 'open' : 'closed'}
-        @keydown=${this.#handleKeyDown}
+        @keydown=${this.#onKeydown}
         ${ref(this.#asideElementRef)}
         aria-label=${this.label || nothing}
       >
@@ -111,25 +80,46 @@ export default class GlideCoreDrawer extends LitElement {
     `;
   }
 
-  @state()
-  private currentState: 'opening' | 'closing' | 'open' | 'closed' = 'closed';
+  show() {
+    if (this.state !== 'closed') {
+      return;
+    }
+
+    this.#asideElementRef?.value?.addEventListener(
+      'transitionend',
+      () => {
+        this.state = 'open';
+
+        // We set `tabindex="-1"` and call focus directly based on
+        // https://www.matuzo.at/blog/2023/focus-dialog/
+        // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
+        this.#asideElementRef?.value?.focus();
+      },
+      { once: true },
+    );
+
+    this.#asideElementRef?.value?.classList?.add('open');
+    this.state = 'opening';
+    this.isOpen = true;
+  }
 
   @state()
   private isOpen = false;
+
+  @state()
+  private state: 'opening' | 'closing' | 'open' | 'closed' = 'closed';
 
   #asideElementRef = createRef<HTMLElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #handleKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Escape') {
-      return;
-    }
-
-    this.close();
-  }
-
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
+  }
+
+  #onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.close();
+    }
   }
 }
