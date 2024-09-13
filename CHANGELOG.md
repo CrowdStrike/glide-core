@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.9.6
+
+### Patch Changes
+
+- [#374](https://github.com/CrowdStrike/glide-core/pull/374) [`2906848`](https://github.com/CrowdStrike/glide-core/commit/2906848b371ebbdeb5eeded6ff5a9bf407980b2d) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tooltip now inserts line breaks into long strings to allow wrapping and prevent overflow.
+
 ## 0.9.5
 
 ### Patch Changes
