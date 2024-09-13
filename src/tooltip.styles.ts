@@ -126,7 +126,7 @@ export default [
       inline-size: max-content;
       inset-block-start: 50%;
       max-inline-size: 11.25rem;
-      overflow-wrap: break-word;
+      overflow-wrap: anywhere;
       padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
     }
   `,
