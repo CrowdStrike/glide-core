@@ -9,7 +9,7 @@ ruleTester.run('no-to-have-attribute', noToHaveAttribute, {
       code: "expect(component).getAttribute('role');",
     },
     {
-      code: "expect(component).hasAttribute('selected')",
+      code: "expect(component).hasAttribute('selected');",
     },
   ],
   invalid: [
