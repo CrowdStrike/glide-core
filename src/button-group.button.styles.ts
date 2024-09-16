@@ -96,12 +96,6 @@ export default [
       }
 
       &:not(.disabled) {
-        &:active {
-          background-color: var(--glide-core-surface-selected);
-          border-color: var(--glide-core-border-focus);
-          color: var(--glide-core-color-white);
-        }
-
         &.selected {
           background-color: var(--glide-core-surface-selected);
           border-color: var(--glide-core-surface-selected);
@@ -109,13 +103,11 @@ export default [
         }
       }
 
-      &:not(.disabled, :active) {
-        &:hover {
-          background-color: var(--glide-core-surface-hover);
-          border-color: transparent;
-          box-shadow: var(--glide-core-glow-sm);
-          color: var(--glide-core-text-primary);
-        }
+      &:not(.disabled, .selected):hover {
+        background-color: var(--glide-core-surface-hover);
+        border-color: transparent;
+        box-shadow: var(--glide-core-glow-sm);
+        color: var(--glide-core-text-primary);
       }
     }
   `,
