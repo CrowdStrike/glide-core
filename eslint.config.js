@@ -43,6 +43,7 @@ export default [
       '@crowdstrike/glide-core/no-redundant-property-attribute': 'error',
       '@crowdstrike/glide-core/no-redundant-property-string-type': 'error',
       '@crowdstrike/glide-core/no-skip-tests': 'error',
+      '@crowdstrike/glide-core/no-space-press': 'error',
       '@crowdstrike/glide-core/no-to-have-attribute': 'error',
       '@crowdstrike/glide-core/prefer-closed-shadow-root': 'error',
       '@crowdstrike/glide-core/prefixed-lit-element-class-declaration': 'error',

@@ -212,7 +212,7 @@ it('emits a "change" event when a button is selected via Space', async () => {
   const buttons = document.querySelectorAll('glide-core-button-group-button');
   buttons[1]?.focus();
 
-  sendKeys({ press: 'Space' });
+  sendKeys({ press: ' ' });
   const event = await oneEvent(component, 'input');
 
   expect(event instanceof Event).to.be.true;
@@ -265,7 +265,7 @@ it('does not emit a "change" event when an already selected button is selected v
   const spy = sinon.spy();
   component.addEventListener('change', spy);
 
-  sendKeys({ press: 'Space' });
+  sendKeys({ press: ' ' });
   expect(spy.callCount).to.equal(0);
 });
 

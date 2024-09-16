@@ -5,6 +5,7 @@ import { noPrefixedEventName } from './rules/no-glide-core-prefixed-event-name.j
 import { noRedudantPropertyAttribute } from './rules/no-redundant-property-attribute.js';
 import { noRedudantPropertyStringType } from './rules/no-redundant-property-string-type.js';
 import { noSkipTests } from './rules/no-skip-tests.js';
+import { noSpacePress } from './rules/no-space-press.js';
 import { noToHaveAttribute } from './rules/no-to-have-attribute.js';
 import { preferClosedShadowRoot } from './rules/prefer-closed-shadow-root.js';
 import { prefixedClassDeclaration } from './rules/prefixed-lit-element-class-declaration.js';
@@ -18,6 +19,7 @@ const rules = {
   'no-redundant-property-attribute': noRedudantPropertyAttribute,
   'no-redundant-property-string-type': noRedudantPropertyStringType,
   'no-skip-tests': noSkipTests,
+  'no-space-press': noSpacePress,
   'no-to-have-attribute': noToHaveAttribute,
   'prefer-closed-shadow-root': preferClosedShadowRoot,
   'prefixed-lit-element-class-declaration': prefixedClassDeclaration,

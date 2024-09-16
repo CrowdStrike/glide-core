@@ -89,7 +89,7 @@ it('selects a button on Space', async () => {
   const buttons = document.querySelectorAll('glide-core-button-group-button');
   buttons[1]?.focus();
 
-  await sendKeys({ press: 'Space' });
+  await sendKeys({ press: ' ' });
 
   expect(buttons[0].selected).to.be.false;
   expect(buttons[1].selected).to.be.true;
