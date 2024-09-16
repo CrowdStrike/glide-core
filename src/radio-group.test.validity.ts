@@ -119,9 +119,9 @@ it('adds an error class after `reportValidity` is called when invalid and requir
   const radios = document.querySelectorAll('glide-core-radio');
 
   expect(radios[0]?.invalid).to.be.true;
-  expect(radios[0]).to.have.attribute('aria-invalid', 'true');
+  expect(radios[0]?.getAttribute('aria-invalid')).to.equal('true');
   expect(radios[1]?.invalid).to.be.true;
-  expect(radios[1]).to.have.attribute('aria-invalid', 'true');
+  expect(radios[1]?.getAttribute('aria-invalid')).to.equal('true');
 });
 
 it('does not add an error class by default', async () => {
@@ -156,9 +156,9 @@ it('does not add an error class by default', async () => {
   expect(isRadioError).to.be.false;
 
   expect(radios[0]?.invalid).to.be.false;
-  expect(radios[0]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[0]?.getAttribute('aria-invalid')).to.equal('false');
   expect(radios[1]?.invalid).to.be.false;
-  expect(radios[1]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[1]?.getAttribute('aria-invalid')).to.equal('false');
 });
 
 it('does not add an error class after `reportValidity` is called when not required', async () => {
@@ -196,9 +196,9 @@ it('does not add an error class after `reportValidity` is called when not requir
   expect(isRadioError).to.be.false;
 
   expect(radios[0]?.invalid).to.be.false;
-  expect(radios[0]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[0]?.getAttribute('aria-invalid')).to.equal('false');
   expect(radios[1]?.invalid).to.be.false;
-  expect(radios[1]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[1]?.getAttribute('aria-invalid')).to.equal('false');
 });
 
 it('does not add an error class after `reportValidity` is called when required and a radio is checked', async () => {
@@ -236,9 +236,9 @@ it('does not add an error class after `reportValidity` is called when required a
   expect(isRadioError).to.be.false;
 
   expect(radios[0]?.invalid).to.be.false;
-  expect(radios[0]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[0]?.getAttribute('aria-invalid')).to.equal('false');
   expect(radios[1]?.invalid).to.be.false;
-  expect(radios[1]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[1]?.getAttribute('aria-invalid')).to.equal('false');
 });
 
 it('does not add an error class after `reportValidity` is called when required but disabled', async () => {
@@ -276,9 +276,9 @@ it('does not add an error class after `reportValidity` is called when required b
   expect(isRadioError).to.be.false;
 
   expect(radios[0]?.invalid).to.be.false;
-  expect(radios[0]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[0]?.getAttribute('aria-invalid')).to.equal('false');
   expect(radios[1]?.invalid).to.be.false;
-  expect(radios[1]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[1]?.getAttribute('aria-invalid')).to.equal('false');
 });
 
 it('does not add an error class after `checkValidity` is called when required', async () => {
@@ -316,9 +316,9 @@ it('does not add an error class after `checkValidity` is called when required', 
   expect(isRadioError).to.be.false;
 
   expect(radios[0]?.invalid).to.be.false;
-  expect(radios[0]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[0]?.getAttribute('aria-invalid')).to.equal('false');
   expect(radios[1]?.invalid).to.be.false;
-  expect(radios[1]).to.have.attribute('aria-invalid', 'false');
+  expect(radios[1]?.getAttribute('aria-invalid')).to.equal('false');
 });
 
 it('sets radios as valid initially when required', async () => {

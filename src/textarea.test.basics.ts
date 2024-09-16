@@ -34,10 +34,10 @@ it('renders a textarea with two rows and value when attribute `value` is set ', 
   const textarea = component.shadowRoot!.querySelector('textarea');
 
   expect(component);
-  expect(component).to.have.attribute('rows', '2');
+  expect(component?.getAttribute('rows')).to.equal('2');
 
   expect(textarea).to.exist;
-  expect(textarea).to.have.attribute('rows', '2');
+  expect(textarea?.getAttribute('rows')).to.equal('2');
 });
 
 it('renders the `rows` attribute on the textarea when set', async () => {
@@ -51,7 +51,7 @@ it('renders the `rows` attribute on the textarea when set', async () => {
 
   const textarea = component.shadowRoot!.querySelector('textarea');
 
-  expect(textarea).to.have.attribute('rows', '5');
+  expect(textarea?.getAttribute('rows')).to.equal('5');
 });
 
 it('renders a label when attribute `label` is set', async () => {
@@ -79,7 +79,7 @@ it('renders the textarea as readonly when attribute `readonly` is set', async ()
 
   const textarea = component.shadowRoot!.querySelector('textarea');
 
-  expect(textarea).to.have.attribute('readonly');
+  expect(textarea?.hasAttribute('readonly')).to.be.true;
 });
 
 it('renders the textarea as disabled when attribute `disabled` is set', async () => {
@@ -93,7 +93,7 @@ it('renders the textarea as disabled when attribute `disabled` is set', async ()
 
   const textarea = component.shadowRoot!.querySelector('textarea');
 
-  expect(textarea).to.have.attribute('disabled');
+  expect(textarea?.hasAttribute('disabled')).to.be.true;
 });
 
 it('renders the textarea with a placeholder when attribute `placeholder` is set', async () => {
@@ -107,7 +107,7 @@ it('renders the textarea with a placeholder when attribute `placeholder` is set'
 
   const textarea = component.shadowRoot!.querySelector('textarea');
 
-  expect(textarea).to.have.attribute('placeholder', 'placeholder');
+  expect(textarea?.getAttribute('placeholder')).to.equal('placeholder');
 });
 
 it('renders `required` on textarea when set', async () => {
@@ -121,7 +121,7 @@ it('renders `required` on textarea when set', async () => {
 
   const textarea = component.shadowRoot!.querySelector('textarea');
 
-  expect(textarea).to.have.attribute('required');
+  expect(textarea?.hasAttribute('required')).to.be.true;
 });
 
 it('renders a `name` attribute on the textarea when set', async () => {
@@ -135,7 +135,7 @@ it('renders a `name` attribute on the textarea when set', async () => {
 
   const textarea = component.shadowRoot!.querySelector('textarea');
 
-  expect(textarea).to.have.attribute('name', 'test-name');
+  expect(textarea?.getAttribute('name')).to.equal('test-name');
 });
 
 it('supports a "tooltip" slot', async () => {

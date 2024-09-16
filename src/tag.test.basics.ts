@@ -60,7 +60,10 @@ it('renders an icon button with aria-label when "removable-label" attribute is s
   );
 
   expect(component).to.be.not.null;
-  expect(component).to.have.attribute('removable-label', 'test-aria-label');
+
+  expect(component?.getAttribute('removable-label')).to.equal(
+    'test-aria-label',
+  );
 
   const iconButton = component.shadowRoot?.querySelector(
     '[data-test="button"]',
@@ -68,12 +71,11 @@ it('renders an icon button with aria-label when "removable-label" attribute is s
 
   expect(iconButton).to.be.not.null;
 
-  expect(iconButton).to.have.attribute(
-    'aria-label',
-    `Remove tag: test-aria-label`,
+  expect(iconButton?.getAttribute('aria-label')).to.equal(
+    'Remove tag: test-aria-label',
   );
 
-  expect(iconButton).to.have.attribute('type', 'button');
+  expect(iconButton?.getAttribute('type')).to.equal('button');
 });
 
 it('renders the "prefix" slot and its content', async () => {

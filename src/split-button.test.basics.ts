@@ -104,7 +104,7 @@ it('sets the button as "disabled" when the attribute exists', async () => {
     '[data-test="split-button"]',
   );
 
-  expect(button).to.have.attribute('disabled');
+  expect(button?.hasAttribute('disabled')).to.be.true;
 });
 
 it('renders a prefix slot when given', async () => {

@@ -49,7 +49,7 @@ it('sets the disabled attribute', async () => {
   `);
 
   expect(component.disabled).to.equal(true);
-  expect(component).to.have.attribute('aria-disabled', 'true');
+  expect(component?.getAttribute('aria-disabled')).to.equal('true');
 });
 
 it('renders the icon slot', async () => {

@@ -15,7 +15,7 @@ it('sets `aria-checked` when selected programmatically', async () => {
   await elementUpdated(component);
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('aria-checked', 'true');
+  expect(radio?.getAttribute('aria-checked')).to.equal('true');
 });
 
 it('sets `aria-checked` when deselected programmatically', async () => {
@@ -30,7 +30,7 @@ it('sets `aria-checked` when deselected programmatically', async () => {
   await elementUpdated(component);
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('aria-checked', 'false');
+  expect(radio?.getAttribute('aria-checked')).to.equal('false');
 });
 
 it('sets `aria-disabled` when disabled programmatically', async () => {
@@ -44,7 +44,7 @@ it('sets `aria-disabled` when disabled programmatically', async () => {
   await elementUpdated(component);
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('aria-disabled', 'true');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('true');
 });
 
 it('sets `aria-disabled` when enabled programmatically', async () => {
@@ -59,5 +59,5 @@ it('sets `aria-disabled` when enabled programmatically', async () => {
   await elementUpdated(component);
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio).to.have.attribute('aria-disabled', 'false');
+  expect(radio?.getAttribute('aria-disabled')).to.equal('false');
 });
