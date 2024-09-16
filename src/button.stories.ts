@@ -55,6 +55,8 @@ const meta: Meta = {
     popovertarget: '',
     popovertargetaction: 'toggle',
     size: 'large',
+    'slot="prefix"': '',
+    'slot="suffix"': '',
     type: 'button',
     value: '',
     variant: 'primary',
@@ -175,6 +177,18 @@ const meta: Meta = {
         type: { summary: '"large" | "small"' },
       },
     },
+    'slot="prefix"': {
+      control: false,
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
+    'slot="suffix"': {
+      control: false,
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
     type: {
       control: { type: 'select' },
       options: ['button', 'reset', 'submit'],
@@ -241,7 +255,6 @@ export const WithIcons: StoryObj = {
         slot="prefix"
         name="calendar"
       ></glide-core-example-icon>
-
       <glide-core-example-icon
         slot="suffix"
         name="chevron-down"
