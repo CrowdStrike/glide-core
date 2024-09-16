@@ -101,7 +101,7 @@ export default class GlideCoreToast extends LitElement {
           label=${this.#localize.term('close')}
           variant="tertiary"
           class="close-button"
-          @click=${this.#handleCloseButtonClick}
+          @click=${this.#onCloseButtonClick}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path
@@ -138,7 +138,7 @@ export default class GlideCoreToast extends LitElement {
 
   #remainingDuration = 0;
 
-  #handleCloseButtonClick() {
+  #onCloseButtonClick() {
     this.close();
   }
 

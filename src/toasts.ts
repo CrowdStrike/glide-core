@@ -54,6 +54,10 @@ export default class GlideCoreToasts extends LitElement {
     });
   }
 
+  override disconnectedCallback() {
+    this.#matchMedia?.removeEventListener('change', this.#onMatchMediaChange);
+  }
+
   override firstUpdated() {
     this.#addQueueProxy = new Proxy<ToastAction[]>(this.#queue, {
       set: (target: ToastAction[], property: string, value: ToastAction) => {
@@ -81,6 +85,11 @@ export default class GlideCoreToasts extends LitElement {
         }
       },
     );
+
+    this.#matchMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.#isPrefersReducedMotion = this.#matchMedia.matches;
+
+    this.#matchMedia.addEventListener('change', this.#onMatchMediaChange);
   }
 
   override render() {
@@ -107,11 +116,22 @@ export default class GlideCoreToasts extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
+  #isPrefersReducedMotion = false;
+
   #isQueueWorking = false;
 
   #localize = new LocalizeController(this);
 
+  #matchMedia: MediaQueryList | null = null;
+
   #queue: ToastAction[] = [];
+
+  // Use an arrow function to bind `this`.
+  #onMatchMediaChange = () => {
+    if (this.#matchMedia) {
+      this.#isPrefersReducedMotion = this.#matchMedia.matches;
+    }
+  };
 
   async #processQueue() {
     while (this.#queue.length > 0) {
@@ -153,7 +173,9 @@ export default class GlideCoreToasts extends LitElement {
                 },
               ],
               {
-                duration: this.#animationDuration,
+                duration: this.#isPrefersReducedMotion
+                  ? 0
+                  : this.#animationDuration,
                 fill: 'forwards',
                 easing: 'ease-in-out',
               },
@@ -168,7 +190,9 @@ export default class GlideCoreToasts extends LitElement {
         const newToastElementAnimation = newToastElement.animate(
           [{ transform: 'translate(0,0)' }],
           {
-            duration: this.#animationDuration,
+            duration: this.#isPrefersReducedMotion
+              ? 0
+              : this.#animationDuration,
             fill: 'forwards',
             easing: 'ease-in-out',
           },
@@ -206,7 +230,9 @@ export default class GlideCoreToasts extends LitElement {
                     },
                   ],
                   {
-                    duration: this.#animationDuration,
+                    duration: this.#isPrefersReducedMotion
+                      ? 0
+                      : this.#animationDuration,
                     fill: 'forwards',
                     easing: 'ease-in-out',
                   },

@@ -3,6 +3,11 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
-    ${visuallyHidden('.component')}
+    ${visuallyHidden('.component')};
+  `,
+  css`
+    .component {
+      position: fixed;
+    }
   `,
 ];

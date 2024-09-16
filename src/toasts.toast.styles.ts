@@ -11,7 +11,7 @@ export default [
       margin: 0;
       outline: none;
       padding: 0;
-      position: absolute;
+      position: fixed;
       transform: translate(110%, 0);
     }
 
@@ -65,6 +65,16 @@ export default [
     .description {
       grid-column: 2;
       white-space: normal;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :host([popover]:popover-open) {
+        transition: none;
+      }
+
+      .component {
+        transition: none;
+      }
     }
   `,
 ];
