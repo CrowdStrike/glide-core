@@ -16,25 +16,27 @@ it('registers', () => {
 });
 
 it('renders and sets default attributes', async () => {
-  const treeItem = await fixture<TreeItem>(html`
+  const component = await fixture<TreeItem>(html`
     <glide-core-tree-item label="Item"></glide-core-tree-item>
   `);
 
-  expect(treeItem.expanded).to.equal(false);
-  expect(treeItem.label).to.equal('Item');
-  expect(treeItem.level).to.equal(1);
-  expect(treeItem.shadowRoot?.querySelector('.expand-icon-container')).to.be.ok;
+  expect(component.expanded).to.equal(false);
+  expect(component.label).to.equal('Item');
+  expect(component.level).to.equal(1);
+
+  expect(component.shadowRoot?.querySelector('.expand-icon-container')).to.be
+    .ok;
 });
 
 it('does not render expand-icon-container if remove-indentation is set', async () => {
-  const treeItem = await fixture<TreeItem>(html`
+  const component = await fixture<TreeItem>(html`
     <glide-core-tree-item
       label="Item"
       remove-indentation
     ></glide-core-tree-item>
   `);
 
-  expect(treeItem.shadowRoot?.querySelector('.expand-icon-container')).to.be
+  expect(component.shadowRoot?.querySelector('.expand-icon-container')).to.be
     .null;
 });
 
@@ -49,7 +51,7 @@ it('renders with a prefix slot', async () => {
 });
 
 it('adds label to menu target', async () => {
-  const treeItem = await fixture<TreeItem>(html`
+  const component = await fixture<TreeItem>(html`
     <glide-core-tree-item label="Item">
       <glide-core-tree-item-menu slot="menu" data-menu>
         <glide-core-menu-link label="Move" url="/move"> </glide-core-menu-link>
@@ -57,7 +59,7 @@ it('adds label to menu target', async () => {
     </glide-core-tree-item>
   `);
 
-  const menuTarget = treeItem
+  const menuTarget = component
     .querySelector('glide-core-tree-item-menu')
     ?.shadowRoot?.querySelector('glide-core-menu')
     ?.querySelector('glide-core-icon-button');
@@ -76,42 +78,42 @@ it('renders with a suffix slot', async () => {
 });
 
 it('does not have an expand icon if there are no child tree items', async () => {
-  const treeItem = await fixture<TreeItem>(html`
+  const component = await fixture<TreeItem>(html`
     <glide-core-tree-item label="Item"></glide-core-tree-item>
   `);
 
-  expect(treeItem.shadowRoot?.querySelector('.expand-icon')).to.equal(null);
+  expect(component.shadowRoot?.querySelector('.expand-icon')).to.equal(null);
 });
 
 it('can expand', async () => {
-  const treeItem = await fixture<TreeItem>(html`
+  const component = await fixture<TreeItem>(html`
     <glide-core-tree-item label="Item">
       <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
     </glide-core-tree-item>
   `);
 
   expect([
-    ...treeItem.shadowRoot!.querySelector('.component')!.classList,
+    ...component.shadowRoot!.querySelector('.component')!.classList,
   ]).to.deep.equal(['component']);
 
   expect([
-    ...treeItem.shadowRoot!.querySelector('.expand-icon')!.classList,
+    ...component.shadowRoot!.querySelector('.expand-icon')!.classList,
   ]).to.deep.equal(['expand-icon']);
 
-  treeItem.toggleExpand();
-  await treeItem.updateComplete;
+  component.toggleExpand();
+  await component.updateComplete;
 
   expect([
-    ...treeItem.shadowRoot!.querySelector('.component')!.classList,
+    ...component.shadowRoot!.querySelector('.component')!.classList,
   ]).to.deep.equal(['component', 'expanded']);
 
   expect([
-    ...treeItem.shadowRoot!.querySelector('.expand-icon')!.classList,
+    ...component.shadowRoot!.querySelector('.expand-icon')!.classList,
   ]).to.deep.equal(['expand-icon', 'expand-icon-expanded']);
 });
 
 it('renders child and grandchild tree items', async () => {
-  const treeItem = await fixture<TreeItem>(html`
+  const component = await fixture<TreeItem>(html`
     <glide-core-tree-item expanded label="Item">
       <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
       <glide-core-tree-item label="Child Item 2">
@@ -120,8 +122,8 @@ it('renders child and grandchild tree items', async () => {
     </glide-core-tree-item>
   `);
 
-  expect(treeItem.shadowRoot?.querySelector('.expand-icon')).to.be.ok;
-  const childItems = treeItem.slotElements;
+  expect(component.shadowRoot?.querySelector('.expand-icon')).to.be.ok;
+  const childItems = component.slotElements;
   expect(childItems?.length).to.equal(2);
   expect(childItems?.[0].level).to.equal(2, 'Children are level 2');
   const grandchildItems = childItems?.[1].slotElements;
@@ -130,7 +132,7 @@ it('renders child and grandchild tree items', async () => {
 });
 
 it('can select child and grandchild items', async () => {
-  const treeItem = await fixture<TreeItem>(html`
+  const component = await fixture<TreeItem>(html`
     <glide-core-tree-item expanded label="Item">
       <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
       <glide-core-tree-item label="Child Item 2">
@@ -139,15 +141,15 @@ it('can select child and grandchild items', async () => {
     </glide-core-tree-item>
   `);
 
-  const childItems = treeItem.slotElements;
+  const childItems = component.slotElements;
   const grandchildItems = childItems?.[1].slotElements;
 
-  treeItem.selectItem(childItems[0]);
+  component.selectItem(childItems[0]);
   expect(childItems[0].selected).to.equal(true);
   expect(childItems[1].selected).to.equal(false);
   expect(grandchildItems[0].selected).to.equal(false);
 
-  treeItem.selectItem(grandchildItems[0]);
+  component.selectItem(grandchildItems[0]);
   expect(childItems[0].selected).to.equal(false);
   expect(childItems[1].selected).to.equal(false);
   expect(grandchildItems[0].selected).to.equal(true);

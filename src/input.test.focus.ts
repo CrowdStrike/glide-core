@@ -7,20 +7,20 @@ import GlideCoreInput from './input.js';
 GlideCoreInput.shadowRootOptions.mode = 'open';
 
 it('focuses the input when `focus()` is called', async () => {
-  const input = await fixture<GlideCoreInput>(
+  const component = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
   );
 
-  input.focus();
+  component.focus();
 
-  const inputElement = input.shadowRoot?.querySelector('input');
-  expect(input.shadowRoot?.activeElement).to.equal(inputElement);
+  const inputElement = component.shadowRoot?.querySelector('input');
+  expect(component.shadowRoot?.activeElement).to.equal(inputElement);
 });
 
 it('focuses the input after submit when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<GlideCoreInput>(
+  const component = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
@@ -29,52 +29,52 @@ it('focuses the input after submit when required and no value', async () => {
 
   form.requestSubmit();
 
-  const inputElement = input.shadowRoot?.querySelector('input');
-  expect(input.shadowRoot?.activeElement).to.be.equal(inputElement);
+  const inputElement = component.shadowRoot?.querySelector('input');
+  expect(component.shadowRoot?.activeElement).to.be.equal(inputElement);
 });
 
 it('blurs the input and reports validity if `blur` is called', async () => {
-  const input = await fixture<GlideCoreInput>(
+  const component = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
   );
 
-  input.focus();
+  component.focus();
 
-  const inputElement = input.shadowRoot?.querySelector('input');
-  expect(input.shadowRoot?.activeElement).to.equal(inputElement);
+  const inputElement = component.shadowRoot?.querySelector('input');
+  expect(component.shadowRoot?.activeElement).to.equal(inputElement);
 
-  input.blur();
-  await input.updateComplete;
+  component.blur();
+  await component.updateComplete;
 
-  expect(input.shadowRoot?.activeElement).to.equal(null);
+  expect(component.shadowRoot?.activeElement).to.equal(null);
 
-  expect(input.validity.valid).to.equal(false);
+  expect(component.validity.valid).to.equal(false);
 
   expect(
-    input.shadowRoot?.querySelector('glide-core-private-label')?.error,
+    component.shadowRoot?.querySelector('glide-core-private-label')?.error,
   ).to.equal(true);
 });
 
 it('focuses the input after `reportValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<GlideCoreInput>(
+  const component = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
     },
   );
 
-  input.reportValidity();
+  component.reportValidity();
 
-  const inputElement = input.shadowRoot?.querySelector('input');
-  expect(input.shadowRoot?.activeElement).to.equal(inputElement);
+  const inputElement = component.shadowRoot?.querySelector('input');
+  expect(component.shadowRoot?.activeElement).to.equal(inputElement);
 });
 
 it('focuses the input after `requestSubmit` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<GlideCoreInput>(
+  const component = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
@@ -83,22 +83,22 @@ it('focuses the input after `requestSubmit` is called when required and no value
 
   form.requestSubmit();
 
-  const inputElement = input.shadowRoot?.querySelector('input');
+  const inputElement = component.shadowRoot?.querySelector('input');
 
-  expect(input.shadowRoot?.activeElement === inputElement).to.be.true;
+  expect(component.shadowRoot?.activeElement === inputElement).to.be.true;
 });
 
 it('does not focus the input after `checkValidity` is called', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<GlideCoreInput>(
+  const component = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
     },
   );
 
-  input.checkValidity();
+  component.checkValidity();
 
-  expect(input.shadowRoot?.activeElement === null).to.be.true;
+  expect(component.shadowRoot?.activeElement === null).to.be.true;
 });

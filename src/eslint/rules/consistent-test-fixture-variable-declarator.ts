@@ -19,7 +19,7 @@ export const consistentTestFixtureVariableDeclarator = createRule({
     type: 'suggestion',
     messages: {
       consistentNaming:
-        'Prefer the variable declarator identifier to be named "component".',
+        'Prefer the variable name for the fixture to be "component".',
     },
     schema: [],
   },

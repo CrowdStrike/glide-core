@@ -8,31 +8,31 @@ GlideCoreDrawer.shadowRootOptions.mode = 'open';
 // to manually dispatch the `transitionend` event in tests.
 
 it('is accessible', async () => {
-  const drawer = await fixture<GlideCoreDrawer>(
+  const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  drawer.shadowRoot
+  component.shadowRoot
     ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  drawer.open();
+  component.open();
 
-  await expect(drawer).to.be.accessible();
+  await expect(component).to.be.accessible();
 });
 
 it('focuses the aside upon opening', async () => {
-  const drawer = await fixture<GlideCoreDrawer>(
+  const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  drawer.open();
+  component.open();
 
-  drawer.shadowRoot
+  component.shadowRoot
     ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  expect(drawer.shadowRoot?.activeElement).to.equal(
-    drawer.shadowRoot?.querySelector('aside'),
+  expect(component.shadowRoot?.activeElement).to.equal(
+    component.shadowRoot?.querySelector('aside'),
   );
 });

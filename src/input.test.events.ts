@@ -14,32 +14,32 @@ import type Input from './input.js';
 // will have been dispatched, gets the job done as well.
 
 it('dispatches a "change" event when typed in', async () => {
-  const input = await fixture<Input>(
+  const component = await fixture<Input>(
     html`<glide-core-input></glide-core-input>`,
   );
 
   setTimeout(async () => {
-    input.focus();
+    component.focus();
     await sendKeys({ type: 'testing' });
-    input.blur();
+    component.blur();
   });
 
-  const event = await oneEvent(input, 'change');
+  const event = await oneEvent(component, 'change');
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
 });
 
 it('dispatches an "input" event when typed in', async () => {
-  const input = await fixture<Input>(
+  const component = await fixture<Input>(
     html`<glide-core-input></glide-core-input>`,
   );
 
   setTimeout(() => {
-    input.focus();
+    component.focus();
     sendKeys({ type: 'testing' });
   });
 
-  const event = await oneEvent(input, 'input');
+  const event = await oneEvent(component, 'input');
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
 });
@@ -47,7 +47,7 @@ it('dispatches an "input" event when typed in', async () => {
 it('dispatches an "invalid" event on submit when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const component = await fixture<Input>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
@@ -56,46 +56,46 @@ it('dispatches an "invalid" event on submit when required and no value', async (
 
   setTimeout(() => form.requestSubmit());
 
-  const event = await oneEvent(input, 'invalid');
+  const event = await oneEvent(component, 'invalid');
   expect(event instanceof Event).to.be.true;
 });
 
 it('dispatches an "invalid" event after `checkValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const component = await fixture<Input>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
     },
   );
 
-  setTimeout(() => input.checkValidity());
+  setTimeout(() => component.checkValidity());
 
-  const event = await oneEvent(input, 'invalid');
+  const event = await oneEvent(component, 'invalid');
   expect(event instanceof Event).to.be.true;
 });
 
 it('dispatches an "invalid" event after `reportValidity` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const component = await fixture<Input>(
     html`<glide-core-input required></glide-core-input>`,
     {
       parentNode: form,
     },
   );
 
-  setTimeout(() => input.reportValidity());
+  setTimeout(() => component.reportValidity());
 
-  const event = await oneEvent(input, 'invalid');
+  const event = await oneEvent(component, 'invalid');
   expect(event instanceof Event).to.be.true;
 });
 
 it('does not dispatch an "invalid" event after `checkValidity` is called when not required', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const component = await fixture<Input>(
     html`<glide-core-input></glide-core-input>`,
     {
       parentNode: form,
@@ -104,8 +104,8 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when no
 
   const spy = sinon.spy();
 
-  input.addEventListener('invalid', spy);
-  input.checkValidity();
+  component.addEventListener('invalid', spy);
+  component.checkValidity();
   await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
@@ -114,15 +114,15 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when no
 it('does not dispatch an "invalid" event after `checkValidity` is called when required and no value but disabled', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const component = await fixture<Input>(
     html`<glide-core-input disabled required></glide-core-input>`,
     { parentNode: form },
   );
 
   const spy = sinon.spy();
 
-  input.addEventListener('invalid', spy);
-  input.checkValidity();
+  component.addEventListener('invalid', spy);
+  component.checkValidity();
   await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
@@ -131,7 +131,7 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when re
 it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const component = await fixture<Input>(
     html`<glide-core-input></glide-core-input>`,
     {
       parentNode: form,
@@ -140,8 +140,8 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
 
   const spy = sinon.spy();
 
-  input.addEventListener('invalid', spy);
-  input.reportValidity();
+  component.addEventListener('invalid', spy);
+  component.reportValidity();
   await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
@@ -150,15 +150,15 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
 it('does not dispatch an "invalid" event when `reportValidity` is called when required and no value but disabled', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<Input>(
+  const component = await fixture<Input>(
     html`<glide-core-input disabled required></glide-core-input>`,
     { parentNode: form },
   );
 
   const spy = sinon.spy();
 
-  input.addEventListener('invalid', spy);
-  input.reportValidity();
+  component.addEventListener('invalid', spy);
+  component.reportValidity();
   await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);

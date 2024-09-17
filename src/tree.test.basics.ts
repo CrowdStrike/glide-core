@@ -18,17 +18,17 @@ it('registers', async () => {
 });
 
 it('renders and sets default attributes', async () => {
-  const tree = await fixture<GlideCoreTree>(html`
+  const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item"></glide-core-tree-item>
     </glide-core-tree>
   `);
 
-  expect(tree.selectedItem).to.equal(undefined);
+  expect(component.selectedItem).to.equal(undefined);
 });
 
 it('can select child and grandchild items', async () => {
-  const tree = await fixture<GlideCoreTree>(html`
+  const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
       <glide-core-tree-item label="Child Item 2">
@@ -37,24 +37,24 @@ it('can select child and grandchild items', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = tree.slotElements;
+  const childItems = component.slotElements;
   const grandchildItems = childItems?.[1].slotElements;
 
-  tree.selectItem(childItems[0]);
+  component.selectItem(childItems[0]);
   expect(childItems[0].selected).to.equal(true);
-  expect(tree.selectedItem).to.equal(childItems[0]);
+  expect(component.selectedItem).to.equal(childItems[0]);
   expect(childItems[1].selected).to.equal(false);
   expect(grandchildItems[0].selected).to.equal(false);
 
-  tree.selectItem(grandchildItems[0]);
+  component.selectItem(grandchildItems[0]);
   expect(childItems[0].selected).to.equal(false);
   expect(childItems[1].selected).to.equal(false);
   expect(grandchildItems[0].selected).to.equal(true);
-  expect(tree.selectedItem).to.equal(grandchildItems[0]);
+  expect(component.selectedItem).to.equal(grandchildItems[0]);
 });
 
 it('can click child and grandchild items to expand or select them', async () => {
-  const tree = await fixture<GlideCoreTree>(html`
+  const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
       <glide-core-tree-item label="Child Item 2">
@@ -66,7 +66,7 @@ it('can click child and grandchild items to expand or select them', async () => 
     </glide-core-tree>
   `);
 
-  const childItems = tree.slotElements;
+  const childItems = component.slotElements;
   const grandchildItems = childItems?.[1].slotElements;
 
   // Clicking an item that doesn't have children selects it
@@ -91,7 +91,7 @@ it('can click child and grandchild items to expand or select them', async () => 
 });
 
 it('does not select an item if a tree-item-icon-button is clicked', async () => {
-  const tree = await fixture<GlideCoreTree>(html`
+  const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item 1">
         <glide-core-tree-item-icon-button slot="suffix" data-test-icon-button>
@@ -103,7 +103,7 @@ it('does not select an item if a tree-item-icon-button is clicked', async () => 
     </glide-core-tree>
   `);
 
-  const childItems = tree.slotElements;
+  const childItems = component.slotElements;
 
   const iconButton = childItems[0].querySelector<GlideCoreTreeItemIconButton>(
     '[data-test-icon-button]',
@@ -117,7 +117,7 @@ it('does not select an item if a tree-item-icon-button is clicked', async () => 
 });
 
 it('does not select an item if its menu slot is clicked', async () => {
-  const tree = await fixture<GlideCoreTree>(html`
+  const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item 1">
         <glide-core-tree-item-menu slot="menu" data-test-menu>
@@ -127,7 +127,7 @@ it('does not select an item if its menu slot is clicked', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = tree.slotElements;
+  const childItems = component.slotElements;
 
   const menu =
     childItems[0].querySelector<GlideCoreTreeItemMenu>('[data-test-menu]');

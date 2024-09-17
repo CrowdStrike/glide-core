@@ -9,33 +9,33 @@ import sinon from 'sinon';
 it('can be reset to initial value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<GlideCoreInput>(
+  const component = await fixture<GlideCoreInput>(
     html`<glide-core-input value="value"></glide-core-input>`,
     {
       parentNode: form,
     },
   );
 
-  input.value = '';
+  component.value = '';
   form.reset();
 
-  expect(input.value).to.equal('value');
+  expect(component.value).to.equal('value');
 });
 
 it('can be reset if there was no initial value', async () => {
   const form = document.createElement('form');
 
-  const input = await fixture<GlideCoreInput>(
+  const component = await fixture<GlideCoreInput>(
     html`<glide-core-input></glide-core-input>`,
     {
       parentNode: form,
     },
   );
 
-  input.value = 'value';
+  component.value = 'value';
   form.reset();
 
-  expect(input.value).to.equal('');
+  expect(component.value).to.equal('');
 });
 
 it('has `formData` value when it has a value', async () => {

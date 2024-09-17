@@ -64,7 +64,7 @@ it('renders appropriate attributes on glide-core-radio', async () => {
 });
 
 it('renders a label, radio group, description, and tooltip when given', async () => {
-  const group = await fixture<GlideCoreRadioGroup>(html`
+  const component = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="label" name="name" value="value-1">
       <glide-core-radio value="value-1" label="One"></glide-core-radio>
       <span slot="tooltip" data-test="tooltip">Tooltip</span>
@@ -72,13 +72,17 @@ it('renders a label, radio group, description, and tooltip when given', async ()
     </glide-core-radio-group>
   `);
 
-  const label = group.shadowRoot?.querySelector('[data-test="label"]');
-  const radioGroup = group?.shadowRoot?.querySelector('[role="radiogroup"]');
+  const label = component.shadowRoot?.querySelector('[data-test="label"]');
+
+  const radioGroup = component?.shadowRoot?.querySelector(
+    '[role="radiogroup"]',
+  );
+
   const tooltip = document.querySelector('[data-test="tooltip"]');
 
   const description = document?.querySelector('[data-test="description"]');
 
-  expect(group).to.not.be.null;
+  expect(component).to.not.be.null;
   expect(label).to.not.be.null;
   expect(radioGroup).to.not.be.null;
   expect(tooltip).to.not.be.null;
