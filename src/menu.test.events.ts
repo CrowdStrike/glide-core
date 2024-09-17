@@ -80,7 +80,7 @@ it('dispatches one link "click" event when a link is selected via Space', async 
 
   link.addEventListener('click', spy);
   component.focus();
-  sendKeys({ press: 'Space' });
+  sendKeys({ press: ' ' });
 
   const event = await oneEvent(link, 'click');
 
@@ -108,7 +108,7 @@ it('dispatches one button "click" event when a button is selected via Space', as
 
   button.addEventListener('click', spy);
   component.focus();
-  sendKeys({ press: 'Space' });
+  sendKeys({ press: ' ' });
 
   const event = await oneEvent(button, 'click');
 
