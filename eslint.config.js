@@ -110,6 +110,8 @@ export default [
         { exceptAfterSingleLine: false },
       ],
 
+      eqeqeq: 'error',
+
       // We work with the DOM enough that this rule also became tiresome.
       'unicorn/no-null': 'off',
 
