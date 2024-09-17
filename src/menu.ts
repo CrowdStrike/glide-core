@@ -177,7 +177,7 @@ export default class GlideCoreMenu extends LitElement {
 
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
-  #componentElementRef = createRef<HTMLDivElement>();
+  #componentElementRef = createRef<HTMLElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -316,9 +316,7 @@ export default class GlideCoreMenu extends LitElement {
       // now that Menu is closed.
       this.focus();
 
-      this.#activeOption?.dispatchEvent(
-        new PointerEvent('click', { bubbles: true }),
-      );
+      this.#activeOption?.click();
 
       // `#onTargetSlotClick` is called on click, and it opens or closes Menu.
       // Space and Enter produce "click" events. This property gives `#onTargetSlotClick`

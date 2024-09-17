@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { nanoid } from 'nanoid';
@@ -35,6 +36,10 @@ export default class GlideCoreMenuLink extends LitElement {
   // A link is considered active when it's interacted with via keyboard or hovered.
   privateActive = false;
 
+  override click() {
+    this.#anchorElementRef.value?.click();
+  }
+
   override connectedCallback() {
     super.connectedCallback();
 
@@ -61,11 +66,14 @@ export default class GlideCoreMenuLink extends LitElement {
       })}
       data-test="component"
       href=${ifDefined(this.url)}
+      ${ref(this.#anchorElementRef)}
     >
       <slot name="icon"></slot>
       ${this.label}
     </a>`;
   }
+
+  #anchorElementRef = createRef<HTMLAnchorElement>();
 
   // Established here instead of in `connectedCallback` so the ID remains
   // constant even if this component is removed and re-added to the DOM.
