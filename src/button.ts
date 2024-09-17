@@ -13,12 +13,9 @@ declare global {
 }
 
 /**
- *
- * @description A group of buttons that work like radios—with labels and optional icons.
- *
- * @slot - A label for the contents of the button.
- * @slot prefix - An optional icon slot to display before the label.
- * @slot suffix - An optional icon slot to display after the label.
+ * @slot - A label.
+ * @slot prefix - An optional icon before the label.
+ * @slot suffix - An optional icon after the label.
  */
 @customElement('glide-core-button')
 export default class GlideCoreButton extends LitElement {

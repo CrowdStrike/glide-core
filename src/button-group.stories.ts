@@ -8,86 +8,80 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Button Group',
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          'A group of buttons that work like radios—with labels and optional icons.',
-      },
-    },
+  render(arguments_) {
+    return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/button-group.js';
+        import '@crowdstrike/glide-core/button-group.button.js';
+      </script>
+
+      <glide-core-button-group
+        label=${arguments_.label || nothing}
+        orientation=${arguments_.orientation || nothing}
+        variant=${arguments_.variant || nothing || nothing}
+      >
+        ${when(
+          arguments_.variant === 'icon-only',
+          () => {
+            return html`<glide-core-button-group-button
+                label=${arguments_['<glide-core-button-group-button>.label'] ||
+                nothing}
+                value=${arguments_['<glide-core-button-group-button>.value'] ||
+                nothing}
+                ?disabled=${arguments_[
+                  '<glide-core-button-group-button>.disabled'
+                ]}
+                ?selected=${arguments_[
+                  '<glide-core-button-group-button>.selected'
+                ]}
+              >
+                <glide-core-example-icon
+                  slot="prefix"
+                  name="info"
+                ></glide-core-example-icon>
+              </glide-core-button-group-button>
+
+              <glide-core-button-group-button label="Two">
+                <glide-core-example-icon
+                  slot="prefix"
+                  name="info"
+                ></glide-core-example-icon>
+              </glide-core-button-group-button>
+
+              <glide-core-button-group-button label="Three">
+                <glide-core-example-icon
+                  slot="prefix"
+                  name="info"
+                ></glide-core-example-icon>
+              </glide-core-button-group-button>`;
+          },
+          () => {
+            return html`<glide-core-button-group-button
+                label=${arguments_['<glide-core-button-group-button>.label'] ||
+                nothing}
+                value=${arguments_['<glide-core-button-group-button>.value'] ||
+                nothing}
+                ?disabled=${arguments_[
+                  '<glide-core-button-group-button>.disabled'
+                ]}
+                ?selected=${arguments_[
+                  '<glide-core-button-group-button>.selected'
+                ]}
+              >
+              </glide-core-button-group-button>
+
+              <glide-core-button-group-button
+                label="Two"
+              ></glide-core-button-group-button>
+
+              <glide-core-button-group-button
+                label="Three"
+              ></glide-core-button-group-button>`;
+          },
+        )}
+      </glide-core-button-group>
+    `;
   },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/button-group.js';
-      import '@crowdstrike/glide-core/button-group.button.js';
-    </script>
-
-    <glide-core-button-group
-      label=${arguments_.label || nothing}
-      orientation=${arguments_.orientation || nothing}
-      variant=${arguments_.variant || nothing || nothing}
-    >
-      ${when(
-        arguments_.variant === 'icon-only',
-        () => {
-          return html`<glide-core-button-group-button
-              label=${arguments_['<glide-core-button-group-button>.label'] ||
-              nothing}
-              value=${arguments_['<glide-core-button-group-button>.value'] ||
-              nothing}
-              ?disabled=${arguments_[
-                '<glide-core-button-group-button>.disabled'
-              ]}
-              ?selected=${arguments_[
-                '<glide-core-button-group-button>.selected'
-              ]}
-            >
-              <glide-core-example-icon
-                slot="prefix"
-                name="info"
-              ></glide-core-example-icon>
-            </glide-core-button-group-button>
-
-            <glide-core-button-group-button label="Two">
-              <glide-core-example-icon
-                slot="prefix"
-                name="info"
-              ></glide-core-example-icon>
-            </glide-core-button-group-button>
-
-            <glide-core-button-group-button label="Three">
-              <glide-core-example-icon
-                slot="prefix"
-                name="info"
-              ></glide-core-example-icon>
-            </glide-core-button-group-button>`;
-        },
-        () => {
-          return html`<glide-core-button-group-button
-              label=${arguments_['<glide-core-button-group-button>.label'] ||
-              nothing}
-              value=${arguments_['<glide-core-button-group-button>.value'] ||
-              nothing}
-              ?disabled=${arguments_[
-                '<glide-core-button-group-button>.disabled'
-              ]}
-              ?selected=${arguments_[
-                '<glide-core-button-group-button>.selected'
-              ]}
-            >
-            </glide-core-button-group-button>
-
-            <glide-core-button-group-button
-              label="Two"
-            ></glide-core-button-group-button>
-
-            <glide-core-button-group-button
-              label="Three"
-            ></glide-core-button-group-button>`;
-        },
-      )}
-    </glide-core-button-group>
-  `,
   args: {
     label: 'Label',
     'slot="default"': '',
@@ -100,24 +94,28 @@ const meta: Meta = {
     '<glide-core-button-group-button>.value': '',
   },
   argTypes: {
+    label: {
+      type: { name: 'string', required: true },
+      table: {
+        type: { summary: 'string', detail: '// For screenreaders' },
+      },
+    },
     'slot="default"': {
       table: {
         type: { summary: 'GlideCoreButtonGroupButton' },
       },
       type: { name: 'function', required: true },
     },
-    label: {
-      control: { type: 'text' },
+    '<glide-core-button-group-button>.label': {
       type: { name: 'string', required: true },
-      table: {
-        type: { summary: 'string', detail: '// For screenreaders' },
-      },
     },
-    variant: {
-      control: { type: 'select' },
-      options: ['', 'icon-only'],
+    'addEventListener(event, listener)': {
+      control: false,
       table: {
-        type: { summary: '"icon-only"' },
+        type: {
+          summary: 'method',
+          detail: 'event: "change" | "input", listener: (event: Event) => void',
+        },
       },
     },
     orientation: {
@@ -129,26 +127,25 @@ const meta: Meta = {
         type: { summary: '"horizontal" | "vertical"' },
       },
     },
-    '<glide-core-button-group-button>.label': {
-      control: { type: 'text' },
-      type: { name: 'string', required: true },
+    variant: {
+      control: { type: 'select' },
+      options: ['', 'icon-only'],
+      table: {
+        type: { summary: '"icon-only"' },
+      },
+    },
+    '<glide-core-button-group-button>.disabled': {
+      defaultValue: { summary: 'false' },
+    },
+    '<glide-core-button-group-button>.selected': {
+      defaultValue: { summary: 'false' },
     },
     '<glide-core-button-group-button>.value': {
-      control: { type: 'text' },
       table: {
         type: {
           summary: 'string',
           detail:
-            "// Set `value` when you need something other a button's `label` to identify the selected button.",
-        },
-      },
-    },
-    'addEventListener(event, listener)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: 'event: "change" | "input", listener: (event: Event) => void',
+            '// Set `value` when you need something other than button `label`s to identify the selected button',
         },
       },
     },
@@ -162,42 +159,44 @@ export const ButtonGroup: StoryObj = {
 };
 
 export const WithIcons: StoryObj = {
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/button-group.js';
-      import '@crowdstrike/glide-core/button-group.button.js';
-    </script>
+  render(arguments_) {
+    return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/button-group.js';
+        import '@crowdstrike/glide-core/button-group.button.js';
+      </script>
 
-    <glide-core-button-group
-      label=${arguments_.label}
-      orientation=${arguments_.orientation}
-      variant=${arguments_.variant || nothing}
-    >
-      <glide-core-button-group-button
-        label=${arguments_['<glide-core-button-group-button>.label']}
-        value=${arguments_['<glide-core-button-group-button>.value']}
-        ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
-        ?selected=${arguments_['<glide-core-button-group-button>.selected']}
+      <glide-core-button-group
+        label=${arguments_.label}
+        orientation=${arguments_.orientation}
+        variant=${arguments_.variant || nothing}
       >
-        <glide-core-example-icon
-          slot="prefix"
-          name="info"
-        ></glide-core-example-icon>
-      </glide-core-button-group-button>
+        <glide-core-button-group-button
+          label=${arguments_['<glide-core-button-group-button>.label']}
+          value=${arguments_['<glide-core-button-group-button>.value']}
+          ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
+          ?selected=${arguments_['<glide-core-button-group-button>.selected']}
+        >
+          <glide-core-example-icon
+            slot="prefix"
+            name="info"
+          ></glide-core-example-icon>
+        </glide-core-button-group-button>
 
-      <glide-core-button-group-button label="Two">
-        <glide-core-example-icon
-          slot="prefix"
-          name="info"
-        ></glide-core-example-icon>
-      </glide-core-button-group-button>
+        <glide-core-button-group-button label="Two">
+          <glide-core-example-icon
+            slot="prefix"
+            name="pencil"
+          ></glide-core-example-icon>
+        </glide-core-button-group-button>
 
-      <glide-core-button-group-button label="Three">
-        <glide-core-example-icon
-          slot="prefix"
-          name="info"
-        ></glide-core-example-icon>
-      </glide-core-button-group-button>
-    </glide-core-button-group>
-  `,
+        <glide-core-button-group-button label="Three">
+          <glide-core-example-icon
+            slot="prefix"
+            name="calendar"
+          ></glide-core-example-icon>
+        </glide-core-button-group-button>
+      </glide-core-button-group>
+    `;
+  },
 };

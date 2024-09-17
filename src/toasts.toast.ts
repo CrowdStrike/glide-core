@@ -17,9 +17,7 @@ declare global {
 
 /**
  * @private
- *
- * @description A message that animates onto the screen
- */
+ * */
 @customElement('glide-core-toast')
 export default class GlideCoreToast extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {

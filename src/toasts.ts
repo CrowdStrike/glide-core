@@ -19,10 +19,6 @@ export interface Toast {
   duration?: number;
 }
 
-/**
- * @description A container and controller for toast messages.
-
- */
 @customElement('glide-core-toasts')
 export default class GlideCoreToasts extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {

@@ -17,8 +17,6 @@ declare global {
 }
 
 /**
- * @description An individual option for use with <glide-core-dropdown>.
- *
  * @slot icon - An icon.
  */
 @customElement('glide-core-dropdown-option')

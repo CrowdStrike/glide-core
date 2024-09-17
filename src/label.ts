@@ -35,8 +35,6 @@ declare global {
 /**
  * @private
  *
- * @description A label with a required control and optional description and tooltip.
- *
  * @slot - The label.
  * @slot control - The control with which the label is associated.
  * @slot summary - Additional information or context.

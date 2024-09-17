@@ -22,8 +22,6 @@ declare global {
 }
 
 /**
- * @description A basic menu.
- *
  * @slot - `<glide-core-menu-options>`.
  * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
  */
@@ -124,14 +122,6 @@ export default class GlideCoreMenu extends LitElement {
     }
   }
 
-  override focus(options?: FocusOptions) {
-    if (this.#targetElement && 'focus' in this.#targetElement) {
-      (
-        this.#targetElement as { focus: (options?: FocusOptions) => void }
-      )?.focus(options);
-    }
-  }
-
   private get isTargetDisabled() {
     const isDisabled =
       this.#targetElement &&
@@ -212,6 +202,14 @@ export default class GlideCoreMenu extends LitElement {
       this.#optionsElement.ariaActivedescendant = '';
     }
   };
+
+  #focus(options?: FocusOptions) {
+    if (this.#targetElement && 'focus' in this.#targetElement) {
+      (
+        this.#targetElement as { focus: (options?: FocusOptions) => void }
+      )?.focus(options);
+    }
+  }
 
   #hide() {
     this.#cleanUpFloatingUi?.();
@@ -314,7 +312,7 @@ export default class GlideCoreMenu extends LitElement {
       // For VoiceOver. Options normally don't receive focus. But VoiceOver
       // can focus them programmatically. So we move focus back to the target
       // now that Menu is closed.
-      this.focus();
+      this.#focus();
 
       this.#activeOption?.click();
 
@@ -333,7 +331,7 @@ export default class GlideCoreMenu extends LitElement {
       // For VoiceOver. Options normally don't receive focus. But VoiceOver
       // can focus them programmatically. So we move focus back to the target
       // now that Menu is closed.
-      this.focus();
+      this.#focus();
 
       return;
     }

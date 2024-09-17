@@ -6,18 +6,20 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Status Indicator',
   tags: ['autodocs'],
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/status-indicator.js';
-    </script>
+  render(arguments_) {
+    return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/status-indicator.js';
+      </script>
 
-    <glide-core-status-indicator
-      style=${ifDefined(
-        arguments_['--size'] ? `--size: ${arguments_['--size']};` : undefined,
-      )}
-      variant=${arguments_.variant}
-    ></glide-core-status-indicator>
-  `,
+      <glide-core-status-indicator
+        style=${ifDefined(
+          arguments_['--size'] ? `--size: ${arguments_['--size']};` : undefined,
+        )}
+        variant=${arguments_.variant}
+      ></glide-core-status-indicator>
+    `;
+  },
   args: {
     variant: 'idle',
     '--size': '',

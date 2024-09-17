@@ -13,8 +13,6 @@ declare global {
 }
 
 /**
- * @description A button group.
- *
  * @event change - `(event: Event) => void`
  * @event input - `(event: Event) => void`
  *

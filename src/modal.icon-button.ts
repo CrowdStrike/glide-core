@@ -13,8 +13,6 @@ declare global {
 }
 
 /**
- * @description A Modal Icon Button. Should be used only in the "header-actions" slot of a Modal.
- *
  * @slot - The content of the button. Should only be an icon. The icon should also leverage the
  *         "label" attribute for accessibility so that it is read to screenreaders.
  *

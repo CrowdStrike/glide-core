@@ -13,8 +13,6 @@ declare global {
 }
 
 /**
- * @description A link for use within a <glide-core-menu>.
- *
  * @slot icon - An icon.
  */
 @customElement('glide-core-menu-link')

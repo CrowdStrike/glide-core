@@ -7,6 +7,7 @@
 - [Best practices](#best-practices)
   - [Proceed with caution when upgrading Storybook](#proceed-with-caution-when-upgrading-storybook)
   - [Prefer controls over stories](#prefer-controls-over-stories)
+  - [Only set required attributes in stories](#only-set-required-attributes-in-stories)
   - [Prefer encapsulation](#prefer-encapsulation)
     - [Avoid styling `:host`](#avoid-styling-host)
     - [Avoid exposing `part`s](#avoid-exposing-parts)
@@ -74,6 +75,11 @@ only write stories for component states that can't reasonably be changed via a c
 
 A story showing the use of an optional slot that requires specific markup is one example.
 A story showing an error state triggered by a form submission is another.
+
+### Only set required attributes in stories
+
+While it's useful to present components in their full form, we think there's more value in providing minimal code examples so consumers don't copy more code than they need.
+Only giving required attributes a value also gives us a simple rule to follow when writing stories.
 
 ### Prefer encapsulation
 

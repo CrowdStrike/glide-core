@@ -1,20 +1,14 @@
 import './button.js';
 import './icons/storybook.js';
 import { html, nothing } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Button',
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: 'A button with optional icons.',
-      },
-    },
-  },
-  render: (arguments_) => {
-    /* eslint-disable unicorn/explicit-length-check */
+  render(arguments_) {
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
     return html`
       <script type="ignore">
         import '@crowdstrike/glide-core/button.js';
@@ -36,15 +30,18 @@ const meta: Meta = {
           ?autofocus=${arguments_.autofocus}
           ?disabled=${arguments_.disabled || nothing}
           ?formnovalidate=${arguments_.formnovalidate}
-          >${arguments_['slot="default"']}</glide-core-button
         >
+          ${unsafeHTML(arguments_['slot="default"'])}
+        </glide-core-button>
       </form>
     `;
   },
   args: {
     'slot="default"': 'Button',
     autofocus: false,
+    'click()': '',
     disabled: false,
+    'focus(options)': '',
     form: '',
     formaction: '',
     formenctype: 'application/x-www-form-urlencoded',
@@ -63,7 +60,6 @@ const meta: Meta = {
   },
   argTypes: {
     'slot="default"': {
-      control: { type: 'text' },
       table: {
         type: { summary: 'Element | string' },
       },
@@ -76,10 +72,28 @@ const meta: Meta = {
         },
       },
     },
+    'click()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
+      },
+    },
     disabled: {
       table: {
         defaultValue: {
           summary: 'false',
+        },
+      },
+    },
+    'focus(options)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
         },
       },
     },
@@ -200,7 +214,6 @@ const meta: Meta = {
       },
     },
     value: {
-      control: { type: 'text' },
       table: {
         defaultValue: {
           summary: '""',
@@ -228,37 +241,39 @@ export const Button: StoryObj = {
 };
 
 export const WithIcons: StoryObj = {
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/button.js';
-    </script>
+  render(arguments_) {
+    return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/button.js';
+      </script>
 
-    <glide-core-button
-      formaction=${arguments_.formaction || nothing}
-      formenctype=${arguments_.formenctype || nothing}
-      formmethod=${arguments_.formmethod || nothing}
-      formtarget=${arguments_.formtarget || nothing}
-      name=${arguments_.name || nothing}
-      popovertarget=${arguments_.popovertarget || nothing}
-      popovertargetaction=${arguments_.popovertargetaction || nothing}
-      size=${arguments_.size || nothing}
-      type=${arguments_.type || nothing}
-      value=${arguments_.value || nothing}
-      variant=${arguments_.variant || nothing}
-      ?autofocus=${arguments_.autofocus}
-      ?disabled=${arguments_.disabled}
-      ?formnovalidate=${arguments_.formnovalidate}
-    >
-      ${arguments_['slot="default"']}
+      <glide-core-button
+        formaction=${arguments_.formaction || nothing}
+        formenctype=${arguments_.formenctype || nothing}
+        formmethod=${arguments_.formmethod || nothing}
+        formtarget=${arguments_.formtarget || nothing}
+        name=${arguments_.name || nothing}
+        popovertarget=${arguments_.popovertarget || nothing}
+        popovertargetaction=${arguments_.popovertargetaction || nothing}
+        size=${arguments_.size || nothing}
+        type=${arguments_.type || nothing}
+        value=${arguments_.value || nothing}
+        variant=${arguments_.variant || nothing}
+        ?autofocus=${arguments_.autofocus}
+        ?disabled=${arguments_.disabled}
+        ?formnovalidate=${arguments_.formnovalidate}
+      >
+        ${arguments_['slot="default"']}
 
-      <glide-core-example-icon
-        slot="prefix"
-        name="calendar"
-      ></glide-core-example-icon>
-      <glide-core-example-icon
-        slot="suffix"
-        name="chevron-down"
-      ></glide-core-example-icon>
-    </glide-core-button>
-  `,
+        <glide-core-example-icon
+          slot="prefix"
+          name="calendar"
+        ></glide-core-example-icon>
+        <glide-core-example-icon
+          slot="suffix"
+          name="pencil"
+        ></glide-core-example-icon>
+      </glide-core-button>
+    `;
+  },
 };

@@ -1,6 +1,7 @@
 import './radio-group.js';
 import './radio.js';
 import { html, nothing } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreRadioGroup from './radio-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -9,10 +10,6 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      description: {
-        component:
-          'A radio group with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.',
-      },
       story: {
         autoplay: true,
       },
@@ -34,7 +31,7 @@ const meta: Meta = {
       document.documentElement.scrollTop = 0;
     }
   },
-  render: (arguments_) => {
+  render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <script type="ignore">
@@ -58,13 +55,14 @@ const meta: Meta = {
           <glide-core-radio label="Two"></glide-core-radio>
           <glide-core-radio label="Three"></glide-core-radio>
 
+          <div slot="description">
+            ${unsafeHTML(arguments_['slot="description"'])}
+          </div>
           ${arguments_['slot="tooltip"']
             ? html`<span slot="tooltip">
-                ${arguments_['slot="tooltip"']}
+                ${unsafeHTML(arguments_['slot="tooltip"'])}
               </span>`
             : ''}
-
-          <div slot="description">${arguments_['slot="description"']}</div>
         </glide-core-radio-group>
       </form>
     `;
@@ -79,7 +77,7 @@ const meta: Meta = {
     name: '',
     'reportValidity()': '',
     required: false,
-    'slot="description"': 'Description',
+    'slot="description"': '',
     'slot="tooltip"': '',
     value: '',
     '<glide-core-radio>.checked': true,
@@ -94,13 +92,12 @@ const meta: Meta = {
     },
     'slot="description"': {
       table: {
-        type: { summary: 'Element | string' },
+        type: { summary: 'Element' },
       },
     },
     'slot="tooltip"': {
-      control: { type: 'text' },
       table: {
-        type: { summary: 'HTMLKBDElement | string' },
+        type: { summary: 'Element' },
       },
     },
     'addEventListener(event, listener)': {
@@ -118,8 +115,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
+          detail: '() => boolean',
         },
       },
     },
@@ -128,41 +124,35 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
+          detail: '() => boolean',
         },
       },
     },
     disabled: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     label: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
     name: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
       },
       type: { name: 'string' },
     },
     required: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     value: {
-      control: 'text',
       table: {
         defaultValue: { summary: '' },
         type: { summary: 'string' },
@@ -181,7 +171,6 @@ const meta: Meta = {
       },
     },
     '<glide-core-radio>.checked': {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },

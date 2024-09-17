@@ -14,9 +14,6 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      description: {
-        component: 'A basic menu.',
-      },
       story: {
         autoplay: true,
       },
@@ -25,6 +22,8 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="target"': '',
+    'click()': '',
+    'focus(options)': '',
     open: false,
     placement: 'bottom-start',
     size: 'large',
@@ -42,8 +41,16 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
+    'focus(options)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
+        },
+      },
+    },
     open: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
@@ -118,9 +125,9 @@ const meta: Meta = {
         <glide-core-button slot="target"> Target </glide-core-button>
 
         <glide-core-menu-options>
-          <glide-core-menu-link label="One" url="/"></glide-core-menu-link>
-          <glide-core-menu-link label="Two" url="/"></glide-core-menu-link>
-          <glide-core-menu-button label="Three"></glide-core-menu-button>
+          <glide-core-menu-button label="One"></glide-core-menu-button>
+          <glide-core-menu-button label="Two"></glide-core-menu-button>
+          <glide-core-menu-link label="Three" url="/"></glide-core-menu-link>
         </glide-core-menu-options>
       </glide-core-menu>`;
   },

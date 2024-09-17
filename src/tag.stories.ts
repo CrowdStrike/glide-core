@@ -6,22 +6,26 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Tag',
   tags: ['autodocs'],
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tag.js';
-    </script>
+  render(arguments_) {
+    return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/tag.js';
+      </script>
 
-    <glide-core-tag
-      label=${arguments_.label || nothing}
-      size=${arguments_.size}
-      ?removable=${arguments_.removable}
-    >
-      ${arguments_['slot="default"']}
-    </glide-core-tag>
-  `,
+      <glide-core-tag
+        label=${arguments_.label || nothing}
+        size=${arguments_.size}
+        ?removable=${arguments_.removable}
+      >
+        ${arguments_['slot="default"']}
+      </glide-core-tag>
+    `;
+  },
   args: {
     label: 'Label',
     'addEventListener(event, listener)': '',
+    'click()': '',
+    'focus(options)': '',
     removable: false,
     size: 'medium',
     'slot="icon"': '',
@@ -38,6 +42,24 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '(event: "remove", listener: (event: Event) => void) => void',
+        },
+      },
+    },
+    'click()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
+      },
+    },
+    'focus(options)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
         },
       },
     },
@@ -78,19 +100,21 @@ export const Tag: StoryObj = {
 };
 
 export const WithIcon: StoryObj = {
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tag.js';
-    </script>
+  render(arguments_) {
+    return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/tag.js';
+      </script>
 
-    <glide-core-tag
-      label=${arguments_.label || nothing}
-      ?removable=${arguments_.removable}
-    >
-      <glide-core-example-icon
-        name="drag-dots"
-        slot="icon"
-      ></glide-core-example-icon>
-    </glide-core-tag>
-  `,
+      <glide-core-tag
+        label=${arguments_.label || nothing}
+        ?removable=${arguments_.removable}
+      >
+        <glide-core-example-icon
+          name="drag-dots"
+          slot="icon"
+        ></glide-core-example-icon>
+      </glide-core-tag>
+    `;
+  },
 };

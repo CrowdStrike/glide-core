@@ -13,8 +13,6 @@ declare global {
 
 /**
  *
- * @description A drawer for arbitrary content.
- *
  * @cssprop [--width] - The width the drawer.
  *
  * @event close

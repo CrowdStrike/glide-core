@@ -1,6 +1,7 @@
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreToggle from './toggle.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -9,10 +10,6 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      description: {
-        component:
-          'A toggle with a label and optional tooltip, summary, and description.',
-      },
       story: {
         autoplay: true,
       },
@@ -22,19 +19,21 @@ const meta: Meta = {
     label: 'Label',
     'addEventListener(event, listener)': '',
     checked: false,
+    'click()': '',
     disabled: false,
+    'focus(options)': '',
     'hide-label': false,
     orientation: 'horizontal',
-    'slot="description"': 'Description',
+    'slot="description"': '',
     'slot="tooltip"': '',
     summary: 'Summary',
   },
   argTypes: {
-    'slot="tooltip"': {
-      control: { type: 'text' },
+    label: {
       table: {
-        type: { summary: 'HTMLKBDElement | string' },
+        type: { summary: 'string' },
       },
+      type: { name: 'string', required: true },
     },
     'addEventListener(event, listener)': {
       table: {
@@ -46,33 +45,41 @@ const meta: Meta = {
       },
       type: { name: 'function' },
     },
-    'hide-label': {
-      control: 'boolean',
+    checked: {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
-    checked: {
-      control: 'boolean',
+    'click()': {
+      control: false,
       table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
       },
     },
     disabled: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
-    label: {
-      control: 'text',
+    'focus(options)': {
+      control: false,
       table: {
-        type: { summary: 'string' },
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
+        },
       },
-      type: { name: 'string', required: true },
+    },
+    'hide-label': {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     orientation: {
       control: { type: 'radio' },
@@ -83,8 +90,12 @@ const meta: Meta = {
         type: { summary: '"horizontal" | "vertical"' },
       },
     },
+    'slot="tooltip"': {
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
     summary: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
       },
@@ -115,6 +126,7 @@ const meta: Meta = {
   },
 
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`<script type="ignore">
         import '@crowdstrike/glide-core/toggle.js';
       </script>
@@ -127,12 +139,15 @@ const meta: Meta = {
         ?disabled=${arguments_.disabled}
         ?hide-label=${arguments_['hide-label'] || nothing}
       >
-        <div slot="description">${arguments_['slot="description"']}</div>
-
+        <div slot="description">
+          ${unsafeHTML(arguments_['slot="description"'])}
+        </div>
         ${arguments_['slot="tooltip"']
-          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+          ? html`<span slot="tooltip"
+              >${unsafeHTML(arguments_['slot="tooltip"'])}</span
+            >`
           : ''}
-      </glide-core-toggle>`;
+      </glide-core-toggle> `;
   },
 };
 

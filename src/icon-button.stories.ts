@@ -6,54 +6,67 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Icon Button',
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: 'A button with only an icon.',
-      },
-    },
-  },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/icon-button.js';
-    </script>
+  render(arguments_) {
+    return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/icon-button.js';
+      </script>
 
-    <glide-core-icon-button
-      label=${arguments_.label || nothing}
-      variant=${arguments_.variant || nothing}
-      ?disabled=${arguments_.disabled}
-    >
-      <glide-core-example-icon name="clipboard"></glide-core-example-icon>
-    </glide-core-icon-button>
-  `,
+      <glide-core-icon-button
+        label=${arguments_.label || nothing}
+        variant=${arguments_.variant || nothing}
+        ?disabled=${arguments_.disabled}
+      >
+        <glide-core-example-icon name="clipboard"></glide-core-example-icon>
+      </glide-core-icon-button>
+    `;
+  },
   args: {
     label: 'Label',
     'slot="default"': '',
+    'click()': '',
     disabled: false,
+    'focus(options)': '',
     variant: 'primary',
   },
   argTypes: {
+    label: {
+      table: {
+        type: { summary: 'string', detail: '// For screenreaders' },
+      },
+      type: { name: 'string', required: true },
+    },
     'slot="default"': {
       table: {
         type: { summary: 'Element', detail: 'An icon' },
       },
       type: { name: 'function', required: true },
     },
+    'click()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
+      },
+    },
     disabled: {
-      control: { type: 'boolean' },
       table: {
         defaultValue: {
-          summary: 'boolean',
+          summary: 'false',
         },
         type: { summary: 'boolean' },
       },
     },
-    label: {
-      control: { type: 'text' },
+    'focus(options)': {
+      control: false,
       table: {
-        type: { summary: 'string', detail: '// For screenreaders' },
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
+        },
       },
-      type: { name: 'string', required: true },
     },
     variant: {
       control: { type: 'radio' },

@@ -1,6 +1,7 @@
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreCheckbox from './checkbox.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -9,10 +10,6 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      description: {
-        component:
-          'A checkbox with a label and optional tooltip, summary, and description. Participates in forms and validation via `FormData` and various methods.',
-      },
       story: {
         autoplay: true,
       },
@@ -24,28 +21,20 @@ const meta: Meta = {
     'addEventListener(event, listener)': '',
     checked: false,
     'checkValidity()': '',
+    'click()': '',
     disabled: false,
+    'focus(options)': '',
     'hide-label': false,
     indeterminate: false,
     name: '',
     orientation: 'horizontal',
     'reportValidity()': '',
     required: false,
-    'slot="description"': 'Description',
+    'slot="description"': '',
     'slot="tooltip"': '',
     value: '',
   },
   argTypes: {
-    'slot="description"': {
-      table: {
-        type: { summary: 'Element | string' },
-      },
-    },
-    'slot="tooltip"': {
-      table: {
-        type: { summary: 'HTMLKBDElement | string' },
-      },
-    },
     'addEventListener(event, listener)': {
       control: false,
       table: {
@@ -61,62 +50,63 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
+          detail: '() => boolean',
         },
       },
     },
-    'reportValidity()': {
+    checked: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    'click()': {
       control: false,
       table: {
         type: {
           summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
+          detail: '() => void',
+        },
+      },
+    },
+    disabled: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    'focus(options)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
         },
       },
     },
     'hide-label': {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    checked: {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    disabled: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     indeterminate: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: {
           detail:
-            'Unlike with `<select>`, `indeterminate` is both a property and an attribute. It behaves like `checked` and remains at its initial value unless changed using `setAttribute`.',
+            '// Unlike with `<select>`, `indeterminate` is both a property and an attribute. It behaves like `checked` and remains at its initial value unless changed using `setAttribute`.',
           summary: 'boolean',
         },
       },
     },
     label: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
     name: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
       },
@@ -130,22 +120,38 @@ const meta: Meta = {
         type: { summary: '"horizontal" | "vertical"' },
       },
     },
+    'reportValidity()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => boolean',
+        },
+      },
+    },
     required: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
+    'slot="description"': {
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
+    'slot="tooltip"': {
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
     summary: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
     value: {
-      control: 'text',
       table: {
         defaultValue: { summary: '""' },
         type: { summary: 'string' },
@@ -189,6 +195,7 @@ const meta: Meta = {
       });
   },
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`<script type="ignore">
         import '@crowdstrike/glide-core/checkbox.js';
       </script>
@@ -206,10 +213,13 @@ const meta: Meta = {
           ?indeterminate=${arguments_.indeterminate}
           ?required=${arguments_.required}
         >
-          <div slot="description">${arguments_['slot="description"']}</div>
-
+          <div slot="description">
+            ${unsafeHTML(arguments_['slot="description"'])}
+          </div>
           ${arguments_['slot="tooltip"']
-            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+            ? html`<div slot="tooltip">
+                ${unsafeHTML(arguments_['slot="tooltip"'])}
+              </div>`
             : ''}
         </glide-core-checkbox>
       </form>`;

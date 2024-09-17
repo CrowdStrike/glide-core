@@ -59,9 +59,7 @@ globalStylesheet.insertRule(`
 `);
 
 /**
- * @description A Modal dialog component which interrupts interaction with the rest of the page.
- *
- * @event close
+ * @event close - Emitted when the Modal closes.
  *
  * @slot - The content of the modal.
  *

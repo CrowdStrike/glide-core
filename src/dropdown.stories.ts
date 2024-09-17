@@ -3,6 +3,7 @@ import './icons/storybook.js';
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreDropdown from './dropdown.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -11,10 +12,6 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      description: {
-        component:
-          'A dropdown with optional description and tooltip. Participates in forms and validation via `FormData` and various methods.',
-      },
       story: {
         autoplay: true,
       },
@@ -27,7 +24,9 @@ const meta: Meta = {
     '<glide-core-dropdown-option>.label': 'One',
     'addEventListener(event, listener)': '',
     'checkValidity()': '',
+    'click()': '',
     disabled: false,
+    'focus(options)': '',
     filterable: false,
     'hide-label': false,
     multiple: false,
@@ -40,7 +39,7 @@ const meta: Meta = {
     'select-all': false,
     size: 'large',
     'slot="tooltip"': '',
-    'slot="description"': 'Description',
+    'slot="description"': '',
     value: '',
     variant: '',
     '<glide-core-dropdown-option>.value': 'one',
@@ -54,10 +53,11 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    'slot="description"': {
+    '<glide-core-dropdown-option>.label': {
       table: {
-        type: { summary: 'Element | string' },
+        type: { summary: 'string' },
       },
+      type: { name: 'string', required: true },
     },
     'addEventListener(event, listener)': {
       control: false,
@@ -74,60 +74,26 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
+          detail: '() => boolean',
         },
       },
     },
-    'reportValidity()': {
+    'click()': {
       control: false,
       table: {
         type: {
           summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
-        },
-      },
-    },
-    '<glide-core-dropdown-option>.label': {
-      control: 'text',
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
-    },
-    '<glide-core-dropdown-option>.value': {
-      control: 'text',
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string' },
-    },
-    '<glide-core-dropdown-option>.selected': {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    '<glide-core-dropdown-option>[slot="icon"]': {
-      control: false,
-      table: {
-        type: {
-          summary: 'Element',
-          detail: '// Unsupported with `multiple`',
+          detail: '() => void',
         },
       },
     },
     disabled: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     filterable: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: {
@@ -137,38 +103,42 @@ const meta: Meta = {
         },
       },
     },
+    'focus(options)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
+        },
+      },
+    },
     'hide-label': {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     label: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
     multiple: {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    open: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     name: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
+      },
+    },
+    open: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
       },
     },
     orientation: {
@@ -181,36 +151,46 @@ const meta: Meta = {
       },
     },
     placeholder: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
     readonly: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
+    'reportValidity()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => boolean',
+        },
+      },
+    },
     required: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     'select-all': {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
+    'slot="description"': {
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
     'slot="tooltip"': {
       table: {
-        type: { summary: 'HTMLKBDElement | string' },
+        type: { summary: 'Element' },
       },
     },
     size: {
@@ -237,6 +217,27 @@ const meta: Meta = {
         type: { summary: '"quiet"' },
       },
     },
+    '<glide-core-dropdown-option>.value': {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
+    },
+    '<glide-core-dropdown-option>.selected': {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-dropdown-option>[slot="icon"]': {
+      control: false,
+      table: {
+        type: {
+          summary: 'Element',
+          detail: '// Unsupported with `multiple`',
+        },
+      },
+    },
   },
   play(context) {
     const dropdown = context.canvasElement.querySelector('glide-core-dropdown');
@@ -260,19 +261,30 @@ const meta: Meta = {
       arguments_ = event.args as typeof context.args;
     });
 
-    context.canvasElement.addEventListener('click', () => {
-      addons.getChannel().emit(STORY_ARGS_UPDATED, {
-        storyId: context.id,
-        args: {
-          ...arguments_,
-          open: context.canvasElement.querySelector('glide-core-dropdown')
-            ?.open,
-        },
-      });
+    const observer = new MutationObserver((entries) => {
+      const hasOpenChanged = entries.some(
+        ({ attributeName }) => attributeName === 'open',
+      );
+
+      if (hasOpenChanged) {
+        addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          storyId: context.id,
+          args: {
+            ...arguments_,
+            open: context.canvasElement.querySelector<GlideCoreDropdown>(
+              'glide-core-dropdown',
+            )?.open,
+          },
+        });
+      }
     });
+
+    if (dropdown) {
+      observer.observe(dropdown, { attributes: true });
+    }
   },
   render(arguments_) {
-    /* eslint-disable unicorn/explicit-length-check */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
     return html`<script type="ignore">
         import '@crowdstrike/glide-core/dropdown.js';
         import '@crowdstrike/glide-core/dropdown.option.js';
@@ -311,9 +323,13 @@ const meta: Meta = {
             value="three"
           ></glide-core-dropdown-option>
 
-          <div slot="description">${arguments_['slot="description"']}</div>
+          <div slot="description">
+            ${unsafeHTML(arguments_['slot="description"'])}
+          </div>
           ${arguments_['slot="tooltip"']
-            ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
+            ? html`<div slot="tooltip">
+                ${unsafeHTML(arguments_['slot="tooltip"'])}
+              </div>`
             : ''}
         </glide-core-dropdown>
       </form>`;

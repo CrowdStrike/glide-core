@@ -11,9 +11,7 @@ declare global {
 }
 
 /**
- * @description - A link for use in the `"primary-action"` slot of `<glide-core-split-button-container>`.
- *
- * @slot icon - An optional icon to display before the label.
+ * @slot icon - An optional icon before the label.
  */
 @customElement('glide-core-split-button-container-link')
 export default class GlideCoreSplitButtonContainerLink extends LitElement {

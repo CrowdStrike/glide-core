@@ -13,9 +13,7 @@ declare global {
 }
 
 /**
- * @description A button with only an icon.
- *
- * @slot - Reserved for the icon to display inside of the button.
+ * @slot - An icon.
  */
 @customElement('glide-core-icon-button')
 export default class GlideCoreIconButton extends LitElement {
@@ -46,12 +44,15 @@ export default class GlideCoreIconButton extends LitElement {
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /** For screenreaders. Required. */
   @property()
   label = '';
 
   @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
+
+  override click() {
+    this.#buttonElementRef.value?.click();
+  }
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
@@ -70,8 +71,10 @@ export default class GlideCoreIconButton extends LitElement {
           secondary: this.variant === 'secondary',
           tertiary: this.variant === 'tertiary',
         })}
+        data-test="button"
         type="button"
         ?disabled=${this.disabled}
+        ${ref(this.#buttonElementRef)}
       >
         <slot
           @slotchange=${this.#onDefaultSlotChange}
@@ -80,6 +83,8 @@ export default class GlideCoreIconButton extends LitElement {
       </button>
     `;
   }
+
+  #buttonElementRef = createRef<HTMLButtonElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 

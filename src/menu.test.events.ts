@@ -79,7 +79,7 @@ it('dispatches one link "click" event when a link is selected via Space', async 
   assert(link);
 
   link.addEventListener('click', spy);
-  component.focus();
+  component.querySelector('button')?.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(link, 'click');
@@ -107,7 +107,7 @@ it('dispatches one button "click" event when a button is selected via Space', as
   assert(button);
 
   button.addEventListener('click', spy);
-  component.focus();
+  component.querySelector('button')?.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(button, 'click');
@@ -135,7 +135,7 @@ it('dispatches one link "click" event when a link is selected via Enter', async 
   assert(link);
 
   link.addEventListener('click', spy);
-  component.focus();
+  component.querySelector('button')?.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(link, 'click');
@@ -163,7 +163,7 @@ it('dispatches one button "click" event when a button is selected via Enter', as
   assert(button);
 
   button.addEventListener('click', spy);
-  component.focus();
+  component.querySelector('button')?.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(button, 'click');

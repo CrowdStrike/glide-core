@@ -1,18 +1,16 @@
 import './icons/storybook.js';
 import './input.js';
 import { html, nothing } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreInput, { SUPPORTED_TYPES } from './input.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Input',
   tags: ['autodocs'],
+  decorators: [(story) => html`<div style="height: 5rem;">${story()}</div>`],
   parameters: {
     docs: {
-      description: {
-        component:
-          'An input with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.',
-      },
       story: {
         autoplay: true,
       },
@@ -24,7 +22,9 @@ const meta: Meta = {
     autocapitalize: 'on',
     'checkValidity()': '',
     clearable: false,
+    'click()': '',
     disabled: false,
+    'focus(options)': '',
     'hide-label': false,
     maxlength: '',
     name: '',
@@ -33,7 +33,7 @@ const meta: Meta = {
     readonly: false,
     'reportValidity()': '',
     required: false,
-    'slot="description"': 'Description',
+    'slot="description"': '',
     'slot="tooltip"': '',
     spellcheck: 'false',
     type: 'text',
@@ -50,7 +50,8 @@ const meta: Meta = {
       document.documentElement.scrollTop = 0;
     }
   },
-  render: (arguments_) => {
+  render(arguments_) {
+    /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <script type="ignore">
         import '@crowdstrike/glide-core/input.js';
@@ -74,12 +75,14 @@ const meta: Meta = {
           ?readonly=${arguments_.readonly}
           ?disabled=${arguments_.disabled}
         >
-          ${arguments_['slot="tooltip"']
-            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-            : ''}
           ${arguments_['slot="description"']
             ? html`<div slot="description">
-                ${arguments_['slot="description"']}
+                ${unsafeHTML(arguments_['slot="description"'])}
+              </div>`
+            : ''}
+          ${arguments_['slot="tooltip"']
+            ? html`<div slot="tooltip">
+                ${unsafeHTML(arguments_['slot="tooltip"'])}
               </div>`
             : ''}
         </glide-core-input>
@@ -87,84 +90,20 @@ const meta: Meta = {
     `;
   },
   argTypes: {
-    type: {
-      control: { type: 'select' },
-      options: [...SUPPORTED_TYPES],
-      table: {
-        defaultValue: {
-          summary: '"text"',
-        },
-        type: {
-          summary: SUPPORTED_TYPES.map((type) => {
-            return `"${type}"`;
-          }).join(' | '),
-        },
-      },
-    },
-    value: {
-      control: 'text',
-      table: {
-        defaultValue: { summary: '""' },
-        type: { summary: 'string' },
-      },
-    },
     label: {
-      control: 'text',
       table: {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
-    'hide-label': {
-      control: 'boolean',
+    'addEventListener(event, listener)': {
+      control: false,
       table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    orientation: {
-      control: { type: 'radio' },
-      options: ['horizontal', 'vertical'],
-      defaultValue: 'horizontal',
-      table: {
-        defaultValue: { summary: '"horizontal"' },
-        type: { summary: '"horizontal" | "vertical"' },
-      },
-    },
-    placeholder: {
-      control: 'text',
-      table: {
-        type: { summary: 'string' },
-      },
-    },
-    required: {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    readonly: {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    disabled: {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    spellcheck: {
-      control: 'radio',
-      defaultValue: '"false"',
-      options: ['true', 'false'],
-      table: {
-        defaultValue: { summary: '"false"' },
-        type: { summary: '"true" | "false"' },
+        type: {
+          summary: 'method',
+          detail:
+            'event: "change" | "input" | "invalid", listener: (event: Event) => void',
+        },
       },
     },
     autocapitalize: {
@@ -180,40 +119,75 @@ const meta: Meta = {
         },
       },
     },
+    'checkValidity()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => boolean',
+        },
+      },
+    },
+    'click()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
+      },
+    },
+    disabled: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    'focus(options)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
+        },
+      },
+    },
+    'hide-label': {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
     maxlength: {
       control: 'number',
       table: {
         type: { summary: 'number' },
       },
     },
-    'slot="tooltip"': {
+    orientation: {
+      control: { type: 'radio' },
+      options: ['horizontal', 'vertical'],
+      defaultValue: 'horizontal',
       table: {
-        type: { summary: 'HTMLKBDElement | string' },
+        defaultValue: { summary: '"horizontal"' },
+        type: { summary: '"horizontal" | "vertical"' },
       },
     },
-    'slot="description"': {
+    placeholder: {
       table: {
-        type: { summary: 'Element | string' },
+        type: { summary: 'string' },
       },
     },
-    'addEventListener(event, listener)': {
-      control: false,
+    required: {
       table: {
-        type: {
-          summary: 'method',
-          detail:
-            'event: "change" | "input" | "invalid", listener: (event: Event) => void',
-        },
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
       },
     },
-    'checkValidity()': {
-      control: false,
+    readonly: {
       table: {
-        type: {
-          summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
-        },
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
       },
     },
     'reportValidity()': {
@@ -221,9 +195,47 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
+          detail: '() => boolean',
         },
+      },
+    },
+    spellcheck: {
+      control: 'radio',
+      defaultValue: '"false"',
+      options: ['true', 'false'],
+      table: {
+        defaultValue: { summary: '"false"' },
+        type: { summary: '"true" | "false"' },
+      },
+    },
+    'slot="tooltip"': {
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
+    'slot="description"': {
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
+    type: {
+      control: { type: 'select' },
+      options: [...SUPPORTED_TYPES],
+      table: {
+        defaultValue: {
+          summary: '"text"',
+        },
+        type: {
+          summary: SUPPORTED_TYPES.map((type) => {
+            return `"${type}"`;
+          }).join(' | '),
+        },
+      },
+    },
+    value: {
+      table: {
+        defaultValue: { summary: '""' },
+        type: { summary: 'string' },
       },
     },
   },
@@ -242,41 +254,39 @@ export const WithError: StoryObj = {
 };
 
 export const WithIcons: StoryObj = {
-  render: (arguments_) => {
+  render(arguments_) {
     return html`
       <script type="ignore">
         import '@crowdstrike/glide-core/input.js';
       </script>
 
-      <div style="height: 5rem;">
-        <glide-core-input
-          label=${arguments_.label}
-          maxlength=${arguments_.maxlength || nothing}
-          orientation=${arguments_.orientation}
-          placeholder=${arguments_.placeholder || nothing}
-          type=${arguments_.type}
-          value=${arguments_.value}
-          ?clearable=${arguments_.clearable}
-          ?disabled=${arguments_.disabled}
-          ?hide-label=${arguments_['hide-label']}
-          ?password-toggle=${arguments_.passwordToggle || nothing}
-          ?readonly=${arguments_.readonly}
-          ?required=${arguments_.required}
-        >
-          ${arguments_['slot="tooltip"']
-            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-            : ''}
+      <glide-core-input
+        label=${arguments_.label}
+        maxlength=${arguments_.maxlength || nothing}
+        orientation=${arguments_.orientation}
+        placeholder=${arguments_.placeholder || nothing}
+        type=${arguments_.type}
+        value=${arguments_.value}
+        ?clearable=${arguments_.clearable}
+        ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label']}
+        ?password-toggle=${arguments_.passwordToggle || nothing}
+        ?readonly=${arguments_.readonly}
+        ?required=${arguments_.required}
+      >
+        ${arguments_['slot="tooltip"']
+          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+          : ''}
 
-          <glide-core-example-icon
-            slot="prefix"
-            name="pencil"
-          ></glide-core-example-icon>
-          <glide-core-example-icon
-            slot="suffix"
-            name="share"
-          ></glide-core-example-icon>
-        </glide-core-input>
-      </div>
+        <glide-core-example-icon
+          slot="prefix"
+          name="pencil"
+        ></glide-core-example-icon>
+        <glide-core-example-icon
+          slot="suffix"
+          name="share"
+        ></glide-core-example-icon>
+      </glide-core-input>
     `;
   },
 };

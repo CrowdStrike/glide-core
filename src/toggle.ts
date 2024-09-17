@@ -12,8 +12,6 @@ declare global {
 }
 
 /**
- * @description A toggle with a label and optional tooltip, summary, and description.
- *
  * @event change - `(event: Event) => void`
  * @event input - `(event: Event) => void`
  *
