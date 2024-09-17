@@ -278,10 +278,7 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/dropdown.option.js';
       </script>
 
-      <form
-        action="/"
-        style="display: block; height: 8rem; width: max-content;"
-      >
+      <form action="/" style="display: block; width: max-content;">
         <glide-core-dropdown
           label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}
@@ -347,10 +344,7 @@ export const WithIcons: StoryObj = {
         import '@crowdstrike/glide-core/dropdown.option.js';
       </script>
 
-      <form
-        action="/"
-        style="display: block; height: 8rem; width: max-content;"
-      >
+      <form action="/" style="display: block; width: max-content;">
         <glide-core-dropdown
           label=${arguments_.label}
           name=${arguments_.name}
@@ -378,14 +372,14 @@ export const WithIcons: StoryObj = {
             ></glide-core-example-icon>
           </glide-core-dropdown-option>
 
-          <glide-core-dropdown-option label="Move" value="move">
+          <glide-core-dropdown-option label="Move">
             <glide-core-example-icon
               slot="icon"
               name="move"
             ></glide-core-example-icon>
           </glide-core-dropdown-option>
 
-          <glide-core-dropdown-option label="Share" value="share">
+          <glide-core-dropdown-option label="Share">
             <glide-core-example-icon
               slot="icon"
               name="share"

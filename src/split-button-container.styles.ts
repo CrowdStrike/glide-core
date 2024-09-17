@@ -1,18 +1,48 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
 
-// These styles are shared between `glide-core-split-button` and `glide-core-split-link`.
 export default [
   css`
-    ${focusOutline('.component:focus-visible')}
+    ${focusOutline('.menu-button:focus-visible')}
   `,
   css`
     .component {
+      display: inline-flex;
+      position: relative;
+
+      &:not(.disabled):is(:focus-within, :hover) {
+        & .divider {
+          background-color: transparent;
+        }
+      }
+
+      &.disabled:hover {
+        cursor: not-allowed;
+
+        & .divider {
+          background-color: var(--glide-core-border-base-light);
+        }
+      }
+    }
+
+    .divider {
+      inline-size: 1px;
+
+      &.primary {
+        background-color: var(--glide-core-border-base-light);
+      }
+
+      &.secondary {
+        background-color: var(--glide-core-border-primary);
+      }
+    }
+
+    .menu-button {
       align-items: center;
       border-color: transparent;
-      border-radius: 0.75rem 0 0 0.75rem;
+      border-radius: 0 0.75rem 0.75rem 0;
       border-style: solid;
-      border-width: 1px 0 1px 1px;
+      border-width: 1px 1px 1px 0;
       cursor: pointer;
       display: inline-flex;
       font-family: var(--glide-core-heading-xxs-font-family);
@@ -21,21 +51,19 @@ export default [
       gap: 0.625rem;
       justify-content: center;
       padding-block: var(--glide-core-spacing-xs);
-      padding-inline: var(--glide-core-spacing-md);
-      padding-inline-end: var(--glide-core-spacing-xs);
+      padding-inline: var(--glide-core-spacing-xs);
       text-decoration: none;
       transition-duration: 150ms;
       transition-property: color, background-color, border-color, fill, stroke;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
       user-select: none;
 
-      &:focus {
-        outline: none;
+      &:disabled {
+        cursor: not-allowed;
       }
 
-      &.disabled {
-        opacity: 1;
-        pointer-events: none;
+      &:focus {
+        outline: none;
       }
 
       &.primary {
@@ -43,20 +71,19 @@ export default [
         border-color: transparent;
         color: var(--glide-core-text-selected);
 
-        /* Since the "disabled" styles are shared between a link and a button, we use a disabled class and not a pseudo-class */
-        &.disabled {
+        &:disabled {
           background-color: var(--glide-core-surface-disabled);
           border-color: transparent;
           color: var(--glide-core-text-tertiary-disabled);
         }
 
-        &:not(.disabled):active {
+        &:not(:disabled):active {
           background-color: var(--glide-core-surface-selected-hover);
           border-color: transparent;
           color: var(--glide-core-text-selected);
         }
 
-        &:not(:active):hover:not(.disabled) {
+        &:not(:active, :disabled):is(:focus, :hover) {
           background-color: var(--glide-core-surface-hover);
           border-color: transparent;
           box-shadow: var(--glide-core-glow-sm);
@@ -69,19 +96,19 @@ export default [
         border-color: var(--glide-core-border-primary);
         color: var(--glide-core-text-primary);
 
-        &.disabled {
+        &:disabled {
           background-color: var(--glide-core-surface-disabled);
           border-color: transparent;
           color: var(--glide-core-text-tertiary-disabled);
         }
 
-        &:not(.disabled):active {
+        &:not(:disabled):active {
           background-color: var(--glide-core-surface-selected-hover);
           border-color: transparent;
           color: var(--glide-core-text-selected);
         }
 
-        &:not(:active):hover:not(.disabled) {
+        &:not(:active, :disabled):is(:focus, :hover) {
           background-color: var(--glide-core-surface-hover);
           border-color: transparent;
           box-shadow: var(--glide-core-glow-sm);
@@ -94,6 +121,7 @@ export default [
         box-sizing: border-box;
         font-size: var(--glide-core-body-xs-font-size);
         line-height: 1rem;
+        min-inline-size: fit-content;
       }
 
       &.large {

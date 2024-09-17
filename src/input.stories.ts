@@ -56,7 +56,7 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/input.js';
       </script>
 
-      <div style="height: 5rem;">
+      <div style="height: 4rem;">
         <glide-core-input
           autocapitalize=${arguments_.autocapitalize || nothing}
           label=${arguments_.label || nothing}

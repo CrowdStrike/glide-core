@@ -25,7 +25,7 @@ it('removes itself on Space', async () => {
   );
 
   component.focus();
-  await sendKeys({ press: 'Space' });
+  await sendKeys({ press: ' ' });
 
   // Wait for the animation to complete.
   await aTimeout(200);

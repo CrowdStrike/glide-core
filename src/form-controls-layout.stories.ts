@@ -47,16 +47,13 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/form-controls-layout.js';
       </script>
 
-      <form style="height: 15rem;">
+      <form style="height: 16rem;">
         <glide-core-form-controls-layout split=${arguments_.split}>
           <glide-core-checkbox-group label="Label">
-            <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
-            <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
+            <glide-core-checkbox label="One"></glide-core-checkbox>
+            <glide-core-checkbox label="Two"></glide-core-checkbox>
 
-            <glide-core-checkbox
-              label="Three"
-              value="three"
-            ></glide-core-checkbox>
+            <glide-core-checkbox label="Three"></glide-core-checkbox>
           </glide-core-checkbox-group>
 
           <glide-core-dropdown
@@ -67,17 +64,14 @@ const meta: Meta = {
           >
             <glide-core-dropdown-option
               label="One"
-              value="one"
             ></glide-core-dropdown-option>
 
             <glide-core-dropdown-option
               label="Two"
-              value="two"
             ></glide-core-dropdown-option>
 
             <glide-core-dropdown-option
               label="Three"
-              value="three"
             ></glide-core-dropdown-option>
           </glide-core-dropdown>
 

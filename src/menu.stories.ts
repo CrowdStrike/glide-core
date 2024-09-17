@@ -110,23 +110,19 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/menu.button.js';
       </script>
 
-      <div
-        style="height: 13rem; display: flex; align-items: center; justify-content: center;"
+      <glide-core-menu
+        placement=${arguments_.placement}
+        size=${arguments_.size || nothing}
+        ?open=${arguments_.open}
       >
-        <glide-core-menu
-          placement=${arguments_.placement}
-          size=${arguments_.size || nothing}
-          ?open=${arguments_.open}
-        >
-          <glide-core-button slot="target"> Target </glide-core-button>
+        <glide-core-button slot="target"> Target </glide-core-button>
 
-          <glide-core-menu-options>
-            <glide-core-menu-link label="One" url="/"> </glide-core-menu-link>
-            <glide-core-menu-link label="Two" url="/"> </glide-core-menu-link>
-            <glide-core-menu-button label="Three"> </glide-core-menu-button>
-          </glide-core-menu-options>
-        </glide-core-menu>
-      </div>`;
+        <glide-core-menu-options>
+          <glide-core-menu-link label="One" url="/"></glide-core-menu-link>
+          <glide-core-menu-link label="Two" url="/"></glide-core-menu-link>
+          <glide-core-menu-button label="Three"></glide-core-menu-button>
+        </glide-core-menu-options>
+      </glide-core-menu>`;
   },
 };
 
@@ -161,46 +157,42 @@ export const WithIcons: StoryObj = {
         import '@crowdstrike/glide-core/menu.button.js';
       </script>
 
-      <div
-        style="height: 17rem; display: flex; align-items: center; justify-content: center;"
+      <glide-core-menu
+        placement=${arguments_.placement}
+        size=${arguments_.size || nothing}
+        ?open=${arguments_.open}
       >
-        <glide-core-menu
-          placement=${arguments_.placement}
-          size=${arguments_.size || nothing}
-          ?open=${arguments_.open}
-        >
-          <glide-core-menu-options>
-            <glide-core-menu-link label="Edit" url="/">
-              <glide-core-example-icon
-                slot="icon"
-                name="pencil"
-              ></glide-core-example-icon>
-            </glide-core-menu-link>
+        <glide-core-menu-options>
+          <glide-core-menu-link label="Edit">
+            <glide-core-example-icon
+              slot="icon"
+              name="pencil"
+            ></glide-core-example-icon>
+          </glide-core-menu-link>
 
-            <glide-core-menu-link label="Move" url="/">
-              <glide-core-example-icon
-                slot="icon"
-                name="move"
-              ></glide-core-example-icon>
-            </glide-core-menu-link>
+          <glide-core-menu-link label="Move">
+            <glide-core-example-icon
+              slot="icon"
+              name="move"
+            ></glide-core-example-icon>
+          </glide-core-menu-link>
 
-            <glide-core-menu-link label="Share" url="/">
-              <glide-core-example-icon
-                slot="icon"
-                name="share"
-              ></glide-core-example-icon>
-            </glide-core-menu-link>
+          <glide-core-menu-link label="Share">
+            <glide-core-example-icon
+              slot="icon"
+              name="share"
+            ></glide-core-example-icon>
+          </glide-core-menu-link>
 
-            <glide-core-menu-link label="Settings" url="/">
-              <glide-core-example-icon
-                slot="icon"
-                name="settings"
-              ></glide-core-example-icon>
-            </glide-core-menu-link>
-          </glide-core-menu-options>
+          <glide-core-menu-link label="Settings">
+            <glide-core-example-icon
+              slot="icon"
+              name="settings"
+            ></glide-core-example-icon>
+          </glide-core-menu-link>
+        </glide-core-menu-options>
 
-          <glide-core-button slot="target"> Target </glide-core-button>
-        </glide-core-menu>
-      </div>`;
+        <glide-core-button slot="target"> Target </glide-core-button>
+      </glide-core-menu>`;
   },
 };

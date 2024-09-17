@@ -146,7 +146,7 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/checkbox.js';
       </script>
 
-      <form action="/" style="padding: 1.5rem;">
+      <form action="/">
         <glide-core-checkbox-group
           label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}
@@ -154,12 +154,9 @@ const meta: Meta = {
           ?hide-label=${arguments_['hide-label'] || nothing}
           ?required=${arguments_.required}
         >
-          <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
-          <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
-          <glide-core-checkbox
-            label="Three"
-            value="three"
-          ></glide-core-checkbox>
+          <glide-core-checkbox label="One"></glide-core-checkbox>
+          <glide-core-checkbox label="Two"></glide-core-checkbox>
+          <glide-core-checkbox label="Three"></glide-core-checkbox>
 
           <div slot="description">${arguments_['slot="description"']}</div>
           ${arguments_['slot="tooltip"']

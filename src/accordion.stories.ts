@@ -6,7 +6,9 @@ import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  decorators: [(story) => html`<div style="height: 6rem;">${story()}</div>`],
+  decorators: [
+    (story) => html`<div style="min-height: 6rem;">${story()}</div>`,
+  ],
   title: 'Accordion',
   tags: ['autodocs'],
   parameters: {
