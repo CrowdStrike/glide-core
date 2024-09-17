@@ -2,4 +2,4 @@
 '@crowdstrike/glide-core': patch
 ---
 
-Removes a selected Button Group Button's styling on hover.
+Button Group Button no longer has a hover style when selected.
