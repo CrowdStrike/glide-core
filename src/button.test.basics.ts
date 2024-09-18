@@ -96,17 +96,17 @@ it('throws if it does not have a default slot', async () => {
 it('`#onPrefixSlotChange` coverage', async () => {
   await fixture<GlideCoreButton>(html`
     <glide-core-button>
-      <span slot="prefix">Prefix</span>
+      <span slot="prefix-icon">Prefix</span>
       Button
     </glide-core-button>
   `);
 });
 
-it('`#onSuffixSlotChange` coverage', async () => {
+it('`#onSuffixIconSlotChange` coverage', async () => {
   await fixture<GlideCoreButton>(html`
     <glide-core-button>
       Button
-      <span slot="suffix">Suffix</span>
+      <span slot="suffix-icon">Suffix</span>
     </glide-core-button>
   `);
 });

@@ -52,8 +52,8 @@ const meta: Meta = {
     popovertarget: '',
     popovertargetaction: 'toggle',
     size: 'large',
-    'slot="prefix"': '',
-    'slot="suffix"': '',
+    'slot="prefix-icon"': '',
+    'slot="suffix-icon"': '',
     type: 'button',
     value: '',
     variant: 'primary',
@@ -191,13 +191,13 @@ const meta: Meta = {
         type: { summary: '"large" | "small"' },
       },
     },
-    'slot="prefix"': {
+    'slot="prefix-icon"': {
       control: false,
       table: {
         type: { summary: 'Element' },
       },
     },
-    'slot="suffix"': {
+    'slot="suffix-icon"': {
       control: false,
       table: {
         type: { summary: 'Element' },
@@ -266,11 +266,11 @@ export const WithIcons: StoryObj = {
         ${arguments_['slot="default"']}
 
         <glide-core-example-icon
-          slot="prefix"
+          slot="prefix-icon"
           name="calendar"
         ></glide-core-example-icon>
         <glide-core-example-icon
-          slot="suffix"
+          slot="suffix-icon"
           name="pencil"
         ></glide-core-example-icon>
       </glide-core-button>

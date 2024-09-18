@@ -76,7 +76,7 @@ export default [
       &.vertical {
         border-block-end: 1px solid var(--glide-core-border-base-lighter);
 
-        &.prefix {
+        &.icon {
           &:not(.icon-only) {
             justify-content: flex-start;
           }

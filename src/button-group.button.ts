@@ -13,7 +13,7 @@ declare global {
 
 /**
  * @slot - A label.
- * @slot prefix - An optional icon before the label.
+ * @slot icon - An optional icon before the label.
  */
 @customElement('glide-core-button-group-button')
 export default class GlideCoreButtonGroupButton extends LitElement {
@@ -57,7 +57,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
 
   override firstUpdated() {
     if (this.privateVariant === 'icon-only') {
-      owSlot(this.#prefixSlotElementRef.value);
+      owSlot(this.#iconSlotElementRef.value);
     }
   }
 
@@ -74,7 +74,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
         selected: this.selected,
         disabled: this.disabled,
         [this.privateOrientation]: true,
-        prefix: this.hasPrefixSlot,
+        icon: this.hasIcon,
         'icon-only': this.privateVariant === 'icon-only',
       })}
       role="radio"
@@ -82,9 +82,9 @@ export default class GlideCoreButtonGroupButton extends LitElement {
       ${ref(this.#componentElementRef)}
     >
       <slot
-        name="prefix"
-        @slotchange=${this.#onPrefixSlotChange}
-        ${ref(this.#prefixSlotElementRef)}
+        name="icon"
+        @slotchange=${this.#onIconSlotChange}
+        ${ref(this.#iconSlotElementRef)}
       ></slot>
 
       <div
@@ -99,18 +99,17 @@ export default class GlideCoreButtonGroupButton extends LitElement {
   }
 
   @state()
-  private hasPrefixSlot = false;
+  private hasIcon = false;
 
   #componentElementRef = createRef<HTMLElement>();
 
+  #iconSlotElementRef = createRef<HTMLSlotElement>();
+
   #isSelected = false;
 
-  #prefixSlotElementRef = createRef<HTMLSlotElement>();
+  #onIconSlotChange() {
+    ow(this.#iconSlotElementRef.value, ow.object.instanceOf(HTMLElement));
 
-  #onPrefixSlotChange() {
-    ow(this.#prefixSlotElementRef.value, ow.object.instanceOf(HTMLElement));
-
-    this.hasPrefixSlot =
-      this.#prefixSlotElementRef.value?.assignedNodes().length > 0;
+    this.hasIcon = this.#iconSlotElementRef.value?.assignedNodes().length > 0;
   }
 }

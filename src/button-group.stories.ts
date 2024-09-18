@@ -36,21 +36,21 @@ const meta: Meta = {
                 ]}
               >
                 <glide-core-example-icon
-                  slot="prefix"
+                  slot="icon"
                   name="info"
                 ></glide-core-example-icon>
               </glide-core-button-group-button>
 
               <glide-core-button-group-button label="Two">
                 <glide-core-example-icon
-                  slot="prefix"
+                  slot="icon"
                   name="info"
                 ></glide-core-example-icon>
               </glide-core-button-group-button>
 
               <glide-core-button-group-button label="Three">
                 <glide-core-example-icon
-                  slot="prefix"
+                  slot="icon"
                   name="info"
                 ></glide-core-example-icon>
               </glide-core-button-group-button>`;
@@ -91,6 +91,7 @@ const meta: Meta = {
     variant: '',
     '<glide-core-button-group-button>.disabled': false,
     '<glide-core-button-group-button>.selected': true,
+    '<glide-core-button-group-button>[slot="icon"]': '',
     '<glide-core-button-group-button>.value': '',
   },
   argTypes: {
@@ -140,6 +141,12 @@ const meta: Meta = {
     '<glide-core-button-group-button>.selected': {
       defaultValue: { summary: 'false' },
     },
+    '<glide-core-button-group-button>[slot="icon"]': {
+      control: false,
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
     '<glide-core-button-group-button>.value': {
       table: {
         type: {
@@ -178,21 +185,21 @@ export const WithIcons: StoryObj = {
           ?selected=${arguments_['<glide-core-button-group-button>.selected']}
         >
           <glide-core-example-icon
-            slot="prefix"
+            slot="icon"
             name="info"
           ></glide-core-example-icon>
         </glide-core-button-group-button>
 
         <glide-core-button-group-button label="Two">
           <glide-core-example-icon
-            slot="prefix"
+            slot="icon"
             name="pencil"
           ></glide-core-example-icon>
         </glide-core-button-group-button>
 
         <glide-core-button-group-button label="Three">
           <glide-core-example-icon
-            slot="prefix"
+            slot="icon"
             name="calendar"
           ></glide-core-example-icon>
         </glide-core-button-group-button>
