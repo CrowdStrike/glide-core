@@ -10,49 +10,49 @@ GlideCoreDrawer.shadowRootOptions.mode = 'open';
 // to manually dispatch the `transitionend` event in tests.
 
 it('opens the drawer via the "open()" method and closes it via "close()"', async () => {
-  const drawer = await fixture<GlideCoreDrawer>(
+  const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  drawer.open();
+  component.open();
 
-  await elementUpdated(drawer);
+  await elementUpdated(component);
 
-  drawer.shadowRoot
+  component.shadowRoot
     ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  expect(drawer.shadowRoot?.querySelector('aside[data-test-state="open"]')).to
-    .be.not.null;
+  expect(component.shadowRoot?.querySelector('aside[data-test-state="open"]'))
+    .to.be.not.null;
 
-  drawer.close();
+  component.close();
 
-  drawer.shadowRoot
+  component.shadowRoot
     ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  await elementUpdated(drawer);
+  await elementUpdated(component);
 
-  expect(drawer.shadowRoot?.querySelector('aside[data-test-state="closed"]')).to
-    .be.not.null;
+  expect(component.shadowRoot?.querySelector('aside[data-test-state="closed"]'))
+    .to.be.not.null;
 });
 
 it('remains open if "open()" is called an additional time after it is already opened', async () => {
-  const drawer = await fixture<GlideCoreDrawer>(
+  const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  drawer.open();
+  component.open();
 
-  await elementUpdated(drawer);
+  await elementUpdated(component);
 
-  expect(drawer.shadowRoot?.querySelector('aside[data-test-state="open"]')).to
-    .be.not.null;
+  expect(component.shadowRoot?.querySelector('aside[data-test-state="open"]'))
+    .to.be.not.null;
 
-  drawer.open();
+  component.open();
 
-  await elementUpdated(drawer);
+  await elementUpdated(component);
 
-  expect(drawer.shadowRoot?.querySelector('aside[data-test-state="open"]')).to
-    .be.not.null;
+  expect(component.shadowRoot?.querySelector('aside[data-test-state="open"]'))
+    .to.be.not.null;
 });

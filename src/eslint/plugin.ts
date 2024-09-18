@@ -1,4 +1,5 @@
 import { consistentReferenceElementDeclarations } from './rules/consistent-reference-element-declarations.js';
+import { consistentTestFixtureVariableDeclarator } from './rules/consistent-test-fixture-variable-declarator.js';
 import { noNestedTemplateLiterals } from './rules/no-nested-template-literals.js';
 import { noOnlyTests } from './rules/no-only-tests.js';
 import { noPrefixedEventName } from './rules/no-glide-core-prefixed-event-name.js';
@@ -13,6 +14,8 @@ import { prefixedClassDeclaration } from './rules/prefixed-lit-element-class-dec
 const rules = {
   'consistent-reference-element-declarations':
     consistentReferenceElementDeclarations,
+  'consistent-test-fixture-variable-declarator':
+    consistentTestFixtureVariableDeclarator,
   'no-glide-core-prefixed-event-name': noPrefixedEventName,
   'no-nested-template-literals': noNestedTemplateLiterals,
   'no-only-tests': noOnlyTests,

@@ -8,7 +8,7 @@ import type GlideCoreTextarea from './textarea.js';
 it('can be reset to initial value', async () => {
   const form = document.createElement('form');
 
-  const textarea = await fixture<GlideCoreTextarea>(
+  const component = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
       value="testing"
       label="label"
@@ -16,26 +16,26 @@ it('can be reset to initial value', async () => {
     { parentNode: form },
   );
 
-  textarea.focus();
+  component.focus();
   await sendKeys({ type: '-value' });
-  await expect(textarea.value).to.equal('testing-value');
+  await expect(component.value).to.equal('testing-value');
   form.reset();
 
-  expect(textarea.value).to.equal('testing');
+  expect(component.value).to.equal('testing');
 });
 
 it('can be reset if there was no initial value', async () => {
   const form = document.createElement('form');
 
-  const textarea = await fixture<GlideCoreTextarea>(
+  const component = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="label"></glide-core-textarea>`,
     { parentNode: form },
   );
 
-  textarea.value = 'value';
+  component.value = 'value';
   form.reset();
 
-  expect(textarea.value).to.equal('');
+  expect(component.value).to.equal('');
 });
 
 it('has `formData` when it has a `value` and `name`', async () => {
@@ -58,7 +58,7 @@ it('has `formData` when it has a `value` and `name`', async () => {
 it('has `formData` when text is entered and has a `name`', async () => {
   const form = document.createElement('form');
 
-  const textarea = await fixture<GlideCoreTextarea>(
+  const component = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
       value=""
       label="label"
@@ -67,7 +67,7 @@ it('has `formData` when text is entered and has a `name`', async () => {
     { parentNode: form },
   );
 
-  textarea?.focus();
+  component?.focus();
   await sendKeys({ type: 'testing' });
   const formData = new FormData(form);
 

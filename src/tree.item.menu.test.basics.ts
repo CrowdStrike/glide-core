@@ -42,48 +42,48 @@ it('throws if the default slot is the incorrect type', async () => {
 });
 
 it('defaults the placement of the menu to bottom start', async () => {
-  const treeItemMenu = await fixture<GlideCoreTreeItemMenu>(html`
+  const component = await fixture<GlideCoreTreeItemMenu>(html`
     <glide-core-tree-item-menu>
       <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
     </glide-core-tree-item-menu>
   `);
 
   expect(
-    treeItemMenu.shadowRoot?.querySelector('glide-core-menu')?.placement,
+    component.shadowRoot?.querySelector('glide-core-menu')?.placement,
   ).to.equal('bottom-start');
 });
 
 it('can set placement of the menu', async () => {
-  const treeItemMenu = await fixture<GlideCoreTreeItemMenu>(html`
+  const component = await fixture<GlideCoreTreeItemMenu>(html`
     <glide-core-tree-item-menu placement="bottom-end">
       <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
     </glide-core-tree-item-menu>
   `);
 
   expect(
-    treeItemMenu.shadowRoot?.querySelector('glide-core-menu')?.placement,
+    component.shadowRoot?.querySelector('glide-core-menu')?.placement,
   ).to.equal('bottom-end');
 });
 
 it('can be opened programmatically', async () => {
-  const treeItemMenu = await fixture<GlideCoreTreeItemMenu>(html`
+  const component = await fixture<GlideCoreTreeItemMenu>(html`
     <glide-core-tree-item-menu>
       <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
     </glide-core-tree-item-menu>
   `);
 
   expect(
-    treeItemMenu.shadowRoot
+    component.shadowRoot
       ?.querySelector('glide-core-menu')
       ?.getAttribute('open'),
   ).to.equal(null);
 
-  treeItemMenu.click();
+  component.click();
 
-  await treeItemMenu.updateComplete;
+  await component.updateComplete;
 
   expect(
-    treeItemMenu.shadowRoot
+    component.shadowRoot
       ?.querySelector('glide-core-menu')
       ?.getAttribute('open'),
   ).to.equal('');

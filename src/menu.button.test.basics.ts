@@ -24,11 +24,11 @@ it('has defaults', async () => {
 });
 
 it('can have a label', async () => {
-  const button = await fixture<GlideCoreMenuButton>(
+  const component = await fixture<GlideCoreMenuButton>(
     html`<glide-core-menu-button label="Label"></glide-core-menu-button>`,
   );
 
-  expect(button.shadowRoot?.textContent?.trim()).to.equal('Label');
+  expect(component.shadowRoot?.textContent?.trim()).to.equal('Label');
 });
 
 it('can have an icon', async () => {

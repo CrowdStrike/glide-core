@@ -401,7 +401,7 @@ it('renders overflow buttons when the component is resized and there is overflow
 });
 
 it('has only one active tab that is tabbable after pressing the Enter key', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+  const component = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
@@ -415,7 +415,7 @@ it('has only one active tab that is tabbable after pressing the Enter key', asyn
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab, thirdTab, fourthTab] = tabGroup.tabElements;
+  const [firstTab, secondTab, thirdTab, fourthTab] = component.tabElements;
 
   expect(firstTab.active).to.be.true;
   expect(secondTab.active).to.be.false;
@@ -477,7 +477,7 @@ it('has only one active tab that is tabbable after pressing the Enter key', asyn
 });
 
 it('has only one active tab that is tabbable when clicked', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+  const component = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
@@ -489,7 +489,7 @@ it('has only one active tab that is tabbable when clicked', async () => {
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab, thirdTab] = tabGroup.tabElements;
+  const [firstTab, secondTab, thirdTab] = component.tabElements;
 
   expect(firstTab.active).to.be.true;
   expect(secondTab.active).to.be.false;
@@ -518,7 +518,7 @@ it('has only one active tab that is tabbable when clicked', async () => {
 });
 
 it('has only one tab panel that is active and tabbable when a tab is clicked', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+  const component = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
@@ -528,8 +528,8 @@ it('has only one tab panel that is active and tabbable when a tab is clicked', a
     </glide-core-tab-group>
   `);
 
-  const [, secondTab] = tabGroup.tabElements;
-  const [firstPanel, secondPanel] = tabGroup.panelElements;
+  const [, secondTab] = component.tabElements;
+  const [firstPanel, secondPanel] = component.panelElements;
 
   expect(firstPanel.isActive).to.be.true;
   expect(secondPanel.isActive).to.be.false;
@@ -545,7 +545,7 @@ it('has only one tab panel that is active and tabbable when a tab is clicked', a
 });
 
 it('has only one tab panel that is active and tabbable when using the keyboard to make selections', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+  const component = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
@@ -555,8 +555,8 @@ it('has only one tab panel that is active and tabbable when using the keyboard t
     </glide-core-tab-group>
   `);
 
-  const [firstTab] = tabGroup.tabElements;
-  const [firstPanel, secondPanel] = tabGroup.panelElements;
+  const [firstTab] = component.tabElements;
+  const [firstPanel, secondPanel] = component.panelElements;
 
   expect(firstPanel.isActive).to.be.true;
   expect(secondPanel.isActive).to.be.false;
@@ -575,7 +575,7 @@ it('has only one tab panel that is active and tabbable when using the keyboard t
 });
 
 it('sets the last keyboard focused tab as tabbable ', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+  const component = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
@@ -585,7 +585,7 @@ it('sets the last keyboard focused tab as tabbable ', async () => {
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab] = tabGroup.tabElements;
+  const [firstTab, secondTab] = component.tabElements;
 
   expect(firstTab.active).to.be.true;
   expect(secondTab.active).to.be.false;
@@ -605,7 +605,7 @@ it('sets the active tab as tabbable on tab blur', async () => {
   // This behavior is to ensure that the last active tab is the first tabbable
   // element in the component.
 
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+  const component = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
@@ -615,7 +615,7 @@ it('sets the active tab as tabbable on tab blur', async () => {
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab] = tabGroup.tabElements;
+  const [firstTab, secondTab] = component.tabElements;
 
   expect(firstTab.active).to.be.true;
   expect(secondTab.active).to.be.false;

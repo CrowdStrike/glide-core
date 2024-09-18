@@ -17,43 +17,43 @@ GlideCoreDrawer.shadowRootOptions.mode = 'open';
 // to manually dispatch the `transitionend` event in tests.
 
 it('dispatches an "open" event when opened via the "open" method', async () => {
-  const drawer = await fixture<GlideCoreDrawer>(
+  const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  const openEvent = oneEvent(drawer, 'open');
+  const openEvent = oneEvent(component, 'open');
 
-  drawer.open();
+  component.open();
 
-  drawer.shadowRoot
+  component.shadowRoot
     ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  await elementUpdated(drawer);
+  await elementUpdated(component);
 
   const event = await openEvent;
   expect(event instanceof Event).to.be.true;
 });
 
 it('dispatches a "close" event when the "Escape" key is pressed', async () => {
-  const drawer = await fixture<GlideCoreDrawer>(
+  const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  const closeEvent = oneEvent(drawer, 'close');
+  const closeEvent = oneEvent(component, 'close');
 
-  drawer.open();
+  component.open();
 
-  drawer.shadowRoot
+  component.shadowRoot
     ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  await elementUpdated(drawer);
+  await elementUpdated(component);
 
   await sendKeys({ press: 'Escape' });
 
   setTimeout(() => {
-    drawer.shadowRoot
+    component.shadowRoot
       ?.querySelector('aside')
       ?.dispatchEvent(new TransitionEvent('transitionend'));
   });
@@ -63,24 +63,24 @@ it('dispatches a "close" event when the "Escape" key is pressed', async () => {
 });
 
 it('dispatches a "close" event when closed via the "close" method', async () => {
-  const drawer = await fixture<GlideCoreDrawer>(
+  const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  const closeEvent = oneEvent(drawer, 'close');
+  const closeEvent = oneEvent(component, 'close');
 
-  drawer.open();
+  component.open();
 
-  drawer.shadowRoot
+  component.shadowRoot
     ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  await elementUpdated(drawer);
+  await elementUpdated(component);
 
-  drawer.close();
+  component.close();
 
   setTimeout(() => {
-    drawer.shadowRoot
+    component.shadowRoot
       ?.querySelector('aside')
       ?.dispatchEvent(new TransitionEvent('transitionend'));
   });

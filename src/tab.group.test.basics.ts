@@ -28,31 +28,31 @@ it('registers', async () => {
 });
 
 it('renders correct markup and sets correct attributes for the default case', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+  const component = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
     </glide-core-tab-group>
   `);
 
-  await expect(tabGroup).to.be.accessible();
+  await expect(component).to.be.accessible();
 
-  const [firstTab] = tabGroup.tabElements;
+  const [firstTab] = component.tabElements;
 
-  expect(tabGroup.activeTab).to.equal(
+  expect(component.activeTab).to.equal(
     firstTab,
     'activeTab defaults to first tab',
   );
 
-  expect([...tabGroup.shadowRoot!.firstElementChild!.classList]).to.deep.equal([
-    'component',
-  ]);
+  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
+    ['component'],
+  );
 
   expect([
-    ...tabGroup.shadowRoot!.querySelector('.tab-group')!.classList,
+    ...component.shadowRoot!.querySelector('.tab-group')!.classList,
   ]).to.deep.equal(['tab-group', 'animated']);
 
-  const slot = tabGroup.shadowRoot!.querySelector<HTMLSlotElement>(
+  const slot = component.shadowRoot!.querySelector<HTMLSlotElement>(
     'slot:not([name="nav"])',
   );
 
@@ -61,7 +61,7 @@ it('renders correct markup and sets correct attributes for the default case', as
 });
 
 it('can switch tabs', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+  const component = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
@@ -75,10 +75,10 @@ it('can switch tabs', async () => {
     </glide-core-tab-group>
   `);
 
-  const listener = oneEvent(tabGroup, 'tab-show');
+  const listener = oneEvent(component, 'tab-show');
 
-  const [firstTab, secondTab, thirdTab, disabledTab] = tabGroup.tabElements;
-  const [firstPanel, secondPanel, thirdPanel] = tabGroup.panelElements;
+  const [firstTab, secondTab, thirdTab, disabledTab] = component.tabElements;
+  const [firstPanel, secondPanel, thirdPanel] = component.panelElements;
 
   expect(firstTab.active).to.equal(true, 'first tab defaults to active');
   expect(secondTab.active).to.equal(false, 'other tabs default to not active');
@@ -165,7 +165,7 @@ it('can switch tabs', async () => {
 });
 
 it('can use left/right, home and end keys to focus on tabs', async () => {
-  const tabGroup = await fixture<GlideCoreTabGroup>(html`
+  const component = await fixture<GlideCoreTabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
       <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
@@ -177,7 +177,7 @@ it('can use left/right, home and end keys to focus on tabs', async () => {
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab, thirdTab] = tabGroup.tabElements;
+  const [firstTab, secondTab, thirdTab] = component.tabElements;
 
   firstTab.focus();
   await sendKeys({ press: 'ArrowRight' });

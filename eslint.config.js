@@ -37,6 +37,8 @@ export default [
     rules: {
       '@crowdstrike/glide-core/consistent-reference-element-declarations':
         'error',
+      '@crowdstrike/glide-core/consistent-test-fixture-variable-declarator':
+        'error',
       '@crowdstrike/glide-core/no-glide-core-prefixed-event-name': 'error',
       '@crowdstrike/glide-core/no-nested-template-literals': 'error',
       '@crowdstrike/glide-core/no-only-tests': 'error',
