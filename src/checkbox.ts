@@ -117,7 +117,27 @@ export default class GlideCoreCheckbox extends LitElement {
   summary?: string;
 
   @property({ reflect: true })
-  value = '';
+  get value() {
+    return this.#value;
+  }
+
+  set value(value: string) {
+    // `this.value` can be changed programmatically. Checkbox Group needs to know when
+    // that happens so it can update its own `this.value`.
+    this.dispatchEvent(
+      new CustomEvent('private-value-change', {
+        bubbles: true,
+        detail: {
+          // Without knowing what the old value was, Checkbox Group would be unable to
+          // find the value in its `this.value` array and remove it.
+          old: this.value,
+          new: value,
+        },
+      }),
+    );
+
+    this.#value = value;
+  }
 
   // Not private, so that a parent checkbox group can programmatically set
   @state()
@@ -419,6 +439,8 @@ export default class GlideCoreCheckbox extends LitElement {
   #label = '';
 
   #labelElementRef = createRef<HTMLElement>();
+
+  #value = '';
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.

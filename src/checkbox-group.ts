@@ -89,8 +89,20 @@ export default class GlideCoreCheckboxGroup extends LitElement {
   @property({ reflect: true })
   summary?: string;
 
-  @property({ type: Array })
-  value: readonly string[] = [];
+  @property({ reflect: true, type: Array })
+  get value() {
+    return this.#value;
+  }
+
+  set value(value: string[]) {
+    this.#value = value;
+
+    for (const checkbox of this.#checkboxes) {
+      checkbox.checked = checkbox.checked = value.some(
+        (value) => value && value === checkbox.value,
+      );
+    }
+  }
 
   checkValidity() {
     this.isCheckingValidity = true;
@@ -199,6 +211,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
           <slot
             class="checkboxes"
             @change=${this.#onCheckboxChange}
+            @private-value-change=${this.#onCheckboxesValueChange}
             @slotchange=${this.#onDefaultSlotChange}
             ${ref(this.#defaultSlotElementRef)}
           ></slot>
@@ -281,6 +294,8 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
   #isRequired = false;
 
+  #value: string[] = [];
+
   get #checkboxes() {
     return this.#defaultSlotElementRef.value
       ? this.#defaultSlotElementRef.value
@@ -333,6 +348,23 @@ export default class GlideCoreCheckboxGroup extends LitElement {
       // Disabled because simply filtering by `Boolean` doesn't narrow the type.
       // eslint-disable-next-line unicorn/prefer-native-coercion-functions
       .filter((value): value is string => Boolean(value));
+  }
+
+  #onCheckboxesValueChange(event: CustomEvent<{ new: string; old: string }>) {
+    if (
+      event.target instanceof GlideCoreCheckbox &&
+      event.target.checked &&
+      event.detail.new
+    ) {
+      this.#value = this.#value.map((value) => {
+        return value === event.detail.old ? event.detail.new : value;
+      });
+    } else if (
+      event.target instanceof GlideCoreCheckbox &&
+      event.target.checked
+    ) {
+      this.#value = this.#value.filter((value) => value !== event.detail.old);
+    }
   }
 
   #onDefaultSlotChange() {
