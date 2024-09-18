@@ -10,7 +10,7 @@ export default [
       inset-inline-end: 1rem;
       margin: 0;
       outline: none;
-      padding: 0;
+      padding: var(--glide-core-spacing-md);
       position: fixed;
       transform: translate(110%, 0);
     }
@@ -29,7 +29,6 @@ export default [
       grid-template-columns: auto minmax(0, 1fr);
       inline-size: 24.25rem;
       line-height: var(--glide-core-body-xs-line-height);
-      margin: 1rem;
       padding: var(--glide-core-spacing-sm);
       transition: opacity 0.3s ease-out;
 

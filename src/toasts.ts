@@ -43,7 +43,7 @@ export default class GlideCoreToasts extends LitElement {
     ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
     const { variant, label, description, duration } = toast;
 
-    this.#addQueueProxy?.push({
+    this.#queueProxy?.push({
       type: 'add',
       payload: {
         variant,
@@ -59,7 +59,7 @@ export default class GlideCoreToasts extends LitElement {
   }
 
   override firstUpdated() {
-    this.#addQueueProxy = new Proxy<ToastAction[]>(this.#queue, {
+    this.#queueProxy = new Proxy<ToastAction[]>(this.#queue, {
       set: (target: ToastAction[], property: string, value: ToastAction) => {
         Reflect.set(target, property, value);
 
@@ -81,7 +81,7 @@ export default class GlideCoreToasts extends LitElement {
         if (event?.target instanceof GlideCoreToast) {
           const target = event.target;
 
-          this.#addQueueProxy?.push({ type: 'remove', payload: target });
+          this.#queueProxy?.push({ type: 'remove', payload: target });
         }
       },
     );
@@ -106,11 +106,9 @@ export default class GlideCoreToasts extends LitElement {
     `;
   }
 
-  #addQueueProxy: ToastAction[] | null = null;
+  #animationDuration = 200;
 
-  #animationDuration = 250;
-
-  #animationPromises: Promise<Animation>[] = [];
+  #animations: Animation[] = [];
 
   #componentElementRef = createRef<HTMLDivElement>();
 
@@ -126,6 +124,10 @@ export default class GlideCoreToasts extends LitElement {
 
   #queue: ToastAction[] = [];
 
+  #queueProxy: ToastAction[] | null = null;
+
+  #toastPadding = 0;
+
   // Use an arrow function to bind `this`.
   #onMatchMediaChange = () => {
     if (this.#matchMedia) {
@@ -135,7 +137,7 @@ export default class GlideCoreToasts extends LitElement {
 
   async #processQueue() {
     while (this.#queue.length > 0) {
-      await Promise.all(this.#animationPromises);
+      this.#animations = [];
 
       const action = this.#queue.shift();
 
@@ -162,13 +164,19 @@ export default class GlideCoreToasts extends LitElement {
 
             const { top: toastTop } = toast.getBoundingClientRect();
 
+            if (this.#toastPadding === 0) {
+              this.#toastPadding = Number.parseInt(
+                window.getComputedStyle(toast).paddingBlockStart,
+              );
+            }
+
             const toastAnimation = toast.animate(
               [
                 {
                   transform: `translate(0,${
                     toastTop +
                     newToastElementHeight -
-                    32 /* 32 for extra margin added */
+                    2 * this.#toastPadding /* 32 for extra margin added */
                   }px)`,
                 },
               ],
@@ -181,11 +189,18 @@ export default class GlideCoreToasts extends LitElement {
               },
             );
 
-            this.#animationPromises.push(toastAnimation.finished);
+            this.#animations.push(toastAnimation);
           }
         }
 
-        await Promise.all(this.#animationPromises);
+        await Promise.allSettled(
+          this.#animations.map((animation) => animation.finished),
+        );
+
+        // Only in Chrome do animations sometimes play out of turn.
+        for (const animation of this.#animations) {
+          animation.pause();
+        }
 
         const newToastElementAnimation = newToastElement.animate(
           [{ transform: 'translate(0,0)' }],
@@ -198,13 +213,9 @@ export default class GlideCoreToasts extends LitElement {
           },
         );
 
-        this.#animationPromises.push(newToastElementAnimation.finished);
+        await newToastElementAnimation.finished;
 
-        await Promise.all(this.#animationPromises);
-
-        // Only Chrome appears to occasionally rerender the entire component,
-        // triggering translations.
-        newToastElement.style.transform = 'none';
+        newToastElementAnimation.pause();
       } else if (action && action.type === 'remove') {
         const toastTarget = action.payload;
 
@@ -238,24 +249,25 @@ export default class GlideCoreToasts extends LitElement {
                   },
                 );
 
-                this.#animationPromises.push(toastAnimation.finished);
+                this.#animations.push(toastAnimation);
               }
             }
           }
 
-          await Promise.all(this.#animationPromises);
+          await Promise.allSettled(
+            this.#animations.map((animation) => animation.finished),
+          );
 
-          // Only Chrome appears to occasionally rerender the entire component,
-          // triggering translations.
-          for (const toast of toasts) toast.style.transform = 'none';
+          for (const animation of this.#animations) {
+            animation.pause();
+          }
 
-          toastTarget?.hidePopover();
           toastTarget?.remove();
         }
       }
     }
 
-    this.#animationPromises = [];
+    this.#animations = [];
     this.#isQueueWorking = false;
   }
 }
