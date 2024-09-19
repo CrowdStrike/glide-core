@@ -9,12 +9,12 @@ GlideCoreDrawer.shadowRootOptions.mode = 'open';
 // NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
 // to manually dispatch the `transitionend` event in tests.
 
-it('opens the drawer via the "open()" method and closes it via "close()"', async () => {
+it('opens the drawer via the "show()" method and closes it via "close()"', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  component.open();
+  component.show();
 
   await elementUpdated(component);
 
@@ -37,19 +37,19 @@ it('opens the drawer via the "open()" method and closes it via "close()"', async
     .to.be.not.null;
 });
 
-it('remains open if "open()" is called an additional time after it is already opened', async () => {
+it('remains open if "show()" is called an additional time after it is already opened', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  component.open();
+  component.show();
 
   await elementUpdated(component);
 
   expect(component.shadowRoot?.querySelector('aside[data-test-state="open"]'))
     .to.be.not.null;
 
-  component.open();
+  component.show();
 
   await elementUpdated(component);
 

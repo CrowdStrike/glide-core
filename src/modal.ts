@@ -61,7 +61,7 @@ globalStylesheet.insertRule(`
 /**
  * @description A Modal dialog component which interrupts interaction with the rest of the page.
  *
- * @event close - Emitted when the Modal closes.
+ * @event close
  *
  * @slot - The content of the modal.
  *
@@ -84,15 +84,12 @@ export default class GlideCoreModal extends LitElement {
 
   static override styles = styles;
 
-  /** The title text for the Modal. */
   @property({ reflect: true })
   label = '';
 
-  /** Adds a back/dismiss button in the Modal header. */
-  @property({ attribute: 'show-back-button', type: Boolean, reflect: true })
-  showBackButton = false;
+  @property({ attribute: 'back-button', type: Boolean, reflect: true })
+  backButton = false;
 
-  /** Fixed-size options for the Modal. */
   @property({ reflect: true })
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
 
@@ -169,7 +166,7 @@ export default class GlideCoreModal extends LitElement {
       <header class="header">
         <h2 class="label" data-test="heading" id="heading">
           ${when(
-            this.showBackButton,
+            this.backButton,
             () =>
               html` <glide-core-modal-icon-button
                 data-test="back-button"

@@ -16,25 +16,6 @@ GlideCoreDrawer.shadowRootOptions.mode = 'open';
 // NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
 // to manually dispatch the `transitionend` event in tests.
 
-it('dispatches an "open" event when opened via the "open" method', async () => {
-  const component = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
-  );
-
-  const openEvent = oneEvent(component, 'open');
-
-  component.open();
-
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
-
-  await elementUpdated(component);
-
-  const event = await openEvent;
-  expect(event instanceof Event).to.be.true;
-});
-
 it('dispatches a "close" event when the "Escape" key is pressed', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
@@ -42,7 +23,7 @@ it('dispatches a "close" event when the "Escape" key is pressed', async () => {
 
   const closeEvent = oneEvent(component, 'close');
 
-  component.open();
+  component.show();
 
   component.shadowRoot
     ?.querySelector('aside')
@@ -69,7 +50,7 @@ it('dispatches a "close" event when closed via the "close" method', async () => 
 
   const closeEvent = oneEvent(component, 'close');
 
-  component.open();
+  component.show();
 
   component.shadowRoot
     ?.querySelector('aside')

@@ -16,7 +16,7 @@ it('is accessible', async () => {
     ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  component.open();
+  component.show();
 
   await expect(component).to.be.accessible();
 });
@@ -26,7 +26,7 @@ it('focuses the aside upon opening', async () => {
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  component.open();
+  component.show();
 
   component.shadowRoot
     ?.querySelector('aside')

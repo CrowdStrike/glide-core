@@ -33,25 +33,19 @@ const meta: Meta = {
     }
 
     const button = context.canvasElement.querySelector('glide-core-button');
-    const drawer = context.canvasElement.querySelector('glide-core-drawer');
-
     let isOpen = false;
 
-    if (!button || !drawer) {
-      return;
-    }
+    button?.addEventListener('click', () => {
+      const drawer = context.canvasElement.querySelector('glide-core-drawer');
 
-    button.addEventListener('click', () => {
       if (isOpen) {
         drawer?.close();
-        return;
+      } else {
+        drawer?.show();
       }
 
-      drawer?.open();
+      isOpen = !isOpen;
     });
-
-    drawer.addEventListener('open', () => (isOpen = true));
-    drawer.addEventListener('close', () => (isOpen = false));
   },
   render: (arguments_) => html`
     <script type="ignore">
@@ -82,7 +76,7 @@ const meta: Meta = {
     'slot="default"': '',
     'addEventListener(event, listener)': '',
     'close()': '',
-    'open()': '',
+    'show()': '',
     pinned: false,
     '--width': '',
   },
@@ -94,11 +88,12 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    'open()': {
+    'show()': {
       control: false,
       table: {
         type: {
           summary: 'method',
+          detail: '() => void',
         },
       },
     },
@@ -107,6 +102,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
+          detail: '() => void',
         },
       },
     },
@@ -125,8 +121,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '(event: "open" | "close", listener: (event: Event) => void) => void',
+          detail: '(event: "close", listener: (event: Event)) => void) => void',
         },
       },
     },
