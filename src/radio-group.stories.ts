@@ -42,7 +42,7 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/radio.js';
       </script>
 
-      <form action="/" style="padding: 1.5rem;">
+      <form action="/">
         <glide-core-radio-group
           label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}

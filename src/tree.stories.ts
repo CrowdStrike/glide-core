@@ -53,7 +53,7 @@ const meta: Meta = {
       import '@crowdstrike/glide-core/menu.link.js';
     </script>
 
-    <div style="max-width: 18.75rem; height: 12rem;">
+    <div style="max-width: 18rem; height: 8.5rem;">
       <glide-core-tree>
         <glide-core-tree-item
           label="Back"
@@ -110,7 +110,7 @@ const meta: Meta = {
             </glide-core-tree-item-menu>
           </glide-core-tree-item>
 
-          <glide-core-tree-item label="Branch">
+          <glide-core-tree-item label="Branch" expanded>
             <glide-core-tree-item label="Leaf"></glide-core-tree-item>
           </glide-core-tree-item>
         </glide-core-tree-item>

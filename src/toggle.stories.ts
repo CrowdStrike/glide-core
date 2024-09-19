@@ -119,22 +119,20 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/toggle.js';
       </script>
 
-      <form style="padding: 1.5rem;">
-        <glide-core-toggle
-          label=${arguments_.label || nothing}
-          orientation=${arguments_.orientation || nothing}
-          summary=${arguments_.summary || nothing}
-          ?checked=${arguments_.checked}
-          ?disabled=${arguments_.disabled}
-          ?hide-label=${arguments_['hide-label'] || nothing}
-        >
-          <div slot="description">${arguments_['slot="description"']}</div>
+      <glide-core-toggle
+        label=${arguments_.label || nothing}
+        orientation=${arguments_.orientation || nothing}
+        summary=${arguments_.summary || nothing}
+        ?checked=${arguments_.checked}
+        ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label'] || nothing}
+      >
+        <div slot="description">${arguments_['slot="description"']}</div>
 
-          ${arguments_['slot="tooltip"']
-            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-            : ''}
-        </glide-core-toggle>
-      </form>`;
+        ${arguments_['slot="tooltip"']
+          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
+          : ''}
+      </glide-core-toggle>`;
   },
 };
 

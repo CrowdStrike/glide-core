@@ -193,7 +193,7 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/checkbox.js';
       </script>
 
-      <form action="/" style="padding: 1.5rem;">
+      <form action="/">
         <glide-core-checkbox
           label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}
