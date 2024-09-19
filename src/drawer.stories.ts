@@ -33,25 +33,19 @@ const meta: Meta = {
     }
 
     const button = context.canvasElement.querySelector('glide-core-button');
-    const drawer = context.canvasElement.querySelector('glide-core-drawer');
-
     let isOpen = false;
 
-    if (!button || !drawer) {
-      return;
-    }
+    button?.addEventListener('click', () => {
+      const drawer = context.canvasElement.querySelector('glide-core-drawer');
 
-    button.addEventListener('click', () => {
       if (isOpen) {
         drawer?.close();
-        return;
+      } else {
+        drawer?.show();
       }
 
-      drawer?.show();
+      isOpen = !isOpen;
     });
-
-    drawer.addEventListener('open', () => (isOpen = true));
-    drawer.addEventListener('close', () => (isOpen = false));
   },
   render: (arguments_) => html`
     <script type="ignore">
