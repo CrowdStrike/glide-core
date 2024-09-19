@@ -356,14 +356,14 @@ export default class GlideCoreCheckboxGroup extends LitElement {
       event.target.checked &&
       event.detail.new
     ) {
-      this.#value = this.#value.map((value) => {
+      this.value = this.#value.map((value) => {
         return value === event.detail.old ? event.detail.new : value;
       });
     } else if (
       event.target instanceof GlideCoreCheckbox &&
       event.target.checked
     ) {
-      this.#value = this.#value.filter((value) => value !== event.detail.old);
+      this.value = this.#value.filter((value) => value !== event.detail.old);
     }
   }
 

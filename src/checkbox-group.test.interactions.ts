@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './checkbox.js';
-import { assert, expect, fixture, html } from '@open-wc/testing';
+import {
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+} from '@open-wc/testing';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
@@ -48,7 +54,10 @@ it('updates `value` when the `value` of a checked Checkbox is changed programmat
   assert(checkbox);
   checkbox.value = 'three';
 
+  await elementUpdated(component);
+
   expect(component.value).to.deep.equal(['three', 'two']);
+  expect(component.getAttribute('value')).to.equal('["three","two"]');
 });
 
 it('updates `value` when the `value` of a checked Checkbox is emptied programmatically', async () => {
@@ -72,5 +81,8 @@ it('updates `value` when the `value` of a checked Checkbox is emptied programmat
   assert(checkbox);
   checkbox.value = '';
 
+  await elementUpdated(component);
+
   expect(component.value).to.deep.equal(['two']);
+  expect(component.getAttribute('value')).to.equal('["two"]');
 });
