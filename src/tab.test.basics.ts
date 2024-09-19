@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import './tab.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTab from './tab.js';
@@ -14,8 +16,8 @@ it('renders correct markup and sets correct attributes for the default case', as
   `);
 
   await expect(component).to.not.be.accessible();
-  expect(component.active).to.equal(false, 'active defaults to false');
-  expect(component.disabled).to.equal(false, 'disabled defaults to false');
+  expect(component.active).to.be.false;
+  expect(component.disabled).to.be.false;
 
   expect(component.getAttribute('aria-disabled')).to.equal(
     null,
@@ -40,7 +42,7 @@ it('sets the active attribute', async () => {
     <glide-core-tab active>Tab</glide-core-tab>
   `);
 
-  expect(component.active).to.equal(true);
+  expect(component.active).to.be.true;
 });
 
 it('sets the disabled attribute', async () => {
@@ -48,7 +50,7 @@ it('sets the disabled attribute', async () => {
     <glide-core-tab disabled>Tab</glide-core-tab>
   `);
 
-  expect(component.disabled).to.equal(true);
+  expect(component.disabled).to.be.true;
   expect(component?.getAttribute('aria-disabled')).to.equal('true');
 });
 

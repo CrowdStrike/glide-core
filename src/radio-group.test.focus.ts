@@ -154,7 +154,7 @@ it('reports validity if blurred', async () => {
 
   expect(document.activeElement === document.body).to.be.true;
 
-  expect(component.validity.valid).to.equal(false);
+  expect(component.validity.valid).to.be.false;
 
   expect(
     component.shadowRoot

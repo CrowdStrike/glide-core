@@ -340,7 +340,7 @@ it('blurs the textarea and reports validity if `blur` is called', async () => {
 
   expect(component.shadowRoot?.activeElement === null).to.be.true;
 
-  expect(component.validity.valid).to.equal(false);
+  expect(component.validity.valid).to.be.false;
 
   expect(component.shadowRoot?.querySelector('glide-core-private-label')?.error)
     .to.be.true;

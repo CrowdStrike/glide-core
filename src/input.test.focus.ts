@@ -48,11 +48,10 @@ it('blurs the input and reports validity if `blur` is called', async () => {
 
   expect(component.shadowRoot?.activeElement).to.equal(null);
 
-  expect(component.validity.valid).to.equal(false);
+  expect(component.validity.valid).to.be.false;
 
-  expect(
-    component.shadowRoot?.querySelector('glide-core-private-label')?.error,
-  ).to.equal(true);
+  expect(component.shadowRoot?.querySelector('glide-core-private-label')?.error)
+    .to.be.true;
 });
 
 it('focuses the input after `reportValidity` is called when required and no value', async () => {

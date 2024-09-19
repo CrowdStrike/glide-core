@@ -9,6 +9,7 @@ import { noSkipTests } from './rules/no-skip-tests.js';
 import { noSpacePress } from './rules/no-space-press.js';
 import { noToHaveAttribute } from './rules/no-to-have-attribute.js';
 import { preferClosedShadowRoot } from './rules/prefer-closed-shadow-root.js';
+import { preferToBeTrueOrFalse } from './rules/prefer-to-be-true-or-false.js';
 import { prefixedClassDeclaration } from './rules/prefixed-lit-element-class-declaration.js';
 
 const rules = {
@@ -25,6 +26,7 @@ const rules = {
   'no-space-press': noSpacePress,
   'no-to-have-attribute': noToHaveAttribute,
   'prefer-closed-shadow-root': preferClosedShadowRoot,
+  'prefer-to-be-true-or-false': preferToBeTrueOrFalse,
   'prefixed-lit-element-class-declaration': prefixedClassDeclaration,
 };
 

@@ -48,6 +48,7 @@ export default [
       '@crowdstrike/glide-core/no-space-press': 'error',
       '@crowdstrike/glide-core/no-to-have-attribute': 'error',
       '@crowdstrike/glide-core/prefer-closed-shadow-root': 'error',
+      '@crowdstrike/glide-core/prefer-to-be-true-or-false': 'error',
       '@crowdstrike/glide-core/prefixed-lit-element-class-declaration': 'error',
 
       // Enabling this rule would force us to `await` any function that returns a promise.

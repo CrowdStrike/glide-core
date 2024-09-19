@@ -42,16 +42,16 @@ it('has defaults', async () => {
   );
 
   expect(component.hasAttribute('disabled')).to.be.false;
-  expect(component.disabled).to.equal(false);
+  expect(component.disabled).to.be.false;
 
   expect(component.hasAttribute('filterable')).to.be.false;
-  expect(component.filterable).to.equal(false);
+  expect(component.filterable).to.be.false;
 
   expect(component.getAttribute('name')).to.be.null;
   expect(component.name).to.equal(undefined);
 
   expect(component.hasAttribute('required')).to.be.false;
-  expect(component.required).to.equal(false);
+  expect(component.required).to.be.false;
 
   expect(component.getAttribute('size')).to.equal('large');
   expect(component.size).to.equal('large');
@@ -230,7 +230,7 @@ it('can be `disabled`', async () => {
   );
 
   expect(component.hasAttribute('disabled')).to.be.true;
-  expect(component.disabled).to.equal(true);
+  expect(component.disabled).to.be.true;
 });
 
 it('can be `required`', async () => {
@@ -244,7 +244,7 @@ it('can be `required`', async () => {
   );
 
   expect(component.hasAttribute('required')).to.be.true;
-  expect(component.required).to.equal(true);
+  expect(component.required).to.be.true;
 });
 
 it('can be `multiple`', async () => {
@@ -263,7 +263,7 @@ it('can be `multiple`', async () => {
   );
 
   expect(component.hasAttribute('multiple')).to.be.true;
-  expect(component.multiple).to.equal(true);
+  expect(component.multiple).to.be.true;
 });
 
 it('can be `select-all`', async () => {
@@ -282,7 +282,7 @@ it('can be `select-all`', async () => {
   );
 
   expect(component.hasAttribute('select-all')).to.be.true;
-  expect(component.selectAll).to.equal(true);
+  expect(component.selectAll).to.be.true;
 });
 
 it('activates the first option when no options are initially selected', async () => {

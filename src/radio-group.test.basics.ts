@@ -55,7 +55,7 @@ it('renders appropriate attributes on glide-core-radio', async () => {
 
   expect(radios[1].getAttribute('value')).to.equal('value-2');
   expect(radios[1].getAttribute('tabindex')).to.equal('0');
-  expect(radios[1].hasAttribute('checked')).to.equal(true);
+  expect(radios[1].hasAttribute('checked')).to.be.true;
   expect(radios[1].getAttribute('role')).to.equal('radio');
   expect(radios[1].getAttribute('aria-checked')).to.equal('true');
   expect(radios[1].getAttribute('aria-disabled')).to.equal('false');
@@ -115,9 +115,9 @@ it('sets "required" attributes on radios when "required" is set on the group', a
 
   const radios = document.querySelectorAll('glide-core-radio');
 
-  expect(radios[0].hasAttribute('required')).to.equal(true);
+  expect(radios[0].hasAttribute('required')).to.be.true;
   expect(radios[0].getAttribute('aria-required')).to.equal('true');
-  expect(radios[1].hasAttribute('required')).to.equal(true);
+  expect(radios[1].hasAttribute('required')).to.be.true;
   expect(radios[1].getAttribute('aria-required')).to.equal('true');
 });
 
@@ -146,7 +146,7 @@ it('renders radios as "disabled" when "disabled" is set on the group', async () 
 
   const radio = document.querySelector('glide-core-radio');
 
-  expect(radio?.hasAttribute('disabled')).to.equal(true);
+  expect(radio?.hasAttribute('disabled')).to.be.true;
   expect(radio?.getAttribute('aria-disabled')).to.equal('true');
   expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.not.null;
 });
@@ -181,7 +181,7 @@ it('renders radios as "disabled" when "disabled" is dynamically set and removed 
   component.disabled = true;
   await elementUpdated(component);
 
-  expect(radio?.hasAttribute('disabled')).to.equal(true);
+  expect(radio?.hasAttribute('disabled')).to.be.true;
   expect(radio?.getAttribute('aria-disabled')).to.equal('true');
   expect(radio?.shadowRoot?.querySelector('.disabled')).to.be.not.null;
 

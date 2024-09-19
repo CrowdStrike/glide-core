@@ -41,15 +41,15 @@ it('can select child and grandchild items', async () => {
   const grandchildItems = childItems?.[1].slotElements;
 
   component.selectItem(childItems[0]);
-  expect(childItems[0].selected).to.equal(true);
+  expect(childItems[0].selected).to.be.true;
   expect(component.selectedItem).to.equal(childItems[0]);
-  expect(childItems[1].selected).to.equal(false);
-  expect(grandchildItems[0].selected).to.equal(false);
+  expect(childItems[1].selected).to.be.false;
+  expect(grandchildItems[0].selected).to.be.false;
 
   component.selectItem(grandchildItems[0]);
-  expect(childItems[0].selected).to.equal(false);
-  expect(childItems[1].selected).to.equal(false);
-  expect(grandchildItems[0].selected).to.equal(true);
+  expect(childItems[0].selected).to.be.false;
+  expect(childItems[1].selected).to.be.false;
+  expect(grandchildItems[0].selected).to.be.true;
   expect(component.selectedItem).to.equal(grandchildItems[0]);
 });
 
@@ -71,23 +71,23 @@ it('can click child and grandchild items to expand or select them', async () => 
 
   // Clicking an item that doesn't have children selects it
   childItems[0].click();
-  expect(childItems[0].selected).to.equal(true);
-  expect(childItems[1].selected).to.equal(false);
-  expect(grandchildItems[0].selected).to.equal(false);
+  expect(childItems[0].selected).to.be.true;
+  expect(childItems[1].selected).to.be.false;
+  expect(grandchildItems[0].selected).to.be.false;
 
-  expect(childItems[1].expanded).to.equal(false);
+  expect(childItems[1].expanded).to.be.false;
 
   // Clicking an item that has children expands it
   childItems[1].click();
-  expect(childItems[1].expanded).to.equal(true);
+  expect(childItems[1].expanded).to.be.true;
 
   // Can click and select a grandchild item
   grandchildItems[0].click();
-  expect(grandchildItems[0].selected).to.equal(true);
+  expect(grandchildItems[0].selected).to.be.true;
 
   // Can click and select a non-collapsible parent item
   childItems[2].click();
-  expect(childItems[2].selected).to.equal(true);
+  expect(childItems[2].selected).to.be.true;
 });
 
 it('does not select an item if a tree-item-icon-button is clicked', async () => {
@@ -113,7 +113,7 @@ it('does not select an item if a tree-item-icon-button is clicked', async () => 
   iconButton.click();
   await iconButton.updateComplete;
 
-  expect(childItems[0].selected).to.equal(false);
+  expect(childItems[0].selected).to.be.false;
 });
 
 it('does not select an item if its menu slot is clicked', async () => {
@@ -136,7 +136,7 @@ it('does not select an item if its menu slot is clicked', async () => {
   menu.click();
   await menu.updateComplete;
 
-  expect(childItems[0].selected).to.equal(false);
+  expect(childItems[0].selected).to.be.false;
 });
 
 it('throws if it does not have a default slot', async () => {

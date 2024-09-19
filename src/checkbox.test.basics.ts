@@ -125,7 +125,7 @@ it('can be checked', async () => {
   );
 
   expect(component.hasAttribute('checked')).to.be.true;
-  expect(component.checked).to.equal(true);
+  expect(component.checked).to.be.true;
 });
 
 it('can be disabled', async () => {
@@ -134,7 +134,7 @@ it('can be disabled', async () => {
   );
 
   expect(component.hasAttribute('disabled')).to.be.true;
-  expect(component.disabled).to.equal(true);
+  expect(component.disabled).to.be.true;
 });
 
 it('can be indeterminate', async () => {
@@ -146,7 +146,7 @@ it('can be indeterminate', async () => {
   );
 
   expect(component.hasAttribute('indeterminate')).to.be.true;
-  expect(component.indeterminate).to.equal(true);
+  expect(component.indeterminate).to.be.true;
 });
 
 it('can be required', async () => {
@@ -155,5 +155,5 @@ it('can be required', async () => {
   );
 
   expect(component.hasAttribute('required')).to.be.true;
-  expect(component.required).to.equal(true);
+  expect(component.required).to.be.true;
 });

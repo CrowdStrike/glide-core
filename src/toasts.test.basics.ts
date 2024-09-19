@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreToasts from './toasts.js';
 
@@ -143,7 +145,7 @@ it('is hidden unless there are toasts displayed', async () => {
   const shadowComponent = component.shadowRoot?.querySelector('.component');
   assert(shadowComponent);
 
-  expect(shadowComponent.hasAttribute('popover')).to.equal(false);
+  expect(shadowComponent.hasAttribute('popover')).to.be.false;
   expect(getComputedStyle(shadowComponent).display).to.equal('none');
 
   component.add({
