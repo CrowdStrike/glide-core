@@ -161,19 +161,21 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   set value(value) {
-    const oldValue = this.#value;
-    this.#value = value;
-
     // `this.value` can be changed programmatically. Dropdown needs to know when that
     // happens so it can update its own `this.value`.
     this.dispatchEvent(
       new CustomEvent('private-value-change', {
         bubbles: true,
         // Without knowing what the old value was, Dropdown would be unable to find the
-        // value in its `this.value` and then remove it.
-        detail: oldValue,
+        // value in its `this.value` array and remove it.
+        detail: {
+          old: this.value,
+          new: value,
+        },
       }),
     );
+
+    this.#value = value;
   }
 
   async privateUpdateCheckbox() {

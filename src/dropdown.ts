@@ -1354,7 +1354,7 @@ export default class GlideCoreDropdown extends LitElement {
     this.requestUpdate();
   }
 
-  #onOptionsValueChange(event: CustomEvent<string>) {
+  #onOptionsValueChange(event: CustomEvent<{ old: string; new: string }>) {
     // A cleaner approach would be to return early if `event.target` isn't an instance
     // of `GlideCoreDropdownOption`. But doing so would create an untestable branch and thus
     // force less than full code coverage because `event.target` will always be an
@@ -1368,30 +1368,24 @@ export default class GlideCoreDropdown extends LitElement {
       event.target instanceof GlideCoreDropdownOption &&
       this.multiple &&
       event.target.selected &&
-      event.target.value
+      event.detail.new
     ) {
       // There shouldn't be duplicate values. But this will fall short if there are.
       // Both instances of the value will be removed from `this.#value` when, strictly
-      // speaking, only one of them should. Knowing which to remove would involve a
-      // map. Probably not worth the trouble.
-      this.#value = [
-        ...this.value.filter((value) => value !== event.detail),
-        event.target.value,
-      ];
+      // speaking, only one of them should. Knowing which to remove would require storing
+      // some state in a map and probably isn't worth the trouble.
+      this.#value = this.value.map((value) => {
+        return value === event.detail.old ? event.detail.new : value;
+      });
     } else if (
       event.target instanceof GlideCoreDropdownOption &&
       this.multiple
     ) {
       this.#value = this.value.filter((value) => {
-        return (
-          // No idea why TypeScript thinks `event.target` is possibly `null` when
-          // filtering given it's narrowed out above.
-          event.target instanceof GlideCoreDropdownOption &&
-          value !== event.detail
-        );
+        return value !== event.detail.old;
       });
     } else if (event.target instanceof GlideCoreDropdownOption) {
-      this.#value = event.target.value ? [event.target.value] : [];
+      this.#value = event.detail.new ? [event.detail.new] : [];
     }
   }
 

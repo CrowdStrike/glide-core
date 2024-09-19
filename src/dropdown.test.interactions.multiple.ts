@@ -661,10 +661,10 @@ it('updates `value` when the `value` of a selected option is changed programmati
   assert(option);
   option.value = 'three';
 
-  expect(component.value).to.deep.equal(['two', 'three']);
+  expect(component.value).to.deep.equal(['three', 'two']);
 });
 
-it('updates `value` when the `value` of a selected option is removed programmatically', async () => {
+it('updates `value` when the `value` of a selected option is emptied programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open multiple>
       <glide-core-dropdown-option
