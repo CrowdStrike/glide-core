@@ -2,6 +2,7 @@
 '@crowdstrike/glide-core': patch
 ---
 
+- Tree Item's properties are now reflected.
 - Split Container (now Split Button Container) supports dynamic replacement of Split Button Container Button with Split Button Container Link and vice versa.
 - Split Button Container's `menu-open` attribute and `menuOpen` property are now synchronized with the state of the underlying Menu.
 - Split Button Container's menu button now retains it hover state on click.

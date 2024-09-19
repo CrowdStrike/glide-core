@@ -40,18 +40,18 @@ export default class GlideCoreTreeItem extends LitElement {
 
   static override styles = styles;
 
-  @property({ type: Boolean }) expanded = false;
+  @property({ reflect: true, type: Boolean }) expanded = false;
 
   @property({ reflect: true }) label = '';
 
-  @property({ type: Number }) level = 1;
+  @property({ reflect: true, type: Number }) level = 1;
 
-  @property({ type: Boolean }) selected = false;
+  @property({ reflect: true, type: Boolean }) selected = false;
 
-  @property({ type: Boolean, attribute: 'remove-indentation' })
+  @property({ reflect: true, type: Boolean, attribute: 'remove-indentation' })
   removeIndentation = false;
 
-  @property({ type: Boolean, attribute: 'non-collapsible' })
+  @property({ reflect: true, type: Boolean, attribute: 'non-collapsible' })
   nonCollapsible = false;
 
   @queryAssignedElements()
@@ -66,7 +66,6 @@ export default class GlideCoreTreeItem extends LitElement {
 
   override focus(options?: FocusOptions) {
     this.#labelContainerElementRef.value?.focus(options);
-
     this.#setTabIndexes(0);
   }
 
