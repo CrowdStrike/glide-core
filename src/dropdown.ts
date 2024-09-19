@@ -469,11 +469,10 @@ export default class GlideCoreDropdown extends LitElement {
                           <glide-core-tag
                             data-test="tag"
                             data-id=${id}
-                            removable-label=${label ?? ''}
+                            label=${label}
+                            removable
                             @remove=${this.#onTagRemove.bind(this, id)}
-                          >
-                            ${label}
-                          </glide-core-tag>
+                          ></glide-core-tag>
                         </li>`;
                       },
                     )}

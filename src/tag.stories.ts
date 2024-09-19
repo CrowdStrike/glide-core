@@ -12,58 +12,23 @@ const meta: Meta = {
     </script>
 
     <glide-core-tag
-      removable-label=${arguments_['removable-label'] || nothing}
+      label=${arguments_.label || nothing}
       size=${arguments_.size}
+      ?removable=${arguments_.removable}
     >
       ${arguments_['slot="default"']}
     </glide-core-tag>
   `,
   args: {
-    'slot="default"': 'Tag',
+    label: 'Label',
     'addEventListener(event, listener)': '',
-    'removable-label': '',
+    removable: false,
     size: 'medium',
+    'slot="icon"': '',
   },
   argTypes: {
-    'slot="default"': {
-      control: { type: 'text' },
-      table: {
-        type: { summary: 'string', detail: 'The content of the Tag.' },
-      },
+    label: {
       type: { name: 'string', required: true },
-    },
-    'slot="prefix"': {
-      table: {
-        type: {
-          summary: 'Element',
-          detail: 'Add a prefix, a leading icon to the Tag.',
-        },
-      },
-      type: {
-        name: 'function',
-      },
-    },
-    size: {
-      control: { type: 'radio' },
-      options: ['small', 'medium', 'large'],
-      table: {
-        defaultValue: {
-          summary: 'medium',
-        },
-        type: {
-          summary: '"small" | "medium" | "large"',
-        },
-      },
-    },
-    'removable-label': {
-      control: { type: 'text' },
-      table: {
-        type: {
-          summary: 'string',
-          detail:
-            'Adds a button to the Tag that removes it from the DOM when an accessible label is provided.',
-        },
-      },
     },
     'addEventListener(event, listener)': {
       type: {
@@ -73,6 +38,33 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '(event: "remove", listener: (event: Event) => void) => void',
+        },
+      },
+    },
+    removable: {
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large'],
+      table: {
+        defaultValue: {
+          summary: '"medium"',
+        },
+        type: {
+          summary: '"small" | "medium" | "large"',
+        },
+      },
+    },
+    'slot="icon"': {
+      control: false,
+      table: {
+        type: {
+          summary: 'Element',
         },
       },
     },
@@ -91,12 +83,13 @@ export const WithIcon: StoryObj = {
       import '@crowdstrike/glide-core/tag.js';
     </script>
 
-    <glide-core-tag>
-      ${arguments_['slot="default"']}
-
+    <glide-core-tag
+      label=${arguments_.label || nothing}
+      ?removable=${arguments_.removable}
+    >
       <glide-core-example-icon
         name="drag-dots"
-        slot="prefix"
+        slot="icon"
       ></glide-core-example-icon>
     </glide-core-tag>
   `,

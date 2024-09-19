@@ -58,7 +58,7 @@ const meta: Meta = {
     variant: {
       control: { type: 'radio' },
       defaultValue: 'primary',
-      options: ['"primary"', '"secondary"', '"tertiary"'],
+      options: ['primary', 'secondary', 'tertiary'],
       table: {
         defaultValue: {
           summary: '"primary"',

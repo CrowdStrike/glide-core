@@ -3,7 +3,6 @@ import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { owSlot } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
 import styles from './tag.styles.js';
 
@@ -14,10 +13,9 @@ declare global {
 }
 
 /**
- * @event remove - Emitted when the tag is removed.
+ * @event remove - `(event: Event) => void`
  *
- * @slot - The content of the tag.
- * @slot prefix - A slot for an optional icon.
+ * @slot icon
  */
 @customElement('glide-core-tag')
 export default class GlideCoreTag extends LitElement {
@@ -30,17 +28,26 @@ export default class GlideCoreTag extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  size: 'small' | 'medium' | 'large' = 'medium';
+  label?: string;
 
-  @property({ attribute: 'removable-label' })
-  removableLabel? = '';
+  @property({ reflect: true, type: Boolean })
+  removable = false;
+
+  @property({ reflect: true })
+  size: 'small' | 'medium' | 'large' = 'medium';
 
   override click() {
     this.#buttonElementRef.value?.click();
   }
 
-  override firstUpdated(): void {
-    owSlot(this.#defaultSlotElementRef.value);
+  override firstUpdated() {
+    this.#componentElementRef.value?.addEventListener(
+      'animationend',
+      () => {
+        this.#componentElementRef.value?.classList.remove('added');
+      },
+      { once: true },
+    );
   }
 
   override render() {
@@ -48,35 +55,27 @@ export default class GlideCoreTag extends LitElement {
       <div
         class=${classMap({
           component: true,
-          activate: true,
+          added: true,
           [this.size]: true,
         })}
         data-test="component"
-        ${ref(this.#containerElementRef)}
+        ${ref(this.#componentElementRef)}
       >
-        <slot name="prefix" ${ref(this.#prefixSlotElementRef)}></slot>
+        <slot name="icon" ${ref(this.#iconSlotElementRef)}></slot>
 
-        <slot
-          @slotchange=${this.#onDefaultSlotChange}
-          ${ref(this.#defaultSlotElementRef)}
-        ></slot>
-
+        ${this.label}
         ${when(
-          this.removableLabel,
+          this.removable,
           () =>
             html`<button
-              type="button"
+              aria-label=${this.#localize.term('removeTag', this.label!)}
               class=${classMap({
                 [this.size]: true,
               })}
-              aria-label=${this.#localize.term(
-                'removeTag',
-                // ! required because the when directive doesn't seem to properly type narrow
-                this.removableLabel!,
-              )}
               data-test="button"
-              ${ref(this.#buttonElementRef)}
+              type="button"
               @click=${this.#onClick}
+              ${ref(this.#buttonElementRef)}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
                 <path
@@ -86,6 +85,7 @@ export default class GlideCoreTag extends LitElement {
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
+
                 <path
                   d="M18 6L6 18"
                   stroke="currentColor"
@@ -100,33 +100,28 @@ export default class GlideCoreTag extends LitElement {
     `;
   }
 
+  override get textContent() {
+    return this.label ?? '';
+  }
+
+  override set textContent(label: string) {
+    this.label = label;
+  }
+
   #buttonElementRef = createRef<HTMLButtonElement>();
 
-  #containerElementRef = createRef<HTMLDivElement>();
+  #componentElementRef = createRef<HTMLElement>();
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+  #iconSlotElementRef = createRef<HTMLSlotElement>();
 
   #localize = new LocalizeController(this);
 
-  #prefixSlotElementRef = createRef<HTMLSlotElement>();
-
-  #removalDelay = 200;
-
   #onClick = () => {
-    // The promise delays removing the tag's content from the DOM so that
-    // the animation has an opportunity to play
-    new Promise(() =>
-      setTimeout(() => {
-        this.remove();
-      }, this.#removalDelay),
-    );
+    setTimeout(() => {
+      this.remove();
+    }, 200);
 
-    this.#containerElementRef.value?.classList.toggle('activate');
-    this.#containerElementRef.value?.classList.toggle('deactivate');
-    this.dispatchEvent(new Event('remove'));
+    this.#componentElementRef.value?.classList.add('removed');
+    this.dispatchEvent(new Event('remove', { bubbles: true }));
   };
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
 }
