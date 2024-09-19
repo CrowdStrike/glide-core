@@ -1373,7 +1373,7 @@ export default class GlideCoreDropdown extends LitElement {
       // There shouldn't be duplicate values. But this will fall short if there are.
       // Both instances of the value will be removed from `this.#value` when, strictly
       // speaking, only one of them should. Knowing which to remove would require storing
-      // some state in a map and probably isn't not worth the trouble.
+      // some state in a map and probably isn't worth the trouble.
       this.#value = this.value.map((value) => {
         return value === event.detail.old ? event.detail.new : value;
       });

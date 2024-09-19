@@ -98,7 +98,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
     this.#value = value;
 
     for (const checkbox of this.#checkboxes) {
-      checkbox.checked = checkbox.checked = value.some(
+      checkbox.checked = value.some(
         (value) => value && value === checkbox.value,
       );
     }
