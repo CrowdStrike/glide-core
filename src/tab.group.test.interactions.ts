@@ -3,6 +3,7 @@
 import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
+import { emulateMedia } from '@web/test-runner-commands';
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTabGroup from './tab.group.js';
@@ -207,6 +208,8 @@ it('renders a disabled end-overflow button when there is only overflow at the st
 });
 
 it('scrolls tabs when overflow buttons are clicked', async () => {
+  await emulateMedia({ reducedMotion: 'reduce' });
+
   const spy = sinon.spy();
 
   const component = await fixture(html`
@@ -286,6 +289,8 @@ it('scrolls tabs when overflow buttons are clicked', async () => {
   expect(spy.callCount).to.equal(1);
   expect(startOverflowButton?.disabled).to.be.true;
   expect(endOverflowButton?.disabled).to.be.false;
+
+  await emulateMedia({ reducedMotion: 'no-preference' });
 });
 
 it('removes overflow buttons when the component is resized and there is no overflow', async () => {
