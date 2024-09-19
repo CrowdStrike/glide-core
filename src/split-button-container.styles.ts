@@ -18,22 +18,22 @@ export default [
 
       &.disabled:hover {
         cursor: not-allowed;
-
-        & .divider {
-          background-color: var(--glide-core-border-base-light);
-        }
       }
     }
 
     .divider {
       inline-size: 1px;
 
-      &.primary {
+      &.primary:not(.disabled) {
         background-color: var(--glide-core-border-base-light);
       }
 
-      &.secondary {
+      &.secondary:not(.disabled) {
         background-color: var(--glide-core-border-primary);
+      }
+
+      &.disabled {
+        background-color: var(--glide-core-border-base-light);
       }
     }
 

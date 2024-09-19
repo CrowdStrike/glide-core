@@ -166,12 +166,13 @@ export default class GlideCoreSplitButtonContainer extends LitElement {
           ${ref(this.#primaryActionElementRef)}
         ></slot>
 
-        <span
+        <div
           class=${classMap({
             divider: true,
+            disabled: this.disabled,
             [this.variant]: true,
           })}
-        ></span>
+        ></div>
 
         <glide-core-menu
           placement=${this.menuPlacement}
