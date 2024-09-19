@@ -83,15 +83,6 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const links = context.canvasElement.querySelectorAll(
-      'glide-core-menu-link',
-    );
-
-    for (const link of links) {
-      // Prevent navigation. The URLs don't go anywhere.
-      link.addEventListener('click', (event) => event.preventDefault());
-    }
-
     // eslint-disable-next-line no-underscore-dangle
     let arguments_: Meta['args'] = context.args;
 
@@ -130,10 +121,8 @@ const meta: Meta = {
           <glide-core-button slot="target"> Target </glide-core-button>
 
           <glide-core-menu-options>
-            <glide-core-menu-link label="One" url="/one">
-            </glide-core-menu-link>
-            <glide-core-menu-link label="Two" url="/two">
-            </glide-core-menu-link>
+            <glide-core-menu-link label="One" url="/"> </glide-core-menu-link>
+            <glide-core-menu-link label="Two" url="/"> </glide-core-menu-link>
             <glide-core-menu-button label="Three"> </glide-core-menu-button>
           </glide-core-menu-options>
         </glide-core-menu>
@@ -181,28 +170,28 @@ export const WithIcons: StoryObj = {
           ?open=${arguments_.open}
         >
           <glide-core-menu-options>
-            <glide-core-menu-link label="Edit" url="/edit">
+            <glide-core-menu-link label="Edit" url="/">
               <glide-core-example-icon
                 slot="icon"
                 name="pencil"
               ></glide-core-example-icon>
             </glide-core-menu-link>
 
-            <glide-core-menu-link label="Move" url="/move">
+            <glide-core-menu-link label="Move" url="/">
               <glide-core-example-icon
                 slot="icon"
                 name="move"
               ></glide-core-example-icon>
             </glide-core-menu-link>
 
-            <glide-core-menu-link label="Share" url="/share">
+            <glide-core-menu-link label="Share" url="/">
               <glide-core-example-icon
                 slot="icon"
                 name="share"
               ></glide-core-example-icon>
             </glide-core-menu-link>
 
-            <glide-core-menu-link label="Settings" url="/settings">
+            <glide-core-menu-link label="Settings" url="/">
               <glide-core-example-icon
                 slot="icon"
                 name="settings"
