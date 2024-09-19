@@ -36,42 +36,24 @@ export default [
         display: none;
       }
 
-      .heading-box {
-        align-items: center;
-        display: flex;
-        flex: 1;
-        overflow: hidden;
-        white-space: nowrap;
-
-        &.heading-box-with-prefix {
-          gap: var(--glide-core-spacing-xs);
-        }
-
-        .prefix-slot-box {
-          display: flex;
-        }
-
-        .label {
-          display: block;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-
-      .suffix-slot-box {
-        align-items: center;
-        color: var(--glide-core-icon-primary);
-        display: flex;
-        gap: 0.625rem;
-
-        &.suffix-slot-box-with-content {
-          margin-inline-start: var(--glide-core-spacing-xs);
-        }
-      }
-
-      .component[open] & {
+      &.active {
         padding-block-end: var(--glide-core-spacing-xxs);
       }
+    }
+
+    .label-container {
+      align-items: center;
+      display: flex;
+      flex: 1;
+      gap: var(--glide-core-spacing-xs);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .label {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .chevron {
@@ -79,25 +61,41 @@ export default [
       display: flex;
       margin-inline-end: var(--glide-core-spacing-xxs);
       rotate: -90deg;
-      transition: 250ms rotate ease;
 
-      .component[open] & {
+      &.unrotated {
         rotate: 0deg;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        transition: 250ms rotate ease;
       }
     }
 
-    .content {
+    .default-slot {
       color: var(--glide-core-text-body-1);
+      display: block;
       font-size: var(--glide-core-body-sm-font-size);
       font-weight: var(--glide-core-body-xs-font-weight);
+      overflow: hidden;
       padding-block-end: var(--glide-core-spacing-sm);
 
       /* Hardcoded spacing here is intentional so that it better aligns with the Accordion label */
       padding-inline: 2rem var(--glide-core-spacing-sm);
+
+      &.indented {
+        padding-inline-start: 3.5rem;
+      }
     }
 
-    .content-with-prefix {
-      padding-inline-start: 3.5rem;
+    .suffix-icons-slot {
+      align-items: center;
+      color: var(--glide-core-icon-primary);
+      gap: 0.625rem;
+      margin-inline-start: var(--glide-core-spacing-xs);
+
+      &.icons {
+        display: flex;
+      }
     }
   `,
 ];
