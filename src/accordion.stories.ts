@@ -74,6 +74,7 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'slot="default"': {
+      control: { type: 'text' },
       table: {
         type: { summary: 'Element | string' },
       },

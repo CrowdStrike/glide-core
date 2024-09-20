@@ -23,15 +23,10 @@ export default class GlideCoreTab extends LitElement {
 
   static override styles = styles;
 
-  /**
-   * The name of the panel corresponding to this tab
-   */
   @property({ reflect: true }) panel = '';
 
-  /** Sets the active attribute on the tab. */
   @property({ type: Boolean, reflect: true }) active = false;
 
-  /** Disables the tab. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   protected override firstUpdated() {
