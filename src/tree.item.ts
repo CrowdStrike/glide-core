@@ -58,10 +58,6 @@ export default class GlideCoreTreeItem extends LitElement {
   @queryAssignedElements({ slot: 'suffix' })
   suffixSlotAssignedElements!: HTMLElement[];
 
-  override firstUpdated() {
-    this.#setupChildren();
-  }
-
   override focus(options?: FocusOptions) {
     this.#labelContainerElementRef.value?.focus(options);
     this.#setTabIndexes(0);
@@ -151,7 +147,10 @@ export default class GlideCoreTreeItem extends LitElement {
         </div>
       </div>
       <div class="child-items" role="group">
-        <slot></slot>
+        <slot
+          @slotchange=${this.#onDefaultSlotChange}
+          ${ref(this.#defaultSlotElementRef)}
+        ></slot>
       </div>
     </div>`;
   }
@@ -190,6 +189,8 @@ export default class GlideCoreTreeItem extends LitElement {
 
   @state()
   private childTreeItems: GlideCoreTreeItem[] = [];
+
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #labelContainerElementRef = createRef<HTMLInputElement>();
 
@@ -240,6 +241,10 @@ export default class GlideCoreTreeItem extends LitElement {
       !(target instanceof GlideCoreTreeItem) &&
       this.contains(target)
     );
+  }
+
+  #onDefaultSlotChange() {
+    this.#setupChildren();
   }
 
   #onMenuSlotChange() {
