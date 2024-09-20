@@ -40,7 +40,7 @@ const meta: Meta = {
       <glide-core-modal
         label=${arguments_.label || nothing}
         size=${arguments_.size}
-        ?show-back-button=${arguments_['show-back-button']}
+        ?back-button=${arguments_['back-button']}
       >
         ${unsafeHTML(arguments_['slot="default"'])}
 

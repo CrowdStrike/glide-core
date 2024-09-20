@@ -77,14 +77,17 @@ export function owSlotType(
       ow.number
         .is((x) => x > 0)
         .message(
-          `Expected a slotted node that extends ${slotted
+          // "node" is technically correct because a consumer could have slotted text,
+          // and "node" covers both text and elements. But "element" probably gets
+          // the point across better for most developers.
+          `Expected a slotted element that extends ${slotted
             .map(({ name }) => name)
             .join(' or ')}.`,
         ),
     );
 
     for (const node of nodes) {
-      const message = `Expected slotted node to extend ${slotted
+      const message = `Expected slotted element to extend ${slotted
         .map(({ name }) => name)
         .join(' or ')}. Extends ${node.constructor.name} instead.`;
 

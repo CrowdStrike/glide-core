@@ -2,19 +2,19 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import styles from './split-button-container.button.styles.js';
+import styles from './split-button.primary-button.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-split-button-container-button': GlideCoreSplitButtonContainerButton;
+    'glide-core-split-button-primary-button': GlideCoreSplitButtonPrimaryButton;
   }
 }
 
 /**
  * @slot icon - An optional icon before the label.
  */
-@customElement('glide-core-split-button-container-button')
-export default class GlideCoreSplitButtonContainerButton extends LitElement {
+@customElement('glide-core-split-button-primary-button')
+export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
@@ -40,11 +40,11 @@ export default class GlideCoreSplitButtonContainerButton extends LitElement {
     | 'dialog'
     | null = null;
 
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
+
   @property({ reflect: true })
   label?: string;
-
-  @state()
-  privateDisabled = false;
 
   @state()
   privateSize: 'large' | 'small' = 'large';
@@ -59,12 +59,13 @@ export default class GlideCoreSplitButtonContainerButton extends LitElement {
       aria-haspopup=${ifDefined(this.ariaHasPopup ?? undefined)}
       class=${classMap({
         component: true,
-        disabled: this.privateDisabled,
+        disabled: this.disabled,
         [this.privateVariant]: true,
         [this.privateSize]: true,
       })}
+      data-test="component"
       type="button"
-      ?disabled=${this.privateDisabled}
+      ?disabled=${this.disabled}
     >
       <slot name="icon"></slot>
       ${this.label}
