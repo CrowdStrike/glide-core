@@ -11,8 +11,6 @@ declare global {
 }
 
 /**
- * @description A button for use within a <glide-core-menu>.
- *
  * @slot icon - An icon.
  */
 @customElement('glide-core-menu-button')

@@ -23,12 +23,10 @@ declare global {
 }
 
 /**
- * @description A single node of a Tree.
- *
- * @slot - One or more of <glide-core-tree-item>, if this tree item contains nested tree items.
- * @slot prefix - An optional icon to display before the label.
- * @slot suffix - An optional icon to add after the label.
- * @slot menu - Place a <glide-core-menu> here, which will be visible on hover or focus
+ * @slot - Zero or more of `<glide-core-tree-item>`.
+ * @slot prefix - An optional icon before the label.
+ * @slot suffix - An optional icon after the label.
+ * @slot menu - A `<glide-core-menu>` made visible on hover or focus.
  */
 @customElement('glide-core-tree-item')
 export default class GlideCoreTreeItem extends LitElement {

@@ -9,13 +9,27 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Tooltip',
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: 'A tooltip that positions itself.',
-      },
-    },
-  },
+  decorators: [
+    (story) =>
+      html`<div
+        style="align-items: center; display: flex; height: 8rem; justify-content: center;"
+      >
+        <style>
+          textarea {
+            height: 6lh !important;
+            width: 21.875rem !important;
+          }
+
+          [slot="target"] {
+            border-radius: 0.0625rem;
+            display: inline-flex;
+            &:focus-visible {${focusOutline};}
+          }
+        </style>
+
+        ${story()}
+      </div>`,
+  ],
   args: {
     'slot="default"': `Tooltip 
 <kbd> 
@@ -25,7 +39,7 @@ const meta: Meta = {
 </kbd>`,
     'slot="target"': '',
     disabled: false,
-    offset: '4',
+    offset: 4,
     open: false,
     placement: 'bottom',
   },
@@ -33,7 +47,7 @@ const meta: Meta = {
     'slot="default"': {
       table: {
         type: {
-          summary: 'HTMLKBDElement | string',
+          summary: 'Element',
           detail: '// The content of the tooltip',
         },
       },
@@ -49,7 +63,6 @@ const meta: Meta = {
       type: { name: 'function', required: true },
     },
     disabled: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: {
@@ -66,7 +79,6 @@ const meta: Meta = {
       },
     },
     open: {
-      control: 'boolean',
       table: {
         defaultValue: { summary: 'false' },
         type: {
@@ -89,47 +101,28 @@ const meta: Meta = {
       },
     },
   },
-  render: (arguments_) => {
+  render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <script type="ignore">
         import '@crowdstrike/glide-core/tooltip.js';
       </script>
 
-      <style>
-        textarea {
-          height: 6lh !important;
-          width: 21.875rem !important;
-        }
-      </style>
-
-      <div
-        style="align-items: center; display: flex; height: 8rem; justify-content: center;"
+      <glide-core-tooltip
+        offset=${arguments_.offset}
+        placement=${arguments_.placement}
+        ?disabled=${arguments_.disabled}
+        ?open=${arguments_.open}
       >
-        <glide-core-tooltip
-          offset=${arguments_.offset}
-          placement=${arguments_.placement}
-          ?disabled=${arguments_.disabled}
-          ?open=${arguments_.open}
-        >
-          ${unsafeHTML(arguments_['slot="default"'])}
+        ${unsafeHTML(arguments_['slot="default"'])}
 
-          <glide-core-example-icon
-            name="info"
-            slot="target"
-            tabindex="0"
-            style="border-radius: 50%; outline-offset: 1px;"
-          ></glide-core-example-icon>
-        </glide-core-tooltip>
-      </div>
-
-      <style>
-        [slot="target"] {
-          border-radius: 0.0625rem;
-          display: inline-flex;
-          &:focus-visible {${focusOutline};}
-        }
-      </style>
+        <glide-core-example-icon
+          name="info"
+          slot="target"
+          tabindex="0"
+          style="border-radius: 50%; outline-offset: 1px;"
+        ></glide-core-example-icon>
+      </glide-core-tooltip>
     `;
   },
 };

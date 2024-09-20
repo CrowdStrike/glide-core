@@ -2,6 +2,7 @@ import './button.js';
 import './drawer.js';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import ow from './library/ow.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -11,9 +12,6 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      description: {
-        component: 'A drawer for arbitrary content.',
-      },
       story: {
         autoplay: true,
       },
@@ -47,30 +45,33 @@ const meta: Meta = {
       isOpen = !isOpen;
     });
   },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/drawer.js';
-    </script>
+  render(arguments_) {
+    /* eslint-disable @typescript-eslint/no-unsafe-argument */
+    return html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/drawer.js';
+      </script>
 
-    <glide-core-drawer
-      label=${arguments_.label}
-      ?pinned=${arguments_.pinned}
-      style="${ifDefined(
-        arguments_['--width']
-          ? `--width: ${arguments_['--width']};`
-          : undefined,
-      )}"
-    >
-      ${arguments_['slot="default"']}
-    </glide-core-drawer>
-    <glide-core-button>Toggle</glide-core-button>
+      <glide-core-drawer
+        label=${arguments_.label}
+        ?pinned=${arguments_.pinned}
+        style="${ifDefined(
+          arguments_['--width']
+            ? `--width: ${arguments_['--width']};`
+            : undefined,
+        )}"
+      >
+        ${unsafeHTML(arguments_['slot="default"'])}
+      </glide-core-drawer>
+      <glide-core-button>Toggle</glide-core-button>
 
-    <style>
-      glide-core-drawer div {
-        padding: 0.5rem;
-      }
-    </style>
-  `,
+      <style>
+        glide-core-drawer div {
+          padding: 0.5rem;
+        }
+      </style>
+    `;
+  },
   args: {
     label: 'Label',
     'slot="default"': '',
@@ -82,7 +83,6 @@ const meta: Meta = {
   },
   argTypes: {
     'slot="default"': {
-      control: { type: 'text' },
       table: {
         type: { summary: 'Element | string' },
       },
@@ -107,7 +107,6 @@ const meta: Meta = {
       },
     },
     label: {
-      control: { type: 'text' },
       table: {
         type: {
           summary: 'string',
@@ -126,16 +125,12 @@ const meta: Meta = {
       },
     },
     pinned: {
-      control: { type: 'boolean' },
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     '--width': {
-      control: {
-        type: 'text',
-      },
       table: {
         type: {
           summary: 'CSS custom property',

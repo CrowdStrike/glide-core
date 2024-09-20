@@ -15,8 +15,6 @@ declare global {
 }
 
 /**
- * @description An options container for use within a <glide-core-menu>.
- *
  * @slot - One or more of <glide-core-menu-link> or <glide-core-menu-button>.
  */
 @customElement('glide-core-menu-options')

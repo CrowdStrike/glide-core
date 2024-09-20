@@ -13,9 +13,6 @@ declare global {
 }
 
 /**
- * @description A Modal tertiary icon wrapper.  Provides opinionated styling and accessibility for icons in Modals.
- *  Should be used only in the "tertiary" slot of a Modal.
- *
  * @slot - The icon to be rendered.
  */
 @customElement('glide-core-modal-tertiary-icon')

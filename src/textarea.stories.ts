@@ -7,10 +7,6 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      description: {
-        component:
-          'A text area with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.',
-      },
       story: {
         autoplay: true,
       },
@@ -34,7 +30,9 @@ const meta: Meta = {
     'addEventListener(event, listener)': '',
     autocapitalize: 'on',
     'checkValidity()': '',
+    'click()': '',
     disabled: false,
+    'focus(options)': '',
     'hide-label': false,
     maxlength: '',
     name: '',
@@ -44,12 +42,18 @@ const meta: Meta = {
     'reportValidity()': '',
     required: false,
     rows: 2,
-    'slot="description"': 'Description',
+    'slot="description"': '',
     'slot="tooltip"': '',
     spellcheck: 'false',
     value: '',
   },
   argTypes: {
+    label: {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
     'addEventListener(event, listener)': {
       control: false,
       table: {
@@ -58,103 +62,6 @@ const meta: Meta = {
           detail:
             'event: "change" | "input" | "invalid", listener: (event: Event) => void',
         },
-      },
-    },
-    label: {
-      control: 'text',
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
-    },
-    value: {
-      control: 'text',
-      table: {
-        defaultValue: { summary: '""' },
-        type: { summary: 'string' },
-      },
-    },
-    orientation: {
-      control: { type: 'radio' },
-      options: ['horizontal', 'vertical'],
-      defaultValue: 'horizontal',
-      table: {
-        defaultValue: { summary: '"horizontal"' },
-        type: { summary: '"horizontal" | "vertical"' },
-      },
-    },
-    placeholder: {
-      control: 'text',
-      table: {
-        type: { summary: 'string' },
-      },
-    },
-    'hide-label': {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    required: {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    readonly: {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    disabled: {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    rows: {
-      control: 'number',
-      table: {
-        defaultValue: { summary: '2' },
-        type: { summary: 'number' },
-      },
-    },
-    maxlength: {
-      control: 'number',
-      table: {
-        type: { summary: 'number' },
-      },
-    },
-    'slot="tooltip"': {
-      control: { type: 'text' },
-      table: {
-        type: { summary: 'HTMLKBDElement | string' },
-      },
-    },
-    'slot="description"': {
-      control: { type: 'text' },
-      table: {
-        type: { summary: 'Element | string' },
-      },
-    },
-    name: {
-      control: 'text',
-      table: {
-        type: { summary: 'string' },
-      },
-    },
-    spellcheck: {
-      control: 'radio',
-      defaultValue: '"true"',
-      options: ['true', 'false'],
-      table: {
-        defaultValue: { summary: '"false"' },
-        type: { summary: '"true" | "false"' },
       },
     },
     autocapitalize: {
@@ -175,9 +82,69 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/checkValidity',
+          detail: '() => boolean',
         },
+      },
+    },
+    'click()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
+      },
+    },
+    disabled: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    'focus(options)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
+        },
+      },
+    },
+    'hide-label': {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    orientation: {
+      control: { type: 'radio' },
+      options: ['horizontal', 'vertical'],
+      defaultValue: 'horizontal',
+      table: {
+        defaultValue: { summary: '"horizontal"' },
+        type: { summary: '"horizontal" | "vertical"' },
+      },
+    },
+    maxlength: {
+      control: 'number',
+      table: {
+        type: { summary: 'number' },
+      },
+    },
+    name: {
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    placeholder: {
+      table: {
+        type: { summary: 'string' },
+      },
+    },
+    readonly: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
       },
     },
     'reportValidity()': {
@@ -185,13 +152,50 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '() => boolean \n\n// https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/reportValidity',
+          detail: '() => boolean',
         },
       },
     },
+    required: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    rows: {
+      control: 'number',
+      table: {
+        defaultValue: { summary: '2' },
+        type: { summary: 'number' },
+      },
+    },
+    'slot="description"': {
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
+    'slot="tooltip"': {
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
+    spellcheck: {
+      control: 'radio',
+      defaultValue: '"true"',
+      options: ['true', 'false'],
+      table: {
+        defaultValue: { summary: '"false"' },
+        type: { summary: '"true" | "false"' },
+      },
+    },
+    value: {
+      table: {
+        defaultValue: { summary: '""' },
+        type: { summary: 'string' },
+      },
+    },
   },
-  render: (arguments_) => {
+  render(arguments_) {
     return html`<script type="ignore">
         import '@crowdstrike/glide-core/textarea.js';
       </script>

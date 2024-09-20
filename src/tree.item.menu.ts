@@ -19,8 +19,6 @@ declare global {
 }
 
 /**
- * @description A menu built into a tree item. Uses <glide-core-menu>
- *
  * @slot - One or more of <glide-core-menu-link> or <glide-core-menu-button>.
  * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
  */

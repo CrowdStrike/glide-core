@@ -32,8 +32,6 @@ const indeterminateIcon = html`
 `;
 
 /**
- * @description A checkbox with a label and optional tooltip, summary, and description. Participates in forms and validation via `FormData` and various methods.
- *
  * @event change - `(event: Event) => void`
  * @event input - `(event: Event) => void`
  * @event invalid - `(event: Event) => void`

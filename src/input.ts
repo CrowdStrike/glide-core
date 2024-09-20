@@ -34,16 +34,14 @@ export const SUPPORTED_TYPES = [
 type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
 
 /**
- * @description An input with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.
- *
  * @event change - `(event: Event) => void`
  * @event input - `(event: Event) => void`
  * @event invalid - `(event: Event) => void`
  *
  * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
- * @slot prefix - An optional icon slot to display before the input.
- * @slot suffix - An optional icon slot to display after the input.
+ * @slot prefix - An optional icon before the input field.
+ * @slot suffix - An optional icon after the input field.
  */
 @customElement('glide-core-input')
 export default class GlideCoreInput extends LitElement {

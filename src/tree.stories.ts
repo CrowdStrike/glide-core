@@ -9,20 +9,11 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   decorators: [
-    (story) => html`<div style="max-width: 18.75rem;">${story()}</div>`,
+    (story) =>
+      html`<div style="max-width: 18.75rem; height: 8.5rem;">${story()}</div>`,
   ],
   title: 'Tree',
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: 'A tree containing a hierarchy of Tree Items.',
-      },
-      story: {
-        autoplay: true,
-      },
-    },
-  },
   args: {
     'slot="default"': '',
     '<glide-core-tree-item>.label': 'Branch',
@@ -34,26 +25,15 @@ const meta: Meta = {
     '<glide-core-tree-item>.selected': false,
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
   },
-  play(context) {
-    const links = context.canvasElement.querySelectorAll(
-      'glide-core-menu-link',
-    );
+  render(arguments_) {
+    return html`<script type="ignore">
+        import '@crowdstrike/glide-core/tree.js';
+        import '@crowdstrike/glide-core/tree.item.js';
+        import '@crowdstrike/glide-core/tree.item.menu.js';
+        import '@crowdstrike/glide-core/tree.item.icon-button.js';
+        import '@crowdstrike/glide-core/menu.link.js';
+      </script>
 
-    for (const link of links) {
-      // Prevent navigation. The URLs don't go anywhere.
-      link.addEventListener('click', (event) => event.preventDefault());
-    }
-  },
-  render: (arguments_) => html`
-    <script type="ignore">
-      import '@crowdstrike/glide-core/tree.js';
-      import '@crowdstrike/glide-core/tree.item.js';
-      import '@crowdstrike/glide-core/tree.item.menu.js';
-      import '@crowdstrike/glide-core/tree.item.icon-button.js';
-      import '@crowdstrike/glide-core/menu.link.js';
-    </script>
-
-    <div style="max-width: 18rem; height: 8.5rem;">
       <glide-core-tree>
         <glide-core-tree-item
           label="Back"
@@ -94,14 +74,14 @@ const meta: Meta = {
               slot="menu"
               placement=${arguments_['<glide-core-tree-item-menu>.placement']}
             >
-              <glide-core-menu-link label="Edit" url="/edit">
+              <glide-core-menu-link label="Edit" url="/">
                 <glide-core-example-icon
                   slot="icon"
                   name="pencil"
                 ></glide-core-example-icon>
               </glide-core-menu-link>
 
-              <glide-core-menu-link label="Move" url="/move">
+              <glide-core-menu-link label="Move" url="/">
                 <glide-core-example-icon
                   slot="icon"
                   name="move"
@@ -114,9 +94,8 @@ const meta: Meta = {
             <glide-core-tree-item label="Leaf"></glide-core-tree-item>
           </glide-core-tree-item>
         </glide-core-tree-item>
-      </glide-core-tree>
-    </div>
-  `,
+      </glide-core-tree>`;
+  },
   argTypes: {
     'slot="default"': {
       table: {
@@ -124,8 +103,29 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
+    '<glide-core-tree-item>.label': {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-tree-item-icon-button>.label': {
+      table: {
+        type: { summary: 'string', detail: '// For screenreaders' },
+      },
+      type: { name: 'string', required: true },
+    },
+    'addEventListener(event, listener)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            'event: "item-selected", listener: (event: CustomEvent<{ item: GlideCoreTreeItem }>) => void',
+        },
+      },
+    },
     '<glide-core-tree-item>.expanded': {
-      control: { type: 'boolean' },
       table: {
         defaultValue: {
           summary: 'false',
@@ -133,7 +133,6 @@ const meta: Meta = {
       },
     },
     '<glide-core-tree-item>.non-collapsible': {
-      control: { type: 'boolean' },
       table: {
         defaultValue: {
           summary: 'false',
@@ -149,29 +148,13 @@ const meta: Meta = {
       },
     },
     '<glide-core-tree-item>.selected': {
-      control: { type: 'boolean' },
       table: {
         defaultValue: {
           summary: 'false',
         },
       },
     },
-    '<glide-core-tree-item>.label': {
-      control: { type: 'text' },
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
-    },
-    '<glide-core-tree-item-icon-button>.label': {
-      control: { type: 'text' },
-      table: {
-        type: { summary: 'string', detail: '// For screenreaders' },
-      },
-      type: { name: 'string', required: true },
-    },
     '<glide-core-tree-item-menu>.placement': {
-      control: { type: 'select' },
       options: [
         'bottom',
         'left',
@@ -191,16 +174,6 @@ const meta: Meta = {
         type: {
           summary:
             '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start"| "top-end"',
-        },
-      },
-    },
-    'addEventListener(event, listener)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail:
-            'event: "item-selected", listener: (event: CustomEvent<{ item: GlideCoreTreeItem }>) => void',
         },
       },
     },

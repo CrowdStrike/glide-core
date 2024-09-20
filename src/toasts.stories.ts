@@ -7,13 +7,6 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Toasts',
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: 'A container and controller for toast messages.',
-      },
-    },
-  },
   argTypes: {
     'add(toast)': {
       control: false,

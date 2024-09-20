@@ -19,8 +19,6 @@ declare global {
 }
 
 /**
- * @description Aligns form control labels and the controls themselves in two columns. Only horizontally oriented controls are supported.
- *
  * @slot - GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreInput | GlideCoreTextArea.
  */
 @customElement('glide-core-form-controls-layout')

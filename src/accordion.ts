@@ -12,19 +12,18 @@ declare global {
 }
 
 /**
- * @description An accordion with optional icons.
- *
  * @event toggle - `(event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void) => void`.
  *                 Emitted when the Accordion opens or closes.
  *
  * @slot - The content of the accordion.
- * @slot prefix - An optional icon to display before the label.
- * @slot suffix - Optional icons to display after the label.
+ * @slot prefix - An optional icon before the label.
+ * @slot suffix - Optional icons after the label.
  */
 @customElement('glide-core-accordion')
 export default class GlideCoreAccordion extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
     mode: 'closed',
   };
 
@@ -39,7 +38,7 @@ export default class GlideCoreAccordion extends LitElement {
   }
 
   override render() {
-    return html` <details
+    return html`<details
       class="component"
       ?open=${this.open}
       ${ref(this.#detailsElementRef)}

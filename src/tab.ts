@@ -11,12 +11,8 @@ declare global {
 }
 
 /**
- * @description A single tab. Always place inside of a <glide-core-tab-group> component.
- *
- * @slot - Main content (label) for the tab
- *
- * @slot icon - A slot for placing an optional icon for the tab
- *
+ * @slot - A label.
+ * @slot icon - An optional icon.
  */
 @customElement('glide-core-tab')
 export default class GlideCoreTab extends LitElement {
@@ -27,15 +23,10 @@ export default class GlideCoreTab extends LitElement {
 
   static override styles = styles;
 
-  /**
-   * The name of the panel corresponding to this tab
-   */
   @property({ reflect: true }) panel = '';
 
-  /** Sets the active attribute on the tab. */
   @property({ type: Boolean, reflect: true }) active = false;
 
-  /** Disables the tab. */
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   protected override firstUpdated() {

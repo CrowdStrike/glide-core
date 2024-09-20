@@ -19,8 +19,6 @@ declare global {
 }
 
 /**
- * @description A container for a pair of buttons. One is the primary action. The other opens a menu.
- *
  * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
  * @slot primary-action - One of either `<glide-core-split-button-container-button>` or `<glide-core-split-button-container-link>`.
  *

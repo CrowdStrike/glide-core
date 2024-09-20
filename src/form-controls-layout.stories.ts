@@ -10,14 +10,6 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Form Controls Layout',
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component:
-          'Aligns form control labels and the controls themselves in two columns. Only horizontal controls are supported.',
-      },
-    },
-  },
   args: {
     'slot="default"': '',
     split: 'left',
@@ -52,24 +44,16 @@ const meta: Meta = {
           <glide-core-checkbox-group label="Label">
             <glide-core-checkbox label="One"></glide-core-checkbox>
             <glide-core-checkbox label="Two"></glide-core-checkbox>
-
             <glide-core-checkbox label="Three"></glide-core-checkbox>
           </glide-core-checkbox-group>
 
-          <glide-core-dropdown
-            label="Label"
-            name="name"
-            placeholder="Placeholder"
-            size="large"
-          >
+          <glide-core-dropdown label="Label" placeholder="Placeholder">
             <glide-core-dropdown-option
               label="One"
             ></glide-core-dropdown-option>
-
             <glide-core-dropdown-option
               label="Two"
             ></glide-core-dropdown-option>
-
             <glide-core-dropdown-option
               label="Three"
             ></glide-core-dropdown-option>
@@ -81,8 +65,8 @@ const meta: Meta = {
           ></glide-core-input>
 
           <glide-core-textarea
-            placeholder="Placeholder"
             label="Label"
+            placeholder="Placeholder"
           ></glide-core-textarea>
         </glide-core-form-controls-layout>
       </form>

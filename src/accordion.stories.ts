@@ -3,6 +3,7 @@ import './icons/storybook.js';
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -13,9 +14,6 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     docs: {
-      description: {
-        component: 'An accordion with optional icons.',
-      },
       story: {
         autoplay: true,
       },
@@ -46,39 +44,34 @@ const meta: Meta = {
         }
       });
   },
-  render: (arguments_) => {
+  render(arguments_) {
+    /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <script type="ignore">
         import '@crowdstrike/glide-core/accordion.js';
       </script>
 
-      <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}
-        >${arguments_['slot="default"']}</glide-core-accordion
-      >
+      <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}>
+        ${unsafeHTML(arguments_['slot="default"'])}
+      </glide-core-accordion>
     `;
   },
   args: {
     label: 'Label',
     'slot="default"': 'Content',
     'addEventListener(event, listener)': '',
+    'click()': '',
+    'focus(options)': '',
     open: false,
     'slot="prefix"': '',
     'slot="suffix"': '',
   },
   argTypes: {
     label: {
-      control: { type: 'text' },
       table: {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
-    },
-    open: {
-      control: 'boolean',
-      defaultValue: { summary: 'false' },
-      table: {
-        type: { summary: 'boolean' },
-      },
     },
     'slot="default"': {
       control: { type: 'text' },
@@ -87,12 +80,46 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
+    'addEventListener(event, listener)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '(event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void) => void',
+        },
+      },
+    },
+    'click()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
+      },
+    },
+    'focus(options)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(options?: FocusOptions) => void',
+        },
+      },
+    },
+    open: {
+      defaultValue: { summary: 'false' },
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
     'slot="prefix"': {
       control: false,
       table: {
         type: {
           summary: 'Element',
-          detail: '// An optional icon to display before the label',
+          detail: '// An optional icon before the label',
         },
       },
     },
@@ -101,17 +128,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'Element',
-          detail: '// Optional icons to display after the label',
-        },
-      },
-    },
-    'addEventListener(event, listener)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail:
-            '(event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void) => void',
+          detail: '// Optional icons after the label',
         },
       },
     },
@@ -125,13 +142,14 @@ export const Accordion: StoryObj = {
 };
 
 export const WithIcons: StoryObj = {
-  render: (arguments_) => {
+  /* eslint-disable @typescript-eslint/no-unsafe-argument */
+  render(arguments_) {
     return html`<script type="ignore">
         import '@crowdstrike/glide-core/accordion.js';
       </script>
 
       <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}>
-        ${arguments_['slot="default"']}
+        ${unsafeHTML(arguments_['slot="default"'])}
 
         <glide-core-example-icon
           slot="prefix"

@@ -17,11 +17,8 @@ declare global {
 }
 
 /**
- * @description The parent component for a group of tabs. Handles active state changes from clicking the tabs.
- *
- * @slot nav - The slot where you place the <glide-core-tab> components
- *
- * @slot - The default slot. Put the <glide-core-tab-panel> components here
+ * @slot - One ore more of `<glide-core-tab-panel>`.
+ * @slot nav - One or more of `<glide-core-tab>`.
  */
 @customElement('glide-core-tab-group')
 export default class GlideCoreTabGroup extends LitElement {

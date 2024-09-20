@@ -12,10 +12,7 @@ declare global {
 }
 
 /**
- * @description An icon button that can be used inside of a tree item.
- * Provides correct color styling based on tree item state
- *
- * @slot - Reserved for the icon to display inside of the button.
+ * @slot - An icon.
  */
 @customElement('glide-core-tree-item-icon-button')
 export default class GlideCoreTreeItemIconButton extends LitElement {

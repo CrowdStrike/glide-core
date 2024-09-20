@@ -15,25 +15,6 @@ import GlideCoreMenu from './menu.js';
 
 GlideCoreMenu.shadowRootOptions.mode = 'open';
 
-it('focuses the target on `focus()`', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  component.focus();
-
-  const target = component.querySelector('button');
-  assert(target);
-
-  expect(document.activeElement).to.equal(target);
-});
-
 it('closes when it loses focus', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
@@ -45,7 +26,7 @@ it('closes when it loses focus', async () => {
     </glide-core-menu>`,
   );
 
-  component.focus();
+  component.querySelector('button')?.focus();
   await sendKeys({ press: 'Tab' });
 
   const defaultSlot =
@@ -72,7 +53,7 @@ it('remains open when the options component is focused', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const options = component.querySelector('glide-core-menu-options');
 
@@ -99,7 +80,7 @@ it('remains open when an option is focused', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -128,7 +109,7 @@ it('sets an inactive option as active when focused', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const button = component.querySelector('glide-core-menu-button');
   const link = component.querySelector('glide-core-menu-link');
@@ -159,7 +140,7 @@ it('sets an already active option as active when focused', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const button = component.querySelector('glide-core-menu-button');
   const link = component.querySelector('glide-core-menu-link');

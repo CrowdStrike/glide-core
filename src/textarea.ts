@@ -15,8 +15,6 @@ declare global {
 }
 
 /**
- * @description A text area with a label and optional description and tooltip. Participates in forms and validation via `FormData` and various methods.
- *
  * @event change - `(event: Event) => void`
  * @event input - `(event: Event) => void`
  * @event invalid - `(event: Event) => void`

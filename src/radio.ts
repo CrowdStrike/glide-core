@@ -8,9 +8,7 @@ declare global {
     'glide-core-radio': GlideCoreRadio;
   }
 }
-/**
- * @description A radio element for use with `<glide-core-radio-group>`.
- */
+
 @customElement('glide-core-radio')
 export default class GlideCoreRadio extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {

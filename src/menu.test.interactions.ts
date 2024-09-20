@@ -605,7 +605,7 @@ it('closes on Escape', async () => {
   // Wait for it to open
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
   await sendKeys({ press: 'Escape' });
 
   const defaultSlot =
@@ -656,7 +656,7 @@ it('closes when an option is selected via Enter', async () => {
     </glide-core-menu>`,
   );
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   component
     .querySelector('glide-core-menu-link')
@@ -687,7 +687,7 @@ it('closes when an option is selected via Space', async () => {
     </glide-core-menu>`,
   );
 
-  component.focus();
+  component.querySelector('button')?.focus();
   await sendKeys({ press: ' ' });
 
   const defaultSlot =
@@ -868,7 +868,7 @@ it('activates the next option on ArrowDown', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
@@ -897,7 +897,7 @@ it('activates the previous option on ArrowUp', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
@@ -925,7 +925,7 @@ it('activates the first option on Home', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
@@ -953,7 +953,7 @@ it('activates the first option on PageUp', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
@@ -981,7 +981,7 @@ it('activates the first option on Meta + ArrowUp', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
@@ -1012,7 +1012,7 @@ it('activates the last option on End', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   await sendKeys({ press: 'End' });
 
@@ -1041,7 +1041,7 @@ it('activates the last option on PageDown', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
@@ -1069,7 +1069,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  component.querySelector('button')?.focus();
 
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');

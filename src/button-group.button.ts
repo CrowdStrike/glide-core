@@ -12,10 +12,8 @@ declare global {
 }
 
 /**
- * @description A button with a label and optional icon for use in a `<glide-core-button-group>`.
- *
  * @slot - A label.
- * @slot prefix - An optional icon to display before the label.
+ * @slot prefix - An optional icon before the label.
  */
 @customElement('glide-core-button-group-button')
 export default class GlideCoreButtonGroupButton extends LitElement {
