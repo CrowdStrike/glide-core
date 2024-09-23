@@ -441,24 +441,18 @@ export default class GlideCoreMenu extends LitElement {
     ow(this.#targetElement, ow.object.instanceOf(Element));
     ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
 
-    const observer = new MutationObserver((records) => {
-      const isDisabledMutated = records.some((record) => {
-        return (
-          record.attributeName === 'disabled' ||
-          record.attributeName === 'aria-disabled'
-        );
-      });
-
-      if (isDisabledMutated) {
-        if (this.open && !this.isTargetDisabled) {
-          this.#show();
-        } else {
-          this.#hide();
-        }
+    const observer = new MutationObserver(() => {
+      if (this.open && !this.isTargetDisabled) {
+        this.#show();
+      } else {
+        this.#hide();
       }
     });
 
-    observer.observe(this.#targetElement, { attributes: true });
+    observer.observe(this.#targetElement, {
+      attributes: true,
+      attributeFilter: ['aria-disabled', 'disabled'],
+    });
 
     this.#targetElement.ariaHasPopup = 'true';
     this.#targetElement.id = nanoid();
