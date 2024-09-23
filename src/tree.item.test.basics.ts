@@ -131,6 +131,23 @@ it('renders child and grandchild tree items', async () => {
   expect(grandchildItems?.[0].level).to.equal(3, 'Grandchildren are level 3');
 });
 
+it('sets the level for tree items programmatically added later', async () => {
+  const component = await fixture<TreeItem>(html`
+    <glide-core-tree-item expanded label="Item"></glide-core-tree-item>
+  `);
+
+  const newItem = Object.assign(
+    document.createElement('glide-core-tree-item'),
+    {
+      label: 'Child',
+    },
+  );
+
+  component.append(newItem);
+  await component.updateComplete;
+  expect(newItem.level).to.equal(2);
+});
+
 it('can select child and grandchild items', async () => {
   const component = await fixture<TreeItem>(html`
     <glide-core-tree-item expanded label="Item">
