@@ -109,18 +109,18 @@ export default class GlideCoreSplitButtonContainer extends LitElement {
     //
     // Thus an observer. Which only assumes that `open` is reflected and doesn't
     // depend on knowledge of Menu's internals.
-    const observer = new MutationObserver((entries) => {
-      const hasOpenChanged = entries.some(
-        ({ attributeName }) => attributeName === 'open',
-      );
-
-      if (hasOpenChanged && this.#menuElementRef.value) {
+    const observer = new MutationObserver(() => {
+      if (this.#menuElementRef.value) {
         this.menuOpen = this.#menuElementRef.value.open;
       }
     });
 
     ow(this.#menuElementRef.value, ow.object.instanceOf(GlideCoreMenu));
-    observer.observe(this.#menuElementRef.value, { attributes: true });
+
+    observer.observe(this.#menuElementRef.value, {
+      attributes: true,
+      attributeFilter: ['open'],
+    });
   }
 
   override focus(

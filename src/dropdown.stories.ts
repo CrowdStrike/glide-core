@@ -261,26 +261,23 @@ const meta: Meta = {
       arguments_ = event.args as typeof context.args;
     });
 
-    const observer = new MutationObserver((entries) => {
-      const hasOpenChanged = entries.some(
-        ({ attributeName }) => attributeName === 'open',
-      );
-
-      if (hasOpenChanged) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            open: context.canvasElement.querySelector<GlideCoreDropdown>(
-              'glide-core-dropdown',
-            )?.open,
-          },
-        });
-      }
+    const observer = new MutationObserver(() => {
+      addons.getChannel().emit(STORY_ARGS_UPDATED, {
+        storyId: context.id,
+        args: {
+          ...arguments_,
+          open: context.canvasElement.querySelector<GlideCoreDropdown>(
+            'glide-core-dropdown',
+          )?.open,
+        },
+      });
     });
 
     if (dropdown) {
-      observer.observe(dropdown, { attributes: true });
+      observer.observe(dropdown, {
+        attributes: true,
+        attributeFilter: ['open'],
+      });
     }
   },
   render(arguments_) {

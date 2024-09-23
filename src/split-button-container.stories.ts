@@ -32,27 +32,24 @@ const meta: Meta = {
       'glide-core-split-button-container',
     );
 
-    const observer = new MutationObserver((entries) => {
-      const hasOpenChanged = entries.some(
-        ({ attributeName }) => attributeName === 'menu-open',
-      );
-
-      if (hasOpenChanged) {
-        addons.getChannel().emit(STORY_ARGS_UPDATED, {
-          storyId: context.id,
-          args: {
-            ...arguments_,
-            ['menu-open']:
-              context.canvasElement.querySelector<GlideCoreSplitButtonContainer>(
-                'glide-core-split-button-container',
-              )?.menuOpen,
-          },
-        });
-      }
+    const observer = new MutationObserver(() => {
+      addons.getChannel().emit(STORY_ARGS_UPDATED, {
+        storyId: context.id,
+        args: {
+          ...arguments_,
+          ['menu-open']:
+            context.canvasElement.querySelector<GlideCoreSplitButtonContainer>(
+              'glide-core-split-button-container',
+            )?.menuOpen,
+        },
+      });
     });
 
     if (splitButtonContainer) {
-      observer.observe(splitButtonContainer, { attributes: true });
+      observer.observe(splitButtonContainer, {
+        attributes: true,
+        attributeFilter: ['menu-open'],
+      });
     }
   },
   render(arguments_) {
