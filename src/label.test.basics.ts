@@ -22,10 +22,10 @@ it('has defaults', async () => {
   );
 
   expect(component.getAttribute('error')).to.equal(null);
-  expect(component.error).to.equal(false);
+  expect(component.error).to.be.false;
 
   expect(component.getAttribute('hide')).to.equal(null);
-  expect(component.hide).to.equal(false);
+  expect(component.hide).to.be.false;
 
   expect(component.getAttribute('orientation')).to.equal('horizontal');
   expect(component.orientation).to.equal('horizontal');
@@ -103,7 +103,7 @@ it('can be required', async () => {
   );
 
   expect(component.hasAttribute('required')).to.be.true;
-  expect(component.required).to.equal(true);
+  expect(component.required).to.be.true;
 
   const label = component.shadowRoot?.querySelector('[data-test="label"]');
   expect(label?.textContent?.includes('*')).to.be.true;
@@ -118,7 +118,7 @@ it('can have an `error`', async () => {
   );
 
   expect(component.hasAttribute('error')).to.be.true;
-  expect(component.error).to.equal(true);
+  expect(component.error).to.be.true;
 });
 
 it('places the tooltip on the bottom when horizontal', async () => {

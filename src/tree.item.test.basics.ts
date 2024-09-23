@@ -20,7 +20,7 @@ it('renders and sets default attributes', async () => {
     <glide-core-tree-item label="Item"></glide-core-tree-item>
   `);
 
-  expect(component.expanded).to.equal(false);
+  expect(component.expanded).to.be.false;
   expect(component.label).to.equal('Item');
   expect(component.level).to.equal(1);
 
@@ -162,12 +162,12 @@ it('can select child and grandchild items', async () => {
   const grandchildItems = childItems?.[1].slotElements;
 
   component.selectItem(childItems[0]);
-  expect(childItems[0].selected).to.equal(true);
-  expect(childItems[1].selected).to.equal(false);
-  expect(grandchildItems[0].selected).to.equal(false);
+  expect(childItems[0].selected).to.be.true;
+  expect(childItems[1].selected).to.be.false;
+  expect(grandchildItems[0].selected).to.be.false;
 
   component.selectItem(grandchildItems[0]);
-  expect(childItems[0].selected).to.equal(false);
-  expect(childItems[1].selected).to.equal(false);
-  expect(grandchildItems[0].selected).to.equal(true);
+  expect(childItems[0].selected).to.be.false;
+  expect(childItems[1].selected).to.be.false;
+  expect(grandchildItems[0].selected).to.be.true;
 });

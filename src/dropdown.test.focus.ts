@@ -49,9 +49,8 @@ it('closes and reports validity when it loses focus', async () => {
 
   expect(component.shadowRoot?.activeElement).to.equal(null);
 
-  expect(component.validity.valid).to.equal(false);
+  expect(component.validity.valid).to.be.false;
 
-  expect(
-    component.shadowRoot?.querySelector('glide-core-private-label')?.error,
-  ).to.equal(true);
+  expect(component.shadowRoot?.querySelector('glide-core-private-label')?.error)
+    .to.be.true;
 });

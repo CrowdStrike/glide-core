@@ -112,11 +112,11 @@ it('can be disabled initially', async () => {
 
   const checkboxes = component.querySelectorAll('glide-core-checkbox');
 
-  expect(checkboxes[0].disabled).to.equal(true);
-  expect(checkboxes[1].disabled).to.equal(true);
+  expect(checkboxes[0].disabled).to.be.true;
+  expect(checkboxes[1].disabled).to.be.true;
 
   expect(component.hasAttribute('disabled')).to.be.true;
-  expect(component.disabled).to.equal(true);
+  expect(component.disabled).to.be.true;
 });
 
 it('can be disabled dynamically', async () => {
@@ -132,11 +132,11 @@ it('can be disabled dynamically', async () => {
 
   const checkboxes = component.querySelectorAll('glide-core-checkbox');
 
-  expect(checkboxes[0].disabled).to.equal(true);
-  expect(checkboxes[1].disabled).to.equal(true);
+  expect(checkboxes[0].disabled).to.be.true;
+  expect(checkboxes[1].disabled).to.be.true;
 
   expect(component.hasAttribute('disabled')).to.be.true;
-  expect(component.disabled).to.equal(true);
+  expect(component.disabled).to.be.true;
 });
 
 it('can be required', async () => {
@@ -147,7 +147,7 @@ it('can be required', async () => {
   );
 
   expect(component.hasAttribute('required')).to.be.true;
-  expect(component.required).to.equal(true);
+  expect(component.required).to.be.true;
 });
 
 it('throws if it does not have a default slot', async () => {

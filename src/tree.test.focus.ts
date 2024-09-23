@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 import './tree.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
@@ -58,7 +60,7 @@ it('does not focus the selected tree item on `focus()` if collapsed', async () =
   const childItems = component.slotElements;
   component.dispatchEvent(new Event('focusin'));
   await component.updateComplete;
-  expect(document.activeElement === childItems[0]).to.equal(true);
+  expect(document.activeElement === childItems[0]).to.be.true;
 });
 
 it('expands a tree item if right arrow is pressed', async () => {
@@ -74,7 +76,7 @@ it('expands a tree item if right arrow is pressed', async () => {
   const childItems = component.slotElements;
   component.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowRight' });
-  expect(childItems[0].expanded).to.equal(true);
+  expect(childItems[0].expanded).to.be.true;
   assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
@@ -116,7 +118,7 @@ it('collapses an expanded tree item if left arrow is pressed', async () => {
   const childItems = component.slotElements;
   component.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowLeft' });
-  expect(childItems[0].expanded).to.equal(false);
+  expect(childItems[0].expanded).to.be.false;
   assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
@@ -161,7 +163,7 @@ it(`focuses on a collapsed tree item's parent if left arrow is pressed`, async (
   const grandchildItems = childItems[0].slotElements;
   grandchildItems[0].focus();
   await sendKeys({ press: 'ArrowLeft' });
-  expect(document.activeElement === childItems[0]).to.equal(true);
+  expect(document.activeElement === childItems[0]).to.be.true;
 });
 
 it('moves down the non-expanded tree items with down arrow', async () => {
@@ -306,20 +308,20 @@ it('selects or expands/collapses node when Enter is pressed', async () => {
   // For an item that doesn't have children, selects it
   childItems[0].focus();
   await sendKeys({ press: 'Enter' });
-  expect(childItems[0].selected).to.equal(true);
-  expect(childItems[1].selected).to.equal(false);
-  expect(grandchildItems[0].selected).to.equal(false);
-  expect(childItems[1].expanded).to.equal(false);
+  expect(childItems[0].selected).to.be.true;
+  expect(childItems[1].selected).to.be.false;
+  expect(grandchildItems[0].selected).to.be.false;
+  expect(childItems[1].expanded).to.be.false;
 
   // For an item that has children, expands it
   childItems[1].focus();
   await sendKeys({ press: 'Enter' });
-  expect(childItems[1].expanded).to.equal(true);
+  expect(childItems[1].expanded).to.be.true;
 
   // Can select a grandchild item
   grandchildItems[0].focus();
   await sendKeys({ press: 'Enter' });
-  expect(grandchildItems[0].selected).to.equal(true);
+  expect(grandchildItems[0].selected).to.be.true;
 });
 
 it('selects a non-collapsible parent node when Enter is pressed', async () => {
@@ -337,8 +339,8 @@ it('selects a non-collapsible parent node when Enter is pressed', async () => {
   grandchildItems[0].focus();
   childItems[0].focus();
   await sendKeys({ press: 'Enter' });
-  expect(grandchildItems[0].selected).to.equal(false);
-  expect(childItems[0].selected).to.equal(true);
+  expect(grandchildItems[0].selected).to.be.false;
+  expect(childItems[0].selected).to.be.true;
 });
 
 it('does nothing if some other key is pressed', async () => {
@@ -425,24 +427,20 @@ it('does not focus on a tree item icon button unless that tree item is focused',
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 
-  expect(document.activeElement === document.body).to.equal(true);
+  expect(document.activeElement === document.body).to.be.true;
 
   childItems[1].focus();
 
   await sendKeys({ press: 'Tab' });
 
-  expect(
-    document.activeElement instanceof GlideCoreTreeItemIconButton,
-  ).to.equal(true);
+  expect(document.activeElement instanceof GlideCoreTreeItemIconButton).to.be
+    .true;
 
   await sendKeys({ down: 'Shift' });
   await sendKeys({ press: 'Tab' });
   await sendKeys({ up: 'Shift' });
 
-  expect(document.activeElement === childItems[1]).to.equal(
-    true,
-    'can keyboard navigate back to the parent Tree Item',
-  );
+  expect(document.activeElement === childItems[1]).to.be.true;
 });
 
 it('does not focus on a tree item menu unless that tree item is focused', async () => {
@@ -464,15 +462,13 @@ it('does not focus on a tree item menu unless that tree item is focused', async 
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 
-  expect(document.activeElement === document.body).to.equal(true);
+  expect(document.activeElement === document.body).to.be.true;
 
   childItems[1].focus();
 
   await sendKeys({ press: 'Tab' });
 
-  expect(document.activeElement instanceof GlideCoreTreeItemMenu).to.equal(
-    true,
-  );
+  expect(document.activeElement instanceof GlideCoreTreeItemMenu).to.be.true;
 });
 
 it('does not select a tree item if Enter is pressed while its tree item icon button is focused', async () => {
@@ -494,11 +490,10 @@ it('does not select a tree item if Enter is pressed while its tree item icon but
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 
-  expect(
-    document.activeElement instanceof GlideCoreTreeItemIconButton,
-  ).to.equal(true);
+  expect(document.activeElement instanceof GlideCoreTreeItemIconButton).to.be
+    .true;
 
   await sendKeys({ press: 'Enter' });
 
-  expect(childItems[0].hasAttribute('selected')).to.equal(false);
+  expect(childItems[0].hasAttribute('selected')).to.be.false;
 });

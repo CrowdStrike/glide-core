@@ -62,7 +62,7 @@ it('has defaults', async () => {
   expect(button?.getAttribute('aria-controls')).to.be.null;
   expect(button?.ariaExpanded).to.be.null;
   expect(button?.ariaHasPopup).to.be.null;
-  expect(button?.disabled).to.equal(false);
+  expect(button?.disabled).to.be.false;
 });
 
 it('delegates focus', async () => {

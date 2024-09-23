@@ -52,13 +52,13 @@ it('has defaults', async () => {
   expect(component.ariaControls).to.equal(null);
   expect(component.ariaExpanded).to.equal(null);
   expect(component.ariaHasPopup).to.equal(null);
-  expect(component.disabled).to.equal(false);
+  expect(component.disabled).to.be.false;
   expect(component.variant).to.equal('primary');
 
   expect(button?.getAttribute('aria-controls')).to.equal(null);
   expect(button?.ariaExpanded).to.equal(null);
   expect(button?.ariaHasPopup).to.equal(null);
-  expect(button?.disabled).to.equal(false);
+  expect(button?.disabled).to.be.false;
 });
 
 it('throws if it does not have a default slot', async () => {

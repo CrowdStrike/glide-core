@@ -20,7 +20,7 @@ it('has defaults', async () => {
   );
 
   // Not reflected. So no attribute assertions are necessary.
-  expect(component.privateActive).to.equal(false);
+  expect(component.privateActive).to.be.false;
 });
 
 it('can have a label', async () => {

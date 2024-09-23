@@ -19,7 +19,7 @@ it('is checked after being clicked', async () => {
   component.click();
   await elementUpdated(component);
 
-  expect(component.checked).to.equal(true);
+  expect(component.checked).to.be.true;
   expect(component.hasAttribute('checked')).to.be.false;
 });
 
@@ -31,7 +31,7 @@ it('is unchecked after being clicked', async () => {
   component.click();
   await elementUpdated(component);
 
-  expect(component.checked).to.equal(false);
+  expect(component.checked).to.be.false;
   expect(component.hasAttribute('checked')).to.be.true;
 });
 
@@ -51,8 +51,8 @@ it('is checked and not indeterminate after being clicked when unchecked and inde
   );
 
   expect(input?.indeterminate).to.be.false;
-  expect(component.checked).to.equal(true);
-  expect(component.indeterminate).to.equal(false);
+  expect(component.checked).to.be.true;
+  expect(component.indeterminate).to.be.false;
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.hasAttribute('indeterminate')).to.be.true;
 });
@@ -74,8 +74,8 @@ it('is unchecked and not indeterminate after being clicked when checked and inde
   );
 
   expect(input?.indeterminate).to.be.false;
-  expect(component.checked).to.equal(false);
-  expect(component.indeterminate).to.equal(false);
+  expect(component.checked).to.be.false;
+  expect(component.indeterminate).to.be.false;
   expect(component.hasAttribute('checked')).to.be.true;
   expect(component.hasAttribute('indeterminate')).to.be.true;
 });
@@ -92,7 +92,7 @@ it('is still checked after being clicked when checked but disabled', async () =>
   component.click();
   await elementUpdated(component);
 
-  expect(component.checked).to.equal(true);
+  expect(component.checked).to.be.true;
   expect(component.hasAttribute('checked')).to.be.true;
 });
 
@@ -105,7 +105,7 @@ it('is still unchecked after being clicked when unchecked and disabled', async (
   await elementUpdated(component);
 
   expect(component.hasAttribute('checked')).to.be.false;
-  expect(component.checked).to.equal(false);
+  expect(component.checked).to.be.false;
 });
 
 it('is unchecked after being clicked then forcibly unchecked via a "input" listener', async () => {
@@ -122,7 +122,7 @@ it('is unchecked after being clicked then forcibly unchecked via a "input" liste
   await elementUpdated(component);
 
   expect(component.hasAttribute('checked')).to.be.false;
-  expect(component.checked).to.equal(false);
+  expect(component.checked).to.be.false;
 });
 
 it('is unchecked after being clicked then forcibly unchecked via an "change" listener', async () => {
@@ -139,7 +139,7 @@ it('is unchecked after being clicked then forcibly unchecked via an "change" lis
   await elementUpdated(component);
 
   expect(component.hasAttribute('checked')).to.be.false;
-  expect(component.checked).to.equal(false);
+  expect(component.checked).to.be.false;
 });
 
 it('is still indeterminate after being clicked when unchecked and disabled', async () => {
@@ -159,7 +159,7 @@ it('is still indeterminate after being clicked when unchecked and disabled', asy
   );
 
   expect(input?.indeterminate).to.be.true;
-  expect(component.indeterminate).to.equal(true);
+  expect(component.indeterminate).to.be.true;
   expect(component.hasAttribute('indeterminate')).to.be.true;
 });
 
