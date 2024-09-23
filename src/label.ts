@@ -265,9 +265,12 @@ export default class GlideCoreLabel extends LitElement {
       flatten: true,
     });
 
-    this.hasDescriptionSlot = Boolean(
-      assignedNodes && assignedNodes.length > 0,
-    );
+    this.hasDescriptionSlot =
+      assignedNodes && assignedNodes.length > 0
+        ? assignedNodes.some((node) => {
+            return node.textContent?.trim();
+          })
+        : false;
   }
 
   #onSummarySlotChange() {
