@@ -73,9 +73,9 @@ export default class GlideCoreButton extends LitElement {
     | '_self'
     | '_top' = '';
 
-  @property({ reflect: true }) name = '';
-
   @property({ reflect: true }) label?: string;
+
+  @property({ reflect: true }) name = '';
 
   @property({ attribute: 'popovertarget', reflect: true })
   popoverTarget?: string;

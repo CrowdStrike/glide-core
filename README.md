@@ -34,7 +34,7 @@ import '@crowdstrike/glide-core/button.js';
 ### 4. Render your component
 
 ```html
-<glide-core-button size="small">Button</glide-core-button>
+<glide-core-button label="Button" size="small"></glide-core-button>
 ```
 
 ## Development
