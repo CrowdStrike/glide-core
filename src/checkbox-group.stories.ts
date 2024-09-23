@@ -7,6 +7,9 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Checkbox Group',
   tags: ['autodocs'],
+  decorators: [
+    (story) => html`<div style="width: max-content;">${story()}</div>`,
+  ],
   parameters: {
     docs: {
       story: {

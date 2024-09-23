@@ -96,9 +96,36 @@ export default class GlideCoreCheckboxGroup extends LitElement {
     this.#value = value;
 
     for (const checkbox of this.#checkboxes) {
-      checkbox.checked = value.some(
+      const isChecked = value.some(
         (value) => value && value === checkbox.value,
       );
+
+      // It would be simpler if we just checked and unchecked every Checkbox
+      // based on whether its value is in `value`. But doing so would uncheck
+      // Checkboxes that don't have a value but have nonetheless been checked
+      // by the user. Doing it this way ensures we change as little state as
+      // possible that isn't ours to change.
+      if (isChecked) {
+        checkbox.checked = true;
+      } else if (checkbox.value) {
+        checkbox.checked = false;
+      }
+
+      // We have a few options if `value` is set programmatically to include
+      // the value of a disabled Checkbox. We can throw, remove the value
+      // from `value`, or enable the Checkbox.
+      //
+      // Throwing is attractive because the inclusion of a disabled Checkbox
+      // in `value` is likely a mistake, either due to bad data or developer
+      // error.
+      //
+      // But we only throw in development. So the form will be submitted with
+      // the new `value` in production regardless if it was by mistake. By enabling
+      // the Checkbox, we at least ensure the user is aware of the fact that it'll
+      // be included in the submission.
+      if (checkbox.checked && checkbox.disabled) {
+        checkbox.disabled = false;
+      }
     }
   }
 
@@ -134,7 +161,6 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
     for (const checkbox of this.#checkboxes) {
       checkbox.privateVariant = 'minimal';
-
       checkbox.addEventListener('blur', this.#onCheckboxBlur.bind(this));
     }
   }
