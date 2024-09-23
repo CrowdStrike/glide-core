@@ -3,7 +3,6 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { owSlot } from './library/ow.js';
 import styles from './button.styles.js';
 
 declare global {
@@ -76,6 +75,8 @@ export default class GlideCoreButton extends LitElement {
 
   @property({ reflect: true }) name = '';
 
+  @property({ reflect: true }) label?: string;
+
   @property({ attribute: 'popovertarget', reflect: true })
   popoverTarget?: string;
 
@@ -98,10 +99,6 @@ export default class GlideCoreButton extends LitElement {
 
   override click() {
     this.#buttonElementRef.value?.click();
-  }
-
-  override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
   }
 
   override render() {
@@ -130,10 +127,7 @@ export default class GlideCoreButton extends LitElement {
         ${ref(this.#prefixIconSlotElementRef)}
       ></slot>
 
-      <slot
-        @slotchange=${this.#onDefaultSlotChange}
-        ${ref(this.#defaultSlotElementRef)}
-      ></slot>
+      ${this.label}
 
       <slot
         name="suffix-icon"
@@ -156,8 +150,6 @@ export default class GlideCoreButton extends LitElement {
 
   #buttonElementRef = createRef<HTMLButtonElement>();
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
   #internals: ElementInternals;
 
   #prefixIconSlotElementRef = createRef<HTMLSlotElement>();
@@ -174,10 +166,6 @@ export default class GlideCoreButton extends LitElement {
       this.form?.reset();
       return;
     }
-  }
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
   }
 
   #onPrefixIconSlotChange() {
