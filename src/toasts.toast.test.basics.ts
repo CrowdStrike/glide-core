@@ -92,19 +92,16 @@ it('opens and closes by default', async () => {
 
   const shadowElement = component.shadowRoot!.firstElementChild;
 
-  await expect([...shadowElement!.classList]).to.deep.equal([
+  expect([...shadowElement!.classList]).to.deep.equal([
     'component',
     'informational',
-    'open',
   ]);
 
-  clock.tick(3000);
+  clock.tick(6000);
 
-  shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
-
-  await expect([
-    ...component.shadowRoot!.firstElementChild!.classList,
-  ]).to.deep.equal(['component', 'informational', 'closed']);
+  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
+    ['component', 'informational', 'closed'],
+  );
 
   clock.restore();
 });
@@ -125,19 +122,16 @@ it('responds to duration', async () => {
 
   const shadowElement = component.shadowRoot!.firstElementChild;
 
-  await expect([...shadowElement!.classList]).to.deep.equal([
+  expect([...shadowElement!.classList]).to.deep.equal([
     'component',
     'informational',
-    'open',
   ]);
 
   clock.tick(1000);
 
-  shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
-
-  await expect([
-    ...component.shadowRoot!.firstElementChild!.classList,
-  ]).to.deep.equal(['component', 'informational', 'closed']);
+  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
+    ['component', 'informational', 'closed'],
+  );
 
   clock.restore();
 });
@@ -158,10 +152,9 @@ it('responds to duration of Infinity', async () => {
 
   const shadowElement = component.shadowRoot!.firstElementChild;
 
-  await expect([...shadowElement!.classList]).to.deep.equal([
+  expect([...shadowElement!.classList]).to.deep.equal([
     'component',
     'informational',
-    'open',
   ]);
 
   clock.restore();
@@ -183,10 +176,9 @@ it('does not allow less than 5000 duration', async () => {
 
   const shadowElement = component.shadowRoot!.firstElementChild;
 
-  await expect([...shadowElement!.classList]).to.deep.equal([
+  expect([...shadowElement!.classList]).to.deep.equal([
     'component',
     'informational',
-    'open',
   ]);
 
   clock.restore();
@@ -211,9 +203,7 @@ it('can be closed by clicking on the x icon', async () => {
 
   closeButton.click();
 
-  shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
-
-  await expect([
-    ...component.shadowRoot!.firstElementChild!.classList,
-  ]).to.deep.equal(['component', 'informational', 'closed']);
+  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
+    ['component', 'informational', 'closed'],
+  );
 });

@@ -15,9 +15,6 @@ declare global {
   }
 }
 
-/**
- * @private
- * */
 @customElement('glide-core-toast')
 export default class GlideCoreToast extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
@@ -128,7 +125,9 @@ export default class GlideCoreToast extends LitElement {
 
   #componentElementRef = createRef<HTMLDivElement>();
 
-  #duration = 0;
+  #defaultDuration = 5000;
+
+  #duration = this.#defaultDuration;
 
   #durationTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -136,7 +135,7 @@ export default class GlideCoreToast extends LitElement {
 
   #localize = new LocalizeController(this);
 
-  #remainingDuration = 0;
+  #remainingDuration = this.#defaultDuration;
 
   #onCloseButtonClick() {
     this.close();
