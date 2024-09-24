@@ -1,9 +1,9 @@
-import './accordion.js';
 import './icons/storybook.js';
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import GlideCoreAccordion from './accordion.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -31,14 +31,14 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-accordion')
       ?.addEventListener('toggle', (event) => {
-        if (event instanceof CustomEvent) {
+        if (event.target instanceof GlideCoreAccordion) {
           addons.getChannel().emit(STORY_ARGS_UPDATED, {
             storyId: context.id,
             args: {
               ...arguments_,
               // Our events are untyped at the moment. So `detail` is typed as `any`.
               // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-              open: event.detail.newState === 'open',
+              open: event.target.open,
             },
           });
         }
@@ -63,8 +63,8 @@ const meta: Meta = {
     'click()': '',
     'focus(options)': '',
     open: false,
-    'slot="prefix"': '',
-    'slot="suffix"': '',
+    'slot="prefix-icon"': '',
+    'slot="suffix-icons"': '',
   },
   argTypes: {
     label: {
@@ -85,8 +85,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail:
-            '(event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void) => void',
+          detail: '(event: "toggle", listener: (event: Event) => void) => void',
         },
       },
     },
@@ -114,21 +113,19 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    'slot="prefix"': {
+    'slot="prefix-icon"': {
       control: false,
       table: {
         type: {
           summary: 'Element',
-          detail: '// An optional icon before the label',
         },
       },
     },
-    'slot="suffix"': {
+    'slot="suffix-icons"': {
       control: false,
       table: {
         type: {
           summary: 'Element',
-          detail: '// Optional icons after the label',
         },
       },
     },
@@ -152,15 +149,15 @@ export const WithIcons: StoryObj = {
         ${unsafeHTML(arguments_['slot="default"'])}
 
         <glide-core-example-icon
-          slot="prefix"
+          slot="prefix-icon"
           name="share"
         ></glide-core-example-icon>
         <glide-core-example-icon
-          slot="suffix"
+          slot="suffix-icons"
           name="pencil"
         ></glide-core-example-icon>
         <glide-core-example-icon
-          slot="suffix"
+          slot="suffix-icons"
           name="settings"
         ></glide-core-example-icon>
       </glide-core-accordion>`;

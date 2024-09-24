@@ -6,15 +6,13 @@ import GlideCoreAccordion from './accordion.js';
 
 GlideCoreAccordion.shadowRootOptions.mode = 'open';
 
-it('focuses its label when `focus()` is called', async () => {
+it('focuses itself when `focus()` is called', async () => {
   const component = await fixture<GlideCoreAccordion>(
-    html`<glide-core-accordion label="label">
-      Inner content
-    </glide-core-accordion>`,
+    html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
   component.focus();
 
   const summary = component?.shadowRoot?.querySelector('[data-test="summary"]');
-  expect(component?.shadowRoot?.activeElement).to.be.equal(summary);
+  expect(component?.shadowRoot?.activeElement).to.equal(summary);
 });

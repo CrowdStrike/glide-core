@@ -12,12 +12,11 @@ declare global {
 }
 
 /**
- * @event toggle - `(event: "toggle", listener: (event: CustomEvent<{ newState: "open" | "closed", oldState: "open" | "closed" }>) => void) => void`.
- *                 Emitted when the Accordion opens or closes.
+ * @event toggle - `(event: "toggle", listener: (event: Event) => void) => void`.
  *
  * @slot - The content of the accordion.
- * @slot prefix - An optional icon before the label.
- * @slot suffix - Optional icons after the label.
+ * @slot prefix-icon - An optional icon before the label.
+ * @slot suffix-icons - Optional icons after the label.
  */
 @customElement('glide-core-accordion')
 export default class GlideCoreAccordion extends LitElement {
@@ -29,27 +28,121 @@ export default class GlideCoreAccordion extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true }) label = '';
+  @property({ reflect: true }) label?: string;
 
-  @property({ type: Boolean, reflect: true }) open = false;
+  @property({ reflect: true, type: Boolean })
+  get open() {
+    return this.#open;
+  }
+
+  set open(isOpen: boolean) {
+    this.#open = isOpen;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    if (reducedMotion.matches && this.#detailsElementRef.value) {
+      this.#detailsElementRef.value.open = isOpen;
+      this.dispatchEvent(new Event('toggle', { bubbles: true }));
+      return;
+    }
+
+    if (isOpen) {
+      // Wait for `.summary` to re-render after the "active" class addition to
+      // prevent animation jank, especially in Firefox and Safari.
+      this.updateComplete.then(() => {
+        if (
+          this.#detailsElementRef.value &&
+          this.#defaultSlotElementRef.value
+        ) {
+          const bottomPadding = Number.parseFloat(
+            getComputedStyle(this.#defaultSlotElementRef.value)?.paddingBottom,
+          );
+
+          this.#detailsElementRef.value.open = true;
+
+          this.#defaultSlotElementRef.value
+            .animate(
+              {
+                height: [
+                  '0px',
+                  `${
+                    this.#defaultSlotElementRef.value.offsetHeight -
+                    bottomPadding
+                  }px`,
+                ],
+                opacity: [0, 1],
+              },
+              {
+                duration: 150,
+                easing: 'ease-in',
+              },
+            )
+            .addEventListener('finish', () => {
+              if (this.#detailsElementRef.value) {
+                this.dispatchEvent(new Event('toggle', { bubbles: true }));
+              }
+            });
+        }
+      });
+    } else {
+      this.isClosing = true;
+
+      if (this.#defaultSlotElementRef.value) {
+        const bottomPadding = Number.parseFloat(
+          getComputedStyle(this.#defaultSlotElementRef.value)?.paddingBottom,
+        );
+
+        this.#defaultSlotElementRef.value
+          .animate(
+            {
+              height: [
+                `${
+                  this.#defaultSlotElementRef.value.offsetHeight - bottomPadding
+                }px`,
+                '0px',
+              ],
+              opacity: [1, 0],
+            },
+            {
+              duration: 100,
+              easing: 'ease-out',
+            },
+          )
+          .addEventListener('finish', () => {
+            if (this.#detailsElementRef.value) {
+              this.#detailsElementRef.value.open = false;
+              this.isClosing = false;
+              this.dispatchEvent(new Event('toggle', { bubbles: true }));
+            }
+          });
+      }
+    }
+  }
+
+  override click() {
+    this.#summaryElementRef.value?.click();
+  }
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
   }
 
   override render() {
-    return html`<details
-      class="component"
-      ?open=${this.open}
-      ${ref(this.#detailsElementRef)}
-    >
+    return html`<details class="component" ${ref(this.#detailsElementRef)}>
       <summary
-        class="summary"
-        @click=${this.#onSummaryClick}
+        class=${classMap({
+          summary: true,
+          active: this.open || this.isClosing,
+        })}
         data-test="summary"
+        @click=${this.#onSummaryClick}
+        ${ref(this.#summaryElementRef)}
       >
         <svg
-          class="chevron"
+          class=${classMap({
+            chevron: true,
+            unrotated: this.open,
+          })}
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -64,157 +157,82 @@ export default class GlideCoreAccordion extends LitElement {
           />
         </svg>
 
-        <div
-          class=${classMap({
-            'heading-box': true,
-            'heading-box-with-prefix': this.hasPrefixSlot,
-          })}
-          data-test="label"
-        >
-          <div class="prefix-slot-box">
-            <slot
-              name="prefix"
-              @slotchange=${this.#onPrefixSlotChange}
-              ${ref(this.#prefixSlotElementRef)}
-            ></slot>
-          </div>
+        <div class="label-container">
+          <slot
+            class="prefix-icon-slot"
+            name="prefix-icon"
+            @slotchange=${this.#onPrefixIconSlotChange}
+            ${ref(this.#prefixIconSlotElementRef)}
+          ></slot>
 
           <span class="label">${this.label}</span>
         </div>
 
-        <div
+        <slot
           class=${classMap({
-            'suffix-slot-box': true,
-            'suffix-slot-box-with-content': this.hasSuffixSlot,
+            'suffix-icons-slot': true,
+            icons: this.hasSuffixIcons,
           })}
-          data-test="suffix"
-        >
-          <slot
-            name="suffix"
-            @slotchange=${this.#onSuffixSlotChange}
-            ${ref(this.#suffixSlotElementRef)}
-          ></slot>
-        </div>
+          name="suffix-icons"
+          @slotchange=${this.#onSuffixIconsSlotChange}
+          ${ref(this.#suffixIconsSlotElementRef)}
+        ></slot>
       </summary>
 
-      <div
+      <slot
         class=${classMap({
-          content: true,
-          'content-with-prefix': this.hasPrefixSlot,
+          'default-slot': true,
+          indented: this.hasPrefixIcon,
         })}
-        data-test="content"
-        ${ref(this.#contentElementRef)}
-      >
-        <slot
-          @slotchange=${this.#onDefaultSlotChange}
-          ${ref(this.#defaultSlotElementRef)}
-        ></slot>
-      </div>
+        data-test="default-slot"
+        @slotchange=${this.#onDefaultSlotChange}
+        ${ref(this.#defaultSlotElementRef)}
+      ></slot>
     </details>`;
   }
 
   @state()
-  private hasPrefixSlot = false;
+  private hasPrefixIcon = false;
 
   @state()
-  private hasSuffixSlot = false;
+  private hasSuffixIcons = false;
 
-  #contentElementRef = createRef<HTMLDivElement>();
+  @state()
+  private isClosing = false;
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #detailsElementRef = createRef<HTMLDetailsElement>();
 
-  #prefixSlotElementRef = createRef<HTMLSlotElement>();
+  #open = false;
 
-  #suffixSlotElementRef = createRef<HTMLSlotElement>();
+  #prefixIconSlotElementRef = createRef<HTMLSlotElement>();
+
+  #suffixIconsSlotElementRef = createRef<HTMLSlotElement>();
+
+  #summaryElementRef = createRef<HTMLElement>();
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
   }
 
-  #onPrefixSlotChange() {
-    const assignedNodes = this.#prefixSlotElementRef.value?.assignedNodes();
-
-    this.hasPrefixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
+  #onPrefixIconSlotChange() {
+    const assignedNodes = this.#prefixIconSlotElementRef.value?.assignedNodes();
+    this.hasPrefixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
-  #onSuffixSlotChange() {
-    const assignedNodes = this.#suffixSlotElementRef.value?.assignedNodes();
+  #onSuffixIconsSlotChange() {
+    const assignedNodes =
+      this.#suffixIconsSlotElementRef.value?.assignedNodes();
 
-    this.hasSuffixSlot =
-      assignedNodes && assignedNodes.length > 0 ? true : false;
+    this.hasSuffixIcons = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
   #onSummaryClick(event: MouseEvent) {
-    const details = this.#detailsElementRef.value!;
-    const content = this.#contentElementRef.value!;
+    // Canceling it prevents `details` from immediately showing and hiding
+    // the default slot on open and close, letting us animate it when we're ready.
+    event.preventDefault();
 
-    const isOpening = !details.open;
-
-    const bottomPadding = Number.parseFloat(
-      getComputedStyle(content)?.paddingBottom,
-    );
-
-    if (isOpening) {
-      // We need `requestAnimationFrame` here for both Firefox and Safari.
-      // Otherwise there's animation jank that happens.
-      requestAnimationFrame(() => {
-        content.animate(
-          {
-            height: ['0px', `${content.offsetHeight - bottomPadding}px`],
-            opacity: [0, 1],
-          },
-          {
-            duration: 150,
-            easing: 'ease-in',
-          },
-        );
-
-        this.dispatchEvent(
-          new CustomEvent('toggle', {
-            detail: {
-              newState: 'open',
-              oldState: 'closed',
-            },
-          }),
-        );
-      });
-    } else {
-      // We need to hijack the `open` attribute from being removed
-      // from the DOM until after our animation runs. Due to that,
-      // we prevent default here and manually remove the attribute
-      // ourselves.
-      event.preventDefault();
-
-      const animateClosing = content.animate(
-        {
-          height: [`${content.offsetHeight - bottomPadding}px`, '0px'],
-          opacity: [1, 0],
-        },
-        {
-          duration: 100,
-          easing: 'ease-out',
-        },
-      );
-
-      animateClosing.addEventListener(
-        'finish',
-        () => {
-          details.open = false;
-
-          this.dispatchEvent(
-            new CustomEvent('toggle', {
-              detail: {
-                newState: 'closed',
-                oldState: 'open',
-              },
-            }),
-          );
-        },
-        { once: true },
-      );
-    }
+    this.open = !this.open;
   }
 }
