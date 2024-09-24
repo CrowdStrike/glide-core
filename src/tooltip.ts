@@ -24,8 +24,9 @@ declare global {
 }
 
 /**
- * @slot - The content of the tooltip.
+ * @slot - The primary content of the tooltip.
  * @slot target - The element to which the tooltip should anchor.
+ * @slot shortcut - An optional keyboard shortcut to add to the tooltip.
  */
 @customElement('glide-core-tooltip')
 export default class GlideCoreTooltip extends LitElement {
@@ -217,11 +218,26 @@ export default class GlideCoreTooltip extends LitElement {
             aria-label=${ifDefined(this.disabled ? undefined : 'Tooltip: ')}
           ></span>
 
-          <slot
-            class="default-slot"
-            @slotchange=${this.#onDefaultSlotChange}
-            ${ref(this.#defaultSlotElementRef)}
-          ></slot>
+          <div
+            class=${classMap({
+              'content-slots': true,
+              reversed: this.effectivePlacement === 'left',
+            })}
+          >
+            <slot
+              class="default-slot"
+              @slotchange=${this.#onDefaultSlotChange}
+              ${ref(this.#defaultSlotElementRef)}
+            ></slot>
+
+            <slot
+              class=${classMap({
+                'shortcut-slot': true,
+                reversed: this.effectivePlacement === 'left',
+              })}
+              name="shortcut"
+            ></slot>
+          </div>
         </div>
       </div>
     `;

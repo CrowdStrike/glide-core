@@ -17,7 +17,7 @@ const meta: Meta = {
         <style>
           textarea {
             height: 6lh !important;
-            width: 21.875rem !important;
+            width: 24rem !important;
           }
 
           [slot="target"] {
@@ -31,17 +31,15 @@ const meta: Meta = {
       </div>`,
   ],
   args: {
-    'slot="default"': `Tooltip 
-<kbd> 
-  <kbd style="font: inherit;"> CMD </kbd> 
-  + 
-  <kbd style="font: inherit;"> K </kbd> 
-</kbd>`,
+    'slot="default"': `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
     'slot="target"': '',
     disabled: false,
     offset: 4,
     open: false,
     placement: 'bottom',
+    'slot="shortcut"': `<kbd style="font-family: inherit;"> CMD </kbd> 
++ 
+<kbd style="font-family: inherit;"> K </kbd>`,
   },
   argTypes: {
     'slot="default"': {
@@ -67,7 +65,7 @@ const meta: Meta = {
         defaultValue: { summary: 'false' },
         type: {
           summary: 'boolean',
-          detail: `// Never show the tooltip. Useful when you have markup conditionally rendering Tooltip. Instead, always render Tooltip and simply disable it when appropriate.`,
+          detail: `// The tooltip is never shown when disabled. Useful when you have markup conditionally rendering Tooltip.\n// Instead of that, always render Tooltip and simply disable it when appropriate.`,
         },
       },
     },
@@ -100,6 +98,13 @@ const meta: Meta = {
         },
       },
     },
+    'slot="shortcut"': {
+      table: {
+        type: {
+          summary: 'HTMLKBDElement',
+        },
+      },
+    },
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -122,6 +127,8 @@ const meta: Meta = {
           tabindex="0"
           style="border-radius: 50%; outline-offset: 1px;"
         ></glide-core-example-icon>
+
+        <kbd slot="shortcut">${unsafeHTML(arguments_['slot="shortcut"'])}</kbd>
       </glide-core-tooltip>
     `;
   },
