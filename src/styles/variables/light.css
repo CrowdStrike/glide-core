@@ -12,6 +12,7 @@
   --glide-core-border-base-light: #e3e3e3;
   --glide-core-border-base-lighter: #f0f0f0;
   --glide-core-border-base-lightest: #ffffff;
+  --glide-core-border-base-transparent: #0000001a;
   --glide-core-border-disabled: #8a8a8a;
   --glide-core-border-focus: #0073e6;
   --glide-core-border-focus-light: #eef5ff;
@@ -71,13 +72,14 @@
   --glide-core-surface-selected-disabled: #8a8a8a;
   --glide-core-surface-selected-hover: #054fb9;
   --glide-core-surface-success: #f1fdf4;
+  --glide-core-surface-table-row-hover: #1d7afc26;
   --glide-core-surface-unselected-disabled: #e3e3e3;
   --glide-core-surface-warning: #fff6e9;
   --glide-core-surface-white-1percent: #ffffff03;
   --glide-core-text-body-1: #212121;
   --glide-core-text-body-2: #212121;
   --glide-core-text-body-light: #424242;
-  --glide-core-text-body-lighter: #c9c9c9;
+  --glide-core-text-body-lighter: #8a8a8a;
   --glide-core-text-disabled: #f0f0f0;
   --glide-core-text-header-1: #424242;
   --glide-core-text-header-2: #6d6d6d;
@@ -91,12 +93,6 @@
   --glide-core-text-secondary-disabled: #d7e7ff;
   --glide-core-text-selected: #ffffff;
   --glide-core-text-selected-2: #ffffff;
-  --glide-core-text-syntax-blue: #0000ff;
-  --glide-core-text-syntax-dark: #151515;
-  --glide-core-text-syntax-green: #116644;
-  --glide-core-text-syntax-purple: #770088;
-  --glide-core-text-syntax-red-dark: #95150e;
-  --glide-core-text-syntax-red-light: #ee4400;
   --glide-core-text-tertiary: #212121;
   --glide-core-text-tertiary-disabled: #8a8a8a;
 }
