@@ -166,21 +166,20 @@ export default [
 
     .description {
       color: var(--glide-core-text-body-1);
-      display: none;
+      display: block;
       font-family: var(--glide-core-body-xs-font-family);
       font-size: var(--glide-core-body-xs-font-size);
       font-style: var(--glide-core-body-xs-font-style);
       font-weight: var(--glide-core-body-xs-font-weight);
       grid-column: 2;
       line-height: var(--glide-core-body-xs-line-height);
-      margin-block-start: var(--glide-core-spacing-xxs);
+
+      &.content {
+        margin-block-start: var(--glide-core-spacing-xxs);
+      }
 
       &.error {
         color: var(--glide-core-status-error);
-      }
-
-      &.visible {
-        display: block;
       }
     }
   `,
