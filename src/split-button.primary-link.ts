@@ -2,19 +2,19 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import styles from './split-button-container.button.styles.js';
+import styles from './split-button.primary-button.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-split-button-container-link': GlideCoreSplitButtonContainerLink;
+    'glide-core-split-button-primary-link': GlideCoreSplitButtonPrimaryLink;
   }
 }
 
 /**
  * @slot icon - An optional icon before the label.
  */
-@customElement('glide-core-split-button-container-link')
-export default class GlideCoreSplitButtonContainerLink extends LitElement {
+@customElement('glide-core-split-button-primary-link')
+export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
@@ -23,6 +23,9 @@ export default class GlideCoreSplitButtonContainerLink extends LitElement {
 
   static override styles = styles;
 
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
+
   @property({ reflect: true })
   label?: string;
 
@@ -30,16 +33,13 @@ export default class GlideCoreSplitButtonContainerLink extends LitElement {
   url?: string;
 
   @state()
-  privateDisabled = false;
+  privateSize: 'large' | 'small' = 'large';
 
   @state()
   privateVariant: 'primary' | 'secondary' = 'primary';
 
-  @state()
-  privateSize: 'large' | 'small' = 'large';
-
   override render() {
-    if (this.privateDisabled) {
+    if (this.disabled) {
       return html`<span
         aria-disabled="true"
         class=${classMap({
@@ -61,6 +61,7 @@ export default class GlideCoreSplitButtonContainerLink extends LitElement {
         [this.privateVariant]: true,
         [this.privateSize]: true,
       })}
+      data-test="component"
       href=${ifDefined(this.url)}
     >
       <slot name="icon"></slot>
