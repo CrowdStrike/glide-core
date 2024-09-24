@@ -18,7 +18,7 @@ export default [
       display: flex;
       flex-direction: column;
       grid-column: 2;
-      row-gap: var(--glide-core-spacing-xxs);
+      row-gap: var(--glide-core-spacing-xs);
     }
   `,
 ];
