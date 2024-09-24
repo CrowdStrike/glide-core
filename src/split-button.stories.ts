@@ -34,7 +34,7 @@ const meta: Meta = {
       'glide-core-split-button-secondary-button',
     );
 
-    const observer = new MutationObserver((entries) => {
+    const observer = new MutationObserver(() => {
       addons.getChannel().emit(STORY_ARGS_UPDATED, {
         storyId: context.id,
         args: {

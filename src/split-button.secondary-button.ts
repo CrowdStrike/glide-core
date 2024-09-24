@@ -68,7 +68,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
     //
     // Thus an observer. Which only assumes that `open` is reflected and doesn't
     // depend on knowledge of Menu's internals.
-    const observer = new MutationObserver((entries) => {
+    const observer = new MutationObserver(() => {
       if (this.#menuElementRef.value) {
         this.menuOpen = this.#menuElementRef.value.open;
       }
@@ -105,6 +105,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
           ${ref(this.#buttonElementRef)}
         >
           <svg
+            aria-hidden="true"
             class=${classMap({
               chevron: true,
               disabled: this.disabled,
@@ -113,7 +114,6 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
             height="16"
             viewBox="0 0 24 24"
             fill="none"
-            role="presentation"
           >
             <path
               d="M6 9L12 15L18 9"

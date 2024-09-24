@@ -36,6 +36,6 @@ it('has defaults', async () => {
   `);
 
   expect(component.disabled).to.be.false;
-  expect(component.privateSize).to.be.equal('large');
-  expect(component.privateVariant).to.be.equal('primary');
+  expect(component.privateSize).to.equal('large');
+  expect(component.privateVariant).to.equal('primary');
 });
