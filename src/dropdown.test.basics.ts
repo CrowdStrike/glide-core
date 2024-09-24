@@ -47,8 +47,8 @@ it('has defaults', async () => {
   expect(component.hasAttribute('filterable')).to.be.false;
   expect(component.filterable).to.be.false;
 
-  expect(component.getAttribute('name')).to.be.null;
-  expect(component.name).to.equal(undefined);
+  expect(component.getAttribute('name')).to.be.empty.string;
+  expect(component.name).to.be.empty.string;
 
   expect(component.hasAttribute('required')).to.be.false;
   expect(component.required).to.be.false;

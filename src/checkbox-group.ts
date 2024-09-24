@@ -53,7 +53,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
   label?: string;
 
   @property({ reflect: true })
-  name?: string;
+  name = '';
 
   @property()
   privateSplit?: 'left' | 'middle';

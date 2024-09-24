@@ -59,7 +59,7 @@ export default class GlideCoreInput extends LitElement {
   type: SupportedTypes = 'text';
 
   @property({ reflect: true })
-  name?: string;
+  name = '';
 
   // `value` is intentionally not reflected here to match native
   @property()

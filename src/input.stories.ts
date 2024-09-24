@@ -170,6 +170,12 @@ const meta: Meta = {
         type: { summary: 'number' },
       },
     },
+    name: {
+      table: {
+        defaultValue: { summary: '""' },
+        type: { summary: 'string' },
+      },
+    },
     orientation: {
       control: { type: 'radio' },
       options: ['horizontal', 'vertical'],
