@@ -6,25 +6,11 @@ import GlideCoreIconButton from './icon-button.js';
 
 GlideCoreIconButton.shadowRootOptions.mode = 'open';
 
-const icon = html`<svg
-  width="16"
-  height="16"
-  stroke="currentColor"
-  fill="none"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-  stroke-width="2"
-  viewBox="0 0 24 24"
-  aria-hidden="true"
->
-  <path d="M16.51 9.873l-4.459 4.31-4.458-4.31"></path>
-</svg>`;
-
 it('focuses its button when `focus()` is called', async () => {
   const component = await fixture<GlideCoreIconButton>(
-    html`<glide-core-icon-button label="test-icon-button"
-      >${icon}</glide-core-icon-button
-    >`,
+    html`<glide-core-icon-button label="Label">
+      <div>Icon</div>
+    </glide-core-icon-button>`,
   );
 
   component.focus();

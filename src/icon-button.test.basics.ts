@@ -8,20 +8,6 @@ import sinon from 'sinon';
 
 GlideCoreIconButton.shadowRootOptions.mode = 'open';
 
-const icon = html`<svg
-  width="16"
-  height="16"
-  stroke="currentColor"
-  fill="none"
-  stroke-linecap="round"
-  stroke-linejoin="round"
-  stroke-width="2"
-  viewBox="0 0 24 24"
-  aria-hidden="true"
->
-  <path d="M16.51 9.873l-4.459 4.31-4.458-4.31"></path>
-</svg>`;
-
 it('registers', async () => {
   expect(window.customElements.get('glide-core-icon-button')).to.equal(
     GlideCoreIconButton,
@@ -31,7 +17,7 @@ it('registers', async () => {
 it('is accessible', async () => {
   const component = await fixture<GlideCoreIconButton>(
     html`<glide-core-icon-button label="Label">
-      ${icon}
+      <div>Icon</div>
     </glide-core-icon-button>`,
   );
 
@@ -41,7 +27,7 @@ it('is accessible', async () => {
 it('has defaults', async () => {
   const component = await fixture<GlideCoreIconButton>(
     html`<glide-core-icon-button label="Label">
-      ${icon}
+      <div>Icon</div>
     </glide-core-icon-button>`,
   );
 
