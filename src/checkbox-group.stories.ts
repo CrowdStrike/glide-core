@@ -158,14 +158,16 @@ const meta: Meta = {
           <glide-core-checkbox label="Two"></glide-core-checkbox>
           <glide-core-checkbox label="Three"></glide-core-checkbox>
 
-          <div slot="description">
-            ${unsafeHTML(arguments_['slot="description"'])}
-          </div>
+          ${arguments_['slot="description"']
+            ? html`<div slot="description">
+                ${unsafeHTML(arguments_['slot="description"'])}
+              </div>`
+            : nothing}
           ${arguments_['slot="tooltip"']
             ? html`<div slot="tooltip">
                 ${unsafeHTML(arguments_['slot="tooltip"'])}
               </div>`
-            : ''}
+            : nothing}
         </glide-core-checkbox-group>
       </form>`;
   },

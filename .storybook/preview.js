@@ -73,12 +73,31 @@ export default {
           // Now go through all the arguments. If the argument's value is at its default,
           // then remove it so people don't copy unnecessary code.
           //
-          // The reason we set arguments to their defaults in stories is so the default
-          // value is selected in the controls table.
+          // As an aside, the reason arguments are set to their defaults in stories is so
+          // the default value is selected in the controls table.
           for (const [argument, value] of Object.entries(context.args)) {
             const { defaultValue } = context.argTypes[argument].table ?? {};
 
-            if (defaultValue && value === context.initialArgs[argument]) {
+            // "<glide-core-split-button-primary-button>.label"
+            const isSubcomponent = argument.startsWith('<');
+
+            if (isSubcomponent) {
+              if (defaultValue && value === context.initialArgs[argument]) {
+                // <glide-core-split-button-primary-button>.label" → "label"
+                const argumentWithoutSubcomponent = argument.slice(
+                  argument.indexOf('.') + 1,
+                  argument.length,
+                );
+
+                // "<glide-core-split-button-primary-button>.label" → "glide-core-split-button-primary-button"
+                const selector = argument.slice(1, argument.indexOf('>'));
+
+                $(selector).removeAttr(argumentWithoutSubcomponent);
+              }
+            } else if (
+              defaultValue &&
+              value === context.initialArgs[argument]
+            ) {
               $component.removeAttr(argument);
             }
           }
@@ -88,8 +107,8 @@ export default {
           // shines through.
           $('glide-core-example-icon').removeAttr('name');
 
-          // Now strip out all the rest. These are elements inside component slots used
-          // primarily for styling.
+          // Now strip out the rest. These are elements inside component slots used primarily
+          // for styling.
           $('*').each(function () {
             const $element = $(this);
 
@@ -106,7 +125,7 @@ export default {
               if ($element.attr('type') === 'ignore') {
                 // Scripts with `type="ignore"` exist to show consumers what needs
                 // to be imported. `"ignore"` is just a hack to prevent the script
-                // form executing and shouldn't show up in the code example.
+                // from executing and won't show up in the code example.
                 $element.removeAttr('type');
               }
             } else if (isStyleTag) {
@@ -120,8 +139,8 @@ export default {
               if ($element.children().length === 0) {
                 $element.replaceWith($element.text());
               } else {
-                // It's possible the element has Core elements as children. We don't
-                // want to remove those. So we unwrap it and continue iterating.
+                // It's possible the element has Glide Core elements as children. We
+                // don't want to remove those. So we unwrap it and continue iterating.
                 $element.find('> :first-child').unwrap();
               }
             }

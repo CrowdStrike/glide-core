@@ -5,6 +5,9 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Textarea',
   tags: ['autodocs'],
+  decorators: [
+    (story) => html`<div style="min-height: 6rem;">${story()}</div>`,
+  ],
   parameters: {
     docs: {
       story: {
@@ -210,26 +213,26 @@ const meta: Meta = {
 
       <form>
         <glide-core-textarea
-          value=${arguments_.value || nothing}
+          label=${arguments_.label}
+          maxlength=${arguments_.maxlength || nothing}
           name=${arguments_.name || nothing}
           orientation=${arguments_.orientation}
           placeholder=${arguments_.placeholder}
           rows=${arguments_.rows}
+          value=${arguments_.value || nothing}
+          ?disabled=${arguments_.disabled}
           ?hide-label=${arguments_['hide-label']}
           ?required=${arguments_.required}
-          label=${arguments_.label}
           ?readonly=${arguments_.readonly}
-          ?disabled=${arguments_.disabled}
-          maxlength=${arguments_.maxlength || nothing}
         >
-          ${arguments_['slot="tooltip"']
-            ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-            : ''}
           ${arguments_['slot="description"']
             ? html`<div slot="description">
                 ${arguments_['slot="description"']}
               </div>`
-            : ''}
+            : nothing}
+          ${arguments_['slot="tooltip"']
+            ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
+            : nothing}
         </glide-core-textarea>
       </form>`;
   },

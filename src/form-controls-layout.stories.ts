@@ -60,7 +60,7 @@ const meta: Meta = {
           </glide-core-dropdown>
 
           <glide-core-input
-            label="Label "
+            label="Label"
             placeholder="Placeholder"
           ></glide-core-input>
 
