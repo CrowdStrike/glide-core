@@ -8,6 +8,7 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
+import { emulateMedia } from '@web/test-runner-commands';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDrawer from './drawer.js';
 
@@ -17,6 +18,8 @@ GlideCoreDrawer.shadowRootOptions.mode = 'open';
 // to manually dispatch the `transitionend` event in tests.
 
 it('closes when the "Escape" key is pressed', async () => {
+  await emulateMedia({ reducedMotion: 'no-preference' });
+
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
@@ -47,6 +50,8 @@ it('closes when the "Escape" key is pressed', async () => {
 });
 
 it('does not close when a key other than "Escape" is pressed', async () => {
+  await emulateMedia({ reducedMotion: 'no-preference' });
+
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
