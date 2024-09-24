@@ -9,7 +9,7 @@ GlideCoreButton.shadowRootOptions.mode = 'open';
 
 it('dispatches a "click" event when clicked', async () => {
   const component = await fixture<GlideCoreButton>(html`
-    <glide-core-button type="button">Button</glide-core-button>
+    <glide-core-button label="Label" type="button"></glide-core-button>
   `);
 
   setTimeout(() => {
@@ -24,7 +24,7 @@ it('dispatches a "click" event when clicked', async () => {
 
 it('dispatches a "click" event on Enter', async () => {
   const component = await fixture<GlideCoreButton>(html`
-    <glide-core-button type="button">Button</glide-core-button>
+    <glide-core-button label="Label" type="button"></glide-core-button>
   `);
 
   component.focus();
@@ -38,7 +38,7 @@ it('dispatches a "click" event on Enter', async () => {
 
 it('dispatches a "click" event on Space', async () => {
   const component = await fixture<GlideCoreButton>(html`
-    <glide-core-button type="button">Button</glide-core-button>
+    <glide-core-button label="Label" type="button"></glide-core-button>
   `);
 
   component.focus();
@@ -54,7 +54,7 @@ it('dispatches a "reset" event on click', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreButton>(
-    html` <glide-core-button type="reset">Button</glide-core-button> `,
+    html` <glide-core-button label="Label" type="reset"></glide-core-button>`,
     {
       parentNode: form,
     },
@@ -72,7 +72,7 @@ it('dispatches a "reset" event on Enter', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreButton>(
-    html` <glide-core-button type="reset">Button</glide-core-button> `,
+    html` <glide-core-button label="Label" type="reset"></glide-core-button>`,
     {
       parentNode: form,
     },
@@ -89,7 +89,7 @@ it('dispatches a "reset" event on Space', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreButton>(
-    html` <glide-core-button type="reset">Button</glide-core-button> `,
+    html` <glide-core-button label="Label" type="reset"></glide-core-button>`,
     {
       parentNode: form,
     },
@@ -106,7 +106,7 @@ it('dispatches a "submit" event on click', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreButton>(
-    html` <glide-core-button type="submit">Button</glide-core-button> `,
+    html` <glide-core-button label="Label" type="submit"></glide-core-button>`,
     {
       parentNode: form,
     },
@@ -126,7 +126,7 @@ it('dispatches a "submit" event on Enter', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreButton>(
-    html` <glide-core-button type="submit">Button</glide-core-button> `,
+    html` <glide-core-button label="Label" type="submit"></glide-core-button>`,
     {
       parentNode: form,
     },
@@ -145,7 +145,7 @@ it('dispatches a "submit" event on Space', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreButton>(
-    html` <glide-core-button type="submit">Button</glide-core-button> `,
+    html` <glide-core-button label="Label" type="submit"></glide-core-button>`,
     {
       parentNode: form,
     },

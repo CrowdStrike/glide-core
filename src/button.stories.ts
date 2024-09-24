@@ -20,6 +20,7 @@ const meta: Meta = {
           formenctype=${arguments_.formenctype || nothing}
           formmethod=${arguments_.formmethod || nothing}
           formtarget=${arguments_.formtarget || nothing}
+          label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}
           popovertarget=${arguments_.popovertarget || nothing}
           popovertargetaction=${arguments_.popovertargetaction || nothing}
@@ -37,7 +38,7 @@ const meta: Meta = {
     `;
   },
   args: {
-    'slot="default"': 'Button',
+    label: 'Button',
     autofocus: false,
     'click()': '',
     disabled: false,
@@ -59,9 +60,9 @@ const meta: Meta = {
     variant: 'primary',
   },
   argTypes: {
-    'slot="default"': {
+    label: {
       table: {
-        type: { summary: 'Element | string' },
+        type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
@@ -133,7 +134,7 @@ const meta: Meta = {
     },
     formmethod: {
       control: { type: 'select' },
-      options: ['', 'dialog', 'get', 'post'],
+      options: ['', 'get', 'dialog', 'post'],
       table: {
         defaultValue: {
           summary: '"get"',
@@ -252,6 +253,7 @@ export const WithIcons: StoryObj = {
         formenctype=${arguments_.formenctype || nothing}
         formmethod=${arguments_.formmethod || nothing}
         formtarget=${arguments_.formtarget || nothing}
+        label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         popovertarget=${arguments_.popovertarget || nothing}
         popovertargetaction=${arguments_.popovertargetaction || nothing}

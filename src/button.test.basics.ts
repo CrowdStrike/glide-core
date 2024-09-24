@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './button.js';
-import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButton from './button.js';
-import sinon from 'sinon';
 
 GlideCoreButton.shadowRootOptions.mode = 'open';
 
@@ -15,8 +13,8 @@ it('registers', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreButton>(
-    html`<glide-core-button>Button</glide-core-button>`,
+  const component = await fixture(
+    html`<glide-core-button label="Label"></glide-core-button>`,
   );
 
   await expect(component).to.be.accessible();
@@ -24,7 +22,7 @@ it('is accessible', async () => {
 
 it('has defaults', async () => {
   const component = await fixture<GlideCoreButton>(html`
-    <glide-core-button>Button</glide-core-button>
+    <glide-core-button label="Label"></glide-core-button>
   `);
 
   expect(component.ariaControls).to.be.null;
@@ -67,7 +65,7 @@ it('has defaults', async () => {
 
 it('delegates focus', async () => {
   const component = await fixture<GlideCoreButton>(
-    html`<glide-core-button>Button</glide-core-button>`,
+    html`<glide-core-button label="Label"></glide-core-button>`,
   );
 
   component.focus();
@@ -77,35 +75,17 @@ it('delegates focus', async () => {
   );
 });
 
-it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture<GlideCoreButton>(
-      html`<glide-core-button></glide-core-button>`,
-    );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
-});
-
 it('`#onPrefixSlotChange` coverage', async () => {
   await fixture<GlideCoreButton>(html`
-    <glide-core-button>
+    <glide-core-button label="Label">
       <span slot="prefix-icon">Prefix</span>
-      Button
     </glide-core-button>
   `);
 });
 
 it('`#onSuffixIconSlotChange` coverage', async () => {
   await fixture<GlideCoreButton>(html`
-    <glide-core-button>
-      Button
+    <glide-core-button label="Label">
       <span slot="suffix-icon">Suffix</span>
     </glide-core-button>
   `);
