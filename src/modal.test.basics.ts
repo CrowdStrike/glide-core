@@ -98,7 +98,11 @@ it('renders the provided primary slot content', async () => {
   const component = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label">
       Content
-      <glide-core-button slot="primary" data-primary>Primary</glide-core-button>
+      <glide-core-button
+        label="Primary"
+        slot="primary"
+        data-primary
+      ></glide-core-button>
     </glide-core-modal>`,
   );
 

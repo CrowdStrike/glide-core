@@ -63,7 +63,7 @@ const meta: Meta = {
       >
         ${unsafeHTML(arguments_['slot="default"'])}
       </glide-core-drawer>
-      <glide-core-button>Toggle</glide-core-button>
+      <glide-core-button label="Toggle"></glide-core-button>
 
       <style>
         glide-core-drawer div {

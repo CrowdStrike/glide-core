@@ -56,7 +56,10 @@ when browsers support them.
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
       inline-size: 100%;
       justify-content: center;
-      transition: box-shadow 200ms ease-in-out;
+
+      @media (prefers-reduced-motion: no-preference) {
+        transition: box-shadow 200ms ease-in-out;
+      }
 
       &.error:not(.disabled) {
         border-color: var(--glide-core-status-error);
@@ -118,7 +121,10 @@ when browsers support them.
             going in the opposite direction so that it'll animate from left-to-right.
           */
           stroke-dashoffset: 48;
-          transition: stroke-dashoffset 300ms cubic-bezier(0.32, 0, 0.67, 0);
+
+          @media (prefers-reduced-motion: no-preference) {
+            transition: stroke-dashoffset 300ms cubic-bezier(0.32, 0, 0.67, 0);
+          }
         }
       }
     }
@@ -166,12 +172,6 @@ when browsers support them.
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .checked-icon .check {
-        transition: none !important;
-      }
     }
   `,
 ];

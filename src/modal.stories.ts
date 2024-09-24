@@ -35,7 +35,7 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/modal.js';
       </script>
 
-      <glide-core-button>Open</glide-core-button>
+      <glide-core-button label="Open"></glide-core-button>
 
       <glide-core-modal
         label=${arguments_.label || nothing}
@@ -44,11 +44,13 @@ const meta: Meta = {
       >
         ${unsafeHTML(arguments_['slot="default"'])}
 
-        <glide-core-button slot="primary">Primary</glide-core-button>
+        <glide-core-button label="Primary" slot="primary"></glide-core-button>
 
-        <glide-core-button slot="secondary" variant="tertiary">
-          Secondary
-        </glide-core-button>
+        <glide-core-button
+          label="Secondary"
+          slot="secondary"
+          variant="tertiary"
+        ></glide-core-button>
       </glide-core-modal>
     `;
   },
@@ -139,14 +141,16 @@ export const WithHeaderActions: StoryObj = {
         import '@crowdstrike/glide-core/modal.icon-button.js';
       </script>
 
-      <glide-core-button>Open</glide-core-button>
+      <glide-core-button label="Open"></glide-core-button>
 
       <glide-core-modal label=${arguments_.label}>
         ${arguments_['slot="default"']}
 
-        <glide-core-button slot="secondary" variant="tertiary">
-          Secondary
-        </glide-core-button>
+        <glide-core-button
+          label="Secondary"
+          slot="secondary"
+          variant="tertiary"
+        ></glide-core-button>
 
         <!-- Only "glide-core-modal-icon-button" components should be used with header-actions -->
         <glide-core-modal-icon-button slot="header-actions" label="Edit">
@@ -168,20 +172,24 @@ export const WithTertiaryButton: StoryObj = {
         import '@crowdstrike/glide-core/modal.js';
       </script>
 
-      <glide-core-button>Open</glide-core-button>
+      <glide-core-button label="Open"></glide-core-button>
 
       <glide-core-modal label=${arguments_.label}>
         ${arguments_['slot="default"']}
 
-        <glide-core-button slot="primary">Primary</glide-core-button>
+        <glide-core-button label="Primary" slot="primary"></glide-core-button>
 
-        <glide-core-button slot="secondary" variant="tertiary">
-          Secondary
-        </glide-core-button>
+        <glide-core-button
+          label="Secondary"
+          slot="secondary"
+          variant="tertiary"
+        ></glide-core-button>
 
-        <glide-core-button slot="tertiary" variant="tertiary">
-          Tertiary
-        </glide-core-button>
+        <glide-core-button
+          label="Tertiary"
+          slot="tertiary"
+          variant="tertiary"
+        ></glide-core-button>
       </glide-core-modal>
     `;
   },
@@ -195,16 +203,18 @@ export const WithTertiaryIconAndButton: StoryObj = {
         import '@crowdstrike/glide-core/modal.tertiary-icon.js';
       </script>
 
-      <glide-core-button>Open</glide-core-button>
+      <glide-core-button label="Open"></glide-core-button>
 
       <glide-core-modal label=${arguments_.label}>
         ${arguments_['slot="default"']}
 
-        <glide-core-button slot="primary">Primary</glide-core-button>
+        <glide-core-button label="Primary" slot="primary"></glide-core-button>
 
-        <glide-core-button slot="secondary" variant="tertiary">
-          Secondary
-        </glide-core-button>
+        <glide-core-button
+          label="Secondary"
+          slot="secondary"
+          variant="tertiary"
+        ></glide-core-button>
 
         <glide-core-modal-tertiary-icon
           slot="tertiary"
@@ -214,9 +224,11 @@ export const WithTertiaryIconAndButton: StoryObj = {
           <glide-core-example-icon name="info"></glide-core-example-icon>
         </glide-core-modal-tertiary-icon>
 
-        <glide-core-button slot="tertiary" variant="tertiary">
-          Tertiary
-        </glide-core-button>
+        <glide-core-button
+          label="Tertiary"
+          slot="tertiary"
+          variant="tertiary"
+        ></glide-core-button>
       </glide-core-modal>
     `;
   },

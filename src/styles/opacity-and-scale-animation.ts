@@ -16,12 +16,8 @@ export default (selector: string) => {
     }
 
     ${unsafeCSS(selector)} {
-      animation: opacity-and-scale 250ms cubic-bezier(0.25, 0, 0.3, 1);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      ${unsafeCSS(selector)} {
-        animation: none !important;
+      @media (prefers-reduced-motion: no-preference) {
+        animation: opacity-and-scale 250ms cubic-bezier(0.25, 0, 0.3, 1);
       }
     }
   `;

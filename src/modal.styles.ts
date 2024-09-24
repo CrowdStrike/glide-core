@@ -29,22 +29,6 @@ export default [
       }
     }
 
-    @media (prefers-reduced-motion) {
-      /**
-        ':host' is targeted here to increase specificity so that
-        we don't need to use '!important' to turn off the animation.
-      */
-      :host .component {
-        &[open] {
-          animation: none;
-        }
-
-        &::backdrop {
-          animation: none;
-        }
-      }
-    }
-
     .component {
       backdrop-filter: blur(100px);
       background-color: var(--glide-core-surface-modal);
@@ -59,8 +43,11 @@ export default [
       padding: 1.25rem;
 
       &[open] {
-        animation: modal-open 250ms;
         opacity: 1;
+
+        @media (prefers-reduced-motion: no-preference) {
+          animation: modal-open 250ms;
+        }
       }
 
       &:focus {
@@ -68,13 +55,15 @@ export default [
       }
 
       &::backdrop {
-        animation: backdrop-fade-in 250ms;
-
         /* prefix required for Safari */
         /* stylelint-disable-next-line property-no-vendor-prefix */
         -webkit-backdrop-filter: blur(3px);
         backdrop-filter: blur(3px);
         background-color: rgba(0 0 0 / 40%);
+
+        @media (prefers-reduced-motion: no-preference) {
+          animation: backdrop-fade-in 250ms;
+        }
       }
 
       ::slotted([slot='tertiary']) {

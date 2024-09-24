@@ -31,12 +31,20 @@ const meta: Meta = {
       <glide-core-toasts></glide-core-toasts>
 
       <div style="display: inline-flex; flex-direction: column; gap: 0.25rem;">
-        <glide-core-button data-informational>
-          Informational
-        </glide-core-button>
-        <glide-core-button data-success> Success </glide-core-button>
-        <glide-core-button data-longer> Longer duration </glide-core-button>
-        <glide-core-button data-infinite> Infinite duration </glide-core-button>
+        <glide-core-button
+          label="Informational"
+          data-informational
+        ></glide-core-button>
+        <glide-core-button label="Success" data-success></glide-core-button>
+        <glide-core-button
+          label="Longer duration"
+          data-longer
+        ></glide-core-button>
+
+        <glide-core-button
+          label="Infinite duration"
+          data-infinite
+        ></glide-core-button>
       </div>
 
       <script>
