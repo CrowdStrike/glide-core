@@ -41,13 +41,13 @@ export default [
       }
 
       /* We remove spacing using negative margin when an icon is present to help with empty space balancing */
-      &.has-prefix,
-      ::slotted([slot='prefix']) {
+      &.prefix-icon,
+      ::slotted([slot='prefix-icon']) {
         margin-inline-start: -0.125rem;
       }
 
-      &.has-suffix,
-      ::slotted([slot='suffix']) {
+      &.suffix-icon,
+      ::slotted([slot='suffix-icon']) {
         margin-inline-end: -0.125rem;
       }
 

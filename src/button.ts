@@ -14,8 +14,8 @@ declare global {
 
 /**
  * @slot - A label.
- * @slot prefix - An optional icon before the label.
- * @slot suffix - An optional icon after the label.
+ * @slot prefix-icon - An optional icon before the label.
+ * @slot suffix-icon - An optional icon after the label.
  */
 @customElement('glide-core-button')
 export default class GlideCoreButton extends LitElement {
@@ -117,17 +117,17 @@ export default class GlideCoreButton extends LitElement {
         tertiary: this.variant === 'tertiary',
         large: this.size === 'large',
         small: this.size === 'small',
-        'has-prefix': this.hasPrefixSlot,
-        'has-suffix': this.hasSuffixSlot,
+        'prefix-icon': this.hasPrefixIcon,
+        'suffix-icon': this.hasSuffixIcon,
       })}
       ?disabled=${this.disabled}
       @click=${this.#onClick}
       ${ref(this.#buttonElementRef)}
     >
       <slot
-        name="prefix"
-        @slotchange=${this.#onPrefixSlotChange}
-        ${ref(this.#prefixSlotElementRef)}
+        name="prefix-icon"
+        @slotchange=${this.#onPrefixIconSlotChange}
+        ${ref(this.#prefixIconSlotElementRef)}
       ></slot>
 
       <slot
@@ -136,9 +136,9 @@ export default class GlideCoreButton extends LitElement {
       ></slot>
 
       <slot
-        name="suffix"
-        @slotchange=${this.#onSuffixSlotChange}
-        ${ref(this.#suffixSlotElementRef)}
+        name="suffix-icon"
+        @slotchange=${this.#onSuffixIconSlotChange}
+        ${ref(this.#suffixIconSlotElementRef)}
       ></slot>
     </button>`;
   }
@@ -149,10 +149,10 @@ export default class GlideCoreButton extends LitElement {
   }
 
   @state()
-  private hasPrefixSlot = false;
+  private hasPrefixIcon = false;
 
   @state()
-  private hasSuffixSlot = false;
+  private hasSuffixIcon = false;
 
   #buttonElementRef = createRef<HTMLButtonElement>();
 
@@ -160,9 +160,9 @@ export default class GlideCoreButton extends LitElement {
 
   #internals: ElementInternals;
 
-  #prefixSlotElementRef = createRef<HTMLSlotElement>();
+  #prefixIconSlotElementRef = createRef<HTMLSlotElement>();
 
-  #suffixSlotElementRef = createRef<HTMLSlotElement>();
+  #suffixIconSlotElementRef = createRef<HTMLSlotElement>();
 
   #onClick() {
     if (this.type === 'submit') {
@@ -180,13 +180,13 @@ export default class GlideCoreButton extends LitElement {
     owSlot(this.#defaultSlotElementRef.value);
   }
 
-  #onPrefixSlotChange() {
-    const assignedNodes = this.#prefixSlotElementRef.value?.assignedNodes();
-    this.hasPrefixSlot = Boolean(assignedNodes && assignedNodes.length > 0);
+  #onPrefixIconSlotChange() {
+    const assignedNodes = this.#prefixIconSlotElementRef.value?.assignedNodes();
+    this.hasPrefixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
-  #onSuffixSlotChange() {
-    const assignedNodes = this.#suffixSlotElementRef.value?.assignedNodes();
-    this.hasSuffixSlot = Boolean(assignedNodes && assignedNodes.length > 0);
+  #onSuffixIconSlotChange() {
+    const assignedNodes = this.#suffixIconSlotElementRef.value?.assignedNodes();
+    this.hasSuffixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }

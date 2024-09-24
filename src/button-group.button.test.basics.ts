@@ -51,20 +51,6 @@ it('can have a label', async () => {
   expect(component.shadowRoot?.textContent?.trim()).to.equal('Button');
 });
 
-it('can have a "prefix" slot', async () => {
-  const component = await fixture(
-    html`<glide-core-button-group-button label="Button">
-      <span slot="prefix">Prefix</span>
-    </glide-core-button-group-button>`,
-  );
-
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="prefix"]')
-    ?.assignedElements();
-
-  expect(assignedElements?.at(0)?.textContent).to.equal('Prefix');
-});
-
 it('sets `aria-checked` when selected', async () => {
   const component = await fixture(
     html`<glide-core-button-group-button
@@ -134,7 +120,7 @@ it('is not tabbable when not selected', async () => {
   expect(radio?.getAttribute('tabindex')).to.equal('-1');
 });
 
-it('throws when icon-only and no "prefix" slot', async () => {
+it('throws when icon-only and no "icon" slot', async () => {
   const spy = sinon.spy();
 
   try {

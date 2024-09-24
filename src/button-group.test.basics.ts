@@ -36,7 +36,7 @@ it('has defaults', async () => {
 
 it('is accessible', async () => {
   const component = await fixture(
-    html`<glide-core-button-group label="label">
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
       ></glide-core-button-group-button>
@@ -57,7 +57,7 @@ it('is accessible', async () => {
 
 it('can have a label', async () => {
   const component = await fixture(
-    html`<glide-core-button-group label="label">
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
       ></glide-core-button-group-button>
@@ -71,7 +71,7 @@ it('can have a label', async () => {
   const label = component.shadowRoot?.querySelector('[data-test="label"]');
   const radioGroup = component.shadowRoot?.querySelector('[role="radiogroup"]');
 
-  expect(label?.textContent).to.equal('label');
+  expect(label?.textContent).to.equal('Label');
   expect(radioGroup?.getAttribute('aria-labelledby')).to.equal(label?.id);
 });
 
@@ -115,13 +115,13 @@ it('sets the orientation of each button when vertical', async () => {
 
 it('sets `privateVariant` on each button', async () => {
   await fixture(
-    html`<glide-core-button-group label="label" variant="icon-only">
+    html`<glide-core-button-group label="Label" variant="icon-only">
       <glide-core-button-group-button label="One">
-        <div slot="prefix">Prefix</div>
+        <div slot="icon">Icon</div>
       </glide-core-button-group-button>
 
       <glide-core-button-group-button label="Two">
-        <div slot="prefix">Prefix</div>
+        <div slot="icon">Icon</div>
       </glide-core-button-group-button>
     </glide-core-button-group>`,
   );
@@ -135,7 +135,7 @@ it('sets `privateVariant` on each button', async () => {
 it('throws when its default slot is the wrong type', async () => {
   await expectArgumentError(() => {
     return fixture(html`
-      <glide-core-button-group label="label">
+      <glide-core-button-group label="Label">
         <div></div>
       </glide-core-button-group>
     `);
@@ -143,7 +143,7 @@ it('throws when its default slot is the wrong type', async () => {
 
   await expectArgumentError(() => {
     return fixture(
-      html`<glide-core-button-group label="label"> </glide-core-button-group>`,
+      html`<glide-core-button-group label="Label"> </glide-core-button-group>`,
     );
   });
 });
