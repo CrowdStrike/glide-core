@@ -48,6 +48,12 @@ const meta: Meta = {
       // `reportValidity` scrolls the element into view, which means the "autodocs"
       // story upon load will be scrolled to the first error story. No good.
       document.documentElement.scrollTop = 0;
+
+      if (document.activeElement instanceof HTMLElement) {
+        // Calling `reportValidity()` focuses the element. Focus is expected to be
+        // on `document.body` on page load.
+        document.activeElement.blur();
+      }
     }
   },
   render(arguments_) {
