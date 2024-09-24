@@ -71,6 +71,27 @@ export default class GlideCoreLabel extends LitElement {
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
     owSlot(this.#controlSlotElementRef.value);
+
+    // The "description" slot has a top margin that needs to be conditionally
+    // applied only if content is slotted so there's not stray whitespace
+    // when there's no description.
+    //
+    // Normally, we'd listen for "slotchange" and set `this.hasDescription`
+    // in the listener's callback. But form controls always slot content. We
+    // need to know if any text has been slotted instead.
+    //
+    // A Resize Observer is the best proxy for that. If the slot has a height,
+    // then we know it has text.
+    const observer = new ResizeObserver(() => {
+      this.hasDescription = Boolean(
+        this.#descriptionSlotElementRef.value &&
+          this.#descriptionSlotElementRef.value.offsetHeight > 0,
+      );
+    });
+
+    if (this.#descriptionSlotElementRef.value) {
+      observer.observe(this.#descriptionSlotElementRef.value);
+    }
   }
 
   override render() {
@@ -180,20 +201,19 @@ export default class GlideCoreLabel extends LitElement {
       <slot
         class=${classMap({
           description: true,
-          visible: this.hasDescriptionSlot,
+          content: this.hasDescription,
           error: this.error,
           tooltip: this.hasTooltipSlot,
         })}
         id="description"
         name="description"
-        @slotchange=${this.#onDescriptionSlotChange}
         ${ref(this.#descriptionSlotElementRef)}
       ></slot>
     </div>`;
   }
 
   @state()
-  private hasDescriptionSlot = false;
+  private hasDescription = false;
 
   @state()
   private hasSummarySlot = false;
@@ -258,16 +278,6 @@ export default class GlideCoreLabel extends LitElement {
     });
 
     observer.observe(labelElement);
-  }
-
-  #onDescriptionSlotChange() {
-    const assignedNodes = this.#descriptionSlotElementRef.value?.assignedNodes({
-      flatten: true,
-    });
-
-    this.hasDescriptionSlot = Boolean(
-      assignedNodes && assignedNodes.length > 0,
-    );
   }
 
   #onSummarySlotChange() {
