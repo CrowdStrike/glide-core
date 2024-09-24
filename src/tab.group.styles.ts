@@ -18,9 +18,12 @@ export default [
         gap: var(--glide-core-spacing-xl);
         overflow: auto hidden;
         position: relative;
-        scroll-behavior: smooth;
         scrollbar-width: none;
         white-space: nowrap;
+
+        @media (prefers-reduced-motion: no-preference) {
+          scroll-behavior: smooth;
+        }
 
         /* "-webkit-scrollbar" is needed for Safari */
 
@@ -41,10 +44,14 @@ export default [
           translate: var(--active-tab-indicator-translate, 0) 0;
         }
 
-        &.animated::after {
-          transition:
-            inline-size 250ms,
-            translate 250ms;
+        &.animated {
+          @media (prefers-reduced-motion: no-preference) {
+            &::after {
+              transition:
+                inline-size 250ms,
+                translate 250ms;
+            }
+          }
         }
       }
 
@@ -71,16 +78,6 @@ export default [
 
     ::slotted([slot='nav']:last-of-type) {
       padding-inline-end: 0.1875rem;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .component .tab-group {
-        scroll-behavior: auto;
-
-        &.animated::after {
-          transition: none;
-        }
-      }
     }
   `,
 ];

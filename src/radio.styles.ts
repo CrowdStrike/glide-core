@@ -18,16 +18,6 @@ export default [
       }
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      /**
-        ':host' is targeted here to increase specificity so that
-        we don't need to use '!important' to turn off the animation.
-      */
-      :host .component .radio-circle.checked.animate::after {
-        animation: none;
-      }
-    }
-
     :host {
       display: flex;
       outline: none;
@@ -79,8 +69,10 @@ export default [
 
         &.animate {
           &.checked {
-            &::after {
-              animation: animate-radio 250ms cubic-bezier(0.25, 0, 0.3, 1);
+            @media (prefers-reduced-motion: no-preference) {
+              &::after {
+                animation: animate-radio 250ms cubic-bezier(0.25, 0, 0.3, 1);
+              }
             }
           }
         }

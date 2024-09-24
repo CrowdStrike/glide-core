@@ -122,7 +122,7 @@ const meta: Meta = {
         size=${arguments_.size || nothing}
         ?open=${arguments_.open}
       >
-        <glide-core-button slot="target"> Target </glide-core-button>
+        <glide-core-button label="Target" slot="target"></glide-core-button>
 
         <glide-core-menu-options>
           <glide-core-menu-button label="One"></glide-core-menu-button>
@@ -199,7 +199,7 @@ export const WithIcons: StoryObj = {
           </glide-core-menu-link>
         </glide-core-menu-options>
 
-        <glide-core-button slot="target"> Target </glide-core-button>
+        <glide-core-button label="Target" slot="target"></glide-core-button>
       </glide-core-menu>`;
   },
 };

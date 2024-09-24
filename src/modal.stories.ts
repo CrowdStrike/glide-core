@@ -35,7 +35,7 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/modal.js';
       </script>
 
-      <glide-core-button>Open</glide-core-button>
+      <glide-core-button label="Open"></glide-core-button>
 
       <glide-core-modal
         label=${arguments_.label || nothing}
@@ -139,7 +139,7 @@ export const WithHeaderActions: StoryObj = {
         import '@crowdstrike/glide-core/modal.icon-button.js';
       </script>
 
-      <glide-core-button>Open</glide-core-button>
+      <glide-core-button label="Open"></glide-core-button>
 
       <glide-core-modal label=${arguments_.label}>
         ${arguments_['slot="default"']}
@@ -168,7 +168,7 @@ export const WithTertiaryButton: StoryObj = {
         import '@crowdstrike/glide-core/modal.js';
       </script>
 
-      <glide-core-button>Open</glide-core-button>
+      <glide-core-button label="Open"></glide-core-button>
 
       <glide-core-modal label=${arguments_.label}>
         ${arguments_['slot="default"']}
@@ -195,7 +195,7 @@ export const WithTertiaryIconAndButton: StoryObj = {
         import '@crowdstrike/glide-core/modal.tertiary-icon.js';
       </script>
 
-      <glide-core-button>Open</glide-core-button>
+      <glide-core-button label="Open"></glide-core-button>
 
       <glide-core-modal label=${arguments_.label}>
         ${arguments_['slot="default"']}
