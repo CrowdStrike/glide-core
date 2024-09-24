@@ -14,11 +14,23 @@ export default [
       align-items: flex-start;
     }
 
+    .checkbox-container {
+      display: flex;
+      gap: 0.375rem;
+      inline-size: min-content;
+
+      &.invalid {
+        border: 1px solid var(--glide-core-status-error);
+        border-radius: 0.5rem;
+        padding: var(--glide-core-spacing-xxs) 0.375rem;
+      }
+    }
+
     .checkboxes {
       display: flex;
       flex-direction: column;
       grid-column: 2;
-      row-gap: var(--glide-core-spacing-xxs);
+      row-gap: var(--glide-core-spacing-xs);
     }
   `,
 ];

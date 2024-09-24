@@ -248,7 +248,6 @@ export default class GlideCoreCheckbox extends LitElement {
                 class=${classMap({
                   checkbox: true,
                   disabled: this.disabled,
-                  error: this.#isShowValidationFeedback,
                 })}
               >
                 <div class="checked-icon">${checkedIcon}</div>

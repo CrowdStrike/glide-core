@@ -1,5 +1,6 @@
 import './label.js';
 import { LitElement, html } from 'lit';
+import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
@@ -231,7 +232,15 @@ export default class GlideCoreCheckboxGroup extends LitElement {
         <label id="label">${this.label}</label>
 
         <!-- "aria-describedby" is more appropriate for a description but isn't read by VoiceOver. -->
-        <div aria-labelledby="label description" role="group" slot="control">
+        <div
+          aria-labelledby="label description"
+          role="group"
+          slot="control"
+          class=${classMap({
+            'checkbox-container': true,
+            invalid: this.#isShowValidationFeedback,
+          })}
+        >
           <slot
             class="checkboxes"
             @change=${this.#onCheckboxChange}

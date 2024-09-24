@@ -90,7 +90,8 @@ when browsers support them.
       }
 
       &:disabled:not(:is(:checked, :indeterminate)) ~ .checkbox {
-        border-color: var(--glide-core-surface-primary-disabled);
+        background-color: var(--glide-core-surface-disabled);
+        border-color: var(--glide-core-border-base);
       }
 
       &:is(:checked, :indeterminate):not(:disabled) ~ .checkbox {
