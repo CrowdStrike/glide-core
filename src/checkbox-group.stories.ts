@@ -97,6 +97,7 @@ const meta: Meta = {
     },
     name: {
       table: {
+        defaultValue: { summary: '""' },
         type: { summary: 'string' },
       },
     },

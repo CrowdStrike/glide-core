@@ -85,7 +85,7 @@ export default class GlideCoreCheckbox extends LitElement {
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property({ reflect: true })
-  name?: string;
+  name = '';
 
   @property({
     attribute: 'private-label-tooltip-offset',

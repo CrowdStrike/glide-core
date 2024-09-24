@@ -132,6 +132,7 @@ const meta: Meta = {
     },
     name: {
       table: {
+        defaultValue: { summary: '""' },
         type: { summary: 'string' },
       },
     },
@@ -219,6 +220,7 @@ const meta: Meta = {
     },
     '<glide-core-dropdown-option>.value': {
       table: {
+        defaultValue: { summary: '""' },
         type: { summary: 'string' },
       },
       type: { name: 'string' },

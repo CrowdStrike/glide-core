@@ -148,6 +148,7 @@ const meta: Meta = {
     },
     name: {
       table: {
+        defaultValue: { summary: '""' },
         type: { summary: 'string' },
       },
       type: { name: 'string' },
@@ -160,7 +161,7 @@ const meta: Meta = {
     },
     value: {
       table: {
-        defaultValue: { summary: '' },
+        defaultValue: { summary: '""' },
         type: { summary: 'string' },
       },
     },

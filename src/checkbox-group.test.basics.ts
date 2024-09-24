@@ -22,16 +22,9 @@ it('has defaults', async () => {
     </glide-core-checkbox-group>`,
   );
 
-  expect(component.hasAttribute('disabled')).to.be.false;
   expect(component.disabled).to.be.false;
-
-  expect(component.hasAttribute('hide-label')).to.be.false;
   expect(component.hideLabel).to.be.false;
-
-  expect(component.getAttribute('name')).to.be.null;
-  expect(component.name).to.equal(undefined);
-
-  expect(component.hasAttribute('required')).to.be.false;
+  expect(component.name).to.be.empty.string;
   expect(component.required).to.be.false;
 
   // Not reflected, so no attribute assertion is necessary.

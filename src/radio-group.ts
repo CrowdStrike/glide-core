@@ -49,7 +49,7 @@ export default class GlideCoreRadioGroup extends LitElement {
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
 
-  @property()
+  @property({ reflect: true })
   name = '';
 
   @property()

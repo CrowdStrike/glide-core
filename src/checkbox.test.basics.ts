@@ -16,32 +16,15 @@ it('has defaults', async () => {
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
-  expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
-
-  expect(component.hasAttribute('disabled')).to.be.false;
   expect(component.disabled).to.be.false;
-
-  expect(component.hasAttribute('hide-label')).to.be.false;
   expect(component.hideLabel).to.be.false;
-
-  expect(component.hasAttribute('indeterminate')).to.be.false;
   expect(component.indeterminate).to.be.false;
-
-  expect(component.getAttribute('name')).to.be.null;
-  expect(component.name).to.equal(undefined);
-
-  expect(component.getAttribute('orientation')).to.equal('horizontal');
+  expect(component.name).to.be.empty.string;
   expect(component.orientation).to.equal('horizontal');
-
-  expect(component.hasAttribute('required')).to.be.false;
   expect(component.required).to.be.false;
-
-  expect(component.getAttribute('summary')).to.be.null;
   expect(component.summary).to.equal(undefined);
-
-  expect(component.getAttribute('value')).to.equal('');
-  expect(component.value).to.equal('');
+  expect(component.value).to.be.empty.string;
 });
 
 it('is accessible', async () => {

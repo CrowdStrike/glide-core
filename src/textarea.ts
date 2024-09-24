@@ -71,7 +71,7 @@ export default class GlideCoreTextarea extends LitElement {
   maxlength?: number;
 
   @property({ reflect: true })
-  name?: string;
+  name = '';
 
   // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
   @property({ type: Boolean })

@@ -68,7 +68,7 @@ export default class GlideCoreDropdown extends LitElement {
   label?: string;
 
   @property({ reflect: true })
-  name?: string;
+  name = '';
 
   @property({ reflect: true, type: Boolean })
   get open() {
