@@ -45,10 +45,13 @@ export default [
     }
 
     .icon {
+      block-size: 1.25rem;
       grid-column: 1;
+      inline-size: 1.25rem;
     }
 
     .label {
+      color: var(--glide-core-text-body-2);
       font-size: var(--glide-core-heading-xs-font-size);
       font-weight: var(--glide-core-heading-xs-font-weight);
       grid-column: 2;
@@ -61,7 +64,16 @@ export default [
     }
 
     .description {
+      color: var(--glide-core-text-body-2);
       grid-column: 2;
+    }
+
+    .success {
+      color: var(--glide-core-status-success);
+    }
+
+    .warning-informational {
+      color: var(--glide-core-status-warning-informational);
     }
   `,
 ];
