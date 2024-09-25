@@ -103,7 +103,7 @@ export default [
       }
     }
 
-    .content-slots {
+    .content {
       align-items: center;
       background-color: var(--glide-core-surface-base-dark);
       border-radius: var(--glide-core-spacing-xs);

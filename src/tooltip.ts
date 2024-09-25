@@ -223,7 +223,7 @@ export default class GlideCoreTooltip extends LitElement {
 
           <div
             class=${classMap({
-              'content-slots': true,
+              content: true,
               reversed: this.effectivePlacement === 'left',
             })}
           >
@@ -238,15 +238,16 @@ export default class GlideCoreTooltip extends LitElement {
                 shortcut: true,
                 reversed: this.effectivePlacement === 'left',
               })}
+              data-test="shortcut"
             >
               ${this.shortcut.length === 1
                 ? this.shortcut.at(0)
                 : map(this.shortcut, (shortcut, index) => {
-                    return html`<kbd>
-                      ${index === this.shortcut.length - 1
-                        ? shortcut
-                        : shortcut + ' + '}
-                    </kbd>`;
+                    return html`
+                      <kbd>${shortcut}</kbd>
+
+                      ${index === this.shortcut.length - 1 ? '' : ' + '}
+                    `;
                   })}
             </kbd>
           </div>

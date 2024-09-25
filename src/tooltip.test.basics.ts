@@ -52,7 +52,7 @@ it('has defaults', async () => {
 
 it('can be open', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip aria-label="Label" open>
+    html`<glide-core-tooltip open>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
     </glide-core-tooltip>`,
@@ -68,9 +68,39 @@ it('can be open', async () => {
   expect(tooltip?.checkVisibility()).to.be.true;
 });
 
+it('can have a single-key shortcut', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip .shortcut=${['Enter']}>
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  const shortcut = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="shortcut"]',
+  );
+
+  expect(shortcut?.textContent?.trim()).to.equal('Enter');
+});
+
+it('can have a multi-key shortcut', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip .shortcut=${['CMD', 'K']}>
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  const shortcut = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="shortcut"]',
+  );
+
+  expect(shortcut?.textContent?.replaceAll(/\s/g, '')).to.equal('CMD+K');
+});
+
 it('is not open when disabled', async () => {
   const component = await fixture(
-    html`<glide-core-tooltip aria-label="Label" open disabled>
+    html`<glide-core-tooltip open disabled>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
     </glide-core-tooltip>`,
@@ -116,7 +146,7 @@ it('throws if it does not have a "target" slot', async () => {
 
 it('has `placement` coverage', async () => {
   await fixture(
-    html`<glide-core-tooltip aria-label="Label" open placement="top">
+    html`<glide-core-tooltip open placement="top">
       Tooltip
       <span slot="target" tabindex="0">Target</span>
     </glide-core-tooltip>`,
