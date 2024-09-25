@@ -59,19 +59,13 @@ globalStylesheet.insertRule(`
 `);
 
 /**
- * @event close - Emitted when the Modal closes.
+ * @event close - `(event: "close", listener: (event: Event)) => void) => void`
  *
  * @slot - The content of the modal.
- *
- * @slot header-actions - A slot for placing additional header actions. These are co-located with the close button.
- *                        Use the `glide-core-modal-icon-button` component only.
- *
- * @slot primary - A slot for rendering a primary action button. Normally a "Continue", "Next", or "Submit" action.
- *
- * @slot secondary - A slot for rendering a secondary action button. Normally a "Cancel" action.
- *
- * @slot tertiary - A slot for rendering an icon+tooltip for additional information,
- *                  or a tertiary action button.
+ * @slot header-actions - One or more of `<glide-core-modal-icon-button>`.
+ * @slot primary - One of `<glide-core-button>`.
+ * @slot secondary - One of `<glide-core-button>`.
+ * @slot tertiary - One or more of `<glide-core-button>` or `<glide-core-modal-tertiary-icon>`.
  */
 @customElement('glide-core-modal')
 export default class GlideCoreModal extends LitElement {

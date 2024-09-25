@@ -22,7 +22,7 @@ declare global {
 }
 
 /**
- * @slot - `<glide-core-menu-options>`.
+ * @slot - One of `<glide-core-menu-options>`.
  * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
  */
 @customElement('glide-core-menu')
