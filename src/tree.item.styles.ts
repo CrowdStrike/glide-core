@@ -18,6 +18,7 @@ export default [
       font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-body-sm-font-weight);
       grid-template-columns: repeat(auto-fill, 2.5rem);
+      line-height: 1.25rem;
 
       --color: var(--glide-core-text-body-1);
 
