@@ -69,6 +69,7 @@ export default [
       ::slotted([slot='tertiary']) {
         --size: 1rem;
 
+        display: contents;
         size: 1rem;
       }
     }
