@@ -58,10 +58,14 @@ const meta: Meta = {
     label: 'Label',
     'slot="default"': 'Content',
     'addEventListener(event, listener)': '',
-    'close()': '',
     'back-button': false,
+    'close()': '',
     'showModal()': '',
     size: 'medium',
+    'slot="header-actions"': '',
+    'slot="primary"': '',
+    'slot="secondary"': '',
+    'slot="tertiary"': '',
   },
   argTypes: {
     label: {
@@ -69,27 +73,6 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
-    },
-    size: {
-      control: { type: 'radio' },
-      options: ['small', 'medium', 'large', 'xlarge'],
-      table: {
-        defaultValue: {
-          summary: '"medium"',
-        },
-        type: { summary: '"small" | "medium" | "large" | "xlarge"' },
-      },
-    },
-    'back-button': {
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: {
-          detail:
-            '// Adds a button to the header that will close Modal on click',
-          summary: 'boolean',
-        },
-      },
     },
     'slot="default"': {
       table: {
@@ -106,12 +89,14 @@ const meta: Meta = {
         },
       },
     },
-    'showModal()': {
-      control: false,
+    'back-button': {
+      control: 'boolean',
       table: {
+        defaultValue: { summary: 'false' },
         type: {
-          summary: 'method',
-          detail: '() => void',
+          detail:
+            '// Adds a button to the header that will close Modal on click',
+          summary: 'boolean',
         },
       },
     },
@@ -121,6 +106,57 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '() => void',
+        },
+      },
+    },
+    'showModal()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
+      },
+    },
+    size: {
+      control: { type: 'radio' },
+      options: ['small', 'medium', 'large', 'xlarge'],
+      table: {
+        defaultValue: {
+          summary: '"medium"',
+        },
+        type: { summary: '"small" | "medium" | "large" | "xlarge"' },
+      },
+    },
+    'slot="header-actions"': {
+      control: false,
+      table: {
+        type: {
+          summary: 'GlideCoreModalIconButton',
+        },
+      },
+    },
+    'slot="primary"': {
+      control: false,
+      table: {
+        type: {
+          summary: 'GlideCoreButton',
+        },
+      },
+    },
+    'slot="secondary"': {
+      control: false,
+      table: {
+        type: {
+          summary: 'GlideCoreButton',
+        },
+      },
+    },
+    'slot="tertiary"': {
+      control: false,
+      table: {
+        type: {
+          summary: 'GlideCoreButton | GlideCoreModalTertiaryIcon',
         },
       },
     },
