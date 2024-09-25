@@ -14,6 +14,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { map } from 'lit/directives/map.js';
 import ow, { owSlot } from './library/ow.js';
 import styles from './tooltip.styles.js';
 
@@ -26,7 +27,6 @@ declare global {
 /**
  * @slot - The primary content of the tooltip.
  * @slot target - The element to which the tooltip should anchor.
- * @slot shortcut - An optional keyboard shortcut to add to the tooltip.
  */
 @customElement('glide-core-tooltip')
 export default class GlideCoreTooltip extends LitElement {
@@ -77,6 +77,9 @@ export default class GlideCoreTooltip extends LitElement {
   */
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
+
+  @property({ reflect: true, type: Array })
+  shortcut: string[] = [];
 
   override disconnectedCallback() {
     super.disconnectedCallback();
@@ -230,13 +233,22 @@ export default class GlideCoreTooltip extends LitElement {
               ${ref(this.#defaultSlotElementRef)}
             ></slot>
 
-            <slot
+            <kbd
               class=${classMap({
-                'shortcut-slot': true,
+                shortcut: true,
                 reversed: this.effectivePlacement === 'left',
               })}
-              name="shortcut"
-            ></slot>
+            >
+              ${this.shortcut.length === 1
+                ? this.shortcut.at(0)
+                : map(this.shortcut, (shortcut, index) => {
+                    return html`<kbd>
+                      ${index === this.shortcut.length - 1
+                        ? shortcut
+                        : shortcut + ' + '}
+                    </kbd>`;
+                  })}
+            </kbd>
           </div>
         </div>
       </div>

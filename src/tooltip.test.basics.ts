@@ -46,7 +46,7 @@ it('has defaults', async () => {
   expect(component.open).to.be.false;
   expect(component.placement).to.be.be.undefined;
   expect(component.disabled).to.be.false;
-  expect(component.hasAttribute('disabled')).to.be.false;
+  expect(component.shortcut).to.be.deep.equal([]);
   expect(tooltip?.checkVisibility()).to.be.false;
 });
 

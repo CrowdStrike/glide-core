@@ -37,9 +37,7 @@ const meta: Meta = {
     offset: 4,
     open: false,
     placement: 'bottom',
-    'slot="shortcut"': `<kbd style="font-family: inherit;"> CMD </kbd> 
-+ 
-<kbd style="font-family: inherit;"> K </kbd>`,
+    shortcut: ['CMD', 'K'],
   },
   argTypes: {
     'slot="default"': {
@@ -98,10 +96,11 @@ const meta: Meta = {
         },
       },
     },
-    'slot="shortcut"': {
+    shortcut: {
       table: {
+        defaultValue: { summary: '[]' },
         type: {
-          summary: 'HTMLKBDElement',
+          summary: 'string[]',
         },
       },
     },
@@ -116,6 +115,7 @@ const meta: Meta = {
       <glide-core-tooltip
         offset=${arguments_.offset}
         placement=${arguments_.placement}
+        .shortcut=${arguments_.shortcut}
         ?disabled=${arguments_.disabled}
         ?open=${arguments_.open}
       >
@@ -127,8 +127,6 @@ const meta: Meta = {
           tabindex="0"
           style="border-radius: 50%; outline-offset: 1px;"
         ></glide-core-example-icon>
-
-        <kbd slot="shortcut">${unsafeHTML(arguments_['slot="shortcut"'])}</kbd>
       </glide-core-tooltip>
     `;
   },

@@ -130,25 +130,21 @@ export default [
       overflow-wrap: anywhere;
     }
 
-    .shortcut-slot {
+    .shortcut {
       color: var(--glide-core-text-body-lighter);
+      display: inline-block;
       white-space: nowrap;
 
-      &::slotted(kbd) {
-        display: inline-block;
-        font-family: inherit;
-      }
-
       &.reversed {
-        &::slotted(kbd) {
-          margin-inline-end: var(--glide-core-spacing-xs);
-        }
+        margin-inline-end: var(--glide-core-spacing-xs);
       }
 
       &:not(.reversed) {
-        &::slotted(kbd) {
-          margin-inline-start: var(--glide-core-spacing-xs);
-        }
+        margin-inline-start: var(--glide-core-spacing-xs);
+      }
+
+      kbd {
+        font-family: inherit;
       }
     }
   `,
