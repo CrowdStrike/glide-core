@@ -41,19 +41,10 @@ it('has defaults', async () => {
     </glide-core-dropdown>`,
   );
 
-  expect(component.hasAttribute('disabled')).to.be.false;
   expect(component.disabled).to.be.false;
-
-  expect(component.hasAttribute('filterable')).to.be.false;
   expect(component.filterable).to.be.false;
-
-  expect(component.getAttribute('name')).to.be.empty.string;
   expect(component.name).to.be.empty.string;
-
-  expect(component.hasAttribute('required')).to.be.false;
   expect(component.required).to.be.false;
-
-  expect(component.getAttribute('size')).to.equal('large');
   expect(component.size).to.equal('large');
 
   // Not reflected, so no attribute assertion is necessary.

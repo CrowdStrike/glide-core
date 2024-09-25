@@ -103,7 +103,6 @@ export default [
     .options {
       --border-width: 1px;
       --padding: var(--glide-core-spacing-xxxs);
-      --private-option-height: 1.75rem;
 
       background-color: var(--glide-core-surface-modal);
       border: var(--border-width) solid var(--glide-core-surface-modal);
@@ -123,6 +122,14 @@ export default [
 
       &.hidden {
         display: none;
+      }
+
+      &.large {
+        --private-option-height: 1.75rem;
+      }
+
+      &.small {
+        --private-option-height: 1.25rem;
       }
     }
 

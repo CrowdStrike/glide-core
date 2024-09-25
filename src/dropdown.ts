@@ -581,6 +581,7 @@ export default class GlideCoreDropdown extends LitElement {
             class=${classMap({
               options: true,
               hidden: this.isOptionsHidden,
+              [this.size]: true,
             })}
             data-test="options"
             id="options"
