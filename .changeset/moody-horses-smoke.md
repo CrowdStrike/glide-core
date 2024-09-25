@@ -2,4 +2,4 @@
 '@crowdstrike/glide-core': minor
 ---
 
-Removed the Status Indicator component as it was used only in the Toast component and moved the component upstream.
+Removed Status Indicator. It was only used by Toast. Moved it to the consuming application.
