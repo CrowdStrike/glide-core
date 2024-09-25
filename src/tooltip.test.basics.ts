@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './tooltip.js';
 import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTooltip from './tooltip.js';
@@ -47,13 +46,13 @@ it('has defaults', async () => {
   expect(component.open).to.be.false;
   expect(component.placement).to.be.be.undefined;
   expect(component.disabled).to.be.false;
-  expect(component.hasAttribute('disabled')).to.be.false;
+  expect(component.shortcut).to.be.deep.equal([]);
   expect(tooltip?.checkVisibility()).to.be.false;
 });
 
 it('can be open', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip aria-label="Label" open>
+    html`<glide-core-tooltip open>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
     </glide-core-tooltip>`,
@@ -69,40 +68,39 @@ it('can be open', async () => {
   expect(tooltip?.checkVisibility()).to.be.true;
 });
 
-it('can have a tooltip', async () => {
+it('can have a single-key shortcut', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip aria-label="Label">
+    html`<glide-core-tooltip .shortcut=${['Enter']}>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
     </glide-core-tooltip>`,
   );
 
-  const tooltip = component?.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot:not([name])')
-    ?.assignedNodes()
-    .at(0);
+  const shortcut = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="shortcut"]',
+  );
 
-  expect(tooltip?.textContent?.trim()).to.equal('Tooltip');
+  expect(shortcut?.textContent?.trim()).to.equal('Enter');
 });
 
-it('can have a target', async () => {
+it('can have a multi-key shortcut', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip>
+    html`<glide-core-tooltip .shortcut=${['CMD', 'K']}>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
     </glide-core-tooltip>`,
   );
 
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="target"]')
-    ?.assignedElements();
+  const shortcut = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="shortcut"]',
+  );
 
-  expect(assignedElements?.at(0)?.textContent).to.equal('Target');
+  expect(shortcut?.textContent?.replaceAll(/\s/g, '')).to.equal('CMD+K');
 });
 
-it('does not open when disabled', async () => {
-  const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip aria-label="Label" open disabled>
+it('is not open when disabled', async () => {
+  const component = await fixture(
+    html`<glide-core-tooltip open disabled>
       Tooltip
       <span slot="target" tabindex="0">Target</span>
     </glide-core-tooltip>`,
@@ -122,9 +120,7 @@ it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<GlideCoreTooltip>(
-      html`<glide-core-tooltip></glide-core-tooltip>`,
-    );
+    await fixture(html`<glide-core-tooltip></glide-core-tooltip>`);
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();
@@ -138,9 +134,7 @@ it('throws if it does not have a "target" slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<GlideCoreTooltip>(
-      html`<glide-core-tooltip> Tooltip </glide-core-tooltip>`,
-    );
+    await fixture(html`<glide-core-tooltip>Tooltip</glide-core-tooltip>`);
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();
@@ -148,4 +142,13 @@ it('throws if it does not have a "target" slot', async () => {
   }
 
   expect(spy.callCount).to.equal(1);
+});
+
+it('has `placement` coverage', async () => {
+  await fixture(
+    html`<glide-core-tooltip open placement="top">
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
 });

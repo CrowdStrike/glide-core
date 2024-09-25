@@ -127,6 +127,11 @@ export default {
             }
           });
 
+          if (context.componentId === 'tooltip') {
+            // https://github.com/CrowdStrike/glide-core/pull/400#discussion_r1775956358
+            $component.attr('shortcut', JSON.stringify(context.args.shortcut));
+          }
+
           const html = $.html().trim();
 
           // For boolean attributes. Cheerio always sets them to an empty string and

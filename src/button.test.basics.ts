@@ -75,7 +75,7 @@ it('delegates focus', async () => {
   );
 });
 
-it('`#onPrefixSlotChange` coverage', async () => {
+it('has `#onPrefixSlotChange` coverage', async () => {
   await fixture<GlideCoreButton>(html`
     <glide-core-button label="Label">
       <span slot="prefix-icon">Prefix</span>
@@ -83,7 +83,7 @@ it('`#onPrefixSlotChange` coverage', async () => {
   `);
 });
 
-it('`#onSuffixIconSlotChange` coverage', async () => {
+it('has `#onSuffixIconSlotChange` coverage', async () => {
   await fixture<GlideCoreButton>(html`
     <glide-core-button label="Label">
       <span slot="suffix-icon">Suffix</span>

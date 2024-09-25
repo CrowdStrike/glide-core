@@ -17,7 +17,7 @@ const meta: Meta = {
         <style>
           textarea {
             height: 6lh !important;
-            width: 21.875rem !important;
+            width: 24rem !important;
           }
 
           [slot="target"] {
@@ -31,17 +31,13 @@ const meta: Meta = {
       </div>`,
   ],
   args: {
-    'slot="default"': `Tooltip 
-<kbd> 
-  <kbd style="font: inherit;"> CMD </kbd> 
-  + 
-  <kbd style="font: inherit;"> K </kbd> 
-</kbd>`,
+    'slot="default"': 'Tooltip',
     'slot="target"': '',
     disabled: false,
     offset: 4,
     open: false,
     placement: 'bottom',
+    shortcut: ['CMD', 'K'],
   },
   argTypes: {
     'slot="default"': {
@@ -67,7 +63,7 @@ const meta: Meta = {
         defaultValue: { summary: 'false' },
         type: {
           summary: 'boolean',
-          detail: `// Never show the tooltip. Useful when you have markup conditionally rendering Tooltip. Instead, always render Tooltip and simply disable it when appropriate.`,
+          detail: `// The tooltip is never shown when disabled. Useful when you have markup conditionally rendering Tooltip.\n// Instead of that, always render Tooltip and simply disable it when appropriate.`,
         },
       },
     },
@@ -100,6 +96,14 @@ const meta: Meta = {
         },
       },
     },
+    shortcut: {
+      table: {
+        defaultValue: { summary: '[]' },
+        type: {
+          summary: 'string[]',
+        },
+      },
+    },
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -111,6 +115,7 @@ const meta: Meta = {
       <glide-core-tooltip
         offset=${arguments_.offset}
         placement=${arguments_.placement}
+        .shortcut=${arguments_.shortcut}
         ?disabled=${arguments_.disabled}
         ?open=${arguments_.open}
       >
