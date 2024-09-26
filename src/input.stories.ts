@@ -8,7 +8,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Input',
   tags: ['autodocs'],
-  decorators: [(story) => html`<div style="height: 3.5rem;">${story()}</div>`],
+  decorators: [(story) => html`<form style="height: 4rem;">${story()}</form>`],
   parameters: {
     docs: {
       story: {
@@ -20,6 +20,7 @@ const meta: Meta = {
     label: 'Label',
     'addEventListener(event, listener)': '',
     autocapitalize: 'on',
+    autocomplete: 'on',
     'checkValidity()': '',
     clearable: false,
     'click()': '',
@@ -34,6 +35,8 @@ const meta: Meta = {
     'reportValidity()': '',
     required: false,
     'slot="description"': '',
+    'slot="prefix-icon"': '',
+    'slot="suffix-icon"': '',
     'slot="tooltip"': '',
     spellcheck: 'false',
     type: 'text',
@@ -63,36 +66,35 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/input.js';
       </script>
 
-      <div style="height: 4rem;">
-        <glide-core-input
-          autocapitalize=${arguments_.autocapitalize || nothing}
-          label=${arguments_.label || nothing}
-          maxlength=${arguments_.maxlength || nothing}
-          name=${arguments_.name || nothing}
-          orientation=${arguments_.orientation}
-          placeholder=${arguments_.placeholder || nothing}
-          spellcheck=${arguments_.spellcheck || nothing}
-          type=${arguments_.type || nothing}
-          value=${arguments_.value || nothing}
-          ?hide-label=${arguments_['hide-label']}
-          ?clearable=${arguments_.clearable}
-          ?password-toggle=${arguments_.passwordToggle || nothing}
-          ?required=${arguments_.required}
-          ?readonly=${arguments_.readonly}
-          ?disabled=${arguments_.disabled}
-        >
-          ${arguments_['slot="description"']
-            ? html`<div slot="description">
-                ${unsafeHTML(arguments_['slot="description"'])}
-              </div>`
-            : nothing}
-          ${arguments_['slot="tooltip"']
-            ? html`<div slot="tooltip">
-                ${unsafeHTML(arguments_['slot="tooltip"'])}
-              </div>`
-            : nothing}
-        </glide-core-input>
-      </div>
+      <glide-core-input
+        autocapitalize=${arguments_.autocapitalize}
+        autocomplete=${arguments_.autocomplete}
+        label=${arguments_.label || nothing}
+        maxlength=${arguments_.maxlength || nothing}
+        name=${arguments_.name || nothing}
+        orientation=${arguments_.orientation}
+        placeholder=${arguments_.placeholder || nothing}
+        spellcheck=${arguments_.spellcheck}
+        type=${arguments_.type || nothing}
+        value=${arguments_.value || nothing}
+        ?clearable=${arguments_.clearable}
+        ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label']}
+        ?password-toggle=${arguments_.passwordToggle}
+        ?required=${arguments_.required}
+        ?readonly=${arguments_.readonly}
+      >
+        ${arguments_['slot="description"']
+          ? html`<div slot="description">
+              ${unsafeHTML(arguments_['slot="description"'])}
+            </div>`
+          : nothing}
+        ${arguments_['slot="tooltip"']
+          ? html`<div slot="tooltip">
+              ${unsafeHTML(arguments_['slot="tooltip"'])}
+            </div>`
+          : nothing}
+      </glide-core-input>
     `;
   },
   argTypes: {
@@ -125,6 +127,18 @@ const meta: Meta = {
         },
       },
     },
+    autocomplete: {
+      control: { type: 'select' },
+      options: ['on', 'off'],
+      table: {
+        defaultValue: {
+          summary: '"on"',
+        },
+        type: {
+          summary: '"on" | "off"',
+        },
+      },
+    },
     'checkValidity()': {
       control: false,
       table: {
@@ -141,6 +155,12 @@ const meta: Meta = {
           summary: 'method',
           detail: '() => void',
         },
+      },
+    },
+    clearable: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
       },
     },
     disabled: {
@@ -220,12 +240,24 @@ const meta: Meta = {
         type: { summary: '"true" | "false"' },
       },
     },
-    'slot="tooltip"': {
+    'slot="description"': {
       table: {
         type: { summary: 'Element' },
       },
     },
-    'slot="description"': {
+    'slot="prefix-icon"': {
+      control: false,
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
+    'slot="suffix-icon"': {
+      control: false,
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
+    'slot="tooltip"': {
       table: {
         type: { summary: 'Element' },
       },
@@ -273,29 +305,33 @@ export const WithIcons: StoryObj = {
       </script>
 
       <glide-core-input
-        label=${arguments_.label}
+        autocapitalize=${arguments_.autocapitalize}
+        autocomplete=${arguments_.autocomplete}
+        label=${arguments_.label || nothing}
         maxlength=${arguments_.maxlength || nothing}
+        name=${arguments_.name || nothing}
         orientation=${arguments_.orientation}
         placeholder=${arguments_.placeholder || nothing}
+        spellcheck=${arguments_.spellcheck}
         type=${arguments_.type}
-        value=${arguments_.value}
+        value=${arguments_.value || nothing}
         ?clearable=${arguments_.clearable}
         ?disabled=${arguments_.disabled}
         ?hide-label=${arguments_['hide-label']}
         ?password-toggle=${arguments_.passwordToggle || nothing}
-        ?readonly=${arguments_.readonly}
         ?required=${arguments_.required}
+        ?readonly=${arguments_.readonly}
       >
         ${arguments_['slot="tooltip"']
           ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
           : nothing}
 
         <glide-core-example-icon
-          slot="prefix"
+          slot="prefix-icon"
           name="pencil"
         ></glide-core-example-icon>
         <glide-core-example-icon
-          slot="suffix"
+          slot="suffix-icon"
           name="share"
         ></glide-core-example-icon>
       </glide-core-input>

@@ -38,28 +38,28 @@ export default class GlideCoreTextarea extends LitElement {
   @property()
   value = '';
 
-  @property()
+  @property({ reflect: true })
   label?: string = '';
 
-  @property({ attribute: 'hide-label', type: Boolean })
+  @property({ attribute: 'hide-label', reflect: true, type: Boolean })
   hideLabel? = false;
 
   @property({ reflect: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
-  @property()
+  @property({ reflect: true })
   placeholder?: string = '';
 
   @property({ reflect: true, type: Number })
   rows = 2;
 
-  @property({ type: Boolean })
+  @property({ reflect: true, type: Boolean })
   required = false;
 
-  @property({ type: Boolean })
+  @property({ reflect: true, type: Boolean })
   readonly = false;
 
-  @property({ type: Boolean })
+  @property({ reflect: true, type: Boolean })
   disabled = false;
 
   @property({
@@ -67,6 +67,7 @@ export default class GlideCoreTextarea extends LitElement {
     converter(value) {
       return value && Number.parseInt(value, 10);
     },
+    reflect: true,
   })
   maxlength?: number;
 
@@ -74,10 +75,10 @@ export default class GlideCoreTextarea extends LitElement {
   name = '';
 
   // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
-  @property({ type: Boolean })
+  @property({ reflect: true, type: Boolean })
   override spellcheck = false;
 
-  @property()
+  @property({ reflect: true })
   override autocapitalize:
     | 'on'
     | 'off'
@@ -85,6 +86,9 @@ export default class GlideCoreTextarea extends LitElement {
     | 'sentences'
     | 'words'
     | 'characters' = 'on';
+
+  @property({ reflect: true })
+  autocomplete: 'on' | 'off' = 'on';
 
   @property()
   privateSplit?: 'left' | 'middle';
@@ -173,7 +177,8 @@ export default class GlideCoreTextarea extends LitElement {
           name=${ifDefined(this.name)}
           placeholder=${ifDefined(this.placeholder)}
           rows=${this.rows}
-          autocapitalize=${ifDefined(this.autocapitalize)}
+          autocapitalize=${this.autocapitalize}
+          autocomplete=${this.autocomplete}
           spellcheck=${this.spellcheck}
           .value=${this.value}
           ?required=${this.required}

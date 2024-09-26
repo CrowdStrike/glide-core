@@ -142,10 +142,10 @@ export default [
       &:not(.reversed) {
         margin-inline-start: var(--glide-core-spacing-xs);
       }
+    }
 
-      kbd {
-        font-family: inherit;
-      }
+    kbd {
+      font-family: var(--glide-core-body-md-font-family);
     }
   `,
 ];

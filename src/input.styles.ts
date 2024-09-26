@@ -88,7 +88,7 @@ export default [
         }
       }
 
-      .suffix {
+      .suffix-icon {
         align-items: center;
         display: flex;
       }
@@ -96,7 +96,7 @@ export default [
 
     .clear-icon-button,
     .password-toggle,
-    ::slotted([slot='suffix']) {
+    ::slotted([slot='suffix-icon']) {
       align-items: center;
       background: none;
       border: none;
@@ -109,8 +109,8 @@ export default [
     .clear-icon-button,
     .password-toggle,
     .search-icon,
-    ::slotted([slot='prefix']),
-    ::slotted([slot='suffix']) {
+    ::slotted([slot='prefix-icon']),
+    ::slotted([slot='suffix-icon']) {
       display: flex;
     }
 
