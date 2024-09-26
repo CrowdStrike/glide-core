@@ -40,15 +40,12 @@ export default [
         opacity: 1;
       }
 
-      /* We remove spacing using negative margin when an icon is present to help with empty space balancing */
-      &.prefix-icon,
-      ::slotted([slot='prefix-icon']) {
-        margin-inline-start: -0.125rem;
+      &.prefix-icon {
+        padding-inline-start: 0.875rem;
       }
 
-      &.suffix-icon,
-      ::slotted([slot='suffix-icon']) {
-        margin-inline-end: -0.125rem;
+      &.suffix-icon {
+        padding-inline-end: 0.875rem;
       }
 
       &.primary {
