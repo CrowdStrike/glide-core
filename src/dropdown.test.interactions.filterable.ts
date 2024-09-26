@@ -898,53 +898,6 @@ it('selects the filter text when `click()` is called', async () => {
   expect(window.getSelection()?.toString()).to.equal('one');
 });
 
-it('selects the filter text when the `<input>` is clicked', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
-    </glide-core-dropdown>`,
-  );
-
-  component.focus();
-  await sendKeys({ type: 'one' });
-
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="input"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  expect(window.getSelection()?.toString()).to.equal('one');
-});
-
-it('selects the filter text when closed and the button is clicked', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
-    </glide-core-dropdown>`,
-  );
-
-  component.focus();
-  await sendKeys({ type: 'one' });
-
-  component.open = false;
-  await elementUpdated(component);
-
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  await elementUpdated(component);
-
-  expect(window.getSelection()?.toString()).to.equal('one');
-});
-
 it('clicks the `<input>` when `click()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">

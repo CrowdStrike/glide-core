@@ -43,9 +43,20 @@ export default [
     }
 
     glide-core-checkbox {
+      &.large {
+        &::part(private-label-and-input-and-checkbox) {
+          padding-inline: var(--glide-core-spacing-sm);
+        }
+      }
+
+      &.small {
+        &::part(private-label-and-input-and-checkbox) {
+          padding-inline: var(--glide-core-spacing-xs);
+        }
+      }
+
       &::part(private-label-and-input-and-checkbox) {
-        block-size: var(--height);
-        padding-inline: var(--padding-inline);
+        block-size: var(--private-option-height);
       }
     }
 

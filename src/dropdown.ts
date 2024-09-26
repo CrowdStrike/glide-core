@@ -499,6 +499,7 @@ export default class GlideCoreDropdown extends LitElement {
                 tabindex=${this.disabled ? '-1' : '0'}
                 ?disabled=${this.disabled}
                 ?readonly=${this.readonly}
+                @focusin=${this.#onInputFocusin}
                 @input=${this.#onInputInput}
                 @keydown=${this.#onInputKeydown}
                 ${ref(this.#inputElementRef)}
@@ -1139,7 +1140,6 @@ export default class GlideCoreDropdown extends LitElement {
       // Thus we return, with or without a form for consistency.
     } else if (event.detail !== 0) {
       this.open = true;
-      this.#inputElementRef.value?.select();
     }
   }
 
@@ -1152,15 +1152,23 @@ export default class GlideCoreDropdown extends LitElement {
     // label or padding shouldn't cause the input to lose focus. The trouble is we
     // don't know it if was the tag's removal button that was clicked because it's
     // in a shadow DOM.
-
     const isFilterable = this.filterable || this.isFilterable;
+    const isGlideCoreTag = event.target instanceof GlideCoreTag;
 
-    if (!(event.target instanceof GlideCoreTag) && isFilterable) {
-      event.preventDefault();
-      this.focus();
-    } else if (!(event.target instanceof GlideCoreTag)) {
+    if (isFilterable && !isGlideCoreTag) {
+      // If the `<input>` was clicked, canceling the event would prevent the insertion
+      // point from moving inside the input.
+      if (event.target !== this.#inputElementRef.value) {
+        event.preventDefault();
+        this.focus();
+      }
+    } else if (!isGlideCoreTag) {
       event.preventDefault();
     }
+  }
+
+  #onInputFocusin() {
+    this.#inputElementRef.value?.select();
   }
 
   #onInputInput(event: Event) {

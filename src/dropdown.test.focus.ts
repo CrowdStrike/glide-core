@@ -46,9 +46,7 @@ it('closes and reports validity when it loses focus', async () => {
   await sendKeys({ up: 'Shift' });
 
   expect(component.open).to.be.false;
-
   expect(component.shadowRoot?.activeElement).to.equal(null);
-
   expect(component.validity.valid).to.be.false;
 
   expect(component.shadowRoot?.querySelector('glide-core-private-label')?.error)
