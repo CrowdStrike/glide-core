@@ -139,15 +139,17 @@ const meta: Meta = {
         ?disabled=${arguments_.disabled}
         ?hide-label=${arguments_['hide-label'] || nothing}
       >
-        <div slot="description">
-          ${unsafeHTML(arguments_['slot="description"'])}
-        </div>
+        ${arguments_['slot="description"']
+          ? html`<div slot="description">
+              ${unsafeHTML(arguments_['slot="description"'])}
+            </div>`
+          : nothing}
         ${arguments_['slot="tooltip"']
-          ? html`<span slot="tooltip"
-              >${unsafeHTML(arguments_['slot="tooltip"'])}</span
-            >`
-          : ''}
-      </glide-core-toggle> `;
+          ? html`<div slot="tooltip">
+              ${unsafeHTML(arguments_['slot="tooltip"'])}
+            </div>`
+          : nothing}
+      </glide-core-toggle>`;
   },
 };
 

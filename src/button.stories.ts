@@ -16,6 +16,9 @@ const meta: Meta = {
 
       <form>
         <glide-core-button
+          aria-controls=${arguments_['aria-controls'] || nothing}
+          aria-expanded=${arguments_['aria-expanded'] || nothing}
+          aria-haspopup=${arguments_['aria-haspopup'] || nothing}
           formaction=${arguments_.formaction || nothing}
           formenctype=${arguments_.formenctype || nothing}
           formmethod=${arguments_.formmethod || nothing}
@@ -38,7 +41,10 @@ const meta: Meta = {
     `;
   },
   args: {
-    label: 'Button',
+    label: 'Label',
+    'aria-controls': '',
+    'aria-expanded': '',
+    'aria-haspopup': '',
     autofocus: false,
     'click()': '',
     disabled: false,
@@ -65,6 +71,47 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
+    },
+    'aria-controls': {
+      table: {
+        defaultValue: {
+          summary: 'null',
+        },
+      },
+    },
+    'aria-expanded': {
+      control: { type: 'select' },
+      table: {
+        defaultValue: {
+          summary: 'null',
+        },
+        type: {
+          summary: '"true" | "false"',
+        },
+      },
+      options: ['', 'true', 'false'],
+    },
+    'aria-haspopup': {
+      control: { type: 'select' },
+      table: {
+        defaultValue: {
+          summary: 'null',
+        },
+        type: {
+          summary:
+            '"true" | "false" | "menu" | "listbox" | "tree" | "grid" | "dialog"',
+        },
+      },
+      options: [
+        '',
+        'true',
+        'false',
+        'menu',
+        'listbox',
+        'tree',
+        'grid',
+        'dialog',
+      ],
     },
     autofocus: {
       table: {
@@ -249,6 +296,9 @@ export const WithIcons: StoryObj = {
       </script>
 
       <glide-core-button
+        aria-controls=${arguments_['aria-controls'] || nothing}
+        aria-expanded=${arguments_['aria-expanded'] || nothing}
+        aria-haspopup=${arguments_['aria-haspopup'] || nothing}
         formaction=${arguments_.formaction || nothing}
         formenctype=${arguments_.formenctype || nothing}
         formmethod=${arguments_.formmethod || nothing}

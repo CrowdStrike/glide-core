@@ -8,7 +8,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Input',
   tags: ['autodocs'],
-  decorators: [(story) => html`<div style="height: 5rem;">${story()}</div>`],
+  decorators: [(story) => html`<div style="height: 3.5rem;">${story()}</div>`],
   parameters: {
     docs: {
       story: {
@@ -85,12 +85,12 @@ const meta: Meta = {
             ? html`<div slot="description">
                 ${unsafeHTML(arguments_['slot="description"'])}
               </div>`
-            : ''}
+            : nothing}
           ${arguments_['slot="tooltip"']
             ? html`<div slot="tooltip">
                 ${unsafeHTML(arguments_['slot="tooltip"'])}
               </div>`
-            : ''}
+            : nothing}
         </glide-core-input>
       </div>
     `;
@@ -287,8 +287,8 @@ export const WithIcons: StoryObj = {
         ?required=${arguments_.required}
       >
         ${arguments_['slot="tooltip"']
-          ? html`<span slot="tooltip">${arguments_['slot="tooltip"']}</span>`
-          : ''}
+          ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
+          : nothing}
 
         <glide-core-example-icon
           slot="prefix"

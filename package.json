@@ -33,8 +33,7 @@
   },
   "scripts": {
     "start": "per-env",
-    "start:development": "storybook dev --config-dir .storybook --disable-telemetry --port 6006 --ci",
-    "start:development:comment": "Upon running this script, a new tab will **not** automatically open due to the `--ci` flag. This may be a bit unexpected as it is not the default behavior. One must manually navigate to the Storybook URL provided in the terminal.",
+    "start:development": "storybook dev --config-dir .storybook --disable-telemetry --no-open --port 6006",
     "start:production": "rimraf ./dist && npm-run-all --parallel start:production:components start:production:storybook start:production:stylesheets --aggregate-output --print-label",
     "start:production:components": "tsc --outDir ./dist && node ./terser.js",
     "start:production:figma": "pnpm dt export-variables && pnpm dt build-tokens && pnpm dt build-styles",

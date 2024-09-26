@@ -28,6 +28,9 @@ export default class GlideCoreButton extends LitElement {
 
   static override styles = styles;
 
+  @property({ attribute: 'aria-controls', reflect: true })
+  ariaControls: string | null = null;
+
   @property({ attribute: 'aria-expanded', reflect: true })
   override ariaExpanded: 'true' | 'false' | null = null;
 
@@ -41,9 +44,6 @@ export default class GlideCoreButton extends LitElement {
     | 'grid'
     | 'dialog'
     | null = null;
-
-  @property({ attribute: 'aria-controls', reflect: true })
-  ariaControls: string | null = null;
 
   @property({ type: Boolean, reflect: true }) override autofocus = false;
 

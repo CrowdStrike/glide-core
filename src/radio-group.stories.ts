@@ -61,14 +61,16 @@ const meta: Meta = {
           <glide-core-radio label="Two"></glide-core-radio>
           <glide-core-radio label="Three"></glide-core-radio>
 
-          <div slot="description">
-            ${unsafeHTML(arguments_['slot="description"'])}
-          </div>
+          ${arguments_['slot="description"']
+            ? html`<div slot="description">
+                ${unsafeHTML(arguments_['slot="description"'])}
+              </div>`
+            : nothing}
           ${arguments_['slot="tooltip"']
-            ? html`<span slot="tooltip">
+            ? html`<div slot="tooltip">
                 ${unsafeHTML(arguments_['slot="tooltip"'])}
-              </span>`
-            : ''}
+              </div>`
+            : nothing}
         </glide-core-radio-group>
       </form>
     `;

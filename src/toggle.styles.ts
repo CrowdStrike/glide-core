@@ -36,10 +36,6 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
       justify-content: center;
       position: relative;
 
-      &:has(input:focus-visible) {
-        outline-offset: 4px;
-      }
-
       &:has(input:checked:not(:disabled)) {
         background-color: var(--glide-core-surface-primary);
         border-color: transparent;

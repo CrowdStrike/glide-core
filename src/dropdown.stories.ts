@@ -317,25 +317,25 @@ const meta: Meta = {
             value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
             ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
           ></glide-core-dropdown-option>
-
           <glide-core-dropdown-option
             label="Two"
             value="two"
           ></glide-core-dropdown-option>
-
           <glide-core-dropdown-option
             label="Three"
             value="three"
           ></glide-core-dropdown-option>
 
-          <div slot="description">
-            ${unsafeHTML(arguments_['slot="description"'])}
-          </div>
+          ${arguments_['slot="description"']
+            ? html`<div slot="description">
+                ${unsafeHTML(arguments_['slot="description"'])}
+              </div>`
+            : nothing}
           ${arguments_['slot="tooltip"']
             ? html`<div slot="tooltip">
                 ${unsafeHTML(arguments_['slot="tooltip"'])}
               </div>`
-            : ''}
+            : nothing}
         </glide-core-dropdown>
       </form>`;
   },
@@ -407,10 +407,16 @@ export const WithIcons: StoryObj = {
             ></glide-core-example-icon>
           </glide-core-dropdown-option>
 
-          <div slot="description">${arguments_['slot="description"']}</div>
+          ${arguments_['slot="description"']
+            ? html`<div slot="description">
+                ${unsafeHTML(arguments_['slot="description"'])}
+              </div>`
+            : nothing}
           ${arguments_['slot="tooltip"']
-            ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
-            : ''}
+            ? html`<div slot="tooltip">
+                ${unsafeHTML(arguments_['slot="tooltip"'])}
+              </div>`
+            : nothing}
         </glide-core-dropdown>
       </form>`;
   },
