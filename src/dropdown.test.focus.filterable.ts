@@ -213,8 +213,6 @@ it('does not focus the input when `checkValidity` is called', async () => {
 });
 
 it('sets the `value` of the `<input>` to the selected option when focus is lost', async () => {
-  document.body.tabIndex = -1;
-
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       ${defaultSlot}
@@ -234,11 +232,27 @@ it('sets the `value` of the `<input>` to the selected option when focus is lost'
   component.focus();
   await sendKeys({ type: 'o' });
 
-  document.body.focus();
+  component.blur();
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
   );
 
   expect(input?.value).to.equal('One');
+});
+
+it('selects the filter text on focus', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+
+  component.blur();
+  component.focus();
+
+  expect(window.getSelection()?.toString()).to.equal('one');
 });
