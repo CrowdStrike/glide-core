@@ -245,7 +245,6 @@ export default class GlideCoreTooltip extends LitElement {
                 : map(this.shortcut, (shortcut, index) => {
                     return html`
                       <kbd>${shortcut}</kbd>
-
                       ${index === this.shortcut.length - 1 ? '' : ' + '}
                     `;
                   })}

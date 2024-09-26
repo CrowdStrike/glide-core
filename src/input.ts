@@ -40,8 +40,8 @@ type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
  *
  * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
- * @slot prefix - An optional icon before the input field.
- * @slot suffix - An optional icon after the input field.
+ * @slot prefix-icon - An optional icon before the input field.
+ * @slot suffix-icon - An optional icon after the input field.
  */
 @customElement('glide-core-input')
 export default class GlideCoreInput extends LitElement {
@@ -65,7 +65,7 @@ export default class GlideCoreInput extends LitElement {
   @property()
   value = '';
 
-  @property()
+  @property({ reflect: true })
   label?: string;
 
   @property({ attribute: 'hide-label', type: Boolean })
@@ -74,7 +74,7 @@ export default class GlideCoreInput extends LitElement {
   @property({ reflect: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
-  @property()
+  @property({ reflect: true })
   placeholder?: string;
 
   @property({ type: Boolean })
@@ -84,7 +84,7 @@ export default class GlideCoreInput extends LitElement {
   @property({ reflect: true, type: Boolean })
   override spellcheck = false;
 
-  @property()
+  @property({ reflect: true })
   override autocapitalize:
     | 'on'
     | 'off'
@@ -92,6 +92,9 @@ export default class GlideCoreInput extends LitElement {
     | 'sentences'
     | 'words'
     | 'characters' = 'on';
+
+  @property({ reflect: true })
+  autocomplete: 'on' | 'off' = 'on';
 
   /** For 'password' type, whether to show a button to toggle the password's visibility */
   @property({ attribute: 'password-toggle', type: Boolean })
@@ -103,7 +106,7 @@ export default class GlideCoreInput extends LitElement {
   @property({ type: Boolean })
   readonly = false;
 
-  @property({ type: Boolean })
+  @property({ reflect: true, type: Boolean })
   disabled = false;
 
   @property()
@@ -114,6 +117,7 @@ export default class GlideCoreInput extends LitElement {
     converter(value) {
       return value && Number.parseInt(value, 10);
     },
+    reflect: true,
   })
   maxlength?: number;
 
@@ -211,7 +215,7 @@ export default class GlideCoreInput extends LitElement {
           })}
           slot="control"
         >
-          <slot name="prefix"></slot>
+          <slot name="prefix-icon"></slot>
 
           <input
             aria-describedby="meta"
@@ -223,7 +227,8 @@ export default class GlideCoreInput extends LitElement {
               : this.type}
             .value=${this.value}
             placeholder=${ifDefined(this.placeholder)}
-            autocapitalize=${ifDefined(this.autocapitalize)}
+            autocapitalize=${this.autocapitalize}
+            autocomplete=${this.autocomplete}
             spellcheck=${this.spellcheck}
             ?required=${this.required}
             ?readonly=${this.readonly}
@@ -328,10 +333,10 @@ export default class GlideCoreInput extends LitElement {
               `
             : nothing}
 
-          <div class="suffix">
+          <div class="suffix-icon">
             ${this.type === 'search'
               ? magnifyingGlassIcon
-              : html`<slot name="suffix"></slot>`}
+              : html`<slot name="suffix-icon"></slot>`}
           </div>
         </div>
 

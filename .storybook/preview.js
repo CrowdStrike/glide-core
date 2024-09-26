@@ -155,7 +155,7 @@ export default {
 
           // For boolean attributes. Cheerio always sets them to an empty string and
           // blows up when they're set to `undefined`. Couldn't find a better way.
-          return html.replace('=""', '');
+          return html.replaceAll('=""', '');
         },
       },
       theme: create({

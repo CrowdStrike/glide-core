@@ -39,6 +39,7 @@ const meta: Meta = {
     label: 'Label',
     'addEventListener(event, listener)': '',
     autocapitalize: 'on',
+    autocomplete: 'on',
     'checkValidity()': '',
     'click()': '',
     disabled: false,
@@ -84,6 +85,18 @@ const meta: Meta = {
         type: {
           summary:
             '"on" | "off" | "none" | "sentences" | "words" | "characters"',
+        },
+      },
+    },
+    autocomplete: {
+      control: { type: 'select' },
+      options: ['on', 'off'],
+      table: {
+        defaultValue: {
+          summary: '"on"',
+        },
+        type: {
+          summary: '"on" | "off"',
         },
       },
     },
@@ -213,17 +226,20 @@ const meta: Meta = {
 
       <form>
         <glide-core-textarea
-          label=${arguments_.label}
+          autocapitalize=${arguments_.autocapitalize}
+          autocomplete=${arguments_.autocomplete}
+          label=${arguments_.label || nothing}
           maxlength=${arguments_.maxlength || nothing}
           name=${arguments_.name || nothing}
           orientation=${arguments_.orientation}
-          placeholder=${arguments_.placeholder}
+          placeholder=${arguments_.placeholder || nothing}
           rows=${arguments_.rows}
+          spellcheck=${arguments_.spellcheck}
           value=${arguments_.value || nothing}
           ?disabled=${arguments_.disabled}
           ?hide-label=${arguments_['hide-label']}
-          ?required=${arguments_.required}
           ?readonly=${arguments_.readonly}
+          ?required=${arguments_.required}
         >
           ${arguments_['slot="description"']
             ? html`<div slot="description">
