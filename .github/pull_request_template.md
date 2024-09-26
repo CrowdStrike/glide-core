@@ -22,7 +22,7 @@
 
 ## 📸 Images/Videos of Functionality
 
-<!-- For visual changes, it's extremely helpful to include screenshots, gifs, or videos of what has changed.  Before and After images are ideal when adjusting styling.
+<!-- For visual changes, it's extremely helpful to include screenshots, gifs, or videos of what has changed. Before and after images are ideal when adjusting styling.
 
 Use a markdown table to display changes side-by-side for easier comparison.
 
