@@ -8,6 +8,14 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Toggle',
   tags: ['autodocs'],
+  decorators: [
+    (story) =>
+      html`<script type="ignore">
+          import '@crowdstrike/glide-core/toggle.js';
+        </script>
+
+        ${story()} `,
+  ],
   parameters: {
     docs: {
       story: {
@@ -127,29 +135,25 @@ const meta: Meta = {
 
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/toggle.js';
-      </script>
-
-      <glide-core-toggle
-        label=${arguments_.label || nothing}
-        orientation=${arguments_.orientation || nothing}
-        summary=${arguments_.summary || nothing}
-        ?checked=${arguments_.checked}
-        ?disabled=${arguments_.disabled}
-        ?hide-label=${arguments_['hide-label'] || nothing}
-      >
-        ${arguments_['slot="description"']
-          ? html`<div slot="description">
-              ${unsafeHTML(arguments_['slot="description"'])}
-            </div>`
-          : nothing}
-        ${arguments_['slot="tooltip"']
-          ? html`<div slot="tooltip">
-              ${unsafeHTML(arguments_['slot="tooltip"'])}
-            </div>`
-          : nothing}
-      </glide-core-toggle>`;
+    return html`<glide-core-toggle
+      label=${arguments_.label || nothing}
+      orientation=${arguments_.orientation || nothing}
+      summary=${arguments_.summary || nothing}
+      ?checked=${arguments_.checked}
+      ?disabled=${arguments_.disabled}
+      ?hide-label=${arguments_['hide-label'] || nothing}
+    >
+      ${arguments_['slot="description"']
+        ? html`<div slot="description">
+            ${unsafeHTML(arguments_['slot="description"'])}
+          </div>`
+        : nothing}
+      ${arguments_['slot="tooltip"']
+        ? html`<div slot="tooltip">
+            ${unsafeHTML(arguments_['slot="tooltip"'])}
+          </div>`
+        : nothing}
+    </glide-core-toggle>`;
   },
 };
 

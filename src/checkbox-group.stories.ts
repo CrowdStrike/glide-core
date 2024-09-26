@@ -8,7 +8,15 @@ const meta: Meta = {
   title: 'Checkbox Group',
   tags: ['autodocs'],
   decorators: [
-    (story) => html`<div style="width: max-content;">${story()}</div>`,
+    (story) =>
+      html`<form action="/" style="width: max-content;">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/checkbox-group.js';
+          import '@crowdstrike/glide-core/checkbox.js';
+        </script>
+
+        ${story()}
+      </form>`,
   ],
   parameters: {
     docs: {
@@ -141,12 +149,7 @@ const meta: Meta = {
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/checkbox-group.js';
-        import '@crowdstrike/glide-core/checkbox.js';
-      </script>
-
-      <form action="/">
+    return html`
         <glide-core-checkbox-group
           label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}
@@ -158,16 +161,20 @@ const meta: Meta = {
           <glide-core-checkbox label="Two"></glide-core-checkbox>
           <glide-core-checkbox label="Three"></glide-core-checkbox>
 
-          ${arguments_['slot="description"']
-            ? html`<div slot="description">
-                ${unsafeHTML(arguments_['slot="description"'])}
-              </div>`
-            : nothing}
-          ${arguments_['slot="tooltip"']
-            ? html`<div slot="tooltip">
-                ${unsafeHTML(arguments_['slot="tooltip"'])}
-              </div>`
-            : nothing}
+          ${
+            arguments_['slot="description"']
+              ? html`<div slot="description">
+                  ${unsafeHTML(arguments_['slot="description"'])}
+                </div>`
+              : nothing
+          }
+          ${
+            arguments_['slot="tooltip"']
+              ? html`<div slot="tooltip">
+                  ${unsafeHTML(arguments_['slot="tooltip"'])}
+                </div>`
+              : nothing
+          }
         </glide-core-checkbox-group>
       </form>`;
   },

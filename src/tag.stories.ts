@@ -6,12 +6,17 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Tag',
   tags: ['autodocs'],
-  render(arguments_) {
-    return html`
+  decorators: [
+    (story) => html`
       <script type="ignore">
         import '@crowdstrike/glide-core/tag.js';
       </script>
 
+      ${story()}
+    `,
+  ],
+  render(arguments_) {
+    return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
         size=${arguments_.size}
@@ -102,10 +107,6 @@ export const Tag: StoryObj = {
 export const WithIcon: StoryObj = {
   render(arguments_) {
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/tag.js';
-      </script>
-
       <glide-core-tag
         label=${arguments_.label || nothing}
         ?removable=${arguments_.removable}

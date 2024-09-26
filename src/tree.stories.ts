@@ -10,7 +10,17 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   decorators: [
     (story) =>
-      html`<div style="max-width: 18.75rem; height: 8.5rem;">${story()}</div>`,
+      html`<div style="max-width: 18.75rem; height: 8.5rem;">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/tree.js';
+          import '@crowdstrike/glide-core/tree.item.js';
+          import '@crowdstrike/glide-core/tree.item.menu.js';
+          import '@crowdstrike/glide-core/tree.item.icon-button.js';
+          import '@crowdstrike/glide-core/menu.link.js';
+        </script>
+
+        ${story()}
+      </div>`,
   ],
   title: 'Tree',
   tags: ['autodocs'],
@@ -26,75 +36,65 @@ const meta: Meta = {
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
   },
   render(arguments_) {
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/tree.js';
-        import '@crowdstrike/glide-core/tree.item.js';
-        import '@crowdstrike/glide-core/tree.item.menu.js';
-        import '@crowdstrike/glide-core/tree.item.icon-button.js';
-        import '@crowdstrike/glide-core/menu.link.js';
-      </script>
+    return html`<glide-core-tree>
+      <glide-core-tree-item
+        label="Back"
+        ?remove-indentation=${arguments_[
+          '<glide-core-tree-item>.remove-indentation'
+        ] || nothing}
+      >
+        <glide-core-example-icon
+          slot="prefix"
+          name="arrow-left"
+        ></glide-core-example-icon>
+      </glide-core-tree-item>
 
-      <glide-core-tree>
-        <glide-core-tree-item
-          label="Back"
-          ?remove-indentation=${arguments_[
-            '<glide-core-tree-item>.remove-indentation'
-          ] || nothing}
-        >
-          <glide-core-example-icon
-            slot="prefix"
-            name="arrow-left"
-          ></glide-core-example-icon>
-        </glide-core-tree-item>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
+        ?non-collapsible=${arguments_[
+          '<glide-core-tree-item>.non-collapsible'
+        ] || nothing}
+        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
+      >
+        <glide-core-example-icon
+          slot="prefix"
+          name="share"
+        ></glide-core-example-icon>
 
-        <glide-core-tree-item
-          label=${arguments_['<glide-core-tree-item>.label']}
-          ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
-          ?non-collapsible=${arguments_[
-            '<glide-core-tree-item>.non-collapsible'
-          ] || nothing}
-          ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
-        >
-          <glide-core-example-icon
-            slot="prefix"
-            name="share"
-          ></glide-core-example-icon>
+        <glide-core-tree-item label="Leaf">
+          <glide-core-tree-item-icon-button
+            slot="suffix"
+            label=${arguments_['<glide-core-tree-item-icon-button>.label']}
+          >
+            <glide-core-example-icon name="settings"></glide-core-example-icon>
+          </glide-core-tree-item-icon-button>
 
-          <glide-core-tree-item label="Leaf">
-            <glide-core-tree-item-icon-button
-              slot="suffix"
-              label=${arguments_['<glide-core-tree-item-icon-button>.label']}
-            >
+          <glide-core-tree-item-menu
+            slot="menu"
+            placement=${arguments_['<glide-core-tree-item-menu>.placement']}
+          >
+            <glide-core-menu-link label="Edit" url="/">
               <glide-core-example-icon
-                name="settings"
+                slot="icon"
+                name="pencil"
               ></glide-core-example-icon>
-            </glide-core-tree-item-icon-button>
+            </glide-core-menu-link>
 
-            <glide-core-tree-item-menu
-              slot="menu"
-              placement=${arguments_['<glide-core-tree-item-menu>.placement']}
-            >
-              <glide-core-menu-link label="Edit" url="/">
-                <glide-core-example-icon
-                  slot="icon"
-                  name="pencil"
-                ></glide-core-example-icon>
-              </glide-core-menu-link>
-
-              <glide-core-menu-link label="Move" url="/">
-                <glide-core-example-icon
-                  slot="icon"
-                  name="move"
-                ></glide-core-example-icon>
-              </glide-core-menu-link>
-            </glide-core-tree-item-menu>
-          </glide-core-tree-item>
-
-          <glide-core-tree-item label="Branch" expanded>
-            <glide-core-tree-item label="Leaf"></glide-core-tree-item>
-          </glide-core-tree-item>
+            <glide-core-menu-link label="Move" url="/">
+              <glide-core-example-icon
+                slot="icon"
+                name="move"
+              ></glide-core-example-icon>
+            </glide-core-menu-link>
+          </glide-core-tree-item-menu>
         </glide-core-tree-item>
-      </glide-core-tree>`;
+
+        <glide-core-tree-item label="Branch" expanded>
+          <glide-core-tree-item label="Leaf"></glide-core-tree-item>
+        </glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>`;
   },
   argTypes: {
     'slot="default"': {

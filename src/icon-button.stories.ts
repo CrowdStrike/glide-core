@@ -6,12 +6,18 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Icon Button',
   tags: ['autodocs'],
+  decorators: [
+    (story) =>
+      html`<form action="/">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/icon-button.js';
+        </script>
+
+        ${story()}
+      </form>`,
+  ],
   render(arguments_) {
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/icon-button.js';
-      </script>
-
       <glide-core-icon-button
         label=${arguments_.label || nothing}
         variant=${arguments_.variant || nothing}

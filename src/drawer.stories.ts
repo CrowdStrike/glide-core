@@ -7,7 +7,16 @@ import ow from './library/ow.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
-  decorators: [(story) => html`<div style="height: 12.5rem;">${story()}</div>`],
+  decorators: [
+    (story) =>
+      html`<div style="height: 12.5rem;">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/drawer.js';
+        </script>
+
+        ${story()}
+      </div>`,
+  ],
   title: 'Drawer',
   tags: ['autodocs'],
   parameters: {
@@ -48,10 +57,6 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/drawer.js';
-      </script>
-
       <glide-core-drawer
         label=${arguments_.label}
         ?pinned=${arguments_.pinned}

@@ -12,6 +12,17 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Menu',
   tags: ['autodocs'],
+  decorators: [
+    (story) =>
+      html`<script type="ignore">
+          import '@crowdstrike/glide-core/menu.js';
+          import '@crowdstrike/glide-core/menu.options.js';
+          import '@crowdstrike/glide-core/menu.link.js';
+          import '@crowdstrike/glide-core/menu.button.js';
+        </script>
+
+        ${story()}`,
+  ],
   parameters: {
     docs: {
       story: {
@@ -110,26 +121,19 @@ const meta: Meta = {
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/menu.js';
-        import '@crowdstrike/glide-core/menu.options.js';
-        import '@crowdstrike/glide-core/menu.link.js';
-        import '@crowdstrike/glide-core/menu.button.js';
-      </script>
+    return html`<glide-core-menu
+      placement=${arguments_.placement}
+      size=${arguments_.size || nothing}
+      ?open=${arguments_.open}
+    >
+      <glide-core-button label="Target" slot="target"></glide-core-button>
 
-      <glide-core-menu
-        placement=${arguments_.placement}
-        size=${arguments_.size || nothing}
-        ?open=${arguments_.open}
-      >
-        <glide-core-button label="Target" slot="target"></glide-core-button>
-
-        <glide-core-menu-options>
-          <glide-core-menu-button label="One"></glide-core-menu-button>
-          <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" url="/"></glide-core-menu-link>
-        </glide-core-menu-options>
-      </glide-core-menu>`;
+      <glide-core-menu-options>
+        <glide-core-menu-button label="One"></glide-core-menu-button>
+        <glide-core-menu-button label="Two"></glide-core-menu-button>
+        <glide-core-menu-link label="Three" url="/"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`;
   },
 };
 

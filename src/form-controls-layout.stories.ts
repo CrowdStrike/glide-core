@@ -10,6 +10,16 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Form Controls Layout',
   tags: ['autodocs'],
+  decorators: [
+    (story) =>
+      html`<form action="/" style="height: 16rem;">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/form-controls-layout.js';
+        </script>
+
+        ${story()}
+      </form>`,
+  ],
   args: {
     'slot="default"': '',
     split: 'left',
@@ -35,41 +45,31 @@ const meta: Meta = {
   },
   render(arguments_) {
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/form-controls-layout.js';
-      </script>
+      <glide-core-form-controls-layout split=${arguments_.split}>
+        <glide-core-checkbox-group label="Label">
+          <glide-core-checkbox label="One"></glide-core-checkbox>
+          <glide-core-checkbox label="Two"></glide-core-checkbox>
+          <glide-core-checkbox label="Three"></glide-core-checkbox>
+        </glide-core-checkbox-group>
 
-      <form style="height: 16rem;">
-        <glide-core-form-controls-layout split=${arguments_.split}>
-          <glide-core-checkbox-group label="Label">
-            <glide-core-checkbox label="One"></glide-core-checkbox>
-            <glide-core-checkbox label="Two"></glide-core-checkbox>
-            <glide-core-checkbox label="Three"></glide-core-checkbox>
-          </glide-core-checkbox-group>
+        <glide-core-dropdown label="Label" placeholder="Placeholder">
+          <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+          <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+          <glide-core-dropdown-option
+            label="Three"
+          ></glide-core-dropdown-option>
+        </glide-core-dropdown>
 
-          <glide-core-dropdown label="Label" placeholder="Placeholder">
-            <glide-core-dropdown-option
-              label="One"
-            ></glide-core-dropdown-option>
-            <glide-core-dropdown-option
-              label="Two"
-            ></glide-core-dropdown-option>
-            <glide-core-dropdown-option
-              label="Three"
-            ></glide-core-dropdown-option>
-          </glide-core-dropdown>
+        <glide-core-input
+          label="Label"
+          placeholder="Placeholder"
+        ></glide-core-input>
 
-          <glide-core-input
-            label="Label"
-            placeholder="Placeholder"
-          ></glide-core-input>
-
-          <glide-core-textarea
-            label="Label"
-            placeholder="Placeholder"
-          ></glide-core-textarea>
-        </glide-core-form-controls-layout>
-      </form>
+        <glide-core-textarea
+          label="Label"
+          placeholder="Placeholder"
+        ></glide-core-textarea>
+      </glide-core-form-controls-layout>
     `;
   },
 };

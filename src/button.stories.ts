@@ -7,37 +7,42 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Button',
   tags: ['autodocs'],
+  decorators: [
+    (story) => html`
+      <form action="/">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/button.js';
+        </script>
+
+        ${story()}
+      </form>
+    `,
+  ],
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/button.js';
-      </script>
-
-      <form>
-        <glide-core-button
-          aria-controls=${arguments_['aria-controls'] || nothing}
-          aria-expanded=${arguments_['aria-expanded'] || nothing}
-          aria-haspopup=${arguments_['aria-haspopup'] || nothing}
-          formaction=${arguments_.formaction || nothing}
-          formenctype=${arguments_.formenctype || nothing}
-          formmethod=${arguments_.formmethod || nothing}
-          formtarget=${arguments_.formtarget || nothing}
-          label=${arguments_.label || nothing}
-          name=${arguments_.name || nothing}
-          popovertarget=${arguments_.popovertarget || nothing}
-          popovertargetaction=${arguments_.popovertargetaction || nothing}
-          size=${arguments_.size || nothing}
-          type=${arguments_.type || nothing}
-          value=${arguments_.value || nothing}
-          variant=${arguments_.variant || nothing}
-          ?autofocus=${arguments_.autofocus}
-          ?disabled=${arguments_.disabled || nothing}
-          ?formnovalidate=${arguments_.formnovalidate}
-        >
-          ${unsafeHTML(arguments_['slot="default"'])}
-        </glide-core-button>
-      </form>
+      <glide-core-button
+        aria-controls=${arguments_['aria-controls'] || nothing}
+        aria-expanded=${arguments_['aria-expanded'] || nothing}
+        aria-haspopup=${arguments_['aria-haspopup'] || nothing}
+        formaction=${arguments_.formaction || nothing}
+        formenctype=${arguments_.formenctype || nothing}
+        formmethod=${arguments_.formmethod || nothing}
+        formtarget=${arguments_.formtarget || nothing}
+        label=${arguments_.label || nothing}
+        name=${arguments_.name || nothing}
+        popovertarget=${arguments_.popovertarget || nothing}
+        popovertargetaction=${arguments_.popovertargetaction || nothing}
+        size=${arguments_.size || nothing}
+        type=${arguments_.type || nothing}
+        value=${arguments_.value || nothing}
+        variant=${arguments_.variant || nothing}
+        ?autofocus=${arguments_.autofocus}
+        ?disabled=${arguments_.disabled || nothing}
+        ?formnovalidate=${arguments_.formnovalidate}
+      >
+        ${unsafeHTML(arguments_['slot="default"'])}
+      </glide-core-button>
     `;
   },
   args: {
@@ -291,10 +296,6 @@ export const Button: StoryObj = {
 export const WithIcons: StoryObj = {
   render(arguments_) {
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/button.js';
-      </script>
-
       <glide-core-button
         aria-controls=${arguments_['aria-controls'] || nothing}
         aria-expanded=${arguments_['aria-expanded'] || nothing}

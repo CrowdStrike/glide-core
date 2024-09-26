@@ -6,7 +6,14 @@ const meta: Meta = {
   title: 'Textarea',
   tags: ['autodocs'],
   decorators: [
-    (story) => html`<div style="min-height: 6rem;">${story()}</div>`,
+    (story) =>
+      html`<form action="/" style="min-height: 6rem;">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/textarea.js';
+        </script>
+
+        ${story()}
+      </form>`,
   ],
   parameters: {
     docs: {
@@ -220,37 +227,33 @@ const meta: Meta = {
     },
   },
   render(arguments_) {
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/textarea.js';
-      </script>
-
-      <form>
-        <glide-core-textarea
-          autocapitalize=${arguments_.autocapitalize}
-          autocomplete=${arguments_.autocomplete}
-          label=${arguments_.label || nothing}
-          maxlength=${arguments_.maxlength || nothing}
-          name=${arguments_.name || nothing}
-          orientation=${arguments_.orientation}
-          placeholder=${arguments_.placeholder || nothing}
-          rows=${arguments_.rows}
-          spellcheck=${arguments_.spellcheck}
-          value=${arguments_.value || nothing}
-          ?disabled=${arguments_.disabled}
-          ?hide-label=${arguments_['hide-label']}
-          ?readonly=${arguments_.readonly}
-          ?required=${arguments_.required}
-        >
-          ${arguments_['slot="description"']
-            ? html`<div slot="description">
-                ${arguments_['slot="description"']}
-              </div>`
-            : nothing}
-          ${arguments_['slot="tooltip"']
-            ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
-            : nothing}
-        </glide-core-textarea>
-      </form>`;
+    return html`
+      <glide-core-textarea
+        autocapitalize=${arguments_.autocapitalize}
+        autocomplete=${arguments_.autocomplete}
+        label=${arguments_.label || nothing}
+        maxlength=${arguments_.maxlength || nothing}
+        name=${arguments_.name || nothing}
+        orientation=${arguments_.orientation}
+        placeholder=${arguments_.placeholder || nothing}
+        rows=${arguments_.rows}
+        spellcheck=${arguments_.spellcheck}
+        value=${arguments_.value || nothing}
+        ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label']}
+        ?readonly=${arguments_.readonly}
+        ?required=${arguments_.required}
+      >
+        ${arguments_['slot="description"']
+          ? html`<div slot="description">
+              ${arguments_['slot="description"']}
+            </div>`
+          : nothing}
+        ${arguments_['slot="tooltip"']
+          ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
+          : nothing}
+      </glide-core-textarea>
+    `;
   },
 };
 

@@ -8,6 +8,16 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Checkbox',
   tags: ['autodocs'],
+  decorators: [
+    (story) =>
+      html`<form action="/">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/checkbox.js';
+        </script>
+
+        ${story()}
+      </form>`,
+  ],
   parameters: {
     docs: {
       story: {
@@ -203,35 +213,31 @@ const meta: Meta = {
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/checkbox.js';
-      </script>
-
-      <form action="/">
-        <glide-core-checkbox
-          label=${arguments_.label || nothing}
-          name=${arguments_.name || nothing}
-          orientation=${arguments_.orientation || nothing}
-          summary=${arguments_.summary || nothing}
-          value=${arguments_.value || nothing}
-          ?checked=${arguments_.checked}
-          ?disabled=${arguments_.disabled}
-          ?hide-label=${arguments_['hide-label'] || nothing}
-          ?indeterminate=${arguments_.indeterminate}
-          ?required=${arguments_.required}
-        >
-          ${arguments_['slot="description"']
-            ? html`<div slot="description">
-                ${unsafeHTML(arguments_['slot="description"'])}
-              </div>`
-            : nothing}
-          ${arguments_['slot="tooltip"']
-            ? html`<div slot="tooltip">
-                ${unsafeHTML(arguments_['slot="tooltip"'])}
-              </div>`
-            : nothing}
-        </glide-core-checkbox>
-      </form>`;
+    return html`
+      <glide-core-checkbox
+        label=${arguments_.label || nothing}
+        name=${arguments_.name || nothing}
+        orientation=${arguments_.orientation || nothing}
+        summary=${arguments_.summary || nothing}
+        value=${arguments_.value || nothing}
+        ?checked=${arguments_.checked}
+        ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label'] || nothing}
+        ?indeterminate=${arguments_.indeterminate}
+        ?required=${arguments_.required}
+      >
+        ${arguments_['slot="description"']
+          ? html`<div slot="description">
+              ${unsafeHTML(arguments_['slot="description"'])}
+            </div>`
+          : nothing}
+        ${arguments_['slot="tooltip"']
+          ? html`<div slot="tooltip">
+              ${unsafeHTML(arguments_['slot="tooltip"'])}
+            </div>`
+          : nothing}
+      </glide-core-checkbox>
+    `;
   },
 };
 

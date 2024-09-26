@@ -8,7 +8,14 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   decorators: [
-    (story) => html`<div style="min-height: 6rem;">${story()}</div>`,
+    (story) =>
+      html`<div style="min-height: 6rem;">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/accordion.js';
+        </script>
+
+        ${story()}
+      </div>`,
   ],
   title: 'Accordion',
   tags: ['autodocs'],
@@ -47,10 +54,6 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/accordion.js';
-      </script>
-
       <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}>
         ${unsafeHTML(arguments_['slot="default"'])}
       </glide-core-accordion>
@@ -141,25 +144,24 @@ export const Accordion: StoryObj = {
 export const WithIcons: StoryObj = {
   /* eslint-disable @typescript-eslint/no-unsafe-argument */
   render(arguments_) {
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/accordion.js';
-      </script>
+    return html`<glide-core-accordion
+      label=${arguments_.label}
+      ?open=${arguments_.open}
+    >
+      ${unsafeHTML(arguments_['slot="default"'])}
 
-      <glide-core-accordion label=${arguments_.label} ?open=${arguments_.open}>
-        ${unsafeHTML(arguments_['slot="default"'])}
-
-        <glide-core-example-icon
-          slot="prefix-icon"
-          name="share"
-        ></glide-core-example-icon>
-        <glide-core-example-icon
-          slot="suffix-icons"
-          name="pencil"
-        ></glide-core-example-icon>
-        <glide-core-example-icon
-          slot="suffix-icons"
-          name="settings"
-        ></glide-core-example-icon>
-      </glide-core-accordion>`;
+      <glide-core-example-icon
+        slot="prefix-icon"
+        name="share"
+      ></glide-core-example-icon>
+      <glide-core-example-icon
+        slot="suffix-icons"
+        name="pencil"
+      ></glide-core-example-icon>
+      <glide-core-example-icon
+        slot="suffix-icons"
+        name="settings"
+      ></glide-core-example-icon>
+    </glide-core-accordion>`;
   },
 };

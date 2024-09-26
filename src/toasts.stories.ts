@@ -7,6 +7,14 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Toasts',
   tags: ['autodocs'],
+  decorators: [
+    (story) =>
+      html`<script type="ignore">
+          import '@crowdstrike/glide-core/toasts.js';
+        </script>
+
+        ${story()} `,
+  ],
   argTypes: {
     'add(toast)': {
       control: false,
@@ -20,10 +28,6 @@ const meta: Meta = {
   },
   render() {
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/toasts.js';
-      </script>
-
       <!--
   Add \`<glide-core-toasts>\` to your template. It's the container for 
   messages. It supports an \`add()\` method for generating them.

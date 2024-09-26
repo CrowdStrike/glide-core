@@ -10,6 +10,17 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Dropdown',
   tags: ['autodocs'],
+  decorators: [
+    (story) =>
+      html`<form action="/" style="display: block; width: max-content;">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/dropdown.js';
+          import '@crowdstrike/glide-core/dropdown.option.js';
+        </script>
+
+        ${story()}
+      </form>`,
+  ],
   parameters: {
     docs: {
       story: {
@@ -290,54 +301,47 @@ const meta: Meta = {
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/dropdown.js';
-        import '@crowdstrike/glide-core/dropdown.option.js';
-      </script>
+    return html` <glide-core-dropdown
+      label=${arguments_.label || nothing}
+      name=${arguments_.name || nothing}
+      orientation=${arguments_.orientation || nothing}
+      placeholder=${arguments_.placeholder || nothing}
+      size=${arguments_.size || nothing}
+      variant=${arguments_.variant || nothing}
+      ?disabled=${arguments_.disabled}
+      ?filterable=${arguments_.filterable}
+      ?hide-label=${arguments_['hide-label'] || nothing}
+      ?multiple=${arguments_.multiple}
+      ?open=${arguments_.open}
+      ?readonly=${arguments_.readonly}
+      ?required=${arguments_.required}
+      ?select-all=${arguments_['select-all']}
+    >
+      <glide-core-dropdown-option
+        label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
+        value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
+        ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
 
-      <form action="/" style="display: block; width: max-content;">
-        <glide-core-dropdown
-          label=${arguments_.label || nothing}
-          name=${arguments_.name || nothing}
-          orientation=${arguments_.orientation || nothing}
-          placeholder=${arguments_.placeholder || nothing}
-          size=${arguments_.size || nothing}
-          variant=${arguments_.variant || nothing}
-          ?disabled=${arguments_.disabled}
-          ?filterable=${arguments_.filterable}
-          ?hide-label=${arguments_['hide-label'] || nothing}
-          ?multiple=${arguments_.multiple}
-          ?open=${arguments_.open}
-          ?readonly=${arguments_.readonly}
-          ?required=${arguments_.required}
-          ?select-all=${arguments_['select-all']}
-        >
-          <glide-core-dropdown-option
-            label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
-            value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
-            ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
-          ></glide-core-dropdown-option>
-          <glide-core-dropdown-option
-            label="Two"
-            value="two"
-          ></glide-core-dropdown-option>
-          <glide-core-dropdown-option
-            label="Three"
-            value="three"
-          ></glide-core-dropdown-option>
-
-          ${arguments_['slot="description"']
-            ? html`<div slot="description">
-                ${unsafeHTML(arguments_['slot="description"'])}
-              </div>`
-            : nothing}
-          ${arguments_['slot="tooltip"']
-            ? html`<div slot="tooltip">
-                ${unsafeHTML(arguments_['slot="tooltip"'])}
-              </div>`
-            : nothing}
-        </glide-core-dropdown>
-      </form>`;
+      ${arguments_['slot="description"']
+        ? html`<div slot="description">
+            ${unsafeHTML(arguments_['slot="description"'])}
+          </div>`
+        : nothing}
+      ${arguments_['slot="tooltip"']
+        ? html`<div slot="tooltip">
+            ${unsafeHTML(arguments_['slot="tooltip"'])}
+          </div>`
+        : nothing}
+    </glide-core-dropdown>`;
   },
 };
 
@@ -360,64 +364,57 @@ export const WithIcons: StoryObj = {
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
-    return html`<script type="ignore">
-        import '@crowdstrike/glide-core/dropdown.js';
-        import '@crowdstrike/glide-core/dropdown.option.js';
-      </script>
+    return html`<glide-core-dropdown
+      label=${arguments_.label}
+      name=${arguments_.name}
+      orientation=${arguments_.orientation}
+      placeholder=${arguments_.placeholder}
+      size=${arguments_.size}
+      variant=${arguments_.variant || nothing}
+      ?disabled=${arguments_.disabled}
+      ?filterable=${arguments_.filterable}
+      ?hide-label=${arguments_['hide-label'] || nothing}
+      ?multiple=${arguments_.multiple}
+      ?open=${arguments_.open}
+      ?readonly=${arguments_.readonly}
+      ?required=${arguments_.required}
+      ?select-all=${arguments_['select-all']}
+    >
+      <glide-core-dropdown-option
+        label=${arguments_['<glide-core-dropdown-option>.label']}
+        value=${arguments_['<glide-core-dropdown-option>.value']}
+        ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
+      >
+        <glide-core-example-icon
+          slot="icon"
+          name="pencil"
+        ></glide-core-example-icon>
+      </glide-core-dropdown-option>
 
-      <form action="/" style="display: block; width: max-content;">
-        <glide-core-dropdown
-          label=${arguments_.label}
-          name=${arguments_.name}
-          orientation=${arguments_.orientation}
-          placeholder=${arguments_.placeholder}
-          size=${arguments_.size}
-          variant=${arguments_.variant}
-          ?disabled=${arguments_.disabled}
-          ?filterable=${arguments_.filterable}
-          ?hide-label=${arguments_['hide-label'] || nothing}
-          ?multiple=${arguments_.multiple}
-          ?open=${arguments_.open}
-          ?readonly=${arguments_.readonly}
-          ?required=${arguments_.required}
-          ?select-all=${arguments_['select-all']}
-        >
-          <glide-core-dropdown-option
-            label=${arguments_['<glide-core-dropdown-option>.label']}
-            value=${arguments_['<glide-core-dropdown-option>.value']}
-            ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
-          >
-            <glide-core-example-icon
-              slot="icon"
-              name="pencil"
-            ></glide-core-example-icon>
-          </glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Move">
+        <glide-core-example-icon
+          slot="icon"
+          name="move"
+        ></glide-core-example-icon>
+      </glide-core-dropdown-option>
 
-          <glide-core-dropdown-option label="Move">
-            <glide-core-example-icon
-              slot="icon"
-              name="move"
-            ></glide-core-example-icon>
-          </glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Share">
+        <glide-core-example-icon
+          slot="icon"
+          name="share"
+        ></glide-core-example-icon>
+      </glide-core-dropdown-option>
 
-          <glide-core-dropdown-option label="Share">
-            <glide-core-example-icon
-              slot="icon"
-              name="share"
-            ></glide-core-example-icon>
-          </glide-core-dropdown-option>
-
-          ${arguments_['slot="description"']
-            ? html`<div slot="description">
-                ${unsafeHTML(arguments_['slot="description"'])}
-              </div>`
-            : nothing}
-          ${arguments_['slot="tooltip"']
-            ? html`<div slot="tooltip">
-                ${unsafeHTML(arguments_['slot="tooltip"'])}
-              </div>`
-            : nothing}
-        </glide-core-dropdown>
-      </form>`;
+      ${arguments_['slot="description"']
+        ? html`<div slot="description">
+            ${unsafeHTML(arguments_['slot="description"'])}
+          </div>`
+        : nothing}
+      ${arguments_['slot="tooltip"']
+        ? html`<div slot="tooltip">
+            ${unsafeHTML(arguments_['slot="tooltip"'])}
+          </div>`
+        : nothing}
+    </glide-core-dropdown>`;
   },
 };

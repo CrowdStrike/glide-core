@@ -9,6 +9,17 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Tab Group',
   tags: ['autodocs'],
+  decorators: [
+    (story) => html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/tab.group.js';
+        import '@crowdstrike/glide-core/tab.panel.js';
+        import '@crowdstrike/glide-core/tab.js';
+      </script>
+
+      ${story()}
+    `,
+  ],
   args: {
     'slot="default"': '',
     'slot="nav"': '',
@@ -24,12 +35,6 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/tab.group.js';
-        import '@crowdstrike/glide-core/tab.panel.js';
-        import '@crowdstrike/glide-core/tab.js';
-      </script>
-
       <glide-core-tab-group>
         <glide-core-tab
           slot="nav"
@@ -144,12 +149,6 @@ export const Tabs: StoryObj = {};
 export const WithOverflow: StoryObj = {
   render(arguments_) {
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/tab.group.js';
-        import '@crowdstrike/glide-core/tab.panel.js';
-        import '@crowdstrike/glide-core/tab.js';
-      </script>
-
       <div style="width: 25rem;">
         <glide-core-tab-group>
           <glide-core-tab
