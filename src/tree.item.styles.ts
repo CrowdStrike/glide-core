@@ -100,6 +100,17 @@ export default [
       &.prefix-icon .label {
         padding-inline-start: var(--glide-core-spacing-xs);
       }
+
+      &.has-link {
+        /* If they have a link, the area outside that link slot isn't clickable */
+        cursor: default;
+      }
+    }
+
+    ::slotted([slot='link']) {
+      color: inherit;
+      inline-size: 100%;
+      text-decoration: none;
     }
 
     ::slotted([slot='menu']) {

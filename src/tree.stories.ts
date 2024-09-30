@@ -70,6 +70,8 @@ const meta: Meta = {
             <glide-core-example-icon name="settings"></glide-core-example-icon>
           </glide-core-tree-item-icon-button>
 
+          <a href="/" slot="link">Link slot</a>
+
           <glide-core-tree-item-menu
             slot="menu"
             placement=${arguments_['<glide-core-tree-item-menu>.placement']}

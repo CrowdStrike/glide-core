@@ -27,6 +27,7 @@ declare global {
  * @slot prefix - An optional icon before the label.
  * @slot suffix - An optional icon after the label.
  * @slot menu - A `<glide-core-menu>` made visible on hover or focus.
+ * @slot link - A place to put your own <a> or custom link component
  */
 @customElement('glide-core-tree-item')
 export default class GlideCoreTreeItem extends LitElement {
@@ -51,6 +52,8 @@ export default class GlideCoreTreeItem extends LitElement {
 
   @property({ reflect: true, type: Boolean, attribute: 'non-collapsible' })
   nonCollapsible = false;
+
+  private hasLinkSlot = false;
 
   @queryAssignedElements()
   slotElements!: GlideCoreTreeItem[];
@@ -87,8 +90,11 @@ export default class GlideCoreTreeItem extends LitElement {
         class=${classMap({
           'label-container': true,
           'prefix-icon': this.hasPrefixIcon,
+          'has-link': this.hasLinkSlot,
         })}
         tabindex="-1"
+        @click=${this.#handleLabelContainerClick}
+        @keydown=${this.#handleLabelContainerKeydown}
         @focusout=${this.#handleFocusOut}
         @focusin=${this.#handleFocusIn}
         ${ref(this.#labelContainerElementRef)}
@@ -141,7 +147,15 @@ export default class GlideCoreTreeItem extends LitElement {
           ${ref(this.#prefixSlotElementRef)}
           @slotchange=${this.#onPrefixSlotChange}
         ></slot>
-        <div class="label">${this.label}</div>
+        <slot
+          name="link"
+          @slotchange=${this.#onLinkSlotChange}
+          ${ref(this.#linkSlotElementRef)}
+        ></slot>
+        ${when(
+          !this.hasLinkSlot,
+          () => html` <div class="label">${this.label}</div> `,
+        )}
         <div class="icon-container">
           <slot
             name="menu"
@@ -202,6 +216,8 @@ export default class GlideCoreTreeItem extends LitElement {
 
   #labelContainerElementRef = createRef<HTMLInputElement>();
 
+  #linkSlotElementRef = createRef<HTMLSlotElement>();
+
   #localize = new LocalizeController(this);
 
   #menuSlotElementRef = createRef<HTMLSlotElement>();
@@ -238,6 +254,29 @@ export default class GlideCoreTreeItem extends LitElement {
     }
   }
 
+  #handleLabelContainerClick(event: MouseEvent | KeyboardEvent) {
+    const link = this.#linkSlotElementRef.value?.assignedElements()?.[0];
+
+    if (
+      link instanceof HTMLElement &&
+      event.target instanceof HTMLElement &&
+      !event.target.matches('[slot="link"]')
+    ) {
+      // A link exists, but they clicked somewhere outside of it.
+      // Don't propagate the event up to the parent Tree,
+      // as we don't want this Tree Item to become selected
+      event.stopPropagation();
+    }
+  }
+
+  #handleLabelContainerKeydown(event: KeyboardEvent) {
+    const link = this.#linkSlotElementRef.value?.assignedElements()?.[0];
+
+    if (event.key === 'Enter' && link instanceof HTMLElement) {
+      link.click();
+    }
+  }
+
   get #indentationWidth() {
     return `${(this.level - 1) * 20}px`;
   }
@@ -255,6 +294,21 @@ export default class GlideCoreTreeItem extends LitElement {
 
   #onDefaultSlotChange() {
     this.#setupChildren();
+  }
+
+  #onLinkSlotChange() {
+    const assignedElements = this.#linkSlotElementRef.value?.assignedElements();
+    const link = assignedElements?.[0];
+    this.hasLinkSlot = Boolean(link);
+
+    if (link) {
+      ow(link.textContent, ow.string.minLength(1));
+      this.label = link.textContent?.trim();
+
+      if (link instanceof HTMLElement) {
+        link.tabIndex = -1;
+      }
+    }
   }
 
   #onMenuSlotChange() {

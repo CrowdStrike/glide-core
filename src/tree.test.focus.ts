@@ -9,6 +9,7 @@ import GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
 
 GlideCoreTree.shadowRootOptions.mode = 'open';
+GlideCoreTreeItem.shadowRootOptions.mode = 'open';
 
 it('focuses the first tree item when tree is focused, if there are no selected items', async () => {
   const component = await fixture<GlideCoreTree>(html`
@@ -496,4 +497,70 @@ it('does not select a tree item if Enter is pressed while its tree item icon but
   await sendKeys({ press: 'Enter' });
 
   expect(childItems[0].hasAttribute('selected')).to.be.false;
+});
+
+it("can click on a link in a Tree Item's link slot", async () => {
+  let clicked = false;
+
+  const component = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item>
+        <a
+          href="/"
+          data-test="link"
+          slot="link"
+          @click=${(event: Event) => {
+            clicked = true;
+            event?.preventDefault();
+          }}
+          >Link slot</a
+        >
+      </glide-core-tree-item>
+    </glide-core-tree>
+  `);
+
+  const treeItem = component.querySelector('glide-core-tree-item');
+  assert(treeItem);
+  const notLink = treeItem.shadowRoot?.querySelector('.label-container');
+
+  assert(notLink instanceof HTMLElement);
+
+  notLink.click();
+
+  expect(clicked).to.be.false;
+  expect(treeItem?.selected).to.be.false;
+
+  const link = component.querySelector('[data-test="link"]');
+  assert(link instanceof HTMLAnchorElement);
+  link.click();
+  expect(clicked).to.be.true;
+  expect(treeItem?.selected).to.be.true;
+});
+
+it("can click on a link in a Tree Item's link slot with the keyboard", async () => {
+  let clicked = false;
+
+  const component = await fixture<GlideCoreTree>(html`
+    <glide-core-tree>
+      <glide-core-tree-item>
+        <a
+          href="/"
+          data-test="link"
+          slot="link"
+          @click=${(event: Event) => {
+            clicked = true;
+            event?.preventDefault();
+          }}
+          >Link slot</a
+        >
+      </glide-core-tree-item>
+    </glide-core-tree>
+  `);
+
+  const treeItem = component.querySelector('glide-core-tree-item');
+  treeItem?.focus();
+  await sendKeys({ press: 'Enter' });
+
+  expect(clicked).to.be.true;
+  expect(treeItem?.selected).to.be.true;
 });
