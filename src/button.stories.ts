@@ -324,7 +324,7 @@ export const WithIcons: StoryObj = {
         ></glide-core-example-icon>
         <glide-core-example-icon
           slot="suffix-icon"
-          name="pencil"
+          name="edit"
         ></glide-core-example-icon>
       </glide-core-button>
     `;

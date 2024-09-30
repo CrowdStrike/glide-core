@@ -110,3 +110,47 @@ it('hides Select All', async () => {
 
   expect(selectAll?.checkVisibility()).to.not.be.ok;
 });
+
+it('shows its "icon" slot when an option is selected', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <div slot="icon">✓</div>
+
+      <glide-core-dropdown-option label="One" value="one" selected>
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two" value="two">
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const iconSlot = component.shadowRoot?.querySelector(
+    '[data-test="icon-slot"]',
+  );
+
+  expect(iconSlot?.checkVisibility()).to.be.true;
+});
+
+it('hides its "icon" slot when no option is selected', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <div slot="icon">✓</div>
+
+      <glide-core-dropdown-option label="One" value="one">
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two" value="two">
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const iconSlot = component.shadowRoot?.querySelector(
+    '[data-test="icon-slot"]',
+  );
+
+  expect(iconSlot?.checkVisibility()).to.be.false;
+});

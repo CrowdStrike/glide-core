@@ -188,6 +188,25 @@ export default [
       color: var(--glide-core-text-link);
     }
 
+    .icon-slot {
+      block-size: 1rem;
+      display: none;
+      inline-size: 1rem;
+      overflow: hidden;
+
+      &.visible {
+        display: block;
+      }
+    }
+
+    .internal-label {
+      /* 
+        2px so the label is vertically aligned. "vertical-align: middle" has no 
+        effect on flex children. 
+      */
+      padding-block-start: 2px;
+    }
+
     .button {
       align-items: center;
       background: none;
@@ -211,7 +230,13 @@ export default [
       font-family: var(--glide-core-font-sans);
       font-size: inherit;
       min-inline-size: var(--min-inline-size);
-      padding: 0;
+
+      /* 
+        2px so the value is vertically aligned. "vertical-align: middle" has no 
+        effect flex children. 
+      */
+      padding-block: 2px 0;
+      padding-inline: 0;
 
       &:focus {
         outline: none;

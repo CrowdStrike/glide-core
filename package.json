@@ -78,6 +78,7 @@
     "@crowdstrike/design-tokens": "^2.0.0",
     "@eslint/eslintrc": "^3.0.2",
     "@eslint/js": "^8.56.0",
+    "@lit-labs/preact-signals": "^1.0.2",
     "@open-wc/testing": "^3.2.2",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@storybook/addon-essentials": "^8.3.4",

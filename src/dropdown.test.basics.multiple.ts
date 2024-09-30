@@ -364,3 +364,24 @@ it('has no internal label when an option is initially selected', async () => {
 
   expect(label).to.not.exist;
 });
+
+it('hides its "icon" slot', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <div slot="icon">✓</div>
+
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const iconSlot = component.shadowRoot?.querySelector(
+    '[data-test="icon-slot"]',
+  );
+
+  expect(iconSlot?.checkVisibility()).to.be.false;
+});

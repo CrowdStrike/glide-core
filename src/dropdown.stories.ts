@@ -1,11 +1,15 @@
 import './dropdown.option.js';
 import './icons/storybook.js';
-import { STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { FORCE_RE_RENDER, STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
+import { signal, watch } from '@lit-labs/preact-signals';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { when } from 'lit/directives/when.js';
 import GlideCoreDropdown from './dropdown.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
+
+const icon = signal<'edit' | 'move' | 'share' | null>(null);
 
 const meta: Meta = {
   title: 'Dropdown',
@@ -49,8 +53,9 @@ const meta: Meta = {
     required: false,
     'select-all': false,
     size: 'large',
-    'slot="tooltip"': '',
     'slot="description"': '',
+    'slot="icon"': '',
+    'slot="tooltip"': '',
     value: '',
     variant: '',
     '<glide-core-dropdown-option>.value': 'one',
@@ -200,6 +205,32 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
+    'slot="icon"': {
+      table: {
+        type: {
+          summary: 'Element',
+          detail: `
+// An icon for the selected option. Only applicable when the \`multiple\` attribute 
+// isn't present. 
+// 
+// Listen for "change" on Dropdown, then conditionally render the appropriate icon 
+// based on Dropdown's \`value\`, where \`this.selectedValue\` is a property of your 
+// component decorated with \`@state()\`. 
+// 
+// Your implementation will vary depending on your framework and how you manage icons.
+
+\${choose(this.selectedValue,
+  [
+    ['edit', () => html\`<glide-core-example-icon slot="icon" name="edit"></glide-core-example-icon>>\`],
+    ['move', () => html\`<glide-core-example-icon slot="icon" name="move"></glide-core-example-icon>\`],
+    ['share', () => html\`<glide-core-example-icon slot="icon" name="share"></glide-core-example-icon>\`],
+  ],
+  () => nothing,
+)}
+`,
+        },
+      },
+    },
     'slot="tooltip"': {
       table: {
         type: { summary: 'Element' },
@@ -285,9 +316,7 @@ const meta: Meta = {
         storyId: context.id,
         args: {
           ...arguments_,
-          open: context.canvasElement.querySelector<GlideCoreDropdown>(
-            'glide-core-dropdown',
-          )?.open,
+          open: dropdown?.open,
         },
       });
     });
@@ -298,19 +327,33 @@ const meta: Meta = {
         attributeFilter: ['open'],
       });
     }
+
+    dropdown?.addEventListener('change', (event) => {
+      if (
+        context.name.includes('Icon') &&
+        event.target instanceof GlideCoreDropdown
+      ) {
+        // Casted both because `when` doesn't narrow and `event.target.value` is untyped.
+        icon.value = event.target.value.at(0) as 'edit' | 'move' | 'share';
+
+        // Forcing a re-render seems to be the only way to get the code example to
+        // update after the change above.
+        addons.getChannel().emit(FORCE_RE_RENDER);
+      }
+    });
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
-    return html` <glide-core-dropdown
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, unicorn/explicit-length-check */
+    return html`<glide-core-dropdown
       label=${arguments_.label || nothing}
       name=${arguments_.name || nothing}
-      orientation=${arguments_.orientation || nothing}
+      orientation=${arguments_.orientation}
       placeholder=${arguments_.placeholder || nothing}
-      size=${arguments_.size || nothing}
+      size=${arguments_.size}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
-      ?hide-label=${arguments_['hide-label'] || nothing}
+      ?hide-label=${arguments_['hide-label']}
       ?multiple=${arguments_.multiple}
       ?open=${arguments_.open}
       ?readonly=${arguments_.readonly}
@@ -322,14 +365,8 @@ const meta: Meta = {
         value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
         ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
       ></glide-core-dropdown-option>
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-      <glide-core-dropdown-option
-        label="Three"
-        value="three"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
 
       ${arguments_['slot="description"']
         ? html`<div slot="description">
@@ -358,47 +395,76 @@ export const WithError: StoryObj = {
 };
 
 export const WithIcons: StoryObj = {
-  args: {
-    '<glide-core-dropdown-option>.label': 'Edit',
-    '<glide-core-dropdown-option>.value': 'edit',
+  argTypes: {
+    '<glide-core-dropdown-option>.label': {
+      control: false,
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-dropdown-option>.value': {
+      control: false,
+      table: {
+        defaultValue: { summary: '""' },
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
+    },
   },
   render(arguments_) {
-    /* eslint-disable unicorn/explicit-length-check */
+    /* eslint-disable @typescript-eslint/no-unsafe-call, unicorn/explicit-length-check */
     return html`<glide-core-dropdown
-      label=${arguments_.label}
-      name=${arguments_.name}
+      label=${arguments_.label || nothing}
+      name=${arguments_.name || nothing}
       orientation=${arguments_.orientation}
       placeholder=${arguments_.placeholder}
       size=${arguments_.size}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
-      ?hide-label=${arguments_['hide-label'] || nothing}
+      ?hide-label=${arguments_['hide-label']}
       ?multiple=${arguments_.multiple}
       ?open=${arguments_.open}
       ?readonly=${arguments_.readonly}
       ?required=${arguments_.required}
       ?select-all=${arguments_['select-all']}
     >
+      ${
+        // @ts-expect-error - `values` isn't included in the type definition of `watch`.
+        // But it's all we have to go off to conditionally render the icon.
+        when(watch(icon).values.at(0).value, () => {
+          return html`<glide-core-example-icon
+            slot="icon"
+            name=${watch(icon)}
+          ></glide-core-example-icon>`;
+        })
+      }
+
+      <glide-core-example-icon
+        slot="icon"
+        name=${watch(icon)}
+      ></glide-core-example-icon>
+
       <glide-core-dropdown-option
-        label=${arguments_['<glide-core-dropdown-option>.label']}
-        value=${arguments_['<glide-core-dropdown-option>.value']}
+        label="Edit"
+        value="edit"
         ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
       >
         <glide-core-example-icon
           slot="icon"
-          name="pencil"
+          name="edit"
         ></glide-core-example-icon>
       </glide-core-dropdown-option>
 
-      <glide-core-dropdown-option label="Move">
+      <glide-core-dropdown-option label="Move" value="move">
         <glide-core-example-icon
           slot="icon"
           name="move"
         ></glide-core-example-icon>
       </glide-core-dropdown-option>
 
-      <glide-core-dropdown-option label="Share">
+      <glide-core-dropdown-option label="Share" value="share">
         <glide-core-example-icon
           slot="icon"
           name="share"

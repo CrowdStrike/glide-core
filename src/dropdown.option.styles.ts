@@ -75,6 +75,17 @@ export default [
       display: none;
     }
 
+    .icon-slot {
+      block-size: 1rem;
+      display: none;
+      inline-size: 1rem;
+      overflow: hidden;
+
+      &.visible {
+        display: block;
+      }
+    }
+
     .tooltip {
       overflow: hidden;
     }
