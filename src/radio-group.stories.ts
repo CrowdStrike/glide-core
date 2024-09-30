@@ -8,6 +8,17 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Radio Group',
   tags: ['autodocs'],
+  decorators: [
+    (story) =>
+      html`<form action="/">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/radio-group.js';
+          import '@crowdstrike/glide-core/radio.js';
+        </script>
+
+        ${story()}
+      </form>`,
+  ],
   parameters: {
     docs: {
       story: {
@@ -40,39 +51,32 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/radio-group.js';
-        import '@crowdstrike/glide-core/radio.js';
-      </script>
+      <glide-core-radio-group
+        label=${arguments_.label || nothing}
+        name=${arguments_.name || nothing}
+        value=${arguments_.value || nothing}
+        ?disabled=${arguments_.disabled}
+        ?required=${arguments_.required}
+      >
+        <glide-core-radio
+          label=${arguments_['<glide-core-radio>.label'] || nothing}
+          value=${arguments_['<glide-core-radio>.value'] || nothing}
+          ?checked=${arguments_['<glide-core-radio>.checked']}
+        ></glide-core-radio>
+        <glide-core-radio label="Two"></glide-core-radio>
+        <glide-core-radio label="Three"></glide-core-radio>
 
-      <form action="/">
-        <glide-core-radio-group
-          label=${arguments_.label || nothing}
-          name=${arguments_.name || nothing}
-          value=${arguments_.value || nothing}
-          ?disabled=${arguments_.disabled}
-          ?required=${arguments_.required}
-        >
-          <glide-core-radio
-            label=${arguments_['<glide-core-radio>.label'] || nothing}
-            value=${arguments_['<glide-core-radio>.value'] || nothing}
-            ?checked=${arguments_['<glide-core-radio>.checked']}
-          ></glide-core-radio>
-          <glide-core-radio label="Two"></glide-core-radio>
-          <glide-core-radio label="Three"></glide-core-radio>
-
-          ${arguments_['slot="description"']
-            ? html`<div slot="description">
-                ${unsafeHTML(arguments_['slot="description"'])}
-              </div>`
-            : nothing}
-          ${arguments_['slot="tooltip"']
-            ? html`<div slot="tooltip">
-                ${unsafeHTML(arguments_['slot="tooltip"'])}
-              </div>`
-            : nothing}
-        </glide-core-radio-group>
-      </form>
+        ${arguments_['slot="description"']
+          ? html`<div slot="description">
+              ${unsafeHTML(arguments_['slot="description"'])}
+            </div>`
+          : nothing}
+        ${arguments_['slot="tooltip"']
+          ? html`<div slot="tooltip">
+              ${unsafeHTML(arguments_['slot="tooltip"'])}
+            </div>`
+          : nothing}
+      </glide-core-radio-group>
     `;
   },
   args: {

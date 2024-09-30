@@ -14,6 +14,20 @@ import type GlideCoreSplitButtonSecondaryButton from './split-button.secondary-b
 const meta: Meta = {
   title: 'Split Button',
   tags: ['autodocs'],
+  decorators: [
+    (story) =>
+      html`<form action="/">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/split-button.js';
+          import '@crowdstrike/glide-core/split-button.primary-link.js';
+          import '@crowdstrike/glide-core/split-button.secondary-button.js';
+          import '@crowdstrike/glide-core/menu.button.js';
+          import '@crowdstrike/glide-core/menu.link.js';
+        </script>
+
+        ${story()}
+      </form>`,
+  ],
   parameters: {
     docs: {
       story: {
@@ -57,14 +71,6 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/split-button.js';
-        import '@crowdstrike/glide-core/split-button.primary-button.js';
-        import '@crowdstrike/glide-core/split-button.secondary-button.js';
-        import '@crowdstrike/glide-core/menu.button.js';
-        import '@crowdstrike/glide-core/menu.link.js';
-      </script>
-
       <glide-core-split-button
         size=${arguments_.size}
         variant=${arguments_.variant}
@@ -309,14 +315,6 @@ export const SplitButton: StoryObj = {
 export const WithIcon: StoryObj = {
   render(arguments_) {
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/split-button.js';
-        import '@crowdstrike/glide-core/split-button.primary-button.js';
-        import '@crowdstrike/glide-core/split-button.secondary-button.js';
-        import '@crowdstrike/glide-core/menu.button.js';
-        import '@crowdstrike/glide-core/menu.link.js';
-      </script>
-
       <glide-core-split-button
         size=${arguments_.size}
         variant=${arguments_.variant}
@@ -363,14 +361,6 @@ export const WithPrimaryLink: StoryObj = {
   render(arguments_) {
     // eslint-disable unicorn/explicit-length-check
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/split-button.js';
-        import '@crowdstrike/glide-core/split-button.primary-link.js';
-        import '@crowdstrike/glide-core/split-button.secondary-button.js';
-        import '@crowdstrike/glide-core/menu.button.js';
-        import '@crowdstrike/glide-core/menu.link.js';
-      </script>
-
       <glide-core-split-button
         size=${arguments_.size}
         variant=${arguments_.variant}

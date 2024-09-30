@@ -27,6 +27,10 @@ const meta: Meta = {
           }
         </style>
 
+        <script type="ignore">
+          import '@crowdstrike/glide-core/tooltip.js';
+        </script>
+
         ${story()}
       </div>`,
   ],
@@ -108,10 +112,6 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/tooltip.js';
-      </script>
-
       <glide-core-tooltip
         offset=${arguments_.offset}
         placement=${arguments_.placement}

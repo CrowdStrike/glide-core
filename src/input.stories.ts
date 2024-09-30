@@ -8,7 +8,16 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Input',
   tags: ['autodocs'],
-  decorators: [(story) => html`<form style="height: 4rem;">${story()}</form>`],
+  decorators: [
+    (story) =>
+      html`<form action="/" style="height: 4rem;">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/input.js';
+        </script>
+
+        ${story()}
+      </form>`,
+  ],
   parameters: {
     docs: {
       story: {
@@ -62,10 +71,6 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/input.js';
-      </script>
-
       <glide-core-input
         autocapitalize=${arguments_.autocapitalize}
         autocomplete=${arguments_.autocomplete}
@@ -300,10 +305,6 @@ export const WithError: StoryObj = {
 export const WithIcons: StoryObj = {
   render(arguments_) {
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/input.js';
-      </script>
-
       <glide-core-input
         autocapitalize=${arguments_.autocapitalize}
         autocomplete=${arguments_.autocomplete}

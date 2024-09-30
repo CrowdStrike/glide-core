@@ -8,13 +8,18 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Button Group',
   tags: ['autodocs'],
-  render(arguments_) {
-    return html`
+  decorators: [
+    (story) => html`
       <script type="ignore">
         import '@crowdstrike/glide-core/button-group.js';
         import '@crowdstrike/glide-core/button-group.button.js';
       </script>
 
+      ${story()}
+    `,
+  ],
+  render(arguments_) {
+    return html`
       <glide-core-button-group
         label=${arguments_.label || nothing}
         orientation=${arguments_.orientation || nothing}
@@ -168,11 +173,6 @@ export const ButtonGroup: StoryObj = {
 export const WithIcons: StoryObj = {
   render(arguments_) {
     return html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/button-group.js';
-        import '@crowdstrike/glide-core/button-group.button.js';
-      </script>
-
       <glide-core-button-group
         label=${arguments_.label}
         orientation=${arguments_.orientation}
