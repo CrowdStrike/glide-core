@@ -5,6 +5,7 @@ import { create } from '@storybook/theming/create';
 import GlideCoreLogo from './assets/glide-core.png';
 
 addons.setConfig({
+  enableShortcuts: false,
   theme: create({
     base: 'dark',
     brandImage: GlideCoreLogo,

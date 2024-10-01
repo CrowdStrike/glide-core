@@ -275,7 +275,7 @@ const meta: Meta = {
     // eslint-disable-next-line no-underscore-dangle
     let arguments_: Meta['args'] = context.args;
 
-    addons.getChannel().addListener('storyArgsUpdated', (event) => {
+    addons.getChannel().addListener(STORY_ARGS_UPDATED, (event) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       arguments_ = event.args as typeof context.args;
     });
