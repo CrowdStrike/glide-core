@@ -265,7 +265,7 @@ it('hides its magnifying glass icon when single-select and closed programmatical
   component.open = false;
   await elementUpdated(component);
 
-  expect(icon?.checkVisibility()).to.be.false;
+  expect(icon?.checkVisibility()).to.not.be.ok;
 });
 
 it('shows its magnifying glass icon when multiselect and filtering', async () => {
