@@ -207,7 +207,7 @@ const meta: Meta = {
         type: {
           summary: 'Element',
           detail: `
-// "value" should be equal to the \`value\` of each option. Dropdown will 
+// "<value>" should be equal to the \`value\` of each option. Dropdown will 
 // show the correct icon or icons based on which options are selected.
 
 <glide-core-example-icon slot="icon:edit" name="edit"></glide-core-example-icon>
