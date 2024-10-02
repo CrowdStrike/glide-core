@@ -1,15 +1,11 @@
 import './dropdown.option.js';
 import './icons/storybook.js';
-import { FORCE_RE_RENDER, STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
-import { signal, watch } from '@lit-labs/preact-signals';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import { when } from 'lit/directives/when.js';
 import GlideCoreDropdown from './dropdown.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
-
-const icon = signal<'edit' | 'move' | 'share' | null>(null);
 
 const meta: Meta = {
   title: 'Dropdown',
@@ -54,7 +50,7 @@ const meta: Meta = {
     'select-all': false,
     size: 'large',
     'slot="description"': '',
-    'slot="icon"': '',
+    'slot="icon:<value>"': '',
     'slot="tooltip"': '',
     value: '',
     variant: '',
@@ -205,28 +201,17 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
-    'slot="icon"': {
+    'slot="icon:<value>"': {
       table: {
         type: {
           summary: 'Element',
           detail: `
-// An icon for the selected option. Only applicable when the \`multiple\` attribute 
-// isn't present. 
-// 
-// Listen for "change" on Dropdown, then conditionally render the appropriate icon 
-// based on Dropdown's \`value\`, where \`this.selectedValue\` is a property of your 
-// component decorated with \`@state()\`. 
-// 
-// Your implementation will vary depending on your framework and how you manage icons.
+// "value" should be equal to the \`value\` of each option. Dropdown will 
+// show the correct icon or icons based on which options are selected.
 
-\${choose(this.selectedValue,
-  [
-    ['edit', () => html\`<glide-core-example-icon slot="icon" name="edit"></glide-core-example-icon>>\`],
-    ['move', () => html\`<glide-core-example-icon slot="icon" name="move"></glide-core-example-icon>\`],
-    ['share', () => html\`<glide-core-example-icon slot="icon" name="share"></glide-core-example-icon>\`],
-  ],
-  () => nothing,
-)}
+<glide-core-example-icon slot="icon:edit" name="edit"></glide-core-example-icon>
+<glide-core-example-icon slot="icon:move" name="move"></glide-core-example-icon>
+<glide-core-example-icon slot="icon:share" name="share"></glide-core-example-icon>
 `,
         },
       },
@@ -327,20 +312,6 @@ const meta: Meta = {
         attributeFilter: ['open'],
       });
     }
-
-    dropdown?.addEventListener('change', (event) => {
-      if (
-        context.name.includes('Icon') &&
-        event.target instanceof GlideCoreDropdown
-      ) {
-        // Casted both because `when` doesn't narrow and `event.target.value` is untyped.
-        icon.value = event.target.value.at(0) as 'edit' | 'move' | 'share';
-
-        // Forcing a re-render seems to be the only way to get the code example to
-        // update after the change above.
-        addons.getChannel().emit(FORCE_RE_RENDER);
-      }
-    });
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, unicorn/explicit-length-check */
@@ -430,20 +401,19 @@ export const WithIcons: StoryObj = {
       ?required=${arguments_.required}
       ?select-all=${arguments_['select-all']}
     >
-      ${
-        // @ts-expect-error - `values` isn't included in the type definition of `watch`.
-        // But it's all we have to go off to conditionally render the icon.
-        when(watch(icon).values.at(0).value, () => {
-          return html`<glide-core-example-icon
-            slot="icon"
-            name=${watch(icon)}
-          ></glide-core-example-icon>`;
-        })
-      }
+      <glide-core-example-icon
+        slot="icon:edit"
+        name="edit"
+      ></glide-core-example-icon>
 
       <glide-core-example-icon
-        slot="icon"
-        name=${watch(icon)}
+        slot="icon:move"
+        name="move"
+      ></glide-core-example-icon>
+
+      <glide-core-example-icon
+        slot="icon:share"
+        name="share"
       ></glide-core-example-icon>
 
       <glide-core-dropdown-option

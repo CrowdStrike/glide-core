@@ -111,10 +111,11 @@ it('hides Select All', async () => {
   expect(selectAll?.checkVisibility()).to.not.be.ok;
 });
 
-it('shows its "icon" slot when an option is selected', async () => {
+it('has an icon when an option with a value is selected', async () => {
   const component = await fixture(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <div slot="icon">✓</div>
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
 
       <glide-core-dropdown-option label="One" value="one" selected>
         <div slot="icon">✓</div>
@@ -126,17 +127,42 @@ it('shows its "icon" slot when an option is selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  const iconSlot = component.shadowRoot?.querySelector(
-    '[data-test="icon-slot"]',
+  const iconSlot = component.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="single-select-icon-slot"]',
   );
 
-  expect(iconSlot?.checkVisibility()).to.be.true;
+  expect(iconSlot instanceof HTMLSlotElement).to.be.true;
+  expect(iconSlot?.assignedElements().at(0)?.slot).to.equal('icon:one');
 });
 
-it('hides its "icon" slot when no option is selected', async () => {
+it('has no icon when an option without a value is selected', async () => {
   const component = await fixture(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <div slot="icon">✓</div>
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
+
+      <glide-core-dropdown-option label="One" selected>
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two" value="two">
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const iconSlot = component.shadowRoot?.querySelector(
+    '[data-test="single-select-icon-slot"]',
+  );
+
+  expect(iconSlot).to.be.null;
+});
+
+it('has no icon when no option is selected', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
 
       <glide-core-dropdown-option label="One" value="one">
         <div slot="icon">✓</div>
@@ -149,8 +175,8 @@ it('hides its "icon" slot when no option is selected', async () => {
   );
 
   const iconSlot = component.shadowRoot?.querySelector(
-    '[data-test="icon-slot"]',
+    '[data-test="single-select-icon-slot"]',
   );
 
-  expect(iconSlot?.checkVisibility()).to.be.false;
+  expect(iconSlot).to.be.null;
 });

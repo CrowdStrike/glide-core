@@ -36,9 +36,6 @@ importers:
       '@eslint/js':
         specifier: ^8.56.0
         version: 8.57.0
-      '@lit-labs/preact-signals':
-        specifier: ^1.0.2
-        version: 1.0.2
       '@open-wc/testing':
         specifier: ^3.2.2
         version: 3.2.2
@@ -1670,9 +1667,6 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@lit-labs/preact-signals@1.0.2':
-    resolution: {integrity: sha512-HFgIhqLB5IiNbvJxEN3+o6n9x/fNZo7pqfElG56NHrOFBsIFW7wswbp6hHeoGzATQDOB2ZmrH/VrRGYdcgl29g==}
-
   '@lit-labs/ssr-dom-shim@1.2.0':
     resolution: {integrity: sha512-yWJKmpGE6lUURKAaIltoPIE/wrbY3TEkqQt+X0m+7fQNnAv0keydnYvbiJFP1PnMhizmIWRWOG5KLhYyc/xl+g==}
 
@@ -1724,9 +1718,6 @@ packages:
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
-
-  '@preact/signals-core@1.8.0':
-    resolution: {integrity: sha512-OBvUsRZqNmjzCZXWLxkZfhcgT+Fk8DDcT/8vD6a1xhDemodyy87UJRJfASMuSD8FaAIeGgGm85ydXhm7lr4fyA==}
 
   '@puppeteer/browsers@2.2.3':
     resolution: {integrity: sha512-bJ0UBsk0ESOs6RFcLXOt99a3yTDcOKlzfjad+rhFwdaG1Lu/Wzq58GHYCDTlZ9z6mldf4g+NTb+TXEfe0PpnsQ==}
@@ -7483,11 +7474,6 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@lit-labs/preact-signals@1.0.2':
-    dependencies:
-      '@preact/signals-core': 1.8.0
-      lit: 3.1.4
-
   '@lit-labs/ssr-dom-shim@1.2.0': {}
 
   '@lit/reactive-element@2.0.4':
@@ -7567,8 +7553,6 @@ snapshots:
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
-
-  '@preact/signals-core@1.8.0': {}
 
   '@puppeteer/browsers@2.2.3':
     dependencies:

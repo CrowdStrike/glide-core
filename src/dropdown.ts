@@ -30,7 +30,7 @@ declare global {
  *
  * @slot - One or more of `<glide-core-dropdown-option>`.
  * @slot description - Additional information or context.
- * @slot icon - An icon for the selected option.
+ * @slot icon:<value> - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
  * @slot tooltip - Content for the tooltip.
  */
 @customElement('glide-core-dropdown')
@@ -89,8 +89,10 @@ export default class GlideCoreDropdown extends LitElement {
       this.#inputElementRef.value.value = this.selectedOptions[0].label;
       this.isFiltering = false;
 
-      this.isShowIconSlot =
-        this.hasIconSlot && !this.multiple && this.selectedOptions.length > 0;
+      this.isShowSingleSelectIcon =
+        !this.multiple &&
+        this.selectedOptions.length > 0 &&
+        Boolean(this.selectedOptions.at(0)?.value);
 
       this.#hide();
     } else {
@@ -138,7 +140,7 @@ export default class GlideCoreDropdown extends LitElement {
     const wasSingle = !this.#isMultiple && isMultiple;
 
     this.#isMultiple = isMultiple;
-    this.isShowIconSlot = false;
+    this.isShowSingleSelectIcon = false;
 
     for (const option of this.#optionElements) {
       option.privateMultiple = isMultiple;
@@ -476,18 +478,13 @@ export default class GlideCoreDropdown extends LitElement {
                 })}
               </ul>`;
             })}
-
-            <slot
-              class=${classMap({
-                'icon-slot': true,
-                visible: this.isShowIconSlot,
-              })}
-              data-test="icon-slot"
-              name="icon"
-              ${ref(this.#iconSlotElementRef)}
-              @slotchange=${this.#onIconSlotChange}
-            ></slot>
-
+            ${when(this.isShowSingleSelectIcon, () => {
+              return html`<slot
+                class="single-select-icon-slot"
+                data-test="single-select-icon-slot"
+                name="icon:${this.selectedOptions.at(0)?.value}"
+              ></slot>`;
+            })}
             ${when(this.filterable || this.isFilterable, () => {
               return html`<input
                 aria-activedescendant=${this.ariaActivedescendant}
@@ -693,9 +690,6 @@ export default class GlideCoreDropdown extends LitElement {
   private ariaActivedescendant = '';
 
   @state()
-  private hasIconSlot = false;
-
-  @state()
   private isBlurring = false;
 
   @state()
@@ -714,7 +708,7 @@ export default class GlideCoreDropdown extends LitElement {
   private isReportValidityOrSubmit = false;
 
   @state()
-  private isShowIconSlot = false;
+  private isShowSingleSelectIcon = false;
 
   #buttonElementRef = createRef<HTMLButtonElement>();
 
@@ -1156,11 +1150,6 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
-  #onIconSlotChange() {
-    const assignedElements = this.#iconSlotElementRef.value?.assignedElements();
-    this.hasIconSlot = Boolean(assignedElements && assignedElements.length > 0);
-  }
-
   get #optionElements() {
     return (
       this.#defaultSlotElementRef.value
@@ -1233,7 +1222,7 @@ export default class GlideCoreDropdown extends LitElement {
       this.isFiltering = false;
     }
 
-    this.isShowIconSlot = false;
+    this.isShowSingleSelectIcon = false;
 
     if (this.activeOption) {
       this.ariaActivedescendant = this.activeOption.id;
@@ -1384,8 +1373,10 @@ export default class GlideCoreDropdown extends LitElement {
 
     this.isFiltering = false;
 
-    this.isShowIconSlot =
-      this.hasIconSlot && !this.multiple && this.selectedOptions.length > 0;
+    this.isShowSingleSelectIcon =
+      !this.multiple &&
+      this.selectedOptions.length > 0 &&
+      Boolean(this.selectedOptions.at(0)?.value);
 
     // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {

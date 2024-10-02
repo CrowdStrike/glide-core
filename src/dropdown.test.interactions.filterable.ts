@@ -978,21 +978,26 @@ it('clicks the `<input>` when `click()` is called', async () => {
   expect(event instanceof PointerEvent).to.be.true;
 });
 
-it('hides its "icon" slot when filtering and an option is selected', async () => {
+it('has no icon when filtering and an option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
       filterable
     >
-      <div slot="icon">✓</div>
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
 
       <glide-core-dropdown-option
         label="One"
+        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1000,8 +1005,8 @@ it('hides its "icon" slot when filtering and an option is selected', async () =>
   await sendKeys({ type: 'one' });
 
   const iconSlot = component.shadowRoot?.querySelector(
-    '[data-test="icon-slot"]',
+    '[data-test="single-select-icon-slot"]',
   );
 
-  expect(iconSlot?.checkVisibility()).to.be.false;
+  expect(iconSlot).to.be.null;
 });

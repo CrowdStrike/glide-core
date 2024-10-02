@@ -76,13 +76,11 @@ export default [
     }
 
     .icon-slot {
-      block-size: 1rem;
-      display: none;
-      inline-size: 1rem;
-      overflow: hidden;
-
-      &.visible {
+      &::slotted {
+        block-size: 1rem;
         display: block;
+        inline-size: 1rem;
+        overflow: hidden;
       }
     }
 

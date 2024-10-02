@@ -234,12 +234,7 @@ export default class GlideCoreDropdownOption extends LitElement {
             [this.privateSize]: true,
           })}
           >
-              <slot class=${classMap({
-                'icon-slot': true,
-                visible: this.hasIconSlot,
-              })} data-test="icon-slot" name="icon" ${ref(
-                this.#iconSlotElementRef,
-              )} @slotchange=${this.#onIconSlotChange}></slot>
+              <slot class="icon-slot" data-test="icon-slot" name="icon"></slot>
 
               <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${!this
                 .isLabelOverflow} ?open=${this.privateActive}>
@@ -269,9 +264,6 @@ export default class GlideCoreDropdownOption extends LitElement {
       )}
     </div> `;
   }
-
-  @state()
-  private hasIconSlot = false;
 
   @state()
   private isLabelOverflow = false;
@@ -314,11 +306,6 @@ export default class GlideCoreDropdownOption extends LitElement {
     // duplicate "change" and "input" events. So Dropdown listens for "input"
     // for multiselect and "click" for single-select.
     event.stopPropagation();
-  }
-
-  #onIconSlotChange() {
-    const assignedElements = this.#iconSlotElementRef.value?.assignedElements();
-    this.hasIconSlot = Boolean(assignedElements && assignedElements.length > 0);
   }
 
   #updateLabelOverflow() {

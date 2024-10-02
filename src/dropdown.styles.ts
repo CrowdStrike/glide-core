@@ -188,14 +188,12 @@ export default [
       color: var(--glide-core-text-link);
     }
 
-    .icon-slot {
-      block-size: 1rem;
-      display: none;
-      inline-size: 1rem;
-      overflow: hidden;
-
-      &.visible {
+    .single-select-icon-slot {
+      &::slotted {
+        block-size: 1rem;
         display: block;
+        inline-size: 1rem;
+        overflow: hidden;
       }
     }
 
