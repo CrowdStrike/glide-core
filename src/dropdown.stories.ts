@@ -202,6 +202,7 @@ const meta: Meta = {
       },
     },
     'slot="icon:<value>"': {
+      control: false,
       table: {
         type: {
           summary: 'Element',
