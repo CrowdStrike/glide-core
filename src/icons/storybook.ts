@@ -48,7 +48,7 @@ export default class GlideCoreExampleIcon extends LitElement {
 }
 
 const ICONS = {
-  pencil: svg`
+  edit: svg`
     <path
       stroke-linecap="round"
       stroke-linejoin="round"

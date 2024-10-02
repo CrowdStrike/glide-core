@@ -364,3 +364,29 @@ it('has no internal label when an option is initially selected', async () => {
 
   expect(label).to.not.exist;
 });
+
+it('has no single-select icon', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
+
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const iconSlot = component.shadowRoot?.querySelector(
+    '[data-test="single-select-icon-slot"]',
+  );
+
+  expect(iconSlot).to.be.null;
+});

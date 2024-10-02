@@ -75,37 +75,47 @@ export default {
           //
           // As an aside, the reason arguments are set to their defaults in stories is so
           // the default value is selected in the controls table.
-          for (const [argument, value] of Object.entries(context.args)) {
-            const { defaultValue } = context.argTypes[argument].table ?? {};
+          for (const [argumentKey, argumentValue] of Object.entries(
+            context.args,
+          )) {
+            const { defaultValue } = context.argTypes[argumentKey].table ?? {};
 
             // "<glide-core-split-button-primary-button>.label"
-            const isSubcomponent = argument.startsWith('<');
+            const isSubcomponent = argumentKey.startsWith('<');
 
             if (isSubcomponent) {
-              if (defaultValue && value === context.initialArgs[argument]) {
+              if (
+                defaultValue &&
+                argumentValue === context.initialArgs[argumentKey]
+              ) {
                 // <glide-core-split-button-primary-button>.label" → "label"
-                const argumentWithoutSubcomponent = argument.slice(
-                  argument.indexOf('.') + 1,
-                  argument.length,
+                const argumentKeyWithoutSubcomponent = argumentKey.slice(
+                  argumentKey.indexOf('.') + 1,
+                  argumentKey.length,
                 );
 
                 // "<glide-core-split-button-primary-button>.label" → "glide-core-split-button-primary-button"
-                const selector = argument.slice(1, argument.indexOf('>'));
+                const selector = argumentKey.slice(1, argumentKey.indexOf('>'));
 
-                $(selector).removeAttr(argumentWithoutSubcomponent);
+                $(selector).each(function () {
+                  const $subcomponent = $(this);
+
+                  const value = $subcomponent.attr(
+                    argumentKeyWithoutSubcomponent,
+                  );
+
+                  if (value === argumentValue) {
+                    $subcomponent.removeAttr(argumentKeyWithoutSubcomponent);
+                  }
+                });
               }
             } else if (
               defaultValue &&
-              value === context.initialArgs[argument]
+              argumentValue === context.initialArgs[argumentKey]
             ) {
-              $component.removeAttr(argument);
+              $component.removeAttr(argumentKey);
             }
           }
-
-          // Petty perhaps. But the idea is to strip from example code absolutely everything
-          // that isn't strictly relevant, however insignificant, so what's actually important
-          // shines through.
-          $('glide-core-example-icon').removeAttr('name');
 
           // Now strip out the rest. These are elements inside component slots used primarily
           // for styling.

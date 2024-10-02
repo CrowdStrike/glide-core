@@ -193,7 +193,7 @@ export const WithIcons: StoryObj = {
         <glide-core-button-group-button label="Two">
           <glide-core-example-icon
             slot="icon"
-            name="pencil"
+            name="edit"
           ></glide-core-example-icon>
         </glide-core-button-group-button>
 

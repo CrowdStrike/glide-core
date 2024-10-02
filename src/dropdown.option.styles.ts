@@ -75,6 +75,14 @@ export default [
       display: none;
     }
 
+    .icon-slot {
+      &::slotted(*) {
+        block-size: 1rem;
+        display: block;
+        inline-size: 1rem;
+      }
+    }
+
     .tooltip {
       overflow: hidden;
     }

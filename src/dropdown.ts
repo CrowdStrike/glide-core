@@ -29,8 +29,9 @@ declare global {
  * @event invalid - `(event: Event) => void`
  *
  * @slot - One or more of `<glide-core-dropdown-option>`.
- * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
+ * @slot icon:<value> - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
+ * @slot tooltip - Content for the tooltip.
  */
 @customElement('glide-core-dropdown')
 export default class GlideCoreDropdown extends LitElement {
@@ -87,6 +88,12 @@ export default class GlideCoreDropdown extends LitElement {
     ) {
       this.#inputElementRef.value.value = this.selectedOptions[0].label;
       this.isFiltering = false;
+
+      this.isShowSingleSelectIcon =
+        !this.multiple &&
+        this.selectedOptions.length > 0 &&
+        Boolean(this.selectedOptions.at(0)?.value);
+
       this.#hide();
     } else {
       this.#hide();
@@ -133,6 +140,7 @@ export default class GlideCoreDropdown extends LitElement {
     const wasSingle = !this.#isMultiple && isMultiple;
 
     this.#isMultiple = isMultiple;
+    this.isShowSingleSelectIcon = false;
 
     for (const option of this.#optionElements) {
       option.privateMultiple = isMultiple;
@@ -145,7 +153,7 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     if (wasMultiple && this.lastSelectedOption?.value) {
-      this.#value = [this.lastSelectedOption.value];
+      this.value = [this.lastSelectedOption.value];
     } else if (wasSingle && this.lastSelectedOption) {
       this.lastSelectedOption.privateUpdateCheckbox();
     }
@@ -233,15 +241,7 @@ export default class GlideCoreDropdown extends LitElement {
     const isFilterable = this.filterable || this.isFilterable;
 
     return !isFilterable && this.selectedOptions.length === 0
-      ? html`<span
-          class=${classMap({
-            placeholder: true,
-            disabled: this.disabled,
-            quiet: this.variant === 'quiet',
-          })}
-        >
-          ${this.placeholder}
-        </span>`
+      ? this.placeholder
       : !this.multiple && !isFilterable && this.selectedOptions.at(-1)?.label
         ? this.selectedOptions.at(-1)?.label
         : '';
@@ -403,8 +403,8 @@ export default class GlideCoreDropdown extends LitElement {
       @blur=${this.#onBlur}
     >
       <glide-core-private-label
-        split=${ifDefined(this.privateSplit ?? undefined)}
         orientation=${this.orientation}
+        split=${ifDefined(this.privateSplit ?? undefined)}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
         ?hide=${this.hideLabel}
@@ -478,6 +478,13 @@ export default class GlideCoreDropdown extends LitElement {
                 })}
               </ul>`;
             })}
+            ${when(this.isShowSingleSelectIcon, () => {
+              return html`<slot
+                class="single-select-icon-slot"
+                data-test="single-select-icon-slot"
+                name="icon:${this.selectedOptions.at(0)?.value}"
+              ></slot>`;
+            })}
             ${when(this.filterable || this.isFilterable, () => {
               return html`<input
                 aria-activedescendant=${this.ariaActivedescendant}
@@ -506,8 +513,25 @@ export default class GlideCoreDropdown extends LitElement {
               />`;
             })}
             ${when(this.internalLabel, () => {
-              return html`<div data-test="internal-label">
-                ${this.internalLabel}
+              return html`<div
+                class="internal-label"
+                data-test="internal-label"
+              >
+                ${when(
+                  this.internalLabel === this.placeholder,
+                  () => {
+                    return html`<span
+                      class=${classMap({
+                        placeholder: true,
+                        disabled: this.disabled,
+                        quiet: this.variant === 'quiet',
+                      })}
+                    >
+                      ${this.internalLabel}
+                    </span>`;
+                  },
+                  () => this.internalLabel,
+                )}
               </div>`;
             })}
 
@@ -683,6 +707,9 @@ export default class GlideCoreDropdown extends LitElement {
   @state()
   private isReportValidityOrSubmit = false;
 
+  @state()
+  private isShowSingleSelectIcon = false;
+
   #buttonElementRef = createRef<HTMLButtonElement>();
 
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
@@ -763,54 +790,6 @@ export default class GlideCoreDropdown extends LitElement {
     this.#cleanUpFloatingUi?.();
     this.#optionsElementRef.value?.hidePopover();
     this.ariaActivedescendant = '';
-  }
-
-  get #optionElements() {
-    return (
-      this.#defaultSlotElementRef.value
-        ?.assignedElements()
-        .filter(
-          (element): element is GlideCoreDropdownOption =>
-            element instanceof GlideCoreDropdownOption,
-        ) ?? []
-    );
-  }
-
-  get #optionElementsIncludingSelectAll() {
-    const assignedElements = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption,
-      );
-
-    if (assignedElements && this.#selectAllElementRef.value) {
-      return [this.#selectAllElementRef.value, ...assignedElements];
-    }
-  }
-
-  get #optionElementsNotHidden() {
-    return this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption && !element.hidden,
-      );
-  }
-
-  get #optionElementsNotHiddenIncludingSelectAll() {
-    const assignedElementsNotHidden = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption && !element.hidden,
-      );
-
-    return this.#selectAllElementRef.value &&
-      !this.#selectAllElementRef.value.hidden &&
-      assignedElementsNotHidden
-      ? [this.#selectAllElementRef.value, ...assignedElementsNotHidden]
-      : assignedElementsNotHidden;
   }
 
   get #isShowValidationFeedback() {
@@ -991,6 +970,8 @@ export default class GlideCoreDropdown extends LitElement {
           // when using VoiceOver.
           event.preventDefault();
 
+          this.isFiltering = false;
+
           this.activeOption.selected = this.multiple
             ? !this.activeOption.selected
             : true;
@@ -1167,6 +1148,54 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
+  get #optionElements() {
+    return (
+      this.#defaultSlotElementRef.value
+        ?.assignedElements()
+        .filter(
+          (element): element is GlideCoreDropdownOption =>
+            element instanceof GlideCoreDropdownOption,
+        ) ?? []
+    );
+  }
+
+  get #optionElementsIncludingSelectAll() {
+    const assignedElements = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreDropdownOption =>
+          element instanceof GlideCoreDropdownOption,
+      );
+
+    if (assignedElements && this.#selectAllElementRef.value) {
+      return [this.#selectAllElementRef.value, ...assignedElements];
+    }
+  }
+
+  get #optionElementsNotHidden() {
+    return this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreDropdownOption =>
+          element instanceof GlideCoreDropdownOption && !element.hidden,
+      );
+  }
+
+  get #optionElementsNotHiddenIncludingSelectAll() {
+    const assignedElementsNotHidden = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreDropdownOption =>
+          element instanceof GlideCoreDropdownOption && !element.hidden,
+      );
+
+    return this.#selectAllElementRef.value &&
+      !this.#selectAllElementRef.value.hidden &&
+      assignedElementsNotHidden
+      ? [this.#selectAllElementRef.value, ...assignedElementsNotHidden]
+      : assignedElementsNotHidden;
+  }
+
   #onInputFocusin() {
     this.#inputElementRef.value?.select();
   }
@@ -1178,9 +1207,23 @@ export default class GlideCoreDropdown extends LitElement {
     // who expect "input" events only when an option is selected or deselected.
     event.stopPropagation();
 
+    if (this.multiple && this.#inputElementRef.value.value !== '') {
+      this.isFiltering = true;
+    } else if (this.multiple) {
+      this.isFiltering = false;
+    } else if (
+      this.#inputElementRef.value.value !== '' &&
+      this.#inputElementRef.value.value !== this.selectedOptions.at(0)?.label
+    ) {
+      this.isFiltering = true;
+    } else {
+      this.isFiltering = false;
+    }
+
+    this.isShowSingleSelectIcon = false;
+
     if (this.activeOption) {
       this.ariaActivedescendant = this.activeOption.id;
-      this.isFiltering = this.#inputElementRef.value.value.trim() !== '';
 
       for (const option of this.#optionElements) {
         option.hidden = !option.label
@@ -1325,6 +1368,13 @@ export default class GlideCoreDropdown extends LitElement {
     ) {
       this.#selectAllElementRef.value.selected = this.isAllSelected;
     }
+
+    this.isFiltering = false;
+
+    this.isShowSingleSelectIcon =
+      !this.multiple &&
+      this.selectedOptions.length > 0 &&
+      Boolean(this.selectedOptions.at(0)?.value);
 
     // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {

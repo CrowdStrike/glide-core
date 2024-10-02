@@ -110,3 +110,73 @@ it('hides Select All', async () => {
 
   expect(selectAll?.checkVisibility()).to.not.be.ok;
 });
+
+it('has an icon when an option with a value is selected', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
+
+      <glide-core-dropdown-option label="One" value="one" selected>
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two" value="two">
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const iconSlot = component.shadowRoot?.querySelector<HTMLSlotElement>(
+    '[data-test="single-select-icon-slot"]',
+  );
+
+  expect(iconSlot instanceof HTMLSlotElement).to.be.true;
+  expect(iconSlot?.assignedElements().at(0)?.slot).to.equal('icon:one');
+});
+
+it('has no icon when an option without a value is selected', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
+
+      <glide-core-dropdown-option label="One" selected>
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two" value="two">
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const iconSlot = component.shadowRoot?.querySelector(
+    '[data-test="single-select-icon-slot"]',
+  );
+
+  expect(iconSlot).to.be.null;
+});
+
+it('has no icon when no option is selected', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
+
+      <glide-core-dropdown-option label="One" value="one">
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two" value="two">
+        <div slot="icon">✓</div>
+      </glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const iconSlot = component.shadowRoot?.querySelector(
+    '[data-test="single-select-icon-slot"]',
+  );
+
+  expect(iconSlot).to.be.null;
+});

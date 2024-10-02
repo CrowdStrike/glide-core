@@ -193,7 +193,7 @@ export const WithIcons: StoryObj = {
         <glide-core-menu-link label="Edit">
           <glide-core-example-icon
             slot="icon"
-            name="pencil"
+            name="edit"
           ></glide-core-example-icon>
         </glide-core-menu-link>
 

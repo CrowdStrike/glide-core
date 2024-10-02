@@ -49,8 +49,9 @@ const meta: Meta = {
     required: false,
     'select-all': false,
     size: 'large',
-    'slot="tooltip"': '',
     'slot="description"': '',
+    'slot="icon:<value>"': '',
+    'slot="tooltip"': '',
     value: '',
     variant: '',
     '<glide-core-dropdown-option>.value': 'one',
@@ -200,6 +201,22 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
+    'slot="icon:<value>"': {
+      control: false,
+      table: {
+        type: {
+          summary: 'Element',
+          detail: `
+// "<value>" should be equal to the \`value\` of each option. Dropdown will 
+// show the correct icon or icons based on which options are selected.
+
+<glide-core-example-icon slot="icon:edit" name="edit"></glide-core-example-icon>
+<glide-core-example-icon slot="icon:move" name="move"></glide-core-example-icon>
+<glide-core-example-icon slot="icon:share" name="share"></glide-core-example-icon>
+`,
+        },
+      },
+    },
     'slot="tooltip"': {
       table: {
         type: { summary: 'Element' },
@@ -285,9 +302,7 @@ const meta: Meta = {
         storyId: context.id,
         args: {
           ...arguments_,
-          open: context.canvasElement.querySelector<GlideCoreDropdown>(
-            'glide-core-dropdown',
-          )?.open,
+          open: dropdown?.open,
         },
       });
     });
@@ -300,17 +315,17 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
-    return html` <glide-core-dropdown
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, unicorn/explicit-length-check */
+    return html`<glide-core-dropdown
       label=${arguments_.label || nothing}
       name=${arguments_.name || nothing}
-      orientation=${arguments_.orientation || nothing}
+      orientation=${arguments_.orientation}
       placeholder=${arguments_.placeholder || nothing}
-      size=${arguments_.size || nothing}
+      size=${arguments_.size}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
-      ?hide-label=${arguments_['hide-label'] || nothing}
+      ?hide-label=${arguments_['hide-label']}
       ?multiple=${arguments_.multiple}
       ?open=${arguments_.open}
       ?readonly=${arguments_.readonly}
@@ -322,14 +337,8 @@ const meta: Meta = {
         value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
         ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
       ></glide-core-dropdown-option>
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-      <glide-core-dropdown-option
-        label="Three"
-        value="three"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
 
       ${arguments_['slot="description"']
         ? html`<div slot="description">
@@ -358,47 +367,75 @@ export const WithError: StoryObj = {
 };
 
 export const WithIcons: StoryObj = {
-  args: {
-    '<glide-core-dropdown-option>.label': 'Edit',
-    '<glide-core-dropdown-option>.value': 'edit',
+  argTypes: {
+    '<glide-core-dropdown-option>.label': {
+      control: false,
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-dropdown-option>.value': {
+      control: false,
+      table: {
+        defaultValue: { summary: '""' },
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
+    },
   },
   render(arguments_) {
-    /* eslint-disable unicorn/explicit-length-check */
+    /* eslint-disable @typescript-eslint/no-unsafe-call, unicorn/explicit-length-check */
     return html`<glide-core-dropdown
-      label=${arguments_.label}
-      name=${arguments_.name}
+      label=${arguments_.label || nothing}
+      name=${arguments_.name || nothing}
       orientation=${arguments_.orientation}
       placeholder=${arguments_.placeholder}
       size=${arguments_.size}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
-      ?hide-label=${arguments_['hide-label'] || nothing}
+      ?hide-label=${arguments_['hide-label']}
       ?multiple=${arguments_.multiple}
       ?open=${arguments_.open}
       ?readonly=${arguments_.readonly}
       ?required=${arguments_.required}
       ?select-all=${arguments_['select-all']}
     >
+      <glide-core-example-icon
+        slot="icon:edit"
+        name="edit"
+      ></glide-core-example-icon>
+
+      <glide-core-example-icon
+        slot="icon:move"
+        name="move"
+      ></glide-core-example-icon>
+
+      <glide-core-example-icon
+        slot="icon:share"
+        name="share"
+      ></glide-core-example-icon>
+
       <glide-core-dropdown-option
-        label=${arguments_['<glide-core-dropdown-option>.label']}
-        value=${arguments_['<glide-core-dropdown-option>.value']}
+        label="Edit"
+        value="edit"
         ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
       >
         <glide-core-example-icon
           slot="icon"
-          name="pencil"
+          name="edit"
         ></glide-core-example-icon>
       </glide-core-dropdown-option>
 
-      <glide-core-dropdown-option label="Move">
+      <glide-core-dropdown-option label="Move" value="move">
         <glide-core-example-icon
           slot="icon"
           name="move"
         ></glide-core-example-icon>
       </glide-core-dropdown-option>
 
-      <glide-core-dropdown-option label="Share">
+      <glide-core-dropdown-option label="Share" value="share">
         <glide-core-example-icon
           slot="icon"
           name="share"

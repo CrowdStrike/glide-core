@@ -190,7 +190,7 @@ export const WithHeaderActions: StoryObj = {
 
         <!-- Only "glide-core-modal-icon-button" components should be used with header-actions -->
         <glide-core-modal-icon-button slot="header-actions" label="Edit">
-          <glide-core-example-icon name="pencil"></glide-core-example-icon>
+          <glide-core-example-icon name="edit"></glide-core-example-icon>
         </glide-core-modal-icon-button>
 
         <glide-core-modal-icon-button slot="header-actions" label="Settings">

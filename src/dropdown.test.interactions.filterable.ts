@@ -105,7 +105,7 @@ it('filters', async () => {
   );
 
   component.focus();
-  await sendKeys({ type: ' one ' });
+  await sendKeys({ type: 'one' });
 
   const options = [
     ...component.querySelectorAll('glide-core-dropdown-option'),
@@ -125,7 +125,7 @@ it('unfilters when an option is selected via click', async () => {
   await aTimeout(0);
 
   component.focus();
-  await sendKeys({ type: ' one ' });
+  await sendKeys({ type: 'one' });
 
   [...component.querySelectorAll('glide-core-dropdown-option')]
     .find(({ hidden }) => !hidden)
@@ -146,7 +146,7 @@ it('unfilters when an option is selected via Enter', async () => {
   );
 
   component.focus();
-  await sendKeys({ type: ' one ' });
+  await sendKeys({ type: 'one' });
   await sendKeys({ press: 'Enter' });
 
   const options = [
@@ -156,7 +156,7 @@ it('unfilters when an option is selected via Enter', async () => {
   expect(options.length).to.equal(11);
 });
 
-it('shows the magnifying glass icon when there is a filter term', async () => {
+it('shows its magnifying glass icon when single-select and filtering', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       ${defaultSlot}
@@ -164,7 +164,7 @@ it('shows the magnifying glass icon when there is a filter term', async () => {
   );
 
   component.focus();
-  await sendKeys({ type: ' one ' });
+  await sendKeys({ type: 'one' });
 
   const icon = component?.shadowRoot?.querySelector(
     '[data-test="magnifying-glass-icon"]',
@@ -173,12 +173,16 @@ it('shows the magnifying glass icon when there is a filter term', async () => {
   expect(icon?.checkVisibility()).to.be.true;
 });
 
-it('hides the magnifying glass icon when there is no filter term', async () => {
+it('hides its magnifying glass icon when single-select and not filtering', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       ${defaultSlot}
     </glide-core-dropdown>`,
   );
+
+  component.focus();
+  await sendKeys({ type: 'o' });
+  await sendKeys({ press: 'Backspace' });
 
   const icon = component?.shadowRoot?.querySelector(
     '[data-test="magnifying-glass-icon"]',
@@ -187,7 +191,30 @@ it('hides the magnifying glass icon when there is no filter term', async () => {
   expect(icon?.checkVisibility()).to.be.not.ok;
 });
 
-it('hides the magnifying glass icon when an option is selected', async () => {
+it('hides its magnifying glass icon when single-select and the filter is label of the selected option', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  const option = [
+    ...component.querySelectorAll('glide-core-dropdown-option'),
+  ].find(({ hidden }) => !hidden);
+
+  option?.click();
+
+  component.focus();
+  await sendKeys({ type: 'One' });
+
+  const icon = component?.shadowRoot?.querySelector(
+    '[data-test="magnifying-glass-icon"]',
+  );
+
+  expect(icon?.checkVisibility()).to.be.not.ok;
+});
+
+it('hides its magnifying glass icon when single-select and an option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       ${defaultSlot}
@@ -198,7 +225,7 @@ it('hides the magnifying glass icon when an option is selected', async () => {
   await aTimeout(0);
 
   component.focus();
-  await sendKeys({ type: ' one ' });
+  await sendKeys({ type: 'one' });
 
   const option = [
     ...component.querySelectorAll('glide-core-dropdown-option'),
@@ -214,7 +241,7 @@ it('hides the magnifying glass icon when an option is selected', async () => {
   expect(icon?.checkVisibility()).to.be.not.ok;
 });
 
-it('hides the magnifying glass icon when closed programmatically and an option is selected', async () => {
+it('hides its magnifying glass icon when single-select and closed programmatically and an option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       ${defaultSlot}
@@ -237,6 +264,41 @@ it('hides the magnifying glass icon when closed programmatically and an option i
 
   component.open = false;
   await elementUpdated(component);
+
+  expect(icon?.checkVisibility()).to.not.be.ok;
+});
+
+it('shows its magnifying glass icon when multiselect and filtering', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+
+  const icon = component?.shadowRoot?.querySelector(
+    '[data-test="magnifying-glass-icon"]',
+  );
+
+  expect(icon?.checkVisibility()).to.be.true;
+});
+
+it('hides its magnifying glass icon when multiselect and not filtering', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'o' });
+  await sendKeys({ press: 'Backspace' });
+
+  const icon = component?.shadowRoot?.querySelector(
+    '[data-test="magnifying-glass-icon"]',
+  );
 
   expect(icon?.checkVisibility()).to.be.not.ok;
 });
@@ -914,4 +976,37 @@ it('clicks the `<input>` when `click()` is called', async () => {
 
   const event = await oneEvent(button, 'click');
   expect(event instanceof PointerEvent).to.be.true;
+});
+
+it('has no icon when filtering and an option is selected', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
+
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+
+  const iconSlot = component.shadowRoot?.querySelector(
+    '[data-test="single-select-icon-slot"]',
+  );
+
+  expect(iconSlot).to.be.null;
 });

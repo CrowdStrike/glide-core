@@ -77,7 +77,7 @@ const meta: Meta = {
             <glide-core-menu-link label="Edit" url="/">
               <glide-core-example-icon
                 slot="icon"
-                name="pencil"
+                name="edit"
               ></glide-core-example-icon>
             </glide-core-menu-link>
 
