@@ -204,7 +204,7 @@ export default [
         2px so the label is vertically aligned. "vertical-align: middle" has no 
         effect on flex children. 
       */
-      padding-block-start: 2px;
+      padding-block-start: 0.125rem;
     }
 
     .button {
@@ -235,7 +235,7 @@ export default [
         2px so the value is vertically aligned. "vertical-align: middle" has no 
         effect flex children. 
       */
-      padding-block: 2px 0;
+      padding-block: 0.125rem 0;
       padding-inline: 0;
 
       &:focus {
