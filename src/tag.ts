@@ -61,7 +61,14 @@ export default class GlideCoreTag extends LitElement {
         data-test="component"
         ${ref(this.#componentElementRef)}
       >
-        <slot name="icon" ${ref(this.#iconSlotElementRef)}></slot>
+        <slot
+          class=${classMap({
+            'icon-slot': true,
+            [this.size]: true,
+          })}
+          name="icon"
+          ${ref(this.#iconSlotElementRef)}
+        ></slot>
 
         ${this.label}
         ${when(

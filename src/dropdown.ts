@@ -455,7 +455,7 @@ export default class GlideCoreDropdown extends LitElement {
                     ${repeat(
                       this.selectedOptions,
                       ({ id }) => id,
-                      ({ id, label }, index) => {
+                      ({ id, label, value }, index) => {
                         return html`<li
                           class=${classMap({
                             'tag-container': true,
@@ -469,8 +469,19 @@ export default class GlideCoreDropdown extends LitElement {
                             data-id=${id}
                             label=${label}
                             removable
+                            size=${this.size}
                             @remove=${this.#onTagRemove.bind(this, id)}
-                          ></glide-core-tag>
+                          >
+                            ${when(value, () => {
+                              return html`
+                                <slot
+                                  data-test="multiselect-icon-slot"
+                                  name="icon:${value}"
+                                  slot="icon"
+                                ></slot>
+                              `;
+                            })}
+                          </glide-core-tag>
                         </li>`;
                       },
                     )}

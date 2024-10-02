@@ -18,11 +18,11 @@ export default [
     .option {
       align-items: center;
       block-size: 100%;
+      column-gap: var(--glide-core-spacing-xs);
       display: flex;
       user-select: none;
 
       &.large {
-        column-gap: var(--glide-core-spacing-sm);
         font-family: var(--glide-core-body-sm-font-family);
         font-size: var(--glide-core-body-sm-font-size);
         font-style: var(--glide-core-body-sm-font-style);
@@ -32,7 +32,6 @@ export default [
       }
 
       &.small {
-        column-gap: var(--glide-core-spacing-xs);
         font-family: var(--glide-core-body-xs-font-family);
         font-size: var(--glide-core-body-xs-font-size);
         font-style: var(--glide-core-body-xs-font-style);
@@ -42,7 +41,7 @@ export default [
       }
     }
 
-    glide-core-checkbox {
+    .checkbox {
       &.large {
         &::part(private-label-and-input-and-checkbox) {
           padding-inline: var(--glide-core-spacing-sm);

@@ -237,6 +237,7 @@ export default class GlideCoreTooltip extends LitElement {
               class=${classMap({
                 shortcut: true,
                 reversed: this.effectivePlacement === 'left',
+                visible: this.shortcut.length > 0,
               })}
               data-test="shortcut"
             >

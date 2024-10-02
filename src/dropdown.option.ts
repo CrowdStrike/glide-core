@@ -217,6 +217,7 @@ export default class GlideCoreDropdownOption extends LitElement {
               label=${this.label ?? ''}
               tabindex="-1"
               private-label-tooltip-offset=${12}
+              private-size=${this.privateSize}
               private-variant="minimal"
               value=${this.value}
               internally-inert
@@ -224,7 +225,14 @@ export default class GlideCoreDropdownOption extends LitElement {
               ?indeterminate=${this.privateIndeterminate}
               ?private-show-label-tooltip=${this.privateActive}
               ${ref(this.#checkboxElementRef)}
-            ></glide-core-checkbox>
+            >
+              <slot
+                class="icon-slot"
+                data-test="icon-slot"
+                name="icon"
+                slot="private-icon"
+              ></slot>
+            </glide-core-checkbox>
           `;
         },
         () => {
@@ -234,7 +242,7 @@ export default class GlideCoreDropdownOption extends LitElement {
             [this.privateSize]: true,
           })}
           >
-              <slot class="icon-slot" data-test="icon-slot" name="icon"></slot>
+              <slot class="icon-slot" name="icon"></slot>
 
               <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${!this
                 .isLabelOverflow} ?open=${this.privateActive}>
@@ -271,8 +279,6 @@ export default class GlideCoreDropdownOption extends LitElement {
   #checkboxElementRef = createRef<GlideCoreCheckbox>();
 
   #componentElementRef = createRef<HTMLElement>();
-
-  #iconSlotElementRef = createRef<HTMLSlotElement>();
 
   // Established here instead of in `connectedCallback` so the ID remains
   // constant even if this component is removed and re-added to the DOM.

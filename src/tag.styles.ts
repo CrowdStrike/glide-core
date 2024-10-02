@@ -11,7 +11,7 @@ export default [
       background: var(--glide-core-surface-base);
       border-radius: var(--glide-core-border-radius-round);
       color: var(--glide-core-text-body-1);
-      display: inline-flex;
+      display: flex;
       font-family: var(--glide-core-body-xs-font-family);
       font-size: var(--glide-core-body-xs-font-size);
       font-style: var(--glide-core-body-xs-font-variant);
@@ -42,39 +42,6 @@ export default [
       &.removed {
         animation: fade-out 200ms ease-in-out;
         animation-fill-mode: forwards;
-      }
-
-      & ::slotted([slot='icon']) {
-        --size: var(--glide-core-spacing-sm);
-
-        align-items: center;
-        block-size: var(--glide-core-spacing-sm);
-        display: flex;
-        inline-size: var(--glide-core-spacing-sm);
-        justify-content: center;
-        margin-inline-end: 0.375rem;
-      }
-
-      &.small ::slotted([slot='icon']) {
-        --size: 0.625rem;
-
-        align-items: center;
-        block-size: 0.625rem;
-        display: flex;
-        inline-size: 0.625rem;
-        justify-content: center;
-        margin-inline-end: var(--glide-core-spacing-xxs);
-      }
-
-      &.large ::slotted([slot='icon']) {
-        --size: 0.875rem;
-
-        align-items: center;
-        block-size: 0.875rem;
-        display: flex;
-        inline-size: 0.875rem;
-        justify-content: center;
-        margin-inline-end: var(--glide-core-spacing-xs);
       }
     }
 
@@ -132,6 +99,38 @@ export default [
 
       &:focus {
         outline: none;
+      }
+    }
+
+    .icon-slot {
+      &.large {
+        &::slotted(*) {
+          block-size: 0.875rem;
+          inline-size: 0.875rem;
+          margin-inline-end: var(--glide-core-spacing-xs);
+        }
+      }
+
+      &.medium {
+        &::slotted(*) {
+          block-size: 0.75rem;
+          inline-size: 0.75rem;
+          margin-inline-end: 0.375rem;
+        }
+      }
+
+      &.small {
+        &::slotted(*) {
+          block-size: 0.625rem;
+          inline-size: 0.625rem;
+          margin-inline-end: var(--glide-core-spacing-xxs);
+        }
+      }
+
+      &::slotted(*) {
+        align-items: center;
+        display: flex;
+        justify-content: center;
       }
     }
   `,

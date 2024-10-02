@@ -38,6 +38,7 @@ const indeterminateIcon = html`
  *
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.
+ * @slot private-icon
  */
 @customElement('glide-core-checkbox')
 export default class GlideCoreCheckbox extends LitElement {
@@ -101,6 +102,9 @@ export default class GlideCoreCheckbox extends LitElement {
     type: Boolean,
   })
   privateShowLabelTooltip = false;
+
+  @property({ attribute: 'private-size' })
+  privateSize: 'large' | 'small' = 'large';
 
   @property()
   privateSplit?: 'left' | 'middle';
@@ -226,7 +230,10 @@ export default class GlideCoreCheckbox extends LitElement {
         this.privateVariant === 'minimal',
         () => html`
           <label
-            class="label-and-input-and-checkbox"
+            class=${classMap({
+              'label-and-input-and-checkbox': true,
+              [this.privateSize]: true,
+            })}
             part="private-label-and-input-and-checkbox"
           >
             <div class="input-and-checkbox">
@@ -255,18 +262,22 @@ export default class GlideCoreCheckbox extends LitElement {
               </div>
             </div>
 
-            <glide-core-tooltip
-              class="label-tooltip"
-              offset=${this.privateLabelTooltipOffset}
-              ?disabled=${!this.isLabelOverflow}
-              ?open=${this.privateShowLabelTooltip}
-            >
-              <div aria-hidden="true" data-test="tooltip">${this.label}</div>
+            <div class="icon-and-label">
+              <slot name="private-icon"></slot>
 
-              <div class="label" slot="target" ${ref(this.#labelElementRef)}>
-                ${this.label}
-              </div>
-            </glide-core-tooltip>
+              <glide-core-tooltip
+                class="label-tooltip"
+                offset=${this.privateLabelTooltipOffset}
+                ?disabled=${!this.isLabelOverflow}
+                ?open=${this.privateShowLabelTooltip}
+              >
+                <div aria-hidden="true" data-test="tooltip">${this.label}</div>
+
+                <div class="label" slot="target" ${ref(this.#labelElementRef)}>
+                  ${this.label}
+                </div>
+              </glide-core-tooltip>
+            </div>
           </label>
         `,
         () =>

@@ -114,6 +114,7 @@ export default [
       font-weight: var(--glide-core-body-sm-font-weight);
       inline-size: max-content;
       inset-block-start: 50%;
+      line-height: var(--glide-core-body-sm-line-height);
       padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
 
       &.reversed {
@@ -132,8 +133,12 @@ export default [
 
     .shortcut {
       color: var(--glide-core-text-body-lighter);
-      display: inline-block;
+      display: none;
       white-space: nowrap;
+
+      &.visible {
+        display: inline-block;
+      }
 
       &.reversed {
         margin-inline-end: var(--glide-core-spacing-xs);
