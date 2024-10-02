@@ -718,8 +718,6 @@ export default class GlideCoreDropdown extends LitElement {
 
   #dropdownElementRef = createRef<HTMLElement>();
 
-  #iconSlotElementRef = createRef<HTMLSlotElement>();
-
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;

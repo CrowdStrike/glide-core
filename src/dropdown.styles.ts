@@ -189,11 +189,10 @@ export default [
     }
 
     .single-select-icon-slot {
-      &::slotted {
+      &::slotted(*) {
         block-size: 1rem;
         display: block;
         inline-size: 1rem;
-        overflow: hidden;
       }
     }
 
