@@ -185,6 +185,7 @@ export default [
     }
 
     .tag-overflow-text {
+      align-content: center;
       color: var(--glide-core-text-link);
     }
 

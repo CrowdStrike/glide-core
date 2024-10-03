@@ -156,6 +156,7 @@ export default class GlideCoreDropdown extends LitElement {
       this.value = [this.lastSelectedOption.value];
     } else if (wasSingle && this.lastSelectedOption) {
       this.lastSelectedOption.privateUpdateCheckbox();
+      this.#setTagOverflowLimit();
     }
   }
 
@@ -306,6 +307,14 @@ export default class GlideCoreDropdown extends LitElement {
     if (this.open && !this.disabled) {
       this.#show();
     }
+
+    const observer = new ResizeObserver(() => {
+      this.#setTagOverflowLimit();
+    });
+
+    if (this.#componentElementRef.value) {
+      observer.observe(this.#componentElementRef.value);
+    }
   }
 
   // The button doesn't receive focus when `shadowRoot.delegatesFocus` is set,
@@ -401,6 +410,7 @@ export default class GlideCoreDropdown extends LitElement {
         vertical: this.orientation === 'vertical',
       })}
       @blur=${this.#onBlur}
+      ${ref(this.#componentElementRef)}
     >
       <glide-core-private-label
         orientation=${this.orientation}
@@ -450,43 +460,39 @@ export default class GlideCoreDropdown extends LitElement {
                 class="tags"
                 ${ref(this.#tagsElementRef)}
               >
-                ${when(this.multiple && this.selectedOptions.length > 0, () => {
-                  return html`
-                    ${repeat(
-                      this.selectedOptions,
-                      ({ id }) => id,
-                      ({ id, label, value }, index) => {
-                        return html`<li
-                          class=${classMap({
-                            'tag-container': true,
-                            hidden: index > this.#tagOverflowLimit - 1,
-                          })}
-                          data-test="tag-container"
-                          data-test-hidden=${index > this.#tagOverflowLimit - 1}
-                        >
-                          <glide-core-tag
-                            data-test="tag"
-                            data-id=${id}
-                            label=${label}
-                            removable
-                            size=${this.size}
-                            @remove=${this.#onTagRemove.bind(this, id)}
-                          >
-                            ${when(value, () => {
-                              return html`
-                                <slot
-                                  data-test="multiselect-icon-slot"
-                                  name="icon:${value}"
-                                  slot="icon"
-                                ></slot>
-                              `;
-                            })}
-                          </glide-core-tag>
-                        </li>`;
-                      },
-                    )}
-                  `;
-                })}
+                ${repeat(
+                  this.selectedOptions,
+                  ({ id }) => id,
+                  ({ id, label, value }, index) => {
+                    return html`<li
+                      class=${classMap({
+                        'tag-container': true,
+                        hidden: index > this.tagOverflowLimit - 1,
+                      })}
+                      data-test="tag-container"
+                      data-test-hidden=${index > this.tagOverflowLimit - 1}
+                    >
+                      <glide-core-tag
+                        data-test="tag"
+                        data-id=${id}
+                        label=${label}
+                        removable
+                        size=${this.size}
+                        @remove=${this.#onTagRemove.bind(this, id)}
+                      >
+                        ${when(value, () => {
+                          return html`
+                            <slot
+                              data-test="multiselect-icon-slot"
+                              name="icon:${value}"
+                              slot="icon"
+                            ></slot>
+                          `;
+                        })}
+                      </glide-core-tag>
+                    </li>`;
+                  },
+                )}
               </ul>`;
             })}
             ${when(this.isShowSingleSelectIcon, () => {
@@ -551,7 +557,8 @@ export default class GlideCoreDropdown extends LitElement {
 
             <div class="tag-overflow-text-and-button">
               ${when(
-                this.selectedOptions.length > this.#tagOverflowLimit,
+                this.multiple &&
+                  this.selectedOptions.length > this.tagOverflowLimit,
                 () => {
                   return html`<div
                     aria-hidden="true"
@@ -561,7 +568,7 @@ export default class GlideCoreDropdown extends LitElement {
                   >
                     +
                     <span data-test="tag-overflow-count">
-                      ${this.selectedOptions.length - this.#tagOverflowLimit}
+                      ${this.selectedOptions.length - this.tagOverflowLimit}
                     </span>
                     more
                   </div>`;
@@ -638,6 +645,8 @@ export default class GlideCoreDropdown extends LitElement {
               class="select-all"
               data-test="select-all"
               label=${this.#localize.term('selectAll')}
+              private-size=${this.size}
+              private-multiple
               ?hidden=${!this.selectAll || !this.multiple || this.isFiltering}
               ?private-indeterminate=${this.isSomeSelected &&
               !this.isAllSelected}
@@ -724,9 +733,14 @@ export default class GlideCoreDropdown extends LitElement {
   @state()
   private isShowSingleSelectIcon = false;
 
+  @state()
+  private tagOverflowLimit = 0;
+
   #buttonElementRef = createRef<HTMLButtonElement>();
 
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
+
+  #componentElementRef = createRef<HTMLElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -741,6 +755,8 @@ export default class GlideCoreDropdown extends LitElement {
   #isMultiple = false;
 
   #isOpen = false;
+
+  #isOverflowTest = false;
 
   #isRemovingTag = false;
 
@@ -759,10 +775,6 @@ export default class GlideCoreDropdown extends LitElement {
   #shadowRoot?: ShadowRoot;
 
   #size: 'small' | 'large' = 'large';
-
-  // To be removed when we take a stab at showing and hiding tag overflow dynamically
-  // based on whether Dropdown is overflowing its container. Good luck!
-  #tagOverflowLimit = 3;
 
   #tagsElementRef = createRef<HTMLElement>();
 
@@ -828,14 +840,13 @@ export default class GlideCoreDropdown extends LitElement {
     ]);
 
     this.isFilterable = this.#optionElements.length > 10;
+    this.tagOverflowLimit = this.selectedOptions.length;
 
-    if (this.#optionElementsIncludingSelectAll) {
-      for (const option of this.#optionElementsIncludingSelectAll) {
-        // Both here and in the `this.size` setter because no assignment happens on
-        // first render.
-        option.privateSize = this.size;
-        option.privateMultiple = this.multiple;
-      }
+    for (const option of this.#optionElements) {
+      // Both here and in the `this.size` setter because no assignment happens on
+      // initial render.
+      option.privateSize = this.size;
+      option.privateMultiple = this.multiple;
     }
 
     const firstOption = this.#optionElementsNotHiddenIncludingSelectAll?.at(0);
@@ -1269,7 +1280,7 @@ export default class GlideCoreDropdown extends LitElement {
     // As the user deselects options, ones previously overflowing will be become
     // visible and thus deselectable using Backspace.
     const lastSelectedAndNotOverflowingOption = this.selectedOptions
-      .filter((_, index) => index <= this.#tagOverflowLimit - 1)
+      .filter((_, index) => index <= this.tagOverflowLimit - 1)
       .at(-1);
 
     if (
@@ -1285,7 +1296,7 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     const selectedAndNotOverflowingOptions = this.selectedOptions.filter(
-      (_, index) => index <= this.#tagOverflowLimit - 1,
+      (_, index) => index <= this.tagOverflowLimit - 1,
     );
 
     if (
@@ -1405,6 +1416,12 @@ export default class GlideCoreDropdown extends LitElement {
                 );
               });
 
+        // Tags vary in width depending on their labels. It's possible an option was
+        // removed and a new option with a shorter label was just added. The new label
+        // may be just short enough that the overflow limit can be increased by one.
+        // Thus the call here in addition to the one in Resize Observer.
+        this.#setTagOverflowLimit();
+
         // The event this handler listens to is dispatched on both selection and deselection.
         // In the case of single-select, we don't care if the target has been deselected. We
         // also don't want any changes to focus or the state of `this.open` as a result.
@@ -1512,6 +1529,44 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     this.#isSelectionChangeFromSelectAll = false;
+  }
+
+  async #setTagOverflowLimit() {
+    if (this.#componentElementRef.value) {
+      const isOverflowing =
+        this.#componentElementRef.value.scrollWidth >
+        this.#componentElementRef.value.clientWidth;
+
+      if (isOverflowing && this.tagOverflowLimit > 1) {
+        this.tagOverflowLimit = this.tagOverflowLimit - 1;
+
+        // Wait for the update to complete. Then run through this logic
+        // again to see if Dropdown is still overflowing. Rinse and repeat
+        // until there's no overflow.
+        await this.updateComplete;
+
+        this.#setTagOverflowLimit();
+      } else if (
+        !isOverflowing &&
+        !this.#isOverflowTest &&
+        this.tagOverflowLimit < this.selectedOptions.length
+      ) {
+        this.tagOverflowLimit = this.tagOverflowLimit + 1;
+
+        // The limit increase may cause an overflow. But we won't know until we
+        // try. If it does, the branch above will correct it when it calls this
+        // function again.
+        //
+        // `#isOverflowTest` is set so we don't wind up back in this branch after
+        // returning to the branch above, creating an infinite loop.
+        this.#isOverflowTest = true;
+
+        await this.updateComplete;
+        this.#setTagOverflowLimit();
+      } else {
+        this.#isOverflowTest = false;
+      }
+    }
   }
 
   #show() {

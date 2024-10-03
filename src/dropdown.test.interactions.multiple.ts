@@ -723,9 +723,14 @@ it('has no internal label when an option is newly selected', async () => {
   expect(label).to.not.exist;
 });
 
-it('only has so many tags when many options are selected', async () => {
+it('hides tags to prevent overflow', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      style="display: block; max-width: 20rem;"
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -755,7 +760,8 @@ it('only has so many tags when many options are selected', async () => {
   options[2].selected = true;
   options[3].selected = true;
 
-  await elementUpdated(component);
+  // Wait for the Resize Observer to do its thing.
+  await aTimeout(0);
 
   const tagContainers = [
     ...(component.shadowRoot?.querySelectorAll<HTMLElement>(
@@ -763,12 +769,17 @@ it('only has so many tags when many options are selected', async () => {
     ) ?? []),
   ].filter((element) => element.checkVisibility());
 
-  expect(tagContainers?.length).to.equal(3);
+  expect(tagContainers?.length).to.equal(2);
 });
 
-it('has overflow text when many options are selected', async () => {
+it('has overflow text when its tags are overflowing', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      style="display: block; max-width: 20rem;"
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -798,13 +809,14 @@ it('has overflow text when many options are selected', async () => {
   options[2].selected = true;
   options[3].selected = true;
 
-  await elementUpdated(component);
+  // Wait for the Resize Observer to do its thing.
+  await aTimeout(0);
 
   const tagOverflow = component.shadowRoot?.querySelector(
     '[data-test="tag-overflow-count"]',
   );
 
-  expect(tagOverflow?.textContent?.trim()).to.equal('1');
+  expect(tagOverflow?.textContent?.trim()).to.equal('2');
 });
 
 it('deselects the option when its tag is removed', async () => {
