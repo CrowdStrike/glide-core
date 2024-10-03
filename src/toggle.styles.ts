@@ -46,7 +46,7 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
       }
 
       &:has(input:disabled) {
-        background-color: var(--glide-core-surface-disabled);
+        background-color: var(--glide-core-surface-unselected-disabled);
 
         &::before {
           box-shadow: none;
