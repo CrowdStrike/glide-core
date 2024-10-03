@@ -491,7 +491,10 @@ export default class GlideCoreDropdown extends LitElement {
             })}
             ${when(this.isShowSingleSelectIcon, () => {
               return html`<slot
-                class="single-select-icon-slot"
+                class=${classMap({
+                  'single-select-icon-slot': true,
+                  quiet: this.variant === 'quiet',
+                })}
                 data-test="single-select-icon-slot"
                 name="icon:${this.selectedOptions.at(0)?.value}"
               ></slot>`;

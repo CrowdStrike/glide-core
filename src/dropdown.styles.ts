@@ -50,7 +50,7 @@ export default [
         block-size: 1.5rem;
         border-color: transparent;
         border-radius: var(--glide-core-border-radius-round);
-        gap: var(--glide-core-spacing-xxs);
+        column-gap: var(--glide-core-spacing-xxs);
         min-inline-size: 3.75rem;
         padding-block: 0;
         padding-inline: 0.375rem;
@@ -189,6 +189,12 @@ export default [
     }
 
     .single-select-icon-slot {
+      &.quiet {
+        &::slotted(*) {
+          margin-inline-end: var(--glide-core-spacing-xxs);
+        }
+      }
+
       &::slotted(*) {
         block-size: 1rem;
         display: block;
