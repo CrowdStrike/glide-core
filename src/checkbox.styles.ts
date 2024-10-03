@@ -22,13 +22,25 @@ when browsers support them.
     .label-and-input-and-checkbox {
       align-items: center;
       display: flex;
-      font-family: var(--glide-core-heading-xxxs-font-family);
-      font-size: var(--glide-core-heading-xxxs-font-size);
-      font-style: var(--glide-core-heading-xxxs-font-style);
-      font-variant: var(--glide-core-heading-xxxs-font-variant);
-      font-weight: var(--glide-core-body-xs-font-weight);
-      gap: var(--glide-core-spacing-sm);
       line-height: 100%;
+
+      &.large {
+        column-gap: var(--glide-core-spacing-sm);
+        font-family: var(--glide-core-body-sm-font-family);
+        font-size: var(--glide-core-body-sm-font-size);
+        font-style: var(--glide-core-body-sm-font-style);
+        font-variant: var(--glide-core-body-sm-font-variant);
+        font-weight: var(--glide-core-body-sm-font-weight);
+      }
+
+      &.small {
+        column-gap: var(--glide-core-spacing-xs);
+        font-family: var(--glide-core-body-xs-font-family);
+        font-size: var(--glide-core-body-xs-font-size);
+        font-style: var(--glide-core-body-xs-font-style);
+        font-variant: var(--glide-core-body-xs-font-variant);
+        font-weight: var(--glide-core-body-xs-font-weight);
+      }
     }
 
     .input-and-checkbox-and-summary {
@@ -162,6 +174,13 @@ when browsers support them.
       display: none;
       fill: var(--glide-core-icon-active);
       stroke: var(--glide-core-icon-active);
+    }
+
+    .icon-and-label {
+      align-items: center;
+      column-gap: var(--glide-core-spacing-xs);
+      display: flex;
+      overflow: hidden;
     }
 
     .label-tooltip {

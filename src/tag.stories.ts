@@ -109,6 +109,7 @@ export const WithIcon: StoryObj = {
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
+        size=${arguments_.size}
         ?removable=${arguments_.removable}
       >
         <glide-core-example-icon

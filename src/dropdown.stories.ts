@@ -243,7 +243,7 @@ const meta: Meta = {
       control: { type: 'select' },
       options: ['', 'quiet'],
       table: {
-        type: { summary: '"quiet"' },
+        type: { summary: '"quiet"', detail: '// Unsupported with `multiple`' },
       },
     },
     '<glide-core-dropdown-option>.value': {
@@ -264,7 +264,6 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'Element',
-          detail: '// Unsupported with `multiple`',
         },
       },
     },

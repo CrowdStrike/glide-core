@@ -365,7 +365,65 @@ it('has no internal label when an option is initially selected', async () => {
   expect(label).to.not.exist;
 });
 
-it('has no single-select icon', async () => {
+it('has a "multiselect" icon for each selected option with a value', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
+      <div slot="icon:three">✓</div>
+
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const icons = component.shadowRoot?.querySelectorAll(
+    '[data-test="multiselect-icon-slot"]',
+  );
+
+  expect(icons?.length).to.equal(2);
+});
+
+it('has no "multiselect" icons', async () => {
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <div slot="icon:one">✓</div>
+      <div slot="icon:two">✓</div>
+
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const icons = component.shadowRoot?.querySelectorAll(
+    '[data-test="multiselect-icon-slot"]',
+  );
+
+  expect(icons?.length).to.equal(0);
+});
+
+it('has no "single-select" icon', async () => {
   const component = await fixture(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <div slot="icon:one">✓</div>

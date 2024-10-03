@@ -172,10 +172,8 @@ it('selects an option when its icon is clicked', async () => {
 
   const option = component.querySelector('glide-core-dropdown-option');
 
-  option?.shadowRoot
-    ?.querySelector<HTMLSlotElement>('[data-test="icon-slot"]')
-    ?.assignedElements()
-    ?.at(0)
+  option
+    ?.querySelector('[slot="icon"]')
     ?.dispatchEvent(new Event('click', { bubbles: true }));
 
   expect(option?.selected).to.be.true;
