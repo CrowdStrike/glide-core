@@ -63,8 +63,6 @@ const meta: Meta = {
     label: 'Label',
     'slot="default"': 'Content',
     'addEventListener(event, listener)': '',
-    'click()': '',
-    'focus(options)': '',
     open: false,
     'slot="prefix-icon"': '',
     'slot="suffix-icons"': '',
@@ -89,24 +87,6 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '(event: "toggle", listener: (event: Event) => void) => void',
-        },
-      },
-    },
-    'click()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
-    'focus(options)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
         },
       },
     },

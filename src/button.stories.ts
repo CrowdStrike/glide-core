@@ -22,22 +22,16 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
     return html`
       <glide-core-button
-        aria-controls=${arguments_['aria-controls'] || nothing}
-        aria-expanded=${arguments_['aria-expanded'] || nothing}
-        aria-haspopup=${arguments_['aria-haspopup'] || nothing}
         formaction=${arguments_.formaction || nothing}
         formenctype=${arguments_.formenctype || nothing}
         formmethod=${arguments_.formmethod || nothing}
         formtarget=${arguments_.formtarget || nothing}
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
-        popovertarget=${arguments_.popovertarget || nothing}
-        popovertargetaction=${arguments_.popovertargetaction || nothing}
         size=${arguments_.size || nothing}
         type=${arguments_.type || nothing}
         value=${arguments_.value || nothing}
         variant=${arguments_.variant || nothing}
-        ?autofocus=${arguments_.autofocus}
         ?disabled=${arguments_.disabled || nothing}
         ?formnovalidate=${arguments_.formnovalidate}
       >
@@ -47,13 +41,7 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    'aria-controls': '',
-    'aria-expanded': '',
-    'aria-haspopup': '',
-    autofocus: false,
-    'click()': '',
     disabled: false,
-    'focus(options)': '',
     form: '',
     formaction: '',
     formenctype: 'application/x-www-form-urlencoded',
@@ -61,8 +49,6 @@ const meta: Meta = {
     formnovalidate: false,
     formtarget: '_self',
     name: '',
-    popovertarget: '',
-    popovertargetaction: 'toggle',
     size: 'large',
     'slot="prefix-icon"': '',
     'slot="suffix-icon"': '',
@@ -77,76 +63,10 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    'aria-controls': {
-      table: {
-        defaultValue: {
-          summary: 'null',
-        },
-      },
-    },
-    'aria-expanded': {
-      control: { type: 'select' },
-      table: {
-        defaultValue: {
-          summary: 'null',
-        },
-        type: {
-          summary: '"true" | "false"',
-        },
-      },
-      options: ['', 'true', 'false'],
-    },
-    'aria-haspopup': {
-      control: { type: 'select' },
-      table: {
-        defaultValue: {
-          summary: 'null',
-        },
-        type: {
-          summary:
-            '"true" | "false" | "menu" | "listbox" | "tree" | "grid" | "dialog"',
-        },
-      },
-      options: [
-        '',
-        'true',
-        'false',
-        'menu',
-        'listbox',
-        'tree',
-        'grid',
-        'dialog',
-      ],
-    },
-    autofocus: {
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-      },
-    },
-    'click()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
     disabled: {
       table: {
         defaultValue: {
           summary: 'false',
-        },
-      },
-    },
-    'focus(options)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
         },
       },
     },
@@ -222,18 +142,6 @@ const meta: Meta = {
         },
       },
     },
-    popovertargetaction: {
-      control: { type: 'select' },
-      options: ['', 'hide', 'show', 'toggle'],
-      table: {
-        defaultValue: {
-          summary: '"toggle"',
-        },
-        type: {
-          summary: '"hide" | "show" | "toggle"',
-        },
-      },
-    },
     size: {
       control: { type: 'radio' },
       options: ['large', 'small'],
@@ -297,22 +205,16 @@ export const WithIcons: StoryObj = {
   render(arguments_) {
     return html`
       <glide-core-button
-        aria-controls=${arguments_['aria-controls'] || nothing}
-        aria-expanded=${arguments_['aria-expanded'] || nothing}
-        aria-haspopup=${arguments_['aria-haspopup'] || nothing}
         formaction=${arguments_.formaction || nothing}
         formenctype=${arguments_.formenctype || nothing}
         formmethod=${arguments_.formmethod || nothing}
         formtarget=${arguments_.formtarget || nothing}
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
-        popovertarget=${arguments_.popovertarget || nothing}
-        popovertargetaction=${arguments_.popovertargetaction || nothing}
         size=${arguments_.size || nothing}
         type=${arguments_.type || nothing}
         value=${arguments_.value || nothing}
         variant=${arguments_.variant || nothing}
-        ?autofocus=${arguments_.autofocus}
         ?disabled=${arguments_.disabled}
         ?formnovalidate=${arguments_.formnovalidate}
       >

@@ -27,9 +27,7 @@ const meta: Meta = {
     label: 'Label',
     'addEventListener(event, listener)': '',
     checked: false,
-    'click()': '',
     disabled: false,
-    'focus(options)': '',
     'hide-label': false,
     orientation: 'horizontal',
     'slot="description"': '',
@@ -59,28 +57,10 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    'click()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
     disabled: {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
-      },
-    },
-    'focus(options)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
-        },
       },
     },
     'hide-label': {

@@ -30,9 +30,7 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': '',
-    'click()': '',
     disabled: false,
-    'focus(options)': '',
     variant: 'primary',
   },
   argTypes: {
@@ -48,30 +46,12 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    'click()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
     disabled: {
       table: {
         defaultValue: {
           summary: 'false',
         },
         type: { summary: 'boolean' },
-      },
-    },
-    'focus(options)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
-        },
       },
     },
     variant: {

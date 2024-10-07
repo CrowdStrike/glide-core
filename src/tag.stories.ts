@@ -29,8 +29,6 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'addEventListener(event, listener)': '',
-    'click()': '',
-    'focus(options)': '',
     removable: false,
     size: 'medium',
     'slot="icon"': '',
@@ -47,24 +45,6 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '(event: "remove", listener: (event: Event) => void) => void',
-        },
-      },
-    },
-    'click()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
-    'focus(options)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
         },
       },
     },

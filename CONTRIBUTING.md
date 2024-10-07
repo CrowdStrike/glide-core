@@ -7,6 +7,7 @@
 - [Best practices](#best-practices)
   - [Proceed with caution when upgrading Storybook](#proceed-with-caution-when-upgrading-storybook)
   - [Prefer controls over stories](#prefer-controls-over-stories)
+  - [Don't add Storybook controls for properties and methods inherited from `HTMLElement` or `Element`](#dont-add-storybook-controls-for-properties-and-methods-inherited-from-htmlelement-or-element)
   - [Only set required attributes in stories](#only-set-required-attributes-in-stories)
   - [Prefer encapsulation](#prefer-encapsulation)
     - [Avoid styling `:host`](#avoid-styling-host)
@@ -75,6 +76,22 @@ only write stories for component states that can't reasonably be changed via a c
 
 A story showing the use of an optional slot that requires specific markup is one example.
 A story showing an error state triggered by a form submission is another.
+
+### Don't add Storybook controls for properties and methods inherited from `HTMLElement` or `Element`
+
+Our components extend `LitElement`, which extends `HTMLElement`—which extends `Element`.
+So our components can be assumed to implement properties and methods inherited from those classes.
+Ideally, we'd document everything.
+But Storybook's controls table would quickly become cluttered.
+And adding and maintaining controls isn't free.
+
+The exception is `addEventListener()`.
+It is inherited.
+But which events it supports isn't obvious.
+Document `addEventListener()` if your component dispatches events that aren't universal—like `"change"`, `"input"`, or `"toggle"`.
+
+If you're unsure where a property or method comes from, TypeScript's [Playground](https://www.typescriptlang.org/play) can help.
+So can your editor and [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes).
 
 ### Only set required attributes in stories
 

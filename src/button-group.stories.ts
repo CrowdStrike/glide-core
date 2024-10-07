@@ -49,14 +49,14 @@ const meta: Meta = {
               <glide-core-button-group-button label="Two">
                 <glide-core-example-icon
                   slot="icon"
-                  name="info"
+                  name="edit"
                 ></glide-core-example-icon>
               </glide-core-button-group-button>
 
               <glide-core-button-group-button label="Three">
                 <glide-core-example-icon
                   slot="icon"
-                  name="info"
+                  name="calendar"
                 ></glide-core-example-icon>
               </glide-core-button-group-button>`;
           },

@@ -43,9 +43,7 @@ const meta: Meta = {
     'slot="default"': '',
     'addEventListener(event, listener)': '',
     'checkValidity()': '',
-    'click()': '',
     disabled: false,
-    'focus(options)': '',
     filterable: false,
     'hide-label': false,
     multiple: false,
@@ -93,15 +91,6 @@ const meta: Meta = {
         },
       },
     },
-    'click()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
     disabled: {
       table: {
         defaultValue: { summary: 'false' },
@@ -115,15 +104,6 @@ const meta: Meta = {
           summary: 'boolean',
           detail:
             '// Dropdown will be filterable regardless of this attribute when there are more than 10 options',
-        },
-      },
-    },
-    'focus(options)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
         },
       },
     },
