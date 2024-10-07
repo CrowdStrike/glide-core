@@ -407,7 +407,7 @@ it('updates `value` when an option `value` is changed programmatically', async (
   expect(component.value).to.deep.equal(['two']);
 });
 
-it('updates the `value` of its `<input>` when made filterable', async () => {
+it('sets the `value` of its `<input>` when made filterable', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
