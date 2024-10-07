@@ -99,9 +99,14 @@ it('has a tag when an option is initially selected', async () => {
   expect(tag?.textContent?.trim()).to.equal('One');
 });
 
-it('only has so many tags when many options are initially selected', async () => {
+it('hides tags to prevent overflow', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      style="display: block; max-width: 20rem;"
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -128,13 +133,16 @@ it('only has so many tags when many options are initially selected', async () =>
     </glide-core-dropdown>`,
   );
 
+  // Wait for the Resize Observer to do its thing.
+  await aTimeout(0);
+
   const tagContainers = [
     ...(component.shadowRoot?.querySelectorAll<HTMLElement>(
       '[data-test="tag-container"]',
     ) ?? []),
   ].filter((element) => element.checkVisibility());
 
-  expect(tagContainers?.length).to.equal(3);
+  expect(tagContainers?.length).to.equal(2);
 });
 
 it('shows Select All', async () => {

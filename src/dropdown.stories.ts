@@ -11,15 +11,24 @@ const meta: Meta = {
   title: 'Dropdown',
   tags: ['autodocs'],
   decorators: [
-    (story) =>
-      html`<form action="/" style="display: block; width: max-content;">
+    (story, context) => {
+      // `width: max-content` on the overview page so Dropdown is a little
+      // cleaner in appearance. Full width elsewhere so it's easy to play with
+      // tag overflow.
+      return html`<form
+        action="/"
+        style="display: block; ${context.viewMode === 'docs'
+          ? 'width: max-content'
+          : ''}"
+      >
         <script type="ignore">
           import '@crowdstrike/glide-core/dropdown.js';
           import '@crowdstrike/glide-core/dropdown.option.js';
         </script>
 
         ${story()}
-      </form>`,
+      </form>`;
+    },
   ],
   parameters: {
     docs: {

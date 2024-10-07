@@ -19,6 +19,7 @@ export default [
       justify-content: center;
       line-height: 1;
       margin: 0;
+      max-inline-size: max-content;
       min-block-size: var(--glide-core-spacing-md);
       opacity: 1;
       overflow: hidden;
