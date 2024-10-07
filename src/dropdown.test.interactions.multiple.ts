@@ -607,7 +607,7 @@ it('updates `value` when an option is selected or deselected via Space', async (
   expect(component.value).to.deep.equal(['one']);
 });
 
-it('updates `value` when `multiple` is changed to `true` programmatically', async () => {
+it('updates `value` when multiselect is changed to `true` programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option

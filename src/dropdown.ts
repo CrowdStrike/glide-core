@@ -60,7 +60,29 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   @property({ reflect: true, type: Boolean })
-  filterable = false;
+  get filterable() {
+    return this.#isFilterable;
+  }
+
+  set filterable(isFilterable: boolean) {
+    if (this.#isFilterable !== isFilterable && isFilterable && !this.multiple) {
+      // Lit hasn't yet scheduled the update. So we wait a frame for it be
+      // scheduled. Then we wait for the update to ensure the `<input>` is
+      // present.
+      setTimeout(() => {
+        this.updateComplete.then(() => {
+          if (this.#inputElementRef.value && this.selectedOptions.length > 0) {
+            this.#inputElementRef.value.value =
+              this.#inputElementRef.value.value = this.selectedOptions[0].label;
+          }
+        });
+      });
+    } else if (this.#isFilterable !== isFilterable) {
+      this.#unfilter();
+    }
+
+    this.#isFilterable = isFilterable;
+  }
 
   @property({ attribute: 'hide-label', reflect: true, type: Boolean })
   hideLabel = false;
@@ -752,6 +774,8 @@ export default class GlideCoreDropdown extends LitElement {
 
   #isDisabled = false;
 
+  #isFilterable = false;
+
   #isMultiple = false;
 
   #isOpen = false;
@@ -1415,6 +1439,10 @@ export default class GlideCoreDropdown extends LitElement {
                   value !== event.target.value
                 );
               });
+
+        if (this.#inputElementRef.value) {
+          this.#inputElementRef.value.value = '';
+        }
 
         // Tags vary in width depending on their labels. It's possible an option was
         // removed and a new option with a shorter label was just added. The new label

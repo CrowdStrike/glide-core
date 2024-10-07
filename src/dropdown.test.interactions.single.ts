@@ -754,3 +754,34 @@ it('clicks the button when `click()` is called', async () => {
   const event = await oneEvent(button, 'click');
   expect(event instanceof PointerEvent).to.be.true;
 });
+
+it('unhides its options when made unfilterable', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+
+  component.filterable = false;
+
+  const options = [
+    ...component.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ hidden }) => !hidden);
+
+  expect(options.length).to.equal(2);
+});

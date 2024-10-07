@@ -407,6 +407,36 @@ it('updates `value` when an option `value` is changed programmatically', async (
   expect(component.value).to.deep.equal(['two']);
 });
 
+it('updates the `value` of its `<input>` when made filterable', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.filterable = true;
+
+  await elementUpdated(component);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  // Wait for the `filterable` setter to do its thing.
+  await aTimeout(0);
+
+  expect(input?.value).to.equal('One');
+});
+
 it('does not select options on Space', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
@@ -486,7 +516,7 @@ it('deselects all options on Meta + Backspace', async () => {
   expect(options[0].selected).to.be.false;
 });
 
-it('set the `value` of the `<input>` to the label of the selected option when not `multiple`', async () => {
+it('sets the `value` of its `<input>` to the label of the selected option when not `multiple`', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       ${defaultSlot}
@@ -503,7 +533,27 @@ it('set the `value` of the `<input>` to the label of the selected option when no
   expect(input?.value).to.equal(option?.label);
 });
 
-it('uses `placeholder` as a placeholder when `multiple` and no option is selected', async () => {
+it('clears the `value` of its `<input>` when multiselect and an option is selected', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+
+  const option = component?.querySelector('glide-core-dropdown-option');
+  option?.click();
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.be.empty.string;
+});
+
+it('uses `placeholder` as a placeholder when multiselect and no option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       ${defaultSlot}
@@ -917,7 +967,7 @@ it('cannot be tabbed to when `disabled`', async () => {
   expect(document.activeElement).to.equal(document.body);
 });
 
-it('sets the `value` of the `<input>` back to the label of selected option when something else is clicked', async () => {
+it('sets the `value` of its `<input>` back to the label of selected option when something other than it is clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       ${defaultSlot}
