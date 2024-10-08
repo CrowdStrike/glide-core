@@ -27,7 +27,6 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    summary: 'Summary',
     'addEventListener(event, listener)': '',
     checked: false,
     'checkValidity()': '',
@@ -42,6 +41,7 @@ const meta: Meta = {
     required: false,
     'slot="description"': '',
     'slot="tooltip"': '',
+    summary: '',
     value: '',
   },
   argTypes: {
@@ -160,7 +160,6 @@ const meta: Meta = {
       table: {
         type: { summary: 'string' },
       },
-      type: { name: 'string', required: true },
     },
     value: {
       table: {

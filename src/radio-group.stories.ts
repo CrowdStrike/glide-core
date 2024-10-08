@@ -82,7 +82,6 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': '',
-    '<glide-core-radio>.label': 'One',
     'addEventListener(event, listener)': '',
     'checkValidity()': '',
     disabled: false,
@@ -92,6 +91,7 @@ const meta: Meta = {
     'slot="description"': '',
     'slot="tooltip"': '',
     value: '',
+    '<glide-core-radio>.label': 'One',
     '<glide-core-radio>.checked': true,
     '<glide-core-radio>.value': '',
   },
@@ -172,21 +172,27 @@ const meta: Meta = {
       },
     },
     '<glide-core-radio>.label': {
+      name: 'label',
       table: {
+        category: 'Radio',
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
-    '<glide-core-radio>.value': {
-      table: {
-        defaultValue: { summary: '' },
-        type: { summary: 'string' },
-      },
-    },
     '<glide-core-radio>.checked': {
+      name: 'checked',
       table: {
+        category: 'Radio',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-radio>.value': {
+      name: 'value',
+      table: {
+        category: 'Radio',
+        defaultValue: { summary: '' },
+        type: { summary: 'string' },
       },
     },
   },

@@ -41,7 +41,6 @@ const meta: Meta = {
     label: 'Label',
     placeholder: 'Placeholder',
     'slot="default"': '',
-    '<glide-core-dropdown-option>.label': 'One',
     'addEventListener(event, listener)': '',
     'checkValidity()': '',
     'click()': '',
@@ -63,9 +62,10 @@ const meta: Meta = {
     'slot="tooltip"': '',
     value: '',
     variant: '',
-    '<glide-core-dropdown-option>.value': 'one',
+    '<glide-core-dropdown-option>.label': 'One',
     '<glide-core-dropdown-option>.selected': false,
     '<glide-core-dropdown-option>[slot="icon"]': '',
+    '<glide-core-dropdown-option>.value': 'one',
   },
   argTypes: {
     'slot="default"': {
@@ -73,12 +73,6 @@ const meta: Meta = {
         type: { summary: 'GlideCoreDropdownOption' },
       },
       type: { name: 'function', required: true },
-    },
-    '<glide-core-dropdown-option>.label': {
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
     },
     'addEventListener(event, listener)': {
       control: false,
@@ -255,26 +249,40 @@ const meta: Meta = {
         type: { summary: '"quiet"', detail: '// Unsupported with `multiple`' },
       },
     },
-    '<glide-core-dropdown-option>.value': {
+    '<glide-core-dropdown-option>.label': {
+      name: 'label',
       table: {
-        defaultValue: { summary: '""' },
+        category: 'Dropdown Option',
         type: { summary: 'string' },
       },
-      type: { name: 'string' },
+      type: { name: 'string', required: true },
     },
     '<glide-core-dropdown-option>.selected': {
+      name: 'selected',
       table: {
+        category: 'Dropdown Option',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     '<glide-core-dropdown-option>[slot="icon"]': {
+      name: 'slot="icon"',
       control: false,
       table: {
+        category: 'Dropdown Option',
         type: {
           summary: 'Element',
         },
       },
+    },
+    '<glide-core-dropdown-option>.value': {
+      name: 'value',
+      table: {
+        category: 'Dropdown Option',
+        defaultValue: { summary: '""' },
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
     },
   },
   play(context) {

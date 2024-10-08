@@ -34,7 +34,7 @@ const meta: Meta = {
     orientation: 'horizontal',
     'slot="description"': '',
     'slot="tooltip"': '',
-    summary: 'Summary',
+    summary: '',
   },
   argTypes: {
     label: {
