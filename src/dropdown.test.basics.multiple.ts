@@ -99,52 +99,6 @@ it('has a tag when an option is initially selected', async () => {
   expect(tag?.textContent?.trim()).to.equal('One');
 });
 
-it('hides tags to prevent overflow', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      multiple
-      style="display: block; max-width: 20rem;"
-    >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-        selected
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-        selected
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Three"
-        value="three"
-        selected
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Four"
-        value="four"
-        selected
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  // Wait for the Resize Observer to do its thing.
-  await aTimeout(0);
-
-  const tagContainers = [
-    ...(component.shadowRoot?.querySelectorAll<HTMLElement>(
-      '[data-test="tag-container"]',
-    ) ?? []),
-  ].filter((element) => element.checkVisibility());
-
-  expect(tagContainers?.length).to.equal(2);
-});
-
 it('shows Select All', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown

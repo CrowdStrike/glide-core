@@ -195,8 +195,10 @@ export const WithIcons: StoryObj = {
         variant=${arguments_.variant || nothing}
       >
         <glide-core-button-group-button
-          label=${arguments_['<glide-core-button-group-button>.label']}
-          value=${arguments_['<glide-core-button-group-button>.value']}
+          label=${arguments_['<glide-core-button-group-button>.label'] ||
+          nothing}
+          value=${arguments_['<glide-core-button-group-button>.value'] ||
+          nothing}
           ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
           ?selected=${arguments_['<glide-core-button-group-button>.selected']}
         >

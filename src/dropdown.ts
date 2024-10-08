@@ -273,15 +273,16 @@ export default class GlideCoreDropdown extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    // 1. The consumer has a click listener on a button.
-    // 2. The user clicks the button.
-    // 3. The button's click listener is called and it synchronously sets `this.open` to `true`.
-    // 4. Now the event bubbles up to this component's click listener on `document`.
-    // 5. That click listener sets `open` to `false`.
-    // 6. Dropdown is opened then closed in the same frame and so never opens.
-    //
-    // Using `capture` ensures this listener is called before #3.
     document.addEventListener('click', this.#onDocumentClick, {
+      // 1. The consumer has a click handler on a button.
+      // 2. The user clicks the button.
+      // 3. The button's click handler is called and it sets `this.open` to `true`.
+      // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
+      // 5. That handler sets `open` to `false` because the click came from outside Dropdown.
+      // 6. Dropdown is opened then closed in the same frame and so never opens.
+      //
+      // `capture` ensures `#onDocumentClick` is called before #3, so that Dropdown
+      // opens when the button's handler sets `this.open` to `true`.
       capture: true,
     });
   }
@@ -301,7 +302,7 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   override firstUpdated() {
-    // `Text` is allowed so slotted content can be rendered asychronously. Think of
+    // `Text` is allowed so slotted content can be rendered asychronously. Imagine
     // a case where the only slotted content is a `repeat` whose array is empty
     // at first then populated after a fetch.
     owSlotType(this.#defaultSlotElementRef.value, [
@@ -336,6 +337,14 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (this.#componentElementRef.value) {
       observer.observe(this.#componentElementRef.value);
+
+      // Dropdown's "click" handler on the `document` listens for clicks in the
+      // capture phase. There's a comment explaining why. `#isComponentClick`
+      // must be set before that handler is called so it has the information it
+      // needs to determine whether or not to close Dropdown.
+      this.#componentElementRef.value.addEventListener('mouseup', () => {
+        this.#isComponentClick = true;
+      });
     }
   }
 
@@ -772,6 +781,8 @@ export default class GlideCoreDropdown extends LitElement {
 
   #internals: ElementInternals;
 
+  #isComponentClick = false;
+
   #isDisabled = false;
 
   #isFilterable = false;
@@ -806,16 +817,25 @@ export default class GlideCoreDropdown extends LitElement {
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
-  #onDocumentClick = (event: MouseEvent) => {
-    if (
-      this.multiple &&
-      !(
-        event.target instanceof GlideCoreDropdown ||
-        event.target instanceof GlideCoreDropdownOption
-      )
-    ) {
-      this.open = false;
-    } else if (!this.multiple && !(event.target instanceof GlideCoreDropdown)) {
+  #onDocumentClick = () => {
+    if (this.#isComponentClick) {
+      // If the click came from within Dropdown, Dropdown should stay open. But,
+      // now that the click has happened, we need reset `#isComponentClick` so
+      // a later click from outside of Dropdown results in Dropdown closing.
+      //
+      // Options with a Checkbox emit two "click" events for every "mouseup": one
+      // from the `<label>`, another from the `<input>`. It's just how a `<label>`
+      // with a form control works. A timeout is used to ensure both events have
+      // been dispatched before `#isComponentClick` is reset.
+      //
+      // Checking that the click's `event.target` is an instance of  `GlideCoreDropdown`
+      // or `GlideCoreDropdownOption` would be a lot simpler. But, when Dropdown is
+      // inside of another web component, `event.target` will be set to that component
+      // instead.
+      setTimeout(() => {
+        this.#isComponentClick = false;
+      });
+    } else {
       this.open = false;
     }
   };
@@ -1168,8 +1188,7 @@ export default class GlideCoreDropdown extends LitElement {
 
       // `event.detail` is an integer set to the number of clicks. When it's zero,
       // the event most likely originated from an Enter press. And, if Dropdown is part
-      // of a form, Enter should result in a submit and the dropdown shouldn't be opened.
-      // Thus we return, with or without a form for consistency.
+      // of a form, Enter should submit the form instead of opening Dropdown.
     } else if (event.detail !== 0) {
       this.open = true;
     }

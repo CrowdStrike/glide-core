@@ -307,10 +307,13 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   #onCheckboxClick(event: MouseEvent) {
-    // Checkboxes emit their own "click" events. Letting them propagate would
-    // mean Dropdown handling multiple "click" events and thus dispatching
-    // duplicate "change" and "input" events. So Dropdown listens for "input"
-    // for multiselect and "click" for single-select.
+    // Form controls emit two events when their labels are clicked: one from the
+    // label, another from the control. Letting these events propagate would mean
+    // Dropdown receiving multiple "click" events and thus dispatching multiple
+    // "change" and "input" events.
+    //
+    // This is also why Dropdown listens for "input" when multiselect and "click"
+    // when single-select.
     event.stopPropagation();
   }
 

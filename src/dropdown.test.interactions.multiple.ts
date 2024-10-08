@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
+import { LitElement } from 'lit';
 import {
   aTimeout,
   assert,
@@ -9,14 +10,41 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
 import { sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import type GlideCoreTag from './tag.js';
 
+@customElement('glide-core-dropdown-in-another-component')
+class GlideCoreDropdownInAnotherComponent extends LitElement {
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    mode: 'closed',
+  };
+
+  override render() {
+    return html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      multiple
+      open
+    >
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+    </glide-core-dropdown>`;
+  }
+}
+
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
+GlideCoreDropdownInAnotherComponent.shadowRootOptions.mode = 'open';
 
 it('opens on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
@@ -303,29 +331,31 @@ it('deactivates all other options on "mouseover"', async () => {
 });
 
 it('remains open when an option is selected via click', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      open
-      multiple
-    >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-        selected
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
+  const component = await fixture(
+    html`<glide-core-dropdown-in-another-component></glide-core-dropdown-in-another-component>`,
   );
 
-  component.querySelector('glide-core-dropdown-option')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
 
-  expect(component.open).to.be.true;
+  const option = component.shadowRoot?.querySelector(
+    'glide-core-dropdown-option',
+  );
+
+  assert(option);
+
+  const { x, y } = option.getBoundingClientRect();
+
+  // Calling `click()` won't do because Dropdown relies on a "mouseup" event to
+  // decide if it should close.
+  await sendMouse({
+    type: 'click',
+    position: [Math.ceil(x), Math.ceil(y)],
+  });
+
+  const dropdown = component.shadowRoot?.querySelector('glide-core-dropdown');
+
+  expect(dropdown?.open).to.be.true;
 });
 
 it('remains open when an option is selected via Enter', async () => {
