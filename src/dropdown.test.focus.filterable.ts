@@ -212,7 +212,7 @@ it('does not focus the input when `checkValidity` is called', async () => {
   expect(component.shadowRoot?.activeElement).to.equal(null);
 });
 
-it('sets the `value` of the `<input>` to the selected option when focus is lost', async () => {
+it('sets the `value` of its `<input>` to the selected option when focus is lost', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       ${defaultSlot}
