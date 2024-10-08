@@ -3,7 +3,6 @@
 import '../src/styles/fonts.css';
 import '../src/styles/variables.css';
 import './overrides.css';
-import * as cheerio from 'cheerio';
 import { create } from '@storybook/theming';
 import { html } from 'lit';
 
@@ -51,24 +50,19 @@ export default {
       source: {
         format: 'html',
         transform(code, context) {
-          // https://github.com/cheeriojs/cheerio/issues/1031#issuecomment-748677236
-          const $ = cheerio.load(code, null, false);
+          if (!code) {
+            return;
+          }
 
-          const $component = $(
+          const $fragment = document.createDocumentFragment();
+          const $container = document.createElement('div');
+
+          $fragment.append($container);
+          $container.innerHTML = code;
+
+          const $component = $container.querySelector(
             `glide-core-${context.componentId.replace(' ', '-').toLowerCase()}`,
           );
-
-          let $parent = $component.parent();
-
-          // Remove elements that wrap the component. Often these are used for styling
-          // or form submission and don't concern the reader.
-          while ($parent.length > 0) {
-            if (!$parent.prop('tagName')?.startsWith('GLIDE-CORE')) {
-              $parent.find('> :first-child').unwrap();
-            }
-
-            $parent = $parent.parent();
-          }
 
           // Now go through all the arguments. If the argument's value is at its default,
           // then remove it so people don't copy unnecessary code.
@@ -97,75 +91,67 @@ export default {
                 // "<glide-core-split-button-primary-button>.label" → "glide-core-split-button-primary-button"
                 const selector = argumentKey.slice(1, argumentKey.indexOf('>'));
 
-                $(selector).each(function () {
-                  const $subcomponent = $(this);
-
-                  const value = $subcomponent.attr(
+                for (const $subcomponent of $container.querySelectorAll(
+                  selector,
+                )) {
+                  const value = $subcomponent.getAttribute(
                     argumentKeyWithoutSubcomponent,
                   );
 
                   if (value === argumentValue) {
-                    $subcomponent.removeAttr(argumentKeyWithoutSubcomponent);
+                    $subcomponent.removeAttribute(
+                      argumentKeyWithoutSubcomponent,
+                    );
                   }
-                });
+                }
               }
             } else if (
               defaultValue &&
               argumentValue === context.initialArgs[argumentKey]
             ) {
-              $component.removeAttr(argumentKey);
+              $component.removeAttribute(argumentKey);
             }
           }
 
           // Now strip out the rest. These are elements inside component slots used primarily
           // for styling.
-          $('*').each(function () {
-            const $element = $(this);
-
-            const isCoreElement = $element
-              .prop('tagName')
-              .startsWith('GLIDE-CORE');
-
-            const isSlotted = $element.attr('slot');
-            const isScriptTag = $element.prop('tagName') === 'SCRIPT';
-            const isStyleTag = $element.prop('tagName') === 'STYLE';
-            const isKbdTag = $element.prop('tagName') === 'KBD'; // Tooltip
+          for (const $element of $container.querySelectorAll('*')) {
+            const isCoreElement = $element.tagName.startsWith('GLIDE-CORE');
+            const isSlotted = Boolean($element.slot);
+            const isScriptTag = $element.tagName === 'SCRIPT';
+            const isStyleTag = $element.tagName === 'STYLE';
 
             if (isScriptTag) {
-              if ($element.attr('type') === 'ignore') {
+              if ($element.type === 'ignore') {
                 // Scripts with `type="ignore"` exist to show consumers what needs
                 // to be imported. `"ignore"` is just a hack to prevent the script
-                // from executing and won't show up in the code example.
-                $element.removeAttr('type');
+                // from executing and shouldn't show up in the code example.
+                $element.removeAttribute('type');
               }
             } else if (isStyleTag) {
               $element.remove();
-            } else if (
-              !isCoreElement &&
-              !isSlotted &&
-              !isScriptTag &&
-              !isKbdTag
-            ) {
-              if ($element.children().length === 0) {
-                $element.replaceWith($element.text());
+            } else if (!isCoreElement && !isSlotted && !isScriptTag) {
+              if ($element.children.length === 0) {
+                // `<div style="margin: 0.625rem;">Panel</div>` → `Panel`
+                $element.replaceWith($element.textContent);
               } else {
                 // It's possible the element has Glide Core elements as children. We
                 // don't want to remove those. So we unwrap it and continue iterating.
-                $element.find('> :first-child').unwrap();
+                $element.replaceWith(...$element.childNodes);
               }
             }
-          });
+          }
 
           if (context.componentId === 'tooltip') {
             // https://github.com/CrowdStrike/glide-core/pull/400#discussion_r1775956358
-            $component.attr('shortcut', JSON.stringify(context.args.shortcut));
+            $component.setAttribute(
+              'shortcut',
+              JSON.stringify(context.args.shortcut),
+            );
           }
 
-          const html = $.html().trim();
-
-          // For boolean attributes. Cheerio always sets them to an empty string and
-          // blows up when they're set to `undefined`. Couldn't find a better way.
-          return html.replaceAll('=""', '');
+          // Clean up boolean attributes before returning: `disabled=""` → `disabled`.
+          return $container.innerHTML.replaceAll('=""', '');
         },
       },
       theme: create({
