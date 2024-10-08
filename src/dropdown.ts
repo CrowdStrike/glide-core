@@ -1012,7 +1012,9 @@ export default class GlideCoreDropdown extends LitElement {
         // in a space. So we either cancel Space and let it select and deselect as when
         // Dropdown isn't filterable, or we let the user type it. Neither is ideal.
         if (
-          event.key === 'Enter' ||
+          (event.key === 'Enter' &&
+            this.#optionElementsNotHidden &&
+            this.#optionElementsNotHidden.length > 0) ||
           (event.key === ' ' && !this.filterable && !this.isFilterable)
         ) {
           // Prevent the options from scrolling when a focused option is selected via Space

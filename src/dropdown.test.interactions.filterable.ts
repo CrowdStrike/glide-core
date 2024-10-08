@@ -156,6 +156,34 @@ it('unfilters when an option is selected via Enter', async () => {
   expect(options.length).to.equal(11);
 });
 
+it('does nothing on Enter when every option is filtered out', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'blah' });
+  await sendKeys({ press: 'Enter' });
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  const hiddenOptions = [
+    ...component.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ hidden }) => hidden);
+
+  const selectedOptions = [
+    ...component.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ selected }) => selected);
+
+  expect(input?.value).to.equal('blah');
+  expect(hiddenOptions.length).to.equal(11);
+  expect(selectedOptions.length).to.equal(0);
+});
+
 it('shows its magnifying glass icon when single-select and filtering', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
