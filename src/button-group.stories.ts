@@ -90,10 +90,10 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': '',
-    '<glide-core-button-group-button>.label': 'One',
     'addEventListener(event, listener)': '',
     orientation: 'horizontal',
     variant: '',
+    '<glide-core-button-group-button>.label': 'One',
     '<glide-core-button-group-button>.disabled': false,
     '<glide-core-button-group-button>.selected': true,
     '<glide-core-button-group-button>[slot="icon"]': '',
@@ -111,9 +111,6 @@ const meta: Meta = {
         type: { summary: 'GlideCoreButtonGroupButton' },
       },
       type: { name: 'function', required: true },
-    },
-    '<glide-core-button-group-button>.label': {
-      type: { name: 'string', required: true },
     },
     'addEventListener(event, listener)': {
       control: false,
@@ -140,20 +137,39 @@ const meta: Meta = {
         type: { summary: '"icon-only"' },
       },
     },
+    '<glide-core-button-group-button>.label': {
+      name: 'label',
+      table: {
+        category: 'Button Group Button',
+      },
+      type: { name: 'string', required: true },
+    },
     '<glide-core-button-group-button>.disabled': {
+      name: 'disabled',
       defaultValue: { summary: 'false' },
+      table: {
+        category: 'Button Group Button',
+      },
     },
     '<glide-core-button-group-button>.selected': {
+      name: 'selected',
       defaultValue: { summary: 'false' },
+      table: {
+        category: 'Button Group Button',
+      },
     },
     '<glide-core-button-group-button>[slot="icon"]': {
+      name: 'slot="icon"',
       control: false,
       table: {
+        category: 'Button Group Button',
         type: { summary: 'Element' },
       },
     },
     '<glide-core-button-group-button>.value': {
+      name: 'value',
       table: {
+        category: 'Button Group Button',
         type: {
           summary: 'string',
           detail:

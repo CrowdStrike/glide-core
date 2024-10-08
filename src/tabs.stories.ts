@@ -23,14 +23,14 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="nav"': '',
+    'addEventListener(event, listener)': '',
     '<glide-core-tab>.panel': '',
     '<glide-core-tab>[slot="default"]': 'Tab',
-    '<glide-core-tab-panel>.name': '',
-    '<glide-core-tab-panel>[slot="default"]': 'Panel',
-    'addEventListener(event, listener)': '',
     '<glide-core-tab>.active': true,
     '<glide-core-tab>.disabled': false,
     '<glide-core-tab>[slot="icon"]': '',
+    '<glide-core-tab-panel>.name': '',
+    '<glide-core-tab-panel>[slot="default"]': 'Panel',
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -83,34 +83,6 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    '<glide-core-tab>.panel': {
-      control: false,
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'function', required: true },
-    },
-    '<glide-core-tab>[slot="default"]': {
-      control: 'text',
-      table: {
-        type: { summary: 'Element | string' },
-      },
-      type: { name: 'function', required: true },
-    },
-    '<glide-core-tab-panel>.name': {
-      control: false,
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'function', required: true },
-    },
-    '<glide-core-tab-panel>[slot="default"]': {
-      control: 'text',
-      table: {
-        type: { summary: 'Element | string' },
-      },
-      type: { name: 'function', required: true },
-    },
     'addEventListener(event, listener)': {
       table: {
         type: {
@@ -121,23 +93,65 @@ const meta: Meta = {
       },
       type: { name: 'function' },
     },
-    '<glide-core-tab>.active': {
+    '<glide-core-tab>.panel': {
+      name: 'panel',
+      control: false,
       table: {
+        category: 'Tab',
+        type: { summary: 'string' },
+      },
+      type: { name: 'function', required: true },
+    },
+    '<glide-core-tab>[slot="default"]': {
+      name: 'slot="default"',
+      control: 'text',
+      table: {
+        category: 'Tab',
+        type: { summary: 'Element | string' },
+      },
+      type: { name: 'function', required: true },
+    },
+    '<glide-core-tab>.active': {
+      name: 'active',
+      table: {
+        category: 'Tab',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     '<glide-core-tab>.disabled': {
+      name: 'disabled',
       table: {
+        category: 'Tab',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
     '<glide-core-tab>[slot="icon"]': {
+      name: 'slot="icon"',
       control: false,
       table: {
+        category: 'Tab',
         type: { summary: 'Element' },
       },
+    },
+    '<glide-core-tab-panel>.name': {
+      name: 'name',
+      control: false,
+      table: {
+        category: 'Tab Panel',
+        type: { summary: 'string' },
+      },
+      type: { name: 'function', required: true },
+    },
+    '<glide-core-tab-panel>[slot="default"]': {
+      name: 'slot="default"',
+      control: 'text',
+      table: {
+        category: 'Tab Panel',
+        type: { summary: 'Element | string' },
+      },
+      type: { name: 'function', required: true },
     },
   },
 };

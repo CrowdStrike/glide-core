@@ -103,17 +103,25 @@ const meta: Meta = {
       },
     },
     '<glide-core-menu-button>.label': {
+      name: 'label',
       table: {
+        category: 'Menu Button',
         type: { summary: 'string' },
       },
+      type: { name: 'string', required: true },
     },
     '<glide-core-menu-link>.label': {
+      name: 'label',
       table: {
+        category: 'Menu Link',
         type: { summary: 'string' },
       },
+      type: { name: 'string', required: true },
     },
     '<glide-core-menu-link>.url': {
+      name: 'url',
       table: {
+        category: 'Menu Link',
         type: { summary: 'string' },
       },
     },

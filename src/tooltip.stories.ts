@@ -41,7 +41,7 @@ const meta: Meta = {
     offset: 4,
     open: false,
     placement: 'bottom',
-    shortcut: ['CMD', 'K'],
+    shortcut: [],
   },
   argTypes: {
     'slot="default"': {

@@ -26,13 +26,13 @@ const meta: Meta = {
   tags: ['autodocs'],
   args: {
     'slot="default"': '',
-    '<glide-core-tree-item>.label': 'Branch',
-    '<glide-core-tree-item-icon-button>.label': 'Settings',
     'addEventListener(event, listener)': '',
+    '<glide-core-tree-item>.label': 'Branch',
     '<glide-core-tree-item>.expanded': true,
     '<glide-core-tree-item>.non-collapsible': false,
     '<glide-core-tree-item>.remove-indentation': false,
     '<glide-core-tree-item>.selected': false,
+    '<glide-core-tree-item-icon-button>.label': 'Settings',
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
   },
   render(arguments_) {
@@ -103,18 +103,6 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    '<glide-core-tree-item>.label': {
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
-    },
-    '<glide-core-tree-item-icon-button>.label': {
-      table: {
-        type: { summary: 'string', detail: '// For screenreaders' },
-      },
-      type: { name: 'string', required: true },
-    },
     'addEventListener(event, listener)': {
       control: false,
       table: {
@@ -125,36 +113,61 @@ const meta: Meta = {
         },
       },
     },
-    '<glide-core-tree-item>.expanded': {
+    '<glide-core-tree-item>.label': {
+      name: 'label',
       table: {
+        category: 'Tree Item',
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-tree-item>.expanded': {
+      name: 'expanded',
+      table: {
+        category: 'Tree Item',
         defaultValue: {
           summary: 'false',
         },
       },
     },
     '<glide-core-tree-item>.non-collapsible': {
+      name: 'non-collapsible',
       table: {
+        category: 'Tree Item',
         defaultValue: {
           summary: 'false',
         },
       },
     },
     '<glide-core-tree-item>.remove-indentation': {
+      name: 'remove-indentation',
       control: { type: 'boolean' },
       table: {
+        category: 'Tree Item',
         defaultValue: {
           summary: 'false',
         },
       },
     },
     '<glide-core-tree-item>.selected': {
+      name: 'selected',
       table: {
+        category: 'Tree Item',
         defaultValue: {
           summary: 'false',
         },
       },
     },
+    '<glide-core-tree-item-icon-button>.label': {
+      name: 'label',
+      table: {
+        category: 'Tree Item Icon Button',
+        type: { summary: 'string', detail: '// For screenreaders' },
+      },
+      type: { name: 'string', required: true },
+    },
     '<glide-core-tree-item-menu>.placement': {
+      name: 'placement',
       options: [
         'bottom',
         'left',
@@ -170,6 +183,7 @@ const meta: Meta = {
         'top-end',
       ],
       table: {
+        category: 'Tree Item Menu',
         defaultValue: { summary: '"bottom-start"' },
         type: {
           summary:

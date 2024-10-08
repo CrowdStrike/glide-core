@@ -142,8 +142,12 @@ export default {
             }
           }
 
-          if (context.componentId === 'tooltip') {
-            // https://github.com/CrowdStrike/glide-core/pull/400#discussion_r1775956358
+          // https://github.com/CrowdStrike/glide-core/pull/400#discussion_r1775956358
+          if (
+            context.componentId === 'tooltip' &&
+            JSON.stringify(context.args.shortcut) !==
+              JSON.stringify(context.initialArgs.shortcut)
+          ) {
             $component.setAttribute(
               'shortcut',
               JSON.stringify(context.args.shortcut),
