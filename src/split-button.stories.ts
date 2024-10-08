@@ -112,23 +112,17 @@ const meta: Meta = {
     size: 'large',
     variant: 'primary',
     '<glide-core-split-button-primary-button>.label': 'Label',
-    '<glide-core-split-button-primary-button>.click()': '',
     '<glide-core-split-button-primary-button>.disabled': false,
-    '<glide-core-split-button-primary-button>.focus(options)': '',
     '<glide-core-split-button-primary-button>[slot="icon"]': '',
     '<glide-core-split-button-primary-link>.label': 'Label',
     '<glide-core-split-button-primary-link>.url': '/',
-    '<glide-core-split-button-primary-link>.click()': '',
     '<glide-core-split-button-primary-link>.disabled': false,
-    '<glide-core-split-button-primary-link>.focus(options)': '',
     '<glide-core-split-button-primary-link>[slot="icon"]': '',
     '<glide-core-split-button-secondary-button>.label': 'Label',
-    '<glide-core-split-button-secondary-button>.click()': '',
+    '<glide-core-split-button-secondary-button>[slot="default"]': '',
     '<glide-core-split-button-secondary-button>.disabled': false,
-    '<glide-core-split-button-secondary-button>.focus(options)': '',
     '<glide-core-split-button-secondary-button>.menu-open': false,
     '<glide-core-split-button-secondary-button>.menu-placement': 'bottom-end',
-    '<glide-core-split-button-secondary-button>[slot="default"]': '',
   },
   argTypes: {
     'slot="default"': {
@@ -176,34 +170,12 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
-    '<glide-core-split-button-primary-button>.click()': {
-      name: 'click()',
-      control: false,
-      table: {
-        category: 'Split Button Primary Button',
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
     '<glide-core-split-button-primary-button>.disabled': {
       name: 'disabled',
       table: {
         category: 'Split Button Primary Button',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
-      },
-    },
-    '<glide-core-split-button-primary-button>.focus(options)': {
-      name: 'focus(options)',
-      control: false,
-      table: {
-        category: 'Split Button Primary Button',
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
-        },
       },
     },
     '<glide-core-split-button-primary-button>[slot="icon"]': {
@@ -230,34 +202,12 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
-    '<glide-core-split-button-primary-link>.click()': {
-      name: 'click()',
-      control: false,
-      table: {
-        category: 'Split Button Primary Link',
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
     '<glide-core-split-button-primary-link>.disabled': {
       name: 'disabled',
       table: {
         category: 'Split Button Primary Link',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
-      },
-    },
-    '<glide-core-split-button-primary-link>.focus(options)': {
-      name: 'focus(options)',
-      control: false,
-      table: {
-        category: 'Split Button Primary Link',
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
-        },
       },
     },
     '<glide-core-split-button-primary-link>[slot="icon"]': {
@@ -286,34 +236,12 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    '<glide-core-split-button-secondary-button>.click()': {
-      name: 'click()',
-      control: false,
-      table: {
-        category: 'Split Button Secondary Button',
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
     '<glide-core-split-button-secondary-button>.disabled': {
       name: 'disabled',
       table: {
         category: 'Split Button Secondary Button',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
-      },
-    },
-    '<glide-core-split-button-secondary-button>.focus(options)': {
-      name: 'focus(options)',
-      control: false,
-      table: {
-        category: 'Split Button Secondary Button',
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
-        },
       },
     },
     '<glide-core-split-button-secondary-button>.menu-open': {

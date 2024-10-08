@@ -33,8 +33,6 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="target"': '',
-    'click()': '',
-    'focus(options)': '',
     open: false,
     placement: 'bottom-start',
     size: 'large',
@@ -54,15 +52,6 @@ const meta: Meta = {
         type: { summary: 'Element', detail: 'Any focusable element.' },
       },
       type: { name: 'function', required: true },
-    },
-    'focus(options)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
-        },
-      },
     },
     open: {
       table: {

@@ -32,9 +32,7 @@ const meta: Meta = {
     autocomplete: 'on',
     'checkValidity()': '',
     clearable: false,
-    'click()': '',
     disabled: false,
-    'focus(options)': '',
     'hide-label': false,
     maxlength: '',
     name: '',
@@ -153,15 +151,6 @@ const meta: Meta = {
         },
       },
     },
-    'click()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
     clearable: {
       table: {
         defaultValue: { summary: 'false' },
@@ -172,15 +161,6 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
-      },
-    },
-    'focus(options)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '(options?: FocusOptions) => void',
-        },
       },
     },
     'hide-label': {
