@@ -96,10 +96,10 @@ export default [
           background-color: var(--glide-core-color-dark-blue);
         }
       }
-    }
 
-    ::slotted([slot='prefix']) {
-      margin-inline-end: var(--glide-core-spacing-xs);
+      &.prefix-icon .label {
+        padding-inline-start: var(--glide-core-spacing-xs);
+      }
     }
 
     ::slotted([slot='menu']) {
