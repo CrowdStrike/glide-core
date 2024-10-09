@@ -86,6 +86,7 @@ export default class GlideCoreTreeItem extends LitElement {
       <div
         class=${classMap({
           'label-container': true,
+          'prefix-icon': this.hasPrefixIcon,
         })}
         tabindex="-1"
         @focusout=${this.#handleFocusOut}
@@ -135,7 +136,11 @@ export default class GlideCoreTreeItem extends LitElement {
           `,
         )}
 
-        <slot name="prefix"></slot>
+        <slot
+          name="prefix"
+          ${ref(this.#prefixSlotElementRef)}
+          @slotchange=${this.#onPrefixSlotChange}
+        ></slot>
         <div class="label">${this.label}</div>
         <div class="icon-container">
           <slot
@@ -190,6 +195,9 @@ export default class GlideCoreTreeItem extends LitElement {
   @state()
   private childTreeItems: GlideCoreTreeItem[] = [];
 
+  @state()
+  private hasPrefixIcon = false;
+
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #labelContainerElementRef = createRef<HTMLInputElement>();
@@ -197,6 +205,8 @@ export default class GlideCoreTreeItem extends LitElement {
   #localize = new LocalizeController(this);
 
   #menuSlotElementRef = createRef<HTMLSlotElement>();
+
+  #prefixSlotElementRef = createRef<HTMLSlotElement>();
 
   get #ariaExpanded() {
     if (this.hasChildTreeItems) {
@@ -255,6 +265,11 @@ export default class GlideCoreTreeItem extends LitElement {
         assignedElement.label = this.#localize.term('actionsFor', this.label);
       }
     }
+  }
+
+  #onPrefixSlotChange() {
+    const assignedNodes = this.#prefixSlotElementRef.value?.assignedNodes();
+    this.hasPrefixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
   #setTabIndexes(tabIndex: -1 | 0) {
