@@ -1,38 +1,11 @@
 import './dropdown.option.js';
 import './icons/storybook.js';
-import { LitElement } from 'lit';
 import { STORY_ARGS_UPDATED } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { customElement } from 'lit/decorators.js';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreDropdown from './dropdown.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
-
-@customElement('glide-core-dropdown-in-another-component')
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-class GlideCoreDropdownInAnotherComponent extends LitElement {
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-    mode: 'closed',
-  };
-
-  override render() {
-    return html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      multiple
-    >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
-    </glide-core-dropdown>`;
-  }
-}
 
 const meta: Meta = {
   title: 'Dropdown',
@@ -476,11 +449,5 @@ export const WithIcons: StoryObj = {
           </div>`
         : nothing}
     </glide-core-dropdown>`;
-  },
-};
-
-export const InAnotherComponent: StoryObj = {
-  render() {
-    return html`<glide-core-dropdown-in-another-component></glide-core-dropdown-in-another-component>`;
   },
 };
