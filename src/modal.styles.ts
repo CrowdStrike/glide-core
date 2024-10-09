@@ -118,6 +118,10 @@ export default [
       line-height: 1;
     }
 
+    .icon-button {
+      display: contents;
+    }
+
     .body {
       line-height: 1;
       overflow: auto;
