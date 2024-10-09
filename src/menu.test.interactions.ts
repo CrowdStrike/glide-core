@@ -13,6 +13,7 @@ import {
 } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
+import { sendMouse } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
 
 @customElement('glide-core-nested-slot')
@@ -33,8 +34,27 @@ class GlideCoreNestedSlot extends LitElement {
   }
 }
 
+@customElement('glide-core-menu-in-another-component')
+class GlideCoreMenuInAnotherComponent extends LitElement {
+  static override shadowRootOptions: ShadowRootInit = {
+    ...LitElement.shadowRootOptions,
+    mode: 'closed',
+  };
+
+  override render() {
+    return html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`;
+  }
+}
+
 GlideCoreMenu.shadowRootOptions.mode = 'open';
 GlideCoreNestedSlot.shadowRootOptions.mode = 'open';
+GlideCoreMenuInAnotherComponent.shadowRootOptions.mode = 'open';
 
 it('opens on click', async () => {
   const component = await fixture<GlideCoreMenu>(
@@ -540,26 +560,34 @@ it('sets `privateSize` on the options component when `size` is changed programma
   expect(options?.privateSize).to.equal('small');
 });
 
-it('closes when clicked', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu open>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
+it('closes when its target clicked', async () => {
+  const component = await fixture(
+    html`<glide-core-menu-in-another-component></glide-core-menu-in-another-component>`,
   );
 
-  component.querySelector('button')?.click();
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const target = component.shadowRoot?.querySelector('button');
+  assert(target);
+
+  const { x, y } = target.getBoundingClientRect();
+
+  // Calling `click()` won't do because Menu relies on a "mouseup" event to
+  // decide if it should close.
+  await sendMouse({
+    type: 'click',
+    position: [Math.ceil(x), Math.ceil(y)],
+  });
+
+  const menu = component.shadowRoot?.querySelector('glide-core-menu');
 
   const defaultSlot =
-    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+    menu?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
-  const options = component.querySelector('glide-core-menu-options');
-  const target = component.querySelector('button');
+  const options = menu?.querySelector('glide-core-menu-options');
 
-  expect(component.open).to.be.false;
+  expect(menu?.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');

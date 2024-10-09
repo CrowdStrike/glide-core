@@ -68,14 +68,15 @@ export default class GlideCoreMenu extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    // 1. The consumer has a click listener on a button.
+    // 1. The consumer has a click handler on a button.
     // 2. The user clicks the button.
-    // 3. The button's click listener is called and it synchronously sets `this.open` to `true`.
-    // 4. Now the event bubbles up to this component's click listener on `document`.
-    // 5. That click listener sets `open` to `false`.
+    // 3. The button's click handler is called and it sets `this.open` to `true`.
+    // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
+    // 5. That handler sets `open` to `false` because the click came from outside Dropdown.
     // 6. Menu is opened then closed in the same frame and so never opens.
     //
-    // Using `capture` ensures this listener is called before #3.
+    // `capture` ensures `#onDocumentClick` is called before #3, so that Menu
+    // opens when the button's handler sets `this.open` to `true`.
     document.addEventListener('click', this.#onDocumentClick, {
       capture: true,
     });
@@ -120,6 +121,14 @@ export default class GlideCoreMenu extends LitElement {
       firstOption.privateActive = true;
       this.#show();
     }
+
+    // Menu's "click" handler on `document` listens for clicks in the capture
+    // phase. There's a comment explaining why. `#isTargetSlotClick` must be
+    // set before that handler is called so it has the information it needs
+    // to determine whether or not to close Menu.
+    this.#targetSlotElementRef.value.addEventListener('mouseup', () => {
+      this.#isTargetSlotClick = true;
+    });
   }
 
   private get isTargetDisabled() {
@@ -175,6 +184,8 @@ export default class GlideCoreMenu extends LitElement {
 
   #isOpen = false;
 
+  #isTargetSlotClick = false;
+
   #shadowRoot?: ShadowRoot;
 
   #size: 'small' | 'large' = 'large';
@@ -187,12 +198,12 @@ export default class GlideCoreMenu extends LitElement {
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
-  #onDocumentClick = (event: MouseEvent) => {
-    if (
-      event.target &&
-      event.target instanceof Node &&
-      this.contains(event.target)
-    ) {
+  #onDocumentClick = () => {
+    // Checking that the click's `event.target` is equal to `#targetElementRef.value`
+    // would be a lot simpler. But, when the target is inside of another web component,
+    // `event.target` will be that component instead.
+    if (this.#isTargetSlotClick) {
+      this.#isTargetSlotClick = false;
       return;
     }
 

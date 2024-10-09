@@ -52,3 +52,23 @@ it('closes and reports validity when it loses focus', async () => {
   expect(component.shadowRoot?.querySelector('glide-core-private-label')?.error)
     .to.be.true;
 });
+
+it('is focused when clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
+  // which puts us in a guard in the event handler. `Event` has no `detail` property
+  // and would work. `CustomEvent` is used for completeness and to get us as close as
+  // possible to a real click. See the comment in the handler for more information.
+  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  button?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+
+  expect(component.shadowRoot?.activeElement).to.equal(button);
+});
