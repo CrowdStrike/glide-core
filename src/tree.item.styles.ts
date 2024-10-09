@@ -118,10 +118,6 @@ export default [
       --hovered-icon-button-color: var(--glide-core-icon-hover);
     }
 
-    ::slotted([slot='suffix']) {
-      padding-inline: var(--glide-core-spacing-xxs);
-    }
-
     .label-container:hover,
     .label-container:focus,
     .label-container:focus-within,
@@ -132,6 +128,7 @@ export default [
     }
 
     .label {
+      margin-inline-end: auto;
       min-inline-size: 0;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -155,8 +152,8 @@ export default [
 
     .icon-container {
       display: flex;
-      flex: 1;
-      justify-content: flex-end;
+      gap: var(--glide-core-spacing-xxs);
+      padding-inline: var(--glide-core-spacing-xxs);
     }
   `,
 ];
