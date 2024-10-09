@@ -109,7 +109,7 @@ export default {
               defaultValue &&
               argumentValue === context.initialArgs[argumentKey]
             ) {
-              $component.removeAttribute(argumentKey);
+              $component?.removeAttribute(argumentKey);
             }
           }
 
