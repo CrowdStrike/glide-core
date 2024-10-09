@@ -10,7 +10,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   decorators: [
     (story) =>
-      html`<div style="max-width: 18.75rem; height: 8.5rem;">
+      html`<div style="max-width: 18.75rem; height: 10rem;">
         <script type="ignore">
           import '@crowdstrike/glide-core/tree.js';
           import '@crowdstrike/glide-core/tree.item.js';
@@ -62,7 +62,7 @@ const meta: Meta = {
           name="share"
         ></glide-core-example-icon>
 
-        <glide-core-tree-item label="Leaf">
+        <glide-core-tree-item label="Hover menu and suffix icon">
           <glide-core-tree-item-icon-button
             slot="suffix"
             label=${arguments_['<glide-core-tree-item-icon-button>.label']}
@@ -86,6 +86,30 @@ const meta: Meta = {
                 slot="icon"
                 name="move"
               ></glide-core-example-icon>
+            </glide-core-menu-link>
+          </glide-core-tree-item-menu>
+        </glide-core-tree-item>
+
+        <glide-core-tree-item label="Custom suffix icon menu">
+          <glide-core-tree-item-menu slot="suffix">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              slot="icon"
+            >
+              <path
+                d="M6 9L12 15L18 9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+            <glide-core-menu-link label="My link" url="#">
+            </glide-core-menu-link>
+            <glide-core-menu-link label="My other link" url="#">
             </glide-core-menu-link>
           </glide-core-tree-item-menu>
         </glide-core-tree-item>
@@ -188,6 +212,16 @@ const meta: Meta = {
         type: {
           summary:
             '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start"| "top-end"',
+        },
+      },
+    },
+    '<glide-core-tree-item-menu>[slot="icon"]': {
+      name: '[slot="icon"]',
+      table: {
+        category: 'Tree Item Menu',
+        control: false,
+        type: {
+          summary: 'Element',
         },
       },
     },

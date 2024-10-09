@@ -1,9 +1,11 @@
-import { expect, fixture, html, waitUntil } from '@open-wc/testing';
+import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
+import GlideCoreMenu from './menu.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
 GlideCoreTreeItemMenu.shadowRootOptions.mode = 'open';
+GlideCoreMenu.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(window.customElements.get('glide-core-tree-item-menu')).to.equal(
@@ -87,4 +89,31 @@ it('can be opened programmatically', async () => {
       ?.querySelector('glide-core-menu')
       ?.getAttribute('open'),
   ).to.equal('');
+});
+
+it('can set a custom icon', async () => {
+  const component = await fixture<GlideCoreTreeItemMenu>(html`
+    <glide-core-tree-item-menu placement="bottom-end">
+      <svg data-test-custom-icon="true" slot="icon"></svg>
+      <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
+    </glide-core-tree-item-menu>
+  `);
+
+  const menu = component.shadowRoot?.querySelector('glide-core-menu');
+
+  assert(menu);
+
+  const menuTarget = menu.shadowRoot
+    ?.querySelector<HTMLSlotElement>('slot[name="target"]')
+    ?.assignedElements()[0];
+
+  assert(menuTarget);
+
+  const icon = menuTarget
+    ?.querySelector<HTMLSlotElement>('slot[name="icon"]')
+    ?.assignedElements()[0];
+
+  assert(icon instanceof SVGElement);
+
+  expect(icon.dataset.testCustomIcon).to.equal('true');
 });
