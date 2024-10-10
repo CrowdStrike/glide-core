@@ -2,4 +2,4 @@
 '@crowdstrike/glide-core': patch
 ---
 
-- Sets Tree Items to a fixed line-height. This addresses an issue where Tree Items inherit different line-heights.
+Tree Items now have a fixed line-height to address an issue where they'd inherit different line-heights leading to unexpected sizing issues.
