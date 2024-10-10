@@ -48,6 +48,21 @@ it('dispatches an "input" event when clicked', async () => {
   expect(event.bubbles).to.be.true;
 });
 
+it('dispatches a "private-value-change" event when its `value` is changed programmatically', async () => {
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="One" value="one"></glide-core-checkbox>`,
+  );
+
+  setTimeout(() => (component.value = 'two'));
+
+  const event = await oneEvent(component, 'private-value-change');
+
+  expect(event instanceof CustomEvent).to.be.true;
+  expect(event.detail.old).to.equal('one');
+  expect(event.detail.new).to.equal('two');
+  expect(component.value).to.equal('two');
+});
+
 it('dispatches an "invalid" event on submit when required and unchecked', async () => {
   const form = document.createElement('form');
 

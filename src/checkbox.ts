@@ -124,6 +124,9 @@ export default class GlideCoreCheckbox extends LitElement {
   }
 
   set value(value: string) {
+    const old = this.#value;
+    this.#value = value;
+
     // `this.value` can be changed programmatically. Checkbox Group needs to know when
     // that happens so it can update its own `this.value`.
     this.dispatchEvent(
@@ -132,13 +135,11 @@ export default class GlideCoreCheckbox extends LitElement {
         detail: {
           // Without knowing what the old value was, Checkbox Group would be unable to
           // find the value in its `this.value` array and remove it.
-          old: this.value,
+          old,
           new: value,
         },
       }),
     );
-
-    this.#value = value;
   }
 
   // Not private, so that a parent checkbox group can programmatically set
