@@ -1,5 +1,369 @@
 # @crowdstrike/glide-core
 
+## 0.10.0
+
+### Minor Changes
+
+- [#392](https://github.com/CrowdStrike/glide-core/pull/392) [`01b3c80`](https://github.com/CrowdStrike/glide-core/commit/01b3c80448d156120cc4db98a7b3f29849ddab09) Thanks [@clintcs](https://github.com/clintcs)! - Split Button Container has a new API to accommodate a new design requirement for its buttons to disabled independently of one another.
+  See Storybook for the full API.
+
+  ### Before
+
+  ```html
+  <script>
+    import '@crowdstrike/glide-core/split-container.js';
+    import '@crowdstrike/glide-core/split-button.js';
+    import '@crowdstrike/glide-core/menu.link.js';
+    import '@crowdstrike/glide-core/menu.button.js';
+  </script>
+
+  <glide-core-split-container
+    menu-label="Label"
+    menu-placement="top-end"
+    open
+    disabled
+  >
+    <glide-core-split-button slot="primary-action">
+      Button
+      <glide-core-example-icon slot="prefix"></glide-core-example-icon>
+    </glide-core-split-button>
+
+    <glide-core-menu-button label="Label"></glide-core-menu-button>
+  </glide-core-split-container>
+  ```
+
+  ### After
+
+  ```html
+  <script>
+    import '@crowdstrike/glide-core/split-button.js';
+    import '@crowdstrike/glide-core/split-button.primary-button.js';
+    import '@crowdstrike/glide-core/split-button.secondary-button.js';
+    import '@crowdstrike/glide-core/menu.button.js';
+  </script>
+
+  <glide-core-split-button>
+    <glide-core-split-button-primary-button label="Label" disabled>
+      <glide-core-example-icon slot="icon"></glide-core-example-icon>
+    </glide-core-split-button-primary-button>
+
+    <glide-core-split-button-secondary-button
+      slot="secondary-button"
+      label="Label"
+      menu-placement="top-end"
+      disabled
+      menu-open
+    >
+      <glide-core-menu-button label="Label"></glide-core-menu-button>
+    </glide-core-split-button-secondary-button>
+  </glide-core-split-button>
+  ```
+
+- [#413](https://github.com/CrowdStrike/glide-core/pull/413) [`6abae27`](https://github.com/CrowdStrike/glide-core/commit/6abae27f3e1a123105366576dd4bd08c2e10616d) Thanks [@clintcs](https://github.com/clintcs)! - Input's "prefix" and "suffix" slots have been renamed to "prefix-icon" and "suffix-icon".
+
+  ```diff
+  <glide-core-input label="Label" placeholder="Placeholder">
+    <glide-core-example-icon
+  -   slot="prefix"
+  +   slot="prefix-icon"
+      name="edit"
+    ></glide-core-example-icon>
+    <glide-core-example-icon
+  -   slot="suffix"
+  +   slot="suffix-icon"
+      name="share"
+    ></glide-core-example-icon>
+  </glide-core-input>
+  ```
+
+- [#400](https://github.com/CrowdStrike/glide-core/pull/400) [`ee0aa37`](https://github.com/CrowdStrike/glide-core/commit/ee0aa3704f75c598bac8a190850c69a3c991f67c) Thanks [@clintcs](https://github.com/clintcs)! - Tooltip's default slot no longer supports a shortcut.
+  Use the new `shortcut` attribute instead.
+  This change is to support a new design requirement restricting the width of non-shortcut content.
+
+  ```html
+  <glide-core-tooltip shortcut='["CMD","K"]'> Tooltip </glide-core-tooltip>
+  ```
+
+- [#407](https://github.com/CrowdStrike/glide-core/pull/407) [`c9d9655`](https://github.com/CrowdStrike/glide-core/commit/c9d96554b0591828faf0e226990d8143a00f04dc) Thanks [@clintcs](https://github.com/clintcs)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Light
+
+  ```diff
+  - --glide-core-text-syntax-blue: #0000ff;
+  - --glide-core-text-syntax-dark: #151515;
+  - --glide-core-text-syntax-green: #116644;
+  - --glide-core-text-syntax-purple: #770088;
+  - --glide-core-text-syntax-red-dark: #95150e;
+  - --glide-core-text-syntax-red-light: #ee4400;
+
+  - --glide-core-text-body-lighter: #c9c9c9;
+  + --glide-core-text-body-lighter: #8a8a8a;
+
+  + --glide-core-border-base-transparent: #0000001a;
+  + --glide-core-surface-table-row-hover: #1d7afc26;
+  ```
+
+  ## Dark
+
+  ```diff
+  - --glide-core-text-syntax-blue: #0000ff;
+  - --glide-core-text-syntax-dark: #ffffff;
+  - --glide-core-text-syntax-green: #116644;
+  - --glide-core-text-syntax-purple: #770088;
+  - --glide-core-text-syntax-red-dark: #95150e;
+  - --glide-core-text-syntax-red-light: #ee4400;
+
+  - --glide-core-text-body-lighter: #c9c9c9;
+  + --glide-core-text-body-lighter: #8a8a8a;
+
+  - --glide-core-text-placeholder: #d7e7ff;
+  + --glide-core-text-placeholder: #c9c9c9;
+
+  + --glide-core-border-base-transparent: #0000001a;
+  + --glide-core-surface-table-row-hover: #1d7afc26;
+  ```
+
+- [#401](https://github.com/CrowdStrike/glide-core/pull/401) [`7231487`](https://github.com/CrowdStrike/glide-core/commit/7231487e0e152042ccb8991781a264e963ba9d8c) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Removed Status Indicator. It was only used by Toast. Moved it to the consuming application.
+
+- [#387](https://github.com/CrowdStrike/glide-core/pull/387) [`37841e9`](https://github.com/CrowdStrike/glide-core/commit/37841e91edfae1d8926221e97d81669274f80601) Thanks [@clintcs](https://github.com/clintcs)! - Modal's `show-back-button` attribute has been renamed to `back-button` for brevity.
+
+  ```diff
+  - <glide-core-modal label="Label" show-back-button>
+  + <glide-core-modal label="Label" back-button>
+  ```
+
+  Drawer's `open()` method has been renamed to `show()` to match [`<dialog>`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/show).
+
+  ```diff
+  const drawer = document.querySelector('glide-core-modal');
+
+  - drawer.open();
+  + drawer.show();
+  ```
+
+  Modal no longer emits an "open" event on open to match `<dialog>`. You can instead listen for a "click" event on the button that opens your Modal.
+
+- [#385](https://github.com/CrowdStrike/glide-core/pull/385) [`b3e8efd`](https://github.com/CrowdStrike/glide-core/commit/b3e8efde561412f821fbba7f6e2dc24b31610cf4) Thanks [@clintcs](https://github.com/clintcs)! - Menu no longer offers a `focus()` method, which focused its target. Simply call `focus()` on your target directly.
+
+- [#388](https://github.com/CrowdStrike/glide-core/pull/388) [`5a0f3a2`](https://github.com/CrowdStrike/glide-core/commit/5a0f3a22cf3104d7974e114d4e7960deb65b44db) Thanks [@clintcs](https://github.com/clintcs)! - Button's "prefix" and "suffix" slots have been renamed to "prefix-icon" and "suffix-icon".
+
+  ```diff
+  <glide-core-button label="Label">
+    <glide-core-example-icon
+  -   slot="prefix"
+  +   slot="prefix-icon"
+      name="calendar"
+    ></glide-core-example-icon>
+    <glide-core-example-icon
+  -   slot="suffix"
+  +   slot="suffix-icon"
+      name="edit"
+    ></glide-core-example-icon>
+  </glide-core-button>
+  ```
+
+  Button Group Button's "prefix" slot has been renamed to "icon".
+
+  ```diff
+  <glide-core-button-group label="Label">
+
+    <glide-core-button-group-button label="One">
+      <glide-core-example-icon
+  -     slot="prefix"
+  +     slot="icon"
+        name="calendar"
+      ></glide-core-example-icon>
+    </glide-core-button-group-button>
+  </glide-core-button-group>
+  ```
+
+  Accordion's "prefix" and "suffix" slots have been renamed to "prefix-icon" and "suffix-icons".
+
+  ```diff
+  <glide-core-accordion label="Label">
+    Content
+
+    <glide-core-example-icon
+  -   slot="prefix"
+  +   slot="prefix-icon"
+      name="share"
+    ></glide-core-example-icon>
+    <glide-core-example-icon
+  -   slot="suffix"
+  +   slot="suffix-icons"
+      name="edit"
+    ></glide-core-example-icon>
+    <glide-core-example-icon
+  -   slot="suffix"
+  +   slot="suffix-icons"
+      name="settings"
+    ></glide-core-example-icon>
+  </glide-core-accordion>
+  ```
+
+  Accordion no longer dispaches a custom event. Accordion's state, which was available via the custom event's `detail` property, can be accessed via the `open` property.
+
+  ```diff
+  - $0.addEventListener('toggle', (e) => console.log(e.detail.newState === 'open'))
+  + $0.addEventListener('toggle', (e) => console.log(e.target.open))
+  ```
+
+- [#377](https://github.com/CrowdStrike/glide-core/pull/377) [`a3381d8`](https://github.com/CrowdStrike/glide-core/commit/a3381d81e52b50e90c00bc3cb7511feb2165faf2) Thanks [@clintcs](https://github.com/clintcs)! - Tag's default slot has been replaced by a `label` attribute to restrict its content to enforce visual consistency.
+
+  ```diff
+  - <glide-core-tag>Label</glide-core-tag>
+  + <glide-core-tag label="Label"></glide-core-tag>
+  ```
+
+  Tag's `removable-label` attribute has been renamed to `removable` and is now boolean. Tag will use `label` instead to describe its removal button to screenreaders.
+
+  ```diff
+  - <glide-core-tag removable-label="remove">Tag</glide-core-tag>
+  + <glide-core-tag label="Label" removable></glide-core-tag>
+  ```
+
+  Tag's "prefix" slot has been renamed "icon".
+
+  ```diff
+  <glide-core-tag label="Label">
+    <glide-core-example-icon
+      name="drag-dots"
+  -   slot="prefix"
+  +   slot="icon"
+    ></glide-core-example-icon>
+  </glide-core-tag>
+  ```
+
+- [#397](https://github.com/CrowdStrike/glide-core/pull/397) [`efe4812`](https://github.com/CrowdStrike/glide-core/commit/efe481216031d771aa6abb3b57ac0cb5eb16b8da) Thanks [@clintcs](https://github.com/clintcs)! - Button now has a `label` attribute instead of a default slot to restrict its content to increase design consistency.
+
+  ```diff
+  - <glide-core-button>Label</glide-core-button>
+  + <glide-core-button label="Label"></glide-core-button>
+  ```
+
+- [#386](https://github.com/CrowdStrike/glide-core/pull/386) [`1438848`](https://github.com/CrowdStrike/glide-core/commit/1438848734003181ddec472d9c299c02b052c064) Thanks [@clintcs](https://github.com/clintcs)! - The order of the values in Dropdown's `value` array no longer changes when the `value` of a selected Dropdown Option is changed programmatically.
+
+### Patch Changes
+
+- [#430](https://github.com/CrowdStrike/glide-core/pull/430) [`26e0a8e`](https://github.com/CrowdStrike/glide-core/commit/26e0a8ed315d29c8dca1328fbbbd0513c9ca1b60) Thanks [@clintcs](https://github.com/clintcs)! - - When inside another web component and open, Menu now closes when its target is clicked.
+
+  - Dropdown can now be navigated using ArrowUp and ArrowDown when opened via click.
+
+- [#400](https://github.com/CrowdStrike/glide-core/pull/400) [`ee0aa37`](https://github.com/CrowdStrike/glide-core/commit/ee0aa3704f75c598bac8a190850c69a3c991f67c) Thanks [@clintcs](https://github.com/clintcs)! - Tooltips with a shortcut now display the shortcut on the left when their tooltip is positioned to the left of its target.
+
+- [#408](https://github.com/CrowdStrike/glide-core/pull/408) [`be4a2f4`](https://github.com/CrowdStrike/glide-core/commit/be4a2f45bf1cffd80ff07544e80f9381a96c2aa2) Thanks [@clintcs](https://github.com/clintcs)! - Toggle's focus outline offset has been reduced.
+
+- [#399](https://github.com/CrowdStrike/glide-core/pull/399) [`5b95fa2`](https://github.com/CrowdStrike/glide-core/commit/5b95fa23a2ee97d4cef2be164f26b4eabebe18ac) Thanks [@danwenzel](https://github.com/danwenzel)! - Design updates to Checkbox and Checkbox Group:
+
+  - More prominent background and border colors for disabled checkboxes
+  - Increased vertical spacing between Checkbox Group Checkboxes
+  - A Checkbox Group in error state now shows red border around the group, rather than a red border for each individual checkbox
+
+- [#421](https://github.com/CrowdStrike/glide-core/pull/421) [`2f5875c`](https://github.com/CrowdStrike/glide-core/commit/2f5875c73a03fa03ab80b805daa5094077e85921) Thanks [@clintcs](https://github.com/clintcs)! - Multiselect Dropdown previously moved selected option tags into an overflow menu when they exceeded 3.
+  It now dynamically adds tags to the overflow menu based on available space.
+
+- [#427](https://github.com/CrowdStrike/glide-core/pull/427) [`6b0451d`](https://github.com/CrowdStrike/glide-core/commit/6b0451d4445837f3f68ec270f8f59b4478297eb5) Thanks [@danwenzel](https://github.com/danwenzel)! - Ensure correct gap between Tree Item prefix icon and label
+
+  We were previously targeting the slotted element, which wasn't working if that slotted element had `display:contents`.
+
+- [#413](https://github.com/CrowdStrike/glide-core/pull/413) [`6abae27`](https://github.com/CrowdStrike/glide-core/commit/6abae27f3e1a123105366576dd4bd08c2e10616d) Thanks [@clintcs](https://github.com/clintcs)! - - Input and Textarea now have an `autocomplete` attribute.
+
+  - Input's `autocapitalize`, `disabled`, `label`, `maxlength`, and `placeholder` attributes are now reflected.
+  - Textareas's `autocapitalize`, `disabled`, `hide-label`, `label`, `maxlength`, `placeholder`, `readonly`, `required`, and `spellcheck` attributes are now reflected.
+
+- [#420](https://github.com/CrowdStrike/glide-core/pull/420) [`f0fe466`](https://github.com/CrowdStrike/glide-core/commit/f0fe4669bb2353787cc676dbf917b17eb39ab32a) Thanks [@clintcs](https://github.com/clintcs)! - When disabled, Toggle's background color is now darker in a light theme and lighter in a dark theme.
+
+- [#391](https://github.com/CrowdStrike/glide-core/pull/391) [`d2b0278`](https://github.com/CrowdStrike/glide-core/commit/d2b027866bedd02e7cbf954563880edcdd64a9e9) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - - Button icon slots no longer have negative margins, and Button horizontal padding is slightly decreased when icons are present. This resolves an issue where negative margins caused horizontal overflow in the parent container.
+
+- [#411](https://github.com/CrowdStrike/glide-core/pull/411) [`d435fe5`](https://github.com/CrowdStrike/glide-core/commit/d435fe57a035240cd17af2a410e0e6d9fd70a583) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown Option's label is now vertically centered and shorter when Dropdown's `size` is `"small"`.
+
+- [#395](https://github.com/CrowdStrike/glide-core/pull/395) [`4bfde01`](https://github.com/CrowdStrike/glide-core/commit/4bfde012b5deae00b8ab26b101ba6a4e473432b5) Thanks [@clintcs](https://github.com/clintcs)! - - Accordion respects the user's system preference for reduced motion.
+
+  - Accordion waits to dispatch "toggle" on open until its animation is complete.
+  - Accordion animates when `open` is set programmatically.
+  - Accordion's "toggle" event bubbles.
+  - Accordion's `open` property is set to `true` when Accordion is opened via click.
+  - Accordion has a `click()` method.
+  - Setting Accordion's `open` property to `false` closes Accordion.
+
+- [#393](https://github.com/CrowdStrike/glide-core/pull/393) [`cb66eba`](https://github.com/CrowdStrike/glide-core/commit/cb66ebaa54dbfac2c836709c2b35ab1b1902c430) Thanks [@danwenzel](https://github.com/danwenzel)! - Fixes a bug where programmatically-added tree items weren't correctly indented.
+
+- [#419](https://github.com/CrowdStrike/glide-core/pull/419) [`241f21f`](https://github.com/CrowdStrike/glide-core/commit/241f21ff7239b454eb1e0ff673a1e739790c70d6) Thanks [@clintcs](https://github.com/clintcs)! - - Tooltip no longer has extraneous inner whitespace when it's without a shortcut.
+
+  - Dropdown Option now supports icons when Dropdown is multiselect.
+  - Dropdown's "icon:\<value\>" slot is now supported when multiselect.
+
+- [#377](https://github.com/CrowdStrike/glide-core/pull/377) [`a3381d8`](https://github.com/CrowdStrike/glide-core/commit/a3381d81e52b50e90c00bc3cb7511feb2165faf2) Thanks [@clintcs](https://github.com/clintcs)! - Tag's "remove" event now bubbles.
+
+- [#429](https://github.com/CrowdStrike/glide-core/pull/429) [`53bbba4`](https://github.com/CrowdStrike/glide-core/commit/53bbba49836cd14d516ef50bf5817d71fc4229cf) Thanks [@ynotdraw](https://github.com/ynotdraw)! - The Modal header buttons are now vertically centered with the surrounding content.
+
+- [#426](https://github.com/CrowdStrike/glide-core/pull/426) [`53641cb`](https://github.com/CrowdStrike/glide-core/commit/53641cb9d5768993a62a350dc8fd5306d5dc9aa0) Thanks [@clintcs](https://github.com/clintcs)! - When inside another web component, multiselect Dropdown no longer closes when an option is selected.
+
+- [#414](https://github.com/CrowdStrike/glide-core/pull/414) [`13642b7`](https://github.com/CrowdStrike/glide-core/commit/13642b7826e632635926ddc6310b07aea6687902) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown no longer prevents the user from setting the insertion point inside the input field.
+
+- [#406](https://github.com/CrowdStrike/glide-core/pull/406) [`a87e11c`](https://github.com/CrowdStrike/glide-core/commit/a87e11c9ba57e94327797905c728f46d9f0ed992) Thanks [@clintcs](https://github.com/clintcs)! - Form controls no longer have a small amount of extra whitespace below them when they lack a description.
+
+- [#416](https://github.com/CrowdStrike/glide-core/pull/416) [`4ff8874`](https://github.com/CrowdStrike/glide-core/commit/4ff8874a20f07a05e6813d667eb281e25a98c44c) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown Option's optional icon is now limited in height and width to 16 pixels.
+
+  - Dropdown now has an "icon:\<value\>" slot for showing an icon in Dropdown's button when an option is selected.
+    "\<value\>" should be equal to the `value` of each option.
+    Dropdown will show the correct icon in its button based on which option is selected.
+    See [Storybook](https://glide-core.crowdstrike-ux.workers.dev/?path=/story/dropdown--with-icons) for a live example.
+
+    ```html
+    <glide-core-dropdown label="Label" placeholder="Placeholder">
+      <svg slot="icon:edit">Edit</svg>
+      <svg slot="icon:move">Move</svg>
+      <svg slot="icon:share">Share</svg>
+
+      <glide-core-dropdown-option label="Edit" value="edit">
+        <svg slot="icon">Edit</svg>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Move" value="move">
+        <svg slot="icon">Move</svg>
+      </glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Share" value="share">
+        <svg slot="icon">Share</svg>
+      </glide-core-dropdown-option>
+    </glide-core-dropdown>
+    ```
+
+- [#380](https://github.com/CrowdStrike/glide-core/pull/380) [`7df50b6`](https://github.com/CrowdStrike/glide-core/commit/7df50b6bf049a83f513f5519ecd8405c6a16f954) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Button Group Button no longer has a hover style when selected.
+
+- [#361](https://github.com/CrowdStrike/glide-core/pull/361) [`96a441b`](https://github.com/CrowdStrike/glide-core/commit/96a441b650050ec6fa10259acdca58d2ac568171) Thanks [@clintcs](https://github.com/clintcs)! - - Tree Item's properties are now reflected.
+
+  - Split Container (now Split Button) supports dynamic replacement of Split Button Primary Button with Split Button Primary Link and vice versa.
+  - Split Button Secondary Button's `menu-open` attribute and `menuOpen` property are synchronized with the state of the underlying Menu.
+  - Split Button Secondary Button retains its visual hover state on click.
+
+- [#378](https://github.com/CrowdStrike/glide-core/pull/378) [`4ceeda8`](https://github.com/CrowdStrike/glide-core/commit/4ceeda8a27fae3c47c32db4e1380824e3fd6a83e) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Tree Items now have a fixed line-height to address an issue where they'd inherit different line-heights leading to unexpected sizing issues.
+
+- [#405](https://github.com/CrowdStrike/glide-core/pull/405) [`1d27913`](https://github.com/CrowdStrike/glide-core/commit/1d27913ac2428a856e25f01526bdaf0a7a391484) Thanks [@clintcs](https://github.com/clintcs)! - - Radio Group's `name` attribute is now reflected.
+
+  - Checkbox, Checkbox Group, Dropdown, Input, and Textarea's `name` attribute is now an empty string by default to match native.
+
+- [#410](https://github.com/CrowdStrike/glide-core/pull/410) [`882cfb3`](https://github.com/CrowdStrike/glide-core/commit/882cfb32b79bc1c928d70166d1a22e0cefc43c33) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tertiary slotted content in a Modal now properly vertically center-aligns itself.
+
+- [#422](https://github.com/CrowdStrike/glide-core/pull/422) [`bfc4073`](https://github.com/CrowdStrike/glide-core/commit/bfc4073fc8e8b7dddf6e8dd8cd2452396ffe8ed1) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown when filterable and multiselect now clears its input field when an option is selected.
+
+  - Dropdown now unhides previously filtered options when the `filterable` attribute is removed.
+  - Single-select dropdown now sets the value of its input field to the label of the selected option when the `filterable` attribute is added.
+
+- [#382](https://github.com/CrowdStrike/glide-core/pull/382) [`4b95507`](https://github.com/CrowdStrike/glide-core/commit/4b95507dc8aac673d6a027cc7c52c24c12f55b34) Thanks [@clintcs](https://github.com/clintcs)! - Menu Link now navigates when selected via Space or Enter.
+
+- [#386](https://github.com/CrowdStrike/glide-core/pull/386) [`1438848`](https://github.com/CrowdStrike/glide-core/commit/1438848734003181ddec472d9c299c02b052c064) Thanks [@clintcs](https://github.com/clintcs)! - - Checkbox Group's `value` property is no longer read-only.
+
+  - Checkbox Group now updates its `value` when the `value` of an underlying Checkbox has changed.
+
+- [#392](https://github.com/CrowdStrike/glide-core/pull/392) [`01b3c80`](https://github.com/CrowdStrike/glide-core/commit/01b3c80448d156120cc4db98a7b3f29849ddab09) Thanks [@clintcs](https://github.com/clintcs)! - - Split Button's "primary" variant has a refreshed visual design.
+
+  - Split Button's secondary button has an "active" visual treatment when its menu is open.
+
+- [#385](https://github.com/CrowdStrike/glide-core/pull/385) [`b3e8efd`](https://github.com/CrowdStrike/glide-core/commit/b3e8efde561412f821fbba7f6e2dc24b31610cf4) Thanks [@clintcs](https://github.com/clintcs)! - - Accordion now has a `focus()` method.
+  - Icon Button now has a `click()` method.
+
 ## 0.9.6
 
 ### Patch Changes
