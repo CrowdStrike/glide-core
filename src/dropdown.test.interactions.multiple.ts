@@ -472,6 +472,30 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
   expect(options[0]?.privateActive).to.be.true;
 });
 
+it('updates its tag when the `label` of a selected option is changed programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.label = 'Three';
+  await elementUpdated(component);
+
+  const tag =
+    component.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]');
+
+  expect(tag?.label).to.equal('Three');
+});
+
 it('selects and deselects options when `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>

@@ -42,6 +42,12 @@ export default class GlideCoreDropdownOption extends LitElement {
     setTimeout(() => {
       this.#updateLabelOverflow();
     });
+
+    this.dispatchEvent(
+      new Event('private-label-change', {
+        bubbles: true,
+      }),
+    );
   }
 
   @property({ attribute: 'private-indeterminate', type: Boolean })

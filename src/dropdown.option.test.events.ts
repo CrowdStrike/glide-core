@@ -5,11 +5,24 @@ import GlideCoreDropdownOption from './dropdown.option.js';
 
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
+it('dispatches a "private-label-change" event', async () => {
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option label="One"></glide-core-dropdown-option>`,
+  );
+
+  setTimeout(() => {
+    component.label = 'Two';
+  });
+
+  const event = await oneEvent(component, 'private-label-change');
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+});
+
 it('dispatches a "private-selected-change" event', async () => {
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
-      value="value"
     ></glide-core-dropdown-option>`,
   );
 

@@ -361,6 +361,29 @@ it('deselects all other options when one is newly selected', async () => {
   expect(options[2].selected).to.be.false;
 });
 
+it('updates its internal label when the `label` of a selected option is changed programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.label = 'Two';
+  await elementUpdated(component);
+
+  const label = component.shadowRoot?.querySelector(
+    '[data-test="internal-label"]',
+  );
+
+  expect(label?.textContent?.trim()).to.equal(option?.label);
+});
+
 it('selects and deselects options when `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">

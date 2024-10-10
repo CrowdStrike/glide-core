@@ -72,8 +72,7 @@ export default class GlideCoreDropdown extends LitElement {
       setTimeout(() => {
         this.updateComplete.then(() => {
           if (this.#inputElementRef.value && this.selectedOptions.length > 0) {
-            this.#inputElementRef.value.value =
-              this.#inputElementRef.value.value = this.selectedOptions[0].label;
+            this.#inputElementRef.value.value = this.selectedOptions[0].label;
           }
         });
       });
@@ -339,6 +338,7 @@ export default class GlideCoreDropdown extends LitElement {
       observer.observe(this.#componentElementRef.value);
 
       // Dropdown's "click" handler on `document` listens for clicks in the
+
       // capture phase. There's a comment explaining why. `#isComponentClick`
       // must be set before that handler is called so it has the information it
       // needs to determine whether or not to close Dropdown.
@@ -668,6 +668,7 @@ export default class GlideCoreDropdown extends LitElement {
             @focusin=${this.#onOptionsFocusin}
             @mousedown=${this.#onOptionsMousedown}
             @mouseover=${this.#onOptionsMouseover}
+            @private-label-change=${this.#onOptionsLabelChange}
             @private-selected-change=${this.#onOptionsSelectedChange}
             @private-value-change=${this.#onOptionsValueChange}
             ${ref(this.#optionsElementRef)}
@@ -1404,6 +1405,22 @@ export default class GlideCoreDropdown extends LitElement {
     this.#unfilter();
     this.dispatchEvent(new Event('change', { bubbles: true }));
     this.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  #onOptionsLabelChange() {
+    if (this.selectedOptions.length > 0) {
+      if (this.multiple) {
+        this.requestUpdate();
+
+        this.updateComplete.then(() => {
+          this.#setTagOverflowLimit();
+        });
+      } else if (this.#inputElementRef.value) {
+        this.#inputElementRef.value.value = this.selectedOptions[0].label;
+      } else {
+        this.requestUpdate();
+      }
+    }
   }
 
   #onOptionsMousedown(event: MouseEvent) {
