@@ -31,7 +31,6 @@ it('closes when the "Escape" key is pressed', async () => {
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(component);
-
   await sendKeys({ press: 'Escape' });
 
   setTimeout(() => {
@@ -41,7 +40,6 @@ it('closes when the "Escape" key is pressed', async () => {
   });
 
   await oneEvent(component, 'close');
-
   await elementUpdated(component);
 
   expect(
