@@ -224,6 +224,7 @@ export const WithIcons: StoryObj = {
           slot="prefix-icon"
           name="calendar"
         ></glide-core-example-icon>
+
         <glide-core-example-icon
           slot="suffix-icon"
           name="edit"

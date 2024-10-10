@@ -1,4 +1,5 @@
 .docs-story {
+  /* The element containing the component on the overview page. */
   & > div {
     padding: 0 !important;
   }
@@ -13,6 +14,7 @@
   background-color: var(--glide-core-surface-base-lightest) !important;
 }
 
+/* The tooltip shown when `argTypes[key].table.type` is clicked. */
 [data-popper-interactive] * {
   overflow: visible !important;
   text-wrap: pretty !important;

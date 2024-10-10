@@ -67,7 +67,7 @@ const meta: Meta = {
         defaultValue: { summary: 'false' },
         type: {
           summary: 'boolean',
-          detail: `// The tooltip is never shown when disabled. Useful when you have markup conditionally rendering Tooltip.\n// Instead of that, always render Tooltip and simply disable it when appropriate.`,
+          detail: `// The tooltip is never shown when disabled. Useful when you have markup conditionally rendering Tooltip.\n// Instead of doing that, always render Tooltip and simply disable it when appropriate.`,
         },
       },
     },

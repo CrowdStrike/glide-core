@@ -338,7 +338,7 @@ export default class GlideCoreDropdown extends LitElement {
     if (this.#componentElementRef.value) {
       observer.observe(this.#componentElementRef.value);
 
-      // Dropdown's "click" handler on the `document` listens for clicks in the
+      // Dropdown's "click" handler on `document` listens for clicks in the
       // capture phase. There's a comment explaining why. `#isComponentClick`
       // must be set before that handler is called so it has the information it
       // needs to determine whether or not to close Dropdown.
@@ -830,8 +830,7 @@ export default class GlideCoreDropdown extends LitElement {
       //
       // Checking that the click's `event.target` is an instance of  `GlideCoreDropdown`
       // or `GlideCoreDropdownOption` would be a lot simpler. But, when Dropdown is
-      // inside of another web component, `event.target` will be set to that component
-      // instead.
+      // inside of another web component, `event.target` will that component instead.
       setTimeout(() => {
         this.#isComponentClick = false;
       });
@@ -1191,6 +1190,7 @@ export default class GlideCoreDropdown extends LitElement {
       // of a form, Enter should submit the form instead of opening Dropdown.
     } else if (event.detail !== 0) {
       this.open = true;
+      this.focus();
     }
   }
 
