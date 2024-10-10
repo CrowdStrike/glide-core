@@ -24,6 +24,7 @@ const meta: Meta = {
     'slot="default"': '',
     'slot="nav"': '',
     'addEventListener(event, listener)': '',
+    sticky: false,
     '<glide-core-tab>.panel': '',
     '<glide-core-tab>[slot="default"]': 'Tab',
     '<glide-core-tab>.active': true,
@@ -35,7 +36,7 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-      <glide-core-tab-group>
+      <glide-core-tab-group ?sticky=${arguments_.sticky}>
         <glide-core-tab
           slot="nav"
           panel="1"
@@ -92,6 +93,13 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
+    },
+    sticky: {
+      name: 'sticky',
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     '<glide-core-tab>.panel': {
       name: 'panel',

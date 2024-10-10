@@ -8,9 +8,15 @@ export default [
       flex-direction: column;
 
       & .tab-container {
+        background-color: var(--glide-core-surface-page);
         border-block-end: 1px solid var(--glide-core-border-base-lighter);
         box-sizing: border-box;
         display: flex;
+      }
+
+      & .sticky {
+        inset-block-start: 0;
+        position: sticky;
       }
 
       & .tab-group {
