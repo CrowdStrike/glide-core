@@ -107,14 +107,6 @@ export default class GlideCoreTag extends LitElement {
     `;
   }
 
-  override get textContent() {
-    return this.label ?? '';
-  }
-
-  override set textContent(label: string) {
-    this.label = label;
-  }
-
   #buttonElementRef = createRef<HTMLButtonElement>();
 
   #componentElementRef = createRef<HTMLElement>();

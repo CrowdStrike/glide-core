@@ -4,6 +4,7 @@ import './dropdown.option.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import GlideCoreTag from './tag.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -85,11 +86,12 @@ it('can be reset to the initially selected options', async () => {
 
   form.reset();
 
-  const tags = component.shadowRoot?.querySelectorAll('[data-test="tag"]');
+  const tags =
+    component.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0].textContent?.trim()).to.equal('Two');
-  expect(tags?.[1].textContent?.trim()).to.equal('Three');
+  expect(tags?.[0].label).to.equal('Two');
+  expect(tags?.[1].label).to.equal('Three');
   expect(component.value).to.deep.equal(['two', 'three']);
 });
 

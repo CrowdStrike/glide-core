@@ -13,4 +13,9 @@ addons.setConfig({
     fontBase: '"Nunito", sans-serif',
     fontCode: 'monospace',
   }),
+  toolbar: {
+    fullscreen: {
+      hidden: true,
+    },
+  },
 });

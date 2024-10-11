@@ -1,8 +1,17 @@
 .docs-story {
   /* The element containing the component on the overview page. */
   & > div {
-    padding: 0 !important;
+    padding: 0.35rem !important;
   }
+}
+
+/* The toolbar right above the component on the overview page. */
+.sb-bar {
+  display: none !important;
+}
+
+.sbdocs:has(> .sb-bar) {
+  padding-top: 0 !important;
 }
 
 /* The "name" column can get pretty long and wraps, making it hard to read. */

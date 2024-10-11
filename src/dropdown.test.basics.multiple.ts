@@ -3,6 +3,7 @@
 import './dropdown.option.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdown from './dropdown.js';
+import GlideCoreTag from './tag.js';
 import type GlideCoreDropdownOption from './dropdown.option.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
@@ -93,10 +94,11 @@ it('has a tag when an option is initially selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  const tag = component.shadowRoot?.querySelector('[data-test="tag"]');
+  const tag =
+    component.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]');
 
   expect(tag?.checkVisibility()).to.be.true;
-  expect(tag?.textContent?.trim()).to.equal('One');
+  expect(tag?.label).to.equal('One');
 });
 
 it('shows Select All', async () => {

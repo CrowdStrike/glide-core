@@ -729,3 +729,34 @@ it('remains open when something other than the button is clicked', async () => {
 
   expect(component.open).to.be.true;
 });
+
+it('hides the tooltip of the active option when opened via click', async () => {
+  // The period is arbitrary. 500 of them ensures we exceed the maximum
+  // width even if it's increased.
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label=${'.'.repeat(500)}
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
+  // which puts us in a guard in the event handler. `Event` has no `detail` property
+  // and would work. `CustomEvent` is used for completeness and to get us as close as
+  // possible to a real click. See the comment in the handler for more information.
+  component.shadowRoot
+    ?.querySelector('[data-test="button"]')
+    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const tooltip = component
+    .querySelector('glide-core-dropdown-option')
+    ?.shadowRoot?.querySelector('[data-test="tooltip"]');
+
+  expect(tooltip?.checkVisibility()).to.be.false;
+});

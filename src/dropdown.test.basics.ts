@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './dropdown.option.js';
 import { ArgumentError } from 'ow';
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { repeat } from 'lit/directives/repeat.js';
 import GlideCoreDropdown from './dropdown.js';
+import GlideCoreDropdownOption from './dropdown.option.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
@@ -21,6 +21,7 @@ import sinon from 'sinon';
 // `dropdown.test.interactions.multiple.ts` would add a ton of test weight.
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
+GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(window.customElements.get('glide-core-dropdown')).to.equal(
@@ -482,4 +483,27 @@ it('does not throw if the default slot only contains whitespace', async () => {
   }
 
   expect(spy.callCount).to.equal(0);
+});
+
+it('hides the tooltip of the active option when open', async () => {
+  // The period is arbitrary. 500 of them ensures we exceed the maximum
+  // width even if it's increased.
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label=${'.'.repeat(500)}
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const tooltip = component
+    .querySelector('glide-core-dropdown-option')
+    ?.shadowRoot?.querySelector('[data-test="tooltip"]');
+
+  expect(tooltip?.checkVisibility()).to.be.false;
 });

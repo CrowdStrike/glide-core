@@ -106,11 +106,14 @@ export default class GlideCoreDropdownOption extends LitElement {
     // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
     // By then, however, this component has has already completed its initial render. So
     // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple`
-    // is still useful for when Dropdown's `this.multiple` is change dynamically.
+    // is still useful for when Dropdown's `this.multiple` is change programmatically.
     return (
       this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
     );
   }
+
+  @state()
+  privateisOpenTooltip = false;
 
   override click() {
     if (this.privateMultiple) {
@@ -229,7 +232,7 @@ export default class GlideCoreDropdownOption extends LitElement {
               internally-inert
               @click=${this.#onCheckboxClick}
               ?indeterminate=${this.privateIndeterminate}
-              ?private-show-label-tooltip=${this.privateActive}
+              ?private-show-label-tooltip=${this.privateisOpenTooltip}
               ${ref(this.#checkboxElementRef)}
             >
               <slot
@@ -251,7 +254,7 @@ export default class GlideCoreDropdownOption extends LitElement {
               <slot class="icon-slot" name="icon"></slot>
 
               <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${!this
-                .isLabelOverflow} ?open=${this.privateActive}>
+                .isLabelOverflow} ?open=${this.privateisOpenTooltip}>
 
                 <div aria-hidden="true" data-test="tooltip">
                   ${this.label}
