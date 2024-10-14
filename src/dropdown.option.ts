@@ -106,7 +106,7 @@ export default class GlideCoreDropdownOption extends LitElement {
     // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
     // By then, however, this component has has already completed its initial render. So
     // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple`
-    // is still useful for when Dropdown's `this.multiple` is change programmatically.
+    // is still useful for when Dropdown's `this.multiple` is changed programmatically.
     return (
       this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
     );
