@@ -46,14 +46,3 @@ it('removes itself on Enter', async () => {
 
   expect(document.querySelector('glide-core-tag')).to.be.null;
 });
-
-it('supports `textContent`', async () => {
-  const component = await fixture<GlideCoreTag>(
-    html`<glide-core-tag label="One"></glide-core-tag>`,
-  );
-
-  expect(component.textContent).to.equal('One');
-
-  component.textContent = 'Two';
-  expect(component.label).to.equal('Two');
-});

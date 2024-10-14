@@ -102,7 +102,10 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (isOpen && !this.disabled) {
       this.#show();
-    } else if (
+      return;
+    }
+
+    if (
       !this.multiple &&
       this.#inputElementRef.value &&
       this.selectedOptions.length > 0
@@ -114,10 +117,12 @@ export default class GlideCoreDropdown extends LitElement {
         !this.multiple &&
         this.selectedOptions.length > 0 &&
         Boolean(this.selectedOptions.at(0)?.value);
+    }
 
-      this.#hide();
-    } else {
-      this.#hide();
+    this.#hide();
+
+    if (this.activeOption) {
+      this.activeOption.privateIsOpenTooltip = false;
     }
   }
 
@@ -848,14 +853,6 @@ export default class GlideCoreDropdown extends LitElement {
     }
   };
 
-  #deactivateAllOptions() {
-    if (this.#optionElementsIncludingSelectAll) {
-      for (const option of this.#optionElementsIncludingSelectAll) {
-        option.privateActive = false;
-      }
-    }
-  }
-
   #hide() {
     this.#cleanUpFloatingUi?.();
     this.#optionsElementRef.value?.hidePopover();
@@ -901,12 +898,10 @@ export default class GlideCoreDropdown extends LitElement {
     //
     // We're not setting `value` here. But we follow native's behavior elsewhere
     // when setting `value`. So we do the same here when setting `privateActive`.
-    if (this.lastSelectedOption) {
-      this.#deactivateAllOptions();
+    if (!this.activeOption && this.lastSelectedOption) {
       this.lastSelectedOption.privateActive = true;
       this.ariaActivedescendant = this.open ? this.lastSelectedOption.id : '';
-    } else if (firstOption) {
-      this.#deactivateAllOptions();
+    } else if (!this.activeOption && firstOption) {
       firstOption.privateActive = true;
       this.ariaActivedescendant = this.open ? firstOption.id : '';
     }
@@ -1012,6 +1007,7 @@ export default class GlideCoreDropdown extends LitElement {
       event.preventDefault();
 
       this.open = true;
+      this.activeOption.privateIsOpenTooltip = true;
 
       // The user almost certainly wasn't intending to do both open Dropdown and change
       // the active option in the case of ArrowUp or ArrowDown. Thus return. The user
@@ -1087,10 +1083,13 @@ export default class GlideCoreDropdown extends LitElement {
 
         // If we haven't reached the top, make the previous option active.
         if (option && activeOptionIndex !== 0) {
-          this.#deactivateAllOptions();
-          option.privateActive = true;
-          option.scrollIntoView({ block: 'center' });
+          this.activeOption.privateIsOpenTooltip = false;
+          this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
+
+          option.privateActive = true;
+          option.privateIsOpenTooltip = true;
+          option.scrollIntoView({ block: 'center' });
         }
 
         return;
@@ -1112,10 +1111,13 @@ export default class GlideCoreDropdown extends LitElement {
 
         // If `option` isn't defined, then we've reached the bottom.
         if (option) {
-          this.#deactivateAllOptions();
-          option.privateActive = true;
-          option.scrollIntoView({ block: 'center' });
+          this.activeOption.privateIsOpenTooltip = false;
+          this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
+
+          option.privateActive = true;
+          option.privateIsOpenTooltip = true;
+          option.scrollIntoView({ block: 'center' });
         }
 
         return;
@@ -1134,10 +1136,13 @@ export default class GlideCoreDropdown extends LitElement {
         const option = this.#optionElementsNotHiddenIncludingSelectAll.at(0);
 
         if (option) {
-          this.#deactivateAllOptions();
-          option.privateActive = true;
-          option.scrollIntoView({ block: 'end' });
+          this.activeOption.privateIsOpenTooltip = false;
+          this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
+
+          option.privateActive = true;
+          option.privateIsOpenTooltip = true;
+          option.scrollIntoView({ block: 'end' });
         }
 
         return;
@@ -1156,11 +1161,14 @@ export default class GlideCoreDropdown extends LitElement {
         const option = this.#optionElementsNotHiddenIncludingSelectAll.at(-1);
 
         // If `option` isn't defined, then we've reached the bottom.
-        if (option) {
-          this.#deactivateAllOptions();
-          option.privateActive = true;
-          option.scrollIntoView();
+        if (option && this.activeOption) {
+          this.activeOption.privateIsOpenTooltip = false;
+          this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
+
+          option.privateActive = true;
+          option.privateIsOpenTooltip = true;
+          option.scrollIntoView();
         }
 
         return;
@@ -1307,7 +1315,7 @@ export default class GlideCoreDropdown extends LitElement {
       // When filtering filters out the active option, make the first option active
       // if there is one.
       if (firstVisibleOption && this.activeOption?.hidden) {
-        this.#deactivateAllOptions();
+        this.activeOption.privateActive = false;
         firstVisibleOption.privateActive = true;
       }
 
@@ -1383,7 +1391,10 @@ export default class GlideCoreDropdown extends LitElement {
   // screen readers.
   #onOptionsFocusin(event: FocusEvent) {
     if (event.target instanceof GlideCoreDropdownOption) {
-      this.#deactivateAllOptions();
+      if (this.activeOption) {
+        this.activeOption.privateActive = false;
+      }
+
       event.target.privateActive = true;
     }
   }
@@ -1433,9 +1444,15 @@ export default class GlideCoreDropdown extends LitElement {
   #onOptionsMouseover(event: MouseEvent) {
     if (
       event.target instanceof GlideCoreDropdownOption &&
-      this.#optionElementsNotHiddenIncludingSelectAll
+      this.#optionElementsNotHiddenIncludingSelectAll &&
+      this.activeOption
     ) {
-      this.#deactivateAllOptions();
+      // The currently active option may have been arrowed to and its Tooltip
+      // forced open. Normally, its Tooltip would be closed when the user arrows
+      // again. But now the user is using a mouse. So we need to force close it.
+      this.activeOption.privateIsOpenTooltip = false;
+
+      this.activeOption.privateActive = false;
       event.target.privateActive = true;
 
       for (const option of this.#optionElementsNotHiddenIncludingSelectAll) {
