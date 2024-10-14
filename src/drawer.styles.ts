@@ -42,7 +42,7 @@ export default [
       visibility: visible;
     }
 
-    .closing {
+    .close {
       transform: translateX(100%);
       transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
     }

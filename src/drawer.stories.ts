@@ -59,6 +59,7 @@ const meta: Meta = {
     return html`
       <glide-core-drawer
         label=${arguments_.label}
+        ?open=${arguments_.open}
         ?pinned=${arguments_.pinned}
         style="${ifDefined(
           arguments_['--width']
@@ -82,41 +83,24 @@ const meta: Meta = {
     'slot="default"': '',
     'addEventListener(event, listener)': '',
     'close()': '',
-    'show()': '',
+    open: false,
     pinned: false,
+    'show()': '',
     '--width': '',
   },
   argTypes: {
-    'slot="default"': {
-      table: {
-        type: { summary: 'Element | string' },
-      },
-      type: { name: 'string', required: true },
-    },
-    'show()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
-    'close()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
     label: {
       table: {
         type: {
           summary: 'string',
           detail: '// For screenreaders',
         },
+      },
+      type: { name: 'string', required: true },
+    },
+    'slot="default"': {
+      table: {
+        type: { summary: 'Element | string' },
       },
       type: { name: 'string', required: true },
     },
@@ -129,10 +113,34 @@ const meta: Meta = {
         },
       },
     },
+    'close()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
+      },
+    },
+    open: {
+      defaultValue: { summary: 'false' },
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
     pinned: {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    'show()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '() => void',
+        },
       },
     },
     '--width': {

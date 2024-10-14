@@ -2,11 +2,11 @@
 
 import './drawer.js';
 import {
+  aTimeout,
   elementUpdated,
   expect,
   fixture,
   html,
-  oneEvent,
 } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import { sendKeys } from '@web/test-runner-commands';
@@ -21,26 +21,18 @@ it('closes when the "Escape" key is pressed', async () => {
   await emulateMedia({ reducedMotion: 'no-preference' });
 
   const component = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
+    html`<glide-core-drawer open>Drawer content</glide-core-drawer>`,
   );
 
-  component.show();
+  // Wait for it to open.
+  await aTimeout(0);
 
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
+  // await elementUpdated(component);
 
-  await elementUpdated(component);
   await sendKeys({ press: 'Escape' });
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector('aside')
-      ?.dispatchEvent(new TransitionEvent('transitionend'));
-  });
-
-  await oneEvent(component, 'close');
-  await elementUpdated(component);
+  // // Wait for it to open.
+  await aTimeout(0);
 
   expect(
     component?.shadowRoot?.querySelector('aside[data-test-state="closed"]'),

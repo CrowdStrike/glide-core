@@ -30,6 +30,7 @@ it('dispatches a "close" event when the "Escape" key is pressed', async () => {
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(component);
+  await oneEvent(component, 'toggle');
 
   await sendKeys({ press: 'Escape' });
 
@@ -38,6 +39,8 @@ it('dispatches a "close" event when the "Escape" key is pressed', async () => {
       ?.querySelector('aside')
       ?.dispatchEvent(new TransitionEvent('transitionend'));
   });
+
+  await oneEvent(component, 'toggle');
 
   const event = await closeEvent;
   expect(event instanceof Event).to.be.true;
@@ -57,6 +60,7 @@ it('dispatches a "close" event when closed via the "close" method', async () => 
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(component);
+  await oneEvent(component, 'toggle');
 
   component.close();
 
@@ -65,6 +69,8 @@ it('dispatches a "close" event when closed via the "close" method', async () => 
       ?.querySelector('aside')
       ?.dispatchEvent(new TransitionEvent('transitionend'));
   });
+
+  await oneEvent(component, 'toggle');
 
   const event = await closeEvent;
   expect(event instanceof Event).to.be.true;

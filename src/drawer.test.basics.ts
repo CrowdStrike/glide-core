@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './drawer.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
 import expectArgumentError from './library/expect-argument-error.js';
 
@@ -48,11 +48,12 @@ it('sets the width of the element based on the "--width" CSS variable', async ()
   styledDiv.setAttribute('style', '--width: 750px');
 
   const component = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
+    html`<glide-core-drawer open>Drawer content</glide-core-drawer>`,
     { parentNode: styledDiv },
   );
 
-  component.show();
+  // Wait for it to open.
+  await aTimeout(0);
 
   expect(component.shadowRoot?.querySelector('aside')?.clientWidth).to.equal(
     750,
