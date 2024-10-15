@@ -10,6 +10,8 @@
   "announcedCharacterCount": "{maximum} 文字数の{current}",
   "displayedCharacterCount": "{current}/{maximum}",
   "clearEntry": "{label}エントリのクリア",
+  "edit": "Edit",
+  "editTag": "Edit tag: {label}",
   "removeTag": "タグを削除: {label}",
   "actionsFor": "{label}のアクション"
 }

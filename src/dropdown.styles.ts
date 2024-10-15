@@ -1,10 +1,13 @@
 import { css } from 'lit';
+import focusOutline from './styles/focus-outline.js';
 import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
+    ${focusOutline('.edit-button:focus-visible')}
     ${opacityAndScaleAnimation('.options:popover-open')}
+    ${visuallyHidden('.edit-button-text')}
     ${visuallyHidden('.selected-option-labels')}
   `,
   css`
@@ -73,27 +76,23 @@ export default [
       }
 
       &.quiet {
-        &:is(:hover, :has(.button:focus-visible, .input:focus-visible)):not(
-            &.error,
-            &.disabled,
-            &.multiple,
-            &.readonly
-          ) {
+        &:is(
+            :hover,
+            :has(.primary-button:focus-visible, .input:focus-visible)
+          ):not(&.error, &.disabled, &.multiple, &.readonly) {
           background-color: var(--glide-core-surface-hover);
           color: var(--glide-core-text-body-1);
         }
       }
 
-      &:is(:hover, :has(.button:focus-visible, .input:focus-visible)):not(
-          &.disabled,
-          &.error,
-          &.quiet,
-          &.readonly
-        ) {
+      &:is(
+          :hover,
+          :has(.primary-button:focus-visible, .input:focus-visible)
+        ):not(&.disabled, &.error, &.quiet, &.readonly) {
         border-color: var(--glide-core-border-focus);
       }
 
-      &:has(.button:focus-visible, .input:focus-visible) {
+      &:has(.primary-button:focus-visible, .input:focus-visible) {
         &.quiet {
           border-color: var(--glide-core-border-focus);
         }
@@ -178,8 +177,8 @@ export default [
       }
     }
 
-    .tag-overflow-text-and-button {
-      column-gap: var(--glide-core-spacing-md);
+    .tag-overflow-and-buttons {
+      align-items: center;
       display: flex;
       margin-inline-start: auto;
     }
@@ -187,6 +186,7 @@ export default [
     .tag-overflow-text {
       align-content: center;
       color: var(--glide-core-text-link);
+      margin-inline-end: var(--glide-core-spacing-md);
     }
 
     .single-select-icon-slot {
@@ -211,7 +211,7 @@ export default [
       padding-block-start: 0.125rem;
     }
 
-    .button {
+    .primary-button {
       align-items: center;
       background: none;
       block-size: var(--button-and-input-height);
@@ -222,6 +222,27 @@ export default [
 
       &:focus {
         outline: none;
+      }
+    }
+
+    .edit-button {
+      background: none;
+      border: none;
+      border-radius: 2px;
+      display: flex;
+      margin-inline-end: var(--glide-core-spacing-xxs);
+      padding: 0;
+
+      &.disabled {
+        color: var(--glide-core-icon-tertiary-disabled);
+
+        &:hover {
+          cursor: not-allowed;
+        }
+      }
+
+      &:hover:not(.disabled, .readonly) {
+        color: var(--glide-core-text-primary-hover);
       }
     }
 

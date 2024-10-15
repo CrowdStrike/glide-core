@@ -6,7 +6,7 @@ import GlideCoreDropdownOption from './dropdown.option.js';
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-it('focuses the button when `focus()` is called', async () => {
+it('focuses the primary button when `focus()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
@@ -19,7 +19,7 @@ it('focuses the button when `focus()` is called', async () => {
   component.focus();
 
   expect(component.shadowRoot?.activeElement).to.equal(
-    component.shadowRoot?.querySelector('[data-test="button"]'),
+    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
   );
 });
 
@@ -40,11 +40,14 @@ it('focuses the button on submit', async () => {
 
   form.requestSubmit();
 
-  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="primary-button"]',
+  );
+
   expect(component.shadowRoot?.activeElement).to.be.equal(button);
 });
 
-it('focuses the button when `reportValidity` is called when required and no option is selected', async () => {
+it('focuses the primary button when `reportValidity` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
@@ -59,11 +62,14 @@ it('focuses the button when `reportValidity` is called when required and no opti
 
   component.reportValidity();
 
-  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="primary-button"]',
+  );
+
   expect(component.shadowRoot?.activeElement).to.equal(button);
 });
 
-it('does not focus the button when `checkValidity` is called', async () => {
+it('does not focus the primary button when `checkValidity` is called', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(

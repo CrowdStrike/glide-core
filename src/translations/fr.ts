@@ -18,12 +18,14 @@ const translation: Omit<Translation, PendingTranslation> = {
   notifications: 'Notifications',
   nextTab: 'Onglet suivant',
   previousTab: 'Onglet précédent',
+  edit: 'Edit',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `Nombre de caractères ${current} de ${maximum}`,
   displayedCharacterCount: (current: number, maximum: number) =>
     `${current}/${maximum}`,
   clearEntry: (label: string) => `Effacer l'entrée ${label}`,
+  editTag: (label: string) => `Edit tag : ${label}`,
   removeTag: (label: string) => `Supprimer la balise : ${label}`,
   actionsFor: (label: string) => `Actions pour ${label}`,
 };

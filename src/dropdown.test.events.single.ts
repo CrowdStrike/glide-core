@@ -108,6 +108,125 @@ it('dispatches one "change" event when an option is selected via Space', async (
   expect(spy.callCount).to.equal(1);
 });
 
+it('dispatches an "edit" event on click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  setTimeout(() => {
+    component?.shadowRoot
+      ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+      ?.click();
+  });
+
+  const event = await oneEvent(component, 'edit');
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+  expect(event.target).to.equal(option);
+});
+
+it('dispatches an "edit" event on Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component?.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.focus();
+
+  sendKeys({ press: 'Enter' });
+
+  const event = await oneEvent(component, 'edit');
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+  expect(event.target).to.equal(option);
+});
+
+it('dispatches an "edit" event on Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component?.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.focus();
+
+  sendKeys({ press: ' ' });
+
+  const event = await oneEvent(component, 'edit');
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.target).to.equal(option);
+});
+
+it('does not dispatch an "edit" event when `disabled`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  component.addEventListener('edit', spy);
+
+  component?.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.click();
+
+  expect(spy.callCount).to.equal(0);
+});
+
+it('does not dispatch an "edit" event when `readonly`', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" readonly>
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  component.addEventListener('edit', spy);
+
+  component?.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.click();
+
+  expect(spy.callCount).to.equal(0);
+});
+
 it('dispatches one "input" event when an option is selected via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>

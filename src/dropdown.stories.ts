@@ -11,16 +11,8 @@ const meta: Meta = {
   title: 'Dropdown',
   tags: ['autodocs'],
   decorators: [
-    (story, context) => {
-      // `width: max-content` on the overview page so Dropdown is a little
-      // cleaner in appearance. Full width elsewhere so it's easy to play with
-      // tag overflow.
-      return html`<form
-        action="/"
-        style="display: block; ${context.viewMode === 'docs'
-          ? 'width: max-content'
-          : ''}"
-      >
+    (story) => {
+      return html`<form action="/" style="padding-bottom: 1.5rem;">
         <script type="ignore">
           import '@crowdstrike/glide-core/dropdown.js';
           import '@crowdstrike/glide-core/dropdown.option.js';
@@ -62,7 +54,10 @@ const meta: Meta = {
     'slot="tooltip"': '',
     value: '',
     variant: '',
-    '<glide-core-dropdown-option>.label': 'One',
+    '<glide-core-dropdown-option>.label':
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    '<glide-core-dropdown-option>.addEventListener(event, listener)': false,
+    '<glide-core-dropdown-option>.editable': false,
     '<glide-core-dropdown-option>.selected': false,
     '<glide-core-dropdown-option>[slot="icon"]': '',
     '<glide-core-dropdown-option>.value': 'one',
@@ -257,6 +252,25 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
+    '<glide-core-dropdown-option>.addEventListener(event, listener)': {
+      name: 'addEventListener(event, listener)',
+      control: false,
+      table: {
+        category: 'Dropdown Option',
+        type: {
+          summary: 'method',
+          detail: '(event: "edit", listener: (event: Event)) => void) => void',
+        },
+      },
+    },
+    '<glide-core-dropdown-option>.editable': {
+      name: 'editable',
+      table: {
+        category: 'Dropdown Option',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
     '<glide-core-dropdown-option>.selected': {
       name: 'selected',
       table: {
@@ -351,11 +365,11 @@ const meta: Meta = {
       <glide-core-dropdown-option
         label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
         value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
+        ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
         ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
       ></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
-
       ${arguments_['slot="description"']
         ? html`<div slot="description">
             ${unsafeHTML(arguments_['slot="description"'])}
@@ -436,6 +450,7 @@ export const WithIcons: StoryObj = {
       <glide-core-dropdown-option
         label="Edit"
         value="edit"
+        ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
         ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
       >
         <glide-core-example-icon

@@ -3,7 +3,8 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    ${focusOutline('button:focus-visible')}
+    ${focusOutline('.edit-button:focus-visible')}
+    ${focusOutline('.removal-button:focus-visible')}
   `,
   css`
     .component {
@@ -70,19 +71,16 @@ export default [
       }
     }
 
-    .button {
+    .removal-button {
       align-items: center;
       background-color: transparent;
-      block-size: var(--glide-core-spacing-sm);
       border: none;
       border-radius: 0.0625rem;
       color: var(--glide-core-icon-display);
       cursor: pointer;
       display: flex;
-      inline-size: var(--glide-core-spacing-sm);
       justify-content: center;
       margin: 0;
-      margin-inline-start: 0.375rem;
       padding: 0;
       transition: color 200ms ease-in-out;
 
@@ -90,6 +88,12 @@ export default [
         block-size: 0.875rem;
         inline-size: 0.875rem;
         margin-inline-start: var(--glide-core-spacing-xs);
+      }
+
+      &.medium {
+        block-size: var(--glide-core-spacing-sm);
+        inline-size: var(--glide-core-spacing-sm);
+        margin-inline-start: 0.375rem;
       }
 
       &.small {
@@ -141,6 +145,43 @@ export default [
         align-items: center;
         display: flex;
         justify-content: center;
+      }
+    }
+
+    .edit-button {
+      background-color: transparent;
+      border: none;
+      border-radius: 0.0625rem;
+      display: flex;
+      padding: 0;
+
+      &.large {
+        margin-inline-start: var(--glide-core-spacing-xs);
+      }
+
+      &.medium {
+        --size: 0.75rem;
+
+        margin-inline-start: 0.375rem;
+      }
+
+      &.small {
+        --size: 0.625rem;
+
+        margin-inline-start: var(--glide-core-spacing-xxs);
+      }
+
+      &.disabled {
+        color: var(--glide-core-icon-tertiary-disabled);
+        cursor: not-allowed;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:hover:not(.disabled) {
+        color: var(--glide-core-icon-primary-hover);
       }
     }
   `,

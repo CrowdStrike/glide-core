@@ -76,3 +76,35 @@ it('does not submit its form on Enter when open', async () => {
 
   expect(spy.callCount).to.equal(0);
 });
+
+it('does not submit its form when Enter is pressed on the Edit button', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const spy = sinon.spy();
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    spy();
+  });
+
+  component.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.focus();
+
+  await sendKeys({ press: 'Enter' });
+
+  expect(spy.callCount).to.equal(0);
+});

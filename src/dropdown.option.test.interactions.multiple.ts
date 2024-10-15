@@ -48,3 +48,23 @@ it('is deselected when programmatically deselected', async () => {
   expect(component.ariaSelected).to.equal('false');
   expect(checkbox?.checked).to.be.false;
 });
+
+it('sets `privateIsEditActive`', async () => {
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      editable
+      private-multiple
+    ></glide-core-dropdown-option>`,
+  );
+
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="edit-button"]',
+  );
+
+  button?.dispatchEvent(new Event('mouseover'));
+  expect(component.privateIsEditActive).to.be.true;
+
+  button?.dispatchEvent(new Event('mouseout'));
+  expect(component.privateIsEditActive).to.be.false;
+});

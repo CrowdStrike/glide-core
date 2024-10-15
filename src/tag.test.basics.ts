@@ -46,7 +46,9 @@ it('can be removed', async () => {
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
-  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="removal-button"]',
+  );
 
   expect(button?.checkVisibility()).to.be.true;
   expect(button?.getAttribute('aria-label')).to.equal('Remove tag: Label');

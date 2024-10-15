@@ -40,7 +40,7 @@ it('closes and reports validity when it loses focus', async () => {
   component.open = true;
   component.focus();
 
-  // Move focus to the button.
+  // Move focus to the primary button.
   await sendKeys({ down: 'Shift' });
   await sendKeys({ press: 'Tab' });
   await sendKeys({ up: 'Shift' });
@@ -67,7 +67,10 @@ it('is focused when clicked', async () => {
   // which puts us in a guard in the event handler. `Event` has no `detail` property
   // and would work. `CustomEvent` is used for completeness and to get us as close as
   // possible to a real click. See the comment in the handler for more information.
-  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="primary-button"]',
+  );
+
   button?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
   expect(component.shadowRoot?.activeElement).to.equal(button);
