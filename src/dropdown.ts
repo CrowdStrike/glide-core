@@ -1327,6 +1327,13 @@ export default class GlideCoreDropdown extends LitElement {
           ? true
           : false;
     }
+
+    this.dispatchEvent(
+      new CustomEvent('filter', {
+        bubbles: true,
+        detail: this.#inputElementRef.value.value,
+      }),
+    );
   }
 
   #onInputKeydown(event: KeyboardEvent) {
