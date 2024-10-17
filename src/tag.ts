@@ -27,6 +27,9 @@ export default class GlideCoreTag extends LitElement {
 
   static override styles = styles;
 
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
+
   @property({ reflect: true })
   label?: string;
 
@@ -56,6 +59,7 @@ export default class GlideCoreTag extends LitElement {
         class=${classMap({
           component: true,
           added: true,
+          disabled: this.disabled,
           [this.size]: true,
         })}
         data-test="component"
@@ -77,7 +81,9 @@ export default class GlideCoreTag extends LitElement {
             html`<button
               aria-label=${this.#localize.term('removeTag', this.label!)}
               class=${classMap({
+                button: true,
                 [this.size]: true,
+                disabled: this.disabled,
               })}
               data-test="button"
               type="button"
@@ -115,12 +121,14 @@ export default class GlideCoreTag extends LitElement {
 
   #localize = new LocalizeController(this);
 
-  #onClick = () => {
-    setTimeout(() => {
-      this.remove();
-    }, 200);
+  #onClick() {
+    if (!this.disabled) {
+      setTimeout(() => {
+        this.remove();
+      }, 200);
 
-    this.#componentElementRef.value?.classList.add('removed');
-    this.dispatchEvent(new Event('remove', { bubbles: true }));
-  };
+      this.#componentElementRef.value?.classList.add('removed');
+      this.dispatchEvent(new Event('remove', { bubbles: true }));
+    }
+  }
 }

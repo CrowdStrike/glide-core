@@ -40,6 +40,10 @@ export default [
         animation: fade-in 100ms ease-in-out;
       }
 
+      &.disabled {
+        color: var(--glide-core-icon-tertiary-disabled);
+      }
+
       &.removed {
         animation: fade-out 200ms ease-in-out;
         animation-fill-mode: forwards;
@@ -66,7 +70,7 @@ export default [
       }
     }
 
-    button {
+    .button {
       align-items: center;
       background-color: transparent;
       block-size: var(--glide-core-spacing-sm);
@@ -94,7 +98,12 @@ export default [
         margin-inline-start: var(--glide-core-spacing-xxs);
       }
 
-      &:hover {
+      &.disabled {
+        color: var(--glide-core-icon-tertiary-disabled);
+        cursor: not-allowed;
+      }
+
+      &:hover:not(.disabled) {
         color: var(--glide-core-icon-primary-hover);
       }
 

@@ -36,6 +36,7 @@ it('has defaults', async () => {
     html`<glide-core-tag label="Label"></glide-core-tag>`,
   );
 
+  expect(component.disabled).to.be.false;
   expect(component.removable).to.be.false;
   expect(component.size).to.equal('medium');
 });

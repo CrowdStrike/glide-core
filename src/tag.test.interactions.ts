@@ -19,6 +19,20 @@ it('removes itself on click', async () => {
   expect(document.querySelector('glide-core-tag')).to.be.null;
 });
 
+it('does not remove itself on click when disabled', async () => {
+  const component = await fixture<GlideCoreTag>(
+    html`<glide-core-tag label="Label" disabled removable></glide-core-tag>`,
+  );
+
+  component.click();
+
+  // Wait for the animation to complete.
+  await aTimeout(200);
+
+  expect(document.querySelector('glide-core-tag') instanceof GlideCoreTag).to.be
+    .true;
+});
+
 it('removes itself on Space', async () => {
   const component = await fixture<GlideCoreTag>(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
