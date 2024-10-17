@@ -70,72 +70,6 @@ it('is invalid if no value and required', async () => {
   ).to.equal('true');
 });
 
-it('is valid when empty and does not exceed `maxlength`', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea maxlength="3"></glide-core-textarea>`,
-  );
-
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.validity?.tooLong).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
-
-  await elementUpdated(component);
-
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
-});
-
-it('is valid when filled in and does not exceed `maxlength`', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea maxlength="3"></glide-core-textarea>`,
-  );
-
-  component.focus();
-  await sendKeys({ type: 'abc' });
-
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.validity?.tooLong).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
-
-  await elementUpdated(component);
-
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
-});
-
-it('is invalid when filled in and exceeds `maxlength`', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea maxlength="3"></glide-core-textarea>`,
-  );
-
-  component.focus();
-  await sendKeys({ type: 'value' });
-
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.validity?.tooLong).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
-
-  await elementUpdated(component);
-
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('true');
-});
-
 it('is valid if no value but required and disabled', async () => {
   const component = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea required disabled></glide-core-textarea>`,
@@ -277,54 +211,6 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
   ).to.equal('false');
 });
 
-it('is valid when filled in, disabled, and value exceeds `maxlength`', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea
-      value="value"
-      disabled
-      maxlength="3"
-    ></glide-core-textarea>`,
-  );
-
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.validity?.tooLong).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
-
-  await elementUpdated(component);
-
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
-});
-
-it('is valid when filled in, readonly, and value exceeds `maxlength`', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea
-      value="value"
-      readonly
-      maxlength="3"
-    ></glide-core-textarea>`,
-  );
-
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.validity?.tooLong).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
-
-  await elementUpdated(component);
-
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
-});
-
 it('blurs the textarea and reports validity if `blur` is called', async () => {
   const component = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea required></glide-core-textarea>`,
@@ -344,4 +230,130 @@ it('blurs the textarea and reports validity if `blur` is called', async () => {
 
   expect(component.shadowRoot?.querySelector('glide-core-private-label')?.error)
     .to.be.true;
+});
+
+it('sets the validity message with `setCustomValidity()`', async () => {
+  const component = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
+  );
+
+  component.setCustomValidity('validity message');
+
+  expect(component.validity?.valid).to.be.false;
+  expect(component.validity?.customError).to.be.true;
+  expect(component.checkValidity()).to.be.false;
+
+  await elementUpdated(component);
+
+  // Like native, the validity message shouldn't display until `reportValidity()` is called.
+  expect(
+    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+
+  expect(component.reportValidity()).to.be.false;
+
+  await elementUpdated(component);
+
+  expect(
+    component.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('true');
+
+  expect(
+    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.equal('validity message');
+});
+
+it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
+  const component = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
+  );
+
+  component.setCustomValidity('validity message');
+  component.reportValidity();
+
+  await elementUpdated(component);
+
+  component.setCustomValidity('');
+
+  await elementUpdated(component);
+
+  expect(
+    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+});
+
+it('is invalid when `setValidity()` is called', async () => {
+  const component = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
+  );
+
+  component.setValidity({ customError: true }, 'validity message');
+
+  expect(component.validity.valid).to.be.false;
+
+  await elementUpdated(component);
+
+  // Like native, the validity message shouldn't display until `reportValidity()` is called.
+  expect(
+    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+
+  expect(component.validity?.customError).to.be.true;
+
+  component.reportValidity();
+
+  await elementUpdated(component);
+
+  expect(
+    component.shadowRoot
+      ?.querySelector('textarea')
+      ?.getAttribute('aria-invalid'),
+  ).to.equal('true');
+
+  expect(
+    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.equal('validity message');
+});
+
+it('is valid when `setValidity()` is called', async () => {
+  const component = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
+  );
+
+  component.setValidity({ customError: true }, 'validity message');
+
+  component.setValidity({});
+
+  await elementUpdated(component);
+
+  expect(component.validity.valid).to.be.true;
+  expect(component.validity.customError).to.be.false;
+
+  expect(component.reportValidity()).to.be.true;
+
+  await elementUpdated(component);
+
+  expect(
+    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+});
+
+it('retains existing validity state when `setCustomValidity()` is called', async () => {
+  const component = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
+  );
+
+  component.setCustomValidity('validity message');
+
+  expect(component.validity?.valid).to.be.false;
+  expect(component.validity?.customError).to.be.true;
+  expect(component.validity?.valueMissing).to.be.true;
 });

@@ -37,10 +37,13 @@ const meta: Meta = {
     maxlength: '',
     name: '',
     orientation: 'horizontal',
+    pattern: '',
     placeholder: 'Placeholder',
     readonly: false,
     'reportValidity()': '',
     required: false,
+    'setCustomValidity(message)': '',
+    'setValidity(flags, message)': '',
     'slot="description"': '',
     'slot="prefix-icon"': '',
     'slot="suffix-icon"': '',
@@ -76,6 +79,7 @@ const meta: Meta = {
         maxlength=${arguments_.maxlength || nothing}
         name=${arguments_.name || nothing}
         orientation=${arguments_.orientation}
+        pattern=${arguments_.pattern || nothing}
         placeholder=${arguments_.placeholder || nothing}
         spellcheck=${arguments_.spellcheck}
         type=${arguments_.type || nothing}
@@ -190,6 +194,14 @@ const meta: Meta = {
         type: { summary: '"horizontal" | "vertical"' },
       },
     },
+    pattern: {
+      table: {
+        type: {
+          summary: 'string',
+          detail: `// Unlike the native input element, "pattern" can be validated independently of the "required" attribute.`,
+        },
+      },
+    },
     placeholder: {
       table: {
         type: { summary: 'string' },
@@ -213,6 +225,34 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '() => boolean',
+        },
+      },
+    },
+    'setCustomValidity(message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: `
+// Sets a custom validity message, similar to the native "setCustomValidity" method.
+// The "message" parameter can be either a plain string or a string containing HTML markup.
+// Passing an empty string will clear the custom validity error state.
+
+(message?: string) => void`,
+        },
+      },
+    },
+    'setValidity(flags, message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: `
+// Sets the validity state, similar to the native "setValidity()" method.
+// The "message" parameter can accept either a plain string or a string containing HTML markup.
+// If an empty object is passed to "flags", it will clear any existing error state.
+
+(flags?: ValidityStateFlags, message?: string) => void`,
         },
       },
     },

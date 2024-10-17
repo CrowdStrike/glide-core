@@ -204,9 +204,9 @@ export default [
     }
 
     .internal-label {
-      /* 
-        2px so the label is vertically aligned. "vertical-align: middle" has no 
-        effect on flex children. 
+      /*
+        2px so the label is vertically aligned. "vertical-align: middle" has no
+        effect on flex children.
       */
       padding-block-start: 0.125rem;
     }
@@ -235,9 +235,9 @@ export default [
       font-size: inherit;
       min-inline-size: var(--min-inline-size);
 
-      /* 
-        2px so the value is vertically aligned. "vertical-align: middle" has no 
-        effect flex children. 
+      /*
+        2px so the value is vertically aligned. "vertical-align: middle" has no
+        effect flex children.
       */
       padding-block: 0.125rem 0;
       padding-inline: 0;
@@ -249,6 +249,18 @@ export default [
       &::placeholder {
         font-family: var(--glide-core-font-sans);
       }
+    }
+
+    .description {
+      display: block;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .validity-message {
+      display: block;
     }
   `,
 ];

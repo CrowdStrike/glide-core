@@ -5,6 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
@@ -201,12 +202,30 @@ export default class GlideCoreCheckbox extends LitElement {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
-        { valueMissing: true },
+        { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
         this.#inputElementRef.value,
       );
-    } else {
+
+      return this.#internals.validity;
+    }
+
+    if (
+      this.required &&
+      this.#internals.validity.valueMissing &&
+      this.checked
+    ) {
       this.#internals.setValidity({});
+      return this.#internals.validity;
+    }
+
+    if (
+      !this.required &&
+      this.#internals.validity.valueMissing &&
+      !this.checked
+    ) {
+      this.#internals.setValidity({});
+      return this.#internals.validity;
     }
 
     return this.#internals.validity;
@@ -348,7 +367,26 @@ export default class GlideCoreCheckbox extends LitElement {
 
             <div id="summary" slot="summary">${this.summary}</div>
 
-            <slot id="description" name="description" slot="description"></slot>
+            <div id="description" slot="description">
+              <slot
+                class=${classMap({
+                  description: true,
+                  hidden: Boolean(
+                    this.#isShowValidationFeedback && this.validityMessage,
+                  ),
+                })}
+                name="description"
+              ></slot>
+              ${when(
+                this.#isShowValidationFeedback && this.validityMessage,
+                () =>
+                  html`<span
+                    class="validity-message"
+                    data-test="validity-message"
+                    >${unsafeHTML(this.validityMessage)}</span
+                  >`,
+              )}
+            </div>
           </glide-core-private-label>`,
       )}
     </div>`;
@@ -365,12 +403,33 @@ export default class GlideCoreCheckbox extends LitElement {
     return isValid;
   }
 
-  setValidity(
-    flags?: ValidityStateFlags,
-    message?: string,
-    anchor?: HTMLElement,
-  ) {
-    return this.#internals.setValidity(flags, message, anchor);
+  setCustomValidity(message: string) {
+    this.validityMessage = message;
+
+    if (message === '') {
+      this.#internals.setValidity(
+        { customError: false },
+        '',
+        this.#inputElementRef.value,
+      );
+    } else {
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
+      this.#internals.setValidity(
+        {
+          customError: true,
+          valueMissing: this.#internals.validity.valueMissing,
+        },
+        ' ',
+        this.#inputElementRef.value,
+      );
+    }
+  }
+
+  setValidity(flags?: ValidityStateFlags, message?: string) {
+    this.validityMessage = message;
+
+    this.#internals.setValidity(flags, ' ', this.#inputElementRef.value);
   }
 
   get willValidate() {
@@ -439,6 +498,9 @@ export default class GlideCoreCheckbox extends LitElement {
   @state()
   private isLabelOverflow = false;
 
+  @state()
+  private validityMessage?: string;
+
   #inputElementRef = createRef<HTMLInputElement>();
 
   #internals: ElementInternals;
@@ -467,10 +529,7 @@ export default class GlideCoreCheckbox extends LitElement {
     }
 
     return (
-      this.required &&
-      !this.disabled &&
-      !this.validity.valid &&
-      this.isReportValidityOrSubmit
+      !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit
     );
   }
 

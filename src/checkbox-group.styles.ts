@@ -32,5 +32,17 @@ export default [
       grid-column: 2;
       row-gap: var(--glide-core-spacing-xs);
     }
+
+    .description {
+      display: block;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .validity-message {
+      display: block;
+    }
   `,
 ];

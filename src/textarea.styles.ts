@@ -32,6 +32,14 @@ export default [
 
     .description {
       display: block;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .validity-message {
+      display: block;
     }
 
     textarea {

@@ -5,6 +5,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { when } from 'lit/directives/when.js';
 import ow from './library/ow.js';
 import styles from './textarea.styles.js';
 
@@ -120,18 +122,26 @@ export default class GlideCoreTextarea extends LitElement {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
-        { valueMissing: true },
+        { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
         this.#textareaElementRef.value,
       );
-    } else if (this.#isMaxCharacterCountExceeded) {
-      this.#internals.setValidity(
-        { tooLong: true },
-        ' ',
-        this.#textareaElementRef.value,
-      );
-    } else {
+
+      return this.#internals.validity;
+    }
+
+    if (this.required && this.#internals.validity.valueMissing && this.value) {
       this.#internals.setValidity({});
+      return this.#internals.validity;
+    }
+
+    if (
+      !this.required &&
+      this.#internals.validity.valueMissing &&
+      !this.value
+    ) {
+      this.#internals.setValidity({});
+      return this.#internals.validity;
     }
 
     return this.#internals.validity;
@@ -193,8 +203,23 @@ export default class GlideCoreTextarea extends LitElement {
       </div>
 
       <div class="meta" id="meta" slot="description">
-        <slot class="description" name="description"></slot>
+        <slot
+          class=${classMap({
+            description: true,
+            hidden: Boolean(
+              this.#isShowValidationFeedback && this.validityMessage,
+            ),
+          })}
+          name="description"
+        ></slot>
 
+        ${when(
+          this.#isShowValidationFeedback && this.validityMessage,
+          () =>
+            html`<span class="validity-message" data-test="validity-message"
+              >${unsafeHTML(this.validityMessage)}</span
+            >`,
+        )}
         ${this.maxlength
           ? html`<div
               class=${classMap({
@@ -232,6 +257,33 @@ export default class GlideCoreTextarea extends LitElement {
     this.requestUpdate();
 
     return isValid;
+  }
+
+  setCustomValidity(message: string) {
+    this.validityMessage = message;
+
+    if (message === '') {
+      this.#internals.setValidity(
+        { customError: false },
+        '',
+        this.#textareaElementRef.value,
+      );
+    } else {
+      this.#internals.setValidity(
+        {
+          customError: true,
+          valueMissing: this.#internals.validity.valueMissing,
+        },
+        ' ',
+        this.#textareaElementRef.value,
+      );
+    }
+  }
+
+  setValidity(flags?: ValidityStateFlags, message?: string) {
+    this.validityMessage = message;
+
+    this.#internals.setValidity(flags, ' ', this.#textareaElementRef.value);
   }
 
   constructor() {
@@ -285,6 +337,9 @@ export default class GlideCoreTextarea extends LitElement {
 
   @state()
   private isReportValidityOrSubmit = false;
+
+  @state()
+  private validityMessage?: string;
 
   #internals: ElementInternals;
 

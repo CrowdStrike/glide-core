@@ -54,6 +54,8 @@ const meta: Meta = {
     'reportValidity()': '',
     required: false,
     'select-all': false,
+    'setCustomValidity(message)': '',
+    'setValidity(flags, message)': '',
     size: 'large',
     'slot="description"': '',
     'slot="icon:<value>"': '',
@@ -180,6 +182,32 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
+    'setCustomValidity(message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: `
+// Sets a custom validity message, similar to the native "setCustomValidity" method.
+// The "message" parameter can be either a plain string or a string containing HTML markup.
+// Passing an empty string will clear the custom validity error state.
+(message?: string) => void`,
+        },
+      },
+    },
+    'setValidity(flags, message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: `
+// Sets the validity state, similar to the native "setValidity()" method.
+// The "message" parameter can accept either a plain string or a string containing HTML markup.
+// If an empty object is passed to "flags", it will clear any existing error state.
+(flags?: ValidityStateFlags, message?: string) => void`,
+        },
+      },
+    },
     'slot="description"': {
       table: {
         type: { summary: 'Element' },
@@ -191,7 +219,7 @@ const meta: Meta = {
         type: {
           summary: 'Element',
           detail: `
-// "<value>" should be equal to the \`value\` of each option. Dropdown will 
+// "<value>" should be equal to the \`value\` of each option. Dropdown will
 // show the correct icon or icons based on which options are selected.
 
 <glide-core-example-icon slot="icon:edit" name="edit"></glide-core-example-icon>
