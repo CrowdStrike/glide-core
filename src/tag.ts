@@ -88,6 +88,7 @@ export default class GlideCoreTag extends LitElement {
               data-test="button"
               type="button"
               @click=${this.#onClick}
+              ?disabled=${this.disabled}
               ${ref(this.#buttonElementRef)}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
@@ -122,13 +123,11 @@ export default class GlideCoreTag extends LitElement {
   #localize = new LocalizeController(this);
 
   #onClick() {
-    if (!this.disabled) {
-      setTimeout(() => {
-        this.remove();
-      }, 200);
+    setTimeout(() => {
+      this.remove();
+    }, 200);
 
-      this.#componentElementRef.value?.classList.add('removed');
-      this.dispatchEvent(new Event('remove', { bubbles: true }));
-    }
+    this.#componentElementRef.value?.classList.add('removed');
+    this.dispatchEvent(new Event('remove', { bubbles: true }));
   }
 }
