@@ -20,6 +20,7 @@ const meta: Meta = {
       <glide-core-tag
         label=${arguments_.label || nothing}
         size=${arguments_.size}
+        ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
       >
         ${arguments_['slot="default"']}
@@ -30,6 +31,7 @@ const meta: Meta = {
     label: 'Label',
     'addEventListener(event, listener)': '',
     removable: false,
+    disabled: false,
     size: 'medium',
     'slot="icon"': '',
   },
@@ -45,6 +47,13 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '(event: "remove", listener: (event: Event) => void) => void',
+        },
+      },
+    },
+    disabled: {
+      table: {
+        defaultValue: {
+          summary: 'false',
         },
       },
     },
@@ -90,6 +99,7 @@ export const WithIcon: StoryObj = {
       <glide-core-tag
         label=${arguments_.label || nothing}
         size=${arguments_.size}
+        ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
       >
         <glide-core-example-icon
