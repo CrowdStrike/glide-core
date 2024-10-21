@@ -86,6 +86,7 @@ export default [
       --arrow-height: 0.375rem;
       --arrow-width: 0.625rem;
 
+      color: var(--glide-core-surface-base-dark);
       display: flex;
       position: relative;
 
@@ -123,7 +124,7 @@ export default [
     }
 
     .default-slot {
-      color: var(--glide-core-text-selected);
+      color: var(--glide-core-text-selected-2);
       display: block;
       hyphens: auto;
       max-inline-size: 11.25rem;
