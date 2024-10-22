@@ -71,8 +71,8 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 
-  /* 
-    The placement of the tooltip relative to its target. Automatic placement will 
+  /*
+    The placement of the tooltip relative to its target. Automatic placement will
     take over if the tooltip is cut off by the viewport. "bottom" by default.
   */
   @property()
@@ -176,7 +176,7 @@ export default class GlideCoreTooltip extends LitElement {
                   <svg viewBox="0 0 10 6" fill="none">
                     <path
                       d="M4.23178 5.07814C4.63157 5.55789 5.36843 5.55789 5.76822 5.07813L10 -7.9486e-08L-2.62268e-07 3.57628e-07L4.23178 5.07814Z"
-                      fill="#212121"
+                      fill="currentColor"
                     />
                   </svg>
                 `,
@@ -187,7 +187,7 @@ export default class GlideCoreTooltip extends LitElement {
                   <svg viewBox="0 0 6 10" fill="none">
                     <path
                       d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
-                      fill="#212121"
+                      fill="currentColor"
                     />
                   </svg>
                 `,
@@ -198,7 +198,7 @@ export default class GlideCoreTooltip extends LitElement {
                   <svg viewBox="0 0 10 6" fill="none">
                     <path
                       d="M4.23178 0.921865C4.63157 0.442111 5.36843 0.442112 5.76822 0.921866L10 6L-2.62268e-07 6L4.23178 0.921865Z"
-                      fill="#212121"
+                      fill="currentColor"
                     />
                   </svg>
                 `,
@@ -209,7 +209,7 @@ export default class GlideCoreTooltip extends LitElement {
                   <svg viewBox="0 0 6 10" fill="none">
                     <path
                       d="M5.07814 4.23178C5.55789 4.63157 5.55789 5.36843 5.07813 5.76822L-4.37114e-07 10L0 -2.62268e-07L5.07814 4.23178Z"
-                      fill="#212121"
+                      fill="currentColor"
                     />
                   </svg>
                 `,
