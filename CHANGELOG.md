@@ -1,5 +1,47 @@
 # @crowdstrike/glide-core
 
+## 0.11.0
+
+### Minor Changes
+
+- [#435](https://github.com/CrowdStrike/glide-core/pull/435) [`438afa2`](https://github.com/CrowdStrike/glide-core/commit/438afa2a4c43095f9e3e01d77789490785967843) Thanks [@clintcs](https://github.com/clintcs)! - Tag no longer has a `textContent` getter. You can use Tag's `label` attribute instead.
+
+### Patch Changes
+
+- [#436](https://github.com/CrowdStrike/glide-core/pull/436) [`4cc7003`](https://github.com/CrowdStrike/glide-core/commit/4cc7003c00cc3cbb0f1844d040c0c90abc007047) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown now emits a custom "filter" event when filtering. The event's `detail` property is the value filtered.
+
+- [#433](https://github.com/CrowdStrike/glide-core/pull/433) [`a73866c`](https://github.com/CrowdStrike/glide-core/commit/a73866c00a9a1f26e16988aa9f33d0dc82960e06) Thanks [@clintcs](https://github.com/clintcs)! - When an option is selected and that option's `label` is changed programmatically, Dropdown now updates the label of its button when single-select, the label of its tags when multiselect, and the value of its input field when filterable.
+
+- [#439](https://github.com/CrowdStrike/glide-core/pull/439) [`a57249b`](https://github.com/CrowdStrike/glide-core/commit/a57249b68af6a8ae4ff6c9500edf66734b096284) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tooltip was updated to have a higher contrast in dark mode.
+
+- [#428](https://github.com/CrowdStrike/glide-core/pull/428) [`42d162f`](https://github.com/CrowdStrike/glide-core/commit/42d162f112b3ac10ab0e0976b0b335e30338159d) Thanks [@danwenzel](https://github.com/danwenzel)! - Allow custom target icon for Tree Item Menu.
+
+- [#432](https://github.com/CrowdStrike/glide-core/pull/432) [`38b7c7d`](https://github.com/CrowdStrike/glide-core/commit/38b7c7da05e771b6dbf3371d230976b1b9a19c11) Thanks [@clintcs](https://github.com/clintcs)! - Checkbox Group no longer unchecks Checkboxes whose `value` is changed programmatically.
+
+- [#438](https://github.com/CrowdStrike/glide-core/pull/438) [`79c4cce`](https://github.com/CrowdStrike/glide-core/commit/79c4cce6c310ae375d34780e5e1d95821841cff9) Thanks [@clintcs](https://github.com/clintcs)! - Tag now has a `disabled` attribute that changes its color and disables its removal button.
+
+- [#439](https://github.com/CrowdStrike/glide-core/pull/439) [`a57249b`](https://github.com/CrowdStrike/glide-core/commit/a57249b68af6a8ae4ff6c9500edf66734b096284) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## System
+
+  ```diff
+  + --glide-core-page-size-details-panel: 27.375rem;
+  + --glide-core-page-size-height: 46.875rem;
+  + --glide-core-page-size-width: 83.3125rem;
+  ```
+
+  ## Dark
+
+  ```diff
+  - --glide-core-surface-base-dark: #212121;
+  + --glide-core-surface-base-dark: #f0f0f0;
+  ```
+
+- [#435](https://github.com/CrowdStrike/glide-core/pull/435) [`438afa2`](https://github.com/CrowdStrike/glide-core/commit/438afa2a4c43095f9e3e01d77789490785967843) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown no longer shows a tooltip on the first option when it has overflowing text and Dropdown is opened via click.
+  Dropdown still shows a tooltip when the option is arrowed to or hovered.
+
+- [#431](https://github.com/CrowdStrike/glide-core/pull/431) [`42c6b45`](https://github.com/CrowdStrike/glide-core/commit/42c6b454deac0260c2206ade042faeb48236882d) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tab Group now supports a `sticky` attribute, enabling the group to remain fixed at the top of the panel even when the panel content is scrolled.
+
 ## 0.10.0
 
 ### Minor Changes
