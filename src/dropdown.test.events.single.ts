@@ -208,6 +208,32 @@ it('dispatches one "input" event when an option is selected via Space', async ()
   expect(spy.callCount).to.equal(1);
 });
 
+it('does not dispatch a "change" event when an already selected option is clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const spy = sinon.spy();
+  component.addEventListener('change', spy);
+
+  setTimeout(() => {
+    component.querySelector('glide-core-dropdown-option')?.click();
+  });
+
+  await aTimeout(0);
+  expect(spy.callCount).to.equal(0);
+});
+
 it('does not dispatch a "change" event when `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
