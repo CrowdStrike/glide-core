@@ -33,6 +33,7 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="target"': '',
+    offset: 4,
     open: false,
     placement: 'bottom-start',
     size: 'large',
@@ -52,6 +53,12 @@ const meta: Meta = {
         type: { summary: 'Element', detail: 'Any focusable element.' },
       },
       type: { name: 'function', required: true },
+    },
+    offset: {
+      table: {
+        defaultValue: { summary: '4' },
+        type: { summary: 'number' },
+      },
     },
     open: {
       table: {
@@ -137,6 +144,7 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
     return html`<glide-core-menu
+      offset=${arguments_.offset}
       placement=${arguments_.placement}
       size=${arguments_.size || nothing}
       ?open=${arguments_.open}
@@ -182,41 +190,35 @@ export const WithIcons: StoryObj = {
     });
 
     return html`<glide-core-menu
+      offset=${arguments_.offset}
       placement=${arguments_.placement}
       size=${arguments_.size || nothing}
       ?open=${arguments_.open}
     >
+      <glide-core-button label="Target" slot="target"></glide-core-button>
+
       <glide-core-menu-options>
-        <glide-core-menu-link label="Edit">
+        <glide-core-menu-button label="Edit">
           <glide-core-example-icon
             slot="icon"
             name="edit"
           ></glide-core-example-icon>
-        </glide-core-menu-link>
+        </glide-core-menu-button>
 
-        <glide-core-menu-link label="Move">
+        <glide-core-menu-button label="Move">
           <glide-core-example-icon
             slot="icon"
             name="move"
           ></glide-core-example-icon>
-        </glide-core-menu-link>
+        </glide-core-menu-button>
 
-        <glide-core-menu-link label="Share">
+        <glide-core-menu-link label="Share" url="/">
           <glide-core-example-icon
             slot="icon"
             name="share"
           ></glide-core-example-icon>
         </glide-core-menu-link>
-
-        <glide-core-menu-link label="Settings">
-          <glide-core-example-icon
-            slot="icon"
-            name="settings"
-          ></glide-core-example-icon>
-        </glide-core-menu-link>
       </glide-core-menu-options>
-
-      <glide-core-button label="Target" slot="target"></glide-core-button>
     </glide-core-menu>`;
   },
 };

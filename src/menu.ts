@@ -34,6 +34,25 @@ export default class GlideCoreMenu extends LitElement {
 
   static override styles = styles;
 
+  @property({ reflect: true, type: Number })
+  get offset() {
+    return (
+      this.#offset ??
+      Number.parseFloat(
+        window
+          .getComputedStyle(document.body)
+          .getPropertyValue('--glide-core-spacing-xxs'),
+      ) *
+        Number.parseFloat(
+          window.getComputedStyle(document.documentElement).fontSize,
+        )
+    );
+  }
+
+  set offset(offset: number) {
+    this.#offset = offset;
+  }
+
   @property({ reflect: true, type: Boolean })
   get open() {
     return this.#isOpen;
@@ -185,6 +204,8 @@ export default class GlideCoreMenu extends LitElement {
   #isOpen = false;
 
   #isTargetSlotClick = false;
+
+  #offset: number | undefined;
 
   #shadowRoot?: ShadowRoot;
 
@@ -538,21 +559,7 @@ export default class GlideCoreMenu extends LitElement {
                 this.#defaultSlotElementRef.value,
                 {
                   placement: this.placement,
-                  middleware: [
-                    offset({
-                      mainAxis:
-                        Number.parseFloat(
-                          window
-                            .getComputedStyle(document.body)
-                            .getPropertyValue('--glide-core-spacing-xxs'),
-                        ) *
-                        Number.parseFloat(
-                          window.getComputedStyle(document.documentElement)
-                            .fontSize,
-                        ),
-                    }),
-                    flip(),
-                  ],
+                  middleware: [offset(this.offset), flip()],
                 },
               );
 

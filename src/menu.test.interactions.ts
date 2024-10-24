@@ -1284,3 +1284,18 @@ it('does not wrap on ArrowDown', async () => {
 
   expect(options[1].privateActive).to.be.true;
 });
+
+it('has `set offset()` coverage', async () => {
+  const component = await fixture<GlideCoreMenu>(html`
+    <glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="One"></glide-core-menu-link>
+        <glide-core-menu-link label="Two"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>
+  `);
+
+  component.offset = 10;
+});
