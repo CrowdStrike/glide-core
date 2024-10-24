@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
+import './menu.options.js';
 import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreMenu from './menu.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
-import GlideCoreMenuOptions from './menu.options.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
@@ -85,42 +85,6 @@ it('can be opened', async () => {
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
 });
 
-it('can have a default slot', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  const assignedElements = component.shadowRoot
-    ?.querySelectorAll('slot')[1]
-    .assignedElements();
-
-  expect(assignedElements?.at(0) instanceof GlideCoreMenuOptions).to.be.true;
-});
-
-it('can have a target slot', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="target"]')
-    ?.assignedElements();
-
-  expect(assignedElements?.at(0)?.textContent).to.equal('Target');
-});
-
 it('activates the first menu link by default', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
@@ -193,6 +157,21 @@ it('is not opened when initially `open` and its target is `disabled`', async () 
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(target?.ariaExpanded).to.equal('false');
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+});
+
+it('adds `tabIndex` to its target when it is a `<span>`', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <span slot="target">Target</span>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  const target = component.querySelector('span');
+  expect(target?.tabIndex).to.equal(0);
 });
 
 it('throws if it does not have a default slot', async () => {
