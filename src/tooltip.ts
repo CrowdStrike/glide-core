@@ -54,7 +54,23 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   @property({ reflect: true, type: Number })
-  offset = 4;
+  get offset() {
+    return (
+      this.#offset ??
+      Number.parseFloat(
+        window
+          .getComputedStyle(document.body)
+          .getPropertyValue('--glide-core-spacing-xxs'),
+      ) *
+        Number.parseFloat(
+          window.getComputedStyle(document.documentElement).fontSize,
+        )
+    );
+  }
+
+  set offset(offset: number) {
+    this.#offset = offset;
+  }
 
   @property({ reflect: true, type: Boolean })
   get open() {
@@ -270,6 +286,8 @@ export default class GlideCoreTooltip extends LitElement {
   #isDisabled = false;
 
   #isOpen = false;
+
+  #offset: number | undefined;
 
   #openTimeoutId?: ReturnType<typeof setTimeout>;
 
