@@ -141,7 +141,7 @@ const meta: Meta = {
       size=${arguments_.size || nothing}
       ?open=${arguments_.open}
     >
-      <span slot="target">Target</span>
+      <glide-core-button label="Target" slot="target"></glide-core-button>
 
       <glide-core-menu-options>
         <glide-core-menu-button
