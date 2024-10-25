@@ -338,7 +338,15 @@ export default class GlideCoreMenu extends LitElement {
   #onSlotKeydown(event: KeyboardEvent) {
     ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
 
+    const isSpanOrDiv =
+      this.#targetElement instanceof HTMLSpanElement ||
+      this.#targetElement instanceof HTMLDivElement;
+
     if ([' ', 'Enter'].includes(event.key) && this.open) {
+      if (event.key === ' ' && isSpanOrDiv) {
+        event.preventDefault(); // Prevent scroll.
+      }
+
       this.open = false;
 
       // For VoiceOver. Options normally don't receive focus. But VoiceOver
@@ -353,6 +361,17 @@ export default class GlideCoreMenu extends LitElement {
       // the information it needs to guard against immediately reopening Menu
       // after it's closed above.
       this.#isClosingAfterSelection = true;
+
+      return;
+    }
+
+    if ([' ', 'Enter'].includes(event.key) && isSpanOrDiv) {
+      event.preventDefault(); // Prevent scroll when Space is pressed.
+
+      // `<span>`s and `<div>`s don't emit "click" events on Enter and Space.
+      // If they did, it would get picked up by `#onTargetSlotClick` and we
+      // wouldn't need this.
+      this.open = true;
 
       return;
     }
@@ -490,6 +509,18 @@ export default class GlideCoreMenu extends LitElement {
     this.#targetElement.id = nanoid();
     this.#targetElement.setAttribute('aria-controls', this.#optionsElement.id);
     this.#optionsElement.ariaLabelledby = this.#targetElement.id;
+
+    const isSpanOrDiv =
+      this.#targetElement instanceof HTMLSpanElement ||
+      this.#targetElement instanceof HTMLDivElement;
+
+    // We think consumers should always use a `<button>` as Menu's target. But
+    // we've found that's not always the case. So for consumers' convenience, to
+    // reduce support on our end, and to ensure accessibility we decided to bake
+    // support for other elements into Menu.
+    if (isSpanOrDiv && this.#targetElement instanceof HTMLElement) {
+      this.#targetElement.tabIndex = 0;
+    }
 
     if (this.open && !this.isTargetDisabled) {
       this.#show();

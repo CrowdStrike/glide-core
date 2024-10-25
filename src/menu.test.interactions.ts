@@ -375,6 +375,33 @@ it('opens on Enter', async () => {
   expect(target?.ariaExpanded).to.equal('true');
 });
 
+it('opens on Enter when its target is a `<span>`', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <span slot="target">Target</span>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  component.querySelector('span')?.focus();
+  await sendKeys({ press: 'Enter' });
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+  const target = component.querySelector('span');
+  const link = component.querySelector('glide-core-menu-link');
+
+  expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
+  expect(target?.ariaExpanded).to.equal('true');
+});
+
 it('opens on ArrowUp', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
@@ -448,6 +475,33 @@ it('opens on Space', async () => {
 
   const options = component.querySelector('glide-core-menu-options');
   const target = component.querySelector('button');
+  const link = component.querySelector('glide-core-menu-link');
+
+  expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
+  expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('opens on Space when its target is a `<span>`', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <span slot="target">Target</span>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  component.querySelector('span')?.focus();
+  await sendKeys({ press: ' ' });
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+  const target = component.querySelector('span');
   const link = component.querySelector('glide-core-menu-link');
 
   expect(component.open).to.be.true;
@@ -704,6 +758,37 @@ it('closes when an option is selected via Enter', async () => {
   expect(target?.ariaExpanded).to.equal('false');
 });
 
+it('closes when an option is selected via Enter and its target is a `<span>', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <span slot="target">Target</span>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  component.querySelector('span')?.focus();
+
+  component
+    .querySelector('glide-core-menu-link')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  await sendKeys({ press: 'Enter' });
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+  const target = component.querySelector('span');
+
+  expect(component.open).to.be.false;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(target?.ariaExpanded).to.equal('false');
+});
+
 it('closes when an option is selected via Space', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
@@ -723,6 +808,32 @@ it('closes when an option is selected via Space', async () => {
 
   const options = component.querySelector('glide-core-menu-options');
   const target = component.querySelector('button');
+
+  expect(component.open).to.be.false;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(target?.ariaExpanded).to.equal('false');
+});
+
+it('closes when an option is selected via Space and its target is a `<span>`', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <span slot="target">Target</span>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  component.querySelector('span')?.focus();
+  await sendKeys({ press: ' ' });
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const options = component.querySelector('glide-core-menu-options');
+  const target = component.querySelector('span');
 
   expect(component.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;

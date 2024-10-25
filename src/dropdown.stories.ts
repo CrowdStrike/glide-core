@@ -207,10 +207,10 @@ const meta: Meta = {
     },
     size: {
       control: { type: 'radio' },
-      options: ['small', 'large'],
+      options: ['large', 'small'],
       table: {
         defaultValue: { summary: '"large"' },
-        type: { summary: '"small" | "large"' },
+        type: { summary: '"large" | "small"' },
       },
     },
     value: {
