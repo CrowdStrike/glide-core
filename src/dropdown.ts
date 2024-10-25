@@ -633,6 +633,10 @@ export default class GlideCoreDropdown extends LitElement {
                   this.selectedOptions[0].editable,
                 () => {
                   return html`<button
+                    aria-label=${this.#localize.term(
+                      'editOption',
+                      this.selectedOptions[0].label,
+                    )}
                     class=${classMap({
                       'edit-button': true,
                       disabled: this.disabled,
@@ -644,13 +648,6 @@ export default class GlideCoreDropdown extends LitElement {
                     @click=${this.#onEditButtonClick}
                     ${ref(this.#editButtonElementRef)}
                   >
-                    <span class="edit-button-text">
-                      ${this.#localize.term(
-                        'editOption',
-                        this.selectedOptions[0].label,
-                      )}:
-                    </span>
-
                     ${pencilIcon}
                   </button>`;
                 },

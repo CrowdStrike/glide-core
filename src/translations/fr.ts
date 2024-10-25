@@ -1,6 +1,6 @@
 import type { Translation } from '../library/localize.js';
 
-export const PENDING_STRINGS = ['Edit option', 'Edit tag'] as const;
+export const PENDING_STRINGS = ['editOption', 'editTag'] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
 
@@ -24,8 +24,6 @@ const translation: Omit<Translation, PendingTranslation> = {
   displayedCharacterCount: (current: number, maximum: number) =>
     `${current}/${maximum}`,
   clearEntry: (label: string) => `Effacer l'entrée ${label}`,
-  editOption: (label: string) => `Edit option: ${label}`,
-  editTag: (label: string) => `Edit tag: ${label}`,
   removeTag: (label: string) => `Supprimer la balise : ${label}`,
   actionsFor: (label: string) => `Actions pour ${label}`,
 };
