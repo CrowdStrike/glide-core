@@ -10,8 +10,6 @@
   "announcedCharacterCount": "Nombre de caractères {current} de {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
   "clearEntry": "Effacer l'entrée {label}",
-  "edit": "Edit",
-  "editTag": "Edit tag : {label}",
   "removeTag": "Supprimer la balise : {label}",
   "actionsFor": "Actions pour {label}"
 }

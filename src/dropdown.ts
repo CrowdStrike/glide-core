@@ -645,8 +645,10 @@ export default class GlideCoreDropdown extends LitElement {
                     ${ref(this.#editButtonElementRef)}
                   >
                     <span class="edit-button-text">
-                      ${this.#localize.term('edit')}:
-                      ${this.selectedOptions[0].label}
+                      ${this.#localize.term(
+                        'editOption',
+                        this.selectedOptions[0].label,
+                      )}:
                     </span>
 
                     ${pencilIcon}

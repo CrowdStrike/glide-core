@@ -15,13 +15,13 @@ const translation: Translation = {
   notifications: 'Notifications',
   nextTab: 'Next tab',
   previousTab: 'Previous tab',
-  edit: 'Edit',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `Character count ${current} of ${maximum}`,
   displayedCharacterCount: (current: number, maximum: number) =>
     `${current}/${maximum}`,
   clearEntry: (label: string) => `Clear ${label} entry`,
+  editOption: (label: string) => `Edit option: ${label}`,
   editTag: (label: string) => `Edit tag: ${label}`,
   removeTag: (label: string) => `Remove tag: ${label}`,
   actionsFor: (label: string) => `Actions for ${label}`,

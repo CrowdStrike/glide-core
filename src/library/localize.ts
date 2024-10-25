@@ -27,11 +27,11 @@ export interface Translation extends DefaultTranslation {
   notifications: string;
   nextTab: string;
   previousTab: string;
-  edit: string;
 
   announcedCharacterCount: (current: number, maximum: number) => string;
   displayedCharacterCount: (current: number, maximum: number) => string;
   clearEntry: (label: string) => string;
+  editOption: (name: string) => string;
   editTag: (name: string) => string;
   removeTag: (name: string) => string;
   actionsFor: (label: string) => string;
