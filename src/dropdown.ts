@@ -1371,8 +1371,8 @@ export default class GlideCoreDropdown extends LitElement {
     //
     // Having to exclude tags is unfortunate because clicking on the tag's label or
     // padding shouldn't cause the input to lose focus. The trouble is we don't know
-    // it if was the Tag's removal button that will be clicked. And if it's removal
-    // button was clicked we have to allow it to receive focus.
+    // it if is the Tag's removal button that's being clicked. And if it is we have
+    // to allow it to receive focus.
     const isFilterable = this.filterable || this.isFilterable;
     const isGlideCoreTag = event.target instanceof GlideCoreTag;
 
