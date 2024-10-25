@@ -1432,7 +1432,7 @@ it('does not set Select All as indeterminate when all options are selected', asy
   expect(selectAll?.privateIndeterminate).to.be.false;
 });
 
-it('remains open when a tag is clicked', async () => {
+it('closes when a tag is clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open multiple>
       <glide-core-dropdown-option
@@ -1463,7 +1463,7 @@ it('remains open when a tag is clicked', async () => {
 
   await elementUpdated(component);
 
-  expect(component.open).to.be.true;
+  expect(component.open).to.be.false;
 });
 
 it('cannot be tabbed to when `disabled`', async () => {
