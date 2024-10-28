@@ -251,6 +251,9 @@ it('closes when an option is selected via click', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   component.querySelector('glide-core-dropdown-option')?.click();
 
   expect(component.open).to.be.false;
@@ -265,6 +268,9 @@ it('closes when an option is selected via Space', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   component.focus();
   await sendKeys({ press: ' ' });
@@ -281,6 +287,9 @@ it('closes when an option is selected via Enter', async () => {
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for it to open.
+  await aTimeout(0);
 
   component.focus();
   await sendKeys({ press: 'Enter' });
@@ -324,6 +333,24 @@ it('closes when an option is selected via Space', async () => {
 
   option?.focus();
   await sendKeys({ press: ' ' });
+
+  expect(component.open).to.be.false;
+});
+
+it('closes when an already selected option is clicked', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  component.querySelector('glide-core-dropdown-option')?.click();
 
   expect(component.open).to.be.false;
 });

@@ -1375,7 +1375,7 @@ export default class GlideCoreDropdown extends LitElement {
     if (event.target instanceof Element) {
       const option = event.target.closest('glide-core-dropdown-option');
 
-      if (option instanceof GlideCoreDropdownOption && !option.selected) {
+      if (option && !option.selected) {
         option.selected = true;
         this.#unfilter();
 
@@ -1385,6 +1385,13 @@ export default class GlideCoreDropdown extends LitElement {
 
         this.dispatchEvent(new Event('change', { bubbles: true }));
         this.dispatchEvent(new Event('input', { bubbles: true }));
+
+        return;
+      }
+
+      if (option?.selected && !this.multiple) {
+        this.open = false;
+        return;
       }
     }
   }
