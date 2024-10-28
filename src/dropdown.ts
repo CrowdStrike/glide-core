@@ -1186,12 +1186,7 @@ export default class GlideCoreDropdown extends LitElement {
       return;
     }
 
-    if (
-      event.target instanceof Node &&
-      this.#buttonElementRef.value?.contains(event.target) &&
-      !this.#isSelectionViaSpaceOrEnter &&
-      this.open
-    ) {
+    if (!this.#isSelectionViaSpaceOrEnter && this.open) {
       this.open = false;
 
       // `event.detail` is an integer set to the number of clicks. When it's zero,

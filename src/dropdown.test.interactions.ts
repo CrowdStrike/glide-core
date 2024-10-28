@@ -702,34 +702,6 @@ it('opens when something other than the button is clicked', async () => {
   expect(component.open).to.be.true;
 });
 
-it('remains open when something other than the button is clicked', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const internalLabel = component.shadowRoot?.querySelector(
-    '[data-test="internal-label"]',
-  );
-
-  assert(internalLabel);
-
-  const { x, y } = internalLabel.getBoundingClientRect();
-
-  // A simple `option.click()` won't do because we need a "mousedown" so that
-  // `#onDropdownMousedown` gets covered.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x), Math.ceil(y)],
-  });
-
-  expect(component.open).to.be.true;
-});
-
 it('hides the tooltip of the active option when opened via click', async () => {
   // The period is arbitrary. 500 of them ensures we exceed the maximum
   // width even if it's increased.
