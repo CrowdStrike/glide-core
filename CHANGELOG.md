@@ -1,5 +1,113 @@
 # @crowdstrike/glide-core
 
+## 0.12.0
+
+### Minor Changes
+
+- [#443](https://github.com/CrowdStrike/glide-core/pull/443) [`5d6a013`](https://github.com/CrowdStrike/glide-core/commit/5d6a01314780a2bf8e061e74de268219cc9e2b6b) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Checkbox's `setValidity()` no longer accepts a third `anchor` argument due to it not being utilized. The anchor is automatically set to itself.
+
+- [#443](https://github.com/CrowdStrike/glide-core/pull/443) [`5d6a013`](https://github.com/CrowdStrike/glide-core/commit/5d6a01314780a2bf8e061e74de268219cc9e2b6b) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Input and Textarea are no longer invalid when maxlength is exceeded to match native's behavior.
+
+### Patch Changes
+
+- [#440](https://github.com/CrowdStrike/glide-core/pull/440) [`deeca7a`](https://github.com/CrowdStrike/glide-core/commit/deeca7a0f9600d5aa4195f92466b32da0e29fec0) Thanks [@clintcs](https://github.com/clintcs)! - Menu now has an `offset` attribute for changing the distance between its menu and target.
+
+- [#446](https://github.com/CrowdStrike/glide-core/pull/446) [`5746d95`](https://github.com/CrowdStrike/glide-core/commit/5746d95ba49be442e908bb371aa3a7204ed5d728) Thanks [@clintcs](https://github.com/clintcs)! - - Tag's background color when disabled has been updated to improve Tag's visibility when placed on another disabled component.
+
+  - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+    ## Light
+
+    ```diff
+    - --glide-core-surface-primary-disabled: #1d7afc26;
+    + --glide-core-surface-primary-disabled: #d7e7ff;
+
+    + --glide-core-generic-border-active: #6d6d6d;
+    + --glide-core-surface-tag-default: #00000012;
+    ```
+
+    ## Dark
+
+    ```diff
+    + --glide-core-generic-border-active: #6d6d6d;
+    + --glide-core-surface-tag-default: #ffffff1a;
+    ```
+
+    ## System
+
+    ```diff
+    + --glide-core-number-14: 0.875rem;
+    + --glide-core-number-16: 1rem;
+    ```
+
+- [#444](https://github.com/CrowdStrike/glide-core/pull/444) [`b6d24ce`](https://github.com/CrowdStrike/glide-core/commit/b6d24ce35410274ddd76f9b467e0cb4714410e81) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown now opens and closes when any part of it is clicked. Previously, it would only close from a click outside of itself or one on the button with the caret icon.
+
+- [#443](https://github.com/CrowdStrike/glide-core/pull/443) [`5d6a013`](https://github.com/CrowdStrike/glide-core/commit/5d6a01314780a2bf8e061e74de268219cc9e2b6b) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Input now supports a `pattern` attribute like the [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern) input element. Unlike native, pattern validation occurs independently of the required attribute, allowing optional fields to be marked invalid if the pattern isn't matched.
+
+  ```html
+  <glide-core-input label="Label" pattern="[a-z]{4,8}"></glide-core-input>
+  ```
+
+  ```js
+  // Returns `false`.
+  document.querySelector('glide-core-input').checkValidity();
+  ```
+
+- [#443](https://github.com/CrowdStrike/glide-core/pull/443) [`5d6a013`](https://github.com/CrowdStrike/glide-core/commit/5d6a01314780a2bf8e061e74de268219cc9e2b6b) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated Checkbox so that removing the `required` attribute returns it to a valid state.
+
+- [#441](https://github.com/CrowdStrike/glide-core/pull/441) [`a6d3e61`](https://github.com/CrowdStrike/glide-core/commit/a6d3e6156ada39f80f9e663501e3193a16a48401) Thanks [@clintcs](https://github.com/clintcs)! - Menu now supports `<span>`s and `<div>`s as its target.
+  If you're currently using a `<span>` or `<div>` and are handling keyboard events from it or setting `tabindex` on it, you can remove that code.
+
+- [#443](https://github.com/CrowdStrike/glide-core/pull/443) [`5d6a013`](https://github.com/CrowdStrike/glide-core/commit/5d6a01314780a2bf8e061e74de268219cc9e2b6b) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Checkbox, Checkbox Group, Dropdown, Input, Radio Group, and Textarea now support [`setValidity()`](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/setValidity) and [`setCustomValidity()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/setCustomValidity) methods like their native counterparts to allow for triggering validation with user-provided error messages.
+
+  ```js
+  const input = document.querySelector('glide-core-input');
+
+  // `setCustomValidity()` sets the validity message on the element
+  // and places the element in an invalid state.
+  input.setCustomValidity(
+    'Please enter a name that is greater than 1 character.',
+  );
+
+  // The element is now marked as invalid.
+  // Returns `false`.
+  input.checkValidity();
+
+  // Displays the validity message to the user.
+  // Returns `false`.
+  input.reportValidity();
+
+  // Like native, provide an empty string to change
+  // the validity state to valid.
+  input.setCustomValidity('');
+  ```
+
+  ```js
+  const input = document.querySelector('glide-core-input');
+
+  // `setValidity()` accepts ValidityStateFlags as the first
+  // argument and a string for the validity message as the second
+  // argument
+  input.setValidity(
+    { customError: true },
+    'Please enter a name that is greater than 1 character.',
+  );
+
+  // The element is now marked as invalid.
+  // Returns `false`.
+  input.checkValidity();
+
+  // Displays the validity message to the user.
+  // Returns `false`.
+  input.reportValidity();
+
+  // Like native, provide an empty object for ValidityStateFlags
+  // to change the validity state to valid.
+  input.setValidity({});
+  ```
+
+- [#445](https://github.com/CrowdStrike/glide-core/pull/445) [`a219f5a`](https://github.com/CrowdStrike/glide-core/commit/a219f5a35006f60b342fb9471bbeaa52a1482aa7) Thanks [@clintcs](https://github.com/clintcs)! - Single-select Dropdown now closes when an already selected option is clicked.
+
 ## 0.11.0
 
 ### Minor Changes
