@@ -117,19 +117,11 @@ export default class GlideCoreTag extends LitElement {
               @keydown=${this.#onRemovalButtonKeydown}
               ${ref(this.#removalButtonElementRef)}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path
-                  d="M6 6L18 18"
+                  d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-
-                <path
-                  d="M18 6L6 18"
-                  stroke="currentColor"
-                  stroke-width="2"
+                  stroke-width="1.2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
