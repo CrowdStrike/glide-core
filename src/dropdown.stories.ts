@@ -187,11 +187,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: `
-// Sets a custom validity message, similar to the native "setCustomValidity" method.
-// The "message" parameter can be either a plain string or a string containing HTML markup.
-// Passing an empty string will clear the custom validity error state.
-(message?: string) => void`,
+          detail: '(message: string) => void',
         },
       },
     },
@@ -200,11 +196,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: `
-// Sets the validity state, similar to the native "setValidity()" method.
-// The "message" parameter can accept either a plain string or a string containing HTML markup.
-// If an empty object is passed to "flags", it will clear any existing error state.
-(flags?: ValidityStateFlags, message?: string) => void`,
+          detail: '(flags?: ValidityStateFlags, message?: string) => void',
         },
       },
     },
