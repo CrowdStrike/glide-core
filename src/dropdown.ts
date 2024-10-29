@@ -1452,7 +1452,7 @@ export default class GlideCoreDropdown extends LitElement {
         this.#unfilter();
 
         if (!this.multiple) {
-          this.#hide();
+          this.open = false;
         }
 
         this.dispatchEvent(new Event('change', { bubbles: true }));
