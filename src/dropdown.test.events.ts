@@ -39,7 +39,7 @@ it('dispatches an "edit" event on click', async () => {
         '[data-test="edit-button"]',
       );
 
-    button?.dispatchEvent(new Event('mouseover'));
+    button?.dispatchEvent(new MouseEvent('mouseover'));
     button?.click();
   });
 
@@ -68,7 +68,7 @@ it('dispatches an "edit" event on Enter', async () => {
   component
     .querySelector('glide-core-dropdown-option')
     ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
-    ?.dispatchEvent(new Event('mouseover'));
+    ?.dispatchEvent(new MouseEvent('mouseover'));
 
   component.focus();
   await sendKeys({ press: 'ArrowDown' });
@@ -99,7 +99,7 @@ it('dispatches an "edit" event on Space', async () => {
   component
     .querySelector('glide-core-dropdown-option')
     ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
-    ?.dispatchEvent(new Event('mouseover'));
+    ?.dispatchEvent(new MouseEvent('mouseover'));
 
   component.focus();
   await sendKeys({ press: 'ArrowDown' });
@@ -115,6 +115,93 @@ it('dispatches an "edit" event on Space', async () => {
   expect(event.bubbles).to.be.true;
   expect(event.composed).to.be.true;
   expect(event.target).to.equal(option);
+});
+
+it('dispatches an "add" event on click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      add-button-label="Add"
+      label="Label"
+      placeholder="Placeholder"
+      open
+    >
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  setTimeout(async () => {
+    const button = component.shadowRoot?.querySelector<HTMLButtonElement>(
+      '[data-test="add-button"]',
+    );
+
+    button?.dispatchEvent(new MouseEvent('mouseover'));
+    button?.click();
+  });
+
+  const event = await oneEvent(component, 'add');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+});
+
+it('dispatches an "add" event on Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      add-button-label="Add"
+      label="Label"
+      placeholder="Placeholder"
+      open
+    >
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  component.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="add-button"]')
+    ?.focus();
+
+  sendKeys({ press: 'Enter' });
+
+  const event = await oneEvent(component, 'add');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+});
+
+it('dispatches an "add" event on Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      add-button-label="Add"
+      label="Label"
+      placeholder="Placeholder"
+      open
+    >
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  component.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="add-button"]')
+    ?.focus();
+
+  sendKeys({ press: ' ' });
+
+  const event = await oneEvent(component, 'add');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('dispatches an "invalid" event on submit when required and no option is selected', async () => {

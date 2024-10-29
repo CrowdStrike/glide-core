@@ -87,7 +87,7 @@ const meta: Meta = {
         defaultValue: { summary: 'false' },
         type: {
           detail:
-            '// Unlike with `<select>`, `indeterminate` is both a property and an attribute. It behaves like `checked` and remains at its initial value unless changed using `setAttribute`.',
+            '// Unlike `<select>`, `indeterminate` is both a property and an attribute. It behaves like `checked` and remains at its initial value unless changed using `setAttribute`.',
           summary: 'boolean',
         },
       },

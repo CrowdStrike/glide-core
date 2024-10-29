@@ -90,7 +90,10 @@ export default [
 
     .icon-slot {
       display: block;
-      padding-inline-end: var(--glide-core-spacing-xs);
+
+      &::slotted(*) {
+        padding-inline-end: var(--glide-core-spacing-xs);
+      }
     }
 
     .checkbox-icon-slot {

@@ -5,7 +5,7 @@ import visuallyHidden from './styles/visually-hidden.js';
 
 export default [
   css`
-    ${focusOutline('.edit-button:focus-visible')}
+    ${focusOutline('.add-button:focus-visible')}
     ${opacityAndScaleAnimation('.options:popover-open')}
     ${visuallyHidden('.selected-option-labels')}
   `,
@@ -98,29 +98,34 @@ export default [
       }
     }
 
-    .options {
+    .options-and-footer {
       --border-width: 1px;
-      --padding: var(--glide-core-spacing-xxxs);
 
       background-color: var(--glide-core-surface-modal);
-      border: var(--border-width) solid var(--glide-core-surface-modal);
+      border: var(--border-width) solid var(--glide-core-border-base-lighter);
       border-radius: var(--glide-core-spacing-xs);
       box-shadow: var(--glide-core-shadow-lg);
-      box-sizing: border-box;
       inset: unset;
-      max-block-size: calc(
-        var(--private-option-height) * 9 + var(--padding) * 2 +
-          var(--border-width) * 2
-      );
       min-inline-size: var(--min-inline-size);
-      overflow: auto;
-      padding: var(--padding);
+      padding: 0;
       position: absolute;
-      scroll-behavior: smooth;
 
       &.hidden {
         display: none;
       }
+    }
+
+    .options {
+      --padding: var(--glide-core-spacing-xxxs);
+
+      box-sizing: border-box;
+      max-block-size: calc(
+        var(--private-option-height) * 9 + var(--padding) * 2 +
+          var(--border-width) * 2
+      );
+      overflow: auto;
+      padding: var(--padding);
+      scroll-behavior: smooth;
 
       &.large {
         --private-option-height: 1.75rem;
@@ -128,6 +133,71 @@ export default [
 
       &.small {
         --private-option-height: 1.25rem;
+      }
+    }
+
+    .footer {
+      background-color: var(--glide-core-surface-page);
+      border-block-start: 1px solid var(--glide-core-border-base);
+      box-shadow: 0 -8px 8px -8px
+        var(--glide-core-surface-base-gray, rgb(0 0 0 / 40%));
+      display: none;
+      inline-size: calc(100% - var(--glide-core-spacing-xxxs) * 2);
+      inset-block-end: 0;
+      padding: var(--glide-core-spacing-xxxs);
+
+      /* 
+        "sticky" is a little hack so that footer is absolutely positioned but 
+        its space in layout is preserved, so it doesn't overlap the last option.
+      */
+      position: sticky;
+
+      &.visible {
+        display: block;
+      }
+    }
+
+    .add-button {
+      align-items: center;
+      background-color: transparent;
+      border: none;
+      border-radius: 0.75rem;
+      display: flex;
+      font-family: var(--glide-core-body-sm-font-family);
+      font-weight: var(--glide-core-body-sm-font-weight);
+      inline-size: 100%;
+      line-height: 100%;
+      text-align: start;
+
+      &.large {
+        --size: 1rem;
+
+        column-gap: 0.625rem;
+        font-size: var(--glide-core-body-sm-font-size);
+        padding-block: 0.375rem;
+        padding-inline: var(--glide-core-spacing-sm);
+      }
+
+      &.small {
+        --size: 0.875rem;
+
+        column-gap: var(--glide-core-spacing-xs);
+        font-size: var(--glide-core-body-xs-font-size);
+        padding-block: var(--glide-core-spacing-xxxs);
+        padding-inline: var(--glide-core-spacing-xs);
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:focus-visible {
+        outline-offset: -2px;
+      }
+
+      &:focus,
+      &:hover {
+        background-color: var(--glide-core-surface-hover);
       }
     }
 
