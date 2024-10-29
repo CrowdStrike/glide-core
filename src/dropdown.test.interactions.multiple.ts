@@ -604,19 +604,17 @@ it('updates `value` when a option is selected or deselected via Enter', async ()
   // Wait for it to open.
   await aTimeout(0);
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
+  component.focus();
 
-  options[1].focus();
+  await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'Enter' });
-
   expect(component.value).to.deep.equal(['one', 'two']);
 
-  options[1].focus();
   await sendKeys({ press: 'Enter' });
 
   expect(component.value).to.deep.equal(['one']);
 
-  options[2].focus();
+  await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'Enter' });
 
   expect(component.value).to.deep.equal(['one']);
@@ -643,21 +641,17 @@ it('updates `value` when an option is selected or deselected via Space', async (
   // Wait for it to open.
   await aTimeout(0);
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
+  component.focus();
 
-  options[1].focus();
+  await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: ' ' });
-
   expect(component.value).to.deep.equal(['one', 'two']);
 
-  options[1].focus();
   await sendKeys({ press: ' ' });
-
   expect(component.value).to.deep.equal(['one']);
 
-  options[2].focus();
+  await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: ' ' });
-
   expect(component.value).to.deep.equal(['one']);
 });
 
