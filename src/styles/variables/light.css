@@ -18,6 +18,7 @@
   --glide-core-border-focus-light: #eef5ff;
   --glide-core-border-primary: #054fb9;
   --glide-core-border-primary-hover: #0461cf;
+  --glide-core-generic-border-active: #6d6d6d;
   --glide-core-icon-active: #0073e6;
   --glide-core-icon-default: #212121;
   --glide-core-icon-default2: #212121;
@@ -65,7 +66,7 @@
   --glide-core-surface-modal: #ffffff;
   --glide-core-surface-page: #ffffff;
   --glide-core-surface-primary: #0073e6;
-  --glide-core-surface-primary-disabled: #1d7afc26;
+  --glide-core-surface-primary-disabled: #d7e7ff;
   --glide-core-surface-secondary: #eef5ff;
   --glide-core-surface-secondary-disabled: #eef5ff;
   --glide-core-surface-selected: #0073e6;
@@ -73,6 +74,7 @@
   --glide-core-surface-selected-hover: #054fb9;
   --glide-core-surface-success: #f1fdf4;
   --glide-core-surface-table-row-hover: #1d7afc26;
+  --glide-core-surface-tag-default: #00000012;
   --glide-core-surface-unselected-disabled: #e3e3e3;
   --glide-core-surface-warning: #fff6e9;
   --glide-core-surface-white-1percent: #ffffff03;
