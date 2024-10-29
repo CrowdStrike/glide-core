@@ -54,6 +54,8 @@ const meta: Meta = {
     'reportValidity()': '',
     required: false,
     'select-all': false,
+    'setCustomValidity(message)': '',
+    'setValidity(flags, message)': '',
     size: 'large',
     'slot="description"': '',
     'slot="icon:<value>"': '',
@@ -179,6 +181,24 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
+    'setCustomValidity(message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(message: string) => void',
+        },
+      },
+    },
+    'setValidity(flags, message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(flags?: ValidityStateFlags, message?: string) => void',
+        },
+      },
+    },
     'slot="description"': {
       table: {
         type: { summary: 'Element' },
@@ -190,7 +210,7 @@ const meta: Meta = {
         type: {
           summary: 'Element',
           detail: `
-// "<value>" should be equal to the \`value\` of each option. Dropdown will 
+// "<value>" should be equal to the \`value\` of each option. Dropdown will
 // show the correct icon or icons based on which options are selected.
 
 <glide-core-example-icon slot="icon:edit" name="edit"></glide-core-example-icon>

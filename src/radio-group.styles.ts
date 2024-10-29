@@ -36,5 +36,17 @@ export default [
     glide-core-private-label::part(tooltips-and-label) {
       align-items: flex-start;
     }
+
+    .description {
+      display: block;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .validity-message {
+      display: block;
+    }
   `,
 ];

@@ -58,6 +58,8 @@ const meta: Meta = {
     'reportValidity()': '',
     required: false,
     rows: 2,
+    'setCustomValidity(message)': '',
+    'setValidity(flags, message)': '',
     'slot="description"': '',
     'slot="tooltip"': '',
     spellcheck: 'false',
@@ -178,6 +180,24 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '2' },
         type: { summary: 'number' },
+      },
+    },
+    'setCustomValidity(message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(message: string) => void',
+        },
+      },
+    },
+    'setValidity(flags, message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(flags?: ValidityStateFlags, message?: string) => void',
+        },
       },
     },
     'slot="description"': {

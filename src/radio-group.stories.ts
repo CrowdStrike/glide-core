@@ -88,6 +88,8 @@ const meta: Meta = {
     name: '',
     'reportValidity()': '',
     required: false,
+    'setCustomValidity(message)': '',
+    'setValidity(flags, message)': '',
     'slot="description"': '',
     'slot="tooltip"': '',
     value: '',
@@ -96,21 +98,17 @@ const meta: Meta = {
     '<glide-core-radio>.value': '',
   },
   argTypes: {
+    label: {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
     'slot="default"': {
       table: {
         type: { summary: 'GlideCoreRadio' },
       },
       type: { name: 'function', required: true },
-    },
-    'slot="description"': {
-      table: {
-        type: { summary: 'Element' },
-      },
-    },
-    'slot="tooltip"': {
-      table: {
-        type: { summary: 'Element' },
-      },
     },
     'addEventListener(event, listener)': {
       control: false,
@@ -131,6 +129,19 @@ const meta: Meta = {
         },
       },
     },
+    disabled: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    name: {
+      table: {
+        defaultValue: { summary: '""' },
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
+    },
     'reportValidity()': {
       control: false,
       table: {
@@ -140,29 +151,38 @@ const meta: Meta = {
         },
       },
     },
-    disabled: {
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
-    label: {
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
-    },
-    name: {
-      table: {
-        defaultValue: { summary: '""' },
-        type: { summary: 'string' },
-      },
-      type: { name: 'string' },
-    },
     required: {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    'setCustomValidity(message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(message: string) => void',
+        },
+      },
+    },
+    'setValidity(flags, message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(flags?: ValidityStateFlags, message?: string) => void',
+        },
+      },
+    },
+    'slot="description"': {
+      table: {
+        type: { summary: 'Element' },
+      },
+    },
+    'slot="tooltip"': {
+      table: {
+        type: { summary: 'Element' },
       },
     },
     value: {

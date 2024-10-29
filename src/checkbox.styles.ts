@@ -192,5 +192,17 @@ when browsers support them.
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
+    .description {
+      display: block;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .validity-message {
+      display: block;
+    }
   `,
 ];

@@ -8,6 +8,8 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { owSlot, owSlotType } from './library/ow.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { when } from 'lit/directives/when.js';
 import GlideCoreRadio from './radio.js';
 import styles from './radio-group.styles.js';
 
@@ -101,6 +103,29 @@ export default class GlideCoreRadioGroup extends LitElement {
   }
 
   get validity() {
+    const isChecked = this.#radioItems.some(({ checked }) => checked);
+
+    if (this.required && !isChecked && !this.value && !this.disabled) {
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
+      this.#internals.setValidity(
+        { customError: Boolean(this.validityMessage), valueMissing: true },
+        ' ',
+        this.#componentElementRef.value,
+      );
+
+      return this.#internals.validity;
+    }
+
+    if (
+      this.required &&
+      this.#internals.validity.valueMissing &&
+      (isChecked || this.value)
+    ) {
+      this.#internals.setValidity({});
+      return this.#internals.validity;
+    }
+
     return this.#internals.validity;
   }
 
@@ -162,7 +187,26 @@ export default class GlideCoreRadioGroup extends LitElement {
           </div>
 
           <slot name="tooltip" slot="tooltip"></slot>
-          <slot id="description" name="description" slot="description"></slot>
+
+          <div id="description" slot="description">
+            <slot
+              class=${classMap({
+                description: true,
+                hidden: Boolean(
+                  this.#isShowValidationFeedback && this.validityMessage,
+                ),
+              })}
+              name="description"
+            ></slot>
+
+            ${when(
+              this.#isShowValidationFeedback && this.validityMessage,
+              () =>
+                html`<span class="validity-message" data-test="validity-message"
+                  >${unsafeHTML(this.validityMessage)}</span
+                >`,
+            )}
+          </div>
         </glide-core-private-label>
       </div>
     `;
@@ -177,6 +221,33 @@ export default class GlideCoreRadioGroup extends LitElement {
     this.requestUpdate();
 
     return isValid;
+  }
+
+  setCustomValidity(message: string) {
+    this.validityMessage = message;
+
+    if (message === '') {
+      this.#internals.setValidity(
+        { customError: false },
+        '',
+        this.#componentElementRef.value,
+      );
+    } else {
+      this.#internals.setValidity(
+        {
+          customError: true,
+          valueMissing: this.#internals.validity.valueMissing,
+        },
+        ' ',
+        this.#componentElementRef.value,
+      );
+    }
+  }
+
+  setValidity(flags?: ValidityStateFlags, message?: string) {
+    this.validityMessage = message;
+
+    this.#internals.setValidity(flags, ' ', this.#componentElementRef.value);
   }
 
   override updated(
@@ -231,6 +302,9 @@ export default class GlideCoreRadioGroup extends LitElement {
 
   @state()
   private isReportValidityOrSubmit = false;
+
+  @state()
+  private validityMessage?: string;
 
   #componentElementRef = createRef<HTMLDivElement>();
 

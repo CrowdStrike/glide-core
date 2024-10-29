@@ -37,10 +37,13 @@ const meta: Meta = {
     maxlength: '',
     name: '',
     orientation: 'horizontal',
+    pattern: '',
     placeholder: 'Placeholder',
     readonly: false,
     'reportValidity()': '',
     required: false,
+    'setCustomValidity(message)': '',
+    'setValidity(flags, message)': '',
     'slot="description"': '',
     'slot="prefix-icon"': '',
     'slot="suffix-icon"': '',
@@ -76,6 +79,7 @@ const meta: Meta = {
         maxlength=${arguments_.maxlength || nothing}
         name=${arguments_.name || nothing}
         orientation=${arguments_.orientation}
+        pattern=${arguments_.pattern || nothing}
         placeholder=${arguments_.placeholder || nothing}
         spellcheck=${arguments_.spellcheck}
         type=${arguments_.type || nothing}
@@ -190,6 +194,14 @@ const meta: Meta = {
         type: { summary: '"horizontal" | "vertical"' },
       },
     },
+    pattern: {
+      table: {
+        type: {
+          summary: 'string',
+          detail: `// Unlike the native input element, "pattern" can be validated independently of the "required" attribute.`,
+        },
+      },
+    },
     placeholder: {
       table: {
         type: { summary: 'string' },
@@ -213,6 +225,24 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '() => boolean',
+        },
+      },
+    },
+    'setCustomValidity(message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(message: string) => void',
+        },
+      },
+    },
+    'setValidity(flags, message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(flags?: ValidityStateFlags, message?: string) => void',
         },
       },
     },

@@ -5,6 +5,8 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { owSlot, owSlotType } from './library/ow.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { when } from 'lit/directives/when.js';
 import GlideCoreCheckbox from './checkbox.js';
 import styles from './checkbox-group.styles.js';
 
@@ -177,11 +179,17 @@ export default class GlideCoreCheckboxGroup extends LitElement {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
-        { valueMissing: true },
+        { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
         this.#componentElementRef.value,
       );
-    } else {
+    }
+
+    if (this.required && this.#internals.validity.valueMissing && isChecked) {
+      this.#internals.setValidity({});
+    }
+
+    if (!this.required && this.#internals.validity.valueMissing && !isChecked) {
       this.#internals.setValidity({});
     }
 
@@ -250,7 +258,25 @@ export default class GlideCoreCheckboxGroup extends LitElement {
           ></slot>
         </div>
 
-        <slot id="description" name="description" slot="description"></slot>
+        <div id="description" slot="description">
+          <slot
+            class=${classMap({
+              description: true,
+              hidden: Boolean(
+                this.#isShowValidationFeedback && this.validityMessage,
+              ),
+            })}
+            name="description"
+          ></slot>
+
+          ${when(
+            this.#isShowValidationFeedback && this.validityMessage,
+            () =>
+              html`<span class="validity-message" data-test="validity-message"
+                >${unsafeHTML(this.validityMessage)}</span
+              >`,
+          )}
+        </div>
       </glide-core-private-label>
     </div>`;
   }
@@ -264,6 +290,37 @@ export default class GlideCoreCheckboxGroup extends LitElement {
     this.requestUpdate();
 
     return isValid;
+  }
+
+  setCustomValidity(message: string) {
+    this.validityMessage = message;
+
+    if (message === '') {
+      this.#internals.setValidity(
+        { customError: false },
+        '',
+        this.#componentElementRef.value,
+      );
+    } else {
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
+      this.#internals.setValidity(
+        {
+          customError: true,
+          valueMissing: this.#internals.validity.valueMissing,
+        },
+        ' ',
+        this.#componentElementRef.value,
+      );
+    }
+  }
+
+  setValidity(flags?: ValidityStateFlags, message?: string) {
+    this.validityMessage = message;
+
+    // A validation message is required but unused because we disable native validation feedback.
+    // And an empty string isn't allowed. Thus a single space.
+    this.#internals.setValidity(flags, ' ', this.#componentElementRef.value);
   }
 
   constructor() {
@@ -317,6 +374,9 @@ export default class GlideCoreCheckboxGroup extends LitElement {
   @state()
   private isReportValidityOrSubmit = false;
 
+  @state()
+  private validityMessage?: string;
+
   #componentElementRef = createRef<HTMLDivElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
@@ -349,10 +409,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
   get #isShowValidationFeedback() {
     return (
-      this.required &&
-      !this.disabled &&
-      !this.validity.valid &&
-      this.isReportValidityOrSubmit
+      !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit
     );
   }
 

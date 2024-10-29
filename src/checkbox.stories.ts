@@ -37,6 +37,8 @@ const meta: Meta = {
     orientation: 'horizontal',
     'reportValidity()': '',
     required: false,
+    'setCustomValidity(message)': '',
+    'setValidity(flags, message)': '',
     'slot="description"': '',
     'slot="tooltip"': '',
     summary: '',
@@ -124,6 +126,24 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    'setCustomValidity(message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(message: string) => void',
+        },
+      },
+    },
+    'setValidity(flags, message)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(flags?: ValidityStateFlags, message?: string) => void',
+        },
       },
     },
     'slot="description"': {

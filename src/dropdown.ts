@@ -10,6 +10,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
@@ -369,13 +370,26 @@ export default class GlideCoreDropdown extends LitElement {
 
   get validity() {
     if (this.required && this.selectedOptions.length === 0) {
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
-        { valueMissing: true },
+        { customError: Boolean(this.validityMessage), valueMissing: true },
         ' ',
-        this.#inputElementRef.value,
+        this.filterable || this.isFilterable
+          ? this.#inputElementRef.value
+          : this.#buttonElementRef.value,
       );
-    } else {
+
+      return this.#internals.validity;
+    }
+
+    if (
+      this.required &&
+      this.#internals.validity.valueMissing &&
+      this.selectedOptions.length > 0
+    ) {
       this.#internals.setValidity({});
+      return this.#internals.validity;
     }
 
     return this.#internals.validity;
@@ -697,7 +711,24 @@ export default class GlideCoreDropdown extends LitElement {
           </div>
         </div>
 
-        <slot id="description" name="description" slot="description"></slot>
+        <div id="description" slot="description">
+          <slot
+            class=${classMap({
+              description: true,
+              hidden: Boolean(
+                this.#isShowValidationFeedback && this.validityMessage,
+              ),
+            })}
+            name="description"
+          ></slot>
+          ${when(
+            this.#isShowValidationFeedback && this.validityMessage,
+            () =>
+              html`<span class="validity-message" data-test="validity-message"
+                >${unsafeHTML(this.validityMessage)}</span
+              >`,
+          )}
+        </div>
       </glide-core-private-label>
     </div>`;
   }
@@ -711,6 +742,47 @@ export default class GlideCoreDropdown extends LitElement {
     this.requestUpdate();
 
     return isValid;
+  }
+
+  setCustomValidity(message: string) {
+    this.validityMessage = message;
+
+    if (message === '') {
+      this.#internals.setValidity(
+        { customError: false },
+        '',
+        this.filterable || this.isFilterable
+          ? this.#inputElementRef.value
+          : this.#buttonElementRef.value,
+      );
+    } else {
+      // A validation message is required but unused because we disable native validation feedback.
+      // And an empty string isn't allowed. Thus a single space.
+      this.#internals.setValidity(
+        {
+          customError: true,
+          valueMissing: this.#internals.validity.valueMissing,
+        },
+        ' ',
+        this.filterable || this.isFilterable
+          ? this.#inputElementRef.value
+          : this.#buttonElementRef.value,
+      );
+    }
+  }
+
+  setValidity(flags?: ValidityStateFlags, message?: string) {
+    this.validityMessage = message;
+
+    // A validation message is required but unused because we disable native validation feedback.
+    // And an empty string isn't allowed. Thus a single space.
+    this.#internals.setValidity(
+      flags,
+      ' ',
+      this.filterable || this.isFilterable
+        ? this.#inputElementRef.value
+        : this.#buttonElementRef.value,
+    );
   }
 
   constructor() {
@@ -772,6 +844,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   @state()
   private tagOverflowLimit = 0;
+
+  @state()
+  private validityMessage?: string;
 
   #buttonElementRef = createRef<HTMLButtonElement>();
 
@@ -861,10 +936,7 @@ export default class GlideCoreDropdown extends LitElement {
 
   get #isShowValidationFeedback() {
     return (
-      this.required &&
-      !this.disabled &&
-      !this.validity.valid &&
-      this.isReportValidityOrSubmit
+      !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit
     );
   }
 
