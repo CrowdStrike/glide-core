@@ -1,5 +1,6 @@
 import './checkbox.js';
 import './dropdown.option.js';
+import './icon-button.js';
 import './label.js';
 import './tooltip.js';
 import { LitElement, html } from 'lit';
@@ -632,24 +633,21 @@ export default class GlideCoreDropdown extends LitElement {
                   this.selectedOptions.length > 0 &&
                   this.selectedOptions[0].editable,
                 () => {
-                  return html`<button
-                    aria-label=${this.#localize.term(
+                  return html`<glide-core-icon-button
+                    class="edit-button"
+                    data-test="edit-button"
+                    label=${this.#localize.term(
                       'editOption',
                       this.selectedOptions[0].label,
                     )}
-                    class=${classMap({
-                      'edit-button': true,
-                      disabled: this.disabled,
-                      readonly: this.readonly,
-                    })}
-                    data-test="edit-button"
                     tabindex=${this.disabled || this.readonly ? '-1' : '0'}
-                    type="button"
+                    variant="tertiary"
+                    ?disabled=${this.disabled || this.readonly}
                     @click=${this.#onEditButtonClick}
                     ${ref(this.#editButtonElementRef)}
                   >
                     ${pencilIcon}
-                  </button>`;
+                  </glide-core-icon-button>`;
                 },
               )}
 
@@ -1348,16 +1346,21 @@ export default class GlideCoreDropdown extends LitElement {
     if (!this.#isSelectionViaSpaceOrEnter && this.open) {
       this.open = false;
 
-      // `event.detail` is an integer set to the number of clicks. When it's zero,
-      // the event most likely originated from an Enter press. And, if Dropdown is part
-      // of a form, Enter should submit the form instead of opening Dropdown.
-    } else if (event.detail !== 0) {
+      return;
+    }
+
+    // `event.detail` is an integer set to the number of clicks. When it's zero,
+    // the event most likely originated from an Enter press. And, if Dropdown is part
+    // of a form, Enter should submit the form instead of opening Dropdown.
+    if (event.detail !== 0) {
       this.open = true;
 
       // If Dropdown was opened because the primary button or `<input>` were clicked,
       // then Dropdown will already have focus. But if something else was clicked, like
       // the padding around Dropdown or a Tag, then it won't. So we focus it manually.
       this.focus();
+
+      return;
     }
   }
 

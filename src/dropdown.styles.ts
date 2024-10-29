@@ -225,24 +225,8 @@ export default [
     }
 
     .edit-button {
-      background: none;
-      border: none;
-      border-radius: 2px;
       display: flex;
       margin-inline-end: var(--glide-core-spacing-xxs);
-      padding: 0;
-
-      &.disabled {
-        color: var(--glide-core-icon-tertiary-disabled);
-
-        &:hover {
-          cursor: not-allowed;
-        }
-      }
-
-      &:hover:not(.disabled, .readonly) {
-        color: var(--glide-core-text-primary-hover);
-      }
     }
 
     .input {
