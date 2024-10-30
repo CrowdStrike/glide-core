@@ -83,7 +83,10 @@ export default class GlideCoreTabGroup extends LitElement {
       @keydown=${this.#onKeydown}
       ${ref(this.#componentElementRef)}
     >
-      <div class=${classMap({ 'tab-container': true, sticky: this.sticky })}>
+      <div
+        class=${classMap({ 'tab-container': true, sticky: this.sticky })}
+        data-test="tab-container"
+      >
         ${when(
           this.isShowOverflowButtons,
           () => html`

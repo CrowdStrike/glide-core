@@ -15,6 +15,7 @@ export default [
     .component {
       font-family: var(--glide-core-font-sans);
       outline: none;
+      padding-inline: var(--padding-inline);
     }
   `,
 ];

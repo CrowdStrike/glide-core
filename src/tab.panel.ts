@@ -44,6 +44,7 @@ export default class GlideCoreTabPanel extends LitElement {
         component: true,
         hidden: !this.isActive,
       })}
+      data-test="tab-panel"
     >
       <slot></slot>
     </div>`;

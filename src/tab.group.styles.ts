@@ -11,6 +11,8 @@ export default [
         border-block-end: 1px solid var(--glide-core-border-base-lighter);
         box-sizing: border-box;
         display: flex;
+        padding-block-start: var(--padding-block-start);
+        padding-inline: var(--padding-inline);
       }
 
       & .sticky {

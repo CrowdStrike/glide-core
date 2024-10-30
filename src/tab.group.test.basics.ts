@@ -3,7 +3,14 @@
 import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
-import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
+import {
+  assert,
+  expect,
+  fixture,
+  html,
+  oneEvent,
+  waitUntil,
+} from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTabGroup from './tab.group.js';
 import GlideCoreTabPanel from './tab.panel.js';
@@ -194,6 +201,52 @@ it('can use left/right, home and end keys to focus on tabs', async () => {
   await sendKeys({ press: 'End' });
   await sendKeys({ press: 'Enter' });
   expect(thirdTab.active).to.be.true;
+});
+
+it('sets padding-inline of the Tab Group and Tab Panel via `--padding-inline`', async () => {
+  const component = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group style="--padding-inline: 100px;">
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const tabContainer = component?.shadowRoot?.querySelector(
+    '[data-test="tab-container"]',
+  );
+
+  assert(tabContainer);
+
+  expect(window.getComputedStyle(tabContainer).paddingInline).to.equal('100px');
+
+  const tabPanel = component
+    ?.querySelector('glide-core-tab-panel')
+    ?.shadowRoot?.querySelector('[data-test="tab-panel"]');
+
+  assert(tabPanel);
+
+  expect(window.getComputedStyle(tabPanel).paddingInline).to.equal('100px');
+});
+
+it('sets padding-block-start of the Tab Group via `--padding-block-start`', async () => {
+  const component = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group style="--padding-block-start: 100px;">
+      <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
+
+      <glide-core-tab-panel name="1">Content for Tab 1</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const tabContainer = component?.shadowRoot?.querySelector(
+    '[data-test="tab-container"]',
+  );
+
+  assert(tabContainer);
+
+  expect(window.getComputedStyle(tabContainer).paddingBlockStart).to.equal(
+    '100px',
+  );
 });
 
 it('throws an error when an element other than `glide-core-tab` is a child of the `nav` slot', async () => {
