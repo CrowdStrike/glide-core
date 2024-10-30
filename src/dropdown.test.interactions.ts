@@ -921,7 +921,7 @@ it('does not open on edit via Space', async () => {
     ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
     ?.focus();
 
-  await sendKeys({ press: 'Enter' });
+  await sendKeys({ press: ' ' });
 
   expect(component.open).to.be.false;
 });
