@@ -1149,7 +1149,6 @@ export default class GlideCoreDropdown extends LitElement {
           );
 
           this.open = false;
-
           return;
         }
 
@@ -1157,7 +1156,7 @@ export default class GlideCoreDropdown extends LitElement {
         // include a space in his filter and because he expects pressing Space to result
         // in a space. So we either cancel Space and let it select and deselect as when
         // Dropdown isn't filterable, or we let the user type it. Neither is ideal.
-        else if (
+        if (
           (event.key === 'Enter' &&
             this.#optionElementsNotHidden &&
             this.#optionElementsNotHidden.length > 0) ||
@@ -1177,6 +1176,7 @@ export default class GlideCoreDropdown extends LitElement {
             this.#selectAllOrNone();
           }
 
+          this.#isSelectionViaSpaceOrEnter = false;
           this.#unfilter();
 
           if (!this.multiple) {
