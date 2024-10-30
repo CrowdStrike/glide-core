@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
+import './menu.button.js';
 import './menu.link.js';
 import './menu.options.js';
 import { LitElement } from 'lit';
@@ -1394,6 +1395,54 @@ it('does not wrap on ArrowDown', async () => {
   await sendKeys({ up: 'Meta' });
 
   expect(options[1].privateActive).to.be.true;
+});
+
+it('sets the first option as active when optionless and an option is dynamically added', async () => {
+  const component = await fixture<GlideCoreMenu>(html`
+    <glide-core-menu>
+      <button slot="target">Target</button>
+      <glide-core-menu-options> </glide-core-menu-options>
+    </glide-core-menu>
+  `);
+
+  const option = document.createElement('glide-core-menu-button');
+  option.label = 'Label';
+
+  component.querySelector('glide-core-menu-options')?.append(option);
+  await elementUpdated(component);
+
+  expect(option?.privateActive).to.be.true;
+});
+
+it('retains its active option when an option is dynamically added', async () => {
+  const component = await fixture<GlideCoreMenu>(html`
+    <glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-button label="One"></glide-core-menu-button>
+        <glide-core-menu-button label="Two"></glide-core-menu-button>
+      </glide-core-menu-options>
+    </glide-core-menu>
+  `);
+
+  component
+    .querySelectorAll('glide-core-menu-button')[1]
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  await elementUpdated(component);
+
+  const button = document.createElement('glide-core-menu-button');
+  button.label = 'Three';
+
+  component.querySelector('glide-core-menu-options')?.append(button);
+  await elementUpdated(component);
+
+  const options = component.querySelectorAll('glide-core-menu-button');
+
+  expect(options[0]?.privateActive).to.be.false;
+  expect(options[1]?.privateActive).to.be.true;
+  expect(options[2]?.privateActive).to.be.false;
 });
 
 it('has `set offset()` coverage', async () => {

@@ -186,6 +186,7 @@ export default class GlideCoreMenu extends LitElement {
           @focusin=${this.#onDefaultSlotFocusin}
           @keydown=${this.#onSlotKeydown}
           @mouseover=${this.#onDefaultSlotMouseover}
+          @private-slot-change=${this.#onOptionsSlotChange}
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
@@ -272,12 +273,6 @@ export default class GlideCoreMenu extends LitElement {
     owSlot(this.#defaultSlotElementRef.value);
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreMenuOptions]);
 
-    const firstOption = this.#optionElements?.at(0);
-
-    if (firstOption) {
-      firstOption.privateActive = true;
-    }
-
     this.#optionsElement.privateSize = this.size;
   }
 
@@ -332,6 +327,18 @@ export default class GlideCoreMenu extends LitElement {
 
     if (!isMenuFocused && !isOptionsFocused && !isOptionFocused) {
       this.open = false;
+    }
+  }
+
+  #onOptionsSlotChange() {
+    const activeOption = this.#optionElements?.find(
+      ({ privateActive }) => privateActive,
+    );
+
+    const firstOption = this.#optionElements?.at(0);
+
+    if (!activeOption && firstOption) {
+      firstOption.privateActive = true;
     }
   }
 
