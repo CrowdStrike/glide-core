@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.12.1
+
+### Patch Changes
+
+- [#449](https://github.com/CrowdStrike/glide-core/pull/449) [`505d9da`](https://github.com/CrowdStrike/glide-core/commit/505d9da591ad48e061b8115a462117177fb7c32c) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tab Group sets the background-color only when it is provided with the `sticky` attribute to prevent content from bleeding into the background while a user scrolls.
+
 ## 0.12.0
 
 ### Minor Changes
