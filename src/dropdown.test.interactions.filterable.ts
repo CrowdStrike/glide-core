@@ -421,7 +421,7 @@ it('sets the first unfiltered option as active when the previously active option
   expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
 });
 
-it('updates the `value` of its `<input>` when the `label` of a selected option is changed programmatically', async () => {
+it('updates the `value` of its `<input>` when `label` of a selected option is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -802,7 +802,7 @@ it('sets `aria-activedescendant` on open via click', async () => {
   // and would work. `CustomEvent` is used for completeness and to get us as close as
   // possible to a real click. See the comment in the handler for more information.
   component.shadowRoot
-    ?.querySelector('[data-test="button"]')
+    ?.querySelector('[data-test="primary-button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
   // Wait for it to open.
@@ -945,7 +945,7 @@ it('sets `aria-activedescendant` when closed via click', async () => {
   );
 
   component.shadowRoot
-    ?.querySelector<HTMLButtonElement>('[data-test="button"]')
+    ?.querySelector<HTMLButtonElement>('[data-test="primary-button"]')
     ?.click();
 
   await elementUpdated(component);

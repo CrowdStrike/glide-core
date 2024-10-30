@@ -6,6 +6,7 @@ export default [
       align-items: center;
       block-size: var(--private-option-height);
       border-radius: var(--glide-core-spacing-sm);
+      display: flex;
       max-inline-size: 21.875rem;
       transition: background-color 100ms ease-in-out;
       user-select: none;
@@ -18,8 +19,9 @@ export default [
     .option {
       align-items: center;
       block-size: 100%;
-      column-gap: var(--glide-core-spacing-xs);
       display: flex;
+      flex-grow: 1;
+      overflow: hidden;
       user-select: none;
 
       &.large {
@@ -28,7 +30,11 @@ export default [
         font-style: var(--glide-core-body-sm-font-style);
         font-weight: var(--glide-core-body-sm-font-weight);
         line-height: var(--glide-core-body-sm-line-height);
-        padding-inline: var(--glide-core-spacing-sm);
+        padding-inline-start: var(--glide-core-spacing-sm);
+
+        &:not(.editable) {
+          padding-inline-end: var(--glide-core-spacing-sm);
+        }
       }
 
       &.small {
@@ -37,20 +43,39 @@ export default [
         font-style: var(--glide-core-body-xs-font-style);
         font-weight: var(--glide-core-body-xs-font-weight);
         line-height: var(--glide-core-body-xs-line-height);
-        padding-inline: var(--glide-core-spacing-xs);
+        padding-inline-start: var(--glide-core-spacing-xs);
+
+        &:not(.editable) {
+          padding-inline-end: var(--glide-core-spacing-xs);
+        }
       }
     }
 
     .checkbox {
+      flex-grow: 1;
+      overflow: hidden;
+
       &.large {
         &::part(private-label-and-input-and-checkbox) {
-          padding-inline: var(--glide-core-spacing-sm);
+          padding-inline-start: var(--glide-core-spacing-sm);
+        }
+
+        &:not(.editable) {
+          &::part(private-label-and-input-and-checkbox) {
+            padding-inline-end: var(--glide-core-spacing-sm);
+          }
         }
       }
 
       &.small {
         &::part(private-label-and-input-and-checkbox) {
-          padding-inline: var(--glide-core-spacing-xs);
+          padding-inline-start: var(--glide-core-spacing-xs);
+        }
+
+        &:not(.editable) {
+          &::part(private-label-and-input-and-checkbox) {
+            padding-inline-end: var(--glide-core-spacing-xs);
+          }
         }
       }
 
@@ -59,22 +84,16 @@ export default [
       }
     }
 
-    .checked-icon {
-      display: inline-flex;
-      justify-content: center;
-      margin-inline-start: auto;
-      opacity: 0;
-
-      &.visible {
-        opacity: 1;
-      }
-    }
-
     .indeterminate-icon {
       display: none;
     }
 
     .icon-slot {
+      display: block;
+      padding-inline-end: var(--glide-core-spacing-xs);
+    }
+
+    .checkbox-icon-slot {
       &::slotted(*) {
         block-size: 1rem;
         display: block;
@@ -83,6 +102,7 @@ export default [
     }
 
     .tooltip {
+      margin-inline-end: auto;
       overflow: hidden;
     }
 
@@ -90,6 +110,49 @@ export default [
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .checked-icon-container {
+      --size: 1rem;
+
+      display: contents;
+
+      > svg {
+        flex-shrink: 0;
+        padding-inline-start: var(--glide-core-spacing-xs);
+      }
+    }
+
+    .edit-button {
+      align-items: center;
+      background-color: transparent;
+      block-size: 100%;
+      border: none;
+      display: flex;
+      padding-block: 0;
+      padding-inline-start: var(--glide-core-spacing-xs);
+
+      &.active {
+        color: var(--glide-core-text-primary-hover);
+      }
+
+      &.large {
+        padding-inline-end: var(--glide-core-spacing-sm);
+      }
+
+      &.small {
+        padding-inline-end: var(--glide-core-spacing-xs);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .edit-icon {
+      block-size: 0.875rem;
+      display: block;
+      inline-size: 0.875rem;
     }
   `,
 ];

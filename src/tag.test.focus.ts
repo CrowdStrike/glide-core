@@ -12,6 +12,9 @@ it('calling `focus()` focuses the button', async () => {
 
   component.focus();
 
-  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="removal-button"]',
+  );
+
   expect(component.shadowRoot?.activeElement).to.equal(button);
 });

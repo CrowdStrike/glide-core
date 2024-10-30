@@ -37,3 +37,19 @@ it('is deselected when initially deselected', async () => {
   expect(component.ariaSelected).to.equal('false');
   expect(checkbox?.checked).to.be.false;
 });
+
+it('is editable', async () => {
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      editable
+      private-multiple
+    ></glide-core-dropdown-option>`,
+  );
+
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="edit-button"]',
+  );
+
+  expect(button?.checkVisibility()).to.be.true;
+});

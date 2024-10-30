@@ -101,3 +101,22 @@ it('has no tooltip when active and with a short label set programmatically', asy
   const tooltip = component.shadowRoot?.querySelector('[data-test="tooltip"]');
   expect(tooltip?.checkVisibility()).to.be.false;
 });
+
+it('sets `privateIsEditActive`', async () => {
+  const component = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      editable
+    ></glide-core-dropdown-option>`,
+  );
+
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="edit-button"]',
+  );
+
+  button?.dispatchEvent(new Event('mouseover'));
+  expect(component.privateIsEditActive).to.be.true;
+
+  button?.dispatchEvent(new Event('mouseout'));
+  expect(component.privateIsEditActive).to.be.false;
+});

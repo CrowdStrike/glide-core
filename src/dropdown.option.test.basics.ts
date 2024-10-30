@@ -38,52 +38,17 @@ it('has defaults', async () => {
   expect(component.privateIndeterminate).to.be.false;
 });
 
-it('can have a label', async () => {
+it('is selectable', async () => {
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
-      value="value"
+      selected
     ></glide-core-dropdown-option>`,
   );
 
-  const label = component.shadowRoot?.querySelector('[data-test="label"]');
-  expect(label?.textContent?.trim()).to.equal('Label');
-});
-
-it('can have an icon', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
-    html`<glide-core-dropdown-option label="Label" value="value">
-      <svg slot="icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
-
-        <path
-          d="M12 16L12 12"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-
-        <circle cx="12" cy="8" r="1" fill="currentColor" />
-      </svg>
-    </glide-core-dropdown-option>`,
+  const checkedIconContainer = component.shadowRoot?.querySelector(
+    '[data-test="checked-icon-container"]',
   );
 
-  const icon = component?.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="icon"]')
-    ?.assignedElements()
-    .at(0);
-
-  expect(icon instanceof SVGElement).to.be.true;
-});
-
-it('can have a value', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
-    html`<glide-core-dropdown-option
-      label="Label"
-      value="value"
-    ></glide-core-dropdown-option>`,
-  );
-
-  expect(component.getAttribute('value')).to.equal('value');
-  expect(component.value).to.equal('value');
+  expect(checkedIconContainer instanceof Element).to.be.true;
 });

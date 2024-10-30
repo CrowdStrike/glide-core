@@ -9,6 +9,7 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
@@ -20,6 +21,101 @@ GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 // timeout, which would make for a slow test. Its timeout can likely be
 // configured. But waiting a turn of the event loop, when which the event
 // will have been dispatched, gets the job done as well.
+
+it('dispatches an "edit" event on click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  setTimeout(() => {
+    const button = component
+      .querySelector('glide-core-dropdown-option')
+      ?.shadowRoot?.querySelector<HTMLButtonElement>(
+        '[data-test="edit-button"]',
+      );
+
+    button?.dispatchEvent(new Event('mouseover'));
+    button?.click();
+  });
+
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  assert(option);
+
+  const event = await oneEvent(option, 'edit');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+  expect(event.target).to.equal(option);
+});
+
+it('dispatches an "edit" event on Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component
+    .querySelector('glide-core-dropdown-option')
+    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.dispatchEvent(new Event('mouseover'));
+
+  component.focus();
+  await sendKeys({ press: 'ArrowDown' });
+  sendKeys({ press: 'Enter' });
+
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  assert(option);
+
+  const event = await oneEvent(option, 'edit');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+  expect(event.target).to.equal(option);
+});
+
+it('dispatches an "edit" event on Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component
+    .querySelector('glide-core-dropdown-option')
+    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.dispatchEvent(new Event('mouseover'));
+
+  component.focus();
+  await sendKeys({ press: 'ArrowDown' });
+  sendKeys({ press: ' ' });
+
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  assert(option);
+
+  const event = await oneEvent(option, 'edit');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+  expect(event.target).to.equal(option);
+});
 
 it('dispatches an "invalid" event on submit when required and no option is selected', async () => {
   const form = document.createElement('form');

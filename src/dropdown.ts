@@ -1,5 +1,6 @@
 import './checkbox.js';
 import './dropdown.option.js';
+import './icon-button.js';
 import './label.js';
 import './tooltip.js';
 import { LitElement, html } from 'lit';
@@ -16,6 +17,7 @@ import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import ow, { owSlotType } from './library/ow.js';
+import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.styles.js';
 
 declare global {
@@ -238,7 +240,7 @@ export default class GlideCoreDropdown extends LitElement {
       this.#inputElementRef.value.click();
       this.#inputElementRef.value.select();
     } else {
-      this.#buttonElementRef.value?.click();
+      this.#primaryButtonElementRef.value?.click();
     }
   }
 
@@ -344,7 +346,6 @@ export default class GlideCoreDropdown extends LitElement {
       observer.observe(this.#componentElementRef.value);
 
       // Dropdown's "click" handler on `document` listens for clicks in the
-
       // capture phase. There's a comment explaining why. `#isComponentClick`
       // must be set before that handler is called so it has the information it
       // needs to determine whether or not to close Dropdown.
@@ -360,7 +361,7 @@ export default class GlideCoreDropdown extends LitElement {
     if (this.filterable || this.isFilterable) {
       this.#inputElementRef.value?.focus(options);
     } else {
-      this.#buttonElementRef.value?.focus(options);
+      this.#primaryButtonElementRef.value?.focus(options);
     }
   }
 
@@ -377,7 +378,7 @@ export default class GlideCoreDropdown extends LitElement {
         ' ',
         this.filterable || this.isFilterable
           ? this.#inputElementRef.value
-          : this.#buttonElementRef.value,
+          : this.#primaryButtonElementRef.value,
       );
 
       return this.#internals.validity;
@@ -513,7 +514,7 @@ export default class GlideCoreDropdown extends LitElement {
                 ${repeat(
                   this.selectedOptions,
                   ({ id }) => id,
-                  ({ id, label, value }, index) => {
+                  ({ id, editable, label, value }, index) => {
                     return html`<li
                       class=${classMap({
                         'tag-container': true,
@@ -528,6 +529,9 @@ export default class GlideCoreDropdown extends LitElement {
                         label=${label}
                         removable
                         size=${this.size}
+                        ?disabled=${this.disabled || this.readonly}
+                        ?private-editable=${editable}
+                        @edit=${this.#onTagEdit}
                         @remove=${this.#onTagRemove.bind(this, id)}
                       >
                         ${when(value, () => {
@@ -605,7 +609,7 @@ export default class GlideCoreDropdown extends LitElement {
               </div>`;
             })}
 
-            <div class="tag-overflow-text-and-button">
+            <div class="tag-overflow-and-buttons">
               ${when(
                 this.multiple &&
                   this.selectedOptions.length > this.tagOverflowLimit,
@@ -624,6 +628,28 @@ export default class GlideCoreDropdown extends LitElement {
                   </div>`;
                 },
               )}
+              ${when(
+                !this.multiple &&
+                  this.selectedOptions.length > 0 &&
+                  this.selectedOptions[0].editable,
+                () => {
+                  return html`<glide-core-icon-button
+                    class="edit-button"
+                    data-test="edit-button"
+                    label=${this.#localize.term(
+                      'editOption',
+                      this.selectedOptions[0].label,
+                    )}
+                    tabindex=${this.disabled || this.readonly ? '-1' : '0'}
+                    variant="tertiary"
+                    ?disabled=${this.disabled || this.readonly}
+                    @click=${this.#onEditButtonClick}
+                    ${ref(this.#editButtonElementRef)}
+                  >
+                    ${pencilIcon}
+                  </glide-core-icon-button>`;
+                },
+              )}
 
               <button
                 aria-expanded=${this.open}
@@ -632,14 +658,14 @@ export default class GlideCoreDropdown extends LitElement {
                 aria-labelledby="selected-option-labels label"
                 aria-describedby="description"
                 aria-controls="options"
-                class="button"
-                data-test="button"
-                id="button"
+                class="primary-button"
+                data-test="primary-button"
+                id="primary-button"
                 tabindex=${this.filterable || this.isFilterable || this.disabled
                   ? '-1'
                   : '0'}
                 type="button"
-                ${ref(this.#buttonElementRef)}
+                ${ref(this.#primaryButtonElementRef)}
               >
                 ${when(
                   this.isFiltering,
@@ -673,7 +699,7 @@ export default class GlideCoreDropdown extends LitElement {
           <div
             aria-labelledby=${this.filterable || this.isFilterable
               ? 'input'
-              : 'button'}
+              : 'primary-button'}
             class=${classMap({
               options: true,
               hidden: this.isOptionsHidden,
@@ -687,6 +713,7 @@ export default class GlideCoreDropdown extends LitElement {
             @focusin=${this.#onOptionsFocusin}
             @mousedown=${this.#onOptionsMousedown}
             @mouseover=${this.#onOptionsMouseover}
+            @private-editable-change=${this.#onOptionsEditableChange}
             @private-label-change=${this.#onOptionsLabelChange}
             @private-selected-change=${this.#onOptionsSelectedChange}
             @private-value-change=${this.#onOptionsValueChange}
@@ -753,7 +780,7 @@ export default class GlideCoreDropdown extends LitElement {
         '',
         this.filterable || this.isFilterable
           ? this.#inputElementRef.value
-          : this.#buttonElementRef.value,
+          : this.#primaryButtonElementRef.value,
       );
     } else {
       // A validation message is required but unused because we disable native validation feedback.
@@ -766,7 +793,7 @@ export default class GlideCoreDropdown extends LitElement {
         ' ',
         this.filterable || this.isFilterable
           ? this.#inputElementRef.value
-          : this.#buttonElementRef.value,
+          : this.#primaryButtonElementRef.value,
       );
     }
   }
@@ -781,7 +808,7 @@ export default class GlideCoreDropdown extends LitElement {
       ' ',
       this.filterable || this.isFilterable
         ? this.#inputElementRef.value
-        : this.#buttonElementRef.value,
+        : this.#primaryButtonElementRef.value,
     );
   }
 
@@ -848,8 +875,6 @@ export default class GlideCoreDropdown extends LitElement {
   @state()
   private validityMessage?: string;
 
-  #buttonElementRef = createRef<HTMLButtonElement>();
-
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
   #componentElementRef = createRef<HTMLElement>();
@@ -857,6 +882,8 @@ export default class GlideCoreDropdown extends LitElement {
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #dropdownElementRef = createRef<HTMLElement>();
+
+  #editButtonElementRef = createRef<HTMLButtonElement>();
 
   #inputElementRef = createRef<HTMLInputElement>();
 
@@ -866,6 +893,8 @@ export default class GlideCoreDropdown extends LitElement {
 
   #isDisabled = false;
 
+  #isEditingOrRemovingTag = false;
+
   #isFilterable = false;
 
   #isMultiple = false;
@@ -873,8 +902,6 @@ export default class GlideCoreDropdown extends LitElement {
   #isOpen = false;
 
   #isOverflowTest = false;
-
-  #isRemovingTag = false;
 
   // Used in `#onOptionsSelectedChange` to guard against resetting Select All
   // back to its previous value after Select All is selected or deselected.
@@ -885,6 +912,8 @@ export default class GlideCoreDropdown extends LitElement {
   #localize = new LocalizeController(this);
 
   #optionsElementRef = createRef<HTMLElement>();
+
+  #primaryButtonElementRef = createRef<HTMLButtonElement>();
 
   #selectAllElementRef = createRef<GlideCoreDropdownOption>();
 
@@ -1029,7 +1058,7 @@ export default class GlideCoreDropdown extends LitElement {
         !this.#shadowRoot?.contains(event.relatedTarget) &&
         !this.contains(event.relatedTarget));
 
-    if (isFocusLost && !this.#isRemovingTag) {
+    if (isFocusLost && !this.#isEditingOrRemovingTag) {
       this.open = false;
     }
 
@@ -1044,7 +1073,19 @@ export default class GlideCoreDropdown extends LitElement {
       return;
     }
 
-    if (!this.open && event.key === 'Enter') {
+    // On Enter and Space, an "edit" event should be dispatched and Dropdown should
+    // close. Both Enter and Space result in a "click" event. So no need to dispatch
+    // "edit" here. It's dispatched in `#onDropdownClick`. And Dropdown is closed via
+    // `#onEditButtonClick`.
+    if (
+      (event.key === 'Enter' || event.key === ' ') &&
+      event.target === this.#editButtonElementRef.value
+    ) {
+      this.#isComponentClick = true;
+      return;
+    }
+
+    if (!this.open && event.key === 'Enter' && !this.#isEditingOrRemovingTag) {
       this.form?.requestSubmit();
       return;
     }
@@ -1055,8 +1096,8 @@ export default class GlideCoreDropdown extends LitElement {
       return;
     }
 
-    const isFromButtonOrInputOrAnOption =
-      event.target === this.#buttonElementRef.value ||
+    const isFromPrimaryButtonOrInputOrAnOption =
+      event.target === this.#primaryButtonElementRef.value ||
       event.target === this.#inputElementRef.value ||
       event.target instanceof GlideCoreDropdownOption;
 
@@ -1064,7 +1105,7 @@ export default class GlideCoreDropdown extends LitElement {
     // a tag and focus is on the tag. Arrowing up or down then pressing Enter would both
     // remove the tag and select or deselect the active option, which is probably not what
     // the user would expect. He'd only expect the tag to be removed.
-    if (this.multiple && !isFromButtonOrInputOrAnOption) {
+    if (this.multiple && !isFromPrimaryButtonOrInputOrAnOption) {
       return;
     }
 
@@ -1095,6 +1136,22 @@ export default class GlideCoreDropdown extends LitElement {
         // is a result of an option being is selected or deselected.
         this.#isSelectionViaSpaceOrEnter = true;
 
+        if (this.activeOption.privateIsEditActive) {
+          // Pressing Enter or Space when an option is active won't result in a
+          // "click" event because options don't receive focus except with VoiceOver.
+          // Otherwise, we'd dispatch this event from within Dropdown Option.
+          //
+          // A "click" event, on the other hand, is dispatched when an Edit button is
+          // clicked. So Dropdown Option could dispatch "edit" in that case. But then
+          // two components instead of one would be responsible for dispatching "edit".
+          this.activeOption.dispatchEvent(
+            new Event('edit', { bubbles: true, composed: true }),
+          );
+
+          this.open = false;
+          return;
+        }
+
         // Space is excluded when Dropdown isn't filterable because the user may want to
         // include a space in his filter and because he expects pressing Space to result
         // in a space. So we either cancel Space and let it select and deselect as when
@@ -1119,6 +1176,7 @@ export default class GlideCoreDropdown extends LitElement {
             this.#selectAllOrNone();
           }
 
+          this.#isSelectionViaSpaceOrEnter = false;
           this.#unfilter();
 
           if (!this.multiple) {
@@ -1127,6 +1185,7 @@ export default class GlideCoreDropdown extends LitElement {
 
           this.dispatchEvent(new Event('change', { bubbles: true }));
           this.dispatchEvent(new Event('input', { bubbles: true }));
+
           return;
         }
       }
@@ -1153,14 +1212,19 @@ export default class GlideCoreDropdown extends LitElement {
           activeOptionIndex - 1,
         );
 
-        // If we haven't reached the top, make the previous option active.
-        if (option && activeOptionIndex !== 0) {
-          this.activeOption.privateIsOpenTooltip = false;
+        if (this.activeOption?.privateIsEditActive) {
+          this.activeOption.privateIsEditActive = false;
+          this.activeOption.privateIsOpenTooltip = true;
+
+          // If we're not already at the top.
+        } else if (option && activeOptionIndex !== 0) {
+          this.activeOption.privateIsEditActive = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
 
           option.privateActive = true;
-          option.privateIsOpenTooltip = true;
+          option.privateIsEditActive = option.editable;
+          option.privateIsOpenTooltip = !option.editable;
           option.scrollIntoView({ block: 'center' });
         }
 
@@ -1181,8 +1245,16 @@ export default class GlideCoreDropdown extends LitElement {
           activeOptionIndex + 1,
         );
 
-        // If `option` isn't defined, then we've reached the bottom.
-        if (option) {
+        if (
+          this.activeOption.editable &&
+          !this.activeOption.privateIsEditActive
+        ) {
+          this.activeOption.privateIsEditActive = true;
+          this.activeOption.privateIsOpenTooltip = false;
+
+          // If we're not already at the bottom.
+        } else if (option) {
+          this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsOpenTooltip = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
@@ -1208,13 +1280,14 @@ export default class GlideCoreDropdown extends LitElement {
         const option = this.#optionElementsNotHiddenIncludingSelectAll.at(0);
 
         if (option) {
+          this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsOpenTooltip = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
 
           option.privateActive = true;
           option.privateIsOpenTooltip = true;
-          option.scrollIntoView({ block: 'end' });
+          option.scrollIntoView({ block: 'nearest' });
         }
 
         return;
@@ -1234,13 +1307,14 @@ export default class GlideCoreDropdown extends LitElement {
 
         // If `option` isn't defined, then we've reached the bottom.
         if (option && this.activeOption) {
+          this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsOpenTooltip = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
 
           option.privateActive = true;
           option.privateIsOpenTooltip = true;
-          option.scrollIntoView();
+          option.scrollIntoView({ block: 'nearest' });
         }
 
         return;
@@ -1253,20 +1327,40 @@ export default class GlideCoreDropdown extends LitElement {
       return;
     }
 
-    if (this.#isRemovingTag) {
-      this.#isRemovingTag = false;
+    if (this.#isEditingOrRemovingTag) {
+      this.#isEditingOrRemovingTag = false;
+      return;
+    }
+
+    if (
+      event.target instanceof Node &&
+      this.#editButtonElementRef.value?.contains(event.target)
+    ) {
+      this.selectedOptions[0].dispatchEvent(
+        new Event('edit', { bubbles: true, composed: true }),
+      );
+
       return;
     }
 
     if (!this.#isSelectionViaSpaceOrEnter && this.open) {
       this.open = false;
 
-      // `event.detail` is an integer set to the number of clicks. When it's zero,
-      // the event most likely originated from an Enter press. And, if Dropdown is part
-      // of a form, Enter should submit the form instead of opening Dropdown.
-    } else if (event.detail !== 0) {
+      return;
+    }
+
+    // `event.detail` is an integer set to the number of clicks. When it's zero,
+    // the event most likely originated from an Enter press. And, if Dropdown is part
+    // of a form, Enter should submit the form instead of opening Dropdown.
+    if (event.detail !== 0) {
       this.open = true;
+
+      // If Dropdown was opened because the primary button or `<input>` were clicked,
+      // then Dropdown will already have focus. But if something else was clicked, like
+      // the padding around Dropdown or a Tag, then it won't. So we focus it manually.
       this.focus();
+
+      return;
     }
   }
 
@@ -1275,10 +1369,10 @@ export default class GlideCoreDropdown extends LitElement {
     // component. Clicking the padding will move focus to `document.body`, which is
     // not what the user expects.
     //
-    // Having to exclude tags from this is unfortunate because clicking on the tag's
-    // label or padding shouldn't cause the input to lose focus. The trouble is we
-    // don't know it if was the tag's removal button that was clicked because it's
-    // in a shadow DOM.
+    // Having to exclude tags is unfortunate because clicking on the tag's label or
+    // padding shouldn't cause the input to lose focus. The trouble is we don't know
+    // it if is the Tag's removal button that's being clicked. And if it is we have
+    // to allow it to receive focus.
     const isFilterable = this.filterable || this.isFilterable;
     const isGlideCoreTag = event.target instanceof GlideCoreTag;
 
@@ -1292,6 +1386,10 @@ export default class GlideCoreDropdown extends LitElement {
     } else if (!isGlideCoreTag) {
       event.preventDefault();
     }
+  }
+
+  #onEditButtonClick() {
+    this.open = false;
   }
 
   get #optionElements() {
@@ -1447,6 +1545,19 @@ export default class GlideCoreDropdown extends LitElement {
     if (event.target instanceof Element) {
       const option = event.target.closest('glide-core-dropdown-option');
 
+      if (
+        option instanceof GlideCoreDropdownOption &&
+        option.privateIsEditActive
+      ) {
+        option.dispatchEvent(
+          new Event('edit', { bubbles: true, composed: true }),
+        );
+
+        this.open = false;
+
+        return;
+      }
+
       if (option && !option.selected) {
         option.selected = true;
         this.#unfilter();
@@ -1463,9 +1574,18 @@ export default class GlideCoreDropdown extends LitElement {
 
       if (option?.selected && !this.multiple) {
         this.open = false;
+
         return;
       }
     }
+  }
+
+  #onOptionsEditableChange() {
+    // Dropdown doesn't know to rerender when an option's `editable` property
+    // has changed. But it needs to rerender to show or hide its edit button
+    // or else to set or unset its Tags as editable in the case of multiselect.
+    // So a rerender is forced.
+    this.requestUpdate();
   }
 
   // Options don't receive focus normally but can receive programmatic focus from
@@ -1534,13 +1654,10 @@ export default class GlideCoreDropdown extends LitElement {
       this.activeOption.privateIsOpenTooltip = false;
 
       this.activeOption.privateActive = false;
-      event.target.privateActive = true;
+      this.ariaActivedescendant = event.target.id;
 
-      for (const option of this.#optionElementsNotHiddenIncludingSelectAll) {
-        if (option.privateActive) {
-          this.ariaActivedescendant = option.id;
-        }
-      }
+      event.target.privateActive = true;
+      event.target.privateIsEditActive = false;
     }
   }
 
@@ -1641,8 +1758,19 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
+  #onTagEdit() {
+    // Used to prevent Dropdown from reopening on click immediately after it's
+    // closed below and from submitting its form when "edit" comes from an Enter
+    // press.
+    this.#isEditingOrRemovingTag = true;
+
+    this.open = false;
+  }
+
   async #onTagRemove(id: string) {
-    this.#isRemovingTag = true;
+    // Used to prevent Dropdown from opening on click when closed and from submitting
+    // its form when the "remove" comes from an Enter press.
+    this.#isEditingOrRemovingTag = true;
 
     for (const option of this.#optionElements) {
       // Options have an ID for the `aria-activedescendant` case. They also have
@@ -1670,10 +1798,29 @@ export default class GlideCoreDropdown extends LitElement {
       // for it to become visible before trying to focus it.
       await this.updateComplete;
 
-      // Move focus rightward unless it's the last tag.
-      tags[index < tags.length - 1 ? index + 1 : index - 1]?.focus();
+      // Browsers have a quirk where, if focus is moved during a "keydown" event from
+      // an Enter press, the "click" event that follows will be transferred to the now-
+      // focused element. Thus we wait a tick, until the "click" event has passed,
+      // before moving focus.
+      //
+      // Without a timeout, two tags will be removed by a single Enter press: the previously
+      // focused Tag and the now-focused one. The previous because of the "edit" event
+      // dispatched by Tag on "keydown". And the now-focused one because of the "edit"
+      // event dispatched by Tag on "click".
+      setTimeout(() => {
+        // Move focus rightward unless it's the last tag.
+        tags[index < tags.length - 1 ? index + 1 : index - 1]?.focus();
+
+        // Because the tag has been removed via `option.selected = false` above and focus
+        // isn't moved until after the click, a "click" event will never be dispatched.
+        // Otherwise, we could reset `#isEditingOrRemovingTag` in `#onDropdownClick`.
+        this.#isEditingOrRemovingTag = false;
+      });
     } else {
-      this.focus();
+      setTimeout(() => {
+        this.focus();
+        this.#isEditingOrRemovingTag = false;
+      });
     }
 
     this.dispatchEvent(new Event('change', { bubbles: true }));

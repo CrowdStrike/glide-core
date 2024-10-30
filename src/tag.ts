@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
+import pencilIcon from './icons/pencil.js';
 import styles from './tag.styles.js';
 
 declare global {
@@ -33,6 +34,10 @@ export default class GlideCoreTag extends LitElement {
   @property({ reflect: true })
   label?: string;
 
+  // Private because it's only used by Dropdown.
+  @property({ attribute: 'private-editable', reflect: true, type: Boolean })
+  privateEditable = false;
+
   @property({ reflect: true, type: Boolean })
   removable = false;
 
@@ -40,7 +45,7 @@ export default class GlideCoreTag extends LitElement {
   size: 'small' | 'medium' | 'large' = 'medium';
 
   override click() {
-    this.#buttonElementRef.value?.click();
+    this.#removalButtonElementRef.value?.click();
   }
 
   override firstUpdated() {
@@ -51,6 +56,10 @@ export default class GlideCoreTag extends LitElement {
       },
       { once: true },
     );
+  }
+
+  override focus() {
+    this.#removalButtonElementRef.value?.focus();
   }
 
   override render() {
@@ -71,39 +80,48 @@ export default class GlideCoreTag extends LitElement {
             [this.size]: true,
           })}
           name="icon"
-          ${ref(this.#iconSlotElementRef)}
         ></slot>
 
         ${this.label}
+        ${when(this.privateEditable, () => {
+          return html`<button
+            aria-label=${this.#localize.term('editTag', this.label!)}
+            class=${classMap({
+              'edit-button': true,
+              [this.size]: true,
+              disabled: this.disabled,
+            })}
+            data-test="edit-button"
+            ?disabled=${this.disabled}
+            type="button"
+            @click=${this.#onEditButtonClick}
+            @keydown=${this.#onEditButtonKeydown}
+          >
+            ${pencilIcon}
+          </button>`;
+        })}
         ${when(
           this.removable,
           () =>
             html`<button
               aria-label=${this.#localize.term('removeTag', this.label!)}
               class=${classMap({
-                button: true,
+                'removal-button': true,
                 [this.size]: true,
                 disabled: this.disabled,
               })}
-              data-test="button"
+              data-test="removal-button"
               type="button"
-              @click=${this.#onClick}
               ?disabled=${this.disabled}
-              ${ref(this.#buttonElementRef)}
+              @click=${this.#onRemovalButtonClick}
+              @keydown=${this.#onRemovalButtonKeydown}
+              ${ref(this.#removalButtonElementRef)}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path
-                  d="M6 6L18 18"
+                  d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-
-                <path
-                  d="M18 6L6 18"
-                  stroke="currentColor"
-                  stroke-width="2"
+                  stroke-width="1.2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
@@ -114,20 +132,67 @@ export default class GlideCoreTag extends LitElement {
     `;
   }
 
-  #buttonElementRef = createRef<HTMLButtonElement>();
-
   #componentElementRef = createRef<HTMLElement>();
 
-  #iconSlotElementRef = createRef<HTMLSlotElement>();
+  // Guards against dispatching "edit" and "remove" on click when the click came
+  // from Enter or Space so the event isn't dispatched twice. Using `event.detail !==0`
+  // instead would work. But it would exclude clicks via `this.click()`.
+  //
+  // Why not just dispatch those events on "click"? Because Dropdown has a "click"
+  // listener of its own that opens Dropdown except when the click came from Tag's
+  // edit or removal buttons. It needs to know if an "edit" or "remove" event was
+  // dispatched before its "click" handler is called to determine in that handler
+  // if it should return early instead of opening.
+  #isKeyboardClick = false;
 
   #localize = new LocalizeController(this);
 
-  #onClick() {
-    setTimeout(() => {
-      this.remove();
-    }, 200);
+  #removalButtonElementRef = createRef<HTMLButtonElement>();
 
-    this.#componentElementRef.value?.classList.add('removed');
-    this.dispatchEvent(new Event('remove', { bubbles: true }));
+  #onEditButtonClick() {
+    if (this.#isKeyboardClick) {
+      this.#isKeyboardClick = false;
+    } else {
+      this.dispatchEvent(new Event('edit', { bubbles: true, composed: true }));
+    }
+  }
+
+  #onEditButtonKeydown(event: KeyboardEvent) {
+    if (['Enter', ' '].includes(event.key)) {
+      this.#isKeyboardClick = true;
+      this.dispatchEvent(new Event('edit', { bubbles: true, composed: true }));
+    }
+  }
+
+  #onRemovalButtonClick() {
+    if (this.#isKeyboardClick) {
+      this.#isKeyboardClick = false;
+    } else {
+      setTimeout(() => {
+        this.remove();
+      }, 200);
+
+      this.#componentElementRef.value?.classList.add('removed');
+
+      this.dispatchEvent(
+        new Event('remove', { bubbles: true, composed: true }),
+      );
+    }
+  }
+
+  #onRemovalButtonKeydown(event: KeyboardEvent) {
+    if (['Enter', ' '].includes(event.key)) {
+      this.#isKeyboardClick = true;
+
+      setTimeout(() => {
+        this.remove();
+      }, 200);
+
+      this.#componentElementRef.value?.classList.add('removed');
+
+      this.dispatchEvent(
+        new Event('remove', { bubbles: true, composed: true }),
+      );
+    }
   }
 }

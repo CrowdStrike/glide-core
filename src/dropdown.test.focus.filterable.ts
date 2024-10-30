@@ -135,7 +135,7 @@ it('retains focus on the the input when an option is selected via Enter', async 
   expect(component.shadowRoot?.activeElement).to.equal(input);
 });
 
-it('retains focus on the the input when the button is clicked', async () => {
+it('retains focus on the the input when the primary button is clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       ${defaultSlot}
@@ -144,7 +144,10 @@ it('retains focus on the the input when the button is clicked', async () => {
 
   component.focus();
 
-  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="primary-button"]',
+  );
+
   assert(button);
 
   const { x, y } = button.getBoundingClientRect();

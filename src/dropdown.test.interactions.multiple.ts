@@ -15,7 +15,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import { sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import type GlideCoreTag from './tag.js';
+import GlideCoreTag from './tag.js';
 
 @customElement('glide-core-dropdown-in-another-component')
 class GlideCoreDropdownInAnotherComponent extends LitElement {
@@ -45,6 +45,7 @@ class GlideCoreDropdownInAnotherComponent extends LitElement {
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 GlideCoreDropdownInAnotherComponent.shadowRootOptions.mode = 'open';
+GlideCoreTag.shadowRootOptions.mode = 'open';
 
 it('opens on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
@@ -66,7 +67,7 @@ it('opens on click', async () => {
   // and would work. `CustomEvent` is used for completeness and to get us as close as
   // possible to a real click. See the comment in the handler for more information.
   component.shadowRoot
-    ?.querySelector('[data-test="button"]')
+    ?.querySelector('[data-test="primary-button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
   // Wait for it to open.
@@ -103,7 +104,7 @@ it('toggles open and closed when the button is clicked', async () => {
   // and would work. `CustomEvent` is used for completeness and to get us as close as
   // possible to a real click. See the comment in the handler for more information.
   component.shadowRoot
-    ?.querySelector('[data-test="button"]')
+    ?.querySelector('[data-test="primary-button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
   await elementUpdated(component);
@@ -472,7 +473,7 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
   expect(options[0]?.privateActive).to.be.true;
 });
 
-it('updates its tag when the `label` of a selected option is changed programmatically', async () => {
+it('updates its tag when `label` of a selected option is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option
@@ -494,6 +495,30 @@ it('updates its tag when the `label` of a selected option is changed programmati
     component.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]');
 
   expect(tag?.label).to.equal('Three');
+});
+
+it('makes its tag editable when `editable` of a selected option is changed programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.editable = true;
+  await elementUpdated(component);
+
+  const tag =
+    component.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]');
+
+  expect(tag?.privateEditable).to.be.true;
 });
 
 it('selects and deselects options when `value` is changed programmatically', async () => {
@@ -1460,6 +1485,75 @@ it('closes when a tag is clicked', async () => {
   expect(component.open).to.be.false;
 });
 
+it('closes on edit via click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector('glide-core-tag')
+    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.click();
+
+  await elementUpdated(component);
+
+  expect(component.open).to.be.false;
+});
+
+it('closes on edit via Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector('glide-core-tag')
+    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.focus();
+
+  await sendKeys({ press: 'Enter' });
+
+  expect(component.open).to.be.false;
+});
+
+it('closes on edit via Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector('glide-core-tag')
+    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.focus();
+
+  await sendKeys({ press: ' ' });
+
+  expect(component.open).to.be.false;
+});
+
 it('cannot be tabbed to when `disabled`', async () => {
   await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
@@ -1484,7 +1578,7 @@ it('cannot be tabbed to when `disabled`', async () => {
   expect(document.activeElement).to.equal(document.body);
 });
 
-it('clicks the button when `click()` is called', async () => {
+it('clicks the primary button when `click()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option
@@ -1499,7 +1593,10 @@ it('clicks the button when `click()` is called', async () => {
     </glide-core-dropdown>`,
   );
 
-  const button = component.shadowRoot?.querySelector('[data-test="button"]');
+  const button = component.shadowRoot?.querySelector(
+    '[data-test="primary-button"]',
+  );
+
   assert(button);
 
   setTimeout(() => {

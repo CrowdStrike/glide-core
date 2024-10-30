@@ -291,6 +291,27 @@ it('closes on Escape', async () => {
   expect(component.open).to.be.false;
 });
 
+it('closes on edit via click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component
+    .querySelector('glide-core-dropdown-option')
+    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.click();
+
+  expect(component.open).to.be.false;
+});
+
 it('opens when open and enabled programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
@@ -364,6 +385,7 @@ it('activates an option on "mouseover"', async () => {
   const options = component.querySelectorAll('glide-core-dropdown-option');
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
+  expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
 });
 
@@ -392,6 +414,61 @@ it('activates the next option on ArrowDown', async () => {
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
+});
+
+it('activates the Edit button on ArrowDown', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  options[0]?.focus();
+  await sendKeys({ press: 'ArrowDown' });
+
+  expect(options[0]?.privateActive).to.be.true;
+  expect(options[0]?.privateIsEditActive).true;
+  expect(options[0]?.privateIsOpenTooltip).false;
+  expect(options[1]?.privateActive).to.be.false;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+});
+
+it('activates the next option on ArrowDown when the Edit button is active', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  options[0]?.focus();
+  await sendKeys({ press: 'ArrowDown' });
+  await sendKeys({ press: 'ArrowDown' });
+
+  expect(options[0]?.privateActive).to.be.false;
+  expect(options[0]?.privateIsEditActive).false;
+  expect(options[1]?.privateActive).to.be.true;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+  expect(options[1]?.privateIsOpenTooltip).true;
 });
 
 it('activates the previous option on ArrowUp', async () => {
@@ -424,6 +501,72 @@ it('activates the previous option on ArrowUp', async () => {
   expect(options[1]?.privateActive).to.be.false;
 });
 
+it('activates the Edit button on on ArrowUp', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  options[1]?.focus();
+
+  expect(options[1]?.privateActive).to.be.true;
+  await sendKeys({ press: 'ArrowUp' });
+
+  expect(options[0]?.privateActive).to.be.true;
+  expect(options[0]?.privateIsEditActive).to.be.true;
+  expect(options[0]?.privateIsOpenTooltip).false;
+  expect(options[1]?.privateActive).to.be.false;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+  expect(options[1]?.privateIsOpenTooltip).to.be.false;
+});
+
+it('activates the previous option on ArrowUp when the Edit button is active', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        editable
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        editable
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const options = component.querySelectorAll('glide-core-dropdown-option');
+
+  options[1]?.focus();
+
+  await sendKeys({ press: 'ArrowUp' });
+  await sendKeys({ press: 'ArrowUp' });
+
+  expect(options[0]?.privateActive).to.be.true;
+  expect(options[0]?.privateIsEditActive).to.be.false;
+  expect(options[0]?.privateIsOpenTooltip).to.be.true;
+  expect(options[1]?.privateActive).to.be.false;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+  expect(options[1]?.privateIsOpenTooltip).to.be.false;
+});
+
 it('activates the first option on Home', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
@@ -451,7 +594,11 @@ it('activates the first option on Home', async () => {
   await sendKeys({ press: 'Home' });
 
   expect(options[0]?.privateActive).to.be.true;
+  expect(options[0]?.privateIsEditActive).to.be.false;
+  expect(options[0]?.privateIsOpenTooltip).to.be.true;
   expect(options[1]?.privateActive).to.be.false;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+  expect(options[1]?.privateIsOpenTooltip).to.be.false;
 });
 
 it('activates the first option on PageUp', async () => {
@@ -481,7 +628,11 @@ it('activates the first option on PageUp', async () => {
   await sendKeys({ press: 'PageUp' });
 
   expect(options[0]?.privateActive).to.be.true;
+  expect(options[0]?.privateIsEditActive).to.be.false;
+  expect(options[0]?.privateIsOpenTooltip).to.be.true;
   expect(options[1]?.privateActive).to.be.false;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+  expect(options[1]?.privateIsOpenTooltip).to.be.false;
 });
 
 it('activates the first option on ArrowUp + Meta', async () => {
@@ -505,15 +656,18 @@ it('activates the first option on ArrowUp + Meta', async () => {
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-  expect(options[1]?.privateActive).to.be.true;
-
   options[1].focus();
+
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowUp' });
   await sendKeys({ up: 'Meta' });
 
   expect(options[0]?.privateActive).to.be.true;
+  expect(options[0]?.privateIsEditActive).to.be.false;
+  expect(options[0]?.privateIsOpenTooltip).to.be.true;
   expect(options[1]?.privateActive).to.be.false;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+  expect(options[1]?.privateIsOpenTooltip).to.be.false;
 });
 
 it('activates the last option on End', async () => {
@@ -540,7 +694,11 @@ it('activates the last option on End', async () => {
   await sendKeys({ press: 'End' });
 
   expect(options[0]?.privateActive).to.be.false;
+  expect(options[0]?.privateIsEditActive).to.be.false;
+  expect(options[0]?.privateIsOpenTooltip).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+  expect(options[1]?.privateIsOpenTooltip).to.be.true;
 });
 
 it('activates the last option on PageDown', async () => {
@@ -567,7 +725,11 @@ it('activates the last option on PageDown', async () => {
   await sendKeys({ press: 'PageDown' });
 
   expect(options[0]?.privateActive).to.be.false;
+  expect(options[0]?.privateIsEditActive).to.be.false;
+  expect(options[0]?.privateIsOpenTooltip).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+  expect(options[1]?.privateIsOpenTooltip).to.be.true;
 });
 
 it('activates the last option on Meta + ArrowDown', async () => {
@@ -596,7 +758,11 @@ it('activates the last option on Meta + ArrowDown', async () => {
   await sendKeys({ up: 'Meta' });
 
   expect(options[0]?.privateActive).to.be.false;
+  expect(options[0]?.privateIsEditActive).to.be.false;
+  expect(options[0]?.privateIsOpenTooltip).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
+  expect(options[1]?.privateIsEditActive).to.be.false;
+  expect(options[1]?.privateIsOpenTooltip).to.be.true;
 });
 
 it('does not wrap on ArrowUp', async () => {
@@ -674,7 +840,7 @@ it('updates `privateSize` on every option when `size` is changed programmaticall
   expect(options[1].privateSize).to.equal('small');
 });
 
-it('opens when something other than the button is clicked', async () => {
+it('opens when something other than the primary button is clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
@@ -702,6 +868,64 @@ it('opens when something other than the button is clicked', async () => {
   expect(component.open).to.be.true;
 });
 
+it('does not open on edit via click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.click();
+
+  expect(component.open).to.be.false;
+});
+
+it('does not open on edit via Enter', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.focus();
+
+  await sendKeys({ press: 'Enter' });
+
+  expect(component.open).to.be.false;
+});
+
+it('does not open on edit via Space', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label="Label"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
+    ?.focus();
+
+  await sendKeys({ press: ' ' });
+
+  expect(component.open).to.be.false;
+});
+
 it('hides the tooltip of the active option when opened via click', async () => {
   // The period is arbitrary. 500 of them ensures we exceed the maximum
   // width even if it's increased.
@@ -720,7 +944,7 @@ it('hides the tooltip of the active option when opened via click', async () => {
   // and would work. `CustomEvent` is used for completeness and to get us as close as
   // possible to a real click. See the comment in the handler for more information.
   component.shadowRoot
-    ?.querySelector('[data-test="button"]')
+    ?.querySelector('[data-test="primary-button"]')
     ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
 
   // Wait for it to open.

@@ -7,6 +7,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
 import { when } from 'lit/directives/when.js';
 import checkedIcon from './icons/checked.js';
+import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.option.styles.js';
 import type GlideCoreCheckbox from './checkbox.js';
 
@@ -27,6 +28,21 @@ export default class GlideCoreDropdownOption extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true, type: Boolean })
+  get editable() {
+    return this.#isEditable;
+  }
+
+  set editable(isEditable) {
+    this.#isEditable = isEditable;
+
+    this.dispatchEvent(
+      new Event('private-editable-change', {
+        bubbles: true,
+      }),
+    );
+  }
 
   @property({ reflect: true })
   get label() {
@@ -52,6 +68,9 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   @property({ attribute: 'private-indeterminate', type: Boolean })
   privateIndeterminate = false;
+
+  @property({ type: Boolean })
+  privateIsEditActive = false;
 
   @property({ attribute: 'private-multiple', type: Boolean })
   privateMultiple = false;
@@ -220,6 +239,7 @@ export default class GlideCoreDropdownOption extends LitElement {
             <glide-core-checkbox
               class=${classMap({
                 checkbox: true,
+                editable: this.editable,
                 [this.privateSize]: true,
               })}
               data-test="checkbox"
@@ -236,18 +256,35 @@ export default class GlideCoreDropdownOption extends LitElement {
               ${ref(this.#checkboxElementRef)}
             >
               <slot
-                class="icon-slot"
-                data-test="icon-slot"
+                class="checkbox-icon-slot"
                 name="icon"
                 slot="private-icon"
               ></slot>
             </glide-core-checkbox>
+
+            ${when(this.editable, () => {
+              return html`<button
+                class=${classMap({
+                  'edit-button': true,
+                  active: this.privateIsEditActive,
+                  multiple: Boolean(this.isMultiple),
+                  [this.privateSize]: true,
+                })}
+                data-test="edit-button"
+                type="button"
+                @mouseover=${this.#onEditButtonMouseover}
+                @mouseout=${this.#onEditButtonMouseout}
+              >
+                ${pencilIcon}
+              </button>`;
+            })}
           `;
         },
         () => {
           return html`
           <div class=${classMap({
             option: true,
+            editable: this.editable,
             [this.privateSize]: true,
           })}
           >
@@ -267,14 +304,30 @@ export default class GlideCoreDropdownOption extends LitElement {
                 </div>
               </glide-core-tooltip>
 
-              <div
-                class=${classMap({
-                  'checked-icon': true,
-                  visible: this.selected,
-                })}
-              >
-                ${checkedIcon}
-              </div>
+              ${when(this.selected, () => {
+                return html`<div
+                  class="checked-icon-container"
+                  data-test="checked-icon-container"
+                >
+                  ${checkedIcon}
+                </div>`;
+              })}
+
+              ${when(this.editable, () => {
+                return html`<button
+                  class=${classMap({
+                    'edit-button': true,
+                    active: this.privateIsEditActive,
+                    [this.privateSize]: true,
+                  })}
+                  data-test="edit-button"
+                  type="button"
+                  @mouseover=${this.#onEditButtonMouseover}
+                  @mouseout=${this.#onEditButtonMouseout}
+                >
+                  ${pencilIcon}
+                </button>`;
+              })}
             </div>
           </div>`;
         },
@@ -297,6 +350,8 @@ export default class GlideCoreDropdownOption extends LitElement {
   #id = nanoid();
 
   #intersectionObserver?: IntersectionObserver;
+
+  #isEditable = false;
 
   #label = '';
 
@@ -324,6 +379,17 @@ export default class GlideCoreDropdownOption extends LitElement {
     // This is also why Dropdown listens for "input" when multiselect and "click"
     // when single-select.
     event.stopPropagation();
+  }
+
+  #onEditButtonMouseout() {
+    // A simple `:hover:` selector would be nice. But Dropdown needs to know if the
+    // button is active to decide what to do when the user is arrowing, among other
+    // things.
+    this.privateIsEditActive = false;
+  }
+
+  #onEditButtonMouseover() {
+    this.privateIsEditActive = true;
   }
 
   #updateLabelOverflow() {
