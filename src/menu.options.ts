@@ -50,12 +50,12 @@ export default class GlideCoreMenuOptions extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
+    owSlot(this.#slotElementRef.value);
 
     // `Text` is allowed so slotted content can be rendered asychronously. Think of
     // a case where the only slotted content is a `repeat` whose array is empty
     // at first then populated after a fetch.
-    owSlotType(this.#defaultSlotElementRef.value, [
+    owSlotType(this.#slotElementRef.value, [
       GlideCoreMenuButton,
       GlideCoreMenuLink,
       Text,
@@ -72,13 +72,11 @@ export default class GlideCoreMenuOptions extends LitElement {
       role="none"
     >
       <slot
-        @slotchange=${this.#onDefaultSlotChange}
-        ${ref(this.#defaultSlotElementRef)}
+        @slotchange=${this.#onSlotChange}
+        ${ref(this.#slotElementRef)}
       ></slot>
     </div>`;
   }
-
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   // Established here instead of in `connectedCallback` so the ID remains
   // constant even if this component is removed and re-added to the DOM.
@@ -87,13 +85,17 @@ export default class GlideCoreMenuOptions extends LitElement {
   // for sure. But one we can protect against with little effort.
   #id = nanoid();
 
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
+  #slotElementRef = createRef<HTMLSlotElement>();
 
-    owSlotType(this.#defaultSlotElementRef.value, [
+  #onSlotChange() {
+    owSlot(this.#slotElementRef.value);
+
+    owSlotType(this.#slotElementRef.value, [
       GlideCoreMenuButton,
       GlideCoreMenuLink,
       Text,
     ]);
+
+    this.dispatchEvent(new Event('private-slot-change', { bubbles: true }));
   }
 }
