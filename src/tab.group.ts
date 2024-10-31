@@ -22,7 +22,14 @@ declare global {
 }
 
 /**
- * @slot - One ore more of `<glide-core-tab-panel>`.
+ * @cssprop [--panel-padding-inline-end]
+ * @cssprop [--panel-padding-inline-start]
+ * @cssprop [--tabs-padding-block-end]
+ * @cssprop [--tabs-padding-block-start]
+ * @cssprop [--tabs-padding-inline-end]
+ * @cssprop [--tabs-padding-inline-start]
+ *
+ * @slot - One or more of `<glide-core-tab-panel>`.
  * @slot nav - One or more of `<glide-core-tab>`.
  */
 @customElement('glide-core-tab-group')

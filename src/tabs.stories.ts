@@ -26,8 +26,12 @@ const meta: Meta = {
     'slot="nav"': '',
     'addEventListener(event, listener)': '',
     sticky: false,
-    '--padding-block-start': '',
-    '--padding-inline': '',
+    '--panel-padding-inline-end': '',
+    '--panel-padding-inline-start': '',
+    '--tabs-padding-block-end': '',
+    '--tabs-padding-block-start': '',
+    '--tabs-padding-inline-end': '',
+    '--tabs-padding-inline-start': '',
     '<glide-core-tab>.panel': '',
     '<glide-core-tab>[slot="default"]': 'Tab',
     '<glide-core-tab>.active': true,
@@ -37,21 +41,53 @@ const meta: Meta = {
     '<glide-core-tab-panel>[slot="default"]': 'Panel',
   },
   render(arguments_) {
+    const addInlineStyles = () => {
+      const styles = [];
+
+      if (arguments_['--panel-padding-inline-end']) {
+        styles.push(
+          `--panel-padding-inline-end: ${arguments_['--panel-padding-inline-end']};`,
+        );
+      }
+
+      if (arguments_['--panel-padding-inline-start']) {
+        styles.push(
+          `--panel-padding-inline-start: ${arguments_['--panel-padding-inline-start']};`,
+        );
+      }
+
+      if (arguments_['--tabs-padding-block-end']) {
+        styles.push(
+          `--tabs-padding-block-end: ${arguments_['--tabs-padding-block-end']};`,
+        );
+      }
+
+      if (arguments_['--tabs-padding-block-start']) {
+        styles.push(
+          `--tabs-padding-block-start: ${arguments_['--tabs-padding-block-start']};`,
+        );
+      }
+
+      if (arguments_['--tabs-padding-inline-end']) {
+        styles.push(
+          `--tabs-padding-inline-end: ${arguments_['--tabs-padding-inline-end']};`,
+        );
+      }
+
+      if (arguments_['--tabs-padding-inline-start']) {
+        styles.push(
+          `--tabs-padding-inline-start: ${arguments_['--tabs-padding-inline-start']};`,
+        );
+      }
+
+      return styles?.length > 0 ? styles.join(' ') : undefined;
+    };
+
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <glide-core-tab-group
         ?sticky=${arguments_.sticky}
-        style="${ifDefined(
-          arguments_['--padding-inline'] && arguments_['--padding-block-start']
-            ? `--padding-block-start: ${arguments_['--padding-block-start']}; --padding-inline: ${arguments_['--padding-inline']};`
-            : arguments_['--padding-inline'] &&
-                !arguments_['--padding-block-start']
-              ? `--padding-inline: ${arguments_['--padding-inline']};`
-              : arguments_['--padding-block-start'] &&
-                  !arguments_['--padding-inline']
-                ? `--padding-block-start: ${arguments_['--padding-block-start']};`
-                : undefined,
-        )}"
+        style="${ifDefined(addInlineStyles())}"
       >
         <glide-core-tab
           slot="nav"
@@ -117,20 +153,45 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    '--padding-block-start': {
+    '--panel-padding-inline-end': {
       table: {
         type: {
           summary: 'CSS custom property',
-          detail: '// The padding-block-start of the Tab Group.',
         },
       },
     },
-    '--padding-inline': {
+    '--panel-padding-inline-start': {
       table: {
         type: {
           summary: 'CSS custom property',
-          detail:
-            '// The padding-inline of the Tab Group. Also applied to each Tab Panel.',
+        },
+      },
+    },
+    '--tabs-padding-block-end': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
+    '--tabs-padding-block-start': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
+    '--tabs-padding-inline-end': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
+    '--tabs-padding-inline-start': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
         },
       },
     },

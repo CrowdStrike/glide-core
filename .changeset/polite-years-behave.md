@@ -2,7 +2,11 @@
 '@crowdstrike/glide-core': patch
 ---
 
-Tab Group now supports two CSS custom properties:
+Tab Group supports the following CSS custom properties:
 
-1. `--padding-block-start`: Used to add top padding to the Tab Group.
-2. `--padding-inline`: Used to add horizontal padding to the Tab Group and Tab Panels.
+- `--panel-padding-inline-end`
+- `--panel-padding-inline-start`
+- `--tabs-padding-block-end`
+- `--tabs-padding-block-start`
+- `--tabs-padding-inline-end`
+- `--tabs-padding-inline-start`
