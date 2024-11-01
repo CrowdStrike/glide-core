@@ -3,6 +3,7 @@ import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
 import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -25,6 +26,12 @@ const meta: Meta = {
     'slot="nav"': '',
     'addEventListener(event, listener)': '',
     sticky: false,
+    '--panel-padding-inline-end': '',
+    '--panel-padding-inline-start': '',
+    '--tabs-padding-block-end': '',
+    '--tabs-padding-block-start': '',
+    '--tabs-padding-inline-end': '',
+    '--tabs-padding-inline-start': '',
     '<glide-core-tab>.panel': '',
     '<glide-core-tab>[slot="default"]': 'Tab',
     '<glide-core-tab>.active': true,
@@ -34,9 +41,54 @@ const meta: Meta = {
     '<glide-core-tab-panel>[slot="default"]': 'Panel',
   },
   render(arguments_) {
+    const addInlineStyles = () => {
+      const styles = [];
+
+      if (arguments_['--panel-padding-inline-end']) {
+        styles.push(
+          `--panel-padding-inline-end: ${arguments_['--panel-padding-inline-end']};`,
+        );
+      }
+
+      if (arguments_['--panel-padding-inline-start']) {
+        styles.push(
+          `--panel-padding-inline-start: ${arguments_['--panel-padding-inline-start']};`,
+        );
+      }
+
+      if (arguments_['--tabs-padding-block-end']) {
+        styles.push(
+          `--tabs-padding-block-end: ${arguments_['--tabs-padding-block-end']};`,
+        );
+      }
+
+      if (arguments_['--tabs-padding-block-start']) {
+        styles.push(
+          `--tabs-padding-block-start: ${arguments_['--tabs-padding-block-start']};`,
+        );
+      }
+
+      if (arguments_['--tabs-padding-inline-end']) {
+        styles.push(
+          `--tabs-padding-inline-end: ${arguments_['--tabs-padding-inline-end']};`,
+        );
+      }
+
+      if (arguments_['--tabs-padding-inline-start']) {
+        styles.push(
+          `--tabs-padding-inline-start: ${arguments_['--tabs-padding-inline-start']};`,
+        );
+      }
+
+      return styles?.length > 0 ? styles.join(' ') : undefined;
+    };
+
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-      <glide-core-tab-group ?sticky=${arguments_.sticky}>
+      <glide-core-tab-group
+        ?sticky=${arguments_.sticky}
+        style="${ifDefined(addInlineStyles())}"
+      >
         <glide-core-tab
           slot="nav"
           panel="1"
@@ -59,12 +111,12 @@ const meta: Meta = {
         </glide-core-tab>
 
         <glide-core-tab-panel name="1">
-          <div style="margin: 0.625rem;">
+          <div>
             ${unsafeHTML(arguments_['<glide-core-tab-panel>[slot="default"]'])}
           </div>
         </glide-core-tab-panel>
         <glide-core-tab-panel name="2">
-          <div style="margin: 0.625rem;">With Icon</div>
+          <div>With Icon</div>
         </glide-core-tab-panel>
       </glide-core-tab-group>
     `;
@@ -99,6 +151,48 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    '--panel-padding-inline-end': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
+    '--panel-padding-inline-start': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
+    '--tabs-padding-block-end': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
+    '--tabs-padding-block-start': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
+    '--tabs-padding-inline-end': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
+    '--tabs-padding-inline-start': {
+      table: {
+        type: {
+          summary: 'CSS custom property',
+        },
       },
     },
     '<glide-core-tab>.panel': {
@@ -196,34 +290,34 @@ export const WithOverflow: StoryObj = {
           <glide-core-tab slot="nav" panel="10">Ten</glide-core-tab>
 
           <glide-core-tab-panel name="1">
-            <div style="margin: 0.62rem">One</div>
+            <div>One</div>
           </glide-core-tab-panel>
           <glide-core-tab-panel name="2">
-            <div style="margin: 0.62rem">Two</div>
+            <div>Two</div>
           </glide-core-tab-panel>
           <glide-core-tab-panel name="3">
-            <div style="margin: 0.62rem">Three</div>
+            <div>Three</div>
           </glide-core-tab-panel>
           <glide-core-tab-panel name="4">
-            <div style="margin: 0.62rem">Four</div>
+            <div>Four</div>
           </glide-core-tab-panel>
           <glide-core-tab-panel name="5">
-            <div style="margin: 0.62rem">Five</div>
+            <div>Five</div>
           </glide-core-tab-panel>
           <glide-core-tab-panel name="6">
-            <div style="margin: 0.62rem">Six</div>
+            <div>Six</div>
           </glide-core-tab-panel>
           <glide-core-tab-panel name="7">
-            <div style="margin: 0.62rem">Seven</div>
+            <div>Seven</div>
           </glide-core-tab-panel>
           <glide-core-tab-panel name="8">
-            <div style="margin: 0.62rem">Eight</div>
+            <div>Eight</div>
           </glide-core-tab-panel>
           <glide-core-tab-panel name="9">
-            <div style="margin: 0.62rem">Nine</div>
+            <div>Nine</div>
           </glide-core-tab-panel>
           <glide-core-tab-panel name="10">
-            <div style="margin: 0.62rem">Ten</div>
+            <div>Ten</div>
           </glide-core-tab-panel>
         </glide-core-tab-group>
       </div>

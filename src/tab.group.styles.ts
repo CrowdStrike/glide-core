@@ -11,6 +11,16 @@ export default [
         border-block-end: 1px solid var(--glide-core-border-base-lighter);
         box-sizing: border-box;
         display: flex;
+        padding-block-end: var(--tabs-padding-block-end);
+
+        /* Better to be explicit with start and end than using the shorthand property */
+        /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+        padding-block-start: var(--tabs-padding-block-start);
+        padding-inline-end: var(--tabs-padding-inline-end);
+
+        /* Better to be explicit with start and end than using the shorthand property */
+        /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+        padding-inline-start: var(--tabs-padding-inline-start);
       }
 
       & .sticky {
