@@ -29,9 +29,6 @@ export default [
         and it will apply to all child panels for convenience.
       */
       padding-inline-end: var(--panel-padding-inline-end);
-
-      /* Better to be explicit with start and end than using the shorthand property */
-      /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
       padding-inline-start: var(--panel-padding-inline-start);
     }
   `,
