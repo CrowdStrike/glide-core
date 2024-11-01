@@ -1,5 +1,28 @@
 # @crowdstrike/glide-core
 
+## 0.12.2
+
+### Patch Changes
+
+- [#453](https://github.com/CrowdStrike/glide-core/pull/453) [`196a880`](https://github.com/CrowdStrike/glide-core/commit/196a880a6ef594b6fad5b9caabd5ae396a723770) Thanks [@clintcs](https://github.com/clintcs)! - - Menu nows reacts to options added dynamically to Menu Options.
+
+  - Menu no longer activates the first option when another option is already active and a new option is dynamically added.
+
+- [#454](https://github.com/CrowdStrike/glide-core/pull/454) [`d6f150f`](https://github.com/CrowdStrike/glide-core/commit/d6f150f34bccfc111e6c7511fad664d949cd3f59) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tab Group supports the following CSS custom properties:
+
+  - `--panel-padding-inline-end`
+  - `--panel-padding-inline-start`
+  - `--tabs-padding-block-end`
+  - `--tabs-padding-block-start`
+  - `--tabs-padding-inline-end`
+  - `--tabs-padding-inline-start`
+
+- [#437](https://github.com/CrowdStrike/glide-core/pull/437) [`dd67616`](https://github.com/CrowdStrike/glide-core/commit/dd67616fbcef143a8f58b0615d6622041ff585d0) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown Options are now editable via the `editable` attribute, which will add a button with a pencil icon to the option.
+  An "edit" event, which you can use to show a modal, is emitted when the button is clicked.
+
+  - Multiselect Dropdown no longer submits its form when Enter is pressed on a tag removal button.
+  - Multiselect Dropdown's tags can no longer be removed when Dropdown is disabled or read-only.
+
 ## 0.12.1
 
 ### Patch Changes
