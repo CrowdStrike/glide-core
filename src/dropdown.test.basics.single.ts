@@ -9,10 +9,7 @@ GlideCoreDropdown.shadowRootOptions.mode = 'open';
 it('is accessible ', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -24,7 +21,6 @@ it('has a selected option label when an option is initially selected', async () 
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -38,18 +34,16 @@ it('has a selected option label when an option is initially selected', async () 
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
 });
 
-it('sets its internal label to the last initially selected option', async () => {
+it('sets its internal `label` to the last initially selected option', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,

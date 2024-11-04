@@ -344,14 +344,6 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (this.#componentElementRef.value) {
       observer.observe(this.#componentElementRef.value);
-
-      // Dropdown's "click" handler on `document` listens for clicks in the
-      // capture phase. There's a comment explaining why. `#isComponentClick`
-      // must be set before that handler is called so it has the information it
-      // needs to determine whether or not to close Dropdown.
-      this.#componentElementRef.value.addEventListener('mouseup', () => {
-        this.#isComponentClick = true;
-      });
     }
   }
 
@@ -460,6 +452,7 @@ export default class GlideCoreDropdown extends LitElement {
         horizontal: this.orientation === 'horizontal',
         vertical: this.orientation === 'vertical',
       })}
+      @mouseup=${this.#onComponentMouseup}
       ${ref(this.#componentElementRef)}
     >
       <glide-core-private-label
@@ -1048,6 +1041,14 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
+  #onComponentMouseup() {
+    // Dropdown's "click" handler on `document` listens for clicks in the
+    // capture phase. There's a comment explaining why. `#isComponentClick`
+    // must be set before that handler is called so it has the information it
+    // needs to determine whether or not to close Dropdown.
+    this.#isComponentClick = true;
+  }
+
   #onDefaultSlotChange() {
     owSlotType(this.#defaultSlotElementRef.value, [
       GlideCoreDropdownOption,
@@ -1240,6 +1241,9 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     if (event.key === 'Escape') {
+      // Prevents Safari from leaving full screen.
+      event.preventDefault();
+
       this.open = false;
 
       // Focus has to go somewhere if Dropdown is closed and the Add button currently
@@ -1985,11 +1989,22 @@ export default class GlideCoreDropdown extends LitElement {
 
     const tags = this.#tagsElementRef.value?.querySelectorAll('glide-core-tag');
 
-    if (tags && this.value.length > 0) {
-      const index = [...tags].findIndex((tag) => tag.dataset.id === id);
+    if (tags && this.selectedOptions.length > 0) {
+      const removedTagIndex = [...tags].findIndex(
+        (tag) => tag.dataset.id === id,
+      );
 
-      // The tag to be focused may be one that's currently hidden. So we wait
-      // for it to become visible before trying to focus it.
+      // The tag to the right of the one removed unless it was the rightmost tag.
+      // Otherwise the tag to the left.
+      const tagToFocus =
+        tags[
+          removedTagIndex < tags.length - 1
+            ? removedTagIndex + 1
+            : removedTagIndex - 1
+        ];
+
+      // The tag to be focused may be one that's currently hidden. So we wait for it
+      // to become visible before trying to focus it.
       await this.updateComplete;
 
       // Browsers have a quirk where, if focus is moved during a "keydown" event from
@@ -2002,8 +2017,7 @@ export default class GlideCoreDropdown extends LitElement {
       // dispatched by Tag on "keydown". And the now-focused one because of the "edit"
       // event dispatched by Tag on "click".
       setTimeout(() => {
-        // Move focus rightward unless it's the last tag.
-        tags[index < tags.length - 1 ? index + 1 : index - 1]?.focus();
+        tagToFocus?.focus();
 
         // Because the tag has been removed via `option.selected = false` above and focus
         // isn't moved until after the click, a "click" event will never be dispatched.

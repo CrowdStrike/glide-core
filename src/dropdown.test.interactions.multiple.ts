@@ -31,11 +31,7 @@ class GlideCoreDropdownInAnotherComponent extends LitElement {
       multiple
       open
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
     </glide-core-dropdown>`;
@@ -50,15 +46,8 @@ GlideCoreTag.shadowRootOptions.mode = 'open';
 it('opens on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -87,15 +76,8 @@ it('toggles open and closed when the button is clicked', async () => {
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -123,15 +105,8 @@ it('does not toggle open and closed when the button overflow text is clicked', a
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -160,15 +135,8 @@ it('selects options on click', async () => {
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -196,15 +164,8 @@ it('selects options on Space', async () => {
       multiple
       open
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -240,15 +201,8 @@ it('selects options on Enter', async () => {
       multiple
       open
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -277,15 +231,8 @@ it('selects options on Enter', async () => {
 it('activates Select All by default', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open multiple select-all>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -304,15 +251,8 @@ it('activates Select All by default', async () => {
 it('deactivates all other options on "mouseover"', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open multiple select-all>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -369,14 +309,10 @@ it('remains open when an option is selected via Enter', async () => {
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -396,14 +332,10 @@ it('remains open when an option is selected via Space', async () => {
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -418,15 +350,9 @@ it('remains open when an option is selected via Space', async () => {
 it('activates Select All on "mouseover"', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open multiple select-all>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -451,14 +377,10 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -762,6 +684,30 @@ it('updates `value` when the `value` of a selected option is emptied programmati
   expect(component.value).to.deep.equal(['two']);
 });
 
+it('updates `value` a tag is removed', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.shadowRoot
+    ?.querySelector<GlideCoreTag>('[data-test="tag"]')
+    ?.click();
+
+  expect(component.value).to.deep.equal(['two']);
+});
+
 it('has no internal label when an option is newly selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
@@ -770,15 +716,8 @@ it('has no internal label when an option is newly selected', async () => {
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -805,25 +744,10 @@ it('hides tags to prevent overflow', async () => {
       multiple
       style="display: block; max-width: 20rem;"
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Three"
-        value="three"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Four"
-        value="four"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -854,25 +778,10 @@ it('has overflow text when its tags are overflowing', async () => {
       multiple
       style="display: block; max-width: 20rem;"
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Three"
-        value="three"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Four"
-        value="four"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -903,14 +812,10 @@ it('deselects the option when its tag is removed', async () => {
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -927,13 +832,11 @@ it('deselects all but the last selected option when `multiple` is changed to `fa
     html`<glide-core-dropdown open multiple>
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -955,15 +858,8 @@ it('selects all options when none are selected and Select All is selected via cl
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -987,14 +883,10 @@ it('selects all options when some are selected and Select All is selected via cl
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1018,13 +910,11 @@ it('deselects all options when all are selected and Select All is selected via c
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -1049,15 +939,8 @@ it('selects all options when none are selected and Select All is selected via Sp
       open
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1085,14 +968,10 @@ it('selects all options when some are selected and Select All is selected via Sp
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1120,13 +999,11 @@ it('deselects all options when all are selected and Select All is selected via S
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -1154,15 +1031,8 @@ it('selects all options when none are selected and Select All is selected via En
       open
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1190,14 +1060,10 @@ it('selects all options when some are selected and Select All is selected via En
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1225,13 +1091,11 @@ it('deselects all options when all are selected and Select All is selected via E
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -1260,14 +1124,10 @@ it('shows Select All', async () => {
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1293,15 +1153,8 @@ it('sets Select All as selected when all options are selected', async () => {
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1326,15 +1179,8 @@ it('sets Select All as deselected when no options are selected', async () => {
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1361,15 +1207,8 @@ it('sets Select All as indeterminate when not all options are selected', async (
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1394,15 +1233,8 @@ it('does not set Select All as indeterminate when no options are selected', asyn
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1427,15 +1259,8 @@ it('does not set Select All as indeterminate when all options are selected', asy
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1457,14 +1282,10 @@ it('closes when a tag is clicked', async () => {
     html`<glide-core-dropdown open multiple>
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1563,15 +1384,8 @@ it('cannot be tabbed to when `disabled`', async () => {
       disabled
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1582,15 +1396,8 @@ it('cannot be tabbed to when `disabled`', async () => {
 it('clicks the primary button when `click()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
