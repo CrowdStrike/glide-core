@@ -455,6 +455,7 @@ export default class GlideCoreDropdown extends LitElement {
       @mouseup=${this.#onComponentMouseup}
       ${ref(this.#componentElementRef)}
     >
+      ${this.resultsCount}
       <glide-core-private-label
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
@@ -557,7 +558,7 @@ export default class GlideCoreDropdown extends LitElement {
                 aria-controls="options"
                 aria-describedby="description"
                 aria-expanded=${this.open}
-                aria-labelledby="selected-option-labels label"
+                aria-labelledby="selected-option-labels label test"
                 autocapitalize="off"
                 autocomplete="off"
                 class="input"
@@ -643,11 +644,17 @@ export default class GlideCoreDropdown extends LitElement {
                 },
               )}
 
+              <span
+                aria-label="Results: ${this.resultsCount}"
+                aria-live="polite"
+                id="test"
+              ></span>
+
               <button
                 aria-expanded=${this.open}
                 aria-haspopup="listbox"
                 aria-hidden=${this.filterable || this.isFilterable}
-                aria-labelledby="selected-option-labels label"
+                aria-labelledby="selected-option-labels label test"
                 aria-describedby="description"
                 aria-controls="options"
                 class="primary-button"
@@ -904,6 +911,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   @state()
   private isShowSingleSelectIcon = false;
+
+  @state()
+  private resultsCount = 0;
 
   @state()
   private tagOverflowLimit = 0;
@@ -1646,6 +1656,8 @@ export default class GlideCoreDropdown extends LitElement {
         ?.toLowerCase()
         .includes(this.#inputElementRef.value?.value.toLowerCase().trim());
     }
+
+    this.resultsCount = this.#optionElementsNotHidden?.length ?? 0;
 
     const firstVisibleOption = this.#optionElementsNotHidden?.at(0);
 
