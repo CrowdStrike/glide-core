@@ -11,14 +11,10 @@ GlideCoreDropdown.shadowRootOptions.mode = 'open';
 it('is accessible', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -57,13 +53,11 @@ it('has selected option labels when options are initially selected', async () =>
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -83,14 +77,10 @@ it('has a tag when an option is initially selected', async () => {
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -112,14 +102,10 @@ it('shows Select All', async () => {
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -144,13 +130,11 @@ it('sets Select All as selected when all options are initially selected', async 
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -172,15 +156,8 @@ it('sets Select All as deselected when no options are initially selected', async
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -202,14 +179,10 @@ it('sets Select All as indeterminate when not all options are initially selected
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -229,15 +202,8 @@ it('does not set Select All as indeterminate when no options are initially selec
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -259,13 +225,11 @@ it('does not set Select All as indeterminate when all options are initially sele
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -282,15 +246,8 @@ it('does not set Select All as indeterminate when all options are initially sele
 it('sets its internal label to `placeholder` when no option is initially selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -311,14 +268,10 @@ it('has no internal label when an option is initially selected', async () => {
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -362,7 +315,7 @@ it('has a "multiselect" icon for each selected option with a value', async () =>
   expect(icons?.length).to.equal(2);
 });
 
-it('has no "multiselect" icons', async () => {
+it('has no "multiselect" icons when no options are selected', async () => {
   const component = await fixture(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <div slot="icon:one">✓</div>

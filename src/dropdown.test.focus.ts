@@ -25,10 +25,7 @@ it('closes and reports validity when it loses focus', async () => {
       open
       required
     >
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     { parentNode: div },
   );
@@ -62,10 +59,7 @@ it('closes and reports validity when it loses focus', async () => {
 it('is focused when clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -146,10 +140,7 @@ it('returns focus to itself when an option is activated and the Add button has f
       placeholder="Placeholder"
       open
     >
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 

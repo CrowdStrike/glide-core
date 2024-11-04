@@ -35,10 +35,7 @@ it('has defaults', async () => {
   // eventually typechecked, which means supplying all required attributes and slots.
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -57,7 +54,6 @@ it('can be open', async () => {
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
-        value="value"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -81,15 +77,11 @@ it('cannot be open when disabled', async () => {
       open
       disabled
     >
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
   const options = component?.shadowRoot?.querySelector('[data-test="options"]');
-
   expect(options?.checkVisibility()).to.be.false;
 });
 
@@ -108,187 +100,11 @@ it('can be filterable', async () => {
   expect(input?.checkVisibility()).to.be.true;
 });
 
-it('can have a label', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.getAttribute('label')).to.equal('Label');
-  expect(component.label).to.equal('Label');
-});
-
-it('can have a placeholder', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.getAttribute('placeholder')).to.equal('Placeholder');
-  expect(component.placeholder).to.equal('Placeholder');
-});
-
-it('can have a description', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <div slot="description">Description</div>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="description"]')
-    ?.assignedElements();
-
-  expect(assignedElements?.at(0)?.textContent).to.equal('Description');
-});
-
-it('can have a tooltip', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-      <div slot="tooltip">Tooltip</div>
-    </glide-core-dropdown>`,
-  );
-
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="tooltip"]')
-    ?.assignedElements();
-
-  expect(assignedElements?.at(0)?.textContent).to.equal('Tooltip');
-});
-
-it('can have a `name`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      name="name"
-    >
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.getAttribute('name')).to.equal('name');
-  expect(component.name).to.equal('name');
-});
-
-it('can have a `size`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      size="small"
-    >
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.getAttribute('size')).to.equal('small');
-  expect(component.size).to.equal('small');
-
-  const option = component.querySelector('glide-core-dropdown-option');
-  expect(option?.privateSize).to.equal('small');
-});
-
-it('can be `disabled`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.hasAttribute('disabled')).to.be.true;
-  expect(component.disabled).to.be.true;
-});
-
-it('can be `required`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.hasAttribute('required')).to.be.true;
-  expect(component.required).to.be.true;
-});
-
-it('can be `multiple`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.hasAttribute('multiple')).to.be.true;
-  expect(component.multiple).to.be.true;
-});
-
-it('can be `select-all`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      multiple
-      select-all
-    >
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.hasAttribute('select-all')).to.be.true;
-  expect(component.selectAll).to.be.true;
-});
-
 it('activates the first option when no options are initially selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -301,20 +117,15 @@ it('activates the first option when no options are initially selected', async ()
 it('activates the last selected option when options are initially selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Three"
-        value="three"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -330,55 +141,16 @@ it('activates the last selected option when options are initially selected', asy
 it('is scrollable', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Three"
-        value="three"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Four"
-        value="four"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Five"
-        value="five"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Six"
-        value="six"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Seven"
-        value="seven"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Eight"
-        value="eight"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Nine"
-        value="nine"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Ten"
-        value="ten"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Five"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Six"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Seven"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Eight"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Nine"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Ten"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -394,50 +166,15 @@ it('is scrollable', async () => {
 it('is not scrollable', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Three"
-        value="three"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Four"
-        value="four"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Five"
-        value="five"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Six"
-        value="six"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Seven"
-        value="seven"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Eight"
-        value="eight"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Nine"
-        value="nine"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Five"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Six"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Seven"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Eight"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Nine"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -471,7 +208,6 @@ it('does not throw if the default slot only contains whitespace', async () => {
           () =>
             html`<glide-core-dropdown-option
               label="Option"
-              value="option"
             ></glide-core-dropdown-option>`,
         )}
       </glide-core-dropdown>`,

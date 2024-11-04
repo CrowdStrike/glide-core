@@ -11,7 +11,6 @@ it('is valid if not required and no option is selected', async () => {
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="Label"
-        value="value"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -26,10 +25,7 @@ it('is valid if not required and no option is selected', async () => {
 it('is invalid if required and no option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -47,10 +43,7 @@ it('is invalid if required and no option is selected when `filterable`', async (
       filterable
       required
     >
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -68,10 +61,7 @@ it('is both invalid and valid if required but disabled and no option is selected
       disabled
       required
     >
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -84,10 +74,7 @@ it('is both invalid and valid if required but disabled and no option is selected
 it('sets the validity message with `setCustomValidity()`', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -118,10 +105,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -143,10 +127,7 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
 it('is invalid when `setValidity()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -177,10 +158,7 @@ it('is invalid when `setValidity()` is called', async () => {
 it('is valid when `setValidity()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label">
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -206,10 +184,7 @@ it('is valid when `setValidity()` is called', async () => {
 it('sets the validity message with `setCustomValidity()` when `filterable`', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -240,10 +215,7 @@ it('sets the validity message with `setCustomValidity()` when `filterable`', asy
 it('removes a validity message with an empty argument to `setCustomValidity()` when `filterable`', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -265,10 +237,7 @@ it('removes a validity message with an empty argument to `setCustomValidity()` w
 it('is invalid when `setValidity()` is called when `filterable`', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -299,10 +268,7 @@ it('is invalid when `setValidity()` is called when `filterable`', async () => {
 it('is valid when `setValidity()` is called when `filterable`', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -328,10 +294,7 @@ it('is valid when `setValidity()` is called when `filterable`', async () => {
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" required>
-      <glide-core-dropdown-option
-        label="Label"
-        value="value"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 

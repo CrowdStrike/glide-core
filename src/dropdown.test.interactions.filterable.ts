@@ -18,60 +18,17 @@ GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 const defaultSlot = html`
-  <glide-core-dropdown-option
-    label="One"
-    value="one"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Two"
-    value="two"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Three"
-    value="three"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Four"
-    value="four"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Five"
-    value="five"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Six"
-    value="six"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Seven"
-    value="seven"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Eight"
-    value="eight"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Nine"
-    value="nine"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Ten"
-    value="ten"
-  ></glide-core-dropdown-option>
-
-  <glide-core-dropdown-option
-    label="Eleven"
-    value="eleven"
-  ></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Five"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Six"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Seven"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Eight"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Nine"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Ten"></glide-core-dropdown-option>
+  <glide-core-dropdown-option label="Eleven"></glide-core-dropdown-option>
 `;
 
 it('opens on click', async () => {
@@ -540,14 +497,10 @@ it('sets the `value` of its `<input>` when made filterable', async () => {
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1193,14 +1146,10 @@ it('has no icon when filtering and an option is selected', async () => {
 
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 

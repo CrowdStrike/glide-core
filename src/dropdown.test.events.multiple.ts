@@ -17,14 +17,10 @@ it('dispatches one "change" event when an option is selected via click', async (
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -60,14 +56,10 @@ it('dispatches one "change" event when an option is selected via Enter', async (
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -100,14 +92,10 @@ it('dispatches one "change" event when an option is selected via Space', async (
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -140,14 +128,10 @@ it('dispatches one "input" event when an option is selected via click', async ()
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -183,14 +167,10 @@ it('dispatches one "input" event when an option is selected via Enter', async ()
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -223,14 +203,10 @@ it('dispatches one "input" event when an option is selected via Space', async ()
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -264,14 +240,10 @@ it('dispatches one "change" event when Select All is clicked', async () => {
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -299,14 +271,10 @@ it('dispatches one "input" event when Select All is clicked', async () => {
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -333,19 +301,11 @@ it('does not dispatch a "change" event when `value` is changed programmatically'
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Three"
-        value="three"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -370,20 +330,15 @@ it('continues to dispatch "change" events upon selection after `value` is change
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Three"
-        value="three"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -411,19 +366,11 @@ it('does not dispatch an "input" event when `value` is changed programmatically'
       open
       multiple
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Three"
-        value="three"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -455,7 +402,6 @@ it('continues to dispatch "input" events upon selection after `value` is changed
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
 
@@ -490,14 +436,10 @@ it('dispatches one "change" event when an option is selected after Select All is
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -531,14 +473,10 @@ it('dispatches one "input" event when an option is selected after Select All is 
       multiple
       select-all
     >
-      <glide-core-dropdown-option
-        label="One"
-        value="one"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        value="two"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -573,14 +511,10 @@ it('dispatches one "change" event when a tag is removed', async () => {
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -607,14 +541,10 @@ it('dispatches one "input" event when a tag is removed', async () => {
     >
       <glide-core-dropdown-option
         label="One"
-        value="one"
         selected
       ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
