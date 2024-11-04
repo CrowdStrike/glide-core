@@ -317,7 +317,7 @@ export default class GlideCoreDropdownOption extends LitElement {
                 return html`<button
                   class=${classMap({
                     'edit-button': true,
-                    active: this.privateIsEditActive,
+                    active: this.privateActive && this.privateIsEditActive,
                     [this.privateSize]: true,
                   })}
                   data-test="edit-button"

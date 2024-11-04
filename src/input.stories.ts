@@ -198,7 +198,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'string',
-          detail: `// Unlike the native input element, "pattern" can be validated independently of the "required" attribute.`,
+          detail: `// Unlike \`<input>\`, \`pattern\` affects validity regardless if \`required\` is present`,
         },
       },
     },

@@ -462,6 +462,9 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
     </glide-core-dropdown>`,
   );
 
+  // Wait for it to open.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   component.shadowRoot
@@ -636,12 +639,10 @@ it('updates `value` when a option is selected or deselected via Enter', async ()
   expect(component.value).to.deep.equal(['one', 'two']);
 
   await sendKeys({ press: 'Enter' });
-
   expect(component.value).to.deep.equal(['one']);
 
   await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'Enter' });
-
   expect(component.value).to.deep.equal(['one']);
 });
 

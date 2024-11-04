@@ -12,6 +12,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import type GlideCoreTag from './tag.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -331,6 +332,76 @@ it('hides its magnifying glass icon when multiselect and not filtering', async (
   expect(icon?.checkVisibility()).to.be.not.ok;
 });
 
+it('does not clear its filter when a tag is removed via Backspace', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+    >
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  input?.select();
+  input?.focus();
+
+  await sendKeys({ type: 'o' });
+  await sendKeys({ press: 'ArrowLeft' });
+  await sendKeys({ press: 'Backspace' });
+
+  expect(input?.value).to.equal('o');
+});
+
+it('does not clear its filter when every tag is removed via Meta + Backspace', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+    >
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  input?.select();
+  input?.focus();
+
+  await sendKeys({ type: 'o' });
+  await sendKeys({ press: 'ArrowLeft' });
+  await sendKeys({ down: 'Meta' });
+  await sendKeys({ press: 'Backspace' });
+  await sendKeys({ up: 'Meta' });
+
+  expect(input?.value).to.equal('o');
+});
+
 it('does not filter on only whitespace', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
@@ -534,14 +605,11 @@ it('deselects the last selected option on Backspace', async () => {
     ?.querySelector<HTMLInputElement>('[data-test="input"]')
     ?.setSelectionRange(0, 0);
 
-  await aTimeout(0);
   await sendKeys({ press: 'Backspace' });
-
   expect(options[1].selected).to.be.false;
   expect(options[0].selected).to.be.true;
 
   await sendKeys({ press: 'Backspace' });
-
   expect(options[0].selected).to.be.false;
 });
 
@@ -608,6 +676,34 @@ it('clears the `value` of its `<input>` when multiselect and an option is select
   );
 
   expect(input?.value).to.be.empty.string;
+});
+
+it('does not clear its filter when a tag is removed', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.selected = true;
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+
+  component.shadowRoot
+    ?.querySelector<GlideCoreTag>('[data-test="tag"]')
+    ?.click();
+
+  await elementUpdated(component);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('one');
 });
 
 it('uses `placeholder` as a placeholder when multiselect and no option is selected', async () => {
@@ -954,7 +1050,7 @@ it('sets `aria-activedescendant` when closed via click', async () => {
     '[data-test="input"]',
   );
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(input?.getAttribute('aria-activedescendant')).to.be.empty.string;
 });
 
 it('sets `aria-activedescendant` when closed because it lost focus', async () => {
@@ -971,7 +1067,7 @@ it('sets `aria-activedescendant` when closed because it lost focus', async () =>
     '[data-test="input"]',
   );
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(input?.getAttribute('aria-activedescendant')).to.be.empty.string;
 });
 
 it('sets `aria-activedescendant` when closed because something outside of it was clicked', async () => {
@@ -988,7 +1084,7 @@ it('sets `aria-activedescendant` when closed because something outside of it was
     '[data-test="input"]',
   );
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(input?.getAttribute('aria-activedescendant')).to.be.empty.string;
 });
 
 it('sets `aria-activedescendant` when closed via Escape', async () => {
@@ -1005,7 +1101,7 @@ it('sets `aria-activedescendant` when closed via Escape', async () => {
     '[data-test="input"]',
   );
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(input?.getAttribute('aria-activedescendant')).to.be.empty.string;
 });
 
 it('cannot be tabbed to when `disabled`', async () => {

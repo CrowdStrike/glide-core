@@ -33,6 +33,7 @@ const meta: Meta = {
     label: 'Label',
     placeholder: 'Placeholder',
     'slot="default"': '',
+    'add-button-label': '',
     'addEventListener(event, listener)': '',
     'checkValidity()': '',
     disabled: false,
@@ -62,11 +63,28 @@ const meta: Meta = {
     '<glide-core-dropdown-option>.value': 'one',
   },
   argTypes: {
+    label: {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    placeholder: {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
     'slot="default"': {
       table: {
         type: { summary: 'GlideCoreDropdownOption' },
       },
       type: { name: 'function', required: true },
+    },
+    'add-button-label': {
+      table: {
+        type: { summary: 'string' },
+      },
     },
     'addEventListener(event, listener)': {
       control: false,
@@ -109,12 +127,6 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    label: {
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
-    },
     multiple: {
       table: {
         defaultValue: { summary: 'false' },
@@ -141,12 +153,6 @@ const meta: Meta = {
         defaultValue: { summary: '"horizontal"' },
         type: { summary: '"horizontal" | "vertical"' },
       },
-    },
-    placeholder: {
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
     },
     readonly: {
       table: {
@@ -346,6 +352,7 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, unicorn/explicit-length-check */
     return html`<glide-core-dropdown
+      add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}
       name=${arguments_.name || nothing}
       orientation=${arguments_.orientation}
@@ -416,6 +423,7 @@ export const WithIcons: StoryObj = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-call, unicorn/explicit-length-check */
     return html`<glide-core-dropdown
+      add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}
       name=${arguments_.name || nothing}
       orientation=${arguments_.orientation}

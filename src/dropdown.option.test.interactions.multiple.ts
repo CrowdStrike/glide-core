@@ -62,9 +62,9 @@ it('sets `privateIsEditActive`', async () => {
     '[data-test="edit-button"]',
   );
 
-  button?.dispatchEvent(new Event('mouseover'));
+  button?.dispatchEvent(new MouseEvent('mouseover'));
   expect(component.privateIsEditActive).to.be.true;
 
-  button?.dispatchEvent(new Event('mouseout'));
+  button?.dispatchEvent(new MouseEvent('mouseout'));
   expect(component.privateIsEditActive).to.be.false;
 });

@@ -80,6 +80,7 @@ it('dispatches a "filter" event on "input"', async () => {
 
   expect(event instanceof CustomEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(event.detail).to.equal('o');
 });
 
