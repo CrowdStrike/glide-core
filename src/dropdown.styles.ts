@@ -21,6 +21,19 @@ export default [
       position: relative;
     }
 
+    glide-core-private-label {
+      &::part(private-control-and-summary) {
+        /* 
+          The Label component's grid column styling combined with the fact that 
+          ".dropdown-and-options" isn't a direct descendant of that grid mean that 
+          Dropdown's label won't shrink when space constrained without an minimum 
+          width on Label's ".control-and-summary". It's not clear to me why Grid 
+          behaves this way.
+        */
+        min-inline-size: var(--min-inline-size);
+      }
+    }
+
     .dropdown {
       --button-and-input-height: 1.25rem;
 
@@ -45,7 +58,6 @@ export default [
         background-color 200ms ease-in-out,
         border-color 200ms ease-in-out;
       user-select: none;
-      white-space: nowrap;
 
       &.quiet:not(.multiple) {
         background-color: transparent;
@@ -272,12 +284,25 @@ export default [
       }
     }
 
+    .internal-label-tooltip {
+      display: none;
+      overflow: hidden;
+
+      &.visible {
+        display: block;
+      }
+    }
+
     .internal-label {
+      overflow: hidden;
+
       /*
         2px so the label is vertically aligned. "vertical-align: middle" has no
         effect on flex children.
       */
       padding-block-start: 0.125rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .primary-button {

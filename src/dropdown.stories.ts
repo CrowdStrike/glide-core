@@ -30,7 +30,8 @@ const meta: Meta = {
     },
   },
   args: {
-    label: 'Label',
+    label:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
     placeholder: 'Placeholder',
     'slot="default"': '',
     'add-button-label': '',
@@ -55,7 +56,8 @@ const meta: Meta = {
     'slot="tooltip"': '',
     value: '',
     variant: '',
-    '<glide-core-dropdown-option>.label': 'One',
+    '<glide-core-dropdown-option>.label':
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
     '<glide-core-dropdown-option>.addEventListener(event, listener)': false,
     '<glide-core-dropdown-option>.editable': false,
     '<glide-core-dropdown-option>.selected': false,

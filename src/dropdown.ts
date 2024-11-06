@@ -338,12 +338,24 @@ export default class GlideCoreDropdown extends LitElement {
       this.#show();
     }
 
-    const observer = new ResizeObserver(() => {
-      this.#setTagOverflowLimit();
-    });
-
     if (this.#componentElementRef.value) {
+      const observer = new ResizeObserver(() => {
+        this.#setTagOverflowLimit();
+      });
+
       observer.observe(this.#componentElementRef.value);
+    }
+
+    if (this.#internalLabelElementRef.value) {
+      const observer = new ResizeObserver(() => {
+        if (this.#internalLabelElementRef.value) {
+          this.isInternalLabelOverflow =
+            this.#internalLabelElementRef.value.scrollWidth >
+            this.#internalLabelElementRef.value.clientWidth;
+        }
+      });
+
+      observer.observe(this.#internalLabelElementRef.value);
     }
   }
 
@@ -487,14 +499,12 @@ export default class GlideCoreDropdown extends LitElement {
             ${ref(this.#dropdownElementRef)}
           >
             <span class="selected-option-labels" id="selected-option-labels">
-              ${this.selectedOptions
-                .filter(({ label }) => typeof label === 'string')
-                .map(
-                  ({ label }) =>
-                    html`<span data-test="selected-option-label">
-                      ${label},
-                    </span>`,
-                )}
+              ${this.selectedOptions.map(
+                ({ label }) =>
+                  html`<span data-test="selected-option-label">
+                    ${label},
+                  </span>`,
+              )}
             </span>
 
             ${when(this.multiple && this.selectedOptions.length > 0, () => {
@@ -578,10 +588,24 @@ export default class GlideCoreDropdown extends LitElement {
                 ${ref(this.#inputElementRef)}
               />`;
             })}
-            ${when(this.internalLabel, () => {
-              return html`<div
+
+            <glide-core-tooltip
+              class=${classMap({
+                'internal-label-tooltip': true,
+                visible: Boolean(this.internalLabel),
+              })}
+              data-test="internal-label-tooltip"
+              offset=${8}
+              ?disabled=${this.open || !this.isInternalLabelOverflow}
+              ?open=${!this.open && this.isInternalLabelTooltipOpen}
+            >
+              <div aria-hidden="true">${this.internalLabel}</div>
+
+              <div
                 class="internal-label"
                 data-test="internal-label"
+                slot="target"
+                ${ref(this.#internalLabelElementRef)}
               >
                 ${when(
                   this.internalLabel === this.placeholder,
@@ -598,8 +622,8 @@ export default class GlideCoreDropdown extends LitElement {
                   },
                   () => this.internalLabel,
                 )}
-              </div>`;
-            })}
+              </div>
+            </glide-core-tooltip>
 
             <div class="tag-overflow-and-buttons">
               ${when(
@@ -657,6 +681,8 @@ export default class GlideCoreDropdown extends LitElement {
                   ? '-1'
                   : '0'}
                 type="button"
+                @focusin=${this.#onPrimaryButtonFocusin}
+                @focusout=${this.#onPrimaryButtonFocusout}
                 ${ref(this.#primaryButtonElementRef)}
               >
                 ${when(
@@ -897,6 +923,12 @@ export default class GlideCoreDropdown extends LitElement {
   private isFiltering = false;
 
   @state()
+  private isInternalLabelOverflow = false;
+
+  @state()
+  private isInternalLabelTooltipOpen = false;
+
+  @state()
   private isOptionsAndFooterHidden = false;
 
   @state()
@@ -926,6 +958,8 @@ export default class GlideCoreDropdown extends LitElement {
   #editButtonElementRef = createRef<HTMLButtonElement>();
 
   #inputElementRef = createRef<HTMLInputElement>();
+
+  #internalLabelElementRef = createRef<HTMLElement>();
 
   #internals: ElementInternals;
 
@@ -1954,6 +1988,14 @@ export default class GlideCoreDropdown extends LitElement {
     } else if (event.target instanceof GlideCoreDropdownOption) {
       this.#value = event.detail.new ? [event.detail.new] : [];
     }
+  }
+
+  #onPrimaryButtonFocusin() {
+    this.isInternalLabelTooltipOpen = true;
+  }
+
+  #onPrimaryButtonFocusout() {
+    this.isInternalLabelTooltipOpen = false;
   }
 
   #onTagEdit() {

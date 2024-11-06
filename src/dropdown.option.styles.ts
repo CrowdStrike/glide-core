@@ -89,9 +89,8 @@ export default [
     }
 
     .icon-slot {
-      display: block;
-
       &::slotted(*) {
+        display: block;
         padding-inline-end: var(--glide-core-spacing-xs);
       }
     }

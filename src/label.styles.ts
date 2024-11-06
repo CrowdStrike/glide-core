@@ -5,7 +5,7 @@ import visuallyHidden from './styles/visually-hidden.js';
 export default [
   css`
     ${focusOutline('.optional-tooltip-target:focus-visible ')}
-    ${visuallyHidden('.tooltips-and-label.hidden')}
+    ${visuallyHidden('.tooltips.hidden')}
   `,
   css`
     .component {
@@ -14,7 +14,7 @@ export default [
 
         column-gap: var(--glide-core-spacing-sm);
         display: grid;
-        grid-template-columns: auto minmax(min-content, 1fr);
+        grid-template-columns: auto minmax(auto, 1fr);
       }
 
       &.vertical {
@@ -38,7 +38,7 @@ export default [
       }
     }
 
-    .tooltips-and-label {
+    .tooltips {
       align-items: center;
       column-gap: var(--glide-core-spacing-xs);
       display: flex;
@@ -135,10 +135,14 @@ export default [
       align-items: center;
       display: flex;
       gap: var(--glide-core-spacing-sm);
+
+      /* https://css-tricks.com/flexbox-truncated-text/#aa-the-solution-is-min-width-0-on-the-flex-child */
+      min-inline-size: 0;
     }
 
     .control {
       display: block;
+      max-inline-size: 100%;
 
       &.summaryless {
         flex-grow: 1;
