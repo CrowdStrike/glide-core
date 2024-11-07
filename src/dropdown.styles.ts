@@ -25,8 +25,8 @@ export default [
       &::part(private-control-and-summary) {
         /* 
           The Label component's grid column styling combined with the fact that 
-          ".dropdown-and-options" isn't a direct descendant of that grid mean that 
-          Dropdown's label won't shrink when space constrained without an minimum 
+          ".dropdown-and-options" isn't a direct descendant of that grid means that 
+          Dropdown's label won't shrink when space constrained without a minimum 
           width on Label's ".control-and-summary". It's not clear to me why Grid 
           behaves this way.
         */
