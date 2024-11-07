@@ -1,5 +1,18 @@
 # @crowdstrike/glide-core
 
+## 0.12.3
+
+### Patch Changes
+
+- [#456](https://github.com/CrowdStrike/glide-core/pull/456) [`72ebc6f`](https://github.com/CrowdStrike/glide-core/commit/72ebc6fd497674a2e11f846a51bbf2a8d8714571) Thanks [@clintcs](https://github.com/clintcs)! - Multiselect Dropdown now correctly applies focus to the next tag when its corresponding option doesn't have a `value`.
+
+- [#451](https://github.com/CrowdStrike/glide-core/pull/451) [`f186857`](https://github.com/CrowdStrike/glide-core/commit/f18685758c8a3c08b060efd08cc2b95d8ca4fb89) Thanks [@clintcs](https://github.com/clintcs)! - - Filterable Dropdown no longer clears its filter when a tag is removed.
+
+  - Dropdown has a new `add-button-label` attribute for labeling and adding a button to the bottom of Dropdown's menu.
+    An "add" event, which you can use to show a modal, is emitted when the button is clicked.
+
+- [#459](https://github.com/CrowdStrike/glide-core/pull/459) [`2f31b54`](https://github.com/CrowdStrike/glide-core/commit/2f31b54fe282d31a415b7620c2c22e9c95a915d6) Thanks [@clintcs](https://github.com/clintcs)! - Single-select Dropdown now truncates the selected option's label when it would otherwise overflow.
+
 ## 0.12.2
 
 ### Patch Changes
