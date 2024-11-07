@@ -6,7 +6,7 @@ import visuallyHidden from './styles/visually-hidden.js';
 export default [
   css`
     ${focusOutline('.add-button:focus-visible')}
-    ${opacityAndScaleAnimation('.options:popover-open')}
+    ${opacityAndScaleAnimation('.options-and-footer:popover-open')}
     ${visuallyHidden('.selected-option-labels')}
   `,
   css`
