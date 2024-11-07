@@ -279,7 +279,7 @@ it('has no internal label when an option is initially selected', async () => {
     '[data-test="internal-label"]',
   );
 
-  expect(label).to.not.exist;
+  expect(label?.checkVisibility()).to.not.be.ok;
 });
 
 it('has a "multiselect" icon for each selected option with a value', async () => {

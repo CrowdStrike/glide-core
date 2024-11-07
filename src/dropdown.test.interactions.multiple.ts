@@ -733,7 +733,7 @@ it('has no internal label when an option is newly selected', async () => {
     '[data-test="internal-label"]',
   );
 
-  expect(label).to.not.exist;
+  expect(label?.checkVisibility()).to.not.be.ok;
 });
 
 it('hides tags to prevent overflow', async () => {

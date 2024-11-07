@@ -10,7 +10,7 @@ export default [
       }
     }
 
-    glide-core-private-label::part(tooltips-and-label) {
+    glide-core-private-label::part(private-tooltips) {
       align-items: flex-start;
     }
 

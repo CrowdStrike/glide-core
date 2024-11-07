@@ -110,12 +110,12 @@ export default class GlideCoreLabel extends LitElement {
     >
       <div
         class=${classMap({
-          'tooltips-and-label': true,
+          tooltips: true,
           hidden: this.hide,
           left: this.split === 'left',
           middle: this.split === 'middle',
         })}
-        part="tooltips-and-label"
+        part="private-tooltips"
       >
         <glide-core-tooltip
           class=${classMap({
@@ -172,7 +172,7 @@ export default class GlideCoreLabel extends LitElement {
         </glide-core-tooltip>
       </div>
 
-      <div class="control-and-summary">
+      <div class="control-and-summary" part="private-control-and-summary">
         <slot
           class=${classMap({
             control: true,
