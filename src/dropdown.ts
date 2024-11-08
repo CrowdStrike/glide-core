@@ -308,6 +308,16 @@ export default class GlideCoreDropdown extends LitElement {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async filter(
+    filter: string,
+    options: GlideCoreDropdownOption[],
+  ): Promise<GlideCoreDropdownOption[]> {
+    return options.filter(({ label }) =>
+      label.toLowerCase().trim().includes(filter),
+    );
+  }
+
   override firstUpdated() {
     // `Text` is allowed so slotted content can be rendered asychronously. Imagine
     // a case where the only slotted content is a `repeat` whose array is empty
@@ -1652,7 +1662,7 @@ export default class GlideCoreDropdown extends LitElement {
     this.#inputElementRef.value?.select();
   }
 
-  #onInputInput(event: Event) {
+  async #onInputInput(event: Event) {
     ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
 
     // Allowing the event to propagate would break things for consumers, who
@@ -1675,37 +1685,43 @@ export default class GlideCoreDropdown extends LitElement {
       this.isFiltering = false;
     }
 
-    for (const option of this.#optionElements) {
-      option.hidden = !option.label
-        ?.toLowerCase()
-        .includes(this.#inputElementRef.value?.value.toLowerCase().trim());
+    let options: GlideCoreDropdownOption[] | undefined;
+
+    try {
+      // The rule thinks `filter()` is an array method. It's not. Though
+      // `this.#optionsElements` still has to be spread into a new array so
+      // consumers can't mutate it.
+      //
+      // eslint-disable-next-line unicorn/no-array-method-this-argument
+      options = await this.filter(this.#inputElementRef.value.value, [
+        ...this.#optionElements,
+      ]);
+      // eslint-disable-next-line no-empty
+    } catch {}
+
+    if (options) {
+      for (const option of this.#optionElements) {
+        option.hidden = !options.includes(option);
+      }
+
+      const firstVisibleOption = this.#optionElementsNotHidden?.at(0);
+
+      // When filtering filters out the active option, make the first option active
+      // if there is one.
+      if (firstVisibleOption && this.activeOption?.hidden) {
+        this.activeOption.privateActive = false;
+        this.#previouslyActiveOption = firstVisibleOption;
+        this.ariaActivedescendant = firstVisibleOption.id;
+
+        firstVisibleOption.privateActive = true;
+      }
+
+      this.isOptionsAndFooterHidden =
+        !this.#optionElementsNotHidden ||
+        this.#optionElementsNotHidden.length === 0
+          ? true
+          : false;
     }
-
-    const firstVisibleOption = this.#optionElementsNotHidden?.at(0);
-
-    // When filtering filters out the active option, make the first option active
-    // if there is one.
-    if (firstVisibleOption && this.activeOption?.hidden) {
-      this.activeOption.privateActive = false;
-      this.#previouslyActiveOption = firstVisibleOption;
-      this.ariaActivedescendant = firstVisibleOption.id;
-
-      firstVisibleOption.privateActive = true;
-    }
-
-    this.isOptionsAndFooterHidden =
-      !this.#optionElementsNotHidden ||
-      this.#optionElementsNotHidden.length === 0
-        ? true
-        : false;
-
-    this.dispatchEvent(
-      new CustomEvent('filter', {
-        bubbles: true,
-        composed: true,
-        detail: this.#inputElementRef.value.value,
-      }),
-    );
   }
 
   #onInputKeydown(event: KeyboardEvent) {
