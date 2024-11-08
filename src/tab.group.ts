@@ -3,12 +3,7 @@ import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from 'lit/decorators.js';
+import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreTab from './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
@@ -40,9 +35,6 @@ export default class GlideCoreTabGroup extends LitElement {
   };
 
   static override styles = styles;
-
-  @property({ type: Boolean, reflect: true })
-  sticky = false;
 
   @state()
   get activeTab() {
@@ -90,10 +82,7 @@ export default class GlideCoreTabGroup extends LitElement {
       @keydown=${this.#onKeydown}
       ${ref(this.#componentElementRef)}
     >
-      <div
-        class=${classMap({ 'tab-container': true, sticky: this.sticky })}
-        data-test="tab-container"
-      >
+      <div class="tab-container" data-test="tab-container">
         ${when(
           this.isShowOverflowButtons,
           () => html`

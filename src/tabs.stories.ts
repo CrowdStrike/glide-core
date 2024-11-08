@@ -25,7 +25,6 @@ const meta: Meta = {
     'slot="default"': '',
     'slot="nav"': '',
     'addEventListener(event, listener)': '',
-    sticky: false,
     '--panel-padding-inline-end': '',
     '--panel-padding-inline-start': '',
     '--tabs-padding-block-end': '',
@@ -85,10 +84,7 @@ const meta: Meta = {
 
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-      <glide-core-tab-group
-        ?sticky=${arguments_.sticky}
-        style="${ifDefined(addInlineStyles())}"
-      >
+      <glide-core-tab-group style="${ifDefined(addInlineStyles())}">
         <glide-core-tab
           slot="nav"
           panel="1"
@@ -145,13 +141,6 @@ const meta: Meta = {
         },
       },
       type: { name: 'function' },
-    },
-    sticky: {
-      name: 'sticky',
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
     },
     '--panel-padding-inline-end': {
       table: {
