@@ -35,4 +35,5 @@ export interface Translation extends DefaultTranslation {
   editTag: (name: string) => string;
   removeTag: (name: string) => string;
   actionsFor: (label: string) => string;
+  itemCount: (count: string) => string;
 }
