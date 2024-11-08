@@ -38,6 +38,7 @@ const meta: Meta = {
     'checkValidity()': '',
     disabled: false,
     filterable: false,
+    'filter(filter, options)': '',
     'hide-label': false,
     multiple: false,
     name: '',
@@ -92,7 +93,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "filter" | "input" | "invalid", listener: (event: Event | CustomEvent<string>)) => void) => void\n\n// A custom event is emitted on "filter". The event\'s `detail` property is the value filtered.',
+            '(event: "change" | "input" | "invalid", listener: (event: Event) => void) => void',
         },
       },
     },
@@ -118,6 +119,19 @@ const meta: Meta = {
           summary: 'boolean',
           detail:
             '// Dropdown will be filterable regardless of this attribute when there are more than 10 options',
+        },
+      },
+    },
+    'filter(filter, options)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: `(filter: string, options: GlideCoreDropdownOption[]): Promise<GlideCoreDropdownOption[]> {
+  return options.filter(({ label }) =>
+    label.toLowerCase().trim().includes(filter),
+  );
+}\n\n// When overriding, return the options you want visible. The rest will be hidden. If you fetch\n// when filtering, this is the place to do it.`,
         },
       },
     },

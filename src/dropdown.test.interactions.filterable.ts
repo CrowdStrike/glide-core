@@ -1162,3 +1162,56 @@ it('has no icon when filtering and an option is selected', async () => {
 
   expect(iconSlot).to.be.null;
 });
+
+it('supports custom filtering', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.filter = async (filter, options) => {
+    return options.filter(({ label }) => label.includes(filter));
+  };
+
+  component.focus();
+  await sendKeys({ type: 'O' });
+
+  const options = [
+    ...component.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ hidden }) => !hidden);
+
+  expect(options.length).to.equal(1);
+  expect(options[0].label).to.equal('One');
+});
+
+it('does nothing when filtering fails', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.filter = () => {
+    return Promise.reject();
+  };
+
+  component.focus();
+  await sendKeys({ type: 'O' });
+
+  const options = [
+    ...component.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ hidden }) => !hidden);
+
+  expect(options.length).to.equal(2);
+});
