@@ -19,6 +19,12 @@
   --glide-core-border-focus-light: #eef5ff;
   --glide-core-border-primary: #054fb9;
   --glide-core-border-primary-hover: #0461cf;
+  --glide-core-effects-shadow-large-background-blur: 12.5rem;
+  --glide-core-effects-shadow-large-blur: 0.875rem;
+  --glide-core-effects-shadow-large-fill: #00000040;
+  --glide-core-effects-shadow-large-spread: 0rem;
+  --glide-core-effects-shadow-large-x: 0rem;
+  --glide-core-effects-shadow-large-y: 0.25rem;
   --glide-core-effects-shadow-xlarge-background-blur: 6.25rem;
   --glide-core-effects-shadow-xlarge-blur: 3.75rem;
   --glide-core-effects-shadow-xlarge-fill: #adadad;
