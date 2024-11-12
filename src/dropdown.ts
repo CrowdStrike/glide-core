@@ -573,30 +573,45 @@ export default class GlideCoreDropdown extends LitElement {
             })}
             ${when(this.filterable || this.isFilterable, () => {
               return html`<input
-                aria-activedescendant=${this.ariaActivedescendant}
-                aria-controls="options"
-                aria-describedby="description"
-                aria-expanded=${this.open}
-                aria-labelledby="selected-option-labels label"
-                autocapitalize="off"
-                autocomplete="off"
-                class="input"
-                data-test="input"
-                id="input"
-                placeholder=${this.multiple ||
-                !this.selectedOptions.at(-1)?.label
-                  ? this.placeholder ?? ''
-                  : ''}
-                role="combobox"
-                spellcheck="false"
-                tabindex=${this.disabled ? '-1' : '0'}
-                ?disabled=${this.disabled}
-                ?readonly=${this.readonly}
-                @focusin=${this.#onInputFocusin}
-                @input=${this.#onInputInput}
-                @keydown=${this.#onInputKeydown}
-                ${ref(this.#inputElementRef)}
-              />`;
+                  aria-activedescendant=${this.ariaActivedescendant}
+                  aria-controls="options"
+                  aria-describedby="description"
+                  aria-expanded=${this.open}
+                  aria-labelledby="selected-option-labels label ${this
+                    .isCommunicateItemCountToScreenreaders
+                    ? 'item-count'
+                    : ''}"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  class="input"
+                  data-test="input"
+                  id="input"
+                  placeholder=${this.multiple ||
+                  !this.selectedOptions.at(-1)?.label
+                    ? this.placeholder ?? ''
+                    : ''}
+                  role="combobox"
+                  spellcheck="false"
+                  tabindex=${this.disabled ? '-1' : '0'}
+                  ?disabled=${this.disabled}
+                  ?readonly=${this.readonly}
+                  @focusin=${this.#onInputFocusin}
+                  @focusout=${this.#onInputFocusout}
+                  @input=${this.#onInputInput}
+                  @keydown=${this.#onInputKeydown}
+                  ${ref(this.#inputElementRef)}
+                />
+
+                <span
+                  aria-label=${this.#localize.term(
+                    'itemCount',
+                    this.itemCount.toString(),
+                  )}
+                  aria-live="assertive"
+                  class="item-count"
+                  data-test="item-count"
+                  id="item-count"
+                ></span>`;
             })}
 
             <glide-core-tooltip
@@ -926,6 +941,17 @@ export default class GlideCoreDropdown extends LitElement {
   @state()
   private isCheckingValidity = false;
 
+  // `itemCount` isn't immediately communicated to screenreaders so that the
+  // number of options isn't read twice when Dropdown receives focus. It's
+  // already read once without additional effort due to `role="combobox"` and
+  // `aria-controls="options"`.
+  //
+  // However, an updated count isn't read when the user filters, which is where
+  // `itemCount` comes in. `isCommunicateItemCountToScreenreaders` is used to
+  // toggle `itemCount` so it isn't read on focus.
+  @state()
+  private isCommunicateItemCountToScreenreaders = false;
+
   @state()
   private isFilterable = false;
 
@@ -947,6 +973,12 @@ export default class GlideCoreDropdown extends LitElement {
   @state()
   private isShowSingleSelectIcon = false;
 
+  // "optionCount" or similar is arguably more natural. But "item" is how VoiceOver
+  // refers to options when Dropdown is initially focused. So that's what the text
+  // is. And so the variable name follows the text.
+  @state()
+  private itemCount = 0;
+
   @state()
   private tagOverflowLimit = 0;
 
@@ -954,8 +986,6 @@ export default class GlideCoreDropdown extends LitElement {
   private validityMessage?: string;
 
   #addButtonElementRef = createRef<HTMLButtonElement>();
-
-  #buttonElementRef = createRef<HTMLButtonElement>();
 
   #cleanUpFloatingUi?: ReturnType<typeof autoUpdate>;
 
@@ -1662,6 +1692,10 @@ export default class GlideCoreDropdown extends LitElement {
     this.#inputElementRef.value?.select();
   }
 
+  #onInputFocusout() {
+    this.isCommunicateItemCountToScreenreaders = false;
+  }
+
   async #onInputInput(event: Event) {
     ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
 
@@ -1721,6 +1755,12 @@ export default class GlideCoreDropdown extends LitElement {
         this.#optionElementsNotHidden.length === 0
           ? true
           : false;
+
+      this.isCommunicateItemCountToScreenreaders = true;
+
+      if (this.#optionElementsNotHidden) {
+        this.itemCount = this.#optionElementsNotHidden.length;
+      }
     }
   }
 

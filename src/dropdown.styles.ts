@@ -7,6 +7,7 @@ export default [
   css`
     ${focusOutline('.add-button:focus-visible')}
     ${opacityAndScaleAnimation('.options-and-footer:popover-open')}
+    ${visuallyHidden('.item-count')}
     ${visuallyHidden('.selected-option-labels')}
   `,
   css`

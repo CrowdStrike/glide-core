@@ -25,6 +25,7 @@ const translation: Translation = {
   editTag: (label: string) => `Edit tag: ${label}`,
   removeTag: (label: string) => `Remove tag: ${label}`,
   actionsFor: (label: string) => `Actions for ${label}`,
+  itemCount: (count: string) => `${count} items`,
 };
 
 export default translation;

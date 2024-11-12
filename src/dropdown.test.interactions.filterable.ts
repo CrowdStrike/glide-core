@@ -1215,3 +1215,25 @@ it('does nothing when filtering fails', async () => {
 
   expect(options.length).to.equal(2);
 });
+
+it('updates its item count after filtering', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+
+  const itemCount = component.shadowRoot?.querySelector(
+    '[data-test="item-count"]',
+  );
+
+  expect(itemCount?.ariaLabel).to.equal('1 items');
+});
