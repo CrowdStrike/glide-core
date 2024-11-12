@@ -17,12 +17,6 @@ export default [
         padding-inline-start: var(--tabs-padding-inline-start);
       }
 
-      & .sticky {
-        background-color: var(--glide-core-surface-page);
-        inset-block-start: 0;
-        position: sticky;
-      }
-
       & .tab-group {
         display: flex;
         gap: var(--glide-core-spacing-xl);
