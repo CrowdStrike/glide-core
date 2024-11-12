@@ -15,6 +15,7 @@ const translation: Translation = {
   notifications: 'Notifications',
   nextTab: 'Next tab',
   previousTab: 'Previous tab',
+  noResults: 'No results found',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `Character count ${current} of ${maximum}`,
