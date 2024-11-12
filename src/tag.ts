@@ -72,6 +72,8 @@ export default class GlideCoreTag extends LitElement {
           [this.size]: true,
         })}
         data-test="component"
+        data-animation-duration=${this.#animationDuration}
+        style="--animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
         <slot
@@ -132,6 +134,8 @@ export default class GlideCoreTag extends LitElement {
     `;
   }
 
+  #animationDuration = 100;
+
   #componentElementRef = createRef<HTMLElement>();
 
   // Guards against dispatching "edit" and "remove" on click when the click came
@@ -170,7 +174,7 @@ export default class GlideCoreTag extends LitElement {
     } else {
       setTimeout(() => {
         this.remove();
-      }, 200);
+      }, this.#animationDuration);
 
       this.#componentElementRef.value?.classList.add('removed');
 
@@ -186,7 +190,7 @@ export default class GlideCoreTag extends LitElement {
 
       setTimeout(() => {
         this.remove();
-      }, 200);
+      }, this.#animationDuration);
 
       this.#componentElementRef.value?.classList.add('removed');
 

@@ -13,8 +13,11 @@ it('removes itself on click', async () => {
 
   component.click();
 
-  // Wait for the animation to complete.
-  await aTimeout(200);
+  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="component"]',
+  )?.dataset.animationDuration;
+
+  await aTimeout(Number(animationDuration));
 
   expect(document.querySelector('glide-core-tag')).to.be.null;
 });
@@ -26,8 +29,11 @@ it('does not remove itself on click when disabled', async () => {
 
   component.click();
 
-  // Wait for the animation to complete.
-  await aTimeout(200);
+  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="component"]',
+  )?.dataset.animationDuration;
+
+  await aTimeout(Number(animationDuration));
 
   expect(document.querySelector('glide-core-tag') instanceof GlideCoreTag).to.be
     .true;
@@ -41,8 +47,11 @@ it('removes itself on Space', async () => {
   component.focus();
   await sendKeys({ press: ' ' });
 
-  // Wait for the animation to complete.
-  await aTimeout(200);
+  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="component"]',
+  )?.dataset.animationDuration;
+
+  await aTimeout(Number(animationDuration));
 
   expect(document.querySelector('glide-core-tag')).to.be.null;
 });
@@ -55,8 +64,11 @@ it('removes itself on Enter', async () => {
   component.focus();
   await sendKeys({ press: 'Enter' });
 
-  // Wait for the animation to complete.
-  await aTimeout(200);
+  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="component"]',
+  )?.dataset.animationDuration;
+
+  await aTimeout(Number(animationDuration));
 
   expect(document.querySelector('glide-core-tag')).to.be.null;
 });
