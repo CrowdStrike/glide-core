@@ -104,6 +104,8 @@ it('has a tooltip on focus when its internal label is overflowing', async () => 
     '[data-test="internal-label-tooltip"]',
   );
 
+  await tooltip?.updateComplete;
+
   expect(tooltip?.open).to.be.true;
   expect(tooltip?.disabled).to.be.false;
 });
