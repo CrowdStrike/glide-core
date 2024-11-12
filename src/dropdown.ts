@@ -309,13 +309,10 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  async filter(
-    filter: string,
-    options: GlideCoreDropdownOption[],
-  ): Promise<GlideCoreDropdownOption[]> {
-    return options.filter(({ label }) =>
-      label.toLowerCase().trim().includes(filter),
-    );
+  async filter(filter: string): Promise<GlideCoreDropdownOption[]> {
+    return this.#optionElements.filter(({ label }) => {
+      return label.toLowerCase().includes(filter.toLowerCase().trim());
+    });
   }
 
   override firstUpdated() {
@@ -1693,9 +1690,7 @@ export default class GlideCoreDropdown extends LitElement {
       // consumers can't mutate it.
       //
       // eslint-disable-next-line unicorn/no-array-method-this-argument
-      options = await this.filter(this.#inputElementRef.value.value, [
-        ...this.#optionElements,
-      ]);
+      options = await this.filter(this.#inputElementRef.value.value);
       // eslint-disable-next-line no-empty
     } catch {}
 
