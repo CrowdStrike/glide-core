@@ -9,7 +9,7 @@ export default [
   css`
     .component {
       align-items: center;
-      background: var(--glide-core-surface-tag-default);
+      background: var(--glide-core-surface-base-gray-lighter);
       border-radius: var(--glide-core-border-radius-round);
       color: var(--glide-core-text-body-1);
       display: flex;
