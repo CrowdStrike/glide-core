@@ -36,5 +36,5 @@
   --glide-core-heading-xxxs-line-height: 1.7;
   --glide-core-shadow-lg: 0px 4px 14px 0px #00000040;
   --glide-core-shadow-sm: 0px 2.275px 8.342px 0px rgba(181, 181, 181, 0.25);
-  --glide-core-shadow-xl: 0px 4px 60px 0px #adadad;
+  --glide-core-shadow-xl: var(--glide-core-effects-shadow-xlarge-x) var(--glide-core-effects-shadow-xlarge-y) var(--glide-core-effects-shadow-xlarge-blur) var(--glide-core-effects-shadow-xlarge-spread) var(--glide-core-effects-shadow-xlarge-fill);
 }
