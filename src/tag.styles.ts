@@ -38,7 +38,7 @@ export default [
       }
 
       &.added {
-        animation: fade-in 100ms ease-in-out;
+        animation: fade-in var(--animation-duration) ease-in-out;
       }
 
       &.disabled {
@@ -46,8 +46,10 @@ export default [
       }
 
       &.removed {
-        animation: fade-out 200ms ease-in-out;
+        animation-duration: var(--animation-duration);
         animation-fill-mode: forwards;
+        animation-name: fade-out;
+        animation-timing-function: ease-in-out;
       }
     }
 
