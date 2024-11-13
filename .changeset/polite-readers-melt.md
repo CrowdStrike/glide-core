@@ -13,12 +13,12 @@ The `"filter"` event wasn't fully thought through and had a few shortcomings:
 Replacing the event is `filter()` and its default implementation:
 
 ```ts
-async filter(filter: string): Promise<GlideCoreDropdownOption[]> {
+async filter(query: string): Promise<GlideCoreDropdownOption[]> {
   const options = [...this.querySelectorAll('glide-core-dropdown-option')];
 
-  return options.filter(({ label }) =>
-    label.toLowerCase().includes(filter.toLowerCase().trim()),
-  );
+  return options.filter(({ label }) => {
+    return label.toLowerCase().includes(query.toLowerCase().trim()),
+  });
 }
 ```
 

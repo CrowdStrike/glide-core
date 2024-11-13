@@ -38,7 +38,7 @@ const meta: Meta = {
     'checkValidity()': '',
     disabled: false,
     filterable: false,
-    'filter(filter, options)': '',
+    'filter(query, options)': '',
     'hide-label': false,
     multiple: false,
     name: '',
@@ -122,17 +122,17 @@ const meta: Meta = {
         },
       },
     },
-    'filter(filter, options)': {
+    'filter(query, options)': {
       control: false,
       table: {
         type: {
           summary: 'method',
           detail: `
-async (filter: string): Promise<GlideCoreDropdownOption[]> {
+async (query: string): Promise<GlideCoreDropdownOption[]> {
   const options = [...this.querySelectorAll('glide-core-dropdown-option)];
 
   return options.filter(({ label }) => {
-    return label.toLowerCase().includes(filter.toLowercase().trim());
+    return label.toLowerCase().includes(query.toLowercase().trim());
   });
 }
   

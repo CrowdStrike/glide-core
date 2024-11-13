@@ -309,9 +309,9 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  async filter(filter: string): Promise<GlideCoreDropdownOption[]> {
+  async filter(query: string): Promise<GlideCoreDropdownOption[]> {
     return this.#optionElements.filter(({ label }) => {
-      return label.toLowerCase().includes(filter.toLowerCase().trim());
+      return label.toLowerCase().includes(query.toLowerCase().trim());
     });
   }
 
