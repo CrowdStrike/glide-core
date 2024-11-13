@@ -27,7 +27,7 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     autocapitalize: 'on',
     autocomplete: 'on',
     'checkValidity()': '',
@@ -111,13 +111,13 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       control: false,
       table: {
         type: {
           summary: 'method',
           detail:
-            'event: "change" | "input" | "invalid", listener: (event: Event) => void',
+            'event: "change" | "input" | "invalid", handler: (event: Event) => void',
         },
       },
     },

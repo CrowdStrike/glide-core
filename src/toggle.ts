@@ -129,12 +129,12 @@ export default class GlideCoreToggle extends LitElement {
   // to force Toggle checked or unchecked until the user has completed some action.
   //
   // The way to force Toggle checked or unchecked is to add an "input" or
-  // "change" listener and then immediately set `checked` back to its desired
-  // state inside that listener.
+  // "change" handler and then immediately set `checked` back to its desired
+  // state inside that handler.
   //
   // To do that, consumers need to await `this.updateComplete` so `checked` isn't
   // immediately reverted after Toggle updates, which happens asynchronously and
-  // so would happen after their listener runs.
+  // so would happen after their handler runs.
   //
   // To await `this.updateComplete`, however, an update has to be pending. That's
   // why we're handling "input" as well: so that "input", like "change", results

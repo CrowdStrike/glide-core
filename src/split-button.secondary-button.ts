@@ -62,7 +62,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
       GlideCoreMenuLink,
     ]);
 
-    // A "click" listener on Menu would suffice for checking Menu's `open` property
+    // A "click" handler on Menu would suffice for checking Menu's `open` property
     // and synchronizing it with `menuOpen` if Menu didn't close itself on `document`
     // click and when focus is lost.
     //

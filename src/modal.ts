@@ -59,7 +59,7 @@ globalStylesheet.insertRule(`
 `);
 
 /**
- * @event close - `(event: "close", listener: (event: Event)) => void) => void`
+ * @event close - `(event: "close", handler: (event: Event)) => void) => void`
  *
  * @slot - The content of the modal.
  * @slot header-actions - One or more of `<glide-core-modal-icon-button>`.

@@ -90,7 +90,7 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': '',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     orientation: 'horizontal',
     variant: '',
     '<glide-core-button-group-button>.label': 'One',
@@ -112,12 +112,12 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       control: false,
       table: {
         type: {
           summary: 'method',
-          detail: 'event: "change" | "input", listener: (event: Event) => void',
+          detail: 'event: "change" | "input", handler: (event: Event) => void',
         },
       },
     },

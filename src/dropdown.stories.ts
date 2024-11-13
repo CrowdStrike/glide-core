@@ -34,7 +34,7 @@ const meta: Meta = {
     placeholder: 'Placeholder',
     'slot="default"': '',
     'add-button-label': '',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     'checkValidity()': '',
     disabled: false,
     filterable: false,
@@ -57,7 +57,7 @@ const meta: Meta = {
     value: '',
     variant: '',
     '<glide-core-dropdown-option>.label': 'One',
-    '<glide-core-dropdown-option>.addEventListener(event, listener)': false,
+    '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
     '<glide-core-dropdown-option>.editable': false,
     '<glide-core-dropdown-option>.selected': false,
     '<glide-core-dropdown-option>[slot="icon"]': '',
@@ -87,13 +87,13 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       control: false,
       table: {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", listener: (event: Event) => void) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
         },
       },
     },
@@ -280,14 +280,14 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       },
       type: { name: 'string', required: true },
     },
-    '<glide-core-dropdown-option>.addEventListener(event, listener)': {
-      name: 'addEventListener(event, listener)',
+    '<glide-core-dropdown-option>.addEventListener(event, handler)': {
+      name: 'addEventListener(event, handler)',
       control: false,
       table: {
         category: 'Dropdown Option',
         type: {
           summary: 'method',
-          detail: '(event: "edit", listener: (event: Event)) => void) => void',
+          detail: '(event: "edit", handler: (event: Event)) => void) => void',
         },
       },
     },

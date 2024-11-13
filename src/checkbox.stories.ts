@@ -27,7 +27,7 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     checked: false,
     'checkValidity()': '',
     disabled: false,
@@ -45,13 +45,13 @@ const meta: Meta = {
     value: '',
   },
   argTypes: {
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       control: false,
       table: {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", listener: (event: Event) => void) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
         },
       },
     },

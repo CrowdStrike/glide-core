@@ -26,7 +26,7 @@ const meta: Meta = {
   tags: ['autodocs'],
   args: {
     'slot="default"': '',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     '<glide-core-tree-item>.label': 'Branch',
     '<glide-core-tree-item>.expanded': true,
     '<glide-core-tree-item>.non-collapsible': false,
@@ -127,13 +127,13 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       control: false,
       table: {
         type: {
           summary: 'method',
           detail:
-            'event: "item-selected", listener: (event: CustomEvent<{ item: GlideCoreTreeItem }>) => void',
+            'event: "item-selected", handler: (event: CustomEvent<{ item: GlideCoreTreeItem }>) => void',
         },
       },
     },

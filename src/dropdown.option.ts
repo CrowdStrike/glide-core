@@ -218,7 +218,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   override render() {
-    // The linter wants a keyboard listener. There's one on Dropdown itself. It's there
+    // The linter wants a keyboard handler. There's one on Dropdown itself. It's there
     // because options aren't focusable and thus don't produce keyboard events when Dropdown
     // is filterable.
 
