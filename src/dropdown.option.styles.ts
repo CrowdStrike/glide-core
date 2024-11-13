@@ -30,7 +30,7 @@ export default [
         font-style: var(--glide-core-body-sm-font-style);
         font-weight: var(--glide-core-body-sm-font-weight);
         line-height: var(--glide-core-body-sm-line-height);
-        padding-inline-start: var(--glide-core-spacing-sm);
+        padding-inline-start: 0.625rem;
 
         &:not(.editable) {
           padding-inline-end: var(--glide-core-spacing-sm);
@@ -43,7 +43,7 @@ export default [
         font-style: var(--glide-core-body-xs-font-style);
         font-weight: var(--glide-core-body-xs-font-weight);
         line-height: var(--glide-core-body-xs-line-height);
-        padding-inline-start: var(--glide-core-spacing-xs);
+        padding-inline-start: var(--glide-core-spacing-sm);
 
         &:not(.editable) {
           padding-inline-end: var(--glide-core-spacing-xs);
@@ -89,17 +89,47 @@ export default [
     }
 
     .icon-slot {
+      &.large {
+        &::slotted(*) {
+          block-size: 1rem;
+          inline-size: 1rem;
+        }
+      }
+
+      &.small {
+        &::slotted(*) {
+          block-size: 0.75rem;
+          inline-size: 0.75rem;
+        }
+      }
+
       &::slotted(*) {
-        display: block;
+        align-items: center;
+        display: flex;
         padding-inline-end: var(--glide-core-spacing-xs);
       }
     }
 
     .checkbox-icon-slot {
+      &.large {
+        &::slotted(*) {
+          block-size: 1rem;
+          inline-size: 1rem;
+        }
+      }
+
+      &.small {
+        &::slotted(*) {
+          block-size: 0.75rem;
+          inline-size: 0.75rem;
+        }
+      }
+
       &::slotted(*) {
-        block-size: 1rem;
-        display: block;
-        inline-size: 1rem;
+        align-items: center;
+        block-size: 0.75rem;
+        display: flex;
+        inline-size: 0.75rem;
       }
     }
 
