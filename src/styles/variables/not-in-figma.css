@@ -34,6 +34,7 @@
   --glide-core-heading-xxxs-font-variant: normal;
   --glide-core-heading-xxxs-font-weight: var(--glide-core-font-weight-bold);
   --glide-core-heading-xxxs-line-height: 1.7;
+  --glide-core-shadow-checkbox: 0px 0px 7px 0px #5ba4ee;
   --glide-core-shadow-lg: var(--glide-core-effects-shadow-large-x)
     var(--glide-core-effects-shadow-large-y)
     var(--glide-core-effects-shadow-large-blur)

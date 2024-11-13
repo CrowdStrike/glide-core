@@ -80,7 +80,7 @@ when browsers support them.
       }
 
       &:not(.disabled):hover {
-        box-shadow: var(--glide-core-glow-sm);
+        box-shadow: var(--glide-core-shadow-checkbox);
       }
     }
 
@@ -96,7 +96,7 @@ when browsers support them.
 
       &:not(:disabled):hover ~ .checkbox {
         border-color: var(--glide-core-border-focus);
-        box-shadow: var(--glide-core-glow-sm);
+        box-shadow: var(--glide-core-shadow-checkbox);
       }
 
       &:checked:not(:indeterminate) ~ .checkbox .checked-icon {
