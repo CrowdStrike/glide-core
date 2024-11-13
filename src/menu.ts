@@ -163,7 +163,7 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   override render() {
-    // The linter wants a "focus" listener on the slot and apparently "focusin" doesn't satisfy it.
+    // The linter wants a "focus" handler on the slot and apparently "focusin" doesn't satisfy it.
     /* eslint-disable lit-a11y/mouse-events-have-key-events */
     return html`
       <div

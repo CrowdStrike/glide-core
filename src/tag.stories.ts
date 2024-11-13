@@ -29,7 +29,7 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     removable: false,
     disabled: false,
     size: 'medium',
@@ -39,14 +39,14 @@ const meta: Meta = {
     label: {
       type: { name: 'string', required: true },
     },
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       type: {
         name: 'function',
       },
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "remove", listener: (event: Event) => void) => void',
+          detail: '(event: "remove", handler: (event: Event) => void) => void',
         },
       },
     },

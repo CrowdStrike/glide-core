@@ -477,7 +477,7 @@ export default class GlideCoreInput extends LitElement {
     super();
     this.#internals = this.attachInternals();
 
-    // Event listeners on the host aren't great because consumers can remove them.
+    // Event handlers on the host aren't great because consumers can remove them.
     // Unfortunately, the host is the only thing on which this event is dispatched
     // because it's the host that is form-associated.
     this.addEventListener('invalid', (event) => {

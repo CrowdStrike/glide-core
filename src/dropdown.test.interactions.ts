@@ -214,7 +214,7 @@ it('does not open on Space when `readonly`', async () => {
   expect(options?.checkVisibility()).to.be.false;
 });
 
-// See the `document` click listener comment in `dropdown.ts` for an explanation.
+// See the `document` click handler comment in `dropdown.ts` for an explanation.
 it('opens when opened programmatically via the click handler of another element', async () => {
   const div = document.createElement('div');
 

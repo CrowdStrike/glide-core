@@ -461,11 +461,11 @@ export default class GlideCoreDropdown extends LitElement {
     // The linter checks that all ULs have LIs as children. It doesn't account for slots,
     // which can contain LIs.
 
-    // The linter wants a "focus" listener on the slot, but there's nothing to be done with
+    // The linter wants a "focus" handler on the slot, but there's nothing to be done with
     // one in this case.
 
-    // The linter wants a "keydown" listener on '.dropdown'. Instead, there's one on
-    // `.dropdown-and-options` because much of the logic in the listener also applies
+    // The linter wants a "keydown" handler on '.dropdown'. Instead, there's one on
+    // `.dropdown-and-options` because much of the logic in the handler also applies
     // to options, which can receive focus, and "keydown" events won't be emitted on ".dropdown"
     // when it doesn't have focus.
 
@@ -913,7 +913,7 @@ export default class GlideCoreDropdown extends LitElement {
     super();
     this.#internals = this.attachInternals();
 
-    // Event listeners on the host aren't great because consumers can remove them.
+    // Event handlers on the host aren't great because consumers can remove them.
     // Unfortunately, the host is the only thing on which this event is dispatched
     // because it's the host that is form-associated.
     this.addEventListener('invalid', (event) => {

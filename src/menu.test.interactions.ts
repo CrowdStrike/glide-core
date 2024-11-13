@@ -562,7 +562,7 @@ it('opens when opened programmatically', async () => {
   expect(target?.ariaExpanded).to.equal('true');
 });
 
-// See the `document` click listener comment in `menu.ts` for an explanation.
+// See the `document` click handler comment in `menu.ts` for an explanation.
 it('opens when opened programmatically via the click handler of another element', async () => {
   const div = document.createElement('div');
 

@@ -62,7 +62,7 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': 'Content',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     open: false,
     'slot="prefix-icon"': '',
     'slot="suffix-icons"': '',
@@ -81,12 +81,12 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       control: false,
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "toggle", listener: (event: Event) => void) => void',
+          detail: '(event: "toggle", handler: (event: Event) => void) => void',
         },
       },
     },

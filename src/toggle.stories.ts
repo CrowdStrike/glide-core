@@ -25,7 +25,7 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     checked: false,
     disabled: false,
     'hide-label': false,
@@ -41,12 +41,12 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       table: {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input", listener: (event: Event) => void) => void',
+            '(event: "change" | "input", handler: (event: Event) => void) => void',
         },
       },
       type: { name: 'function' },

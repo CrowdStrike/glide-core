@@ -143,7 +143,7 @@ export default class GlideCoreTag extends LitElement {
   // instead would work. But it would exclude clicks via `this.click()`.
   //
   // Why not just dispatch those events on "click"? Because Dropdown has a "click"
-  // listener of its own that opens Dropdown except when the click came from Tag's
+  // handler of its own that opens Dropdown except when the click came from Tag's
   // edit or removal buttons. It needs to know if an "edit" or "remove" event was
   // dispatched before its "click" handler is called to determine in that handler
   // if it should return early instead of opening.

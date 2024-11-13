@@ -451,7 +451,7 @@ export default class GlideCoreCheckbox extends LitElement {
     super();
     this.#internals = this.attachInternals();
 
-    // Event listeners on the host aren't great because consumers can remove them.
+    // Event handlers on the host aren't great because consumers can remove them.
     // Unfortunately, the host is the only thing on which this event is dispatched
     // because it's the host that is form-associated.
     this.addEventListener('invalid', (event) => {
@@ -543,12 +543,12 @@ export default class GlideCoreCheckbox extends LitElement {
   // to force Checkbox checked or unchecked until the user has completed some action.
   //
   // The way to force Checkbox checked or unchecked is to add an "input" or
-  // "change" listener and then immediately set `checked` back to its desired
-  // state inside that listener.
+  // "change" handler and then immediately set `checked` back to its desired
+  // state inside that handler.
   //
   // To do that, consumers need to await `this.updateComplete` so `checked` isn't
   // immediately reverted after Checkbox updates, which happens asynchronously and
-  // so would happen after their listener runs.
+  // so would happen after their handler runs.
   //
   // To await `this.updateComplete`, however, an update has to be pending. That's
   // why we're handling "input" as well: so that "input", like "change", results

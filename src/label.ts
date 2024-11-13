@@ -77,8 +77,8 @@ export default class GlideCoreLabel extends LitElement {
     // when there's no description.
     //
     // Normally, we'd listen for "slotchange" and set `this.hasDescription`
-    // in the listener's callback. But form controls always slot content. We
-    // need to know if any text has been slotted instead.
+    // in the event handler. But form controls always slot content. We need
+    // to know if any text has been slotted instead.
     //
     // A Resize Observer is the best proxy for that. If the slot has a height,
     // then we know it has text.

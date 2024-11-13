@@ -24,7 +24,7 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="nav"': '',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     '--panel-padding-inline-end': '',
     '--panel-padding-inline-start': '',
     '--tabs-padding-block-end': '',
@@ -132,12 +132,12 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       table: {
         type: {
           summary: 'method',
           detail:
-            'event: "tab-show", listener: (event: CustomEvent<{ panel: string }>) => void',
+            'event: "tab-show", handler: (event: CustomEvent<{ panel: string }>) => void',
         },
       },
       type: { name: 'function' },

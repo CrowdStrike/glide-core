@@ -57,7 +57,7 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': 'Content',
-    'addEventListener(event, listener)': '',
+    'addEventListener(event, handler)': '',
     'back-button': false,
     'close()': '',
     'showModal()': '',
@@ -80,12 +80,12 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    'addEventListener(event, listener)': {
+    'addEventListener(event, handler)': {
       control: false,
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "close", listener: (event: Event)) => void) => void',
+          detail: '(event: "close", handler: (event: Event)) => void) => void',
         },
       },
     },
