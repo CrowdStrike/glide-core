@@ -122,22 +122,15 @@ export default [
       min-inline-size: var(--min-inline-size);
       padding: 0;
       position: absolute;
-
-      &.hidden {
-        display: none;
-      }
     }
 
     .options {
-      --padding: var(--glide-core-spacing-xxxs);
-
       box-sizing: border-box;
       max-block-size: calc(
-        var(--private-option-height) * 9 + var(--padding) * 2 +
+        var(--private-option-height) * 9 + var(--glide-core-spacing-xxxs) * 2 +
           var(--border-width) * 2
       );
       overflow: auto;
-      padding: var(--padding);
       scroll-behavior: smooth;
 
       &.large {
@@ -147,13 +140,19 @@ export default [
       &.small {
         --private-option-height: 1.25rem;
       }
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    .options-slot {
+      display: block;
+      padding: var(--glide-core-spacing-xxxs);
     }
 
     .footer {
-      background-color: var(--glide-core-surface-page);
-      border-block-start: 1px solid var(--glide-core-border-base);
-      box-shadow: 0 -8px 8px -8px
-        var(--glide-core-surface-base-gray, rgb(0 0 0 / 40%));
+      background-color: var(--glide-core-surface-base-gray-lighter);
       display: none;
       inline-size: calc(100% - var(--glide-core-spacing-xxxs) * 2);
       inset-block-end: 0;
@@ -215,13 +214,21 @@ export default [
     }
 
     .select-all {
-      border-block-end: 1px solid var(--glide-core-border-base-light);
-      margin-block-end: var(--glide-core-spacing-xxxs);
-      padding-block-end: var(--glide-core-spacing-xxxs);
+      background-color: var(--glide-core-surface-base-gray-lighter);
+      padding: var(--glide-core-spacing-xxxs);
 
       &:not([hidden]) {
         display: block;
       }
+    }
+
+    .no-results {
+      font-family: var(--glide-core-body-sm-font-family);
+      font-size: var(--glide-core-body-sm-font-size);
+      font-weight: var(--glide-core-body-sm-font-weight);
+      line-height: var(--glide-core-body-sm-line-height);
+      padding: 0.625rem 0.875rem;
+      text-transform: capitalize;
     }
 
     .placeholder {
@@ -269,6 +276,7 @@ export default [
       align-content: center;
       color: var(--glide-core-text-link);
       margin-inline-end: var(--glide-core-spacing-md);
+      white-space: nowrap;
     }
 
     .single-select-icon-slot {

@@ -422,6 +422,44 @@ it('hides Select All when filtering', async () => {
   expect(selectAll?.checkVisibility()).to.not.be.ok;
 });
 
+it('unhides every option after filtering when one is selected and Dropdown is reopened', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      filterable
+    >
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  component.focus();
+  await sendKeys({ type: 'two' });
+
+  component.blur();
+  await elementUpdated(component);
+
+  component.open = true;
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const options = [
+    ...component.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ hidden }) => !hidden);
+
+  expect(options.length).to.equal(2);
+});
+
 it('sets the first unfiltered option as active when the previously active option is filtered out', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown

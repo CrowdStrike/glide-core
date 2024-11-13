@@ -7,6 +7,7 @@
   "notifications": "Notifications",
   "nextTab": "Next tab",
   "previousTab": "Previous tab",
+  "noResults": "No results found",
   "announcedCharacterCount": "Character count {current} of {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
   "clearEntry": "Clear {label} entry",

@@ -119,11 +119,16 @@ export default class GlideCoreDropdown extends LitElement {
     ) {
       this.#inputElementRef.value.value = this.selectedOptions[0].label;
       this.isFiltering = false;
+      this.isNoResults = false;
 
       this.isShowSingleSelectIcon =
         !this.multiple &&
         this.selectedOptions.length > 0 &&
         Boolean(this.selectedOptions.at(0)?.value);
+
+      for (const option of this.#optionElements) {
+        option.hidden = false;
+      }
     }
 
     this.#hide();
@@ -743,10 +748,7 @@ export default class GlideCoreDropdown extends LitElement {
             aria-labelledby=${this.filterable || this.isFilterable
               ? 'input'
               : 'primary-button'}
-            class=${classMap({
-              'options-and-footer': true,
-              hidden: this.isOptionsAndFooterHidden,
-            })}
+            class="options-and-footer"
             ${ref(this.#optionsAndFooterElementRef)}
           >
             <div
@@ -755,6 +757,7 @@ export default class GlideCoreDropdown extends LitElement {
                 : 'button'}
               class=${classMap({
                 options: true,
+                hidden: this.isNoResults,
                 [this.size]: true,
               })}
               data-test="options"
@@ -784,10 +787,17 @@ export default class GlideCoreDropdown extends LitElement {
               ></glide-core-dropdown-option>
 
               <slot
+                class="options-slot"
                 @slotchange=${this.#onDefaultSlotChange}
                 ${ref(this.#defaultSlotElementRef)}
               ></slot>
             </div>
+
+            ${when(this.isNoResults, () => {
+              return html`<div class="no-results">
+                ${this.#localize.term('noResults')}
+              </div>`;
+            })}
 
             <footer
               class=${classMap({
@@ -965,7 +975,7 @@ export default class GlideCoreDropdown extends LitElement {
   private isInternalLabelTooltipOpen = false;
 
   @state()
-  private isOptionsAndFooterHidden = false;
+  private isNoResults = false;
 
   @state()
   private isReportValidityOrSubmit = false;
@@ -1750,7 +1760,7 @@ export default class GlideCoreDropdown extends LitElement {
         firstVisibleOption.privateActive = true;
       }
 
-      this.isOptionsAndFooterHidden =
+      this.isNoResults =
         !this.#optionElementsNotHidden ||
         this.#optionElementsNotHidden.length === 0
           ? true
