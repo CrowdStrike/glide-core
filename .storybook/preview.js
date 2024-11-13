@@ -98,7 +98,14 @@ export default {
                     argumentKeyWithoutSubcomponent,
                   );
 
-                  if (value === argumentValue) {
+                  // People using Storybook often interact with form controls and inspect their
+                  // `value` using DevTools. However, without a `value` on each Checkbox, for
+                  // example, Checkbox Group's `value` will be an empty string, leading to confusion
+                  // or a bug report. So `value` is always left alone.
+                  if (
+                    value === argumentValue &&
+                    argumentKeyWithoutSubcomponent !== 'value'
+                  ) {
                     $subcomponent.removeAttribute(
                       argumentKeyWithoutSubcomponent,
                     );
@@ -107,7 +114,8 @@ export default {
               }
             } else if (
               defaultValue &&
-              argumentValue === context.initialArgs[argumentKey]
+              argumentValue === context.initialArgs[argumentKey] &&
+              argumentKey !== 'value'
             ) {
               $component?.removeAttribute(argumentKey);
             }

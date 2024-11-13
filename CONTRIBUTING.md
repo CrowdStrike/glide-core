@@ -85,10 +85,14 @@ Ideally, we'd document everything.
 But Storybook's controls table would quickly become cluttered.
 And adding and maintaining controls isn't free.
 
-The exception is `addEventListener()`.
+One exception is `addEventListener()`.
 It is inherited.
 But which events it supports isn't obvious.
 Document `addEventListener()` if your component dispatches events that aren't universal—like `"change"`, `"input"`, or `"toggle"`.
+
+Another is `value` with certain form controls.
+People using Storybook often interact with a control and inspect its `value` using DevTools.
+However, without a `value` on each Checkbox, for example, Checkbox Group's `value` will be an empty string, leading to confusion or a bug report.
 
 If you're unsure where a property or method comes from, TypeScript's [Playground](https://www.typescriptlang.org/play) can help.
 So can your editor and [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes).
