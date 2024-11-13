@@ -7,7 +7,7 @@
   --glide-core-border-action-disabled: #eef5ff;
   --glide-core-border-action-hover: #eef5ff;
   --glide-core-border-base: #424242;
-  --glide-core-border-base-dark: #6d6d6d;
+  --glide-core-border-base-dark: #8a8a8a;
   --glide-core-border-base-darker: #424242;
   --glide-core-border-base-light: #424242;
   --glide-core-border-base-lighter: #424242;
@@ -74,7 +74,7 @@
   --glide-core-surface-dot-step: #8babf1;
   --glide-core-surface-error: #fff0ef;
   --glide-core-surface-focus: #3989da;
-  --glide-core-surface-hover: #ffffff1a;
+  --glide-core-surface-hover: #ffffff0d;
   --glide-core-surface-informational: #eef5ff;
   --glide-core-surface-modal: #464242;
   --glide-core-surface-page: #212121;

@@ -70,7 +70,9 @@ when browsers support them.
       justify-content: center;
 
       @media (prefers-reduced-motion: no-preference) {
-        transition: box-shadow 200ms ease-in-out;
+        transition:
+          border-color 200ms ease-in-out,
+          box-shadow 200ms ease-in-out;
       }
 
       &.error:not(.disabled) {
@@ -93,6 +95,7 @@ when browsers support them.
       position: absolute;
 
       &:not(:disabled):hover ~ .checkbox {
+        border-color: var(--glide-core-border-focus);
         box-shadow: var(--glide-core-glow-sm);
       }
 
