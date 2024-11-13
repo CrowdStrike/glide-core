@@ -1213,7 +1213,11 @@ it('supports custom filtering', async () => {
     </glide-core-dropdown>`,
   );
 
-  component.filter = async (filter, options) => {
+  component.filter = async (filter) => {
+    const options = [
+      ...component.querySelectorAll('glide-core-dropdown-option'),
+    ];
+
     return options.filter(({ label }) => label.includes(filter));
   };
 

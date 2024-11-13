@@ -38,7 +38,7 @@ const meta: Meta = {
     'checkValidity()': '',
     disabled: false,
     filterable: false,
-    'filter(filter, options)': '',
+    'filter(query, options)': '',
     'hide-label': false,
     multiple: false,
     name: '',
@@ -122,16 +122,25 @@ const meta: Meta = {
         },
       },
     },
-    'filter(filter, options)': {
+    'filter(query, options)': {
       control: false,
       table: {
         type: {
           summary: 'method',
-          detail: `(filter: string, options: GlideCoreDropdownOption[]): Promise<GlideCoreDropdownOption[]> {
-  return options.filter(({ label }) =>
-    label.toLowerCase().trim().includes(filter),
-  );
-}\n\n// When overriding, return the options you want visible. The rest will be hidden. If you fetch\n// when filtering, this is the place to do it.`,
+          detail: `
+async (query: string): Promise<GlideCoreDropdownOption[]> {
+  const options = [...this.querySelectorAll('glide-core-dropdown-option)];
+
+  return options.filter(({ label }) => {
+    return label.toLowerCase().includes(query.toLowercase().trim());
+  });
+}
+  
+// When overriding this method, return the options you want visible. The rest will be hidden. 
+// 
+// If you fetch when filtering, this is the place to do it. Just make sure you've updated 
+// Dropdown's default slot with the new set of options before you query-select and filter them.
+`,
         },
       },
     },
