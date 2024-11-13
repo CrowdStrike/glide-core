@@ -256,7 +256,10 @@ export default class GlideCoreDropdownOption extends LitElement {
               ${ref(this.#checkboxElementRef)}
             >
               <slot
-                class="checkbox-icon-slot"
+                class=${classMap({
+                  'checkbox-icon-slot': true,
+                  [this.privateSize]: true,
+                })}
                 name="icon"
                 slot="private-icon"
               ></slot>
@@ -288,7 +291,10 @@ export default class GlideCoreDropdownOption extends LitElement {
             [this.privateSize]: true,
           })}
           >
-              <slot class="icon-slot" name="icon"></slot>
+              <slot class=${classMap({
+                'icon-slot': true,
+                [this.privateSize]: true,
+              })} name="icon"></slot>
 
               <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${!this
                 .isLabelOverflow} ?open=${this.privateIsOpenTooltip}>
