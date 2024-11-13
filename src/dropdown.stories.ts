@@ -397,8 +397,16 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
         ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
       ></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
       ${arguments_['slot="description"']
         ? html`<div slot="description">
             ${unsafeHTML(arguments_['slot="description"'])}

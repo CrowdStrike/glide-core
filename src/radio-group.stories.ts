@@ -63,8 +63,8 @@ const meta: Meta = {
           value=${arguments_['<glide-core-radio>.value'] || nothing}
           ?checked=${arguments_['<glide-core-radio>.checked']}
         ></glide-core-radio>
-        <glide-core-radio label="Two"></glide-core-radio>
-        <glide-core-radio label="Three"></glide-core-radio>
+        <glide-core-radio label="Two" value="two"></glide-core-radio>
+        <glide-core-radio label="Three" value="three"></glide-core-radio>
 
         ${arguments_['slot="description"']
           ? html`<div slot="description">
@@ -95,7 +95,7 @@ const meta: Meta = {
     value: '',
     '<glide-core-radio>.label': 'One',
     '<glide-core-radio>.checked': true,
-    '<glide-core-radio>.value': '',
+    '<glide-core-radio>.value': 'one',
   },
   argTypes: {
     label: {

@@ -177,9 +177,9 @@ const meta: Meta = {
           ?hide-label=${arguments_['hide-label'] || nothing}
           ?required=${arguments_.required}
         >
-          <glide-core-checkbox label="One"></glide-core-checkbox>
-          <glide-core-checkbox label="Two"></glide-core-checkbox>
-          <glide-core-checkbox label="Three"></glide-core-checkbox>
+          <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
+          <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
+          <glide-core-checkbox label="Three" value="three"></glide-core-checkbox>
 
           ${
             arguments_['slot="description"']
