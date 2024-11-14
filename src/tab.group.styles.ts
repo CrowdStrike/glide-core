@@ -2,10 +2,14 @@ import { css } from 'lit';
 
 export default [
   css`
-    .component {
+    :host {
       background-color: transparent;
       display: flex;
       flex-direction: column;
+    }
+
+    .component {
+      display: contents;
 
       & .tab-container {
         border-block-end: 1px solid var(--glide-core-border-base-lighter);
