@@ -95,15 +95,15 @@ export default [
         }
 
         /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
-        &[type='date']::-webkit-calendar-picker-indicator {
-          border-radius: 2px;
-          padding: var(--glide-core-spacing-xxs);
-        }
-
-        /* Nesting with -webkit-calendar-picker-indicator does not appear to be respected */
-        /* stylelint-disable-next-line csstools/use-nesting */
-        &[type='date']::-webkit-calendar-picker-indicator:focus-visible {
-          outline: 2px solid var(--glide-core-border-focus);
+        &[type='date'] {
+          &::-webkit-calendar-picker-indicator {
+            border-radius: 2px;
+            padding: var(--glide-core-spacing-xxs);
+          }
+          /* stylelint-disable-next-line csstools/use-nesting */
+          &::-webkit-calendar-picker-indicator:focus-visible {
+            outline: 2px solid var(--glide-core-border-focus);
+          }
         }
       }
 
