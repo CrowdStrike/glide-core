@@ -99,7 +99,7 @@ export default [
           block-size: 100%;
 
           &::-webkit-calendar-picker-indicator {
-            border-radius: 2px;
+            border-radius: 0.125rem;
             padding: var(--glide-core-spacing-xxs);
           }
           /* stylelint-disable-next-line csstools/use-nesting */
