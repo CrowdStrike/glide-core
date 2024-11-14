@@ -46,7 +46,6 @@ export default [
       box-sizing: border-box;
       color: var(--glide-core-text-body-1);
       display: flex;
-      gap: var(--glide-core-spacing-xxs);
       line-height: var(--glide-core-body-xs-line-height);
       padding-inline: var(--glide-core-spacing-sm);
 
@@ -98,7 +97,7 @@ export default [
         /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
         &[type='date']::-webkit-calendar-picker-indicator {
           border-radius: 2px;
-          padding: 4px;
+          padding: var(--glide-core-spacing-xxs);
         }
 
         /* Nesting with -webkit-calendar-picker-indicator does not appear to be respected */
@@ -112,10 +111,6 @@ export default [
         align-items: center;
         display: flex;
       }
-
-      &:has(& > input[type='date']) {
-        gap: 0;
-      }
     }
 
     .clear-icon-button,
@@ -127,7 +122,7 @@ export default [
       color: var(--glide-core-icon-default);
       display: inline-flex;
       justify-content: center;
-      padding: 0;
+      padding-inline-start: var(--glide-core-spacing-xxs);
     }
 
     .clear-icon-button,
@@ -136,6 +131,10 @@ export default [
     ::slotted([slot='prefix-icon']),
     ::slotted([slot='suffix-icon']) {
       display: flex;
+    }
+
+    ::slotted([slot='prefix-icon']) {
+      padding-inline-end: var(--glide-core-spacing-xxs);
     }
 
     .empty .clear-icon-button {
