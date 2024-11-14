@@ -94,11 +94,27 @@ export default [
         &::-webkit-search-results-decoration {
           appearance: none;
         }
+
+        /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
+        &[type='date']::-webkit-calendar-picker-indicator {
+          border-radius: 2px;
+          padding: 4px;
+        }
+
+        /* Nesting with -webkit-calendar-picker-indicator does not appear to be respected */
+        /* stylelint-disable-next-line csstools/use-nesting */
+        &[type='date']::-webkit-calendar-picker-indicator:focus-visible {
+          outline: 2px solid var(--glide-core-border-focus);
+        }
       }
 
       .suffix-icon {
         align-items: center;
         display: flex;
+      }
+
+      &:has(& > input[type='date']) {
+        gap: 0;
       }
     }
 
