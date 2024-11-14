@@ -40,13 +40,11 @@ export default [
     .input-container {
       align-items: center;
       background-color: var(--glide-core-surface-base-lighter);
-      block-size: 2.125rem;
       border: 1px solid var(--glide-core-border-base);
       border-radius: var(--glide-core-spacing-xs);
       box-sizing: border-box;
       color: var(--glide-core-text-body-1);
       display: flex;
-      gap: var(--glide-core-spacing-xxs);
       line-height: var(--glide-core-body-xs-line-height);
       padding-inline: var(--glide-core-spacing-sm);
 
@@ -77,6 +75,7 @@ export default [
 
       input {
         background-color: transparent;
+        block-size: 2.125rem;
         border: none;
         color: inherit;
         cursor: inherit;
@@ -93,6 +92,18 @@ export default [
         &::-webkit-search-results-button,
         &::-webkit-search-results-decoration {
           appearance: none;
+        }
+
+        /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
+        &[type='date'] {
+          &::-webkit-calendar-picker-indicator {
+            border-radius: 0.125rem;
+            padding: var(--glide-core-spacing-xxs);
+          }
+          /* stylelint-disable-next-line csstools/use-nesting */
+          &::-webkit-calendar-picker-indicator:focus-visible {
+            outline: 2px solid var(--glide-core-border-focus);
+          }
         }
       }
 
@@ -111,7 +122,7 @@ export default [
       color: var(--glide-core-icon-default);
       display: inline-flex;
       justify-content: center;
-      padding: 0;
+      padding-inline-start: var(--glide-core-spacing-xxs);
     }
 
     .clear-icon-button,
@@ -120,6 +131,10 @@ export default [
     ::slotted([slot='prefix-icon']),
     ::slotted([slot='suffix-icon']) {
       display: flex;
+    }
+
+    ::slotted([slot='prefix-icon']) {
+      padding-inline-end: var(--glide-core-spacing-xxs);
     }
 
     .empty .clear-icon-button {

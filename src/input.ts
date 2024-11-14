@@ -24,6 +24,7 @@ declare global {
  * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
  */
 export const SUPPORTED_TYPES = [
+  'date',
   'email',
   'number',
   'password',
