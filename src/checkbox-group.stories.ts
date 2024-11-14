@@ -1,4 +1,6 @@
 import './checkbox.js';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
@@ -40,6 +42,9 @@ const meta: Meta = {
     'slot="description"': '',
     'slot="tooltip"': '',
     value: '',
+    '<glide-core-checkbox>.one.checked': false,
+    '<glide-core-checkbox>.two.checked': false,
+    '<glide-core-checkbox>.three.checked': false,
   },
   argTypes: {
     label: {
@@ -144,6 +149,21 @@ const meta: Meta = {
         },
       },
     },
+    '<glide-core-checkbox>.one.checked': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-checkbox>.two.checked': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-checkbox>.three.checked': {
+      table: {
+        disable: true,
+      },
+    },
   },
   play(context) {
     const checkboxGroup = context.canvasElement.querySelector(
@@ -166,6 +186,31 @@ const meta: Meta = {
         document.activeElement.blur();
       }
     }
+
+    if (checkboxGroup instanceof GlideCoreCheckboxGroup) {
+      checkboxGroup.addEventListener('change', () => {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            value: checkboxGroup.value,
+          },
+        });
+
+        const checkboxes = context.canvasElement.querySelectorAll(
+          'glide-core-checkbox',
+        );
+
+        for (const checkbox of checkboxes) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              [`<glide-core-checkbox>.${checkbox.value}.checked`]:
+                checkboxGroup.value.includes(checkbox.value),
+            },
+          });
+        }
+      });
+    }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -177,9 +222,15 @@ const meta: Meta = {
           ?hide-label=${arguments_['hide-label'] || nothing}
           ?required=${arguments_.required}
         >
-          <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
-          <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
-          <glide-core-checkbox label="Three" value="three"></glide-core-checkbox>
+          <glide-core-checkbox label="One" value="one" ?checked=${
+            arguments_['<glide-core-checkbox>.one.checked']
+          }></glide-core-checkbox>
+          <glide-core-checkbox label="Two" value="two" ?checked=${
+            arguments_['<glide-core-checkbox>.two.checked']
+          }></glide-core-checkbox>
+          <glide-core-checkbox label="Three" value="three" ?checked=${
+            arguments_['<glide-core-checkbox>.three.checked']
+          }></glide-core-checkbox>
 
           ${
             arguments_['slot="description"']

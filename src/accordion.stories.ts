@@ -1,5 +1,5 @@
 import './icons/storybook.js';
-import { STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -27,24 +27,13 @@ const meta: Meta = {
     },
   },
   play(context) {
-    // eslint-disable-next-line no-underscore-dangle
-    let arguments_: Meta['args'] = context.args;
-
-    addons.getChannel().addListener(STORY_ARGS_UPDATED, (event) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      arguments_ = event.args as typeof context.args;
-    });
-
     context.canvasElement
       .querySelector('glide-core-accordion')
       ?.addEventListener('toggle', (event) => {
         if (event.target instanceof GlideCoreAccordion) {
-          addons.getChannel().emit(STORY_ARGS_UPDATED, {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
-            args: {
-              ...arguments_,
-              // Our events are untyped at the moment. So `detail` is typed as `any`.
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            updatedArgs: {
               open: event.target.open,
             },
           });

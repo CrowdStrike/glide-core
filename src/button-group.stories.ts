@@ -1,8 +1,10 @@
-import './button-group.button.js';
 import './button-group.js';
 import './icons/storybook.js';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { when } from 'lit/directives/when.js';
+import GlideCoreButton from './button-group.button.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -18,6 +20,34 @@ const meta: Meta = {
       ${story()}
     `,
   ],
+  parameters: {
+    docs: {
+      story: {
+        autoplay: true,
+      },
+    },
+  },
+  play(context) {
+    const buttonGroup = context.canvasElement.querySelector(
+      'glide-core-button-group',
+    );
+
+    buttonGroup?.addEventListener('change', (event: Event) => {
+      if (event.target instanceof GlideCoreButton) {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            '<glide-core-button-group-button>.one.selected':
+              event.target.label === 'One',
+            '<glide-core-button-group-button>.two.selected':
+              event.target.label === 'Two',
+            '<glide-core-button-group-button>.three.selected':
+              event.target.label === 'Three',
+          },
+        });
+      }
+    });
+  },
   render(arguments_) {
     return html`
       <glide-core-button-group
@@ -37,7 +67,7 @@ const meta: Meta = {
                   '<glide-core-button-group-button>.disabled'
                 ]}
                 ?selected=${arguments_[
-                  '<glide-core-button-group-button>.selected'
+                  '<glide-core-button-group-button>.one.selected'
                 ]}
               >
                 <glide-core-example-icon
@@ -46,14 +76,24 @@ const meta: Meta = {
                 ></glide-core-example-icon>
               </glide-core-button-group-button>
 
-              <glide-core-button-group-button label="Two">
+              <glide-core-button-group-button
+                label="Two"
+                ?selected=${arguments_[
+                  '<glide-core-button-group-button>.two.selected'
+                ]}
+              >
                 <glide-core-example-icon
                   slot="icon"
                   name="edit"
                 ></glide-core-example-icon>
               </glide-core-button-group-button>
 
-              <glide-core-button-group-button label="Three">
+              <glide-core-button-group-button
+                label="Three"
+                ?selected=${arguments_[
+                  '<glide-core-button-group-button>.three.selected'
+                ]}
+              >
                 <glide-core-example-icon
                   slot="icon"
                   name="calendar"
@@ -70,17 +110,23 @@ const meta: Meta = {
                   '<glide-core-button-group-button>.disabled'
                 ]}
                 ?selected=${arguments_[
-                  '<glide-core-button-group-button>.selected'
+                  '<glide-core-button-group-button>.one.selected'
                 ]}
               >
               </glide-core-button-group-button>
 
               <glide-core-button-group-button
                 label="Two"
+                ?selected=${arguments_[
+                  '<glide-core-button-group-button>.two.selected'
+                ]}
               ></glide-core-button-group-button>
 
               <glide-core-button-group-button
                 label="Three"
+                ?selected=${arguments_[
+                  '<glide-core-button-group-button>.three.selected'
+                ]}
               ></glide-core-button-group-button>`;
           },
         )}
@@ -95,9 +141,11 @@ const meta: Meta = {
     variant: '',
     '<glide-core-button-group-button>.label': 'One',
     '<glide-core-button-group-button>.disabled': false,
-    '<glide-core-button-group-button>.selected': true,
+    '<glide-core-button-group-button>.one.selected': true,
     '<glide-core-button-group-button>[slot="icon"]': '',
     '<glide-core-button-group-button>.value': '',
+    '<glide-core-button-group-button>.two.selected': false,
+    '<glide-core-button-group-button>.three.selected': false,
   },
   argTypes: {
     label: {
@@ -151,7 +199,7 @@ const meta: Meta = {
         category: 'Button Group Button',
       },
     },
-    '<glide-core-button-group-button>.selected': {
+    '<glide-core-button-group-button>.one.selected': {
       name: 'selected',
       defaultValue: { summary: 'false' },
       table: {
@@ -177,6 +225,16 @@ const meta: Meta = {
         },
       },
     },
+    '<glide-core-button-group-button>.two.selected': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-button-group-button>.three.selected': {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 
@@ -200,7 +258,9 @@ export const WithIcons: StoryObj = {
           value=${arguments_['<glide-core-button-group-button>.value'] ||
           nothing}
           ?disabled=${arguments_['<glide-core-button-group-button>.disabled']}
-          ?selected=${arguments_['<glide-core-button-group-button>.selected']}
+          ?selected=${arguments_[
+            '<glide-core-button-group-button>.one.selected'
+          ]}
         >
           <glide-core-example-icon
             slot="icon"
@@ -208,14 +268,24 @@ export const WithIcons: StoryObj = {
           ></glide-core-example-icon>
         </glide-core-button-group-button>
 
-        <glide-core-button-group-button label="Two">
+        <glide-core-button-group-button
+          label="Two"
+          ?selected=${arguments_[
+            '<glide-core-button-group-button>.two.selected'
+          ]}
+        >
           <glide-core-example-icon
             slot="icon"
             name="edit"
           ></glide-core-example-icon>
         </glide-core-button-group-button>
 
-        <glide-core-button-group-button label="Three">
+        <glide-core-button-group-button
+          label="Three"
+          ?selected=${arguments_[
+            '<glide-core-button-group-button>.three.selected'
+          ]}
+        >
           <glide-core-example-icon
             slot="icon"
             name="calendar"

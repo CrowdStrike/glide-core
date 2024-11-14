@@ -2,9 +2,11 @@ import './icon-button.js';
 import './icons/storybook.js';
 import './menu.link.js';
 import './tree.item.icon-button.js';
-import './tree.item.js';
 import './tree.js';
-import { html, nothing } from 'lit';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
+import { html } from 'lit';
+import GlideCoreTreeItem from './tree.item.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -22,26 +24,77 @@ const meta: Meta = {
         ${story()}
       </div>`,
   ],
+  parameters: {
+    docs: {
+      story: {
+        autoplay: true,
+      },
+    },
+  },
   title: 'Tree',
   tags: ['autodocs'],
   args: {
     'slot="default"': '',
     'addEventListener(event, handler)': '',
     '<glide-core-tree-item>.label': 'Branch',
-    '<glide-core-tree-item>.expanded': true,
+    '<glide-core-tree-item>.two.expanded': true,
     '<glide-core-tree-item>.non-collapsible': false,
     '<glide-core-tree-item>.remove-indentation': false,
-    '<glide-core-tree-item>.selected': false,
+    '<glide-core-tree-item>.one.expanded': false,
+    '<glide-core-tree-item>.one.selected': false,
+    '<glide-core-tree-item>.two.selected': false,
+    '<glide-core-tree-item>.three.expanded': false,
+    '<glide-core-tree-item>.three.selected': false,
+    '<glide-core-tree-item>.four.expanded': false,
+    '<glide-core-tree-item>.four.selected': false,
+    '<glide-core-tree-item>.five.expanded': true,
+    '<glide-core-tree-item>.five.selected': false,
+    '<glide-core-tree-item>.six.expanded': false,
+    '<glide-core-tree-item>.six.selected': false,
     '<glide-core-tree-item-icon-button>.label': 'Settings',
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
+  },
+  play(context) {
+    const observer = new MutationObserver((records) => {
+      for (const record of records) {
+        if (record.target instanceof GlideCoreTreeItem) {
+          // The only public property we have to go off with Tree Item is `label`.
+          // But `label` is a moving target because it can be changed via a control.
+          // Thus `id`, which is stripped from the code example by `preview.js`.
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              [`<glide-core-tree-item>.${record.target.id}.expanded`]:
+                record.target.expanded,
+              [`<glide-core-tree-item>.${record.target.id}.selected`]:
+                record.target.selected,
+            },
+          });
+        }
+      }
+    });
+
+    const treeItems = context.canvasElement.querySelectorAll<GlideCoreTreeItem>(
+      'glide-core-tree-item',
+    );
+
+    for (const treeItem of treeItems) {
+      observer.observe(treeItem, {
+        attributes: true,
+        attributeFilter: ['expanded', 'selected'],
+      });
+    }
   },
   render(arguments_) {
     return html`<glide-core-tree>
       <glide-core-tree-item
         label="Back"
+        id="one"
+        ?expanded=${arguments_['<glide-core-tree-item>.one.expanded']}
+        ?selected=${arguments_['<glide-core-tree-item>.one.selected']}
         ?remove-indentation=${arguments_[
           '<glide-core-tree-item>.remove-indentation'
-        ] || nothing}
+        ]}
       >
         <glide-core-example-icon
           slot="prefix"
@@ -51,18 +104,21 @@ const meta: Meta = {
 
       <glide-core-tree-item
         label=${arguments_['<glide-core-tree-item>.label']}
-        ?expanded=${arguments_['<glide-core-tree-item>.expanded'] || nothing}
-        ?non-collapsible=${arguments_[
-          '<glide-core-tree-item>.non-collapsible'
-        ] || nothing}
-        ?selected=${arguments_['<glide-core-tree-item>.selected'] || nothing}
+        id="two"
+        ?expanded=${arguments_['<glide-core-tree-item>.two.expanded']}
+        ?non-collapsible=${arguments_['<glide-core-tree-item>.non-collapsible']}
       >
         <glide-core-example-icon
           slot="prefix"
           name="share"
         ></glide-core-example-icon>
 
-        <glide-core-tree-item label="Hover menu and suffix icon">
+        <glide-core-tree-item
+          label="Hover menu and suffix icon"
+          id="three"
+          ?expanded=${arguments_['<glide-core-tree-item>.three.expanded']}
+          ?selected=${arguments_['<glide-core-tree-item>.three.selected']}
+        >
           <glide-core-tree-item-icon-button
             slot="suffix"
             label=${arguments_['<glide-core-tree-item-icon-button>.label']}
@@ -90,7 +146,12 @@ const meta: Meta = {
           </glide-core-tree-item-menu>
         </glide-core-tree-item>
 
-        <glide-core-tree-item label="Custom suffix icon menu">
+        <glide-core-tree-item
+          label="Custom suffix icon menu"
+          id="four"
+          ?expanded=${arguments_['<glide-core-tree-item>.four.expanded']}
+          ?selected=${arguments_['<glide-core-tree-item>.four.selected']}
+        >
           <glide-core-tree-item-menu slot="suffix">
             <svg
               width="24"
@@ -114,8 +175,18 @@ const meta: Meta = {
           </glide-core-tree-item-menu>
         </glide-core-tree-item>
 
-        <glide-core-tree-item label="Branch" expanded>
-          <glide-core-tree-item label="Leaf"></glide-core-tree-item>
+        <glide-core-tree-item
+          label="Branch"
+          id="five"
+          ?expanded=${arguments_['<glide-core-tree-item>.five.expanded']}
+          ?selected="${arguments_['<glide-core-tree-item>.five.selected']}"
+        >
+          <glide-core-tree-item
+            label="Leaf"
+            id="six"
+            ?expanded=${arguments_['<glide-core-tree-item>.six.expanded']}
+            ?selected="${arguments_['<glide-core-tree-item>.six.selected']}"
+          ></glide-core-tree-item>
         </glide-core-tree-item>
       </glide-core-tree-item>
     </glide-core-tree>`;
@@ -145,7 +216,7 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    '<glide-core-tree-item>.expanded': {
+    '<glide-core-tree-item>.two.expanded': {
       name: 'expanded',
       table: {
         category: 'Tree Item',
@@ -173,13 +244,63 @@ const meta: Meta = {
         },
       },
     },
-    '<glide-core-tree-item>.selected': {
+    '<glide-core-tree-item>.one.expanded': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-tree-item>.one.selected': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-tree-item>.two.selected': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-tree-item>.three.expanded': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-tree-item>.three.selected': {
       name: 'selected',
       table: {
         category: 'Tree Item',
         defaultValue: {
           summary: 'false',
         },
+      },
+    },
+    '<glide-core-tree-item>.four.expanded': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-tree-item>.four.selected': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-tree-item>.five.expanded': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-tree-item>.five.selected': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-tree-item>.six.expanded': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-tree-item>.six.selected': {
+      table: {
+        disable: true,
       },
     },
     '<glide-core-tree-item-icon-button>.label': {

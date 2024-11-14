@@ -322,8 +322,8 @@ export default class GlideCoreDropdown extends LitElement {
 
   override firstUpdated() {
     // `Text` is allowed so slotted content can be rendered asychronously. Imagine
-    // a case where the only slotted content is a `repeat` whose array is empty
-    // at first then populated after a fetch.
+    // a case where the only slotted content is a `repeat` whose array is empty at
+    // first then populated after a fetch.
     owSlotType(this.#defaultSlotElementRef.value, [
       GlideCoreDropdownOption,
       Text,
@@ -1729,11 +1729,9 @@ export default class GlideCoreDropdown extends LitElement {
     let options: GlideCoreDropdownOption[] | undefined;
 
     try {
-      // The rule thinks `filter()` is an array method. It's not. Though
-      // `this.#optionsElements` still has to be spread into a new array so
-      // consumers can't mutate it.
-      //
-      // eslint-disable-next-line unicorn/no-array-method-this-argument
+      // It would be convenient for consumers if we passed an array of options
+      // as the second argument. The problem is consumers fetch and render new
+      // options when filtering. So the array will become stale.
       options = await this.filter(this.#inputElementRef.value.value);
       // eslint-disable-next-line no-empty
     } catch {}

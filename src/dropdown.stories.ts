@@ -1,6 +1,6 @@
 import './dropdown.option.js';
 import './icons/storybook.js';
-import { STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -347,28 +347,63 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       }
     }
 
-    // eslint-disable-next-line no-underscore-dangle
-    let arguments_: Meta['args'] = context.args;
+    if (dropdown instanceof GlideCoreDropdown) {
+      dropdown.addEventListener('change', () => {
+        const option = context.canvasElement.querySelector(
+          'glide-core-dropdown-option',
+        );
 
-    addons.getChannel().addListener(STORY_ARGS_UPDATED, (event) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      arguments_ = event.args as typeof context.args;
-    });
-
-    const observer = new MutationObserver(() => {
-      addons.getChannel().emit(STORY_ARGS_UPDATED, {
-        storyId: context.id,
-        args: {
-          ...arguments_,
-          open: dropdown?.open,
-        },
+        if (option) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              value: dropdown.value,
+              '<glide-core-dropdown-option>.selected': dropdown.value.includes(
+                option.value,
+              ),
+            },
+          });
+        }
       });
-    });
+    }
 
     if (dropdown) {
+      const observer = new MutationObserver(() => {
+        if (dropdown instanceof GlideCoreDropdown) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              open: dropdown.open,
+            },
+          });
+        }
+      });
+
       observer.observe(dropdown, {
         attributes: true,
         attributeFilter: ['open'],
+      });
+    }
+
+    const option = context.canvasElement.querySelector(
+      'glide-core-dropdown-option',
+    );
+
+    if (option) {
+      const observer = new MutationObserver(() => {
+        if (dropdown instanceof GlideCoreDropdown) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              value: dropdown.value,
+            },
+          });
+        }
+      });
+
+      observer.observe(option, {
+        attributes: true,
+        attributeFilter: ['value'],
       });
     }
   },

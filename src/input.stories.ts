@@ -1,5 +1,7 @@
 import './icons/storybook.js';
 import './input.js';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreInput, { SUPPORTED_TYPES } from './input.js';
@@ -67,6 +69,17 @@ const meta: Meta = {
         // on `document.body` on page load.
         document.activeElement.blur();
       }
+    }
+
+    if (input instanceof GlideCoreInput) {
+      input.addEventListener('input', () => {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            value: input.value,
+          },
+        });
+      });
     }
   },
   render(arguments_) {

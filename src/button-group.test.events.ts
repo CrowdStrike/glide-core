@@ -32,8 +32,10 @@ it('emits a "change" event when a button is clicked and not already selected', a
   });
 
   const event = await oneEvent(component, 'change');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.target).to.equal(button);
 });
 
 it('emits an "input" event when a button is clicked and not already selected', async () => {
@@ -58,8 +60,10 @@ it('emits an "input" event when a button is clicked and not already selected', a
   });
 
   const event = await oneEvent(component, 'input');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.target).to.equal(button);
 });
 
 it('does not emit an "change" event when clicked button is clicked and already selected', async () => {
