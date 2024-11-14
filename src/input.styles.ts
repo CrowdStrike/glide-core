@@ -76,6 +76,7 @@ export default [
 
       input {
         background-color: transparent;
+        block-size: 2.125rem;
         border: none;
         color: inherit;
         cursor: inherit;
@@ -96,8 +97,6 @@ export default [
 
         /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
         &[type='date'] {
-          block-size: 100%;
-
           &::-webkit-calendar-picker-indicator {
             border-radius: 0.125rem;
             padding: var(--glide-core-spacing-xxs);
