@@ -2,12 +2,13 @@
 '@crowdstrike/glide-core': patch
 ---
 
-The latest iteration of Dark Mode has been adopted in all of our components and styles.
+The latest iteration of Dark Mode has been adopted in all of our components and styles. There were a few additional adjustments worth calling out:
 
-- Accordion received a border and box-shadow visual adjustment.
-- Checkbox received a border on hover and a box-shadow visual adjustment.
-- Dropdown's "select all" and "add" functionality has been updated to use a border seperator rather than background-color.
+- Accordion received border and box-shadow visual adjustments.
+- Checkbox received a border when hovering and a box-shadow visual adjustment.
+- Dropdown's "select all" and "add" functionality has been updated to use a border rather than background-color.
 - Menu now has a lighter border around the popover to match Dropdown.
+- Consumers previously using `--glide-core-surface-base-lightest` for app backgrounds should switch to `--glide-core-background-fill` instead.
 
 `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
 
@@ -154,7 +155,7 @@ The latest iteration of Dark Mode has been adopted in all of our components and 
 - --glide-core-surface-focus: #0073e6;
 + --glide-core-surface-focus: #3989da;
 - --glide-core-surface-hover: #0461cf;
-+ --glide-core-surface-hover: #ffffff0d;
++ --glide-core-surface-hover: #567a9e75;
 - --glide-core-surface-modal: #151515;
 + --glide-core-surface-modal: #464242;
 - --glide-core-surface-primary: #0073e6;
