@@ -8,7 +8,7 @@ export default [
   css`
     .component {
       border-radius: 0.625rem;
-      box-shadow: var(--glide-core-shadow-sm);
+      box-shadow: var(--glide-core-shadow-md);
       font-family: var(--glide-core-body-xs-font-family);
     }
 
