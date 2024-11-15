@@ -1,4 +1,4 @@
-import { STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -188,27 +188,18 @@ const meta: Meta = {
       }
     }
 
-    // eslint-disable-next-line no-underscore-dangle
-    let arguments_: Meta['args'] = context.args;
-
-    addons.getChannel().addListener(STORY_ARGS_UPDATED, (event) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      arguments_ = event.args as typeof context.args;
-    });
-
-    context.canvasElement
-      .querySelector('glide-core-checkbox')
-      ?.addEventListener('change', (event) => {
-        if (event.target instanceof GlideCoreCheckbox) {
-          addons.getChannel().emit(STORY_ARGS_UPDATED, {
+    if (checkbox instanceof GlideCoreCheckbox) {
+      context.canvasElement
+        .querySelector('glide-core-checkbox')
+        ?.addEventListener('change', () => {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
-            args: {
-              ...arguments_,
-              checked: event.target.checked,
+            updatedArgs: {
+              checked: checkbox.checked,
             },
           });
-        }
-      });
+        });
+    }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */

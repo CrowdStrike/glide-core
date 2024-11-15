@@ -1,3 +1,5 @@
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import GlideCoreTextarea from './textarea.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -40,6 +42,17 @@ const meta: Meta = {
         // on `document.body` on page load.
         document.activeElement.blur();
       }
+    }
+
+    if (textarea instanceof GlideCoreTextarea) {
+      textarea.addEventListener('input', () => {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            value: textarea.value,
+          },
+        });
+      });
     }
   },
   args: {

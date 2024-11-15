@@ -1,12 +1,13 @@
+import './button.js';
 import './icons/storybook.js';
 import './menu.button.js';
 import './menu.js';
 import './menu.link.js';
 import './menu.options.js';
-import { STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
-import GlideCoreButton from './button.js';
+import GlideCoreMenu from './menu.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -123,23 +124,25 @@ const meta: Meta = {
     },
   },
   play(context) {
-    // eslint-disable-next-line no-underscore-dangle
-    let arguments_: Meta['args'] = context.args;
+    const menu = context.canvasElement.querySelector('glide-core-menu');
 
-    addons.getChannel().addListener(STORY_ARGS_UPDATED, (event) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      arguments_ = event.args as typeof context.args;
+    const observer = new MutationObserver(() => {
+      if (menu instanceof GlideCoreMenu) {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            open: menu.open,
+          },
+        });
+      }
     });
 
-    context.canvasElement.addEventListener('click', () => {
-      addons.getChannel().emit(STORY_ARGS_UPDATED, {
-        storyId: context.id,
-        args: {
-          ...arguments_,
-          open: context.canvasElement.querySelector('glide-core-menu')?.open,
-        },
+    if (menu) {
+      observer.observe(menu, {
+        attributes: true,
+        attributeFilter: ['open'],
       });
-    });
+    }
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
@@ -172,23 +175,7 @@ export const Menu: StoryObj = {
 };
 
 export const WithIcons: StoryObj = {
-  render(arguments_, context) {
-    context.canvasElement.addEventListener('click', (event) => {
-      if (event.target instanceof GlideCoreButton) {
-        const menu = context.canvasElement.querySelector('glide-core-menu');
-
-        if (menu) {
-          addons.getChannel().emit(STORY_ARGS_UPDATED, {
-            storyId: context.id,
-            args: {
-              ...arguments_,
-              open: menu.open,
-            },
-          });
-        }
-      }
-    });
-
+  render(arguments_) {
     return html`<glide-core-menu
       offset=${arguments_.offset}
       placement=${arguments_.placement}

@@ -1,7 +1,9 @@
 import './radio-group.js';
-import './radio.js';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import GlideCoreRadio from './radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -47,6 +49,23 @@ const meta: Meta = {
         document.activeElement.blur();
       }
     }
+
+    radioGroup?.addEventListener('change', (event: Event) => {
+      if (event.target instanceof GlideCoreRadio) {
+        // The only public property we have to go off with Radio is `label`.
+        // But `label` is a moving target because it can be changed via a control.
+        // Thus `id`, which is stripped from the code example by `preview.js`.
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            value: radioGroup.value,
+            '<glide-core-radio>.one.checked': event.target.id === 'one',
+            '<glide-core-radio>.two.checked': event.target.id === 'two',
+            '<glide-core-radio>.three.checked': event.target.id === 'three',
+          },
+        });
+      }
+    });
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -60,11 +79,22 @@ const meta: Meta = {
       >
         <glide-core-radio
           label=${arguments_['<glide-core-radio>.label'] || nothing}
+          id="one"
           value=${arguments_['<glide-core-radio>.value'] || nothing}
-          ?checked=${arguments_['<glide-core-radio>.checked']}
+          ?checked=${arguments_['<glide-core-radio>.one.checked']}
         ></glide-core-radio>
-        <glide-core-radio label="Two" value="two"></glide-core-radio>
-        <glide-core-radio label="Three" value="three"></glide-core-radio>
+        <glide-core-radio
+          label="Two"
+          id="two"
+          value="two"
+          ?checked=${arguments_['<glide-core-radio>.two.checked']}
+        ></glide-core-radio>
+        <glide-core-radio
+          label="Three"
+          id="three"
+          value="three"
+          ?checked=${arguments_['<glide-core-radio>.three.checked']}
+        ></glide-core-radio>
 
         ${arguments_['slot="description"']
           ? html`<div slot="description">
@@ -92,10 +122,12 @@ const meta: Meta = {
     'setValidity(flags, message)': '',
     'slot="description"': '',
     'slot="tooltip"': '',
-    value: '',
+    value: 'one',
     '<glide-core-radio>.label': 'One',
-    '<glide-core-radio>.checked': true,
+    '<glide-core-radio>.one.checked': true,
     '<glide-core-radio>.value': 'one',
+    '<glide-core-radio>.two.checked': false,
+    '<glide-core-radio>.three.checked': false,
   },
   argTypes: {
     label: {
@@ -199,7 +231,7 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    '<glide-core-radio>.checked': {
+    '<glide-core-radio>.one.checked': {
       name: 'checked',
       table: {
         category: 'Radio',
@@ -215,6 +247,16 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
+    '<glide-core-radio>.two.checked': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-radio>.three.checked': {
+      table: {
+        disable: true,
+      },
+    },
   },
 };
 
@@ -226,7 +268,7 @@ export const RadioGroup: StoryObj = {
 
 export const WithError: StoryObj = {
   args: {
-    '<glide-core-radio>.checked': false,
+    '<glide-core-radio>.one.checked': false,
     required: true,
     value: '',
   },

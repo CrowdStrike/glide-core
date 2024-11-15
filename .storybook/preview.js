@@ -110,6 +110,10 @@ export default {
                       argumentKeyWithoutSubcomponent,
                     );
                   }
+
+                  if ($subcomponent.tagName === 'GLIDE-CORE-DROPDOWN-OPTION') {
+                    $subcomponent.removeAttribute('aria-selected');
+                  }
                 }
               }
             } else if (
@@ -128,6 +132,10 @@ export default {
             const isSlotted = Boolean($element.slot);
             const isScriptTag = $element.tagName === 'SCRIPT';
             const isStyleTag = $element.tagName === 'STYLE';
+
+            // IDs are only for internal use and so are removed. You'll find comments in
+            // the Radio Group and Tree stories explaining why they're needed.
+            $element.removeAttribute('id');
 
             if (isScriptTag) {
               if ($element.type === 'ignore') {
@@ -159,6 +167,28 @@ export default {
             $component.setAttribute(
               'shortcut',
               JSON.stringify(context.args.shortcut),
+            );
+          }
+
+          if (
+            context.componentId === 'dropdown' &&
+            JSON.stringify(context.args.value) !==
+              JSON.stringify(context.initialArgs.value)
+          ) {
+            $component.setAttribute(
+              'value',
+              JSON.stringify(context.args.value),
+            );
+          }
+
+          if (
+            context.componentId === 'checkbox-group' &&
+            JSON.stringify(context.args.value) !==
+              JSON.stringify(context.initialArgs.value)
+          ) {
+            $component.setAttribute(
+              'value',
+              JSON.stringify(context.args.value),
             );
           }
 
