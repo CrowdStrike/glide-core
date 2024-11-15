@@ -59,7 +59,9 @@ const meta: Meta = {
     '<glide-core-dropdown-option>.label': 'One',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
     '<glide-core-dropdown-option>.editable': false,
-    '<glide-core-dropdown-option>.selected': false,
+    '<glide-core-dropdown-option>.one.selected': false,
+    '<glide-core-dropdown-option>.two.selected': false,
+    '<glide-core-dropdown-option>.three.selected': false,
     '<glide-core-dropdown-option>[slot="icon"]': '',
     '<glide-core-dropdown-option>.value': 'one',
   },
@@ -299,12 +301,22 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         type: { summary: 'boolean' },
       },
     },
-    '<glide-core-dropdown-option>.selected': {
+    '<glide-core-dropdown-option>.one.selected': {
       name: 'selected',
       table: {
         category: 'Dropdown Option',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-dropdown-option>.two.selected': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-dropdown-option>.three.selected': {
+      table: {
+        disable: true,
       },
     },
     '<glide-core-dropdown-option>[slot="icon"]': {
@@ -349,7 +361,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
 
     if (dropdown instanceof GlideCoreDropdown) {
       dropdown.addEventListener('change', () => {
-        const option = context.canvasElement.querySelector(
+        const options = context.canvasElement.querySelectorAll(
           'glide-core-dropdown-option',
         );
 
@@ -358,16 +370,17 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
             storyId: context.id,
             updatedArgs: {
               value: dropdown.value,
-              '<glide-core-dropdown-option>.selected': dropdown.value.includes(
-                option.value,
-              ),
+              '<glide-core-dropdown-option>.one.selected':
+                dropdown.value.includes(options[0].value),
+              '<glide-core-dropdown-option>.two.selected':
+                dropdown.value.includes(options[1].value),
+              '<glide-core-dropdown-option>.three.selected':
+                dropdown.value.includes(options[2].value),
             },
           });
         }
       });
-    }
 
-    if (dropdown) {
       const observer = new MutationObserver(() => {
         if (dropdown instanceof GlideCoreDropdown) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
@@ -430,17 +443,19 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
         value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
-        ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
+        ?selected=${arguments_['<glide-core-dropdown-option>.one.selected']}
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
         value="two"
+        ?selected=${arguments_['<glide-core-dropdown-option>.two.selected']}
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Three"
         value="three"
+        ?selected=${arguments_['<glide-core-dropdown-option>.three.selected']}
       ></glide-core-dropdown-option>
       ${arguments_['slot="description"']
         ? html`<div slot="description">
@@ -524,7 +539,7 @@ export const WithIcons: StoryObj = {
         label="Edit"
         value="edit"
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
-        ?selected=${arguments_['<glide-core-dropdown-option>.selected']}
+        ?selected=${arguments_['<glide-core-dropdown-option>.one.selected']}
       >
         <glide-core-example-icon
           slot="icon"
@@ -532,14 +547,22 @@ export const WithIcons: StoryObj = {
         ></glide-core-example-icon>
       </glide-core-dropdown-option>
 
-      <glide-core-dropdown-option label="Move" value="move">
+      <glide-core-dropdown-option
+        label="Move"
+        value="move"
+        ?selected=${arguments_['<glide-core-dropdown-option>.two.selected']}
+      >
         <glide-core-example-icon
           slot="icon"
           name="move"
         ></glide-core-example-icon>
       </glide-core-dropdown-option>
 
-      <glide-core-dropdown-option label="Share" value="share">
+      <glide-core-dropdown-option
+        label="Share"
+        value="share"
+        ?selected=${arguments_['<glide-core-dropdown-option>.three.selected']}
+      >
         <glide-core-example-icon
           slot="icon"
           name="share"
