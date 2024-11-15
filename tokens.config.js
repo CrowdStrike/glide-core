@@ -33,7 +33,7 @@ export default {
       }
     }
   },
-  fileId: 'U5EY5xuIIibSN68gGRKlqt',
+  fileId: 'WUB2u7DW0sLp04vFzQVFx1',
   cssPrefix: 'glide-core',
   outputDirectoryForStyles: 'src/styles/variables',
 };

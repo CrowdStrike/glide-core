@@ -33,12 +33,6 @@
 -  --glide-core-surface-tag-default: #ffffff1a;
 ```
 
-### Added
-
-```diff
-+  --glide-core-surface-base-gray-lightest: #ffffff12;
-```
-
 ### Changed
 
 ```diff

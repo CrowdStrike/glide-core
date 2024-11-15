@@ -7,8 +7,9 @@ export default [
   `,
   css`
     .component {
+      border: 1px solid var(--glide-core-border-base-lighter);
       border-radius: 0.625rem;
-      box-shadow: var(--glide-core-shadow-sm);
+      box-shadow: var(--glide-core-shadow-md);
       font-family: var(--glide-core-body-xs-font-family);
     }
 

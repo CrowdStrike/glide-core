@@ -70,7 +70,9 @@ when browsers support them.
       justify-content: center;
 
       @media (prefers-reduced-motion: no-preference) {
-        transition: box-shadow 200ms ease-in-out;
+        transition:
+          border-color 200ms ease-in-out,
+          box-shadow 200ms ease-in-out;
       }
 
       &.error:not(.disabled) {
@@ -78,7 +80,7 @@ when browsers support them.
       }
 
       &:not(.disabled):hover {
-        box-shadow: var(--glide-core-glow-sm);
+        box-shadow: var(--glide-core-shadow-checkbox);
       }
     }
 
@@ -93,7 +95,8 @@ when browsers support them.
       position: absolute;
 
       &:not(:disabled):hover ~ .checkbox {
-        box-shadow: var(--glide-core-glow-sm);
+        border-color: var(--glide-core-border-focus);
+        box-shadow: var(--glide-core-shadow-checkbox);
       }
 
       &:checked:not(:indeterminate) ~ .checkbox .checked-icon {

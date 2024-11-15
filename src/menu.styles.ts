@@ -23,7 +23,7 @@ export default [
 
     .default-slot {
       background-color: var(--glide-core-surface-modal);
-      border: 1px solid var(--glide-core-surface-modal);
+      border: 1px solid var(--glide-core-border-base-lighter);
       border-radius: var(--glide-core-spacing-xs);
       box-shadow: var(--glide-core-shadow-lg);
       box-sizing: border-box;

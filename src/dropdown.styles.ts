@@ -24,11 +24,11 @@ export default [
 
     glide-core-private-label {
       &::part(private-control-and-summary) {
-        /* 
-          The Label component's grid column styling combined with the fact that 
-          ".dropdown-and-options" isn't a direct descendant of that grid means that 
-          Dropdown's label won't shrink when space constrained without a minimum 
-          width on Label's ".control-and-summary". It's not clear to me why Grid 
+        /*
+          The Label component's grid column styling combined with the fact that
+          ".dropdown-and-options" isn't a direct descendant of that grid means that
+          Dropdown's label won't shrink when space constrained without a minimum
+          width on Label's ".control-and-summary". It's not clear to me why Grid
           behaves this way.
         */
         min-inline-size: var(--min-inline-size);
@@ -152,14 +152,14 @@ export default [
     }
 
     .footer {
-      background-color: var(--glide-core-surface-base-gray-lighter);
+      border-block-start: 1px solid var(--glide-core-border-base);
       display: none;
       inline-size: calc(100% - var(--glide-core-spacing-xxxs) * 2);
       inset-block-end: 0;
       padding: var(--glide-core-spacing-xxxs);
 
-      /* 
-        "sticky" is a little hack so that footer is absolutely positioned but 
+      /*
+        "sticky" is a little hack so that footer is absolutely positioned but
         its space in layout is preserved, so it doesn't overlap the last option.
       */
       position: sticky;
@@ -214,7 +214,7 @@ export default [
     }
 
     .select-all {
-      background-color: var(--glide-core-surface-base-gray-lighter);
+      border-block-end: 1px solid var(--glide-core-border-base);
       padding: var(--glide-core-spacing-xxxs);
 
       &:not([hidden]) {
