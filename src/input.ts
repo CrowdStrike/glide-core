@@ -257,6 +257,7 @@ export default class GlideCoreInput extends LitElement {
             aria-describedby="meta"
             aria-invalid=${this.#isShowValidationFeedback ||
             this.#isMaxCharacterCountExceeded}
+            class="input"
             id="input"
             type=${this.type === 'password' && this.passwordVisible
               ? 'text'

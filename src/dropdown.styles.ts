@@ -99,6 +99,7 @@ export default [
 
       &:is(
           :hover,
+          :has(.primary-button:hover),
           :has(.primary-button:focus-visible, .input:focus-visible)
         ):not(&.disabled, &.error, &.quiet, &.readonly) {
         border-color: var(--glide-core-border-focus);
