@@ -243,8 +243,12 @@ export default class GlideCoreButtonGroup extends LitElement {
       }
 
       event.target.focus();
+
       event.target.dispatchEvent(new Event('change', { bubbles: true }));
-      event.target.dispatchEvent(new Event('input', { bubbles: true }));
+
+      event.target.dispatchEvent(
+        new Event('input', { bubbles: true, composed: true }),
+      );
     }
   }
 }

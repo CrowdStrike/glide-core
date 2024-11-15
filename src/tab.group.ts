@@ -511,12 +511,10 @@ export default class GlideCoreTabGroup extends LitElement {
     this.activeTab = tab;
     this.#setActiveTab();
 
-    this.dispatchEvent(
-      new CustomEvent('tab-show', {
+    tab.dispatchEvent(
+      new Event('active', {
         bubbles: true,
-        detail: {
-          panel: tab.panel,
-        },
+        composed: true,
       }),
     );
   }

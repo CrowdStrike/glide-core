@@ -92,6 +92,7 @@ it('emits an input event when arrow keys are pressed', async () => {
 
   expect(inputEventDown instanceof Event).to.be.true;
   expect(inputEventDown.bubbles).to.be.true;
+  expect(inputEventDown.composed).to.be.true;
 });
 
 it('moves focus to previous radio when left or up arrow keys are pressed', async () => {

@@ -1429,7 +1429,10 @@ export default class GlideCoreDropdown extends LitElement {
           }
 
           this.dispatchEvent(new Event('change', { bubbles: true }));
-          this.dispatchEvent(new Event('input', { bubbles: true }));
+
+          this.dispatchEvent(
+            new Event('input', { bubbles: true, composed: true }),
+          );
 
           return;
         }
@@ -1842,7 +1845,10 @@ export default class GlideCoreDropdown extends LitElement {
         }
 
         this.dispatchEvent(new Event('change', { bubbles: true }));
-        this.dispatchEvent(new Event('input', { bubbles: true }));
+
+        this.dispatchEvent(
+          new Event('input', { bubbles: true, composed: true }),
+        );
 
         return;
       }
@@ -1891,8 +1897,9 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     this.#unfilter();
+
     this.dispatchEvent(new Event('change', { bubbles: true }));
-    this.dispatchEvent(new Event('input', { bubbles: true }));
+    this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
   }
 
   #onOptionsLabelChange() {
@@ -2135,7 +2142,7 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     this.dispatchEvent(new Event('change', { bubbles: true }));
-    this.dispatchEvent(new Event('input', { bubbles: true }));
+    this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
   }
 
   #selectAllOrNone() {

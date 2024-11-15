@@ -77,8 +77,8 @@ export default class GlideCoreTree extends LitElement {
       }
     }
 
-    this.dispatchEvent(
-      new CustomEvent('item-selected', { bubbles: true, detail: item }),
+    item.dispatchEvent(
+      new Event('selected', { bubbles: true, composed: true }),
     );
   }
 

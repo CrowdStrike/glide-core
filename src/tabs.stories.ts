@@ -33,7 +33,6 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="nav"': '',
-    'addEventListener(event, handler)': '',
     '--panel-padding-inline-end': '',
     '--panel-padding-inline-start': '',
     '--tabs-padding-block-end': '',
@@ -43,6 +42,7 @@ const meta: Meta = {
     '<glide-core-tab>.panel': '',
     '<glide-core-tab>[slot="default"]': 'Tab',
     '<glide-core-tab>.1.active': true,
+    '<glide-core-tab>.addEventListener(event, handler)': '',
     '<glide-core-tab>.disabled': false,
     '<glide-core-tab>[slot="icon"]': '',
     '<glide-core-tab>.2.active': false,
@@ -169,16 +169,6 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    'addEventListener(event, handler)': {
-      table: {
-        type: {
-          summary: 'method',
-          detail:
-            'event: "tab-show", handler: (event: CustomEvent<{ panel: string }>) => void',
-        },
-      },
-      type: { name: 'function' },
-    },
     '--panel-padding-inline-end': {
       table: {
         type: {
@@ -245,6 +235,17 @@ const meta: Meta = {
         category: 'Tab',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-tab>.addEventListener(event, handler)': {
+      control: false,
+      name: 'addEventListener(event, handler)',
+      table: {
+        category: 'Tab',
+        type: {
+          summary: 'method',
+          detail: '(event: "active", handler: (event: Event) => void) => void',
+        },
       },
     },
     '<glide-core-tab>.disabled': {

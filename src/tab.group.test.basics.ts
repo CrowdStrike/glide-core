@@ -82,7 +82,7 @@ it('can switch tabs', async () => {
     </glide-core-tab-group>
   `);
 
-  const listener = oneEvent(component, 'tab-show');
+  const listener = oneEvent(component, 'active');
 
   const [firstTab, secondTab, thirdTab, disabledTab] = component.tabElements;
   const [firstPanel, secondPanel, thirdPanel] = component.panelElements;
@@ -114,13 +114,10 @@ it('can switch tabs', async () => {
   // clicked tab's panel is no longer hidden
   expect(isPanelHidden(secondPanel)).to.be.false;
 
-  expect(triggeredEvent.type).to.equal('tab-show', 'correct tab event fires');
+  expect(triggeredEvent.type).to.equal('active', 'correct tab event fires');
   expect(triggeredEvent.bubbles).to.be.true;
-
-  expect(triggeredEvent.detail.panel).to.equal(
-    '2',
-    'Can get the panel name from the tab click event',
-  );
+  expect(triggeredEvent.composed).to.be.true;
+  expect(triggeredEvent.target).to.equal(secondTab);
 
   secondTab.focus();
   await sendKeys({ press: 'ArrowRight' });
@@ -141,16 +138,13 @@ it('can switch tabs', async () => {
   expect(isPanelHidden(thirdPanel)).to.be.false;
 
   expect(secondTriggeredEvent.type).to.equal(
-    'tab-show',
+    'active',
     'correct tab event fires for keydown',
   );
 
   expect(secondTriggeredEvent.bubbles).to.be.true;
-
-  expect(secondTriggeredEvent.detail.panel).to.equal(
-    '2',
-    'Can get the panel name from the tab show event',
-  );
+  expect(secondTriggeredEvent.composed).to.be.true;
+  expect(secondTriggeredEvent.target).to.equal(secondTab);
 
   disabledTab.click();
 

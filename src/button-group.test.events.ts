@@ -63,6 +63,7 @@ it('emits an "input" event when a button is clicked and not already selected', a
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(event.target).to.equal(button);
 });
 
