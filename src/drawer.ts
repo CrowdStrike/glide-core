@@ -117,6 +117,9 @@ export default class GlideCoreDrawer extends LitElement {
 
   #onKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
+      // Prevent Safari from leaving full screen.
+      event.preventDefault();
+
       this.close();
     }
   }

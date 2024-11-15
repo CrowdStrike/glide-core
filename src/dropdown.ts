@@ -1322,7 +1322,7 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     if (event.key === 'Escape') {
-      // Prevents Safari from leaving full screen.
+      // Prevent Safari from leaving full screen.
       event.preventDefault();
 
       this.open = false;
