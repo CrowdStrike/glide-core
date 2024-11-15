@@ -585,7 +585,10 @@ export default class GlideCoreDropdown extends LitElement {
                     : ''}"
                   autocapitalize="off"
                   autocomplete="off"
-                  class="input"
+                  class=${classMap({
+                    input: true,
+                    quiet: this.variant === 'quiet',
+                  })}
                   data-test="input"
                   id="input"
                   placeholder=${this.multiple ||
