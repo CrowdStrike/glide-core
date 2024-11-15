@@ -35,7 +35,7 @@ it('has a tooltip when active and with a long label', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  component.privateIsOpenTooltip = true;
+  component.privateIsTooltipOpen = true;
 
   // Wait for the tooltip.
   await aTimeout(0);
@@ -69,7 +69,7 @@ it('has a tooltip when active and with a long label set programmatically', async
     ></glide-core-dropdown-option>`,
   );
 
-  component.privateIsOpenTooltip = true;
+  component.privateIsTooltipOpen = true;
 
   // The period is arbitrary. 500 of them ensures we exceed the maximum
   // width even if it's increased.

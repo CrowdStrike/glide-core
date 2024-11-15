@@ -132,7 +132,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   @state()
-  privateIsOpenTooltip = false;
+  privateIsTooltipOpen = false;
 
   override click() {
     if (this.privateMultiple) {
@@ -252,7 +252,7 @@ export default class GlideCoreDropdownOption extends LitElement {
               internally-inert
               @click=${this.#onCheckboxClick}
               ?indeterminate=${this.privateIndeterminate}
-              ?private-show-label-tooltip=${this.privateIsOpenTooltip}
+              ?private-show-label-tooltip=${this.privateIsTooltipOpen}
               ${ref(this.#checkboxElementRef)}
             >
               <slot
@@ -297,7 +297,7 @@ export default class GlideCoreDropdownOption extends LitElement {
               })} name="icon"></slot>
 
               <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${!this
-                .isLabelOverflow} ?open=${this.privateIsOpenTooltip}>
+                .isLabelOverflow} ?open=${this.privateIsTooltipOpen}>
 
                 <div aria-hidden="true" data-test="tooltip">
                   ${this.label}
