@@ -97,7 +97,7 @@ export default [
       /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
       &[type='date'] {
         &::-webkit-calendar-picker-indicator {
-          border-radius: 0.125rem;
+          border-radius: var(--glide-core-border-radius-xs);
           padding: var(--glide-core-spacing-xxs);
         }
         /* stylelint-disable-next-line csstools/use-nesting */

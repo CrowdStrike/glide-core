@@ -68,7 +68,7 @@ export default [
         column-gap: var(--glide-core-spacing-xxs);
         min-inline-size: 3.75rem;
         padding-block: 0;
-        padding-inline: 0.375rem;
+        padding-inline: var(--glide-core-spacing-sm);
       }
 
       &.disabled {
@@ -343,13 +343,15 @@ export default [
       font-family: var(--glide-core-font-sans);
       font-size: inherit;
       min-inline-size: var(--min-inline-size);
+      padding-inline: 0;
 
-      /*
+      &:not(.quiet) {
+        /*
         2px so the value is vertically aligned. "vertical-align: middle" has no
         effect flex children.
       */
-      padding-block: 0.125rem 0;
-      padding-inline: 0;
+        padding-block: 0.125rem 0;
+      }
 
       &:focus {
         outline: none;
