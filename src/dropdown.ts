@@ -1089,7 +1089,7 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (this.activeOption) {
       this.#previouslyActiveOption = this.activeOption;
-      this.activeOption.privateIsOpenTooltip = false;
+      this.activeOption.privateIsTooltipOpen = false;
       this.activeOption.privateActive = false;
     }
   }
@@ -1107,7 +1107,7 @@ export default class GlideCoreDropdown extends LitElement {
 
   #onAddButtonFocusin() {
     if (this.activeOption) {
-      this.activeOption.privateIsOpenTooltip = false;
+      this.activeOption.privateIsTooltipOpen = false;
       this.#previouslyActiveOption = this.activeOption;
       this.activeOption.privateActive = false;
     }
@@ -1220,7 +1220,7 @@ export default class GlideCoreDropdown extends LitElement {
     ) {
       this.#previouslyActiveOption.privateActive = true;
 
-      this.#previouslyActiveOption.privateIsOpenTooltip =
+      this.#previouslyActiveOption.privateIsTooltipOpen =
         !this.#previouslyActiveOption.editable;
     }
   }
@@ -1282,7 +1282,7 @@ export default class GlideCoreDropdown extends LitElement {
         this.#previouslyActiveOption.privateIsEditActive =
           this.#previouslyActiveOption.editable;
 
-        this.#previouslyActiveOption.privateIsOpenTooltip =
+        this.#previouslyActiveOption.privateIsTooltipOpen =
           !this.#previouslyActiveOption.privateIsEditActive;
       }
 
@@ -1312,7 +1312,7 @@ export default class GlideCoreDropdown extends LitElement {
 
       if (this.activeOption) {
         this.#previouslyActiveOption = this.activeOption;
-        this.activeOption.privateIsOpenTooltip = false;
+        this.activeOption.privateIsTooltipOpen = false;
         this.activeOption.privateActive = false;
       }
 
@@ -1360,7 +1360,7 @@ export default class GlideCoreDropdown extends LitElement {
       this.open = true;
 
       if (this.activeOption) {
-        this.activeOption.privateIsOpenTooltip =
+        this.activeOption.privateIsTooltipOpen =
           !this.activeOption.privateIsEditActive;
       }
 
@@ -1457,19 +1457,19 @@ export default class GlideCoreDropdown extends LitElement {
 
         if (this.activeOption?.privateIsEditActive) {
           this.activeOption.privateIsEditActive = false;
-          this.activeOption.privateIsOpenTooltip = true;
+          this.activeOption.privateIsTooltipOpen = true;
 
           // If we're not already at the top.
         } else if (option && activeOptionIndex !== 0) {
           this.activeOption.privateIsEditActive = false;
-          this.activeOption.privateIsOpenTooltip = false;
+          this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
           this.#previouslyActiveOption = option;
 
           option.privateActive = true;
           option.privateIsEditActive = option.editable;
-          option.privateIsOpenTooltip = !option.editable;
+          option.privateIsTooltipOpen = !option.editable;
           option.scrollIntoView({ block: 'center' });
         }
 
@@ -1495,18 +1495,18 @@ export default class GlideCoreDropdown extends LitElement {
           !this.activeOption.privateIsEditActive
         ) {
           this.activeOption.privateIsEditActive = true;
-          this.activeOption.privateIsOpenTooltip = false;
+          this.activeOption.privateIsTooltipOpen = false;
 
           // If we're not already at the bottom.
         } else if (option) {
           this.activeOption.privateIsEditActive = false;
-          this.activeOption.privateIsOpenTooltip = false;
+          this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
           this.#previouslyActiveOption = option;
 
           option.privateActive = true;
-          option.privateIsOpenTooltip = true;
+          option.privateIsTooltipOpen = true;
           option.scrollIntoView({ block: 'center' });
         }
 
@@ -1527,13 +1527,13 @@ export default class GlideCoreDropdown extends LitElement {
 
         if (option) {
           this.activeOption.privateIsEditActive = false;
-          this.activeOption.privateIsOpenTooltip = false;
+          this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
           this.#previouslyActiveOption = option;
 
           option.privateActive = true;
-          option.privateIsOpenTooltip = true;
+          option.privateIsTooltipOpen = true;
           option.scrollIntoView({ block: 'nearest' });
         }
 
@@ -1555,13 +1555,13 @@ export default class GlideCoreDropdown extends LitElement {
         // If `option` isn't defined, then we've reached the bottom.
         if (option && this.activeOption) {
           this.activeOption.privateIsEditActive = false;
-          this.activeOption.privateIsOpenTooltip = false;
+          this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
           this.ariaActivedescendant = option.id;
           this.#previouslyActiveOption = option;
 
           option.privateActive = true;
-          option.privateIsOpenTooltip = true;
+          option.privateIsTooltipOpen = true;
           option.scrollIntoView({ block: 'nearest' });
         }
 
@@ -1925,7 +1925,7 @@ export default class GlideCoreDropdown extends LitElement {
         // The currently active option may have been arrowed to and its Tooltip
         // forced open. Normally, its Tooltip would be closed when the user arrows
         // again. But now the user is using a mouse. So we force it closed.
-        this.activeOption.privateIsOpenTooltip = false;
+        this.activeOption.privateIsTooltipOpen = false;
 
         this.activeOption.privateActive = false;
       }

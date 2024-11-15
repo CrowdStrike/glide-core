@@ -106,7 +106,7 @@ it('focuses the Add button on ArrowDown', async () => {
   expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.false;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).to.be.false;
+  expect(options[1]?.privateIsTooltipOpen).to.be.false;
   expect(component.shadowRoot?.activeElement).to.equal(addButton);
 });
 

@@ -438,7 +438,7 @@ it('activates the Edit button on ArrowDown', async () => {
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[0]?.privateIsEditActive).true;
-  expect(options[0]?.privateIsOpenTooltip).false;
+  expect(options[0]?.privateIsTooltipOpen).false;
   expect(options[1]?.privateActive).to.be.false;
   expect(options[1]?.privateIsEditActive).to.be.false;
 });
@@ -469,7 +469,7 @@ it('activates the next option on ArrowDown when the Edit button is active', asyn
   expect(options[0]?.privateIsEditActive).false;
   expect(options[1]?.privateActive).to.be.true;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).true;
+  expect(options[1]?.privateIsTooltipOpen).true;
 });
 
 it('activates the previous option on ArrowUp', async () => {
@@ -524,10 +524,10 @@ it('activates the Edit button on on ArrowUp', async () => {
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[0]?.privateIsEditActive).to.be.true;
-  expect(options[0]?.privateIsOpenTooltip).false;
+  expect(options[0]?.privateIsTooltipOpen).false;
   expect(options[1]?.privateActive).to.be.false;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).to.be.false;
+  expect(options[1]?.privateIsTooltipOpen).to.be.false;
 });
 
 it('activates previously active option on ArrowUp', async () => {
@@ -556,9 +556,9 @@ it('activates previously active option on ArrowUp', async () => {
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.false;
+  expect(options[0]?.privateIsTooltipOpen).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
-  expect(options[1]?.privateIsOpenTooltip).to.be.true;
+  expect(options[1]?.privateIsTooltipOpen).to.be.true;
   expect(options[1]?.privateIsEditActive).to.be.false;
 });
 
@@ -593,10 +593,10 @@ it('activates the Edit button on ArrowUp', async () => {
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.false;
+  expect(options[0]?.privateIsTooltipOpen).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
   expect(options[1]?.privateIsEditActive).to.be.true;
-  expect(options[1]?.privateIsOpenTooltip).to.be.false;
+  expect(options[1]?.privateIsTooltipOpen).to.be.false;
 });
 
 it('activates the first option on Home', async () => {
@@ -619,10 +619,10 @@ it('activates the first option on Home', async () => {
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.true;
+  expect(options[0]?.privateIsTooltipOpen).to.be.true;
   expect(options[1]?.privateActive).to.be.false;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).to.be.false;
+  expect(options[1]?.privateIsTooltipOpen).to.be.false;
 });
 
 it('activates the first option on PageUp', async () => {
@@ -645,10 +645,10 @@ it('activates the first option on PageUp', async () => {
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.true;
+  expect(options[0]?.privateIsTooltipOpen).to.be.true;
   expect(options[1]?.privateActive).to.be.false;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).to.be.false;
+  expect(options[1]?.privateIsTooltipOpen).to.be.false;
 });
 
 it('activates the first option on ArrowUp + Meta', async () => {
@@ -673,10 +673,10 @@ it('activates the first option on ArrowUp + Meta', async () => {
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.true;
+  expect(options[0]?.privateIsTooltipOpen).to.be.true;
   expect(options[1]?.privateActive).to.be.false;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).to.be.false;
+  expect(options[1]?.privateIsTooltipOpen).to.be.false;
 });
 
 it('activates the last option on End', async () => {
@@ -697,10 +697,10 @@ it('activates the last option on End', async () => {
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.false;
+  expect(options[0]?.privateIsTooltipOpen).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).to.be.true;
+  expect(options[1]?.privateIsTooltipOpen).to.be.true;
 });
 
 it('activates the last option on PageDown', async () => {
@@ -721,10 +721,10 @@ it('activates the last option on PageDown', async () => {
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.false;
+  expect(options[0]?.privateIsTooltipOpen).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).to.be.true;
+  expect(options[1]?.privateIsTooltipOpen).to.be.true;
 });
 
 it('activates the last option on Meta + ArrowDown', async () => {
@@ -748,10 +748,10 @@ it('activates the last option on Meta + ArrowDown', async () => {
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.false;
+  expect(options[0]?.privateIsTooltipOpen).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).to.be.true;
+  expect(options[1]?.privateIsTooltipOpen).to.be.true;
 });
 
 it('activates the previously active option when tabbing back from the Add button', async () => {
@@ -784,13 +784,13 @@ it('activates the previously active option when tabbing back from the Add button
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.false;
+  expect(options[0]?.privateIsTooltipOpen).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
   expect(options[1]?.privateIsEditActive).to.be.false;
-  expect(options[1]?.privateIsOpenTooltip).to.be.true;
+  expect(options[1]?.privateIsTooltipOpen).to.be.true;
   expect(options[2]?.privateActive).to.be.false;
   expect(options[2]?.privateIsEditActive).to.be.false;
-  expect(options[2]?.privateIsOpenTooltip).to.be.false;
+  expect(options[2]?.privateIsTooltipOpen).to.be.false;
 });
 
 it('deactivates the active option when the Add button is tabbed to', async () => {
@@ -817,7 +817,7 @@ it('deactivates the active option when the Add button is tabbed to', async () =>
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[0]?.privateIsEditActive).to.be.false;
-  expect(options[0]?.privateIsOpenTooltip).to.be.false;
+  expect(options[0]?.privateIsTooltipOpen).to.be.false;
   expect(options[1]?.privateActive).to.be.false;
 });
 
