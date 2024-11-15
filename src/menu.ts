@@ -384,6 +384,9 @@ export default class GlideCoreMenu extends LitElement {
     }
 
     if (['Escape'].includes(event.key) && this.open) {
+      // Prevent Safari from leaving full screen.
+      event.preventDefault();
+
       this.open = false;
 
       // For VoiceOver. Options normally don't receive focus. But VoiceOver

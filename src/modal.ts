@@ -371,6 +371,9 @@ export default class GlideCoreModal extends LitElement {
       return;
     }
 
+    // Prevent Safari from leaving full screen.
+    event.preventDefault();
+
     document.documentElement.classList.remove(
       'private-glide-core-modal-lock-scroll',
     );
