@@ -42,14 +42,14 @@ export default [
       background-color: var(--glide-core-surface-base-lighter);
       border: 1px solid var(--glide-core-border-base);
       border-radius: var(--glide-core-spacing-xs);
-      box-sizing: border-box;
       color: var(--glide-core-text-body-1);
       display: flex;
       line-height: var(--glide-core-body-xs-line-height);
       padding-inline: var(--glide-core-spacing-sm);
 
       &.focused,
-      &:hover {
+      &:hover,
+      &:has(.input:hover) {
         border-color: var(--glide-core-border-focus);
         transition: border-color 200ms ease-in-out;
       }
@@ -59,9 +59,8 @@ export default [
       }
 
       /* We had to resort to a class selector because there may be a bug in Chrome and Safari
-    * with ":read-only"
-    * https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
-    */
+       * with ":read-only": https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
+       */
       &.readonly {
         border: 1px solid transparent;
         padding-inline-start: 0;
@@ -72,45 +71,45 @@ export default [
         border-color: var(--glide-core-border-base-light);
         color: var(--glide-core-text-tertiary-disabled);
       }
+    }
 
-      input {
-        background-color: transparent;
-        block-size: 2.125rem;
-        border: none;
-        color: inherit;
-        cursor: inherit;
-        font-family: var(--glide-core-font-sans);
-        font-size: var(--glide-core-body-sm-font-size);
-        font-weight: var(--glide-core-body-xs-font-weight);
-        inline-size: 100%;
-        min-inline-size: 0;
-        outline: none;
-        padding: 0;
+    .input {
+      background-color: transparent;
+      block-size: 2rem;
+      border: none;
+      color: inherit;
+      cursor: inherit;
+      font-family: var(--glide-core-font-sans);
+      font-size: var(--glide-core-body-sm-font-size);
+      font-weight: var(--glide-core-body-xs-font-weight);
+      inline-size: 100%;
+      min-inline-size: 0;
+      outline: none;
+      padding: 0;
 
-        &::-webkit-search-decoration,
-        &::-webkit-search-cancel-button,
-        &::-webkit-search-results-button,
-        &::-webkit-search-results-decoration {
-          appearance: none;
-        }
-
-        /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
-        &[type='date'] {
-          &::-webkit-calendar-picker-indicator {
-            border-radius: 0.125rem;
-            padding: var(--glide-core-spacing-xxs);
-          }
-          /* stylelint-disable-next-line csstools/use-nesting */
-          &::-webkit-calendar-picker-indicator:focus-visible {
-            outline: 2px solid var(--glide-core-border-focus);
-          }
-        }
+      &::-webkit-search-decoration,
+      &::-webkit-search-cancel-button,
+      &::-webkit-search-results-button,
+      &::-webkit-search-results-decoration {
+        appearance: none;
       }
 
-      .suffix-icon {
-        align-items: center;
-        display: flex;
+      /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
+      &[type='date'] {
+        &::-webkit-calendar-picker-indicator {
+          border-radius: 0.125rem;
+          padding: var(--glide-core-spacing-xxs);
+        }
+        /* stylelint-disable-next-line csstools/use-nesting */
+        &::-webkit-calendar-picker-indicator:focus-visible {
+          outline: 2px solid var(--glide-core-border-focus);
+        }
       }
+    }
+
+    .suffix-icon {
+      align-items: center;
+      display: flex;
     }
 
     .clear-icon-button,

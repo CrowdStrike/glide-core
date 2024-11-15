@@ -487,7 +487,7 @@ export default class GlideCoreDropdown extends LitElement {
         ?hide=${this.hideLabel}
         ?required=${this.required}
       >
-        <label id="label"> ${this.label} </label>
+        <label for="primary-button" id="label"> ${this.label} </label>
         <slot name="tooltip" slot="tooltip"></slot>
 
         <div
