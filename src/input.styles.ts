@@ -87,6 +87,10 @@ export default [
       outline: none;
       padding: 0;
 
+      &::placeholder {
+        color: var(--glide-core-text-placeholder);
+      }
+
       &::-webkit-search-decoration,
       &::-webkit-search-cancel-button,
       &::-webkit-search-results-button,
