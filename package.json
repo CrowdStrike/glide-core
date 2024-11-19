@@ -125,7 +125,7 @@
     "postcss-lit": "^1.1.1",
     "prettier": "3.1.0",
     "rimraf": "^5.0.7",
-    "sinon": "^17.0.1",
+    "sinon": "^19.0.2",
     "storybook": "^8.4.2",
     "stylelint": "^16.3.1",
     "stylelint-config-standard": "^36.0.0",
