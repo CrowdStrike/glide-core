@@ -72,6 +72,10 @@ export default [
         border-color: var(--glide-core-border-focus);
       }
 
+      &::placeholder {
+        color: var(--glide-core-text-placeholder);
+      }
+
       &.error {
         border-color: var(--glide-core-status-error);
       }

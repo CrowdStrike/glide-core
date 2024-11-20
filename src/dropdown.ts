@@ -643,7 +643,6 @@ export default class GlideCoreDropdown extends LitElement {
                     return html`<span
                       class=${classMap({
                         placeholder: true,
-                        disabled: this.disabled,
                         quiet: this.variant === 'quiet',
                       })}
                     >
