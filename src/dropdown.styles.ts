@@ -83,6 +83,7 @@ export default [
       }
 
       &.readonly {
+        background-color: transparent;
         border-color: transparent;
         padding-inline-start: 0;
       }
