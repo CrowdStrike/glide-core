@@ -1,5 +1,28 @@
 # @crowdstrike/glide-core
 
+## 0.13.1
+
+### Patch Changes
+
+- [#485](https://github.com/CrowdStrike/glide-core/pull/485) [`8791ada`](https://github.com/CrowdStrike/glide-core/commit/8791ada86e7b97af838b939fddce7b9990ba4e07) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Dark
+
+  ### Changed
+
+  ```diff
+  - --glide-core-surface-primary-disabled: #3989da99
+  + --glide-core-surface-primary-disabled: #3888d999;
+
+  - --glide-core-text-link-table: #73b2f3;
+  + --glide-core-text-link-table: #93c4f6;
+
+  - --glide-core-text-placeholder: #c9c9c9;
+  + --glide-core-text-placeholder: #9e9e9e;
+  ```
+
+- [#485](https://github.com/CrowdStrike/glide-core/pull/485) [`8791ada`](https://github.com/CrowdStrike/glide-core/commit/8791ada86e7b97af838b939fddce7b9990ba4e07) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Dropdown, Input, and Textarea placeholder states were updated to use a new placeholder variable.
+
 ## 0.13.0
 
 ### Minor Changes
