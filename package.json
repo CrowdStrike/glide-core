@@ -15,7 +15,10 @@
     "!dist/icons/storybook.*",
     "!dist/storybook",
     "!dist/*.test.js",
-    "!dist/*.stories.js"
+    "!dist/*.test.*.d.ts",
+    "!dist/*.test.*.js",
+    "!dist/*.stories.js",
+    "!dist/*.stories.d.ts"
   ],
   "exports": {
     "./*.js": {
