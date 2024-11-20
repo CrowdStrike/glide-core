@@ -81,8 +81,10 @@ export default [
       }
 
       &[readonly] {
+        background-color: transparent;
         border-color: transparent;
         outline: none;
+        padding-inline-start: 0;
         resize: none;
         transition: none;
       }
