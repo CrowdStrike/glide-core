@@ -14,6 +14,12 @@
 + --glide-core-effects-shadow-small-spread: 0rem;
 + --glide-core-effects-shadow-small-x: 0rem;
 + --glide-core-effects-shadow-small-y: 0.125rem;
+
++ --glide-core-effects-shadow-switcher-blur: 0.125rem;
++ --glide-core-effects-shadow-switcher-fill: #ffffff59;
++ --glide-core-effects-shadow-switcher-spread: 0rem;
++ --glide-core-effects-shadow-switcher-x: 0.0625rem;
++ --glide-core-effects-shadow-switcher-y: 0.0625rem;
 ```
 
 ## Dark
@@ -26,6 +32,12 @@
 + --glide-core-effects-shadow-small-spread: 0rem;
 + --glide-core-effects-shadow-small-x: 0rem;
 + --glide-core-effects-shadow-small-y: 0.125rem;
+
++ --glide-core-effects-shadow-switcher-blur: 0.125rem;
++ --glide-core-effects-shadow-switcher-fill: #0000000d;
++ --glide-core-effects-shadow-switcher-spread: 0rem;
++ --glide-core-effects-shadow-switcher-x: 0.0625rem;
++ --glide-core-effects-shadow-switcher-y: 0.0625rem;
 ```
 
 ## Miscellaneous
