@@ -24,6 +24,11 @@
   --glide-core-effects-shadow-large-spread: 0rem;
   --glide-core-effects-shadow-large-x: 0rem;
   --glide-core-effects-shadow-large-y: 0.625rem;
+  --glide-core-effects-shadow-small-blur: 0.5rem;
+  --glide-core-effects-shadow-small-fill: #00000040;
+  --glide-core-effects-shadow-small-spread: 0rem;
+  --glide-core-effects-shadow-small-x: 0rem;
+  --glide-core-effects-shadow-small-y: 0.125rem;
   --glide-core-effects-shadow-xlarge-background-blur: 0rem;
   --glide-core-effects-shadow-xlarge-blur: 4rem;
   --glide-core-effects-shadow-xlarge-fill: #000000f7;

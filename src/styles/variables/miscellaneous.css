@@ -35,7 +35,11 @@
   --glide-core-heading-xxxs-font-weight: var(--glide-core-font-weight-bold);
   --glide-core-heading-xxxs-line-height: 1.7;
   --glide-core-shadow-checkbox: 0px 0px 7px 0px #5ba4ee;
-  --glide-core-shadow-sm: 0px 2.275px 8.342px 0px rgba(181, 181, 181, 0.25);
+  --glide-core-shadow-sm: var(--glide-core-effects-shadow-small-x)
+    var(--glide-core-effects-shadow-small-y)
+    var(--glide-core-effects-shadow-small-blur)
+    var(--glide-core-effects-shadow-small-spread)
+    var(--glide-core-effects-shadow-small-fill);
   --glide-core-shadow-md: 0px 3px 8px 0px rgba(0, 0, 0, 0.15),
     0px 3px 1px 0px rgba(0, 0, 0, 0.06);
   --glide-core-shadow-lg: var(--glide-core-effects-shadow-large-x)
