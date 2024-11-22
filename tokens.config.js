@@ -25,12 +25,20 @@ export default {
     return !collectionIds.includes(collection.id);
   },
   excludeVariables(variable) {
-    const variableNames = ['color', 'component', 'data-viz'];
+    // We intentionally skip over the following primitive
+    // design tokens as we prefer using semantic tokens.
+    const primitiveNamesToSkip = ['color', 'component'];
 
-    for (const name of variableNames) {
+    for (const name of primitiveNamesToSkip) {
       if (variable.name.includes(name)) {
         return true;
       }
+    }
+
+    // `data-viz-chart` tokens are currently a work in
+    // progress and need to be excluded for the time being.
+    if (variable.name.startsWith('data-viz-chart')) {
+      return true;
     }
   },
   fileId: 'WUB2u7DW0sLp04vFzQVFx1',
