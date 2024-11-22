@@ -93,7 +93,7 @@ export default [
         background-color: var(--glide-core-surface-selected);
 
         &:hover {
-          background-color: var(--glide-core-color-dark-blue);
+          background-color: var(--glide-core-surface-selected-hover);
         }
       }
 
