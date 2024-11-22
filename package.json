@@ -118,7 +118,7 @@
     "http-server": "^14.1.1",
     "husky": "^8.0.3",
     "is-ci": "^3.0.1",
-    "lint-staged": "^14.0.1",
+    "lint-staged": "^15.2.10",
     "lit": "^3.1.2",
     "lit-analyzer": "^2.0.3",
     "minify-literals": "^1.0.10",
