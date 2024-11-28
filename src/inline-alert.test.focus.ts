@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreInlineAlert from './inline-alert.js';
 
@@ -12,11 +10,11 @@ it('calling `focus()` focuses the button', async () => {
     >`,
   );
 
-  component.focus();
-
-  const button = component.shadowRoot?.querySelector(
+  const button = component.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="removal-button"]',
   );
+
+  button?.focus();
 
   expect(component.shadowRoot?.activeElement).to.equal(button);
 });

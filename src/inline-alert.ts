@@ -54,10 +54,6 @@ export default class GlideCoreInlineAlert extends LitElement {
     );
   }
 
-  override focus() {
-    this.#removalButtonElementRef.value?.focus();
-  }
-
   override render() {
     return html`
       <div
@@ -85,7 +81,7 @@ export default class GlideCoreInlineAlert extends LitElement {
           this.removable,
           () =>
             html`<button
-              aria-label=${this.#localize.term('dismiss')}
+              aria-label=${this.#localize.term('close')}
               class=${classMap({
                 'removal-button': true,
               })}

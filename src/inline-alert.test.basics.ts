@@ -55,27 +55,3 @@ it('sets variant, label', async () => {
   expect(component.variant).to.equal('informational');
   expect(component.textContent).to.equal('Label');
 });
-
-// it('can be closed by clicking on the x icon', async () => {
-//   const component = await fixture<GlideCoreInlineAlert>(
-//     html`<glide-core-inline-alert
-//       variant="informational"
-//     ></glide-core-inline-alert>`,
-//   );
-
-//   const shadowElement = component.shadowRoot!.firstElementChild;
-
-//   const closeButton = shadowElement?.querySelector<HTMLButtonElement>(
-//     'glide-core-icon-button[label="Close"]',
-//   );
-
-//   assert(closeButton);
-
-//   closeButton.click();
-
-//   shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
-
-//   await expect([
-//     ...component.shadowRoot!.firstElementChild!.classList,
-//   ]).to.deep.equal(['component', 'informational', 'closed']);
-// });

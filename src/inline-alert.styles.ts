@@ -104,7 +104,6 @@ export default [
       inline-size: 1.125rem;
       justify-content: center;
       padding: 0;
-      padding-block-start: var(--glide-core-spacing-xxxs);
       transition: color 200ms ease-in-out;
     }
   `,
