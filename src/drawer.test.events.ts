@@ -69,3 +69,24 @@ it('dispatches a "close" event when closed via the "close" method', async () => 
   const event = await closeEvent;
   expect(event instanceof Event).to.be.true;
 });
+
+it('dispatches a "close" event when the "open" attribute is removed', async () => {
+  const component = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer open>Drawer content</glide-core-drawer>`,
+  );
+
+  const closeEvent = oneEvent(component, 'close');
+
+  component.removeAttribute('open');
+
+  await elementUpdated(component);
+
+  setTimeout(() => {
+    component.shadowRoot
+      ?.querySelector('aside')
+      ?.dispatchEvent(new TransitionEvent('transitionend'));
+  });
+
+  const event = await closeEvent;
+  expect(event instanceof Event).to.be.true;
+});
