@@ -35,13 +35,20 @@ export default {
       }
     }
 
-    // `data-viz-chart` tokens are currently a work in
-    // progress and need to be excluded for the time being.
-    if (variable.name.startsWith('data-viz-chart')) {
+    // We want to ignore tokens that are for
+    // designers experimenting.
+    if (variable.name.startsWith('dev-only/')) {
+      return true;
+    }
+
+    // `data-viz/pink` tokens are not intended to be
+    // used by developers and are for design use
+    // cases only.
+    if (variable.name.startsWith('data-viz/pink')) {
       return true;
     }
   },
-  fileId: 'WUB2u7DW0sLp04vFzQVFx1',
+  fileId: 'U5EY5xuIIibSN68gGRKlqt',
   cssPrefix: 'glide-core',
   outputDirectoryForStyles: 'src/styles/variables',
 };
