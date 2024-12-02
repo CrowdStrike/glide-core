@@ -2,8 +2,10 @@
 '@crowdstrike/glide-core': minor
 ---
 
+- Tab's `active` attribute has been renamed to `selected` to align with Tree Item.
+
 - Tab Group no longer dispatches a "tab-show" event.
-  It instead dispatches a bubbling "active" event from the activated Tab.
+  It instead dispatches a bubbling "selected" event from the activated Tab.
   The event's `target` property is set to that Tab.
 
   ```diff
@@ -11,7 +13,7 @@
   -   console.log(event.detail.panel)
   - })
 
-  + tabGroup.addEventListener('active', (event) => {
+  + tabGroup.addEventListener('selected', (event) => {
   +   console.log(event.target)
   + })
   ```

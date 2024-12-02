@@ -46,10 +46,7 @@ it('renders correct markup and sets correct attributes for the default case', as
 
   const [firstTab] = component.tabElements;
 
-  expect(component.activeTab).to.equal(
-    firstTab,
-    'activeTab defaults to first tab',
-  );
+  expect(component.selectedTab).to.equal(firstTab);
 
   expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
     ['component'],
@@ -82,31 +79,31 @@ it('can switch tabs', async () => {
     </glide-core-tab-group>
   `);
 
-  const listener = oneEvent(component, 'active');
+  const listener = oneEvent(component, 'selected');
 
   const [firstTab, secondTab, thirdTab, disabledTab] = component.tabElements;
   const [firstPanel, secondPanel, thirdPanel] = component.panelElements;
 
-  // first tab defaults to active
-  expect(firstTab.active).to.be.true;
+  // first tab defaults to selected
+  expect(firstTab.selected).to.be.true;
 
-  // other tabs default to not active
-  expect(secondTab.active).to.be.false;
+  // other tabs default to not selected
+  expect(secondTab.selected).to.be.false;
 
   // first panel is not hidden by default
   expect(isPanelHidden(firstPanel)).to.be.false;
 
-  // nonactive panel is hidden by default
+  // unselected panels are hidden by default
   expect(isPanelHidden(secondPanel)).to.be.true;
 
   secondTab.click();
   const triggeredEvent = await listener;
 
-  // after clicking a different tab, previous tab is no longer active
-  expect(firstTab.active).to.be.false;
+  // after clicking a different tab, previous tab is no longer selected
+  expect(firstTab.selected).to.be.false;
 
-  // clicked tab becomes active
-  expect(secondTab.active).to.be.true;
+  // clicked tab becomes selected
+  expect(secondTab.selected).to.be.true;
 
   // after clicking a different tab, previous panel is hidden
   expect(isPanelHidden(firstPanel)).to.be.true;
@@ -114,7 +111,7 @@ it('can switch tabs', async () => {
   // clicked tab's panel is no longer hidden
   expect(isPanelHidden(secondPanel)).to.be.false;
 
-  expect(triggeredEvent.type).to.equal('active', 'correct tab event fires');
+  expect(triggeredEvent.type).to.equal('selected');
   expect(triggeredEvent.bubbles).to.be.true;
   expect(triggeredEvent.composed).to.be.true;
   expect(triggeredEvent.target).to.equal(secondTab);
@@ -125,11 +122,11 @@ it('can switch tabs', async () => {
   await sendKeys({ press: 'Enter' });
   const secondTriggeredEvent = await listener;
 
-  // after pressing Enter on a different tab, previous tab is no longer active
-  expect(secondTab.active).to.be.false;
+  // after pressing Enter on a different tab, previous tab is no longer selected
+  expect(secondTab.selected).to.be.false;
 
-  // new tab becomes active
-  expect(thirdTab.active).to.be.true;
+  // new tab becomes selected
+  expect(thirdTab.selected).to.be.true;
 
   // after pressing Enter on a different tab, previous panel is hidden
   expect(isPanelHidden(secondPanel)).to.be.true;
@@ -137,19 +134,15 @@ it('can switch tabs', async () => {
   // new tab's panel is no longer hidden
   expect(isPanelHidden(thirdPanel)).to.be.false;
 
-  expect(secondTriggeredEvent.type).to.equal(
-    'active',
-    'correct tab event fires for keydown',
-  );
-
+  expect(secondTriggeredEvent.type).to.equal('selected');
   expect(secondTriggeredEvent.bubbles).to.be.true;
   expect(secondTriggeredEvent.composed).to.be.true;
   expect(secondTriggeredEvent.target).to.equal(secondTab);
 
   disabledTab.click();
 
-  // clicking on a disabled tab does not make it active
-  expect(disabledTab.active).to.be.false;
+  // clicking on a disabled tab does not make it selected
+  expect(disabledTab.selected).to.be.false;
 });
 
 it('can use left/right, home and end keys to focus on tabs', async () => {
@@ -171,30 +164,30 @@ it('can use left/right, home and end keys to focus on tabs', async () => {
   await sendKeys({ press: 'ArrowRight' });
   await sendKeys({ press: 'Enter' });
   // right works
-  expect(secondTab.active).to.be.true;
+  expect(secondTab.selected).to.be.true;
 
   await sendKeys({ press: 'ArrowLeft' });
   await sendKeys({ press: 'Enter' });
   // left works
-  expect(firstTab.active).to.be.true;
+  expect(firstTab.selected).to.be.true;
 
   await sendKeys({ press: 'ArrowLeft' });
   await sendKeys({ press: 'Enter' });
   // left from first goes to last
-  expect(thirdTab.active).to.be.true;
+  expect(thirdTab.selected).to.be.true;
 
   await sendKeys({ press: 'ArrowRight' });
   await sendKeys({ press: 'Enter' });
   // right from last goes to first
-  expect(firstTab.active).to.be.true;
+  expect(firstTab.selected).to.be.true;
 
   await sendKeys({ press: 'Home' });
   await sendKeys({ press: 'Enter' });
-  expect(firstTab.active).to.be.true;
+  expect(firstTab.selected).to.be.true;
 
   await sendKeys({ press: 'End' });
   await sendKeys({ press: 'Enter' });
-  expect(thirdTab.active).to.be.true;
+  expect(thirdTab.selected).to.be.true;
 });
 
 it('sets padding-inline-start of the Tab Group via `--tabs-padding-inline-start`', async () => {

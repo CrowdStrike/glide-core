@@ -11,6 +11,9 @@ declare global {
 }
 
 /**
+ *
+ * @event selected - `(event: "selected", handler: (event: Event) => void) => void`.
+ *
  * @slot - A label.
  * @slot icon - An optional icon.
  */
@@ -25,13 +28,12 @@ export default class GlideCoreTab extends LitElement {
 
   @property({ reflect: true }) panel = '';
 
-  @property({ type: Boolean, reflect: true }) active = false;
-
   @property({ type: Boolean, reflect: true }) disabled = false;
+
+  @property({ type: Boolean, reflect: true }) selected = false;
 
   protected override firstUpdated() {
     this.setAttribute('role', 'tab');
-
     this.id = this.#id;
   }
 
@@ -39,7 +41,6 @@ export default class GlideCoreTab extends LitElement {
     return html`<div
       class=${classMap({
         component: true,
-        active: this.active,
         disabled: this.disabled,
       })}
     >
@@ -53,8 +54,8 @@ export default class GlideCoreTab extends LitElement {
   }
 
   protected override updated(changes: PropertyValues) {
-    if (changes.has('active')) {
-      this.setAttribute('aria-selected', this.active ? 'true' : 'false');
+    if (changes.has('selected')) {
+      this.setAttribute('aria-selected', this.selected ? 'true' : 'false');
     }
 
     if (changes.has('disabled')) {

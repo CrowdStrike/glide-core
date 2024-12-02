@@ -16,13 +16,10 @@ it('renders correct markup and sets correct attributes for the default case', as
   `);
 
   await expect(component).to.not.be.accessible();
-  expect(component.active).to.be.false;
+  expect(component.selected).to.be.false;
   expect(component.disabled).to.be.false;
 
-  expect(component.getAttribute('aria-disabled')).to.equal(
-    null,
-    'does not set aria-disabled',
-  );
+  expect(component.getAttribute('aria-disabled')).to.equal(null);
 
   expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
     ['component'],
@@ -37,12 +34,12 @@ it('sets the panel attribute', async () => {
   expect(component.panel).to.equal('details');
 });
 
-it('sets the active attribute', async () => {
+it('sets the `selected` attribute', async () => {
   const component = await fixture<GlideCoreTab>(html`
-    <glide-core-tab active>Tab</glide-core-tab>
+    <glide-core-tab selected>Tab</glide-core-tab>
   `);
 
-  expect(component.active).to.be.true;
+  expect(component.selected).to.be.true;
 });
 
 it('sets the disabled attribute', async () => {

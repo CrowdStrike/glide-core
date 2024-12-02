@@ -44,12 +44,12 @@ export default [
           background: var(--glide-core-border-focus);
           block-size: 0.125rem;
           content: '';
-          inline-size: var(--active-tab-indicator-width);
+          inline-size: var(--selected-tab-indicator-width);
           inset-block-end: 0;
           inset-inline: 0;
           position: absolute;
           transform-origin: left;
-          translate: var(--active-tab-indicator-translate, 0) 0;
+          translate: var(--selected-tab-indicator-translate, 0) 0;
         }
 
         &.animated {
