@@ -212,11 +212,11 @@ export default class GlideCoreInput extends LitElement {
     this.value = this.getAttribute('value') ?? '';
   }
 
-  get hasClearButton() {
+  private get hasClearButton() {
     return this.clearable && !this.disabled && !this.readonly;
   }
 
-  get isClearButtonVisible() {
+  private get isClearButtonVisible() {
     return this.hasClearButton && this.value.length > 0;
   }
 
