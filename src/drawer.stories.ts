@@ -1,8 +1,11 @@
 import './button.js';
 import './drawer.js';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import GlideCoreDrawer from './drawer.js';
 import ow from './library/ow.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -40,25 +43,40 @@ const meta: Meta = {
     }
 
     const button = context.canvasElement.querySelector('glide-core-button');
-    let isOpen = false;
+    const drawer = context.canvasElement.querySelector('glide-core-drawer');
 
     button?.addEventListener('click', () => {
-      const drawer = context.canvasElement.querySelector('glide-core-drawer');
-
-      if (isOpen) {
-        drawer?.close();
+      if (drawer?.open) {
+        drawer.close();
       } else {
         drawer?.show();
       }
-
-      isOpen = !isOpen;
     });
+
+    const observer = new MutationObserver(() => {
+      if (drawer instanceof GlideCoreDrawer) {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            open: drawer.open,
+          },
+        });
+      }
+    });
+
+    if (drawer) {
+      observer.observe(drawer, {
+        attributes: true,
+        attributeFilter: ['open'],
+      });
+    }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <glide-core-drawer
         label=${arguments_.label}
+        ?open=${arguments_.open}
         ?pinned=${arguments_.pinned}
         style="${ifDefined(
           arguments_['--width']
@@ -85,6 +103,7 @@ const meta: Meta = {
     'show()': '',
     pinned: false,
     '--width': '',
+    open: false,
   },
   argTypes: {
     'slot="default"': {
@@ -127,6 +146,12 @@ const meta: Meta = {
           summary: 'method',
           detail: '(event: "close", handler: (event: Event)) => void) => void',
         },
+      },
+    },
+    open: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
       },
     },
     pinned: {

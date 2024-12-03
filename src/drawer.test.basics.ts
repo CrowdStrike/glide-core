@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './drawer.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
 import expectArgumentError from './library/expect-argument-error.js';
 
@@ -87,4 +87,36 @@ it('does not add a class when the "pinned" attribute is not set', async () => {
   expect(
     component.shadowRoot?.querySelector('aside')?.classList.contains('pinned'),
   ).to.be.false;
+});
+
+it('opens the drawer when the "open" attribute is set', async () => {
+  const component = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
+  );
+
+  expect(component.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
+    .null;
+
+  component.setAttribute('open', '');
+
+  await elementUpdated(component);
+
+  expect(component.shadowRoot?.querySelector('[data-test="open"]')).to.be.not
+    .null;
+});
+
+it('closes the drawer when the "open" attribute is removed', async () => {
+  const component = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer open>Drawer content</glide-core-drawer>`,
+  );
+
+  expect(component.shadowRoot?.querySelector('aside[data-test="open"]')).to.be
+    .not.null;
+
+  component.removeAttribute('open');
+
+  await elementUpdated(component);
+
+  expect(component.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
+    .null;
 });
