@@ -5,7 +5,7 @@ import { create } from '@storybook/theming/create';
 import GlideCoreLogo from './assets/glide-core.png';
 
 addons.setConfig({
-  enableShortcuts: false,
+  enableShortcuts: false, // We found people triggered shortcuts accidentally more than not.
   theme: create({
     base: 'dark',
     brandImage: GlideCoreLogo,
@@ -15,7 +15,7 @@ addons.setConfig({
   }),
   toolbar: {
     fullscreen: {
-      hidden: true,
+      hidden: true, // Just clutter. Rarely used.
     },
   },
 });
