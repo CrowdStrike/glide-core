@@ -30,7 +30,7 @@ it('removes itself on removable button click', async () => {
   expect(document.querySelector('glide-core-inline-alert')).to.be.null;
 });
 
-it('removes itself on Space', async () => {
+it('removes itself on removable button Space', async () => {
   const component = await fixture<GlideCoreInlineAlert>(
     html`<glide-core-inline-alert variant="informational" removable
       >Label</glide-core-inline-alert
@@ -52,7 +52,7 @@ it('removes itself on Space', async () => {
   expect(document.querySelector('glide-core-inline-alert')).to.be.null;
 });
 
-it('removes itself on Enter', async () => {
+it('removes itself on removable button Enter', async () => {
   const component = await fixture<GlideCoreInlineAlert>(
     html`<glide-core-inline-alert variant="informational" removable
       >Label</glide-core-inline-alert

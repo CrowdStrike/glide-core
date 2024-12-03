@@ -4,6 +4,7 @@ export default [
   css`
     .component {
       align-items: flex-start;
+      border: 1px solid;
       border-radius: var(--glide-core-spacing-sm);
       color: var(--glide-core-text-body-2);
       display: flex;
@@ -16,22 +17,22 @@ export default [
 
       &.informational {
         background-color: var(--glide-core-surface-informational);
-        border: 1px solid var(--glide-core-data-viz-blue-lighter, #d7e7ff);
+        border-color: var(--glide-core-data-viz-blue-lighter, #d7e7ff);
       }
 
       &.medium {
         background-color: var(--glide-core-surface-warning);
-        border: 1px solid var(--glide-core-data-viz-yellow-lighter, #f8f0d1);
+        border-color: var(--glide-core-data-viz-yellow-lighter, #f8f0d1);
       }
 
       &.high {
         background-color: var(--glide-core-surface-warning);
-        border: 1px solid var(--glide-core-data-viz-orange-lighter, #ffebce);
+        border-color: var(--glide-core-data-viz-orange-lighter, #ffebce);
       }
 
       &.critical {
         background-color: var(--glide-core-surface-error);
-        border: 1px solid var(--glide-core-data-viz-red-lighter, #ffdcda);
+        border-color: var(--glide-core-data-viz-red-lighter, #ffdcda);
       }
 
       &.added {
@@ -93,17 +94,9 @@ export default [
     }
 
     .removal-button {
+      --icon-color: var(--glide-core-icon-default2);
+
       align-self: flex-start;
-      background-color: transparent;
-      block-size: 1.125rem;
-      border: none;
-      border-radius: 0.0625rem;
-      color: var(--glide-core-icon-display);
-      cursor: pointer;
-      display: flex;
-      inline-size: 1.125rem;
-      justify-content: center;
-      padding: 0;
       transition: color 200ms ease-in-out;
     }
   `,

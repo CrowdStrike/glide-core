@@ -1,8 +1,10 @@
+import './icon-button.js';
 import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import { owSlot } from './library/ow.js';
 import { when } from 'lit/directives/when.js';
 import informationalIcon from './icons/informational.js';
 import styles from './inline-alert.styles.js';
@@ -24,7 +26,6 @@ const VARIANTS = {
 };
 
 /**
- * @private
  * @event remove - `(event: Event) => void`
  *
  * @slot - The content of the Inline Alert.
@@ -45,6 +46,8 @@ export default class GlideCoreInlineAlert extends LitElement {
   removable? = false;
 
   override firstUpdated() {
+    owSlot(this.#defaultSlotElementRef.value);
+
     this.#componentElementRef.value?.addEventListener(
       'animationend',
       () => {
@@ -76,22 +79,26 @@ export default class GlideCoreInlineAlert extends LitElement {
         >
           ${VARIANTS[this.variant]}
         </div>
-        <div class="content"><slot></slot></div>
+        <div class="content">
+          <slot
+            @slotchange=${this.#onDefaultSlotChange}
+            ${ref(this.#defaultSlotElementRef)}
+          >
+          </slot>
+        </div>
         ${when(
           this.removable,
           () =>
-            html`<button
-              aria-label=${this.#localize.term('close')}
-              class=${classMap({
-                'removal-button': true,
-              })}
+            html`<glide-core-icon-button
+              label=${this.#localize.term('close')}
+              variant="tertiary"
+              class="removal-button"
               data-test="removal-button"
-              type="button"
               @click=${this.#onRemovalButtonClick}
               @keydown=${this.#onRemovalButtonKeydown}
               ${ref(this.#removalButtonElementRef)}
             >
-              <svg width="18" height="18" viewBox="0 0 14 14" fill="none">
+              <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
                 <path
                   d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
                   stroke="currentColor"
@@ -100,7 +107,7 @@ export default class GlideCoreInlineAlert extends LitElement {
                   stroke-linejoin="round"
                 />
               </svg>
-            </button>`,
+            </glide-core-icon-button>`,
         )}
       </div>
     `;
@@ -110,11 +117,17 @@ export default class GlideCoreInlineAlert extends LitElement {
 
   #componentElementRef = createRef<HTMLDivElement>();
 
+  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
   #isKeyboardClick = false;
 
   #localize = new LocalizeController(this);
 
   #removalButtonElementRef = createRef<HTMLButtonElement>();
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
 
   #onRemovalButtonClick() {
     if (this.#isKeyboardClick) {

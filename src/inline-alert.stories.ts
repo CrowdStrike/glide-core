@@ -5,23 +5,31 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Inline Alert',
   tags: ['autodocs'],
-  decorators: [(story) => html` ${story()} `],
+  decorators: [
+    (story) => html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/inline-alert.js';
+      </script>
+
+      ${story()}
+    `,
+  ],
   args: {
     variant: 'informational',
-    removable: false,
     'slot="default"': 'Label',
+    removable: false,
     'addEventListener(event, handler)': '',
   },
   argTypes: {
     variant: {
-      control: { type: 'select' },
+      control: { type: 'radio' },
       options: ['informational', 'medium', 'high', 'critical'],
       table: {
         defaultValue: {
           summary: `"informational"`,
         },
         type: {
-          summary: `"informational"  | "medium" | "high" | "critical"`,
+          summary: `"informational" | "medium" | "high" | "critical"`,
         },
       },
     },
@@ -38,9 +46,7 @@ const meta: Meta = {
       type: { name: 'string', required: true },
     },
     'addEventListener(event, handler)': {
-      type: {
-        name: 'function',
-      },
+      control: false,
       table: {
         type: {
           summary: 'method',
@@ -51,32 +57,12 @@ const meta: Meta = {
   },
   render(arguments_) {
     return html`
-      <div style="display: inline-flex; flex-direction: column; gap: 1rem;">
-        <glide-core-inline-alert
-          variant=${arguments_.variant}
-          ?removable=${arguments_.removable}
-        >
-          ${arguments_['slot="default"']}
-        </glide-core-inline-alert>
-        <glide-core-inline-alert
-          variant="medium"
-          ?removable=${arguments_.removable}
-        >
-          ${arguments_['slot="default"']}
-        </glide-core-inline-alert>
-        <glide-core-inline-alert
-          variant="high"
-          ?removable=${arguments_.removable}
-        >
-          ${arguments_['slot="default"']}
-        </glide-core-inline-alert>
-        <glide-core-inline-alert
-          variant="critical"
-          ?removable=${arguments_.removable}
-        >
-          ${arguments_['slot="default"']}
-        </glide-core-inline-alert>
-      </div>
+      <glide-core-inline-alert
+        variant=${arguments_.variant}
+        ?removable=${arguments_.removable}
+      >
+        ${arguments_['slot="default"']}
+      </glide-core-inline-alert>
     `;
   },
 };
