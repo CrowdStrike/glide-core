@@ -2,10 +2,10 @@ import './icon-button.js';
 import './tooltip.js';
 import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
+import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { when } from 'lit/directives/when.js';
 import styles from './toasts.toast.styles.js';
 import type { Toast } from './toasts.js';
 
@@ -34,7 +34,7 @@ export default class GlideCoreToast extends LitElement {
   description?: string;
 
   @property()
-  variant!: Toast['variant'];
+  variant?: Toast['variant'];
 
   @property({ type: Number })
   duration? = 5000;
@@ -80,52 +80,82 @@ export default class GlideCoreToast extends LitElement {
       <div
         class=${classMap({
           component: true,
-          [this.variant]: true,
+          error: this.variant === 'error',
+          informational: this.variant === 'informational',
+          success: this.variant === 'success',
         })}
         role="alert"
         aria-labelledby="label description"
         ${ref(this.#componentElementRef)}
       >
-        ${when(
-          this.#statusIndicatorVariant === 'success',
-          () =>
-            html`<svg
-              aria-hidden="true"
-              class=${classMap({
-                icon: true,
-                success: true,
-              })}
-              fill="none"
-              height="16"
-              width="16"
-              viewBox="0 0 24 24"
-            >
-              <path
-                clip-rule="evenodd"
-                d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23ZM16.7071 9.70711C17.0976 9.31658 17.0976 8.68342 16.7071 8.29289C16.3166 7.90237 15.6834 7.90237 15.2929 8.29289L10 13.5858L7.70711 11.2929C7.31658 10.9024 6.68342 10.9024 6.29289 11.2929C5.90237 11.6834 5.90237 12.3166 6.29289 12.7071L9.29289 15.7071C9.68342 16.0976 10.3166 16.0976 10.7071 15.7071L16.7071 9.70711Z"
-                fill="currentColor"
-                fill-rule="evenodd"
-              />
-            </svg>`,
-          () =>
-            html`<svg
+        ${choose(
+          this.variant,
+          [
+            [
+              'success',
+              () =>
+                html`<svg
+                  aria-hidden="true"
+                  class=${classMap({
+                    icon: true,
+                    success: true,
+                  })}
+                  fill="none"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M9.99999 0.833336C4.93738 0.833336 0.833328 4.93739 0.833328 10C0.833328 15.0626 4.93738 19.1667 9.99999 19.1667C15.0626 19.1667 19.1667 15.0626 19.1667 10C19.1667 4.93739 15.0626 0.833336 9.99999 0.833336ZM14.3392 8.08926C14.6647 7.76382 14.6647 7.23618 14.3392 6.91075C14.0138 6.58531 13.4862 6.58531 13.1607 6.91075L8.74999 11.3215L6.83925 9.41075C6.51381 9.08531 5.98618 9.08531 5.66074 9.41075C5.3353 9.73618 5.3353 10.2638 5.66074 10.5893L8.16074 13.0893C8.48618 13.4147 9.01381 13.4147 9.33925 13.0893L14.3392 8.08926Z"
+                    fill="currentColor"
+                  />
+                </svg> `,
+            ],
+            [
+              'error',
+              () =>
+                html`<svg
+                  aria-hidden="true"
+                  class=${classMap({
+                    icon: true,
+                    error: true,
+                  })}
+                  fill="none"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M9.99998 0.833328C4.93737 0.833328 0.833313 4.93738 0.833313 9.99999C0.833313 15.0626 4.93737 19.1667 9.99998 19.1667C15.0626 19.1667 19.1666 15.0626 19.1666 9.99999C19.1666 4.93738 15.0626 0.833328 9.99998 0.833328ZM13.0892 6.91074C13.4147 7.23618 13.4147 7.76381 13.0892 8.08925L11.1785 9.99999L13.0892 11.9107C13.4147 12.2362 13.4147 12.7638 13.0892 13.0892C12.7638 13.4147 12.2362 13.4147 11.9107 13.0892L9.99998 11.1785L8.08923 13.0892C7.7638 13.4147 7.23616 13.4147 6.91072 13.0892C6.58529 12.7638 6.58529 12.2362 6.91072 11.9107L8.82147 9.99999L6.91072 8.08925C6.58529 7.76381 6.58529 7.23618 6.91072 6.91074C7.23616 6.5853 7.7638 6.5853 8.08923 6.91074L9.99998 8.82148L11.9107 6.91074C12.2362 6.5853 12.7638 6.5853 13.0892 6.91074Z"
+                    fill="currentColor"
+                  />
+                </svg>`,
+            ],
+          ],
+          () => html`
+            <svg
               aria-hidden="true"
               class=${classMap({
                 icon: true,
                 'warning-informational': true,
               })}
               fill="none"
-              height="16"
-              width="16"
-              viewBox="0 0 24 24"
+              height="20"
+              viewBox="0 0 20 20"
+              width="20"
             >
               <path
-                clip-rule="evenodd"
-                d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23ZM13 8C13 7.44772 12.5523 7 12 7C11.4477 7 11 7.44772 11 8V12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12V8ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
-                fill="currentColor"
                 fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9.99999 0.833328C4.93738 0.833328 0.833328 4.93738 0.833328 9.99999C0.833328 15.0626 4.93738 19.1667 9.99999 19.1667C15.0626 19.1667 19.1667 15.0626 19.1667 9.99999C19.1667 4.93738 15.0626 0.833328 9.99999 0.833328ZM10.8333 6.66666C10.8333 6.20642 10.4602 5.83333 9.99999 5.83333C9.53976 5.83333 9.16666 6.20642 9.16666 6.66666V9.99999C9.16666 10.4602 9.53976 10.8333 9.99999 10.8333C10.4602 10.8333 10.8333 10.4602 10.8333 9.99999V6.66666ZM9.99999 12.5C9.53976 12.5 9.16666 12.8731 9.16666 13.3333C9.16666 13.7936 9.53976 14.1667 9.99999 14.1667H10.0083C10.4686 14.1667 10.8417 13.7936 10.8417 13.3333C10.8417 12.8731 10.4686 12.5 10.0083 12.5H9.99999Z"
+                fill="currentColor"
               />
-            </svg>`,
+            </svg>
+          `,
         )}
 
         <div class="label" id="label">${this.label}</div>
@@ -165,14 +195,5 @@ export default class GlideCoreToast extends LitElement {
 
   #handleCloseButtonClick() {
     this.close();
-  }
-
-  get #statusIndicatorVariant(): 'warning-informational' | 'success' {
-    return (
-      {
-        informational: 'warning-informational',
-        success: 'success',
-      } as const
-    )[this.variant];
   }
 }

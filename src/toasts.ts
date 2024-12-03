@@ -15,7 +15,7 @@ declare global {
 export interface Toast {
   label: string;
   description: string;
-  variant: 'informational' | 'success';
+  variant: 'error' | 'informational' | 'success';
   duration?: number;
 }
 

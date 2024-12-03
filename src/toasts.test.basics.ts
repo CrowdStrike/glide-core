@@ -99,9 +99,15 @@ it('can add multiple toasts', async () => {
     variant: 'success',
   });
 
+  component.add({
+    label: 'Test toast 3',
+    description: 'Test toast description 3',
+    variant: 'error',
+  });
+
   const toasts = component.shadowRoot?.querySelectorAll('glide-core-toast');
   assert(toasts);
-  expect(toasts.length).to.equal(2);
+  expect(toasts.length).to.equal(3);
 
   const toast1 = toasts[0];
   expect(toast1.label).to.equal('Test toast');
@@ -112,6 +118,11 @@ it('can add multiple toasts', async () => {
   expect(toast2.label).to.equal('Test toast 2');
   expect(toast2.description).to.equal('Test toast description 2');
   expect(toast2.variant).to.equal('success');
+
+  const toast3 = toasts[2];
+  expect(toast3.label).to.equal('Test toast 3');
+  expect(toast3.description).to.equal('Test toast description 3');
+  expect(toast3.variant).to.equal('error');
 });
 
 it('removes a closed toast from the DOM', async () => {

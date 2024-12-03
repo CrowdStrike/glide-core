@@ -20,6 +20,10 @@ export default [
         transform 0.2s ease-out,
         opacity 0.3s ease-out;
 
+      &.error {
+        background-color: var(--glide-core-surface-error);
+      }
+
       &.informational {
         background-color: var(--glide-core-surface-informational);
       }
@@ -66,6 +70,10 @@ export default [
     .description {
       color: var(--glide-core-text-body-2);
       grid-column: 2;
+    }
+
+    .error {
+      color: var(--glide-core-status-failed);
     }
 
     .success {

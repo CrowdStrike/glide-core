@@ -29,7 +29,7 @@ const meta: Meta = {
   render() {
     return html`
       <!--
-  Add \`<glide-core-toasts>\` to your template. It's the container for 
+  Add \`<glide-core-toasts>\` to your template. It's the container for
   messages. It supports an \`add()\` method for generating them.
 -->
       <glide-core-toasts></glide-core-toasts>
@@ -40,6 +40,7 @@ const meta: Meta = {
           data-informational
         ></glide-core-button>
         <glide-core-button label="Success" data-success></glide-core-button>
+        <glide-core-button label="Error" data-error></glide-core-button>
         <glide-core-button
           label="Longer duration"
           data-longer
@@ -73,6 +74,14 @@ const meta: Meta = {
               description: 'This will stick around for 5 seconds',
             });
           });
+
+        document.querySelector('[data-error]').addEventListener('click', () => {
+          toasts.add({
+            variant: 'error',
+            label: 'Error',
+            description: 'This will stick around for 5 seconds',
+          });
+        });
 
         document
           .querySelector('[data-longer]')
