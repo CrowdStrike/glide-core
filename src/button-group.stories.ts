@@ -136,10 +136,10 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': '',
-    'addEventListener(event, handler)': '',
     orientation: 'horizontal',
     variant: '',
     '<glide-core-button-group-button>.label': 'One',
+    '<glide-core-button-group-button>.addEventListener(event, handler)': '',
     '<glide-core-button-group-button>.disabled': false,
     '<glide-core-button-group-button>.one.selected': true,
     '<glide-core-button-group-button>[slot="icon"]': '',
@@ -160,15 +160,7 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    'addEventListener(event, handler)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: 'event: "change" | "input", handler: (event: Event) => void',
-        },
-      },
-    },
+
     orientation: {
       control: { type: 'radio' },
       options: ['horizontal', 'vertical'],
@@ -191,6 +183,18 @@ const meta: Meta = {
         category: 'Button Group Button',
       },
       type: { name: 'string', required: true },
+    },
+    '<glide-core-button-group-button>.addEventListener(event, handler)': {
+      name: 'addEventListener(event, handler)',
+      control: false,
+      table: {
+        category: 'Button Group Button',
+        type: {
+          summary: 'method',
+          detail:
+            '(event: "change" | "input", handler: (event: Event) => void) => void',
+        },
+      },
     },
     '<glide-core-button-group-button>.disabled': {
       name: 'disabled',
