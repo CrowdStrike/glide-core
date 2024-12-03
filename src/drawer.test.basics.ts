@@ -94,15 +94,15 @@ it('opens the drawer when the "open" attribute is set', async () => {
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  expect(component.shadowRoot?.querySelector('aside[data-test-state="closed"]'))
-    .to.be.not.null;
+  expect(component.shadowRoot?.querySelector('[data-test-state="closed"]')).to
+    .be.not.null;
 
   component.setAttribute('open', '');
 
   await elementUpdated(component);
 
-  expect(component.shadowRoot?.querySelector('aside[data-test-state="open"]'))
-    .to.be.not.null;
+  expect(component.shadowRoot?.querySelector('[data-test-state="open"]')).to.be
+    .not.null;
 });
 
 it('closes the drawer when the "open" attribute is removed', async () => {
@@ -117,6 +117,6 @@ it('closes the drawer when the "open" attribute is removed', async () => {
 
   await elementUpdated(component);
 
-  expect(component.shadowRoot?.querySelector('aside[data-test-state="closed"]'))
-    .to.be.not.null;
+  expect(component.shadowRoot?.querySelector('[data-test-state="closed"]')).to
+    .be.not.null;
 });
