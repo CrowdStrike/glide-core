@@ -37,4 +37,5 @@ export interface Translation extends DefaultTranslation {
   removeTag: (name: string) => string;
   actionsFor: (label: string) => string;
   itemCount: (count: string) => string;
+  closeInlineAlert: (variant: string) => string;
 }

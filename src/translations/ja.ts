@@ -5,6 +5,7 @@ export const PENDING_STRINGS = [
   'editTag',
   'itemCount',
   'noResults',
+  'closeInlineAlert',
 ] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
