@@ -230,7 +230,13 @@ it('selects options on Enter', async () => {
 
 it('activates Select All by default', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple select-all>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+      select-all
+    >
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -250,7 +256,13 @@ it('activates Select All by default', async () => {
 
 it('deactivates all other options on "mouseover"', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple select-all>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+      select-all
+    >
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -349,7 +361,13 @@ it('remains open when an option is selected via Space', async () => {
 
 it('activates Select All on "mouseover"', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple select-all>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+      select-all
+    >
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -535,7 +553,12 @@ it('updates `value` when an option is selected or deselected via click', async (
 
 it('updates `value` when a option is selected or deselected via Enter', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -554,23 +577,55 @@ it('updates `value` when a option is selected or deselected via Enter', async ()
   // Wait for it to open.
   await aTimeout(0);
 
-  component.focus();
+  // `dispatchEvent` is used instead of the simpler `sendKeys` due to some
+  // flakiness where the below assertions would occassionally fail both
+  // locally and in CI. It's not clear whether the root cause is `sendKeys`
+  // or Playwright itself.
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+    );
 
-  await sendKeys({ press: 'ArrowDown' });
-  await sendKeys({ press: 'Enter' });
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
+    );
+
   expect(component.value).to.deep.equal(['one', 'two']);
 
-  await sendKeys({ press: 'Enter' });
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
+    );
+
   expect(component.value).to.deep.equal(['one']);
 
-  await sendKeys({ press: 'ArrowDown' });
-  await sendKeys({ press: 'Enter' });
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+    );
+
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
+    );
+
   expect(component.value).to.deep.equal(['one']);
 });
 
 it('updates `value` when an option is selected or deselected via Space', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -589,23 +644,44 @@ it('updates `value` when an option is selected or deselected via Space', async (
   // Wait for it to open.
   await aTimeout(0);
 
-  component.focus();
+  // `dispatchEvent` is used instead of the simpler `sendKeys` due to some
+  // flakiness where the below assertions would occassionally fail both
+  // locally and in CI. It's not clear whether the root cause is `sendKeys`
+  // or Playwright itself.
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+    );
 
-  await sendKeys({ press: 'ArrowDown' });
-  await sendKeys({ press: ' ' });
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+
   expect(component.value).to.deep.equal(['one', 'two']);
 
-  await sendKeys({ press: ' ' });
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+
   expect(component.value).to.deep.equal(['one']);
 
-  await sendKeys({ press: 'ArrowDown' });
-  await sendKeys({ press: ' ' });
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+    );
+
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+
   expect(component.value).to.deep.equal(['one']);
 });
 
 it('updates `value` when multiselect is changed to `true` programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -638,7 +714,12 @@ it('updates `value` when multiselect is changed to `true` programmatically', asy
 
 it('updates `value` when the `value` of a selected option is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -662,7 +743,12 @@ it('updates `value` when the `value` of a selected option is changed programmati
 
 it('updates `value` when the `value` of a selected option is emptied programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -686,7 +772,12 @@ it('updates `value` when the `value` of a selected option is emptied programmati
 
 it('updates `value` a tag is removed', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -829,7 +920,12 @@ it('deselects the option when its tag is removed', async () => {
 
 it('deselects all but the last selected option when `multiple` is changed to `false` programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         selected
@@ -1279,7 +1375,12 @@ it('does not set Select All as indeterminate when all options are selected', asy
 
 it('closes when a tag is clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         selected
@@ -1309,7 +1410,12 @@ it('closes when a tag is clicked', async () => {
 
 it('closes on edit via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         editable
@@ -1332,7 +1438,12 @@ it('closes on edit via click', async () => {
 
 it('closes on edit via Enter', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         editable
@@ -1355,7 +1466,12 @@ it('closes on edit via Enter', async () => {
 
 it('closes on edit via Space', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         editable
