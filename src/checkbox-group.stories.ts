@@ -1,8 +1,8 @@
-import './checkbox.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import GlideCoreCheckbox from './checkbox.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -170,11 +170,8 @@ const meta: Meta = {
       'glide-core-checkbox-group',
     );
 
-    if (
-      context.name.includes('Error') &&
-      checkboxGroup instanceof GlideCoreCheckboxGroup
-    ) {
-      checkboxGroup.reportValidity();
+    if (context.name.includes('Error')) {
+      checkboxGroup?.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
       // story upon load will be scrolled to the first error story. No good.
@@ -187,20 +184,22 @@ const meta: Meta = {
       }
     }
 
-    if (checkboxGroup instanceof GlideCoreCheckboxGroup) {
-      checkboxGroup.addEventListener('change', () => {
+    checkboxGroup?.addEventListener('change', (event: Event) => {
+      if (event.currentTarget instanceof GlideCoreCheckboxGroup) {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
-            value: checkboxGroup.value,
+            value: event.currentTarget.value,
           },
         });
+      }
 
-        const checkboxes = context.canvasElement.querySelectorAll(
-          'glide-core-checkbox',
-        );
+      const checkboxes = context.canvasElement.querySelectorAll(
+        'glide-core-checkbox',
+      );
 
-        for (const checkbox of checkboxes) {
+      for (const checkbox of checkboxes) {
+        if (event.target instanceof GlideCoreCheckbox) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
@@ -209,8 +208,8 @@ const meta: Meta = {
             },
           });
         }
-      });
-    }
+      }
+    });
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */

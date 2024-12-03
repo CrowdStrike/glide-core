@@ -4,7 +4,6 @@ import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreRadio from './radio.js';
-import GlideCoreRadioGroup from './radio-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -33,11 +32,8 @@ const meta: Meta = {
       'glide-core-radio-group',
     );
 
-    if (
-      context.name.includes('Error') &&
-      radioGroup instanceof GlideCoreRadioGroup
-    ) {
-      radioGroup.reportValidity();
+    if (context.name.includes('Error')) {
+      radioGroup?.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
       // story upon load will be scrolled to the first error story. No good.

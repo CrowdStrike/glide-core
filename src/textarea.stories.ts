@@ -27,11 +27,8 @@ const meta: Meta = {
   play(context) {
     const textarea = context.canvasElement.querySelector('glide-core-textarea');
 
-    if (
-      context.name.includes('Error') &&
-      textarea instanceof GlideCoreTextarea
-    ) {
-      textarea.reportValidity();
+    if (context.name.includes('Error')) {
+      textarea?.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
       // story upon load will be scrolled to the first error story. No good.
@@ -44,16 +41,16 @@ const meta: Meta = {
       }
     }
 
-    if (textarea instanceof GlideCoreTextarea) {
-      textarea.addEventListener('input', () => {
+    textarea?.addEventListener('input', (event: Event) => {
+      if (event.currentTarget instanceof GlideCoreTextarea) {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
-            value: textarea.value,
+            value: event.currentTarget.value,
           },
         });
-      });
-    }
+      }
+    });
   },
   args: {
     label: 'Label',

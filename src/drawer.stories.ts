@@ -1,5 +1,4 @@
 import './button.js';
-import './drawer.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
@@ -46,6 +45,8 @@ const meta: Meta = {
     const drawer = context.canvasElement.querySelector('glide-core-drawer');
 
     button?.addEventListener('click', () => {
+      const drawer = context.canvasElement.querySelector('glide-core-drawer');
+
       if (drawer?.open) {
         drawer.close();
       } else {
@@ -53,14 +54,16 @@ const meta: Meta = {
       }
     });
 
-    const observer = new MutationObserver(() => {
-      if (drawer instanceof GlideCoreDrawer) {
-        addons.getChannel().emit(UPDATE_STORY_ARGS, {
-          storyId: context.id,
-          updatedArgs: {
-            open: drawer.open,
-          },
-        });
+    const observer = new MutationObserver((records) => {
+      for (const record of records) {
+        if (record.target instanceof GlideCoreDrawer) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              open: record.target.open,
+            },
+          });
+        }
       }
     });
 

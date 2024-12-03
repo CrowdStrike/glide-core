@@ -171,11 +171,8 @@ const meta: Meta = {
   play(context) {
     const checkbox = context.canvasElement.querySelector('glide-core-checkbox');
 
-    if (
-      context.name.includes('Error') &&
-      checkbox instanceof GlideCoreCheckbox
-    ) {
-      checkbox.reportValidity();
+    if (context.name.includes('Error')) {
+      checkbox?.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
       // story upon load will be scrolled to the first error story. No good.
@@ -188,18 +185,18 @@ const meta: Meta = {
       }
     }
 
-    if (checkbox instanceof GlideCoreCheckbox) {
-      context.canvasElement
-        .querySelector('glide-core-checkbox')
-        ?.addEventListener('change', () => {
+    context.canvasElement
+      .querySelector('glide-core-checkbox')
+      ?.addEventListener('change', (event: Event) => {
+        if (event.currentTarget instanceof GlideCoreCheckbox) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
-              checked: checkbox.checked,
+              checked: event.currentTarget.checked,
             },
           });
-        });
-    }
+        }
+      });
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */

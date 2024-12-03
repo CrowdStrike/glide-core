@@ -342,11 +342,8 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
   play(context) {
     const dropdown = context.canvasElement.querySelector('glide-core-dropdown');
 
-    if (
-      context.name.includes('Error') &&
-      dropdown instanceof GlideCoreDropdown
-    ) {
-      dropdown.reportValidity();
+    if (context.name.includes('Error')) {
+      dropdown?.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
       // story upon load will be scrolled to the first error story. No good.
@@ -359,39 +356,41 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       }
     }
 
+    dropdown?.addEventListener('change', (event: Event) => {
+      const options = context.canvasElement.querySelectorAll(
+        'glide-core-dropdown-option',
+      );
+
+      if (event.currentTarget instanceof GlideCoreDropdown) {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            value: event.currentTarget.value,
+            '<glide-core-dropdown-option>.one.selected':
+              dropdown.value.includes(options[0].value),
+            '<glide-core-dropdown-option>.two.selected':
+              dropdown.value.includes(options[1].value),
+            '<glide-core-dropdown-option>.three.selected':
+              dropdown.value.includes(options[2].value),
+          },
+        });
+      }
+    });
+
+    const observer = new MutationObserver((records) => {
+      for (const record of records) {
+        if (record.target instanceof GlideCoreDropdown) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              open: record.target.open,
+            },
+          });
+        }
+      }
+    });
+
     if (dropdown instanceof GlideCoreDropdown) {
-      dropdown.addEventListener('change', () => {
-        const options = context.canvasElement.querySelectorAll(
-          'glide-core-dropdown-option',
-        );
-
-        if (option) {
-          addons.getChannel().emit(UPDATE_STORY_ARGS, {
-            storyId: context.id,
-            updatedArgs: {
-              value: dropdown.value,
-              '<glide-core-dropdown-option>.one.selected':
-                dropdown.value.includes(options[0].value),
-              '<glide-core-dropdown-option>.two.selected':
-                dropdown.value.includes(options[1].value),
-              '<glide-core-dropdown-option>.three.selected':
-                dropdown.value.includes(options[2].value),
-            },
-          });
-        }
-      });
-
-      const observer = new MutationObserver(() => {
-        if (dropdown instanceof GlideCoreDropdown) {
-          addons.getChannel().emit(UPDATE_STORY_ARGS, {
-            storyId: context.id,
-            updatedArgs: {
-              open: dropdown.open,
-            },
-          });
-        }
-      });
-
       observer.observe(dropdown, {
         attributes: true,
         attributeFilter: ['open'],
@@ -404,6 +403,10 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
 
     if (option) {
       const observer = new MutationObserver(() => {
+        const dropdown = context.canvasElement.querySelector(
+          'glide-core-dropdown',
+        );
+
         if (dropdown instanceof GlideCoreDropdown) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,

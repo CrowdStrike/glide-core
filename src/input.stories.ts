@@ -57,8 +57,8 @@ const meta: Meta = {
   play(context) {
     const input = context.canvasElement.querySelector('glide-core-input');
 
-    if (context.name.includes('Error') && input instanceof GlideCoreInput) {
-      input.reportValidity();
+    if (context.name.includes('Error')) {
+      input?.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
       // story upon load will be scrolled to the first error story. No good.
@@ -72,13 +72,15 @@ const meta: Meta = {
     }
 
     if (input instanceof GlideCoreInput) {
-      input.addEventListener('input', () => {
-        addons.getChannel().emit(UPDATE_STORY_ARGS, {
-          storyId: context.id,
-          updatedArgs: {
-            value: input.value,
-          },
-        });
+      input.addEventListener('input', (event: Event) => {
+        if (event.currentTarget instanceof GlideCoreInput) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              value: event.currentTarget.value,
+            },
+          });
+        }
       });
     }
   },
