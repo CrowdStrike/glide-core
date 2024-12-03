@@ -22,8 +22,8 @@ it('opens the drawer via the "show()" method and closes it via "close()"', async
     ?.querySelector('aside')
     ?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  expect(component.shadowRoot?.querySelector('aside[data-test-state="open"]'))
-    .to.be.not.null;
+  expect(component.shadowRoot?.querySelector('[data-test="open"]')).to.be.not
+    .null;
 
   component.close();
 
@@ -33,8 +33,8 @@ it('opens the drawer via the "show()" method and closes it via "close()"', async
 
   await elementUpdated(component);
 
-  expect(component.shadowRoot?.querySelector('aside[data-test-state="closed"]'))
-    .to.be.not.null;
+  expect(component.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
+    .null;
 });
 
 it('remains open if "show()" is called an additional time after it is already opened', async () => {
@@ -46,13 +46,13 @@ it('remains open if "show()" is called an additional time after it is already op
 
   await elementUpdated(component);
 
-  expect(component.shadowRoot?.querySelector('aside[data-test-state="open"]'))
-    .to.be.not.null;
+  expect(component.shadowRoot?.querySelector('[data-test="open"]')).to.be.not
+    .null;
 
   component.show();
 
   await elementUpdated(component);
 
-  expect(component.shadowRoot?.querySelector('aside[data-test-state="open"]'))
-    .to.be.not.null;
+  expect(component.shadowRoot?.querySelector('[data-test="open"]')).to.be.not
+    .null;
 });

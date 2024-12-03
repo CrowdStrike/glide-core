@@ -42,9 +42,8 @@ it('closes when the "Escape" key is pressed', async () => {
   await oneEvent(component, 'close');
   await elementUpdated(component);
 
-  expect(
-    component?.shadowRoot?.querySelector('aside[data-test-state="closed"]'),
-  ).to.be.not.null;
+  expect(component?.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
+    .null;
 });
 
 it('does not close when a key other than "Escape" is pressed', async () => {
@@ -65,6 +64,6 @@ it('does not close when a key other than "Escape" is pressed', async () => {
   component.shadowRoot?.querySelector('aside')?.focus();
   await sendKeys({ press: 'Enter' });
 
-  expect(component?.shadowRoot?.querySelector('aside[data-test-state="open"]'))
-    .to.be.not.null;
+  expect(component?.shadowRoot?.querySelector('[data-test="open"]')).to.be.not
+    .null;
 });

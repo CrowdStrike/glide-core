@@ -88,7 +88,7 @@ export default class GlideCoreDrawer extends LitElement {
       <aside
         class=${classMap({ component: true, pinned: this.pinned })}
         tabindex="-1"
-        data-test-state=${this.#isOpen ? 'open' : 'closed'}
+        data-test=${this.#isOpen ? 'open' : 'closed'}
         @keydown=${this.#onKeydown}
         ${ref(this.#asideElementRef)}
         aria-label=${this.label || nothing}
