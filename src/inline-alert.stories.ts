@@ -35,17 +35,17 @@ const meta: Meta = {
         },
       },
     },
-    removable: {
-      defaultValue: { summary: 'false' },
-      table: {
-        type: { summary: 'boolean' },
-      },
-    },
     'slot="default"': {
       table: {
         type: { summary: 'Element | string' },
       },
       type: { name: 'string', required: true },
+    },
+    removable: {
+      defaultValue: { summary: 'false' },
+      table: {
+        type: { summary: 'boolean' },
+      },
     },
     'addEventListener(event, handler)': {
       control: false,

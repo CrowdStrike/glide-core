@@ -67,7 +67,7 @@ export default [
       }
     }
 
-    .icon {
+    .icon-container {
       block-size: 1rem;
       inline-size: 1rem;
 
