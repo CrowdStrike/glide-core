@@ -91,6 +91,7 @@ export default [
     .content {
       display: flex;
       flex-grow: 1;
+      overflow-wrap: anywhere;
     }
 
     .removal-button {

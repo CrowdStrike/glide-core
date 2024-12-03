@@ -7,11 +7,13 @@ const meta: Meta = {
   tags: ['autodocs'],
   decorators: [
     (story) => html`
-      <script type="ignore">
-        import '@crowdstrike/glide-core/inline-alert.js';
-      </script>
+      <div style="height: 6rem;">
+        <script type="ignore">
+          import '@crowdstrike/glide-core/inline-alert.js';
+        </script>
 
-      ${story()}
+        ${story()}
+      </div>
     `,
   ],
   args: {
