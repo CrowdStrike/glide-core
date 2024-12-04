@@ -3,7 +3,7 @@ import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
-import GlideCoreRadio from './radio.js';
+import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -82,6 +82,7 @@ const meta: Meta = {
           id="one"
           value=${arguments_['<glide-core-radio>.value'] || nothing}
           ?checked=${arguments_['<glide-core-radio>.one.checked']}
+          ?disabled=${arguments_['<glide-core-radio>.one.disabled']}
         ></glide-core-radio>
         <glide-core-radio
           label="Two"
@@ -125,6 +126,7 @@ const meta: Meta = {
     value: 'one',
     '<glide-core-radio>.label': 'One',
     '<glide-core-radio>.one.checked': true,
+    '<glide-core-radio>.one.disabled': false,
     '<glide-core-radio>.value': 'one',
     '<glide-core-radio>.two.checked': false,
     '<glide-core-radio>.three.checked': false,
@@ -233,6 +235,14 @@ const meta: Meta = {
     },
     '<glide-core-radio>.one.checked': {
       name: 'checked',
+      table: {
+        category: 'Radio',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-radio>.one.disabled': {
+      name: 'disabled',
       table: {
         category: 'Radio',
         defaultValue: { summary: 'false' },

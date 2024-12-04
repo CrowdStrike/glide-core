@@ -115,6 +115,12 @@ export default {
                     $subcomponent.removeAttribute('aria-selected');
                     $subcomponent.removeAttribute('role');
                   }
+
+                  if ($subcomponent.tagName === 'GLIDE-CORE-RADIO') {
+                    $subcomponent.removeAttribute('aria-checked');
+                    $subcomponent.removeAttribute('aria-disabled');
+                    $subcomponent.removeAttribute('aria-label');
+                  }
                 }
               }
             } else if (
