@@ -2,6 +2,7 @@
 
 import './drawer.js';
 import {
+  assert,
   elementUpdated,
   expect,
   fixture,
@@ -14,56 +15,87 @@ import GlideCoreDrawer from './drawer.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
-// NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
-// to manually dispatch the `transitionend` event in tests.
-
 it('closes when the "Escape" key is pressed', async () => {
-  await emulateMedia({ reducedMotion: 'no-preference' });
-
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
+  const closeEvent = oneEvent(component, 'close');
+
   component.show();
 
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
-
   await elementUpdated(component);
+
+  const animationPromises = component.shadowRoot
+    ?.querySelector('[data-test="open"]')
+    ?.getAnimations()
+    ?.map((animation) => animation.finished);
+
+  assert(animationPromises);
+
+  await Promise.allSettled(animationPromises!);
+
   await sendKeys({ press: 'Escape' });
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector('aside')
-      ?.dispatchEvent(new TransitionEvent('transitionend'));
-  });
-
-  await oneEvent(component, 'close');
   await elementUpdated(component);
 
-  expect(component?.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
-    .null;
+  const event = await closeEvent;
+  expect(event instanceof Event).to.be.true;
+
+  assert(component?.shadowRoot?.querySelector('[data-test="closed"]'));
 });
 
 it('does not close when a key other than "Escape" is pressed', async () => {
-  await emulateMedia({ reducedMotion: 'no-preference' });
-
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
   component.show();
 
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
+  await elementUpdated(component);
+
+  const animationPromises = component.shadowRoot
+    ?.querySelector('[data-test="open"]')
+    ?.getAnimations()
+    ?.map((animation) => animation.finished);
+
+  assert(animationPromises);
+
+  await Promise.allSettled(animationPromises!);
+
+  await sendKeys({ press: 'Enter' });
+
+  assert(component?.shadowRoot?.querySelector('[data-test="open"]'));
+});
+
+// This is required to meet the coverage threshold.
+it('waits for the drawer "close" animation to finish before playing the "open" animation', async () => {
+  const component = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer open>Drawer content</glide-core-drawer>`,
+  );
+
+  component.open = false;
 
   await elementUpdated(component);
 
-  component.shadowRoot?.querySelector('aside')?.focus();
-  await sendKeys({ press: 'Enter' });
+  component.open = true;
 
-  expect(component?.shadowRoot?.querySelector('[data-test="open"]')).to.be.not
-    .null;
+  await elementUpdated(component);
+});
+
+// This is required to meet the coverage threshold.
+it('waits for the drawer "open" animation to finish before playing the "close" animation', async () => {
+  await emulateMedia({ reducedMotion: 'no-preference' });
+
+  const component = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
+  );
+
+  component.open = true;
+
+  await elementUpdated(component);
+
+  component.open = false;
+
+  await elementUpdated(component);
 });

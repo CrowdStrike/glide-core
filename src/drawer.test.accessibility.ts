@@ -1,22 +1,32 @@
 import './drawer.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import {
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+} from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
-
-// NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
-// to manually dispatch the `transitionend` event in tests.
 
 it('is accessible', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
-
   component.show();
+
+  await elementUpdated(component);
+
+  const animationPromises = component.shadowRoot
+    ?.querySelector('[data-test="open"]')
+    ?.getAnimations()
+    ?.map((animation) => animation.finished);
+
+  assert(animationPromises);
+
+  await Promise.allSettled(animationPromises!);
 
   await expect(component).to.be.accessible();
 });
@@ -28,9 +38,16 @@ it('focuses the aside upon opening', async () => {
 
   component.show();
 
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
+  await elementUpdated(component);
+
+  const animationPromises = component.shadowRoot
+    ?.querySelector('[data-test="open"]')
+    ?.getAnimations()
+    ?.map((animation) => animation.finished);
+
+  assert(animationPromises);
+
+  await Promise.allSettled(animationPromises!);
 
   expect(component.shadowRoot?.activeElement).to.equal(
     component.shadowRoot?.querySelector('aside'),

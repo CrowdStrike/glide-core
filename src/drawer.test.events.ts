@@ -2,6 +2,7 @@
 
 import './drawer.js';
 import {
+  assert,
   elementUpdated,
   expect,
   fixture,
@@ -13,9 +14,6 @@ import GlideCoreDrawer from './drawer.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
-// NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
-// to manually dispatch the `transitionend` event in tests.
-
 it('dispatches a "close" event when the "Escape" key is pressed', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
@@ -25,19 +23,18 @@ it('dispatches a "close" event when the "Escape" key is pressed', async () => {
 
   component.show();
 
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
-
   await elementUpdated(component);
 
-  await sendKeys({ press: 'Escape' });
+  const animationPromises = component.shadowRoot
+    ?.querySelector('[data-test="open"]')
+    ?.getAnimations()
+    ?.map((animation) => animation.finished);
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector('aside')
-      ?.dispatchEvent(new TransitionEvent('transitionend'));
-  });
+  assert(animationPromises);
+
+  await Promise.allSettled(animationPromises!);
+
+  await sendKeys({ press: 'Escape' });
 
   const event = await closeEvent;
   expect(event instanceof Event).to.be.true;
@@ -52,19 +49,18 @@ it('dispatches a "close" event when closed via the "close" method', async () => 
 
   component.show();
 
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
-
   await elementUpdated(component);
 
-  component.close();
+  const animationPromises = component.shadowRoot
+    ?.querySelector('[data-test="open"]')
+    ?.getAnimations()
+    ?.map((animation) => animation.finished);
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector('aside')
-      ?.dispatchEvent(new TransitionEvent('transitionend'));
-  });
+  assert(animationPromises);
+
+  await Promise.allSettled(animationPromises!);
+
+  component.close();
 
   const event = await closeEvent;
   expect(event instanceof Event).to.be.true;
@@ -80,12 +76,6 @@ it('dispatches a "close" event when the "open" attribute is removed', async () =
   component.removeAttribute('open');
 
   await elementUpdated(component);
-
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector('aside')
-      ?.dispatchEvent(new TransitionEvent('transitionend'));
-  });
 
   const event = await closeEvent;
   expect(event instanceof Event).to.be.true;

@@ -6,9 +6,6 @@ import GlideCoreDrawer from './drawer.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
-// NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
-// to manually dispatch the `transitionend` event in tests.
-
 it('opens the drawer via the "show()" method and closes it via "close()"', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
@@ -18,18 +15,10 @@ it('opens the drawer via the "show()" method and closes it via "close()"', async
 
   await elementUpdated(component);
 
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
-
   expect(component.shadowRoot?.querySelector('[data-test="open"]')).to.be.not
     .null;
 
   component.close();
-
-  component.shadowRoot
-    ?.querySelector('aside')
-    ?.dispatchEvent(new TransitionEvent('transitionend'));
 
   await elementUpdated(component);
 
