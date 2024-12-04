@@ -3,7 +3,7 @@ import { css } from 'lit';
 export default [
   css`
     .component {
-      background-color: var(--glide-core-surface-base-lighter);
+      background-color: var(--glide-core-surface-base-lightest);
       block-size: 0;
       border-end-start-radius: 0.625rem;
       border-start-start-radius: 0.625rem;
@@ -29,8 +29,8 @@ export default [
     .open {
       /* prefix required for Safari */
       /* stylelint-disable-next-line property-no-vendor-prefix */
-      -webkit-backdrop-filter: blur(50px);
-      backdrop-filter: blur(50px);
+      -webkit-backdrop-filter: blur(25px);
+      backdrop-filter: blur(25px);
       block-size: auto;
       inline-size: var(--width, 27.375rem);
       inset: 0 0 0 auto;
