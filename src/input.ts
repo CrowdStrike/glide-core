@@ -212,14 +212,6 @@ export default class GlideCoreInput extends LitElement {
     this.value = this.getAttribute('value') ?? '';
   }
 
-  private get hasClearButton() {
-    return this.clearable && !this.disabled && !this.readonly;
-  }
-
-  private get isClearButtonVisible() {
-    return this.hasClearButton && this.value.length > 0;
-  }
-
   override render() {
     return html`
       <glide-core-private-label
@@ -278,13 +270,13 @@ export default class GlideCoreInput extends LitElement {
             ${ref(this.#inputElementRef)}
           />
 
-          ${this.hasClearButton
+          ${this.#hasClearButton
             ? html`
                 <glide-core-icon-button
                   variant="tertiary"
                   class=${classMap({
                     'clear-icon-button': true,
-                    'clear-icon-button--visible': this.isClearButtonVisible,
+                    'clear-icon-button--visible': this.#isClearButtonVisible,
                   })}
                   data-test="clear-button"
                   label=${this.#localize.term('clearEntry', this.label!)}
@@ -539,6 +531,14 @@ export default class GlideCoreInput extends LitElement {
   #internals: ElementInternals;
 
   #localize = new LocalizeController(this);
+
+  get #hasClearButton() {
+    return this.clearable && !this.disabled && !this.readonly;
+  }
+
+  get #isClearButtonVisible() {
+    return this.#hasClearButton && this.value.length > 0;
+  }
 
   get #valueCharacterCount() {
     return this.value.length;
