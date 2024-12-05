@@ -30,7 +30,7 @@ export default class GlideCoreInlineAlert extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  variant: keyof typeof VARIANTS = 'informational';
+  variant: keyof typeof icons = 'informational';
 
   @property({ reflect: true, type: Boolean })
   removable? = false;
@@ -56,20 +56,22 @@ export default class GlideCoreInlineAlert extends LitElement {
           [this.variant]: true,
         })}
         role="alert"
+        aria-labelledby="label"
         data-test="component"
         data-animation-duration=${this.#animationDuration}
         style="--animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
         <div
+          aria-hidden="true"
           class=${classMap({
             'icon-container': true,
             [this.variant]: true,
           })}
         >
-          ${VARIANTS[this.variant]}
+          ${icons[this.variant]}
         </div>
-        <div class="content">
+        <div id="label" class="content">
           <slot
             @slotchange=${this.#onDefaultSlotChange}
             ${ref(this.#defaultSlotElementRef)}
@@ -152,7 +154,7 @@ export default class GlideCoreInlineAlert extends LitElement {
   }
 }
 
-const VARIANTS = {
+const icons = {
   informational: informationalIcon,
   medium: svg` 
     <svg
