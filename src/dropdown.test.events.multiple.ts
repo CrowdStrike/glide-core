@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import * as sinon from 'sinon';
-import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
+import {
+  aTimeout,
+  expect,
+  fixture,
+  html,
+  oneEvent,
+  waitUntil,
+} from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
@@ -46,6 +53,41 @@ it('dispatches one "change" event when an option is selected via click', async (
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
   expect(spy.callCount).to.equal(1);
+});
+
+it('dispatches a "change" event after "input"', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  setTimeout(() => {
+    component
+      .querySelector('glide-core-dropdown-option')
+      ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="checkbox"]')
+      ?.click();
+  });
+
+  const changeSpy = sinon.spy();
+  const inputSpy = sinon.spy();
+
+  component.addEventListener('change', changeSpy);
+  component.addEventListener('input', inputSpy);
+
+  await waitUntil(() => changeSpy.callCount === 1);
+
+  expect(changeSpy.calledAfter(inputSpy)).to.be.true;
 });
 
 it('dispatches one "change" event when an option is selected via Enter', async () => {

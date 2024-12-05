@@ -47,7 +47,7 @@ const meta: Meta = {
     readonly: false,
     'reportValidity()': '',
     required: false,
-    'select-all': false,
+    'select-all': true,
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     size: 'large',
@@ -56,8 +56,10 @@ const meta: Meta = {
     'slot="tooltip"': '',
     value: '',
     variant: '',
-    '<glide-core-dropdown-option>.label': 'One',
+    '<glide-core-dropdown-option>.label':
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
+    '<glide-core-dropdown-option>.disabled': true,
     '<glide-core-dropdown-option>.editable': false,
     '<glide-core-dropdown-option>.one.selected': false,
     '<glide-core-dropdown-option>.two.selected': false,
@@ -293,6 +295,14 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         },
       },
     },
+    '<glide-core-dropdown-option>.disabled': {
+      name: 'disabled',
+      table: {
+        category: 'Dropdown Option',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
     '<glide-core-dropdown-option>.editable': {
       name: 'editable',
       table: {
@@ -442,6 +452,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       <glide-core-dropdown-option
         label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
         value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
+        ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
         ?selected=${arguments_['<glide-core-dropdown-option>.one.selected']}
       ></glide-core-dropdown-option>
@@ -449,14 +460,29 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       <glide-core-dropdown-option
         label="Two"
         value="two"
-        ?selected=${arguments_['<glide-core-dropdown-option>.two.selected']}
+        editable
       ></glide-core-dropdown-option>
-
       <glide-core-dropdown-option
         label="Three"
         value="three"
-        ?selected=${arguments_['<glide-core-dropdown-option>.three.selected']}
+        editable
+        disabled
       ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Four"
+        value="four"
+      ></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="Five"
+        value="five"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Six"
+        value="six"
+        disabled
+      ></glide-core-dropdown-option>
+
       ${arguments_['slot="description"']
         ? html`<div slot="description">
             ${unsafeHTML(arguments_['slot="description"'])}
@@ -538,6 +564,7 @@ export const WithIcons: StoryObj = {
       <glide-core-dropdown-option
         label="Edit"
         value="edit"
+        ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
         ?selected=${arguments_['<glide-core-dropdown-option>.one.selected']}
       >
