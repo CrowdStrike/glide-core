@@ -12,13 +12,16 @@ export default [
       user-select: none;
 
       &.active {
-        background-color: var(--glide-core-surface-hover);
+        &:not(.disabled) {
+          background-color: var(--glide-core-surface-hover);
+        }
       }
     }
 
     .option {
       align-items: center;
       block-size: 100%;
+      color: var(--glide-core-text-body-1);
       display: flex;
       flex-grow: 1;
       overflow: hidden;
@@ -48,6 +51,10 @@ export default [
         &:not(.editable) {
           padding-inline-end: var(--glide-core-spacing-xs);
         }
+      }
+
+      &.disabled {
+        color: var(--glide-core-icon-tertiary-disabled);
       }
     }
 
@@ -165,7 +172,13 @@ export default [
       padding-inline-start: var(--glide-core-spacing-xs);
 
       &.active {
-        color: var(--glide-core-text-primary-hover);
+        &:not(.disabled) {
+          color: var(--glide-core-text-primary-hover);
+        }
+      }
+
+      &.disabled {
+        color: var(--glide-core-icon-tertiary-disabled);
       }
 
       &.large {

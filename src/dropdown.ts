@@ -264,7 +264,7 @@ export default class GlideCoreDropdown extends LitElement {
   private get isAllSelected() {
     return (
       this.#optionElements.filter(({ selected }) => selected).length ===
-      this.#optionElements.length
+      this.#optionElements.filter(({ disabled }) => !disabled).length
     );
   }
 
@@ -1148,7 +1148,10 @@ export default class GlideCoreDropdown extends LitElement {
       option.privateMultiple = this.multiple;
     }
 
-    const firstOption = this.#optionElementsNotHiddenIncludingSelectAll?.at(0);
+    const firstEnabledOption =
+      this.#optionElementsNotHiddenIncludingSelectAll?.find((option) => {
+        return !option.disabled;
+      });
 
     // Even with single-select, there's nothing to stop developers from adding
     // a `selected` attribute to more than one option. How native handles this
@@ -1165,11 +1168,11 @@ export default class GlideCoreDropdown extends LitElement {
       this.lastSelectedOption.privateActive = true;
       this.#previouslyActiveOption = this.lastSelectedOption;
       this.ariaActivedescendant = this.open ? this.lastSelectedOption.id : '';
-    } else if (!this.activeOption && firstOption) {
-      this.#previouslyActiveOption = firstOption;
-      this.ariaActivedescendant = this.open ? firstOption.id : '';
+    } else if (!this.activeOption && firstEnabledOption) {
+      this.#previouslyActiveOption = firstEnabledOption;
+      this.ariaActivedescendant = this.open ? firstEnabledOption.id : '';
 
-      firstOption.privateActive = true;
+      firstEnabledOption.privateActive = true;
     }
 
     // Update Select All to reflect the selected options.
@@ -1428,8 +1431,8 @@ export default class GlideCoreDropdown extends LitElement {
             this.open = false;
           }
 
-          this.dispatchEvent(new Event('change', { bubbles: true }));
           this.dispatchEvent(new Event('input', { bubbles: true }));
+          this.dispatchEvent(new Event('change', { bubbles: true }));
 
           return;
         }
@@ -1453,26 +1456,29 @@ export default class GlideCoreDropdown extends LitElement {
         // moving to the beginning of the field.
         event.preventDefault();
 
-        const option = this.#optionElementsNotHiddenIncludingSelectAll.at(
-          activeOptionIndex - 1,
-        );
+        const nextOption =
+          this.#optionElementsNotHiddenIncludingSelectAll.findLast(
+            (option, index) => {
+              return !option.disabled && index < activeOptionIndex;
+            },
+          );
 
         if (this.activeOption?.privateIsEditActive) {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = true;
 
           // If we're not already at the top.
-        } else if (option && activeOptionIndex !== 0) {
+        } else if (nextOption && activeOptionIndex !== 0) {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = option.id;
-          this.#previouslyActiveOption = option;
+          this.ariaActivedescendant = nextOption.id;
+          this.#previouslyActiveOption = nextOption;
 
-          option.privateActive = true;
-          option.privateIsEditActive = option.editable;
-          option.privateIsTooltipOpen = !option.editable;
-          option.scrollIntoView({ block: 'center' });
+          nextOption.privateActive = true;
+          nextOption.privateIsEditActive = nextOption.editable;
+          nextOption.privateIsTooltipOpen = !nextOption.editable;
+          nextOption.scrollIntoView({ block: 'center' });
         }
 
         return;
@@ -1488,8 +1494,10 @@ export default class GlideCoreDropdown extends LitElement {
         // moving to the end of the field.
         event.preventDefault();
 
-        const option = this.#optionElementsNotHiddenIncludingSelectAll.at(
-          activeOptionIndex + 1,
+        const nextOption = this.#optionElementsNotHiddenIncludingSelectAll.find(
+          (option, index) => {
+            return !option.disabled && index > activeOptionIndex;
+          },
         );
 
         if (
@@ -1500,16 +1508,16 @@ export default class GlideCoreDropdown extends LitElement {
           this.activeOption.privateIsTooltipOpen = false;
 
           // If we're not already at the bottom.
-        } else if (option) {
+        } else if (nextOption) {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = option.id;
-          this.#previouslyActiveOption = option;
+          this.ariaActivedescendant = nextOption.id;
+          this.#previouslyActiveOption = nextOption;
 
-          option.privateActive = true;
-          option.privateIsTooltipOpen = true;
-          option.scrollIntoView({ block: 'center' });
+          nextOption.privateActive = true;
+          nextOption.privateIsTooltipOpen = true;
+          nextOption.scrollIntoView({ block: 'center' });
         }
 
         return;
@@ -1525,18 +1533,20 @@ export default class GlideCoreDropdown extends LitElement {
         // moving to the beginning of the field.
         event.preventDefault();
 
-        const option = this.#optionElementsNotHiddenIncludingSelectAll.at(0);
+        const nextOption = [...this.#optionElementsNotHiddenIncludingSelectAll]
+          .reverse()
+          .findLast((option) => !option.disabled);
 
-        if (option) {
+        if (nextOption) {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = option.id;
-          this.#previouslyActiveOption = option;
+          this.ariaActivedescendant = nextOption.id;
+          this.#previouslyActiveOption = nextOption;
 
-          option.privateActive = true;
-          option.privateIsTooltipOpen = true;
-          option.scrollIntoView({ block: 'nearest' });
+          nextOption.privateActive = true;
+          nextOption.privateIsTooltipOpen = true;
+          nextOption.scrollIntoView({ block: 'nearest' });
         }
 
         return;
@@ -1552,19 +1562,21 @@ export default class GlideCoreDropdown extends LitElement {
         // moving to the end of the field.
         event.preventDefault();
 
-        const option = this.#optionElementsNotHiddenIncludingSelectAll.at(-1);
+        const nextOption = [
+          ...this.#optionElementsNotHiddenIncludingSelectAll,
+        ].findLast((option) => !option.disabled);
 
         // If `option` isn't defined, then we've reached the bottom.
-        if (option && this.activeOption) {
+        if (nextOption && this.activeOption) {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = option.id;
-          this.#previouslyActiveOption = option;
+          this.ariaActivedescendant = nextOption.id;
+          this.#previouslyActiveOption = nextOption;
 
-          option.privateActive = true;
-          option.privateIsTooltipOpen = true;
-          option.scrollIntoView({ block: 'nearest' });
+          nextOption.privateActive = true;
+          nextOption.privateIsTooltipOpen = true;
+          nextOption.scrollIntoView({ block: 'nearest' });
         }
 
         return;
@@ -1820,6 +1832,10 @@ export default class GlideCoreDropdown extends LitElement {
     if (event.target instanceof Element) {
       const option = event.target.closest('glide-core-dropdown-option');
 
+      if (option instanceof GlideCoreDropdownOption && option.disabled) {
+        return;
+      }
+
       if (
         option instanceof GlideCoreDropdownOption &&
         option.privateIsEditActive
@@ -1841,8 +1857,8 @@ export default class GlideCoreDropdown extends LitElement {
           this.open = false;
         }
 
-        this.dispatchEvent(new Event('change', { bubbles: true }));
         this.dispatchEvent(new Event('input', { bubbles: true }));
+        this.dispatchEvent(new Event('change', { bubbles: true }));
 
         return;
       }
@@ -1891,8 +1907,8 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     this.#unfilter();
-    this.dispatchEvent(new Event('change', { bubbles: true }));
     this.dispatchEvent(new Event('input', { bubbles: true }));
+    this.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   #onOptionsLabelChange() {
@@ -1923,6 +1939,10 @@ export default class GlideCoreDropdown extends LitElement {
       event.target instanceof GlideCoreDropdownOption &&
       this.#optionElementsNotHiddenIncludingSelectAll
     ) {
+      if (event.target.disabled) {
+        return;
+      }
+
       if (this.activeOption) {
         // The currently active option may have been arrowed to and its Tooltip
         // forced open. Normally, its Tooltip would be closed when the user arrows
@@ -1968,7 +1988,7 @@ export default class GlideCoreDropdown extends LitElement {
     if (event.target instanceof GlideCoreDropdownOption) {
       if (this.multiple) {
         this.#value =
-          event.target.selected && event.target.value
+          event.target.selected && event.target.value && !event.target.disabled
             ? [...this.value, event.target.value]
             : this.value.filter((value) => {
                 return (
@@ -1991,7 +2011,11 @@ export default class GlideCoreDropdown extends LitElement {
         // The event this handler listens to is dispatched on both selection and deselection.
         // In the case of single-select, we don't care if the target has been deselected. We
         // also don't want any changes to focus or the state of `this.open` as a result.
-      } else if (!this.multiple && event.target.selected) {
+      } else if (
+        !this.multiple &&
+        event.target.selected &&
+        !event.target.disabled
+      ) {
         this.#value = event.target.value ? [event.target.value] : [];
 
         if (this.#inputElementRef.value) {
@@ -2134,8 +2158,8 @@ export default class GlideCoreDropdown extends LitElement {
       });
     }
 
-    this.dispatchEvent(new Event('change', { bubbles: true }));
     this.dispatchEvent(new Event('input', { bubbles: true }));
+    this.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   #selectAllOrNone() {
@@ -2147,7 +2171,8 @@ export default class GlideCoreDropdown extends LitElement {
     this.#isSelectionChangeFromSelectAll = true;
 
     for (const option of this.#optionElements) {
-      option.selected = this.#selectAllElementRef.value.selected;
+      option.selected =
+        this.#selectAllElementRef.value.selected && !option.disabled;
     }
 
     this.#isSelectionChangeFromSelectAll = false;
