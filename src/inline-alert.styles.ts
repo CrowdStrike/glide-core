@@ -17,22 +17,22 @@ export default [
 
       &.informational {
         background-color: var(--glide-core-surface-informational);
-        border-color: var(--glide-core-data-viz-blue-lighter);
+        border-color: var(--glide-core-border-informational);
       }
 
       &.medium {
         background-color: var(--glide-core-surface-warning);
-        border-color: var(--glide-core-data-viz-yellow-lighter);
+        border-color: var(--glide-core-border-attention);
       }
 
       &.high {
         background-color: var(--glide-core-surface-warning);
-        border-color: var(--glide-core-data-viz-orange-lighter);
+        border-color: var(--glide-core-border-warning);
       }
 
       &.critical {
         background-color: var(--glide-core-surface-error);
-        border-color: var(--glide-core-data-viz-red-lighter);
+        border-color: var(--glide-core-border-error);
       }
 
       &.added {

@@ -17,12 +17,33 @@ const meta: Meta = {
     `,
   ],
   args: {
-    variant: 'informational',
     'slot="default"': 'Label',
-    removable: false,
     'addEventListener(event, handler)': '',
+    removable: false,
+    variant: 'informational',
   },
   argTypes: {
+    'slot="default"': {
+      table: {
+        type: { summary: 'Element | string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    'addEventListener(event, handler)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(event: "remove", handler: (event: Event) => void) => void',
+        },
+      },
+    },
+    removable: {
+      defaultValue: { summary: 'false' },
+      table: {
+        type: { summary: 'boolean' },
+      },
+    },
     variant: {
       control: { type: 'radio' },
       options: ['informational', 'medium', 'high', 'critical'],
@@ -32,27 +53,6 @@ const meta: Meta = {
         },
         type: {
           summary: `"informational" | "medium" | "high" | "critical"`,
-        },
-      },
-    },
-    'slot="default"': {
-      table: {
-        type: { summary: 'Element | string' },
-      },
-      type: { name: 'string', required: true },
-    },
-    removable: {
-      defaultValue: { summary: 'false' },
-      table: {
-        type: { summary: 'boolean' },
-      },
-    },
-    'addEventListener(event, handler)': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '(event: "remove", handler: (event: Event) => void) => void',
         },
       },
     },

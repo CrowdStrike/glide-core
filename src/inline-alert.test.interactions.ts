@@ -15,10 +15,6 @@ it('removes itself on removable button click', async () => {
 
   component.shadowRoot
     ?.querySelector<HTMLElement>('[data-test="removal-button"]')
-    ?.focus();
-
-  component.shadowRoot
-    ?.querySelector<HTMLElement>('[data-test="removal-button"]')
     ?.click();
 
   const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
@@ -37,10 +33,7 @@ it('removes itself on removable button Space', async () => {
     >`,
   );
 
-  component.shadowRoot
-    ?.querySelector<HTMLElement>('[data-test="removal-button"]')
-    ?.focus();
-
+  component.focus();
   await sendKeys({ press: ' ' });
 
   const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
@@ -59,10 +52,7 @@ it('removes itself on removable button Enter', async () => {
     >`,
   );
 
-  component.shadowRoot
-    ?.querySelector<HTMLElement>('[data-test="removal-button"]')
-    ?.focus();
-
+  component.focus();
   await sendKeys({ press: 'Enter' });
 
   const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(

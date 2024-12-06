@@ -47,6 +47,10 @@ export default class GlideCoreInlineAlert extends LitElement {
     );
   }
 
+  override focus() {
+    this.#removalButtonElementRef.value?.focus();
+  }
+
   override render() {
     return html`
       <div
