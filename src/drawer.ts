@@ -43,31 +43,67 @@ export default class GlideCoreDrawer extends LitElement {
     this.#isOpen = isOpen;
 
     if (this.#isOpen) {
-      this.#asideElementRef?.value?.addEventListener(
-        'transitionend',
-        () => {
-          // We set `tabindex="-1"` and call focus directly based on
-          // https://www.matuzo.at/blog/2023/focus-dialog/
-          // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
-          this.#asideElementRef?.value?.focus();
-        },
-        { once: true },
-      );
+      (async () => {
+        this.#closeAnimation?.cancel();
 
-      this.#asideElementRef?.value?.classList?.add('open');
+        this.#asideElementRef?.value?.classList?.add('open');
+
+        this.#openAnimation = this.#asideElementRef?.value?.animate(
+          { transform: ['translateX(100%)', 'translateX(0)'] },
+          {
+            duration: 300,
+            fill: 'forwards',
+            easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
+          },
+        );
+
+        this.#asideElementRef?.value?.animate(
+          {
+            opacity: [0, 1],
+          },
+          {
+            duration: 300,
+            fill: 'forwards',
+            easing: 'ease-in',
+            composite: 'add',
+          },
+        );
+
+        await this.#openAnimation?.finished;
+
+        // We set `tabindex="-1"` and call focus directly based on
+        // https://www.matuzo.at/blog/2023/focus-dialog/
+        // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
+        this.#asideElementRef?.value?.focus();
+      })();
     } else {
-      this.#asideElementRef?.value?.addEventListener(
-        'transitionend',
-        () => {
-          this.#asideElementRef?.value?.classList?.remove('open');
-          this.#asideElementRef?.value?.classList?.remove('closing');
+      (async () => {
+        this.#openAnimation?.cancel();
 
-          this.dispatchEvent(new Event('close', { bubbles: true }));
-        },
-        { once: true },
-      );
+        this.#closeAnimation = this.#asideElementRef?.value?.animate(
+          { transform: ['translateX(0)', 'translateX(100%)'] },
+          {
+            duration: 300,
+            fill: 'forwards',
+            easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
+          },
+        );
 
-      this.#asideElementRef?.value?.classList?.add('closing');
+        this.#asideElementRef?.value?.animate(
+          {
+            opacity: [1, 0],
+          },
+          {
+            duration: 300,
+            fill: 'forwards',
+            composite: 'add',
+          },
+        );
+
+        await this.#closeAnimation?.finished;
+        this.#asideElementRef?.value?.classList?.remove('open');
+        this.dispatchEvent(new Event('close', { bubbles: true }));
+      })();
     }
   }
 
@@ -107,9 +143,13 @@ export default class GlideCoreDrawer extends LitElement {
 
   #asideElementRef = createRef<HTMLElement>();
 
+  #closeAnimation?: Animation;
+
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #isOpen = false;
+
+  #openAnimation?: Animation;
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);

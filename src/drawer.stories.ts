@@ -100,10 +100,10 @@ const meta: Meta = {
     'slot="default"': '',
     'addEventListener(event, handler)': '',
     'close()': '',
-    'show()': '',
-    pinned: false,
-    '--width': '',
     open: false,
+    pinned: false,
+    'show()': '',
+    '--width': '',
   },
   argTypes: {
     'slot="default"': {

@@ -27,24 +27,13 @@ export default [
     }
 
     .open {
-      /* prefix required for Safari */
       /* stylelint-disable-next-line property-no-vendor-prefix */
       -webkit-backdrop-filter: blur(25px);
       backdrop-filter: blur(25px);
       block-size: auto;
       inline-size: var(--width, 27.375rem);
       inset: 0 0 0 auto;
-      opacity: 1;
-      transform: none;
-      transition:
-        transform 0.3s cubic-bezier(0.33, 1, 0.68, 1),
-        opacity 0.3s ease-in;
       visibility: visible;
-    }
-
-    .closing {
-      transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
     }
   `,
 ];

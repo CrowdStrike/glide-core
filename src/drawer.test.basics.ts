@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './drawer.js';
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import {
+  assert,
+  elementUpdated,
+  expect,
+  fixture,
+  html,
+} from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
 import expectArgumentError from './library/expect-argument-error.js';
 
@@ -53,6 +59,17 @@ it('sets the width of the element based on the "--width" CSS variable', async ()
   );
 
   component.show();
+
+  await elementUpdated(component);
+
+  const animationPromises = component.shadowRoot
+    ?.querySelector('[data-test="open"]')
+    ?.getAnimations()
+    ?.map((animation) => animation.finished);
+
+  assert(animationPromises);
+
+  await Promise.allSettled(animationPromises);
 
   expect(component.shadowRoot?.querySelector('aside')?.clientWidth).to.equal(
     750,
