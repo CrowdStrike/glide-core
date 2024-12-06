@@ -33,7 +33,6 @@ export default [
       block-size: auto;
       inline-size: var(--width, 27.375rem);
       inset: 0 0 0 auto;
-      transform: none;
       visibility: visible;
     }
   `,
