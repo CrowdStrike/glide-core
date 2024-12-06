@@ -70,6 +70,10 @@ export default class GlideCoreDrawer extends LitElement {
         );
 
         await this.#openAnimation?.finished;
+
+        // We set `tabindex="-1"` and call focus directly based on
+        // https://www.matuzo.at/blog/2023/focus-dialog/
+        // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
         this.#asideElementRef?.value?.focus();
       })();
     } else {

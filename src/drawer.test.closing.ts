@@ -70,7 +70,6 @@ it('does not close when a key other than "Escape" is pressed', async () => {
     .null;
 });
 
-// This is required to meet the coverage threshold.
 it('`open` has coverage', async () => {
   const stub = sinon.stub(console, 'error');
 
