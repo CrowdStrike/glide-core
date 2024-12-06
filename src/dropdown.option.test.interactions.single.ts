@@ -26,11 +26,11 @@ it('is selected when programmatically selected', async () => {
 });
 
 it('has a tooltip when active and with a long label', async () => {
-  // The period is arbitrary. 500 of them ensures we exceed the maximum
-  // width even if it's increased.
+  // The "x" is arbitrary. 500 of them ensures the component is wider
+  // than the viewport even if the viewport's width is increased.
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
-      label=${'.'.repeat(500)}
+      label=${'x'.repeat(500)}
       value="value"
     ></glide-core-dropdown-option>`,
   );
@@ -71,9 +71,9 @@ it('has a tooltip when active and with a long label set programmatically', async
 
   component.privateIsTooltipOpen = true;
 
-  // The period is arbitrary. 500 of them ensures we exceed the maximum
-  // width even if it's increased.
-  component.label = '.'.repeat(500);
+  // The "x" is arbitrary. 500 of them ensures the component is wider
+  // than the viewport even if the viewport's width is increased.
+  component.label = 'x'.repeat(500);
 
   // Wait for the tooltip.
   await aTimeout(0);
@@ -83,11 +83,11 @@ it('has a tooltip when active and with a long label set programmatically', async
 });
 
 it('has no tooltip when active and with a short label set programmatically', async () => {
-  // The period is arbitrary. 500 of them ensures we exceed the maximum
-  // width even if it's increased.
+  // The "x" is arbitrary. 500 of them ensures the component is wider
+  // than the viewport even if the viewport's width is increased.
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
-      label=${'.'.repeat(500)}
+      label=${'x'.repeat(500)}
       value="value"
     ></glide-core-dropdown-option>`,
   );

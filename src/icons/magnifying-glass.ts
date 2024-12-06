@@ -10,6 +10,7 @@ export default svg`
     viewBox="0 0 24 24"
     stroke-width="1.5"
     stroke="currentColor"
+    style="display: block;"
   >
     <path
       stroke-linecap="round"

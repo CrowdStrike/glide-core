@@ -167,7 +167,7 @@ it('has a tooltip when minimal and with a long label', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       style="display: block; max-width: 100px;"
-      label=${'.'.repeat(100)}
+      label=${'x'.repeat(100)}
       private-variant="minimal"
       private-show-label-tooltip
     ></glide-core-checkbox>`,

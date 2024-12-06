@@ -5,6 +5,8 @@ import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreInput from './input.js';
 
+GlideCoreInput.shadowRootOptions.mode = 'open';
+
 // `await aTimeout(0)` is used throughout. Using `oneEvent` instead and
 // expecting it to throw would work. But it wouldn't throw until its
 // timeout, which would make for a slow test. Its timeout can likely be
@@ -45,11 +47,8 @@ it('dispatches an "input" event when typed in', async () => {
 
 it('dispatches an "input" event on clear', async () => {
   const component = await fixture<GlideCoreInput>(
-    html`<glide-core-input clearable></glide-core-input>`,
+    html`<glide-core-input value="test" clearable></glide-core-input>`,
   );
-
-  component.focus();
-  await sendKeys({ type: 'test' });
 
   setTimeout(() => {
     component.shadowRoot

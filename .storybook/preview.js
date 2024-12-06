@@ -113,6 +113,7 @@ export default {
 
                   if ($subcomponent.tagName === 'GLIDE-CORE-DROPDOWN-OPTION') {
                     $subcomponent.removeAttribute('aria-selected');
+                    $subcomponent.removeAttribute('role');
                   }
                 }
               }

@@ -37,7 +37,7 @@ const meta: Meta = {
     'addEventListener(event, handler)': '',
     'checkValidity()': '',
     disabled: false,
-    filterable: false,
+    filterable: true,
     'filter(query, options)': '',
     'hide-label': false,
     multiple: false,
@@ -56,7 +56,8 @@ const meta: Meta = {
     'slot="tooltip"': '',
     value: '',
     variant: '',
-    '<glide-core-dropdown-option>.label': 'One',
+    '<glide-core-dropdown-option>.label':
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
     '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,
@@ -135,7 +136,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
   const options = [...this.querySelectorAll('glide-core-dropdown-option)];
 
   return options.filter(({ label }) => {
-    return label.toLowerCase().includes(query.toLowercase().trim());
+    return label.toLowerCase().includes(query.toLowerCase().trim());
   });
 }
   
