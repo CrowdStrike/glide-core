@@ -35,6 +35,11 @@ export default [
       }
     }
 
+    .test {
+      align-items: baseline;
+      display: flex;
+    }
+
     .dropdown {
       --button-and-input-height: 1.25rem;
 

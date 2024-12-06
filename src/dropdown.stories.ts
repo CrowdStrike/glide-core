@@ -37,7 +37,7 @@ const meta: Meta = {
     'addEventListener(event, handler)': '',
     'checkValidity()': '',
     disabled: false,
-    filterable: false,
+    filterable: true,
     'filter(query, options)': '',
     'hide-label': false,
     multiple: false,
@@ -59,7 +59,7 @@ const meta: Meta = {
     '<glide-core-dropdown-option>.label':
       'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
-    '<glide-core-dropdown-option>.disabled': true,
+    '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,
     '<glide-core-dropdown-option>.one.selected': false,
     '<glide-core-dropdown-option>.two.selected': false,
@@ -432,68 +432,72 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, unicorn/explicit-length-check */
-    return html`<glide-core-dropdown
-      add-button-label=${arguments_['add-button-label'] || nothing}
-      label=${arguments_.label || nothing}
-      name=${arguments_.name || nothing}
-      orientation=${arguments_.orientation}
-      placeholder=${arguments_.placeholder || nothing}
-      size=${arguments_.size}
-      variant=${arguments_.variant || nothing}
-      ?disabled=${arguments_.disabled}
-      ?filterable=${arguments_.filterable}
-      ?hide-label=${arguments_['hide-label']}
-      ?multiple=${arguments_.multiple}
-      ?open=${arguments_.open}
-      ?readonly=${arguments_.readonly}
-      ?required=${arguments_.required}
-      ?select-all=${arguments_['select-all']}
-    >
-      <glide-core-dropdown-option
-        label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
-        value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
-        ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
-        ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
-        ?selected=${arguments_['<glide-core-dropdown-option>.one.selected']}
-      ></glide-core-dropdown-option>
+    return html`
+      <div style="display: flex;">
+        <glide-core-dropdown
+          add-button-label=${arguments_['add-button-label'] || nothing}
+          label=${arguments_.label || nothing}
+          name=${arguments_.name || nothing}
+          orientation=${arguments_.orientation}
+          placeholder=${arguments_.placeholder || nothing}
+          size=${arguments_.size}
+          variant=${arguments_.variant || nothing}
+          ?disabled=${arguments_.disabled}
+          ?filterable=${arguments_.filterable}
+          ?hide-label=${arguments_['hide-label']}
+          ?multiple=${arguments_.multiple}
+          ?open=${arguments_.open}
+          ?readonly=${arguments_.readonly}
+          ?required=${arguments_.required}
+          ?select-all=${arguments_['select-all']}
+        >
+          <glide-core-dropdown-option
+            label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
+            value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
+            ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
+            ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
+            ?selected=${arguments_['<glide-core-dropdown-option>.one.selected']}
+          ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-        editable
-      ></glide-core-dropdown-option>
-      <glide-core-dropdown-option
-        label="Three"
-        value="three"
-        editable
-        disabled
-      ></glide-core-dropdown-option>
-      <glide-core-dropdown-option
-        label="Four"
-        value="four"
-      ></glide-core-dropdown-option>
-      <glide-core-dropdown-option
-        label="Five"
-        value="five"
-      ></glide-core-dropdown-option>
+          <glide-core-dropdown-option
+            label="Two"
+            value="two"
+            editable
+          ></glide-core-dropdown-option>
+          <glide-core-dropdown-option
+            label="Three"
+            value="three"
+            editable
+            disabled
+          ></glide-core-dropdown-option>
+          <glide-core-dropdown-option
+            label="Four"
+            value="four"
+          ></glide-core-dropdown-option>
+          <glide-core-dropdown-option
+            label="Five"
+            value="five"
+          ></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option
-        label="Six"
-        value="six"
-        disabled
-      ></glide-core-dropdown-option>
+          <glide-core-dropdown-option
+            label="Six"
+            value="six"
+            disabled
+          ></glide-core-dropdown-option>
 
-      ${arguments_['slot="description"']
-        ? html`<div slot="description">
-            ${unsafeHTML(arguments_['slot="description"'])}
-          </div>`
-        : nothing}
-      ${arguments_['slot="tooltip"']
-        ? html`<div slot="tooltip">
-            ${unsafeHTML(arguments_['slot="tooltip"'])}
-          </div>`
-        : nothing}
-    </glide-core-dropdown>`;
+          ${arguments_['slot="description"']
+            ? html`<div slot="description">
+                ${unsafeHTML(arguments_['slot="description"'])}
+              </div>`
+            : nothing}
+          ${arguments_['slot="tooltip"']
+            ? html`<div slot="tooltip">
+                ${unsafeHTML(arguments_['slot="tooltip"'])}
+              </div>`
+            : nothing}
+        </glide-core-dropdown>
+      </div>
+    `;
   },
 };
 

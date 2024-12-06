@@ -369,6 +369,18 @@ export default class GlideCoreDropdown extends LitElement {
 
       observer.observe(this.#internalLabelElementRef.value);
     }
+
+    if (this.#inputElementRef.value) {
+      const observer = new ResizeObserver(() => {
+        if (this.#inputElementRef.value) {
+          this.isInputOverflow =
+            this.#inputElementRef.value.scrollWidth >
+            this.#inputElementRef.value.clientWidth;
+        }
+      });
+
+      observer.observe(this.#inputElementRef.value);
+    }
   }
 
   // The button doesn't receive focus when `shadowRoot.delegatesFocus` is set,
@@ -574,38 +586,43 @@ export default class GlideCoreDropdown extends LitElement {
               ></slot>`;
             })}
             ${when(this.filterable || this.isFilterable, () => {
-              return html`<input
-                  aria-activedescendant=${this.ariaActivedescendant}
-                  aria-controls="options"
-                  aria-describedby="description"
-                  aria-expanded=${this.open}
-                  aria-labelledby="selected-option-labels label ${this
-                    .isCommunicateItemCountToScreenreaders
-                    ? 'item-count'
-                    : ''}"
-                  autocapitalize="off"
-                  autocomplete="off"
-                  class=${classMap({
-                    input: true,
-                    quiet: this.variant === 'quiet',
+              return html` <div class="test">
+                  <input
+                    aria-activedescendant=${this.ariaActivedescendant}
+                    aria-controls="options"
+                    aria-describedby="description"
+                    aria-expanded=${this.open}
+                    aria-labelledby="selected-option-labels label ${this
+                      .isCommunicateItemCountToScreenreaders
+                      ? 'item-count'
+                      : ''}"
+                    autocapitalize="off"
+                    autocomplete="off"
+                    class=${classMap({
+                      input: true,
+                      quiet: this.variant === 'quiet',
+                    })}
+                    data-test="input"
+                    id="input"
+                    placeholder=${this.multiple ||
+                    !this.selectedOptions.at(-1)?.label
+                      ? this.placeholder ?? ''
+                      : ''}
+                    role="combobox"
+                    spellcheck="false"
+                    tabindex=${this.disabled ? '-1' : '0'}
+                    ?disabled=${this.disabled}
+                    ?readonly=${this.readonly}
+                    @focusin=${this.#onInputFocusin}
+                    @focusout=${this.#onInputFocusout}
+                    @input=${this.#onInputInput}
+                    @keydown=${this.#onInputKeydown}
+                    ${ref(this.#inputElementRef)}
+                  />
+                  ${when(this.isInputOverflow && !this.open, () => {
+                    return html`<span>…</span>`;
                   })}
-                  data-test="input"
-                  id="input"
-                  placeholder=${this.multiple ||
-                  !this.selectedOptions.at(-1)?.label
-                    ? this.placeholder ?? ''
-                    : ''}
-                  role="combobox"
-                  spellcheck="false"
-                  tabindex=${this.disabled ? '-1' : '0'}
-                  ?disabled=${this.disabled}
-                  ?readonly=${this.readonly}
-                  @focusin=${this.#onInputFocusin}
-                  @focusout=${this.#onInputFocusout}
-                  @input=${this.#onInputInput}
-                  @keydown=${this.#onInputKeydown}
-                  ${ref(this.#inputElementRef)}
-                />
+                </div>
 
                 <span
                   aria-label=${this.#localize.term(
@@ -966,6 +983,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   @state()
   private isFiltering = false;
+
+  @state()
+  private isInputOverflow = false;
 
   @state()
   private isInternalLabelOverflow = false;
@@ -2022,6 +2042,12 @@ export default class GlideCoreDropdown extends LitElement {
           this.#inputElementRef.value.value = event.target.label;
         }
       }
+    }
+
+    if (this.#inputElementRef.value) {
+      this.isInputOverflow =
+        this.#inputElementRef.value.scrollWidth >
+        this.#inputElementRef.value.clientWidth;
     }
 
     // Dropdown's internal label now needs to be updated to reflect the selected option
