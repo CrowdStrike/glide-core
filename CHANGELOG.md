@@ -1,5 +1,198 @@
 # @crowdstrike/glide-core
 
+## 0.14.0
+
+### Minor Changes
+
+- [#493](https://github.com/CrowdStrike/glide-core/pull/493) [`5b81698`](https://github.com/CrowdStrike/glide-core/commit/5b81698cc27af4aed07d59b6f713351c9c65f5e5) Thanks [@ynotdraw](https://github.com/ynotdraw)! - The following CSS variables were renamed:
+
+  ```diff
+  - --glide-core-background-fill
+  + --glide-core-surface-background-image
+
+  - --glide-core-border-radius-none
+  + --glide-core-border-radius-zero
+
+  - --glide-core-border-width-none
+  + --glide-core-border-width-zero
+  ```
+
+- [#493](https://github.com/CrowdStrike/glide-core/pull/493) [`5b81698`](https://github.com/CrowdStrike/glide-core/commit/5b81698cc27af4aed07d59b6f713351c9c65f5e5) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Light
+
+  ### Added
+
+  ```diff
+  + --glide-core-border-attention: #f8f0d1;
+  + --glide-core-border-error: #ffdcda;
+  + --glide-core-border-informational: #d7e7ff;
+  + --glide-core-border-warning: #ffebce;
+
+  + --glide-core-effects-shadow-small-blur: 0.5rem;
+  + --glide-core-effects-shadow-small-fill: #b5b5b540;
+  + --glide-core-effects-shadow-small-spread: 0rem;
+  + --glide-core-effects-shadow-small-x: 0rem;
+  + --glide-core-effects-shadow-small-y: 0.125rem;
+
+  + --glide-core-effects-shadow-switcher-blur: 0.125rem;
+  + --glide-core-effects-shadow-switcher-fill: #ffffff59;
+  + --glide-core-effects-shadow-switcher-spread: 0rem;
+  + --glide-core-effects-shadow-switcher-x: 0.0625rem;
+  + --glide-core-effects-shadow-switcher-y: 0.0625rem;
+
+  +  --glide-core-surface-background-image: #00000000;
+  ```
+
+  ### Removed
+
+  ```diff
+  - --glide-core-background-fill: #15141400;
+  - --glide-core-generic-border-active: #6d6d6d;
+  ```
+
+  ## Dark
+
+  ### Added
+
+  ```diff
+  + --glide-core-border-attention: #f8f0d1;
+  + --glide-core-border-error: #ffdcda;
+  + --glide-core-border-informational: #d7e7ff;
+  + --glide-core-border-warning: #ffebce;
+
+  + --glide-core-effects-shadow-small-blur: 0.5rem;
+  + --glide-core-effects-shadow-small-fill: #00000040;
+  + --glide-core-effects-shadow-small-spread: 0rem;
+  + --glide-core-effects-shadow-small-x: 0rem;
+  + --glide-core-effects-shadow-small-y: 0.125rem;
+
+  + --glide-core-effects-shadow-switcher-blur: 0.125rem;
+  + --glide-core-effects-shadow-switcher-fill: #0000000d;
+  + --glide-core-effects-shadow-switcher-spread: 0rem;
+  + --glide-core-effects-shadow-switcher-x: 0.0625rem;
+  + --glide-core-effects-shadow-switcher-y: 0.0625rem;
+
+  + --glide-core-surface-background-image: #151414f7;
+  ```
+
+  ### Removed
+
+  ```diff
+  - --glide-core-background-fill: #151414f7;
+  - --glide-core-generic-border-active: #6d6d6d;
+  ```
+
+  ### Changed
+
+  ```diff
+  - --glide-core-effects-shadow-large-blur: 3.125rem;
+  + --glide-core-effects-shadow-large-blur: 0.75rem;
+
+  - --glide-core-effects-shadow-large-y: 0.625rem;
+  + --glide-core-effects-shadow-large-y: 0.125rem;
+  ```
+
+  ## System
+
+  ### Added
+
+  ```diff
+  + --glide-core-border-radius-zero: 0rem;
+  + --glide-core-border-width-zero: 0rem;
+  ```
+
+  ### Removed
+
+  ```diff
+  - --glide-core-border-radius-none: 0rem;
+  - --glide-core-border-width-none: 0rem;
+  - --glide-core-number-14: 0.875rem;
+  - --glide-core-page-size-details-panel: 27.375rem;
+  ```
+
+  ## Miscellaneous
+
+  ### Changed
+
+  ```diff
+  - --glide-core-shadow-sm: 0px 2.275px 8.342px 0px rgba(181, 181, 181, 0.25);
+  + --glide-core-shadow-sm: var(--glide-core-effects-shadow-small-x) var(--glide-core-effects-shadow-small-y) var(--glide-core-effects-shadow-small-blur) var(--glide-core-effects-shadow-small-spread) var(--glide-core-effects-shadow-small-fill);
+  ```
+
+### Patch Changes
+
+- [#493](https://github.com/CrowdStrike/glide-core/pull/493) [`5b81698`](https://github.com/CrowdStrike/glide-core/commit/5b81698cc27af4aed07d59b6f713351c9c65f5e5) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the `data-viz` colors from Figma:
+
+  ## Light
+
+  ### Added
+
+  ```diff
+  + --glide-core-data-viz-cobalt-cobalt: #5183df;
+  + --glide-core-data-viz-cyan-cyan: #299ed1;
+  + --glide-core-data-viz-gold-gold: #cc8519;
+  + --glide-core-data-viz-gray-dark: #424242;
+  + --glide-core-data-viz-gray-darker: #212121;
+  + --glide-core-data-viz-gray-default: #6d6d6d;
+  + --glide-core-data-viz-gray-light: #8a8a8a;
+  + --glide-core-data-viz-gray-lighter: #c9c9c9;
+  + --glide-core-data-viz-gray-lightest: #f0f0f0;
+  + --glide-core-data-viz-gray-x-lighter: #e3e3e3;
+  + --glide-core-data-viz-indigo-indigo: #6563d9;
+  + --glide-core-data-viz-lilac-lilac: #ce66e5;
+  + --glide-core-data-viz-magenta-magenta: #f9338b;
+  + --glide-core-data-viz-moss-moss: #959328;
+  + --glide-core-data-viz-olive-olive: #7f994d;
+  + --glide-core-data-viz-red-red: #db2d24;
+  + --glide-core-data-viz-rose-rose: #ea5da3;
+  + --glide-core-data-viz-teal-teal: #39a288;
+  + --glide-core-data-viz-turquoise-turqoise: #339da3;
+  + --glide-core-data-viz-violet-violet: #af52de;
+  ```
+
+  ## Dark
+
+  ### Added
+
+  ```diff
+  + --glide-core-data-viz-cobalt-cobalt: #6e8ec4;
+  + --glide-core-data-viz-cyan-cyan: #4b98b9;
+  + --glide-core-data-viz-gold-gold: #b98d4b;
+  + --glide-core-data-viz-gray-dark: #424242;
+  + --glide-core-data-viz-gray-darker: #212121;
+  + --glide-core-data-viz-gray-default: #6d6d6d;
+  + --glide-core-data-viz-gray-light: #8a8a8a;
+  + --glide-core-data-viz-gray-lighter: #c9c9c9;
+  + --glide-core-data-viz-gray-lightest: #000000e5;
+  + --glide-core-data-viz-gray-x-lighter: #e3e3e3;
+  + --glide-core-data-viz-indigo-indigo: #7574e5;
+  + --glide-core-data-viz-lilac-lilac: #b37cc5;
+  + --glide-core-data-viz-magenta-magenta: #c2678f;
+  + --glide-core-data-viz-moss-moss: #949151;
+  + --glide-core-data-viz-olive-olive: #7a845c;
+  + --glide-core-data-viz-red-red: #db4743;
+  + --glide-core-data-viz-rose-rose: #be7e9f;
+  + --glide-core-data-viz-teal-teal: #5c9d8c;
+  + --glide-core-data-viz-turquoise-turqoise: #639d9f;
+  + --glide-core-data-viz-violet-violet: #a66dc3;
+  ```
+
+- [#487](https://github.com/CrowdStrike/glide-core/pull/487) [`208f8fb`](https://github.com/CrowdStrike/glide-core/commit/208f8fbcdf32a0545d678fb6b2c5e642476d9ac2) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Dropdown, Input, and Textarea now follow the same design patterns when in the `readonly` state by removing inline-start padding, removing the border, and having a transparent background.
+
+- [#497](https://github.com/CrowdStrike/glide-core/pull/497) [`37df083`](https://github.com/CrowdStrike/glide-core/commit/37df083e1fa27c8496bb0f624e42479f84d43613) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Drawer now supports an `open` attribute.
+
+- [#498](https://github.com/CrowdStrike/glide-core/pull/498) [`39af7af`](https://github.com/CrowdStrike/glide-core/commit/39af7afc5e97d9e203b4f2147327c3ac830f61be) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Toast now supports an `error` variant.
+
+- [#493](https://github.com/CrowdStrike/glide-core/pull/493) [`5b81698`](https://github.com/CrowdStrike/glide-core/commit/5b81698cc27af4aed07d59b6f713351c9c65f5e5) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tree Item's selected hover background color was updated for more contrast.
+
+- [#504](https://github.com/CrowdStrike/glide-core/pull/504) [`a2d8bc8`](https://github.com/CrowdStrike/glide-core/commit/a2d8bc827c1ba015725822dc9944274ddf3c9ec6) Thanks [@danwenzel](https://github.com/danwenzel)! - Minor visual updates to Drawer:
+
+  - Background color's opacity slightly increased
+  - backdrop-filter blur reduced by 50%
+
+- [#493](https://github.com/CrowdStrike/glide-core/pull/493) [`5b81698`](https://github.com/CrowdStrike/glide-core/commit/5b81698cc27af4aed07d59b6f713351c9c65f5e5) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Dropdown's visual design for "select all" and "add" were reverted back to the previous state after additional design review.
+
 ## 0.13.1
 
 ### Patch Changes
