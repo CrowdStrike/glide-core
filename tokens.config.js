@@ -25,15 +25,30 @@ export default {
     return !collectionIds.includes(collection.id);
   },
   excludeVariables(variable) {
-    const variableNames = ['color', 'component', 'data-viz'];
+    // We intentionally skip over the following primitive
+    // design tokens as we prefer using semantic tokens.
+    const primitiveNamesToSkip = ['color', 'component'];
 
-    for (const name of variableNames) {
+    for (const name of primitiveNamesToSkip) {
       if (variable.name.includes(name)) {
         return true;
       }
     }
+
+    // We want to ignore tokens that are for
+    // designers experimenting.
+    if (variable.name.startsWith('dev-only/')) {
+      return true;
+    }
+
+    // `data-viz/pink` tokens are not intended to be
+    // used by developers and are for design use
+    // cases only.
+    if (variable.name.startsWith('data-viz/pink')) {
+      return true;
+    }
   },
-  fileId: 'WUB2u7DW0sLp04vFzQVFx1',
+  fileId: 'U5EY5xuIIibSN68gGRKlqt',
   cssPrefix: 'glide-core',
   outputDirectoryForStyles: 'src/styles/variables',
 };

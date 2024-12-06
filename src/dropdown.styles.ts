@@ -154,7 +154,7 @@ export default [
     }
 
     .footer {
-      border-block-start: 1px solid var(--glide-core-border-base);
+      background-color: var(--glide-core-surface-base-gray-lighter);
       display: none;
       inline-size: calc(100% - var(--glide-core-spacing-xxxs) * 2);
       inset-block-end: 0;
@@ -216,7 +216,7 @@ export default [
     }
 
     .select-all {
-      border-block-end: 1px solid var(--glide-core-border-base);
+      background-color: var(--glide-core-surface-base-gray-lighter);
       padding: var(--glide-core-spacing-xxxs);
 
       &:not([hidden]) {

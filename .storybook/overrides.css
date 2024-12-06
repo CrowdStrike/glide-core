@@ -25,7 +25,7 @@
 }
 
 .docs-story {
-  background-color: var(--glide-core-background-fill) !important;
+  background-color: var(--glide-core-surface-background-image) !important;
 }
 
 /* The tooltip shown when `argTypes[key].table.type` is clicked. */
