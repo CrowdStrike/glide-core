@@ -19,8 +19,6 @@ it('dispatches a "close" event when the "Escape" key is pressed', async () => {
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  const closeEvent = oneEvent(component, 'close');
-
   component.show();
 
   await elementUpdated(component);
@@ -34,9 +32,11 @@ it('dispatches a "close" event when the "Escape" key is pressed', async () => {
 
   await Promise.allSettled(animationPromises);
 
-  await sendKeys({ press: 'Escape' });
+  setTimeout(() => {
+    sendKeys({ press: 'Escape' });
+  });
 
-  const event = await closeEvent;
+  const event = await oneEvent(component, 'close');
   expect(event instanceof Event).to.be.true;
 });
 
@@ -45,8 +45,6 @@ it('dispatches a "close" event when closed via the "close" method', async () => 
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
 
-  const closeEvent = oneEvent(component, 'close');
-
   component.show();
 
   await elementUpdated(component);
@@ -59,6 +57,8 @@ it('dispatches a "close" event when closed via the "close" method', async () => 
   assert(animationPromises);
 
   await Promise.allSettled(animationPromises);
+
+  const closeEvent = oneEvent(component, 'close');
 
   component.close();
 

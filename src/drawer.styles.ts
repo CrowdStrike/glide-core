@@ -27,7 +27,6 @@ export default [
     }
 
     .open {
-      /* prefix required for Safari */
       /* stylelint-disable-next-line property-no-vendor-prefix */
       -webkit-backdrop-filter: blur(25px);
       backdrop-filter: blur(25px);
