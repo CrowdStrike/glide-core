@@ -54,7 +54,7 @@ const meta: Meta = {
     'slot="description"': '',
     'slot="icon:<value>"': '',
     'slot="tooltip"': '',
-    value: '',
+    value: [],
     variant: '',
     '<glide-core-dropdown-option>.label': 'One',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
@@ -260,7 +260,6 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       },
     },
     value: {
-      control: false,
       table: {
         defaultValue: { summary: '[]' },
         type: {
@@ -447,6 +446,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       ?readonly=${arguments_.readonly}
       ?required=${arguments_.required}
       ?select-all=${arguments_['select-all']}
+      .value=${arguments_.value}
     >
       <glide-core-dropdown-option
         label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
@@ -527,6 +527,7 @@ export const WithIcons: StoryObj = {
       ?readonly=${arguments_.readonly}
       ?required=${arguments_.required}
       ?select-all=${arguments_['select-all']}
+      .value=${arguments_.value}
     >
       <glide-core-example-icon
         slot="icon:edit"

@@ -24,7 +24,8 @@
   - [Typing property decorators](#typing-property-decorators)
   - [Avoid side effects in setters](#avoid-side-effects-in-setters)
   - [Prefer `.component` for the root element CSS selector](#prefer-component-for-the-root-element-css-selector)
-  - [Bubble events by default](#bubble-events-by-default)
+  - [Bubble and compose events](#bubble-and-compose-events)
+  - [Avoid custom events](#avoid-custom-events)
   - [Override and decorate inherited properties used in templates](#override-and-decorate-inherited-properties-used-in-templates)
   - [Translations and static strings](#translations-and-static-strings)
 - [Questions](#questions)
@@ -623,23 +624,37 @@ render() {
 }
 ```
 
-### Bubble events by default
+### Bubble and compose events
 
 Bubbling is what consumers expect because most events bubble.
 Bubbling also lets consumers use our components more flexibly by allowing [event delegation](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_delegation).
+And composing events means they can bubble through nested shadow roots.
 
 ```ts
 // ✅ -- GOOD
-this.dispatchEvent(new Event('change', { bubbles: true }));
+this.dispatchEvent(new Event('selected', { bubbles: true, composed: true }));
 ```
 
 ```ts
 // ❌ -- BAD
-this.dispatchEvent(new Event('change');
+this.dispatchEvent(new Event('selected');
 ```
 
-There are some exceptions such as Modal, whose "close" event doesn't bubble similar to `<dialog>`.
-When deciding to bubble, consider whether the native equivalent bubbles.
+There are some exceptions such as Modal, whose "close" event doesn't bubble to match `<dialog>`.
+When deciding to bubble, consider whether the native's equivalent event bubbles.
+Same when composing them.
+Native's "close" event isn't composed.
+Neither is "change".
+
+We're open to bubbling and composing any event if a use case presents itself.
+But our starting point is to follow native.
+
+### Avoid custom events
+
+Custom events are often unncessary because the value of the event's `detail` property is available or can be made available elsewhere more naturally.
+
+Before using a custom event, see if the value is already available externally via a component attribute.
+Or, if the value is an element, consider simply dispatching the event from the element and letting consumers retrieve it from `event.target`.
 
 ### Override and decorate inherited properties used in templates
 

@@ -34,7 +34,7 @@ export default class GlideCoreTag extends LitElement {
   @property({ reflect: true })
   label?: string;
 
-  // Private because it's only used by Dropdown.
+  // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-editable', reflect: true, type: Boolean })
   privateEditable = false;
 

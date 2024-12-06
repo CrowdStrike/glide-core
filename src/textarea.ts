@@ -36,7 +36,7 @@ export default class GlideCoreTextarea extends LitElement {
 
   static override styles = styles;
 
-  // `value` is intentionally not reflected here to match native
+  // Intentionally not reflected to match native.
   @property()
   value = '';
 
@@ -92,6 +92,7 @@ export default class GlideCoreTextarea extends LitElement {
   @property({ reflect: true })
   autocomplete: 'on' | 'off' = 'on';
 
+  // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle';
 

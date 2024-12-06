@@ -110,8 +110,8 @@ it('reports validity of checkboxes if blurred', async () => {
   await sendKeys({ press: 'Tab' });
 
   expect(document.activeElement === checkboxes[1]).to.be.true;
-  expect(checkboxes[0].isReportValidityOrSubmit).to.be.false;
-  expect(checkboxes[1].isReportValidityOrSubmit).to.be.false;
+  expect(checkboxes[0].privateIsReportValidityOrSubmit).to.be.false;
+  expect(checkboxes[1].privateIsReportValidityOrSubmit).to.be.false;
 
   await sendKeys({ press: 'Tab' });
 
@@ -119,7 +119,7 @@ it('reports validity of checkboxes if blurred', async () => {
 
   expect(component.validity.valid).to.be.false;
   expect(checkboxes[0].validity.valid).to.be.false;
-  expect(checkboxes[0].isReportValidityOrSubmit).to.be.true;
+  expect(checkboxes[0].privateIsReportValidityOrSubmit).to.be.true;
   expect(checkboxes[1].validity.valid).to.be.false;
-  expect(checkboxes[1].isReportValidityOrSubmit).to.be.true;
+  expect(checkboxes[1].privateIsReportValidityOrSubmit).to.be.true;
 });

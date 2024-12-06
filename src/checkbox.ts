@@ -89,14 +89,15 @@ export default class GlideCoreCheckbox extends LitElement {
   @property({ reflect: true })
   name = '';
 
+  // Private because it's only meant to be used by Dropdown Option to offset the tooltip by the option's padding.
   @property({
     attribute: 'private-label-tooltip-offset',
     reflect: true,
     type: Number,
   })
-  // Unfortunate. Used by Dropdown Option to offset the tooltip by the option's padding.
   privateLabelTooltipOffset = 4;
 
+  // Private because it's only meant to be used by Dropdown Option.
   @property({
     attribute: 'private-show-label-tooltip',
     reflect: true,
@@ -104,6 +105,7 @@ export default class GlideCoreCheckbox extends LitElement {
   })
   privateShowLabelTooltip = false;
 
+  // Private because it's only meant to be used by Dropdown Option.
   @property({
     attribute: 'private-disable-label-tooltip',
     reflect: true,
@@ -111,12 +113,15 @@ export default class GlideCoreCheckbox extends LitElement {
   })
   privateDisableLabelTooltip = false;
 
+  // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-size' })
   privateSize: 'large' | 'small' = 'large';
 
+  // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle';
 
+  // Private because it's only meant to be used by Checkbox Group and Dropdown Option.
   @property({ attribute: 'private-variant' })
   privateVariant?: 'minimal';
 
@@ -150,9 +155,9 @@ export default class GlideCoreCheckbox extends LitElement {
     );
   }
 
-  // Not private, so that a parent checkbox group can programmatically set
+  // Used by Checkbox Group.
   @state()
-  isReportValidityOrSubmit = false;
+  privateIsReportValidityOrSubmit = false;
 
   get form() {
     return this.#internals.form;
@@ -266,6 +271,7 @@ export default class GlideCoreCheckbox extends LitElement {
             <div class="input-and-checkbox">
               <input
                 aria-invalid=${this.#isShowValidationFeedback}
+                class="input"
                 data-test="input"
                 type="checkbox"
                 .checked=${this.checked}
@@ -355,6 +361,7 @@ export default class GlideCoreCheckbox extends LitElement {
               <input
                 aria-describedby="summary description"
                 aria-invalid=${this.#isShowValidationFeedback}
+                class="input"
                 data-test="input"
                 id="input"
                 type="checkbox"
@@ -408,7 +415,7 @@ export default class GlideCoreCheckbox extends LitElement {
   }
 
   reportValidity() {
-    this.isReportValidityOrSubmit = true;
+    this.privateIsReportValidityOrSubmit = true;
 
     const isValid = this.#internals.reportValidity();
 
@@ -479,7 +486,7 @@ export default class GlideCoreCheckbox extends LitElement {
         return;
       }
 
-      this.isReportValidityOrSubmit = true;
+      this.privateIsReportValidityOrSubmit = true;
 
       const isFirstInvalidFormElement =
         this.form?.querySelector(':invalid') === this;
@@ -540,11 +547,13 @@ export default class GlideCoreCheckbox extends LitElement {
     // If minimal, `disabled`, `required`, and whether the form has been submitted
     // don't apply because the parent component handles those states itself.
     if (this.privateVariant === 'minimal') {
-      return !this.validity.valid && this.isReportValidityOrSubmit;
+      return !this.validity.valid && this.privateIsReportValidityOrSubmit;
     }
 
     return (
-      !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit
+      !this.disabled &&
+      !this.validity.valid &&
+      this.privateIsReportValidityOrSubmit
     );
   }
 

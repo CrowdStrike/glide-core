@@ -41,7 +41,7 @@ const meta: Meta = {
     'setValidity(flags, message)': '',
     'slot="description"': '',
     'slot="tooltip"': '',
-    value: '',
+    value: [],
     '<glide-core-checkbox>.one.checked': false,
     '<glide-core-checkbox>.two.checked': false,
     '<glide-core-checkbox>.three.checked': false,
@@ -141,7 +141,6 @@ const meta: Meta = {
       },
     },
     value: {
-      control: false,
       table: {
         defaultValue: { summary: '[]' },
         type: {
@@ -221,6 +220,7 @@ const meta: Meta = {
           ?disabled=${arguments_.disabled}
           ?hide-label=${arguments_['hide-label'] || nothing}
           ?required=${arguments_.required}
+          .value=${arguments_.value || nothing}
         >
           <glide-core-checkbox label="One" value="one" ?checked=${
             arguments_['<glide-core-checkbox>.one.checked']
