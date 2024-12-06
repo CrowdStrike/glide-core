@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.14.1
+
+### Patch Changes
+
+- [#507](https://github.com/CrowdStrike/glide-core/pull/507) [`26f48e0`](https://github.com/CrowdStrike/glide-core/commit/26f48e02501a9d9842a097ac0d299b3f764df890) Thanks [@dylankcrwd](https://github.com/dylankcrwd)! - Addresses an issue where Drawer could have an incorrect open or closed state.
+
 ## 0.14.0
 
 ### Minor Changes
