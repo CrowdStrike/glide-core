@@ -27,6 +27,7 @@ const translation: Translation = {
   removeTag: (label: string) => `Remove tag: ${label}`,
   actionsFor: (label: string) => `Actions for ${label}`,
   itemCount: (count: string) => `${count} items`,
+  closeInlineAlert: (variant: string) => `Close ${variant} alert`,
 };
 
 export default translation;
