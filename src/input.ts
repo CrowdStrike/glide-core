@@ -64,7 +64,7 @@ export default class GlideCoreInput extends LitElement {
   @property({ reflect: true })
   name = '';
 
-  // `value` is intentionally not reflected here to match native
+  // Intentionally not reflected to match native.
   @property()
   value = '';
 
@@ -115,6 +115,7 @@ export default class GlideCoreInput extends LitElement {
   @property({ reflect: true, type: Boolean })
   disabled = false;
 
+  // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle';
 

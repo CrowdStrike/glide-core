@@ -25,8 +25,9 @@ export default class GlideCoreMenuButton extends LitElement {
   @property({ reflect: true })
   label?: string;
 
-  @property({ type: Boolean })
   // A button is considered active when it's interacted with via keyboard or hovered.
+  // Private because it's only meant to be used by Menu.
+  @property({ type: Boolean })
   privateActive = false;
 
   override connectedCallback() {

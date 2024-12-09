@@ -24,6 +24,11 @@
   white-space: nowrap !important;
 }
 
+/* The "default" column can get pretty long and wraps, making it hard to read. */
+.docblock-argstable-body tr td:nth-of-type(3) span {
+  white-space: nowrap !important;
+}
+
 .docs-story {
   background-color: var(--glide-core-surface-background-image) !important;
 }

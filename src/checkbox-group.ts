@@ -58,6 +58,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
   @property({ reflect: true })
   name = '';
 
+  // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle';
 
@@ -415,7 +416,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
   #onBlur() {
     for (const checkbox of this.#checkboxes) {
-      checkbox.isReportValidityOrSubmit = true;
+      checkbox.privateIsReportValidityOrSubmit = true;
     }
   }
 

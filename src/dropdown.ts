@@ -140,6 +140,7 @@ export default class GlideCoreDropdown extends LitElement {
   @property({ reflect: true })
   placeholder?: string;
 
+  // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle';
 
@@ -197,6 +198,7 @@ export default class GlideCoreDropdown extends LitElement {
   @property({ reflect: true, type: Boolean })
   required = false;
 
+  // Intentionally not reflected to match native.
   @property({ type: Array })
   get value() {
     return this.#value;

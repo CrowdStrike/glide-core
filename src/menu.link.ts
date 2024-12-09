@@ -30,8 +30,9 @@ export default class GlideCoreMenuLink extends LitElement {
   @property({ reflect: true })
   url?: string;
 
-  @property({ type: Boolean })
   // A link is considered active when it's interacted with via keyboard or hovered.
+  // Private because it's only meant to be used by Menu.
+  @property({ type: Boolean })
   privateActive = false;
 
   override click() {

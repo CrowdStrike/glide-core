@@ -3,9 +3,8 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    ${focusOutline(
-      'input:focus-visible ~ .checkbox, input:focus ~ .checkbox.error',
-    )}
+    ${focusOutline('.input:focus-visible ~ .checkbox')}
+    ${focusOutline('.input:focus ~ .checkbox.error')}
   `,
   css`
     /*
@@ -84,7 +83,7 @@ when browsers support them.
       }
     }
 
-    input {
+    .input {
       block-size: 100%;
       cursor: inherit;
       inline-size: 100%;

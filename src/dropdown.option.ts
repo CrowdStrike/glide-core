@@ -76,12 +76,15 @@ export default class GlideCoreDropdownOption extends LitElement {
     );
   }
 
+  // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-indeterminate', type: Boolean })
   privateIndeterminate = false;
 
+  // Private because it's only meant to be used by Dropdown.
   @property({ type: Boolean })
   privateIsEditActive = false;
 
+  // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-multiple', type: Boolean })
   privateMultiple = false;
 
@@ -123,10 +126,12 @@ export default class GlideCoreDropdownOption extends LitElement {
     this.dispatchEvent(new Event('private-selected-change', { bubbles: true }));
   }
 
+  // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-size', reflect: true })
   privateSize: 'small' | 'large' = 'large';
 
   // An option is considered active when it's interacted with via keyboard or hovered.
+  // Used by Dropdown.
   @state()
   privateActive = false;
 
