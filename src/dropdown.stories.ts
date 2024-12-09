@@ -47,7 +47,7 @@ const meta: Meta = {
     readonly: false,
     'reportValidity()': '',
     required: false,
-    'select-all': true,
+    'select-all': false,
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     size: 'large',
@@ -56,10 +56,9 @@ const meta: Meta = {
     'slot="tooltip"': '',
     value: '',
     variant: '',
-    '<glide-core-dropdown-option>.label':
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    '<glide-core-dropdown-option>.label': 'One',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
-    '<glide-core-dropdown-option>.disabled': true,
+    '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,
     '<glide-core-dropdown-option>.one.selected': false,
     '<glide-core-dropdown-option>.two.selected': false,
@@ -460,27 +459,10 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       <glide-core-dropdown-option
         label="Two"
         value="two"
-        editable
       ></glide-core-dropdown-option>
       <glide-core-dropdown-option
         label="Three"
         value="three"
-        editable
-        disabled
-      ></glide-core-dropdown-option>
-      <glide-core-dropdown-option
-        label="Four"
-        value="four"
-      ></glide-core-dropdown-option>
-      <glide-core-dropdown-option
-        label="Five"
-        value="five"
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Six"
-        value="six"
-        disabled
       ></glide-core-dropdown-option>
 
       ${arguments_['slot="description"']
