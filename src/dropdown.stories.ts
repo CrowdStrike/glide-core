@@ -58,6 +58,7 @@ const meta: Meta = {
     variant: '',
     '<glide-core-dropdown-option>.label': 'One',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
+    '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,
     '<glide-core-dropdown-option>.one.selected': false,
     '<glide-core-dropdown-option>.two.selected': false,
@@ -293,6 +294,14 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         },
       },
     },
+    '<glide-core-dropdown-option>.disabled': {
+      name: 'disabled',
+      table: {
+        category: 'Dropdown Option',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
     '<glide-core-dropdown-option>.editable': {
       name: 'editable',
       table: {
@@ -442,6 +451,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       <glide-core-dropdown-option
         label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
         value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
+        ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
         ?selected=${arguments_['<glide-core-dropdown-option>.one.selected']}
       ></glide-core-dropdown-option>
@@ -449,14 +459,12 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       <glide-core-dropdown-option
         label="Two"
         value="two"
-        ?selected=${arguments_['<glide-core-dropdown-option>.two.selected']}
       ></glide-core-dropdown-option>
-
       <glide-core-dropdown-option
         label="Three"
         value="three"
-        ?selected=${arguments_['<glide-core-dropdown-option>.three.selected']}
       ></glide-core-dropdown-option>
+
       ${arguments_['slot="description"']
         ? html`<div slot="description">
             ${unsafeHTML(arguments_['slot="description"'])}
@@ -538,6 +546,7 @@ export const WithIcons: StoryObj = {
       <glide-core-dropdown-option
         label="Edit"
         value="edit"
+        ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
         ?selected=${arguments_['<glide-core-dropdown-option>.one.selected']}
       >

@@ -194,6 +194,10 @@ when browsers support them.
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+
+      &.disabled {
+        color: var(--glide-core-icon-tertiary-disabled);
+      }
     }
 
     .description {

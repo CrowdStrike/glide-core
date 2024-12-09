@@ -113,6 +113,32 @@ it('selects an option on click', async () => {
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
 });
 
+it('does not select a disabled option on click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        disabled
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  option?.click();
+
+  await elementUpdated(component);
+
+  const labels = component.shadowRoot?.querySelectorAll(
+    '[data-test="selected-option-label"]',
+  );
+
+  expect(option?.selected).to.be.false;
+  expect(labels?.length).to.equal(0);
+});
+
 it('selects an option on Space', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
@@ -526,6 +552,22 @@ it('updates `value` when an option is selected via click', async () => {
   expect(component.value).to.deep.equal([]);
 });
 
+it('does not update `value` when a disabled option is selected via click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.querySelector('glide-core-dropdown-option')?.click();
+
+  expect(component.value).to.deep.equal([]);
+});
+
 it('updates `value` when an option is selected via Enter', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
@@ -707,7 +749,7 @@ it('updates `value` when the `value` of the selected option is removed programma
   expect(component.value).to.deep.equal([]);
 });
 
-it('updates the its internal label when an option is newly selected', async () => {
+it('updates its internal label when an option is newly selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option

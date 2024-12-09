@@ -104,6 +104,13 @@ export default class GlideCoreCheckbox extends LitElement {
   })
   privateShowLabelTooltip = false;
 
+  @property({
+    attribute: 'private-disable-label-tooltip',
+    reflect: true,
+    type: Boolean,
+  })
+  privateDisableLabelTooltip = false;
+
   @property({ attribute: 'private-size' })
   privateSize: 'large' | 'small' = 'large';
 
@@ -288,12 +295,20 @@ export default class GlideCoreCheckbox extends LitElement {
               <glide-core-tooltip
                 class="label-tooltip"
                 offset=${this.privateLabelTooltipOffset}
-                ?disabled=${!this.isLabelOverflow}
+                ?disabled=${!this.isLabelOverflow ||
+                this.privateDisableLabelTooltip}
                 ?open=${this.privateShowLabelTooltip}
               >
                 <div aria-hidden="true" data-test="tooltip">${this.label}</div>
 
-                <div class="label" slot="target" ${ref(this.#labelElementRef)}>
+                <div
+                  class=${classMap({
+                    label: true,
+                    disabled: this.disabled,
+                  })}
+                  slot="target"
+                  ${ref(this.#labelElementRef)}
+                >
                   ${this.label}
                 </div>
               </glide-core-tooltip>

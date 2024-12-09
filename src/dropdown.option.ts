@@ -30,6 +30,16 @@ export default class GlideCoreDropdownOption extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true, type: Boolean })
+  get disabled() {
+    return this.#isDisabled;
+  }
+
+  set disabled(isDisabled: boolean) {
+    this.role = isDisabled ? 'none' : 'option';
+    this.#isDisabled = isDisabled;
+  }
+
+  @property({ reflect: true, type: Boolean })
   get editable() {
     return this.#isEditable;
   }
@@ -153,7 +163,7 @@ export default class GlideCoreDropdownOption extends LitElement {
     // descendant must be the element with `ariaSelected` and `role`, and also has
     // to be programmatically focusable.
     this.ariaSelected = this.selected.toString();
-    this.role = 'option';
+    this.role = this.disabled ? 'none' : 'option';
     this.tabIndex = -1;
 
     // Options are arbitrarily shown and hidden when Dropdown is opened and closed. So
@@ -227,6 +237,7 @@ export default class GlideCoreDropdownOption extends LitElement {
       class=${classMap({
         component: true,
         active: this.privateActive,
+        disabled: this.disabled,
         [this.privateSize]: true,
       })}
       data-test="component"
@@ -251,8 +262,10 @@ export default class GlideCoreDropdownOption extends LitElement {
               value=${this.value}
               internally-inert
               @click=${this.#onCheckboxClick}
+              ?disabled=${this.disabled}
               ?indeterminate=${this.privateIndeterminate}
               ?private-show-label-tooltip=${this.privateIsTooltipOpen}
+              ?private-disable-label-tooltip=${this.disabled}
               ${ref(this.#checkboxElementRef)}
             >
               <slot
@@ -270,6 +283,7 @@ export default class GlideCoreDropdownOption extends LitElement {
                 class=${classMap({
                   'edit-button': true,
                   active: this.privateIsEditActive,
+                  disabled: this.disabled,
                   multiple: Boolean(this.isMultiple),
                   [this.privateSize]: true,
                 })}
@@ -287,6 +301,7 @@ export default class GlideCoreDropdownOption extends LitElement {
           return html`
           <div class=${classMap({
             option: true,
+            disabled: this.disabled,
             editable: this.editable,
             [this.privateSize]: true,
           })}
@@ -296,8 +311,9 @@ export default class GlideCoreDropdownOption extends LitElement {
                 [this.privateSize]: true,
               })} name="icon"></slot>
 
-              <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${!this
-                .isLabelOverflow} ?open=${this.privateIsTooltipOpen}>
+              <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${
+                !this.isLabelOverflow || this.disabled
+              } ?open=${this.privateIsTooltipOpen}>
 
                 <div aria-hidden="true" data-test="tooltip">
                   ${this.label}
@@ -324,6 +340,7 @@ export default class GlideCoreDropdownOption extends LitElement {
                   class=${classMap({
                     'edit-button': true,
                     active: this.privateActive && this.privateIsEditActive,
+                    disabled: this.disabled,
                     [this.privateSize]: true,
                   })}
                   data-test="edit-button"
@@ -356,6 +373,8 @@ export default class GlideCoreDropdownOption extends LitElement {
   #id = nanoid();
 
   #intersectionObserver?: IntersectionObserver;
+
+  #isDisabled = false;
 
   #isEditable = false;
 
