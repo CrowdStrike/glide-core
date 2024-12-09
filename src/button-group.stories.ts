@@ -160,7 +160,6 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-
     orientation: {
       control: { type: 'radio' },
       options: ['horizontal', 'vertical'],

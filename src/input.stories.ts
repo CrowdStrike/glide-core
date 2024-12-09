@@ -130,7 +130,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            'event: "change" | "input" | "invalid", handler: (event: Event) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
         },
       },
     },

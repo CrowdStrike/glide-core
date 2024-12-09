@@ -31,6 +31,7 @@ it('dispatches one link "click" event when a link is selected via click', async 
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(event.target).to.equal(link);
   expect(spy.callCount).to.equal(1);
 });
@@ -58,6 +59,7 @@ it('dispatches one button "click" event when a button is selected via click', as
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(event.target).to.equal(button);
   expect(spy.callCount).to.equal(1);
 });
@@ -86,6 +88,7 @@ it('dispatches one link "click" event when a link is selected via Space', async 
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(event.target).to.equal(link);
   expect(spy.callCount).to.equal(1);
 });
@@ -114,6 +117,7 @@ it('dispatches one button "click" event when a button is selected via Space', as
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(event.target).to.equal(button);
   expect(spy.callCount).to.equal(1);
 });
@@ -142,6 +146,7 @@ it('dispatches one link "click" event when a link is selected via Enter', async 
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(event.target).to.equal(link);
   expect(spy.callCount).to.equal(1);
 });
@@ -170,6 +175,7 @@ it('dispatches one button "click" event when a button is selected via Enter', as
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(event.target).to.equal(button);
   expect(spy.callCount).to.equal(1);
 });

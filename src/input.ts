@@ -584,7 +584,7 @@ export default class GlideCoreInput extends LitElement {
 
   #onClearClick(event: MouseEvent) {
     this.value = '';
-    this.dispatchEvent(new Event('clear', { bubbles: true }));
+    this.dispatchEvent(new Event('clear', { bubbles: true, composed: true }));
     this.#inputElementRef.value?.focus();
 
     event.stopPropagation();

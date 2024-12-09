@@ -30,7 +30,7 @@ export default class GlideCoreTabPanel extends LitElement {
    */
   @property({ reflect: true }) name = '';
 
-  @property({ type: Boolean }) isActive = true;
+  @property({ type: Boolean }) isSelected = true;
 
   protected override firstUpdated() {
     this.setAttribute('role', 'tabpanel');
@@ -42,7 +42,7 @@ export default class GlideCoreTabPanel extends LitElement {
     return html`<div
       class=${classMap({
         component: true,
-        hidden: !this.isActive,
+        hidden: !this.isSelected,
       })}
       data-test="tab-panel"
     >
@@ -53,8 +53,8 @@ export default class GlideCoreTabPanel extends LitElement {
   protected override updated(changes: PropertyValues) {
     super.updated(changes);
 
-    if (changes.has('isActive')) {
-      this.setAttribute('aria-hidden', this.isActive ? 'false' : 'true');
+    if (changes.has('isSelected')) {
+      this.setAttribute('aria-hidden', this.isSelected ? 'false' : 'true');
     }
   }
 

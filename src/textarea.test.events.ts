@@ -21,6 +21,7 @@ it('dispatches a `input` event when typed in', async () => {
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('dispatches an `change` event when typed in', async () => {

@@ -33,7 +33,6 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="nav"': '',
-    'addEventListener(event, handler)': '',
     '--panel-padding-inline-end': '',
     '--panel-padding-inline-start': '',
     '--tabs-padding-block-end': '',
@@ -42,18 +41,19 @@ const meta: Meta = {
     '--tabs-padding-inline-start': '',
     '<glide-core-tab>.panel': '',
     '<glide-core-tab>[slot="default"]': 'Tab',
-    '<glide-core-tab>.1.active': true,
+    '<glide-core-tab>.1.selected': true,
+    '<glide-core-tab>.addEventListener(event, handler)': '',
     '<glide-core-tab>.disabled': false,
     '<glide-core-tab>[slot="icon"]': '',
-    '<glide-core-tab>.2.active': false,
-    '<glide-core-tab>.3.active': false,
-    '<glide-core-tab>.4.active': false,
-    '<glide-core-tab>.5.active': false,
-    '<glide-core-tab>.6.active': false,
-    '<glide-core-tab>.7.active': false,
-    '<glide-core-tab>.8.active': false,
-    '<glide-core-tab>.9.active': false,
-    '<glide-core-tab>.10.active': false,
+    '<glide-core-tab>.2.selected': false,
+    '<glide-core-tab>.3.selected': false,
+    '<glide-core-tab>.4.selected': false,
+    '<glide-core-tab>.5.selected': false,
+    '<glide-core-tab>.6.selected': false,
+    '<glide-core-tab>.7.selected': false,
+    '<glide-core-tab>.8.selected': false,
+    '<glide-core-tab>.9.selected': false,
+    '<glide-core-tab>.10.selected': false,
     '<glide-core-tab-panel>.name': '',
     '<glide-core-tab-panel>[slot="default"]': 'Panel',
   },
@@ -67,7 +67,8 @@ const meta: Meta = {
             addons.getChannel().emit(UPDATE_STORY_ARGS, {
               storyId: context.id,
               updatedArgs: {
-                [`<glide-core-tab>.${tab.panel}.active`]: tab === event.target,
+                [`<glide-core-tab>.${tab.panel}.selected`]:
+                  tab === event.target,
               },
             });
           }
@@ -124,7 +125,7 @@ const meta: Meta = {
         <glide-core-tab
           slot="nav"
           panel="1"
-          ?active=${arguments_['<glide-core-tab>.1.active']}
+          ?selected=${arguments_['<glide-core-tab>.1.selected']}
         >
           ${unsafeHTML(arguments_['<glide-core-tab>[slot="default"]'])}
         </glide-core-tab>
@@ -132,7 +133,7 @@ const meta: Meta = {
         <glide-core-tab
           slot="nav"
           panel="2"
-          ?active=${arguments_['<glide-core-tab>.2.active']}
+          ?selected=${arguments_['<glide-core-tab>.2.selected']}
           ?disabled=${arguments_['<glide-core-tab>.disabled']}
         >
           With Icon
@@ -168,16 +169,6 @@ const meta: Meta = {
         type: { summary: 'GlideCoreTab' },
       },
       type: { name: 'function', required: true },
-    },
-    'addEventListener(event, handler)': {
-      table: {
-        type: {
-          summary: 'method',
-          detail:
-            'event: "tab-show", handler: (event: CustomEvent<{ panel: string }>) => void',
-        },
-      },
-      type: { name: 'function' },
     },
     '--panel-padding-inline-end': {
       table: {
@@ -239,12 +230,24 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    '<glide-core-tab>.1.active': {
-      name: 'active',
+    '<glide-core-tab>.1.selected': {
+      name: 'selected',
       table: {
         category: 'Tab',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-tab>.addEventListener(event, handler)': {
+      control: false,
+      name: 'addEventListener(event, handler)',
+      table: {
+        category: 'Tab',
+        type: {
+          summary: 'method',
+          detail:
+            '(event: "selected", handler: (event: Event) => void) => void',
+        },
       },
     },
     '<glide-core-tab>.disabled': {
@@ -263,47 +266,47 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
-    '<glide-core-tab>.2.active': {
+    '<glide-core-tab>.2.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tab>.3.active': {
+    '<glide-core-tab>.3.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tab>.4.active': {
+    '<glide-core-tab>.4.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tab>.5.active': {
+    '<glide-core-tab>.5.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tab>.6.active': {
+    '<glide-core-tab>.6.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tab>.7.active': {
+    '<glide-core-tab>.7.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tab>.8.active': {
+    '<glide-core-tab>.8.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tab>.9.active': {
+    '<glide-core-tab>.9.selected': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-tab>.10.active': {
+    '<glide-core-tab>.10.selected': {
       table: {
         disable: true,
       },
@@ -343,70 +346,70 @@ export const WithOverflow: StoryObj = {
           <glide-core-tab
             slot="nav"
             panel="1"
-            ?active=${arguments_['<glide-core-tab>.1.active']}
+            ?selected=${arguments_['<glide-core-tab>.1.selected']}
           >
             One
           </glide-core-tab>
           <glide-core-tab
             slot="nav"
             panel="2"
-            ?active=${arguments_['<glide-core-tab>.2.active']}
+            ?selected=${arguments_['<glide-core-tab>.2.selected']}
             ?disabled=${arguments_['<glide-core-tab>.disabled']}
             >Two</glide-core-tab
           >
           <glide-core-tab
             slot="nav"
             panel="3"
-            ?active=${arguments_['<glide-core-tab>.3.active']}
+            ?selected=${arguments_['<glide-core-tab>.3.selected']}
           >
             Three
           </glide-core-tab>
           <glide-core-tab
             slot="nav"
             panel="4"
-            ?active=${arguments_['<glide-core-tab>.4.active']}
+            ?selected=${arguments_['<glide-core-tab>.4.selected']}
           >
             Four
           </glide-core-tab>
           <glide-core-tab
             slot="nav"
             panel="5"
-            ?active=${arguments_['<glide-core-tab>.5.active']}
+            ?selected=${arguments_['<glide-core-tab>.5.selected']}
           >
             Five
           </glide-core-tab>
           <glide-core-tab
             slot="nav"
             panel="6"
-            ?active=${arguments_['<glide-core-tab>.6.active']}
+            ?selected=${arguments_['<glide-core-tab>.6.selected']}
           >
             Six
           </glide-core-tab>
           <glide-core-tab
             slot="nav"
             panel="7"
-            ?active=${arguments_['<glide-core-tab>.7.active']}
+            ?selected=${arguments_['<glide-core-tab>.7.selected']}
           >
             Seven
           </glide-core-tab>
           <glide-core-tab
             slot="nav"
             panel="8"
-            ?active=${arguments_['<glide-core-tab>.8.active']}
+            ?selected=${arguments_['<glide-core-tab>.8.selected']}
           >
             Eight
           </glide-core-tab>
           <glide-core-tab
             slot="nav"
             panel="9"
-            ?active=${arguments_['<glide-core-tab>.9.active']}
+            ?selected=${arguments_['<glide-core-tab>.9.selected']}
           >
             Nine
           </glide-core-tab>
           <glide-core-tab
             slot="nav"
             panel="10"
-            ?active=${arguments_['<glide-core-tab>.10.active']}
+            ?selected=${arguments_['<glide-core-tab>.10.selected']}
           >
             Ten
           </glide-core-tab>

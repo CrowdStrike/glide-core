@@ -587,7 +587,10 @@ export default class GlideCoreRadioGroup extends LitElement {
       this.value = radio.value;
       radio.focus();
       radio.dispatchEvent(new Event('change', { bubbles: true }));
-      radio.dispatchEvent(new Event('input', { bubbles: true }));
+
+      radio.dispatchEvent(
+        new Event('input', { bubbles: true, composed: true }),
+      );
     }
   }
 

@@ -332,17 +332,16 @@ it('does not open when `aria-disabled` is set programmatically on its target', a
     </glide-core-menu>`,
   );
 
-  const button = component.querySelector('button');
-  assert(button);
+  const target = component.querySelector('button');
+  assert(target);
 
-  button.ariaDisabled = 'true';
-  button?.click();
+  target.ariaDisabled = 'true';
+  target?.click();
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
   const options = component.querySelector('glide-core-menu-options');
-  const target = component.querySelector('button');
 
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
@@ -1284,8 +1283,8 @@ it('sets `aria-expanded` on open', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const button = component.querySelector('button');
-  expect(button?.getAttribute('aria-expanded')).to.equal('true');
+  const target = component.querySelector('button');
+  expect(target?.getAttribute('aria-expanded')).to.equal('true');
 });
 
 it('sets `aria-expanded` on close', async () => {
@@ -1301,8 +1300,8 @@ it('sets `aria-expanded` on close', async () => {
 
   component.querySelector('button')?.click();
 
-  const button = component.querySelector('button');
-  expect(button?.getAttribute('aria-expanded')).to.equal('false');
+  const target = component.querySelector('button');
+  expect(target?.getAttribute('aria-expanded')).to.equal('false');
 });
 
 it('does not wrap on ArrowUp', async () => {

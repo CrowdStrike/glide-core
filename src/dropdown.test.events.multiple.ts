@@ -156,6 +156,7 @@ it('dispatches one "input" event when an option is selected via click', async ()
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(spy.callCount).to.equal(1);
 });
 
@@ -192,6 +193,7 @@ it('dispatches one "input" event when an option is selected via Enter', async ()
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(spy.callCount).to.equal(1);
 });
 
@@ -228,6 +230,7 @@ it('dispatches one "input" event when an option is selected via Space', async ()
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
   expect(spy.callCount).to.equal(1);
 });
 

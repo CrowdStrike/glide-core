@@ -37,13 +37,13 @@ export default class GlideCoreTabGroup extends LitElement {
   static override styles = styles;
 
   @state()
-  get activeTab() {
-    return this.#currentActiveTab;
+  get selectedTab() {
+    return this.#selectedTab;
   }
 
-  set activeTab(tab: GlideCoreTab | null) {
-    this.#previousActiveTab = this.#currentActiveTab;
-    this.#currentActiveTab = tab;
+  set selectedTab(tab: GlideCoreTab | null) {
+    this.#previousSelectedTab = this.#selectedTab;
+    this.#selectedTab = tab;
   }
 
   @state()
@@ -182,8 +182,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #componentElementRef = createRef<HTMLElement>();
 
-  #currentActiveTab: GlideCoreTab | null = null;
-
   // Arbitrary debounce delay
   #debounceDelay = 100;
 
@@ -200,7 +198,7 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #overflowStartButtonElementRef = createRef<HTMLButtonElement>();
 
-  #previousActiveTab: GlideCoreTab | null = null;
+  #previousSelectedTab: GlideCoreTab | null = null;
 
   #resizeObserver: ResizeObserver | null = null;
 
@@ -208,6 +206,8 @@ export default class GlideCoreTabGroup extends LitElement {
   #resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   #scrollTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  #selectedTab: GlideCoreTab | null = null;
 
   #tabListElementRef = createRef<HTMLElement>();
 
@@ -237,12 +237,11 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #onFocusout() {
-    // Set the last active tab as tabbable so that when pressing shift + tab on the tab panel
-    // focus goes back to the last active tab.
+    // Set the last selected tab as tabbable so that when pressing shift + tab on the tab panel
+    // focus goes back to the last selected tab.
     // The `focusout` event is used since it bubbles up from the tab.
-
     for (const [, tabElement] of this.tabElements.entries()) {
-      tabElement.tabIndex = tabElement === this.activeTab ? 0 : -1;
+      tabElement.tabIndex = tabElement === this.selectedTab ? 0 : -1;
     }
   }
 
@@ -270,12 +269,12 @@ export default class GlideCoreTabGroup extends LitElement {
         'End',
       ].includes(event.key)
     ) {
-      const activeElement = this.tabElements.find((tab) =>
+      const focusedElement = this.tabElements.find((tab) =>
         tab.matches(':focus'),
       );
 
-      if (activeElement?.tagName.toLowerCase() === 'glide-core-tab') {
-        let index = this.tabElements.indexOf(activeElement);
+      if (focusedElement instanceof GlideCoreTab) {
+        let index = this.tabElements.indexOf(focusedElement);
 
         switch (event.key) {
           case 'Home': {
@@ -309,11 +308,10 @@ export default class GlideCoreTabGroup extends LitElement {
           preventScroll: false,
         });
 
-        // Set the last tab navigated to as tabbable so that, if the tab
-        // button is pressed, then focus moves to the tab's panel and not back
-        // to the last active tab. This is particularly noticeable when the active tab
-        // is to the left of the tab navigated to by keyboard.
-
+        // Set the last tab navigated to as tabbable so that, if the tab button
+        // is pressed, focus moves to the tab's panel and not back to the
+        // last selected tab. This is particularly noticeable when the selected
+        // tab is to the left of the tab navigated to by keyboard.
         for (const [, tabElement] of this.tabElements.entries()) {
           tabElement.tabIndex = this.tabElements[index] === tabElement ? 0 : -1;
         }
@@ -328,7 +326,7 @@ export default class GlideCoreTabGroup extends LitElement {
   #onNavSlotChange() {
     owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
     this.#setupTabs();
-    this.#setActiveTab();
+    this.#setSelectedTab();
     this.#setOverflowButtonsState();
   }
 
@@ -358,69 +356,6 @@ export default class GlideCoreTabGroup extends LitElement {
       left: scrollDistance,
       top: 0,
     });
-  }
-
-  #setActiveTab() {
-    for (const [index, tabElement] of this.tabElements.entries()) {
-      // If there is no current active tab, default to the first tab
-      if (!this.activeTab && index === 0) {
-        this.activeTab = tabElement;
-        this.activeTab.active = true;
-        this.activeTab.tabIndex = 0;
-      } else {
-        tabElement.active = this.activeTab === tabElement;
-        tabElement.tabIndex = this.activeTab === tabElement ? 0 : -1;
-      }
-    }
-
-    for (const panel of this.panelElements) {
-      const activeTabPanelName = this.activeTab?.getAttribute('panel');
-      const thisPanelName = panel.getAttribute('name');
-
-      panel.isActive = thisPanelName === activeTabPanelName;
-      panel.tabIndex = thisPanelName === activeTabPanelName ? 0 : -1;
-    }
-
-    // Set the active tab indicator.
-
-    if (this.activeTab === this.#previousActiveTab) return;
-
-    if (
-      this.activeTab &&
-      this.tabElements.length > 0 &&
-      this.#componentElementRef.value
-    ) {
-      const activeTabInlinePadding = Number.parseInt(
-        window
-          .getComputedStyle(this.activeTab)
-          .getPropertyValue('padding-inline-start'),
-      );
-
-      const activeTabIndicatorTranslateLeft =
-        this.activeTab === this.tabElements.at(0)
-          ? activeTabInlinePadding
-          : this.activeTab.offsetLeft - this.tabElements[0].offsetLeft;
-
-      this.#componentElementRef.value.style.setProperty(
-        '--active-tab-indicator-translate',
-        `${activeTabIndicatorTranslateLeft}px`,
-      );
-
-      const activeTabIndicatorWidthAdjustment =
-        this.activeTab === this.tabElements.at(0) ||
-        this.activeTab === this.tabElements.at(-1)
-          ? activeTabInlinePadding
-          : 0;
-
-      const { width: activeTabWidth } = this.activeTab.getBoundingClientRect();
-
-      this.#componentElementRef.value.style.setProperty(
-        '--active-tab-indicator-width',
-        `${activeTabWidth - activeTabIndicatorWidthAdjustment}px`,
-      );
-
-      this.isAfterFirstUpdated = true;
-    }
   }
 
   #setEndOverflowButtonState() {
@@ -459,6 +394,69 @@ export default class GlideCoreTabGroup extends LitElement {
 
     this.#setStartOverflowButtonState();
     this.#setEndOverflowButtonState();
+  }
+
+  #setSelectedTab() {
+    for (const [index, tabElement] of this.tabElements.entries()) {
+      // If there is no selected tab, default to the first one.
+      if (!this.selectedTab && index === 0) {
+        this.selectedTab = tabElement;
+        this.selectedTab.selected = true;
+        this.selectedTab.tabIndex = 0;
+      } else {
+        tabElement.selected = this.selectedTab === tabElement;
+        tabElement.tabIndex = this.selectedTab === tabElement ? 0 : -1;
+      }
+    }
+
+    for (const panel of this.panelElements) {
+      const selectedTabPanelName = this.selectedTab?.getAttribute('panel');
+      const thisPanelName = panel.getAttribute('name');
+
+      panel.isSelected = thisPanelName === selectedTabPanelName;
+      panel.tabIndex = thisPanelName === selectedTabPanelName ? 0 : -1;
+    }
+
+    if (this.selectedTab === this.#previousSelectedTab) return;
+
+    // Set the selected tab indicator.
+    if (
+      this.selectedTab &&
+      this.tabElements.length > 0 &&
+      this.#componentElementRef.value
+    ) {
+      const selectedTabInlinePadding = Number.parseInt(
+        window
+          .getComputedStyle(this.selectedTab)
+          .getPropertyValue('padding-inline-start'),
+      );
+
+      const selectedTabIndicatorTranslateLeft =
+        this.selectedTab === this.tabElements.at(0)
+          ? selectedTabInlinePadding
+          : this.selectedTab.offsetLeft - this.tabElements[0].offsetLeft;
+
+      this.#componentElementRef.value.style.setProperty(
+        '--selected-tab-indicator-translate',
+        `${selectedTabIndicatorTranslateLeft}px`,
+      );
+
+      const selectedTabIndicatorWidthAdjustment =
+        this.selectedTab === this.tabElements.at(0) ||
+        this.selectedTab === this.tabElements.at(-1)
+          ? selectedTabInlinePadding
+          : 0;
+
+      const { width: selectedTabWidth } =
+        this.selectedTab.getBoundingClientRect();
+
+      this.#componentElementRef.value.style.setProperty(
+        '--selected-tab-indicator-width',
+        `${selectedTabWidth - selectedTabIndicatorWidthAdjustment}px`,
+      );
+
+      this.isAfterFirstUpdated = true;
+    }
   }
 
   #setStartOverflowButtonState() {
@@ -508,15 +506,13 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #showTab(tab: GlideCoreTab) {
-    this.activeTab = tab;
-    this.#setActiveTab();
+    this.selectedTab = tab;
+    this.#setSelectedTab();
 
-    this.dispatchEvent(
-      new CustomEvent('tab-show', {
+    tab.dispatchEvent(
+      new Event('selected', {
         bubbles: true,
-        detail: {
-          panel: tab.panel,
-        },
+        composed: true,
       }),
     );
   }
