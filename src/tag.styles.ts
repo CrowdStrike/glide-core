@@ -25,6 +25,7 @@ export default [
       opacity: 1;
       overflow: hidden;
       padding: var(--glide-core-spacing-xxxs) var(--glide-core-spacing-xs);
+      white-space: nowrap;
 
       &.large {
         min-block-size: 0.875rem;

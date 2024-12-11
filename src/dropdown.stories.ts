@@ -135,7 +135,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
   const options = [...this.querySelectorAll('glide-core-dropdown-option)];
 
   return options.filter(({ label }) => {
-    return label.toLowerCase().includes(query.toLowercase().trim());
+    return label.toLowerCase().includes(query.toLowerCase().trim());
   });
 }
   

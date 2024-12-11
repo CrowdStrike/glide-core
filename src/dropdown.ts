@@ -79,6 +79,11 @@ export default class GlideCoreDropdown extends LitElement {
         this.updateComplete.then(() => {
           if (this.#inputElementRef.value && this.selectedOptions.length > 0) {
             this.#inputElementRef.value.value = this.selectedOptions[0].label;
+            this.inputValue = this.selectedOptions[0].label;
+
+            this.isInputOverflow =
+              this.#inputElementRef.value.scrollWidth >
+              this.#inputElementRef.value.clientWidth;
           }
         });
       });
@@ -118,6 +123,7 @@ export default class GlideCoreDropdown extends LitElement {
       this.selectedOptions.length > 0
     ) {
       this.#inputElementRef.value.value = this.selectedOptions[0].label;
+      this.inputValue = this.selectedOptions[0].label;
       this.isFiltering = false;
       this.isNoResults = false;
 
@@ -275,13 +281,13 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   private get internalLabel() {
-    const isFilterable = this.filterable || this.isFilterable;
-
-    return !isFilterable && this.selectedOptions.length === 0
-      ? this.placeholder
-      : !this.multiple && !isFilterable && this.selectedOptions.at(-1)?.label
-        ? this.selectedOptions.at(-1)?.label
-        : '';
+    return this.filterable || this.isFilterable
+      ? this.inputValue
+      : this.selectedOptions.length === 0
+        ? this.placeholder
+        : !this.multiple && this.selectedOptions.at(-1)?.label
+          ? this.selectedOptions.at(-1)?.label
+          : '';
   }
 
   override connectedCallback() {
@@ -370,6 +376,18 @@ export default class GlideCoreDropdown extends LitElement {
       });
 
       observer.observe(this.#internalLabelElementRef.value);
+    }
+
+    if (this.#inputElementRef.value) {
+      const observer = new ResizeObserver(() => {
+        if (this.#inputElementRef.value) {
+          this.isInputOverflow =
+            this.#inputElementRef.value.scrollWidth >
+            this.#inputElementRef.value.clientWidth;
+        }
+      });
+
+      observer.observe(this.#inputElementRef.value);
     }
   }
 
@@ -575,86 +593,117 @@ export default class GlideCoreDropdown extends LitElement {
                 name="icon:${this.selectedOptions.at(0)?.value}"
               ></slot>`;
             })}
-            ${when(this.filterable || this.isFilterable, () => {
-              return html`<input
-                  aria-activedescendant=${this.ariaActivedescendant}
-                  aria-controls="options"
-                  aria-describedby="description"
-                  aria-expanded=${this.open}
-                  aria-labelledby="selected-option-labels label ${this
-                    .isCommunicateItemCountToScreenreaders
-                    ? 'item-count'
-                    : ''}"
-                  autocapitalize="off"
-                  autocomplete="off"
-                  class=${classMap({
-                    input: true,
-                    quiet: this.variant === 'quiet',
-                  })}
-                  data-test="input"
-                  id="input"
-                  placeholder=${this.multiple ||
-                  !this.selectedOptions.at(-1)?.label
-                    ? this.placeholder ?? ''
-                    : ''}
-                  role="combobox"
-                  spellcheck="false"
-                  tabindex=${this.disabled ? '-1' : '0'}
-                  ?disabled=${this.disabled}
-                  ?readonly=${this.readonly}
-                  @focusin=${this.#onInputFocusin}
-                  @focusout=${this.#onInputFocusout}
-                  @input=${this.#onInputInput}
-                  @keydown=${this.#onInputKeydown}
-                  ${ref(this.#inputElementRef)}
-                />
 
-                <span
-                  aria-label=${this.#localize.term(
-                    'itemCount',
-                    this.itemCount.toString(),
-                  )}
-                  aria-live="assertive"
-                  class="item-count"
-                  data-test="item-count"
-                  id="item-count"
-                ></span>`;
-            })}
-
-            <glide-core-tooltip
+            <div
               class=${classMap({
-                'internal-label-tooltip': true,
-                visible: Boolean(this.internalLabel),
+                'input-and-internal-label-tooltip-container': true,
+                filterable: this.filterable || this.isFilterable,
               })}
-              data-test="internal-label-tooltip"
-              offset=${8}
-              ?disabled=${this.open || !this.isInternalLabelOverflow}
-              ?open=${!this.open && this.isInternalLabelTooltipOpen}
             >
-              <div aria-hidden="true">${this.internalLabel}</div>
-
-              <div
-                class="internal-label"
-                data-test="internal-label"
-                slot="target"
-                ${ref(this.#internalLabelElementRef)}
-              >
-                ${when(
-                  this.internalLabel === this.placeholder,
-                  () => {
-                    return html`<span
+              ${when(this.filterable || this.isFilterable, () => {
+                return html`<div class="input-container">
+                    <input
+                      aria-activedescendant=${this.ariaActivedescendant}
+                      aria-controls="options"
+                      aria-describedby="description"
+                      aria-expanded=${this.open}
+                      aria-labelledby="selected-option-labels label ${this
+                        .isCommunicateItemCountToScreenreaders
+                        ? 'item-count'
+                        : ''}"
+                      autocapitalize="off"
+                      autocomplete="off"
                       class=${classMap({
-                        placeholder: true,
+                        input: true,
                         quiet: this.variant === 'quiet',
                       })}
-                    >
-                      ${this.internalLabel}
-                    </span>`;
-                  },
-                  () => this.internalLabel,
-                )}
-              </div>
-            </glide-core-tooltip>
+                      data-test="input"
+                      id="input"
+                      placeholder=${this.multiple ||
+                      !this.selectedOptions.at(-1)?.label
+                        ? this.placeholder ?? ''
+                        : ''}
+                      role="combobox"
+                      spellcheck="false"
+                      tabindex=${this.disabled ? '-1' : '0'}
+                      ?disabled=${this.disabled}
+                      ?readonly=${this.readonly}
+                      @focusin=${this.#onInputFocusin}
+                      @focusout=${this.#onInputFocusout}
+                      @input=${this.#onInputInput}
+                      @keydown=${this.#onInputKeydown}
+                      ${ref(this.#inputElementRef)}
+                    />
+
+                    ${when(
+                      !this.multiple &&
+                        this.isInputOverflow &&
+                        this.inputValue === this.selectedOptions.at(-1)?.label,
+                      () => {
+                        return html`<span
+                          aria-hidden="true"
+                          class="ellipsis"
+                          data-test="ellipsis"
+                        >
+                          …
+                        </span>`;
+                      },
+                    )}
+                  </div>
+
+                  <span
+                    aria-label=${this.#localize.term(
+                      'itemCount',
+                      this.itemCount.toString(),
+                    )}
+                    aria-live="assertive"
+                    class="item-count"
+                    data-test="item-count"
+                    id="item-count"
+                  ></span>`;
+              })}
+
+              <glide-core-tooltip
+                class=${classMap({
+                  'internal-label-tooltip': true,
+                  filterable: this.filterable || this.isFilterable,
+                  visible: Boolean(this.internalLabel),
+                })}
+                data-test="internal-label-tooltip"
+                offset=${8}
+                ?disabled=${this.open ||
+                this.multiple ||
+                (!this.isInternalLabelOverflow && !this.isInputOverflow)}
+                ?open=${!this.open && this.isInternalLabelTooltipOpen}
+              >
+                <div aria-hidden="true">${this.internalLabel}</div>
+
+                <div
+                  class=${classMap({
+                    'internal-label': true,
+                    filterable: this.filterable || this.isFilterable,
+                  })}
+                  data-test="internal-label"
+                  slot="target"
+                  ${ref(this.#internalLabelElementRef)}
+                >
+                  ${when(
+                    this.internalLabel === this.placeholder,
+                    () => {
+                      return html`<span
+                        class=${classMap({
+                          placeholder: true,
+                          quiet: this.variant === 'quiet',
+                        })}
+                      >
+                        ${this.internalLabel}
+                      </span>`;
+                    },
+                    () => this.internalLabel,
+                  )}
+                </div>
+              </glide-core-tooltip>
+            </div>
 
             <div class="tag-overflow-and-buttons">
               ${when(
@@ -947,6 +996,9 @@ export default class GlideCoreDropdown extends LitElement {
   private ariaActivedescendant = '';
 
   @state()
+  private inputValue = '';
+
+  @state()
   private isBlurring = false;
 
   @state()
@@ -968,6 +1020,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   @state()
   private isFiltering = false;
+
+  @state()
+  private isInputOverflow = false;
 
   @state()
   private isInternalLabelOverflow = false;
@@ -1212,6 +1267,11 @@ export default class GlideCoreDropdown extends LitElement {
         this.lastSelectedOption?.value
       ) {
         this.#inputElementRef.value.value = this.lastSelectedOption.label;
+        this.inputValue = this.lastSelectedOption.label;
+
+        this.isInputOverflow =
+          this.#inputElementRef.value.scrollWidth >
+          this.#inputElementRef.value.clientWidth;
       }
     });
   }
@@ -1731,6 +1791,7 @@ export default class GlideCoreDropdown extends LitElement {
 
     this.open = true;
     this.isShowSingleSelectIcon = false;
+    this.inputValue = this.#inputElementRef.value.value;
 
     if (this.multiple && this.#inputElementRef.value.value !== '') {
       this.isFiltering = true;
@@ -1929,6 +1990,11 @@ export default class GlideCoreDropdown extends LitElement {
         });
       } else if (this.#inputElementRef.value) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
+        this.inputValue = this.selectedOptions[0].label;
+
+        this.isInputOverflow =
+          this.#inputElementRef.value.scrollWidth >
+          this.#inputElementRef.value.clientWidth;
       } else {
         this.requestUpdate();
       }
@@ -2014,6 +2080,7 @@ export default class GlideCoreDropdown extends LitElement {
         // tag, then we know hasn't selected or deselected an option after filtering.
         if (this.#inputElementRef.value && !this.#isEditingOrRemovingTag) {
           this.#inputElementRef.value.value = '';
+          this.inputValue = '';
         }
 
         // The event this handler listens to is dispatched on both selection and deselection.
@@ -2028,8 +2095,15 @@ export default class GlideCoreDropdown extends LitElement {
 
         if (this.#inputElementRef.value) {
           this.#inputElementRef.value.value = event.target.label;
+          this.inputValue = event.target.label;
         }
       }
+    }
+
+    if (this.#inputElementRef.value) {
+      this.isInputOverflow =
+        this.#inputElementRef.value.scrollWidth >
+        this.#inputElementRef.value.clientWidth;
     }
 
     // Dropdown's internal label now needs to be updated to reflect the selected option

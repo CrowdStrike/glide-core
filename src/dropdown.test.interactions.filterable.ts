@@ -1279,3 +1279,86 @@ it('updates its item count after filtering', async () => {
 
   expect(itemCount?.ariaLabel).to.equal('1 items');
 });
+
+it('shows an ellipsis when the label of the selected option overflows', async () => {
+  // The "x" is arbitrary. 500 of them ensures the component is wider
+  // than the viewport even if the viewport's width is increased.
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option
+        label=${'x'.repeat(500)}
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.selected = true;
+  await elementUpdated(component);
+
+  const ellipsis = component.shadowRoot?.querySelector(
+    '[data-test="ellipsis"]',
+  );
+
+  expect(ellipsis?.checkVisibility()).to.be.true;
+});
+
+it('shows an ellipsis when the label of the selected option is changed programmatically and overflows', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option
+        label="Label"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = component.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  // The "x" is arbitrary. 500 of them ensures the component is wider
+  // than the viewport even if the viewport's width is increased.
+  option.label = 'x'.repeat(500);
+  await elementUpdated(component);
+
+  const ellipsis = component.shadowRoot?.querySelector(
+    '[data-test="ellipsis"]',
+  );
+
+  expect(ellipsis?.checkVisibility()).to.be.true;
+});
+
+it('shows an ellipsis when made filterable programmatically and the label of the selected option overflows', async () => {
+  // The "x" is arbitrary. 500 of them ensures the component is wider
+  // than the viewport even if the viewport's width is increased.
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label=${'x'.repeat(500)}
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.filterable = true;
+
+  // Wait for the timeout in the `filterable` setter, then wait for the
+  // update triggered in it.
+  await aTimeout(0);
+  await elementUpdated(component);
+
+  const ellipsis = component.shadowRoot?.querySelector(
+    '[data-test="ellipsis"]',
+  );
+
+  expect(ellipsis?.checkVisibility()).to.be.true;
+});

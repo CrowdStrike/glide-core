@@ -286,12 +286,35 @@ export default [
       }
     }
 
+    .input-and-internal-label-tooltip-container {
+      &.filterable {
+        display: flex;
+        flex-grow: 1;
+        position: relative;
+      }
+
+      &:not(.filterable) {
+        overflow: hidden;
+      }
+    }
+
     .internal-label-tooltip {
-      display: none;
       overflow: hidden;
 
-      &.visible {
-        display: block;
+      &.filterable {
+        block-size: 100%;
+        cursor: text;
+        flex-grow: 1;
+        max-inline-size: 100%;
+        position: absolute;
+      }
+
+      &:not(.filterable) {
+        display: none;
+
+        &.visible {
+          display: block;
+        }
       }
     }
 
@@ -299,12 +322,19 @@ export default [
       overflow: hidden;
 
       /*
-        2px so the label is vertically aligned. "vertical-align: middle" has no
+        0.125rem so the label is vertically aligned. "vertical-align: middle" has no
         effect on flex children.
       */
       padding-block-start: 0.125rem;
-      text-overflow: ellipsis;
       white-space: nowrap;
+
+      &.filterable {
+        visibility: hidden;
+      }
+
+      &:not(.filterable) {
+        text-overflow: ellipsis;
+      }
     }
 
     .primary-button {
@@ -326,6 +356,11 @@ export default [
       margin-inline-end: var(--glide-core-spacing-xxs);
     }
 
+    .input-container {
+      display: flex;
+      flex-grow: 1;
+    }
+
     .input {
       background-color: transparent;
       block-size: var(--button-and-input-height);
@@ -339,10 +374,10 @@ export default [
 
       &:not(.quiet) {
         /*
-        2px so the value is vertically aligned. "vertical-align: middle" has no
-        effect flex children.
-      */
-        padding-block: 0.125rem 0;
+          0.125rem so the value is vertically aligned. "vertical-align: middle" has no
+          effect flex children.
+        */
+        padding-block-start: 0.125rem;
       }
 
       &:focus {
@@ -353,6 +388,19 @@ export default [
         color: var(--glide-core-text-placeholder);
         font-family: var(--glide-core-font-sans);
       }
+    }
+
+    .ellipsis {
+      background-color: var(--glide-core-surface-page);
+      inset-block-end: 0;
+      inset-inline-end: 0;
+
+      /*
+        0.125rem so the value is vertically aligned with the value of ".input", which
+        has the same padding so it's centered vertically.
+      */
+      padding-block-start: 0.125rem;
+      position: absolute;
     }
 
     .description {

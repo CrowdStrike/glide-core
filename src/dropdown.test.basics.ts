@@ -222,12 +222,12 @@ it('does not throw if the default slot only contains whitespace', async () => {
 });
 
 it('hides the tooltip of the active option when open', async () => {
-  // The period is arbitrary. 500 of them ensures we exceed the maximum
-  // width even if it's increased.
+  // The "x" is arbitrary. 500 of them ensures the component is wider
+  // than the viewport even if the viewport's width is increased.
   const component = await fixture(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
-        label=${'.'.repeat(500)}
+        label=${'x'.repeat(500)}
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
