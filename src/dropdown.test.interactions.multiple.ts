@@ -11,8 +11,7 @@ import {
   oneEvent,
 } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import { sendKeys } from '@web/test-runner-commands';
-import { sendMouse } from '@web/test-runner-commands';
+import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
@@ -42,6 +41,10 @@ GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 GlideCoreDropdownInAnotherComponent.shadowRootOptions.mode = 'open';
 GlideCoreTag.shadowRootOptions.mode = 'open';
+
+afterEach(async () => {
+  await resetMouse();
+});
 
 it('opens on click', async () => {
   const component = await fixture<GlideCoreDropdown>(

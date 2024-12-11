@@ -179,3 +179,46 @@ it('dispatches one button "click" event when a button is selected via Enter', as
   expect(event.target).to.equal(button);
   expect(spy.callCount).to.equal(1);
 });
+
+it('does not dispatch a "click" event when a disabled link is clicked', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link" disabled></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  const spy = sinon.spy();
+  const link = component.querySelector('glide-core-menu-link');
+
+  link?.addEventListener('click', spy);
+  link?.click();
+
+  expect(spy.callCount).to.equal(0);
+});
+
+it('does not dispatch a "click" event when a disabled button is clicked', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-button
+          label="Button"
+          disabled
+        ></glide-core-menu-button>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  const spy = sinon.spy();
+  const button = component.querySelector('glide-core-menu-button');
+
+  button?.addEventListener('click', spy);
+  button?.click();
+
+  expect(spy.callCount).to.equal(0);
+});

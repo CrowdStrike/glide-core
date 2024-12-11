@@ -24,6 +24,19 @@ export default class GlideCoreMenuLink extends LitElement {
 
   static override styles = styles;
 
+  @property({ reflect: true, type: Boolean })
+  get disabled() {
+    return this.#isDisabled;
+  }
+
+  set disabled(isDisabled: boolean) {
+    this.#isDisabled = isDisabled;
+
+    if (isDisabled && this.privateActive) {
+      this.dispatchEvent(new Event('private-disabled', { bubbles: true }));
+    }
+  }
+
   @property({ reflect: true })
   label?: string;
 
@@ -36,7 +49,13 @@ export default class GlideCoreMenuLink extends LitElement {
   privateActive = false;
 
   override click() {
-    this.#anchorElementRef.value?.click();
+    // Menu sets `#isDisabledLinkClick` in its default slot's "mouseup" handler so
+    // its `#onDocumentClick` handler knows to not close Menu. A programmatic click
+    // doesn't generate a "mouseup" event. So, without this guard, `#isDisabledLinkClick`
+    // would always be `false` and Menu would close when a disabled link is clicked.
+    if (!this.disabled) {
+      this.#componentElementRef.value?.click();
+    }
   }
 
   override connectedCallback() {
@@ -62,17 +81,19 @@ export default class GlideCoreMenuLink extends LitElement {
       class=${classMap({
         component: true,
         active: this.privateActive,
+        disabled: this.disabled,
       })}
       data-test="component"
       href=${ifDefined(this.url)}
-      ${ref(this.#anchorElementRef)}
+      @click=${this.#onClick}
+      ${ref(this.#componentElementRef)}
     >
       <slot name="icon"></slot>
       ${this.label}
     </a>`;
   }
 
-  #anchorElementRef = createRef<HTMLAnchorElement>();
+  #componentElementRef = createRef<HTMLAnchorElement>();
 
   // Established here instead of in `connectedCallback` so the ID remains
   // constant even if this component is removed and re-added to the DOM.
@@ -80,4 +101,17 @@ export default class GlideCoreMenuLink extends LitElement {
   // point to a non-existent ID when this component is re-added. An edge case
   // for sure. But one we can protect against with little effort.
   #id = nanoid();
+
+  #isDisabled = false;
+
+  #onClick(event: Event) {
+    if (this.disabled) {
+      event.preventDefault();
+
+      // Consumers listen for "click" events to know when an option is selected.
+      // Letting this propagate would result in a false positive event bubbling
+      // up to the consumer.
+      event.stopPropagation();
+    }
+  }
 }

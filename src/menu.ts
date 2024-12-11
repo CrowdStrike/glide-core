@@ -134,10 +134,7 @@ export default class GlideCoreMenu extends LitElement {
     // it to remain closed when clicked when there are no menu options.
     this.#defaultSlotElementRef.value.popover = 'manual';
 
-    const firstOption = this.#optionElements?.at(0);
-
-    if (this.open && firstOption && !this.isTargetDisabled) {
-      firstOption.privateActive = true;
+    if (this.open && !this.isTargetDisabled) {
       this.#show();
     }
 
@@ -148,6 +145,35 @@ export default class GlideCoreMenu extends LitElement {
     this.#targetSlotElementRef.value.addEventListener('mouseup', () => {
       this.#isTargetSlotClick = true;
     });
+
+    this.#defaultSlotElementRef.value.addEventListener(
+      'mousedown',
+      (event: Event) => {
+        if (event.target === this.#defaultSlotElementRef.value) {
+          // So the `#onFocusout` handler, which closes Menu, isn't called when
+          // the border or padding on `.default-slot` is clicked.
+          event.preventDefault();
+        }
+      },
+    );
+
+    this.#defaultSlotElementRef.value.addEventListener(
+      'mouseup',
+      (event: Event) => {
+        if (event.target === this.#defaultSlotElementRef.value) {
+          this.#isDefaultSlotClick = true;
+          return;
+        }
+
+        if (event.target instanceof Element) {
+          const link = event.target?.closest('glide-core-menu-link');
+
+          if (link?.disabled) {
+            this.#isDisabledLinkClick = true;
+          }
+        }
+      },
+    );
   }
 
   private get isTargetDisabled() {
@@ -186,6 +212,7 @@ export default class GlideCoreMenu extends LitElement {
           @focusin=${this.#onDefaultSlotFocusin}
           @keydown=${this.#onSlotKeydown}
           @mouseover=${this.#onDefaultSlotMouseover}
+          @private-disabled=${this.#onOptionsDisabled}
           @private-slot-change=${this.#onOptionsSlotChange}
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
@@ -201,6 +228,10 @@ export default class GlideCoreMenu extends LitElement {
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #isClosingAfterSelection = false;
+
+  #isDefaultSlotClick = false;
+
+  #isDisabledLinkClick = false;
 
   #isOpen = false;
 
@@ -221,9 +252,21 @@ export default class GlideCoreMenu extends LitElement {
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDocumentClick = () => {
-    // Checking that the click's `event.target` is equal to `#targetElementRef.value`
-    // would be a lot simpler. But, when the target is inside of another web component,
-    // `event.target` will be that component instead.
+    // So Menu isn't closed when the border or padding on `.default-slot` is clicked.
+    //
+    // Checking that the click's `event.target` is equal to `#defaultSlotElementRef.value`
+    // would be simpler. But, when the target is inside of another web component,
+    // `event.target` will be that component. Same for the conditions below.
+    if (this.#isDefaultSlotClick) {
+      this.#isDefaultSlotClick = false;
+      return;
+    }
+
+    if (this.#isDisabledLinkClick) {
+      this.#isDisabledLinkClick = false;
+      return;
+    }
+
     if (this.#isTargetSlotClick) {
       this.#isTargetSlotClick = false;
       return;
@@ -276,8 +319,11 @@ export default class GlideCoreMenu extends LitElement {
     this.#optionsElement.privateSize = this.size;
   }
 
-  #onDefaultSlotClick() {
-    this.open = false;
+  #onDefaultSlotClick(event: Event) {
+    // So Menu isn't closed when the border or padding on `.default-slot` is clicked.
+    if (event.target !== this.#defaultSlotElementRef.value) {
+      this.open = false;
+    }
   }
 
   #onDefaultSlotFocusin(event: FocusEvent) {
@@ -285,7 +331,12 @@ export default class GlideCoreMenu extends LitElement {
       event.target instanceof GlideCoreMenuButton ||
       event.target instanceof GlideCoreMenuLink;
 
-    if (isButtonOrLink && this.#activeOption && this.#optionsElement) {
+    if (
+      isButtonOrLink &&
+      this.#activeOption &&
+      this.#optionsElement &&
+      !event.target.disabled
+    ) {
       // The order in which these are set matters when `this.#activeOption` and
       // `event.target` are the same element. Setting `this.#activeOption.privateActive`
       // second will result in no active option.
@@ -298,8 +349,9 @@ export default class GlideCoreMenu extends LitElement {
 
   #onDefaultSlotMouseover(event: Event) {
     if (
-      event.target instanceof GlideCoreMenuLink ||
-      event.target instanceof GlideCoreMenuButton
+      (event.target instanceof GlideCoreMenuLink ||
+        event.target instanceof GlideCoreMenuButton) &&
+      !event.target.disabled
     ) {
       if (this.#optionElements) {
         for (const option of this.#optionElements) {
@@ -330,14 +382,39 @@ export default class GlideCoreMenu extends LitElement {
     }
   }
 
+  #onOptionsDisabled() {
+    if (this.#optionElements && this.#activeOption) {
+      const activeOptionIndex = this.#optionElements.indexOf(
+        this.#activeOption,
+      );
+
+      this.#activeOption.privateActive = false;
+
+      const nextOption = this.#optionElements?.find((option, index) => {
+        return !option.disabled && index > activeOptionIndex;
+      });
+
+      if (nextOption) {
+        nextOption.privateActive = true;
+        return;
+      }
+
+      const previousOption = this.#optionElements.findLast((option, index) => {
+        return !option.disabled && index < activeOptionIndex;
+      });
+
+      if (previousOption) {
+        previousOption.privateActive = true;
+      }
+    }
+  }
+
   #onOptionsSlotChange() {
-    const activeOption = this.#optionElements?.find(
-      ({ privateActive }) => privateActive,
+    const firstOption = this.#optionElements?.find(
+      (option) => !option.disabled,
     );
 
-    const firstOption = this.#optionElements?.at(0);
-
-    if (!activeOption && firstOption) {
+    if (!this.#activeOption && firstOption) {
       firstOption.privateActive = true;
     }
   }
@@ -434,12 +511,16 @@ export default class GlideCoreMenu extends LitElement {
       if (event.key === 'ArrowUp' && !event.metaKey) {
         event.preventDefault(); // Prevent scroll.
 
-        const option = this.#optionElements.at(activeOptionIndex - 1);
+        const previousOption = this.#optionElements.findLast(
+          (option, index) => {
+            return !option.disabled && index < activeOptionIndex;
+          },
+        );
 
-        if (option && activeOptionIndex !== 0) {
+        if (previousOption) {
           this.#activeOption.privateActive = false;
-          this.#optionsElement.ariaActivedescendant = option.id;
-          option.privateActive = true;
+          this.#optionsElement.ariaActivedescendant = previousOption.id;
+          previousOption.privateActive = true;
         }
 
         return;
@@ -448,12 +529,14 @@ export default class GlideCoreMenu extends LitElement {
       if (event.key === 'ArrowDown' && !event.metaKey) {
         event.preventDefault(); // Prevent scroll.
 
-        const option = this.#optionElements.at(activeOptionIndex + 1);
+        const nextOption = this.#optionElements.find((option, index) => {
+          return !option.disabled && index > activeOptionIndex;
+        });
 
-        if (option) {
+        if (nextOption) {
           this.#activeOption.privateActive = false;
-          this.#optionsElement.ariaActivedescendant = option.id;
-          option.privateActive = true;
+          this.#optionsElement.ariaActivedescendant = nextOption.id;
+          nextOption.privateActive = true;
         }
 
         return;
@@ -466,12 +549,14 @@ export default class GlideCoreMenu extends LitElement {
       ) {
         event.preventDefault(); // Prevent scroll.
 
-        const option = this.#optionElements.at(0);
+        const firstOption = [...this.#optionElements]
+          .reverse()
+          .findLast((option) => !option.disabled);
 
-        if (option) {
+        if (firstOption) {
           this.#activeOption.privateActive = false;
-          this.#optionsElement.ariaActivedescendant = option.id;
-          option.privateActive = true;
+          this.#optionsElement.ariaActivedescendant = firstOption.id;
+          firstOption.privateActive = true;
         }
 
         return;
@@ -484,12 +569,14 @@ export default class GlideCoreMenu extends LitElement {
       ) {
         event.preventDefault(); // Prevent scroll.
 
-        const option = this.#optionElements.at(-1);
+        const lastOption = [...this.#optionElements].findLast(
+          (option) => !option.disabled,
+        );
 
-        if (option) {
+        if (lastOption) {
           this.#activeOption.privateActive = false;
-          this.#optionsElement.ariaActivedescendant = option.id;
-          option.privateActive = true;
+          this.#optionsElement.ariaActivedescendant = lastOption.id;
+          lastOption.privateActive = true;
         }
 
         return;

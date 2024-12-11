@@ -13,9 +13,12 @@ import {
   html,
 } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import { sendKeys } from '@web/test-runner-commands';
-import { sendMouse } from '@web/test-runner-commands';
+import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
+
+afterEach(async () => {
+  await resetMouse();
+});
 
 @customElement('glide-core-nested-slot')
 class GlideCoreNestedSlot extends LitElement {
@@ -176,6 +179,112 @@ it('opens when `aria-disabled` is set programmatically on its target', async () 
   expect(component.open).to.be.true;
   expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
+  expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('remains open when the menu edge is clicked', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const target = component.querySelector('button');
+  const defaultSlot = component.querySelector('glide-core-menu-link');
+
+  assert(defaultSlot);
+
+  const { x, y } = defaultSlot.getBoundingClientRect();
+
+  await sendMouse({
+    type: 'click',
+    position: [Math.floor(x - 1), Math.ceil(y)],
+  });
+
+  expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('remains open when a disabled option is clicked via `click()`', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link" disabled></glide-core-menu-link>
+
+        <glide-core-menu-button
+          label="Button"
+          disabled
+        ></glide-core-menu-button>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  component.querySelector('glide-core-menu-link')?.click();
+  component.querySelector('glide-core-menu-button')?.click();
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const target = component.querySelector('button');
+
+  expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('remains open when a disabled link is clicked via `sendMouse()`', async () => {
+  const component = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Link" disabled></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const link = component.querySelector('glide-core-menu-link');
+  assert(link);
+
+  const { x, y, width } = link.getBoundingClientRect();
+
+  // `sendMouse()` because we need coverage for Menu Link's `#onClick` method.
+  // Calling `link.click()` would produce a "click" event and result in the
+  // `#onClick` method being called if not for the `!this.disabled` condition
+  // in that handler. There's a comment in the handler that explains why the
+  // condition is needed.
+  //
+  // It's not clear why `Math.ceil(x)` doesn't click Menu Link. I verified using
+  // DevTools that the value of `x` is correct. Could be something I'm missing.
+  // Could also be another test runner bug.
+  await sendMouse({
+    type: 'click',
+    position: [Math.ceil(x + width / 2), Math.ceil(y)],
+  });
+
+  const defaultSlot =
+    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const target = component.querySelector('button');
+
+  expect(component.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(target?.ariaExpanded).to.equal('true');
 });
 
@@ -531,34 +640,6 @@ it('does not open on Space when there are no options', async () => {
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
-});
-
-it('opens when opened programmatically', async () => {
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  component.open = true;
-
-  // Wait for Floating UI.
-  await aTimeout(0);
-
-  const defaultSlot =
-    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
-
-  const options = component.querySelector('glide-core-menu-options');
-  const target = component.querySelector('button');
-  const link = component.querySelector('glide-core-menu-link');
-
-  expect(defaultSlot?.checkVisibility()).to.be.true;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
-  expect(target?.ariaExpanded).to.equal('true');
 });
 
 // See the `document` click handler comment in `menu.ts` for an explanation.
@@ -1021,14 +1102,15 @@ it('activates the next option on ArrowDown', async () => {
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[2].id);
 });
 
-it('activates the previous option on ArrowUp', async () => {
+it('activates the previous enabled option on ArrowUp', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
         <glide-core-menu-link label="One"></glide-core-menu-link>
-        <glide-core-menu-link label="Two"></glide-core-menu-link>
+        <glide-core-menu-link label="Two" disabled></glide-core-menu-link>
+        <glide-core-menu-link label="Three"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>
   `);
@@ -1041,22 +1123,26 @@ it('activates the previous option on ArrowUp', async () => {
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
 
-  links[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  links[2].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+  component.focus();
   await sendKeys({ press: 'ArrowUp' });
 
   expect(links[0].privateActive).to.be.true;
   expect(links[1].privateActive).to.be.false;
+  expect(links[2].privateActive).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0].id);
 });
 
-it('activates the first option on Home', async () => {
+it('activates the first enabled option on Home', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="One"></glide-core-menu-link>
+        <glide-core-menu-link label="One" disabled></glide-core-menu-link>
         <glide-core-menu-link label="Two"></glide-core-menu-link>
+        <glide-core-menu-link label="Three"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>
   `);
@@ -1069,22 +1155,24 @@ it('activates the first option on Home', async () => {
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
 
-  links[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  links[2].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ press: 'Home' });
 
-  expect(links[0].privateActive).to.be.true;
-  expect(links[1].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0].id);
+  expect(links[0].privateActive).to.be.false;
+  expect(links[1].privateActive).to.be.true;
+  expect(links[2].privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
-it('activates the first option on PageUp', async () => {
+it('activates the first enabled option on PageUp', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="One"></glide-core-menu-link>
+        <glide-core-menu-link label="One" disabled></glide-core-menu-link>
         <glide-core-menu-link label="Two"></glide-core-menu-link>
+        <glide-core-menu-link label="Three"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>
   `);
@@ -1097,22 +1185,24 @@ it('activates the first option on PageUp', async () => {
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
 
-  links[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  links[2].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
   await sendKeys({ press: 'PageUp' });
 
-  expect(links[0].privateActive).to.be.true;
-  expect(links[1].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0].id);
+  expect(links[0].privateActive).to.be.false;
+  expect(links[1].privateActive).to.be.true;
+  expect(links[2].privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
-it('activates the first option on Meta + ArrowUp', async () => {
+it('activates the first enabled option on Meta + ArrowUp', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="One"></glide-core-menu-link>
+        <glide-core-menu-link label="One" disabled></glide-core-menu-link>
         <glide-core-menu-link label="Two"></glide-core-menu-link>
+        <glide-core-menu-link label="Three"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>
   `);
@@ -1125,18 +1215,19 @@ it('activates the first option on Meta + ArrowUp', async () => {
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
 
-  links[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  links[2].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowUp' });
   await sendKeys({ up: 'Meta' });
 
-  expect(links[0].privateActive).to.be.true;
-  expect(links[1].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0].id);
+  expect(links[0].privateActive).to.be.false;
+  expect(links[1].privateActive).to.be.true;
+  expect(links[2].privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
-it('activates the last option on End', async () => {
+it('activates the last enabled option on End', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
@@ -1144,6 +1235,7 @@ it('activates the last option on End', async () => {
       <glide-core-menu-options>
         <glide-core-menu-link label="One"></glide-core-menu-link>
         <glide-core-menu-link label="Two"></glide-core-menu-link>
+        <glide-core-menu-link label="Three" disabled></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>
   `);
@@ -1160,10 +1252,11 @@ it('activates the last option on End', async () => {
 
   expect(links[0].privateActive).to.be.false;
   expect(links[1].privateActive).to.be.true;
+  expect(links[2].privateActive).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
-it('activates the last option on PageDown', async () => {
+it('activates the last enabled option on PageDown', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
@@ -1171,6 +1264,7 @@ it('activates the last option on PageDown', async () => {
       <glide-core-menu-options>
         <glide-core-menu-link label="One"></glide-core-menu-link>
         <glide-core-menu-link label="Two"></glide-core-menu-link>
+        <glide-core-menu-link label="Three" disabled></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>
   `);
@@ -1181,19 +1275,18 @@ it('activates the last option on PageDown', async () => {
   await aTimeout(0);
 
   component.querySelector('button')?.focus();
+  await sendKeys({ press: 'PageDown' });
 
   const links = component.querySelectorAll('glide-core-menu-link');
   const options = component.querySelector('glide-core-menu-options');
 
-  links[0].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-  await sendKeys({ press: 'PageDown' });
-
   expect(links[0].privateActive).to.be.false;
   expect(links[1].privateActive).to.be.true;
+  expect(links[2].privateActive).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
-it('activates the last option on Meta + ArrowDown', async () => {
+it('activates the last enabled option on Meta + ArrowDown', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
@@ -1201,6 +1294,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
       <glide-core-menu-options>
         <glide-core-menu-link label="One"></glide-core-menu-link>
         <glide-core-menu-link label="Two"></glide-core-menu-link>
+        <glide-core-menu-link label="Three" disabled></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>
   `);
@@ -1209,18 +1303,16 @@ it('activates the last option on Meta + ArrowDown', async () => {
   await aTimeout(0);
 
   component.querySelector('button')?.focus();
-
-  const links = component.querySelectorAll('glide-core-menu-link');
-  const options = component.querySelector('glide-core-menu-options');
-
-  links[0].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ up: 'Meta' });
 
+  const links = component.querySelectorAll('glide-core-menu-link');
+  const options = component.querySelector('glide-core-menu-options');
+
   expect(links[0].privateActive).to.be.false;
   expect(links[1].privateActive).to.be.true;
+  expect(links[2].privateActive).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
@@ -1396,21 +1488,83 @@ it('does not wrap on ArrowDown', async () => {
   expect(options[1].privateActive).to.be.true;
 });
 
-it('sets the first option as active when optionless and an option is dynamically added', async () => {
+it('sets the first enabled option as active when optionless and options are dynamically added', async () => {
   const component = await fixture<GlideCoreMenu>(html`
-    <glide-core-menu>
+    <glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-options> </glide-core-menu-options>
     </glide-core-menu>
   `);
 
-  const option = document.createElement('glide-core-menu-button');
-  option.label = 'Label';
+  // Wait for Floating UI.
+  await aTimeout(0);
 
-  component.querySelector('glide-core-menu-options')?.append(option);
+  const firstOption = document.createElement('glide-core-menu-button');
+  firstOption.label = 'One';
+  firstOption.disabled = true;
+
+  const secondOption = document.createElement('glide-core-menu-button');
+  secondOption.label = 'Two';
+
+  const thirdOption = document.createElement('glide-core-menu-button');
+  thirdOption.label = 'One';
+
+  component.querySelector('glide-core-menu-options')?.append(firstOption);
+  component.querySelector('glide-core-menu-options')?.append(secondOption);
+  component.querySelector('glide-core-menu-options')?.append(thirdOption);
   await elementUpdated(component);
 
-  expect(option?.privateActive).to.be.true;
+  expect(firstOption?.privateActive).to.be.false;
+  expect(secondOption?.privateActive).to.be.true;
+  expect(thirdOption?.privateActive).to.be.false;
+});
+
+it('sets the next enabled option as active when current option is programmatically disabled', async () => {
+  const component = await fixture<GlideCoreMenu>(html`
+    <glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="One"></glide-core-menu-link>
+        <glide-core-menu-link label="Two"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>
+  `);
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const links = component.querySelectorAll('glide-core-menu-link');
+  links[0].disabled = true;
+
+  expect(links[0].privateActive).to.be.false;
+  expect(links[1].privateActive).to.be.true;
+});
+
+it('sets the previous enabled option as active when current option is programmatically disabled', async () => {
+  const component = await fixture<GlideCoreMenu>(html`
+    <glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-button label="One"></glide-core-menu-button>
+        <glide-core-menu-button label="Two"></glide-core-menu-button>
+        <glide-core-menu-button label="Three" disabled></glide-core-menu-button>
+      </glide-core-menu-options>
+    </glide-core-menu>
+  `);
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const buttons = component.querySelectorAll('glide-core-menu-button');
+
+  buttons[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  buttons[1].disabled = true;
+
+  expect(buttons[0].privateActive).to.be.true;
+  expect(buttons[1].privateActive).to.be.false;
+  expect(buttons[2].privateActive).to.be.false;
 });
 
 it('retains its active option when an option is dynamically added', async () => {

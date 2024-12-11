@@ -7,7 +7,6 @@ export default [
       background-color: transparent;
       border: none;
       border-radius: var(--glide-core-spacing-sm);
-      cursor: pointer;
       display: flex;
       font: inherit;
       gap: var(--gap);
@@ -19,6 +18,15 @@ export default [
 
       &.active {
         background-color: var(--glide-core-surface-hover);
+      }
+
+      &.disabled {
+        color: var(--glide-core-icon-tertiary-disabled);
+      }
+
+      &:not(.disabled) {
+        color: var(--glide-core-text-body-1);
+        cursor: pointer;
       }
     }
   `,

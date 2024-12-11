@@ -2,7 +2,7 @@
 
 import * as sinon from 'sinon';
 import { expect, fixture, html } from '@open-wc/testing';
-import { sendKeys, sendMouse } from '@web/test-runner-commands';
+import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreModal from './modal.js';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
@@ -10,7 +10,8 @@ GlideCoreModal.shadowRootOptions.mode = 'open';
 const addSpy = sinon.spy(document.documentElement.classList, 'add');
 const removeSpy = sinon.spy(document.documentElement.classList, 'remove');
 
-afterEach(() => {
+afterEach(async () => {
+  await resetMouse();
   addSpy.resetHistory();
   removeSpy.resetHistory();
 });
