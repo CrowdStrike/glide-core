@@ -305,6 +305,7 @@ export default [
         block-size: 100%;
         cursor: text;
         flex-grow: 1;
+        max-inline-size: 100%;
         position: absolute;
       }
 
@@ -318,20 +319,21 @@ export default [
     }
 
     .internal-label {
+      overflow: hidden;
+
       /*
         0.125rem so the label is vertically aligned. "vertical-align: middle" has no
         effect on flex children.
       */
       padding-block-start: 0.125rem;
+      white-space: nowrap;
 
       &.filterable {
         visibility: hidden;
       }
 
       &:not(.filterable) {
-        overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
       }
     }
 
