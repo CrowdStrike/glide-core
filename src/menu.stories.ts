@@ -41,7 +41,7 @@ const meta: Meta = {
     '<glide-core-menu-button>.label': 'One',
     '<glide-core-menu-button>.disabled': false,
     '<glide-core-menu-link>.label': 'Three',
-    '<glide-core-menu-link>.disabled': true,
+    '<glide-core-menu-link>.disabled': false,
     '<glide-core-menu-link>.url': '/',
   },
   argTypes: {
@@ -183,8 +183,6 @@ const meta: Meta = {
           url=${arguments_['<glide-core-menu-link>.url']}
           ?disabled=${arguments_['<glide-core-menu-link>.disabled']}
         ></glide-core-menu-link>
-        <glide-core-menu-button label="Four"></glide-core-menu-button>
-        <glide-core-menu-button label="Five" disabled></glide-core-menu-button>
       </glide-core-menu-options>
     </glide-core-menu>`;
   },
