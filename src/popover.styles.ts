@@ -4,11 +4,12 @@ import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 
 export default [
   css`
-    ${opacityAndScaleAnimation('.tooltip:popover-open')}
+    ${opacityAndScaleAnimation('.popover:popover-open')}
     ${focusOutline('.target:focus-visible')}
   `,
   css`
     :host {
+      /* https://github.com/CrowdStrike/glide-core/pull/307/files#r1718545771 */
       display: inline-block;
     }
 
@@ -21,19 +22,15 @@ export default [
       position: relative;
     }
 
-    .target {
-      background-color: transparent;
-      border-width: 0;
-
+    .target-slot {
       /*
-        Additional whitespace from line height and the tooltip won't be vertically
+        Collapses additional whitespace from the slot's line height so the popover is vertically
         centered against its target.
       */
       display: flex;
 
       /* Allows the consumer to style the target with an ellipsis when its text is truncated. */
       inline-size: 100%;
-      padding: 0;
       position: relative;
 
       ::slotted svg {
@@ -41,11 +38,11 @@ export default [
       }
     }
 
-    .tooltip {
+    .popover {
       background-color: transparent;
       border: none;
       inset: unset;
-      padding: 0;
+      padding: var(--glide-core-spacing-xs);
       position: absolute;
 
       &:popover-open {
@@ -54,16 +51,15 @@ export default [
         /*
           Elements with a "popover" attribute don't allow overflow. So the arrow can't
           be positioned with "position: absolute". Relative positioning is used instead.
-          Flex is used to get the arrow on the correct side of the tooltip. Floating UI
+          Flex is used to get the arrow on the correct side of the popover. Floating UI
           handles the rest.
 
           A simple "transform" could replace Floating UI for the arrow if not for a Chrome
           bug with "popover" when "scale()" is animated on the popover or a container within
           it. With "transform" on the arrow, the arrow is initially offset by a couple pixels
           before landing in the correct position when the animation finishes. It only happens
-          when the tooltip is left or right of its target.
+          when the popover is left or right of its target.
         */
-
         &.top {
           flex-direction: column-reverse;
         }
@@ -79,10 +75,10 @@ export default [
     }
 
     .arrow {
-      --arrow-height: 0.375rem;
-      --arrow-width: 0.625rem;
+      --arrow-height: 0.5625rem;
+      --arrow-width: 1rem;
 
-      color: var(--glide-core-surface-base-dark);
+      color: var(--glide-core-surface-modal);
       display: flex;
       position: relative;
 
@@ -100,54 +96,30 @@ export default [
       }
     }
 
-    .content {
-      align-items: center;
-      background-color: var(--glide-core-surface-base-dark);
+    .default-slot {
+      background-color: var(--glide-core-surface-modal);
       border-radius: var(--glide-core-spacing-xs);
+
+      /* 
+        ".popover" can't overflow because the Popover API won't allow it. And 
+        a shadow counts as overflow. So make sure to adjust the padding on 
+        ".popover" when changing this shadow so ".popover" has enough room for it.
+      */
+      box-shadow:
+        0 3px 8px 0 rgba(0 0 0 / 15%),
+        0 3px 1px 0 rgba(0 0 0 / 6%);
+      box-sizing: border-box;
+      color: var(--glide-core-text-body-1);
       display: flex;
       font-family: var(--glide-core-body-md-font-family);
       font-size: var(--glide-core-body-sm-font-size);
       font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-body-sm-font-weight);
-      inline-size: max-content;
       inset-block-start: 50%;
       line-height: var(--glide-core-body-sm-line-height);
-      padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
-
-      &.reversed {
-        flex-direction: row-reverse;
-      }
-    }
-
-    .default-slot {
-      color: var(--glide-core-text-selected-2);
-      display: block;
-      hyphens: auto;
-      max-inline-size: 11.25rem;
-      min-inline-size: 1.875rem;
-      overflow-wrap: anywhere;
-    }
-
-    .shortcut {
-      color: var(--glide-core-text-body-lighter);
-      display: none;
-      white-space: nowrap;
-
-      &.visible {
-        display: inline-block;
-      }
-
-      &.reversed {
-        margin-inline-end: var(--glide-core-spacing-xs);
-      }
-
-      &:not(.reversed) {
-        margin-inline-start: var(--glide-core-spacing-xs);
-      }
-    }
-
-    kbd {
-      font-family: var(--glide-core-body-md-font-family);
+      min-block-size: 2rem;
+      min-inline-size: 5rem;
+      padding: var(--glide-core-spacing-sm);
     }
   `,
 ];
