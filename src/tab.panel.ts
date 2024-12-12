@@ -30,7 +30,8 @@ export default class GlideCoreTabPanel extends LitElement {
    */
   @property({ reflect: true }) name = '';
 
-  @property({ type: Boolean }) isSelected = true;
+  // Private because it's only meant to be used by Tab Group.
+  @property({ type: Boolean }) privateIsSelected = true;
 
   protected override firstUpdated() {
     this.setAttribute('role', 'tabpanel');
@@ -42,8 +43,8 @@ export default class GlideCoreTabPanel extends LitElement {
     return html`<div
       class=${classMap({
         component: true,
-        hidden: !this.isSelected,
-        selected: this.isSelected,
+        hidden: !this.privateIsSelected,
+        selected: this.privateIsSelected,
       })}
       data-test="tab-panel"
     >
@@ -54,8 +55,11 @@ export default class GlideCoreTabPanel extends LitElement {
   protected override updated(changes: PropertyValues) {
     super.updated(changes);
 
-    if (changes.has('isSelected')) {
-      this.setAttribute('aria-hidden', this.isSelected ? 'false' : 'true');
+    if (changes.has('privateIsSelected')) {
+      this.setAttribute(
+        'aria-hidden',
+        this.privateIsSelected ? 'false' : 'true',
+      );
     }
   }
 

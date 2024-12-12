@@ -413,7 +413,7 @@ export default class GlideCoreTabGroup extends LitElement {
       const selectedTabPanelName = this.selectedTab?.getAttribute('panel');
       const thisPanelName = panel.getAttribute('name');
 
-      panel.isSelected = thisPanelName === selectedTabPanelName;
+      panel.privateIsSelected = thisPanelName === selectedTabPanelName;
       panel.tabIndex = thisPanelName === selectedTabPanelName ? 0 : -1;
     }
 
