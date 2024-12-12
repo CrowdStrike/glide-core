@@ -29,6 +29,7 @@
   white-space: nowrap !important;
 }
 
+/* The element containing our rendered component. */
 .docs-story {
   background-color: var(--glide-core-surface-background-image) !important;
 }
