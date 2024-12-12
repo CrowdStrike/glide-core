@@ -4,6 +4,7 @@ export default [
   css`
     :host {
       background-color: transparent;
+      block-size: 100%;
       display: flex;
       flex-direction: column;
     }

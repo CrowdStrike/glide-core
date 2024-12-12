@@ -12,6 +12,10 @@ export default [
       outline: none;
     }
 
+    :host([aria-hidden='false']) {
+      block-size: 100%;
+    }
+
     .component {
       font-family: var(--glide-core-font-sans);
       outline: none;
@@ -30,6 +34,10 @@ export default [
       */
       padding-inline-end: var(--panel-padding-inline-end);
       padding-inline-start: var(--panel-padding-inline-start);
+    }
+
+    .selected {
+      block-size: 100%;
     }
   `,
 ];
