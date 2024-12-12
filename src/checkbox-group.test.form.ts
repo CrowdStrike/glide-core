@@ -58,6 +58,7 @@ it('has `formData` when the checkboxes are checked', async () => {
         value="one"
         checked
       ></glide-core-checkbox>
+
       <glide-core-checkbox
         label="Two"
         value="two"

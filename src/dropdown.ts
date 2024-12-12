@@ -72,21 +72,14 @@ export default class GlideCoreDropdown extends LitElement {
 
   set filterable(isFilterable: boolean) {
     if (this.#isFilterable !== isFilterable && isFilterable && !this.multiple) {
-      // Lit hasn't yet scheduled the update. So we wait a frame for it be
-      // scheduled. Then we wait for the update to ensure the `<input>` is
-      // present.
-      setTimeout(() => {
-        this.updateComplete.then(() => {
-          if (this.#inputElementRef.value && this.selectedOptions.length > 0) {
-            this.#inputElementRef.value.value = this.selectedOptions[0].label;
-            this.inputValue = this.selectedOptions[0].label;
+      if (this.#inputElementRef.value && this.selectedOptions.length > 0) {
+        this.#inputElementRef.value.value = this.selectedOptions[0].label;
+        this.inputValue = this.selectedOptions[0].label;
 
-            this.isInputOverflow =
-              this.#inputElementRef.value.scrollWidth >
-              this.#inputElementRef.value.clientWidth;
-          }
-        });
-      });
+        this.isInputOverflow =
+          this.#inputElementRef.value.scrollWidth >
+          this.#inputElementRef.value.clientWidth;
+      }
     } else if (this.#isFilterable !== isFilterable) {
       this.#unfilter();
     }
@@ -249,9 +242,9 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   override click() {
-    if (this.#inputElementRef.value) {
-      this.#inputElementRef.value.click();
-      this.#inputElementRef.value.select();
+    if (this.filterable || this.isFilterable) {
+      this.#inputElementRef.value?.click();
+      this.#inputElementRef.value?.select();
     } else {
       this.#primaryButtonElementRef.value?.click();
     }
@@ -281,13 +274,13 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   private get internalLabel() {
-    return this.filterable || this.isFilterable
-      ? this.inputValue
-      : this.selectedOptions.length === 0
-        ? this.placeholder
-        : !this.multiple && this.selectedOptions.at(-1)?.label
-          ? this.selectedOptions.at(-1)?.label
-          : '';
+    const isFilterable = this.filterable || this.isFilterable;
+
+    return !isFilterable && this.selectedOptions.length === 0
+      ? this.placeholder
+      : !this.multiple && !isFilterable && this.selectedOptions.at(-1)?.label
+        ? this.selectedOptions.at(-1)?.label
+        : '';
   }
 
   override connectedCallback() {
@@ -594,116 +587,115 @@ export default class GlideCoreDropdown extends LitElement {
               ></slot>`;
             })}
 
-            <div
+            <glide-core-tooltip
               class=${classMap({
-                'input-and-internal-label-tooltip-container': true,
-                filterable: this.filterable || this.isFilterable,
+                'input-tooltip': true,
+                visible: this.filterable || this.isFilterable,
               })}
+              offset=${8}
+              ?disabled=${this.open || !this.isInputOverflow}
             >
-              ${when(this.filterable || this.isFilterable, () => {
-                return html`<div class="input-container">
-                    <input
-                      aria-activedescendant=${this.ariaActivedescendant}
-                      aria-controls="options"
-                      aria-describedby="description"
-                      aria-expanded=${this.open}
-                      aria-labelledby="selected-option-labels label ${this
-                        .isCommunicateItemCountToScreenreaders
-                        ? 'item-count'
-                        : ''}"
-                      autocapitalize="off"
-                      autocomplete="off"
+              <div aria-hidden="true">${this.inputValue}</div>
+
+              <div class="input-container" slot="target">
+                <input
+                  aria-activedescendant=${this.ariaActivedescendant}
+                  aria-controls="options"
+                  aria-describedby="description"
+                  aria-expanded=${this.open}
+                  aria-labelledby="selected-option-labels label ${this
+                    .isCommunicateItemCountToScreenreaders
+                    ? 'item-count'
+                    : ''}"
+                  autocapitalize="off"
+                  autocomplete="off"
+                  class=${classMap({
+                    input: true,
+                    quiet: this.variant === 'quiet',
+                  })}
+                  data-test="input"
+                  id="input"
+                  placeholder=${this.multiple ||
+                  !this.selectedOptions.at(-1)?.label
+                    ? this.placeholder ?? ''
+                    : ''}
+                  role="combobox"
+                  spellcheck="false"
+                  tabindex=${this.disabled ? '-1' : '0'}
+                  ?disabled=${this.disabled}
+                  ?readonly=${this.readonly}
+                  @focusin=${this.#onInputFocusin}
+                  @focusout=${this.#onInputFocusout}
+                  @input=${this.#onInputInput}
+                  @keydown=${this.#onInputKeydown}
+                  ${ref(this.#inputElementRef)}
+                />
+
+                ${when(
+                  !this.multiple &&
+                    this.isInputOverflow &&
+                    this.inputValue === this.selectedOptions.at(-1)?.label,
+                  () => {
+                    return html`<span
+                      aria-hidden="true"
+                      class="ellipsis"
+                      data-test="ellipsis"
+                    >
+                      …
+                    </span>`;
+                  },
+                )}
+
+                <span
+                  aria-label=${this.#localize.term(
+                    'itemCount',
+                    this.itemCount.toString(),
+                  )}
+                  aria-live="assertive"
+                  class="item-count"
+                  data-test="item-count"
+                  id="item-count"
+                ></span>
+              </div>
+            </glide-core-tooltip>
+
+            <glide-core-tooltip
+              class=${classMap({
+                'internal-label-tooltip': true,
+                visible: Boolean(this.internalLabel),
+              })}
+              offset=${8}
+              ?disabled=${this.open ||
+              this.multiple ||
+              this.filterable ||
+              this.isFilterable ||
+              !this.isInternalLabelOverflow}
+              ?open=${!this.open && this.isInternalLabelTooltipOpen}
+            >
+              <div aria-hidden="true">${this.internalLabel}</div>
+
+              <div
+                class="internal-label"
+                data-test="internal-label"
+                slot="target"
+                ${ref(this.#internalLabelElementRef)}
+              >
+                ${when(
+                  this.internalLabel === this.placeholder,
+                  () => {
+                    return html`<span
                       class=${classMap({
-                        input: true,
+                        placeholder: true,
                         quiet: this.variant === 'quiet',
                       })}
-                      data-test="input"
-                      id="input"
-                      placeholder=${this.multiple ||
-                      !this.selectedOptions.at(-1)?.label
-                        ? this.placeholder ?? ''
-                        : ''}
-                      role="combobox"
-                      spellcheck="false"
-                      tabindex=${this.disabled ? '-1' : '0'}
-                      ?disabled=${this.disabled}
-                      ?readonly=${this.readonly}
-                      @focusin=${this.#onInputFocusin}
-                      @focusout=${this.#onInputFocusout}
-                      @input=${this.#onInputInput}
-                      @keydown=${this.#onInputKeydown}
-                      ${ref(this.#inputElementRef)}
-                    />
-
-                    ${when(
-                      !this.multiple &&
-                        this.isInputOverflow &&
-                        this.inputValue === this.selectedOptions.at(-1)?.label,
-                      () => {
-                        return html`<span
-                          aria-hidden="true"
-                          class="ellipsis"
-                          data-test="ellipsis"
-                        >
-                          …
-                        </span>`;
-                      },
-                    )}
-                  </div>
-
-                  <span
-                    aria-label=${this.#localize.term(
-                      'itemCount',
-                      this.itemCount.toString(),
-                    )}
-                    aria-live="assertive"
-                    class="item-count"
-                    data-test="item-count"
-                    id="item-count"
-                  ></span>`;
-              })}
-
-              <glide-core-tooltip
-                class=${classMap({
-                  'internal-label-tooltip': true,
-                  filterable: this.filterable || this.isFilterable,
-                  visible: Boolean(this.internalLabel),
-                })}
-                data-test="internal-label-tooltip"
-                offset=${8}
-                ?disabled=${this.open ||
-                this.multiple ||
-                (!this.isInternalLabelOverflow && !this.isInputOverflow)}
-                ?open=${!this.open && this.isInternalLabelTooltipOpen}
-              >
-                <div aria-hidden="true">${this.internalLabel}</div>
-
-                <div
-                  class=${classMap({
-                    'internal-label': true,
-                    filterable: this.filterable || this.isFilterable,
-                  })}
-                  data-test="internal-label"
-                  slot="target"
-                  ${ref(this.#internalLabelElementRef)}
-                >
-                  ${when(
-                    this.internalLabel === this.placeholder,
-                    () => {
-                      return html`<span
-                        class=${classMap({
-                          placeholder: true,
-                          quiet: this.variant === 'quiet',
-                        })}
-                      >
-                        ${this.internalLabel}
-                      </span>`;
-                    },
-                    () => this.internalLabel,
-                  )}
-                </div>
-              </glide-core-tooltip>
-            </div>
+                    >
+                      ${this.internalLabel}
+                    </span>`;
+                  },
+                  () => this.internalLabel,
+                )}
+              </div>
+            </glide-core-tooltip>
 
             <div class="tag-overflow-and-buttons">
               ${when(
@@ -1988,7 +1980,10 @@ export default class GlideCoreDropdown extends LitElement {
         this.updateComplete.then(() => {
           this.#setTagOverflowLimit();
         });
-      } else if (this.#inputElementRef.value) {
+      } else if (
+        (this.filterable || this.isFilterable) &&
+        this.#inputElementRef.value
+      ) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
 
