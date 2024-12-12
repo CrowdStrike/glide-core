@@ -194,8 +194,10 @@ it('does not dispatch a "click" event when a disabled link is clicked', async ()
   const spy = sinon.spy();
   const link = component.querySelector('glide-core-menu-link');
 
-  link?.addEventListener('click', spy);
-  link?.click();
+  assert(link);
+
+  link.addEventListener('click', spy);
+  link.click();
 
   expect(spy.callCount).to.equal(0);
 });
@@ -217,8 +219,10 @@ it('does not dispatch a "click" event when a disabled button is clicked', async 
   const spy = sinon.spy();
   const button = component.querySelector('glide-core-menu-button');
 
-  button?.addEventListener('click', spy);
-  button?.click();
+  assert(button);
+
+  button.addEventListener('click', spy);
+  button.click();
 
   expect(spy.callCount).to.equal(0);
 });
