@@ -145,13 +145,9 @@ const meta: Meta = {
         </glide-core-tab>
 
         <glide-core-tab-panel name="1">
-         
-            ${unsafeHTML(arguments_['<glide-core-tab-panel>[slot="default"]'])}
-          </div>
+          ${unsafeHTML(arguments_['<glide-core-tab-panel>[slot="default"]'])}
         </glide-core-tab-panel>
-        <glide-core-tab-panel name="2">
-          With Icon
-        </glide-core-tab-panel>
+        <glide-core-tab-panel name="2"> With Icon </glide-core-tab-panel>
       </glide-core-tab-group>
     `;
   },
