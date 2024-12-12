@@ -1,7 +1,6 @@
 import './dropdown.option.js';
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
-import { sendMouse } from '@web/test-runner-commands';
+import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
@@ -21,6 +20,10 @@ const defaultSlot = html`
   <glide-core-dropdown-option label="Ten"></glide-core-dropdown-option>
   <glide-core-dropdown-option label="Eleven"></glide-core-dropdown-option>
 `;
+
+afterEach(async () => {
+  await resetMouse();
+});
 
 it('focuses the input when `focus()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(

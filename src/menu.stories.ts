@@ -39,7 +39,9 @@ const meta: Meta = {
     placement: 'bottom-start',
     size: 'large',
     '<glide-core-menu-button>.label': 'One',
+    '<glide-core-menu-button>.disabled': false,
     '<glide-core-menu-link>.label': 'Three',
+    '<glide-core-menu-link>.disabled': false,
     '<glide-core-menu-link>.url': '/',
   },
   argTypes: {
@@ -107,6 +109,14 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
+    '<glide-core-menu-button>.disabled': {
+      name: 'disabled',
+      table: {
+        category: 'Menu Button',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
     '<glide-core-menu-link>.label': {
       name: 'label',
       table: {
@@ -114,6 +124,14 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
+    },
+    '<glide-core-menu-link>.disabled': {
+      name: 'disabled',
+      table: {
+        category: 'Menu Link',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
     },
     '<glide-core-menu-link>.url': {
       name: 'url',
@@ -157,11 +175,13 @@ const meta: Meta = {
       <glide-core-menu-options>
         <glide-core-menu-button
           label=${arguments_['<glide-core-menu-button>.label']}
+          ?disabled=${arguments_['<glide-core-menu-button>.disabled']}
         ></glide-core-menu-button>
         <glide-core-menu-button label="Two"></glide-core-menu-button>
         <glide-core-menu-link
           label=${arguments_['<glide-core-menu-link>.label']}
           url=${arguments_['<glide-core-menu-link>.url']}
+          ?disabled=${arguments_['<glide-core-menu-link>.disabled']}
         ></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`;
@@ -185,7 +205,10 @@ export const WithIcons: StoryObj = {
       <glide-core-button label="Target" slot="target"></glide-core-button>
 
       <glide-core-menu-options>
-        <glide-core-menu-button label="Edit">
+        <glide-core-menu-button
+          label="Edit"
+          ?disabled=${arguments_['<glide-core-menu-button>.disabled']}
+        >
           <glide-core-example-icon
             slot="icon"
             name="edit"
@@ -199,7 +222,11 @@ export const WithIcons: StoryObj = {
           ></glide-core-example-icon>
         </glide-core-menu-button>
 
-        <glide-core-menu-link label="Share" url="/">
+        <glide-core-menu-link
+          label="Share"
+          url="/"
+          ?disabled=${arguments_['<glide-core-menu-link>.disabled']}
+        >
           <glide-core-example-icon
             slot="icon"
             name="share"

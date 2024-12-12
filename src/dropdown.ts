@@ -1205,10 +1205,9 @@ export default class GlideCoreDropdown extends LitElement {
       option.privateMultiple = this.multiple;
     }
 
-    const firstEnabledOption =
-      this.#optionElementsNotHiddenIncludingSelectAll?.find((option) => {
-        return !option.disabled;
-      });
+    const firstOption = this.#optionElementsNotHiddenIncludingSelectAll?.find(
+      (option) => !option.disabled,
+    );
 
     // Even with single-select, there's nothing to stop developers from adding
     // a `selected` attribute to more than one option. How native handles this
@@ -1225,11 +1224,11 @@ export default class GlideCoreDropdown extends LitElement {
       this.lastSelectedOption.privateActive = true;
       this.#previouslyActiveOption = this.lastSelectedOption;
       this.ariaActivedescendant = this.open ? this.lastSelectedOption.id : '';
-    } else if (!this.activeOption && firstEnabledOption) {
-      this.#previouslyActiveOption = firstEnabledOption;
-      this.ariaActivedescendant = this.open ? firstEnabledOption.id : '';
+    } else if (!this.activeOption && firstOption) {
+      this.#previouslyActiveOption = firstOption;
+      this.ariaActivedescendant = this.open ? firstOption.id : '';
 
-      firstEnabledOption.privateActive = true;
+      firstOption.privateActive = true;
     }
 
     // Update Select All to reflect the selected options.
@@ -1521,7 +1520,7 @@ export default class GlideCoreDropdown extends LitElement {
         // moving to the beginning of the field.
         event.preventDefault();
 
-        const nextOption =
+        const previousOption =
           this.#optionElementsNotHiddenIncludingSelectAll.findLast(
             (option, index) => {
               return !option.disabled && index < activeOptionIndex;
@@ -1533,17 +1532,17 @@ export default class GlideCoreDropdown extends LitElement {
           this.activeOption.privateIsTooltipOpen = true;
 
           // If we're not already at the top.
-        } else if (nextOption && activeOptionIndex !== 0) {
+        } else if (previousOption && activeOptionIndex !== 0) {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = nextOption.id;
-          this.#previouslyActiveOption = nextOption;
+          this.ariaActivedescendant = previousOption.id;
+          this.#previouslyActiveOption = previousOption;
 
-          nextOption.privateActive = true;
-          nextOption.privateIsEditActive = nextOption.editable;
-          nextOption.privateIsTooltipOpen = !nextOption.editable;
-          nextOption.scrollIntoView({ block: 'center' });
+          previousOption.privateActive = true;
+          previousOption.privateIsEditActive = previousOption.editable;
+          previousOption.privateIsTooltipOpen = !previousOption.editable;
+          previousOption.scrollIntoView({ block: 'center' });
         }
 
         return;
@@ -1598,20 +1597,22 @@ export default class GlideCoreDropdown extends LitElement {
         // moving to the beginning of the field.
         event.preventDefault();
 
-        const nextOption = [...this.#optionElementsNotHiddenIncludingSelectAll]
+        const previousOption = [
+          ...this.#optionElementsNotHiddenIncludingSelectAll,
+        ]
           .reverse()
           .findLast((option) => !option.disabled);
 
-        if (nextOption) {
+        if (previousOption) {
           this.activeOption.privateIsEditActive = false;
           this.activeOption.privateIsTooltipOpen = false;
           this.activeOption.privateActive = false;
-          this.ariaActivedescendant = nextOption.id;
-          this.#previouslyActiveOption = nextOption;
+          this.ariaActivedescendant = previousOption.id;
+          this.#previouslyActiveOption = previousOption;
 
-          nextOption.privateActive = true;
-          nextOption.privateIsTooltipOpen = true;
-          nextOption.scrollIntoView({ block: 'nearest' });
+          previousOption.privateActive = true;
+          previousOption.privateIsTooltipOpen = true;
+          previousOption.scrollIntoView({ block: 'nearest' });
         }
 
         return;

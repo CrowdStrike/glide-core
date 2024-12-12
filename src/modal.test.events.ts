@@ -2,11 +2,15 @@
 
 import './modal.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import { sendKeys, sendMouse } from '@web/test-runner-commands';
+import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreModal from './modal.js';
 import sinon from 'sinon';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
+
+afterEach(async () => {
+  await resetMouse();
+});
 
 it('dispatches a "close" event when the modal is closed via the "close" method', async () => {
   const spy = sinon.spy();

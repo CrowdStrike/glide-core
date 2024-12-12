@@ -8,13 +8,17 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
-import { sendKeys, sendMouse } from '@web/test-runner-commands';
+import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import sinon from 'sinon';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
+
+afterEach(async () => {
+  await resetMouse();
+});
 
 it('opens when opened programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(

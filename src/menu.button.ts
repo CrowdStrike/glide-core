@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
+import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
 import styles from './menu.button.styles.js';
@@ -22,6 +23,19 @@ export default class GlideCoreMenuButton extends LitElement {
 
   static override styles = styles;
 
+  @property({ reflect: true, type: Boolean })
+  get disabled() {
+    return this.#isDisabled;
+  }
+
+  set disabled(isDisabled: boolean) {
+    this.#isDisabled = isDisabled;
+
+    if (isDisabled && this.privateActive) {
+      this.dispatchEvent(new Event('private-disabled', { bubbles: true }));
+    }
+  }
+
   @property({ reflect: true })
   label?: string;
 
@@ -29,6 +43,10 @@ export default class GlideCoreMenuButton extends LitElement {
   // Private because it's only meant to be used by Menu.
   @property({ type: Boolean })
   privateActive = false;
+
+  override click() {
+    this.#componentElementRef.value?.click();
+  }
 
   override connectedCallback() {
     super.connectedCallback();
@@ -49,14 +67,19 @@ export default class GlideCoreMenuButton extends LitElement {
       class=${classMap({
         component: true,
         active: this.privateActive,
+        disabled: this.disabled,
       })}
+      ?disabled=${this.disabled}
       data-test="component"
       type="button"
+      ${ref(this.#componentElementRef)}
     >
       <slot name="icon"></slot>
       ${this.label}
     </button>`;
   }
+
+  #componentElementRef = createRef<HTMLButtonElement>();
 
   // Established here instead of in `connectedCallback` so the ID remains
   // constant even if this component is removed and re-added to the DOM.
@@ -64,4 +87,6 @@ export default class GlideCoreMenuButton extends LitElement {
   // point to a non-existent ID when this component is re-added. An edge case
   // for sure. But one we can protect against with little effort.
   #id = nanoid();
+
+  #isDisabled = false;
 }
