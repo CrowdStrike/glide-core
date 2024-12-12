@@ -56,7 +56,8 @@ const meta: Meta = {
     'slot="tooltip"': '',
     value: [],
     variant: '',
-    '<glide-core-dropdown-option>.label': 'One',
+    '<glide-core-dropdown-option>.label':
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
     '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,
@@ -460,6 +461,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         label="Two"
         value="two"
       ></glide-core-dropdown-option>
+
       <glide-core-dropdown-option
         label="Three"
         value="three"

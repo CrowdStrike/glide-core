@@ -56,6 +56,54 @@ it('opens on click', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
+it('closes on click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
+  // which puts us in a guard in the event handler. `Event` has no `detail` property
+  // and would work. `CustomEvent` is used for completeness and to get us as close as
+  // possible to a real click. See the comment in the handler for more information.
+  component.shadowRoot
+    ?.querySelector('[data-test="primary-button"]')
+    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
+  expect(component.open).to.be.false;
+  expect(options?.checkVisibility()).to.not.be.ok;
+});
+
+it('does not close on click', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for it to open.
+  await aTimeout(0);
+
+  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
+  // which puts us in a guard in the event handler. `Event` has no `detail` property
+  // and would work. `CustomEvent` is used for completeness and to get us as close as
+  // possible to a real click. See the comment in the handler for more information.
+  component.shadowRoot
+    ?.querySelector('[data-test="input"]')
+    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+
+  expect(component.open).to.be.true;
+  expect(options?.checkVisibility()).to.be.true;
+});
+
 it('filters', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
