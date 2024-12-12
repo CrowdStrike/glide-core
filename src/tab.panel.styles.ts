@@ -45,9 +45,5 @@ export default [
         block-size: 100%;
       }
     }
-
-    .selected {
-      block-size: 100%;
-    }
   `,
 ];
