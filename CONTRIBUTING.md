@@ -67,6 +67,7 @@ So be sure to be as descriptive and helpful as possible.
 We [override](https://github.com/CrowdStrike/glide-core/blob/main/.storybook/overrides.css) a number of internal Storybook styles to improve Storybook's presentation.
 Storybook, of course, [does not](https://storybook.js.org/docs/configure/user-interface/theming#css-escape-hatches) guarantee they won't break our overrides with a new release.
 So be sure to verify and adjust the overrides as necessary when upgrading Storybook.
+Don't forget dark mode.
 
 ### Prefer controls over stories
 
