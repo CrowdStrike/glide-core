@@ -27,7 +27,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm format
+      - run: pnpm format
+        env:
+          NODE_ENV: production
 
   lint:
     name: Lint
@@ -37,8 +39,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm start
-      - run: NODE_ENV=production pnpm lint
+      - run: pnpm start
+        env:
+          NODE_ENV: production
+      - run: pnpm lint
+        env:
+          NODE_ENV: production
 
   typecheck:
     name: Typecheck
@@ -48,21 +54,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm typecheck
+      - run: pnpm typecheck
+        env:
+          NODE_ENV: production
 
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     # It's possible our tests can hang and we don't want to blow through our
     # GitHub Action minutes, so we'll timeout after 10 minutes to prevent
     # that from happening.
     timeout-minutes: 10
+
     needs:
       - install_dependencies
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm test
+      # TODO
+      #
+      # Change to `pnpm test` when we switch to a MacOS runner or back to the
+      # Ubuntu one.
+      #
+      # https://github.com/ericclemmons/per-env/issues/9
+      - run: pnpm test:production
+        env:
+          NODE_ENV: production
 
   build:
     name: Build
@@ -72,9 +89,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm start
+      - run: pnpm start
         env:
           BASE_URL: ${{ github.head_ref }}
+          NODE_ENV: production
       - uses: actions/upload-artifact@v4
         with:
           path: dist/storybook

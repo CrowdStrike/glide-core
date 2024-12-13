@@ -1,20 +1,19 @@
-name: Setup node and pnpm
-description: Setup node and install dependencies using pnpm
+name: Set Up Node And PNPM
 runs:
   using: 'composite'
   steps:
     - uses: actions/setup-node@v4
       name: Install Node.js
       with:
-        node-version: 20.12.2
+        node-version: 22.12.0
 
-    - uses: pnpm/action-setup@v3.0.0
+    - uses: pnpm/action-setup@v4.0.0
       name: Install pnpm
       with:
-        version: 9.0.6
+        version: '9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c'
         run_install: false
 
-    - name: Get pnpm store directory
+    - name: Get PNPM Store Path
       shell: bash
       run: |
         echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
@@ -27,6 +26,6 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
 
-    - name: Install dependencies
+    - name: Install Dependencies
       shell: bash
       run: pnpm install

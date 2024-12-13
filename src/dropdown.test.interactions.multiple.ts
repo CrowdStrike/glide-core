@@ -629,44 +629,17 @@ it('updates `value` when a option is selected or deselected via Enter', async ()
   // Wait for it to open.
   await aTimeout(0);
 
-  // `dispatchEvent` is used instead of the simpler `sendKeys` due to some
-  // flakiness where the below assertions would occassionally fail both
-  // locally and in CI. It's not clear whether the root cause is `sendKeys`
-  // or Playwright itself.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
-    );
+  component.focus();
 
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
-    );
-
+  await sendKeys({ press: 'ArrowDown' });
+  await sendKeys({ press: 'Enter' });
   expect(component.value).to.deep.equal(['one', 'two']);
 
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
-    );
-
+  await sendKeys({ press: 'Enter' });
   expect(component.value).to.deep.equal(['one']);
 
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
-    );
-
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
-    );
-
+  await sendKeys({ press: 'ArrowDown' });
+  await sendKeys({ press: 'Enter' });
   expect(component.value).to.deep.equal(['one']);
 });
 
@@ -696,38 +669,17 @@ it('updates `value` when an option is selected or deselected via Space', async (
   // Wait for it to open.
   await aTimeout(0);
 
-  // `dispatchEvent` is used instead of the simpler `sendKeys` due to some
-  // flakiness where the below assertions would occassionally fail both
-  // locally and in CI. It's not clear whether the root cause is `sendKeys`
-  // or Playwright itself.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
-    );
+  component.focus();
 
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
-
+  await sendKeys({ press: 'ArrowDown' });
+  await sendKeys({ press: ' ' });
   expect(component.value).to.deep.equal(['one', 'two']);
 
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
-
+  await sendKeys({ press: ' ' });
   expect(component.value).to.deep.equal(['one']);
 
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
-    );
-
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
-
+  await sendKeys({ press: 'ArrowDown' });
+  await sendKeys({ press: ' ' });
   expect(component.value).to.deep.equal(['one']);
 });
 
