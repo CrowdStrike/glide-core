@@ -625,8 +625,8 @@ export default class GlideCoreDropdown extends LitElement {
                   tabindex=${this.disabled ? '-1' : '0'}
                   ?disabled=${this.disabled}
                   ?readonly=${this.readonly}
-                  @focusin=${this.#onInputFocusin}
-                  @focusout=${this.#onInputFocusout}
+                  @blur=${this.#onInputBlur}
+                  @focus=${this.#onInputFocus}
                   @input=${this.#onInputInput}
                   @keydown=${this.#onInputKeydown}
                   ${ref(this.#inputElementRef)}
@@ -1667,7 +1667,15 @@ export default class GlideCoreDropdown extends LitElement {
       return;
     }
 
-    if (!this.#isSelectionViaSpaceOrEnter && this.open) {
+    const isFilterable = this.filterable || this.isFilterable;
+
+    if (
+      !this.#isSelectionViaSpaceOrEnter &&
+      this.open &&
+      (!isFilterable ||
+        (event.target instanceof Element &&
+          this.#primaryButtonElementRef.value?.contains(event.target)))
+    ) {
       this.open = false;
 
       return;
@@ -1771,14 +1779,14 @@ export default class GlideCoreDropdown extends LitElement {
       : assignedElementsNotHidden;
   }
 
-  #onInputFocusin() {
-    this.#inputElementRef.value?.select();
-    this.isInputTooltipOpen = true;
-  }
-
-  #onInputFocusout() {
+  #onInputBlur() {
     this.isCommunicateItemCountToScreenreaders = false;
     this.isInputTooltipOpen = false;
+  }
+
+  #onInputFocus() {
+    this.#inputElementRef.value?.select();
+    this.isInputTooltipOpen = true;
   }
 
   async #onInputInput(event: Event) {
