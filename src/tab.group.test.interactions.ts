@@ -536,15 +536,15 @@ it('has only one tab panel that is selected and tabbable when a tab is clicked',
   const [, secondTab] = component.tabElements;
   const [firstPanel, secondPanel] = component.panelElements;
 
-  expect(firstPanel.isSelected).to.be.true;
-  expect(secondPanel.isSelected).to.be.false;
+  expect(firstPanel.privateIsSelected).to.be.true;
+  expect(secondPanel.privateIsSelected).to.be.false;
   expect(firstPanel.tabIndex).to.equal(0);
   expect(secondPanel.tabIndex).to.equal(-1);
 
   secondTab.click();
 
-  expect(firstPanel.isSelected).to.be.false;
-  expect(secondPanel.isSelected).to.be.true;
+  expect(firstPanel.privateIsSelected).to.be.false;
+  expect(secondPanel.privateIsSelected).to.be.true;
   expect(firstPanel.tabIndex).to.equal(-1);
   expect(secondPanel.tabIndex).to.equal(0);
 });
@@ -563,8 +563,8 @@ it('has only one tab panel that is selected and tabbable when using the keyboard
   const [firstTab] = component.tabElements;
   const [firstPanel, secondPanel] = component.panelElements;
 
-  expect(firstPanel.isSelected).to.be.true;
-  expect(secondPanel.isSelected).to.be.false;
+  expect(firstPanel.privateIsSelected).to.be.true;
+  expect(secondPanel.privateIsSelected).to.be.false;
   expect(firstPanel.tabIndex).to.equal(0);
   expect(secondPanel.tabIndex).to.equal(-1);
 
@@ -573,8 +573,8 @@ it('has only one tab panel that is selected and tabbable when using the keyboard
   await sendKeys({ press: 'ArrowRight' });
   await sendKeys({ press: 'Enter' });
 
-  expect(firstPanel.isSelected).to.be.false;
-  expect(secondPanel.isSelected).to.be.true;
+  expect(firstPanel.privateIsSelected).to.be.false;
+  expect(secondPanel.privateIsSelected).to.be.true;
   expect(firstPanel.tabIndex).to.equal(-1);
   expect(secondPanel.tabIndex).to.equal(0);
 });
