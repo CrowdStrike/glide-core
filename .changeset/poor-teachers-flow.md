@@ -27,7 +27,7 @@
   -   console.log(event.detail.item)
   - })
 
-  + tree.addEventListener('active', (event) => {
+  + tree.addEventListener('selected', (event) => {
   +   console.log(event.target)
   + })
   ```
