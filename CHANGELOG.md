@@ -1,5 +1,100 @@
 # @crowdstrike/glide-core
 
+## 0.15.0
+
+### Minor Changes
+
+- [#506](https://github.com/CrowdStrike/glide-core/pull/506) [`e16d257`](https://github.com/CrowdStrike/glide-core/commit/e16d257b2e4083e18f99d94e207d32f7605f5f87) Thanks [@clintcs](https://github.com/clintcs)! - Checkbox's `isReportValidityOrSubmit` property has been renamed to `privateIsReportValidityOrSubmit` to deter external use.
+
+- [#515](https://github.com/CrowdStrike/glide-core/pull/515) [`f330380`](https://github.com/CrowdStrike/glide-core/commit/f330380ac6a190998ed0fc1360da6c4defe28d3d) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tab Group and Tab Panel are now set to 100% height. There aren't any use cases at the moment where this doesn't make sense, so if you find one, let us know!
+
+- [#517](https://github.com/CrowdStrike/glide-core/pull/517) [`8b5ab64`](https://github.com/CrowdStrike/glide-core/commit/8b5ab64d3eb830f41363505e9fb97a8184822a02) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tab Panel's `isSelected` property has been renamed to `privateIsSelected` to deter external use.
+
+- [#483](https://github.com/CrowdStrike/glide-core/pull/483) [`9fd8263`](https://github.com/CrowdStrike/glide-core/commit/9fd8263606a1818e9fae12db039180614cc197b9) Thanks [@clintcs](https://github.com/clintcs)! - - Tab's `active` attribute has been renamed to `selected` to align with Tree Item.
+
+  - Tab Group no longer dispatches a "tab-show" event.
+    It instead dispatches a bubbling "selected" event from the activated Tab.
+    The event's `target` property is set to that Tab.
+
+    ```diff
+    - tabGroup.addEventListener('tab-show', (event) => {
+    -   console.log(event.detail.panel)
+    - })
+
+    + tabGroup.addEventListener('selected', (event) => {
+    +   console.log(event.target)
+    + })
+    ```
+
+  - Tree no longer dispatches an "item-selected" event.
+    It instead dispatches a bubbling "selected" event from the selected Tree Item.
+    The event's `target` property is set to that Tree Item.
+
+    ```diff
+    - tree.addEventListener('item-selected', (event) => {
+    -   console.log(event.detail.item)
+    - })
+
+    + tree.addEventListener('selected', (event) => {
+    +   console.log(event.target)
+    + })
+    ```
+
+- [#500](https://github.com/CrowdStrike/glide-core/pull/500) [`b2e1619`](https://github.com/CrowdStrike/glide-core/commit/b2e1619545a5b69276dc194eb492f6bc387a0160) Thanks [@clintcs](https://github.com/clintcs)! - - Input no longer dispatches a "clear" event when cleared. It now dispatches an ordinary "input" event instead.
+  - Input's `hasClearButton` and `isClearButtonVisible` fields are now private.
+
+### Patch Changes
+
+- [#518](https://github.com/CrowdStrike/glide-core/pull/518) [`e9b489f`](https://github.com/CrowdStrike/glide-core/commit/e9b489f8f061dc60c4db72d83c08aa33b2dab982) Thanks [@clintcs](https://github.com/clintcs)! - - Filterable Dropdown no longer closes when its input field is clicked.
+  This prevents Dropdown from closing when the user is selecting text in the field.
+
+  - Filterable Dropdown's insertion point no longer jumps around in certain cases when the user is editing the input field.
+
+- [#512](https://github.com/CrowdStrike/glide-core/pull/512) [`8417f84`](https://github.com/CrowdStrike/glide-core/commit/8417f8454ff32aa2610b9cb100cb28d589f5fdf7) Thanks [@clintcs](https://github.com/clintcs)! - - Filterable single-select Dropdown now shows a tooltip when its input field is hovered and the selected option's label is overflowing.
+
+  - Filterable Dropdown's magnifying glass icon is now vertically centered.
+  - Tag's `label` no longer wraps.
+
+- [#483](https://github.com/CrowdStrike/glide-core/pull/483) [`9fd8263`](https://github.com/CrowdStrike/glide-core/commit/9fd8263606a1818e9fae12db039180614cc197b9) Thanks [@clintcs](https://github.com/clintcs)! - Most component events are now [`composed`](https://developer.mozilla.org/en-US/docs/Web/API/Event/composed).
+  "change", "close", and "toggle" events are still not composed to match native.
+  We're happy to deviate from native and make them composed.
+  Let us know if you have a use case.
+
+- [#522](https://github.com/CrowdStrike/glide-core/pull/522) [`58507c4`](https://github.com/CrowdStrike/glide-core/commit/58507c422ff41fbd23f9b7062b33e9b3d88550f8) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Light
+
+  ### Changed
+
+  ```diff
+  - --glide-core-status-warning-low: #607d8b;
+  + --glide-core-status-warning-low: #6d6d6d;
+  ```
+
+  ## Dark
+
+  ### Changed
+
+  ```diff
+  - --glide-core-icon-tertiary-disabled: #ffffff8c;
+  + --glide-core-icon-tertiary-disabled: #ffffff33;
+
+  - --glide-core-status-unknown: #686868;
+  + --glide-core-status-unknown: #6d6d6d;
+
+  - --glide-core-status-warning-low: #607c89;
+  + --glide-core-status-warning-low: #6d6d6d;
+  ```
+
+- [#505](https://github.com/CrowdStrike/glide-core/pull/505) [`f735a31`](https://github.com/CrowdStrike/glide-core/commit/f735a318692bc32872f178f2d092fc89fa165bdf) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown Options now support a `disabled` attribute.
+
+  - Dropdown now dispatches "input" events before "change" to match native.
+
+- [#496](https://github.com/CrowdStrike/glide-core/pull/496) [`c7af097`](https://github.com/CrowdStrike/glide-core/commit/c7af097b3cf383d8c82c7869d839bc2d105d10b1) Thanks [@mayuri-todkar](https://github.com/mayuri-todkar)! - Added the Inline Alert component.
+
+- [#514](https://github.com/CrowdStrike/glide-core/pull/514) [`115dafb`](https://github.com/CrowdStrike/glide-core/commit/115dafb20f5734f0235b57bd79ebe040474976a9) Thanks [@clintcs](https://github.com/clintcs)! - - Menu Button and Menu Link now support a `disabled` attribute.
+  - Menu no longer closes when the border or padding around its menu is clicked.
+
 ## 0.14.1
 
 ### Patch Changes
