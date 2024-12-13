@@ -594,6 +594,7 @@ export default class GlideCoreDropdown extends LitElement {
               })}
               offset=${8}
               ?disabled=${this.open || !this.isInputOverflow}
+              ?open=${!this.open && this.isInputTooltipOpen}
             >
               <div aria-hidden="true">${this.inputValue}</div>
 
@@ -1015,6 +1016,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   @state()
   private isInputOverflow = false;
+
+  @state()
+  private isInputTooltipOpen = false;
 
   @state()
   private isInternalLabelOverflow = false;
@@ -1768,10 +1772,12 @@ export default class GlideCoreDropdown extends LitElement {
 
   #onInputFocusin() {
     this.#inputElementRef.value?.select();
+    this.isInputTooltipOpen = true;
   }
 
   #onInputFocusout() {
     this.isCommunicateItemCountToScreenreaders = false;
+    this.isInputTooltipOpen = false;
   }
 
   async #onInputInput(event: Event) {
