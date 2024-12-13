@@ -286,35 +286,12 @@ export default [
       }
     }
 
-    .input-and-internal-label-tooltip-container {
-      &.filterable {
-        display: flex;
-        flex-grow: 1;
-        position: relative;
-      }
-
-      &:not(.filterable) {
-        overflow: hidden;
-      }
-    }
-
     .internal-label-tooltip {
+      display: none;
       overflow: hidden;
 
-      &.filterable {
-        block-size: 100%;
-        cursor: text;
-        flex-grow: 1;
-        max-inline-size: 100%;
-        position: absolute;
-      }
-
-      &:not(.filterable) {
-        display: none;
-
-        &.visible {
-          display: block;
-        }
+      &.visible {
+        display: block;
       }
     }
 
@@ -326,15 +303,8 @@ export default [
         effect on flex children.
       */
       padding-block-start: 0.125rem;
+      text-overflow: ellipsis;
       white-space: nowrap;
-
-      &.filterable {
-        visibility: hidden;
-      }
-
-      &:not(.filterable) {
-        text-overflow: ellipsis;
-      }
     }
 
     .primary-button {
@@ -354,6 +324,15 @@ export default [
     .edit-button {
       display: flex;
       margin-inline-end: var(--glide-core-spacing-xxs);
+    }
+
+    .input-tooltip {
+      display: none;
+      flex-grow: 1;
+
+      &.visible {
+        display: block;
+      }
     }
 
     .input-container {

@@ -8,6 +8,7 @@ import {
   fixture,
   html,
   oneEvent,
+  waitUntil,
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
@@ -1351,10 +1352,14 @@ it('shows an ellipsis when made filterable programmatically and the label of the
 
   component.filterable = true;
 
-  // Wait for the timeout in the `filterable` setter, then wait for the
-  // update triggered in it.
+  await waitUntil(() => {
+    return component.shadowRoot
+      ?.querySelector('[data-test="input"]')
+      ?.checkVisibility();
+  });
+
+  // Now wait for the Resize Observer to do its thing.
   await aTimeout(0);
-  await elementUpdated(component);
 
   const ellipsis = component.shadowRoot?.querySelector(
     '[data-test="ellipsis"]',
