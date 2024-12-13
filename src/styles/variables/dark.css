@@ -75,7 +75,7 @@
   --glide-core-icon-selected: #f0f0f0;
   --glide-core-icon-selected-disabled: #c9c9c9;
   --glide-core-icon-selected2: #f0f0f0;
-  --glide-core-icon-tertiary-disabled: #ffffff8c;
+  --glide-core-icon-tertiary-disabled: #ffffff33;
   --glide-core-status-error: #db4743;
   --glide-core-status-expired: #db4743;
   --glide-core-status-failed: #db4743;
@@ -83,11 +83,11 @@
   --glide-core-status-queued: #63a8c7;
   --glide-core-status-scheduled: #ae73cd;
   --glide-core-status-success: #51bc6f;
-  --glide-core-status-unknown: #686868;
+  --glide-core-status-unknown: #6d6d6d;
   --glide-core-status-warning-critical: #db4743;
   --glide-core-status-warning-high: #e3901d;
   --glide-core-status-warning-informational: #3989da;
-  --glide-core-status-warning-low: #607c89;
+  --glide-core-status-warning-low: #6d6d6d;
   --glide-core-status-warning-medium: #fad232;
   --glide-core-surface-active: #ffffffe5;
   --glide-core-surface-attention: #fffbeb;
