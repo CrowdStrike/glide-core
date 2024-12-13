@@ -12,6 +12,16 @@ export default [
       outline: none;
     }
 
+    /*
+      This reads a little oddly due to the negation, but we only want to
+      set this style on the host when the panel is selected, which means
+      it is not hidden. Otherwise we run into the case where non-selected,
+      hidden panels will attempt to take up space.
+    */
+    :host([aria-hidden='false']) {
+      block-size: 100%;
+    }
+
     .component {
       font-family: var(--glide-core-font-sans);
       outline: none;
@@ -30,6 +40,10 @@ export default [
       */
       padding-inline-end: var(--panel-padding-inline-end);
       padding-inline-start: var(--panel-padding-inline-start);
+
+      &.selected {
+        block-size: 100%;
+      }
     }
   `,
 ];

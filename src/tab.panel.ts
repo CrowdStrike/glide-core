@@ -43,6 +43,7 @@ export default class GlideCoreTabPanel extends LitElement {
       class=${classMap({
         component: true,
         hidden: !this.isSelected,
+        selected: this.isSelected,
       })}
       data-test="tab-panel"
     >
