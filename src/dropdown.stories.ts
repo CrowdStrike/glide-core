@@ -37,7 +37,7 @@ const meta: Meta = {
     'addEventListener(event, handler)': '',
     'checkValidity()': '',
     disabled: false,
-    filterable: false,
+    filterable: true,
     'filter(query, options)': '',
     'hide-label': false,
     multiple: false,
@@ -60,11 +60,13 @@ const meta: Meta = {
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
     '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,
-    '<glide-core-dropdown-option>.one.selected': false,
+    '<glide-core-dropdown-option>.one.selected': true,
     '<glide-core-dropdown-option>.two.selected': false,
     '<glide-core-dropdown-option>.three.selected': false,
     '<glide-core-dropdown-option>[slot="icon"]': '',
-    '<glide-core-dropdown-option>.value': 'one',
+    '<glide-core-dropdown-option>.one.value': 'one',
+    '<glide-core-dropdown-option>.two.value': 'two',
+    '<glide-core-dropdown-option>.three.value': 'three',
   },
   argTypes: {
     label: {
@@ -337,7 +339,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         },
       },
     },
-    '<glide-core-dropdown-option>.value': {
+    '<glide-core-dropdown-option>.one.value': {
       name: 'value',
       table: {
         category: 'Dropdown Option',
@@ -345,6 +347,16 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         type: { summary: 'string' },
       },
       type: { name: 'string' },
+    },
+    '<glide-core-dropdown-option>.two.value': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-dropdown-option>.three.value': {
+      table: {
+        disable: true,
+      },
     },
   },
   play(context) {
@@ -369,21 +381,11 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
 
     if (dropdown instanceof GlideCoreDropdown) {
       dropdown.addEventListener('change', () => {
-        const options = context.canvasElement.querySelectorAll(
-          'glide-core-dropdown-option',
-        );
-
         if (option) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
               value: dropdown.value,
-              '<glide-core-dropdown-option>.one.selected':
-                dropdown.value.includes(options[0].value),
-              '<glide-core-dropdown-option>.two.selected':
-                dropdown.value.includes(options[1].value),
-              '<glide-core-dropdown-option>.three.selected':
-                dropdown.value.includes(options[2].value),
             },
           });
         }
@@ -395,6 +397,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
             storyId: context.id,
             updatedArgs: {
               open: dropdown.open,
+              value: dropdown.value,
             },
           });
         }
@@ -402,7 +405,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
 
       observer.observe(dropdown, {
         attributes: true,
-        attributeFilter: ['open'],
+        attributeFilter: ['open', 'value'],
       });
     }
 
@@ -429,7 +432,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
     }
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, unicorn/explicit-length-check */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, unicorn/explicit-length-check */
     return html`<glide-core-dropdown
       add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}
@@ -450,19 +453,28 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
     >
       <glide-core-dropdown-option
         label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
-        value=${arguments_['<glide-core-dropdown-option>.value'] || nothing}
+        value=${arguments_['<glide-core-dropdown-option>.one.value'] || nothing}
         ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
-        ?selected=${arguments_['<glide-core-dropdown-option>.one.selected']}
+        ?selected=${arguments_.value.includes(
+          arguments_['<glide-core-dropdown-option>.one.value'],
+        )}
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
         value="two"
+        ?selected=${arguments_.value.includes(
+          arguments_['<glide-core-dropdown-option>.two.value'],
+        )}
       ></glide-core-dropdown-option>
+
       <glide-core-dropdown-option
         label="Three"
         value="three"
+        ?selected=${arguments_.value.includes(
+          arguments_['<glide-core-dropdown-option>.three.value'],
+        )}
       ></glide-core-dropdown-option>
 
       ${arguments_['slot="description"']
@@ -494,15 +506,19 @@ export const WithError: StoryObj = {
 export const WithIcons: StoryObj = {
   argTypes: {
     '<glide-core-dropdown-option>.label': {
+      name: 'label',
       control: false,
       table: {
+        category: 'Dropdown Option',
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
-    '<glide-core-dropdown-option>.value': {
+    '<glide-core-dropdown-option>.one.value': {
+      name: 'value',
       control: false,
       table: {
+        category: 'Dropdown Option',
         defaultValue: { summary: '""' },
         type: { summary: 'string' },
       },

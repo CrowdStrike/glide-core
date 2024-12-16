@@ -18,7 +18,7 @@ it('is selected when initially selected', async () => {
   expect(component.ariaSelected).to.equal('true');
 });
 
-it('is deselected when initially deselected', async () => {
+it('is unselected when initially unselected', async () => {
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
