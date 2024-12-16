@@ -52,4 +52,14 @@
     var(--glide-core-effects-shadow-xlarge-blur)
     var(--glide-core-effects-shadow-xlarge-spread)
     var(--glide-core-effects-shadow-xlarge-fill);
+  --glide-core-shadow-footer: var(--glide-core-effects-shadow-footer-x)
+    var(--glide-core-effects-shadow-footer-y)
+    var(--glide-core-effects-shadow-footer-blur)
+    var(--glide-core-effects-shadow-footer-spread)
+    var(--glide-core-effects-shadow-footer-fill);
+  --glide-core-shadow-nav: var(--glide-core-effects-shadow-nav-x)
+    var(--glide-core-effects-shadow-nav-y)
+    var(--glide-core-effects-shadow-nav-blur)
+    var(--glide-core-effects-shadow-nav-spread)
+    var(--glide-core-effects-shadow-nav-fill);
 }
