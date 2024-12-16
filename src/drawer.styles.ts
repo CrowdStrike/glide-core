@@ -18,6 +18,7 @@ export default [
       visibility: hidden;
 
       &.pinned {
+        background-color: var(--glide-core-surface-base-xlightest);
         box-shadow: none;
       }
 
