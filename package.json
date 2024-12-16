@@ -135,7 +135,7 @@
     "stylelint-order": "^6.0.4",
     "stylelint-prettier": "^5.0.2",
     "stylelint-use-logical": "^2.1.2",
-    "stylelint-use-nesting": "^5.1.2",
+    "stylelint-use-nesting": "^6.0.0",
     "terser": "^5.37.0",
     "ts-lit-plugin": "^2.0.2",
     "typescript": "^5.7.2",

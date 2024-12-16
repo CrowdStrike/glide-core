@@ -199,8 +199,8 @@ importers:
         specifier: ^2.1.2
         version: 2.1.2(stylelint@16.12.0(typescript@5.7.2))
       stylelint-use-nesting:
-        specifier: ^5.1.2
-        version: 5.1.2(stylelint@16.12.0(typescript@5.7.2))
+        specifier: ^6.0.0
+        version: 6.0.0(stylelint@16.12.0(typescript@5.7.2))
       terser:
         specifier: ^5.37.0
         version: 5.37.0
@@ -3730,11 +3730,11 @@ packages:
     peerDependencies:
       stylelint: '>= 11 < 17'
 
-  stylelint-use-nesting@5.1.2:
-    resolution: {integrity: sha512-MGSHQnpMif1f/FRMZT7yetTwqK2spGz/pimNBIznPLFQK3kewUgY/seWkQxWWYmvOe0qxaXoOrl+ZIjgJvSTRw==}
+  stylelint-use-nesting@6.0.0:
+    resolution: {integrity: sha512-5/Icok0O35pU3DpHRmISTsElba2btHpPlNcbVrwy6AhapIPKE1QqaMslYhI0Cjt5/w4ALS4iICde9BhVq7HYKA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      stylelint: '>= 16'
+      stylelint: '>= 16.9.0'
 
   stylelint@16.12.0:
     resolution: {integrity: sha512-F8zZ3L/rBpuoBZRvI4JVT20ZanPLXfQLzMOZg1tzPflRVh9mKpOZ8qcSIhh1my3FjAjZWG4T2POwGnmn6a6hbg==}
@@ -8008,7 +8008,7 @@ snapshots:
     dependencies:
       stylelint: 16.12.0(typescript@5.7.2)
 
-  stylelint-use-nesting@5.1.2(stylelint@16.12.0(typescript@5.7.2)):
+  stylelint-use-nesting@6.0.0(stylelint@16.12.0(typescript@5.7.2)):
     dependencies:
       stylelint: 16.12.0(typescript@5.7.2)
 
