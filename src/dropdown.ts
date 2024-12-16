@@ -618,7 +618,7 @@ export default class GlideCoreDropdown extends LitElement {
                   id="input"
                   placeholder=${this.multiple ||
                   !this.selectedOptions.at(-1)?.label
-                    ? this.placeholder ?? ''
+                    ? (this.placeholder ?? '')
                     : ''}
                   role="combobox"
                   spellcheck="false"

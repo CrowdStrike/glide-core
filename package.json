@@ -70,7 +70,7 @@
     "@floating-ui/dom": "^1.6.12",
     "@shoelace-style/localize": "^3.2.1",
     "nanoid": "^5.0.9",
-    "ow": "^1.1.1"
+    "ow": "^2.0.0"
   },
   "peerDependencies": {
     "lit": "^3.2.1"
@@ -113,7 +113,7 @@
     "eslint-plugin-sort-class-members": "^1.21.0",
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "eslint-plugin-unicorn": "^50.0.1",
-    "globals": "^13.24.0",
+    "globals": "^15.13.0",
     "globby": "^14.0.2",
     "http-server": "^14.1.1",
     "husky": "^8.0.3",
@@ -122,11 +122,11 @@
     "lit": "^3.2.1",
     "lit-analyzer": "^2.0.3",
     "minify-literals": "^1.0.10",
-    "npm-run-all2": "^7.0.1",
+    "npm-run-all2": "^7.0.2",
     "per-env": "^1.0.2",
     "postcss": "^8.4.49",
     "postcss-lit": "^1.1.1",
-    "prettier": "3.1.0",
+    "prettier": "3.4.2",
     "rimraf": "^5.0.10",
     "sinon": "^19.0.2",
     "storybook": "^8.4.7",
@@ -135,7 +135,7 @@
     "stylelint-order": "^6.0.4",
     "stylelint-prettier": "^5.0.2",
     "stylelint-use-logical": "^2.1.2",
-    "stylelint-use-nesting": "^5.1.2",
+    "stylelint-use-nesting": "^6.0.0",
     "terser": "^5.37.0",
     "ts-lit-plugin": "^2.0.2",
     "typescript": "^5.7.2",
