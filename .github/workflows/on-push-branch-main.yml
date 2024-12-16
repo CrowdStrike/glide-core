@@ -47,9 +47,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm start
+      - run: pnpm start
         env:
           BASE_URL: main
+          NODE_ENV: production
       - uses: actions/upload-artifact@v4
         with:
           path: dist/storybook

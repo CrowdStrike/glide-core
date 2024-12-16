@@ -29,7 +29,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm start
+      - run: pnpm start
+        env:
+          NODE_ENV: production
       - uses: actions/upload-artifact@v4
         with:
           path: dist/storybook
@@ -45,7 +47,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: NODE_ENV=production pnpm start
+      - run: pnpm start
+        env:
+          NODE_ENV: production
       - name: Publish to NPM
         id: changesets
         uses: changesets/action@v1

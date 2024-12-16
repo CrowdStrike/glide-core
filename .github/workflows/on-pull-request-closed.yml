@@ -6,7 +6,7 @@ on:
 
 jobs:
   remove_cloudflare_artifacts:
-    name: Remove Cloudflare artifacts
+    name: Remove Cloudflare Artifacts
     runs-on: ubuntu-latest
     steps:
       - name: Install AWS CLI
