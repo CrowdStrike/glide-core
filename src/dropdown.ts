@@ -222,10 +222,10 @@ export default class GlideCoreDropdown extends LitElement {
     this.#isSettingValueProgrammatically = true;
 
     for (const option of this.#optionElements) {
-      // If multiple options have the same `value`, they'll all be selected. No way
-      // to avoid that. If `value` is an empty string, all options are left deselected
-      // so every `option.value` that's an empty string isn't selected, which would
-      // be wacky.
+      // If `value` is falsy, every option is left unselected. Otherwise, every
+      // `option.value` that's an empty string would be selected. If multiple
+      // options have the same `value`, they'll all be selected. No way to
+      // avoid that unfortunately.
       option.selected = value.some((value) => value && value === option.value);
     }
 
