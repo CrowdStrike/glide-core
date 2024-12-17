@@ -10,7 +10,7 @@ GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
 it('moves focus', async () => {
-  await fixture(
+  const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
         label="One"
@@ -32,7 +32,7 @@ it('moves focus', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
   buttons[3]?.focus();
 
   await sendKeys({ press: 'ArrowRight' });

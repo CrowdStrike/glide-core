@@ -148,6 +148,10 @@ export default class GlideCoreButtonGroup extends LitElement {
       // "input" events.
       if (button && !button.disabled && !button.selected) {
         button.selected = true;
+
+        button.dispatchEvent(
+          new Event('selected', { bubbles: true, composed: true }),
+        );
       }
     }
   }
@@ -181,6 +185,10 @@ export default class GlideCoreButtonGroup extends LitElement {
 
         if (previousButton instanceof GlideCoreButtonGroupButton) {
           previousButton.selected = true;
+
+          previousButton.dispatchEvent(
+            new Event('selected', { bubbles: true, composed: true }),
+          );
         }
 
         break;
@@ -205,13 +213,17 @@ export default class GlideCoreButtonGroup extends LitElement {
 
         if (nextButton instanceof GlideCoreButtonGroupButton) {
           nextButton.selected = true;
+
+          nextButton.dispatchEvent(
+            new Event('selected', { bubbles: true, composed: true }),
+          );
         }
 
         break;
       }
-      // This is specifically so a VoiceOver user can select and deselect buttons. Normally
-      // only the selected button is tabbable. But VoiceOver can programmatically focus any
-      // button with a `tabindex`.
+      // This is specifically so the VoiceOver user can select and deselect buttons. Normally
+      // only the selected button is tabbable. But VoiceOver can programmatically focus anything
+      // with a `tabindex`.
       case ' ': {
         // Prevent page scroll.
         event.preventDefault();
@@ -219,8 +231,12 @@ export default class GlideCoreButtonGroup extends LitElement {
         if (event.target instanceof HTMLElement) {
           const button = event.target.closest('glide-core-button-group-button');
 
-          if (button && !button.disabled) {
+          if (button && !button.disabled && !button.selected) {
             button.selected = true;
+
+            button.dispatchEvent(
+              new Event('selected', { bubbles: true, composed: true }),
+            );
           }
         }
 
@@ -243,12 +259,6 @@ export default class GlideCoreButtonGroup extends LitElement {
       }
 
       event.target.focus();
-
-      event.target.dispatchEvent(new Event('change', { bubbles: true }));
-
-      event.target.dispatchEvent(
-        new Event('input', { bubbles: true, composed: true }),
-      );
     }
   }
 }
