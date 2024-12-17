@@ -61,6 +61,7 @@ export default class GlideCoreRadio extends LitElement {
     return this.#privateInvalid;
   }
 
+  // Private because it's only meant to be used by Radio Group.
   set privateInvalid(invalid: boolean) {
     this.#privateInvalid = invalid;
 
@@ -84,6 +85,7 @@ export default class GlideCoreRadio extends LitElement {
     return this.#privateRequired;
   }
 
+  // Private because it's only meant to be used by Radio Group.
   set privateRequired(required: boolean) {
     this.#privateRequired = required;
 
