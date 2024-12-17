@@ -64,6 +64,7 @@ export default class GlideCoreRadioGroup extends LitElement {
   @property({ reflect: true })
   name = '';
 
+  // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle';
 
