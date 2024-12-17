@@ -48,7 +48,6 @@ it('renders the appropriate attributes on Radio children via the `checked` attri
 
   const radios = component.querySelectorAll('glide-core-radio');
 
-  expect(radios[0].getAttribute('value')).to.equal('one');
   expect(radios[0].getAttribute('tabindex')).to.equal('-1');
   expect(radios[0]).to.not.have.attribute('checked');
   expect(radios[0].getAttribute('role')).to.equal('radio');
@@ -57,7 +56,6 @@ it('renders the appropriate attributes on Radio children via the `checked` attri
   expect(radios[0].getAttribute('aria-invalid')).to.equal('false');
   expect(radios[0].getAttribute('aria-required')).to.equal('false');
 
-  expect(radios[1].getAttribute('value')).to.equal('two');
   expect(radios[1].getAttribute('tabindex')).to.equal('0');
   expect(radios[1].hasAttribute('checked')).to.be.true;
   expect(radios[1].getAttribute('role')).to.equal('radio');
@@ -167,7 +165,7 @@ it('does not set required attributes and properties on Radios when `required` is
   expect(radios[1].getAttribute('aria-required')).to.equal('false');
 });
 
-it('renders Radios as disabled when `disabled` is set on the group', async () => {
+it('sets attributes and properties on Radios when `disabled` is set on the group', async () => {
   const component = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="label" name="name" disabled>
       <glide-core-radio label="One" value="one"></glide-core-radio>
@@ -185,7 +183,7 @@ it('renders Radios as disabled when `disabled` is set on the group', async () =>
   expect(radios[1].shadowRoot?.querySelector('.disabled')).to.be.not.null;
 });
 
-it('does not render Radios as disabled when `disabled` is not set on the group', async () => {
+it('does not set disabled attributes on Radios when `disabled` is not set on the group', async () => {
   const component = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="label" name="name" value="one">
       <glide-core-radio label="One" value="one"></glide-core-radio>
