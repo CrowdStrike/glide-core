@@ -2,7 +2,6 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './button.styles.js';
 
 declare global {
@@ -28,60 +27,11 @@ export default class GlideCoreButton extends LitElement {
 
   static override styles = styles;
 
-  @property({ attribute: 'aria-controls', reflect: true })
-  ariaControls: string | null = null;
-
-  @property({ attribute: 'aria-expanded', reflect: true })
-  override ariaExpanded: 'true' | 'false' | null = null;
-
-  @property({ attribute: 'aria-haspopup', reflect: true })
-  override ariaHasPopup:
-    | 'true'
-    | 'false'
-    | 'menu'
-    | 'listbox'
-    | 'tree'
-    | 'grid'
-    | 'dialog'
-    | null = null;
-
-  @property({ type: Boolean, reflect: true }) override autofocus = false;
-
   @property({ type: Boolean, reflect: true }) disabled = false;
-
-  @property({ attribute: 'formaction', reflect: true }) formAction = '';
-
-  @property({ attribute: 'formenctype', reflect: true }) formEncType:
-    | ''
-    | 'application/x-www-form-urlencoded'
-    | 'multipart/form-data'
-    | 'text/plain' = '';
-
-  @property({ attribute: 'formmethod', reflect: true }) formMethod:
-    | ''
-    | 'dialog'
-    | 'get'
-    | 'post' = '';
-
-  @property({ attribute: 'formnovalidate', type: Boolean, reflect: true })
-  formNoValidate = false;
-
-  @property({ attribute: 'formtarget', reflect: true }) formTarget:
-    | ''
-    | '_blank'
-    | '_parent'
-    | '_self'
-    | '_top' = '';
 
   @property({ reflect: true }) label?: string;
 
   @property({ reflect: true }) name = '';
-
-  @property({ attribute: 'popovertarget', reflect: true })
-  popoverTarget?: string;
-
-  @property({ attribute: 'popovertargetaction', reflect: true })
-  popoverTargetAction: '' | 'hide' | 'show' | 'toggle' = '';
 
   @property({ reflect: true })
   size: 'large' | 'small' = 'large';
@@ -103,10 +53,6 @@ export default class GlideCoreButton extends LitElement {
 
   override render() {
     return html`<button
-      aria-controls=${ifDefined(this.ariaControls ?? undefined)}
-      aria-expanded=${ifDefined(this.ariaExpanded ?? undefined)}
-      aria-haspopup=${ifDefined(this.ariaHasPopup ?? undefined)}
-      ?autofocus=${this.autofocus}
       class=${classMap({
         component: true,
         primary: this.variant === 'primary',

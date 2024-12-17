@@ -25,41 +25,17 @@ it('has defaults', async () => {
     <glide-core-button label="Label"></glide-core-button>
   `);
 
-  expect(component.ariaControls).to.be.null;
-  expect(component.ariaExpanded).to.be.null;
-  expect(component.ariaHasPopup).to.be.null;
-  expect(component.autofocus).to.be.false;
   expect(component.disabled).to.be.false;
-  expect(component.formAction).to.be.empty.string;
-  expect(component.formEncType).to.be.empty.string;
-  expect(component.formMethod).to.be.empty.string;
-  expect(component.formNoValidate).to.be.false;
   expect(component.name).to.be.empty.string;
-  expect(component.popoverTarget).to.be.undefined;
-  expect(component.popoverTargetAction).to.be.empty.string;
   expect(component.value).to.be.empty.string;
   expect(component.type).to.equal('button');
 
-  expect(component.hasAttribute('autofocus')).to.be.false;
-  expect(component.getAttribute('aria-controls')).to.be.null;
-  expect(component.getAttribute('aria-expanded')).to.be.null;
-  expect(component.getAttribute('aria-haspopup')).to.be.null;
   expect(component.hasAttribute('disabled')).to.be.false;
-  expect(component.getAttribute('formaction')).to.be.empty.string;
-  expect(component.getAttribute('formenctype')).to.be.empty.string;
-  expect(component.getAttribute('formmethod')).to.be.empty.string;
-  expect(component.hasAttribute('formnovalidate')).to.be.false;
   expect(component.getAttribute('name')).to.be.empty.string;
-  expect(component.getAttribute('popovertarget')).to.be.null;
-  expect(component.getAttribute('popovertargetaction')).to.be.empty.string;
   expect(component.getAttribute('type')).to.equal('button');
   expect(component.getAttribute('value')).to.be.empty.string;
 
   const button = component.shadowRoot?.querySelector('button');
-
-  expect(button?.getAttribute('aria-controls')).to.be.null;
-  expect(button?.ariaExpanded).to.be.null;
-  expect(button?.ariaHasPopup).to.be.null;
   expect(button?.disabled).to.be.false;
 });
 

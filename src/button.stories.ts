@@ -22,10 +22,6 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
     return html`
       <glide-core-button
-        formaction=${arguments_.formaction || nothing}
-        formenctype=${arguments_.formenctype || nothing}
-        formmethod=${arguments_.formmethod || nothing}
-        formtarget=${arguments_.formtarget || nothing}
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         size=${arguments_.size || nothing}
@@ -33,7 +29,6 @@ const meta: Meta = {
         value=${arguments_.value || nothing}
         variant=${arguments_.variant || nothing}
         ?disabled=${arguments_.disabled || nothing}
-        ?formnovalidate=${arguments_.formnovalidate}
       >
         ${unsafeHTML(arguments_['slot="default"'])}
       </glide-core-button>
@@ -42,12 +37,6 @@ const meta: Meta = {
   args: {
     label: 'Label',
     disabled: false,
-    form: '',
-    formaction: '',
-    formenctype: 'application/x-www-form-urlencoded',
-    formmethod: 'get',
-    formnovalidate: false,
-    formtarget: '_self',
     name: '',
     size: 'large',
     'slot="prefix-icon"': '',
@@ -67,71 +56,6 @@ const meta: Meta = {
       table: {
         defaultValue: {
           summary: 'false',
-        },
-      },
-    },
-    form: {
-      control: false,
-      table: {
-        defaultValue: {
-          summary: 'null',
-        },
-        type: { summary: 'readonly HTMLFormElement | readonly null' },
-      },
-    },
-    formaction: {
-      table: {
-        defaultValue: {
-          summary: '""',
-        },
-      },
-    },
-    formenctype: {
-      control: { type: 'select' },
-      options: [
-        '',
-        'application/x-www-form-urlencoded',
-        'multipart/form-data',
-        'text/plain',
-      ],
-      table: {
-        defaultValue: {
-          summary: '"application/x-www-form-urlencoded"',
-        },
-        type: {
-          summary:
-            '"application/x-www-form-urlencoded" | "multipart/form-data" | "text/plain"',
-        },
-      },
-    },
-    formmethod: {
-      control: { type: 'select' },
-      options: ['', 'get', 'dialog', 'post'],
-      table: {
-        defaultValue: {
-          summary: '"get"',
-        },
-        type: {
-          summary: '"dialog" | "get" | "post"',
-        },
-      },
-    },
-    formnovalidate: {
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-      },
-    },
-    formtarget: {
-      control: { type: 'select' },
-      options: ['', '_blank', '_parent', '_self', '_top'],
-      table: {
-        defaultValue: {
-          summary: '"_self"',
-        },
-        type: {
-          summary: '"_blank" | "_parent" | "_self" | "_top"',
         },
       },
     },
@@ -205,10 +129,6 @@ export const WithIcons: StoryObj = {
   render(arguments_) {
     return html`
       <glide-core-button
-        formaction=${arguments_.formaction || nothing}
-        formenctype=${arguments_.formenctype || nothing}
-        formmethod=${arguments_.formmethod || nothing}
-        formtarget=${arguments_.formtarget || nothing}
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         size=${arguments_.size || nothing}
@@ -216,7 +136,6 @@ export const WithIcons: StoryObj = {
         value=${arguments_.value || nothing}
         variant=${arguments_.variant || nothing}
         ?disabled=${arguments_.disabled}
-        ?formnovalidate=${arguments_.formnovalidate}
       >
         ${arguments_['slot="default"']}
 
