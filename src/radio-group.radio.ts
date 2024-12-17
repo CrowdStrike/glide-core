@@ -123,13 +123,6 @@ export default class GlideCoreRadio extends LitElement {
     this.ariaLabel = this.label;
     this.ariaRequired = this.privateRequired.toString();
     this.role = 'radio';
-
-    // We only want the animation to run *after*
-    // the user interacts with it directly. By adding
-    // this check, it ensures the animation does not play
-    // on first render to prevent distractions for the
-    // user.
-    this.#isAfterFirstUpdated = true;
   }
 
   override render() {
@@ -142,7 +135,7 @@ export default class GlideCoreRadio extends LitElement {
           class=${classMap({
             'radio-circle': true,
             checked: this.checked,
-            animate: this.#isAfterFirstUpdated,
+            animate: this.hasUpdated,
           })}
           data-test="radio"
         ></span>
@@ -154,8 +147,6 @@ export default class GlideCoreRadio extends LitElement {
   #checked = false;
 
   #disabled = false;
-
-  #isAfterFirstUpdated = false;
 
   #label = '';
 
