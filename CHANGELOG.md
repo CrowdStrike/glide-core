@@ -1,5 +1,52 @@
 # @crowdstrike/glide-core
 
+## 0.15.1
+
+### Patch Changes
+
+- [#539](https://github.com/CrowdStrike/glide-core/pull/539) [`c426ff3`](https://github.com/CrowdStrike/glide-core/commit/c426ff3714cb1a7c7e405be54fd07b15536c4c17) Thanks [@danwenzel](https://github.com/danwenzel)! - The background color for a pinned Drawer now has a slightly less transparent background.
+
+- [#538](https://github.com/CrowdStrike/glide-core/pull/538) [`bc6ed78`](https://github.com/CrowdStrike/glide-core/commit/bc6ed78eb2b99dea37587a739754a49c6919794c) Thanks [@danwenzel](https://github.com/danwenzel)! - 2 new shadows have been added to `@crowdstrike/glide-core/styles/variables.css`, `shadow-footer` and `shadow-nav`:
+
+  ## Light
+
+  ```diff
+  + --glide-core-effects-shadow-footer-blur: 0.5rem;
+  + --glide-core-effects-shadow-footer-fill: #b5b5b540;
+  + --glide-core-effects-shadow-footer-spread: -0.5rem;
+  + --glide-core-effects-shadow-footer-x: 0rem;
+  + --glide-core-effects-shadow-footer-y: -0.5rem;
+
+  + --glide-core-effects-shadow-nav-background-blur: 6.25rem;
+  + --glide-core-effects-shadow-nav-blur: 0.25rem;
+  + --glide-core-effects-shadow-nav-fill: #00000040;
+  + --glide-core-effects-shadow-nav-spread: 0rem;
+  + --glide-core-effects-shadow-nav-x: 0rem;
+  + --glide-core-effects-shadow-nav-y: 0.25rem;
+  ```
+
+  ## Dark
+
+  ```diff
+  + --glide-core-effects-shadow-footer-background-blur: 1rem;
+  + --glide-core-effects-shadow-footer-blur: 0.5rem;
+  + --glide-core-effects-shadow-footer-fill: #b5b5b540;
+  + --glide-core-effects-shadow-footer-spread: -0.5rem;
+  + --glide-core-effects-shadow-footer-x: 0rem;
+  + --glide-core-effects-shadow-footer-y: -0.5rem;
+
+  + --glide-core-effects-shadow-nav-background-blur: 6.25rem;
+  + --glide-core-effects-shadow-nav-blur: 0.25rem;
+  + --glide-core-effects-shadow-nav-fill: #00000040;
+  + --glide-core-effects-shadow-nav-spread: 0rem;
+  + --glide-core-effects-shadow-nav-x: 0rem;
+  + --glide-core-effects-shadow-nav-y: 0.25rem;
+  ```
+
+- [#532](https://github.com/CrowdStrike/glide-core/pull/532) [`f5ee762`](https://github.com/CrowdStrike/glide-core/commit/f5ee762c0d82a20b18be478d04fdbae648588c16) Thanks [@clintcs](https://github.com/clintcs)! - - Multiselect Dropdown no longer adds duplicate values to `value` when `value` is set programmatically and the options corresponding to those values are already selected.
+  - Filterable single-select Dropdown now sets the value of its input field to the `label` of the selected option on first render.
+  - Filterable Dropdown now clears its input field when `multiple` is set programmatically and an option is selected.
+
 ## 0.15.0
 
 ### Minor Changes
