@@ -38,7 +38,10 @@ export default [
       display: flex;
       justify-content: center;
       rotate: 0deg;
-      transition: 250ms rotate ease;
+
+      @media (prefers-reduced-motion: no-preference) {
+        transition: 250ms rotate ease;
+      }
 
       &.expand-icon-expanded {
         rotate: 90deg;
@@ -58,7 +61,10 @@ export default [
       font-size: var(--glide-core-body-sm-font-size);
       padding-block: var(--glide-core-spacing-xxs);
       padding-inline: var(--glide-core-spacing-xs);
-      transition: background-color 150ms ease-in-out;
+
+      @media (prefers-reduced-motion: no-preference) {
+        transition: background-color 150ms ease-in-out;
+      }
 
       &:hover {
         background-color: var(--glide-core-surface-hover);

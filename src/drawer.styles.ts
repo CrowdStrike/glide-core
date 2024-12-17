@@ -28,8 +28,6 @@ export default [
     }
 
     .open {
-      /* stylelint-disable-next-line property-no-vendor-prefix */
-      -webkit-backdrop-filter: blur(25px);
       backdrop-filter: blur(25px);
       block-size: auto;
       inline-size: var(--width, 27.375rem);

@@ -42,6 +42,8 @@ export default class GlideCoreDrawer extends LitElement {
   set open(isOpen: boolean) {
     this.#isOpen = isOpen;
 
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
     if (this.#isOpen) {
       (async () => {
         this.#closeAnimation?.cancel();
@@ -51,7 +53,7 @@ export default class GlideCoreDrawer extends LitElement {
         this.#openAnimation = this.#asideElementRef?.value?.animate(
           { transform: ['translateX(100%)', 'translateX(0)'] },
           {
-            duration: 300,
+            duration: reducedMotion.matches ? 0 : 300,
             fill: 'forwards',
             easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
           },
@@ -62,7 +64,7 @@ export default class GlideCoreDrawer extends LitElement {
             opacity: [0, 1],
           },
           {
-            duration: 300,
+            duration: reducedMotion.matches ? 0 : 300,
             fill: 'forwards',
             easing: 'ease-in',
             composite: 'add',
@@ -83,7 +85,7 @@ export default class GlideCoreDrawer extends LitElement {
         this.#closeAnimation = this.#asideElementRef?.value?.animate(
           { transform: ['translateX(0)', 'translateX(100%)'] },
           {
-            duration: 300,
+            duration: reducedMotion.matches ? 0 : 300,
             fill: 'forwards',
             easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
           },
@@ -94,14 +96,14 @@ export default class GlideCoreDrawer extends LitElement {
             opacity: [1, 0],
           },
           {
-            duration: 300,
+            duration: reducedMotion.matches ? 0 : 300,
             fill: 'forwards',
             composite: 'add',
           },
         );
 
         await this.#closeAnimation?.finished;
-        this.#asideElementRef?.value?.classList?.remove('open');
+        this.#asideElementRef.value?.classList?.remove('open');
         this.dispatchEvent(new Event('close', { bubbles: true }));
       })();
     }
@@ -116,6 +118,32 @@ export default class GlideCoreDrawer extends LitElement {
 
     if (this.#isOpen) {
       this.#asideElementRef?.value?.classList?.add('open');
+
+      // The open state of Drawer relies on styles for transform
+      // and opacity. In this case, we don't want an animation to
+      // play, but we do need those post-animation styles.
+      // Rather than relying on a CSS class to apply the
+      // transform and opacity changes, we use WAAPI animations
+      // with the duration properties set to 0 so that they apply
+      // immediately.
+      this.#openAnimation = this.#asideElementRef?.value?.animate(
+        { transform: 'translateX(0)' },
+        {
+          duration: 0,
+          fill: 'forwards',
+        },
+      );
+
+      this.#asideElementRef?.value?.animate(
+        {
+          opacity: 1,
+        },
+        {
+          duration: 0,
+          fill: 'forwards',
+          composite: 'add',
+        },
+      );
     }
   }
 

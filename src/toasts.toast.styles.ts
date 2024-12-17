@@ -16,9 +16,12 @@ export default [
       line-height: var(--glide-core-body-xs-line-height);
       padding: var(--glide-core-spacing-sm);
       transform: translateX(110%);
-      transition:
-        transform 0.2s ease-out,
-        opacity 0.3s ease-out;
+
+      @media (prefers-reduced-motion: no-preference) {
+        transition:
+          transform 0.2s ease-out,
+          opacity 0.3s ease-out;
+      }
 
       &.error {
         background-color: var(--glide-core-surface-error);
