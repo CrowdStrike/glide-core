@@ -84,7 +84,7 @@ export default class GlideCoreRadioGroup extends LitElement {
     }
   }
 
-  // Intentionally not reflected to match Checkbox Group and Dropdown.
+  // Intentionally not reflected to match native.
   @property()
   get value() {
     return this.#value;
@@ -165,7 +165,7 @@ export default class GlideCoreRadioGroup extends LitElement {
     // back to by using the attribute.
     // This follows the pattern of the native input element.
     if (!this.value && checkedRadio?.value) {
-      this.setAttribute('value', checkedRadio?.value);
+      this.setAttribute('value', checkedRadio.value);
     }
 
     if (checkedRadio) {

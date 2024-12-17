@@ -364,7 +364,7 @@ it('moves focus to the first Radio when the down arrow key is pressed on the las
   expect(radios[0]).to.have.focus;
 });
 
-it('moves focus to the highest-index enabled Radio when the left arrow key is pressed on first Radio', async () => {
+it('moves focus to the last enabled Radio when the left arrow key is pressed on first Radio', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
       <glide-core-radio label="One" value="one" checked></glide-core-radio>
@@ -398,7 +398,7 @@ it('moves focus to the highest-index enabled Radio when the up arrow key is pres
   expect(radios[2]).to.have.focus;
 });
 
-it('moves focus to the lowest-index enabled Radio when the right arrow key is pressed on last Radio', async () => {
+it('moves focus to the first enabled Radio when the right arrow key is pressed on last Radio', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
       <glide-core-radio label="One" value="one" disabled></glide-core-radio>

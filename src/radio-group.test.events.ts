@@ -97,7 +97,7 @@ it('dispatches an `input` event when arrow keys are pressed', async () => {
   expect(inputEventDown.composed).to.be.true;
 });
 
-it('does not change focus or the `checked` attribute when clicking a disabled Radio', async () => {
+it('does not change focus or the `checked` attribute a disabled Radio is clicked', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
       <glide-core-radio label="One" value="one" checked></glide-core-radio>

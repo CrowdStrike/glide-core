@@ -135,7 +135,7 @@ it('does not render a required symbol when a `label` is provided and `required` 
   expect(requiredSymbol).to.be.null;
 });
 
-it('sets required attributes and properties on Radios when `required` is set on the group', async () => {
+it('sets attributes and properties on Radios when `required` is set on the group', async () => {
   const component = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="label" name="name" value="one" required>
       <glide-core-radio label="One" value="one"></glide-core-radio>

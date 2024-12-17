@@ -34,7 +34,7 @@ it('renders the provided `label`', async () => {
   ).to.equal('One');
 });
 
-it('sets the host `aria-checked` attribute via `checked`', async () => {
+it('sets `aria-checked` on the host when `checked`', async () => {
   const component = await fixture<GlideCoreRadio>(html`
     <glide-core-radio value="one" label="One" checked></glide-core-radio>
   `);
