@@ -803,6 +803,28 @@ it('updates `value` a tag is removed', async () => {
   expect(component.value).to.deep.equal(['two']);
 });
 
+it('does not add duplicate values to `value` when `value` is set programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.value = ['one', 'two'];
+
+  expect(component.value).to.deep.equal(['one', 'two']);
+});
+
 it('has no internal label when an option is newly selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown

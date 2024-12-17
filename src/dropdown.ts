@@ -189,6 +189,14 @@ export default class GlideCoreDropdown extends LitElement {
     if (wasMultiple && this.lastSelectedOption?.value) {
       this.value = [this.lastSelectedOption.value];
     } else if (wasSingle && this.lastSelectedOption) {
+      // If Dropdown was single-select and filterable and an option is selected,
+      // then the value of its `<input>` is set to the label of the selected option.
+      // That behavior doesn't apply to multiselect Dropdown because its selected
+      // option or options are represented by tags. So we clear the `<input>`.
+      if (this.#inputElementRef.value) {
+        this.#inputElementRef.value.value = '';
+      }
+
       this.lastSelectedOption.privateUpdateCheckbox();
       this.#setTagOverflowLimit();
     }
@@ -211,13 +219,17 @@ export default class GlideCoreDropdown extends LitElement {
       ow.boolean.true.message('Only one value is allowed when not `multiple`.'),
     );
 
+    this.#isSettingValueProgrammatically = true;
+
     for (const option of this.#optionElements) {
-      // If multiple options have the same `value`, they'll all be selected. No way
-      // to avoid that. If `value` is an empty string, all options are left deselected
-      // so every `option.value` that's an empty string isn't selected, which would
-      // be wacky.
+      // If `value` is falsy, every option is left unselected. Otherwise, every
+      // `option.value` that's an empty string would be selected. If multiple
+      // options have the same `value`, they'll all be selected. No way to
+      // avoid that unfortunately.
       option.selected = value.some((value) => value && value === option.value);
     }
+
+    this.#isSettingValueProgrammatically = false;
   }
 
   /*
@@ -349,6 +361,14 @@ export default class GlideCoreDropdown extends LitElement {
 
     if (this.open && !this.disabled) {
       this.#show();
+    }
+
+    if (
+      !this.multiple &&
+      this.lastSelectedOption &&
+      this.#inputElementRef.value
+    ) {
+      this.#inputElementRef.value.value = this.lastSelectedOption.label;
     }
 
     if (this.#componentElementRef.value) {
@@ -1086,6 +1106,8 @@ export default class GlideCoreDropdown extends LitElement {
   #isSelectionChangeFromSelectAll = false;
 
   #isSelectionViaSpaceOrEnter = false;
+
+  #isSettingValueProgrammatically = false;
 
   #localize = new LocalizeController(this);
 
@@ -2052,16 +2074,14 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #onOptionsSelectedChange(event: Event) {
-    // Update Select All to reflect the new selection or deselection.
     if (
       event.target !== this.#selectAllElementRef.value &&
       !this.#isSelectionChangeFromSelectAll &&
       this.#selectAllElementRef.value
     ) {
+      // Update Select All to reflect the new selection or deselection.
       this.#selectAllElementRef.value.selected = this.isAllSelected;
     }
-
-    this.isFiltering = false;
 
     this.isShowSingleSelectIcon =
       !this.multiple &&
@@ -2070,7 +2090,7 @@ export default class GlideCoreDropdown extends LitElement {
 
     // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {
-      if (this.multiple) {
+      if (this.multiple && !this.#isSettingValueProgrammatically) {
         this.#value =
           event.target.selected && event.target.value && !event.target.disabled
             ? [...this.value, event.target.value]
@@ -2089,6 +2109,7 @@ export default class GlideCoreDropdown extends LitElement {
         // came about as a result of filtering. And if the user is interacting with a
         // tag, then we know hasn't selected or deselected an option after filtering.
         if (this.#inputElementRef.value && !this.#isEditingOrRemovingTag) {
+          this.isFiltering = false;
           this.#inputElementRef.value.value = '';
           this.inputValue = '';
         }
@@ -2104,6 +2125,7 @@ export default class GlideCoreDropdown extends LitElement {
         this.#value = event.target.value ? [event.target.value] : [];
 
         if (this.#inputElementRef.value) {
+          this.isFiltering = false;
           this.#inputElementRef.value.value = event.target.label;
           this.inputValue = event.target.label;
         }

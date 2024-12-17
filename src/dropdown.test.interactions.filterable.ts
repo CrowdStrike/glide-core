@@ -592,7 +592,6 @@ it('sets the `value` of its `<input>` when made filterable', async () => {
   );
 
   component.filterable = true;
-
   await elementUpdated(component);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
@@ -603,6 +602,32 @@ it('sets the `value` of its `<input>` when made filterable', async () => {
   await aTimeout(0);
 
   expect(input?.value).to.equal('One');
+});
+
+it('clears the `value` of its `<input>` when `multiple` is set programmatically', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.multiple = true;
+  await elementUpdated(component);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('');
 });
 
 it('does not select options on Space', async () => {
