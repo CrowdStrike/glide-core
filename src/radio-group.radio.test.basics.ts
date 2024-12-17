@@ -14,7 +14,7 @@ it('registers', async () => {
 
 it('is accessible', async () => {
   const component = await fixture<GlideCoreRadio>(html`
-    <glide-core-radio value="one" label="One"></glide-core-radio>
+    <glide-core-radio label="One"></glide-core-radio>
   `);
 
   await expect(component).to.be.accessible();
@@ -22,7 +22,7 @@ it('is accessible', async () => {
 
 it('renders the provided `label`', async () => {
   const component = await fixture<GlideCoreRadio>(html`
-    <glide-core-radio value="one" label="One"></glide-core-radio>
+    <glide-core-radio label="One"></glide-core-radio>
   `);
 
   await elementUpdated(component);
@@ -36,7 +36,7 @@ it('renders the provided `label`', async () => {
 
 it('sets `aria-checked` on the host when `checked`', async () => {
   const component = await fixture<GlideCoreRadio>(html`
-    <glide-core-radio value="one" label="One" checked></glide-core-radio>
+    <glide-core-radio label="One" checked></glide-core-radio>
   `);
 
   expect(component.getAttribute('aria-checked')).to.equal('true');
@@ -46,9 +46,9 @@ it('sets `aria-checked` on the host when `checked`', async () => {
   expect(component.getAttribute('aria-checked')).to.equal('false');
 });
 
-it('sets the host `aria-disabled` via `disabled`', async () => {
+it('sets `aria-disabled` on the host when `disabled`', async () => {
   const component = await fixture<GlideCoreRadio>(html`
-    <glide-core-radio value="one" label="One" disabled></glide-core-radio>
+    <glide-core-radio label="One" disabled></glide-core-radio>
   `);
 
   expect(component.getAttribute('aria-disabled')).to.equal('true');
@@ -58,9 +58,9 @@ it('sets the host `aria-disabled` via `disabled`', async () => {
   expect(component.getAttribute('aria-disabled')).to.equal('false');
 });
 
-it('sets the host `aria-invalid` via `privateInvalid`', async () => {
+it('sets `aria-invalid` on the host when `privateInvalid`', async () => {
   const component = await fixture<GlideCoreRadio>(html`
-    <glide-core-radio value="one" label="One" privateInvalid></glide-core-radio>
+    <glide-core-radio label="One" privateInvalid></glide-core-radio>
   `);
 
   expect(component.getAttribute('aria-invalid')).to.equal('true');
@@ -70,13 +70,9 @@ it('sets the host `aria-invalid` via `privateInvalid`', async () => {
   expect(component.getAttribute('aria-invalid')).to.equal('false');
 });
 
-it('sets the host `aria-required` via `required`', async () => {
+it('sets `aria-required` on the host when `required`', async () => {
   const component = await fixture<GlideCoreRadio>(html`
-    <glide-core-radio
-      value="one"
-      label="One"
-      privateRequired
-    ></glide-core-radio>
+    <glide-core-radio label="One" privateRequired></glide-core-radio>
   `);
 
   expect(component.getAttribute('aria-required')).to.equal('true');
@@ -86,9 +82,9 @@ it('sets the host `aria-required` via `required`', async () => {
   expect(component.getAttribute('aria-required')).to.equal('false');
 });
 
-it('sets the host `aria-label` via `label`', async () => {
+it('sets `aria-label` on the host via `label`', async () => {
   const component = await fixture<GlideCoreRadio>(html`
-    <glide-core-radio value="one" label="One"></glide-core-radio>
+    <glide-core-radio label="One"></glide-core-radio>
   `);
 
   expect(component.getAttribute('aria-label')).to.equal('One');
