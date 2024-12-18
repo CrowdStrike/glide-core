@@ -76,7 +76,7 @@ it('can have a label', async () => {
 });
 
 it('sets the orientation of each button when horizontal', async () => {
-  await fixture(
+  const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
         label="One"
@@ -88,14 +88,14 @@ it('sets the orientation of each button when horizontal', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
 
   expect(buttons[0]?.privateOrientation).to.equal('horizontal');
   expect(buttons[1]?.privateOrientation).to.equal('horizontal');
 });
 
 it('sets the orientation of each button when vertical', async () => {
-  await fixture(
+  const component = await fixture(
     html`<glide-core-button-group orientation="vertical">
       <glide-core-button-group-button
         label="One"
@@ -107,14 +107,14 @@ it('sets the orientation of each button when vertical', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
 
   expect(buttons[0]?.privateOrientation).to.equal('vertical');
   expect(buttons[1]?.privateOrientation).to.equal('vertical');
 });
 
 it('sets `privateVariant` on each button', async () => {
-  await fixture(
+  const component = await fixture(
     html`<glide-core-button-group label="Label" variant="icon-only">
       <glide-core-button-group-button label="One">
         <div slot="icon">Icon</div>
@@ -126,7 +126,7 @@ it('sets `privateVariant` on each button', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
 
   expect(buttons[0].privateVariant).to.equal('icon-only');
   expect(buttons[1].privateVariant).to.equal('icon-only');
@@ -149,7 +149,7 @@ it('throws when its default slot is the wrong type', async () => {
 });
 
 it('selects the first button not disabled', async () => {
-  await fixture(
+  const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
         label="One"
@@ -166,7 +166,7 @@ it('selects the first button not disabled', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
 
   expect(buttons[0].selected).to.be.false;
   expect(buttons[1].selected).to.be.true;
@@ -174,7 +174,7 @@ it('selects the first button not disabled', async () => {
 });
 
 it('selects no buttons when all are disabled', async () => {
-  await fixture(
+  const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
         label="One"
@@ -188,7 +188,7 @@ it('selects no buttons when all are disabled', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
 
   expect(buttons[0].selected).to.be.false;
   expect(buttons[1].selected).to.be.false;

@@ -32,7 +32,7 @@ const meta: Meta = {
       'glide-core-button-group',
     );
 
-    buttonGroup?.addEventListener('change', (event: Event) => {
+    buttonGroup?.addEventListener('selected', (event: Event) => {
       if (event.target instanceof GlideCoreButton) {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
@@ -191,7 +191,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input", handler: (event: Event) => void) => void',
+            '(event: "selected", handler: (event: Event) => void) => void',
         },
       },
     },

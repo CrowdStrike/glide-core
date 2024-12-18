@@ -23,7 +23,7 @@ it('selects a button when clicked', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
 
   buttons[1]?.click();
   await elementUpdated(component);
@@ -33,7 +33,7 @@ it('selects a button when clicked', async () => {
 });
 
 it('selects buttons when arrowing', async () => {
-  await fixture(
+  const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
         label="One"
@@ -56,7 +56,7 @@ it('selects buttons when arrowing', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
   buttons[1]?.focus();
 
   await sendKeys({ press: 'ArrowRight' });
@@ -73,7 +73,7 @@ it('selects buttons when arrowing', async () => {
 });
 
 it('selects a button on Space', async () => {
-  await fixture(
+  const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
         label="One"
@@ -86,7 +86,7 @@ it('selects a button on Space', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
   buttons[1]?.focus();
 
   await sendKeys({ press: ' ' });
@@ -96,7 +96,7 @@ it('selects a button on Space', async () => {
 });
 
 it('does not select a disabled button', async () => {
-  await fixture(
+  const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
         label="One"
@@ -110,7 +110,7 @@ it('does not select a disabled button', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = document.querySelectorAll('glide-core-button-group-button');
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
   buttons[1]?.click();
 
   expect(buttons[0].selected).to.be.true;
