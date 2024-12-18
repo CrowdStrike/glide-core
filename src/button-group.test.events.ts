@@ -46,7 +46,7 @@ it('emits a "selected" event when a button is clicked and not already selected',
   expect(event.target).to.equal(button);
 });
 
-it('does not emit a "selected" event when clicked button is clicked and already selected', async () => {
+it('does not emit a "selected" event when an already selected button is clicked', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
