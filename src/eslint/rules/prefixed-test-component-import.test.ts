@@ -11,6 +11,9 @@ ruleTester.run('prefixed-test-component-import', prefixedTestComponentImport, {
     {
       code: "import './component.js';",
     },
+    {
+      code: "import UtilFunction from './library/foo-bar';",
+    },
     // Verify it doesn't complain about non-relative path imports
     {
       code: "import Component from '@crowdstrike/glide-core/component';",
