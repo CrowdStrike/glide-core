@@ -281,4 +281,10 @@ export default [
     // something else depending on what it's chained with.
     ...typescript.configs.disableTypeChecked,
   },
+  {
+    files: ['src/*.test.*.ts'],
+    rules: {
+      '@crowdstrike/glide-core/prefixed-test-component-import': 'error',
+    },
+  },
 ];

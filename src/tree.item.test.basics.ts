@@ -3,20 +3,22 @@
 import './menu.link.js';
 import './tree.item.menu.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import Menu from './menu.js';
-import TreeItem from './tree.item.js';
-import TreeItemMenu from './tree.item.menu.js';
+import GlideCoreMenu from './menu.js';
+import GlideCoreTreeItem from './tree.item.js';
+import GlideCoreTreeItemMenu from './tree.item.menu.js';
 
-TreeItem.shadowRootOptions.mode = 'open';
-TreeItemMenu.shadowRootOptions.mode = 'open';
-Menu.shadowRootOptions.mode = 'open';
+GlideCoreTreeItem.shadowRootOptions.mode = 'open';
+GlideCoreTreeItemMenu.shadowRootOptions.mode = 'open';
+GlideCoreMenu.shadowRootOptions.mode = 'open';
 
 it('registers', () => {
-  expect(window.customElements.get('glide-core-tree-item')).to.equal(TreeItem);
+  expect(window.customElements.get('glide-core-tree-item')).to.equal(
+    GlideCoreTreeItem,
+  );
 });
 
 it('renders and sets default attributes', async () => {
-  const component = await fixture<TreeItem>(html`
+  const component = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item label="Item"></glide-core-tree-item>
   `);
 
@@ -29,7 +31,7 @@ it('renders and sets default attributes', async () => {
 });
 
 it('does not render expand-icon-container if remove-indentation is set', async () => {
-  const component = await fixture<TreeItem>(html`
+  const component = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item
       label="Item"
       remove-indentation
@@ -41,7 +43,7 @@ it('does not render expand-icon-container if remove-indentation is set', async (
 });
 
 it('renders with a prefix slot', async () => {
-  await fixture<TreeItem>(html`
+  await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item label="Item">
       <span slot="prefix" data-prefix>prefix</span>
     </glide-core-tree-item>
@@ -51,7 +53,7 @@ it('renders with a prefix slot', async () => {
 });
 
 it('adds label to menu target', async () => {
-  const component = await fixture<TreeItem>(html`
+  const component = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item label="Item">
       <glide-core-tree-item-menu slot="menu" data-menu>
         <glide-core-menu-link label="Move" url="/move"> </glide-core-menu-link>
@@ -68,7 +70,7 @@ it('adds label to menu target', async () => {
 });
 
 it('renders with a suffix slot', async () => {
-  await fixture<TreeItem>(html`
+  await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item label="Item">
       <span slot="suffix" data-suffix>suffix</span>
     </glide-core-tree-item>
@@ -78,7 +80,7 @@ it('renders with a suffix slot', async () => {
 });
 
 it('does not have an expand icon if there are no child tree items', async () => {
-  const component = await fixture<TreeItem>(html`
+  const component = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item label="Item"></glide-core-tree-item>
   `);
 
@@ -86,7 +88,7 @@ it('does not have an expand icon if there are no child tree items', async () => 
 });
 
 it('can expand', async () => {
-  const component = await fixture<TreeItem>(html`
+  const component = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item label="Item">
       <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
     </glide-core-tree-item>
@@ -113,7 +115,7 @@ it('can expand', async () => {
 });
 
 it('renders child and grandchild tree items', async () => {
-  const component = await fixture<TreeItem>(html`
+  const component = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item expanded label="Item">
       <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
       <glide-core-tree-item label="Child Item 2">
@@ -132,7 +134,7 @@ it('renders child and grandchild tree items', async () => {
 });
 
 it('sets the level for tree items programmatically added later', async () => {
-  const component = await fixture<TreeItem>(html`
+  const component = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item expanded label="Item"></glide-core-tree-item>
   `);
 
@@ -149,7 +151,7 @@ it('sets the level for tree items programmatically added later', async () => {
 });
 
 it('can select child and grandchild items', async () => {
-  const component = await fixture<TreeItem>(html`
+  const component = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item expanded label="Item">
       <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
       <glide-core-tree-item label="Child Item 2">

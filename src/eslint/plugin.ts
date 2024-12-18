@@ -11,6 +11,7 @@ import { noToHaveAttribute } from './rules/no-to-have-attribute.js';
 import { preferClosedShadowRoot } from './rules/prefer-closed-shadow-root.js';
 import { preferToBeTrueOrFalse } from './rules/prefer-to-be-true-or-false.js';
 import { prefixedClassDeclaration } from './rules/prefixed-lit-element-class-declaration.js';
+import { prefixedTestComponentImport } from './rules/prefixed-test-component-import.js';
 
 const rules = {
   'consistent-reference-element-declarations':
@@ -28,6 +29,7 @@ const rules = {
   'prefer-closed-shadow-root': preferClosedShadowRoot,
   'prefer-to-be-true-or-false': preferToBeTrueOrFalse,
   'prefixed-lit-element-class-declaration': prefixedClassDeclaration,
+  'prefixed-test-component-import': prefixedTestComponentImport,
 };
 
 export default { rules };
