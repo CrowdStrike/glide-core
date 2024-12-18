@@ -147,14 +147,6 @@ export default class GlideCoreRadioGroup extends LitElement {
       }
     }
 
-    // When Radio Group is focused, it focuses the first `checked` child Radio
-    // instead of itself. Focus is then managed by adjusting `tabIndex`
-    // on each child Radio.
-    for (const radio of this.#radios) {
-      radio.addEventListener('blur', this.#onRadioItemBlur.bind(this));
-      radio.tabIndex = -1;
-    }
-
     const checkedRadio = this.value
       ? this.#radios.find(({ value }) => value === this.value)
       : this.#radios.find(({ checked, disabled }) => checked && !disabled);
@@ -170,9 +162,12 @@ export default class GlideCoreRadioGroup extends LitElement {
     }
 
     if (checkedRadio) {
-      checkedRadio.tabIndex = 0;
-
       this.value = checkedRadio.value;
+
+      for (const radio of this.#radios) {
+        radio.tabIndex = radio === checkedRadio ? 0 : -1;
+      }
+
       return;
     }
 
@@ -181,8 +176,8 @@ export default class GlideCoreRadioGroup extends LitElement {
     // and begin interacting with it using their keyboard.
     const firstRadio = this.#radios.find(({ disabled }) => !disabled);
 
-    if (firstRadio) {
-      firstRadio.tabIndex = 0;
+    for (const radio of this.#radios) {
+      radio.tabIndex = radio === firstRadio ? 0 : -1;
     }
   }
 
@@ -276,10 +271,10 @@ export default class GlideCoreRadioGroup extends LitElement {
             role="radiogroup"
             slot="control"
             aria-labelledby="label description"
-            @blur=${this.#onBlur}
           >
             <slot
               ${ref(this.#defaultSlotElementRef)}
+              @focusout=${this.#onRadioGroupFocusout}
               @slotchange=${this.#onDefaultSlotChange}
               @private-checked-change=${this.#onRadiosCheckedChange}
               @private-value-change=${this.#onRadiosValueChange}
@@ -435,12 +430,6 @@ export default class GlideCoreRadioGroup extends LitElement {
     radio.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  #onBlur() {
-    this.isBlurring = true;
-    this.reportValidity();
-    this.isBlurring = false;
-  }
-
   #onClick(event: MouseEvent) {
     if (this.disabled) {
       return;
@@ -559,15 +548,20 @@ export default class GlideCoreRadioGroup extends LitElement {
     }
   }
 
-  #onRadioItemBlur(event: FocusEvent) {
-    const newlyFocusedElement = event.relatedTarget;
+  #onRadioGroupFocusout(event: FocusEvent) {
+    // If `event.relatedTarget` is `null`, the user has clicked an element outside
+    // Radio Group that cannot receive focus. Otherwise, the user has either clicked
+    // an element outside Radio Group that can receive focus or else has tabbed away
+    // from Radio Group.
+    const isFocusLost =
+      event.relatedTarget === null ||
+      (event.relatedTarget instanceof Node &&
+        !this.contains(event.relatedTarget));
 
-    if (
-      !newlyFocusedElement ||
-      !(newlyFocusedElement instanceof GlideCoreRadio) ||
-      !this.#radios.includes(newlyFocusedElement)
-    ) {
-      this.#onBlur();
+    if (isFocusLost) {
+      this.isBlurring = true;
+      this.reportValidity();
+      this.isBlurring = false;
     }
   }
 
