@@ -20,7 +20,7 @@ it('registers', async () => {
   );
 });
 
-it('adds an aria-label when `label` is set', async () => {
+it('adds an `aria-label` when `label` is set', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer label="label">Drawer content</glide-core-drawer>`,
   );
@@ -30,7 +30,7 @@ it('adds an aria-label when `label` is set', async () => {
   );
 });
 
-it('does not add an aria-label when `label` is unset', async () => {
+it('does not add an `aria-label` when `label` is unset', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
@@ -50,7 +50,7 @@ it('can have a default slot', async () => {
   expect(component.textContent).to.equal('Drawer content');
 });
 
-it('sets the width of the element based on the `--width` CSS variable', async () => {
+it('sets the width of the drawer based on the `--width` CSS variable', async () => {
   const styledDiv = document.createElement('div');
   styledDiv.setAttribute('style', '--width: 750px');
 
@@ -107,7 +107,7 @@ it('does not add a class when the `pinned` attribute is not set', async () => {
   ).to.be.false;
 });
 
-it('opens the drawer when the `open` attribute is set', async () => {
+it('opens when the `open` attribute is set', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
   const component = await fixture<GlideCoreDrawer>(

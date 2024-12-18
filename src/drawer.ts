@@ -123,7 +123,7 @@ export default class GlideCoreDrawer extends LitElement {
       // and opacity. In this case, we don't want an animation to
       // play, but we do need those post-animation styles.
       // Rather than relying on a CSS class to apply the
-      // transform and opacity changes, we use WAAPI animations
+      // transform and opacity changes, we use JavaScript animations
       // with the duration properties set to 0 so that they apply
       // immediately.
       this.#openAnimation = this.#asideElementRef?.value?.animate(
