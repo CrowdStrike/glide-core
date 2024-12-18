@@ -13,8 +13,7 @@ declare global {
 }
 
 /**
- * @event change - `(event: Event) => void`
- * @event input - `(event: Event) => void`
+ * @event selected - `(event: Event) => void`
  *
  * @slot - One or more of `<glide-core-button-group-button>`.
  */
