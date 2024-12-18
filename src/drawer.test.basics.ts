@@ -117,7 +117,7 @@ it('opens when the `open` attribute is set', async () => {
   expect(component.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
     .null;
 
-  component.setAttribute('open', '');
+  component.open = true;
 
   await elementUpdated(component);
 
@@ -135,7 +135,7 @@ it('opens the drawer when the `open` attribute is set when animated', async () =
   expect(component.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
     .null;
 
-  component.setAttribute('open', '');
+  component.open = true;
 
   await elementUpdated(component);
 
