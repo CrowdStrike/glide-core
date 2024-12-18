@@ -42,7 +42,10 @@ export default class GlideCoreDrawer extends LitElement {
   set open(isOpen: boolean) {
     this.#isOpen = isOpen;
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const duration = window.matchMedia('(prefers-reduced-motion: reduce)')
+      .matches
+      ? 0
+      : 300;
 
     if (this.#isOpen) {
       (async () => {
@@ -53,7 +56,7 @@ export default class GlideCoreDrawer extends LitElement {
         this.#openAnimation = this.#asideElementRef?.value?.animate(
           { transform: ['translateX(100%)', 'translateX(0)'] },
           {
-            duration: reducedMotion.matches ? 0 : 300,
+            duration,
             fill: 'forwards',
             easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
           },
@@ -64,7 +67,7 @@ export default class GlideCoreDrawer extends LitElement {
             opacity: [0, 1],
           },
           {
-            duration: reducedMotion.matches ? 0 : 300,
+            duration,
             fill: 'forwards',
             easing: 'ease-in',
             composite: 'add',
@@ -85,7 +88,7 @@ export default class GlideCoreDrawer extends LitElement {
         this.#closeAnimation = this.#asideElementRef?.value?.animate(
           { transform: ['translateX(0)', 'translateX(100%)'] },
           {
-            duration: reducedMotion.matches ? 0 : 300,
+            duration,
             fill: 'forwards',
             easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
           },
@@ -96,7 +99,7 @@ export default class GlideCoreDrawer extends LitElement {
             opacity: [1, 0],
           },
           {
-            duration: reducedMotion.matches ? 0 : 300,
+            duration,
             fill: 'forwards',
             composite: 'add',
           },
