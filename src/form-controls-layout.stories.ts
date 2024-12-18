@@ -3,7 +3,7 @@ import './dropdown';
 import './form-controls-layout.js';
 import './input.js';
 import './radio-group.js';
-import './radio.js';
+import './radio-group.radio.js';
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 

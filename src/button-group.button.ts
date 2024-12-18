@@ -45,11 +45,11 @@ export default class GlideCoreButtonGroupButton extends LitElement {
   @property({ reflect: true })
   value? = '';
 
-  // Private because it's only meant to be used Button Group.
+  // Private because it's only meant to be used by Button Group.
   @property()
   privateOrientation: 'horizontal' | 'vertical' = 'horizontal';
 
-  // Private because it's only meant to be used Button Group.
+  // Private because it's only meant to be used by Button Group.
   @property()
   privateVariant?: 'icon-only';
 

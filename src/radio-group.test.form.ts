@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreRadio from './radio.js';
+import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
 import sinon from 'sinon';
 
@@ -20,7 +14,7 @@ it('exposes standard form control properties and methods', async () => {
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio value="value-1" label="One"></glide-core-radio>
+      <glide-core-radio label="One" value="one"></glide-core-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -32,34 +26,37 @@ it('exposes standard form control properties and methods', async () => {
   expect(component.reportValidity).to.be.a('function');
 });
 
-it('can be reset', async () => {
+it('can reset when `value` is programmatically changed', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
-    html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio value="value-1" checked label="One"></glide-core-radio>
+    html`<glide-core-radio-group label="label" name="name" value="one">
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two"></glide-core-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
     },
   );
 
-  const radio = component.querySelector('glide-core-radio');
-  assert(radio);
+  component.value = 'two';
 
-  radio.checked = false;
+  await elementUpdated(component);
+
   form.reset();
 
-  expect(component.value).to.equal('value-1');
+  await elementUpdated(component);
+
+  expect(component.value).to.equal('one');
 });
 
-it('can reset correctly when the checked radios are changed', async () => {
+it('can reset when the checked Radios are changed via click', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio value="value-1" label="One"></glide-core-radio>
-      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -72,26 +69,59 @@ it('can reset correctly when the checked radios are changed', async () => {
 
   await elementUpdated(component);
 
-  expect(radios[0]?.hasAttribute('checked')).to.be.true;
+  expect(radios[0].hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
-  expect(component.value).to.equal('value-1');
+  expect(component.value).to.equal('one');
 
   form.reset();
 
   await elementUpdated(component);
 
-  expect(radios[0]).to.not.have.attribute('checked');
-  expect(radios[1]?.hasAttribute('checked')).to.be.true;
-  expect(component.value).to.equal('value-2');
+  expect(radios[0].getAttribute('checked')).to.be.null;
+  expect(radios[1].hasAttribute('checked')).to.be.true;
+  expect(component.value).to.equal('two');
 });
 
-it('has `formData` when a radio is checked', async () => {
+it('can reset when the checked Radios are changed programmatically', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="label" name="name">
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+    </glide-core-radio-group>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const radios = component.querySelectorAll<GlideCoreRadio>('glide-core-radio');
+
+  radios[1].checked = false;
+  radios[0].checked = true;
+
+  await elementUpdated(component);
+
+  expect(radios[0].hasAttribute('checked')).to.be.true;
+  expect(radios[1]).to.not.have.attribute('checked');
+  expect(component.value).to.equal('one');
+
+  form.reset();
+
+  await elementUpdated(component);
+
+  expect(radios[0].getAttribute('checked')).to.be.null;
+  expect(radios[1].hasAttribute('checked')).to.be.true;
+  expect(component.value).to.equal('two');
+});
+
+it('has `formData` when a Radio is checked', async () => {
   const form = document.createElement('form');
 
   await fixture(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio value="value-1" label="One"></glide-core-radio>
-      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -99,16 +129,33 @@ it('has `formData` when a radio is checked', async () => {
   );
 
   const formData = new FormData(form);
-  expect(formData.get('name')).to.be.equal('value-2');
+  expect(formData.get('name')).to.be.equal('two');
 });
 
-it('has no `formData` when no radios are checked', async () => {
+it('has `formData` when the Radio Group has a `value`', async () => {
+  const form = document.createElement('form');
+
+  await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="label" name="name" value="two">
+      <glide-core-radio label="One" value="one" checked></glide-core-radio>
+      <glide-core-radio label="Two" value="two"></glide-core-radio>
+    </glide-core-radio-group>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const formData = new FormData(form);
+  expect(formData.get('name')).to.be.equal('two');
+});
+
+it('has no `formData` when no Radios are checked', async () => {
   const form = document.createElement('form');
 
   await fixture(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio value="value-1" label="One"></glide-core-radio>
-      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two"></glide-core-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -119,13 +166,13 @@ it('has no `formData` when no radios are checked', async () => {
   expect(formData.get('name')).to.be.null;
 });
 
-it('has no `formData` when the group is disabled and one radio is checked', async () => {
+it('has no `formData` when the group is disabled and one Radio is checked', async () => {
   const form = document.createElement('form');
 
   await fixture(
     html`<glide-core-radio-group label="label" name="name" disabled>
-      <glide-core-radio value="value-1" label="One"></glide-core-radio>
-      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -136,13 +183,17 @@ it('has no `formData` when the group is disabled and one radio is checked', asyn
   expect(formData.get('name')).to.be.null;
 });
 
-it('has no `formData` when without a `name` but a radio is checked', async () => {
+it('has no `formData` when a Radio is checked but disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture(
-    html`<glide-core-radio-group label="label">
-      <glide-core-radio value="value-1" label="One"></glide-core-radio>
-      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+  await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="label" name="name">
+      <glide-core-radio
+        label="One"
+        value="one"
+        checked
+        disabled
+      ></glide-core-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -153,13 +204,30 @@ it('has no `formData` when without a `name` but a radio is checked', async () =>
   expect(formData.get('name')).to.be.null;
 });
 
-it('has no `formData` value when a radio is checked but without a "value"', async () => {
+it('has no `formData` when without a `name` but a Radio is checked', async () => {
   const form = document.createElement('form');
 
   await fixture(
     html`<glide-core-radio-group label="label">
-      <glide-core-radio value="value-1" label="One"></glide-core-radio>
-      <glide-core-radio value="value-2" checked label="Two"></glide-core-radio>
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+    </glide-core-radio-group>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const formData = new FormData(form);
+  expect(formData.get('name')).to.be.null;
+});
+
+it('has no `formData` value when a Radio is checked but without a `value`', async () => {
+  const form = document.createElement('form');
+
+  await fixture(
+    html`<glide-core-radio-group label="label">
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -175,8 +243,8 @@ it('submits its form on Enter', async () => {
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label">
-      <glide-core-radio value="value-1" label="One"></glide-core-radio>
-      <glide-core-radio value="value-2" label="Two"></glide-core-radio>
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two"></glide-core-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -194,4 +262,30 @@ it('submits its form on Enter', async () => {
   await sendKeys({ press: 'Enter' });
 
   expect(spy.callCount).to.equal(1);
+});
+
+it('resets `value` to an empty string when no Radios were initially selected', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="label">
+      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio label="Two" value="two"></glide-core-radio>
+    </glide-core-radio-group>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const radios = component.querySelectorAll<GlideCoreRadio>('glide-core-radio');
+
+  radios[0].click();
+
+  await elementUpdated(component);
+
+  form.reset();
+
+  await elementUpdated(component);
+
+  expect(component.value).to.equal('');
 });

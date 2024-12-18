@@ -2,7 +2,7 @@
 
 import './label.js';
 import './tooltip.js';
-import { LitElement, type PropertyValueMap, html } from 'lit';
+import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -10,7 +10,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
-import GlideCoreRadio from './radio.js';
+import GlideCoreRadio from './radio-group.radio.js';
 import styles from './radio-group.styles.js';
 
 declare global {
@@ -42,14 +42,24 @@ export default class GlideCoreRadioGroup extends LitElement {
   @property()
   description = '';
 
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
+  @property({ reflect: true, type: Boolean })
+  get disabled() {
+    return this.#isDisabled;
+  }
 
-  @property()
-  label = '';
+  set disabled(isDisabled: boolean) {
+    this.#isDisabled = isDisabled;
+
+    for (const radio of this.#radios) {
+      radio.disabled = isDisabled;
+    }
+  }
 
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
+
+  @property({ reflect: true })
+  label?: string;
 
   @property({ reflect: true })
   name = '';
@@ -58,11 +68,55 @@ export default class GlideCoreRadioGroup extends LitElement {
   @property()
   privateSplit?: 'left' | 'middle';
 
-  @property({ type: Boolean, reflect: true })
-  required = false;
+  @property({ reflect: true, type: Boolean })
+  get required() {
+    return this.#isRequired;
+  }
 
-  @property({ reflect: true })
-  value = '';
+  set required(isRequired: boolean) {
+    this.#isRequired = isRequired;
+
+    // Changes to `required` change the validity state. If no radios are
+    // checked and Radio Group is `required`, then Radio Group is invalid.
+    // However, if `required` is programmatically removed, then Radio Group
+    // is suddenly valid.
+    for (const radio of this.#radios) {
+      radio.privateRequired = isRequired;
+    }
+  }
+
+  // Intentionally not reflected to match native.
+  @property()
+  get value() {
+    return this.#value;
+  }
+
+  set value(value: string) {
+    this.#value = value;
+
+    for (const radio of this.#radios) {
+      const isChecked = Boolean(value && radio.value === value);
+
+      radio.checked = isChecked ? true : false;
+      radio.tabIndex = isChecked ? 0 : -1;
+
+      // We have a few options if `value` is set programmatically to include
+      // the value of a disabled Radio. We can throw, remove the value
+      // from `value`, or enable the Radio.
+      //
+      // Throwing is attractive because the inclusion of a disabled Radio
+      // in `value` is likely a mistake, either due to bad data or developer
+      // error.
+      //
+      // But we only throw in development. So the form will be submitted with
+      // the new `value` in production regardless if it was by mistake. By enabling
+      // the Radio, we at least ensure the user is aware of the fact that it'll
+      // be included in the submission.
+      if (radio.checked && radio.disabled) {
+        radio.disabled = false;
+      }
+    }
+  }
 
   checkValidity() {
     this.isCheckingValidity = true;
@@ -75,26 +129,62 @@ export default class GlideCoreRadioGroup extends LitElement {
   override disconnectedCallback() {
     super.disconnectedCallback();
     this.form?.removeEventListener('formdata', this.#onFormdata);
-    this.#initialCheckedRadio = undefined;
   }
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreRadio]);
 
-    // Set the default checked radio item to be the first checked radio, if it exists
-    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#value
-    this.#initialCheckedRadio = this.#radioItems.find((radio) => radio.checked);
+    if (this.disabled) {
+      for (const radio of this.#radios) {
+        radio.disabled = true;
+      }
+    }
 
-    this.#initializeRadios();
+    if (this.required) {
+      for (const radio of this.#radios) {
+        radio.privateRequired = true;
+      }
+    }
+
+    const checkedRadio = this.value
+      ? this.#radios.find(({ value }) => value === this.value)
+      : this.#radios.find(({ checked, disabled }) => checked && !disabled);
+
+    // When there isn't a default `value` attribute set on the radio group
+    // itself, but a child radio has `checked` set instead, we need to
+    // manually set the `value` attribute on the group.
+    // This way when `form.reset()` is called, we know what value to reset
+    // back to by using the attribute.
+    // This follows the pattern of the native input element.
+    if (!this.value && checkedRadio?.value) {
+      this.setAttribute('value', checkedRadio.value);
+    }
+
+    if (checkedRadio) {
+      this.value = checkedRadio.value;
+
+      for (const radio of this.#radios) {
+        radio.tabIndex = radio === checkedRadio ? 0 : -1;
+      }
+
+      return;
+    }
+
+    // When there is no default selected radio, we set the first non-disabled
+    // radio to have a tab index so that a user can tab into the radio group
+    // and begin interacting with it using their keyboard.
+    const firstRadio = this.#radios.find(({ disabled }) => !disabled);
+
+    for (const radio of this.#radios) {
+      radio.tabIndex = radio === firstRadio ? 0 : -1;
+    }
   }
 
   override focus(options?: FocusOptions): void {
-    let radioToFocus = this.#radioItems.find((radio) => radio.checked);
-
-    if (!radioToFocus) {
-      radioToFocus = this.#radioItems.find((radio) => radio.tabIndex === 0);
-    }
+    const radioToFocus =
+      this.#radios.find(({ checked, disabled }) => checked && !disabled) ??
+      this.#radios.find(({ tabIndex }) => tabIndex === 0);
 
     radioToFocus?.focus(options);
   }
@@ -104,9 +194,9 @@ export default class GlideCoreRadioGroup extends LitElement {
   }
 
   get validity() {
-    const isChecked = this.#radioItems.some(({ checked }) => checked);
+    const isChecked = this.#radios.some(({ checked }) => checked);
 
-    if (this.required && !isChecked && !this.value && !this.disabled) {
+    if (this.required && !isChecked && !this.disabled) {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
@@ -118,12 +208,24 @@ export default class GlideCoreRadioGroup extends LitElement {
       return this.#internals.validity;
     }
 
-    if (
-      this.required &&
-      this.#internals.validity.valueMissing &&
-      (isChecked || this.value)
-    ) {
+    if (this.required && this.#internals.validity.valueMissing && isChecked) {
       this.#internals.setValidity({});
+      return this.#internals.validity;
+    }
+
+    if (this.required && this.disabled && !isChecked) {
+      this.#internals.setValidity(
+        { valueMissing: true },
+        ' ',
+        this.#componentElementRef.value,
+      );
+
+      return this.#internals.validity;
+    }
+
+    if (!this.required && this.#internals.validity.valueMissing && !isChecked) {
+      this.#internals.setValidity({});
+
       return this.#internals.validity;
     }
 
@@ -139,17 +241,7 @@ export default class GlideCoreRadioGroup extends LitElement {
   }
 
   formResetCallback() {
-    // We need to protect against the case where there is no initially checked radio because
-    // otherwise all radios become unchecked and consequently untabbable
-
-    if (this.#initialCheckedRadio && this.contains(this.#initialCheckedRadio)) {
-      for (const radioItem of this.#radioItems) {
-        this.#setCheckedRadio(
-          radioItem === this.#initialCheckedRadio,
-          radioItem,
-        );
-      }
-    }
+    this.value = this.getAttribute('value') ?? '';
   }
 
   override render() {
@@ -179,11 +271,13 @@ export default class GlideCoreRadioGroup extends LitElement {
             role="radiogroup"
             slot="control"
             aria-labelledby="label description"
-            @blur=${this.#onBlur}
           >
             <slot
               ${ref(this.#defaultSlotElementRef)}
+              @focusout=${this.#onRadioGroupFocusout}
               @slotchange=${this.#onDefaultSlotChange}
+              @private-checked-change=${this.#onRadiosCheckedChange}
+              @private-value-change=${this.#onRadiosValueChange}
             ></slot>
           </div>
 
@@ -251,48 +345,34 @@ export default class GlideCoreRadioGroup extends LitElement {
     this.#internals.setValidity(flags, ' ', this.#componentElementRef.value);
   }
 
-  override updated(
-    changedProperties: PropertyValueMap<GlideCoreRadioGroup>,
-  ): void {
-    if (
-      this.hasUpdated &&
-      (changedProperties.has('value') || changedProperties.has('required'))
-    ) {
-      this.#onUpdateValidityState();
-      this.#setInvalidRadios(!this.#internals.validity.valid);
-      this.requestUpdate();
-    }
-  }
-
-  override willUpdate(
-    changedProperties: PropertyValueMap<GlideCoreRadioGroup>,
-  ): void {
-    if (this.hasUpdated) {
-      if (changedProperties.has('required')) {
-        this.#setRequiredRadios();
-      }
-
-      if (changedProperties.has('disabled')) {
-        for (const radioItem of this.#radioItems) {
-          this.#setDisabledRadio(this.disabled, radioItem);
-        }
-
-        !this.disabled && this.#setRadiosTabindex();
-      }
-
-      if (changedProperties.has('value')) {
-        for (const radioItem of this.#radioItems) {
-          radioItem.checked = radioItem.value === this.value;
-        }
-      }
-    }
-  }
-
   constructor() {
     super();
     this.#internals = this.attachInternals();
 
-    this.addEventListener('invalid', this.#onInvalid);
+    this.addEventListener('invalid', (event) => {
+      event.preventDefault();
+
+      if (!this.isCheckingValidity) {
+        // Canceled so a native validation message isn't shown.
+        event?.preventDefault();
+
+        // We only want to focus the radios if the invalid event resulted from either:
+        // 1. Form submission
+        // 2. a call to reportValidity that did NOT result from the input blur event
+        if (this.isCheckingValidity || this.isBlurring) {
+          return;
+        }
+
+        this.isReportValidityOrSubmit = true;
+
+        const isFirstInvalidFormElement =
+          this.form?.querySelector(':invalid') === this;
+
+        if (isFirstInvalidFormElement) {
+          this.focus();
+        }
+      }
+    });
   }
 
   @state()
@@ -311,13 +391,13 @@ export default class GlideCoreRadioGroup extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #initialCheckedRadio?: GlideCoreRadio = undefined;
-
   #internals: ElementInternals;
 
-  // Recall the previously checked radio so that we can
-  // return focus to it when clicking on a disabled radio.
-  #previousCheckedRadio?: GlideCoreRadio;
+  #isDisabled = false;
+
+  #isRequired = false;
+
+  #value = '';
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of the form.
@@ -327,63 +407,40 @@ export default class GlideCoreRadioGroup extends LitElement {
     }
   };
 
-  #initializeRadios() {
-    // Set the default checked radio item to be the first checked radio, if it exists
-    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#value
-    const intialCheckedRadio = this.#radioItems.find((radio) => radio.checked);
-
-    // If no radio is already checked, use the checked radio from when the component `firstUpdated`
-    this.value =
-      intialCheckedRadio?.value ?? this.#initialCheckedRadio?.value ?? '';
-
-    this.#previousCheckedRadio =
-      intialCheckedRadio ?? this.#initialCheckedRadio;
-
-    this.required && this.#setRequiredRadios();
-
-    for (const radioItem of this.#radioItems) {
-      // Set all radios as disabled if the group is disabled, otherwise set
-      // individual radios as given.
-      if (this.disabled) {
-        this.#setDisabledRadio(this.disabled, radioItem);
-      } else {
-        this.#setDisabledRadio(radioItem.disabled, radioItem);
-      }
-
-      radioItem.addEventListener('blur', this.#onRadioItemBlur.bind(this));
-    }
-
-    !this.disabled && this.#setRadiosTabindex();
-  }
-
   get #isShowValidationFeedback() {
     const isInvalid =
       !this.disabled && !this.validity.valid && this.isReportValidityOrSubmit;
 
-    this.#setInvalidRadios(isInvalid);
+    for (const radioItem of this.#radios) {
+      radioItem.privateInvalid = isInvalid;
+    }
 
     return isInvalid;
   }
 
-  #onBlur() {
-    this.isBlurring = true;
-    this.reportValidity();
-    this.isBlurring = false;
+  #checkRadio(radio: GlideCoreRadio) {
+    radio.checked = true;
+    radio.tabIndex = 0;
+
+    this.value = radio.value;
+
+    radio.focus();
+
+    radio.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+    radio.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   #onClick(event: MouseEvent) {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
 
     // If the user clicks on a disabled radio, then attempts to use the keyboard, the focus would normally
     // be stuck on the disabled element. Since the general pattern is for focus to follow selection,
     // it does so here, going to the last checked radio.
-    if (
-      event.target instanceof GlideCoreRadio &&
-      event.target.disabled &&
-      this.#previousCheckedRadio &&
-      !this.#previousCheckedRadio.disabled
-    ) {
-      this.#previousCheckedRadio?.focus();
+    if (event.target instanceof GlideCoreRadio && event.target.disabled) {
+      const selectedRadio = this.#radios.find(({ checked }) => checked);
+      selectedRadio?.focus();
       return;
     }
 
@@ -394,45 +451,22 @@ export default class GlideCoreRadioGroup extends LitElement {
       radioTarget &&
       !radioTarget.disabled
     ) {
-      this.#setCheckedRadio(true, radioTarget);
+      const radiosToUncheck = this.#radios.filter(
+        (radio) => radio !== radioTarget,
+      );
 
-      for (const radioItem of this.#radioItems) {
-        if (radioItem !== radioTarget) {
-          this.#setCheckedRadio(false, radioItem);
-        }
+      for (const radio of radiosToUncheck) {
+        radio.checked = false;
+        radio.tabIndex = -1;
       }
+
+      this.#checkRadio(radioTarget);
     }
   }
 
   #onDefaultSlotChange() {
     owSlot(this.#defaultSlotElementRef.value);
     owSlotType(this.#defaultSlotElementRef.value, [GlideCoreRadio]);
-
-    this.#initializeRadios();
-  }
-
-  #onInvalid(event: Event) {
-    event.preventDefault();
-
-    if (!this.isCheckingValidity) {
-      event?.preventDefault(); // Canceled so a native validation message isn't shown.
-
-      // We only want to focus the radios if the invalid event resulted from either:
-      // 1. Form submission
-      // 2. a call to reportValidity that did NOT result from the input blur event
-      if (this.isCheckingValidity || this.isBlurring) {
-        return;
-      }
-
-      this.isReportValidityOrSubmit = true;
-
-      const isFirstInvalidFormElement =
-        this.form?.querySelector(':invalid') === this;
-
-      if (isFirstInvalidFormElement) {
-        this.focus();
-      }
-    }
   }
 
   #onKeydown(event: KeyboardEvent) {
@@ -454,34 +488,21 @@ export default class GlideCoreRadioGroup extends LitElement {
         case 'ArrowUp':
         case 'ArrowLeft': {
           event.preventDefault();
-          // Find the closest enabled radio.
-          let sibling = radioTarget.previousElementSibling;
 
-          while (
-            (!sibling ||
-              (sibling instanceof GlideCoreRadio && sibling.disabled) ||
-              !(sibling instanceof GlideCoreRadio)) &&
-            sibling !== radioTarget
-          ) {
-            if (sibling === null) {
-              const lastRadio = this.#radioItems.at(-1);
+          const radios = [...this.#radios];
 
-              if (lastRadio) {
-                sibling = lastRadio;
-              }
-            } else {
-              sibling = sibling.previousElementSibling;
-            }
-          }
+          const previousEnabledRadio = [...this.#radios]
+            .slice(0, radios.indexOf(radioTarget))
+            .findLast((option) => !option.disabled);
 
-          if (
-            sibling &&
-            sibling instanceof GlideCoreRadio &&
-            !sibling.disabled &&
-            sibling !== radioTarget
-          ) {
-            this.#setCheckedRadio(false, radioTarget);
-            this.#setCheckedRadio(true, sibling);
+          const lastEnabledRadio = radios.findLast((radio) => !radio.disabled);
+
+          if (previousEnabledRadio && previousEnabledRadio !== radioTarget) {
+            this.#uncheckRadio(radioTarget);
+            this.#checkRadio(previousEnabledRadio);
+          } else if (lastEnabledRadio && lastEnabledRadio !== radioTarget) {
+            this.#uncheckRadio(radioTarget);
+            this.#checkRadio(lastEnabledRadio);
           }
 
           break;
@@ -489,34 +510,21 @@ export default class GlideCoreRadioGroup extends LitElement {
         case 'ArrowDown':
         case 'ArrowRight': {
           event.preventDefault();
-          // Find the closest enabled radio.
-          let sibling = radioTarget.nextElementSibling;
 
-          while (
-            (!sibling ||
-              (sibling instanceof GlideCoreRadio && sibling.disabled) ||
-              !(sibling instanceof GlideCoreRadio)) &&
-            sibling !== radioTarget
-          ) {
-            if (sibling === null) {
-              const firstRadio = this.#radioItems.at(0);
+          const radios = [...this.#radios];
 
-              if (firstRadio) {
-                sibling = firstRadio;
-              }
-            } else {
-              sibling = sibling.nextElementSibling;
-            }
-          }
+          const nextEnabledRadio = radios.find((option, index) => {
+            return !option.disabled && index > radios.indexOf(radioTarget);
+          });
 
-          if (
-            sibling &&
-            sibling instanceof GlideCoreRadio &&
-            !sibling.disabled &&
-            sibling !== radioTarget
-          ) {
-            this.#setCheckedRadio(false, radioTarget);
-            this.#setCheckedRadio(true, sibling);
+          const firstEnabledRadio = radios.find((radio) => !radio.disabled);
+
+          if (nextEnabledRadio && nextEnabledRadio !== radioTarget) {
+            this.#uncheckRadio(radioTarget);
+            this.#checkRadio(nextEnabledRadio);
+          } else if (firstEnabledRadio && firstEnabledRadio !== radioTarget) {
+            this.#uncheckRadio(radioTarget);
+            this.#checkRadio(firstEnabledRadio);
           }
 
           break;
@@ -525,11 +533,11 @@ export default class GlideCoreRadioGroup extends LitElement {
           event.preventDefault();
 
           if (!radioTarget.disabled && !radioTarget.checked) {
-            this.#setCheckedRadio(true, radioTarget);
+            this.#checkRadio(radioTarget);
 
-            for (const radioItem of this.#radioItems) {
+            for (const radioItem of this.#radios) {
               if (radioItem !== radioTarget) {
-                this.#setCheckedRadio(false, radioItem);
+                this.#uncheckRadio(radioItem);
               }
             }
           }
@@ -540,111 +548,59 @@ export default class GlideCoreRadioGroup extends LitElement {
     }
   }
 
-  #onRadioItemBlur(event: FocusEvent) {
-    const newlyFocusedElement = event.relatedTarget;
+  #onRadioGroupFocusout(event: FocusEvent) {
+    // If `event.relatedTarget` is `null`, the user has clicked an element outside
+    // Radio Group that cannot receive focus. Otherwise, the user has either clicked
+    // an element outside Radio Group that can receive focus or else has tabbed away
+    // from Radio Group.
+    const isFocusLost =
+      event.relatedTarget === null ||
+      (event.relatedTarget instanceof Node &&
+        !this.contains(event.relatedTarget));
 
+    if (isFocusLost) {
+      this.isBlurring = true;
+      this.reportValidity();
+      this.isBlurring = false;
+    }
+  }
+
+  get #radios() {
+    return this.#defaultSlotElementRef.value
+      ? this.#defaultSlotElementRef.value
+          .assignedElements()
+          .filter(
+            (element): element is GlideCoreRadio =>
+              element instanceof GlideCoreRadio,
+          )
+      : [];
+  }
+
+  #onRadiosCheckedChange(event: CustomEvent<{ new: boolean; old: boolean }>) {
     if (
-      !newlyFocusedElement ||
-      !(newlyFocusedElement instanceof GlideCoreRadio) ||
-      !this.#radioItems.includes(newlyFocusedElement)
+      event.target instanceof GlideCoreRadio &&
+      event.target.checked &&
+      !event.detail.old &&
+      event.detail.new
     ) {
-      this.#onBlur();
+      this.value = event.target.value;
     }
   }
 
-  #onUpdateValidityState() {
-    const isChecked = this.#radioItems.find((radio) => radio.checked);
-
-    if (this.required && !isChecked) {
-      // A validation message is required but unused because we disable native validation feedback.
-      // And an empty string isn't allowed. Thus a single space.
-      this.#internals.setValidity(
-        { valueMissing: true },
-        ' ',
-        this.#componentElementRef.value,
-      );
-    } else {
-      this.#internals.setValidity({});
+  #onRadiosValueChange(event: CustomEvent<{ new: string; old: string }>) {
+    if (
+      event.target instanceof GlideCoreRadio &&
+      event.target.checked &&
+      event.detail.new
+    ) {
+      this.value = event.target.value;
+    } else if (event.target instanceof GlideCoreRadio && event.target.checked) {
+      this.value = '';
     }
   }
 
-  get #radioItems() {
-    return (
-      this.#defaultSlotElementRef.value
-        ?.assignedElements()
-        .filter(
-          (element): element is GlideCoreRadio =>
-            element instanceof GlideCoreRadio,
-        ) ?? []
-    );
-  }
-
-  #setCheckedRadio(isChecked: boolean, radio: GlideCoreRadio) {
-    radio.checked = isChecked;
-    radio.tabIndex = isChecked ? 0 : -1;
-
-    if (isChecked) {
-      this.#previousCheckedRadio = radio;
-      this.value = radio.value;
-      radio.focus();
-      radio.dispatchEvent(new Event('change', { bubbles: true }));
-
-      radio.dispatchEvent(
-        new Event('input', { bubbles: true, composed: true }),
-      );
-    }
-  }
-
-  #setDisabledRadio(isDisabled: boolean, radio: GlideCoreRadio) {
-    radio.disabled = isDisabled;
-
-    if (isDisabled) {
-      radio.tabIndex = -1;
-    }
-  }
-
-  #setInvalidRadios(isInvalid: boolean) {
-    for (const radioItem of this.#radioItems) {
-      radioItem.invalid = isInvalid;
-    }
-  }
-
-  #setRadiosTabindex() {
-    // Do not set any radio as tabbable if all are disabled.
-    if (this.disabled || this.#radioItems.every((button) => button.disabled)) {
-      return;
-    }
-
-    // Set a radio as tabbable if it is the first checked and enabled element, or the
-    // first enabled element; otherwise set the radio as not tabbable.
-    let firstTabbableRadio: GlideCoreRadio | null = null;
-
-    const firstEnabledCheckedRadio = this.#radioItems.find(
-      (radio) => !radio.disabled && radio.checked,
-    );
-
-    if (firstEnabledCheckedRadio) {
-      firstTabbableRadio = firstEnabledCheckedRadio;
-    } else {
-      const firstEnabledRadio = this.#radioItems.find(
-        (radio) => !radio.disabled,
-      );
-
-      if (firstEnabledRadio) {
-        firstTabbableRadio = firstEnabledRadio;
-      }
-    }
-
-    if (firstTabbableRadio) {
-      for (const radioItem of this.#radioItems) {
-        radioItem.tabIndex = radioItem === firstTabbableRadio ? 0 : -1;
-      }
-    }
-  }
-
-  #setRequiredRadios() {
-    for (const radioItem of this.#radioItems) {
-      radioItem.required = this.required;
-    }
+  #uncheckRadio(radio: GlideCoreRadio) {
+    radio.checked = false;
+    radio.tabIndex = -1;
   }
 }
