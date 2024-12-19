@@ -354,9 +354,9 @@ export default class GlideCorePopover extends LitElement {
                           limiter: limitShift({
                             // Shifting is limited so the arrow is never near the popover's rounded
                             // corners, which would leave a gap between the arrow and the part of
-                            // the corner that's missing due to rounding. `20` is just a rough number.
-                            // `15` isn't enough.
-                            offset: 20,
+                            // the corner that's missing due to rounding. `30` is just a round number.
+                            // `25` isn't enough.
+                            offset: 30,
                           }),
                         }),
                         arrow({ element: this.#arrowElementRef.value }),
