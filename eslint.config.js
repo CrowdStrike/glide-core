@@ -38,18 +38,12 @@ export default [
     rules: {
       '@crowdstrike/glide-core/consistent-reference-element-declarations':
         'error',
-      '@crowdstrike/glide-core/consistent-test-fixture-variable-declarator':
-        'error',
       '@crowdstrike/glide-core/no-glide-core-prefixed-event-name': 'error',
       '@crowdstrike/glide-core/no-nested-template-literals': 'error',
-      '@crowdstrike/glide-core/no-only-tests': 'error',
       '@crowdstrike/glide-core/no-redundant-property-attribute': 'error',
       '@crowdstrike/glide-core/no-redundant-property-string-type': 'error',
-      '@crowdstrike/glide-core/no-skip-tests': 'error',
       '@crowdstrike/glide-core/no-space-press': 'error',
-      '@crowdstrike/glide-core/no-to-have-attribute': 'error',
       '@crowdstrike/glide-core/prefer-closed-shadow-root': 'error',
-      '@crowdstrike/glide-core/prefer-to-be-true-or-false': 'error',
       '@crowdstrike/glide-core/prefixed-lit-element-class-declaration': 'error',
 
       // Enabling this rule would force us to `await` any function that returns a promise.
@@ -284,20 +278,25 @@ export default [
     },
   },
   {
-    files: [
-      '**/*.js',
-      'src/**/*.test.ts',
-      'src/*.test.*.ts',
-      'src/*.*.test.*.ts',
-    ],
+    files: ['src/*.test.*.ts', 'src/*.test.*.ts', 'src/*.*.test.*.ts'],
+    rules: {
+      '@crowdstrike/glide-core/consistent-test-fixture-variable-declarator':
+        'error',
+      '@crowdstrike/glide-core/no-only-tests': 'error',
+      '@crowdstrike/glide-core/no-skip-tests': 'error',
+      '@crowdstrike/glide-core/no-to-have-attribute': 'error',
+      '@crowdstrike/glide-core/prefer-to-be-true-or-false': 'error',
+    },
+  },
+  // These rules don't apply to JavaScript. And for tests they're annoying
+  // due to how much of "@open-wc/testing" is typed as `any` or inconsistently.
+  // `expect`, for example, results sometimes in a promise and other times
+  // something else depending on what it's chained with.
+  {
+    files: ['**/*.js', 'src/*.test.*.ts', 'src/*.*.test.*.ts'],
     rules: {
       '@typescript-eslint/no-unused-expressions': 'off',
     },
-
-    // These rules don't apply to JavaScript. And for tests they're annoying
-    // due to how much of "@open-wc/testing" is typed as `any` or inconsistently.
-    // `expect`, for example, results sometimes in a promise and other times
-    // something else depending on what it's chained with.
     ...typescript.configs.disableTypeChecked,
   },
 ];
