@@ -141,7 +141,7 @@ export default [
       'unicorn/no-keyword-prefix': 'off',
 
       // We understand Unicorn's justification for this but found it hurts
-      // readability for than it helps searchability.
+      // readability more than it helps searchability.
       //
       // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-anonymous-default-export.md
       'unicorn/no-anonymous-default-export': 'off',
