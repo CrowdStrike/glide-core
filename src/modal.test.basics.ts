@@ -12,7 +12,7 @@ import sinon from 'sinon';
 GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-modal')).to.equal(
+  expect(globalThis.customElements.get('glide-core-modal')).to.equal(
     GlideCoreModal,
   );
 });

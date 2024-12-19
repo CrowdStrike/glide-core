@@ -6,7 +6,7 @@ GlideCoreTreeItemIconButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(
-    window.customElements.get('glide-core-tree-item-icon-button'),
+    globalThis.customElements.get('glide-core-tree-item-icon-button'),
   ).to.equal(GlideCoreTreeItemIconButton);
 });
 

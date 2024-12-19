@@ -7,7 +7,7 @@ GlideCoreSplitButtonPrimaryLink.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(
-    window.customElements.get('glide-core-split-button-primary-link'),
+    globalThis.customElements.get('glide-core-split-button-primary-link'),
   ).to.equal(GlideCoreSplitButtonPrimaryLink);
 });
 

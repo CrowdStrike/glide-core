@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './split-button.primary-button.js';
 import './split-button.primary-link.js';
 import { expect, fixture, html } from '@open-wc/testing';
@@ -13,7 +11,7 @@ GlideCoreSplitButtonSecondaryButton.shadowRootOptions.mode = 'open';
 GlideCoreMenuButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-split-button')).to.equal(
+  expect(globalThis.customElements.get('glide-core-split-button')).to.equal(
     GlideCoreSplitButton,
   );
 });

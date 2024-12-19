@@ -10,7 +10,7 @@ import sinon from 'sinon';
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-checkbox-group')).to.equal(
+  expect(globalThis.customElements.get('glide-core-checkbox-group')).to.equal(
     GlideCoreCheckboxGroup,
   );
 });

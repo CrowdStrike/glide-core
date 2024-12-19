@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './label.js';
 import './tooltip.js';
 import { LitElement, html } from 'lit';

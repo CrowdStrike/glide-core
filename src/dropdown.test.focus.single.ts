@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './dropdown.option.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdown from './dropdown.js';

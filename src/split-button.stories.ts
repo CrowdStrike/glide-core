@@ -69,7 +69,6 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    /* eslint-disable unicorn/explicit-length-check */
     return html`
       <glide-core-split-button
         size=${arguments_.size}

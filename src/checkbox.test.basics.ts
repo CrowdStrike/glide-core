@@ -6,7 +6,7 @@ import GlideCoreCheckbox from './checkbox.js';
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-checkbox')).to.equal(
+  expect(globalThis.customElements.get('glide-core-checkbox')).to.equal(
     GlideCoreCheckbox,
   );
 });

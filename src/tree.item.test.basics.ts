@@ -12,7 +12,9 @@ TreeItemMenu.shadowRootOptions.mode = 'open';
 Menu.shadowRootOptions.mode = 'open';
 
 it('registers', () => {
-  expect(window.customElements.get('glide-core-tree-item')).to.equal(TreeItem);
+  expect(globalThis.customElements.get('glide-core-tree-item')).to.equal(
+    TreeItem,
+  );
 });
 
 it('renders and sets default attributes', async () => {

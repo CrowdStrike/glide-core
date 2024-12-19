@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './radio-group.radio.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreRadio from './radio-group.radio.js';
@@ -7,7 +5,7 @@ import GlideCoreRadio from './radio-group.radio.js';
 GlideCoreRadio.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-radio')).to.equal(
+  expect(globalThis.customElements.get('glide-core-radio')).to.equal(
     GlideCoreRadio,
   );
 });

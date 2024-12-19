@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './menu.button.js';
 import './menu.link.js';
 import { ArgumentError } from 'ow';

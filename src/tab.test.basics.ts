@@ -7,7 +7,9 @@ import GlideCoreTab from './tab.js';
 GlideCoreTab.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-tab')).to.equal(GlideCoreTab);
+  expect(globalThis.customElements.get('glide-core-tab')).to.equal(
+    GlideCoreTab,
+  );
 });
 
 it('renders correct markup and sets correct attributes for the default case', async () => {

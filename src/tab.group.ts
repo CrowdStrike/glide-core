@@ -426,7 +426,7 @@ export default class GlideCoreTabGroup extends LitElement {
       this.#componentElementRef.value
     ) {
       const selectedTabInlinePadding = Number.parseInt(
-        window
+        globalThis
           .getComputedStyle(this.selectedTab)
           .getPropertyValue('padding-inline-start'),
       );

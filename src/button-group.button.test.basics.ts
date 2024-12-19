@@ -9,9 +9,9 @@ import sinon from 'sinon';
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-button-group-button')).to.equal(
-    GlideCoreButtonGroupButton,
-  );
+  expect(
+    globalThis.customElements.get('glide-core-button-group-button'),
+  ).to.equal(GlideCoreButtonGroupButton);
 });
 
 it('has defaults', async () => {

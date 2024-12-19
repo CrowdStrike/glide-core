@@ -7,7 +7,7 @@ import GlideCoreInput from './input.js';
 GlideCoreInput.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-input')).to.equal(
+  expect(globalThis.customElements.get('glide-core-input')).to.equal(
     GlideCoreInput,
   );
 });

@@ -8,7 +8,7 @@ GlideCoreToast.shadowRootOptions.mode = 'open';
 // to manually dispatch the `transitionend` event in tests.
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-toast')).to.equal(
+  expect(globalThis.customElements.get('glide-core-toast')).to.equal(
     GlideCoreToast,
   );
 });

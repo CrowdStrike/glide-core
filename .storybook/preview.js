@@ -85,7 +85,6 @@ export default {
                 // <glide-core-split-button-primary-button>.label" → "label"
                 const argumentKeyWithoutSubcomponent = argumentKey.slice(
                   argumentKey.indexOf('.') + 1,
-                  argumentKey.length,
                 );
 
                 // "<glide-core-split-button-primary-button>.label" → "glide-core-split-button-primary-button"

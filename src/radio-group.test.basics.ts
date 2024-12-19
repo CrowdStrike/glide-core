@@ -17,7 +17,7 @@ GlideCoreRadio.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-radio-group')).to.equal(
+  expect(globalThis.customElements.get('glide-core-radio-group')).to.equal(
     GlideCoreRadioGroup,
   );
 });

@@ -12,7 +12,9 @@ import GlideCoreTag from './tag.js';
 GlideCoreTag.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-tag')).to.equal(GlideCoreTag);
+  expect(globalThis.customElements.get('glide-core-tag')).to.equal(
+    GlideCoreTag,
+  );
 });
 
 it('is accessible', async () => {
