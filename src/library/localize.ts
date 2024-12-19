@@ -28,6 +28,7 @@ export interface Translation extends DefaultTranslation {
   nextTab: string;
   previousTab: string;
   noResults: string;
+  tooltip: string;
 
   announcedCharacterCount: (current: number, maximum: number) => string;
   displayedCharacterCount: (current: number, maximum: number) => string;
