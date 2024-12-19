@@ -1,29 +1,39 @@
-import './button.js';
 import './icons/storybook.js';
-import './tooltip.js';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import GlideCoreTooltip from './tooltip.js';
 import focusOutline from './styles/focus-outline.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Tooltip',
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      story: {
+        autoplay: true,
+      },
+    },
+  },
   decorators: [
     (story) =>
       html`<div
         style="align-items: center; display: flex; height: 8rem; justify-content: center;"
       >
         <style>
-          textarea {
-            height: 6lh !important;
-            width: 24rem !important;
-          }
-
           [slot="target"] {
-            border-radius: 0.0625rem;
+            background-color: transparent;
+            border: none;
+            border-radius: 50%;
             display: inline-flex;
-            &:focus-visible {${focusOutline};}
+            outline-offset: 1px;
+            padding: 0;
+
+            &:focus-visible {
+              ${focusOutline};
+            }
           }
         </style>
 
@@ -35,7 +45,7 @@ const meta: Meta = {
       </div>`,
   ],
   args: {
-    'slot="default"': 'Tooltip',
+    'slot="default"': 'Content',
     'slot="target"': '',
     disabled: false,
     offset: 4,
@@ -47,8 +57,7 @@ const meta: Meta = {
     'slot="default"': {
       table: {
         type: {
-          summary: 'Element',
-          detail: '// The content of the tooltip',
+          summary: 'Element | string',
         },
       },
       type: { name: 'string', required: true },
@@ -57,7 +66,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'Element',
-          detail: '// The element to which the tooltip should anchor',
+          detail: '// The element to which the tooltip will anchor',
         },
       },
       type: { name: 'function', required: true },
@@ -67,7 +76,7 @@ const meta: Meta = {
         defaultValue: { summary: 'false' },
         type: {
           summary: 'boolean',
-          detail: `// The tooltip is never shown when disabled. Useful when you have markup conditionally rendering Tooltip.\n// Instead of doing that, always render Tooltip and simply disable it when appropriate.`,
+          detail: `// The tooltip is never shown when disabled. Useful when you have markup conditionally rendering\n// Tooltip. Instead, always render Tooltip and set this attribute as needed.`,
         },
       },
     },
@@ -84,7 +93,7 @@ const meta: Meta = {
         type: {
           summary: 'boolean',
           detail:
-            '// Force tooltip visibility. Useful when the tooltip should be visible based on something other than hover or focus.',
+            '// Force visibility of the tooltip. Useful when it should be visible based on something other than hover or focus.',
         },
       },
     },
@@ -96,7 +105,7 @@ const meta: Meta = {
         type: {
           summary: '"top" | "right" | "bottom" | "left"',
           detail:
-            '// Tooltip will try to move itself to the opposite of this value if it results in an overflow.\n// For example, if "bottom" results in an overflow Tooltip will try "top" but not "right" or "left".',
+            '// The tooltip will try to move itself to the opposite of this value if not doing so would result in\n// overflow. For example, if "bottom" results in overflow Tooltip will try "top" but not "right"\n// or "left".',
         },
       },
     },
@@ -109,24 +118,42 @@ const meta: Meta = {
       },
     },
   },
+  play(context) {
+    const tooltip = context.canvasElement.querySelector('glide-core-tooltip');
+
+    const observer = new MutationObserver(() => {
+      if (tooltip instanceof GlideCoreTooltip) {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            open: tooltip.open,
+          },
+        });
+      }
+    });
+
+    if (tooltip) {
+      observer.observe(tooltip, {
+        attributes: true,
+        attributeFilter: ['open'],
+      });
+    }
+  },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <glide-core-tooltip
         offset=${arguments_.offset}
         placement=${arguments_.placement}
-        .shortcut=${arguments_.shortcut}
         ?disabled=${arguments_.disabled}
         ?open=${arguments_.open}
+        .shortcut=${arguments_.shortcut}
       >
         ${unsafeHTML(arguments_['slot="default"'])}
 
-        <glide-core-example-icon
-          name="info"
-          slot="target"
-          tabindex="0"
-          style="border-radius: 50%; outline-offset: 1px;"
-        ></glide-core-example-icon>
+        <button slot="target">
+          <glide-core-example-icon name="info"></glide-core-example-icon>
+        </button>
       </glide-core-tooltip>
     `;
   },
