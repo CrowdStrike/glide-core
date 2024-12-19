@@ -502,7 +502,7 @@ export default class GlideCoreDropdown extends LitElement {
     // to options, which can receive focus, and "keydown" events won't be emitted on ".dropdown"
     // when it doesn't have focus.
 
-    /*  eslint-disable lit-a11y/list, lit-a11y/mouse-events-have-key-events, lit-a11y/click-events-have-key-events */
+    /*  eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/click-events-have-key-events */
     return html`<div
       class=${classMap({
         component: true,
@@ -1880,9 +1880,9 @@ export default class GlideCoreDropdown extends LitElement {
     // Deselecting an option the user can't see ain't good. So they're filtered out.
     // As the user deselects options, ones previously overflowing will be become
     // visible and thus deselectable using Backspace.
-    const lastSelectedAndNotOverflowingOption = this.selectedOptions
-      .filter((_, index) => index <= this.tagOverflowLimit - 1)
-      .at(-1);
+    const lastSelectedAndNotOverflowingOption = this.selectedOptions.findLast(
+      (_, index) => index <= this.tagOverflowLimit - 1,
+    );
 
     if (
       lastSelectedAndNotOverflowingOption &&

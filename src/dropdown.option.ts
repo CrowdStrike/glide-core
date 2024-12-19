@@ -237,7 +237,6 @@ export default class GlideCoreDropdownOption extends LitElement {
     // because options aren't focusable and thus don't produce keyboard events when Dropdown
     // is filterable.
 
-    /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`<div
       class=${classMap({
         component: true,

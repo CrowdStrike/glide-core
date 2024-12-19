@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './checkbox.js';
 import './input.js';
 import { ArgumentError } from 'ow';

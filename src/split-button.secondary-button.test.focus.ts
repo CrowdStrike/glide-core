@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
 

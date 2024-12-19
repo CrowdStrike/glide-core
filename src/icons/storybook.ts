@@ -1,4 +1,3 @@
-/* eslint-disable @crowdstrike/glide-core/prefer-closed-shadow-root */
 /* This is a shared file for storybook icons, so we don't need to enforce this rule. */
 /**
  * To be used in Storybook only

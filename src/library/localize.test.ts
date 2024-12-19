@@ -18,7 +18,6 @@ class GlideCoreMockComponent extends LitElement {
 
 it('can call any term from en translation if locale is Japanese', async () => {
   const component = await fixture<GlideCoreMockComponent>(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     html`<mock-component></mock-component>`,
   );
 

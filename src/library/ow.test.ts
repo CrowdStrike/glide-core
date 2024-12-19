@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-
 import { LitElement } from 'lit';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';

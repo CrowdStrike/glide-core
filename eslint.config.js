@@ -140,6 +140,15 @@ export default [
       // became tiresome.
       'unicorn/no-keyword-prefix': 'off',
 
+      // We understand Unicorn's justification for this but found it hurts
+      // readability more than it helps searchability.
+      //
+      // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-anonymous-default-export.md
+      'unicorn/no-anonymous-default-export': 'off',
+
+      // https://github.com/CrowdStrike/glide-core/pull/551#discussion_r1892759742
+      'unicorn/prefer-global-this': 'off',
+
       'no-restricted-imports': [
         'error',
         {

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './menu.button.js';
 import './split-button.primary-button.js';
 import './split-button.primary-link.js';

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { ArgumentError } from 'ow';
 import { expect } from '@open-wc/testing';
 import sinon from 'sinon';

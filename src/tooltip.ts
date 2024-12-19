@@ -135,7 +135,7 @@ export default class GlideCoreTooltip extends LitElement {
     // at least, won't read the tooltip's content. So an element with an `aria-label` is
     // placed inside the tooltip.
 
-    /* eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/accessible-name */
+    /* eslint-disable lit-a11y/mouse-events-have-key-events */
     return html`
       <div
         class="component"
