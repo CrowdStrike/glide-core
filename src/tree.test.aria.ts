@@ -28,7 +28,9 @@ it('sets roles tree and treeitem', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
 
   expect(
     component.shadowRoot?.firstElementChild?.getAttribute('role'),
@@ -43,8 +45,9 @@ it('sets roles tree and treeitem', async () => {
   ).to.equal('treeitem');
 
   expect(
-    childItems[1].slotElements[0].shadowRoot
-      ?.querySelector('.component')
+    childItems[1]
+      .querySelector('glide-core-tree-item')
+      ?.shadowRoot?.querySelector('.component')
       ?.getAttribute('role'),
   ).to.equal('treeitem');
 });
@@ -62,7 +65,9 @@ it('sets aria-expanded correctly', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
 
   expect(childItems[0].getAttribute('aria-expanded')).to.equal(
     null,
@@ -105,7 +110,9 @@ it('sets aria-selected correctly', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
 
   expect(childItems[0].getAttribute('aria-selected')).to.equal(
     null,

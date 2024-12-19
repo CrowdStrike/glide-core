@@ -14,7 +14,7 @@
     - [Avoid exposing `part`s](#avoid-exposing-parts)
     - [Prefer JavaScript's `#` over TypeScript's `private`](#prefer-javascripts--over-typescripts-private)
     - [Prefer a closed shadow root](#prefer-a-closed-shadow-root)
-    - [Prefer using a `ref` for querying a single element/node](#prefer-using-a-ref-for-querying-a-single-elementnode)
+    - [Avoid Lit's `@query` decorators](#avoid-lits-query-decorators)
     - [Prefer using animations only when the user has no reduced motion preference](#prefer-using-animations-only-when-the-user-has-no-reduced-motion-preference)
   - [Prefer `rem`s](#prefer-rems)
   - [Prefer assertions to narrow types](#prefer-assertions-to-narrow-types)
@@ -307,56 +307,19 @@ override createRenderRoot() {
 }
 ```
 
-#### Prefer using a `ref` for querying a single element/node
+#### Avoid Lit's `@query` decorators
 
-When building components, sometimes you need a reference to an underlying element.
-One may reach for [`query`](https://lit.dev/docs/api/decorators/#query); however, we believe [`ref`s](https://lit.dev/docs/templates/directives/#ref) are a bit more natural.
+Avoid `@query`, `@queryAll`, and the like.
+We think [refs](https://lit.dev/docs/templates/directives/#ref) are more natural—especially for those coming from React.
+And, [unlike](https://github.com/lit/lit/issues/4020#issuecomment-1743735312) decorators, refs can be made private.
+So we can be sure they're only used internally.
 
-```ts
-// ✅ -- GOOD
-// Use a `ref` when accessing an element.
-import { createRef, ref } from 'lit/directives/ref.js';
-
-@customElement('glide-core-example')
-export default class GlideCoreExample extends LitElement {
-  #onClick(Event: MouseEvent) {
-    console.log('click');
-  }
-
-  override render() {
-    return html`
-      <button @click=${this.#onClick} ${ref(this.#buttonElement)}>
-        <slot></slot>
-      </button>
-    `;
-  }
-}
-```
-
-```ts
-// ❌ -- BAD
-// Don't use `query` when accessing a single element.
-import { query } from 'lit/decorators.js';
-
-@customElement('glide-core-example')
-export default class GlideCoreExample extends LitElement {
-  #onClick(Event: MouseEvent) {
-    console.log('click');
-  }
-
-  override render() {
-    return html`
-      <button @click=${this.#onClick}>
-        <slot></slot>
-      </button>
-    `;
-  }
-}
-```
+When you can't use a ref because you need an element in a component's light DOM, use `this.querySelector` or `this.querySelectorAll`.
+If you need elements from a specific slot, use [assignedElements()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLSlotElement/assignedElements).
 
 #### Prefer using animations only when the user has no reduced motion preference
 
-The [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) media query is used to detect if a user has enabled a setting on their device to minimize non-essential motion.
+The [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) media query is used to detect if a user has enabled a setting on their device to minimize inessential motion.
 Our accessibility team recommends only enabling animations when the user doesn't prefer reduced motion.
 
 ```css
@@ -561,21 +524,6 @@ You'll most commonly see the error when you use one of Lit's property decorators
 It can be resolved using TypeScripts _non-null assertion operator_ (`!`).
 However, to avoid a runtime error if the property is accessed before it's defined, make sure you correctly type it.
 When in doubt, log the property to confirm its value before assigning it a type.
-A few examples of correctly typed decorators:
-
-#### `@queryAll`
-
-```ts
-@queryAll('input')
-inputElements!: NodeListOf<HTMLInputElement>
-```
-
-#### `@queryAssignedElements`
-
-```ts
-@queryAssignedElements()
-assignedElements!: Array<HTMLElement>;
-```
 
 #### `@property`
 

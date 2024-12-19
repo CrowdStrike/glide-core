@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './tree.item.icon-button.js';
-import './tree.item.js';
 import './tree.js';
 import { ArgumentError } from 'ow';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTree from './tree.js';
+import GlideCoreTreeItem from './tree.item.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 import type GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
@@ -37,8 +37,13 @@ it('can select child and grandchild items', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
-  const grandchildItems = childItems?.[1].slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
+  const grandchildItems = childItems?.[1].querySelectorAll(
+    'glide-core-tree-item',
+  );
 
   component.selectItem(childItems[0]);
   expect(childItems[0].selected).to.be.true;
@@ -66,8 +71,13 @@ it('can click child and grandchild items to expand or select them', async () => 
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
-  const grandchildItems = childItems?.[1].slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
+  const grandchildItems = childItems?.[1].querySelectorAll(
+    'glide-core-tree-item',
+  );
 
   // Clicking an item that doesn't have children selects it
   childItems[0].click();
@@ -103,7 +113,9 @@ it('does not select an item if a tree-item-icon-button is clicked', async () => 
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
 
   const iconButton = childItems[0].querySelector<GlideCoreTreeItemIconButton>(
     '[data-test-icon-button]',
@@ -127,7 +139,9 @@ it('does not select an item if its menu slot is clicked', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
 
   const menu =
     childItems[0].querySelector<GlideCoreTreeItemMenu>('[data-test-menu]');
