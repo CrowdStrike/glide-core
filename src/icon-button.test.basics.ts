@@ -9,7 +9,7 @@ import sinon from 'sinon';
 GlideCoreIconButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(globalThis.customElements.get('glide-core-icon-button')).to.equal(
+  expect(window.customElements.get('glide-core-icon-button')).to.equal(
     GlideCoreIconButton,
   );
 });

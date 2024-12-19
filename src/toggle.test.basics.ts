@@ -6,7 +6,7 @@ import GlideCoreToggle from './toggle.js';
 GlideCoreToggle.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(globalThis.customElements.get('glide-core-toggle')).to.equal(
+  expect(window.customElements.get('glide-core-toggle')).to.equal(
     GlideCoreToggle,
   );
 });

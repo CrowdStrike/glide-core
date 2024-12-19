@@ -6,7 +6,7 @@ import GlideCoreMenuLink from './menu.link.js';
 GlideCoreMenuLink.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(globalThis.customElements.get('glide-core-menu-link')).to.equal(
+  expect(window.customElements.get('glide-core-menu-link')).to.equal(
     GlideCoreMenuLink,
   );
 });

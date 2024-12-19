@@ -24,7 +24,7 @@ GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(globalThis.customElements.get('glide-core-dropdown')).to.equal(
+  expect(window.customElements.get('glide-core-dropdown')).to.equal(
     GlideCoreDropdown,
   );
 });

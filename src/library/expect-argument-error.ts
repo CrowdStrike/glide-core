@@ -9,7 +9,7 @@ import sinon from 'sinon';
   this library is for you.
 */
 export default async function (callback: () => Promise<unknown>) {
-  const onerror = globalThis.onerror;
+  const onerror = window.onerror;
 
   // Prevent Mocha from failing the test because of the failed "slotchange" assertion,
   // which is expected. We'd catch the error below. But it happens in an event handler
@@ -18,7 +18,7 @@ export default async function (callback: () => Promise<unknown>) {
   // https://github.com/mochajs/mocha/blob/99601da68d59572b6aa931e9416002bcb5b3e19d/browser-entry.js#L75
   //
   // eslint-disable-next-line unicorn/prefer-add-event-listener
-  globalThis.onerror = null;
+  window.onerror = null;
 
   const spy = sinon.spy();
 
@@ -33,5 +33,5 @@ export default async function (callback: () => Promise<unknown>) {
   expect(spy.callCount).to.equal(1);
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
-  globalThis.onerror = onerror;
+  window.onerror = onerror;
 }

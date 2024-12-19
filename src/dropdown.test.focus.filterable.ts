@@ -213,5 +213,5 @@ it('selects the filter text on focus', async () => {
   component.blur();
   component.focus();
 
-  expect(globalThis.getSelection()?.toString()).to.equal('one');
+  expect(window.getSelection()?.toString()).to.equal('one');
 });

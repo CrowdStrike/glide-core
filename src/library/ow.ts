@@ -1,8 +1,8 @@
 import ow, { type Ow } from 'ow';
 
 const isDevelopment =
-  globalThis.location.host.startsWith('localhost') ||
-  globalThis.location.host.startsWith('127.0.0.1');
+  window.location.host.startsWith('localhost') ||
+  window.location.host.startsWith('127.0.0.1');
 
 /**
  * @description Asserts that a slot has at least one slotted node.

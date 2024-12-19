@@ -1225,7 +1225,7 @@ it('selects the filter text when `click()` is called', async () => {
   await sendKeys({ type: 'one' });
   component.click();
 
-  expect(globalThis.getSelection()?.toString()).to.equal('one');
+  expect(window.getSelection()?.toString()).to.equal('one');
 });
 
 it('clicks the `<input>` when `click()` is called', async () => {

@@ -10,7 +10,7 @@ GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(globalThis.customElements.get('glide-core-button-group')).to.equal(
+  expect(window.customElements.get('glide-core-button-group')).to.equal(
     GlideCoreButtonGroup,
   );
 });

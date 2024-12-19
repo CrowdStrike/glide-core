@@ -7,9 +7,9 @@ import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
 it('registers', async () => {
-  expect(
-    globalThis.customElements.get('glide-core-form-controls-layout'),
-  ).to.equal(GlideCoreFormControlsLayout);
+  expect(window.customElements.get('glide-core-form-controls-layout')).to.equal(
+    GlideCoreFormControlsLayout,
+  );
 });
 
 it('has defaults', async () => {

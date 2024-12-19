@@ -25,11 +25,11 @@ function isPanelHidden(panel: GlideCoreTabPanel) {
 }
 
 it('registers', async () => {
-  expect(globalThis.customElements.get('glide-core-tab-group')).to.equal(
+  expect(window.customElements.get('glide-core-tab-group')).to.equal(
     GlideCoreTabGroup,
   );
 
-  expect(globalThis.customElements.get('glide-core-tab-panel')).to.equal(
+  expect(window.customElements.get('glide-core-tab-panel')).to.equal(
     GlideCoreTabPanel,
   );
 });
@@ -205,7 +205,7 @@ it('sets padding-inline-start of the Tab Group via `--tabs-padding-inline-start`
 
   assert(tabContainer);
 
-  expect(globalThis.getComputedStyle(tabContainer).paddingInline).to.equal(
+  expect(window.getComputedStyle(tabContainer).paddingInline).to.equal(
     '100px 0px',
   );
 });
@@ -225,7 +225,7 @@ it('sets padding-inline-end of the Tab Group via `--tabs-padding-inline-end`', a
 
   assert(tabContainer);
 
-  expect(globalThis.getComputedStyle(tabContainer).paddingInline).to.equal(
+  expect(window.getComputedStyle(tabContainer).paddingInline).to.equal(
     '0px 100px',
   );
 });
@@ -245,7 +245,7 @@ it('sets padding-block-start of the Tab Group via `--tabs-padding-block-start`',
 
   assert(tabContainer);
 
-  expect(globalThis.getComputedStyle(tabContainer).paddingBlock).to.equal(
+  expect(window.getComputedStyle(tabContainer).paddingBlock).to.equal(
     '100px 0px',
   );
 });
@@ -265,7 +265,7 @@ it('sets padding-block-end of the Tab Group via `--tabs-padding-block-end`', asy
 
   assert(tabContainer);
 
-  expect(globalThis.getComputedStyle(tabContainer).paddingBlock).to.equal(
+  expect(window.getComputedStyle(tabContainer).paddingBlock).to.equal(
     '0px 100px',
   );
 });
@@ -285,9 +285,7 @@ it('sets padding-inline-start of the Tab Panel via `--panel-padding-inline-start
 
   assert(tabPanel);
 
-  expect(globalThis.getComputedStyle(tabPanel).paddingInline).to.equal(
-    '100px 0px',
-  );
+  expect(window.getComputedStyle(tabPanel).paddingInline).to.equal('100px 0px');
 });
 
 it('sets padding-inline-end of the Tab Panel via `--panel-padding-inline-end`', async () => {
@@ -305,9 +303,7 @@ it('sets padding-inline-end of the Tab Panel via `--panel-padding-inline-end`', 
 
   assert(tabPanel);
 
-  expect(globalThis.getComputedStyle(tabPanel).paddingInline).to.equal(
-    '0px 100px',
-  );
+  expect(window.getComputedStyle(tabPanel).paddingInline).to.equal('0px 100px');
 });
 
 it('throws an error when an element other than `glide-core-tab` is a child of the `nav` slot', async () => {
@@ -323,7 +319,7 @@ it('throws an error when an element other than `glide-core-tab` is a child of th
 
 it('throws an error when an element other than `glide-core-tab-panel` is a child of the default slot', async () => {
   const spy = sinon.spy();
-  globalThis.addEventListener('unhandledrejection', spy);
+  window.addEventListener('unhandledrejection', spy);
 
   // https://github.com/CrowdStrike/glide-core/pull/335#issuecomment-2327451869
   const stub = sinon.stub(console, 'error');

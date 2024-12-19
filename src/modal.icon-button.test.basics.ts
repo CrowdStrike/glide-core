@@ -8,9 +8,9 @@ import sinon from 'sinon';
 GlideCoreModalIconButton.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(
-    globalThis.customElements.get('glide-core-modal-icon-button'),
-  ).to.equal(GlideCoreModalIconButton);
+  expect(window.customElements.get('glide-core-modal-icon-button')).to.equal(
+    GlideCoreModalIconButton,
+  );
 });
 
 it('is accessible', async () => {

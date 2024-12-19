@@ -7,7 +7,7 @@ import GlideCoreModal from './modal.js';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
 
-const cssSupportsStub = sinon.stub(globalThis.CSS, 'supports').returns(false);
+const cssSupportsStub = sinon.stub(window.CSS, 'supports').returns(false);
 const setPropertySpy = sinon.spy(document.documentElement.style, 'setProperty');
 
 afterEach(() => {

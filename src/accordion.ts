@@ -38,9 +38,7 @@ export default class GlideCoreAccordion extends LitElement {
   set open(isOpen: boolean) {
     this.#open = isOpen;
 
-    const reducedMotion = globalThis.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    );
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     if (reducedMotion.matches && this.#detailsElementRef.value) {
       this.#detailsElementRef.value.open = isOpen;

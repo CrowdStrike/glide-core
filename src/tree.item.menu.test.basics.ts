@@ -8,7 +8,7 @@ GlideCoreTreeItemMenu.shadowRootOptions.mode = 'open';
 GlideCoreMenu.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(globalThis.customElements.get('glide-core-tree-item-menu')).to.equal(
+  expect(window.customElements.get('glide-core-tree-item-menu')).to.equal(
     GlideCoreTreeItemMenu,
   );
 });

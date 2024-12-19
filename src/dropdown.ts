@@ -2366,12 +2366,12 @@ export default class GlideCoreDropdown extends LitElement {
                     offset({
                       mainAxis:
                         Number.parseFloat(
-                          globalThis
+                          window
                             .getComputedStyle(document.body)
                             .getPropertyValue('--glide-core-spacing-xxs'),
                         ) *
                         Number.parseFloat(
-                          globalThis.getComputedStyle(document.documentElement)
+                          window.getComputedStyle(document.documentElement)
                             .fontSize,
                         ),
                     }),

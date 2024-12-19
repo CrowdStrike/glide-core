@@ -282,7 +282,7 @@ export default class GlideCoreModal extends LitElement {
     // For browsers that don't support this feature quite yet (Safari), we calculate the width of the scrollbar and
     // set it to this CSS variable, which gets applied in the CSS of `private-glide-core-modal-lock-scroll`.
     // https://caniuse.com/mdn-css_properties_scrollbar-gutter
-    if (!globalThis.CSS.supports('scrollbar-gutter', 'stable')) {
+    if (!window.CSS.supports('scrollbar-gutter', 'stable')) {
       const gutterSize = Math.abs(
         window.innerWidth - document.documentElement.clientWidth,
       );

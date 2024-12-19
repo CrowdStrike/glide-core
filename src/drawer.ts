@@ -42,7 +42,7 @@ export default class GlideCoreDrawer extends LitElement {
   set open(isOpen: boolean) {
     this.#isOpen = isOpen;
 
-    const duration = globalThis.matchMedia('(prefers-reduced-motion: reduce)')
+    const duration = window.matchMedia('(prefers-reduced-motion: reduce)')
       .matches
       ? 0
       : 300;

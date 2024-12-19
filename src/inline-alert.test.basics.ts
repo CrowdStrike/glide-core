@@ -12,7 +12,7 @@ import sinon from 'sinon';
 GlideCoreInlineAlert.shadowRootOptions.mode = 'open';
 
 it('registers', () => {
-  expect(globalThis.customElements.get('glide-core-inline-alert')).to.equal(
+  expect(window.customElements.get('glide-core-inline-alert')).to.equal(
     GlideCoreInlineAlert,
   );
 });

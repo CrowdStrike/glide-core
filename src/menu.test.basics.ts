@@ -14,9 +14,7 @@ GlideCoreMenuButton.shadowRootOptions.mode = 'open';
 GlideCoreMenuLink.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(globalThis.customElements.get('glide-core-menu')).to.equal(
-    GlideCoreMenu,
-  );
+  expect(window.customElements.get('glide-core-menu')).to.equal(GlideCoreMenu);
 });
 
 it('has defaults', async () => {

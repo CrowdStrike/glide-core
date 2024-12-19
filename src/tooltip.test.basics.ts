@@ -8,7 +8,7 @@ import sinon from 'sinon';
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
-  expect(globalThis.customElements.get('glide-core-tooltip')).to.equal(
+  expect(window.customElements.get('glide-core-tooltip')).to.equal(
     GlideCoreTooltip,
   );
 });

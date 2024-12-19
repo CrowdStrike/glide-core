@@ -39,12 +39,12 @@ export default class GlideCoreMenu extends LitElement {
     return (
       this.#offset ??
       Number.parseFloat(
-        globalThis
+        window
           .getComputedStyle(document.body)
           .getPropertyValue('--glide-core-spacing-xxs'),
       ) *
         Number.parseFloat(
-          globalThis.getComputedStyle(document.documentElement).fontSize,
+          window.getComputedStyle(document.documentElement).fontSize,
         )
     );
   }
