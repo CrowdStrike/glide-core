@@ -345,7 +345,7 @@ export default class GlideCorePopover extends LitElement {
                         // Thus the popover needs to be offset by -3 (6 - 9). I then add 1 to -3
                         // to give a little more room: to account for the effect on the eye of each
                         // arrow's shadow. So the offset is roughly 5 pixels, by default, but has
-                        // the apperance of the 4, which is the desired outcome.
+                        // the appearance of the 4, which is the desired outcome.
                         offset(this.offset - paddingOffset - 2),
                         flip({
                           fallbackStrategy: 'initialPlacement',
