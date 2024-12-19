@@ -228,6 +228,8 @@ export default class GlideCoreTreeItem extends LitElement {
     return `${(this.level - 1) * 20}px`;
   }
 
+  // Checks if focus has moved to an element within this tree item itself,
+  // not including this tree item itself or one of its child tree items
   #isFocusTargetInternal(target: EventTarget | null) {
     return (
       target &&
@@ -237,8 +239,6 @@ export default class GlideCoreTreeItem extends LitElement {
     );
   }
 
-  // Checks if focus has moved to an element within this tree item itself,
-  // not including this tree item itself or one of its child tree items
   #onDefaultSlotChange() {
     this.#setupChildren();
   }
