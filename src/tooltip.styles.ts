@@ -5,10 +5,11 @@ import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 export default [
   css`
     ${opacityAndScaleAnimation('.tooltip:popover-open')}
-    ${focusOutline('.target:focus-visible')}
+    ${focusOutline('.target-slot:focus-visible')}
   `,
   css`
     :host {
+      // https://github.com/CrowdStrike/glide-core/pull/307/files#r1718545771
       display: inline-block;
     }
 
@@ -21,19 +22,20 @@ export default [
       position: relative;
     }
 
-    .target {
-      background-color: transparent;
-      border-width: 0;
+    .target-slot-container {
+      /* Allows the consumer to style the target with an ellipsis when its text is truncated. */
+      inline-size: 100%;
+    }
 
+    .target-slot {
       /*
-        Additional whitespace from line height and the tooltip won't be vertically
+        Collapses additional whitespace from the slot's line height so the tooltip is vertically
         centered against its target.
       */
       display: flex;
 
       /* Allows the consumer to style the target with an ellipsis when its text is truncated. */
       inline-size: 100%;
-      padding: 0;
       position: relative;
 
       ::slotted svg {
@@ -63,7 +65,6 @@ export default [
           before landing in the correct position when the animation finishes. It only happens
           when the tooltip is left or right of its target.
         */
-
         &.top {
           flex-direction: column-reverse;
         }

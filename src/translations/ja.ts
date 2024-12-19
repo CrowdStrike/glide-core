@@ -7,6 +7,7 @@ export const PENDING_STRINGS = [
   'noResults',
   'closeInlineAlert',
   'popover',
+  'tooltip',
 ] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];

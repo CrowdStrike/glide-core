@@ -144,7 +144,7 @@ it('throws if it does not have a "target" slot', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('has `placement` coverage', async () => {
+it('has `placement="top"` coverage', async () => {
   await fixture(
     html`<glide-core-tooltip open placement="top">
       Tooltip

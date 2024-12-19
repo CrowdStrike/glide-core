@@ -17,7 +17,7 @@ const meta: Meta = {
     `,
   ],
   args: {
-    'slot="default"': 'Label',
+    'slot="default"': 'Content',
     'addEventListener(event, handler)': '',
     removable: false,
     variant: 'informational',

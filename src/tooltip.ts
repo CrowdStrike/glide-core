@@ -1,4 +1,5 @@
 import { LitElement, html } from 'lit';
+import { LocalizeController } from './library/localize.js';
 import {
   type Placement,
   arrow,
@@ -26,13 +27,12 @@ declare global {
 
 /**
  * @slot - The primary content of the tooltip.
- * @slot target - The element to which the tooltip should anchor.
+ * @slot target - The element to which the tooltip will anchor.
  */
 @customElement('glide-core-tooltip')
 export default class GlideCoreTooltip extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    delegatesFocus: true,
     mode: 'closed',
   };
 
@@ -130,11 +130,6 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   override render() {
-    // VoiceOver doesn't support `aria-describedby` on elements that aren't form
-    // controls, even if they have `tabindex="0"`. It also doesn't support `aria-live`
-    // within a shadow DOM, which we could otherwise fall back to. Thus no VoiceOver
-    // support.
-
     // Lit-a11y calls for "blur" and "focus" handlers but doesn't account for "focusin"
     // and "focusout". It also calls for tooltips to have an `aria-label`, but then VoiceOver,
     // at least, won't read the tooltip's content. So an element with an `aria-label` is
@@ -145,20 +140,19 @@ export default class GlideCoreTooltip extends LitElement {
       <div
         class="component"
         data-test="component"
-        @mouseover=${this.#onMouseover}
-        @mouseout=${this.#onMouseout}
+        @mouseover=${this.#onComponentMouseover}
+        @mouseout=${this.#onComponentMouseout}
       >
         <div
           aria-labelledby=${ifDefined(this.disabled ? undefined : 'tooltip')}
-          class="target"
-          data-test="target"
-          slot="target"
-          @focusin=${this.#onFocusin}
-          @focusout=${this.#onFocusout}
-          @keydown=${this.#onKeydown}
-          ${ref(this.#targetElementRef)}
+          class="target-slot-container"
         >
           <slot
+            class="target-slot"
+            data-test="target-slot"
+            @focusin=${this.#onTargetSlotFocusin}
+            @focusout=${this.#onTargetSlotFocusout}
+            @keydown=${this.#onTargetSlotKeydown}
             @slotchange=${this.#onTargetSlotChange}
             ${ref(this.#targetSlotElementRef)}
             name="target"
@@ -186,55 +180,17 @@ export default class GlideCoreTooltip extends LitElement {
             ${ref(this.#arrowElementRef)}
           >
             ${choose(this.effectivePlacement, [
-              [
-                'top',
-                () => html`
-                  <svg viewBox="0 0 10 6" fill="none">
-                    <path
-                      d="M4.23178 5.07814C4.63157 5.55789 5.36843 5.55789 5.76822 5.07813L10 -7.9486e-08L-2.62268e-07 3.57628e-07L4.23178 5.07814Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                `,
-              ],
-              [
-                'right',
-                () => html`
-                  <svg viewBox="0 0 6 10" fill="none">
-                    <path
-                      d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                `,
-              ],
-              [
-                'bottom',
-                () => html`
-                  <svg viewBox="0 0 10 6" fill="none">
-                    <path
-                      d="M4.23178 0.921865C4.63157 0.442111 5.36843 0.442112 5.76822 0.921866L10 6L-2.62268e-07 6L4.23178 0.921865Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                `,
-              ],
-              [
-                'left',
-                () => html`
-                  <svg viewBox="0 0 6 10" fill="none">
-                    <path
-                      d="M5.07814 4.23178C5.55789 4.63157 5.55789 5.36843 5.07813 5.76822L-4.37114e-07 10L0 -2.62268e-07L5.07814 4.23178Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                `,
-              ],
+              ['top', () => arrows.top],
+              ['right', () => arrows.right],
+              ['bottom', () => arrows.bottom],
+              ['left', () => arrows.left],
             ])}
           </div>
 
           <span
-            aria-label=${ifDefined(this.disabled ? undefined : 'Tooltip: ')}
+            aria-label=${ifDefined(
+              this.disabled ? undefined : this.#localize.term('tooltip'),
+            )}
           ></span>
 
           <div
@@ -287,11 +243,11 @@ export default class GlideCoreTooltip extends LitElement {
 
   #isOpen = false;
 
+  #localize = new LocalizeController(this);
+
   #offset: number | undefined;
 
   #openTimeoutId?: ReturnType<typeof setTimeout>;
-
-  #targetElementRef = createRef<HTMLElement>();
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -303,38 +259,16 @@ export default class GlideCoreTooltip extends LitElement {
 
   #hide() {
     this.#tooltipElementRef.value?.hidePopover();
-
-    // https://github.com/CrowdStrike/glide-core/pull/307/files#r1718822821
-    if (this.#cleanUpFloatingUi) {
-      this.#cleanUpFloatingUi();
-    }
+    this.#cleanUpFloatingUi?.();
   }
 
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
-
-  #onFocusin() {
-    this.open = true;
-  }
-
-  #onFocusout() {
-    this.open = false;
-  }
-
-  #onKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      this.open = false;
-    }
-  }
-
-  #onMouseout() {
+  #onComponentMouseout() {
     this.#scheduleClose();
 
     clearTimeout(this.#openTimeoutId);
   }
 
-  #onMouseover() {
+  #onComponentMouseover() {
     ow(this.#tooltipElementRef.value, ow.object.instanceOf(HTMLElement));
 
     this.#cancelClose();
@@ -351,8 +285,26 @@ export default class GlideCoreTooltip extends LitElement {
     }, Number(this.#tooltipElementRef.value.dataset.openDelay));
   }
 
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+  }
+
   #onTargetSlotChange() {
     owSlot(this.#targetSlotElementRef.value);
+  }
+
+  #onTargetSlotFocusin() {
+    this.open = true;
+  }
+
+  #onTargetSlotFocusout() {
+    this.open = false;
+  }
+
+  #onTargetSlotKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.open = false;
+    }
   }
 
   #scheduleClose() {
@@ -367,20 +319,20 @@ export default class GlideCoreTooltip extends LitElement {
     if (!this.disabled) {
       this.#cleanUpFloatingUi?.();
 
-      if (this.#targetElementRef.value && this.#tooltipElementRef.value) {
+      if (this.#targetSlotElementRef.value && this.#tooltipElementRef.value) {
         this.#cleanUpFloatingUi = autoUpdate(
-          this.#targetElementRef.value,
+          this.#targetSlotElementRef.value,
           this.#tooltipElementRef.value,
           () => {
             (async () => {
               if (
-                this.#targetElementRef.value &&
+                this.#targetSlotElementRef.value &&
                 this.#tooltipElementRef.value &&
                 this.#arrowElementRef.value
               ) {
                 const { x, y, placement, middlewareData } =
                   await computePosition(
-                    this.#targetElementRef.value,
+                    this.#targetSlotElementRef.value,
                     this.#tooltipElementRef.value,
                     {
                       placement: this.placement,
@@ -427,3 +379,30 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 }
+
+const arrows = {
+  top: html`<svg aria-hidden="true" viewBox="0 0 10 6" fill="none">
+    <path
+      d="M4.23178 5.07814C4.63157 5.55789 5.36843 5.55789 5.76822 5.07813L10 -7.9486e-08L-2.62268e-07 3.57628e-07L4.23178 5.07814Z"
+      fill="currentColor"
+    />
+  </svg>`,
+  right: html`<svg aria-hidden="true" viewBox="0 0 6 10" fill="none">
+    <path
+      d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
+      fill="currentColor"
+    />
+  </svg>`,
+  bottom: html`<svg aria-hidden="true" viewBox="0 0 10 6" fill="none">
+    <path
+      d="M4.23178 0.921865C4.63157 0.442111 5.36843 0.442112 5.76822 0.921866L10 6L-2.62268e-07 6L4.23178 0.921865Z"
+      fill="currentColor"
+    />
+  </svg>`,
+  left: html`<svg aria-hidden="true" viewBox="0 0 6 10" fill="none">
+    <path
+      d="M5.07814 4.23178C5.55789 4.63157 5.55789 5.36843 5.07813 5.76822L-4.37114e-07 10L0 -2.62268e-07L5.07814 4.23178Z"
+      fill="currentColor"
+    />
+  </svg>`,
+};

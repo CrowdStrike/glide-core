@@ -53,6 +53,14 @@ Use the ":checked" pseudo class on the host and throughout when browsers support
         }
       }
 
+      &:has(input:checked:disabled) {
+        background-color: var(--glide-core-surface-primary-disabled);
+
+        &::before {
+          transform: translateX(0);
+        }
+      }
+
       &::before {
         background: var(--glide-core-surface-page);
         block-size: 0.875rem;

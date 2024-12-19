@@ -349,6 +349,7 @@ export default [
       font-family: var(--glide-core-font-sans);
       font-size: inherit;
       min-inline-size: var(--min-inline-size);
+      padding-block-end: 0;
       padding-inline: 0;
 
       &:not(.quiet) {

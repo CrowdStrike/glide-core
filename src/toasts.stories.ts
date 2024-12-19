@@ -21,7 +21,14 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(toast: Toast) => void',
+          detail: `
+(toast: {
+    label: string;
+    description: string;
+    variant: "error" | "informational" | "success";
+    duration?: number;
+  }
+) => void`,
         },
       },
     },
@@ -37,18 +44,18 @@ const meta: Meta = {
       <div style="display: inline-flex; flex-direction: column; gap: 0.25rem;">
         <glide-core-button
           label="Informational"
-          data-informational
+          id="informational"
         ></glide-core-button>
-        <glide-core-button label="Success" data-success></glide-core-button>
-        <glide-core-button label="Error" data-error></glide-core-button>
+        <glide-core-button label="Success" id="success"></glide-core-button>
+        <glide-core-button label="Error" id="error"></glide-core-button>
         <glide-core-button
           label="Longer duration"
-          data-longer
+          id="longer"
         ></glide-core-button>
 
         <glide-core-button
           label="Infinite duration"
-          data-infinite
+          id="infinite"
         ></glide-core-button>
       </div>
 
@@ -56,7 +63,7 @@ const meta: Meta = {
         const toasts = document.querySelector('glide-core-toasts');
 
         document
-          .querySelector('[data-informational]')
+          .querySelector('#informational')
           .addEventListener('click', () => {
             toasts.add({
               variant: 'informational',
@@ -65,17 +72,15 @@ const meta: Meta = {
             });
           });
 
-        document
-          .querySelector('[data-success]')
-          .addEventListener('click', () => {
-            toasts.add({
-              variant: 'success',
-              label: 'Success',
-              description: 'This will stick around for 5 seconds',
-            });
+        document.querySelector('#success').addEventListener('click', () => {
+          toasts.add({
+            variant: 'success',
+            label: 'Success',
+            description: 'This will stick around for 5 seconds',
           });
+        });
 
-        document.querySelector('[data-error]').addEventListener('click', () => {
+        document.querySelector('#error').addEventListener('click', () => {
           toasts.add({
             variant: 'error',
             label: 'Error',
@@ -83,28 +88,23 @@ const meta: Meta = {
           });
         });
 
-        document
-          .querySelector('[data-longer]')
-          .addEventListener('click', () => {
-            toasts.add({
-              variant: 'informational',
-              label: 'Longer',
-              description: 'This will stick around for 10 seconds',
-              duration: 10000, // Minimum is 5000 (5 seconds)
-            });
+        document.querySelector('#longer').addEventListener('click', () => {
+          toasts.add({
+            variant: 'informational',
+            label: 'Longer',
+            description: 'This will stick around for 10 seconds',
+            duration: 10000, // Minimum is 5000 (5 seconds)
           });
+        });
 
-        document
-          .querySelector('[data-infinite]')
-          .addEventListener('click', () => {
-            toasts.add({
-              variant: 'success',
-              label: 'Success',
-              description:
-                'This will stick around until close button is clicked',
-              duration: Infinity,
-            });
+        document.querySelector('#infinite').addEventListener('click', () => {
+          toasts.add({
+            variant: 'success',
+            label: 'Success',
+            description: 'This will stick around until close button is clicked',
+            duration: Infinity,
           });
+        });
       </script>
     `;
   },

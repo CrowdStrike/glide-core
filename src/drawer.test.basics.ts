@@ -8,6 +8,7 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
+import { emulateMedia } from '@web/test-runner-commands';
 import GlideCoreDrawer from './drawer.js';
 import expectArgumentError from './library/expect-argument-error.js';
 
@@ -19,7 +20,7 @@ it('registers', async () => {
   );
 });
 
-it('adds an aria-label when "label" is set', async () => {
+it('adds an `aria-label` when `label` is set', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer label="label">Drawer content</glide-core-drawer>`,
   );
@@ -29,7 +30,7 @@ it('adds an aria-label when "label" is set', async () => {
   );
 });
 
-it('does not add an aria-label when "label" is unset', async () => {
+it('does not add an `aria-label` when `label` is unset', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
@@ -49,7 +50,7 @@ it('can have a default slot', async () => {
   expect(component.textContent).to.equal('Drawer content');
 });
 
-it('sets the width of the element based on the "--width" CSS variable', async () => {
+it('sets the width of the drawer based on the `--width` CSS variable', async () => {
   const styledDiv = document.createElement('div');
   styledDiv.setAttribute('style', '--width: 750px');
 
@@ -82,7 +83,7 @@ it('throws if it does not have a default slot', async () => {
   });
 });
 
-it('adds a class when the "pinned" attribute is set', async () => {
+it('adds a class when the `pinned` attribute is set', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer pinned>Drawer content</glide-core-drawer>`,
   );
@@ -94,7 +95,7 @@ it('adds a class when the "pinned" attribute is set', async () => {
   ).to.be.true;
 });
 
-it('does not add a class when the "pinned" attribute is not set', async () => {
+it('does not add a class when the `pinned` attribute is not set', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
@@ -106,7 +107,9 @@ it('does not add a class when the "pinned" attribute is not set', async () => {
   ).to.be.false;
 });
 
-it('opens the drawer when the "open" attribute is set', async () => {
+it('opens when the `open` attribute is set', async () => {
+  await emulateMedia({ reducedMotion: 'reduce' });
+
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
   );
@@ -114,7 +117,7 @@ it('opens the drawer when the "open" attribute is set', async () => {
   expect(component.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
     .null;
 
-  component.setAttribute('open', '');
+  component.open = true;
 
   await elementUpdated(component);
 
@@ -122,7 +125,45 @@ it('opens the drawer when the "open" attribute is set', async () => {
     .null;
 });
 
-it('closes the drawer when the "open" attribute is removed', async () => {
+it('opens the drawer when the `open` attribute is set when animated', async () => {
+  await emulateMedia({ reducedMotion: 'no-preference' });
+
+  const component = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
+  );
+
+  expect(component.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
+    .null;
+
+  component.open = true;
+
+  await elementUpdated(component);
+
+  expect(component.shadowRoot?.querySelector('[data-test="open"]')).to.be.not
+    .null;
+});
+
+it('closes the drawer when the `open` attribute is removed', async () => {
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const component = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer open>Drawer content</glide-core-drawer>`,
+  );
+
+  expect(component.shadowRoot?.querySelector('aside[data-test="open"]')).to.be
+    .not.null;
+
+  component.removeAttribute('open');
+
+  await elementUpdated(component);
+
+  expect(component.shadowRoot?.querySelector('[data-test="closed"]')).to.be.not
+    .null;
+});
+
+it('closes the drawer when the `open` attribute is removed when animated', async () => {
+  await emulateMedia({ reducedMotion: 'no-preference' });
+
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer open>Drawer content</glide-core-drawer>`,
   );

@@ -36,14 +36,18 @@ export default [
       }
 
       &.added {
-        animation: fade-in var(--animation-duration) ease-in-out;
+        @media (prefers-reduced-motion: no-preference) {
+          animation: fade-in var(--animation-duration) ease-in-out;
+        }
       }
 
       &.removed {
-        animation-duration: var(--animation-duration);
-        animation-fill-mode: forwards;
-        animation-name: fade-out;
-        animation-timing-function: ease-in-out;
+        @media (prefers-reduced-motion: no-preference) {
+          animation-duration: var(--animation-duration);
+          animation-fill-mode: forwards;
+          animation-name: fade-out;
+          animation-timing-function: ease-in-out;
+        }
       }
     }
 
