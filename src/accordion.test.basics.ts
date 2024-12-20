@@ -6,7 +6,7 @@ import GlideCoreAccordion from './accordion.js';
 
 GlideCoreAccordion.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-accordion')).to.equal(
     GlideCoreAccordion,
   );

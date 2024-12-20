@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 GlideCoreModalIconButton.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-modal-icon-button')).to.equal(
     GlideCoreModalIconButton,
   );

@@ -15,7 +15,7 @@ import sinon from 'sinon';
 GlideCoreSplitButtonSecondaryButton.shadowRootOptions.mode = 'open';
 GlideCoreMenuButton.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(
     window.customElements.get('glide-core-split-button-secondary-button'),
   ).to.equal(GlideCoreSplitButtonSecondaryButton);

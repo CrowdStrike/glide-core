@@ -24,7 +24,7 @@ function isPanelHidden(panel: GlideCoreTabPanel) {
   return panel.shadowRoot?.firstElementChild?.classList.contains('hidden');
 }
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tab-group')).to.equal(
     GlideCoreTabGroup,
   );

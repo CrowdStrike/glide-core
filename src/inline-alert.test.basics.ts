@@ -11,7 +11,7 @@ import sinon from 'sinon';
 
 GlideCoreInlineAlert.shadowRootOptions.mode = 'open';
 
-it('registers', () => {
+it('registers itself', () => {
   expect(window.customElements.get('glide-core-inline-alert')).to.equal(
     GlideCoreInlineAlert,
   );

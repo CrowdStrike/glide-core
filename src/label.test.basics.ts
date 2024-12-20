@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 GlideCoreLabel.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-private-label')).to.equal(
     GlideCoreLabel,
   );

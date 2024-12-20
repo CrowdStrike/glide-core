@@ -6,7 +6,7 @@ import GlideCoreButton from './button.js';
 
 GlideCoreButton.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-button')).to.equal(
     GlideCoreButton,
   );

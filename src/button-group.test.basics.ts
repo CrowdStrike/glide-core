@@ -9,7 +9,7 @@ import expectArgumentError from './library/expect-argument-error.js';
 GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-button-group')).to.equal(
     GlideCoreButtonGroup,
   );

@@ -14,7 +14,7 @@ import expectArgumentError from './library/expect-argument-error.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-drawer')).to.equal(
     GlideCoreDrawer,
   );

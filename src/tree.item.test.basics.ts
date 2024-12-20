@@ -11,7 +11,7 @@ TreeItem.shadowRootOptions.mode = 'open';
 TreeItemMenu.shadowRootOptions.mode = 'open';
 Menu.shadowRootOptions.mode = 'open';
 
-it('registers', () => {
+it('registers itself', () => {
   expect(window.customElements.get('glide-core-tree-item')).to.equal(TreeItem);
 });
 

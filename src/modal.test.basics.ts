@@ -11,7 +11,7 @@ import sinon from 'sinon';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-modal')).to.equal(
     GlideCoreModal,
   );

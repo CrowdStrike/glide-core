@@ -5,7 +5,7 @@ import GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js'
 
 GlideCoreSplitButtonPrimaryButton.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(
     window.customElements.get('glide-core-split-button-primary-button'),
   ).to.equal(GlideCoreSplitButtonPrimaryButton);

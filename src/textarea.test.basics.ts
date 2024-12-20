@@ -6,7 +6,7 @@ import GlideCoreTextarea from './textarea.js';
 
 GlideCoreTextarea.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-textarea')).to.equal(
     GlideCoreTextarea,
   );

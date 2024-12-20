@@ -8,7 +8,7 @@ import sinon from 'sinon';
 
 GlideCoreModalTertiaryIcon.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-modal-tertiary-icon')).to.equal(
     GlideCoreModalTertiaryIcon,
   );

@@ -10,7 +10,7 @@ GlideCoreSplitButton.shadowRootOptions.mode = 'open';
 GlideCoreSplitButtonSecondaryButton.shadowRootOptions.mode = 'open';
 GlideCoreMenuButton.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-split-button')).to.equal(
     GlideCoreSplitButton,
   );
