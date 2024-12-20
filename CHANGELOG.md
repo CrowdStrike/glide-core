@@ -1,5 +1,71 @@
 # @crowdstrike/glide-core
 
+## 0.16.0
+
+### Minor Changes
+
+- [#553](https://github.com/CrowdStrike/glide-core/pull/553) [`ebd5137`](https://github.com/CrowdStrike/glide-core/commit/ebd5137935e74361d444d8177c230663af8ef7c3) Thanks [@clintcs](https://github.com/clintcs)! - - Tab Group's `panelElements` and `tabElements` properties have been removed.
+
+  - Tree's `slotElements` property has been removed.
+  - Tree Item's `slotElements` and `suffixSlotAssignedElements` properties have been removed.
+
+  These properties were used internally and undocumented.
+  So your code should continue to work without any changes.
+
+- [#541](https://github.com/CrowdStrike/glide-core/pull/541) [`4c8ab62`](https://github.com/CrowdStrike/glide-core/commit/4c8ab62609222cc3e1fa306e1e492af951c61caa) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Radio's import path has been updated to match our subcomponent naming conventions elsewhere.
+
+  ```diff
+  - import '@crowdstrike/glide-core/radio.js';
+  + import '@crowdstrike/glide-core/radio-group.radio.js';
+  ```
+
+  Radio Group no longer reflects its `value` attribute. To determine the current value of Radio Group, use its `value` property instead.
+
+  ```diff
+  - document.querySelector('glide-core-radio-group').getAttribute('value');
+  + document.querySelector('glide-core-radio-group').value;
+  ```
+
+  Radio's `required` property has been renamed to `privateRequired` to deter external use. Set `required` on the Radio Group directly and it'll apply to all child Radios.
+
+  Radio's `invalid` property has been renamed to `privateInvalid` to deter external use. The Radio Group must be marked as invalid using `required`, `setValidity()`, or `setCustomValidity()`.
+
+  Additional updates have been made to match existing patterns in our other form elements:
+
+  - Radio Group now respects programmatic changes to `value`.
+  - Radio Group now updates its `value` property when the `checked` attribute of a child Radio changes.
+  - Radio Group now updates its validity state when `required` is changed programmatically.
+  - When a Radio's `value` updates, Radio Group's `value` also updates to reflect the newly provided Radio `value`.
+
+- [#543](https://github.com/CrowdStrike/glide-core/pull/543) [`4ace46d`](https://github.com/CrowdStrike/glide-core/commit/4ace46d98d5e90c44273b78ebbaf0165723d92f7) Thanks [@clintcs](https://github.com/clintcs)! - - Button Group Button, to match Tab Group and Tree, now emits a "selected" event instead of "change" and "input" events.
+
+  - Button Group Button, to match native, no longer emits a "selected" event when selected programmatically.
+  - Button Group Button no longer emits an event when already selected and space is pressed.
+
+- [#544](https://github.com/CrowdStrike/glide-core/pull/544) [`376e6c3`](https://github.com/CrowdStrike/glide-core/commit/376e6c39806ce03771ab2110e44fde4d191a4782) Thanks [@clintcs](https://github.com/clintcs)! - Button no longer supports `aria-controls`, `aria-expanded`, `aria-haspopup`, `formaction`, `formenctype`, `formmethod`, `formnovalidate`, `formtarget`, `popovertarget`, and `popovertargetaction`.
+  We added these attributes to match native.
+  But we suspect they won't be used.
+  And they visually complicate Storybook's controls table.
+
+  Let us know if you have a use case for one.
+  We're happy to add them back as needed.
+
+### Patch Changes
+
+- [#546](https://github.com/CrowdStrike/glide-core/pull/546) [`ca1412f`](https://github.com/CrowdStrike/glide-core/commit/ca1412f9881e255843f7f2b51872cbc9c45ed37c) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Toggle no longer appears unchecked when both checked and disabled.
+
+- [#550](https://github.com/CrowdStrike/glide-core/pull/550) [`55915f7`](https://github.com/CrowdStrike/glide-core/commit/55915f766e16674cce914fcb0c711f0d30b5add3) Thanks [@clintcs](https://github.com/clintcs)! - Filterable Dropdown's input field's bottom padding has been removed to match non-filterable Dropdown.
+
+- [#542](https://github.com/CrowdStrike/glide-core/pull/542) [`48bda6c`](https://github.com/CrowdStrike/glide-core/commit/48bda6c5982140d7429bb16a1ed785bd77920b4b) Thanks [@ynotdraw](https://github.com/ynotdraw)! - - Drawer, Inline Alert, Tag, Toast, and Tree Item now respect reduced motion preferences.
+
+  - Drawer now respects the `open` attribute on initial render.
+
+- [#537](https://github.com/CrowdStrike/glide-core/pull/537) [`5d03c7d`](https://github.com/CrowdStrike/glide-core/commit/5d03c7dbf3323923784aed7df33df6ad3b60a024) Thanks [@clintcs](https://github.com/clintcs)! - Added a Popover component.
+
+  Popover, unlike an upcoming version of Tooltip, allows for arbitrary content.
+  It also has a distinct visual design, opens on click instead of hover, and doesn't support a `shortcut` attribute.
+  Check with Design if you're unsure which component to use.
+
 ## 0.15.1
 
 ### Patch Changes
