@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tooltip')).to.equal(
     GlideCoreTooltip,
   );

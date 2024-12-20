@@ -13,7 +13,7 @@ import type GlideCoreTreeItemMenu from './tree.item.menu.js';
 
 GlideCoreTree.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tree')).to.equal(GlideCoreTree);
 });
 

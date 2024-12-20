@@ -11,7 +11,7 @@ import GlideCoreTag from './tag.js';
 
 GlideCoreTag.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tag')).to.equal(GlideCoreTag);
 });
 

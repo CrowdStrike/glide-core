@@ -23,7 +23,7 @@ import sinon from 'sinon';
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-dropdown')).to.equal(
     GlideCoreDropdown,
   );

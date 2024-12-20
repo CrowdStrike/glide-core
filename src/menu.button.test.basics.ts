@@ -5,7 +5,7 @@ import GlideCoreMenuButton from './menu.button.js';
 
 GlideCoreMenuButton.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-menu-button')).to.equal(
     GlideCoreMenuButton,
   );

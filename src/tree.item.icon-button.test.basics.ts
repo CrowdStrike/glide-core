@@ -4,7 +4,7 @@ import expectArgumentError from './library/expect-argument-error.js';
 
 GlideCoreTreeItemIconButton.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(
     window.customElements.get('glide-core-tree-item-icon-button'),
   ).to.equal(GlideCoreTreeItemIconButton);

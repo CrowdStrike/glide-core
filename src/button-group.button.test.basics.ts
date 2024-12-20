@@ -8,7 +8,7 @@ import sinon from 'sinon';
 
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-button-group-button')).to.equal(
     GlideCoreButtonGroupButton,
   );

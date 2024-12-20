@@ -5,7 +5,7 @@ import GlideCoreDropdownOption from './dropdown.option.js';
 
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-dropdown-option')).to.equal(
     GlideCoreDropdownOption,
   );

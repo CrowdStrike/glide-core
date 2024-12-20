@@ -7,7 +7,7 @@ import sinon from 'sinon';
 GlideCoreTreeItemMenu.shadowRootOptions.mode = 'open';
 GlideCoreMenu.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tree-item-menu')).to.equal(
     GlideCoreTreeItemMenu,
   );

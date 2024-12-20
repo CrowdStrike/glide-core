@@ -4,7 +4,7 @@ import GlideCoreRadio from './radio-group.radio.js';
 
 GlideCoreRadio.shadowRootOptions.mode = 'open';
 
-it('registers', async () => {
+it('registers itself', async () => {
   expect(window.customElements.get('glide-core-radio')).to.equal(
     GlideCoreRadio,
   );
