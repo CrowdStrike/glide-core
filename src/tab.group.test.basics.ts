@@ -44,7 +44,7 @@ it('renders correct markup and sets correct attributes for the default case', as
 
   await expect(component).to.be.accessible();
 
-  const [firstTab] = component.tabElements;
+  const [firstTab] = component.querySelectorAll('glide-core-tab');
 
   expect(component.selectedTab).to.equal(firstTab);
 
@@ -81,8 +81,12 @@ it('can switch tabs', async () => {
 
   const listener = oneEvent(component, 'selected');
 
-  const [firstTab, secondTab, thirdTab, disabledTab] = component.tabElements;
-  const [firstPanel, secondPanel, thirdPanel] = component.panelElements;
+  const [firstTab, secondTab, thirdTab, disabledTab] =
+    component.querySelectorAll('glide-core-tab');
+
+  const [firstPanel, secondPanel, thirdPanel] = component.querySelectorAll(
+    'glide-core-tab-panel',
+  );
 
   // first tab defaults to selected
   expect(firstTab.selected).to.be.true;
@@ -158,7 +162,8 @@ it('can use left/right, home and end keys to focus on tabs', async () => {
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab, thirdTab] = component.tabElements;
+  const [firstTab, secondTab, thirdTab] =
+    component.querySelectorAll('glide-core-tab');
 
   firstTab.focus();
   await sendKeys({ press: 'ArrowRight' });

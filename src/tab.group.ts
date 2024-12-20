@@ -3,7 +3,7 @@ import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreTab from './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
@@ -57,12 +57,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
   @state()
   isShowOverflowButtons = false;
-
-  @queryAssignedElements()
-  panelElements!: GlideCoreTabPanel[];
-
-  @queryAssignedElements({ slot: 'nav' })
-  tabElements!: GlideCoreTab[];
 
   override disconnectedCallback() {
     this.#resizeObserver?.disconnect();
@@ -211,6 +205,14 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #tabListElementRef = createRef<HTMLElement>();
 
+  get #panelElements() {
+    return [...this.querySelectorAll('glide-core-tab-panel')];
+  }
+
+  get #tabElements() {
+    return [...this.querySelectorAll('glide-core-tab')];
+  }
+
   #onClick(event: Event) {
     const target = event.target as HTMLElement;
     const clickedTab = target.closest('glide-core-tab');
@@ -240,7 +242,7 @@ export default class GlideCoreTabGroup extends LitElement {
     // Set the last selected tab as tabbable so that when pressing shift + tab on the tab panel
     // focus goes back to the last selected tab.
     // The `focusout` event is used since it bubbles up from the tab.
-    for (const [, tabElement] of this.tabElements.entries()) {
+    for (const [, tabElement] of this.#tabElements.entries()) {
       tabElement.tabIndex = tabElement === this.selectedTab ? 0 : -1;
     }
   }
@@ -269,12 +271,12 @@ export default class GlideCoreTabGroup extends LitElement {
         'End',
       ].includes(event.key)
     ) {
-      const focusedElement = this.tabElements.find((tab) =>
+      const focusedElement = this.#tabElements.find((tab) =>
         tab.matches(':focus'),
       );
 
       if (focusedElement instanceof GlideCoreTab) {
-        let index = this.tabElements.indexOf(focusedElement);
+        let index = this.#tabElements.indexOf(focusedElement);
 
         switch (event.key) {
           case 'Home': {
@@ -282,7 +284,7 @@ export default class GlideCoreTabGroup extends LitElement {
             break;
           }
           case 'End': {
-            index = this.tabElements.length - 1;
+            index = this.#tabElements.length - 1;
             break;
           }
           case 'ArrowLeft': {
@@ -297,14 +299,14 @@ export default class GlideCoreTabGroup extends LitElement {
         }
 
         if (index < 0) {
-          index = this.tabElements.length - 1;
+          index = this.#tabElements.length - 1;
         }
 
-        if (index > this.tabElements.length - 1) {
+        if (index > this.#tabElements.length - 1) {
           index = 0;
         }
 
-        this.tabElements[index].focus({
+        this.#tabElements[index].focus({
           preventScroll: false,
         });
 
@@ -312,8 +314,9 @@ export default class GlideCoreTabGroup extends LitElement {
         // is pressed, focus moves to the tab's panel and not back to the
         // last selected tab. This is particularly noticeable when the selected
         // tab is to the left of the tab navigated to by keyboard.
-        for (const [, tabElement] of this.tabElements.entries()) {
-          tabElement.tabIndex = this.tabElements[index] === tabElement ? 0 : -1;
+        for (const [, tabElement] of this.#tabElements.entries()) {
+          tabElement.tabIndex =
+            this.#tabElements[index] === tabElement ? 0 : -1;
         }
 
         this.#setOverflowButtonsState();
@@ -397,7 +400,7 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #setSelectedTab() {
-    for (const [index, tabElement] of this.tabElements.entries()) {
+    for (const [index, tabElement] of this.#tabElements.entries()) {
       // If there is no selected tab, default to the first one.
       if (!this.selectedTab && index === 0) {
         this.selectedTab = tabElement;
@@ -409,7 +412,7 @@ export default class GlideCoreTabGroup extends LitElement {
       }
     }
 
-    for (const panel of this.panelElements) {
+    for (const panel of this.#panelElements) {
       const selectedTabPanelName = this.selectedTab?.getAttribute('panel');
       const thisPanelName = panel.getAttribute('name');
 
@@ -422,7 +425,7 @@ export default class GlideCoreTabGroup extends LitElement {
     // Set the selected tab indicator.
     if (
       this.selectedTab &&
-      this.tabElements.length > 0 &&
+      this.#tabElements.length > 0 &&
       this.#componentElementRef.value
     ) {
       const selectedTabInlinePadding = Number.parseInt(
@@ -432,9 +435,9 @@ export default class GlideCoreTabGroup extends LitElement {
       );
 
       const selectedTabIndicatorTranslateLeft =
-        this.selectedTab === this.tabElements.at(0)
+        this.selectedTab === this.#tabElements.at(0)
           ? selectedTabInlinePadding
-          : this.selectedTab.offsetLeft - this.tabElements[0].offsetLeft;
+          : this.selectedTab.offsetLeft - this.#tabElements[0].offsetLeft;
 
       this.#componentElementRef.value.style.setProperty(
         '--selected-tab-indicator-translate',
@@ -442,8 +445,8 @@ export default class GlideCoreTabGroup extends LitElement {
       );
 
       const selectedTabIndicatorWidthAdjustment =
-        this.selectedTab === this.tabElements.at(0) ||
-        this.selectedTab === this.tabElements.at(-1)
+        this.selectedTab === this.#tabElements.at(0) ||
+        this.selectedTab === this.#tabElements.at(-1)
           ? selectedTabInlinePadding
           : 0;
 
@@ -486,21 +489,14 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #setupTabs() {
-    for (const tabElement of this.tabElements) {
-      const relatedPanel = this.panelElements
+    for (const tabElement of this.#tabElements) {
+      const relatedPanel = this.#panelElements
         .filter((panel) => panel.name === tabElement.panel)
         ?.at(0);
 
-      if (relatedPanel?.getAttribute('id')) {
-        tabElement.setAttribute(
-          'aria-controls',
-          relatedPanel.getAttribute('id')!,
-        );
-
-        relatedPanel.setAttribute(
-          'aria-labelledby',
-          tabElement.getAttribute('id')!,
-        );
+      if (relatedPanel?.id) {
+        tabElement.setAttribute('aria-controls', relatedPanel.id);
+        relatedPanel.setAttribute('aria-labelledby', tabElement.id);
       }
     }
   }

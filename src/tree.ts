@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, queryAssignedElements, state } from 'lit/decorators.js';
+import { customElement, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
@@ -12,7 +12,7 @@ declare global {
 }
 
 /**
- * @slot - One or more of <glide-core-tree-item>
+ * @slot - One or more of <glide-core-tree-item>.
  */
 @customElement('glide-core-tree')
 export default class GlideCoreTree extends LitElement {
@@ -29,14 +29,11 @@ export default class GlideCoreTree extends LitElement {
 
   @state() privateTabIndex = 0;
 
-  @queryAssignedElements()
-  slotElements!: GlideCoreTreeItem[];
-
   override disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.removeEventListener('focusin', this.#handleFocusIn);
-    this.removeEventListener('focusout', this.#handleFocusOut);
+    this.removeEventListener('focusin', this.#onFocusIn);
+    this.removeEventListener('focusout', this.#onFocusOut);
   }
 
   override firstUpdated() {
@@ -49,8 +46,8 @@ export default class GlideCoreTree extends LitElement {
       class="component"
       role="tree"
       tabindex=${this.privateTabIndex}
-      @click=${this.#handleClick}
-      @keydown=${this.#handleKeydown}
+      @click=${this.#onClick}
+      @keydown=${this.#onKeydown}
     >
       <slot
         @slotchange=${this.#onDefaultSlotChange}
@@ -60,52 +57,56 @@ export default class GlideCoreTree extends LitElement {
   }
 
   selectItem(item: GlideCoreTreeItem) {
-    for (const treeItem of this.slotElements) {
-      if (item === treeItem) {
-        treeItem.setAttribute('selected', 'true');
-        this.selectedItem = treeItem;
-      } else {
-        treeItem.removeAttribute('selected');
+    if (this.#treeItemElements) {
+      for (const treeItem of this.#treeItemElements) {
+        if (item === treeItem) {
+          treeItem.setAttribute('selected', 'true');
+          this.selectedItem = treeItem;
+        } else {
+          treeItem.removeAttribute('selected');
+        }
+
+        // Also traverse down the tree to select/deselect all children
+        const nestedSelectedItem: GlideCoreTreeItem | undefined =
+          treeItem.selectItem(item);
+
+        if (nestedSelectedItem) {
+          this.selectedItem = nestedSelectedItem;
+        }
       }
 
-      // Also traverse down the tree to select/deselect all children
-      const nestedSelectedItem: GlideCoreTreeItem | undefined =
-        treeItem.selectItem(item);
-
-      if (nestedSelectedItem) {
-        this.selectedItem = nestedSelectedItem;
-      }
+      item.dispatchEvent(
+        new Event('selected', { bubbles: true, composed: true }),
+      );
     }
-
-    item.dispatchEvent(
-      new Event('selected', { bubbles: true, composed: true }),
-    );
   }
 
   constructor() {
     super();
-    this.addEventListener('focusin', this.#handleFocusIn);
-    this.addEventListener('focusout', this.#handleFocusOut);
+    this.addEventListener('focusin', this.#onFocusIn);
+    this.addEventListener('focusout', this.#onFocusOut);
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  get #treeItemElements() {
+    return this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreTreeItem =>
+          element instanceof GlideCoreTreeItem,
+      );
+  }
 
   #focusItem(item: GlideCoreTreeItem | undefined | null) {
     item?.focus();
     this.focusedItem = item;
   }
 
-  #getAllTreeItems() {
-    return [
-      ...this.querySelectorAll<GlideCoreTreeItem>('glide-core-tree-item'),
-    ];
-  }
-
   #getFocusableItems() {
-    const items = this.#getAllTreeItems();
     const collapsedItems = new Set();
 
-    return items.filter((item) => {
+    return [...this.querySelectorAll('glide-core-tree-item')].filter((item) => {
       const parent = item.parentElement?.closest('glide-core-tree-item');
 
       if (parent && (!parent.expanded || collapsedItems.has(parent))) {
@@ -116,7 +117,7 @@ export default class GlideCoreTree extends LitElement {
     });
   }
 
-  #handleClick(event: Event) {
+  #onClick(event: Event) {
     const target = event.target as HTMLElement;
 
     if (
@@ -137,7 +138,12 @@ export default class GlideCoreTree extends LitElement {
     }
   }
 
-  #handleFocusIn(event: FocusEvent) {
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTreeItem]);
+  }
+
+  #onFocusIn(event: FocusEvent) {
     let itemToFocus;
 
     if (event.target === this) {
@@ -145,7 +151,7 @@ export default class GlideCoreTree extends LitElement {
         visibilityProperty: true,
       })
         ? this.selectedItem
-        : this.slotElements[0];
+        : this.#treeItemElements?.[0];
     } else if (event.target instanceof GlideCoreTreeItem) {
       itemToFocus = event.target;
       this.privateTabIndex = -1;
@@ -154,7 +160,7 @@ export default class GlideCoreTree extends LitElement {
     this.#focusItem(itemToFocus);
   }
 
-  #handleFocusOut(event: FocusEvent) {
+  #onFocusOut(event: FocusEvent) {
     // If they've focused out of the tree,
     // restore this tree's tabindex 0, so they can focus back in
     if (
@@ -168,7 +174,7 @@ export default class GlideCoreTree extends LitElement {
   }
 
   // https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
-  #handleKeydown(event: KeyboardEvent) {
+  #onKeydown(event: KeyboardEvent) {
     if (
       ![
         'ArrowRight',
@@ -201,7 +207,7 @@ export default class GlideCoreTree extends LitElement {
 
     if (event.key === 'ArrowRight' && focusedItem?.hasChildTreeItems) {
       if (focusedItem.expanded) {
-        this.#focusItem(focusedItem.slotElements[0]);
+        this.#focusItem(focusedItem.querySelector('glide-core-tree-item'));
       } else {
         focusedItem.toggleExpand();
       }
@@ -246,10 +252,5 @@ export default class GlideCoreTree extends LitElement {
         this.selectItem(focusedItem);
       }
     }
-  }
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTreeItem]);
   }
 }

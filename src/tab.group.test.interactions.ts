@@ -420,7 +420,8 @@ it('has only one selected tab that is tabbable after pressing the Enter key', as
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab, thirdTab, fourthTab] = component.tabElements;
+  const [firstTab, secondTab, thirdTab, fourthTab] =
+    component.querySelectorAll('glide-core-tab');
 
   expect(firstTab.selected).to.be.true;
   expect(secondTab.selected).to.be.false;
@@ -494,7 +495,8 @@ it('has only one selected tab that is tabbable when clicked', async () => {
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab, thirdTab] = component.tabElements;
+  const [firstTab, secondTab, thirdTab] =
+    component.querySelectorAll('glide-core-tab');
 
   expect(firstTab.selected).to.be.true;
   expect(secondTab.selected).to.be.false;
@@ -533,8 +535,11 @@ it('has only one tab panel that is selected and tabbable when a tab is clicked',
     </glide-core-tab-group>
   `);
 
-  const [, secondTab] = component.tabElements;
-  const [firstPanel, secondPanel] = component.panelElements;
+  const [, secondTab] = component.querySelectorAll('glide-core-tab');
+
+  const [firstPanel, secondPanel] = component.querySelectorAll(
+    'glide-core-tab-panel',
+  );
 
   expect(firstPanel.privateIsSelected).to.be.true;
   expect(secondPanel.privateIsSelected).to.be.false;
@@ -560,8 +565,11 @@ it('has only one tab panel that is selected and tabbable when using the keyboard
     </glide-core-tab-group>
   `);
 
-  const [firstTab] = component.tabElements;
-  const [firstPanel, secondPanel] = component.panelElements;
+  const [firstTab] = component.querySelectorAll('glide-core-tab');
+
+  const [firstPanel, secondPanel] = component.querySelectorAll(
+    'glide-core-tab-panel',
+  );
 
   expect(firstPanel.privateIsSelected).to.be.true;
   expect(secondPanel.privateIsSelected).to.be.false;
@@ -590,7 +598,7 @@ it('sets the last keyboard focused tab as tabbable ', async () => {
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab] = component.tabElements;
+  const [firstTab, secondTab] = component.querySelectorAll('glide-core-tab');
 
   expect(firstTab.selected).to.be.true;
   expect(secondTab.selected).to.be.false;
@@ -620,7 +628,7 @@ it('sets the selected tab as tabbable on tab blur', async () => {
     </glide-core-tab-group>
   `);
 
-  const [firstTab, secondTab] = component.tabElements;
+  const [firstTab, secondTab] = component.querySelectorAll('glide-core-tab');
 
   expect(firstTab.selected).to.be.true;
   expect(secondTab.selected).to.be.false;

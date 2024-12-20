@@ -3,12 +3,7 @@ import { LitElement, html } from 'lit';
 import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreIconButton from './icon-button.js';
@@ -52,12 +47,6 @@ export default class GlideCoreTreeItem extends LitElement {
   @property({ reflect: true, type: Boolean, attribute: 'non-collapsible' })
   nonCollapsible = false;
 
-  @queryAssignedElements()
-  slotElements!: GlideCoreTreeItem[];
-
-  @queryAssignedElements({ slot: 'suffix' })
-  suffixSlotAssignedElements!: HTMLElement[];
-
   override focus(options?: FocusOptions) {
     this.#labelContainerElementRef.value?.focus(options);
     this.#setTabIndexes(0);
@@ -89,8 +78,8 @@ export default class GlideCoreTreeItem extends LitElement {
           'prefix-icon': this.hasPrefixIcon,
         })}
         tabindex="-1"
-        @focusout=${this.#handleFocusOut}
-        @focusin=${this.#handleFocusIn}
+        @focusout=${this.#onFocusOut}
+        @focusin=${this.#onFocusIn}
         ${ref(this.#labelContainerElementRef)}
       >
         <div style="flex-shrink: 0; width:${this.#indentationWidth};"></div>
@@ -168,19 +157,21 @@ export default class GlideCoreTreeItem extends LitElement {
   selectItem(item: GlideCoreTreeItem): GlideCoreTreeItem | undefined {
     let selectedItem;
 
-    for (const treeItem of this.slotElements) {
-      if (item === treeItem) {
-        treeItem.setAttribute('selected', 'true');
+    if (this.#treeItemElements) {
+      for (const treeItem of this.#treeItemElements) {
+        if (item === treeItem) {
+          treeItem.setAttribute('selected', 'true');
 
-        selectedItem = treeItem;
-      } else {
-        treeItem.removeAttribute('selected');
+          selectedItem = treeItem;
+        } else {
+          treeItem.removeAttribute('selected');
 
-        const nestedSelectedItem: GlideCoreTreeItem | undefined =
-          treeItem.selectItem(item);
+          const nestedSelectedItem: GlideCoreTreeItem | undefined =
+            treeItem.selectItem(item);
 
-        if (nestedSelectedItem) {
-          selectedItem = nestedSelectedItem;
+          if (nestedSelectedItem) {
+            selectedItem = nestedSelectedItem;
+          }
         }
       }
     }
@@ -208,6 +199,15 @@ export default class GlideCoreTreeItem extends LitElement {
 
   #prefixSlotElementRef = createRef<HTMLSlotElement>();
 
+  get #treeItemElements() {
+    return this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreTreeItem =>
+          element instanceof GlideCoreTreeItem,
+      );
+  }
+
   get #ariaExpanded() {
     if (this.hasChildTreeItems) {
       return this.expanded ? 'true' : 'false';
@@ -221,20 +221,6 @@ export default class GlideCoreTreeItem extends LitElement {
       return;
     } else {
       return this.selected ? 'true' : 'false';
-    }
-  }
-
-  #handleFocusIn(event: FocusEvent) {
-    if (this.#isFocusTargetInternal(event.target)) {
-      event.stopPropagation();
-    }
-  }
-
-  #handleFocusOut(event: FocusEvent) {
-    if (this.#isFocusTargetInternal(event.relatedTarget)) {
-      event.stopPropagation();
-    } else {
-      this.#setTabIndexes(-1);
     }
   }
 
@@ -255,6 +241,20 @@ export default class GlideCoreTreeItem extends LitElement {
 
   #onDefaultSlotChange() {
     this.#setupChildren();
+  }
+
+  #onFocusIn(event: FocusEvent) {
+    if (this.#isFocusTargetInternal(event.target)) {
+      event.stopPropagation();
+    }
+  }
+
+  #onFocusOut(event: FocusEvent) {
+    if (this.#isFocusTargetInternal(event.relatedTarget)) {
+      event.stopPropagation();
+    } else {
+      this.#setTabIndexes(-1);
+    }
   }
 
   #onMenuSlotChange() {
@@ -286,12 +286,14 @@ export default class GlideCoreTreeItem extends LitElement {
   #setupChildren() {
     const childTreeItems = [];
 
-    for (const treeItem of this.slotElements) {
-      treeItem.level = this.level + 1;
+    if (this.#treeItemElements) {
+      for (const treeItem of this.#treeItemElements) {
+        treeItem.level = this.level + 1;
 
-      childTreeItems.push(treeItem);
+        childTreeItems.push(treeItem);
+      }
+
+      this.childTreeItems = childTreeItems;
     }
-
-    this.childTreeItems = childTreeItems;
   }
 }

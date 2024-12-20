@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './accordion.js';
+import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
-import { expect, fixture, html, waitUntil } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
+import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
 import GlideCoreAccordion from './accordion.js';
 
 GlideCoreAccordion.shadowRootOptions.mode = 'open';
+
+afterEach(async () => {
+  await resetMouse();
+});
 
 it('can be opened via click', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
@@ -27,7 +31,17 @@ it('can be opened via click when animated', async () => {
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  component.click();
+  const summary = component.shadowRoot?.querySelector('[data-test="summary"]');
+  assert(summary);
+
+  const { height, width, x, y } = summary.getBoundingClientRect();
+
+  // `sendMouse` is used to work around some flakiness with `click()` where the
+  // animation never plays.
+  await sendMouse({
+    type: 'click',
+    position: [Math.ceil(x + width / 2), Math.ceil(y + height / 2)],
+  });
 
   let animation: Animation | undefined;
   let isAnimationFinished = false;

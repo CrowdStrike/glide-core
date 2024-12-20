@@ -22,7 +22,10 @@ it('focuses the first tree item when tree is focused, if there are no selected i
 
   component.dispatchEvent(new Event('focusin'));
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(childItems[0].label);
@@ -36,7 +39,10 @@ it('focuses the selected tree item on `focus()`, if there is one', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   component.selectItem(childItems[1]);
   component.dispatchEvent(new Event('focusin'));
   await component.updateComplete;
@@ -57,7 +63,10 @@ it('does not focus the selected tree item on `focus()` if collapsed', async () =
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   component.dispatchEvent(new Event('focusin'));
   await component.updateComplete;
   expect(document.activeElement === childItems[0]).to.be.true;
@@ -73,7 +82,10 @@ it('expands a tree item if right arrow is pressed', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   component.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowRight' });
   expect(childItems[0].expanded).to.be.true;
@@ -95,13 +107,16 @@ it(`focuses on an expanded tree item's child if right arrow is pressed`, async (
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   component.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowRight' });
   assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
-    childItems[0].slotElements[0].label,
+    childItems[0].querySelector('glide-core-tree-item')?.label,
   );
 });
 
@@ -115,7 +130,10 @@ it('collapses an expanded tree item if left arrow is pressed', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   component.dispatchEvent(new Event('focusin'));
   await sendKeys({ press: 'ArrowLeft' });
   expect(childItems[0].expanded).to.be.false;
@@ -137,8 +155,14 @@ it(`focuses on a non-collapsible tree item's parent if left arrow is pressed`, a
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
-  const grandchildItems = childItems[0].slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
+  const grandchildItems = childItems[0].querySelectorAll(
+    'glide-core-tree-item',
+  );
+
   grandchildItems[0].focus();
   await sendKeys({ press: 'ArrowLeft' });
   assert(document.activeElement instanceof GlideCoreTreeItem);
@@ -159,8 +183,14 @@ it(`focuses on a collapsed tree item's parent if left arrow is pressed`, async (
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
-  const grandchildItems = childItems[0].slotElements;
+  const childItems = component.querySelectorAll(
+    ':scope > glide-core-tree-item',
+  );
+
+  const grandchildItems = childItems[0].querySelectorAll(
+    'glide-core-tree-item',
+  );
+
   grandchildItems[0].focus();
   await sendKeys({ press: 'ArrowLeft' });
   expect(document.activeElement === childItems[0]).to.be.true;
@@ -179,14 +209,17 @@ it('moves down the non-expanded tree items with down arrow', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   component.dispatchEvent(new Event('focusin'));
 
   await sendKeys({ press: 'ArrowDown' });
   assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
-    childItems[0].slotElements[0].label,
+    childItems[0].querySelector('glide-core-tree-item')?.label,
     'moves to child item if expanded',
   );
 
@@ -224,9 +257,12 @@ it('moves up the non-expanded tree items with up arrow', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   // Start at the last item
-  childItems[1].slotElements[0].focus();
+  childItems[1].querySelector('glide-core-tree-item')?.focus();
 
   await sendKeys({ press: 'ArrowUp' });
   assert(document.activeElement instanceof GlideCoreTreeItem);
@@ -259,9 +295,12 @@ it('moves to the first item when Home is pressed', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   // Start at the last item
-  childItems[1].slotElements[0].focus();
+  childItems[1].querySelector('glide-core-tree-item')?.focus();
 
   await sendKeys({ press: 'Home' });
   assert(document.activeElement instanceof GlideCoreTreeItem);
@@ -280,7 +319,10 @@ it('moves to the last item when End is pressed', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   // Start at the first item
   childItems[0].focus();
 
@@ -288,7 +330,7 @@ it('moves to the last item when End is pressed', async () => {
   assert(document.activeElement instanceof GlideCoreTreeItem);
 
   expect(document.activeElement?.label).to.equal(
-    childItems[1].slotElements[0].label,
+    childItems[1].querySelector('glide-core-tree-item')?.label,
   );
 });
 
@@ -302,8 +344,13 @@ it('selects or expands/collapses node when Enter is pressed', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
-  const grandchildItems = childItems?.[1].slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
+  const grandchildItems = childItems?.[1].querySelectorAll(
+    'glide-core-tree-item',
+  );
 
   // For an item that doesn't have children, selects it
   childItems[0].focus();
@@ -333,8 +380,13 @@ it('selects a non-collapsible parent node when Enter is pressed', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
-  const grandchildItems = childItems?.[0].slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
+  const grandchildItems = childItems?.[0].querySelectorAll(
+    'glide-core-tree-item',
+  );
 
   grandchildItems[0].focus();
   childItems[0].focus();
@@ -355,7 +407,10 @@ it('does nothing if some other key is pressed', async () => {
     </glide-core-tree>
   `);
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   // Start at the first item
   childItems[0].focus();
 
@@ -379,7 +434,10 @@ it('can use the keyboard to navigate to a tree item icon button', async () => {
 
   component.dispatchEvent(new Event('focusin'));
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 
@@ -400,7 +458,10 @@ it('can use the keyboard to navigate to a tree item menu', async () => {
 
   component.dispatchEvent(new Event('focusin'));
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 
@@ -423,7 +484,10 @@ it('does not focus on a tree item icon button unless that tree item is focused',
 
   component.dispatchEvent(new Event('focusin'));
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 
@@ -458,7 +522,10 @@ it('does not focus on a tree item menu unless that tree item is focused', async 
 
   component.dispatchEvent(new Event('focusin'));
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 
@@ -486,7 +553,10 @@ it('does not select a tree item if Enter is pressed while its tree item icon but
 
   component.dispatchEvent(new Event('focusin'));
 
-  const childItems = component.slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
   childItems[0].focus();
   await sendKeys({ press: 'Tab' });
 

@@ -3,6 +3,7 @@
 import './menu.link.js';
 import './tree.item.menu.js';
 import { expect, fixture, html } from '@open-wc/testing';
+import GlideCoreTreeItem from './tree.item.js';
 import Menu from './menu.js';
 import TreeItem from './tree.item.js';
 import TreeItemMenu from './tree.item.menu.js';
@@ -122,11 +123,17 @@ it('renders child and grandchild tree items', async () => {
     </glide-core-tree-item>
   `);
 
+  const childItems = component.querySelectorAll<TreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
+  const grandchildItems = childItems?.[1].querySelectorAll(
+    'glide-core-tree-item',
+  );
+
   expect(component.shadowRoot?.querySelector('.expand-icon')).to.be.ok;
-  const childItems = component.slotElements;
   expect(childItems?.length).to.equal(2);
   expect(childItems?.[0].level).to.equal(2, 'Children are level 2');
-  const grandchildItems = childItems?.[1].slotElements;
   expect(grandchildItems?.length).to.equal(1);
   expect(grandchildItems?.[0].level).to.equal(3, 'Grandchildren are level 3');
 });
@@ -158,8 +165,13 @@ it('can select child and grandchild items', async () => {
     </glide-core-tree-item>
   `);
 
-  const childItems = component.slotElements;
-  const grandchildItems = childItems?.[1].slotElements;
+  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+    ':scope > glide-core-tree-item',
+  );
+
+  const grandchildItems = childItems?.[1].querySelectorAll(
+    'glide-core-tree-item',
+  );
 
   component.selectItem(childItems[0]);
   expect(childItems[0].selected).to.be.true;
