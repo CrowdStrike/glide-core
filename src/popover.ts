@@ -1,5 +1,4 @@
 import { LitElement, html } from 'lit';
-import { LocalizeController } from './library/localize.js';
 import {
   type Placement,
   arrow,
@@ -231,8 +230,6 @@ export default class GlideCorePopover extends LitElement {
   #isOpen = false;
 
   #isTargetSlotClick = false;
-
-  #localize = new LocalizeController(this);
 
   #offset: number | undefined;
 
