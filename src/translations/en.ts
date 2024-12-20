@@ -16,7 +16,6 @@ const translation: Translation = {
   nextTab: 'Next tab',
   previousTab: 'Previous tab',
   noResults: 'No results found',
-  popover: 'Popover:',
   tooltip: 'Tooltip:',
 
   announcedCharacterCount: (current: number, maximum: number) =>

@@ -6,7 +6,6 @@ export const PENDING_STRINGS = [
   'itemCount',
   'noResults',
   'closeInlineAlert',
-  'popover',
   'tooltip',
 ] as const;
 

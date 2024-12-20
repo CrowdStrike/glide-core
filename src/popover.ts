@@ -14,7 +14,6 @@ import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import ow, { owSlot } from './library/ow.js';
 import styles from './popover.styles.js';
 
@@ -167,7 +166,6 @@ export default class GlideCorePopover extends LitElement {
     // at least, won't read the popover's content. So an element with an `aria-label` is
     // placed inside the popover.
 
-    /* eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/accessible-name */
     return html`
       <div class="component">
         <slot
@@ -204,12 +202,6 @@ export default class GlideCorePopover extends LitElement {
               ['left', () => arrows.left],
             ])}
           </div>
-
-          <span
-            aria-label=${ifDefined(
-              this.disabled ? undefined : this.#localize.term('popover'),
-            )}
-          ></span>
 
           <slot
             class="default-slot"
