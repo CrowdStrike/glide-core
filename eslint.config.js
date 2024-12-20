@@ -156,8 +156,15 @@ export default [
             // See CONTRIBUTING.md for detailed reasoning
             {
               name: 'lit/decorators.js',
-              importNames: ['query'],
-              message: "Please use a Lit 'ref' instead of 'query'.",
+              importNames: [
+                'query',
+                'queryAll',
+                'queryAsync',
+                'queryAssignedElements',
+                'queryAssignedNodes',
+              ],
+              message:
+                'Please use a Lit `ref`, `this.querySelector()`, or `this.querySelectorAll()` instead of a query decorator.',
             },
             // According to https://github.com/lit/lit?tab=readme-ov-file#packages,
             // we should be importing everything from lit rather than lit-html/lit-element.
