@@ -343,9 +343,9 @@ export default class GlideCoreTooltip extends LitElement {
                         }),
                         shift({
                           limiter: limitShift({
-                            // Shifting is limited so the arrow is never near tooltip's rounded
+                            // Shifting is limited so the arrow is never near the tooltip's rounded
                             // corners, which would leave a gap between the arrow and the part of
-                            // the corner that's missing due to rounding. `20` is just a rough number.
+                            // the corner that's missing due to rounding. `20` is just a round number.
                             // `15` isn't enough.
                             offset: 20,
                           }),
