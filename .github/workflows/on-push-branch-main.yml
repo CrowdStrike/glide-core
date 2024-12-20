@@ -35,7 +35,8 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          title: 'Release Preview'
+          title: Release Preview
+          commit: Version package
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
