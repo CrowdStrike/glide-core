@@ -2,8 +2,9 @@
 
 import * as sinon from 'sinon';
 import { expect, fixture, html } from '@open-wc/testing';
-import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreModal from './modal.js';
+import click from './library/click.js';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
 
@@ -11,7 +12,6 @@ const addSpy = sinon.spy(document.documentElement.classList, 'add');
 const removeSpy = sinon.spy(document.documentElement.classList, 'remove');
 
 afterEach(async () => {
-  await resetMouse();
   addSpy.resetHistory();
   removeSpy.resetHistory();
 });
@@ -101,10 +101,6 @@ it('removes class "private-glide-core-modal-lock-scroll" from document when clic
   );
 
   component.showModal();
-  const dialogElement = component?.shadowRoot?.querySelector('dialog');
-  const boundingRectangle = dialogElement?.getBoundingClientRect();
-
-  expect(boundingRectangle).is.not.null;
 
   expect(
     document.documentElement.classList.contains(
@@ -112,12 +108,7 @@ it('removes class "private-glide-core-modal-lock-scroll" from document when clic
     ),
   ).to.be.true;
 
-  const { top, left } = boundingRectangle!;
-
-  await sendMouse({
-    type: 'click',
-    position: [Math.floor(left - 1), Math.floor(top - 1)],
-  });
+  await click(component?.shadowRoot?.querySelector('dialog'), 'outside');
 
   expect(
     document.documentElement.classList.contains(

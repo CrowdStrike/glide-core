@@ -26,6 +26,13 @@ export default {
       // It's excluded so we don't have to reduce our coverage thresholds.
       'src/library/ow.ts',
 
+      // Juice not worth the squeeze. Testing this wouldn't add much given the
+      // test code would look more or less like the code that's under test.
+      // Testing whether the center of an element was clicked, for example, would
+      // require the same `Math.ceil(x + width / 2)` and `Math.ceil(y + height / 2)`
+      // calculations that are in the library itself.
+      'src/library/click.ts',
+
       // Istanbul claims it has a branch that's missing coverage even though
       // there are no branches in this file. It's excluded so we don't have
       // to reduce our coverage thresholds.

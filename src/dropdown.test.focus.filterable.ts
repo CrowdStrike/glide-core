@@ -1,8 +1,9 @@
 import './dropdown.option.js';
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
-import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import click from './library/click.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -20,10 +21,6 @@ const defaultSlot = html`
   <glide-core-dropdown-option label="Ten"></glide-core-dropdown-option>
   <glide-core-dropdown-option label="Eleven"></glide-core-dropdown-option>
 `;
-
-afterEach(async () => {
-  await resetMouse();
-});
 
 it('focuses the input when `focus()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
@@ -54,21 +51,11 @@ it('retains focus on the input when an option is selected via click', async () =
   await aTimeout(0);
 
   component.focus();
+  await click(component.querySelector('glide-core-dropdown-option'));
 
-  const option = component.querySelector('glide-core-dropdown-option');
-  assert(option);
-
-  const { x, y } = option.getBoundingClientRect();
-
-  // A simple `option.click()` won't do because we need a "mousedown" so that
-  // `#onOptionsMousedown` is covered.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x), Math.ceil(y)],
-  });
+  assert(component.shadowRoot?.activeElement);
 
   const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  assert(component.shadowRoot?.activeElement);
   expect(component.shadowRoot?.activeElement).to.equal(input);
 });
 
@@ -104,20 +91,11 @@ it('retains focus on the the input when the primary button is clicked', async ()
 
   component.focus();
 
-  const button = component.shadowRoot?.querySelector(
-    '[data-test="primary-button"]',
+  await click(
+    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
   );
 
-  assert(button);
-
-  const { x, y } = button.getBoundingClientRect();
-
-  // A simple `option.click()` won't do because we need a "mousedown" so that
-  // `#onDropdownMousedown` gets covered.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x), Math.ceil(y)],
-  });
+  assert(component.shadowRoot?.activeElement);
 
   const input = component.shadowRoot?.querySelector('[data-test="input"]');
   expect(component.shadowRoot?.activeElement).to.equal(input);

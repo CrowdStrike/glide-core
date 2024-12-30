@@ -11,10 +11,11 @@ import {
   oneEvent,
 } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
+import click from './library/click.js';
 
 @customElement('glide-core-dropdown-in-another-component')
 class GlideCoreDropdownInAnotherComponent extends LitElement {
@@ -41,10 +42,6 @@ GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 GlideCoreDropdownInAnotherComponent.shadowRootOptions.mode = 'open';
 GlideCoreTag.shadowRootOptions.mode = 'open';
-
-afterEach(async () => {
-  await resetMouse();
-});
 
 it('opens on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
@@ -322,23 +319,11 @@ it('remains open when an option is selected via click', async () => {
   // Wait for it to open.
   await aTimeout(0);
 
-  const option = component.shadowRoot?.querySelector(
-    'glide-core-dropdown-option',
+  await click(
+    component.shadowRoot?.querySelector('glide-core-dropdown-option'),
   );
 
-  assert(option);
-
-  const { x, y } = option.getBoundingClientRect();
-
-  // Calling `click()` won't do because Dropdown relies on a "mouseup" event to
-  // decide if it should close.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x), Math.ceil(y)],
-  });
-
   const dropdown = component.shadowRoot?.querySelector('glide-core-dropdown');
-
   expect(dropdown?.open).to.be.true;
 });
 
@@ -1455,19 +1440,7 @@ it('closes when a tag is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  const tag = component.shadowRoot?.querySelector('[data-test="tag"]');
-  assert(tag);
-
-  const { x, y } = tag.getBoundingClientRect();
-
-  // A simple `tag.click()` won't do because it would remove the tag. We want to
-  // click elsewhere on the tag so focus is moved to `document.body`. This ensures
-  // Dropdown's "focusout" handler doesn't cause Dropdown to close.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x), Math.ceil(y)],
-  });
-
+  await click(component.shadowRoot?.querySelector('[data-test="tag"]'), 'left');
   await elementUpdated(component);
 
   expect(component.open).to.be.false;

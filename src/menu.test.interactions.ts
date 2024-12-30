@@ -13,12 +13,9 @@ import {
   html,
 } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
-
-afterEach(async () => {
-  await resetMouse();
-});
+import click from './library/click.js';
 
 @customElement('glide-core-nested-slot')
 class GlideCoreNestedSlot extends LitElement {
@@ -197,16 +194,9 @@ it('remains open when the menu edge is clicked', async () => {
   await aTimeout(0);
 
   const target = component.querySelector('button');
-  const defaultSlot = component.querySelector('glide-core-menu-link');
+  const defaultSlot = component.shadowRoot?.querySelector('slot:not([name])');
 
-  assert(defaultSlot);
-
-  const { x, y } = defaultSlot.getBoundingClientRect();
-
-  await sendMouse({
-    type: 'click',
-    position: [Math.floor(x - 1), Math.ceil(y)],
-  });
+  await click(component.shadowRoot?.querySelector('slot:not([name])'), 'left');
 
   expect(component.open).to.be.true;
   expect(defaultSlot?.checkVisibility()).to.be.true;
@@ -259,24 +249,7 @@ it('remains open when a disabled link is clicked via `sendMouse()`', async () =>
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const link = component.querySelector('glide-core-menu-link');
-  assert(link);
-
-  const { x, y, width } = link.getBoundingClientRect();
-
-  // `sendMouse()` because we need coverage for Menu Link's `#onClick` method.
-  // Calling `link.click()` would produce a "click" event and result in the
-  // `#onClick` method being called if not for the `!this.disabled` condition
-  // in that handler. There's a comment in the handler that explains why the
-  // condition is needed.
-  //
-  // It's not clear why `Math.ceil(x)` doesn't click Menu Link. I verified using
-  // DevTools that the value of `x` is correct. Could be something I'm missing.
-  // Could also be another test runner bug.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x + width / 2), Math.ceil(y)],
-  });
+  await click(component.querySelector('glide-core-menu-link'));
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -704,16 +677,6 @@ it('closes when its target clicked', async () => {
   await aTimeout(0);
 
   const target = component.shadowRoot?.querySelector('button');
-  assert(target);
-
-  const { x, y } = target.getBoundingClientRect();
-
-  // Calling `click()` won't do because Menu relies on a "mouseup" event to
-  // decide if it should close.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x), Math.ceil(y)],
-  });
 
   const menu = component.shadowRoot?.querySelector('glide-core-menu');
 
@@ -721,6 +684,8 @@ it('closes when its target clicked', async () => {
     menu?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
   const options = menu?.querySelector('glide-core-menu-options');
+
+  await click(target);
 
   expect(menu?.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).to.be.false;

@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
-import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCorePopover from './popover.js';
+import click from './library/click.js';
 
 GlideCorePopover.shadowRootOptions.mode = 'open';
-
-afterEach(async () => {
-  await resetMouse();
-});
 
 it('opens when opened programmatically', async () => {
   const component = await fixture<GlideCorePopover>(
@@ -122,17 +119,7 @@ it('opens on click', async () => {
     </glide-core-popover>`,
   );
 
-  const target = component.querySelector('button');
-  assert(target);
-
-  const { height, width, x, y } = target.getBoundingClientRect();
-
-  // `sendMouse` so the "mouseup" handler in `firstUpdated()` also
-  // gets coverage.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x + width / 2), Math.ceil(y + height / 2)],
-  });
+  await click(component.querySelector('button'));
 
   // Wait for Floating UI.
   await aTimeout(0);
@@ -201,15 +188,7 @@ it('remains open when its popover is clicked', async () => {
     '[data-test="popover"]',
   );
 
-  assert(popover);
-
-  const { height, width, x, y } = popover.getBoundingClientRect();
-
-  // `sendMouse` so the "mouseup" handler in `firstUpdated()` can do its thing.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x + width / 2), Math.ceil(y + height / 2)],
-  });
+  await click(popover);
 
   expect(popover?.checkVisibility()).to.be.true;
 });
@@ -229,15 +208,7 @@ it('remains open when its arrow is clicked', async () => {
     '[data-test="arrow"]',
   );
 
-  assert(arrow);
-
-  const { height, width, x, y } = arrow.getBoundingClientRect();
-
-  // `sendMouse` so the "mouseup" handler in `firstUpdated()` can do its thing.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x + width / 2), Math.ceil(y + height / 2)],
-  });
+  await click(arrow);
 
   expect(arrow?.checkVisibility()).to.be.true;
 });

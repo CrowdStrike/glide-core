@@ -2,23 +2,19 @@
 
 import {
   aTimeout,
-  assert,
   elementUpdated,
   expect,
   fixture,
   html,
 } from '@open-wc/testing';
-import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
-
-afterEach(async () => {
-  await resetMouse();
-});
 
 it('opens when opened programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
@@ -976,20 +972,9 @@ it('opens when something other than the primary button is clicked', async () => 
     </glide-core-dropdown>`,
   );
 
-  const internalLabel = component.shadowRoot?.querySelector(
-    '[data-test="internal-label"]',
+  await click(
+    component.shadowRoot?.querySelector('[data-test="internal-label"]'),
   );
-
-  assert(internalLabel);
-
-  const { x, y } = internalLabel.getBoundingClientRect();
-
-  // A simple `option.click()` won't do because we need a "mousedown" so that
-  // `#onDropdownMousedown` gets covered.
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(x), Math.ceil(y)],
-  });
 
   expect(component.open).to.be.true;
 });
