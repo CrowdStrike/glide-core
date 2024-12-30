@@ -161,7 +161,7 @@ export default class GlideCoreModal extends LitElement {
             this.backButton,
             () =>
               html`<glide-core-modal-icon-button
-                class="icon-button"
+                class="back-button"
                 data-test="back-button"
                 @click=${this.#onCloseButtonClick}
               >
@@ -192,7 +192,7 @@ export default class GlideCoreModal extends LitElement {
           ></slot>
 
           <glide-core-modal-icon-button
-            class="icon-button"
+            class="close-button"
             data-test="close-button"
             @click=${this.#onCloseButtonClick}
           >

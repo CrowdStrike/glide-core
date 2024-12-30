@@ -71,6 +71,7 @@ export default class GlideCoreTreeItemMenu extends LitElement {
         </glide-core-menu-options>
 
         <glide-core-icon-button
+          data-test="icon-button"
           slot="target"
           variant="tertiary"
           label=${this.label}

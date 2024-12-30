@@ -5,11 +5,12 @@ import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreButtonGroup from './button-group.js';
 import GlideCoreButtonGroupButton from './button-group.button.js';
+import click from './library/click.js';
 
 GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
-it('selects a button when clicked', async () => {
+it('selects a button on click', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
@@ -25,7 +26,30 @@ it('selects a button when clicked', async () => {
 
   const buttons = component.querySelectorAll('glide-core-button-group-button');
 
-  buttons[1]?.click();
+  await click(buttons[1]);
+  await elementUpdated(component);
+
+  expect(buttons[0].selected).to.be.false;
+  expect(buttons[1].selected).to.be.true;
+});
+
+it('selects a button on `click()`', async () => {
+  const component = await fixture(
+    html`<glide-core-button-group>
+      <glide-core-button-group-button
+        label="One"
+        selected
+      ></glide-core-button-group-button>
+
+      <glide-core-button-group-button
+        label="Two"
+      ></glide-core-button-group-button>
+    </glide-core-button-group>`,
+  );
+
+  const buttons = component.querySelectorAll('glide-core-button-group-button');
+
+  buttons[1].click();
   await elementUpdated(component);
 
   expect(buttons[0].selected).to.be.false;
@@ -111,7 +135,8 @@ it('does not select a disabled button', async () => {
   );
 
   const buttons = component.querySelectorAll('glide-core-button-group-button');
-  buttons[1]?.click();
+
+  await click(buttons[1]);
 
   expect(buttons[0].selected).to.be.true;
   expect(buttons[1].selected).to.be.false;

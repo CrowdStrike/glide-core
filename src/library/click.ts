@@ -31,5 +31,12 @@ export default async (
                 : [Math.ceil(x + width / 2), Math.ceil(y + height / 2)],
   });
 
-  await resetMouse();
+  // You'd think you'd be able to call `resetMouse` anywhere. But, for whatever
+  // reason, calling it outside `afterEach` results in sporadic bouts of the
+  // following error via Playwright:
+  //
+  // "mouse.move: Target page, context or browser has been closed".
+  afterEach(async () => {
+    await resetMouse();
+  });
 };

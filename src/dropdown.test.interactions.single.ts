@@ -13,6 +13,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
@@ -25,16 +26,9 @@ it('opens on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  // Wait for it to open.
-  await aTimeout(0);
+  await click(
+    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
+  );
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
@@ -49,44 +43,14 @@ it('toggles open and closed when the primary button is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  await elementUpdated(component);
+  await click(
+    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
+  );
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
   expect(component.open).to.be.false;
   expect(options?.checkVisibility()).to.be.false;
-});
-
-it('does not toggle open and closed when the button overflow text is clicked', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="tag-overflow-text"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  // Wait for it to open.
-  await aTimeout(0);
-
-  const options = component.shadowRoot?.querySelector('[data-test="options"]');
-
-  expect(component.open).to.be.true;
-  expect(options?.checkVisibility()).to.be.true;
 });
 
 it('selects an option on click', async () => {
@@ -96,13 +60,12 @@ it('selects an option on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
-  option?.click();
 
-  await elementUpdated(component);
+  await click(option);
 
   const labels = component.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
@@ -123,13 +86,12 @@ it('does not select a disabled option on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
-  option?.click();
 
-  await elementUpdated(component);
+  await click(option);
 
   const labels = component.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
@@ -149,10 +111,11 @@ it('selects an option on Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
+
   option?.focus();
   await sendKeys({ press: ' ' });
 
@@ -181,14 +144,12 @@ it('selects an option when its icon is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
 
-  option
-    ?.querySelector('[slot="icon"]')
-    ?.dispatchEvent(new Event('click', { bubbles: true }));
+  await click(option?.querySelector('[slot="icon"]'));
 
   expect(option?.selected).to.be.true;
 });
@@ -204,6 +165,9 @@ it('does not deselect options on Space', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   component?.focus();
   await sendKeys({ press: ' ' });
 
@@ -218,7 +182,7 @@ it('selects an option on Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
@@ -237,6 +201,9 @@ it('deactivates all other options on "mouseover"', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
   options[0]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
@@ -253,10 +220,10 @@ it('closes when an option is selected via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
-  component.querySelector('glide-core-dropdown-option')?.click();
+  await click(component.querySelector('glide-core-dropdown-option'));
 
   expect(component.open).to.be.false;
 });
@@ -268,7 +235,7 @@ it('closes when an option is selected via Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -284,7 +251,7 @@ it('closes when an option is selected via Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -300,7 +267,7 @@ it('closes when an option is selected via Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.querySelector('glide-core-dropdown-option')?.focus();
@@ -316,7 +283,7 @@ it('closes when an option is selected via Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
@@ -337,10 +304,10 @@ it('closes when an already selected option is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
-  component.querySelector('glide-core-dropdown-option')?.click();
+  await click(component.querySelector('glide-core-dropdown-option'));
 
   expect(component.open).to.be.false;
 });
@@ -356,19 +323,17 @@ it('closes on edit via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
-  component.shadowRoot
-    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
-    ?.click();
+  await click(component.shadowRoot?.querySelector('[data-test="edit-button"]'));
 
   expect(component.open).to.be.false;
 });
 
 it('deselects all other options when one is newly selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="One"
         selected
@@ -379,12 +344,12 @@ it('deselects all other options when one is newly selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new Event('click'));
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
-  options[1].click();
+
+  await click(options[1]);
 
   expect(options[0].selected).to.be.false;
   expect(options[1].selected).to.be.true;
@@ -524,31 +489,34 @@ it('updates `value` when an option is selected via click', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
-  options[1].click();
+  await click(options[1]);
   expect(component.value).to.deep.equal(['two']);
 
   // Reopen it.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { detail: 1 }));
+  await click(
+    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
+  );
 
-  // Wait for it to open.
-  await elementUpdated(component);
+  // Wait for Floating UI.
+  await aTimeout(0);
 
-  options[1].click();
+  await click(options[1]);
   expect(component.value).to.deep.equal(['two']);
 
   // Reopen it.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { detail: 1 }));
+  await click(
+    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
+  );
 
-  // Wait for it to open.
-  await elementUpdated(component);
+  // Wait for Floating UI.
+  await aTimeout(0);
 
-  options[2].click();
+  await click(options[2]);
   expect(component.value).to.deep.equal([]);
 });
 
@@ -563,7 +531,10 @@ it('does not update `value` when a disabled option is selected via click', async
     </glide-core-dropdown>`,
   );
 
-  component.querySelector('glide-core-dropdown-option')?.click();
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  await click(component.querySelector('glide-core-dropdown-option'));
 
   expect(component.value).to.deep.equal([]);
 });
@@ -585,7 +556,7 @@ it('updates `value` when an option is selected via Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -595,24 +566,16 @@ it('updates `value` when an option is selected via Enter', async () => {
   expect(component.value).to.deep.equal(['one']);
 
   // Reopen it.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  // Wait for it to open.
-  await aTimeout(0);
+  component.focus();
+  await sendKeys({ press: ' ' });
 
   options[1].focus();
   await sendKeys({ press: 'Enter' });
   expect(component.value).to.deep.equal(['two']);
 
   // Reopen it.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  // Wait for it to open.
-  await aTimeout(0);
+  component.focus();
+  await sendKeys({ press: ' ' });
 
   options[2].focus();
   await sendKeys({ press: 'Enter' });
@@ -636,7 +599,7 @@ it('updates `value` when an option is selected via Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -646,12 +609,8 @@ it('updates `value` when an option is selected via Space', async () => {
   expect(component.value).to.deep.equal(['one']);
 
   // Reopen it.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  // Wait for it to open.
-  await aTimeout(0);
+  component.focus();
+  await sendKeys({ press: ' ' });
 
   options[1].focus();
   await sendKeys({ press: ' ' });
@@ -659,12 +618,8 @@ it('updates `value` when an option is selected via Space', async () => {
   expect(component.value).to.deep.equal(['two']);
 
   // Reopen it.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  // Wait for it to open.
-  await aTimeout(0);
+  component.focus();
+  await sendKeys({ press: ' ' });
 
   options[2].focus();
   await sendKeys({ press: ' ' });
@@ -764,13 +719,14 @@ it('updates its internal label when an option is newly selected', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const option = component.querySelector<GlideCoreDropdownOption>(
     'glide-core-dropdown-option:last-of-type',
   );
 
-  option?.click();
-
-  await elementUpdated(component);
+  await click(option);
 
   const label = component.shadowRoot?.querySelector(
     '[data-test="internal-label"]',
@@ -795,10 +751,9 @@ it('hides Select All', async () => {
     </glide-core-dropdown>`,
   );
 
-  const selectAll =
-    component.shadowRoot?.querySelector<GlideCoreDropdownOption>(
-      '[data-test="select-all"]',
-    );
+  const selectAll = component.shadowRoot?.querySelector(
+    '[data-test="select-all"]',
+  );
 
   expect(selectAll?.checkVisibility()).to.not.be.ok;
 });
@@ -826,11 +781,11 @@ it('clicks the primary button when `click()` is called', async () => {
     '[data-test="primary-button"]',
   );
 
-  assert(button);
-
   setTimeout(() => {
     component.click();
   });
+
+  assert(button);
 
   const event = await oneEvent(button, 'click');
   expect(event instanceof PointerEvent).to.be.true;

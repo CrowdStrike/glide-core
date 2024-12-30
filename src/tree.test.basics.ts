@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './tree.item.icon-button.js';
+import './tree.item.icon-button.js';
+import './tree.item.menu.js';
 import './tree.js';
 import { ArgumentError } from 'ow';
-import { assert, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTree from './tree.js';
 import GlideCoreTreeItem from './tree.item.js';
+import click from './library/click.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
-import type GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
-import type GlideCoreTreeItemMenu from './tree.item.menu.js';
 
 GlideCoreTree.shadowRootOptions.mode = 'open';
 
@@ -80,23 +81,25 @@ it('can click child and grandchild items to expand or select them', async () => 
   );
 
   // Clicking an item that doesn't have children selects it
-  childItems[0].click();
+  await click(childItems[0]);
   expect(childItems[0].selected).to.be.true;
   expect(childItems[1].selected).to.be.false;
   expect(grandchildItems[0].selected).to.be.false;
-
   expect(childItems[1].expanded).to.be.false;
 
   // Clicking an item that has children expands it
-  childItems[1].click();
+  await click(childItems[1]);
   expect(childItems[1].expanded).to.be.true;
 
   // Can click and select a grandchild item
-  grandchildItems[0].click();
+  await click(grandchildItems[0]);
   expect(grandchildItems[0].selected).to.be.true;
 
-  // Can click and select a non-collapsible parent item
-  childItems[2].click();
+  // Can click and select a non-collapsible parent item.
+  //
+  // "top" because the default, clicking the center of the element,
+  // will click the child's child.
+  await click(childItems[2], 'top');
   expect(childItems[2].selected).to.be.true;
 });
 
@@ -117,13 +120,7 @@ it('does not select an item if a tree-item-icon-button is clicked', async () => 
     ':scope > glide-core-tree-item',
   );
 
-  const iconButton = childItems[0].querySelector<GlideCoreTreeItemIconButton>(
-    '[data-test-icon-button]',
-  );
-
-  assert(iconButton);
-  iconButton.click();
-  await iconButton.updateComplete;
+  await click(childItems[0].querySelector('[data-test-icon-button]'));
 
   expect(childItems[0].selected).to.be.false;
 });
@@ -143,12 +140,7 @@ it('does not select an item if its menu slot is clicked', async () => {
     ':scope > glide-core-tree-item',
   );
 
-  const menu =
-    childItems[0].querySelector<GlideCoreTreeItemMenu>('[data-test-menu]');
-
-  assert(menu);
-  menu.click();
-  await menu.updateComplete;
+  await click(childItems[0].querySelector('[data-test-menu]'));
 
   expect(childItems[0].selected).to.be.false;
 });

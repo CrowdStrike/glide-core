@@ -3,6 +3,7 @@
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreCheckbox from './checkbox.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 /* eslint-disable @typescript-eslint/no-unused-expressions */
@@ -216,7 +217,7 @@ it('is valid but not aria-invalid after being checked when unchecked and require
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
   );
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   expect(component.validity.valid).to.be.true;
   expect(component.validity?.valueMissing).to.be.false;
@@ -252,7 +253,7 @@ it('is invalid but not aria-invalid after being unchecked when required', async 
     ></glide-core-checkbox>`,
   );
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   expect(component.validity.valid).to.be.false;
   expect(component.validity?.valueMissing).to.be.true;

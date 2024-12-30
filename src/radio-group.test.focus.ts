@@ -2,16 +2,11 @@
 
 import './radio-group.js';
 import './radio-group.radio.js';
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
+import click from './library/click.js';
 
 GlideCoreRadio.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
@@ -26,9 +21,7 @@ it('focuses the checked Radio after it is clicked', async () => {
 
   const radio = component.querySelector('glide-core-radio');
 
-  assert(radio);
-
-  radio.click();
+  await click(radio);
 
   expect(radio).to.have.focus;
 });

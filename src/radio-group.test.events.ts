@@ -3,17 +3,11 @@
 import './radio-group.js';
 import './radio-group.radio.js';
 import * as sinon from 'sinon';
-import {
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-  oneEvent,
-  waitUntil,
-} from '@open-wc/testing';
+import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
+import click from './library/click.js';
 
 GlideCoreRadio.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
@@ -108,8 +102,7 @@ it('does not change focus or the `checked` attribute a disabled Radio is clicked
   const radios = component.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(2);
-  radios[1].click();
-  await elementUpdated(component);
+  await click(radios[1]);
 
   expect(radios[0]).to.have.focus;
   expect(radios[0].hasAttribute('checked')).to.be.true;
@@ -127,8 +120,7 @@ it('does not change focus or the `checked` attribute when clicking a disabled gr
   const radios = component.querySelectorAll('glide-core-radio');
 
   expect(radios.length).to.equal(2);
-  radios[1].click();
-  await elementUpdated(component);
+  await click(radios[1]);
 
   expect(radios[0]).to.not.have.focus;
   expect(radios[0].hasAttribute('checked')).to.be.true;
@@ -149,9 +141,7 @@ it('dispatches a `change` event after an `input` event', async () => {
   component.addEventListener('change', changeSpy);
   component.addEventListener('input', inputSpy);
 
-  const radio = document.querySelector('glide-core-radio');
-
-  radio?.click();
+  await click(component.querySelector('glide-core-radio'));
 
   await waitUntil(() => changeSpy.callCount === 1);
 

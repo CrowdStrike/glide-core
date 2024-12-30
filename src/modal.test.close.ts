@@ -3,6 +3,7 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreModal from './modal.js';
+import click from './library/click.js';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
 
@@ -13,13 +14,9 @@ it('closes the modal when the close button is clicked', async () => {
 
   component.showModal();
 
-  const button = component.shadowRoot!.querySelector<HTMLButtonElement>(
-    '[data-test="close-button"]',
+  await click(
+    component.shadowRoot?.querySelector('[data-test="close-button"]'),
   );
-
-  expect(button).to.be.ok;
-
-  button?.click();
 
   expect(
     component
@@ -41,7 +38,6 @@ it('closes the modal when the escape key is pressed', async () => {
   expect(dialogElement?.hasAttribute('open')).to.be.true;
 
   await sendKeys({ press: 'Escape' });
-
   expect(dialogElement?.hasAttribute('open')).to.be.false;
 });
 
@@ -54,18 +50,9 @@ it('closes the modal via "back-button"', async () => {
 
   component.showModal();
 
-  const dialogElement =
-    component.shadowRoot!.querySelector<HTMLDialogElement>('dialog');
-
+  const dialogElement = component.shadowRoot?.querySelector('dialog');
   expect(dialogElement?.hasAttribute('open')).to.be.true;
 
-  const button = component.shadowRoot!.querySelector<HTMLButtonElement>(
-    '[data-test="back-button"]',
-  );
-
-  expect(button).to.be.ok;
-
-  button?.click();
-
+  await click(component.shadowRoot?.querySelector('[data-test="back-button"]'));
   expect(dialogElement?.hasAttribute('open')).to.be.false;
 });

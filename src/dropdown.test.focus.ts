@@ -11,6 +11,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import click from './library/click.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -56,22 +57,18 @@ it('closes and reports validity when it loses focus', async () => {
     .to.be.true;
 });
 
-it('is focused when clicked', async () => {
+it('is focused on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
   const button = component.shadowRoot?.querySelector(
     '[data-test="primary-button"]',
   );
 
-  button?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+  await click(button);
 
   expect(component.shadowRoot?.activeElement).to.equal(button);
 });
@@ -89,7 +86,7 @@ it('focuses the Add button on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -122,7 +119,7 @@ it('returns focus to itself on Escape when the Add button has focus', async () =
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -144,7 +141,7 @@ it('returns focus to itself when an option is activated and the Add button has f
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();

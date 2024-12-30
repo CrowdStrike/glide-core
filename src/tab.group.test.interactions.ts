@@ -8,6 +8,7 @@ import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTabGroup from './tab.group.js';
 import GlideCoreTabPanel from './tab.panel.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreTabGroup.shadowRootOptions.mode = 'open';
@@ -194,7 +195,7 @@ it('renders a disabled end-overflow button when there is only overflow at the st
 
   expect(endOverflowButton?.disabled).to.be.false;
 
-  endOverflowButton?.click();
+  await click(endOverflowButton);
 
   await waitUntil(() => {
     return (
@@ -256,7 +257,7 @@ it('scrolls tabs when overflow buttons are clicked', async () => {
       '[data-test="overflow-end-button"]',
     );
 
-  endOverflowButton?.click();
+  await click(endOverflowButton);
 
   await waitUntil(
     () =>
@@ -277,7 +278,7 @@ it('scrolls tabs when overflow buttons are clicked', async () => {
   expect(startOverflowButton).to.be.not.null;
   expect(startOverflowButton?.disabled).to.be.false;
 
-  startOverflowButton?.click();
+  await click(startOverflowButton);
 
   await waitUntil(
     () =>
@@ -505,7 +506,7 @@ it('has only one selected tab that is tabbable when clicked', async () => {
   expect(secondTab.tabIndex).to.equal(-1);
   expect(thirdTab.tabIndex).to.equal(-1);
 
-  secondTab.click();
+  await click(secondTab);
 
   expect(firstTab.selected).to.be.false;
   expect(secondTab.selected).to.be.true;
@@ -514,7 +515,7 @@ it('has only one selected tab that is tabbable when clicked', async () => {
   expect(secondTab.tabIndex).to.equal(0);
   expect(thirdTab.tabIndex).to.equal(-1);
 
-  thirdTab.click();
+  await click(thirdTab);
 
   expect(firstTab.selected).to.be.false;
   expect(secondTab.selected).to.be.false;
@@ -546,7 +547,7 @@ it('has only one tab panel that is selected and tabbable when a tab is clicked',
   expect(firstPanel.tabIndex).to.equal(0);
   expect(secondPanel.tabIndex).to.equal(-1);
 
-  secondTab.click();
+  await click(secondTab);
 
   expect(firstPanel.privateIsSelected).to.be.false;
   expect(secondPanel.privateIsSelected).to.be.true;

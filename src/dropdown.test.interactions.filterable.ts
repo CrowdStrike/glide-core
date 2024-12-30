@@ -13,6 +13,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import click from './library/click.js';
 import type GlideCoreTag from './tag.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
@@ -39,16 +40,7 @@ it('opens on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="input"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  // Wait for it to open.
-  await aTimeout(0);
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
@@ -63,16 +55,12 @@ it('closes on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+  await click(
+    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
+  );
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
@@ -87,16 +75,10 @@ it('does not close on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="input"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
@@ -128,7 +110,7 @@ it('unfilters when an option is selected via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -256,7 +238,7 @@ it('hides its magnifying glass icon when single-select and an option is selected
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -283,7 +265,7 @@ it('hides its magnifying glass icon when single-select and closed programmatical
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
@@ -355,7 +337,7 @@ it('does not clear its filter when a tag is removed via Backspace', async () => 
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
@@ -389,7 +371,7 @@ it('does not clear its filter when every tag is removed via Meta + Backspace', a
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
@@ -432,7 +414,7 @@ it('hides the options when all of them are filtered out', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -488,7 +470,7 @@ it('unhides every option after filtering when one is selected and Dropdown is re
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -499,7 +481,7 @@ it('unhides every option after filtering when one is selected and Dropdown is re
 
   component.open = true;
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = [
@@ -818,7 +800,7 @@ it('sets `aria-activedescendant` on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -845,7 +827,7 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -874,7 +856,7 @@ it('sets `aria-activedescendant` on Home', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -903,7 +885,7 @@ it('sets `aria-activedescendant` on PageUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -932,7 +914,7 @@ it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -958,16 +940,9 @@ it('sets `aria-activedescendant` on open via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  // Wait for it to open.
-  await aTimeout(0);
+  await click(
+    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
+  );
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -1009,7 +984,7 @@ it('sets `aria-activedescendant` on End', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -1042,7 +1017,7 @@ it('sets `aria-activedescendant` on PageDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -1075,7 +1050,7 @@ it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -1142,8 +1117,7 @@ it('sets `aria-activedescendant` when closed because something outside of it was
     </glide-core-dropdown>`,
   );
 
-  document.body.click();
-  await elementUpdated(component);
+  await click(document.body);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -1192,7 +1166,7 @@ it('sets the `value` of its `<input>` back to the label of selected option when 
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
@@ -1205,7 +1179,7 @@ it('sets the `value` of its `<input>` back to the label of selected option when 
   component.focus();
   await sendKeys({ type: 'o' });
 
-  document.body.click();
+  await click(document.body);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',

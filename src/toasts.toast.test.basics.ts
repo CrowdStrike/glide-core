@@ -72,9 +72,9 @@ it('sets variant, label, and description', async () => {
     ></glide-core-toast>`,
   );
 
-  await expect(component.variant).to.equal('informational');
-  await expect(component.label).to.equal('Label');
-  await expect(component.description).to.equal('Toast description');
+  expect(component.variant).to.equal('informational');
+  expect(component.label).to.equal('Label');
+  expect(component.description).to.equal('Toast description');
 });
 
 it('opens and closes by default', async () => {
@@ -92,7 +92,7 @@ it('opens and closes by default', async () => {
 
   const shadowElement = component.shadowRoot!.firstElementChild;
 
-  await expect([...shadowElement!.classList]).to.deep.equal([
+  expect([...shadowElement!.classList]).to.deep.equal([
     'component',
     'informational',
     'open',
@@ -102,9 +102,9 @@ it('opens and closes by default', async () => {
 
   shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  await expect([
-    ...component.shadowRoot!.firstElementChild!.classList,
-  ]).to.deep.equal(['component', 'informational', 'closed']);
+  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
+    ['component', 'informational', 'closed'],
+  );
 
   clock.restore();
 });
@@ -125,7 +125,7 @@ it('responds to duration', async () => {
 
   const shadowElement = component.shadowRoot!.firstElementChild;
 
-  await expect([...shadowElement!.classList]).to.deep.equal([
+  expect([...shadowElement!.classList]).to.deep.equal([
     'component',
     'informational',
     'open',
@@ -135,9 +135,9 @@ it('responds to duration', async () => {
 
   shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  await expect([
-    ...component.shadowRoot!.firstElementChild!.classList,
-  ]).to.deep.equal(['component', 'informational', 'closed']);
+  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
+    ['component', 'informational', 'closed'],
+  );
 
   clock.restore();
 });
@@ -158,7 +158,7 @@ it('responds to duration of Infinity', async () => {
 
   const shadowElement = component.shadowRoot!.firstElementChild;
 
-  await expect([...shadowElement!.classList]).to.deep.equal([
+  expect([...shadowElement!.classList]).to.deep.equal([
     'component',
     'informational',
     'open',
@@ -183,7 +183,7 @@ it('does not allow less than 5000 duration', async () => {
 
   const shadowElement = component.shadowRoot!.firstElementChild;
 
-  await expect([...shadowElement!.classList]).to.deep.equal([
+  expect([...shadowElement!.classList]).to.deep.equal([
     'component',
     'informational',
     'open',

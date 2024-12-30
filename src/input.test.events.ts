@@ -4,6 +4,7 @@ import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreInput from './input.js';
+import click from './library/click.js';
 
 GlideCoreInput.shadowRootOptions.mode = 'open';
 
@@ -50,11 +51,7 @@ it('dispatches an "input" event on clear', async () => {
     html`<glide-core-input value="test" clearable></glide-core-input>`,
   );
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector<HTMLButtonElement>('[data-test="clear-button"]')
-      ?.click();
-  });
+  click(component.shadowRoot?.querySelector('[data-test="clear-button"]'));
 
   const event = await oneEvent(component, 'input');
 

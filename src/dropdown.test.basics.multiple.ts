@@ -109,7 +109,7 @@ it('shows Select All', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const selectAll =

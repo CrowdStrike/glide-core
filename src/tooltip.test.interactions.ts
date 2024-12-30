@@ -196,7 +196,7 @@ it('opens on "mouseover"', async () => {
     ?.querySelector('[data-test="component"')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
-  // Wait for Floating UI and the open delay.
+  // Wait for it to open and the open delay.
   await aTimeout(0);
 
   expect(tooltip.checkVisibility()).to.be.true;
@@ -248,7 +248,7 @@ it('closes on "mouseout"', async () => {
     ?.querySelector('[data-test="component"')
     ?.dispatchEvent(new MouseEvent('mouseover'));
 
-  // Wait for Floating UI and the open delay.
+  // Wait for it to open and the open delay.
   await aTimeout(0);
 
   tooltip.dataset.closeDelay = '0';

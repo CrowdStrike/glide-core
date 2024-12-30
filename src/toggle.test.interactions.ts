@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreToggle from './toggle.js';
+import click from './library/click.js';
 
 GlideCoreToggle.shadowRootOptions.mode = 'open';
 
@@ -10,8 +11,7 @@ it('is checked after being clicked', async () => {
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
-  component.click();
-  await elementUpdated(component);
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   expect(component.checked).to.be.true;
   expect(component.hasAttribute('checked')).to.be.false;
@@ -25,8 +25,7 @@ it('is unchecked after being clicked', async () => {
     html`<glide-core-toggle label="Label" checked></glide-core-toggle>`,
   );
 
-  component.click();
-  await elementUpdated(component);
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   expect(component.checked).to.be.false;
   expect(component.hasAttribute('checked')).to.be.true;
@@ -44,8 +43,7 @@ it('is still checked after being clicked when checked but disabled', async () =>
     ></glide-core-toggle>`,
   );
 
-  component.click();
-  await elementUpdated(component);
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   expect(component.checked).to.be.true;
   expect(component.hasAttribute('checked')).to.be.true;
@@ -59,8 +57,7 @@ it('is still unchecked after being clicked when unchecked and disabled', async (
     html`<glide-core-toggle label="Label" disabled></glide-core-toggle>`,
   );
 
-  component.click();
-  await elementUpdated(component);
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
@@ -79,8 +76,7 @@ it('is unchecked after being clicked then forcibly unchecked via a "change" list
     component.checked = false;
   });
 
-  component.click();
-  await elementUpdated(component);
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
@@ -99,8 +95,7 @@ it('is unchecked after being clicked then forcibly unchecked via an "input" list
     component.checked = false;
   });
 
-  component.click();
-  await elementUpdated(component);
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
@@ -118,7 +113,7 @@ it('remains unchecked when its "click" event is canceled', async () => {
     event.preventDefault();
   });
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;

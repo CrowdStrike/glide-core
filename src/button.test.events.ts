@@ -4,10 +4,24 @@ import './button.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreButton from './button.js';
+import click from './library/click.js';
 
 GlideCoreButton.shadowRootOptions.mode = 'open';
 
-it('dispatches a "click" event when clicked', async () => {
+it('dispatches a "click" event on click', async () => {
+  const component = await fixture<GlideCoreButton>(html`
+    <glide-core-button label="Label" type="button"></glide-core-button>
+  `);
+
+  click(component);
+
+  const event = await oneEvent(component, 'click');
+
+  expect(event instanceof PointerEvent).to.be.true;
+  expect(event.bubbles).to.be.true;
+});
+
+it('dispatches a "click" event on `click()`', async () => {
   const component = await fixture<GlideCoreButton>(html`
     <glide-core-button label="Label" type="button"></glide-core-button>
   `);
@@ -60,9 +74,7 @@ it('dispatches a "reset" event on click', async () => {
     },
   );
 
-  setTimeout(() => {
-    component.click();
-  });
+  click(component);
 
   const event = await oneEvent(form, 'reset');
   expect(event instanceof Event).to.be.true;
@@ -114,9 +126,7 @@ it('dispatches a "submit" event on click', async () => {
 
   form.addEventListener('submit', (event) => event.preventDefault());
 
-  setTimeout(() => {
-    component.click();
-  });
+  click(component);
 
   const event = await oneEvent(form, 'submit');
   expect(event instanceof Event).to.be.true;

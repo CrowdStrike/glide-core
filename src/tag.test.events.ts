@@ -4,6 +4,7 @@ import './tag.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTag from './tag.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreTag.shadowRootOptions.mode = 'open';
@@ -13,11 +14,7 @@ it('dispatches one "remove" event on click', async () => {
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector<HTMLElement>('[data-test="removal-button"]')
-      ?.click();
-  });
+  click(component.shadowRoot?.querySelector('[data-test="removal-button"]'));
 
   const spy = sinon.spy();
   component.addEventListener('remove', spy);
@@ -79,11 +76,7 @@ it('dispatches one "edit" event on click', async () => {
     html`<glide-core-tag label="Label" private-editable></glide-core-tag>`,
   );
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector<HTMLElement>('[data-test="edit-button"]')
-      ?.click();
-  });
+  click(component.shadowRoot?.querySelector('[data-test="edit-button"]'));
 
   const spy = sinon.spy();
   component.addEventListener('edit', spy);

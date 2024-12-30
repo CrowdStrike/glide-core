@@ -55,9 +55,6 @@ export default [
       }
 
       &::backdrop {
-        /* prefix required for Safari */
-        /* stylelint-disable-next-line property-no-vendor-prefix */
-        -webkit-backdrop-filter: blur(3px);
         backdrop-filter: blur(3px);
         background-color: rgba(0 0 0 / 40%);
 
@@ -115,11 +112,22 @@ export default [
       align-items: center;
       display: flex;
       gap: 0.625rem;
-      line-height: 1;
     }
 
-    .icon-button {
-      display: contents;
+    .back-button {
+      /* 
+        Flex so the icon doesn't sit on the baseline and thus extend the height of 
+        ".back-button", making the icon not vertically centered relative to ".label".
+      */
+      display: flex;
+    }
+
+    .close-button {
+      /* 
+        Flex so the icon doesn't sit on the baseline and thus extend the height of 
+        ".back-button", making the icon not vertically centered relative to ".label".
+      */
+      display: flex;
     }
 
     .body {

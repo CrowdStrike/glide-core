@@ -3,6 +3,7 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreInput from './input.js';
+import click from './library/click.js';
 
 GlideCoreInput.shadowRootOptions.mode = 'open';
 
@@ -80,12 +81,9 @@ it('changes to type text when password is revealed', async () => {
   expect(inputElement).to.exist;
   expect(inputElement?.getAttribute('type')).to.equal('password');
 
-  const passwordToggle = component.shadowRoot?.querySelector<HTMLButtonElement>(
-    '[data-test="password-toggle"]',
+  await click(
+    component.shadowRoot?.querySelector('[data-test="password-toggle"]'),
   );
-
-  passwordToggle?.click();
-  await component.updateComplete;
 
   expect(inputElement?.getAttribute('type')).to.equal('text');
 });
@@ -163,7 +161,7 @@ it('clearable attribute allows for a button which can clear input', async () => 
 
   expect(component.value).to.be.equal('testing');
 
-  clearButton?.click();
+  await click(clearButton);
 
   expect(component.value).to.be.equal('');
 });

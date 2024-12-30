@@ -6,6 +6,7 @@ import './tab.panel.js';
 import './tab.panel.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import GlideCoreTabGroup from './tab.group.js';
+import click from './library/click.js';
 
 it('dispatches a "selected" event', async () => {
   const component = await fixture<GlideCoreTabGroup>(html`
@@ -23,9 +24,7 @@ it('dispatches a "selected" event', async () => {
     'glide-core-tab:nth-of-type(2)',
   );
 
-  setTimeout(() => {
-    tab?.click();
-  });
+  click(tab);
 
   const event = await oneEvent(component, 'selected');
 

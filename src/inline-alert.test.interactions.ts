@@ -3,6 +3,7 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreInlineAlert from './inline-alert.js';
+import click from './library/click.js';
 
 GlideCoreInlineAlert.shadowRootOptions.mode = 'open';
 
@@ -13,9 +14,9 @@ it('removes itself on removable button click', async () => {
     >`,
   );
 
-  component.shadowRoot
-    ?.querySelector<HTMLElement>('[data-test="removal-button"]')
-    ?.click();
+  await click(
+    component.shadowRoot?.querySelector('[data-test="removal-button"]'),
+  );
 
   const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="component"]',

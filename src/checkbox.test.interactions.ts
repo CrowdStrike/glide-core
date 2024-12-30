@@ -8,34 +8,35 @@ import {
   html,
 } from '@open-wc/testing';
 import GlideCoreCheckbox from './checkbox.js';
+import click from './library/click.js';
 
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
-it('is checked after being clicked', async () => {
+it('is checked on click', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   await elementUpdated(component);
 
   expect(component.checked).to.be.true;
   expect(component.hasAttribute('checked')).to.be.false;
 });
 
-it('is unchecked after being clicked', async () => {
+it('is unchecked on click', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label" checked></glide-core-checkbox>`,
   );
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   await elementUpdated(component);
 
   expect(component.checked).to.be.false;
   expect(component.hasAttribute('checked')).to.be.true;
 });
 
-it('is checked and not indeterminate after being clicked when unchecked and indeterminate', async () => {
+it('is checked and not indeterminate on click when unchecked and indeterminate', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       label="Label"
@@ -43,7 +44,7 @@ it('is checked and not indeterminate after being clicked when unchecked and inde
     ></glide-core-checkbox>`,
   );
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   await elementUpdated(component);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
@@ -57,7 +58,7 @@ it('is checked and not indeterminate after being clicked when unchecked and inde
   expect(component.hasAttribute('indeterminate')).to.be.true;
 });
 
-it('is unchecked and not indeterminate after being clicked when checked and indeterminate', async () => {
+it('is unchecked and not indeterminate on click when checked and indeterminate', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       label="Label"
@@ -66,7 +67,7 @@ it('is unchecked and not indeterminate after being clicked when checked and inde
     ></glide-core-checkbox>`,
   );
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   await elementUpdated(component);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
@@ -80,7 +81,7 @@ it('is unchecked and not indeterminate after being clicked when checked and inde
   expect(component.hasAttribute('indeterminate')).to.be.true;
 });
 
-it('is still checked after being clicked when checked but disabled', async () => {
+it('is still checked on click when checked but disabled', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       label="Label"
@@ -89,26 +90,26 @@ it('is still checked after being clicked when checked but disabled', async () =>
     ></glide-core-checkbox>`,
   );
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   await elementUpdated(component);
 
   expect(component.checked).to.be.true;
   expect(component.hasAttribute('checked')).to.be.true;
 });
 
-it('is still unchecked after being clicked when unchecked and disabled', async () => {
+it('is still unchecked on click when unchecked and disabled', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label" disabled></glide-core-checkbox>`,
   );
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   await elementUpdated(component);
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
 });
 
-it('is unchecked after being clicked then forcibly unchecked via a "input" listener', async () => {
+it('is unchecked on click then forcibly unchecked via a "input" listener', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
@@ -118,14 +119,14 @@ it('is unchecked after being clicked then forcibly unchecked via a "input" liste
     component.checked = false;
   });
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   await elementUpdated(component);
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
 });
 
-it('is unchecked after being clicked then forcibly unchecked via an "change" listener', async () => {
+it('is unchecked on click then forcibly unchecked via an "change" listener', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
@@ -135,14 +136,14 @@ it('is unchecked after being clicked then forcibly unchecked via an "change" lis
     component.checked = false;
   });
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   await elementUpdated(component);
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
 });
 
-it('is still indeterminate after being clicked when unchecked and disabled', async () => {
+it('is still indeterminate on click when unchecked and disabled', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       label="Label"
@@ -151,7 +152,7 @@ it('is still indeterminate after being clicked when unchecked and disabled', asy
     ></glide-core-checkbox>`,
   );
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   await elementUpdated(component);
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
@@ -205,6 +206,6 @@ it('remains unchecked when its "click" event is canceled', async () => {
     event.preventDefault();
   });
 
-  component.click();
+  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
   expect(component.checked).to.be.false;
 });

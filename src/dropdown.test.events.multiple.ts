@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
+import './tag.js';
 import * as sinon from 'sinon';
 import {
   aTimeout,
@@ -12,6 +13,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import click from './library/click.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -33,20 +35,17 @@ it('dispatches one "change" event when an option is selected via click', async (
     </glide-core-dropdown>`,
   );
 
-  const spy = sinon.spy();
-  component.addEventListener('change', spy);
+  // Wait for Floating UI.
+  await aTimeout(0);
 
-  setTimeout(() => {
-    // Calling `click()` isn't sufficient because it simply sets
-    // `selected` and so isn't likely to produce a duplicate event,
-    // we assert against below. The checkbox, because it produces
-    // its own "change" event, is most likely where the duplicate would
-    // come from.
+  click(
     component
       .querySelector('glide-core-dropdown-option')
-      ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="checkbox"]')
-      ?.click();
-  });
+      ?.shadowRoot?.querySelector('[data-test="checkbox"]'),
+  );
+
+  const spy = sinon.spy();
+  component.addEventListener('change', spy);
 
   const event = await oneEvent(component, 'change');
 
@@ -72,12 +71,14 @@ it('dispatches a "change" event after "input"', async () => {
     </glide-core-dropdown>`,
   );
 
-  setTimeout(() => {
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  click(
     component
       .querySelector('glide-core-dropdown-option')
-      ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="checkbox"]')
-      ?.click();
-  });
+      ?.shadowRoot?.querySelector('[data-test="checkbox"]'),
+  );
 
   const changeSpy = sinon.spy();
   const inputSpy = sinon.spy();
@@ -106,6 +107,9 @@ it('dispatches one "change" event when an option is selected via Enter', async (
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   const spy = sinon.spy();
   component.addEventListener('change', spy);
@@ -143,6 +147,9 @@ it('dispatches one "change" event when an option is selected via Space', async (
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   component.addEventListener('change', spy);
 
@@ -179,20 +186,17 @@ it('dispatches one "input" event when an option is selected via click', async ()
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   component.addEventListener('input', spy);
 
-  setTimeout(() => {
-    // Calling `click()` isn't sufficient because it simply sets
-    // `selected` and so isn't likely to produce a duplicate event,
-    // we assert against below. The checkbox, because it produces
-    // its own "change" event, is most likely where the duplicate would
-    // come from.
+  click(
     component
       .querySelector('glide-core-dropdown-option')
-      ?.shadowRoot?.querySelector<HTMLInputElement>('[data-test="checkbox"]')
-      ?.click();
-  });
+      ?.shadowRoot?.querySelector('[data-test="checkbox"]'),
+  );
 
   const event = await oneEvent(component, 'input');
 
@@ -218,6 +222,9 @@ it('dispatches one "input" event when an option is selected via Enter', async ()
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   const spy = sinon.spy();
   component.addEventListener('input', spy);
@@ -255,6 +262,9 @@ it('dispatches one "input" event when an option is selected via Space', async ()
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   const spy = sinon.spy();
   component.addEventListener('input', spy);
@@ -294,16 +304,14 @@ it('dispatches one "change" event when Select All is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   component.addEventListener('change', spy);
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector<GlideCoreDropdownOption>('[data-test="select-all"]')
-      ?.click();
-  });
+  await click(component.shadowRoot?.querySelector('[data-test="select-all"]'));
 
-  await aTimeout(0);
   expect(spy.callCount).to.equal(1);
 });
 
@@ -325,14 +333,13 @@ it('dispatches one "input" event when Select All is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   component.addEventListener('input', spy);
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector<GlideCoreDropdownOption>('[data-test="select-all"]')
-      ?.click();
-  });
+  await click(component.shadowRoot?.querySelector('[data-test="select-all"]'));
 
   await aTimeout(0);
   expect(spy.callCount).to.equal(1);
@@ -389,15 +396,11 @@ it('continues to dispatch "change" events upon selection after `value` is change
     </glide-core-dropdown>`,
   );
 
-  component.value = ['one', 'two'];
+  // Wait for Floating UI.
+  await aTimeout(0);
 
-  setTimeout(() => {
-    component
-      .querySelector<GlideCoreDropdownOption>(
-        'glide-core-dropdown-option:last-of-type',
-      )
-      ?.click();
-  });
+  component.value = ['one', 'two'];
+  click(component.querySelector('glide-core-dropdown-option:last-of-type'));
 
   const event = await oneEvent(component, 'change');
   expect(event instanceof Event).to.be.true;
@@ -458,15 +461,11 @@ it('continues to dispatch "input" events upon selection after `value` is changed
     </glide-core-dropdown>`,
   );
 
-  component.value = ['one', 'two'];
+  // Wait for Floating UI.
+  await aTimeout(0);
 
-  setTimeout(() => {
-    component
-      .querySelector<GlideCoreDropdownOption>(
-        'glide-core-dropdown-option:last-of-type',
-      )
-      ?.click();
-  });
+  component.value = ['one', 'two'];
+  click(component.querySelector('glide-core-dropdown-option:last-of-type'));
 
   const event = await oneEvent(component, 'input');
   expect(event instanceof Event).to.be.true;
@@ -490,22 +489,16 @@ it('dispatches one "change" event when an option is selected after Select All is
     </glide-core-dropdown>`,
   );
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector<GlideCoreDropdownOption>('[data-test="select-all"]')
-      ?.click();
-  });
-
+  // Wait for Floating UI.
   await aTimeout(0);
+
+  await click(component.shadowRoot?.querySelector('[data-test="select-all"]'));
 
   const spy = sinon.spy();
   component.addEventListener('change', spy);
 
-  setTimeout(() => {
-    component.querySelector('glide-core-dropdown-option')?.click();
-  });
+  await click(component.querySelector('glide-core-dropdown-option'));
 
-  await aTimeout(0);
   expect(spy.callCount).to.equal(1);
 });
 
@@ -527,22 +520,16 @@ it('dispatches one "input" event when an option is selected after Select All is 
     </glide-core-dropdown>`,
   );
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector<GlideCoreDropdownOption>('[data-test="select-all"]')
-      ?.click();
-  });
-
+  // Wait for Floating UI.
   await aTimeout(0);
+
+  await click(component.shadowRoot?.querySelector('[data-test="select-all"]'));
 
   const spy = sinon.spy();
   component.addEventListener('input', spy);
 
-  setTimeout(() => {
-    component.querySelector('glide-core-dropdown-option')?.click();
-  });
+  await click(component.querySelector('glide-core-dropdown-option'));
 
-  await aTimeout(0);
   expect(spy.callCount).to.equal(1);
 });
 

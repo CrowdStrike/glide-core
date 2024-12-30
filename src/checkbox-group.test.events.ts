@@ -4,6 +4,7 @@ import './checkbox.js';
 import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
+import click from './library/click.js';
 
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 
@@ -20,7 +21,7 @@ it('dispatches a "click" event when clicked', async () => {
     </glide-core-checkbox-group>`,
   );
 
-  setTimeout(() => component.click());
+  click(component);
 
   const event = await oneEvent(component, 'click');
   expect(event instanceof PointerEvent).to.be.true;
@@ -34,9 +35,7 @@ it('dispatches a "change" event when clicked', async () => {
     </glide-core-checkbox-group>`,
   );
 
-  const checkbox = component.querySelector('glide-core-checkbox');
-
-  setTimeout(() => checkbox?.click());
+  click(component.querySelector('glide-core-checkbox'));
 
   const event = await oneEvent(component, 'change');
   expect(event instanceof Event).to.be.true;
@@ -50,9 +49,7 @@ it('dispatches an "input" event when clicked', async () => {
     </glide-core-checkbox-group>`,
   );
 
-  const checkbox = component.querySelector('glide-core-checkbox');
-
-  setTimeout(() => checkbox?.click());
+  click(component.querySelector('glide-core-checkbox'));
 
   const event = await oneEvent(component, 'input');
   expect(event instanceof Event).to.be.true;
