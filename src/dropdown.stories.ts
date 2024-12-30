@@ -362,6 +362,10 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
   play(context) {
     const dropdown = context.canvasElement.querySelector('glide-core-dropdown');
 
+    const option = context.canvasElement.querySelector(
+      'glide-core-dropdown-option',
+    );
+
     if (
       context.name.includes('Error') &&
       dropdown instanceof GlideCoreDropdown
@@ -408,10 +412,6 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         attributeFilter: ['open', 'value'],
       });
     }
-
-    const option = context.canvasElement.querySelector(
-      'glide-core-dropdown-option',
-    );
 
     if (option) {
       const observer = new MutationObserver(() => {

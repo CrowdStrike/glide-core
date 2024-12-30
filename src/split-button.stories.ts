@@ -5,7 +5,7 @@ import './split-button.js';
 import './split-button.primary-button.js';
 import './split-button.primary-link.js';
 import './split-button.secondary-button.js';
-import { STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -36,23 +36,14 @@ const meta: Meta = {
     },
   },
   play(context) {
-    // eslint-disable-next-line no-underscore-dangle
-    let arguments_: Meta['args'] = context.args;
-
-    addons.getChannel().addListener(STORY_ARGS_UPDATED, (event) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      arguments_ = event.args as typeof context.args;
-    });
-
-    const splitButtonContainer = context.canvasElement.querySelector(
+    const secondaryButton = context.canvasElement.querySelector(
       'glide-core-split-button-secondary-button',
     );
 
     const observer = new MutationObserver(() => {
-      addons.getChannel().emit(STORY_ARGS_UPDATED, {
+      addons.getChannel().emit(UPDATE_STORY_ARGS, {
         storyId: context.id,
-        args: {
-          ...arguments_,
+        updatedArgs: {
           ['<glide-core-split-button-secondary-button>.menu-open']:
             context.canvasElement.querySelector<GlideCoreSplitButtonSecondaryButton>(
               'glide-core-split-button-secondary-button',
@@ -61,8 +52,8 @@ const meta: Meta = {
       });
     });
 
-    if (splitButtonContainer) {
-      observer.observe(splitButtonContainer, {
+    if (secondaryButton) {
+      observer.observe(secondaryButton, {
         attributes: true,
         attributeFilter: ['menu-open'],
       });

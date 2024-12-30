@@ -109,17 +109,6 @@ export default {
                       argumentKeyWithoutSubcomponent,
                     );
                   }
-
-                  if ($subcomponent.tagName === 'GLIDE-CORE-DROPDOWN-OPTION') {
-                    $subcomponent.removeAttribute('aria-selected');
-                    $subcomponent.removeAttribute('role');
-                  }
-
-                  if ($subcomponent.tagName === 'GLIDE-CORE-RADIO') {
-                    $subcomponent.removeAttribute('aria-checked');
-                    $subcomponent.removeAttribute('aria-disabled');
-                    $subcomponent.removeAttribute('aria-label');
-                  }
                 }
               }
             } else if (
@@ -164,38 +153,99 @@ export default {
             }
           }
 
-          // https://github.com/CrowdStrike/glide-core/pull/400#discussion_r1775956358
-          if (
-            context.componentId === 'tooltip' &&
-            JSON.stringify(context.args.shortcut) !==
-              JSON.stringify(context.initialArgs.shortcut)
-          ) {
-            $component.setAttribute(
-              'shortcut',
-              JSON.stringify(context.args.shortcut),
-            );
+          if (context.componentId === 'checkbox-group') {
+            // `toString()` is used instead of `JSON.stringify()` to make the
+            // comparison slightly easier to read.
+            const isCheckboxGroupValueChanged =
+              context.args.value.toString() !==
+              context.initialArgs.value.toString();
+
+            if (isCheckboxGroupValueChanged) {
+              $component.setAttribute(
+                'value',
+                JSON.stringify(context.args.value),
+              );
+            }
           }
 
-          if (
-            context.componentId === 'dropdown' &&
-            JSON.stringify(context.args.value) !==
-              JSON.stringify(context.initialArgs.value)
-          ) {
-            $component.setAttribute(
-              'value',
-              JSON.stringify(context.args.value),
-            );
+          if (context.componentId === 'form-controls-layout') {
+            const isDropdownValueChanged =
+              context.args['<glide-core-dropdown>.value'].toString() !==
+              context.initialArgs['<glide-core-dropdown>.value'].toString();
+
+            if (isDropdownValueChanged) {
+              $component
+                .querySelector('glide-core-dropdown')
+                .setAttribute(
+                  'value',
+                  JSON.stringify(context.args['<glide-core-dropdown>.value']),
+                );
+            }
+
+            const isCheckboxGroupValueChanged =
+              context.args['<glide-core-checkbox-group>.value'].toString() !==
+              context.initialArgs[
+                '<glide-core-checkbox-group>.value'
+              ].toString();
+
+            if (isCheckboxGroupValueChanged) {
+              $component
+                .querySelector('glide-core-checkbox-group')
+                .setAttribute(
+                  'value',
+                  JSON.stringify(
+                    context.args['<glide-core-checkbox-group>.value'],
+                  ),
+                );
+            }
+
+            for (const $option of $component.querySelectorAll(
+              'glide-core-dropdown-option',
+            )) {
+              $option.removeAttribute('aria-selected');
+            }
           }
 
-          if (
-            context.componentId === 'checkbox-group' &&
-            JSON.stringify(context.args.value) !==
-              JSON.stringify(context.initialArgs.value)
-          ) {
-            $component.setAttribute(
-              'value',
-              JSON.stringify(context.args.value),
-            );
+          if (context.componentId === 'dropdown') {
+            const isDropdownValueChanged =
+              context.args.value.toString() !==
+              context.initialArgs.value.toString();
+
+            if (isDropdownValueChanged) {
+              $component.setAttribute(
+                'value',
+                JSON.stringify(context.args.value),
+              );
+            }
+
+            for (const $option of $component.querySelectorAll(
+              'glide-core-dropdown-option',
+            )) {
+              $option.removeAttribute('aria-selected');
+            }
+          }
+
+          if (context.componentId === 'radio-group') {
+            for (const $radio of $component.querySelectorAll(
+              'glide-core-radio',
+            )) {
+              $radio.removeAttribute('aria-checked');
+              $radio.removeAttribute('aria-disabled');
+              $radio.removeAttribute('aria-label');
+            }
+          }
+
+          if (context.componentId === 'tooltip') {
+            const isTooltipShortChanged =
+              context.args.shortcut?.toString() !==
+              context.initialArgs.shortcut?.toString();
+
+            if (isTooltipShortChanged) {
+              $component.setAttribute(
+                'shortcut',
+                JSON.stringify(context.args.shortcut),
+              );
+            }
           }
 
           // Clean up boolean attributes before returning: `disabled=""` → `disabled`.
