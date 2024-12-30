@@ -2,15 +2,12 @@
 
 import './modal.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import { resetMouse, sendKeys, sendMouse } from '@web/test-runner-commands';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreModal from './modal.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
-
-afterEach(async () => {
-  await resetMouse();
-});
 
 it('dispatches a "close" event when the modal is closed via the "close" method', async () => {
   const spy = sinon.spy();
@@ -118,17 +115,8 @@ it('does not emit a "close" event when clicking inside the dialog and the mouse 
 
   component.showModal();
   component.addEventListener('close', spy);
-  const dialogElement = component?.shadowRoot?.querySelector('dialog');
-  const boundingRectangle = dialogElement?.getBoundingClientRect();
 
-  expect(boundingRectangle).is.not.null;
-
-  const { top, left } = boundingRectangle!;
-
-  await sendMouse({
-    type: 'click',
-    position: [Math.ceil(left + 1), Math.ceil(top + 1)],
-  });
+  await click(component?.shadowRoot?.querySelector('dialog'), 'left');
 
   expect(spy.callCount).to.equal(0);
 });
@@ -166,17 +154,8 @@ it('emits a "close" event when clicking outside the dialog', async () => {
 
   component.showModal();
   component.addEventListener('close', spy);
-  const dialogElement = component?.shadowRoot?.querySelector('dialog');
-  const boundingRectangle = dialogElement?.getBoundingClientRect();
 
-  expect(boundingRectangle).is.not.null;
-
-  const { top, left } = boundingRectangle!;
-
-  await sendMouse({
-    type: 'click',
-    position: [Math.floor(left - 1), Math.floor(top - 1)],
-  });
+  await click(component?.shadowRoot?.querySelector('dialog'), 'outside');
 
   expect(spy.callCount).to.equal(1);
 });
