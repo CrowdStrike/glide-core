@@ -33,6 +33,9 @@ export default {
       // calculations that are in the library itself.
       'src/library/click.ts',
 
+      // Juice also not worth the squeeze. Same reasoning.
+      'src/library/hover.ts',
+
       // Istanbul claims it has a branch that's missing coverage even though
       // there are no branches in this file. It's excluded so we don't have
       // to reduce our coverage thresholds.

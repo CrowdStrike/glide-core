@@ -13,19 +13,14 @@ import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import click from './library/click.js';
+import hover from './library/hover.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
-// `await aTimeout(0)` is used throughout. Using `oneEvent` instead and
-// expecting it to throw would work. But it wouldn't throw until its
-// timeout, which would make for a slow test. Its timeout can likely be
-// configured. But waiting a turn of the event loop, when which the event
-// will have been dispatched, gets the job done as well.
-
 it('dispatches an "edit" event on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
         editable
@@ -33,18 +28,26 @@ it('dispatches an "edit" event on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  setTimeout(() => {
-    const button = component
-      .querySelector('glide-core-dropdown-option')
-      ?.shadowRoot?.querySelector<HTMLButtonElement>(
-        '[data-test="edit-button"]',
-      );
-
-    button?.dispatchEvent(new MouseEvent('mouseover'));
-    button?.click();
-  });
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   const option = component.querySelector('glide-core-dropdown-option');
+
+  const editButton = component
+    .querySelector('glide-core-dropdown-option')
+    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]');
+
+  // Unlike a real hover, the cursor doesn't travel first through the option before
+  // landing on the edit button. So hovering the edit button without hovering the
+  // options first results in Dropdown Option's `#onEditButtonMouseover` handler
+  // being called after Dropdown's `#onOptionsMouseover` handler. And the latter
+  // deactivates the edit button.
+  await hover(option);
+  await hover(editButton);
+
+  setTimeout(() => {
+    editButton?.click();
+  });
 
   assert(option);
 
@@ -58,7 +61,7 @@ it('dispatches an "edit" event on click', async () => {
 
 it('dispatches an "edit" event on Enter', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
         editable
@@ -66,10 +69,8 @@ it('dispatches an "edit" event on Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  component
-    .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
-    ?.dispatchEvent(new MouseEvent('mouseover'));
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   component.focus();
   await sendKeys({ press: 'ArrowDown' });
@@ -89,7 +90,7 @@ it('dispatches an "edit" event on Enter', async () => {
 
 it('dispatches an "edit" event on Space', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="Label"
         editable
@@ -97,10 +98,8 @@ it('dispatches an "edit" event on Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  component
-    .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
-    ?.dispatchEvent(new MouseEvent('mouseover'));
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   component.focus();
   await sendKeys({ press: 'ArrowDown' });

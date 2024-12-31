@@ -3,6 +3,7 @@
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTooltip from './tooltip.js';
+import hover from './library/hover.js';
 
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
@@ -176,7 +177,7 @@ it('closes on Escape', async () => {
   ).to.be.false;
 });
 
-it('opens on "mouseover"', async () => {
+it('opens on hover', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip>
       Tooltip
@@ -191,18 +192,12 @@ it('opens on "mouseover"', async () => {
   assert(tooltip);
 
   tooltip.dataset.openDelay = '0';
-
-  component.shadowRoot
-    ?.querySelector('[data-test="component"')
-    ?.dispatchEvent(new MouseEvent('mouseover'));
-
-  // Wait for it to open and the open delay.
-  await aTimeout(0);
+  await hover(component.shadowRoot?.querySelector('[data-test="component"'));
 
   expect(tooltip.checkVisibility()).to.be.true;
 });
 
-it('remains closed on "mouseover" when disabled', async () => {
+it('remains closed on hover when disabled', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip disabled>
       Tooltip
@@ -217,18 +212,12 @@ it('remains closed on "mouseover" when disabled', async () => {
   assert(tooltip);
 
   tooltip.dataset.openDelay = '0';
-
-  component.shadowRoot
-    ?.querySelector('[data-test="component"')
-    ?.dispatchEvent(new MouseEvent('mouseover'));
-
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await hover(component.shadowRoot?.querySelector('[data-test="component"'));
 
   expect(tooltip.checkVisibility()).to.be.false;
 });
 
-it('closes on "mouseout"', async () => {
+it('closes when hovered away from', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip>
       Tooltip
@@ -243,27 +232,19 @@ it('closes on "mouseout"', async () => {
   assert(tooltip);
 
   tooltip.dataset.openDelay = '0';
-
-  component.shadowRoot
-    ?.querySelector('[data-test="component"')
-    ?.dispatchEvent(new MouseEvent('mouseover'));
-
-  // Wait for it to open and the open delay.
-  await aTimeout(0);
+  await hover(component.shadowRoot?.querySelector('[data-test="component"'));
 
   tooltip.dataset.closeDelay = '0';
 
-  component.shadowRoot
-    ?.querySelector('[data-test="component"')
-    ?.dispatchEvent(new MouseEvent('mouseout'));
-
-  // Wait for the close delay.
-  await aTimeout(0);
+  await hover(
+    component.shadowRoot?.querySelector('[data-test="component"'),
+    'outside',
+  );
 
   expect(tooltip.checkVisibility()).to.be.false;
 });
 
-it('remains closed if "mouseout" fires before the "mouseover" delay', async () => {
+it('remains closed if hovered away from before the delay', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip>
       Tooltip
@@ -277,20 +258,17 @@ it('remains closed if "mouseout" fires before the "mouseover" delay', async () =
 
   assert(tooltip);
 
-  tooltip.dataset.openDelay = '1';
+  tooltip.dataset.openDelay = '5';
   tooltip.dataset.closeDelay = '0';
 
-  component.shadowRoot
-    ?.querySelector('[data-test="component"')
-    ?.dispatchEvent(new MouseEvent('mouseover'));
+  await hover(component.shadowRoot?.querySelector('[data-test="component"'));
 
   expect(tooltip?.checkVisibility()).to.be.false;
 
-  component.shadowRoot
-    ?.querySelector('[data-test="component"')
-    ?.dispatchEvent(new MouseEvent('mouseout'));
-
-  await aTimeout(1);
+  await hover(
+    component.shadowRoot?.querySelector('[data-test="component"'),
+    'outside',
+  );
 
   expect(tooltip.checkVisibility()).to.be.false;
 });
