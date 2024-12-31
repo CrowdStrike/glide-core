@@ -36,6 +36,24 @@ const meta: Meta = {
     },
   },
   play(context) {
+    context.canvasElement
+      .querySelector('glide-core-split-button')
+      ?.addEventListener('click', (event: Event) => {
+        const isLink =
+          event.target instanceof Element &&
+          event.target.closest('glide-core-menu-link');
+
+        if (isLink && window.top) {
+          event.preventDefault();
+
+          // The Storybook user expects to navigate when the link is clicked but
+          // doesn't expect to be redirected to the first story. So we refresh the
+          // page to give the impression of a navigation while keeping the user
+          // on the same page.
+          window.top.location.reload();
+        }
+      });
+
     const secondaryButton = context.canvasElement.querySelector(
       'glide-core-split-button-secondary-button',
     );

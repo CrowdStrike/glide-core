@@ -161,6 +161,22 @@ const meta: Meta = {
         attributeFilter: ['open'],
       });
     }
+
+    menu?.addEventListener('click', (event: Event) => {
+      const isLink =
+        event.target instanceof Element &&
+        event.target.closest('glide-core-menu-link');
+
+      if (isLink && window.top) {
+        event.preventDefault();
+
+        // The Storybook user expects to navigate when the link is clicked but
+        // doesn't expect to be redirected to the first story. So we refresh the
+        // page to give the impression of a navigation while keeping the user
+        // on the same page.
+        window.top.location.reload();
+      }
+    });
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */
