@@ -44,13 +44,9 @@ it('dispatches an "edit" event on click', async () => {
   // deactivates the edit button.
   await hover(option);
   await hover(editButton);
-
-  setTimeout(() => {
-    editButton?.click();
-  });
+  click(editButton);
 
   assert(option);
-
   const event = await oneEvent(option, 'edit');
 
   expect(event instanceof Event).to.be.true;
