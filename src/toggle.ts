@@ -106,8 +106,7 @@ export default class GlideCoreToggle extends LitElement {
             type="checkbox"
             .checked=${this.checked}
             ?disabled=${this.disabled}
-            @change=${this.#onChangeOrInput}
-            @input=${this.#onChangeOrInput}
+            @input=${this.#onInput}
             ${ref(this.#inputElementRef)}
           />
         </div>
@@ -144,15 +143,17 @@ export default class GlideCoreToggle extends LitElement {
   // If "input" events were dispatched after "change" events, only handling
   // "change" here would suffice because an update from "change" would already
   // be pending by the time "input" is dispatched.
-  #onChangeOrInput(event: Event) {
+  #onInput(event: Event) {
     if (event.target instanceof HTMLInputElement) {
       this.checked = event.target.checked;
     }
 
-    if (event.type === 'change') {
-      // Unlike "input" events, "change" events aren't composed. So we have to
-      // manually dispatch them.
-      this.dispatchEvent(new Event(event.type, event));
-    }
+    // Unlike "change", "input" is composed and so will escape the shadow DOM
+    // unless we stop it from propagating.
+    event.stopPropagation();
+
+    this.dispatchEvent(
+      new Event('selected', { bubbles: true, composed: true }),
+    );
   }
 }
