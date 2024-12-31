@@ -125,7 +125,7 @@ export default [
     .close-button {
       /* 
         Flex so the icon doesn't sit on the baseline and thus extend the height of 
-        ".back-button", making the icon not vertically centered relative to ".label".
+        ".close-button", making the icon not vertically centered relative to ".label".
       */
       display: flex;
     }
