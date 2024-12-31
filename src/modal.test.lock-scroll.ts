@@ -51,13 +51,9 @@ it('removes the "private-glide-core-modal-lock-scroll" class when the close butt
 
   expect(removeSpy.callCount).to.equal(0);
 
-  const button = component.shadowRoot!.querySelector<HTMLButtonElement>(
-    '[data-test="close-button"]',
+  await click(
+    component.shadowRoot?.querySelector('[data-test="close-button"]'),
   );
-
-  expect(button).to.be.ok;
-
-  button?.click();
 
   expect(removeSpy.callCount).to.equal(1);
 });

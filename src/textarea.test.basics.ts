@@ -3,6 +3,7 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTextarea from './textarea.js';
+import click from './library/click.js';
 
 GlideCoreTextarea.shadowRootOptions.mode = 'open';
 
@@ -221,12 +222,11 @@ it('focuses the textarea when the label is clicked', async () => {
     ></glide-core-textarea>`,
   );
 
-  const label = component.shadowRoot!.querySelector('label');
-  label?.click();
+  await click(component.shadowRoot?.querySelector('label'));
 
   expect(component).to.have.focus;
 
-  await expect(
+  expect(
     component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
   ).to.be.equal('textarea');
 });

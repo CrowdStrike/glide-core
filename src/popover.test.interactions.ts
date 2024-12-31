@@ -184,9 +184,7 @@ it('remains open when its popover is clicked', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
-    '[data-test="popover"]',
-  );
+  const popover = component.shadowRoot?.querySelector('[data-test="popover"]');
 
   await click(popover);
 
@@ -204,9 +202,7 @@ it('remains open when its arrow is clicked', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const arrow = component.shadowRoot?.querySelector<HTMLElement>(
-    '[data-test="arrow"]',
-  );
+  const arrow = component.shadowRoot?.querySelector('[data-test="arrow"]');
 
   await click(arrow);
 
@@ -221,10 +217,7 @@ it('remains closed on click when disabled', async () => {
     </glide-core-popover>`,
   );
 
-  component.querySelector('button')?.click();
-
-  // Wait for Floating UI.
-  await aTimeout(0);
+  await click(component.querySelector('button'));
 
   const popover = component.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
@@ -244,13 +237,11 @@ it('closes when something outside of it is clicked', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  document.body.click();
+  await click(document.body);
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
-    '[data-test="popover"]',
-  );
-
+  const popover = component.shadowRoot?.querySelector('[data-test="popover"]');
   assert(popover);
+
   expect(popover.checkVisibility()).to.not.be.ok;
 });
 

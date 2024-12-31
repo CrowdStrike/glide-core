@@ -1,17 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './button-group.button.js';
-import {
-  aTimeout,
-  assert,
-  expect,
-  fixture,
-  html,
-  oneEvent,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreButtonGroup from './button-group.js';
 import GlideCoreButtonGroupButton from './button-group.button.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
@@ -34,9 +28,7 @@ it('emits a "selected" event when a button is clicked and not already selected',
     'glide-core-button-group-button:nth-of-type(2)',
   );
 
-  setTimeout(() => {
-    button?.click();
-  });
+  click(button);
 
   const event = await oneEvent(component, 'selected');
 
@@ -64,14 +56,8 @@ it('does not emit a "selected" event when an already selected button is clicked'
 
   component.addEventListener('selected', spy);
 
-  setTimeout(() => {
-    const button = component.querySelector('glide-core-button-group-button');
-    assert(button);
+  await click(component.querySelector('glide-core-button-group-button'));
 
-    button?.click();
-  });
-
-  await aTimeout(0);
   expect(spy.callCount).to.equal(0);
 });
 

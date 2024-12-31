@@ -3,6 +3,7 @@
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreInput from './input.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreInput.shadowRootOptions.mode = 'open';
@@ -187,12 +188,9 @@ it('is invalid after value is cleared when required', async () => {
     ></glide-core-input>`,
   );
 
-  const clearButton = component.shadowRoot?.querySelector<HTMLButtonElement>(
-    '[data-test="clear-button"]',
+  await click(
+    component.shadowRoot?.querySelector('[data-test="clear-button"]'),
   );
-
-  clearButton?.click();
-  await component.updateComplete;
 
   expect(component.validity?.valid).to.be.false;
   expect(component.validity?.valueMissing).to.be.true;

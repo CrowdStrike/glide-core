@@ -16,6 +16,18 @@ it('can be opened via click', async () => {
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
+  await click(component);
+
+  expect(component.open).to.be.true;
+});
+
+it('can be opened via `click()`', async () => {
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const component = await fixture<GlideCoreAccordion>(
+    html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+  );
+
   component.click();
 
   expect(component.open).to.be.true;
@@ -86,7 +98,7 @@ it('can be closed via click', async () => {
     </glide-core-accordion>`,
   );
 
-  component.click();
+  await click(component);
 
   expect(component.open).to.be.false;
 });
@@ -100,7 +112,7 @@ it('can be closed via click when animated', async () => {
     </glide-core-accordion>`,
   );
 
-  component.click();
+  await click(component);
 
   let animation: Animation | undefined;
   let isAnimationFinished = false;

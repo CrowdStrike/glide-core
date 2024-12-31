@@ -3,6 +3,7 @@
 import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import GlideCoreCheckbox from './checkbox.js';
+import click from './library/click.js';
 
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
@@ -17,7 +18,7 @@ it('dispatches a "click" event when clicked', async () => {
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
-  setTimeout(() => component.click());
+  click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   const event = await oneEvent(component, 'click');
   expect(event instanceof PointerEvent).to.be.true;
@@ -29,7 +30,7 @@ it('dispatches a "change" event when clicked', async () => {
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
-  setTimeout(() => component.click());
+  click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   const event = await oneEvent(component, 'change');
   expect(event instanceof Event).to.be.true;
@@ -41,7 +42,7 @@ it('dispatches an "input" event when clicked', async () => {
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
-  setTimeout(() => component.click());
+  click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   const event = await oneEvent(component, 'input');
   expect(event instanceof Event).to.be.true;

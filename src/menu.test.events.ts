@@ -3,8 +3,16 @@
 import './menu.js';
 import './menu.link.js';
 import './menu.options.js';
-import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
+import {
+  aTimeout,
+  assert,
+  expect,
+  fixture,
+  html,
+  oneEvent,
+} from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
+import click from './library/click.js';
 import sinon from 'sinon';
 import type GlideCoreMenu from './menu.js';
 
@@ -19,13 +27,14 @@ it('dispatches one link "click" event when a link is selected via click', async 
     </glide-core-menu>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   const link = component.querySelector('glide-core-menu-link');
 
-  assert(link);
-
-  link.addEventListener('click', spy);
-  setTimeout(() => link.click());
+  link?.addEventListener('click', spy);
+  click(link);
 
   const event = await oneEvent(component, 'click');
 
@@ -47,13 +56,16 @@ it('dispatches one button "click" event when a button is selected via click', as
     </glide-core-menu>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   const button = component.querySelector('glide-core-menu-button');
 
   assert(button);
 
   button.addEventListener('click', spy);
-  setTimeout(() => button.click());
+  click(button);
 
   const event = await oneEvent(button, 'click');
 
@@ -74,6 +86,9 @@ it('dispatches one link "click" event when a link is selected via Space', async 
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   const spy = sinon.spy();
   const link = component.querySelector('glide-core-menu-link');
@@ -104,6 +119,9 @@ it('dispatches one button "click" event when a button is selected via Space', as
     </glide-core-menu>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   const button = component.querySelector('glide-core-menu-button');
 
@@ -132,6 +150,9 @@ it('dispatches one link "click" event when a link is selected via Enter', async 
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
 
   const spy = sinon.spy();
   const link = component.querySelector('glide-core-menu-link');
@@ -162,6 +183,9 @@ it('dispatches one button "click" event when a button is selected via Enter', as
     </glide-core-menu>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   const button = component.querySelector('glide-core-menu-button');
 
@@ -191,13 +215,14 @@ it('does not dispatch a "click" event when a disabled link is clicked', async ()
     </glide-core-menu>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   const link = component.querySelector('glide-core-menu-link');
 
-  assert(link);
-
-  link.addEventListener('click', spy);
-  link.click();
+  link?.addEventListener('click', spy);
+  await click(link);
 
   expect(spy.callCount).to.equal(0);
 });
@@ -216,13 +241,14 @@ it('does not dispatch a "click" event when a disabled button is clicked', async 
     </glide-core-menu>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const spy = sinon.spy();
   const button = component.querySelector('glide-core-menu-button');
 
-  assert(button);
-
-  button.addEventListener('click', spy);
-  button.click();
+  button?.addEventListener('click', spy);
+  await click(button);
 
   expect(spy.callCount).to.equal(0);
 });

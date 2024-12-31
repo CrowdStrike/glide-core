@@ -10,6 +10,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreRadio.shadowRootOptions.mode = 'open';
@@ -71,9 +72,7 @@ it('can reset when the checked Radios are changed via click', async () => {
 
   const radios = component.querySelectorAll<GlideCoreRadio>('glide-core-radio');
 
-  radios[0].click();
-
-  await elementUpdated(component);
+  await click(radios[0]);
 
   expect(radios[0].hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
@@ -285,9 +284,7 @@ it('resets `value` to an empty string when no Radios were initially selected', a
 
   const radios = component.querySelectorAll<GlideCoreRadio>('glide-core-radio');
 
-  radios[0].click();
-
-  await elementUpdated(component);
+  await click(radios[0]);
 
   form.reset();
 

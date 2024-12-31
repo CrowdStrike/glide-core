@@ -10,6 +10,7 @@ import {
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadioGroup from './radio-group.js';
+import click from './library/click.js';
 
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 
@@ -42,11 +43,8 @@ it('checks and unchecks Radios via click', async () => {
   );
 
   const radios = component.querySelectorAll('glide-core-radio');
-  expect(radios.length).to.equal(3);
 
-  radios[2].click();
-
-  await elementUpdated(component);
+  await click(radios[2]);
 
   expect(radios[0]).to.not.have.attribute('checked');
   expect(radios[1]).to.not.have.attribute('checked');

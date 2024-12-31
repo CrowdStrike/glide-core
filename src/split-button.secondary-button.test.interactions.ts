@@ -4,6 +4,7 @@ import './menu.button.js';
 import './menu.options.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
+import click from './library/click.js';
 
 GlideCoreSplitButtonSecondaryButton.shadowRootOptions.mode = 'open';
 
@@ -14,7 +15,7 @@ it('sets `menuOpen` when its menu is opened', async () => {
     </glide-core-split-button-secondary-button>
   `);
 
-  component.click();
+  await click(component);
 
   // Wait for the Mutation Observer to pick up the attribute change.
   await aTimeout(0);
@@ -32,7 +33,7 @@ it('sets `menuOpen` when its menu is closed', async () => {
   // Wait for Menu to open.
   await aTimeout(0);
 
-  document.body.click();
+  await click(document.body);
 
   // Wait for the Mutation Observer to pick up the attribute change.
   await aTimeout(0);

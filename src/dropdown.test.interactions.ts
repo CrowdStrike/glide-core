@@ -144,7 +144,7 @@ it('does not scroll the page on ArrowDown when the Add button has focus', async 
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -228,10 +228,7 @@ it('opens when opened programmatically via the click handler of another element'
   const button = document.createElement('button');
   button.addEventListener('click', () => (component.open = true));
   div.append(button);
-  button.click();
-
-  // Wait for it to open.
-  await aTimeout(0);
+  await click(button);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
 
@@ -256,10 +253,10 @@ it('closes when something outside of it is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
-  document.body.click();
+  await click(document.body);
   expect(component.open).to.be.false;
 });
 
@@ -280,7 +277,7 @@ it('closes on Escape', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -302,10 +299,11 @@ it('closes on edit via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  component
-    .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
-    ?.click();
+  await click(
+    component
+      .querySelector('glide-core-dropdown-option')
+      ?.shadowRoot?.querySelector('[data-test="edit-button"]'),
+  );
 
   expect(component.open).to.be.false;
 });
@@ -322,12 +320,10 @@ it('closes when the Add button is clicked', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
-  component.shadowRoot
-    ?.querySelector<HTMLButtonElement>('[data-test="add-button"]')
-    ?.click();
+  await click(component.shadowRoot?.querySelector('[data-test="add-button"]'));
 
   expect(component.open).to.be.false;
 });
@@ -351,7 +347,7 @@ it('opens when open and enabled programmatically', async () => {
 
   component.disabled = false;
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component?.shadowRoot?.querySelector('[data-test="options"]');
@@ -370,7 +366,7 @@ it('closes when open and disabled programmatically', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.disabled = true;
@@ -429,7 +425,7 @@ it('activates the next enabled option on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -454,7 +450,7 @@ it('activates the Edit button on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -485,7 +481,7 @@ it('activates the next enabled option on ArrowDown when the Edit button is activ
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -518,7 +514,7 @@ it('activates the previous enabled option on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -548,7 +544,7 @@ it('activates the Edit button on on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -582,7 +578,7 @@ it('activates previously active option on ArrowUp when it has an Add button', as
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -618,7 +614,7 @@ it('activates the Edit button on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -651,7 +647,7 @@ it('activates the first enabled option on Home', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -685,7 +681,7 @@ it('activates the first enabled option on PageUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -719,7 +715,7 @@ it('activates the first enabled option on ArrowUp + Meta', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -755,7 +751,7 @@ it('activates the last enabled option on End', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -787,7 +783,7 @@ it('activates the last option on PageDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -819,7 +815,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -855,7 +851,7 @@ it('activates the previously active option when tabbing back from the Add button
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -894,7 +890,7 @@ it('deactivates the active option when the Add button is tabbed to', async () =>
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -916,7 +912,7 @@ it('does not wrap on ArrowUp', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -936,7 +932,7 @@ it('does not wrap on ArrowDown', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.focus();
@@ -990,9 +986,7 @@ it('does not open on edit via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  component.shadowRoot
-    ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
-    ?.click();
+  await click(component.shadowRoot?.querySelector('[data-test="edit-button"]'));
 
   expect(component.open).to.be.false;
 });
@@ -1050,16 +1044,9 @@ it('hides the tooltip of the active option when opened via click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Calling `click()` would be sweet. The problem is it sets `event.detail` to `0`,
-  // which puts us in a guard in the event handler. `Event` has no `detail` property
-  // and would work. `CustomEvent` is used for completeness and to get us as close as
-  // possible to a real click. See the comment in the handler for more information.
-  component.shadowRoot
-    ?.querySelector('[data-test="primary-button"]')
-    ?.dispatchEvent(new CustomEvent('click', { bubbles: true, detail: 1 }));
-
-  // Wait for it to open.
-  await aTimeout(0);
+  await click(
+    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
+  );
 
   const tooltip = component
     .querySelector('glide-core-dropdown-option')

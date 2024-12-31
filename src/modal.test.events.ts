@@ -36,13 +36,9 @@ it('dispatches a "close" event when the modal is closed via the close button', a
   component.addEventListener('close', spy);
   component.showModal();
 
-  const button = component.shadowRoot?.querySelector<HTMLButtonElement>(
-    '[data-test="close-button"]',
+  await click(
+    component.shadowRoot?.querySelector('[data-test="close-button"]'),
   );
-
-  expect(button).to.be.ok;
-
-  button?.click();
 
   expect(spy.callCount).to.equal(1);
 });
@@ -95,13 +91,7 @@ it('dispatches a "close" event when the modal is closed via "back-button"', asyn
   component.addEventListener('close', spy);
   component.showModal();
 
-  const button = component.shadowRoot?.querySelector<HTMLButtonElement>(
-    '[data-test="back-button"]',
-  );
-
-  expect(button).to.be.ok;
-
-  button?.click();
+  await click(component.shadowRoot?.querySelector('[data-test="back-button"]'));
 
   expect(spy.callCount).to.equal(1);
 });

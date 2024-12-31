@@ -4,6 +4,7 @@ import './accordion.js';
 import { emulateMedia } from '@web/test-runner-commands';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import GlideCoreAccordion from './accordion.js';
+import click from './library/click.js';
 
 GlideCoreAccordion.shadowRootOptions.mode = 'open';
 
@@ -14,9 +15,7 @@ it('dispatches a "toggle" event on open', async () => {
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  setTimeout(() => {
-    component.click();
-  });
+  click(component);
 
   const event = await oneEvent(component, 'toggle');
 
@@ -33,9 +32,7 @@ it('dispatches a "toggle" event on close', async () => {
     </glide-core-accordion>`,
   );
 
-  setTimeout(() => {
-    component.click();
-  });
+  click(component);
 
   const event = await oneEvent(component, 'toggle');
 

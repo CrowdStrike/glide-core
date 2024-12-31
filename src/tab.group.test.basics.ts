@@ -14,6 +14,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTabGroup from './tab.group.js';
 import GlideCoreTabPanel from './tab.panel.js';
+import click from './library/click.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
@@ -100,7 +101,7 @@ it('can switch tabs', async () => {
   // unselected panels are hidden by default
   expect(isPanelHidden(secondPanel)).to.be.true;
 
-  secondTab.click();
+  await click(secondTab);
   const triggeredEvent = await listener;
 
   // after clicking a different tab, previous tab is no longer selected
@@ -143,7 +144,7 @@ it('can switch tabs', async () => {
   expect(secondTriggeredEvent.composed).to.be.true;
   expect(secondTriggeredEvent.target).to.equal(secondTab);
 
-  disabledTab.click();
+  await click(disabledTab);
 
   // clicking on a disabled tab does not make it selected
   expect(disabledTab.selected).to.be.false;

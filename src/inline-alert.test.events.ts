@@ -4,6 +4,7 @@ import './inline-alert.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreInlineAlert from './inline-alert.js';
+import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreInlineAlert.shadowRootOptions.mode = 'open';
@@ -15,11 +16,7 @@ it('dispatches one "remove" event on click', async () => {
     >`,
   );
 
-  setTimeout(() => {
-    component.shadowRoot
-      ?.querySelector<HTMLElement>('[data-test="removal-button"]')
-      ?.click();
-  });
+  click(component.shadowRoot?.querySelector('[data-test="removal-button"]'));
 
   const spy = sinon.spy();
   component.addEventListener('remove', spy);

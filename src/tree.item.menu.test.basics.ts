@@ -1,6 +1,7 @@
 import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
 import GlideCoreMenu from './menu.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
+import click from './library/click.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 
@@ -80,9 +81,7 @@ it('can be opened programmatically', async () => {
       ?.getAttribute('open'),
   ).to.equal(null);
 
-  component.click();
-
-  await component.updateComplete;
+  await click(component.shadowRoot?.querySelector('[data-test="icon-button"]'));
 
   expect(
     component.shadowRoot

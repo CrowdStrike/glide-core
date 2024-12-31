@@ -12,6 +12,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import click from './library/click.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -129,17 +130,14 @@ it('dispatches an "add" event on click', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
-  setTimeout(async () => {
-    const button = component.shadowRoot?.querySelector<HTMLButtonElement>(
+  click(
+    component.shadowRoot?.querySelector<HTMLButtonElement>(
       '[data-test="add-button"]',
-    );
-
-    button?.dispatchEvent(new MouseEvent('mouseover'));
-    button?.click();
-  });
+    ),
+  );
 
   const event = await oneEvent(component, 'add');
 
@@ -160,7 +158,7 @@ it('dispatches an "add" event on Enter', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.shadowRoot
@@ -188,7 +186,7 @@ it('dispatches an "add" event on Space', async () => {
     </glide-core-dropdown>`,
   );
 
-  // Wait for it to open.
+  // Wait for Floating UI.
   await aTimeout(0);
 
   component.shadowRoot

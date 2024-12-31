@@ -9,6 +9,7 @@ import {
   html,
 } from '@open-wc/testing';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
+import click from './library/click.js';
 
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 
@@ -215,7 +216,7 @@ it('is valid if required and the checkbox is checked', async () => {
     </glide-core-checkbox-group>`,
   );
 
-  component.querySelector('glide-core-checkbox')?.click();
+  await click(component.querySelector('glide-core-checkbox'));
 
   expect(component.validity.valid).to.be.true;
   expect(component.validity?.valueMissing).to.be.false;
@@ -247,7 +248,7 @@ it('is invalid after being unchecked when required', async () => {
     </glide-core-checkbox-group>`,
   );
 
-  component.querySelector('glide-core-checkbox')?.click();
+  await click(component.querySelector('glide-core-checkbox'));
 
   expect(component.validity.valid).to.be.false;
   expect(component.validity?.valueMissing).to.be.true;

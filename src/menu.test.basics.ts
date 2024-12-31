@@ -72,9 +72,7 @@ it('can be opened', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const defaultSlot =
-    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
-
+  const defaultSlot = component?.shadowRoot?.querySelector('slot:not([name])');
   const options = component.querySelector('glide-core-menu-options');
   const target = component.querySelector('button');
   const link = component.querySelector('glide-core-menu-link');
