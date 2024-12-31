@@ -1,4 +1,6 @@
 import './checkbox.js';
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -10,15 +12,18 @@ const meta: Meta = {
   title: 'Checkbox Group',
   tags: ['autodocs'],
   decorators: [
-    (story) =>
-      html`<form action="/" style="width: max-content;">
+    (story) => html`
+      <form action="/" style="width: max-content;">
         <script type="ignore">
           import '@crowdstrike/glide-core/checkbox-group.js';
           import '@crowdstrike/glide-core/checkbox.js';
         </script>
 
         ${story()}
-      </form>`,
+      </form>
+
+      <glide-core-toasts></glide-core-toasts>
+    `,
   ],
   parameters: {
     docs: {
@@ -66,7 +71,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void): void',
         },
       },
     },
@@ -187,7 +192,7 @@ const meta: Meta = {
     }
 
     if (checkboxGroup instanceof GlideCoreCheckboxGroup) {
-      checkboxGroup.addEventListener('change', () => {
+      checkboxGroup.addEventListener('change', (event: Event) => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
@@ -208,46 +213,79 @@ const meta: Meta = {
             },
           });
         }
+
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      checkboxGroup.addEventListener('input', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      checkboxGroup.addEventListener('invalid', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
       });
     }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
-        <glide-core-checkbox-group
-          label=${arguments_.label || nothing}
-          name=${arguments_.name || nothing}
-          ?disabled=${arguments_.disabled}
-          ?hide-label=${arguments_['hide-label'] || nothing}
-          ?required=${arguments_.required}
-          .value=${arguments_.value || nothing}
-        >
-          <glide-core-checkbox label="One" value="one" ?checked=${
-            arguments_['<glide-core-checkbox>.one.checked']
-          }></glide-core-checkbox>
-          <glide-core-checkbox label="Two" value="two" ?checked=${
-            arguments_['<glide-core-checkbox>.two.checked']
-          }></glide-core-checkbox>
-          <glide-core-checkbox label="Three" value="three" ?checked=${
-            arguments_['<glide-core-checkbox>.three.checked']
-          }></glide-core-checkbox>
+      <glide-core-checkbox-group
+        label=${arguments_.label || nothing}
+        name=${arguments_.name || nothing}
+        ?disabled=${arguments_.disabled}
+        ?hide-label=${arguments_['hide-label'] || nothing}
+        ?required=${arguments_.required}
+        .value=${arguments_.value || nothing}
+      >
+        <glide-core-checkbox
+          label="One"
+          value="one"
+          ?checked=${arguments_['<glide-core-checkbox>.one.checked']}
+        ></glide-core-checkbox>
+        <glide-core-checkbox
+          label="Two"
+          value="two"
+          ?checked=${arguments_['<glide-core-checkbox>.two.checked']}
+        ></glide-core-checkbox>
+        <glide-core-checkbox
+          label="Three"
+          value="three"
+          ?checked=${arguments_['<glide-core-checkbox>.three.checked']}
+        ></glide-core-checkbox>
 
-          ${
-            arguments_['slot="description"']
-              ? html`<div slot="description">
-                  ${unsafeHTML(arguments_['slot="description"'])}
-                </div>`
-              : nothing
-          }
-          ${
-            arguments_['slot="tooltip"']
-              ? html`<div slot="tooltip">
-                  ${unsafeHTML(arguments_['slot="tooltip"'])}
-                </div>`
-              : nothing
-          }
-        </glide-core-checkbox-group>
-      </form>`;
+        ${arguments_['slot="description"']
+          ? html`<div slot="description">
+              ${unsafeHTML(arguments_['slot="description"'])}
+            </div>`
+          : nothing}
+        ${arguments_['slot="tooltip"']
+          ? html`<div slot="tooltip">
+              ${unsafeHTML(arguments_['slot="tooltip"'])}
+            </div>`
+          : nothing}
+      </glide-core-checkbox-group>
+    `;
   },
 };
 

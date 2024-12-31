@@ -4,6 +4,8 @@ import './menu.button.js';
 import './menu.js';
 import './menu.link.js';
 import './menu.options.js';
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -14,15 +16,17 @@ const meta: Meta = {
   title: 'Menu',
   tags: ['autodocs'],
   decorators: [
-    (story) =>
-      html`<script type="ignore">
-          import '@crowdstrike/glide-core/menu.js';
-          import '@crowdstrike/glide-core/menu.options.js';
-          import '@crowdstrike/glide-core/menu.link.js';
-          import '@crowdstrike/glide-core/menu.button.js';
-        </script>
+    (story) => html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/menu.js';
+        import '@crowdstrike/glide-core/menu.options.js';
+        import '@crowdstrike/glide-core/menu.link.js';
+        import '@crowdstrike/glide-core/menu.button.js';
+      </script>
 
-        ${story()}`,
+      ${story()}
+      <glide-core-toasts></glide-core-toasts>
+    `,
   ],
   parameters: {
     docs: {
@@ -177,6 +181,19 @@ const meta: Meta = {
         window.top.location.reload();
       }
     });
+
+    context.canvasElement
+      .querySelector('glide-core-menu-options')
+      ?.addEventListener('click', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: "${event.type}"`,
+          description: 'See console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check */

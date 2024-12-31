@@ -1,6 +1,8 @@
 import './icon-button.js';
 import './icons/storybook.js';
 import './menu.link.js';
+import './toasts.js';
+import './toasts.toast.js';
 import './tree.item.icon-button.js';
 import './tree.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
@@ -22,6 +24,7 @@ const meta: Meta = {
         </script>
 
         ${story()}
+        <glide-core-toasts></glide-core-toasts>
       </div>`,
   ],
   parameters: {
@@ -55,6 +58,19 @@ const meta: Meta = {
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
   },
   play(context) {
+    context.canvasElement
+      .querySelector('glide-core-tree')
+      ?.addEventListener('selected', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
     const observer = new MutationObserver((records) => {
       for (const record of records) {
         if (record.target instanceof GlideCoreTreeItem) {
@@ -213,8 +229,7 @@ const meta: Meta = {
         category: 'Tree Item',
         type: {
           summary: 'method',
-          detail:
-            '(event: "selected", handler: (event: Event) => void) => void',
+          detail: '(event: "selected", handler: (event: Event) => void): void',
         },
       },
     },

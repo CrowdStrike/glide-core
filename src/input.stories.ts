@@ -1,5 +1,7 @@
 import './icons/storybook.js';
 import './input.js';
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -11,14 +13,17 @@ const meta: Meta = {
   title: 'Input',
   tags: ['autodocs'],
   decorators: [
-    (story) =>
-      html`<form action="/" style="height: 4rem;">
+    (story) => html`
+      <form action="/" style="height: 4rem;">
         <script type="ignore">
           import '@crowdstrike/glide-core/input.js';
         </script>
 
         ${story()}
-      </form>`,
+      </form>
+
+      <glide-core-toasts></glide-core-toasts>
+    `,
   ],
   parameters: {
     docs: {
@@ -72,13 +77,44 @@ const meta: Meta = {
     }
 
     if (input instanceof GlideCoreInput) {
-      input.addEventListener('input', () => {
+      input.addEventListener('change', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      input.addEventListener('input', (event: Event) => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
             value: input.value,
           },
         });
+
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      input.addEventListener('invalid', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
       });
     }
   },
@@ -130,7 +166,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void): void',
         },
       },
     },

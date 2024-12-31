@@ -1,8 +1,9 @@
 import './button.js';
 import './icons/storybook.js';
 import './modal.js';
-import './modal.js';
 import './modal.tertiary-icon.js';
+import './toasts.js';
+import './toasts.toast.js';
 import './tooltip.js';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -11,6 +12,12 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 const meta: Meta = {
   title: 'Modal',
   tags: ['autodocs'],
+  decorators: [
+    (story) => html`
+      ${story()}
+      <glide-core-toasts></glide-core-toasts>
+    `,
+  ],
   parameters: {
     docs: {
       story: {
@@ -19,14 +26,24 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const button =
-      context.canvasElement.querySelector<HTMLButtonElement>(
-        'glide-core-button',
-      );
+    context.canvasElement
+      .querySelector('glide-core-button')
+      ?.addEventListener('click', () => {
+        context.canvasElement.querySelector('glide-core-modal')?.showModal();
+      });
 
-    button?.addEventListener('click', () => {
-      context.canvasElement.querySelector('glide-core-modal')?.showModal();
-    });
+    context.canvasElement
+      .querySelector('glide-core-modal')
+      ?.addEventListener('close', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -85,7 +102,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "close", handler: (event: Event)) => void) => void',
+          detail: '(event: "close", handler: (event: Event) => void): void',
         },
       },
     },

@@ -1,3 +1,5 @@
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -8,14 +10,17 @@ const meta: Meta = {
   title: 'Textarea',
   tags: ['autodocs'],
   decorators: [
-    (story) =>
-      html`<form action="/" style="min-height: 6rem;">
+    (story) => html`
+      <form action="/" style="min-height: 6rem;">
         <script type="ignore">
           import '@crowdstrike/glide-core/textarea.js';
         </script>
 
         ${story()}
-      </form>`,
+      </form>
+
+      <glide-core-toasts></glide-core-toasts>
+    `,
   ],
   parameters: {
     docs: {
@@ -45,13 +50,44 @@ const meta: Meta = {
     }
 
     if (textarea instanceof GlideCoreTextarea) {
-      textarea.addEventListener('input', () => {
+      textarea.addEventListener('change', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      textarea.addEventListener('input', (event: Event) => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
             value: textarea.value,
           },
         });
+
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      textarea.addEventListener('invalid', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
       });
     }
   },
@@ -91,7 +127,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void): void',
         },
       },
     },

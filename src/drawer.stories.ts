@@ -1,5 +1,7 @@
 import './button.js';
 import './drawer.js';
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
@@ -11,14 +13,17 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   decorators: [
-    (story) =>
-      html`<div style="height: 12.5rem;">
+    (story) => html`
+      <div style="height: 12.5rem;">
         <script type="ignore">
           import '@crowdstrike/glide-core/drawer.js';
         </script>
 
         ${story()}
-      </div>`,
+      </div>
+
+      <glide-core-toasts></glide-core-toasts>
+    `,
   ],
   title: 'Drawer',
   tags: ['autodocs'],
@@ -51,6 +56,17 @@ const meta: Meta = {
       } else {
         drawer?.show();
       }
+    });
+
+    drawer?.addEventListener('close', (event: Event) => {
+      context.canvasElement.querySelector('glide-core-toasts')?.add({
+        label: `Event: “${event.type}”`,
+        description: 'See the console for details.',
+        variant: 'informational',
+      });
+
+      // eslint-disable-next-line no-console
+      console.log(event);
     });
 
     const observer = new MutationObserver(() => {
@@ -144,7 +160,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "close", handler: (event: Event)) => void) => void',
+          detail: '(event: "close", handler: (event: Event) => void): void',
         },
       },
     },

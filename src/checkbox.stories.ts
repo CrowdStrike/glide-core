@@ -1,3 +1,5 @@
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -9,14 +11,17 @@ const meta: Meta = {
   title: 'Checkbox',
   tags: ['autodocs'],
   decorators: [
-    (story) =>
-      html`<form action="/">
+    (story) => html`
+      <form action="/">
         <script type="ignore">
           import '@crowdstrike/glide-core/checkbox.js';
         </script>
 
         ${story()}
-      </form>`,
+      </form>
+
+      <glide-core-toasts></glide-core-toasts>
+    `,
   ],
   parameters: {
     docs: {
@@ -51,7 +56,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void): void',
         },
       },
     },
@@ -187,6 +192,39 @@ const meta: Meta = {
         document.activeElement.blur();
       }
     }
+
+    checkbox?.addEventListener('change', (event: Event) => {
+      context.canvasElement.querySelector('glide-core-toasts')?.add({
+        label: `Event: “${event.type}”`,
+        description: 'See the console for details.',
+        variant: 'informational',
+      });
+
+      // eslint-disable-next-line no-console
+      console.log(event);
+    });
+
+    checkbox?.addEventListener('input', (event: Event) => {
+      context.canvasElement.querySelector('glide-core-toasts')?.add({
+        label: `Event: “${event.type}”`,
+        description: 'See the console for details.',
+        variant: 'informational',
+      });
+
+      // eslint-disable-next-line no-console
+      console.log(event);
+    });
+
+    checkbox?.addEventListener('invalid', (event: Event) => {
+      context.canvasElement.querySelector('glide-core-toasts')?.add({
+        label: `Event: “${event.type}”`,
+        description: 'See the console for details.',
+        variant: 'informational',
+      });
+
+      // eslint-disable-next-line no-console
+      console.log(event);
+    });
 
     if (checkbox instanceof GlideCoreCheckbox) {
       context.canvasElement

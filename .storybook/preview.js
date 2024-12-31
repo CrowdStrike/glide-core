@@ -248,6 +248,10 @@ export default {
             }
           }
 
+          if (context.componentId !== 'toasts') {
+            $container.querySelector('glide-core-toasts')?.remove();
+          }
+
           // Clean up boolean attributes before returning: `disabled=""` → `disabled`.
           return $container.innerHTML.replaceAll('=""', '');
         },

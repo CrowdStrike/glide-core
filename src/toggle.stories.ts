@@ -1,3 +1,5 @@
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -9,12 +11,14 @@ const meta: Meta = {
   title: 'Toggle',
   tags: ['autodocs'],
   decorators: [
-    (story) =>
-      html`<script type="ignore">
-          import '@crowdstrike/glide-core/toggle.js';
-        </script>
+    (story) => html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/toggle.js';
+      </script>
 
-        ${story()} `,
+      ${story()}
+      <glide-core-toasts></glide-core-toasts>
+    `,
   ],
   parameters: {
     docs: {
@@ -46,7 +50,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input", handler: (event: Event) => void) => void',
+            '(event: "change" | "input", handler: (event: Event) => void): void',
         },
       },
       type: { name: 'function' },
@@ -101,6 +105,28 @@ const meta: Meta = {
             },
           });
         }
+
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+    context.canvasElement
+      .querySelector('glide-core-toggle')
+      ?.addEventListener('input', (event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
       });
   },
 

@@ -1,6 +1,8 @@
 import './form-controls-layout.js';
 import './radio-group.js';
 import './radio-group.radio.js';
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -14,14 +16,17 @@ const meta: Meta = {
   title: 'Form Controls Layout',
   tags: ['autodocs'],
   decorators: [
-    (story) =>
-      html`<form action="/" style="height: 16rem;">
+    (story) => html`
+      <form action="/" style="height: 16rem;">
         <script type="ignore">
           import '@crowdstrike/glide-core/form-controls-layout.js';
         </script>
 
         ${story()}
-      </form>`,
+      </form>
+
+      <glide-core-toasts></glide-core-toasts>
+    `,
   ],
   parameters: {
     docs: {
@@ -89,13 +94,33 @@ const meta: Meta = {
     );
 
     if (checkboxGroup instanceof GlideCoreCheckboxGroup) {
-      checkboxGroup.addEventListener('change', () => {
+      checkboxGroup.addEventListener('change', (event: Event) => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
             '<glide-core-checkbox-group>.value': checkboxGroup.value,
           },
         });
+
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      checkboxGroup.addEventListener('input', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
       });
     }
 
@@ -106,7 +131,7 @@ const meta: Meta = {
     );
 
     if (dropdown instanceof GlideCoreDropdown) {
-      dropdown.addEventListener('change', () => {
+      dropdown.addEventListener('change', (event: Event) => {
         if (option) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
@@ -115,6 +140,26 @@ const meta: Meta = {
             },
           });
         }
+
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      dropdown.addEventListener('input', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
       });
 
       const observer = new MutationObserver(() => {
@@ -137,26 +182,66 @@ const meta: Meta = {
     const input = context.canvasElement.querySelector('glide-core-input');
 
     if (input instanceof GlideCoreInput) {
-      input.addEventListener('input', () => {
+      input.addEventListener('change', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      input.addEventListener('input', (event: Event) => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
             '<glide-core-input>.value': input.value,
           },
         });
+
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
       });
     }
 
     const textarea = context.canvasElement.querySelector('glide-core-textarea');
 
     if (textarea instanceof GlideCoreTextarea) {
-      textarea.addEventListener('input', () => {
+      textarea.addEventListener('change', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      textarea.addEventListener('input', (event: Event) => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
             '<glide-core-textarea>.value': textarea.value,
           },
         });
+
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
       });
     }
   },

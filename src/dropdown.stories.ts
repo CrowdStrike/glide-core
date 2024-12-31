@@ -1,5 +1,7 @@
 import './dropdown.option.js';
 import './icons/storybook.js';
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -12,14 +14,18 @@ const meta: Meta = {
   tags: ['autodocs'],
   decorators: [
     (story) => {
-      return html`<form action="/" style="padding-bottom: 1.5rem;">
-        <script type="ignore">
-          import '@crowdstrike/glide-core/dropdown.js';
-          import '@crowdstrike/glide-core/dropdown.option.js';
-        </script>
+      return html`
+        <form action="/" style="padding-bottom: 1.5rem;">
+          <script type="ignore">
+            import '@crowdstrike/glide-core/dropdown.js';
+            import '@crowdstrike/glide-core/dropdown.option.js';
+          </script>
 
-        ${story()}
-      </form>`;
+          ${story()}
+        </form>
+
+        <glide-core-toasts></glide-core-toasts>
+      `;
     },
   ],
   parameters: {
@@ -98,7 +104,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void): void',
         },
       },
     },
@@ -291,7 +297,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         category: 'Dropdown Option',
         type: {
           summary: 'method',
-          detail: '(event: "edit", handler: (event: Event)) => void) => void',
+          detail: '(event: "edit", handler: (event: Event) => void): void',
         },
       },
     },
@@ -384,7 +390,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
     }
 
     if (dropdown instanceof GlideCoreDropdown) {
-      dropdown.addEventListener('change', () => {
+      dropdown.addEventListener('change', (event: Event) => {
         if (option) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
@@ -393,6 +399,37 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
             },
           });
         }
+
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      dropdown.addEventListener('input', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
+
+      dropdown.addEventListener('invalid', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
       });
 
       const observer = new MutationObserver(() => {

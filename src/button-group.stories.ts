@@ -1,5 +1,7 @@
 import './button-group.js';
 import './icons/storybook.js';
+import './toasts.js';
+import './toasts.toast.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -18,6 +20,7 @@ const meta: Meta = {
       </script>
 
       ${story()}
+      <glide-core-toasts></glide-core-toasts>
     `,
   ],
   parameters: {
@@ -46,6 +49,15 @@ const meta: Meta = {
           },
         });
       }
+
+      context.canvasElement.querySelector('glide-core-toasts')?.add({
+        label: `Event: “${event.type}”`,
+        description: 'See the console for details.',
+        variant: 'informational',
+      });
+
+      // eslint-disable-next-line no-console
+      console.log(event);
     });
   },
   render(arguments_) {
@@ -190,8 +202,7 @@ const meta: Meta = {
         category: 'Button Group Button',
         type: {
           summary: 'method',
-          detail:
-            '(event: "selected", handler: (event: Event) => void) => void',
+          detail: '(event: "selected", handler: (event: Event) => void): void',
         },
       },
     },

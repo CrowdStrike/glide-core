@@ -1,4 +1,6 @@
 import './inline-alert.js';
+import './toasts.js';
+import './toasts.toast.js';
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -14,8 +16,17 @@ const meta: Meta = {
 
         ${story()}
       </div>
+
+      <glide-core-toasts></glide-core-toasts>
     `,
   ],
+  parameters: {
+    docs: {
+      story: {
+        autoplay: true,
+      },
+    },
+  },
   args: {
     'slot="default"': 'Content',
     'addEventListener(event, handler)': '',
@@ -34,7 +45,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "remove", handler: (event: Event) => void) => void',
+          detail: '(event: "remove", handler: (event: Event) => void): void',
         },
       },
     },
@@ -56,6 +67,20 @@ const meta: Meta = {
         },
       },
     },
+  },
+  play(context) {
+    context.canvasElement
+      .querySelector('glide-core-inline-alert')
+      ?.addEventListener('remove', (event: Event) => {
+        context.canvasElement.querySelector('glide-core-toasts')?.add({
+          label: `Event: “${event.type}”`,
+          description: 'See the console for details.',
+          variant: 'informational',
+        });
+
+        // eslint-disable-next-line no-console
+        console.log(event);
+      });
   },
   render(arguments_) {
     return html`
