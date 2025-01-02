@@ -11,8 +11,8 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
-import click from './library/click.js';
 import sinon from 'sinon';
 import type GlideCoreMenu from './menu.js';
 

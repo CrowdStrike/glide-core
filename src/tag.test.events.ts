@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './tag.js';
+import { click } from './library/mouse.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTag from './tag.js';
-import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreTag.shadowRootOptions.mode = 'open';

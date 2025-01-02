@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './accordion.js';
+import { click } from './library/mouse.js';
 import { emulateMedia } from '@web/test-runner-commands';
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreAccordion from './accordion.js';
-import click from './library/click.js';
 
 GlideCoreAccordion.shadowRootOptions.mode = 'open';
 

@@ -4,9 +4,9 @@ import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
 import './tab.panel.js';
+import { click } from './library/mouse.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import GlideCoreTabGroup from './tab.group.js';
-import click from './library/click.js';
 
 it('dispatches a "selected" event', async () => {
   const component = await fixture<GlideCoreTabGroup>(html`

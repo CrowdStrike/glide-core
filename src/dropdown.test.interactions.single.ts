@@ -10,10 +10,10 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
+import { click, hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
@@ -192,7 +192,7 @@ it('selects an option on Enter', async () => {
   expect(option?.selected).to.be.true;
 });
 
-it('deactivates all other options on "mouseover"', async () => {
+it('deactivates all other options when an option is hovered', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -206,8 +206,8 @@ it('deactivates all other options on "mouseover"', async () => {
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
-  options[0]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-  options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  await hover(options[0]);
+  await hover(options[1]);
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.true;

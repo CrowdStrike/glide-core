@@ -1,17 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './dropdown.option.js';
-import {
-  aTimeout,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { click, hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import click from './library/click.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -147,11 +141,7 @@ it('returns focus to itself when an option is activated and the Add button has f
   component.focus();
   await sendKeys({ press: 'Tab' });
 
-  component
-    .querySelector('glide-core-dropdown-option')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-
-  await elementUpdated(component);
+  await hover(component.querySelector('glide-core-dropdown-option'));
 
   expect(document.activeElement).to.equal(component);
 });

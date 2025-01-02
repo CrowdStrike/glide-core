@@ -10,10 +10,10 @@ import {
   oneEvent,
   waitUntil,
 } from '@open-wc/testing';
+import { click, hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import click from './library/click.js';
 import type GlideCoreTag from './tag.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
@@ -771,19 +771,18 @@ it('uses `placeholder` as a placeholder when multiselect and no option is select
   expect(input?.placeholder).to.equal('Placeholder');
 });
 
-it('sets `aria-activedescendant` on option "mouseover"', async () => {
+it('sets `aria-activedescendant` on option hover', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open> ${defaultSlot} </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
-  options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  const input = component.shadowRoot?.querySelector('[data-test="input"]');
 
-  await elementUpdated(component);
-
-  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
-    '[data-test="input"]',
-  );
+  await hover(options[1]);
 
   expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1].id);
 });
@@ -830,21 +829,21 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
-
-  options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-  options[1]?.focus();
-
-  await sendKeys({ press: 'ArrowUp' });
+  component.focus();
+  await sendKeys({ press: 'ArrowDown' });
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
   );
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0].id);
+  const option = component.querySelector(
+    'glide-core-dropdown-option:nth-of-type(2)',
+  );
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
 });
 
-it('sets `aria-activedescendant` on Home', async () => {
+it('sets `aria-activedescendant` on ArrowUp', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -859,21 +858,20 @@ it('sets `aria-activedescendant` on Home', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
-
-  options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-
-  options[1].focus();
+  component.focus();
+  await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'Home' });
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
   );
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0].id);
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
 });
 
-it('sets `aria-activedescendant` on PageUp', async () => {
+it('sets `aria-activedescendant` on ArrowUp', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -888,18 +886,17 @@ it('sets `aria-activedescendant` on PageUp', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
-
-  options[1].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-  options[1].focus();
-
+  component.focus();
+  await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'PageUp' });
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
   );
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0].id);
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
 });
 
 it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
@@ -919,9 +916,7 @@ it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
 
   component.focus();
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
-  options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-
+  await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowUp' });
   await sendKeys({ up: 'Meta' });
@@ -930,7 +925,9 @@ it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
     '[data-test="input"]',
   );
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[0].id);
+  const option = component.querySelector('glide-core-dropdown-option');
+
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
 });
 
 it('sets `aria-activedescendant` on open via click', async () => {

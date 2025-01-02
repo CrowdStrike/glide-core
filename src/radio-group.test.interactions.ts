@@ -8,9 +8,9 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadioGroup from './radio-group.js';
-import click from './library/click.js';
 
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 

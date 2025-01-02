@@ -3,16 +3,10 @@
 import './checkbox.js';
 import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
-import click from './library/click.js';
 
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
-
-// `await aTimeout(0)` is used throughout. Using `oneEvent` instead and
-// expecting it to throw would work. But it wouldn't throw until its
-// timeout, which would make for a slow test. Its timeout can likely be
-// configured. But waiting a turn of the event loop, after which the event
-// will have been dispatched, gets the job done as well.
 
 it('dispatches a "click" event when clicked', async () => {
   const component = await fixture<GlideCoreCheckboxGroup>(

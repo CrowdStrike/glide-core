@@ -5,10 +5,10 @@ import './tree.item.icon-button.js';
 import './tree.item.menu.js';
 import './tree.js';
 import { ArgumentError } from 'ow';
+import { click } from './library/mouse.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTree from './tree.js';
 import GlideCoreTreeItem from './tree.item.js';
-import click from './library/click.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 

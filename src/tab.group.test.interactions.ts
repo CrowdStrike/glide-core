@@ -3,12 +3,12 @@
 import './tab.group.js';
 import './tab.js';
 import './tab.panel.js';
+import { click } from './library/mouse.js';
 import { emulateMedia } from '@web/test-runner-commands';
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTabGroup from './tab.group.js';
 import GlideCoreTabPanel from './tab.panel.js';
-import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreTabGroup.shadowRootOptions.mode = 'open';

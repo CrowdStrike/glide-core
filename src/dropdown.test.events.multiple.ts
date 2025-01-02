@@ -10,10 +10,10 @@ import {
   oneEvent,
   waitUntil,
 } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import click from './library/click.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -114,13 +114,12 @@ it('dispatches one "change" event when an option is selected via Enter', async (
   const spy = sinon.spy();
   component.addEventListener('change', spy);
 
+  component.focus();
+
   // Activate the first option before selecting it. The second option is
   // currently active because it's selected.
-  component
-    .querySelector('glide-core-dropdown-option')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  await sendKeys({ press: 'ArrowUp' });
 
-  component.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(component, 'change');
@@ -155,9 +154,7 @@ it('dispatches one "change" event when an option is selected via Space', async (
 
   // Activate the first option before selecting it. The second option is
   // currently active because it's selected.
-  component
-    .querySelector('glide-core-dropdown-option')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  await sendKeys({ press: 'ArrowUp' });
 
   component.focus();
   sendKeys({ press: ' ' });
@@ -229,13 +226,12 @@ it('dispatches one "input" event when an option is selected via Enter', async ()
   const spy = sinon.spy();
   component.addEventListener('input', spy);
 
+  component.focus();
+
   // Activate the first option before selecting it. The second option is
   // currently active because it's selected.
-  component
-    .querySelector('glide-core-dropdown-option')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  await sendKeys({ press: 'ArrowUp' });
 
-  component.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(component, 'input');
@@ -269,13 +265,12 @@ it('dispatches one "input" event when an option is selected via Space', async ()
   const spy = sinon.spy();
   component.addEventListener('input', spy);
 
+  component.focus();
+
   // Activate the first option before selecting it. The second option is
   // currently active because it's selected.
-  component
-    .querySelector('glide-core-dropdown-option')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  await sendKeys({ press: 'ArrowUp' });
 
-  component.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(component, 'input');

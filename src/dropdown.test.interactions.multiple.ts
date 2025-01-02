@@ -10,12 +10,12 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
+import { click, hover } from './library/mouse.js';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
-import click from './library/click.js';
 
 @customElement('glide-core-dropdown-in-another-component')
 class GlideCoreDropdownInAnotherComponent extends LitElement {
@@ -243,7 +243,7 @@ it('activates Select All by default', async () => {
   expect(options[1]?.privateActive).to.be.false;
 });
 
-it('deactivates all other options on "mouseover"', async () => {
+it('deactivates all other options when an option is hovered', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -267,8 +267,8 @@ it('deactivates all other options on "mouseover"', async () => {
     ),
   ];
 
-  options[0]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-  options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  await hover(options[0]);
+  await hover(options[1]);
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
@@ -345,13 +345,13 @@ it('remains open when an option is selected via Space', async () => {
   expect(component.open).to.be.true;
 });
 
-it('activates Select All on "mouseover"', async () => {
+it('activates Select All on hover', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
-      open
       multiple
+      open
       select-all
     >
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -360,9 +360,12 @@ it('activates Select All on "mouseover"', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
-  options[0]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+  await hover(options[0]);
 
   expect(options[0]?.privateActive).to.be.true;
 });
@@ -1067,10 +1070,6 @@ it('selects all enabled options when none are selected and Select All is selecte
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component?.shadowRoot
-    ?.querySelector('[data-test="select-all"]')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-
   component.focus();
   await sendKeys({ press: ' ' });
 
@@ -1102,11 +1101,8 @@ it('selects all options when some are selected and Select All is selected via Sp
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component?.shadowRoot
-    ?.querySelector('[data-test="select-all"]')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-
   component.focus();
+  await sendKeys({ press: 'ArrowUp' });
   await sendKeys({ press: ' ' });
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -1139,11 +1135,8 @@ it('deselects all options when all are selected and Select All is selected via S
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component?.shadowRoot
-    ?.querySelector('[data-test="select-all"]')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-
   component.focus();
+  await sendKeys({ press: 'Home' });
   await sendKeys({ press: ' ' });
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -1173,10 +1166,6 @@ it('selects all enabled options when none are selected and Select All is selecte
 
   // Wait for Floating UI.
   await aTimeout(0);
-
-  component?.shadowRoot
-    ?.querySelector('[data-test="select-all"]')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   component.focus();
   await sendKeys({ press: 'Enter' });
@@ -1215,11 +1204,8 @@ it('selects all options when some are selected and Select All is selected via En
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component?.shadowRoot
-    ?.querySelector('[data-test="select-all"]')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-
   component.focus();
+  await sendKeys({ press: 'ArrowUp' });
   await sendKeys({ press: 'Enter' });
 
   const options = component.querySelectorAll('glide-core-dropdown-option');
@@ -1254,11 +1240,8 @@ it('deselects all options when all are selected and Select All is selected via E
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component?.shadowRoot
-    ?.querySelector('[data-test="select-all"]')
-    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-
   component.focus();
+  await sendKeys({ press: 'Home' });
   await sendKeys({ press: 'Enter' });
 
   const options = component.querySelectorAll('glide-core-dropdown-option');

@@ -1,16 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  aTimeout,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { click, hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import click from './library/click.js';
 import sinon from 'sinon';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
@@ -375,7 +369,7 @@ it('closes when open and disabled programmatically', async () => {
   expect(options?.checkVisibility()).to.be.false;
 });
 
-it('activates an option on "mouseover"', async () => {
+it('activates an option on hover', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -383,16 +377,18 @@ it('activates an option on "mouseover"', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
-  options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-  await elementUpdated(component);
+  await hover(options[1]);
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.true;
 });
 
-it('does not activate a disabled option on "mouseover"', async () => {
+it('does not activate a disabled option on hover', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -404,10 +400,12 @@ it('does not activate a disabled option on "mouseover"', async () => {
     </glide-core-dropdown>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   const options = component.querySelectorAll('glide-core-dropdown-option');
 
-  options[1]?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-  await elementUpdated(component);
+  await hover(options[1]);
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[1]?.privateActive).to.be.false;

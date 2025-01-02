@@ -3,8 +3,8 @@
 import './tree.item.js';
 import './tree.item.menu.js';
 import './tree.js';
+import { click } from './library/mouse.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import click from './library/click.js';
 
 it('dispatches a "selected" event', async () => {
   const component = await fixture(html`

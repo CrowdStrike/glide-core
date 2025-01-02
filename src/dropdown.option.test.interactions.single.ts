@@ -7,6 +7,7 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
+import { hover } from './library/mouse.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
@@ -114,9 +115,9 @@ it('sets `privateIsEditActive`', async () => {
     '[data-test="edit-button"]',
   );
 
-  button?.dispatchEvent(new MouseEvent('mouseover'));
+  await hover(button);
   expect(component.privateIsEditActive).to.be.true;
 
-  button?.dispatchEvent(new MouseEvent('mouseout'));
+  await hover(button, 'outside');
   expect(component.privateIsEditActive).to.be.false;
 });

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './button.js';
+import { click } from './library/mouse.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreButton from './button.js';
-import click from './library/click.js';
 
 GlideCoreButton.shadowRootOptions.mode = 'open';
 
