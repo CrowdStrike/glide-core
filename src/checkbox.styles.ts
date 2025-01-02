@@ -7,17 +7,6 @@ export default [
     ${focusOutline('.input:focus ~ .checkbox.error')}
   `,
   css`
-    /*
-Most states are handled on the host. But ":checked" and ":indeterminate" are
-handled on the input because browsers don't support those classes on the host.
-And using attribute selectors won't work because those attributes, same as
-native, don't change when their properties do.
-
-TODO
-Use the ":checked" and ":indeterminate" pseudo classes on the host and throughout
-when browsers support them.
-*/
-
     .label-and-input-and-checkbox {
       align-items: center;
       display: flex;
@@ -50,7 +39,7 @@ when browsers support them.
     .input-and-checkbox {
       block-size: 0.875rem;
 
-      /* Prevent shrinkage when the summary wraps. */
+      /* Don't shrink when the summary wraps. */
       flex-shrink: 0;
       inline-size: 0.875rem;
       position: relative;

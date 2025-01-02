@@ -725,8 +725,9 @@ it('sets the validity message with `setCustomValidity()`', async () => {
   await elementUpdated(component);
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
+    component.shadowRoot
+      ?.querySelector('[data-test="validity-message"]')
+      ?.textContent?.trim(),
   ).to.equal('validity message');
 });
 
@@ -778,8 +779,9 @@ it('is invalid when `setValidity()` is called', async () => {
   await elementUpdated(component);
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
+    component.shadowRoot
+      ?.querySelector('[data-test="validity-message"]')
+      ?.textContent?.trim(),
   ).to.equal('validity message');
 });
 

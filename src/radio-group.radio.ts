@@ -127,20 +127,19 @@ export default class GlideCoreRadio extends LitElement {
 
   override render() {
     return html`
-      <span
-        class=${classMap({ component: true, disabled: this.disabled })}
-        data-test="component"
-      >
-        <span
+      <div class="component" data-test="component">
+        <div
           class=${classMap({
-            'radio-circle': true,
+            circle: true,
             checked: this.checked,
+            disabled: this.disabled,
             animate: this.hasUpdated,
           })}
           data-test="radio"
-        ></span>
+        ></div>
+
         ${this.#label}
-      </span>
+      </div>
     `;
   }
 

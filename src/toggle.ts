@@ -88,14 +88,6 @@ export default class GlideCoreToggle extends LitElement {
             Even then, the tooltip would still receive focus to support sighted keyboard
             users. Screenreaders would likewise focus the tooltip. But its contents would
             not be read aloud because they would be hidden. This would be pretty confusing.
-
-            —
-
-            An input gives us a few things that together make using one worthwhile:
-
-            - "change" and "input" events.
-            - Toggling checked using the spacebar.
-            - The ":checked" pseudo class.
           -->
           <input
             aria-checked=${this.checked}

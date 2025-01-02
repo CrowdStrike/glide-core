@@ -37,16 +37,12 @@ export default [
       align-items: flex-start;
     }
 
-    .description {
+    .description-slot {
       display: block;
 
       &.hidden {
         display: none;
       }
-    }
-
-    .validity-message {
-      display: block;
     }
   `,
 ];
