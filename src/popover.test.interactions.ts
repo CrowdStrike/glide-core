@@ -185,8 +185,15 @@ it('remains open when its popover is clicked', async () => {
   await aTimeout(0);
 
   const popover = component.shadowRoot?.querySelector('[data-test="popover"]');
+  const defaultSlot = component.shadowRoot?.querySelector('slot:not([name])');
 
-  await click(popover);
+  // The assertion below intermittently fails with `click()`. Seems to be
+  // a bug either in Web Test Runner or Playwright related to concurrency.
+  // It consistently passes when concurrency is disabled.
+  //
+  // https://github.com/modernweb-dev/web/issues/2374
+  defaultSlot?.dispatchEvent(new PointerEvent('mouseup', { bubbles: true }));
+  defaultSlot?.dispatchEvent(new PointerEvent('click', { bubbles: true }));
 
   expect(popover?.checkVisibility()).to.be.true;
 });
@@ -204,7 +211,13 @@ it('remains open when its arrow is clicked', async () => {
 
   const arrow = component.shadowRoot?.querySelector('[data-test="arrow"]');
 
-  await click(arrow);
+  // The assertion below intermittently fails with `click()`. Seems to be
+  // a bug either in Web Test Runner or Playwright related to concurrency.
+  // It consistently passes when concurrency is disabled.
+  //
+  // https://github.com/modernweb-dev/web/issues/2374
+  arrow?.dispatchEvent(new PointerEvent('mouseup', { bubbles: true }));
+  arrow?.dispatchEvent(new PointerEvent('click', { bubbles: true }));
 
   expect(arrow?.checkVisibility()).to.be.true;
 });
