@@ -3,8 +3,8 @@
 import './checkbox.js';
 import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
-import click from './library/click.js';
 
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 

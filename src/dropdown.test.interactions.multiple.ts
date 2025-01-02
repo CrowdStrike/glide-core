@@ -10,13 +10,12 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
+import { click, hover } from './library/mouse.js';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
-import click from './library/click.js';
-import hover from './library/hover.js';
 
 @customElement('glide-core-dropdown-in-another-component')
 class GlideCoreDropdownInAnotherComponent extends LitElement {

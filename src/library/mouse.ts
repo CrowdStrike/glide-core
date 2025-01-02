@@ -1,7 +1,7 @@
 import { assert } from '@open-wc/testing';
 import { resetMouse, sendMouse } from '@web/test-runner-commands';
 
-export default async (
+export function click(
   element: Element | null | undefined,
   position:
     | 'top'
@@ -10,13 +10,40 @@ export default async (
     | 'left'
     | 'outside'
     | 'center' = 'center',
-) => {
+) {
+  return mouse(element, position, 'click');
+}
+
+export function hover(
+  element: Element | null | undefined,
+  position:
+    | 'top'
+    | 'right'
+    | 'bottom'
+    | 'left'
+    | 'outside'
+    | 'center' = 'center',
+) {
+  return mouse(element, position, 'move');
+}
+
+async function mouse(
+  element: Element | null | undefined,
+  position:
+    | 'top'
+    | 'right'
+    | 'bottom'
+    | 'left'
+    | 'outside'
+    | 'center' = 'center',
+  type: 'click' | 'move',
+) {
   assert(element);
 
   const { height, width, x, y } = element.getBoundingClientRect();
 
   await sendMouse({
-    type: 'move',
+    type,
     position:
       position === 'top'
         ? [Math.ceil(x + width / 2), Math.ceil(y)]
@@ -39,4 +66,4 @@ export default async (
   afterEach(async () => {
     await resetMouse();
   });
-};
+}

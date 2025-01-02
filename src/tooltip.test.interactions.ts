@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
+import { hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTooltip from './tooltip.js';
-import hover from './library/hover.js';
 
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
 

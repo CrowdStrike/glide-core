@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCorePopover from './popover.js';
-import click from './library/click.js';
 
 GlideCorePopover.shadowRootOptions.mode = 'open';
 

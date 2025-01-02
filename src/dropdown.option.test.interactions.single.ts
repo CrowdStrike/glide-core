@@ -7,8 +7,8 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
+import { hover } from './library/mouse.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import hover from './library/hover.js';
 
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 

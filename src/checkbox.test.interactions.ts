@@ -7,8 +7,8 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import GlideCoreCheckbox from './checkbox.js';
-import click from './library/click.js';
 
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 

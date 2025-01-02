@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
+import { click } from './library/mouse.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreModal from './modal.js';
-import click from './library/click.js';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
 

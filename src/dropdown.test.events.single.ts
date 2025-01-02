@@ -10,9 +10,9 @@ import {
   oneEvent,
   waitUntil,
 } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
-import click from './library/click.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 

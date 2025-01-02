@@ -11,12 +11,11 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
+import { click, hover } from './library/mouse.js';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
 import GlideCoreMenuLink from './menu.link.js';
-import click from './library/click.js';
-import hover from './library/hover.js';
 
 @customElement('glide-core-nested-slot')
 class GlideCoreNestedSlot extends LitElement {

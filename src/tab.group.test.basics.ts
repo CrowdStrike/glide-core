@@ -11,10 +11,10 @@ import {
   oneEvent,
   waitUntil,
 } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTabGroup from './tab.group.js';
 import GlideCoreTabPanel from './tab.panel.js';
-import click from './library/click.js';
 import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
 

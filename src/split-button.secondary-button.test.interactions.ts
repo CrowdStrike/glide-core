@@ -3,8 +3,8 @@
 import './menu.button.js';
 import './menu.options.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
-import click from './library/click.js';
 
 GlideCoreSplitButtonSecondaryButton.shadowRootOptions.mode = 'open';
 
