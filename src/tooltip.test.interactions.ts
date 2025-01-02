@@ -192,7 +192,7 @@ it('opens on hover', async () => {
   assert(tooltip);
 
   tooltip.dataset.openDelay = '0';
-  await hover(component.shadowRoot?.querySelector('[data-test="component"'));
+  await hover(component.querySelector('span'));
 
   expect(tooltip.checkVisibility()).to.be.true;
 });
@@ -212,7 +212,7 @@ it('remains closed on hover when disabled', async () => {
   assert(tooltip);
 
   tooltip.dataset.openDelay = '0';
-  await hover(component.shadowRoot?.querySelector('[data-test="component"'));
+  await hover(component.querySelector('span'));
 
   expect(tooltip.checkVisibility()).to.be.false;
 });
@@ -232,7 +232,7 @@ it('closes when hovered away from', async () => {
   assert(tooltip);
 
   tooltip.dataset.openDelay = '0';
-  await hover(component.shadowRoot?.querySelector('[data-test="component"'));
+  await hover(component.querySelector('span'));
 
   tooltip.dataset.closeDelay = '0';
 
@@ -261,14 +261,22 @@ it('remains closed if hovered away from before the delay', async () => {
   tooltip.dataset.openDelay = '5';
   tooltip.dataset.closeDelay = '0';
 
-  await hover(component.shadowRoot?.querySelector('[data-test="component"'));
+  // The assertions below intermittently fail with `hover()`. Seems to be
+  // a bug either in Web Test Runner or Playwright related to concurrency.
+  // Both consistently pass when concurrency is disabled.
+  //
+  // https://github.com/modernweb-dev/web/issues/2374
+  component
+    ?.querySelector('span')
+    ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   expect(tooltip?.checkVisibility()).to.be.false;
 
-  await hover(
-    component.shadowRoot?.querySelector('[data-test="component"'),
-    'outside',
-  );
+  component
+    ?.querySelector('span')
+    ?.dispatchEvent(new MouseEvent('mouseout', { bubbles: true }));
+
+  await aTimeout(5);
 
   expect(tooltip.checkVisibility()).to.be.false;
 });
