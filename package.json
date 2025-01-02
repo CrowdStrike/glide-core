@@ -62,7 +62,7 @@
     "test:production": "npm-run-all --parallel test:production:* start:production:stylesheets --aggregate-output --print-label",
     "test:production:vitest": "vitest run --config ./vitest.config.js",
     "test:production:web-test-runner": "web-test-runner",
-    "postinstall": "pnpm dlx playwright@1.49.1 install --with-deps",
+    "postinstall": "pnpm dlx playwright@1.50.0-alpha-2025-01-02 install --with-deps",
     "prepare": "is-ci || husky install",
     "release": "changeset publish"
   },
