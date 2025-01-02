@@ -1,4 +1,4 @@
-import { LitElement, type PropertyValues, html } from 'lit';
+import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
@@ -31,11 +31,22 @@ export default class GlideCoreTabPanel extends LitElement {
   @property({ reflect: true }) name = '';
 
   // Private because it's only meant to be used by Tab Group.
-  @property({ type: Boolean }) privateIsSelected = true;
+  @property({ type: Boolean }) get privateIsSelected() {
+    return this.#internals.states.has('private-selected');
+  }
+
+  set privateIsSelected(isSelected: boolean) {
+    this.setAttribute('aria-hidden', isSelected ? 'false' : 'true');
+
+    if (isSelected) {
+      this.#internals.states.add('private-selected');
+    } else {
+      this.#internals.states.delete('private-selected');
+    }
+  }
 
   protected override firstUpdated() {
     this.setAttribute('role', 'tabpanel');
-
     this.id = this.#id;
   }
 
@@ -52,16 +63,12 @@ export default class GlideCoreTabPanel extends LitElement {
     </div>`;
   }
 
-  protected override updated(changes: PropertyValues) {
-    super.updated(changes);
-
-    if (changes.has('privateIsSelected')) {
-      this.setAttribute(
-        'aria-hidden',
-        this.privateIsSelected ? 'false' : 'true',
-      );
-    }
+  constructor() {
+    super();
+    this.#internals = this.attachInternals();
   }
 
   #id = nanoid();
+
+  #internals: ElementInternals;
 }

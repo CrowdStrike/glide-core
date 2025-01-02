@@ -12,13 +12,7 @@ export default [
       outline: none;
     }
 
-    /*
-      This reads a little oddly due to the negation, but we only want to
-      set this style on the host when the panel is selected, which means
-      it is not hidden. Otherwise we run into the case where non-selected,
-      hidden panels will attempt to take up space.
-    */
-    :host([aria-hidden='false']) {
+    :host(:state(private-selected)) {
       block-size: 100%;
     }
 
