@@ -39,11 +39,11 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-split-button')
       ?.addEventListener('click', (event: Event) => {
-        const isLink =
+        const isMenuLink =
           event.target instanceof Element &&
           event.target.closest('glide-core-menu-link');
 
-        if (isLink && window.top) {
+        if (isMenuLink && window.top) {
           event.preventDefault();
 
           // The Storybook user expects to navigate when the link is clicked but
