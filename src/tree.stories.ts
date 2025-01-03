@@ -1,5 +1,6 @@
 import './icon-button.js';
 import './icons/storybook.js';
+import './menu.button.js';
 import './menu.link.js';
 import './tree.item.icon-button.js';
 import './tree.js';
@@ -146,17 +147,17 @@ const meta: Meta = {
             slot="menu"
             placement=${arguments_['<glide-core-tree-item-menu>.placement']}
           >
-            <glide-core-menu-link label="Edit" url="/">
+            <glide-core-menu-button label="Edit">
               <glide-core-example-icon
                 slot="icon"
                 name="edit"
               ></glide-core-example-icon>
-            </glide-core-menu-link>
+            </glide-core-menu-button>
 
-            <glide-core-menu-link label="Move" url="/">
+            <glide-core-menu-link label="Share" url="/">
               <glide-core-example-icon
                 slot="icon"
-                name="move"
+                name="share"
               ></glide-core-example-icon>
             </glide-core-menu-link>
           </glide-core-tree-item-menu>
