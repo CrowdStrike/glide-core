@@ -3,7 +3,6 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import { owSlot, owSlotType } from './library/ow.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
@@ -57,10 +56,6 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
   @property({ reflect: true })
   name = '';
-
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle';
 
   @property({ reflect: true, type: Boolean })
   get required() {
@@ -231,7 +226,6 @@ export default class GlideCoreCheckboxGroup extends LitElement {
       ${ref(this.#componentElementRef)}
     >
       <glide-core-private-label
-        split=${ifDefined(this.privateSplit ?? undefined)}
         ?hide=${this.hideLabel}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}

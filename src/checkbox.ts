@@ -4,7 +4,6 @@ import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import checkedIcon from './icons/checked.js';
@@ -116,10 +115,6 @@ export default class GlideCoreCheckbox extends LitElement {
   // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-size' })
   privateSize: 'large' | 'small' = 'large';
-
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle';
 
   // Private because it's only meant to be used by Checkbox Group and Dropdown Option.
   @property({ attribute: 'private-variant' })
@@ -324,7 +319,6 @@ export default class GlideCoreCheckbox extends LitElement {
         () =>
           html`<glide-core-private-label
             orientation=${this.orientation}
-            split=${ifDefined(this.privateSplit ?? undefined)}
             ?disabled=${this.disabled}
             ?error=${this.#isShowValidationFeedback}
             ?hide=${this.hideLabel}

@@ -92,10 +92,6 @@ export default class GlideCoreTextarea extends LitElement {
   @property({ reflect: true })
   autocomplete: 'on' | 'off' = 'on';
 
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle';
-
   override blur() {
     this.#textareaElementRef.value?.blur();
   }
@@ -162,7 +158,6 @@ export default class GlideCoreTextarea extends LitElement {
 
   override render() {
     return html`<glide-core-private-label
-      split=${ifDefined(this.privateSplit ?? undefined)}
       orientation=${this.orientation}
       ?disabled=${this.disabled}
       ?error=${this.#isShowValidationFeedback ||

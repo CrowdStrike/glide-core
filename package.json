@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.12",
+    "@lit-labs/signals": "^0.1.1",
     "@shoelace-style/localize": "^3.2.1",
     "nanoid": "^5.0.9",
     "ow": "^2.0.0"

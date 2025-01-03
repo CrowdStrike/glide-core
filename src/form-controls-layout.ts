@@ -4,6 +4,7 @@ import './label.js';
 import { LitElement, html } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import { split } from './library/signals.js';
 import GlideCoreCheckbox from './checkbox.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 import GlideCoreDropdown from './dropdown.js';
@@ -32,19 +33,11 @@ export default class GlideCoreFormControlsLayout extends LitElement {
 
   @property({ reflect: true })
   get split() {
-    return this.#split;
+    return split.get() ?? 'left';
   }
 
-  set split(split: 'left' | 'middle') {
-    this.#split = split;
-
-    if (this.#slotElementRef.value) {
-      for (const element of this.#slotElementRef.value.assignedElements()) {
-        if ('privateSplit' in element) {
-          element.privateSplit = this.split;
-        }
-      }
-    }
+  set split(position: 'left' | 'middle') {
+    split.set(position ?? 'left');
   }
 
   override firstUpdated() {
@@ -72,8 +65,6 @@ export default class GlideCoreFormControlsLayout extends LitElement {
 
   #slotElementRef = createRef<HTMLSlotElement>();
 
-  #split: 'left' | 'middle' = 'left';
-
   #assertHorizontalControls() {
     owSlot(this.#slotElementRef.value);
 
@@ -99,11 +90,5 @@ export default class GlideCoreFormControlsLayout extends LitElement {
     ]);
 
     this.#assertHorizontalControls();
-
-    for (const element of this.#slotElementRef.value.assignedElements()) {
-      if ('privateSplit' in element) {
-        element.privateSplit = this.split;
-      }
-    }
   }
 }

@@ -1,9 +1,11 @@
 import './tooltip.js';
 import { LitElement, html, svg } from 'lit';
 import { LocalizeController } from './library/localize.js';
+import { SignalWatcher } from '@lit-labs/signals';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { split } from './library/signals.js';
 import ow, { owSlot } from './library/ow.js';
 import styles from './label.styles.js';
 
@@ -42,7 +44,7 @@ declare global {
  * @slot tooltip - Content for the tooltip.
  */
 @customElement('glide-core-private-label')
-export default class GlideCoreLabel extends LitElement {
+export default class GlideCoreLabel extends SignalWatcher(LitElement) {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
@@ -64,9 +66,6 @@ export default class GlideCoreLabel extends LitElement {
 
   @property({ reflect: true, type: Boolean })
   required = false;
-
-  @property()
-  split?: 'left' | 'middle';
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
@@ -103,8 +102,8 @@ export default class GlideCoreLabel extends LitElement {
         component: true,
         horizontal: this.orientation === 'horizontal',
         vertical: this.orientation === 'vertical',
-        left: this.split === 'left',
-        middle: this.split === 'middle',
+        left: split.get() === 'left',
+        middle: split.get() === 'middle',
         'hidden-label': this.hide,
       })}
     >
@@ -112,8 +111,8 @@ export default class GlideCoreLabel extends LitElement {
         class=${classMap({
           tooltips: true,
           hidden: this.hide,
-          left: this.split === 'left',
-          middle: this.split === 'middle',
+          left: split.get() === 'left',
+          middle: split.get() === 'middle',
         })}
         part="private-tooltips"
       >

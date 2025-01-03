@@ -11,6 +11,9 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.6.12
         version: 1.6.12
+      '@lit-labs/signals':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@shoelace-style/localize':
         specifier: ^3.2.1
         version: 3.2.1
@@ -732,6 +735,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@lit-labs/signals@0.1.1':
+    resolution: {integrity: sha512-QQYp2CyXzxaYho4EHKLLOHLMX0Jz8HWUfGGiCKyei54Vol0DqiPggbA1z3t53oYJ3mqU/NTWF+flfcY7Tfpozg==}
 
   '@lit-labs/ssr-dom-shim@1.2.1':
     resolution: {integrity: sha512-wx4aBmgeGvFmOKucFKY+8VFJSYZxs9poN3SDNQFF6lT6NrQUnHiPB2PWz2sc4ieEcAaYYzN+1uWahEeTq2aRIQ==}
@@ -3553,6 +3559,9 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
+  signal-polyfill@0.2.1:
+    resolution: {integrity: sha512-HtchWosT4UT1i6yIMmxjg7gqkDT9lXvQtJRGVppi2TDwVjgs8cS+7ATVFqBvgJGThludjxrxJFOvmzzGSAc8OA==}
+
   sinon@19.0.2:
     resolution: {integrity: sha512-euuToqM+PjO4UgXeLETsfQiuoyPXlqFezr6YZDFwHR3t4qaX0fZUe1MfPMznTL5f8BWrVS89KduLdMUsxFCO6g==}
 
@@ -4674,6 +4683,11 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@lit-labs/signals@0.1.1':
+    dependencies:
+      lit: 3.2.1
+      signal-polyfill: 0.2.1
 
   '@lit-labs/ssr-dom-shim@1.2.1': {}
 
@@ -7776,6 +7790,8 @@ snapshots:
   signal-exit@3.0.7: {}
 
   signal-exit@4.1.0: {}
+
+  signal-polyfill@0.2.1: {}
 
   sinon@19.0.2:
     dependencies:
