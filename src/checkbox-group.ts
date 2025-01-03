@@ -445,8 +445,6 @@ export default class GlideCoreCheckboxGroup extends LitElement {
     ) {
       this.value = this.value.filter((value) => {
         return (
-          // No idea why TypeScript thinks `event.target` is possibly `null`
-          // when filtering given it's narrowed out above.
           event.target instanceof GlideCoreCheckbox &&
           value !== event.target.value
         );
