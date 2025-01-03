@@ -284,7 +284,7 @@ export default class GlideCoreRadioGroup extends LitElement {
           <div id="description" slot="description">
             <slot
               class=${classMap({
-                description: true,
+                'description-slot': true,
                 hidden: Boolean(
                   this.#isShowValidationFeedback && this.validityMessage,
                 ),
@@ -295,9 +295,9 @@ export default class GlideCoreRadioGroup extends LitElement {
             ${when(
               this.#isShowValidationFeedback && this.validityMessage,
               () =>
-                html`<span class="validity-message" data-test="validity-message"
-                  >${unsafeHTML(this.validityMessage)}</span
-                >`,
+                html`<div data-test="validity-message">
+                  ${unsafeHTML(this.validityMessage)}
+                </div>`,
             )}
           </div>
         </glide-core-private-label>

@@ -337,25 +337,6 @@ export default class GlideCoreCheckbox extends LitElement {
               The input is described by the summary and description but not the tooltip.
               Screenreaders will come across the tooltip naturally as focus moves toward
               the Checkbox.
-
-              —
-
-              A native input isn't necessary given the component itself is form associated.
-              A button, for example, could also be made to work. But an input gives us a
-              few things that together make using one worthwhile:
-
-              - "change" and "input" events.
-              - Toggling checked using the spacebar.
-              - ":checked" and ":indeterminate" pseudo classes, which browsers don't support
-                on hosts even when a component is form-associated.
-
-              -
-
-              aria-invalid is set based on whether the validation feedback is displayed. This
-              is to handle an odd behavior with checkboxes where "Invalid Data" is announced
-              on required unchecked inputs. While this is technically correct, it's
-              inconsistent with how other form controls behave as their validity isn’t announced
-              on screen readers by default before validation.
             -->
             <div class="input-and-checkbox" slot="control">
               <input

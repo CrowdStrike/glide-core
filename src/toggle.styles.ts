@@ -6,16 +6,6 @@ export default [
     ${focusOutline('.toggle-and-input:has(input:focus-visible)')}
   `,
   css`
-    /*
-Most states are handled on the host. But ":checked" is handled on the input
-because browsers don't support that class on the host. And using attribute
-selectors won't work because those attributes, same as native, don't change
-when their properties do.
-
-TODO
-Use the ":checked" pseudo class on the host and throughout when browsers support it.
-*/
-
     .toggle-and-input-and-summary {
       align-items: center;
       display: flex;
