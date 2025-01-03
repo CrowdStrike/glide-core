@@ -19,7 +19,7 @@ it('can be reset to initial value', async () => {
 
   component.focus();
   await sendKeys({ type: '-value' });
-  await expect(component.value).to.equal('testing-value');
+  expect(component.value).to.equal('testing-value');
   form.reset();
 
   expect(component.value).to.equal('testing');

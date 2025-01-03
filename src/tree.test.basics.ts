@@ -5,8 +5,9 @@ import './tree.item.icon-button.js';
 import './tree.item.menu.js';
 import './tree.js';
 import { ArgumentError } from 'ow';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTree from './tree.js';
 import GlideCoreTreeItem from './tree.item.js';
 import expectArgumentError from './library/expect-argument-error.js';
@@ -145,11 +146,39 @@ it('does not select an item if its menu slot is clicked', async () => {
   expect(childItems[0].selected).to.be.false;
 });
 
+it('does not scroll the page when arrowing', async () => {
+  document.body.style.height = '200vh';
+  document.body.style.scrollBehavior = 'auto';
+
+  const component = await fixture(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="label">
+        <glide-core-tree-item-menu slot="menu">
+          <glide-core-menu-link label="Label" url="/"></glide-core-menu-link>
+        </glide-core-tree-item-menu>
+      </glide-core-tree-item>
+    </glide-core-tree>
+  `);
+
+  const spy = sinon.spy();
+  document.addEventListener('scroll', spy);
+
+  component.querySelector('glide-core-tree-item')?.focus();
+  await sendKeys({ press: 'ArrowDown' });
+
+  // The browser apparently inserts a slight delay after arrowing before scrolling,
+  // even when smooth scrolling is disabled. `100` is a round number that comfortably
+  // gets us past that delay.
+  await aTimeout(100);
+
+  expect(spy.callCount).to.equal(0);
+});
+
 it('throws if it does not have a default slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<GlideCoreTree>(html`<glide-core-tree></glide-core-tree>`);
+    await fixture(html`<glide-core-tree></glide-core-tree>`);
   } catch (error) {
     if (error instanceof ArgumentError) {
       spy();
@@ -161,7 +190,7 @@ it('throws if it does not have a default slot', async () => {
 
 it('throws if the default slot is the incorrect type', async () => {
   await expectArgumentError(() => {
-    return fixture<GlideCoreTree>(html`
+    return fixture(html`
       <glide-core-tree>
         <button>Button</button>
       </glide-core-tree>

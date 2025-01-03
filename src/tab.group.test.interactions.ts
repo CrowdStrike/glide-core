@@ -257,7 +257,12 @@ it('scrolls tabs when overflow buttons are clicked', async () => {
       '[data-test="overflow-end-button"]',
     );
 
-  await click(endOverflowButton);
+  // The assertions below intermittently fail with `click()`. Seems to be
+  // a bug either in Web Test Runner or Playwright related to concurrency.
+  // They consistently pass when concurrency is disabled.
+  //
+  // https://github.com/modernweb-dev/web/issues/2374
+  endOverflowButton?.click();
 
   await waitUntil(
     () =>
@@ -278,7 +283,7 @@ it('scrolls tabs when overflow buttons are clicked', async () => {
   expect(startOverflowButton).to.be.not.null;
   expect(startOverflowButton?.disabled).to.be.false;
 
-  await click(startOverflowButton);
+  startOverflowButton?.click();
 
   await waitUntil(
     () =>
