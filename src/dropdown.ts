@@ -2096,8 +2096,6 @@ export default class GlideCoreDropdown extends LitElement {
             ? [...this.value, event.target.value]
             : this.value.filter((value) => {
                 return (
-                  // No idea why TypeScript thinks `event.target` is possibly `null`
-                  // when filtering given it's narrowed out above.
                   event.target instanceof GlideCoreDropdownOption &&
                   value !== event.target.value
                 );

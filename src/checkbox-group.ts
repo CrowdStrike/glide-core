@@ -432,13 +432,24 @@ export default class GlideCoreCheckboxGroup extends LitElement {
     }
   }
 
-  #onCheckboxChange() {
-    this.value = this.#checkboxes
-      .filter(({ checked, disabled }) => checked && !disabled)
-      .map(({ value }) => value)
-      // Disabled because simply filtering by `Boolean` doesn't narrow the type.
-      // eslint-disable-next-line unicorn/prefer-native-coercion-functions
-      .filter((value): value is string => Boolean(value));
+  #onCheckboxChange(event: Event) {
+    if (
+      event.target instanceof GlideCoreCheckbox &&
+      event.target.checked &&
+      event.target.value
+    ) {
+      this.value = [...this.value, event.target.value];
+    } else if (
+      event.target instanceof GlideCoreCheckbox &&
+      !event.target.checked
+    ) {
+      this.value = this.value.filter((value) => {
+        return (
+          event.target instanceof GlideCoreCheckbox &&
+          value !== event.target.value
+        );
+      });
+    }
   }
 
   #onCheckboxesValueChange(event: CustomEvent<{ new: string; old: string }>) {
