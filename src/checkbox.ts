@@ -278,9 +278,9 @@ export default class GlideCoreCheckbox extends LitElement {
                 .inert=${this.internallyInert}
                 ?disabled=${this.disabled}
                 ?required=${this.required}
-                @change=${this.#onChangeOrInput}
-                @input=${this.#onChangeOrInput}
-                @keydown=${this.#onKeydown}
+                @change=${this.#onInputChangeOrInput}
+                @input=${this.#onInputChangeOrInput}
+                @keydown=${this.#onInputKeydown}
                 ${ref(this.#inputElementRef)}
               />
 
@@ -350,9 +350,9 @@ export default class GlideCoreCheckbox extends LitElement {
                 ?disabled=${this.disabled}
                 ?required=${this.required}
                 @blur=${this.#onBlur}
-                @change=${this.#onChangeOrInput}
-                @input=${this.#onChangeOrInput}
-                @keydown=${this.#onKeydown}
+                @change=${this.#onInputChangeOrInput}
+                @input=${this.#onInputChangeOrInput}
+                @keydown=${this.#onInputKeydown}
                 ${ref(this.#inputElementRef)}
               />
 
@@ -562,7 +562,7 @@ export default class GlideCoreCheckbox extends LitElement {
   // If "input" events were dispatched after "change" events, only handling
   // "change" here would suffice because an update from "change" would already
   // be pending by the time "input" is dispatched.
-  #onChangeOrInput(event: Event) {
+  #onInputChangeOrInput(event: Event) {
     if (event.target instanceof HTMLInputElement) {
       this.checked = event.target.checked;
     }
@@ -577,7 +577,7 @@ export default class GlideCoreCheckbox extends LitElement {
     }
   }
 
-  #onKeydown(event: KeyboardEvent) {
+  #onInputKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       this.form?.requestSubmit();
     }

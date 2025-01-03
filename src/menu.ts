@@ -194,7 +194,7 @@ export default class GlideCoreMenu extends LitElement {
     return html`
       <div
         class="component"
-        @focusout=${this.#onFocusout}
+        @focusout=${this.#onComponentFocusout}
         ${ref(this.#componentElementRef)}
       >
         <slot
@@ -311,6 +311,23 @@ export default class GlideCoreMenu extends LitElement {
       : null;
   }
 
+  #onComponentFocusout(event: FocusEvent) {
+    const isMenuFocused =
+      event.relatedTarget instanceof HTMLElement &&
+      this.#shadowRoot?.contains(event.relatedTarget);
+
+    const isOptionsFocused =
+      event.relatedTarget instanceof GlideCoreMenuOptions;
+
+    const isOptionFocused =
+      event.relatedTarget instanceof GlideCoreMenuButton ||
+      event.relatedTarget instanceof GlideCoreMenuLink;
+
+    if (!isMenuFocused && !isOptionsFocused && !isOptionFocused) {
+      this.open = false;
+    }
+  }
+
   #onDefaultSlotChange() {
     ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
     owSlot(this.#defaultSlotElementRef.value);
@@ -362,23 +379,6 @@ export default class GlideCoreMenu extends LitElement {
       if (this.#optionsElement) {
         this.#optionsElement.ariaActivedescendant = event.target.id;
       }
-    }
-  }
-
-  #onFocusout(event: FocusEvent) {
-    const isMenuFocused =
-      event.relatedTarget instanceof HTMLElement &&
-      this.#shadowRoot?.contains(event.relatedTarget);
-
-    const isOptionsFocused =
-      event.relatedTarget instanceof GlideCoreMenuOptions;
-
-    const isOptionFocused =
-      event.relatedTarget instanceof GlideCoreMenuButton ||
-      event.relatedTarget instanceof GlideCoreMenuLink;
-
-    if (!isMenuFocused && !isOptionsFocused && !isOptionFocused) {
-      this.open = false;
     }
   }
 

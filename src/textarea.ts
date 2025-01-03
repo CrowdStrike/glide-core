@@ -196,9 +196,9 @@ export default class GlideCoreTextarea extends LitElement {
           ?readonly=${this.readonly}
           ?disabled=${this.disabled}
           ${ref(this.#textareaElementRef)}
-          @input=${this.#onInput}
-          @change=${this.#onChange}
-          @blur=${this.#onBlur}
+          @input=${this.#onTextareaInput}
+          @change=${this.#onTextareaChange}
+          @blur=${this.#onTextareaBlur}
         >
         </textarea>
       </div>
@@ -378,13 +378,13 @@ export default class GlideCoreTextarea extends LitElement {
     );
   }
 
-  #onBlur() {
+  #onTextareaBlur() {
     this.isBlurring = true;
     this.reportValidity();
     this.isBlurring = false;
   }
 
-  #onChange(event: Event) {
+  #onTextareaChange(event: Event) {
     ow(
       this.#textareaElementRef.value,
       ow.object.instanceOf(HTMLTextAreaElement),
@@ -397,7 +397,7 @@ export default class GlideCoreTextarea extends LitElement {
     this.dispatchEvent(new Event(event.type, event));
   }
 
-  #onInput() {
+  #onTextareaInput() {
     ow(
       this.#textareaElementRef.value,
       ow.object.instanceOf(HTMLTextAreaElement),

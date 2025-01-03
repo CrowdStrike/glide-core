@@ -263,11 +263,11 @@ export default class GlideCoreInput extends LitElement {
             ?required=${this.required}
             ?readonly=${this.readonly}
             ?disabled=${this.disabled}
-            @focus=${this.#onFocus}
-            @blur=${this.#onBlur}
-            @change=${this.#onChange}
-            @input=${this.#onInput}
-            @keydown=${this.#onKeydown}
+            @focus=${this.#onInputFocus}
+            @blur=${this.#onInputBlur}
+            @change=${this.#onInputChange}
+            @input=${this.#onInputInput}
+            @keydown=${this.#onInputKeydown}
             ${ref(this.#inputElementRef)}
           />
 
@@ -281,7 +281,7 @@ export default class GlideCoreInput extends LitElement {
                   })}
                   data-test="clear-button"
                   label=${this.#localize.term('clearEntry', this.label!)}
-                  @click=${this.#onClearClick}
+                  @click=${this.#onClearButtonClick}
                 >
                   <!-- X icon -->
                   <svg
@@ -566,7 +566,15 @@ export default class GlideCoreInput extends LitElement {
     );
   }
 
-  #onBlur() {
+  #onClearButtonClick(event: MouseEvent) {
+    this.value = '';
+    this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+    this.#inputElementRef.value?.focus();
+
+    event.stopPropagation();
+  }
+
+  #onInputBlur() {
     this.isBlurring = true;
     this.reportValidity();
     this.isBlurring = false;
@@ -574,7 +582,7 @@ export default class GlideCoreInput extends LitElement {
     this.hasFocus = false;
   }
 
-  #onChange(event: Event) {
+  #onInputChange(event: Event) {
     ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
     this.value = this.#inputElementRef.value?.value;
 
@@ -583,24 +591,16 @@ export default class GlideCoreInput extends LitElement {
     this.dispatchEvent(new Event(event.type, event));
   }
 
-  #onClearClick(event: MouseEvent) {
-    this.value = '';
-    this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-    this.#inputElementRef.value?.focus();
-
-    event.stopPropagation();
-  }
-
-  #onFocus() {
+  #onInputFocus() {
     this.hasFocus = true;
   }
 
-  #onInput() {
+  #onInputInput() {
     ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
     this.value = this.#inputElementRef.value.value;
   }
 
-  #onKeydown(event: KeyboardEvent) {
+  #onInputKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
       this.form?.requestSubmit();
     }

@@ -151,8 +151,8 @@ export default class GlideCoreModal extends LitElement {
         xlarge: this.size === 'xlarge',
       })}
       tabindex="-1"
-      @keydown=${this.#onKeyDown}
-      @mousedown=${this.#onMousedown}
+      @keydown=${this.#onComponentKeyDown}
+      @mousedown=${this.#onComponentMousedown}
       ${ref(this.#componentElementRef)}
     >
       <header class="header">
@@ -329,6 +329,53 @@ export default class GlideCoreModal extends LitElement {
     this.#componentElementRef.value?.close();
   }
 
+  #onComponentKeyDown(event: KeyboardEvent) {
+    if (event.key !== 'Escape') {
+      return;
+    }
+
+    // Prevent Safari from leaving full screen.
+    event.preventDefault();
+
+    document.documentElement.classList.remove(
+      'private-glide-core-modal-lock-scroll',
+    );
+
+    this.dispatchEvent(new Event('close'));
+    this.#componentElementRef.value?.close();
+  }
+
+  #onComponentMousedown(event: MouseEvent) {
+    if (event.target !== this.#componentElementRef.value) {
+      return;
+    }
+
+    // There's a case where if the dialog has padding (like ours does), clicking
+    // in the padding area will not be considered "inside" of the dialog
+    // and will force a close. This behavior is not ideal at all.
+    // This logic verifies that only clicking  *outside* of the dialog
+    // (normally on the backdrop) closes the dialog.
+    const dialogBoundingRect =
+      this.#componentElementRef.value?.getBoundingClientRect();
+
+    if (dialogBoundingRect) {
+      const isClickInsideDialog =
+        dialogBoundingRect.top <= event.clientY &&
+        event.clientY <= dialogBoundingRect.top + dialogBoundingRect.height &&
+        dialogBoundingRect.left <= event.clientX &&
+        event.clientX <= dialogBoundingRect.left + dialogBoundingRect.width;
+
+      if (!isClickInsideDialog) {
+        document.documentElement.classList.remove(
+          'private-glide-core-modal-lock-scroll',
+        );
+
+        this.dispatchEvent(new Event('close'));
+        this.#componentElementRef.value?.close();
+      }
+    }
+  }
+
   #onDefaultSlotChange() {
     ow(
       this.#componentElementRef.value,
@@ -364,52 +411,5 @@ export default class GlideCoreModal extends LitElement {
     owSlotType(this.#headerActionsSlotElementRef.value, [
       GlideCoreModalIconButton,
     ]);
-  }
-
-  #onKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Escape') {
-      return;
-    }
-
-    // Prevent Safari from leaving full screen.
-    event.preventDefault();
-
-    document.documentElement.classList.remove(
-      'private-glide-core-modal-lock-scroll',
-    );
-
-    this.dispatchEvent(new Event('close'));
-    this.#componentElementRef.value?.close();
-  }
-
-  #onMousedown(event: MouseEvent) {
-    if (event.target !== this.#componentElementRef.value) {
-      return;
-    }
-
-    // There's a case where if the dialog has padding (like ours does), clicking
-    // in the padding area will not be considered "inside" of the dialog
-    // and will force a close. This behavior is not ideal at all.
-    // This logic verifies that only clicking  *outside* of the dialog
-    // (normally on the backdrop) closes the dialog.
-    const dialogBoundingRect =
-      this.#componentElementRef.value?.getBoundingClientRect();
-
-    if (dialogBoundingRect) {
-      const isClickInsideDialog =
-        dialogBoundingRect.top <= event.clientY &&
-        event.clientY <= dialogBoundingRect.top + dialogBoundingRect.height &&
-        dialogBoundingRect.left <= event.clientX &&
-        event.clientX <= dialogBoundingRect.left + dialogBoundingRect.width;
-
-      if (!isClickInsideDialog) {
-        document.documentElement.classList.remove(
-          'private-glide-core-modal-lock-scroll',
-        );
-
-        this.dispatchEvent(new Event('close'));
-        this.#componentElementRef.value?.close();
-      }
-    }
   }
 }

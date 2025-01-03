@@ -32,8 +32,8 @@ export default class GlideCoreTree extends LitElement {
   override disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.removeEventListener('focusin', this.#onFocusIn);
-    this.removeEventListener('focusout', this.#onFocusOut);
+    this.removeEventListener('focusin', this.#onHostFocusIn);
+    this.removeEventListener('focusout', this.#onHostFocusOut);
   }
 
   override firstUpdated() {
@@ -46,8 +46,8 @@ export default class GlideCoreTree extends LitElement {
       class="component"
       role="tree"
       tabindex=${this.privateTabIndex}
-      @click=${this.#onClick}
-      @keydown=${this.#onKeydown}
+      @click=${this.#onComponentClick}
+      @keydown=${this.#onComponentKeydown}
     >
       <slot
         @slotchange=${this.#onDefaultSlotChange}
@@ -83,8 +83,8 @@ export default class GlideCoreTree extends LitElement {
 
   constructor() {
     super();
-    this.addEventListener('focusin', this.#onFocusIn);
-    this.addEventListener('focusout', this.#onFocusOut);
+    this.addEventListener('focusin', this.#onHostFocusIn);
+    this.addEventListener('focusout', this.#onHostFocusOut);
   }
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
@@ -117,7 +117,7 @@ export default class GlideCoreTree extends LitElement {
     });
   }
 
-  #onClick(event: Event) {
+  #onComponentClick(event: Event) {
     const target = event.target as HTMLElement;
 
     if (
@@ -138,43 +138,8 @@ export default class GlideCoreTree extends LitElement {
     }
   }
 
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTreeItem]);
-  }
-
-  #onFocusIn(event: FocusEvent) {
-    let itemToFocus;
-
-    if (event.target === this) {
-      itemToFocus = this.selectedItem?.checkVisibility({
-        visibilityProperty: true,
-      })
-        ? this.selectedItem
-        : this.#treeItemElements?.[0];
-    } else if (event.target instanceof GlideCoreTreeItem) {
-      itemToFocus = event.target;
-      this.privateTabIndex = -1;
-    }
-
-    this.#focusItem(itemToFocus);
-  }
-
-  #onFocusOut(event: FocusEvent) {
-    // If they've focused out of the tree,
-    // restore this tree's tabindex 0, so they can focus back in
-    if (
-      !event.relatedTarget ||
-      !(event.relatedTarget instanceof HTMLElement) ||
-      !this.contains(event.relatedTarget)
-    ) {
-      this.privateTabIndex = 0;
-      this.focusedItem = undefined;
-    }
-  }
-
   // https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
-  #onKeydown(event: KeyboardEvent) {
+  #onComponentKeydown(event: KeyboardEvent) {
     if (
       ![
         'ArrowRight',
@@ -251,6 +216,41 @@ export default class GlideCoreTree extends LitElement {
       } else {
         this.selectItem(focusedItem);
       }
+    }
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTreeItem]);
+  }
+
+  #onHostFocusIn(event: FocusEvent) {
+    let itemToFocus;
+
+    if (event.target === this) {
+      itemToFocus = this.selectedItem?.checkVisibility({
+        visibilityProperty: true,
+      })
+        ? this.selectedItem
+        : this.#treeItemElements?.[0];
+    } else if (event.target instanceof GlideCoreTreeItem) {
+      itemToFocus = event.target;
+      this.privateTabIndex = -1;
+    }
+
+    this.#focusItem(itemToFocus);
+  }
+
+  #onHostFocusOut(event: FocusEvent) {
+    // If they've focused out of the tree,
+    // restore this tree's tabindex 0, so they can focus back in
+    if (
+      !event.relatedTarget ||
+      !(event.relatedTarget instanceof HTMLElement) ||
+      !this.contains(event.relatedTarget)
+    ) {
+      this.privateTabIndex = 0;
+      this.focusedItem = undefined;
     }
   }
 }
