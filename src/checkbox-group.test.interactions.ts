@@ -8,6 +8,7 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
@@ -110,4 +111,27 @@ it('enables disabled Checkboxes when `value` is set programmatically', async () 
 
   const checkbox = component.querySelector('glide-core-checkbox');
   expect(checkbox?.disabled).to.be.false;
+});
+
+it('adds values to `value` in the order they were selected or deselected', async () => {
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
+      <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
+      <glide-core-checkbox label="Three" value="three"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
+  );
+
+  const checkboxes = component.querySelectorAll('glide-core-checkbox');
+
+  await click(checkboxes[1]);
+  await click(checkboxes[2]);
+  await click(checkboxes[0]);
+  expect(component.value).to.deep.equal(['two', 'three', 'one']);
+
+  await click(checkboxes[2]);
+  expect(component.value).to.deep.equal(['two', 'one']);
+
+  await click(checkboxes[2]);
+  expect(component.value).to.deep.equal(['two', 'one', 'three']);
 });
