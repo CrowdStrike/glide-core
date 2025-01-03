@@ -1,5 +1,6 @@
 import './icon-button.js';
 import './icons/storybook.js';
+import './menu.button.js';
 import './menu.link.js';
 import './tree.item.icon-button.js';
 import './tree.js';
@@ -84,6 +85,22 @@ const meta: Meta = {
         attributeFilter: ['expanded', 'selected'],
       });
     }
+
+    context.canvasElement.addEventListener('click', (event: Event) => {
+      const isMenuLink =
+        event.target instanceof Element &&
+        event.target.closest('glide-core-menu-link');
+
+      if (isMenuLink && window.top) {
+        event.preventDefault();
+
+        // The Storybook user expects to navigate when the link is clicked but
+        // doesn't expect to be redirected to the first story. So we refresh the
+        // page to give the impression of a navigation while keeping the user
+        // on the same page.
+        window.top.location.reload();
+      }
+    });
   },
   render(arguments_) {
     return html`<glide-core-tree>
@@ -130,17 +147,17 @@ const meta: Meta = {
             slot="menu"
             placement=${arguments_['<glide-core-tree-item-menu>.placement']}
           >
-            <glide-core-menu-link label="Edit" url="/">
+            <glide-core-menu-button label="Edit">
               <glide-core-example-icon
                 slot="icon"
                 name="edit"
               ></glide-core-example-icon>
-            </glide-core-menu-link>
+            </glide-core-menu-button>
 
-            <glide-core-menu-link label="Move" url="/">
+            <glide-core-menu-link label="Share" url="/">
               <glide-core-example-icon
                 slot="icon"
-                name="move"
+                name="share"
               ></glide-core-example-icon>
             </glide-core-menu-link>
           </glide-core-tree-item-menu>
