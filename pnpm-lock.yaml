@@ -42,6 +42,9 @@ importers:
       '@rollup/plugin-commonjs':
         specifier: ^25.0.8
         version: 25.0.8(rollup@4.28.1)
+      '@storybook/addon-actions':
+        specifier: ^8.4.7
+        version: 8.4.7(storybook@8.4.7(prettier@3.4.2))
       '@storybook/addon-essentials':
         specifier: ^8.4.7
         version: 8.4.7(@types/react@18.3.12)(storybook@8.4.7(prettier@3.4.2))

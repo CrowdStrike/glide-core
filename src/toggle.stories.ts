@@ -2,6 +2,7 @@ import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreToggle from './toggle.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -9,6 +10,7 @@ const meta: Meta = {
   title: 'Toggle',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) =>
       html`<script type="ignore">
           import '@crowdstrike/glide-core/toggle.js';
@@ -17,6 +19,9 @@ const meta: Meta = {
         ${story()} `,
   ],
   parameters: {
+    actions: {
+      handles: ['change', 'input'],
+    },
     docs: {
       story: {
         autoplay: true,
@@ -46,7 +51,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input", handler: (event: Event) => void) => void',
+            '(event: "change" | "input", handler: (event: Event) => void): void',
         },
       },
       type: { name: 'function' },

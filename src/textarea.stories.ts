@@ -1,6 +1,7 @@
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreTextarea from './textarea.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -8,6 +9,7 @@ const meta: Meta = {
   title: 'Textarea',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) =>
       html`<form action="/" style="min-height: 6rem;">
         <script type="ignore">
@@ -18,6 +20,9 @@ const meta: Meta = {
       </form>`,
   ],
   parameters: {
+    actions: {
+      handles: ['change', 'input', 'invalid'],
+    },
     docs: {
       story: {
         autoplay: true,
@@ -91,7 +96,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void): void',
         },
       },
     },

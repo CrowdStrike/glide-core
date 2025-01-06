@@ -4,6 +4,7 @@ import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreInput, { SUPPORTED_TYPES } from './input.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -11,6 +12,7 @@ const meta: Meta = {
   title: 'Input',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) =>
       html`<form action="/" style="height: 4rem;">
         <script type="ignore">
@@ -21,6 +23,9 @@ const meta: Meta = {
       </form>`,
   ],
   parameters: {
+    actions: {
+      handles: ['change', 'input', 'invalid'],
+    },
     docs: {
       story: {
         autoplay: true,
@@ -130,7 +135,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", handler: (event: Event) => void) => void',
+            '(event: "change" | "input" | "invalid", handler: (event: Event) => void): void',
         },
       },
     },

@@ -7,11 +7,13 @@ import './tree.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreTreeItem from './tree.item.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   decorators: [
+    withActions,
     (story) =>
       html`<div style="max-width: 18.75rem; height: 10rem;">
         <script type="ignore">
@@ -26,6 +28,9 @@ const meta: Meta = {
       </div>`,
   ],
   parameters: {
+    actions: {
+      handles: ['selected'],
+    },
     docs: {
       story: {
         autoplay: true,
@@ -230,8 +235,7 @@ const meta: Meta = {
         category: 'Tree Item',
         type: {
           summary: 'method',
-          detail:
-            '(event: "selected", handler: (event: Event) => void) => void',
+          detail: '(event: "selected", handler: (event: Event) => void): void',
         },
       },
     },

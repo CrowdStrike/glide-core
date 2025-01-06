@@ -1,17 +1,21 @@
 import './button.js';
 import './icons/storybook.js';
 import './modal.js';
-import './modal.js';
 import './modal.tertiary-icon.js';
 import './tooltip.js';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Modal',
   tags: ['autodocs'],
+  decorators: [withActions],
   parameters: {
+    actions: {
+      handles: ['close'],
+    },
     docs: {
       story: {
         autoplay: true,
@@ -19,14 +23,20 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const button =
-      context.canvasElement.querySelector<HTMLButtonElement>(
-        'glide-core-button',
-      );
+    context.canvasElement
+      .querySelector('glide-core-button')
+      ?.addEventListener('click', () => {
+        context.canvasElement.querySelector('glide-core-modal')?.showModal();
+      });
 
-    button?.addEventListener('click', () => {
-      context.canvasElement.querySelector('glide-core-modal')?.showModal();
-    });
+    context.canvasElement
+      .querySelector('glide-core-modal')
+      ?.addEventListener('close', () => {
+        // Storybook uses event delegation on `canvasElement`. And Modal's "close"
+        // event doesn't bubble. So the event is manually dispatched. The drawback
+        // of this approach is that the event's `event.target` is incorrect.
+        context.canvasElement.dispatchEvent(new Event('close'));
+      });
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
