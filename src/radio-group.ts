@@ -246,8 +246,8 @@ export default class GlideCoreRadioGroup extends LitElement {
     return html`
       <div
         class="component"
-        @click=${this.#onClick}
-        @keydown=${this.#onKeydown}
+        @click=${this.#onComponentClick}
+        @keydown=${this.#onComponentKeydown}
         ${ref(this.#componentElementRef)}
       >
         <glide-core-private-label
@@ -428,7 +428,7 @@ export default class GlideCoreRadioGroup extends LitElement {
     radio.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  #onClick(event: MouseEvent) {
+  #onComponentClick(event: MouseEvent) {
     if (this.disabled) {
       return;
     }
@@ -462,12 +462,7 @@ export default class GlideCoreRadioGroup extends LitElement {
     }
   }
 
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreRadio]);
-  }
-
-  #onKeydown(event: KeyboardEvent) {
+  #onComponentKeydown(event: KeyboardEvent) {
     if (
       this.disabled ||
       (event.target instanceof GlideCoreRadio && event.target?.disabled)
@@ -544,6 +539,11 @@ export default class GlideCoreRadioGroup extends LitElement {
         }
       }
     }
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
+    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreRadio]);
   }
 
   #onRadioGroupFocusout(event: FocusEvent) {
