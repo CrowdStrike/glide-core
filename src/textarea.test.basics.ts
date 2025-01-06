@@ -243,7 +243,7 @@ it('has tabbable textarea', async () => {
 
   expect(component).to.have.focus;
 
-  await expect(
+  expect(
     component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
   ).to.be.equal('textarea');
 });
@@ -278,7 +278,7 @@ it('focuses the textarea when `focus()` is called', async () => {
 
   component.focus();
 
-  await expect(
+  expect(
     component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
   ).to.be.equal('textarea');
 });
@@ -290,13 +290,13 @@ it('blurs the textarea when `blur` is called', async () => {
 
   component.focus();
 
-  await expect(
+  expect(
     component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
   ).to.be.equal('textarea');
 
   component.blur();
 
-  await expect(
+  expect(
     component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
   ).to.not.equal('textarea');
 });

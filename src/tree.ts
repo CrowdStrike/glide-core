@@ -155,6 +155,20 @@ export default class GlideCoreTree extends LitElement {
     }
 
     if (
+      [
+        'ArrowRight',
+        'ArrowLeft',
+        'ArrowDown',
+        'ArrowUp',
+        'Home',
+        'End',
+      ].includes(event.key)
+    ) {
+      // Prevent page scroll.
+      event.preventDefault();
+    }
+
+    if (
       event.target &&
       event.target instanceof HTMLElement &&
       (event.target.closest('glide-core-tree-item-icon-button') ??
