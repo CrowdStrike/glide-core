@@ -196,8 +196,12 @@ const meta: Meta = {
                 stroke-linejoin="round"
               ></path>
             </svg>
-            <glide-core-menu-link label="My link" url="#">
-            </glide-core-menu-link>
+
+            <glide-core-menu-link
+              label="My link"
+              url="#"
+            ></glide-core-menu-link>
+
             <glide-core-menu-link label="My other link" url="#">
             </glide-core-menu-link>
           </glide-core-tree-item-menu>

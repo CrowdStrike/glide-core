@@ -78,6 +78,7 @@ export default class GlideCoreTreeItem extends LitElement {
         class=${classMap({
           'label-container': true,
           'prefix-icon': this.hasPrefixIcon,
+          selected: this.selected,
         })}
         tabindex="-1"
         @focusout=${this.#onFocusOut}
@@ -118,7 +119,14 @@ export default class GlideCoreTreeItem extends LitElement {
           @slotchange=${this.#onPrefixSlotChange}
         ></slot>
 
-        <div class="label">${this.label}</div>
+        <div
+          class=${classMap({
+            label: true,
+            'prefix-icon': this.hasPrefixIcon,
+          })}
+        >
+          ${this.label}
+        </div>
 
         <div class="icon-container">
           <slot
@@ -131,7 +139,13 @@ export default class GlideCoreTreeItem extends LitElement {
         </div>
       </div>
 
-      <div class="child-items" role="group">
+      <div
+        class=${classMap({
+          'default-slot-container': true,
+          expanded: this.expanded,
+        })}
+        role="group"
+      >
         <slot
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
