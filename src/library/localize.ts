@@ -21,9 +21,7 @@ export interface Translation extends DefaultTranslation {
 
   close: string;
   dismiss: string;
-  open: string;
   selectAll: string;
-  moreInformation: string;
   notifications: string;
   nextTab: string;
   previousTab: string;

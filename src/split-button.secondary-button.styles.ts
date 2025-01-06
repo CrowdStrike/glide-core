@@ -34,8 +34,11 @@ export default [
         border-block-color: transparent;
         border-inline-end-color: transparent;
         border-inline-start-color: var(--glide-core-border-base-light);
-        color: var(--glide-core-text-tertiary-disabled);
         cursor: not-allowed;
+
+        svg {
+          color: var(--glide-core-text-tertiary-disabled);
+        }
       }
 
       &:focus {
@@ -77,7 +80,7 @@ export default [
         border-color: transparent;
         color: var(--glide-core-text-selected);
 
-        .chevron {
+        svg {
           color: var(--glide-core-icon-selected);
         }
       }
@@ -94,14 +97,8 @@ export default [
         /* So the box shadow isn't covered up by the primary button. */
         z-index: 1;
       }
-    }
 
-    .chevron {
-      &.disabled {
-        color: var(--glide-core-icon-tertiary-disabled);
-      }
-
-      &:not(.disabled) {
+      svg {
         color: var(--glide-core-icon-primary);
       }
     }

@@ -37,9 +37,6 @@ export default class GlideCoreRadioGroup extends LitElement {
 
   static override styles = styles;
 
-  @property()
-  description = '';
-
   @property({ reflect: true, type: Boolean })
   get disabled() {
     return this.#isDisabled;
@@ -179,12 +176,12 @@ export default class GlideCoreRadioGroup extends LitElement {
     }
   }
 
-  override focus(options?: FocusOptions): void {
-    const radioToFocus =
+  override focus(options?: FocusOptions) {
+    const radio =
       this.#radios.find(({ checked, disabled }) => checked && !disabled) ??
       this.#radios.find(({ tabIndex }) => tabIndex === 0);
 
-    radioToFocus?.focus(options);
+    radio?.focus(options);
   }
 
   get form() {

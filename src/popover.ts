@@ -195,10 +195,10 @@ export default class GlideCorePopover extends LitElement {
             ${ref(this.#arrowElementRef)}
           >
             ${choose(this.effectivePlacement, [
-              ['top', () => arrows.top],
-              ['right', () => arrows.right],
-              ['bottom', () => arrows.bottom],
-              ['left', () => arrows.left],
+              ['top', () => icons.topArrow],
+              ['right', () => icons.rightArrow],
+              ['bottom', () => icons.bottomArrow],
+              ['left', () => icons.leftArrow],
             ])}
           </div>
 
@@ -382,248 +382,256 @@ export default class GlideCorePopover extends LitElement {
   }
 }
 
-const arrows = {
-  top: html`<svg aria-hidden="true" viewBox="0 0 16 9" fill="none">
-    <mask
-      id="mask0_13064_691"
-      style="mask-type:alpha"
-      maskUnits="userSpaceOnUse"
-      x="0"
-      y="0"
-    >
-      <path
-        d="M16 6.99382e-07V9L0 9L3.93402e-07 0L16 6.99382e-07Z"
-        fill="#D9D9D9"
-      />
-    </mask>
-    <g mask="url(#mask0_13064_691)">
-      <g filter="url(#filter0_d_13064_691)">
-        <path
-          d="M8.76822 5.603C8.36842 6.13234 7.63157 6.13233 7.23178 5.60299L3 0L13 9.19407e-07L8.76822 5.603Z"
-          fill="currentColor"
-        />
-      </g>
-    </g>
-    <defs>
-      <filter
-        id="filter0_d_13064_691"
-        x="2"
+const icons = {
+  topArrow: html`
+    <svg aria-hidden="true" viewBox="0 0 16 9" fill="none">
+      <mask
+        id="mask0_13064_691"
+        style="mask-type:alpha"
+        maskUnits="userSpaceOnUse"
+        x="0"
         y="0"
-        width="12"
-        height="10"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
-        <feColorMatrix
-          in="SourceAlpha"
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          result="hardAlpha"
-        />
-        <feOffset dy="3" />
-        <feGaussianBlur stdDeviation="0.5" />
-        <feComposite in2="hardAlpha" operator="out" />
-        <feColorMatrix
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
-        />
-        <feBlend
-          mode="normal"
-          in2="BackgroundImageFix"
-          result="effect1_dropShadow_13064_691"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="effect1_dropShadow_13064_691"
-          result="shape"
-        />
-      </filter>
-    </defs>
-  </svg>`,
-  right: html`<svg aria-hidden="true" viewBox="0 0 9 16" fill="none">
-    <mask
-      id="mask0_13064_688"
-      style="mask-type:alpha"
-      maskUnits="userSpaceOnUse"
-      x="0"
-      y="0"
-    >
-      <path d="M9 16H1.39876e-06L0 7.86805e-07L9 0L9 16Z" fill="#D9D9D9" />
-    </mask>
-    <g mask="url(#mask0_13064_688)">
-      <g filter="url(#filter0_d_13064_688)">
         <path
-          d="M3.397 8.76822C2.86766 8.36843 2.86767 7.63157 3.39701 7.23178L9 3V13L3.397 8.76822Z"
-          fill="currentColor"
+          d="M16 6.99382e-07V9L0 9L3.93402e-07 0L16 6.99382e-07Z"
+          fill="#D9D9D9"
         />
+      </mask>
+      <g mask="url(#mask0_13064_691)">
+        <g filter="url(#filter0_d_13064_691)">
+          <path
+            d="M8.76822 5.603C8.36842 6.13234 7.63157 6.13233 7.23178 5.60299L3 0L13 9.19407e-07L8.76822 5.603Z"
+            fill="currentColor"
+          />
+        </g>
       </g>
-    </g>
-    <defs>
-      <filter
-        id="filter0_d_13064_688"
-        x="2"
-        y="3"
-        width="8"
-        height="14"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
+      <defs>
+        <filter
+          id="filter0_d_13064_691"
+          x="2"
+          y="0"
+          width="0.75rem"
+          height="0.625rem"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dy="3" />
+          <feGaussianBlur stdDeviation="0.5" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_13064_691"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_13064_691"
+            result="shape"
+          />
+        </filter>
+      </defs>
+    </svg>
+  `,
+  rightArrow: html`
+    <svg aria-hidden="true" viewBox="0 0 9 16" fill="none">
+      <mask
+        id="mask0_13064_688"
+        style="mask-type:alpha"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
-        <feColorMatrix
-          in="SourceAlpha"
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          result="hardAlpha"
-        />
-        <feOffset dy="3" />
-        <feGaussianBlur stdDeviation="0.5" />
-        <feComposite in2="hardAlpha" operator="out" />
-        <feColorMatrix
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
-        />
-        <feBlend
-          mode="normal"
-          in2="BackgroundImageFix"
-          result="effect1_dropShadow_13064_688"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="effect1_dropShadow_13064_688"
-          result="shape"
-        />
-      </filter>
-    </defs>
-  </svg>`,
-  bottom: html`<svg aria-hidden="true" viewBox="0 0 16 9" fill="none">
-    <mask
-      id="mask0_13064_685"
-      style="mask-type:alpha"
-      maskUnits="userSpaceOnUse"
-      x="0"
-      y="0"
-    >
-      <path d="M0 9L1.07324e-07 0L16 1.90798e-07V9H0Z" fill="#D9D9D9" />
-    </mask>
-    <g mask="url(#mask0_13064_685)">
-      <g filter="url(#filter0_dd_13064_685)">
-        <path
-          d="M7.23178 3.397C7.63157 2.86766 8.36843 2.86767 8.76822 3.39701L13 9L3 9L7.23178 3.397Z"
-          fill="currentColor"
-        />
+        <path d="M9 16H1.39876e-06L0 7.86805e-07L9 0L9 16Z" fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#mask0_13064_688)">
+        <g filter="url(#filter0_d_13064_688)">
+          <path
+            d="M3.397 8.76822C2.86766 8.36843 2.86767 7.63157 3.39701 7.23178L9 3V13L3.397 8.76822Z"
+            fill="currentColor"
+          />
+        </g>
       </g>
-    </g>
-    <defs>
-      <filter
-        id="filter0_dd_13064_685"
-        x="-5"
-        y="-2"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
+      <defs>
+        <filter
+          id="filter0_d_13064_688"
+          x="2"
+          y="3"
+          width="0.5rem"
+          height="0.875rem"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dy="3" />
+          <feGaussianBlur stdDeviation="0.5" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_13064_688"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_13064_688"
+            result="shape"
+          />
+        </filter>
+      </defs>
+    </svg>
+  `,
+  bottomArrow: html`
+    <svg aria-hidden="true" viewBox="0 0 16 9" fill="none">
+      <mask
+        id="mask0_13064_685"
+        style="mask-type:alpha"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
-        <feColorMatrix
-          in="SourceAlpha"
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          result="hardAlpha"
-        />
-        <feOffset dy="3" />
-        <feGaussianBlur stdDeviation="4" />
-        <feComposite in2="hardAlpha" operator="out" />
-        <feColorMatrix
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
-        />
-        <feBlend
-          mode="normal"
-          in2="BackgroundImageFix"
-          result="effect1_dropShadow_13064_685"
-        />
-        <feColorMatrix
-          in="SourceAlpha"
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          result="hardAlpha"
-        />
-        <feOffset dy="-1" />
-        <feGaussianBlur stdDeviation="1" />
-        <feComposite in2="hardAlpha" operator="out" />
-        <feColorMatrix
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
-        />
-        <feBlend
-          mode="normal"
-          in2="effect1_dropShadow_13064_685"
-          result="effect2_dropShadow_13064_685"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="effect2_dropShadow_13064_685"
-          result="shape"
-        />
-      </filter>
-    </defs>
-  </svg>`,
-  left: html`<svg aria-hidden="true" viewBox="0 0 9 16" fill="none">
-    <mask
-      id="mask0_12969_88361"
-      style="mask-type:alpha"
-      maskUnits="userSpaceOnUse"
-      x="0"
-      y="0"
-    >
-      <path d="M0 0H9V16H0V0Z" fill="#D9D9D9" />
-    </mask>
-    <g mask="url(#mask0_12969_88361)">
-      <g filter="url(#filter0_d_12969_88361)">
-        <path
-          d="M5.603 7.23178C6.13234 7.63157 6.13233 8.36843 5.60299 8.76822L0 13L4.82293e-07 3L5.603 7.23178Z"
-          fill="currentColor"
-        />
+        <path d="M0 9L1.07324e-07 0L16 1.90798e-07V9H0Z" fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#mask0_13064_685)">
+        <g filter="url(#filter0_dd_13064_685)">
+          <path
+            d="M7.23178 3.397C7.63157 2.86766 8.36843 2.86767 8.76822 3.39701L13 9L3 9L7.23178 3.397Z"
+            fill="currentColor"
+          />
+        </g>
       </g>
-    </g>
-    <defs>
-      <filter
-        id="filter0_d_12969_88361"
-        x="-1"
-        y="3"
-        width="8"
-        height="14"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
+      <defs>
+        <filter
+          id="filter0_dd_13064_685"
+          x="-5"
+          y="-2"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dy="3" />
+          <feGaussianBlur stdDeviation="4" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_13064_685"
+          />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dy="-1" />
+          <feGaussianBlur stdDeviation="1" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="effect1_dropShadow_13064_685"
+            result="effect2_dropShadow_13064_685"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect2_dropShadow_13064_685"
+            result="shape"
+          />
+        </filter>
+      </defs>
+    </svg>
+  `,
+  leftArrow: html`
+    <svg aria-hidden="true" viewBox="0 0 9 16" fill="none">
+      <mask
+        id="mask0_12969_88361"
+        style="mask-type:alpha"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
       >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
-        <feColorMatrix
-          in="SourceAlpha"
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-          result="hardAlpha"
-        />
-        <feOffset dy="3" />
-        <feGaussianBlur stdDeviation="0.5" />
-        <feComposite in2="hardAlpha" operator="out" />
-        <feColorMatrix
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
-        />
-        <feBlend
-          mode="normal"
-          in2="BackgroundImageFix"
-          result="effect1_dropShadow_12969_88361"
-        />
-        <feBlend
-          mode="normal"
-          in="SourceGraphic"
-          in2="effect1_dropShadow_12969_88361"
-          result="shape"
-        />
-      </filter>
-    </defs>
-  </svg>`,
+        <path d="M0 0H9V16H0V0Z" fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#mask0_12969_88361)">
+        <g filter="url(#filter0_d_12969_88361)">
+          <path
+            d="M5.603 7.23178C6.13234 7.63157 6.13233 8.36843 5.60299 8.76822L0 13L4.82293e-07 3L5.603 7.23178Z"
+            fill="currentColor"
+          />
+        </g>
+      </g>
+      <defs>
+        <filter
+          id="filter0_d_12969_88361"
+          x="-1"
+          y="3"
+          width="0.5rem"
+          height="0.875rem"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset dy="3" />
+          <feGaussianBlur stdDeviation="0.5" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_12969_88361"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_12969_88361"
+            result="shape"
+          />
+        </filter>
+      </defs>
+    </svg>
+  `,
 };

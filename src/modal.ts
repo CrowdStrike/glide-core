@@ -4,12 +4,14 @@ import { LocalizeController } from './library/localize.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreButton from './button.js';
 import GlideCoreModalIconButton from './modal.icon-button.js';
 import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
 import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './modal.styles.js';
+import xIcon from './icons/x.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -161,24 +163,12 @@ export default class GlideCoreModal extends LitElement {
             this.backButton,
             () =>
               html`<glide-core-modal-icon-button
+                aria-label=${this.#localize.term('dismiss')}
                 class="back-button"
                 data-test="back-button"
                 @click=${this.#onCloseButtonClick}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <title>${this.#localize.term('dismiss')}</title>
-                  <path
-                    d="M12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20V18ZM20 14.5C20 16.433 18.433 18 16.5 18V20C19.5376 20 22 17.5376 22 14.5H20ZM16.5 11C18.433 11 20 12.567 20 14.5H22C22 11.4624 19.5376 9 16.5 9V11ZM16.5 18H12V20H16.5V18ZM16.5 9H3V11H16.5V9Z"
-                    fill="currentColor"
-                  />
-                  <path
-                    d="M7 6L3 10L7 14"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
+                ${icons.back}
               </glide-core-modal-icon-button>`,
           )}
           ${this.label}
@@ -192,27 +182,12 @@ export default class GlideCoreModal extends LitElement {
           ></slot>
 
           <glide-core-modal-icon-button
+            aria-label=${this.#localize.term('close')}
             class="close-button"
             data-test="close-button"
             @click=${this.#onCloseButtonClick}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <title>${this.#localize.term('close')}</title>
-              <path
-                d="M6 6L18 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M18 6L6 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            ${xIcon}
           </glide-core-modal-icon-button>
         </div>
       </header>
@@ -413,3 +388,28 @@ export default class GlideCoreModal extends LitElement {
     ]);
   }
 }
+
+const icons = {
+  back: html`
+    <svg
+      style=${styleMap({
+        height: '1.25rem',
+        width: '1.25rem',
+      })}
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="M12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20V18ZM20 14.5C20 16.433 18.433 18 16.5 18V20C19.5376 20 22 17.5376 22 14.5H20ZM16.5 11C18.433 11 20 12.567 20 14.5H22C22 11.4624 19.5376 9 16.5 9V11ZM16.5 18H12V20H16.5V18ZM16.5 9H3V11H16.5V9Z"
+        fill="currentColor"
+      />
+      <path
+        d="M7 6L3 10L7 14"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  `,
+};

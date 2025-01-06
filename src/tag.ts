@@ -6,6 +6,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import pencilIcon from './icons/pencil.js';
 import styles from './tag.styles.js';
+import xIcon from './icons/x.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -94,8 +95,8 @@ export default class GlideCoreTag extends LitElement {
               disabled: this.disabled,
             })}
             data-test="edit-button"
-            ?disabled=${this.disabled}
             type="button"
+            ?disabled=${this.disabled}
             @click=${this.#onEditButtonClick}
             @keydown=${this.#onEditButtonKeydown}
           >
@@ -119,15 +120,7 @@ export default class GlideCoreTag extends LitElement {
               @keydown=${this.#onRemovalButtonKeydown}
               ${ref(this.#removalButtonElementRef)}
             >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path
-                  d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
-                  stroke="currentColor"
-                  stroke-width="1.2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              ${xIcon}
             </button>`,
         )}
       </div>

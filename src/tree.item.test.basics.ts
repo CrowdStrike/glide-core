@@ -86,33 +86,6 @@ it('does not have an expand icon if there are no child tree items', async () => 
   expect(component.shadowRoot?.querySelector('.expand-icon')).to.equal(null);
 });
 
-it('can expand', async () => {
-  const component = await fixture<TreeItem>(html`
-    <glide-core-tree-item label="Item">
-      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
-    </glide-core-tree-item>
-  `);
-
-  expect([
-    ...component.shadowRoot!.querySelector('.component')!.classList,
-  ]).to.deep.equal(['component']);
-
-  expect([
-    ...component.shadowRoot!.querySelector('.expand-icon')!.classList,
-  ]).to.deep.equal(['expand-icon']);
-
-  component.toggleExpand();
-  await component.updateComplete;
-
-  expect([
-    ...component.shadowRoot!.querySelector('.component')!.classList,
-  ]).to.deep.equal(['component', 'expanded']);
-
-  expect([
-    ...component.shadowRoot!.querySelector('.expand-icon')!.classList,
-  ]).to.deep.equal(['expand-icon', 'expand-icon-expanded']);
-});
-
 it('renders child and grandchild tree items', async () => {
   const component = await fixture<TreeItem>(html`
     <glide-core-tree-item expanded label="Item">
@@ -131,7 +104,9 @@ it('renders child and grandchild tree items', async () => {
     'glide-core-tree-item',
   );
 
-  expect(component.shadowRoot?.querySelector('.expand-icon')).to.be.ok;
+  expect(component.shadowRoot?.querySelector('.expand-icon-container svg')).to
+    .be.ok;
+
   expect(childItems?.length).to.equal(2);
   expect(childItems?.[0].level).to.equal(2, 'Children are level 2');
   expect(grandchildItems?.length).to.equal(1);

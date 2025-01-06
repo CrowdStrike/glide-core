@@ -9,9 +9,7 @@ const translation: Translation = {
   // using ICU message syntax in place of any of dynamic functions
   close: 'Close',
   dismiss: 'Dismiss',
-  open: 'Open',
   selectAll: 'Select all',
-  moreInformation: 'More information',
   notifications: 'Notifications',
   nextTab: 'Next tab',
   previousTab: 'Previous tab',

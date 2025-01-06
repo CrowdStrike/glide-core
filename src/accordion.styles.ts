@@ -40,6 +40,23 @@ export default [
       &.active {
         padding-block-end: var(--glide-core-spacing-xxs);
       }
+
+      &.open {
+        svg {
+          rotate: 0deg;
+        }
+      }
+
+      svg {
+        align-items: center;
+        display: flex;
+        margin-inline-end: var(--glide-core-spacing-xxs);
+        rotate: -90deg;
+
+        @media (prefers-reduced-motion: no-preference) {
+          transition: 250ms rotate ease;
+        }
+      }
     }
 
     .label-container {
@@ -55,21 +72,6 @@ export default [
       display: block;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-
-    .chevron {
-      align-items: center;
-      display: flex;
-      margin-inline-end: var(--glide-core-spacing-xxs);
-      rotate: -90deg;
-
-      &.unrotated {
-        rotate: 0deg;
-      }
-
-      @media (prefers-reduced-motion: no-preference) {
-        transition: 250ms rotate ease;
-      }
     }
 
     .default-slot {

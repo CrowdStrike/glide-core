@@ -44,6 +44,7 @@ const meta: Meta = {
     maxlength: '',
     name: '',
     orientation: 'horizontal',
+    'password-toggle': false,
     pattern: '',
     placeholder: 'Placeholder',
     readonly: false,
@@ -105,7 +106,7 @@ const meta: Meta = {
         ?clearable=${arguments_.clearable}
         ?disabled=${arguments_.disabled}
         ?hide-label=${arguments_['hide-label']}
-        ?password-toggle=${arguments_.passwordToggle}
+        ?password-toggle=${arguments_['password-toggle']}
         ?required=${arguments_.required}
         ?readonly=${arguments_.readonly}
       >
@@ -210,6 +211,12 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '"horizontal"' },
         type: { summary: '"horizontal" | "vertical"' },
+      },
+    },
+    'password-toggle': {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
       },
     },
     pattern: {
@@ -347,7 +354,7 @@ export const WithIcons: StoryObj = {
         ?clearable=${arguments_.clearable}
         ?disabled=${arguments_.disabled}
         ?hide-label=${arguments_['hide-label']}
-        ?password-toggle=${arguments_.passwordToggle || nothing}
+        ?password-toggle=${arguments_['password-toggle']}
         ?required=${arguments_.required}
         ?readonly=${arguments_.readonly}
       >

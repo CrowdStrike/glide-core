@@ -34,13 +34,6 @@ export default [
           scroll-behavior: smooth;
         }
 
-        /* "-webkit-scrollbar" is needed for Safari */
-
-        &::-webkit-scrollbar {
-          block-size: 0;
-          inline-size: 0;
-        }
-
         &::after {
           background: var(--glide-core-border-focus);
           block-size: 0.125rem;
@@ -65,18 +58,31 @@ export default [
       }
 
       & .overflow {
+        --size: 1.125rem;
+
+        align-items: center;
         background-color: transparent;
         border: none;
         color: var(--glide-core-icon-default);
         cursor: pointer;
+        display: flex;
         flex-shrink: 0;
         inline-size: 1.875rem;
+        justify-content: center;
         margin: 0;
         outline: none;
         padding: 0;
 
         &.disabled {
           color: var(--glide-core-icon-tertiary-disabled);
+        }
+
+        &.left {
+          transform: rotate(90deg);
+        }
+
+        &.right {
+          transform: rotate(-90deg);
         }
       }
     }
