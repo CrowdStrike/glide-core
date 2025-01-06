@@ -32,15 +32,15 @@ export default [
         color: var(--glide-core-text-tertiary-disabled);
         pointer-events: none;
       }
+    }
 
-      & .container {
-        align-items: center;
-        border-radius: 0.0625rem;
-        display: flex;
-        flex-shrink: 0;
-        gap: var(--glide-core-spacing-xs);
-        white-space: nowrap;
-      }
+    .container {
+      align-items: center;
+      border-radius: 0.0625rem;
+      display: flex;
+      flex-shrink: 0;
+      gap: var(--glide-core-spacing-xs);
+      white-space: nowrap;
     }
   `,
 ];

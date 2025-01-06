@@ -84,8 +84,8 @@ export default class GlideCoreTabGroup extends LitElement {
             <button
               style="height: ${this.#tabListElementRef.value?.clientHeight}px"
               class=${classMap({
-                overflow: true,
-                left: true,
+                'overflow-button': true,
+                start: true,
                 disabled: this.isDisableOverflowStartButton,
               })}
               @click=${this.#onClickOverflowStartButton}
@@ -122,8 +122,8 @@ export default class GlideCoreTabGroup extends LitElement {
             <button
               style="height: ${this.#tabListElementRef.value?.clientHeight}px"
               class=${classMap({
-                overflow: true,
-                right: true,
+                'overflow-button': true,
+                end: true,
                 disabled: this.isDisableOverflowEndButton,
               })}
               @click=${this.#onClickOverflowEndButton}
