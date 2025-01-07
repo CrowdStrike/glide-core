@@ -1,20 +1,30 @@
 import './button.js';
 import './icons/storybook.js';
-import './modal.js';
 import './modal.tertiary-icon.js';
 import './tooltip.js';
+import { UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
+import GlideCoreModal from './modal.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Modal',
   tags: ['autodocs'],
-  decorators: [withActions],
+  decorators: [
+    withActions,
+    (story) => {
+      return html`
+        ${story()}
+        <glide-core-button label="Open"></glide-core-button>
+      `;
+    },
+  ],
   parameters: {
     actions: {
-      handles: ['close'],
+      handles: ['toggle'],
     },
     docs: {
       story: {
@@ -24,19 +34,34 @@ const meta: Meta = {
   },
   play(context) {
     context.canvasElement
-      .querySelector('glide-core-button')
+      .querySelector('glide-core-modal ~ glide-core-button')
       ?.addEventListener('click', () => {
-        context.canvasElement.querySelector('glide-core-modal')?.showModal();
+        const modal = context.canvasElement.querySelector('glide-core-modal');
+
+        if (modal) {
+          modal.open = true;
+        }
       });
 
-    context.canvasElement
-      .querySelector('glide-core-modal')
-      ?.addEventListener('close', () => {
-        // Storybook uses event delegation on `canvasElement`. And Modal's "close"
-        // event doesn't bubble. So the event is manually dispatched. The drawback
-        // of this approach is that the event's `event.target` is incorrect.
-        context.canvasElement.dispatchEvent(new Event('close'));
+    const modal = context.canvasElement.querySelector('glide-core-modal');
+
+    const observer = new MutationObserver(() => {
+      if (modal instanceof GlideCoreModal) {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            open: modal.open,
+          },
+        });
+      }
+    });
+
+    if (modal) {
+      observer.observe(modal, {
+        attributes: true,
+        attributeFilter: ['open'],
       });
+    }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -45,12 +70,11 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/modal.js';
       </script>
 
-      <glide-core-button label="Open"></glide-core-button>
-
       <glide-core-modal
         label=${arguments_.label || nothing}
         size=${arguments_.size}
         ?back-button=${arguments_['back-button']}
+        ?open=${arguments_.open}
       >
         ${unsafeHTML(arguments_['slot="default"'])}
 
@@ -69,8 +93,7 @@ const meta: Meta = {
     'slot="default"': 'Content',
     'addEventListener(event, handler)': '',
     'back-button': false,
-    'close()': '',
-    'showModal()': '',
+    open: false,
     size: 'medium',
     'slot="header-actions"': '',
     'slot="primary"': '',
@@ -95,7 +118,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "close", handler: (event: Event)) => void) => void',
+          detail: '(event: "toggle", handler: (event: Event)) => void): void',
         },
       },
     },
@@ -104,27 +127,8 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: 'false' },
         type: {
-          detail:
-            '// Adds a button to the header that will close Modal on click',
+          detail: '// Adds a button to the header that closes Modal on click',
           summary: 'boolean',
-        },
-      },
-    },
-    'close()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
-    'showModal()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
         },
       },
     },
@@ -187,9 +191,11 @@ export const WithHeaderActions: StoryObj = {
         import '@crowdstrike/glide-core/modal.icon-button.js';
       </script>
 
-      <glide-core-button label="Open"></glide-core-button>
-
-      <glide-core-modal label=${arguments_.label}>
+      <glide-core-modal
+        label=${arguments_.label}
+        ?back-button="${arguments_['back-button']}"
+        ?open=${arguments_.open}
+      >
         ${arguments_['slot="default"']}
 
         <glide-core-button
@@ -218,9 +224,11 @@ export const WithTertiaryButton: StoryObj = {
         import '@crowdstrike/glide-core/modal.js';
       </script>
 
-      <glide-core-button label="Open"></glide-core-button>
-
-      <glide-core-modal label=${arguments_.label}>
+      <glide-core-modal
+        label=${arguments_.label}
+        ?back-button="${arguments_['back-button']}"
+        ?open=${arguments_.open}
+      >
         ${arguments_['slot="default"']}
 
         <glide-core-button label="Primary" slot="primary"></glide-core-button>
@@ -249,9 +257,11 @@ export const WithTertiaryIconAndButton: StoryObj = {
         import '@crowdstrike/glide-core/modal.tertiary-icon.js';
       </script>
 
-      <glide-core-button label="Open"></glide-core-button>
-
-      <glide-core-modal label=${arguments_.label}>
+      <glide-core-modal
+        label=${arguments_.label}
+        ?back-button="${arguments_['back-button']}"
+        ?open=${arguments_.open}
+      >
         ${arguments_['slot="default"']}
 
         <glide-core-button label="Primary" slot="primary"></glide-core-button>
@@ -263,8 +273,8 @@ export const WithTertiaryIconAndButton: StoryObj = {
         ></glide-core-button>
 
         <glide-core-modal-tertiary-icon
-          slot="tertiary"
           label="Information"
+          slot="tertiary"
           tooltip-placement="right"
         >
           <glide-core-example-icon name="info"></glide-core-example-icon>

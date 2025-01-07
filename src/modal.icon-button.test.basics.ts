@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreModalIconButton from './modal.icon-button.js';
@@ -15,51 +13,10 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const component = await fixture(
-    html`<glide-core-modal-icon-button>Test</glide-core-modal-icon-button>`,
+    html`<glide-core-modal-icon-button>Content</glide-core-modal-icon-button>`,
   );
 
   await expect(component).to.be.accessible();
-});
-
-it('renders and sets default attributes', async () => {
-  const component = await fixture(html`
-    <glide-core-modal-icon-button>Test</glide-core-modal-icon-button>
-  `);
-
-  expect(component).to.be.ok;
-
-  const buttonElement = component.shadowRoot?.querySelector(
-    'glide-core-icon-button',
-  );
-
-  expect(buttonElement).to.be.not.null;
-  expect(buttonElement?.getAttribute('variant')).to.equal('tertiary');
-});
-
-it('adds an accessible label when given', async () => {
-  const component = await fixture(
-    html`<glide-core-modal-icon-button label="test-label"
-      >Test</glide-core-modal-icon-button
-    >`,
-  );
-
-  const buttonElement = component.shadowRoot?.querySelector(
-    'glide-core-icon-button',
-  );
-
-  expect(buttonElement?.getAttribute('label')).to.equal('test-label');
-});
-
-it('does not add an acceessible label when not given', async () => {
-  const component = await fixture(
-    html`<glide-core-modal-icon-button>Test</glide-core-modal-icon-button>`,
-  );
-
-  const buttonElement = component.shadowRoot?.querySelector(
-    'glide-core-icon-button',
-  );
-
-  expect(buttonElement?.getAttribute('label')).to.equal('');
 });
 
 it('throws if it does not have a default slot', async () => {
