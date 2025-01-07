@@ -1,7 +1,8 @@
-import { LitElement, html, nothing } from 'lit';
+import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { owSlot } from './library/ow.js';
 import styles from './drawer.styles.js';
 
@@ -28,10 +29,10 @@ export default class GlideCoreDrawer extends LitElement {
 
   static override styles = styles;
 
-  @property()
-  label = '';
+  @property({ reflect: true })
+  label?: string;
 
-  @property({ type: Boolean })
+  @property({ reflect: true, type: Boolean })
   pinned = false;
 
   @property({ reflect: true, type: Boolean })
@@ -148,7 +149,7 @@ export default class GlideCoreDrawer extends LitElement {
   override render() {
     return html`
       <aside
-        aria-label=${this.label || nothing}
+        aria-label=${ifDefined(this.label)}
         class=${classMap({ component: true, pinned: this.pinned })}
         data-test="component"
         tabindex="-1"

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './drawer.js';
+import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
-import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
 import sinon from 'sinon';
 
@@ -46,9 +46,10 @@ it('does not dispatch a "toggle" event when already open', async () => {
   );
 
   const spy = sinon.spy();
-
   component.addEventListener('toggle', spy);
+
   component.open = true;
+  await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
 });
@@ -61,9 +62,10 @@ it('does not dispatch a "toggle" event when already closed', async () => {
   );
 
   const spy = sinon.spy();
-
   component.addEventListener('toggle', spy);
+
   component.open = false;
+  await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
 });
