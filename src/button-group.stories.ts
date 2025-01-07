@@ -4,6 +4,7 @@ import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { when } from 'lit/directives/when.js';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreButton from './button-group.button.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -11,6 +12,7 @@ const meta: Meta = {
   title: 'Button Group',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) => html`
       <script type="ignore">
         import '@crowdstrike/glide-core/button-group.js';
@@ -21,6 +23,9 @@ const meta: Meta = {
     `,
   ],
   parameters: {
+    actions: {
+      handles: ['selected'],
+    },
     docs: {
       story: {
         autoplay: true,
@@ -190,8 +195,7 @@ const meta: Meta = {
         category: 'Button Group Button',
         type: {
           summary: 'method',
-          detail:
-            '(event: "selected", handler: (event: Event) => void) => void',
+          detail: '(event: "selected", handler: (event: Event) => void): void',
         },
       },
     },

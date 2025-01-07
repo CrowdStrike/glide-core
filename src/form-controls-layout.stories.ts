@@ -4,6 +4,7 @@ import './radio-group.radio.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreInput from './input.js';
@@ -14,6 +15,7 @@ const meta: Meta = {
   title: 'Form Controls Layout',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) =>
       html`<form action="/" style="height: 16rem;">
         <script type="ignore">
@@ -24,6 +26,9 @@ const meta: Meta = {
       </form>`,
   ],
   parameters: {
+    actions: {
+      handles: ['change', 'input', 'invalid'],
+    },
     docs: {
       story: {
         autoplay: true,

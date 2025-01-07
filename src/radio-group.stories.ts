@@ -3,6 +3,7 @@ import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -11,6 +12,7 @@ const meta: Meta = {
   title: 'Radio Group',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) =>
       html`<form action="/">
         <script type="ignore">
@@ -22,6 +24,9 @@ const meta: Meta = {
       </form>`,
   ],
   parameters: {
+    actions: {
+      handles: ['change', 'input', 'invalid'],
+    },
     docs: {
       story: {
         autoplay: true,

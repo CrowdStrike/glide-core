@@ -6,6 +6,7 @@ import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreTab from './tab.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -13,6 +14,7 @@ const meta: Meta = {
   title: 'Tab Group',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) => html`
       <script type="ignore">
         import '@crowdstrike/glide-core/tab.group.js';
@@ -24,6 +26,9 @@ const meta: Meta = {
     `,
   ],
   parameters: {
+    actions: {
+      handles: ['selected'],
+    },
     docs: {
       story: {
         autoplay: true,
@@ -241,8 +246,7 @@ const meta: Meta = {
         category: 'Tab',
         type: {
           summary: 'method',
-          detail:
-            '(event: "selected", handler: (event: Event) => void) => void',
+          detail: '(event: "selected", handler: (event: Event) => void): void',
         },
       },
     },

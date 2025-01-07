@@ -1,12 +1,14 @@
 import './icons/storybook.js';
 import './tag.js';
 import { html, nothing } from 'lit';
+import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Tag',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) => html`
       <script type="ignore">
         import '@crowdstrike/glide-core/tag.js';
@@ -15,6 +17,11 @@ const meta: Meta = {
       ${story()}
     `,
   ],
+  parameters: {
+    actions: {
+      handles: ['remove'],
+    },
+  },
   render(arguments_) {
     return html`
       <glide-core-tag
@@ -46,7 +53,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "remove", handler: (event: Event) => void) => void',
+          detail: '(event: "remove", handler: (event: Event) => void): void',
         },
       },
     },

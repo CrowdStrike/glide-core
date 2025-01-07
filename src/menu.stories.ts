@@ -7,6 +7,7 @@ import './menu.options.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreMenu from './menu.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -14,6 +15,7 @@ const meta: Meta = {
   title: 'Menu',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) =>
       html`<script type="ignore">
           import '@crowdstrike/glide-core/menu.js';
@@ -25,6 +27,11 @@ const meta: Meta = {
         ${story()}`,
   ],
   parameters: {
+    actions: {
+      // Menu Button and Link are selected so "click" events from Menu's target
+      // aren't picked up, muddying the Actions tab.
+      handles: ['click glide-core-menu-button', 'click glide-core-menu-link'],
+    },
     docs: {
       story: {
         autoplay: true,

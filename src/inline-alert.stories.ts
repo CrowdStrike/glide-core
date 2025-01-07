@@ -1,11 +1,13 @@
 import './inline-alert.js';
 import { html } from 'lit';
+import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Inline Alert',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) => html`
       <div style="height: 6rem;">
         <script type="ignore">
@@ -16,6 +18,11 @@ const meta: Meta = {
       </div>
     `,
   ],
+  parameters: {
+    actions: {
+      handles: ['remove'],
+    },
+  },
   args: {
     'slot="default"': 'Content',
     'addEventListener(event, handler)': '',
@@ -34,7 +41,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "remove", handler: (event: Event) => void) => void',
+          detail: '(event: "remove", handler: (event: Event) => void): void',
         },
       },
     },

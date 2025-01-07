@@ -5,24 +5,30 @@ import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreDrawer from './drawer.js';
 import ow from './library/ow.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   decorators: [
-    (story) =>
-      html`<div style="height: 12.5rem;">
+    withActions,
+    (story) => html`
+      <div style="height: 12.5rem;">
         <script type="ignore">
           import '@crowdstrike/glide-core/drawer.js';
         </script>
 
         ${story()}
-      </div>`,
+      </div>
+    `,
   ],
   title: 'Drawer',
   tags: ['autodocs'],
   parameters: {
+    actions: {
+      handles: ['close'],
+    },
     docs: {
       story: {
         autoplay: true,
