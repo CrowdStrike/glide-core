@@ -21,6 +21,7 @@ it('dispatches a "toggle" event on open', async () => {
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('dispatches a "toggle" event on close', async () => {
@@ -36,6 +37,7 @@ it('dispatches a "toggle" event on close', async () => {
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('does not dispatch a "toggle" event when already open', async () => {

@@ -315,9 +315,12 @@ export default class GlideCoreDropdownOption extends LitElement {
                 [this.privateSize]: true,
               })} name="icon"></slot>
 
-              <glide-core-tooltip class="tooltip" offset=${10} ?disabled=${
-                !this.isLabelOverflow || this.disabled
-              } ?open=${this.privateIsTooltipOpen}>
+              <glide-core-tooltip 
+                class="tooltip" 
+                offset=${10} 
+                ?disabled=${!this.isLabelOverflow || this.disabled} 
+                ?open=${this.privateIsTooltipOpen} 
+                @toggle=${this.#onTooltipToggle}>
 
                 <div aria-hidden="true" data-test="tooltip">
                   ${this.label}
@@ -419,6 +422,16 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   #onEditButtonMouseover() {
     this.privateIsEditActive = true;
+  }
+
+  #onTooltipToggle(event: Event) {
+    // Dropdown dispatches its own "toggle" event. Letting Tooltip's "toggle"
+    // propagate would mean that consumers listening for the event on Dropdown
+    // would have to filter it out when it comes from Tooltip. But first they'll
+    // probably file a bug. It's likely no consumer will be interested in knowing
+    // when this component's Tooltip is open. So it's probably best to stop the
+    // event from propagating.
+    event.stopPropagation();
   }
 
   #updateLabelOverflow() {

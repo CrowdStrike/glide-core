@@ -4,6 +4,7 @@ import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCorePopover from './popover.js';
 import focusOutline from './styles/focus-outline.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -12,6 +13,9 @@ const meta: Meta = {
   title: 'Popover',
   tags: ['autodocs'],
   parameters: {
+    actions: {
+      handles: ['toggle'],
+    },
     docs: {
       story: {
         autoplay: true,
@@ -19,6 +23,7 @@ const meta: Meta = {
     },
   },
   decorators: [
+    withActions,
     (story) =>
       html`<div
         style=${styleMap({
@@ -57,6 +62,7 @@ const meta: Meta = {
   args: {
     'slot="default"': 'Content',
     'slot="target"': '',
+    'addEventListener(event, handler)': '',
     disabled: false,
     offset: 4,
     open: false,
@@ -80,6 +86,15 @@ const meta: Meta = {
         },
       },
       type: { name: 'function', required: true },
+    },
+    'addEventListener(event, handler)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: '(event: "toggle", handler: (event: Event) => void): void',
+        },
+      },
     },
     disabled: {
       table: {

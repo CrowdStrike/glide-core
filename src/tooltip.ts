@@ -78,12 +78,21 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   set open(isOpen: boolean) {
+    const hasChanged = isOpen !== this.#isOpen;
     this.#isOpen = isOpen;
 
-    if (isOpen && !this.disabled) {
+    if (isOpen && hasChanged && !this.disabled) {
       this.#show();
-    } else {
+
+      this.dispatchEvent(
+        new Event('toggle', { bubbles: true, composed: true }),
+      );
+    } else if (hasChanged) {
       this.#hide();
+
+      this.dispatchEvent(
+        new Event('toggle', { bubbles: true, composed: true }),
+      );
     }
   }
 

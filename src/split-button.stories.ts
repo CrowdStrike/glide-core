@@ -8,6 +8,7 @@ import './split-button.secondary-button.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
+import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import type GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
 
@@ -15,6 +16,7 @@ const meta: Meta = {
   title: 'Split Button',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) =>
       html`<form action="/">
         <script type="ignore">
@@ -29,6 +31,15 @@ const meta: Meta = {
       </form>`,
   ],
   parameters: {
+    actions: {
+      // Menu Button and Link are selected so "click" events from Menu's target
+      // aren't picked up, muddying the Actions tab.
+      handles: [
+        'click glide-core-menu-button',
+        'click glide-core-menu-link',
+        'toggle',
+      ],
+    },
     docs: {
       story: {
         autoplay: true,

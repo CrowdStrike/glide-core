@@ -303,3 +303,20 @@ it('has `middlewareData.arrow.y` coverage', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 });
+
+it('has `set open(isOpen: boolean)` coverage', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip
+      placement="right"
+      style="align-items: center; display: flex; height: 100vh; justify-content:center; width: 100vw;"
+      open
+    >
+      Tooltip
+      <span slot="target" tabindex="0">Target</span>
+    </glide-core-tooltip>`,
+  );
+
+  component.open = true;
+  component.open = false;
+  component.open = true;
+});
