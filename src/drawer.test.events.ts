@@ -1,82 +1,69 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './drawer.js';
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-  oneEvent,
-} from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
+import { emulateMedia } from '@web/test-runner-commands';
+import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
+import sinon from 'sinon';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
-it('dispatches a "close" event when the "Escape" key is pressed', async () => {
+it('dispatches a "toggle" event on open', async () => {
+  await emulateMedia({ reducedMotion: 'reduce' });
+
   const component = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
+    html`<glide-core-drawer>Content</glide-core-drawer>`,
   );
 
-  component.show();
+  component.open = true;
 
-  await elementUpdated(component);
+  const event = await oneEvent(component, 'toggle');
 
-  const animationPromises = component.shadowRoot
-    ?.querySelector('[data-test="open"]')
-    ?.getAnimations()
-    ?.map((animation) => animation.finished);
-
-  assert(animationPromises);
-
-  await Promise.allSettled(animationPromises);
-
-  setTimeout(() => {
-    sendKeys({ press: 'Escape' });
-  });
-
-  const event = await oneEvent(component, 'close');
   expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
 });
 
-it('dispatches a "close" event when closed via the "close" method', async () => {
+it('dispatches a "toggle" event on close', async () => {
+  await emulateMedia({ reducedMotion: 'reduce' });
+
   const component = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer>Drawer content</glide-core-drawer>`,
+    html`<glide-core-drawer open>Content</glide-core-drawer>`,
   );
 
-  component.show();
+  component.open = false;
 
-  await elementUpdated(component);
+  const event = await oneEvent(component, 'toggle');
 
-  const animationPromises = component.shadowRoot
-    ?.querySelector('[data-test="open"]')
-    ?.getAnimations()
-    ?.map((animation) => animation.finished);
-
-  assert(animationPromises);
-
-  await Promise.allSettled(animationPromises);
-
-  const closeEvent = oneEvent(component, 'close');
-
-  component.close();
-
-  const event = await closeEvent;
   expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
 });
 
-it('dispatches a "close" event when the "open" attribute is removed', async () => {
+it('does not dispatch a "toggle" event when already open', async () => {
+  await emulateMedia({ reducedMotion: 'reduce' });
+
   const component = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer open>Drawer content</glide-core-drawer>`,
+    html`<glide-core-drawer open>Content</glide-core-drawer>`,
   );
 
-  const closeEvent = oneEvent(component, 'close');
+  const spy = sinon.spy();
 
-  component.removeAttribute('open');
+  component.addEventListener('toggle', spy);
+  component.open = true;
 
-  await elementUpdated(component);
+  expect(spy.callCount).to.equal(0);
+});
 
-  const event = await closeEvent;
-  expect(event instanceof Event).to.be.true;
+it('does not dispatch a "toggle" event when already closed', async () => {
+  await emulateMedia({ reducedMotion: 'reduce' });
+
+  const component = await fixture<GlideCoreDrawer>(
+    html`<glide-core-drawer>Content</glide-core-drawer>`,
+  );
+
+  const spy = sinon.spy();
+
+  component.addEventListener('toggle', spy);
+  component.open = false;
+
+  expect(spy.callCount).to.equal(0);
 });

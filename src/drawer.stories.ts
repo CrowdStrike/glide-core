@@ -27,7 +27,7 @@ const meta: Meta = {
   tags: ['autodocs'],
   parameters: {
     actions: {
-      handles: ['close'],
+      handles: ['toggle'],
     },
     docs: {
       story: {
@@ -52,10 +52,8 @@ const meta: Meta = {
     const drawer = context.canvasElement.querySelector('glide-core-drawer');
 
     button?.addEventListener('click', () => {
-      if (drawer?.open) {
-        drawer.close();
-      } else {
-        drawer?.show();
+      if (drawer) {
+        drawer.open = !drawer.open;
       }
     });
 
@@ -105,10 +103,8 @@ const meta: Meta = {
     label: 'Label',
     'slot="default"': '',
     'addEventListener(event, handler)': '',
-    'close()': '',
     open: false,
     pinned: false,
-    'show()': '',
     '--width': '',
   },
   argTypes: {
@@ -117,24 +113,6 @@ const meta: Meta = {
         type: { summary: 'Element | string' },
       },
       type: { name: 'string', required: true },
-    },
-    'show()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
-    },
-    'close()': {
-      control: false,
-      table: {
-        type: {
-          summary: 'method',
-          detail: '() => void',
-        },
-      },
     },
     label: {
       table: {
@@ -150,7 +128,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "close", handler: (event: Event)) => void) => void',
+          detail: '(event: "toggle", handler: (event: Event)) => void): void',
         },
       },
     },

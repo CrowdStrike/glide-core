@@ -15,7 +15,7 @@ declare global {
  *
  * @cssprop [--width] - The width the drawer.
  *
- * @event close
+ * @event toggle
  *
  * @slot - The content of the Drawer.
  */
@@ -40,6 +40,7 @@ export default class GlideCoreDrawer extends LitElement {
   }
 
   set open(isOpen: boolean) {
+    const hasChanged = isOpen !== this.#isOpen;
     this.#isOpen = isOpen;
 
     const duration = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -47,80 +48,74 @@ export default class GlideCoreDrawer extends LitElement {
       ? 0
       : 300;
 
-    if (this.#isOpen) {
-      (async () => {
-        this.#closeAnimation?.cancel();
+    if (this.#isOpen && hasChanged) {
+      this.#closeAnimation?.cancel();
 
-        this.#asideElementRef?.value?.classList?.add('open');
+      this.#componentElementRef?.value?.classList?.add('open');
 
-        this.#openAnimation = this.#asideElementRef?.value?.animate(
-          { transform: ['translateX(100%)', 'translateX(0)'] },
-          {
-            duration,
-            fill: 'forwards',
-            easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
-          },
-        );
+      this.#openAnimation = this.#componentElementRef?.value?.animate(
+        { transform: ['translateX(100%)', 'translateX(0)'] },
+        {
+          duration,
+          fill: 'forwards',
+          easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
+        },
+      );
 
-        this.#asideElementRef?.value?.animate(
-          {
-            opacity: [0, 1],
-          },
-          {
-            duration,
-            fill: 'forwards',
-            easing: 'ease-in',
-            composite: 'add',
-          },
-        );
+      this.#componentElementRef?.value?.animate(
+        {
+          opacity: [0, 1],
+        },
+        {
+          duration,
+          fill: 'forwards',
+          easing: 'ease-in',
+          composite: 'add',
+        },
+      );
 
-        await this.#openAnimation?.finished;
+      this.#openAnimation?.finished.then(() => {
+        // We set `tabindex="-1"` and call focus directly based on:
+        // https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
+        this.#componentElementRef?.value?.focus();
 
-        // We set `tabindex="-1"` and call focus directly based on
-        // https://www.matuzo.at/blog/2023/focus-dialog/
-        // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
-        this.#asideElementRef?.value?.focus();
-      })();
-    } else {
-      (async () => {
-        this.#openAnimation?.cancel();
+        this.dispatchEvent(new Event('toggle', { bubbles: true }));
+      });
+    } else if (hasChanged) {
+      this.#openAnimation?.cancel();
 
-        this.#closeAnimation = this.#asideElementRef?.value?.animate(
-          { transform: ['translateX(0)', 'translateX(100%)'] },
-          {
-            duration,
-            fill: 'forwards',
-            easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
-          },
-        );
+      this.#closeAnimation = this.#componentElementRef?.value?.animate(
+        { transform: ['translateX(0)', 'translateX(100%)'] },
+        {
+          duration,
+          fill: 'forwards',
+          easing: 'cubic-bezier(0.33, 1, 0.68, 1)',
+        },
+      );
 
-        this.#asideElementRef?.value?.animate(
-          {
-            opacity: [1, 0],
-          },
-          {
-            duration,
-            fill: 'forwards',
-            composite: 'add',
-          },
-        );
+      this.#componentElementRef?.value?.animate(
+        {
+          opacity: [1, 0],
+        },
+        {
+          duration,
+          fill: 'forwards',
+          composite: 'add',
+        },
+      );
 
-        await this.#closeAnimation?.finished;
-        this.#asideElementRef.value?.classList?.remove('open');
-        this.dispatchEvent(new Event('close', { bubbles: true }));
-      })();
+      this.#closeAnimation?.finished.then(() => {
+        this.#componentElementRef.value?.classList?.remove('open');
+        this.dispatchEvent(new Event('toggle', { bubbles: true }));
+      });
     }
-  }
-
-  close() {
-    this.open = false;
   }
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
 
     if (this.#isOpen) {
-      this.#asideElementRef?.value?.classList?.add('open');
+      this.#componentElementRef?.value?.classList?.add('open');
 
       // The open state of Drawer relies on styles for transform
       // and opacity. In this case, we don't want an animation to
@@ -129,7 +124,7 @@ export default class GlideCoreDrawer extends LitElement {
       // transform and opacity changes, we use JavaScript animations
       // with the duration properties set to 0 so that they apply
       // immediately.
-      this.#openAnimation = this.#asideElementRef?.value?.animate(
+      this.#openAnimation = this.#componentElementRef?.value?.animate(
         { transform: 'translateX(0)' },
         {
           duration: 0,
@@ -137,7 +132,7 @@ export default class GlideCoreDrawer extends LitElement {
         },
       );
 
-      this.#asideElementRef?.value?.animate(
+      this.#componentElementRef?.value?.animate(
         {
           opacity: 1,
         },
@@ -153,12 +148,12 @@ export default class GlideCoreDrawer extends LitElement {
   override render() {
     return html`
       <aside
-        class=${classMap({ component: true, pinned: this.pinned })}
-        tabindex="-1"
-        data-test=${this.#isOpen ? 'open' : 'closed'}
-        @keydown=${this.#onKeydown}
-        ${ref(this.#asideElementRef)}
         aria-label=${this.label || nothing}
+        class=${classMap({ component: true, pinned: this.pinned })}
+        data-test="component"
+        tabindex="-1"
+        @keydown=${this.#onComponentKeydown}
+        ${ref(this.#componentElementRef)}
       >
         <slot
           @slotchange=${this.#onDefaultSlotChange}
@@ -168,13 +163,9 @@ export default class GlideCoreDrawer extends LitElement {
     `;
   }
 
-  show() {
-    this.open = true;
-  }
-
-  #asideElementRef = createRef<HTMLElement>();
-
   #closeAnimation?: Animation;
+
+  #componentElementRef = createRef<HTMLElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -182,16 +173,16 @@ export default class GlideCoreDrawer extends LitElement {
 
   #openAnimation?: Animation;
 
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
-
-  #onKeydown(event: KeyboardEvent) {
+  #onComponentKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       // Prevent Safari from leaving full screen.
       event.preventDefault();
 
-      this.close();
+      this.open = false;
     }
+  }
+
+  #onDefaultSlotChange() {
+    owSlot(this.#defaultSlotElementRef.value);
   }
 }
