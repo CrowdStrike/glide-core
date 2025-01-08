@@ -2,6 +2,7 @@ import './icons/storybook.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCoreTooltip from './tooltip.js';
 import focusOutline from './styles/focus-outline.js';
@@ -20,7 +21,12 @@ const meta: Meta = {
   decorators: [
     (story) =>
       html`<div
-        style="align-items: center; display: flex; height: 8rem; justify-content: center;"
+        style=${styleMap({
+          alignItems: 'center',
+          display: 'flex',
+          height: '8rem',
+          justifyContent: 'center',
+        })}
       >
         <style>
           [slot="target"] {

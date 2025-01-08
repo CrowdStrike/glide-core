@@ -4,7 +4,7 @@ import './tab.panel.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreTab from './tab.js';
@@ -82,51 +82,24 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    const addInlineStyles = () => {
-      const styles = [];
-
-      if (arguments_['--panel-padding-inline-end']) {
-        styles.push(
-          `--panel-padding-inline-end: ${arguments_['--panel-padding-inline-end']};`,
-        );
-      }
-
-      if (arguments_['--panel-padding-inline-start']) {
-        styles.push(
-          `--panel-padding-inline-start: ${arguments_['--panel-padding-inline-start']};`,
-        );
-      }
-
-      if (arguments_['--tabs-padding-block-end']) {
-        styles.push(
-          `--tabs-padding-block-end: ${arguments_['--tabs-padding-block-end']};`,
-        );
-      }
-
-      if (arguments_['--tabs-padding-block-start']) {
-        styles.push(
-          `--tabs-padding-block-start: ${arguments_['--tabs-padding-block-start']};`,
-        );
-      }
-
-      if (arguments_['--tabs-padding-inline-end']) {
-        styles.push(
-          `--tabs-padding-inline-end: ${arguments_['--tabs-padding-inline-end']};`,
-        );
-      }
-
-      if (arguments_['--tabs-padding-inline-start']) {
-        styles.push(
-          `--tabs-padding-inline-start: ${arguments_['--tabs-padding-inline-start']};`,
-        );
-      }
-
-      return styles?.length > 0 ? styles.join(' ') : undefined;
-    };
-
-    /* eslint-disable @typescript-eslint/no-unsafe-argument */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment */
     return html`
-      <glide-core-tab-group style="${ifDefined(addInlineStyles())}">
+      <glide-core-tab-group
+        style=${styleMap({
+          '--panel-padding-inline-start':
+            arguments_['--panel-padding-inline-start'] || null,
+          '--panel-padding-inline-end':
+            arguments_['--panel-padding-inline-end'] || null,
+          '--tabs-padding-block-start':
+            arguments_['--tabs-padding-block-start'] || null,
+          '--tabs-padding-block-end':
+            arguments_['--tabs-padding-block-end'] || null,
+          '--tabs-padding-inline-start':
+            arguments_['--tabs-padding-inline-start'] || null,
+          '--tabs-padding-inline-end':
+            arguments_['--tabs-padding-inline-end'] || null,
+        })}
+      >
         <glide-core-tab
           slot="nav"
           panel="1"
@@ -138,8 +111,8 @@ const meta: Meta = {
         <glide-core-tab
           slot="nav"
           panel="2"
-          ?selected=${arguments_['<glide-core-tab>.2.selected']}
           ?disabled=${arguments_['<glide-core-tab>.disabled']}
+          ?selected=${arguments_['<glide-core-tab>.2.selected']}
         >
           With Icon
 

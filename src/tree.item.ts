@@ -5,6 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreIconButton from './icon-button.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
@@ -82,7 +83,13 @@ export default class GlideCoreTreeItem extends LitElement {
         @focusin=${this.#onFocusIn}
         ${ref(this.#labelContainerElementRef)}
       >
-        <div style="flex-shrink: 0; width:${this.#indentationWidth};"></div>
+        <div
+          style=${styleMap({
+            flexShrink: 0,
+            width: this.#indentationWidth,
+          })}
+        ></div>
+
         ${when(
           /**
            * By default, we indent the width of the expand icon,

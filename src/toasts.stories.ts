@@ -2,6 +2,7 @@ import './button.js';
 import './toasts.js';
 import './toasts.toast.js';
 import { html } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
@@ -41,7 +42,13 @@ const meta: Meta = {
 -->
       <glide-core-toasts></glide-core-toasts>
 
-      <div style="display: inline-flex; flex-direction: column; gap: 0.25rem;">
+      <div
+        style=${styleMap({
+          display: 'inline-flex',
+          flexDirection: 'column',
+          gap: '0.25rem',
+        })}
+      >
         <glide-core-button
           label="Informational"
           id="informational"
@@ -52,7 +59,6 @@ const meta: Meta = {
           label="Longer duration"
           id="longer"
         ></glide-core-button>
-
         <glide-core-button
           label="Infinite duration"
           id="infinite"

@@ -7,6 +7,7 @@ import './tree.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreTreeItem from './tree.item.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
@@ -15,7 +16,12 @@ const meta: Meta = {
   decorators: [
     withActions,
     (story) =>
-      html`<div style="max-width: 18.75rem; height: 10rem;">
+      html`<div
+        style=${styleMap({
+          height: '10rem',
+          maxWidth: '18.75rem',
+        })}
+      >
         <script type="ignore">
           import '@crowdstrike/glide-core/tree.js';
           import '@crowdstrike/glide-core/tree.item.js';

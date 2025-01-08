@@ -1,4 +1,5 @@
 import { html } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 
 /**
  * The class="check" on the path below is used as a CSS selector
@@ -10,7 +11,10 @@ export default html`
     aria-hidden="true"
     fill="none"
     viewBox="0 0 24 24"
-    style="height: var(--size, 0.875rem); width: var(--size, 0.875rem);"
+    style=${styleMap({
+      height: 'var(--size, 0.875rem)',
+      width: 'var(--size, 0.875rem)',
+    })}
   >
     <path
       class="check"

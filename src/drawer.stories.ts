@@ -3,7 +3,7 @@ import './drawer.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreDrawer from './drawer.js';
@@ -78,17 +78,15 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment */
     return html`
       <glide-core-drawer
         label=${arguments_.label}
         ?open=${arguments_.open}
         ?pinned=${arguments_.pinned}
-        style="${ifDefined(
-          arguments_['--width']
-            ? `--width: ${arguments_['--width']};`
-            : undefined,
-        )}"
+        style=${styleMap({
+          '--width': arguments_['--width'] || null,
+        })}
       >
         ${unsafeHTML(arguments_['slot="default"'])}
       </glide-core-drawer>

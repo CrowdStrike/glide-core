@@ -12,6 +12,7 @@ import {
 } from '@open-wc/testing';
 import { click, hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
+import { styleMap } from 'lit/directives/style-map.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import sinon from 'sinon';
@@ -132,7 +133,10 @@ it('selects an option when its icon is clicked', async () => {
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          style="height: 1rem; width: 1rem;"
+          style=${styleMap({
+            height: '1rem',
+            width: '1rem',
+          })}
         >
           <path
             stroke-linecap="round"

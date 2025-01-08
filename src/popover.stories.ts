@@ -2,6 +2,7 @@ import './icons/storybook.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import GlideCorePopover from './popover.js';
 import focusOutline from './styles/focus-outline.js';
@@ -20,7 +21,12 @@ const meta: Meta = {
   decorators: [
     (story) =>
       html`<div
-        style="align-items: center; display: flex; height: 10rem; justify-content: center;"
+        style=${styleMap({
+          alignItems: 'center',
+          display: 'flex',
+          height: '10rem',
+          justifyContent: 'center',
+        })}
       >
         <style>
           [slot="target"] {
@@ -145,7 +151,12 @@ const meta: Meta = {
         ?open=${arguments_.open}
       >
         <div
-          style="align-items: center; display: flex; justify-content: center; width: 100%;"
+          style=${styleMap({
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+          })}
         >
           ${unsafeHTML(arguments_['slot="default"'])}
         </div>

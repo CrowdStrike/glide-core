@@ -11,6 +11,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
@@ -884,7 +885,10 @@ export default class GlideCoreDropdown extends LitElement {
                   aria-hidden="true"
                   viewBox="0 0 16 16"
                   fill="none"
-                  style="height: var(--size); width: var(--size);"
+                  style=${styleMap({
+                    height: 'var(--size)',
+                    width: 'var(--size)',
+                  })}
                 >
                   <path
                     d="M7.99998 3.33337V12.6667M3.33331 8.00004H12.6666"

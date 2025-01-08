@@ -3,6 +3,7 @@
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
+import { styleMap } from 'lit/directives/style-map.js';
 import GlideCorePopover from './popover.js';
 
 GlideCorePopover.shadowRootOptions.mode = 'open';
@@ -293,7 +294,13 @@ it('has `middlewareData.arrow.y` coverage', async () => {
   await fixture(
     html`<glide-core-popover
       placement="right"
-      style="align-items: center; display: flex; height: 100vh; justify-content:center; width: 100vw;"
+      style=${styleMap({
+        alignItems: 'center',
+        display: 'flex',
+        height: '100vh',
+        justifyContent: 'center',
+        width: '100vw',
+      })}
       open
     >
       Popover
