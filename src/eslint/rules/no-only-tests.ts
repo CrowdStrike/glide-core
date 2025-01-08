@@ -29,7 +29,7 @@ export const noOnlyTests = createRule({
           node.arguments?.length > 0 &&
           node.callee.type === AST_NODE_TYPES.MemberExpression &&
           node.callee.object.type === AST_NODE_TYPES.Identifier &&
-          node.callee.object.name === 'it' &&
+          node.callee.object.name === 'test' &&
           node.callee.property.type === AST_NODE_TYPES.Identifier &&
           node.callee.property.name === 'only'
         ) {

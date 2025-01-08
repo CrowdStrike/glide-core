@@ -1,12 +1,12 @@
-import './drawer.js';
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import { emulateMedia } from '@web/test-runner-commands';
+import { elementUpdated, fixture, html } from '@open-wc/testing-helpers';
+import { expect, test } from 'vitest';
+import { server } from '@vitest/browser/context';
 import GlideCoreDrawer from './drawer.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
-it('focuses itself on open', async () => {
-  await emulateMedia({ reducedMotion: 'reduce' });
+test('focuses itself on open', async () => {
+  await server.commands.emulateMedia({ reducedMotion: 'reduce' });
 
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Content</glide-core-drawer>`,
