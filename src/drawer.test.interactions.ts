@@ -104,7 +104,7 @@ it('closes on Escape', async () => {
   expect(component.open).to.be.false;
 });
 
-it('has `set open` coverage', async () => {
+it('has `set open(isOpen: boolean)` coverage', async () => {
   const stub = sinon.stub(console, 'error');
 
   const component = await fixture<GlideCoreDrawer>(
