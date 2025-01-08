@@ -8,6 +8,7 @@ import {
   html,
 } from '@open-wc/testing';
 import { click } from './library/mouse.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import GlideCoreCheckbox from './checkbox.js';
 
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
@@ -167,7 +168,10 @@ it('is still indeterminate on click when unchecked and disabled', async () => {
 it('has a tooltip when minimal and with a long label', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
-      style="display: block; max-width: 100px;"
+      style=${styleMap({
+        display: 'block',
+        maxWidth: '6.25rem',
+      })}
       label=${'x'.repeat(100)}
       private-variant="minimal"
       private-show-label-tooltip

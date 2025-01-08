@@ -5,6 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import informationalIcon from './icons/informational.js';
 import styles from './inline-alert.styles.js';
@@ -165,7 +166,10 @@ const icons = {
       aria-hidden="true"
       viewBox="0 0 16 16"
       fill="none"
-      style="height: var(--size, 1rem); width: var(--size, 1rem);"
+      style=${styleMap({
+        height: 'var(--size, 1rem)',
+        width: 'var(--size, 1rem)',
+      })}
     >
       <path
         fill-rule="evenodd"
@@ -180,7 +184,10 @@ const icons = {
         aria-hidden="true"
         viewBox="0 0 16 16"
         fill="none"
-        style="height: var(--size, 1rem); width: var(--size, 1rem);"
+        style=${styleMap({
+          height: 'var(--size, 1rem)',
+          width: 'var(--size, 1rem)',
+        })}
       >
         <path 
           fill-rule="evenodd" 
@@ -195,7 +202,10 @@ const icons = {
       aria-hidden="true"
       viewBox="0 0 16 16" 
       fill="none"
-      style="height: var(--size, 1rem); width: var(--size, 1rem);"
+      style=${styleMap({
+        height: 'var(--size, 1rem)',
+        width: 'var(--size, 1rem)',
+      })}
     >
       <path 
         fill-rule="evenodd" 

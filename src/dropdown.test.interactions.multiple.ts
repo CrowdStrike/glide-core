@@ -13,6 +13,7 @@ import {
 import { click, hover } from './library/mouse.js';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
+import { styleMap } from 'lit/directives/style-map.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
@@ -822,7 +823,10 @@ it('hides tags to prevent overflow', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
-      style="display: block; max-width: 20rem;"
+      style=${styleMap({
+        display: 'block',
+        maxWidth: '20rem',
+      })}
       multiple
       open
     >
@@ -860,7 +864,10 @@ it('has overflow text when its tags are overflowing', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
-      style="display: block; max-width: 20rem;"
+      style=${styleMap({
+        display: 'block',
+        maxWidth: '20rem',
+      })}
       multiple
       open
     >

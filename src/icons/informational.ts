@@ -1,3 +1,4 @@
+import { styleMap } from 'lit/directives/style-map.js';
 import { svg } from 'lit/static-html.js';
 
 export default svg`
@@ -5,7 +6,10 @@ export default svg`
     aria-hidden="true"
     viewBox="0 0 16 16"
     fill="none"
-    style="height: var(--size, 1rem); width: var(--size, 1rem);"
+    style=${styleMap({
+      height: 'var(--size, 1rem)',
+      width: 'var(--size, 1rem)',
+    })}
   >
   <path 
     fill-rule="evenodd" 
