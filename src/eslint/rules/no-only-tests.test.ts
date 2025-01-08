@@ -6,20 +6,20 @@ const ruleTester = new RuleTester();
 ruleTester.run('no-only-tests', noOnlyTests, {
   valid: [
     {
-      code: "it('is a valid test', function () {})",
+      code: "test('is a valid test', function () {})",
     },
     {
-      code: "it.skip('uses some other method on it', function () {})",
+      code: "test.skip('uses some other method on test', function () {})",
     },
     {
       // Verifies we ignore CallExpressions without `arguments`, which would mean
-      // we aren't using `it` as a function (for some reason).
-      code: 'it',
+      // we aren't using `test` as a function (for some reason).
+      code: 'test',
     },
   ],
   invalid: [
     {
-      code: "it.only('is onlying a test', function () {})",
+      code: "test.only('is onlying a test', function () {})",
       errors: [{ messageId: 'noOnly' }],
     },
   ],

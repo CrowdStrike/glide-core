@@ -13,7 +13,7 @@ export const noSkipTests = createRule({
   meta: {
     docs: {
       description:
-        'Ensures tests are not skipped, as we do not want to accumulate a collection of skipped tests that never get addressed.',
+        'Ensures tests are not skipped. We do not want to accumulate a collection of skipped tests that never get addressed.',
       recommended: true,
     },
     type: 'suggestion',
@@ -30,7 +30,7 @@ export const noSkipTests = createRule({
           node.arguments?.length > 0 &&
           node.callee.type === AST_NODE_TYPES.MemberExpression &&
           node.callee.object.type === AST_NODE_TYPES.Identifier &&
-          node.callee.object.name === 'it' &&
+          node.callee.object.name === 'test' &&
           node.callee.property.type === AST_NODE_TYPES.Identifier &&
           node.callee.property.name === 'skip'
         ) {

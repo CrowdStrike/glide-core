@@ -770,7 +770,7 @@ it('cannot be tabbed to when `disabled`', async () => {
     </glide-core-dropdown>`,
   );
 
-  await sendKeys({ down: 'Tab' });
+  await sendKeys({ press: 'Tab' });
   expect(document.activeElement).to.equal(document.body);
 });
 

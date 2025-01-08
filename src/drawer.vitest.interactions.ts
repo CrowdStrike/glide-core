@@ -1,23 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './drawer.js';
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
-import { emulateMedia } from '@web/test-runner-commands';
-import { sendKeys } from '@web/test-runner-commands';
+import { assert, expect, test } from 'vitest';
+import { elementUpdated, fixture, html } from '@open-wc/testing-helpers';
+import { server } from '@vitest/browser/context';
+import { userEvent } from '@vitest/browser/context';
 import GlideCoreDrawer from './drawer.js';
 import sinon from 'sinon';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
-it('opens when animated', async () => {
-  await emulateMedia({ reducedMotion: 'no-preference' });
-
+test('opens when animated', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Content</glide-core-drawer>`,
   );
@@ -36,8 +28,8 @@ it('opens when animated', async () => {
   expect(aside?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
-it('opens when not animated', async () => {
-  await emulateMedia({ reducedMotion: 'reduce' });
+test('opens when not animated', async () => {
+  await server.commands.emulateMedia({ reducedMotion: 'reduce' });
 
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Content</glide-core-drawer>`,
@@ -50,9 +42,7 @@ it('opens when not animated', async () => {
   expect(aside?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
-it('closes when animated', async () => {
-  await emulateMedia({ reducedMotion: 'no-preference' });
-
+test('closes when animated', async () => {
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer open>Content</glide-core-drawer>`,
   );
@@ -71,8 +61,8 @@ it('closes when animated', async () => {
   expect(aside?.checkVisibility({ visibilityProperty: true })).to.not.be.ok;
 });
 
-it('closes when not animated', async () => {
-  await emulateMedia({ reducedMotion: 'reduce' });
+test('closes when not animated', async () => {
+  await server.commands.emulateMedia({ reducedMotion: 'reduce' });
 
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer open>Content</glide-core-drawer>`,
@@ -88,8 +78,8 @@ it('closes when not animated', async () => {
   expect(aside?.checkVisibility({ visibilityProperty: true })).to.not.be.ok;
 });
 
-it('closes on Escape', async () => {
-  await emulateMedia({ reducedMotion: 'reduce' });
+test('closes on Escape', async () => {
+  await server.commands.emulateMedia({ reducedMotion: 'reduce' });
 
   const component = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer open>Content</glide-core-drawer>`,
@@ -99,31 +89,24 @@ it('closes on Escape', async () => {
     ?.querySelector<HTMLElement>('[data-test="component"]')
     ?.focus();
 
-  await sendKeys({ press: 'Escape' });
+  await userEvent.keyboard('{escape}');
 
   expect(component.open).to.be.false;
 });
 
-it('has `set open(isOpen: boolean)` coverage', async () => {
-  const stub = sinon.stub(console, 'error');
+test('has `this.#closeAnimation?.cancel()` coverage', async () => {
+  await server.commands.emulateMedia({ reducedMotion: 'reduce' });
 
   const component = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer open>Content</glide-core-drawer>`,
+    html`<glide-core-drawer>Content</glide-core-drawer>`,
   );
+
+  component.open = true;
+  await elementUpdated(component);
 
   component.open = false;
   await elementUpdated(component);
 
   component.open = true;
   await elementUpdated(component);
-
-  const animationPromises = component.shadowRoot
-    ?.querySelector('[data-test="component"]')
-    ?.getAnimations()
-    ?.map((animation) => animation.finished);
-
-  assert(animationPromises);
-  await Promise.allSettled(animationPromises);
-
-  stub.restore();
 });
