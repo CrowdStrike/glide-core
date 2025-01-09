@@ -1,30 +1,11 @@
 import './tooltip.js';
-import { LitElement, html, svg } from 'lit';
-import { LocalizeController } from './library/localize.js';
+import { LitElement, html } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import ow, { owSlot } from './library/ow.js';
 import styles from './label.styles.js';
-
-const infoCircleIcon = svg`
-  <circle
-    cx="12"
-    cy="12"
-    r="10"
-    stroke="currentColor"
-    stroke-width="2"
-  />
-
-  <path
-    d="M12 16L12 12"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-  />
-
-  <circle cx="12" cy="8" r="1" fill="currentColor" />
-`;
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -126,15 +107,7 @@ export default class GlideCoreLabel extends LitElement {
           placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
         >
           <span class="optional-tooltip-target" slot="target" tabindex="0">
-            <svg
-              aria-label=${this.#localize.term('moreInformation')}
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              ${infoCircleIcon}
-            </svg>
+            ${icons.information}
           </span>
 
           <slot
@@ -235,8 +208,6 @@ export default class GlideCoreLabel extends LitElement {
 
   #labelElementRef = createRef<HTMLElement>();
 
-  #localize = new LocalizeController(this);
-
   #summarySlotElementRef = createRef<HTMLSlotElement>();
 
   #tooltipSlotElementRef = createRef<HTMLSlotElement>();
@@ -296,3 +267,27 @@ export default class GlideCoreLabel extends LitElement {
     this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }
+
+const icons = {
+  information: html`
+    <svg
+      style=${styleMap({
+        height: '1rem',
+        width: '1rem',
+      })}
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+
+      <path
+        d="M12 16L12 12"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+
+      <circle cx="12" cy="8" r="1" fill="currentColor" />
+    </svg>
+  `,
+};

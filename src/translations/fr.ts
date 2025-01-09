@@ -19,9 +19,7 @@ const translation: Omit<Translation, PendingTranslation> = {
   // These come from ./fr.json
   close: 'Fermer',
   dismiss: 'Congédier',
-  open: 'Ouvrir',
   selectAll: 'Tout sélectionner',
-  moreInformation: 'Plus d’informations',
   notifications: 'Notifications',
   nextTab: 'Onglet suivant',
   previousTab: 'Onglet précédent',

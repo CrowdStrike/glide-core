@@ -7,6 +7,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreTab from './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
+import chevronIcon from './icons/chevron.js';
 import ow, { owSlotType } from './library/ow.js';
 import styles from './tab.group.styles.js';
 
@@ -84,6 +85,7 @@ export default class GlideCoreTabGroup extends LitElement {
               style="height: ${this.#tabListElementRef.value?.clientHeight}px"
               class=${classMap({
                 overflow: true,
+                left: true,
                 disabled: this.isDisableOverflowStartButton,
               })}
               @click=${this.#onClickOverflowStartButton}
@@ -93,21 +95,7 @@ export default class GlideCoreTabGroup extends LitElement {
               ${ref(this.#overflowStartButtonElementRef)}
               ?disabled=${this.isDisableOverflowStartButton}
             >
-              <svg
-                aria-hidden="true"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M15 6L9 12L15 18"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              ${chevronIcon}
             </button>
           `,
         )}
@@ -135,6 +123,7 @@ export default class GlideCoreTabGroup extends LitElement {
               style="height: ${this.#tabListElementRef.value?.clientHeight}px"
               class=${classMap({
                 overflow: true,
+                right: true,
                 disabled: this.isDisableOverflowEndButton,
               })}
               @click=${this.#onClickOverflowEndButton}
@@ -144,21 +133,7 @@ export default class GlideCoreTabGroup extends LitElement {
               ${ref(this.#overflowEndButtonElementRef)}
               ?disabled=${this.isDisableOverflowEndButton}
             >
-              <svg
-                aria-hidden="true"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M9 18L15 12L9 6"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+              ${chevronIcon}
             </button>
           `,
         )}

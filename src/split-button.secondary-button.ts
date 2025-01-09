@@ -7,6 +7,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import GlideCoreMenu from './menu.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
+import chevronIcon from './icons/chevron.js';
 import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './split-button.secondary-button.styles.js';
 
@@ -95,6 +96,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
           class=${classMap({
             component: true,
             active: this.menuOpen,
+            disabled: this.disabled,
             [this.privateVariant]: true,
             [this.privateSize]: true,
           })}
@@ -104,25 +106,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
           ?disabled=${this.disabled}
           ${ref(this.#buttonElementRef)}
         >
-          <svg
-            aria-hidden="true"
-            class=${classMap({
-              chevron: true,
-              disabled: this.disabled,
-            })}
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M6 9L12 15L18 9"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          ${chevronIcon}
         </button>
 
         <glide-core-menu-options>

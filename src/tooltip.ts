@@ -180,10 +180,10 @@ export default class GlideCoreTooltip extends LitElement {
             ${ref(this.#arrowElementRef)}
           >
             ${choose(this.effectivePlacement, [
-              ['top', () => arrows.top],
-              ['right', () => arrows.right],
-              ['bottom', () => arrows.bottom],
-              ['left', () => arrows.left],
+              ['top', () => icons.topArrow],
+              ['right', () => icons.rightArrow],
+              ['bottom', () => icons.bottomArrow],
+              ['left', () => icons.leftArrow],
             ])}
           </div>
 
@@ -380,26 +380,26 @@ export default class GlideCoreTooltip extends LitElement {
   }
 }
 
-const arrows = {
-  top: html`<svg aria-hidden="true" viewBox="0 0 10 6" fill="none">
+const icons = {
+  topArrow: html`<svg aria-hidden="true" viewBox="0 0 10 6" fill="none">
     <path
       d="M4.23178 5.07814C4.63157 5.55789 5.36843 5.55789 5.76822 5.07813L10 -7.9486e-08L-2.62268e-07 3.57628e-07L4.23178 5.07814Z"
       fill="currentColor"
     />
   </svg>`,
-  right: html`<svg aria-hidden="true" viewBox="0 0 6 10" fill="none">
+  rightArrow: html`<svg aria-hidden="true" viewBox="0 0 6 10" fill="none">
     <path
       d="M0.921865 4.23178C0.442111 4.63157 0.442112 5.36843 0.921866 5.76822L6 10L6 -2.62268e-07L0.921865 4.23178Z"
       fill="currentColor"
     />
   </svg>`,
-  bottom: html`<svg aria-hidden="true" viewBox="0 0 10 6" fill="none">
+  bottomArrow: html`<svg aria-hidden="true" viewBox="0 0 10 6" fill="none">
     <path
       d="M4.23178 0.921865C4.63157 0.442111 5.36843 0.442112 5.76822 0.921866L10 6L-2.62268e-07 6L4.23178 0.921865Z"
       fill="currentColor"
     />
   </svg>`,
-  left: html`<svg aria-hidden="true" viewBox="0 0 6 10" fill="none">
+  leftArrow: html`<svg aria-hidden="true" viewBox="0 0 6 10" fill="none">
     <path
       d="M5.07814 4.23178C5.55789 4.63157 5.55789 5.36843 5.07813 5.76822L-4.37114e-07 10L0 -2.62268e-07L5.07814 4.23178Z"
       fill="currentColor"

@@ -16,6 +16,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';
+import chevronIcon from './icons/chevron.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import ow, { owSlotType } from './library/ow.js';
 import pencilIcon from './icons/pencil.js';
@@ -786,23 +787,7 @@ export default class GlideCoreDropdown extends LitElement {
                       ${magnifyingGlassIcon}
                     </div>`;
                   },
-                  () => {
-                    return html`<svg
-                      aria-label=${this.#localize.term('open')}
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M6 9L12 15L18 9"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>`;
-                  },
+                  () => chevronIcon,
                 )}
               </button>
             </div>
@@ -881,25 +866,7 @@ export default class GlideCoreDropdown extends LitElement {
                 @mouseover=${this.#onAddButtonMouseover}
                 ${ref(this.#addButtonElementRef)}
               >
-                <svg
-                  aria-hidden="true"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  style=${styleMap({
-                    height: 'var(--size)',
-                    width: 'var(--size)',
-                  })}
-                >
-                  <path
-                    d="M7.99998 3.33337V12.6667M3.33331 8.00004H12.6666"
-                    stroke="currentColor"
-                    stroke-width="1.3"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-
-                ${this.addButtonLabel}
+                ${icons.plus} ${this.addButtonLabel}
               </button>
             </footer>
           </div>
@@ -2410,3 +2377,25 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 }
+
+const icons = {
+  plus: html`
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 16 16"
+      fill="none"
+      style=${styleMap({
+        height: 'var(--size)',
+        width: 'var(--size)',
+      })}
+    >
+      <path
+        d="M7.99998 3.33337V12.6667M3.33331 8.00004H12.6666"
+        stroke="currentColor"
+        stroke-width="1.3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  `,
+};

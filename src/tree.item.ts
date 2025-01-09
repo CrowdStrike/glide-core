@@ -9,6 +9,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import GlideCoreIconButton from './icon-button.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
+import chevronIcon from './icons/chevron.js';
 import ow, { owSlotType } from './library/ow.js';
 import styles from './tree.item.styles.js';
 
@@ -100,34 +101,13 @@ export default class GlideCoreTreeItem extends LitElement {
            */
           !this.removeIndentation || this.hasExpandIcon,
           () => html`
-            <div class="expand-icon-container">
-              ${when(
-                this.hasExpandIcon,
-                () => html`
-                  <div>
-                    <!-- chevron-right -->
-                    <svg
-                      aria-hidden="true"
-                      class=${classMap({
-                        'expand-icon': true,
-                        'expand-icon-expanded': this.expanded,
-                      })}
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M9 18L15 12L9 6"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                `,
-              )}
+            <div
+              class=${classMap({
+                'expand-icon-container': true,
+                expanded: this.expanded,
+              })}
+            >
+              ${when(this.hasExpandIcon, () => chevronIcon)}
             </div>
           `,
         )}
@@ -137,16 +117,20 @@ export default class GlideCoreTreeItem extends LitElement {
           ${ref(this.#prefixSlotElementRef)}
           @slotchange=${this.#onPrefixSlotChange}
         ></slot>
+
         <div class="label">${this.label}</div>
+
         <div class="icon-container">
           <slot
             name="menu"
             ${ref(this.#menuSlotElementRef)}
             @slotchange=${this.#onMenuSlotChange}
           ></slot>
+
           <slot name="suffix"></slot>
         </div>
       </div>
+
       <div class="child-items" role="group">
         <slot
           @slotchange=${this.#onDefaultSlotChange}

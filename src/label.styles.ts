@@ -77,7 +77,7 @@ export default [
     .optional-tooltip-target {
       background-color: transparent;
       border: none;
-      border-radius: 0.0625rem;
+      border-radius: 50%;
       color: var(--glide-core-text-body-1);
 
       /*
@@ -88,6 +88,10 @@ export default [
 
       display: flex;
       padding: 0;
+
+      &:focus-visible {
+        outline-offset: 0;
+      }
     }
 
     .label {

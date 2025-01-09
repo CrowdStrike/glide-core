@@ -3,6 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { owSlot } from './library/ow.js';
+import chevronIcon from './icons/chevron.js';
 import styles from './accordion.styles.js';
 
 declare global {
@@ -133,29 +134,13 @@ export default class GlideCoreAccordion extends LitElement {
         class=${classMap({
           summary: true,
           active: this.open || this.isClosing,
+          open: this.open,
         })}
         data-test="summary"
         @click=${this.#onSummaryClick}
         ${ref(this.#summaryElementRef)}
       >
-        <svg
-          class=${classMap({
-            chevron: true,
-            unrotated: this.open,
-          })}
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-        >
-          <path
-            d="M6 9L12 15L18 9"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        ${chevronIcon}
 
         <div class="label-container">
           <slot

@@ -30,12 +30,9 @@ const meta: Meta = {
       >
         <style>
           [slot="target"] {
-            background-color: transparent;
-            border: none;
             border-radius: 50%;
             display: inline-flex;
             outline-offset: 1px;
-            padding: 0;
 
             &:focus-visible {
               ${focusOutline};
@@ -146,6 +143,10 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
+    // A `<span>` is used instead of a `<button>` for VoiceOver, so
+    // "button" isn't read aloud, implying the target can be interacted
+    // with via click.
+
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <glide-core-tooltip
@@ -157,9 +158,9 @@ const meta: Meta = {
       >
         ${unsafeHTML(arguments_['slot="default"'])}
 
-        <button slot="target">
+        <span tabindex="0" slot="target">
           <glide-core-example-icon name="info"></glide-core-example-icon>
-        </button>
+        </span>
       </glide-core-tooltip>
     `;
   },

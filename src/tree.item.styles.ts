@@ -30,21 +30,23 @@ export default [
     .expand-icon-container {
       flex-shrink: 0;
       min-inline-size: 1.5625rem;
-    }
 
-    .expand-icon {
-      align-items: center;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      rotate: 0deg;
-
-      @media (prefers-reduced-motion: no-preference) {
-        transition: 250ms rotate ease;
+      &.expanded {
+        svg {
+          rotate: 0deg;
+        }
       }
 
-      &.expand-icon-expanded {
-        rotate: 90deg;
+      svg {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        rotate: -90deg;
+
+        @media (prefers-reduced-motion: no-preference) {
+          transition: 250ms rotate ease;
+        }
       }
     }
 

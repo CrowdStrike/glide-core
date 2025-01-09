@@ -5,6 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import checkedIcon from './icons/checked.js';
@@ -15,22 +16,6 @@ declare global {
     'glide-core-checkbox': GlideCoreCheckbox;
   }
 }
-
-const indeterminateIcon = html`
-  <svg
-    width="14"
-    height="14"
-    viewBox="0 0 14 14"
-    fill="none"
-    class="indeterminate-icon"
-  >
-    <rect x="0.5" y="0.5" width="13" height="13" rx="3.5" />
-    <path
-      d="M3 5C3 3.89543 3.89543 3 5 3H9.79289C10.2383 3 10.4614 3.53857 10.1464 3.85355L3.85355 10.1464C3.53857 10.4614 3 10.2383 3 9.79289V5Z"
-      fill="currentColor"
-    />
-  </svg>
-`;
 
 /**
  * @event change - `(event: Event) => void`
@@ -291,7 +276,7 @@ export default class GlideCoreCheckbox extends LitElement {
                 })}
               >
                 <div class="checked-icon">${checkedIcon}</div>
-                ${indeterminateIcon}
+                ${icons.indeterminate}
               </div>
             </div>
 
@@ -364,7 +349,7 @@ export default class GlideCoreCheckbox extends LitElement {
                 })}
               >
                 <div class="checked-icon">${checkedIcon}</div>
-                ${indeterminateIcon}
+                ${icons.indeterminate}
               </div>
             </div>
 
@@ -591,3 +576,23 @@ export default class GlideCoreCheckbox extends LitElement {
     }
   }
 }
+
+const icons = {
+  indeterminate: html`
+    <svg
+      style=${styleMap({
+        height: '0.875rem',
+        width: '0.875rem',
+      })}
+      viewBox="0 0 14 14"
+      fill="none"
+      class="indeterminate-icon"
+    >
+      <rect x="0.5" y="0.5" width="0.8125rem" height="0.8125rem" rx="3.5" />
+      <path
+        d="M3 5C3 3.89543 3.89543 3 5 3H9.79289C10.2383 3 10.4614 3.53857 10.1464 3.85355L3.85355 10.1464C3.53857 10.4614 3 10.2383 3 9.79289V5Z"
+        fill="currentColor"
+      />
+    </svg>
+  `,
+};

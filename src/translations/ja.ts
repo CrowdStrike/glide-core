@@ -19,9 +19,7 @@ const translation: Omit<Translation, PendingTranslation> = {
   // These come from ./ja.json
   close: '閉じる',
   dismiss: '無視',
-  open: 'オープン',
   selectAll: 'すべて選択',
-  moreInformation: '詳細情報',
   notifications: '通知',
   nextTab: 'Onglet suivant',
   previousTab: 'Onglet précédent',
