@@ -589,15 +589,6 @@ this.dispatchEvent(new Event('selected', { bubbles: true, composed: true }));
 this.dispatchEvent(new Event('selected');
 ```
 
-There are some exceptions such as Modal, whose "close" event doesn't bubble to match `<dialog>`.
-When deciding to bubble, consider whether the native's equivalent event bubbles.
-Same when composing them.
-Native's "close" event isn't composed.
-Neither is "change".
-
-We're open to bubbling and composing any event if a use case presents itself.
-But our starting point is to follow native.
-
 ### Avoid custom events
 
 Custom events are often unncessary because the value of the event's `detail` property is available or can be made available elsewhere more naturally.

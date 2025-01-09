@@ -18,9 +18,9 @@ declare global {
 }
 
 /**
- * @event change - `(event: Event) => void`
- * @event input - `(event: Event) => void`
- * @event invalid - `(event: Event) => void`
+ * @event change
+ * @event input
+ * @event invalid
  *
  * @slot description - Additional information or context.
  * @slot tooltip - Content for the tooltip.

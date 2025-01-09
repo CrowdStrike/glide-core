@@ -29,9 +29,10 @@ declare global {
 }
 
 /**
- * @event change - `(event: Event) => void`
- * @event input - `(event: Event) => void`
- * @event invalid - `(event: Event) => void`
+ * @event change
+ * @event input
+ * @event invalid
+ * @event toggle
  *
  * @slot - One or more of `<glide-core-dropdown-option>`.
  * @slot description - Additional information or context.

@@ -17,9 +17,9 @@ declare global {
 }
 
 /**
- * @event change - `(event: Event) => void`
- * @event input - `(event: Event) => void`
- * @event invalid - `(event: Event) => void`
+ * @event change
+ * @event input
+ * @event invalid
  *
  * @slot - One or more of `<glide-core-checkbox>`.
  * @slot description - Additional information or context.

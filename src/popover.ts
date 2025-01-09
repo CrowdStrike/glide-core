@@ -23,6 +23,8 @@ declare global {
 }
 
 /**
+ * @event toggle
+ *
  * @slot - The content of the popover.
  * @slot target - The element to which the popover will anchor, which can be any focusable element.
  */
