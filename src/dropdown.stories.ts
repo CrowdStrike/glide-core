@@ -26,7 +26,7 @@ const meta: Meta = {
   ],
   parameters: {
     actions: {
-      handles: ['change', 'input', 'invalid'],
+      handles: ['change', 'input', 'invalid', 'toggle'],
     },
     docs: {
       story: {
@@ -103,7 +103,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid", handler: (event: Event) => void): void',
+            '(event: "change" | "input" | "invalid" | "toggle", handler: (event: Event) => void): void',
         },
       },
     },

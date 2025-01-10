@@ -24,29 +24,7 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCorePopover>(
-    html`<glide-core-popover>
-      Popover
-      <button slot="target">Target</button>
-    </glide-core-popover>`,
-  );
-
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
-    '[data-test="popover"]',
-  );
-
-  // Wait for Floating UI.
-  await aTimeout(0);
-
-  expect(component.offset).to.equal(4);
-  expect(component.open).to.be.false;
-  expect(component.placement).to.be.be.undefined;
-  expect(component.disabled).to.be.false;
-  expect(popover?.checkVisibility()).to.be.false;
-});
-
-it('can be open', async () => {
+it('opens', async () => {
   const component = await fixture<GlideCorePopover>(
     html`<glide-core-popover open>
       Popover

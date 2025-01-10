@@ -7,7 +7,11 @@ const paths = await globby(['dist/**/*.js', '!**/*stories*', '!**/*test*']);
 
 await paths.map(async (path) => {
   const unminified = await readFile(path, 'utf8');
-  const { code } = await minify(unminified, { keep_classnames: true });
+
+  const { code } = await minify(unminified, {
+    // Consumers expect unmangled class names in Ow error messages.
+    keep_classnames: true,
+  });
 
   const result = await minifyHTMLLiterals(code, {
     minifyOptions: {
@@ -17,6 +21,6 @@ await paths.map(async (path) => {
     },
   });
 
-  // `null` happens when there's no HTML as with `styles.ts`.
+  // `null` happens when there's no HTML as with `*.styles.ts`.
   await writeFile(path, result === null ? code : result.code);
 });

@@ -80,7 +80,9 @@ export default class GlideCoreDrawer extends LitElement {
         // https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
         this.#componentElementRef?.value?.focus();
 
-        this.dispatchEvent(new Event('toggle', { bubbles: true }));
+        this.dispatchEvent(
+          new Event('toggle', { bubbles: true, composed: true }),
+        );
       });
     } else if (hasChanged) {
       this.#openAnimation?.cancel();
@@ -107,7 +109,10 @@ export default class GlideCoreDrawer extends LitElement {
 
       this.#closeAnimation?.finished.then(() => {
         this.#componentElementRef.value?.classList?.remove('open');
-        this.dispatchEvent(new Event('toggle', { bubbles: true }));
+
+        this.dispatchEvent(
+          new Event('toggle', { bubbles: true, composed: true }),
+        );
       });
     }
   }

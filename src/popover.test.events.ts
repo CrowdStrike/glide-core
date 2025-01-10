@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './accordion.js';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import { emulateMedia } from '@web/test-runner-commands';
-import GlideCoreAccordion from './accordion.js';
+import GlideCorePopover from './popover.js';
 import sinon from 'sinon';
 
-GlideCoreAccordion.shadowRootOptions.mode = 'open';
+GlideCorePopover.shadowRootOptions.mode = 'open';
 
 it('dispatches a "toggle" event on open', async () => {
-  await emulateMedia({ reducedMotion: 'reduce' });
-
-  const component = await fixture<GlideCoreAccordion>(
-    html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+  const component = await fixture<GlideCorePopover>(
+    html`<glide-core-popover>
+      Popover
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
   );
 
   setTimeout(() => {
@@ -27,12 +26,11 @@ it('dispatches a "toggle" event on open', async () => {
 });
 
 it('dispatches a "toggle" event on close', async () => {
-  await emulateMedia({ reducedMotion: 'reduce' });
-
-  const component = await fixture<GlideCoreAccordion>(
-    html`<glide-core-accordion label="Label" open>
-      Content
-    </glide-core-accordion>`,
+  const component = await fixture<GlideCorePopover>(
+    html`<glide-core-popover open>
+      Popover
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
   );
 
   setTimeout(() => {
@@ -47,12 +45,11 @@ it('dispatches a "toggle" event on close', async () => {
 });
 
 it('does not dispatch a "toggle" event when already open', async () => {
-  await emulateMedia({ reducedMotion: 'reduce' });
-
-  const component = await fixture<GlideCoreAccordion>(
-    html`<glide-core-accordion label="Label" open>
-      Content
-    </glide-core-accordion>`,
+  const component = await fixture<GlideCorePopover>(
+    html`<glide-core-popover open>
+      Popover
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
   );
 
   const spy = sinon.spy();
@@ -65,10 +62,11 @@ it('does not dispatch a "toggle" event when already open', async () => {
 });
 
 it('does not dispatch a "toggle" event when already closed', async () => {
-  await emulateMedia({ reducedMotion: 'reduce' });
-
-  const component = await fixture<GlideCoreAccordion>(
-    html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
+  const component = await fixture<GlideCorePopover>(
+    html`<glide-core-popover>
+      Popover
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
   );
 
   const spy = sinon.spy();

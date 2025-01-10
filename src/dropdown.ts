@@ -104,10 +104,15 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   set open(isOpen: boolean) {
+    const hasChanged = isOpen !== this.#isOpen;
     this.#isOpen = isOpen;
 
-    if (isOpen && !this.disabled) {
+    if (isOpen && hasChanged && !this.disabled) {
       this.#show();
+
+      this.dispatchEvent(
+        new Event('toggle', { bubbles: true, composed: true }),
+      );
 
       return;
     }
@@ -132,7 +137,13 @@ export default class GlideCoreDropdown extends LitElement {
       }
     }
 
-    this.#hide();
+    if (hasChanged) {
+      this.#hide();
+
+      this.dispatchEvent(
+        new Event('toggle', { bubbles: true, composed: true }),
+      );
+    }
   }
 
   @property({ reflect: true })

@@ -311,3 +311,16 @@ it('has `middlewareData.arrow.y` coverage', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 });
+
+it('has `#show()` coverage', async () => {
+  const component = await fixture<GlideCorePopover>(
+    html`<glide-core-popover placement="right">
+      Popover
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
+  );
+
+  component.open = true;
+  component.open = false;
+  component.open = true;
+});

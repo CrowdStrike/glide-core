@@ -369,3 +369,71 @@ it('does not dispatch a "input" event when an option is selected programmaticall
   await aTimeout(0);
   expect(spy.callCount).to.equal(0);
 });
+
+it('dispatches a "toggle" on open', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  setTimeout(() => {
+    component.open = true;
+  });
+
+  const event = await oneEvent(component, 'toggle');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+});
+
+it('dispatches a "toggle" on open', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  setTimeout(() => {
+    component.open = false;
+  });
+
+  const event = await oneEvent(component, 'toggle');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+});
+
+it('does not dispatch a "toggle" event when already open', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  component.addEventListener('toggle', spy);
+
+  component.open = true;
+  await aTimeout(0);
+
+  expect(spy.callCount).to.equal(0);
+});
+
+it('does not dispatch a "toggle" event when already open', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const spy = sinon.spy();
+  component.addEventListener('toggle', spy);
+
+  component.open = false;
+  await aTimeout(0);
+
+  expect(spy.callCount).to.equal(0);
+});

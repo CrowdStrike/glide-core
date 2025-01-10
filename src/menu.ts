@@ -59,12 +59,21 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   set open(isOpen) {
+    const hasChanged = isOpen !== this.#isOpen;
     this.#isOpen = isOpen;
 
-    if (isOpen && !this.isTargetDisabled) {
+    if (isOpen && hasChanged && !this.isTargetDisabled) {
       this.#show();
-    } else {
+
+      this.dispatchEvent(
+        new Event('toggle', { bubbles: true, composed: true }),
+      );
+    } else if (hasChanged) {
       this.#hide();
+
+      this.dispatchEvent(
+        new Event('toggle', { bubbles: true, composed: true }),
+      );
     }
   }
 

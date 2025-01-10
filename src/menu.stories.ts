@@ -30,7 +30,11 @@ const meta: Meta = {
     actions: {
       // Menu Button and Link are selected so "click" events from Menu's target
       // aren't picked up, muddying the Actions tab.
-      handles: ['click glide-core-menu-button', 'click glide-core-menu-link'],
+      handles: [
+        'click glide-core-menu-button',
+        'click glide-core-menu-link',
+        'toggle',
+      ],
     },
     docs: {
       story: {
@@ -41,6 +45,7 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="target"': '',
+    'addEventListener(event, handler)': '',
     offset: 4,
     open: false,
     placement: 'bottom-start',
@@ -60,9 +65,19 @@ const meta: Meta = {
     },
     'slot="target"': {
       table: {
-        type: { summary: 'Element', detail: 'Any focusable element.' },
+        type: { summary: 'Element', detail: 'Any focusable element' },
       },
       type: { name: 'function', required: true },
+    },
+    'addEventListener(event, handler)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '(event: "click" | "toggle", handler: (event: Event) => void): void',
+        },
+      },
     },
     offset: {
       table: {

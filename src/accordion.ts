@@ -33,21 +33,26 @@ export default class GlideCoreAccordion extends LitElement {
 
   @property({ reflect: true, type: Boolean })
   get open() {
-    return this.#open;
+    return this.#isOpen;
   }
 
   set open(isOpen: boolean) {
-    this.#open = isOpen;
+    const hasChanged = isOpen !== this.#isOpen;
+    this.#isOpen = isOpen;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    if (reducedMotion.matches && this.#detailsElementRef.value) {
+    if (reducedMotion.matches && hasChanged && this.#detailsElementRef.value) {
       this.#detailsElementRef.value.open = isOpen;
-      this.dispatchEvent(new Event('toggle', { bubbles: true }));
+
+      this.dispatchEvent(
+        new Event('toggle', { bubbles: true, composed: true }),
+      );
+
       return;
     }
 
-    if (isOpen) {
+    if (isOpen && hasChanged) {
       // Wait for `.summary` to re-render after the "active" class addition to
       // prevent animation jank, especially in Firefox and Safari.
       this.updateComplete.then(() => {
@@ -80,12 +85,14 @@ export default class GlideCoreAccordion extends LitElement {
             )
             .addEventListener('finish', () => {
               if (this.#detailsElementRef.value) {
-                this.dispatchEvent(new Event('toggle', { bubbles: true }));
+                this.dispatchEvent(
+                  new Event('toggle', { bubbles: true, composed: true }),
+                );
               }
             });
         }
       });
-    } else {
+    } else if (hasChanged) {
       this.isClosing = true;
 
       if (this.#defaultSlotElementRef.value) {
@@ -113,7 +120,10 @@ export default class GlideCoreAccordion extends LitElement {
             if (this.#detailsElementRef.value) {
               this.#detailsElementRef.value.open = false;
               this.isClosing = false;
-              this.dispatchEvent(new Event('toggle', { bubbles: true }));
+
+              this.dispatchEvent(
+                new Event('toggle', { bubbles: true, composed: true }),
+              );
             }
           });
       }
@@ -189,7 +199,7 @@ export default class GlideCoreAccordion extends LitElement {
 
   #detailsElementRef = createRef<HTMLDetailsElement>();
 
-  #open = false;
+  #isOpen = false;
 
   #prefixIconSlotElementRef = createRef<HTMLSlotElement>();
 

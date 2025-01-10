@@ -27,7 +27,7 @@ const meta: Meta = {
   ],
   parameters: {
     actions: {
-      handles: ['change', 'input', 'invalid'],
+      handles: ['change', 'input', 'invalid', 'toggle'],
     },
     docs: {
       story: {
