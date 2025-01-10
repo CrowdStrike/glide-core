@@ -118,27 +118,27 @@ export default class GlideCoreDropdown extends LitElement {
       return;
     }
 
-    if (
-      !this.multiple &&
-      this.#inputElementRef.value &&
-      this.selectedOptions.length > 0
-    ) {
-      this.#inputElementRef.value.value = this.selectedOptions[0].label;
-      this.inputValue = this.selectedOptions[0].label;
-      this.isFiltering = false;
-      this.isNoResults = false;
-
-      this.isShowSingleSelectIcon =
+    if (!this.open && hasChanged) {
+      if (
         !this.multiple &&
-        this.selectedOptions.length > 0 &&
-        Boolean(this.selectedOptions.at(0)?.value);
+        this.#inputElementRef.value &&
+        this.selectedOptions.length > 0
+      ) {
+        this.#inputElementRef.value.value = this.selectedOptions[0].label;
+        this.inputValue = this.selectedOptions[0].label;
+        this.isFiltering = false;
+        this.isNoResults = false;
 
-      for (const option of this.#optionElements) {
-        option.hidden = false;
+        this.isShowSingleSelectIcon =
+          !this.multiple &&
+          this.selectedOptions.length > 0 &&
+          Boolean(this.selectedOptions.at(0)?.value);
+
+        for (const option of this.#optionElements) {
+          option.hidden = false;
+        }
       }
-    }
 
-    if (hasChanged) {
       this.#hide();
 
       this.dispatchEvent(
