@@ -22,20 +22,9 @@ declare global {
 const globalStylesheet = new CSSStyleSheet();
 
 globalStylesheet.insertRule(`
-  @supports (scrollbar-gutter: stable) {
-    .private-glide-core-modal-lock-scroll {
-      scrollbar-gutter: stable !important;
-      overflow: hidden !important;
-    }
-  }
-`);
-
-globalStylesheet.insertRule(`
-  @supports not (scrollbar-gutter: stable) {
-    .private-glide-core-modal-lock-scroll {
-      padding-right: var(--glide-scroll-size, 0.9375rem) !important;
-      overflow: hidden !important;
-    }
+  .private-glide-core-modal-lock-scroll {
+    scrollbar-gutter: stable !important;
+    overflow: hidden !important;
   }
 `);
 
