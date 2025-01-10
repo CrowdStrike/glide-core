@@ -168,6 +168,13 @@ export default {
             }
           }
 
+          if (
+            context.componentId === 'drawer' &&
+            $component.getAttribute('style') === ''
+          ) {
+            $component.removeAttribute('style');
+          }
+
           if (context.componentId === 'form-controls-layout') {
             const isDropdownValueChanged =
               context.args['<glide-core-dropdown>.value'].toString() !==
@@ -233,6 +240,13 @@ export default {
               $radio.removeAttribute('aria-disabled');
               $radio.removeAttribute('aria-label');
             }
+          }
+
+          if (
+            context.componentId === 'tab-group' &&
+            $component.getAttribute('style') === ''
+          ) {
+            $component.removeAttribute('style');
           }
 
           if (context.componentId === 'tooltip') {

@@ -192,7 +192,7 @@ export const WithHeaderActions: StoryObj = {
       </script>
 
       <glide-core-modal
-        label=${arguments_.label}
+        label=${arguments_.label || nothing}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -225,7 +225,7 @@ export const WithTertiaryButton: StoryObj = {
       </script>
 
       <glide-core-modal
-        label=${arguments_.label}
+        label=${arguments_.label || nothing}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -258,7 +258,7 @@ export const WithTertiaryIconAndButton: StoryObj = {
       </script>
 
       <glide-core-modal
-        label=${arguments_.label}
+        label=${arguments_.label || nothing}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >

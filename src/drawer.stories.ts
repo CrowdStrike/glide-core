@@ -2,7 +2,7 @@ import './button.js';
 import './drawer.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
@@ -79,7 +79,7 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment */
     return html`
       <glide-core-drawer
-        label=${arguments_.label}
+        label=${arguments_.label || nothing}
         ?open=${arguments_.open}
         ?pinned=${arguments_.pinned}
         style=${styleMap({
