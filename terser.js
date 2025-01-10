@@ -11,6 +11,7 @@ await paths.map(async (path) => {
   const { code } = await minify(unminified, {
     // Consumers expect unmangled class names in Ow error messages.
     keep_classnames: true,
+    mangle: false,
   });
 
   const result = await minifyHTMLLiterals(code, {

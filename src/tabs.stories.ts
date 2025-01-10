@@ -46,9 +46,9 @@ const meta: Meta = {
     '--tabs-padding-inline-start': '',
     '<glide-core-tab>.panel': '',
     '<glide-core-tab>[slot="default"]': 'Tab',
-    '<glide-core-tab>.1.selected': true,
     '<glide-core-tab>.addEventListener(event, handler)': '',
     '<glide-core-tab>.disabled': false,
+    '<glide-core-tab>.1.selected': true,
     '<glide-core-tab>[slot="icon"]': '',
     '<glide-core-tab>.2.selected': false,
     '<glide-core-tab>.3.selected': false,
@@ -204,14 +204,6 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
-    '<glide-core-tab>.1.selected': {
-      name: 'selected',
-      table: {
-        category: 'Tab',
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
-      },
-    },
     '<glide-core-tab>.addEventListener(event, handler)': {
       control: false,
       name: 'addEventListener(event, handler)',
@@ -225,6 +217,14 @@ const meta: Meta = {
     },
     '<glide-core-tab>.disabled': {
       name: 'disabled',
+      table: {
+        category: 'Tab',
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-tab>.1.selected': {
+      name: 'selected',
       table: {
         category: 'Tab',
         defaultValue: { summary: 'false' },

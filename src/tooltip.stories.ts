@@ -173,7 +173,7 @@ const meta: Meta = {
       >
         ${unsafeHTML(arguments_['slot="default"'])}
 
-        <span tabindex="0" slot="target">
+        <span slot="target" tabindex="0">
           <glide-core-example-icon name="info"></glide-core-example-icon>
         </span>
       </glide-core-tooltip>
