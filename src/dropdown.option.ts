@@ -18,7 +18,7 @@ declare global {
 }
 
 /**
- * @slot icon - An icon before the label.
+ * @slot icon - An optional icon before the label.
  */
 @customElement('glide-core-dropdown-option')
 export default class GlideCoreDropdownOption extends LitElement {
