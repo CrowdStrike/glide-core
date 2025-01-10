@@ -131,6 +131,8 @@ export default [
     }
 
     .close-button {
+      --size: 1.25rem;
+
       /* 
         Flex so the icon doesn't sit on the baseline and extend the height of 
         ".close-button", making the icon not vertically centered relative to ".label".
