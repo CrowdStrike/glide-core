@@ -394,7 +394,9 @@ export default class GlideCoreTextarea extends LitElement {
 
     // Unlike "input" events, "change" events aren't composed. So we have to
     // manually dispatch them.
-    this.dispatchEvent(new Event(event.type, event));
+    this.dispatchEvent(
+      new Event(event.type, { bubbles: true, composed: true }),
+    );
   }
 
   #onTextareaInput() {

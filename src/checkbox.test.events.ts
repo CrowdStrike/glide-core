@@ -27,8 +27,10 @@ it('dispatches a "change" event when clicked', async () => {
   click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   const event = await oneEvent(component, 'change');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('dispatches an "input" event when clicked', async () => {
@@ -39,8 +41,10 @@ it('dispatches an "input" event when clicked', async () => {
   click(component.shadowRoot?.querySelector('[data-test="input"]'));
 
   const event = await oneEvent(component, 'input');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('dispatches a "private-value-change" event when its `value` is changed programmatically', async () => {

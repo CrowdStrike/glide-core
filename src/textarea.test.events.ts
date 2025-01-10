@@ -39,6 +39,7 @@ it('dispatches an `change` event when typed in', async () => {
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('dispatches an `invalid` event on submit when required and no value', async () => {

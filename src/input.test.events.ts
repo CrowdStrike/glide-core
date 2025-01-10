@@ -22,6 +22,7 @@ it('dispatches a "change" event when typed in', async () => {
   const event = await oneEvent(component, 'change');
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('dispatches an "input" event when typed in', async () => {
