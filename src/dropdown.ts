@@ -824,8 +824,8 @@ export default class GlideCoreDropdown extends LitElement {
               id="options"
               role="listbox"
               tabindex="-1"
+              @change=${this.#onOptionsChange}
               @click=${this.#onOptionsClick}
-              @input=${this.#onOptionsInput}
               @focusin=${this.#onOptionsFocusin}
               @mousedown=${this.#onOptionsMousedown}
               @mouseover=${this.#onOptionsMouseover}
@@ -1496,7 +1496,9 @@ export default class GlideCoreDropdown extends LitElement {
             new Event('input', { bubbles: true, composed: true }),
           );
 
-          this.dispatchEvent(new Event('change', { bubbles: true }));
+          this.dispatchEvent(
+            new Event('change', { bubbles: true, composed: true }),
+          );
 
           return;
         }
@@ -1905,6 +1907,18 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
+  #onOptionsChange(event: Event) {
+    if (event.target instanceof GlideCoreDropdownOption) {
+      event.target.selected = !event.target.selected;
+    }
+
+    if (event.target === this.#selectAllElementRef.value) {
+      this.#selectAllOrNone();
+    }
+
+    this.#unfilter();
+  }
+
   #onOptionsClick(event: PointerEvent) {
     if (event.target instanceof Element) {
       const option = event.target.closest('glide-core-dropdown-option');
@@ -1938,7 +1952,9 @@ export default class GlideCoreDropdown extends LitElement {
           new Event('input', { bubbles: true, composed: true }),
         );
 
-        this.dispatchEvent(new Event('change', { bubbles: true }));
+        this.dispatchEvent(
+          new Event('change', { bubbles: true, composed: true }),
+        );
 
         return;
       }
@@ -1973,23 +1989,6 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   // "input" is handled instead of the usual "change" because, for historical reasons,
-  //  "change" isn't composed and so won't escape Dropdown Option's shadow DOM.
-  #onOptionsInput(event: Event) {
-    // So we don't emit duplicate events: one internally and one from the checkbox.
-    event.stopPropagation();
-
-    if (event.target instanceof GlideCoreDropdownOption) {
-      event.target.selected = !event.target.selected;
-    }
-
-    if (event.target === this.#selectAllElementRef.value) {
-      this.#selectAllOrNone();
-    }
-
-    this.#unfilter();
-    this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-    this.dispatchEvent(new Event('change', { bubbles: true }));
-  }
 
   #onOptionsLabelChange() {
     if (this.selectedOptions.length > 0) {
@@ -2253,7 +2252,7 @@ export default class GlideCoreDropdown extends LitElement {
     }
 
     this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-    this.dispatchEvent(new Event('change', { bubbles: true }));
+    this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
   }
 
   #selectAllOrNone() {
