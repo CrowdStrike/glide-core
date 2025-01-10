@@ -3,7 +3,7 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    ${focusOutline('.body:focus-visible')}
+    ${focusOutline('.component:focus-visible')}
   `,
   css`
     /* When browser support improves, we can have nicer animations with https://caniuse.com/mdn-css_at-rules_starting-style */
@@ -36,11 +36,26 @@ export default [
       border-radius: 0.5rem;
       box-shadow: var(--glide-core-shadow-lg);
       font-family: var(--glide-core-body-xs-font-family);
-      inline-size: 35rem;
       max-block-size: 75vh;
       max-inline-size: 80vw;
       opacity: 0;
       padding: 1.25rem;
+
+      &.small {
+        inline-size: 22.5rem;
+      }
+
+      &.medium {
+        inline-size: 35rem;
+      }
+
+      &.large {
+        inline-size: 53.75rem;
+      }
+
+      &.xlarge {
+        inline-size: 69.375rem;
+      }
 
       &[open] {
         opacity: 1;
@@ -71,22 +86,6 @@ export default [
       }
     }
 
-    .small {
-      inline-size: 22.5rem;
-    }
-
-    .medium {
-      inline-size: 35rem;
-    }
-
-    .large {
-      inline-size: 53.75rem;
-    }
-
-    .xlarge {
-      inline-size: 69.375rem;
-    }
-
     .header {
       align-items: center;
       display: flex;
@@ -102,7 +101,8 @@ export default [
       gap: var(--glide-core-spacing-xs);
       inline-size: 100%;
       line-height: 1.875rem;
-      margin: 0;
+      margin-block-end: 0;
+      margin-block-start: 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -112,19 +112,29 @@ export default [
       align-items: center;
       display: flex;
       gap: 0.625rem;
+
+      ::slotted(*) {
+        /* 
+          Flex so the actions don't sit on the baseline of ".header" and can be 
+          vertically centered.
+        */
+        display: flex;
+      }
     }
 
     .back-button {
       /* 
-        Flex so the icon doesn't sit on the baseline and thus extend the height of 
+        Flex so the icon doesn't sit on the baseline and extend the height of 
         ".back-button", making the icon not vertically centered relative to ".label".
       */
       display: flex;
     }
 
     .close-button {
+      --size: 1.25rem;
+
       /* 
-        Flex so the icon doesn't sit on the baseline and thus extend the height of 
+        Flex so the icon doesn't sit on the baseline and extend the height of 
         ".close-button", making the icon not vertically centered relative to ".label".
       */
       display: flex;
@@ -141,37 +151,24 @@ export default [
       }
     }
 
-    .footer {
-      align-items: center;
-      display: flex;
-    }
-
     .actions {
+      align-items: center;
       display: flex;
       gap: var(--glide-core-spacing-xs);
-
-      /* Reset the default menu styles */
-      list-style-type: none;
-      margin: 0;
-      margin-inline-start: auto;
-      padding: 0;
-    }
-
-    .menu {
-      display: flex;
-      inline-size: 100%;
-      justify-content: space-between;
       list-style-type: none;
       margin: 0;
       padding: 0;
     }
 
-    .flex {
-      display: flex;
+    .action {
+      &:first-of-type {
+        margin-inline-end: auto;
+      }
     }
 
-    .align-center {
+    .tertiary-slot {
       align-items: center;
+      display: flex;
     }
   `,
 ];

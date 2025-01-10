@@ -21,49 +21,17 @@ declare global {
 
 const globalStylesheet = new CSSStyleSheet();
 
-/*
-  A few notes on these styles:
-
-  - Modal's need a way to lock the body from scrolling.
-    !important ensures we don't hit specificity issues.
-
-  - For Modal, we need to take into account the fact that
-    users may have scrollbars enabled via their OS. When
-    scrollbars are enabled, we need to account for the
-    offset that occurs with the <dialog element. When
-    a <dialog is opened, the background content shifts if
-    the main content area has scrollbars enabled because
-    they get *removed* when the <dialog is opened.
-    To combat this, we use `scrollbar-gutter` with a fallback.
-    For browsers that don't support it yet, we use padding
-    and a runtime calculation to ensure the content doesn't shift.
-
-  Safari appears to be the only browser without this enabeld at
-  the moment https://caniuse.com/mdn-css_properties_scrollbar-gutter
-*/
-
 globalStylesheet.insertRule(`
-  @supports (scrollbar-gutter: stable) {
-    .private-glide-core-modal-lock-scroll {
-      scrollbar-gutter: stable !important;
-      overflow: hidden !important;
-    }
-  }
-`);
-
-globalStylesheet.insertRule(`
-  @supports not (scrollbar-gutter: stable) {
-    .private-glide-core-modal-lock-scroll {
-      padding-right: var(--glide-scroll-size, 0.9375rem) !important;
-      overflow: hidden !important;
-    }
+  .private-glide-core-modal-lock-scroll {
+    scrollbar-gutter: stable !important;
+    overflow: hidden !important;
   }
 `);
 
 /**
- * @event close - `(event: "close", handler: (event: Event)) => void) => void`
+ * @event toggle - `(event: "toggle", handler: (event: Event)) => void): void`
  *
- * @slot - The content of the modal.
+ * @slot - The primary content of the modal.
  * @slot header-actions - One or more of `<glide-core-modal-icon-button>`.
  * @slot primary - One of `<glide-core-button>`.
  * @slot secondary - One of `<glide-core-button>`.
@@ -78,27 +46,39 @@ export default class GlideCoreModal extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true })
-  label = '';
-
   @property({ attribute: 'back-button', type: Boolean, reflect: true })
   backButton = false;
 
   @property({ reflect: true })
-  size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
+  label?: string;
 
-  close() {
-    if (!this.#componentElementRef.value?.open) {
-      return;
-    }
-
-    document.documentElement.classList.remove(
-      'private-glide-core-modal-lock-scroll',
-    );
-
-    this.dispatchEvent(new Event('close'));
-    this.#componentElementRef.value?.close();
+  @property({ reflect: true, type: Boolean })
+  get open() {
+    return this.#isOpen;
   }
+
+  set open(isOpen: boolean) {
+    const hasChanged = isOpen !== this.#isOpen;
+
+    this.#isOpen = isOpen;
+
+    if (isOpen && hasChanged) {
+      this.#show();
+
+      this.dispatchEvent(
+        new Event('toggle', { bubbles: true, composed: true }),
+      );
+    } else if (hasChanged) {
+      this.#hide();
+
+      this.dispatchEvent(
+        new Event('toggle', { bubbles: true, composed: true }),
+      );
+    }
+  }
+
+  @property({ reflect: true })
+  size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
 
   override connectedCallback() {
     super.connectedCallback();
@@ -141,6 +121,10 @@ export default class GlideCoreModal extends LitElement {
       GlideCoreModalTertiaryIcon,
       GlideCoreButton,
     ]);
+
+    if (this.open) {
+      this.#show();
+    }
   }
 
   override render() {
@@ -152,9 +136,9 @@ export default class GlideCoreModal extends LitElement {
         large: this.size === 'large',
         xlarge: this.size === 'xlarge',
       })}
-      tabindex="-1"
+      data-test="component"
       @keydown=${this.#onComponentKeyDown}
-      @mousedown=${this.#onComponentMousedown}
+      @click=${this.#onComponentClick}
       ${ref(this.#componentElementRef)}
     >
       <header class="header">
@@ -167,6 +151,7 @@ export default class GlideCoreModal extends LitElement {
                 class="back-button"
                 data-test="back-button"
                 @click=${this.#onCloseButtonClick}
+                ${ref(this.#backButtonElementRef)}
               >
                 ${icons.back}
               </glide-core-modal-icon-button>`,
@@ -186,100 +171,54 @@ export default class GlideCoreModal extends LitElement {
             class="close-button"
             data-test="close-button"
             @click=${this.#onCloseButtonClick}
+            ${ref(this.#closeButtonElementRef)}
           >
             ${xIcon}
           </glide-core-modal-icon-button>
         </div>
       </header>
 
-      <article
-        aria-labelledby="heading"
-        class="body"
-        role="region"
-        tabindex="0"
-      >
+      <article aria-labelledby="heading" class="body" role="region">
         <slot
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
       </article>
 
-      <footer class="footer">
-        <menu class="menu">
-          <li class="flex align-center">
+      <footer>
+        <menu class="actions">
+          <li class="action">
             <slot
+              class="tertiary-slot"
               name="tertiary"
               @slotchange=${this.#onFooterMenuTertiarySlotChange}
               ${ref(this.#footerMenuTertiarySlotElementRef)}
             ></slot>
           </li>
-          <li>
-            <menu class="actions">
-              <li>
-                <slot
-                  name="secondary"
-                  @slotchange=${this.#onFooterMenuSecondarySlotChange}
-                  ${ref(this.#footerMenuSecondarySlotElementRef)}
-                ></slot>
-              </li>
-              <li>
-                <slot
-                  name="primary"
-                  @slotchange=${this.#onFooterMenuPrimarySlotChange}
-                  ${ref(this.#footerMenuPrimarySlotElementRef)}
-                ></slot>
-              </li>
-            </menu>
+
+          <li class="action">
+            <slot
+              name="secondary"
+              @slotchange=${this.#onFooterMenuSecondarySlotChange}
+              ${ref(this.#footerMenuSecondarySlotElementRef)}
+            ></slot>
+          </li>
+
+          <li class="action">
+            <slot
+              name="primary"
+              @slotchange=${this.#onFooterMenuPrimarySlotChange}
+              ${ref(this.#footerMenuPrimarySlotElementRef)}
+            ></slot>
           </li>
         </menu>
       </footer>
     </dialog>`;
   }
 
-  /**
-   * Method called by consumers to open the Modal.
-   */
-  showModal() {
-    if (this.#componentElementRef.value?.open) {
-      return;
-    }
+  #backButtonElementRef = createRef<GlideCoreModalIconButton>();
 
-    document.documentElement.classList.add(
-      'private-glide-core-modal-lock-scroll',
-    );
-
-    // If the body has scrollbars enabled, when the dialog is opened, those scrollbars
-    // are removed as we don't want consumers to scroll the body content when the dialog is open.
-    // This is accomplished with adding the `private-glide-core-modal-lock-scroll` class above.
-    // However, this is a bit problematic, because when the scrollbars are suddenly removed,
-    // if you have scrollbars set to always display (or are on Windows), you'll notice layout shift.
-    // To combat this, we leverage the CSS property `scrollbar-gutter`. This is great when it is supported.
-    // For browsers that don't support this feature quite yet (Safari), we calculate the width of the scrollbar and
-    // set it to this CSS variable, which gets applied in the CSS of `private-glide-core-modal-lock-scroll`.
-    // https://caniuse.com/mdn-css_properties_scrollbar-gutter
-    if (!window.CSS.supports('scrollbar-gutter', 'stable')) {
-      const gutterSize = Math.abs(
-        window.innerWidth - document.documentElement.clientWidth,
-      );
-
-      document.documentElement.style.setProperty(
-        '--glide-scroll-size',
-        `${gutterSize}px`,
-      );
-    }
-
-    // Setting the `open` attribute is not enough, as you don't get the backdrop.
-    // For the backdrop to render, you must call the "showModal" method directly.
-    // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#open
-    this.#componentElementRef.value?.showModal();
-
-    // We set `tabindex="-1"` and call focus directly based on
-    // https://www.matuzo.at/blog/2023/focus-dialog/
-    // which came from https://adrianroselli.com/2020/10/dialog-focus-in-screen-readers.html
-    // This ensures our dialog is as accessible as possible and does the right behavior
-    // for screenreaders.
-    this.#componentElementRef.value?.focus();
-  }
+  #closeButtonElementRef = createRef<GlideCoreModalIconButton>();
 
   #componentElementRef = createRef<HTMLDialogElement>();
 
@@ -293,61 +232,46 @@ export default class GlideCoreModal extends LitElement {
 
   #headerActionsSlotElementRef = createRef<HTMLSlotElement>();
 
+  #isOpen = false;
+
   #localize = new LocalizeController(this);
 
-  #onCloseButtonClick() {
+  #hide() {
     document.documentElement.classList.remove(
       'private-glide-core-modal-lock-scroll',
     );
 
-    this.dispatchEvent(new Event('close'));
     this.#componentElementRef.value?.close();
+  }
+
+  #onCloseButtonClick() {
+    this.open = false;
+  }
+
+  #onComponentClick(event: MouseEvent) {
+    if (this.#componentElementRef.value) {
+      const { height, width, top, left } =
+        this.#componentElementRef.value.getBoundingClientRect();
+
+      // https://stackoverflow.com/a/26984690
+      const isClickInside =
+        top <= event.clientY &&
+        event.clientY <= top + height &&
+        left <= event.clientX &&
+        event.clientX <= left + width;
+
+      if (!isClickInside) {
+        this.open = false;
+      }
+    }
   }
 
   #onComponentKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Escape') {
-      return;
-    }
+    if (event.key === 'Escape') {
+      this.open = false;
 
-    // Prevent Safari from leaving full screen.
-    event.preventDefault();
-
-    document.documentElement.classList.remove(
-      'private-glide-core-modal-lock-scroll',
-    );
-
-    this.dispatchEvent(new Event('close'));
-    this.#componentElementRef.value?.close();
-  }
-
-  #onComponentMousedown(event: MouseEvent) {
-    if (event.target !== this.#componentElementRef.value) {
-      return;
-    }
-
-    // There's a case where if the dialog has padding (like ours does), clicking
-    // in the padding area will not be considered "inside" of the dialog
-    // and will force a close. This behavior is not ideal at all.
-    // This logic verifies that only clicking  *outside* of the dialog
-    // (normally on the backdrop) closes the dialog.
-    const dialogBoundingRect =
-      this.#componentElementRef.value?.getBoundingClientRect();
-
-    if (dialogBoundingRect) {
-      const isClickInsideDialog =
-        dialogBoundingRect.top <= event.clientY &&
-        event.clientY <= dialogBoundingRect.top + dialogBoundingRect.height &&
-        dialogBoundingRect.left <= event.clientX &&
-        event.clientX <= dialogBoundingRect.left + dialogBoundingRect.width;
-
-      if (!isClickInsideDialog) {
-        document.documentElement.classList.remove(
-          'private-glide-core-modal-lock-scroll',
-        );
-
-        this.dispatchEvent(new Event('close'));
-        this.#componentElementRef.value?.close();
-      }
+      // Prevent Safari from leaving full screen.
+      event.preventDefault();
     }
   }
 
@@ -386,6 +310,14 @@ export default class GlideCoreModal extends LitElement {
     owSlotType(this.#headerActionsSlotElementRef.value, [
       GlideCoreModalIconButton,
     ]);
+  }
+
+  #show() {
+    document.documentElement.classList.add(
+      'private-glide-core-modal-lock-scroll',
+    );
+
+    this.#componentElementRef.value?.showModal();
   }
 }
 
