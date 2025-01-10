@@ -1,5 +1,46 @@
 # @crowdstrike/glide-core
 
+## 0.17.0
+
+### Minor Changes
+
+- [#592](https://github.com/CrowdStrike/glide-core/pull/592) [`1517005`](https://github.com/CrowdStrike/glide-core/commit/1517005995abc0c028d200ee2e70d760f98edf71) Thanks [@clintcs](https://github.com/clintcs)! - "change" events are now composed for every component.
+  This is unlikely a breaking change for you but may be if you're using event delegation with a "change" listener.
+
+- [#577](https://github.com/CrowdStrike/glide-core/pull/577) [`c2f8678`](https://github.com/CrowdStrike/glide-core/commit/c2f86783e3fcf8dc9733dafc292c42a729442b87) Thanks [@clintcs](https://github.com/clintcs)! - The values in Checkbox Group's `value` attribute now appear in the order they were selected.
+
+- [#586](https://github.com/CrowdStrike/glide-core/pull/586) [`b1a5203`](https://github.com/CrowdStrike/glide-core/commit/b1a520325688e4b5d8a653470b4362d75c2a26d4) Thanks [@clintcs](https://github.com/clintcs)! - - Modal's `showModal()` and `close()` methods have been replaced by an `open` attribute to make Modal easier to use and to align with our other components.
+
+  - Modal no longer dispatches a "close" event on close. It instead dispatches a "toggle" event on open and close.
+
+- [#587](https://github.com/CrowdStrike/glide-core/pull/587) [`c0e6911`](https://github.com/CrowdStrike/glide-core/commit/c0e69111c55014a395c20c9e324d3f0fa4579c70) Thanks [@clintcs](https://github.com/clintcs)! - - Drawers's `show()` and `close()` methods have been removed.
+  Drawer's `open` attribute can be used instead.
+  `open` has the functionality of both methods and is easier to use in templates.
+
+  - Drawer no longer dispatches a "close" event on close.
+    It instead dispatches a "toggle" event on open and close.
+
+- [#582](https://github.com/CrowdStrike/glide-core/pull/582) [`8802391`](https://github.com/CrowdStrike/glide-core/commit/8802391927cc7a9f4208780fb3d305c94b110ea0) Thanks [@clintcs](https://github.com/clintcs)! - Radio Group no longer has a `description` property, which was unused internally and undocumented.
+  Radio Group still has a "description" slot you can use to add a description.
+
+### Patch Changes
+
+- [#587](https://github.com/CrowdStrike/glide-core/pull/587) [`c0e6911`](https://github.com/CrowdStrike/glide-core/commit/c0e69111c55014a395c20c9e324d3f0fa4579c70) Thanks [@clintcs](https://github.com/clintcs)! - Drawer's `label` and `pinned` attributes are now reflected.
+
+- [#579](https://github.com/CrowdStrike/glide-core/pull/579) [`dee76c0`](https://github.com/CrowdStrike/glide-core/commit/dee76c0e9c3df1b79ed9c8d473fa477d0836ba0a) Thanks [@clintcs](https://github.com/clintcs)! - Arrowing through Tree no longer scrolls the page.
+
+- [#582](https://github.com/CrowdStrike/glide-core/pull/582) [`8802391`](https://github.com/CrowdStrike/glide-core/commit/8802391927cc7a9f4208780fb3d305c94b110ea0) Thanks [@clintcs](https://github.com/clintcs)! - - Form control tooltip focus outlines now hug their "ⓘ" icons.
+
+  - Tab Group's overflow buttons are now vertically centered.
+
+- [#586](https://github.com/CrowdStrike/glide-core/pull/586) [`b1a5203`](https://github.com/CrowdStrike/glide-core/commit/b1a520325688e4b5d8a653470b4362d75c2a26d4) Thanks [@clintcs](https://github.com/clintcs)! - - Modal now closes on "click" instead of "mousedown" when its backdrop is clicked.
+
+  - Modal's close button is now vertically aligned.
+  - Modal now has a focus outline when opened via keyboard.
+
+- [#589](https://github.com/CrowdStrike/glide-core/pull/589) [`0b8a7ae`](https://github.com/CrowdStrike/glide-core/commit/0b8a7ae356d82235aa24b27e840a0b1a62763e9c) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown, Menu, Popover, Split Button, and Tooltip now dispatch a "toggle" event when opened and closed.
+  - Accordion's "toggle" event is now composed.
+
 ## 0.16.0
 
 ### Minor Changes
