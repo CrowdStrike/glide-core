@@ -14,8 +14,9 @@ declare global {
 }
 
 /**
- * @slot - One of `<glide-core-split-button-primary-button>` or `<glide-core-split-button-primary-link>`.
+ * @event toggle
  *
+ * @slot - One of `<glide-core-split-button-primary-button>` or `<glide-core-split-button-primary-link>`.
  * @slot secondary-button - One of `<glide-core-split-button-secondary-button>`.
  */
 @customElement('glide-core-split-button')

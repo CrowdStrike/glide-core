@@ -17,7 +17,7 @@ declare global {
 }
 
 /**
- * @event remove - `(event: Event) => void`
+ * @event remove
  *
  * @slot - The content of the Inline Alert.
  */

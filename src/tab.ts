@@ -11,8 +11,7 @@ declare global {
 }
 
 /**
- *
- * @event selected - `(event: "selected", handler: (event: Event) => void): void`.
+ * @event selected
  *
  * @slot - A label.
  * @slot icon - An optional icon.

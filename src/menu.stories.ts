@@ -50,6 +50,7 @@ const meta: Meta = {
     open: false,
     placement: 'bottom-start',
     size: 'large',
+    '<glide-core-menu-options>[slot="default"]': '',
     '<glide-core-menu-button>.label': 'One',
     '<glide-core-menu-button>.disabled': false,
     '<glide-core-menu-link>.label': 'Three',
@@ -65,7 +66,11 @@ const meta: Meta = {
     },
     'slot="target"': {
       table: {
-        type: { summary: 'Element', detail: 'Any focusable element' },
+        type: {
+          summary: 'Element',
+          detail:
+            'The element to which the menu will anchor, which can be any focusable element',
+        },
       },
       type: { name: 'function', required: true },
     },
@@ -122,6 +127,17 @@ const meta: Meta = {
         defaultValue: { summary: '"large"' },
         type: { summary: '"small" | "large"' },
       },
+    },
+    '<glide-core-menu-options>[slot="default"]': {
+      name: 'slot="default"',
+      control: false,
+      table: {
+        category: 'Menu Options',
+        type: {
+          summary: 'GlideCoreMenuButton | GlideCoreMenuLink',
+        },
+      },
+      type: { name: 'function', required: true },
     },
     '<glide-core-menu-button>.label': {
       name: 'label',

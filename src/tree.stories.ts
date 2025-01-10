@@ -64,7 +64,9 @@ const meta: Meta = {
     '<glide-core-tree-item>.six.expanded': false,
     '<glide-core-tree-item>.six.selected': false,
     '<glide-core-tree-item-icon-button>.label': 'Settings',
+    '<glide-core-tree-item-menu>[slot="default"]': '',
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
+    '<glide-core-tree-item-menu>[slot="icon"]': '',
   },
   play(context) {
     const observer = new MutationObserver((records) => {
@@ -344,6 +346,17 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
+    '<glide-core-tree-item-menu>[slot="default"]': {
+      name: 'slot="default"',
+      control: false,
+      table: {
+        category: 'Tree Item Menu',
+        type: {
+          summary: 'GlideCoreMenuButton | GlideCoreMenuLink',
+        },
+      },
+      type: { name: 'function', required: true },
+    },
     '<glide-core-tree-item-menu>.placement': {
       name: 'placement',
       options: [
@@ -370,10 +383,10 @@ const meta: Meta = {
       },
     },
     '<glide-core-tree-item-menu>[slot="icon"]': {
-      name: '[slot="icon"]',
+      name: 'slot="icon"',
+      control: false,
       table: {
         category: 'Tree Item Menu',
-        control: false,
         type: {
           summary: 'Element',
         },

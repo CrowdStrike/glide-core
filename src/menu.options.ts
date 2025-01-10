@@ -15,7 +15,7 @@ declare global {
 }
 
 /**
- * @slot - One or more of <glide-core-menu-link> or <glide-core-menu-button>.
+ * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
  */
 @customElement('glide-core-menu-options')
 export default class GlideCoreMenuOptions extends LitElement {

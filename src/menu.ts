@@ -22,8 +22,10 @@ declare global {
 }
 
 /**
+ * @event toggle
+ *
  * @slot - One of `<glide-core-menu-options>`.
- * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
+ * @slot target - The element to which the menu will anchor, which can be any focusable element.
  */
 @customElement('glide-core-menu')
 export default class GlideCoreMenu extends LitElement {

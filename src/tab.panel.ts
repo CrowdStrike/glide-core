@@ -11,7 +11,7 @@ declare global {
 }
 
 /**
- * @slot - Main content for the tab panel
+ * @slot - The content of the panel.
  */
 @customElement('glide-core-tab-panel')
 export default class GlideCoreTabPanel extends LitElement {

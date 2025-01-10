@@ -29,7 +29,7 @@ globalStylesheet.insertRule(`
 `);
 
 /**
- * @event toggle - `(event: "toggle", handler: (event: Event)) => void): void`
+ * @event toggle
  *
  * @slot - The primary content of the modal.
  * @slot header-actions - One or more of `<glide-core-modal-icon-button>`.

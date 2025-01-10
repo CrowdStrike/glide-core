@@ -13,7 +13,7 @@ declare global {
 }
 
 /**
- * @event toggle - `(event: "toggle", handler: (event: Event) => void): void`.
+ * @event toggle
  *
  * @slot - The content of the accordion.
  * @slot prefix-icon - An optional icon before the label.

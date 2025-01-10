@@ -15,7 +15,7 @@ declare global {
 }
 
 /**
- * @event remove - `(event: Event) => void`
+ * @event remove
  *
  * @slot icon
  */

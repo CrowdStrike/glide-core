@@ -26,6 +26,8 @@ declare global {
 }
 
 /**
+ * @event toggle
+ *
  * @slot - The primary content of the tooltip.
  * @slot target - The element to which the tooltip will anchor.
  */

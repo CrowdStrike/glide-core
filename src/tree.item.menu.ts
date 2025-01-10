@@ -21,8 +21,8 @@ declare global {
 }
 
 /**
- * @slot - One or more of <glide-core-menu-link> or <glide-core-menu-button>.
- * @slot target - A focusable element against which Menu will be positioned. Opens and closes Menu when interacted with.
+ * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
+ * @slot icon - An icon.
  */
 @customElement('glide-core-tree-item-menu')
 export default class GlideCoreTreeItemMenu extends LitElement {

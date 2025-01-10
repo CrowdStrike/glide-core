@@ -13,10 +13,9 @@ declare global {
 }
 
 /**
+ * @event toggle
  *
  * @cssprop [--width] - The width the drawer.
- *
- * @event toggle
  *
  * @slot - The content of the Drawer.
  */

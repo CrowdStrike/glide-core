@@ -13,13 +13,8 @@ declare global {
 }
 
 /**
- * @slot - The content of the button. Should only be an icon. The icon should also leverage the
- *         "label" attribute for accessibility so that it is read to screenreaders.
- *
- * @example
- * <glide-core-modal-icon-button slot="header-actions">
- *   <!-- icon here -->
- * </glide-core-modal-icon-button>
+ * @slot - The content of the button. Should only be an icon. The icon should also use the
+ *         "label" attribute for accessibility.
  */
 @customElement('glide-core-modal-icon-button')
 export default class GlideCoreModalIconButton extends LitElement {

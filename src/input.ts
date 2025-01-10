@@ -39,9 +39,9 @@ export const SUPPORTED_TYPES = [
 type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
 
 /**
- * @event change - `(event: Event) => void`
- * @event input - `(event: Event) => void`
- * @event invalid - `(event: Event) => void`
+ * @event change
+ * @event input
+ * @event invalid
  *
  * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.

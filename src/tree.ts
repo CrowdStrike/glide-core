@@ -12,7 +12,7 @@ declare global {
 }
 
 /**
- * @slot - One or more of <glide-core-tree-item>.
+ * @slot - One or more of `<glide-core-tree-item>`.
  */
 @customElement('glide-core-tree')
 export default class GlideCoreTree extends LitElement {
