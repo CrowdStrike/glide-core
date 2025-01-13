@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import GlideCoreTooltip from './tooltip.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
+GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
 it('opens when opened programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
@@ -1051,4 +1053,36 @@ it('hides the tooltip of the active option when opened via click', async () => {
     ?.shadowRoot?.querySelector('[data-test="tooltip"]');
 
   expect(tooltip?.checkVisibility()).to.be.false;
+});
+
+it('does not allow its "toggle" event to propagate', async () => {
+  // The "x" is arbitrary. 500 of them ensures the component is wider
+  // than the viewport even if the viewport's width is increased.
+  const component = await fixture(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      <glide-core-dropdown-option
+        label=${'x'.repeat(500)}
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const tooltip = component.shadowRoot
+    ?.querySelector('[data-test="internal-label-tooltip"]')
+    ?.shadowRoot?.querySelector<HTMLElement>('[data-test="tooltip"]');
+
+  assert(tooltip);
+  tooltip.dataset.openDelay = '0';
+
+  const spy = sinon.spy();
+  component.addEventListener('toggle', spy);
+
+  await hover(
+    component.shadowRoot?.querySelector('[data-test="internal-label"]'),
+  );
+
+  expect(spy.callCount).to.equal(0);
 });
