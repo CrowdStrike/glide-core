@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.17.1
+
+### Patch Changes
+
+- [#598](https://github.com/CrowdStrike/glide-core/pull/598) [`b248269`](https://github.com/CrowdStrike/glide-core/commit/b2482697372f012f01601b62000cc9a7ee7d27cb) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Update internal usages of Glide Core Modal Icon Buttons to pass accessibility checks.
+
 ## 0.17.0
 
 ### Minor Changes
