@@ -147,9 +147,9 @@ export default class GlideCoreModal extends LitElement {
             this.backButton,
             () =>
               html`<glide-core-modal-icon-button
-                aria-label=${this.#localize.term('dismiss')}
                 class="back-button"
                 data-test="back-button"
+                label=${this.#localize.term('dismiss')}
                 @click=${this.#onCloseButtonClick}
                 ${ref(this.#backButtonElementRef)}
               >
@@ -167,9 +167,9 @@ export default class GlideCoreModal extends LitElement {
           ></slot>
 
           <glide-core-modal-icon-button
-            aria-label=${this.#localize.term('close')}
             class="close-button"
             data-test="close-button"
+            label=${this.#localize.term('close')}
             @click=${this.#onCloseButtonClick}
             ${ref(this.#closeButtonElementRef)}
           >
