@@ -4,8 +4,8 @@ import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
-import GlideCoreCheckboxGroup from './checkbox-group.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
+import GlideCoreCheckboxGroup from './checkbox-group.js';
 
 const meta: Meta = {
   title: 'Checkbox Group',

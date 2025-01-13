@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import {
-  aTimeout,
   assert,
+  aTimeout,
   elementUpdated,
   expect,
   fixture,
@@ -10,8 +10,8 @@ import {
   oneEvent,
   waitUntil,
 } from '@open-wc/testing';
-import { click, hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
+import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import type GlideCoreTag from './tag.js';

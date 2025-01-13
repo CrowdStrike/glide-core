@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './dropdown.option.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
-import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import GlideCoreDropdown from './dropdown.js';
 import GlideCoreTag from './tag.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';

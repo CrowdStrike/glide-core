@@ -2,7 +2,7 @@
 /**
  * To be used in Storybook only
  */
-import { LitElement, css, html, svg } from 'lit';
+import { css, html, LitElement, svg } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 @customElement('glide-core-example-icon')

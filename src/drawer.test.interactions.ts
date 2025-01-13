@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './drawer.js';
 import {
   assert,
   elementUpdated,
@@ -8,10 +7,9 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
-import { emulateMedia } from '@web/test-runner-commands';
-import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreDrawer from './drawer.js';
+import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
+import GlideCoreDrawer from './drawer.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 

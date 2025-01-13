@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { LitElement } from 'lit';
-import { LocalizeController } from './localize.js';
 import { customElement } from 'lit/decorators.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import en from '../translations/en.js';
+import { LocalizeController } from './localize.js';
 
 @customElement('mock-component')
 class GlideCoreMockComponent extends LitElement {

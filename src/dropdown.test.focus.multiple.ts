@@ -1,4 +1,3 @@
-import './dropdown.option.js';
 import {
   aTimeout,
   elementUpdated,
@@ -6,8 +5,8 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
-import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import GlideCoreDropdown from './dropdown.js';
 import type GlideCoreTag from './tag.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';

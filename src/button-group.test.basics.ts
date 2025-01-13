@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './button-group.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButtonGroup from './button-group.js';
 import GlideCoreButtonGroupButton from './button-group.button.js';

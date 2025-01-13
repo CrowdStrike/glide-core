@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './accordion.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreAccordion from './accordion.js';
 

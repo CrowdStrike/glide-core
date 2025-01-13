@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { click } from './library/mouse.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { click } from './library/mouse.js';
 import GlideCoreToggle from './toggle.js';
 
 GlideCoreToggle.shadowRootOptions.mode = 'open';

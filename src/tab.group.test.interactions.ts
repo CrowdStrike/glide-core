@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './tab.group.js';
 import './tab.js';
-import './tab.panel.js';
-import { click } from './library/mouse.js';
-import { emulateMedia } from '@web/test-runner-commands';
+import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
+import sinon from 'sinon';
+import { click } from './library/mouse.js';
 import GlideCoreTabGroup from './tab.group.js';
 import GlideCoreTabPanel from './tab.panel.js';
-import sinon from 'sinon';
 
 GlideCoreTabGroup.shadowRootOptions.mode = 'open';
 GlideCoreTabPanel.shadowRootOptions.mode = 'open';

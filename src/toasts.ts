@@ -1,8 +1,8 @@
 import './toasts.toast.js';
-import { LitElement, html } from 'lit';
-import { LocalizeController } from './library/localize.js';
+import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement } from 'lit/decorators.js';
+import { LocalizeController } from './library/localize.js';
 import ow from './library/ow.js';
 import styles from './toasts.styles.js';
 

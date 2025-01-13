@@ -6,8 +6,8 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
-import GlideCoreInlineAlert from './inline-alert.js';
 import sinon from 'sinon';
+import GlideCoreInlineAlert from './inline-alert.js';
 
 GlideCoreInlineAlert.shadowRootOptions.mode = 'open';
 

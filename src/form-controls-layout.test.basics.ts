@@ -2,9 +2,9 @@ import './checkbox.js';
 import './input.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
 import GlideCoreFormControlsLayout from './form-controls-layout.js';
 import expectArgumentError from './library/expect-argument-error.js';
-import sinon from 'sinon';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-form-controls-layout')).to.equal(

@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './button-group.button.js';
-import { click } from './library/mouse.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreButtonGroup from './button-group.js';
 import GlideCoreButtonGroupButton from './button-group.button.js';
+import { click } from './library/mouse.js';
+import GlideCoreButtonGroup from './button-group.js';
 
 GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';

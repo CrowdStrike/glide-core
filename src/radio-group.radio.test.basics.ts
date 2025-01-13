@@ -1,4 +1,3 @@
-import './radio-group.radio.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreRadio from './radio-group.radio.js';
 

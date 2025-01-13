@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './radio-group.js';
-import './radio-group.radio.js';
 import {
   assert,
   elementUpdated,
@@ -9,8 +7,8 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
-import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
+import GlideCoreRadio from './radio-group.radio.js';
 import expectArgumentError from './library/expect-argument-error.js';
 
 GlideCoreRadio.shadowRootOptions.mode = 'open';

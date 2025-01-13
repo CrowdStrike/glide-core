@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './tab.group.js';
-import './tab.js';
-import './tab.panel.js';
 import {
   assert,
   expect,
@@ -11,12 +8,14 @@ import {
   oneEvent,
   waitUntil,
 } from '@open-wc/testing';
-import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreTabGroup from './tab.group.js';
-import GlideCoreTabPanel from './tab.panel.js';
-import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
+import GlideCoreTabGroup from './tab.group.js';
+import './tab.js';
+import GlideCoreTabPanel from './tab.panel.js';
+
+import { click } from './library/mouse.js';
+import expectArgumentError from './library/expect-argument-error.js';
 
 GlideCoreTabGroup.shadowRootOptions.mode = 'open';
 GlideCoreTabPanel.shadowRootOptions.mode = 'open';

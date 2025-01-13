@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './tree.item.icon-button.js';
-import './tree.item.icon-button.js';
 import './tree.item.menu.js';
-import './tree.js';
 import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
+import sinon from 'sinon';
 import GlideCoreTree from './tree.js';
+import { click } from './library/mouse.js';
 import GlideCoreTreeItem from './tree.item.js';
 import expectArgumentError from './library/expect-argument-error.js';
-import sinon from 'sinon';
 
 GlideCoreTree.shadowRootOptions.mode = 'open';
 

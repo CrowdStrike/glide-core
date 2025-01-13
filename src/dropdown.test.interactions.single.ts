@@ -2,20 +2,20 @@
 
 import { ArgumentError } from 'ow';
 import {
-  aTimeout,
   assert,
+  aTimeout,
   elementUpdated,
   expect,
   fixture,
   html,
   oneEvent,
 } from '@open-wc/testing';
-import { click, hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
+import sinon from 'sinon';
+import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import sinon from 'sinon';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';

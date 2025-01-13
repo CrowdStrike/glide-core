@@ -5,8 +5,8 @@ import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
-import GlideCoreDropdown from './dropdown.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
+import GlideCoreDropdown from './dropdown.js';
 
 const meta: Meta = {
   title: 'Dropdown',

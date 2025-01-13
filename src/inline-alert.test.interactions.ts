@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
+import { click } from './library/mouse.js';
 import GlideCoreInlineAlert from './inline-alert.js';
 
 GlideCoreInlineAlert.shadowRootOptions.mode = 'open';

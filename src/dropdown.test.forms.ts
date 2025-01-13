@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './dropdown.option.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
+import sinon from 'sinon';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import sinon from 'sinon';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';

@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './button-group.button.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreButtonGroupButton from './button-group.button.js';
 import sinon from 'sinon';
+import GlideCoreButtonGroupButton from './button-group.button.js';
 
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 

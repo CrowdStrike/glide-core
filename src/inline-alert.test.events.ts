@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './inline-alert.js';
-import { click } from './library/mouse.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreInlineAlert from './inline-alert.js';
 import sinon from 'sinon';
+import { sendKeys } from '@web/test-runner-commands';
+import { click } from './library/mouse.js';
+import GlideCoreInlineAlert from './inline-alert.js';
 
 GlideCoreInlineAlert.shadowRootOptions.mode = 'open';
 

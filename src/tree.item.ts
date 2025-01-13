@@ -1,14 +1,13 @@
-import './tree.item.menu.js';
-import { LitElement, html } from 'lit';
-import { LocalizeController } from './library/localize.js';
+import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
-import GlideCoreIconButton from './icon-button.js';
+import { LocalizeController } from './library/localize.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
+import GlideCoreIconButton from './icon-button.js';
 import chevronIcon from './icons/chevron.js';
 import ow, { owSlotType } from './library/ow.js';
 import styles from './tree.item.styles.js';

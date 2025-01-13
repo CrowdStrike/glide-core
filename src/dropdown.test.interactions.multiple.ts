@@ -2,18 +2,18 @@
 
 import { LitElement } from 'lit';
 import {
-  aTimeout,
   assert,
+  aTimeout,
   elementUpdated,
   expect,
   fixture,
   html,
   oneEvent,
 } from '@open-wc/testing';
-import { click, hover } from './library/mouse.js';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
+import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTag from './tag.js';

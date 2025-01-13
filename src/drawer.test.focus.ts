@@ -1,4 +1,3 @@
-import './drawer.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import GlideCoreDrawer from './drawer.js';

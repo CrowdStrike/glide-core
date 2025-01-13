@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, state } from 'lit/decorators.js';
 import { owSlot, owSlotType } from './library/ow.js';

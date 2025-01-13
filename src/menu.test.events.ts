@@ -4,16 +4,16 @@ import './menu.js';
 import './menu.link.js';
 import './menu.options.js';
 import {
-  aTimeout,
   assert,
+  aTimeout,
   expect,
   fixture,
   html,
   oneEvent,
 } from '@open-wc/testing';
-import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
+import { click } from './library/mouse.js';
 import type GlideCoreMenu from './menu.js';
 
 it('dispatches one link "click" event when a link is selected via click', async () => {

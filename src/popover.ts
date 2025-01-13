@@ -1,12 +1,12 @@
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import {
-  type Placement,
   arrow,
   autoUpdate,
   computePosition,
   flip,
   limitShift,
   offset,
+  type Placement,
   shift,
 } from '@floating-ui/dom';
 import { choose } from 'lit/directives/choose.js';

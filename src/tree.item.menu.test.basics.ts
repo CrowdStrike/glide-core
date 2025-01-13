@@ -1,9 +1,9 @@
 import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
+import sinon from 'sinon';
 import { click } from './library/mouse.js';
 import GlideCoreMenu from './menu.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
 import expectArgumentError from './library/expect-argument-error.js';
-import sinon from 'sinon';
 
 GlideCoreTreeItemMenu.shadowRootOptions.mode = 'open';
 GlideCoreMenu.shadowRootOptions.mode = 'open';

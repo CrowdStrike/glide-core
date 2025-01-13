@@ -1,7 +1,7 @@
-import { LitElement, html } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
+import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import { classMap } from 'lit/directives/class-map.js';
 import ow, { owSlot } from './library/ow.js';
 import styles from './button-group.button.styles.js';
 

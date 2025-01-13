@@ -7,8 +7,8 @@ import {
   html,
   oneEvent,
 } from '@open-wc/testing';
-import GlideCoreDropdownOption from './dropdown.option.js';
 import sinon from 'sinon';
+import GlideCoreDropdownOption from './dropdown.option.js';
 
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 

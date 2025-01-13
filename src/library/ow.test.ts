@@ -1,7 +1,6 @@
-import { LitElement } from 'lit';
+import { LitElement, html as litHtml } from 'lit';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import { html as litHtml } from 'lit';
 import { owSlot, owSlotType } from './ow.js';
 
 @customElement('glide-core-slot')

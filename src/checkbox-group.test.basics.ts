@@ -3,9 +3,9 @@
 import './checkbox.js';
 import { ArgumentError } from 'ow';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 import expectArgumentError from './library/expect-argument-error.js';
-import sinon from 'sinon';
 
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 

@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './radio-group.js';
-import './radio-group.radio.js';
 import * as sinon from 'sinon';
-import { click } from './library/mouse.js';
 import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
+import GlideCoreRadio from './radio-group.radio.js';
+import { click } from './library/mouse.js';
 
 GlideCoreRadio.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';

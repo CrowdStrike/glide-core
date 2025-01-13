@@ -1,14 +1,13 @@
 import './button.js';
-import './drawer.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
-import GlideCoreDrawer from './drawer.js';
-import ow from './library/ow.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
+import ow from './library/ow.js';
+import GlideCoreDrawer from './drawer.js';
 
 const meta: Meta = {
   decorators: [

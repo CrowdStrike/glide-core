@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './dropdown.option.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import { click, hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import { click, hover } from './library/mouse.js';
+import GlideCoreDropdown from './dropdown.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';

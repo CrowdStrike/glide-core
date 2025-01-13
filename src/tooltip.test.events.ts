@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import GlideCoreTooltip from './tooltip.js';
 import sinon from 'sinon';
+import GlideCoreTooltip from './tooltip.js';
 
 it('dispatches a "toggle" event on open', async () => {
   const component = await fixture<GlideCoreTooltip>(

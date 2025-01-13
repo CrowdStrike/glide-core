@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './drawer.js';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
-import GlideCoreDrawer from './drawer.js';
 import sinon from 'sinon';
+import GlideCoreDrawer from './drawer.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 

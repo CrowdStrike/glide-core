@@ -1,5 +1,5 @@
-import { globby } from 'globby';
 import esbuild from 'esbuild';
+import { globby } from 'globby';
 
 const entryPoints = await globby(['src/styles/*.css']).then((paths) => {
   return paths.map((path) => {

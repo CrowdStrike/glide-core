@@ -7,11 +7,11 @@ import {
   fixture,
   html,
 } from '@open-wc/testing';
-import { click } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
+import sinon from 'sinon';
+import { click } from './library/mouse.js';
 import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
-import sinon from 'sinon';
 
 GlideCoreRadio.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
