@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './tab.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTab from './tab.js';
 

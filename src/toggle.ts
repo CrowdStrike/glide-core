@@ -1,5 +1,5 @@
 import './label.js';
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';

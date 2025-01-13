@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './modal.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import GlideCoreModal from './modal.js';
 import sinon from 'sinon';
+import GlideCoreModal from './modal.js';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
 

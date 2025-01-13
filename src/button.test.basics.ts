@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './button.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButton from './button.js';
 

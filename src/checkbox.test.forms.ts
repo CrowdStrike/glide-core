@@ -1,8 +1,8 @@
-import { click } from './library/mouse.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreCheckbox from './checkbox.js';
 import sinon from 'sinon';
+import GlideCoreCheckbox from './checkbox.js';
+import { click } from './library/mouse.js';
 
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 

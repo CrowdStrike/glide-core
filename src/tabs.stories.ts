@@ -7,8 +7,8 @@ import { html } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
-import GlideCoreTab from './tab.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
+import GlideCoreTab from './tab.js';
 
 const meta: Meta = {
   title: 'Tab Group',

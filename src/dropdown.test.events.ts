@@ -2,15 +2,15 @@
 
 import * as sinon from 'sinon';
 import {
-  aTimeout,
   assert,
+  aTimeout,
   expect,
   fixture,
   html,
   oneEvent,
 } from '@open-wc/testing';
-import { click, hover } from './library/mouse.js';
 import { sendKeys } from '@web/test-runner-commands';
+import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 

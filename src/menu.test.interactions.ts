@@ -4,16 +4,16 @@ import './menu.button.js';
 import './menu.options.js';
 import { LitElement } from 'lit';
 import {
-  aTimeout,
   assert,
+  aTimeout,
   elementUpdated,
   expect,
   fixture,
   html,
 } from '@open-wc/testing';
-import { click, hover } from './library/mouse.js';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
+import { click, hover } from './library/mouse.js';
 import GlideCoreMenu from './menu.js';
 import GlideCoreMenuLink from './menu.link.js';
 

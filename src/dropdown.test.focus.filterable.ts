@@ -1,9 +1,8 @@
-import './dropdown.option.js';
-import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
-import { click } from './library/mouse.js';
+import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import { click } from './library/mouse.js';
+import GlideCoreDropdown from './dropdown.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';

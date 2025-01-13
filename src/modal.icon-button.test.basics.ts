@@ -1,7 +1,7 @@
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreModalIconButton from './modal.icon-button.js';
 import sinon from 'sinon';
+import GlideCoreModalIconButton from './modal.icon-button.js';
 
 GlideCoreModalIconButton.shadowRootOptions.mode = 'open';
 

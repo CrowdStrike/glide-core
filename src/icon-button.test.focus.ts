@@ -1,4 +1,3 @@
-import './icon-button.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreIconButton from './icon-button.js';
 

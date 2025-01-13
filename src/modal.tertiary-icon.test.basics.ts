@@ -1,8 +1,8 @@
 import './button.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
 import sinon from 'sinon';
+import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
 
 GlideCoreModalTertiaryIcon.shadowRootOptions.mode = 'open';
 

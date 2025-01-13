@@ -3,10 +3,10 @@ import './menu.link.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
 import { repeat } from 'lit/directives/repeat.js';
+import sinon from 'sinon';
 import GlideCoreMenu from './menu.js';
 import GlideCoreMenuOptions from './menu.options.js';
 import expectArgumentError from './library/expect-argument-error.js';
-import sinon from 'sinon';
 
 GlideCoreMenu.shadowRootOptions.mode = 'open';
 

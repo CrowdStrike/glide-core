@@ -1,6 +1,6 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
-import GlideCoreToast from './toasts.toast.js';
 import sinon from 'sinon';
+import GlideCoreToast from './toasts.toast.js';
 
 GlideCoreToast.shadowRootOptions.mode = 'open';
 

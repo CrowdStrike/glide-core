@@ -1,10 +1,10 @@
 import './icon-button.js';
-import { LitElement, html } from 'lit';
-import { LocalizeController } from './library/localize.js';
+import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
+import { LocalizeController } from './library/localize.js';
 import GlideCoreTab from './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
 import chevronIcon from './icons/chevron.js';

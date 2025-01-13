@@ -7,10 +7,10 @@ import {
   html,
   waitUntil,
 } from '@open-wc/testing';
+import sinon from 'sinon';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
 import expectArgumentError from './library/expect-argument-error.js';
-import sinon from 'sinon';
 
 GlideCoreSplitButtonSecondaryButton.shadowRootOptions.mode = 'open';
 GlideCoreMenuButton.shadowRootOptions.mode = 'open';

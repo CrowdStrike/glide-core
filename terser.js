@@ -1,7 +1,7 @@
+import { readFile, writeFile } from 'node:fs/promises';
 import { globby } from 'globby';
 import { minify } from 'terser';
 import { minifyHTMLLiterals } from 'minify-literals';
-import { readFile, writeFile } from 'node:fs/promises';
 
 const paths = await globby(['dist/**/*.js', '!**/*stories*', '!**/*test*']);
 

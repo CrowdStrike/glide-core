@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './icon-button.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreIconButton from './icon-button.js';
 import sinon from 'sinon';
+import GlideCoreIconButton from './icon-button.js';
 
 GlideCoreIconButton.shadowRootOptions.mode = 'open';
 

@@ -2,8 +2,8 @@
 
 import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import GlideCoreTooltip from './tooltip.js';
 import sinon from 'sinon';
+import GlideCoreTooltip from './tooltip.js';
 
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
 

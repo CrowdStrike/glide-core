@@ -4,9 +4,6 @@ import './split-button.primary-link.js';
 import './split-button.secondary-button.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreSplitButton from './split-button.js';
-import GlideCoreSplitButtonContainer from './split-button.js';
-
-GlideCoreSplitButtonContainer.shadowRootOptions.mode = 'open';
 
 it('sets `privateSize` on its buttons when `size` is set programmatically', async () => {
   const component = await fixture<GlideCoreSplitButton>(html`

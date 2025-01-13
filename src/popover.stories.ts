@@ -5,9 +5,9 @@ import { html } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
+import type { Meta, StoryObj } from '@storybook/web-components';
 import GlideCorePopover from './popover.js';
 import focusOutline from './styles/focus-outline.js';
-import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Popover',

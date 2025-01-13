@@ -1,12 +1,12 @@
 import './icon-button.js';
 import './tooltip.js';
-import { LitElement, html } from 'lit';
-import { LocalizeController } from './library/localize.js';
+import { html, LitElement } from 'lit';
 import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import { LocalizeController } from './library/localize.js';
 import styles from './toasts.toast.styles.js';
 import xIcon from './icons/x.js';
 import type { Toast } from './toasts.js';

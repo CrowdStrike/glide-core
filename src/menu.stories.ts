@@ -1,15 +1,14 @@
 import './button.js';
 import './icons/storybook.js';
 import './menu.button.js';
-import './menu.js';
 import './menu.link.js';
 import './menu.options.js';
+import type { Meta, StoryObj } from '@storybook/web-components';
+import { html, nothing } from 'lit';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreMenu from './menu.js';
-import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Menu',

@@ -1,4 +1,3 @@
-import './button-group.button.js';
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButtonGroupButton from './button-group.button.js';
 

@@ -1,4 +1,4 @@
-import { LitElement, type PropertyValues, html } from 'lit';
+import { html, LitElement, type PropertyValues } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';

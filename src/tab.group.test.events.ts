@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './tab.group.js';
-import './tab.js';
-import './tab.panel.js';
-import './tab.panel.js';
-import { click } from './library/mouse.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import GlideCoreTabGroup from './tab.group.js';
+import './tab.js';
+import './tab.panel.js';
+import { click } from './library/mouse.js';
 
 it('dispatches a "selected" event', async () => {
   const component = await fixture<GlideCoreTabGroup>(html`

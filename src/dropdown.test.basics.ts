@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { ArgumentError } from 'ow';
-import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
+import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { repeat } from 'lit/directives/repeat.js';
+import sinon from 'sinon';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import expectArgumentError from './library/expect-argument-error.js';
-import sinon from 'sinon';
 
 // You'll notice quite a few duplicated tests among the "*.single.ts", "*.multiple.ts",
 // and "*.filterable.ts" test suites. The thinking is that a test warrants

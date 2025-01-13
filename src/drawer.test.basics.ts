@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import './drawer.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
 import expectArgumentError from './library/expect-argument-error.js';

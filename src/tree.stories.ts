@@ -9,8 +9,8 @@ import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { withActions } from '@storybook/addon-actions/decorator';
-import GlideCoreTreeItem from './tree.item.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
+import GlideCoreTreeItem from './tree.item.js';
 
 const meta: Meta = {
   decorators: [

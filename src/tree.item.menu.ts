@@ -1,17 +1,16 @@
-import './icon-button.js';
 import './menu.js';
 import './menu.options.js';
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
-import GlideCoreIconButton from './icon-button.js';
-import GlideCoreMenuButton from './menu.button.js';
-import GlideCoreMenuLink from './menu.link.js';
-import ow, { owSlot, owSlotType } from './library/ow.js';
-import styles from './tree.item.menu.styles.js';
 import type { Placement } from '@floating-ui/dom';
+import styles from './tree.item.menu.styles.js';
+import GlideCoreIconButton from './icon-button.js';
+import ow, { owSlot, owSlotType } from './library/ow.js';
+import GlideCoreMenuLink from './menu.link.js';
+import GlideCoreMenuButton from './menu.button.js';
 import type GlideCoreMenu from './menu.js';
 
 declare global {

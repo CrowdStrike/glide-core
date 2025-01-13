@@ -2,8 +2,8 @@ import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
-import GlideCoreTextarea from './textarea.js';
 import type { Meta, StoryObj } from '@storybook/web-components';
+import GlideCoreTextarea from './textarea.js';
 
 const meta: Meta = {
   title: 'Textarea',

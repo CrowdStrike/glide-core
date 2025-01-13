@@ -1,13 +1,12 @@
-import { LitElement, html } from 'lit';
-import { LocalizeController } from './library/localize.js';
+import { html, LitElement } from 'lit';
 import {
-  type Placement,
   arrow,
   autoUpdate,
   computePosition,
   flip,
   limitShift,
   offset,
+  type Placement,
   shift,
 } from '@floating-ui/dom';
 import { choose } from 'lit/directives/choose.js';
@@ -16,6 +15,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { map } from 'lit/directives/map.js';
+import { LocalizeController } from './library/localize.js';
 import ow, { owSlot } from './library/ow.js';
 import styles from './tooltip.styles.js';
 

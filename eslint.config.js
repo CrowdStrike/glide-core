@@ -1,12 +1,13 @@
 import { FlatCompat } from '@eslint/eslintrc';
 import eslint from '@eslint/js';
-import glideCore from './dist/eslint/plugin.js';
 import globals from 'globals';
 import prettier from 'eslint-config-prettier';
 import sortClassMembers from 'eslint-plugin-sort-class-members';
 import stylistic from '@stylistic/eslint-plugin';
+import importPlugin from 'eslint-plugin-import';
 import typescript from 'typescript-eslint';
 import unicorn from 'eslint-plugin-unicorn';
+import glideCore from './dist/eslint/plugin.js';
 
 const compat = new FlatCompat();
 
@@ -14,9 +15,9 @@ export default [
   eslint.configs.recommended,
   unicorn.configs['flat/all'],
   sortClassMembers.configs['flat/recommended'],
+  importPlugin.flatConfigs.recommended,
   ...compat.extends('plugin:lit/recommended'),
   ...compat.extends('plugin:lit-a11y/recommended'),
-  ...compat.plugins('sort-imports-es6-autofix'),
   ...typescript.configs.recommendedTypeChecked,
   ...typescript.configs.stylisticTypeChecked,
   prettier,
@@ -127,14 +128,16 @@ export default [
       'prefer-const': 'error',
       'no-implicit-coercion': 'error',
       'no-console': 'error',
-      'sort-imports-es6-autofix/sort-imports-es6': [
-        2,
-        {
-          ignoreCase: false,
-          ignoreMemberSort: false,
-          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-        },
-      ],
+      'import/order': 'error',
+
+      // TypeScript handles these for us. Plus they're a bear to configure.
+      'import/named': 'off',
+      'import/no-unresolved': 'off',
+
+      // It sometimes helps readability to do a default import and call methods
+      // off it. Plus this rule isn't not autofixable. So we'd have to make a ton
+      // of manual changes.
+      'import/no-named-as-default-member': 'off',
 
       // We use Lit's `classMap` often enough that disabling this rule ad hoc
       // became tiresome.

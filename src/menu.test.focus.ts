@@ -3,8 +3,8 @@
 import './menu.link.js';
 import './menu.options.js';
 import {
-  aTimeout,
   assert,
+  aTimeout,
   elementUpdated,
   expect,
   fixture,

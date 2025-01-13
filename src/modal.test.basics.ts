@@ -2,12 +2,11 @@
 
 import './button.js';
 import './modal.icon-button.js';
-import './modal.js';
 import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreModal from './modal.js';
-import expectArgumentError from './library/expect-argument-error.js';
 import sinon from 'sinon';
+import expectArgumentError from './library/expect-argument-error.js';
+import GlideCoreModal from './modal.js';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
 

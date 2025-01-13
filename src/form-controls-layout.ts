@@ -1,7 +1,6 @@
-import './checkbox.js';
 import './dropdown.option.js';
 import './label.js';
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import GlideCoreCheckbox from './checkbox.js';

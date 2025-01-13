@@ -1,7 +1,6 @@
 import './icon-button.js';
 import './label.js';
-import { LitElement, html, nothing } from 'lit';
-import { LocalizeController } from './library/localize.js';
+import { html, LitElement, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -9,6 +8,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
+import { LocalizeController } from './library/localize.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import ow from './library/ow.js';
 import styles from './input.styles.js';

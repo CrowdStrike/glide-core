@@ -2,8 +2,8 @@
 
 import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import GlideCorePopover from './popover.js';
 import sinon from 'sinon';
+import GlideCorePopover from './popover.js';
 
 GlideCorePopover.shadowRootOptions.mode = 'open';
 

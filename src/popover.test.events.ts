@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
-import GlideCorePopover from './popover.js';
 import sinon from 'sinon';
+import GlideCorePopover from './popover.js';
 
 GlideCorePopover.shadowRootOptions.mode = 'open';
 

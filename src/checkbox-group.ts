@@ -1,12 +1,12 @@
 import './label.js';
-import { LitElement, html } from 'lit';
+import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import { owSlot, owSlotType } from './library/ow.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
+import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreCheckbox from './checkbox.js';
 import styles from './checkbox-group.styles.js';
 

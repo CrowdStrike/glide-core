@@ -2,8 +2,8 @@
 
 import { ArgumentError } from 'ow';
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
-import GlideCoreLabel from './label.js';
 import sinon from 'sinon';
+import GlideCoreLabel from './label.js';
 
 GlideCoreLabel.shadowRootOptions.mode = 'open';
 

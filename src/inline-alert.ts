@@ -1,12 +1,12 @@
 import './icon-button.js';
-import { LitElement, html } from 'lit';
-import { LocalizeController } from './library/localize.js';
+import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
-import { owSlot } from './library/ow.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
+import { owSlot } from './library/ow.js';
+import { LocalizeController } from './library/localize.js';
 import styles from './inline-alert.styles.js';
 import xIcon from './icons/x.js';
 
