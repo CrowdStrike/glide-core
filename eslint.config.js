@@ -135,7 +135,7 @@ export default [
       'import/no-unresolved': 'off',
 
       // It sometimes helps readability to do a default import and call methods
-      // off it. Plus this rule isn't not autofixable. So we'd have to make a ton
+      // off it. Plus this rule isn't autofixable. So we'd have to make a ton
       // of manual changes.
       'import/no-named-as-default-member': 'off',
 
