@@ -590,7 +590,7 @@ const icons = {
       fill="none"
       class="indeterminate-icon"
     >
-      <rect x="0.5" y="0.5" width="0.8125rem" height="0.8125rem" rx="3.5" />
+      <rect x="0.5" y="0.5" width="13" height="13" rx="3.5" />
       <path
         d="M3 5C3 3.89543 3.89543 3 5 3H9.79289C10.2383 3 10.4614 3.53857 10.1464 3.85355L3.85355 10.1464C3.53857 10.4614 3 10.2383 3 9.79289V5Z"
         fill="currentColor"
