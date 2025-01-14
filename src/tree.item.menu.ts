@@ -6,6 +6,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import type { Placement } from '@floating-ui/dom';
+import packageJson from '../package.json' with { type: 'json' };
 import styles from './tree.item.menu.styles.js';
 import GlideCoreIconButton from './icon-button.js';
 import ow, { owSlot, owSlotType } from './library/ow.js';
@@ -37,6 +38,9 @@ export default class GlideCoreTreeItemMenu extends LitElement {
 
   @property()
   label = '';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override click() {
     ow(

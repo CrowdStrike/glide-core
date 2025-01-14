@@ -1,6 +1,7 @@
 /** @type { import('@storybook/web-components-vite').StorybookConfig } */
 
 import { mergeConfig } from 'vite';
+import packageJson from '../package.json';
 
 const config = {
   stories: ['../src/*.stories.ts'],
@@ -18,6 +19,17 @@ const config = {
     defaultName: 'Overview',
   },
   staticDirs: ['./assets'],
+  env(config) {
+    return {
+      ...config,
+      // We can't import `package.json` directly into stories because Storybook's
+      // Babel doesn't support import attributes. So, instead, each story picks
+      // up the version from `import.meta.env.VITE_CORE_VERSION`. For security,
+      // Vite requires variables to be prefixed with "VITE" before it'll expose
+      // them to the browser.
+      VITE_CORE_VERSION: packageJson.version,
+    };
+  },
   viteFinal(config) {
     return mergeConfig(config, {
       build: {

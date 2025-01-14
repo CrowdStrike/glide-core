@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { owSlot } from './library/ow.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './accordion.styles.js';
@@ -129,6 +130,9 @@ export default class GlideCoreAccordion extends LitElement {
       }
     }
   }
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override click() {
     this.#summaryElementRef.value?.click();

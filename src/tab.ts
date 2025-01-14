@@ -2,6 +2,7 @@ import { html, LitElement, type PropertyValues } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
+import packageJson from '../package.json' with { type: 'json' };
 import styles from './tab.styles.js';
 
 declare global {
@@ -30,6 +31,9 @@ export default class GlideCoreTab extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   @property({ type: Boolean, reflect: true }) selected = false;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   protected override firstUpdated() {
     this.setAttribute('role', 'tab');

@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import styles from './radio-group.radio.styles.js';
 
 declare global {
@@ -115,6 +116,9 @@ export default class GlideCoreRadio extends LitElement {
       }),
     );
   }
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override firstUpdated() {
     this.ariaChecked = this.checked.toString();

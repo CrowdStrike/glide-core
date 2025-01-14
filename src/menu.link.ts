@@ -4,6 +4,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { nanoid } from 'nanoid';
+import packageJson from '../package.json' with { type: 'json' };
 import styles from './menu.link.styles.js';
 
 declare global {
@@ -47,6 +48,9 @@ export default class GlideCoreMenuLink extends LitElement {
   // Private because it's only meant to be used by Menu.
   @property({ type: Boolean })
   privateActive = false;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override click() {
     // Menu sets `#isDisabledLinkClick` in its default slot's "mouseup" handler so

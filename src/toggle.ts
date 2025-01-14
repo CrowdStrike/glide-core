@@ -3,6 +3,7 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import packageJson from '../package.json' with { type: 'json' };
 import styles from './toggle.styles.js';
 
 declare global {
@@ -51,6 +52,9 @@ export default class GlideCoreToggle extends LitElement {
 
   @property({ reflect: true })
   summary?: string;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override click() {
     this.#inputElementRef.value?.click();

@@ -58,6 +58,7 @@ const meta: Meta = {
     spellcheck: 'false',
     type: 'text',
     value: '',
+    version: '',
   },
   play(context) {
     const input = context.canvasElement.querySelector('glide-core-input');
@@ -319,6 +320,15 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '""' },
         type: { summary: 'string' },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

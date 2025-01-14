@@ -6,6 +6,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import ow from './library/ow.js';
 import styles from './textarea.styles.js';
@@ -95,6 +96,9 @@ export default class GlideCoreTextarea extends LitElement {
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override blur() {
     this.#textareaElementRef.value?.blur();

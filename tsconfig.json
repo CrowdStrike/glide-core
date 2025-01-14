@@ -8,8 +8,12 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
+    // So our import of `package.json` in various files doesn't cause our
+    // `./src` files in `./dist` to be nested under `./dist/src`.
+    "rootDir": "./src",
     "useDefineForClassFields": false, // https://lit.dev/docs/components/decorators#decorators-typescript
     "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
     "plugins": [
       {
         "name": "ts-lit-plugin",

@@ -38,6 +38,7 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="nav"': '',
+    version: '',
     '--panel-padding-inline-end': '',
     '--panel-padding-inline-start': '',
     '--tabs-padding-block-end': '',
@@ -59,8 +60,10 @@ const meta: Meta = {
     '<glide-core-tab>.8.selected': false,
     '<glide-core-tab>.9.selected': false,
     '<glide-core-tab>.10.selected': false,
+    '<glide-core-tab>.version': false,
     '<glide-core-tab-panel>.name': '',
     '<glide-core-tab-panel>[slot="default"]': 'Panel',
+    '<glide-core-tab-panel>.version': '',
   },
   play(context) {
     const tabs = context.canvasElement.querySelectorAll('glide-core-tab');
@@ -143,6 +146,15 @@ const meta: Meta = {
         type: { summary: 'GlideCoreTab' },
       },
       type: { name: 'function', required: true },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
     },
     '--panel-padding-inline-end': {
       table: {
@@ -284,6 +296,17 @@ const meta: Meta = {
         disable: true,
       },
     },
+    '<glide-core-tab>.version': {
+      name: 'version',
+      control: false,
+      table: {
+        category: 'Tab',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
     '<glide-core-tab-panel>.name': {
       name: 'name',
       control: false,
@@ -301,6 +324,17 @@ const meta: Meta = {
         type: { summary: 'Element | string' },
       },
       type: { name: 'function', required: true },
+    },
+    '<glide-core-tab-panel>.version': {
+      name: 'version',
+      control: false,
+      table: {
+        category: 'Tab Panel',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
     },
   },
 };

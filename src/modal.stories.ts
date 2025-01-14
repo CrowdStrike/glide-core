@@ -99,6 +99,14 @@ const meta: Meta = {
     'slot="primary"': '',
     'slot="secondary"': '',
     'slot="tertiary"': '',
+    version: '',
+    '<glide-core-modal-icon-button>.label': 'Edit',
+    '<glide-core-modal-icon-button>[slot="default"]': '',
+    '<glide-core-modal-icon-button>.version': '',
+    '<glide-core-modal-tertiary-icon>.label': 'Information',
+    '<glide-core-modal-tertiary-icon>[slot="default"]': '',
+    '<glide-core-modal-tertiary-icon>.tooltip-placement': 'bottom',
+    '<glide-core-modal-tertiary-icon>.version': '',
   },
   argTypes: {
     label: {
@@ -174,6 +182,85 @@ const meta: Meta = {
         },
       },
     },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
+    '<glide-core-modal-icon-button>.label': {
+      name: 'label',
+      table: {
+        category: 'Modal Icon Button',
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-modal-icon-button>[slot="default"]': {
+      name: 'slot="default"',
+      control: false,
+      table: {
+        category: 'Modal Icon Button',
+        type: { summary: 'Element', detail: 'An icon' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-modal-icon-button>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Modal Icon Button',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
+    '<glide-core-modal-tertiary-icon>.label': {
+      name: 'label',
+      table: {
+        category: 'Modal Tertiary Icon',
+        type: { summary: 'string' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-modal-tertiary-icon>[slot="default"]': {
+      name: 'slot="default"',
+      control: false,
+      table: {
+        category: 'Modal Tertiary Icon',
+        type: { summary: 'Element', detail: 'An icon' },
+      },
+      type: { name: 'string', required: true },
+    },
+    '<glide-core-modal-tertiary-icon>.tooltip-placement': {
+      name: 'tooltip-placement',
+      control: { type: 'radio' },
+      options: ['top', 'right', 'bottom', 'left'],
+      table: {
+        category: 'Modal Tertiary Icon',
+        defaultValue: { summary: '"bottom"' },
+        type: {
+          summary: '"top" | "right" | "bottom" | "left"',
+          detail:
+            '// The tooltip will try to move itself to the opposite of this value if not doing so would result in\n// overflow. For example, if "bottom" results in overflow the tooltip will try "top" but not "right"\n// or "left".',
+        },
+      },
+    },
+    '<glide-core-modal-tertiary-icon>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Modal Tertiary Icon',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
   },
 };
 
@@ -205,7 +292,10 @@ export const WithHeaderActions: StoryObj = {
         ></glide-core-button>
 
         <!-- Only "glide-core-modal-icon-button" components should be used with header-actions -->
-        <glide-core-modal-icon-button slot="header-actions" label="Edit">
+        <glide-core-modal-icon-button
+          slot="header-actions"
+          label=${arguments_['<glide-core-modal-icon-button>.label']}
+        >
           <glide-core-example-icon name="edit"></glide-core-example-icon>
         </glide-core-modal-icon-button>
 
@@ -273,9 +363,11 @@ export const WithTertiaryIconAndButton: StoryObj = {
         ></glide-core-button>
 
         <glide-core-modal-tertiary-icon
-          label="Information"
+          label=${arguments_['<glide-core-modal-tertiary-icon>.label']}
           slot="tertiary"
-          tooltip-placement="right"
+          tooltip-placement=${arguments_[
+            '<glide-core-modal-tertiary-icon>.tooltip-placement'
+          ]}
         >
           <glide-core-example-icon name="info"></glide-core-example-icon>
         </glide-core-modal-tertiary-icon>

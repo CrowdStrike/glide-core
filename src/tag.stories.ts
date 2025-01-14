@@ -41,6 +41,7 @@ const meta: Meta = {
     removable: false,
     size: 'medium',
     'slot="icon"': '',
+    version: '',
   },
   argTypes: {
     label: {
@@ -89,6 +90,15 @@ const meta: Meta = {
         type: {
           summary: 'Element',
         },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

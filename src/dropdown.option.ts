@@ -6,6 +6,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import checkedIcon from './icons/checked.js';
 import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.option.styles.js';
@@ -148,6 +149,9 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   @state()
   privateIsTooltipOpen = false;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override click() {
     if (this.privateMultiple) {

@@ -8,6 +8,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import packageJson from '../package.json' with { type: 'json' };
 import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
 
@@ -143,6 +144,9 @@ export default class GlideCoreCheckbox extends LitElement {
   // Used by Checkbox Group.
   @state()
   privateIsReportValidityOrSubmit = false;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   get form() {
     return this.#internals.form;

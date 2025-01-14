@@ -102,6 +102,7 @@ const meta: Meta = {
     'addEventListener(event, handler)': '',
     open: false,
     pinned: false,
+    version: '',
     '--width': '',
   },
   argTypes: {
@@ -139,6 +140,15 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
     '--width': {

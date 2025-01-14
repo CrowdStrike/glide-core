@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import styles from './button.styles.js';
 
 declare global {
@@ -42,6 +43,9 @@ export default class GlideCoreButton extends LitElement {
 
   @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   get form() {
     return this.#internals.form;

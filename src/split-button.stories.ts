@@ -131,20 +131,24 @@ const meta: Meta = {
     'slot="secondary-button"': '',
     size: 'large',
     variant: 'primary',
+    version: '',
     '<glide-core-split-button-primary-button>.label': 'Label',
     '<glide-core-split-button-primary-button>.addEventListener(event, handler)':
       '',
     '<glide-core-split-button-primary-button>.disabled': false,
     '<glide-core-split-button-primary-button>[slot="icon"]': '',
+    '<glide-core-split-button-primary-button>.version': '',
     '<glide-core-split-button-primary-link>.label': 'Label',
     '<glide-core-split-button-primary-link>.url': '/',
     '<glide-core-split-button-primary-link>.disabled': false,
     '<glide-core-split-button-primary-link>[slot="icon"]': '',
+    '<glide-core-split-button-primary-link>.version': '',
     '<glide-core-split-button-secondary-button>.label': 'Label',
     '<glide-core-split-button-secondary-button>[slot="default"]': '',
     '<glide-core-split-button-secondary-button>.disabled': false,
     '<glide-core-split-button-secondary-button>.menu-open': false,
     '<glide-core-split-button-secondary-button>.menu-placement': 'bottom-end',
+    '<glide-core-split-button-secondary-button>.version': '',
   },
   argTypes: {
     'slot="default"': {
@@ -184,6 +188,15 @@ const meta: Meta = {
         type: { summary: '"primary" | "secondary"' },
       },
     },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
     '<glide-core-split-button-primary-button>.label': {
       name: 'label',
       type: { name: 'string', required: true },
@@ -221,6 +234,17 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
+    '<glide-core-split-button-primary-button>.version': {
+      name: 'version',
+      control: false,
+      table: {
+        category: 'Split Button Primary Button',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
     '<glide-core-split-button-primary-link>.label': {
       name: 'label',
       type: { name: 'string', required: true },
@@ -251,6 +275,17 @@ const meta: Meta = {
       table: {
         category: 'Split Button Primary Link',
         type: { summary: 'Element' },
+      },
+    },
+    '<glide-core-split-button-primary-link>.version': {
+      name: 'version',
+      control: false,
+      table: {
+        category: 'Split Button Primary Link',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
     '<glide-core-split-button-secondary-button>.label': {
@@ -300,6 +335,17 @@ const meta: Meta = {
         type: {
           summary: '"bottom-end" | "top-end"',
         },
+      },
+    },
+    '<glide-core-split-button-secondary-button>.version': {
+      name: 'version',
+      control: false,
+      table: {
+        category: 'Split Button Secondary Button',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

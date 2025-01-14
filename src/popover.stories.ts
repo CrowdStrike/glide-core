@@ -67,6 +67,7 @@ const meta: Meta = {
     offset: 4,
     open: false,
     placement: 'bottom',
+    version: '',
   },
   argTypes: {
     'slot="default"': {
@@ -132,6 +133,15 @@ const meta: Meta = {
           detail:
             '// The popover will try to move itself to the opposite of this value if not doing so would result in\n// overflow. For example, if "bottom" results in overflow Popover will try "top" but not "right"\n// or "left".',
         },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

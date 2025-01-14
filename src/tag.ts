@@ -3,6 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import pencilIcon from './icons/pencil.js';
 import styles from './tag.styles.js';
@@ -44,6 +45,9 @@ export default class GlideCoreTag extends LitElement {
 
   @property({ reflect: true })
   size: 'small' | 'medium' | 'large' = 'medium';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override click() {
     this.#removalButtonElementRef.value?.click();

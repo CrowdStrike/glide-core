@@ -47,6 +47,7 @@ const meta: Meta = {
     'slot="description"': '',
     'slot="tooltip"': '',
     value: [],
+    version: '',
     '<glide-core-checkbox>.one.checked': false,
     '<glide-core-checkbox>.two.checked': false,
     '<glide-core-checkbox>.three.checked': false,
@@ -151,6 +152,15 @@ const meta: Meta = {
         type: {
           summary: 'string[]',
         },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
     '<glide-core-checkbox>.one.checked': {

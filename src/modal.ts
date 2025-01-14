@@ -4,6 +4,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import GlideCoreModalIconButton from './modal.icon-button.js';
 import GlideCoreButton from './button.js';
@@ -78,6 +79,9 @@ export default class GlideCoreModal extends LitElement {
 
   @property({ reflect: true })
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override connectedCallback() {
     super.connectedCallback();

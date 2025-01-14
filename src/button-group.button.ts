@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
+import packageJson from '../package.json' with { type: 'json' };
 import ow, { owSlot } from './library/ow.js';
 import styles from './button-group.button.styles.js';
 
@@ -52,6 +53,9 @@ export default class GlideCoreButtonGroupButton extends LitElement {
   // Private because it's only meant to be used by Button Group.
   @property()
   privateVariant?: 'icon-only';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override click() {
     this.#componentElementRef.value?.click();

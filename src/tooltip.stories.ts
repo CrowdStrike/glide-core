@@ -61,6 +61,7 @@ const meta: Meta = {
     open: false,
     placement: 'bottom',
     shortcut: [],
+    version: '',
   },
   argTypes: {
     'slot="default"': {
@@ -133,6 +134,15 @@ const meta: Meta = {
         type: {
           summary: 'string[]',
         },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

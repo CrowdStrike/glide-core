@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js';
 import GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
@@ -61,6 +62,9 @@ export default class GlideCoreSplitButton extends LitElement {
       this.secondaryButtonElement.privateVariant = variant;
     }
   }
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);

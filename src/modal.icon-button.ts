@@ -3,6 +3,7 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { owSlot } from './library/ow.js';
 import styles from './modal.icon-button.styles.js';
 
@@ -27,6 +28,9 @@ export default class GlideCoreModalIconButton extends LitElement {
 
   @property()
   label? = '';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);

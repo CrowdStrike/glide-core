@@ -3,6 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { owSlot } from './library/ow.js';
 import styles from './drawer.styles.js';
 
@@ -115,6 +116,9 @@ export default class GlideCoreDrawer extends LitElement {
       });
     }
   }
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);

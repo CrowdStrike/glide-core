@@ -3,6 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
+import packageJson from '../package.json' with { type: 'json' };
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
@@ -34,6 +35,9 @@ export default class GlideCoreMenuOptions extends LitElement {
 
   @state()
   privateSize: 'small' | 'large' = 'large';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override connectedCallback() {
     super.connectedCallback();

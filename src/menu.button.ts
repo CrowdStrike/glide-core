@@ -3,6 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
+import packageJson from '../package.json' with { type: 'json' };
 import styles from './menu.button.styles.js';
 
 declare global {
@@ -43,6 +44,9 @@ export default class GlideCoreMenuButton extends LitElement {
   // Private because it's only meant to be used by Menu.
   @property({ type: Boolean })
   privateActive = false;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override click() {
     this.#componentElementRef.value?.click();
