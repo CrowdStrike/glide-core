@@ -36,7 +36,8 @@ const meta: Meta = {
       // aren't picked up, muddying the Actions tab.
       handles: [
         'click glide-core-menu-button',
-        'click glide-core-menu-link',
+        'click glide-core-menu-button',
+        'click glide-core-split-button-primary-button',
         'toggle',
       ],
     },
@@ -131,6 +132,8 @@ const meta: Meta = {
     size: 'large',
     variant: 'primary',
     '<glide-core-split-button-primary-button>.label': 'Label',
+    '<glide-core-split-button-primary-button>.addEventListener(event, handler)':
+      '',
     '<glide-core-split-button-primary-button>.disabled': false,
     '<glide-core-split-button-primary-button>[slot="icon"]': '',
     '<glide-core-split-button-primary-link>.label': 'Label',
@@ -189,6 +192,19 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
+    '<glide-core-split-button-primary-button>.addEventListener(event, handler)':
+      {
+        control: false,
+        name: 'addEventListener(event, handler)',
+        table: {
+          category: 'Split Button Primary Button',
+          type: {
+            summary: 'method',
+            detail:
+              '(event: "click", handler: (event: PointerEvent) => void): void',
+          },
+        },
+      },
     '<glide-core-split-button-primary-button>.disabled': {
       name: 'disabled',
       table: {

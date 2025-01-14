@@ -65,7 +65,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '() => boolean',
+          detail: '(): boolean',
         },
       },
     },
@@ -123,7 +123,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '() => boolean',
+          detail: '(): boolean',
         },
       },
     },
@@ -138,7 +138,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(message: string) => void',
+          detail: '(message: string): void',
         },
       },
     },
@@ -147,7 +147,8 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(flags?: ValidityStateFlags, message?: string) => void',
+          detail:
+            '((flags?: ValidityStateFlags, message?: string) => void): void',
         },
       },
     },

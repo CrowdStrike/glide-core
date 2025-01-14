@@ -2,12 +2,14 @@ import './button.js';
 import './icons/storybook.js';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Button',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) => html`
       <form action="/">
         <script type="ignore">
@@ -18,6 +20,11 @@ const meta: Meta = {
       </form>
     `,
   ],
+  parameters: {
+    actions: {
+      handles: ['click'],
+    },
+  },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
     return html`
@@ -36,6 +43,7 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
+    'addEventListener(event, handler)': '',
     disabled: false,
     name: '',
     size: 'large',
@@ -51,6 +59,16 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
+    },
+    'addEventListener(event, handler)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '(event: "click", handler: (event: PointerEvent) => void): void',
+        },
+      },
     },
     disabled: {
       table: {

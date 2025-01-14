@@ -112,7 +112,7 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '() => boolean',
+          detail: '(): void',
         },
       },
     },
@@ -219,7 +219,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       table: {
         type: {
           summary: 'method',
-          detail: '(message: string) => void',
+          detail: '(message: string): void',
         },
       },
     },
@@ -228,7 +228,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       table: {
         type: {
           summary: 'method',
-          detail: '(flags?: ValidityStateFlags, message?: string) => void',
+          detail: '(flags?: ValidityStateFlags, message?: string): void',
         },
       },
     },

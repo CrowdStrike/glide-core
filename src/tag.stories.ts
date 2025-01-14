@@ -37,8 +37,8 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'addEventListener(event, handler)': '',
-    removable: false,
     disabled: false,
+    removable: false,
     size: 'medium',
     'slot="icon"': '',
   },

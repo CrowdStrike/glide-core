@@ -1,12 +1,14 @@
 import './icon-button.js';
 import './icons/storybook.js';
 import { html, nothing } from 'lit';
+import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Icon Button',
   tags: ['autodocs'],
   decorators: [
+    withActions,
     (story) =>
       html`<form action="/">
         <script type="ignore">
@@ -16,6 +18,11 @@ const meta: Meta = {
         ${story()}
       </form>`,
   ],
+  parameters: {
+    actions: {
+      handles: ['click'],
+    },
+  },
   render(arguments_) {
     return html`
       <glide-core-icon-button
@@ -30,6 +37,7 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'slot="default"': '',
+    'addEventListener(event, handler)': '',
     disabled: false,
     variant: 'primary',
   },
@@ -45,6 +53,16 @@ const meta: Meta = {
         type: { summary: 'Element', detail: 'An icon' },
       },
       type: { name: 'function', required: true },
+    },
+    'addEventListener(event, handler)': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail:
+            '(event: "click", handler: (event: PointerEvent) => void): void',
+        },
+      },
     },
     disabled: {
       table: {

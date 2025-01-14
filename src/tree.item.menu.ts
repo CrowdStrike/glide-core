@@ -21,7 +21,7 @@ declare global {
 
 /**
  * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
- * @slot icon - An icon.
+ * @slot icon - An optional icon.
  */
 @customElement('glide-core-tree-item-menu')
 export default class GlideCoreTreeItemMenu extends LitElement {

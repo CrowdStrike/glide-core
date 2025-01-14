@@ -12,7 +12,7 @@ declare global {
 }
 
 /**
- * @slot icon - An icon.
+ * @slot icon - An optional icon.
  */
 @customElement('glide-core-menu-button')
 export default class GlideCoreMenuButton extends LitElement {
