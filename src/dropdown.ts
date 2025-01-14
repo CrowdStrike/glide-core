@@ -125,17 +125,24 @@ export default class GlideCoreDropdown extends LitElement {
       ) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
-        this.isFiltering = false;
-        this.isNoResults = false;
+      } else if (
+        !this.multiple &&
+        this.#inputElementRef.value &&
+        this.selectedOptions.length === 0
+      ) {
+        this.#inputElementRef.value.value = '';
+        this.inputValue = '';
+      } else if (this.multiple && this.#inputElementRef.value) {
+        this.#inputElementRef.value.value = '';
+        this.inputValue = '';
+      }
 
-        this.isShowSingleSelectIcon =
-          !this.multiple &&
-          this.selectedOptions.length > 0 &&
-          Boolean(this.selectedOptions.at(0)?.value);
+      this.isFiltering = false;
+      this.isNoResults = false;
+      this.isShowSingleSelectIcon = Boolean(this.selectedOptions.at(0)?.value);
 
-        for (const option of this.#optionElements) {
-          option.hidden = false;
-        }
+      for (const option of this.#optionElements) {
+        option.hidden = false;
       }
 
       this.#hide();

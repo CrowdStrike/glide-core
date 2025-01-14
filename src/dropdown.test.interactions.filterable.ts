@@ -15,11 +15,12 @@ import sinon from 'sinon';
 import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import GlideCoreTag from './tag.js';
 import GlideCoreTooltip from './tooltip.js';
-import type GlideCoreTag from './tag.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
+GlideCoreTag.shadowRootOptions.mode = 'open';
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
 const defaultSlot = html`
@@ -313,6 +314,7 @@ it('hides its magnifying glass icon when multiselect and not filtering', async (
   );
 
   component.focus();
+
   await sendKeys({ type: 'o' });
   await sendKeys({ press: 'Backspace' });
 
@@ -321,6 +323,96 @@ it('hides its magnifying glass icon when multiselect and not filtering', async (
   );
 
   expect(icon?.checkVisibility()).to.be.not.ok;
+});
+
+it('clears its filter on close when single-select and no option is selected', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  component.focus();
+
+  await sendKeys({ type: 'o' });
+  await click(document.body);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('');
+});
+
+it('clears its filter on close when multiselect and no option is selected', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  component.focus();
+
+  await sendKeys({ type: 'o' });
+  await click(document.body);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('');
+});
+
+it('clears its filter on close when multiselect and an option is selected', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+      open
+    >
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  component.focus();
+
+  await sendKeys({ type: 'o' });
+  await click(document.body);
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('');
 });
 
 it('does not clear its filter when a tag is removed via Backspace', async () => {
@@ -736,16 +828,18 @@ it('does not clear its filter when a tag is removed', async () => {
   );
 
   const option = component.querySelector('glide-core-dropdown-option');
-  assert(option);
 
+  assert(option);
   option.selected = true;
 
   component.focus();
   await sendKeys({ type: 'one' });
 
-  component.shadowRoot
-    ?.querySelector<GlideCoreTag>('[data-test="tag"]')
-    ?.click();
+  await click(
+    component.shadowRoot
+      ?.querySelector('[data-test="tag"]')
+      ?.shadowRoot?.querySelector('[data-test="removal-button"]'),
+  );
 
   await elementUpdated(component);
 
@@ -1190,16 +1284,23 @@ it('sets the `value` of its `<input>` back to the label of selected option when 
 
 it('selects the filter text when `click()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  component.focus();
-  await sendKeys({ type: 'one' });
   component.click();
 
-  expect(window.getSelection()?.toString()).to.equal('one');
+  expect(window.getSelection()?.toString()).to.equal('One');
 });
 
 it('clicks the `<input>` when `click()` is called', async () => {
