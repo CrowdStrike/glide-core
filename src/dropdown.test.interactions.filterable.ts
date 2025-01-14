@@ -11,13 +11,16 @@ import {
   waitUntil,
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
+import sinon from 'sinon';
 import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import GlideCoreTooltip from './tooltip.js';
 import type GlideCoreTag from './tag.js';
 
 GlideCoreDropdown.shadowRootOptions.mode = 'open';
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
+GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
 const defaultSlot = html`
   <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -1410,4 +1413,38 @@ it('shows an ellipsis when made filterable programmatically and the label of the
   );
 
   expect(ellipsis?.checkVisibility()).to.be.true;
+});
+
+it('does not allow its "toggle" event to propagate', async () => {
+  // The "x" is arbitrary. 500 of them ensures the component is wider
+  // than the viewport even if the viewport's width is increased.
+  const component = await fixture(
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option
+        label=${'x'.repeat(500)}
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const tooltip = component.shadowRoot
+    ?.querySelector('[data-test="input-tooltip"]')
+    ?.shadowRoot?.querySelector<HTMLElement>('[data-test="tooltip"]');
+
+  assert(tooltip);
+  tooltip.dataset.openDelay = '0';
+
+  const spy = sinon.spy();
+  component.addEventListener('toggle', spy);
+
+  await hover(component.shadowRoot?.querySelector('[data-test="input"]'));
+
+  expect(spy.callCount).to.equal(0);
 });

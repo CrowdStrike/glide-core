@@ -60,7 +60,7 @@ it('dispatches a "private-value-change" event', async () => {
   expect(event.bubbles).to.be.true;
 });
 
-it('does not allow "toggle" to propagate', async () => {
+it('does not allow its "toggle" event to propagate', async () => {
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
