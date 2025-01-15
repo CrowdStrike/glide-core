@@ -200,9 +200,10 @@ export default class GlideCoreTextarea extends LitElement {
           ?readonly=${this.readonly}
           ?disabled=${this.disabled}
           ${ref(this.#textareaElementRef)}
-          @input=${this.#onTextareaInput}
-          @change=${this.#onTextareaChange}
           @blur=${this.#onTextareaBlur}
+          @change=${this.#onTextareaChange}
+          @input=${this.#onTextareaInput}
+          @keydown=${this.#onTextareaKeydown}
         >
         </textarea>
       </div>
@@ -410,5 +411,11 @@ export default class GlideCoreTextarea extends LitElement {
     );
 
     this.value = this.#textareaElementRef.value.value;
+  }
+
+  #onTextareaKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+      this.form?.requestSubmit();
+    }
   }
 }

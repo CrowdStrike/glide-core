@@ -236,6 +236,9 @@ const meta: Meta = {
       name: 'value',
       table: {
         category: 'Button Group Button',
+        defaultValue: {
+          summary: '""',
+        },
         type: {
           summary: 'string',
           detail:
