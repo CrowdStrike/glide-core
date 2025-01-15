@@ -234,7 +234,7 @@ export default {
 
           if (context.componentId === 'radio-group') {
             for (const $radio of $component.querySelectorAll(
-              'glide-core-radio',
+              'glide-core-radio-group-radio',
             )) {
               $radio.removeAttribute('aria-checked');
               $radio.removeAttribute('aria-disabled');

@@ -6,12 +6,12 @@ import styles from './radio-group.radio.styles.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-radio': GlideCoreRadio;
+    'glide-core-radio-group-radio': GlideCoreRadioGroupRadio;
   }
 }
 
-@customElement('glide-core-radio')
-export default class GlideCoreRadio extends LitElement {
+@customElement('glide-core-radio-group-radio')
+export default class GlideCoreRadioGroupRadio extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: 'closed',
