@@ -2,11 +2,12 @@
 
 import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
+import sinon from 'sinon';
 import GlideCoreTextarea from './textarea.js';
 
 GlideCoreTextarea.shadowRootOptions.mode = 'open';
 
-it('can be reset to initial value', async () => {
+it('can be reset if it has an initial value', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreTextarea>(
@@ -25,7 +26,7 @@ it('can be reset to initial value', async () => {
   expect(component.value).to.equal('testing');
 });
 
-it('can be reset if there was no initial value', async () => {
+it('can be reset if it has no initial value', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreTextarea>(
@@ -472,4 +473,27 @@ it('retains existing validity state when `setCustomValidity()` is called', async
   expect(component.validity?.valid).to.be.false;
   expect(component.validity?.customError).to.be.true;
   expect(component.validity?.valueMissing).to.be.true;
+});
+
+it('submits its form on Meta + Enter', async () => {
+  const form = document.createElement('form');
+
+  const component = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="label"></glide-core-textarea>`,
+    { parentNode: form },
+  );
+
+  const spy = sinon.spy();
+
+  form.addEventListener('submit', (event) => {
+    event?.preventDefault();
+    spy();
+  });
+
+  component?.focus();
+  await sendKeys({ down: 'Meta' });
+  await sendKeys({ press: 'Enter' });
+  await sendKeys({ up: 'Meta' });
+
+  expect(spy.callCount).to.be.equal(1);
 });

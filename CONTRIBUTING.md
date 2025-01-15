@@ -432,10 +432,10 @@ However, built-in form control elements do not reflect attributes that serve as 
 ```ts
 // ✅ -- GOOD
 @property({ reflect: true })
-label?: string
+label?: string;
 
 @property()
-value?: string
+value = '';
 ```
 
 ```ts
@@ -444,7 +444,7 @@ value?: string
 label?: string
 
 @property({ reflect: true })
-value?: string
+value = '';
 ```
 
 ### Prefer separate test files
