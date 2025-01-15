@@ -179,16 +179,21 @@ it('sets the `value` of its `<input>` to the selected option when focus is lost'
 
 it('selects the filter text on focus', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
   component.focus();
-  await sendKeys({ type: 'one' });
 
-  component.blur();
-  component.focus();
-
-  expect(window.getSelection()?.toString()).to.equal('one');
+  expect(window.getSelection()?.toString()).to.equal('One');
 });
