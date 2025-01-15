@@ -38,30 +38,30 @@ export default class GlideCoreTabGroup extends LitElement {
 
   static override styles = styles;
 
-  @state()
-  get selectedTab() {
-    return this.#selectedTab;
-  }
-
-  set selectedTab(tab: GlideCoreTab | null) {
-    this.#previousSelectedTab = this.#selectedTab;
-    this.#selectedTab = tab;
-  }
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   @state()
   isAfterFirstUpdated = false;
 
   @state()
-  isDisableOverflowStartButton = false;
+  isDisableOverflowEndButton = false;
 
   @state()
-  isDisableOverflowEndButton = false;
+  isDisableOverflowStartButton = false;
 
   @state()
   isShowOverflowButtons = false;
 
-  @property({ reflect: true })
-  readonly version = packageJson.version;
+  @state()
+  private get selectedTab() {
+    return this.#selectedTab;
+  }
+
+  private set selectedTab(tab: GlideCoreTab | null) {
+    this.#previousSelectedTab = this.#selectedTab;
+    this.#selectedTab = tab;
+  }
 
   override disconnectedCallback() {
     this.#resizeObserver?.disconnect();

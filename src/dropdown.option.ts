@@ -133,8 +133,14 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   // An option is considered active when it's interacted with via keyboard or hovered.
   // Used by Dropdown.
-  @state()
+  @property({ type: Boolean })
   privateActive = false;
+
+  @property({ type: Boolean })
+  privateIsTooltipOpen = false;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   @state()
   private get isMultiple() {
@@ -146,12 +152,6 @@ export default class GlideCoreDropdownOption extends LitElement {
       this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
     );
   }
-
-  @state()
-  privateIsTooltipOpen = false;
-
-  @property({ reflect: true })
-  readonly version = packageJson.version;
 
   override click() {
     if (this.privateMultiple) {

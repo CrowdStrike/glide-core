@@ -197,7 +197,6 @@ export default [
           order: [
             '[public-static-properties]',
             '[public-@property]',
-            '[public-@state]',
             '[public-properties]',
             '[public-accessors]',
             '[public-arrow-function-expressions]',
@@ -221,12 +220,6 @@ export default [
             'public-@property': [
               {
                 groupByDecorator: '/property/',
-                sort: 'alphabetical',
-              },
-            ],
-            'public-@state': [
-              {
-                groupByDecorator: '/state/',
                 sort: 'alphabetical',
               },
             ],

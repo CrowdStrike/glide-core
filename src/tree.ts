@@ -24,12 +24,6 @@ export default class GlideCoreTree extends LitElement {
 
   static override styles = styles;
 
-  @state() selectedItem?: GlideCoreTreeItem;
-
-  @state() focusedItem?: GlideCoreTreeItem | null;
-
-  @state() privateTabIndex = 0;
-
   @property({ reflect: true })
   readonly version = packageJson.version;
 
@@ -90,6 +84,15 @@ export default class GlideCoreTree extends LitElement {
     this.addEventListener('focusin', this.#onHostFocusIn);
     this.addEventListener('focusout', this.#onHostFocusOut);
   }
+
+  @state()
+  private focusedItem?: GlideCoreTreeItem | null;
+
+  @state()
+  private privateTabIndex = 0;
+
+  @state()
+  private selectedItem?: GlideCoreTreeItem;
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 

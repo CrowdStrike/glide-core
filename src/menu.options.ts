@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import { owSlot, owSlotType } from './library/ow.js';
@@ -33,7 +33,7 @@ export default class GlideCoreMenuOptions extends LitElement {
   @property({ attribute: 'aria-labelledby', reflect: true })
   ariaLabelledby = '';
 
-  @state()
+  @property()
   privateSize: 'small' | 'large' = 'large';
 
   @property({ reflect: true })
