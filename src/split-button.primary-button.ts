@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import packageJson from '../package.json' with { type: 'json' };
 import styles from './split-button.primary-button.styles.js';
 
 declare global {
@@ -51,6 +52,9 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
 
   @state()
   privateVariant: 'primary' | 'secondary' = 'primary';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override render() {
     return html`<button

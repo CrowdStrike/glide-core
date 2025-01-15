@@ -12,6 +12,7 @@ import { repeat } from 'lit/directives/repeat.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreDropdownOption from './dropdown.option.js';
 import { LocalizeController } from './library/localize.js';
 import GlideCoreTag from './tag.js';
@@ -258,6 +259,9 @@ export default class GlideCoreDropdown extends LitElement {
   */
   @property({ reflect: true })
   variant?: 'quiet';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   private get activeOption() {
     return this.#optionElementsIncludingSelectAll?.find(

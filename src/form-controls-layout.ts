@@ -3,6 +3,7 @@ import './label.js';
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreCheckbox from './checkbox.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 import GlideCoreDropdown from './dropdown.js';
@@ -45,6 +46,9 @@ export default class GlideCoreFormControlsLayout extends LitElement {
       }
     }
   }
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override firstUpdated() {
     owSlot(this.#slotElementRef.value);

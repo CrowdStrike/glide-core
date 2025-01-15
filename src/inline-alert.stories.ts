@@ -28,6 +28,7 @@ const meta: Meta = {
     'addEventListener(event, handler)': '',
     removable: false,
     variant: 'informational',
+    version: '',
   },
   argTypes: {
     'slot="default"': {
@@ -61,6 +62,15 @@ const meta: Meta = {
         type: {
           summary: `"informational" | "medium" | "high" | "critical"`,
         },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

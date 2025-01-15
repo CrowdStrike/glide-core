@@ -61,6 +61,7 @@ const meta: Meta = {
     'slot="tooltip"': '',
     value: [],
     variant: '',
+    version: '',
     '<glide-core-dropdown-option>.label': 'One',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
     '<glide-core-dropdown-option>.disabled': false,
@@ -72,6 +73,7 @@ const meta: Meta = {
     '<glide-core-dropdown-option>.one.value': 'one',
     '<glide-core-dropdown-option>.two.value': 'two',
     '<glide-core-dropdown-option>.three.value': 'three',
+    '<glide-core-dropdown-option>.one.version': '',
   },
   argTypes: {
     label: {
@@ -281,6 +283,15 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         type: { summary: '"quiet"', detail: '// Unsupported with `multiple`' },
       },
     },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
     '<glide-core-dropdown-option>.label': {
       name: 'label',
       table: {
@@ -361,6 +372,17 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
     '<glide-core-dropdown-option>.three.value': {
       table: {
         disable: true,
+      },
+    },
+    '<glide-core-dropdown-option>.one.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Dropdown Option',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

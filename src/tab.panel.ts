@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
+import packageJson from '../package.json' with { type: 'json' };
 import styles from './tab.panel.styles.js';
 
 declare global {
@@ -39,6 +40,9 @@ export default class GlideCoreTabPanel extends LitElement {
     this.setAttribute('aria-hidden', isSelected ? 'false' : 'true');
     this.#isSelected = isSelected;
   }
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   protected override firstUpdated() {
     this.setAttribute('role', 'tabpanel');

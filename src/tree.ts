@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
@@ -28,6 +29,9 @@ export default class GlideCoreTree extends LitElement {
   @state() focusedItem?: GlideCoreTreeItem | null;
 
   @state() privateTabIndex = 0;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override disconnectedCallback() {
     super.disconnectedCallback();

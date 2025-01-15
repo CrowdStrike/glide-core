@@ -49,12 +49,16 @@ const meta: Meta = {
     open: false,
     placement: 'bottom-start',
     size: 'large',
+    version: '',
     '<glide-core-menu-options>[slot="default"]': '',
+    '<glide-core-menu-options>.version': '',
     '<glide-core-menu-button>.label': 'One',
     '<glide-core-menu-button>.disabled': false,
+    '<glide-core-menu-button>.version': '',
     '<glide-core-menu-link>.label': 'Three',
     '<glide-core-menu-link>.disabled': false,
     '<glide-core-menu-link>.url': '/',
+    '<glide-core-menu-link>.version': '',
   },
   argTypes: {
     'slot="default"': {
@@ -127,6 +131,15 @@ const meta: Meta = {
         type: { summary: '"small" | "large"' },
       },
     },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
     '<glide-core-menu-options>[slot="default"]': {
       name: 'slot="default"',
       control: false,
@@ -137,6 +150,17 @@ const meta: Meta = {
         },
       },
       type: { name: 'function', required: true },
+    },
+    '<glide-core-menu-options>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Menu Options',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
     },
     '<glide-core-menu-button>.label': {
       name: 'label',
@@ -152,6 +176,17 @@ const meta: Meta = {
         category: 'Menu Button',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    '<glide-core-menu-button>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Menu Button',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
     '<glide-core-menu-link>.label': {
@@ -175,6 +210,17 @@ const meta: Meta = {
       table: {
         category: 'Menu Link',
         type: { summary: 'string' },
+      },
+    },
+    '<glide-core-menu-link>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Menu Link',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

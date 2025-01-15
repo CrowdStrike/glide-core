@@ -7,6 +7,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreRadio from './radio-group.radio.js';
 import styles from './radio-group.styles.js';
@@ -112,6 +113,9 @@ export default class GlideCoreRadioGroup extends LitElement {
       }
     }
   }
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   checkValidity() {
     this.isCheckingValidity = true;

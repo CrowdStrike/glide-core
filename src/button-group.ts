@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreButtonGroupButton from './button-group.button.js';
 import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './button-group.styles.js';
@@ -54,6 +55,9 @@ export default class GlideCoreButtonGroup extends LitElement {
 
     this.#orientation = orientation;
   }
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override firstUpdated() {
     owSlot(this.#slotElementRef.value);

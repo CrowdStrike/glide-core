@@ -4,6 +4,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreMenu from './menu.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
@@ -50,6 +51,9 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
 
   @state()
   privateVariant: 'primary' | 'secondary' = 'primary';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override click() {
     this.#buttonElementRef.value?.click();

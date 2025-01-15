@@ -1,7 +1,8 @@
 import './toasts.toast.js';
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import ow from './library/ow.js';
 import styles from './toasts.styles.js';
@@ -27,6 +28,9 @@ export default class GlideCoreToasts extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   /**
    * @param {number} [toast.duration=5000]

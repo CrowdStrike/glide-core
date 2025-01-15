@@ -2,8 +2,9 @@ import './icon-button.js';
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, state } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import GlideCoreTab from './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
@@ -58,6 +59,9 @@ export default class GlideCoreTabGroup extends LitElement {
 
   @state()
   isShowOverflowButtons = false;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override disconnectedCallback() {
     this.#resizeObserver?.disconnect();

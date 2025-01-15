@@ -8,6 +8,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import ow from './library/ow.js';
@@ -129,6 +130,9 @@ export default class GlideCoreInput extends LitElement {
     reflect: true,
   })
   maxlength?: number;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   get form() {
     return this.#internals.form;

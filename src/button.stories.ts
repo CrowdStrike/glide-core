@@ -52,6 +52,7 @@ const meta: Meta = {
     type: 'button',
     value: '',
     variant: 'primary',
+    version: '',
   },
   argTypes: {
     label: {
@@ -132,6 +133,15 @@ const meta: Meta = {
           summary: '"primary"',
         },
         type: { summary: '"primary" | "secondary" | "tertiary"' },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

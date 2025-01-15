@@ -48,6 +48,7 @@ const meta: Meta = {
     'slot="tooltip"': '',
     summary: '',
     value: '',
+    version: '',
   },
   argTypes: {
     'addEventListener(event, handler)': {
@@ -171,6 +172,15 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '""' },
         type: { summary: 'string' },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

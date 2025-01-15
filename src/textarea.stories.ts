@@ -82,6 +82,7 @@ const meta: Meta = {
     'slot="tooltip"': '',
     spellcheck: 'false',
     value: '',
+    version: '',
   },
   argTypes: {
     label: {
@@ -241,6 +242,15 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '""' },
         type: { summary: 'string' },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

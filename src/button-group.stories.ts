@@ -143,12 +143,14 @@ const meta: Meta = {
     'slot="default"': '',
     orientation: 'horizontal',
     variant: '',
+    version: '',
     '<glide-core-button-group-button>.label': 'One',
     '<glide-core-button-group-button>.addEventListener(event, handler)': '',
     '<glide-core-button-group-button>.disabled': false,
     '<glide-core-button-group-button>.one.selected': true,
     '<glide-core-button-group-button>[slot="icon"]': '',
     '<glide-core-button-group-button>.value': '',
+    '<glide-core-button-group-button>.version': '',
     '<glide-core-button-group-button>.two.selected': false,
     '<glide-core-button-group-button>.three.selected': false,
   },
@@ -179,6 +181,15 @@ const meta: Meta = {
       options: ['', 'icon-only'],
       table: {
         type: { summary: '"icon-only"' },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
     '<glide-core-button-group-button>.label': {
@@ -230,6 +241,17 @@ const meta: Meta = {
           detail:
             '// Set `value` when you need something other than `label` to identify the selected button',
         },
+      },
+    },
+    '<glide-core-button-group-button>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Button Group Button',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
     '<glide-core-button-group-button>.two.selected': {

@@ -128,10 +128,12 @@ const meta: Meta = {
     'slot="description"': '',
     'slot="tooltip"': '',
     value: 'one',
+    version: '',
     '<glide-core-radio>.label': 'One',
     '<glide-core-radio>.one.checked': true,
     '<glide-core-radio>.one.disabled': false,
     '<glide-core-radio>.value': 'one',
+    '<glide-core-radio>.version': '',
     '<glide-core-radio>.two.checked': false,
     '<glide-core-radio>.three.checked': false,
   },
@@ -229,6 +231,15 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
     '<glide-core-radio>.label': {
       name: 'label',
       table: {
@@ -259,6 +270,17 @@ const meta: Meta = {
         category: 'Radio',
         defaultValue: { summary: '' },
         type: { summary: 'string' },
+      },
+    },
+    '<glide-core-radio>.version': {
+      name: 'version',
+      control: false,
+      table: {
+        category: 'Radio',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
     '<glide-core-radio>.two.checked': {

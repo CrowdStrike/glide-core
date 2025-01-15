@@ -9,6 +9,7 @@ import {
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
+import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
 import GlideCoreMenuOptions from './menu.options.js';
@@ -94,6 +95,9 @@ export default class GlideCoreMenu extends LitElement {
       this.#optionsElement.privateSize = size;
     }
   }
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override connectedCallback() {
     super.connectedCallback();

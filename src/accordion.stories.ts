@@ -63,6 +63,7 @@ const meta: Meta = {
     open: false,
     'slot="prefix-icon"': '',
     'slot="suffix-icons"': '',
+    version: '',
   },
   argTypes: {
     label: {
@@ -107,6 +108,15 @@ const meta: Meta = {
         type: {
           summary: 'Element',
         },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

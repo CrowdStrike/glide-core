@@ -13,6 +13,7 @@ import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import ow, { owSlot } from './library/ow.js';
 import styles from './popover.styles.js';
 
@@ -101,6 +102,9 @@ export default class GlideCorePopover extends LitElement {
   */
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override connectedCallback() {
     super.connectedCallback();

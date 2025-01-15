@@ -16,6 +16,10 @@ const meta: Meta = {
 
         ${story()} `,
   ],
+  args: {
+    'add(toast)': '',
+    version: '',
+  },
   argTypes: {
     'add(toast)': {
       control: false,
@@ -31,6 +35,15 @@ const meta: Meta = {
   }
 ) => void`,
         },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

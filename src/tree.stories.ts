@@ -47,6 +47,7 @@ const meta: Meta = {
   tags: ['autodocs'],
   args: {
     'slot="default"': '',
+    version: '',
     '<glide-core-tree-item>.label': 'Branch',
     '<glide-core-tree-item>.addEventListener(event, handler)': '',
     '<glide-core-tree-item>.two.expanded': true,
@@ -63,10 +64,13 @@ const meta: Meta = {
     '<glide-core-tree-item>.five.selected': false,
     '<glide-core-tree-item>.six.expanded': false,
     '<glide-core-tree-item>.six.selected': false,
+    '<glide-core-tree-item>.version': '',
     '<glide-core-tree-item-icon-button>.label': 'Settings',
+    '<glide-core-tree-item-icon-button>.version': '',
     '<glide-core-tree-item-menu>[slot="default"]': '',
     '<glide-core-tree-item-menu>.placement': 'bottom-start',
     '<glide-core-tree-item-menu>[slot="icon"]': '',
+    '<glide-core-tree-item-menu>.version': '',
   },
   play(context) {
     const observer = new MutationObserver((records) => {
@@ -232,6 +236,15 @@ const meta: Meta = {
       },
       type: { name: 'function', required: true },
     },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
     '<glide-core-tree-item>.label': {
       name: 'label',
       table: {
@@ -239,6 +252,17 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
+    },
+    '<glide-core-tree-item>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Tree Item',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
     },
     '<glide-core-tree-item>.addEventListener(event, handler)': {
       control: false,
@@ -346,6 +370,17 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
+    '<glide-core-tree-item-icon-button>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Tree Item Icon Button',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
+      },
+    },
     '<glide-core-tree-item-menu>[slot="default"]': {
       name: 'slot="default"',
       control: false,
@@ -390,6 +425,17 @@ const meta: Meta = {
         type: {
           summary: 'Element',
         },
+      },
+    },
+    '<glide-core-tree-item-menu>.version': {
+      control: false,
+      name: 'version',
+      table: {
+        category: 'Tree Item Menu',
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

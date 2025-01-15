@@ -5,6 +5,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { owSlot } from './library/ow.js';
 import { LocalizeController } from './library/localize.js';
 import styles from './inline-alert.styles.js';
@@ -35,6 +36,9 @@ export default class GlideCoreInlineAlert extends LitElement {
 
   @property({ reflect: true, type: Boolean })
   removable? = false;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);

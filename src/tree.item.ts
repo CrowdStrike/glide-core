@@ -5,6 +5,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
 import GlideCoreIconButton from './icon-button.js';
@@ -47,6 +48,9 @@ export default class GlideCoreTreeItem extends LitElement {
 
   @property({ reflect: true, type: Boolean, attribute: 'non-collapsible' })
   nonCollapsible = false;
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override focus(options?: FocusOptions) {
     this.#labelContainerElementRef.value?.focus(options);

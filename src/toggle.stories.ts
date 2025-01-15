@@ -38,6 +38,7 @@ const meta: Meta = {
     'slot="description"': '',
     'slot="tooltip"': '',
     summary: '',
+    version: '',
   },
   argTypes: {
     label: {
@@ -91,6 +92,15 @@ const meta: Meta = {
     summary: {
       table: {
         type: { summary: 'string' },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
   },

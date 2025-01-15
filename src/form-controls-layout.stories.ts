@@ -38,6 +38,7 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     split: 'left',
+    version: '',
     '<glide-core-checkbox-group>.value': [],
     '<glide-core-dropdown>.open': false,
     '<glide-core-dropdown>.value': [],
@@ -60,6 +61,15 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '"left"' },
         type: { summary: '"left" | "middle"' },
+      },
+    },
+    version: {
+      control: false,
+      table: {
+        defaultValue: {
+          summary: import.meta.env.VITE_CORE_VERSION,
+        },
+        type: { summary: 'string', detail: '// For debugging' },
       },
     },
     '<glide-core-checkbox-group>.value': {

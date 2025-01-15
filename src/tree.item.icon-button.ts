@@ -2,6 +2,7 @@ import './icon-button.js';
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
+import packageJson from '../package.json' with { type: 'json' };
 import { owSlot } from './library/ow.js';
 import styles from './tree.item.icon-button.styles.js';
 
@@ -25,6 +26,9 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
 
   @property()
   label = '';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);

@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreTooltip from './tooltip.js';
 import { owSlot } from './library/ow.js';
 
@@ -26,6 +27,9 @@ export default class GlideCoreModalTertiaryIcon extends LitElement {
 
   @property({ attribute: 'tooltip-placement' })
   tooltipPlacement: 'bottom' | 'left' | 'right' | 'top' = 'bottom';
+
+  @property({ reflect: true })
+  readonly version = packageJson.version;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
