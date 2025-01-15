@@ -5,7 +5,6 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
-import type { Placement } from '@floating-ui/dom';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './tree.item.menu.styles.js';
 import GlideCoreIconButton from './icon-button.js';
@@ -34,7 +33,7 @@ export default class GlideCoreTreeItemMenu extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  placement: Placement = 'bottom-start';
+  placement: 'bottom-start' | 'top-start' = 'bottom-start';
 
   @property()
   label = '';

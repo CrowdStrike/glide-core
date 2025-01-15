@@ -175,7 +175,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #resizeObserver: ResizeObserver | null = null;
 
-  // https://stackoverflow.com/questions/45802988/typescript-use-correct-version-of-settimeout-node-vs-window
   #resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   #scrollTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -274,7 +273,6 @@ export default class GlideCoreTabGroup extends LitElement {
             index++;
             break;
           }
-          // No default
         }
 
         if (index < 0) {
