@@ -17,16 +17,6 @@ it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tree')).to.equal(GlideCoreTree);
 });
 
-it('renders and sets default attributes', async () => {
-  const component = await fixture<GlideCoreTree>(html`
-    <glide-core-tree>
-      <glide-core-tree-item label="Child Item"></glide-core-tree-item>
-    </glide-core-tree>
-  `);
-
-  expect(component.selectedItem).to.equal(undefined);
-});
-
 it('can select child and grandchild items', async () => {
   const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
@@ -46,16 +36,20 @@ it('can select child and grandchild items', async () => {
   );
 
   component.selectItem(childItems[0]);
+  let selectedItem = component.querySelector('glide-core-tree-item[selected]');
+
   expect(childItems[0].selected).to.be.true;
-  expect(component.selectedItem).to.equal(childItems[0]);
+  expect(selectedItem).to.equal(childItems[0]);
   expect(childItems[1].selected).to.be.false;
   expect(grandchildItems[0].selected).to.be.false;
 
   component.selectItem(grandchildItems[0]);
+  selectedItem = component.querySelector('glide-core-tree-item[selected]');
+
   expect(childItems[0].selected).to.be.false;
   expect(childItems[1].selected).to.be.false;
   expect(grandchildItems[0].selected).to.be.true;
-  expect(component.selectedItem).to.equal(grandchildItems[0]);
+  expect(selectedItem).to.equal(grandchildItems[0]);
 });
 
 it('can click child and grandchild items to expand or select them', async () => {

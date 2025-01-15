@@ -2,7 +2,7 @@ import './menu.options.js';
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreMenu from './menu.js';
@@ -43,13 +43,13 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   @property({ attribute: 'menu-placement', reflect: true })
   menuPlacement: 'bottom-end' | 'top-end' = 'bottom-end';
 
-  @state()
+  @property({ type: Boolean })
   privateActive = false;
 
-  @state()
+  @property()
   privateSize: 'large' | 'small' = 'large';
 
-  @state()
+  @property()
   privateVariant: 'primary' | 'secondary' = 'primary';
 
   @property({ reflect: true })

@@ -45,8 +45,9 @@ it('renders correct markup and sets correct attributes for the default case', as
   await expect(component).to.be.accessible();
 
   const [firstTab] = component.querySelectorAll('glide-core-tab');
+  const selectedTab = component.querySelector('glide-core-tab[selected]');
 
-  expect(component.selectedTab).to.equal(firstTab);
+  expect(selectedTab).to.equal(firstTab);
 
   expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
     ['component'],

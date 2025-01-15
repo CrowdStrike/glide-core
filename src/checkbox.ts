@@ -142,7 +142,7 @@ export default class GlideCoreCheckbox extends LitElement {
   }
 
   // Used by Checkbox Group.
-  @state()
+  @property({ type: Boolean })
   privateIsReportValidityOrSubmit = false;
 
   @property({ reflect: true })

@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './split-button.primary-button.styles.js';
@@ -47,10 +47,10 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
   @property({ reflect: true })
   label?: string;
 
-  @state()
+  @property()
   privateSize: 'large' | 'small' = 'large';
 
-  @state()
+  @property()
   privateVariant: 'primary' | 'secondary' = 'primary';
 
   @property({ reflect: true })
