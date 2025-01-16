@@ -5,7 +5,6 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Inline Alert',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) => html`

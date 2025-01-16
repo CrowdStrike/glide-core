@@ -7,7 +7,6 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Toasts',
-  tags: ['autodocs'],
   decorators: [
     (story) =>
       html`<script type="ignore">

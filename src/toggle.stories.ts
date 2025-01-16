@@ -8,7 +8,6 @@ import GlideCoreToggle from './toggle.js';
 
 const meta: Meta = {
   title: 'Toggle',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>

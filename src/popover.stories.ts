@@ -11,7 +11,6 @@ import focusOutline from './styles/focus-outline.js';
 
 const meta: Meta = {
   title: 'Popover',
-  tags: ['autodocs'],
   parameters: {
     actions: {
       handles: ['toggle'],

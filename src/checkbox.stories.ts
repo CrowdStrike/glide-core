@@ -8,7 +8,6 @@ import GlideCoreCheckbox from './checkbox.js';
 
 const meta: Meta = {
   title: 'Checkbox',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>

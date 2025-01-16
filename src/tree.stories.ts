@@ -13,6 +13,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import GlideCoreTreeItem from './tree.item.js';
 
 const meta: Meta = {
+  title: 'Tree',
   decorators: [
     withActions,
     (story) =>
@@ -43,8 +44,6 @@ const meta: Meta = {
       },
     },
   },
-  title: 'Tree',
-  tags: ['autodocs'],
   args: {
     'slot="default"': '',
     version: '',

@@ -9,7 +9,6 @@ import GlideCoreInput, { SUPPORTED_TYPES } from './input.js';
 
 const meta: Meta = {
   title: 'Input',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>

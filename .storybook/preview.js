@@ -7,6 +7,7 @@ import { create } from '@storybook/theming';
 import { html } from 'lit';
 
 export default {
+  tags: ['autodocs'],
   decorators: [
     (story, context) => {
       const selectedTheme = context.globals.theme || 'light';
@@ -41,9 +42,11 @@ export default {
   },
   parameters: {
     controls: {
-      disableSave: true,
+      disableSaveFromUI: true,
     },
     docs: {
+      // TODO: New with 8.5.0 but not working. Set to `true` and retest with each release.
+      codePanel: false,
       canvas: {
         sourceState: 'shown',
       },
@@ -273,5 +276,4 @@ export default {
       }),
     },
   },
-  tags: ['autodocs'],
 };

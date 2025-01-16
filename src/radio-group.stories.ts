@@ -9,7 +9,6 @@ import GlideCoreRadioGroup from './radio-group.js';
 
 const meta: Meta = {
   title: 'Radio Group',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>

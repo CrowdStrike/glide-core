@@ -7,7 +7,6 @@ import GlideCoreTextarea from './textarea.js';
 
 const meta: Meta = {
   title: 'Textarea',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>
