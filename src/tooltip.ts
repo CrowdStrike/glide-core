@@ -13,12 +13,10 @@ import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import { map } from 'lit/directives/map.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { LocalizeController } from './library/localize.js';
 import ow, { owSlot } from './library/ow.js';
 import styles from './tooltip.styles.js';
+import './tooltip.container.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,10 +24,12 @@ declare global {
   }
 }
 
+// TODO: replace span in tests
+// TODO: "tooltip" no localized
+
 /**
  * @event toggle
  *
- * @slot - The primary content of the tooltip.
  * @slot target - The element to which the tooltip will anchor.
  */
 @customElement('glide-core-tooltip')
@@ -40,6 +40,23 @@ export default class GlideCoreTooltip extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true })
+  get content() {
+    return this.#content;
+  }
+
+  set content(content: string) {
+    this.#content = content;
+
+    const container = this.querySelector(
+      'glide-core-tooltip-private-container',
+    );
+
+    if (container) {
+      container.content = content;
+    }
+  }
 
   @property({ reflect: true, type: Boolean })
   get disabled() {
@@ -103,11 +120,25 @@ export default class GlideCoreTooltip extends LitElement {
     The placement of the tooltip relative to its target. Automatic placement will
     take over if the tooltip is cut off by the viewport. "bottom" by default.
   */
-  @property()
+  @property({ reflect: true })
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
   @property({ reflect: true, type: Array })
-  shortcut: string[] = [];
+  get shortcut() {
+    return this.#shortcut;
+  }
+
+  set shortcut(shortcut: string[]) {
+    this.#shortcut = shortcut;
+
+    const container = this.querySelector(
+      'glide-core-tooltip-private-container',
+    );
+
+    if (container) {
+      container.shortcut = shortcut;
+    }
+  }
 
   @property({ reflect: true })
   readonly version = packageJson.version;
@@ -120,9 +151,7 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
     owSlot(this.#targetSlotElementRef.value);
-
     ow(this.#tooltipElementRef.value, ow.object.instanceOf(HTMLElement));
 
     // `popover` is used so the tooltip can break out of Modal or another container
@@ -142,6 +171,14 @@ export default class GlideCoreTooltip extends LitElement {
     if (this.open && !this.disabled) {
       this.#show();
     }
+
+    const container = document.createElement(
+      'glide-core-tooltip-private-container',
+    );
+
+    container.content = this.content;
+    container.shortcut = this.shortcut;
+    this.append(container);
   }
 
   override render() {
@@ -158,10 +195,7 @@ export default class GlideCoreTooltip extends LitElement {
         @mouseover=${this.#onComponentMouseover}
         @mouseout=${this.#onComponentMouseout}
       >
-        <div
-          aria-labelledby=${ifDefined(this.disabled ? undefined : 'tooltip')}
-          class="target-slot-container"
-        >
+        <div class="target-slot-container">
           <slot
             class="target-slot"
             data-test="target-slot"
@@ -183,7 +217,6 @@ export default class GlideCoreTooltip extends LitElement {
           data-test="tooltip"
           data-open-delay="300"
           data-close-delay="200"
-          role=${ifDefined(this.disabled ? undefined : 'tooltip')}
           ${ref(this.#tooltipElementRef)}
         >
           <div
@@ -202,41 +235,13 @@ export default class GlideCoreTooltip extends LitElement {
             ])}
           </div>
 
-          <span
-            aria-label=${ifDefined(
-              this.disabled ? undefined : this.#localize.term('tooltip'),
-            )}
-          ></span>
-
           <div
             class=${classMap({
               content: true,
               reversed: this.effectivePlacement === 'left',
             })}
           >
-            <slot
-              class="default-slot"
-              @slotchange=${this.#onDefaultSlotChange}
-              ${ref(this.#defaultSlotElementRef)}
-            ></slot>
-
-            <kbd
-              class=${classMap({
-                shortcut: true,
-                reversed: this.effectivePlacement === 'left',
-                visible: this.shortcut.length > 0,
-              })}
-              data-test="shortcut"
-            >
-              ${this.shortcut.length === 1
-                ? this.shortcut.at(0)
-                : map(this.shortcut, (shortcut, index) => {
-                    return html`
-                      <kbd>${shortcut}</kbd>
-                      ${index === this.shortcut.length - 1 ? '' : ' + '}
-                    `;
-                  })}
-            </kbd>
+            <slot class="default-slot" name="private"></slot>
           </div>
         </div>
       </div>
@@ -252,17 +257,17 @@ export default class GlideCoreTooltip extends LitElement {
 
   #closeTimeoutId?: ReturnType<typeof setTimeout>;
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
+  #content = '';
 
   #isDisabled = false;
 
   #isOpen = false;
 
-  #localize = new LocalizeController(this);
-
   #offset: number | undefined;
 
   #openTimeoutId?: ReturnType<typeof setTimeout>;
+
+  #shortcut: string[] = [];
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -300,12 +305,18 @@ export default class GlideCoreTooltip extends LitElement {
     }, Number(this.#tooltipElementRef.value.dataset.openDelay));
   }
 
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
-
   #onTargetSlotChange() {
     owSlot(this.#targetSlotElementRef.value);
+
+    const container = this.querySelector(
+      'glide-core-tooltip-private-container',
+    );
+
+    const target = this.#targetSlotElementRef.value.assignedElements().at(0);
+
+    if (container && target) {
+      target.setAttribute('aria-describedby', container.id);
+    }
   }
 
   #onTargetSlotFocusin() {
@@ -386,6 +397,14 @@ export default class GlideCoreTooltip extends LitElement {
 
                 this.effectivePlacement = placement;
                 this.#tooltipElementRef.value.showPopover();
+
+                const container = this.querySelector(
+                  'glide-core-tooltip-private-container',
+                );
+
+                if (container) {
+                  container.placement = placement;
+                }
               }
             })();
           },
