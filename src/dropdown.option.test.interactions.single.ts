@@ -9,6 +9,7 @@ import {
 } from '@open-wc/testing';
 import { hover } from './library/mouse.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import GlideCoreTooltip from './tooltip.js';
 
 GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
@@ -45,7 +46,7 @@ it('has a tooltip when active and with a long label', async () => {
   expect(tooltip?.checkVisibility()).to.be.true;
 });
 
-it('has no tooltip when active and with a short label', async () => {
+it('has no tooltip when active with a short label', async () => {
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -58,11 +59,14 @@ it('has no tooltip when active and with a short label', async () => {
   // Wait for the tooltip.
   await aTimeout(0);
 
-  const tooltip = component.shadowRoot?.querySelector('[data-test="tooltip"]');
-  expect(tooltip?.checkVisibility()).to.be.false;
+  const tooltip = component.shadowRoot?.querySelector<GlideCoreTooltip>(
+    '[data-test="tooltip"]',
+  );
+
+  expect(tooltip?.open).to.be.false;
 });
 
-it('has a tooltip when active and with a long label set programmatically', async () => {
+it('has a tooltip when active with a long label set programmatically', async () => {
   const component = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -99,8 +103,11 @@ it('has no tooltip when active and with a short label set programmatically', asy
   // Wait for the tooltip.
   await aTimeout(0);
 
-  const tooltip = component.shadowRoot?.querySelector('[data-test="tooltip"]');
-  expect(tooltip?.checkVisibility()).to.be.false;
+  const tooltip = component.shadowRoot?.querySelector<GlideCoreTooltip>(
+    '[data-test="tooltip"]',
+  );
+
+  expect(tooltip?.open).to.be.false;
 });
 
 it('sets `privateIsEditActive`', async () => {

@@ -321,14 +321,13 @@ export default class GlideCoreDropdownOption extends LitElement {
 
               <glide-core-tooltip 
                 class="tooltip" 
+                data-test="tooltip"
+                label=${this.label}
                 offset=${10} 
                 ?disabled=${!this.isLabelOverflow || this.disabled} 
                 ?open=${this.privateIsTooltipOpen} 
+                screenreader-hidden
                 @toggle=${this.#onTooltipToggle}>
-
-                <div aria-hidden="true" data-test="tooltip">
-                  ${this.label}
-                </div>
 
                 <div class="label" data-test="label" slot="target" ${ref(
                   this.#labelElementRef,

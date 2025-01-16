@@ -1,18 +1,52 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import {
+  assert,
+  aTimeout,
+  expect,
+  fixture,
+  html,
+  waitUntil,
+} from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
 import { hover } from './library/mouse.js';
 import GlideCoreTooltip from './tooltip.js';
+import GlideCoreTooltipContainer from './tooltip.container.js';
 
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
+GlideCoreTooltipContainer.shadowRootOptions.mode = 'open';
+
+it('passes down certain properties to its container', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip label="One">
+      <button slot="target">Target</button>
+    </glide-core-tooltip>`,
+  );
+
+  await waitUntil(() => {
+    return component.querySelector<GlideCoreTooltipContainer>(
+      'glide-core-private-tooltip-container',
+    );
+  });
+
+  component.label = 'Two';
+  component.screenreaderHidden = true;
+  component.shortcut = ['CMD', 'O'];
+
+  const container = component.querySelector<GlideCoreTooltipContainer>(
+    'glide-core-private-tooltip-container',
+  );
+
+  expect(container?.label).to.equal('Two');
+  expect(container?.screenreaderHidden).to.be.true;
+  expect(container?.shortcut).to.deep.equal(['CMD', 'O']);
+});
 
 it('is open when opened programmatically', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -30,9 +64,8 @@ it('is open when opened programmatically', async () => {
 
 it('is open when `open` and enabled programmatically', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip open disabled>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label" open disabled>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -50,9 +83,8 @@ it('is open when `open` and enabled programmatically', async () => {
 
 it('is not open when `open` and disabled programmatically', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip open>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label" open>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -73,9 +105,8 @@ it('is not open when `open` and disabled programmatically', async () => {
 
 it('is not open when opened programmatically and disabled', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip disabled>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label" disabled>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -93,9 +124,8 @@ it('is not open when opened programmatically and disabled', async () => {
 
 it('is visible on "focusin"', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -113,20 +143,22 @@ it('is visible on "focusin"', async () => {
   ).to.be.true;
 });
 
-it('remains closed on "focusin" when disabled', async () => {
+it('remains closed on hover when disabled', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip disabled>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label" disabled>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
-  component.shadowRoot
-    ?.querySelector('[data-test="target-slot"]')
-    ?.dispatchEvent(new FocusEvent('focusin'));
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
 
-  // Wait for Floating UI.
+  assert(tooltip);
+
+  tooltip.dataset.openDelay = '0';
   await aTimeout(0);
+  await hover(component.querySelector('button'));
 
   expect(
     component.shadowRoot
@@ -137,38 +169,44 @@ it('remains closed on "focusin" when disabled', async () => {
 
 it('closes on "blur"', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip open>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label" open>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.shadowRoot
-    ?.querySelector('[data-test="target-slot"]')
-    ?.dispatchEvent(new FocusEvent('focusout'));
+  const button = component.querySelector('button');
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('[data-test="tooltip"]')
-      ?.checkVisibility(),
-  ).to.be.false;
+  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="tooltip"]',
+  );
+
+  assert(tooltip);
+
+  tooltip.dataset.openDelay = '0';
+  await hover(button);
+  await aTimeout(0);
+
+  tooltip.dataset.closeDelay = '0';
+  await hover(button, 'outside');
+  await aTimeout(0);
+
+  expect(tooltip.checkVisibility()).to.be.false;
 });
 
 it('closes on Escape', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip open>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label" open>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.querySelector('span')?.focus();
+  component.querySelector('button')?.focus();
   await sendKeys({ press: 'Escape' });
 
   expect(
@@ -180,9 +218,8 @@ it('closes on Escape', async () => {
 
 it('opens on hover', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -193,16 +230,15 @@ it('opens on hover', async () => {
   assert(tooltip);
 
   tooltip.dataset.openDelay = '0';
-  await hover(component.querySelector('span'));
+  await hover(component.querySelector('button'));
 
   expect(tooltip.checkVisibility()).to.be.true;
 });
 
 it('remains closed on hover when disabled', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip disabled>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label" disabled>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -213,16 +249,15 @@ it('remains closed on hover when disabled', async () => {
   assert(tooltip);
 
   tooltip.dataset.openDelay = '0';
-  await hover(component.querySelector('span'));
+  await hover(component.querySelector('button'));
 
   expect(tooltip.checkVisibility()).to.be.false;
 });
 
 it('closes when hovered away from', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -233,7 +268,7 @@ it('closes when hovered away from', async () => {
   assert(tooltip);
 
   tooltip.dataset.openDelay = '0';
-  await hover(component.querySelector('span'));
+  await hover(component.querySelector('button'));
 
   tooltip.dataset.closeDelay = '0';
 
@@ -247,9 +282,8 @@ it('closes when hovered away from', async () => {
 
 it('remains closed if hovered away from before the delay', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -268,13 +302,13 @@ it('remains closed if hovered away from before the delay', async () => {
   //
   // https://github.com/modernweb-dev/web/issues/2374
   component
-    ?.querySelector('span')
+    ?.querySelector('button')
     ?.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
 
   expect(tooltip?.checkVisibility()).to.be.false;
 
   component
-    ?.querySelector('span')
+    ?.querySelector('button')
     ?.dispatchEvent(new MouseEvent('mouseout', { bubbles: true }));
 
   await aTimeout(5);
@@ -282,9 +316,90 @@ it('remains closed if hovered away from before the delay', async () => {
   expect(tooltip.checkVisibility()).to.be.false;
 });
 
+it('sets `aria-describedby` on its target when enabled', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
+    </glide-core-tooltip>`,
+  );
+
+  component.disabled = false;
+
+  const button = component.querySelector('button');
+
+  const container = component.querySelector(
+    'glide-core-private-tooltip-container',
+  );
+
+  expect(button?.getAttribute('aria-describedby')).to.equal(container?.id);
+});
+
+it('does not set `aria-describedby` on its target when disabled', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
+    </glide-core-tooltip>`,
+  );
+
+  component.disabled = true;
+
+  const button = component.querySelector('button');
+  expect(button?.getAttribute('aria-describedby')).to.equal(null);
+});
+
+it('sets `aria-describedby` on its target when not hidden from screenreaders', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip label="Label" screenreader-hidden>
+      <button slot="target">Target</button>
+    </glide-core-tooltip>`,
+  );
+
+  component.screenreaderHidden = false;
+
+  const button = component.querySelector('button');
+
+  const container = component.querySelector(
+    'glide-core-private-tooltip-container',
+  );
+
+  expect(button?.getAttribute('aria-describedby')).to.equal(container?.id);
+});
+
+it('sets `aria-describedby` on its target when hidden from screenreaders', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
+    </glide-core-tooltip>`,
+  );
+
+  component.screenreaderHidden = true;
+
+  const button = component.querySelector('button');
+  expect(button?.getAttribute('aria-describedby')).to.equal(null);
+});
+
+it('sets `aria-describedby` on its target not hidden from screenreaders', async () => {
+  const component = await fixture<GlideCoreTooltip>(
+    html`<glide-core-tooltip label="Label" screenreader-hidden>
+      <button slot="target">Target</button>
+    </glide-core-tooltip>`,
+  );
+
+  component.screenreaderHidden = false;
+
+  const button = component.querySelector('button');
+
+  const container = component.querySelector(
+    'glide-core-private-tooltip-container',
+  );
+
+  expect(button?.getAttribute('aria-describedby')).to.equal(container?.id);
+});
+
 it('has `middlewareData.arrow.y` coverage', async () => {
   await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip
+      label="Label"
       placement="right"
       style=${styleMap({
         alignItems: 'center',
@@ -295,8 +410,7 @@ it('has `middlewareData.arrow.y` coverage', async () => {
       })}
       open
     >
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -307,12 +421,12 @@ it('has `middlewareData.arrow.y` coverage', async () => {
 it('has `set open(isOpen: boolean)` coverage', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip
+      label="Label"
       placement="right"
       style="align-items: center; display: flex; height: 100vh; justify-content:center; width: 100vw;"
       open
     >
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 

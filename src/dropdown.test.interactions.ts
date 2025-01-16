@@ -1050,9 +1050,9 @@ it('hides the tooltip of the active option when opened via click', async () => {
 
   const tooltip = component
     .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector('[data-test="tooltip"]');
+    ?.shadowRoot?.querySelector<GlideCoreTooltip>('[data-test="tooltip"]');
 
-  expect(tooltip?.checkVisibility()).to.be.false;
+  expect(tooltip?.open).to.be.false;
 });
 
 it('does not allow its "toggle" event to propagate', async () => {

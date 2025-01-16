@@ -22,7 +22,12 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const component = await fixture<GlideCoreRadioGroup>(html`
-    <glide-core-radio-group label="label" name="name" value="one">
+    <glide-core-radio-group
+      label="label"
+      name="name"
+      value="one"
+      tooltip="Tooltip"
+    >
       <glide-core-radio-group-radio
         label="One"
         value="one"
@@ -38,7 +43,6 @@ it('is accessible', async () => {
         value="three"
       ></glide-core-radio-group-radio>
 
-      <span slot="tooltip">Tooltip</span>
       <div slot="description">Description</div>
     </glide-core-radio-group>
   `);

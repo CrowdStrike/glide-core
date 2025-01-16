@@ -80,6 +80,7 @@ const meta: Meta = {
       <glide-core-radio-group
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
+        tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
@@ -111,11 +112,6 @@ const meta: Meta = {
               ${unsafeHTML(arguments_['slot="description"'])}
             </div>`
           : nothing}
-        ${arguments_['slot="tooltip"']
-          ? html`<div slot="tooltip">
-              ${unsafeHTML(arguments_['slot="tooltip"'])}
-            </div>`
-          : nothing}
       </glide-core-radio-group>
     `;
   },
@@ -131,7 +127,7 @@ const meta: Meta = {
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
-    'slot="tooltip"': '',
+    tooltip: '',
     value: 'one',
     version: '',
     '<glide-core-radio-group-radio>.label': 'One',
@@ -225,9 +221,9 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
-    'slot="tooltip"': {
+    tooltip: {
       table: {
-        type: { summary: 'Element' },
+        type: { summary: 'string' },
       },
     },
     value: {

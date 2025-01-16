@@ -79,8 +79,8 @@ const meta: Meta = {
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
-    'slot="tooltip"': '',
     spellcheck: 'false',
+    tooltip: '',
     value: '',
     version: '',
   },
@@ -224,11 +224,6 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
-    'slot="tooltip"': {
-      table: {
-        type: { summary: 'Element' },
-      },
-    },
     spellcheck: {
       control: 'radio',
       defaultValue: '"true"',
@@ -236,6 +231,11 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '"false"' },
         type: { summary: '"true" | "false"' },
+      },
+    },
+    tooltip: {
+      table: {
+        type: { summary: 'string' },
       },
     },
     value: {
@@ -266,6 +266,7 @@ const meta: Meta = {
         placeholder=${arguments_.placeholder || nothing}
         rows=${arguments_.rows}
         spellcheck=${arguments_.spellcheck}
+        tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}
         ?disabled=${arguments_.disabled}
         ?hide-label=${arguments_['hide-label']}
@@ -276,9 +277,6 @@ const meta: Meta = {
           ? html`<div slot="description">
               ${arguments_['slot="description"']}
             </div>`
-          : nothing}
-        ${arguments_['slot="tooltip"']
-          ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
           : nothing}
       </glide-core-textarea>
     `;

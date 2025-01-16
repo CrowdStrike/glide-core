@@ -25,7 +25,6 @@ declare global {
  *
  * @slot - One or more of `<glide-core-radio>`.
  * @slot description - Additional information or context.
- * @slot tooltip - Content for the tooltip.
  */
 @customElement('glide-core-radio-group')
 export default class GlideCoreRadioGroup extends LitElement {
@@ -63,6 +62,9 @@ export default class GlideCoreRadioGroup extends LitElement {
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle';
+
+  @property({ reflect: true })
+  tooltip?: string;
 
   @property({ reflect: true, type: Boolean })
   get required() {
@@ -254,6 +256,7 @@ export default class GlideCoreRadioGroup extends LitElement {
         <glide-core-private-label
           orientation="horizontal"
           split=${ifDefined(this.privateSplit ?? undefined)}
+          tooltip=${ifDefined(this.tooltip)}
           ?disabled=${this.disabled}
           ?error=${this.#isShowValidationFeedback}
           ?hide=${this.hideLabel}
@@ -272,15 +275,13 @@ export default class GlideCoreRadioGroup extends LitElement {
             aria-labelledby="label description"
           >
             <slot
-              ${ref(this.#defaultSlotElementRef)}
               @focusout=${this.#onRadioGroupFocusout}
               @slotchange=${this.#onDefaultSlotChange}
               @private-checked-change=${this.#onRadiosCheckedChange}
               @private-value-change=${this.#onRadiosValueChange}
+              ${ref(this.#defaultSlotElementRef)}
             ></slot>
           </div>
-
-          <slot name="tooltip" slot="tooltip"></slot>
 
           <div id="description" slot="description">
             <slot

@@ -22,7 +22,6 @@ declare global {
  * @event input
  * @event invalid
  *
- * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-textarea')
@@ -98,6 +97,9 @@ export default class GlideCoreTextarea extends LitElement {
   privateSplit?: 'left' | 'middle';
 
   @property({ reflect: true })
+  tooltip?: string;
+
+  @property({ reflect: true })
   readonly version = packageJson.version;
 
   override blur() {
@@ -167,6 +169,7 @@ export default class GlideCoreTextarea extends LitElement {
   override render() {
     return html`<glide-core-private-label
       split=${ifDefined(this.privateSplit ?? undefined)}
+      tooltip=${ifDefined(this.tooltip)}
       orientation=${this.orientation}
       ?disabled=${this.disabled}
       ?error=${this.#isShowValidationFeedback ||
@@ -174,8 +177,6 @@ export default class GlideCoreTextarea extends LitElement {
       ?hide=${this.hideLabel}
       ?required=${this.required}
     >
-      <slot name="tooltip" slot="tooltip"></slot>
-
       <label class="label" for="textarea">${this.label}</label>
 
       <div class="textarea-container" slot="control">
