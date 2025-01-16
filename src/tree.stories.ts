@@ -203,13 +203,8 @@ const meta: Meta = {
               ></path>
             </svg>
 
-            <glide-core-menu-link
-              label="My link"
-              url="#"
-            ></glide-core-menu-link>
-
-            <glide-core-menu-link label="My other link" url="#">
-            </glide-core-menu-link>
+            <glide-core-menu-link label="One" url="/"></glide-core-menu-link>
+            <glide-core-menu-link label="Two" url="/"> </glide-core-menu-link>
           </glide-core-tree-item-menu>
         </glide-core-tree-item>
 
@@ -394,26 +389,13 @@ const meta: Meta = {
     },
     '<glide-core-tree-item-menu>.placement': {
       name: 'placement',
-      options: [
-        'bottom',
-        'left',
-        'right',
-        'top',
-        'bottom-start',
-        'bottom-end',
-        'left-start',
-        'left-end',
-        'right-start',
-        'right-end',
-        'top-start',
-        'top-end',
-      ],
+      control: 'select',
+      options: ['bottom-start', 'top-start'],
       table: {
         category: 'Tree Item Menu',
         defaultValue: { summary: '"bottom-start"' },
         type: {
-          summary:
-            '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start"| "top-end"',
+          summary: '"bottom-start" | "top-start"',
         },
       },
     },

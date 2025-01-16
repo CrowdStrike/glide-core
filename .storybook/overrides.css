@@ -10,6 +10,7 @@
   display: none !important;
 }
 
+/* The padding left over from the hidden toolbar on the overview page. */
 .sbdocs:has(> .sb-bar) {
   padding-top: 0 !important;
 }

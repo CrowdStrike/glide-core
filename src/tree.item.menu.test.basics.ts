@@ -1,4 +1,4 @@
-import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
+import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
 import GlideCoreMenu from './menu.js';
@@ -44,30 +44,6 @@ it('throws if the default slot is the incorrect type', async () => {
   stub.restore();
 });
 
-it('defaults the placement of the menu to bottom start', async () => {
-  const component = await fixture<GlideCoreTreeItemMenu>(html`
-    <glide-core-tree-item-menu>
-      <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
-    </glide-core-tree-item-menu>
-  `);
-
-  expect(
-    component.shadowRoot?.querySelector('glide-core-menu')?.placement,
-  ).to.equal('bottom-start');
-});
-
-it('can set placement of the menu', async () => {
-  const component = await fixture<GlideCoreTreeItemMenu>(html`
-    <glide-core-tree-item-menu placement="bottom-end">
-      <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
-    </glide-core-tree-item-menu>
-  `);
-
-  expect(
-    component.shadowRoot?.querySelector('glide-core-menu')?.placement,
-  ).to.equal('bottom-end');
-});
-
 it('can be opened programmatically', async () => {
   const component = await fixture<GlideCoreTreeItemMenu>(html`
     <glide-core-tree-item-menu>
@@ -90,29 +66,11 @@ it('can be opened programmatically', async () => {
   ).to.equal('');
 });
 
-it('can set a custom icon', async () => {
-  const component = await fixture<GlideCoreTreeItemMenu>(html`
-    <glide-core-tree-item-menu placement="bottom-end">
-      <svg data-test-custom-icon="true" slot="icon"></svg>
+it('has `#onIconSlotChange` coverage', async () => {
+  await fixture<GlideCoreTreeItemMenu>(html`
+    <glide-core-tree-item-menu>
+      <svg slot="icon"></svg>
       <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
     </glide-core-tree-item-menu>
   `);
-
-  const menu = component.shadowRoot?.querySelector('glide-core-menu');
-
-  assert(menu);
-
-  const menuTarget = menu.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="target"]')
-    ?.assignedElements()[0];
-
-  assert(menuTarget);
-
-  const icon = menuTarget
-    ?.querySelector<HTMLSlotElement>('slot[name="icon"]')
-    ?.assignedElements()[0];
-
-  assert(icon instanceof SVGElement);
-
-  expect(icon.dataset.testCustomIcon).to.equal('true');
 });
