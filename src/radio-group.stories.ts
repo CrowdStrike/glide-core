@@ -4,7 +4,7 @@ import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreRadio from './radio-group.radio.js';
+import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
 
 const meta: Meta = {
@@ -16,7 +16,7 @@ const meta: Meta = {
       html`<form action="/">
         <script type="ignore">
           import '@crowdstrike/glide-core/radio-group.js';
-          import '@crowdstrike/glide-core/radio.js';
+          import '@crowdstrike/glide-core/radio-group.radio.js';
         </script>
 
         ${story()}
@@ -55,7 +55,7 @@ const meta: Meta = {
     }
 
     radioGroup?.addEventListener('change', (event: Event) => {
-      if (event.target instanceof GlideCoreRadio) {
+      if (event.target instanceof GlideCoreRadioGroupRadio) {
         // The only public property we have to go off with Radio is `label`.
         // But `label` is a moving target because it can be changed via a control.
         // Thus `id`, which is stripped from the code example by `preview.js`.
@@ -63,9 +63,12 @@ const meta: Meta = {
           storyId: context.id,
           updatedArgs: {
             value: radioGroup.value,
-            '<glide-core-radio>.one.checked': event.target.id === 'one',
-            '<glide-core-radio>.two.checked': event.target.id === 'two',
-            '<glide-core-radio>.three.checked': event.target.id === 'three',
+            '<glide-core-radio-group-radio>.one.checked':
+              event.target.id === 'one',
+            '<glide-core-radio-group-radio>.two.checked':
+              event.target.id === 'two',
+            '<glide-core-radio-group-radio>.three.checked':
+              event.target.id === 'three',
           },
         });
       }
@@ -81,25 +84,27 @@ const meta: Meta = {
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
       >
-        <glide-core-radio
-          label=${arguments_['<glide-core-radio>.label'] || nothing}
+        <glide-core-radio-group-radio
+          label=${arguments_['<glide-core-radio-group-radio>.label'] || nothing}
           id="one"
-          value=${arguments_['<glide-core-radio>.value'] || nothing}
-          ?checked=${arguments_['<glide-core-radio>.one.checked']}
-          ?disabled=${arguments_['<glide-core-radio>.one.disabled']}
-        ></glide-core-radio>
-        <glide-core-radio
+          value=${arguments_['<glide-core-radio-group-radio>.value'] || nothing}
+          ?checked=${arguments_['<glide-core-radio-group-radio>.one.checked']}
+          ?disabled=${arguments_['<glide-core-radio-group-radio>.one.disabled']}
+        ></glide-core-radio-group-radio>
+
+        <glide-core-radio-group-radio
           label="Two"
           id="two"
           value="two"
-          ?checked=${arguments_['<glide-core-radio>.two.checked']}
-        ></glide-core-radio>
-        <glide-core-radio
+          ?checked=${arguments_['<glide-core-radio-group-radio>.two.checked']}
+        ></glide-core-radio-group-radio>
+
+        <glide-core-radio-group-radio
           label="Three"
           id="three"
           value="three"
-          ?checked=${arguments_['<glide-core-radio>.three.checked']}
-        ></glide-core-radio>
+          ?checked=${arguments_['<glide-core-radio-group-radio>.three.checked']}
+        ></glide-core-radio-group-radio>
 
         ${arguments_['slot="description"']
           ? html`<div slot="description">
@@ -129,13 +134,13 @@ const meta: Meta = {
     'slot="tooltip"': '',
     value: 'one',
     version: '',
-    '<glide-core-radio>.label': 'One',
-    '<glide-core-radio>.one.checked': true,
-    '<glide-core-radio>.one.disabled': false,
-    '<glide-core-radio>.value': 'one',
-    '<glide-core-radio>.version': '',
-    '<glide-core-radio>.two.checked': false,
-    '<glide-core-radio>.three.checked': false,
+    '<glide-core-radio-group-radio>.label': 'One',
+    '<glide-core-radio-group-radio>.one.checked': true,
+    '<glide-core-radio-group-radio>.one.disabled': false,
+    '<glide-core-radio-group-radio>.value': 'one',
+    '<glide-core-radio-group-radio>.version': '',
+    '<glide-core-radio-group-radio>.two.checked': false,
+    '<glide-core-radio-group-radio>.three.checked': false,
   },
   argTypes: {
     label: {
@@ -240,55 +245,55 @@ const meta: Meta = {
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
-    '<glide-core-radio>.label': {
+    '<glide-core-radio-group-radio>.label': {
       name: 'label',
       table: {
-        category: 'Radio',
+        category: 'Radio Group Radio',
         type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
-    '<glide-core-radio>.one.checked': {
+    '<glide-core-radio-group-radio>.one.checked': {
       name: 'checked',
       table: {
-        category: 'Radio',
+        category: 'Radio Group Radio',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
-    '<glide-core-radio>.one.disabled': {
+    '<glide-core-radio-group-radio>.one.disabled': {
       name: 'disabled',
       table: {
-        category: 'Radio',
+        category: 'Radio Group Radio',
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
     },
-    '<glide-core-radio>.value': {
+    '<glide-core-radio-group-radio>.value': {
       name: 'value',
       table: {
-        category: 'Radio',
+        category: 'Radio Group Radio',
         defaultValue: { summary: '' },
         type: { summary: 'string' },
       },
     },
-    '<glide-core-radio>.version': {
+    '<glide-core-radio-group-radio>.version': {
       name: 'version',
       control: false,
       table: {
-        category: 'Radio',
+        category: 'Radio Group Radio',
         defaultValue: {
           summary: import.meta.env.VITE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
-    '<glide-core-radio>.two.checked': {
+    '<glide-core-radio-group-radio>.two.checked': {
       table: {
         disable: true,
       },
     },
-    '<glide-core-radio>.three.checked': {
+    '<glide-core-radio-group-radio>.three.checked': {
       table: {
         disable: true,
       },
@@ -304,7 +309,7 @@ export const RadioGroup: StoryObj = {
 
 export const WithError: StoryObj = {
   args: {
-    '<glide-core-radio>.one.checked': false,
+    '<glide-core-radio-group-radio>.one.checked': false,
     required: true,
     value: '',
   },

@@ -17,16 +17,27 @@ GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 it('sets `checked` on Radios when the `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="Radio Group">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
 
-      <glide-core-radio label="Three" value="three" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        value="three"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>
   `);
 
   component.value = 'one';
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
   expect(radios[0].checked).to.be.true;
   expect(radios[1].checked).to.be.false;
@@ -36,13 +47,24 @@ it('sets `checked` on Radios when the `value` is changed programmatically', asyn
 it('checks and unchecks Radios via click', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
-      <glide-core-radio label="Three" value="three"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        value="three"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
   await click(radios[2]);
 
@@ -54,13 +76,25 @@ it('checks and unchecks Radios via click', async () => {
 it('changes the `checked` attribute when pressing arrow and space keys', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
-      <glide-core-radio label="One" value="one" checked></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
-      <glide-core-radio label="Three" value="three"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        value="three"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
@@ -99,13 +133,25 @@ it('changes the `checked` attribute when pressing arrow and space keys', async (
 it('does not change the `checked` attribute when pressing arrow and space keys when the group is `disabled`', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name" disabled>
-      <glide-core-radio label="One" value="one" checked></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
-      <glide-core-radio label="Three" value="three"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        value="three"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
@@ -143,13 +189,24 @@ it('does not change the `checked` attribute when pressing arrow and space keys w
 it('uses the spacebar to check a Radio from the group when none are selected', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
-      <glide-core-radio label="Three" value="three"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        value="three"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
@@ -162,12 +219,20 @@ it('uses the spacebar to check a Radio from the group when none are selected', a
 it('updates `value` when the `checked` attribute of Radios are changed programmatically', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
-      <glide-core-radio label="One" value="one" checked></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
   radios[0].checked = false;
   radios[1].checked = true;
@@ -180,12 +245,20 @@ it('updates `value` when the `checked` attribute of Radios are changed programma
 it('updates `value` when the `value` of a checked Radio is changed programmatically', async () => {
   const component = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="Radio Group">
-      <glide-core-radio label="One" value="one" checked></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>
   `);
 
-  const radio = component.querySelector('glide-core-radio');
+  const radio = component.querySelector('glide-core-radio-group-radio');
 
   assert(radio);
 
@@ -199,12 +272,20 @@ it('updates `value` when the `value` of a checked Radio is changed programmatica
 it('updates `value` when the `value` of a checked Radio is emptied programmatically', async () => {
   const component = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="Radio Group">
-      <glide-core-radio label="One" value="one" checked></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>
   `);
 
-  const radio = component.querySelector('glide-core-radio');
+  const radio = component.querySelector('glide-core-radio-group-radio');
 
   assert(radio);
 
@@ -218,14 +299,23 @@ it('updates `value` when the `value` of a checked Radio is emptied programmatica
 it('enables a disabled Radio when `value` is set programmatically', async () => {
   const component = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="Radio Group">
-      <glide-core-radio label="One" value="one" disabled></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        disabled
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>
   `);
 
   component.value = 'one';
 
-  const radio = component.querySelector('glide-core-radio');
+  const radio = component.querySelector('glide-core-radio-group-radio');
 
   expect(radio?.disabled).to.be.false;
 });

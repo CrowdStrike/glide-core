@@ -4,22 +4,34 @@ import * as sinon from 'sinon';
 import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadioGroup from './radio-group.js';
-import GlideCoreRadio from './radio-group.radio.js';
+import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 import { click } from './library/mouse.js';
 
-GlideCoreRadio.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
+GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
 
 it('dispatches a `change` event when arrow keys are pressed', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
-      <glide-core-radio label="Three" value="three"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        value="three"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
   await sendKeys({ press: 'Tab' });
 
   // This pattern is adopted from https://open-wc.org/docs/testing/helpers/#testing-events
@@ -54,13 +66,25 @@ it('dispatches a `change` event when arrow keys are pressed', async () => {
 it('dispatches an `input` event when arrow keys are pressed', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
-      <glide-core-radio label="Three" value="three"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        value="three"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
   await sendKeys({ press: 'Tab' });
 
   setTimeout(async () => await sendKeys({ press: 'ArrowLeft' }));
@@ -92,12 +116,21 @@ it('dispatches an `input` event when arrow keys are pressed', async () => {
 it('does not change focus or the `checked` attribute a disabled Radio is clicked', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
-      <glide-core-radio label="One" value="one" checked></glide-core-radio>
-      <glide-core-radio label="Two" value="two" disabled></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        disabled
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
   expect(radios.length).to.equal(2);
   await click(radios[1]);
@@ -110,12 +143,20 @@ it('does not change focus or the `checked` attribute a disabled Radio is clicked
 it('does not change focus or the `checked` attribute when clicking a disabled group', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name" disabled>
-      <glide-core-radio label="One" value="one" checked></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
   expect(radios.length).to.equal(2);
   await click(radios[1]);
@@ -128,8 +169,15 @@ it('does not change focus or the `checked` attribute when clicking a disabled gr
 it('dispatches a `change` event after an `input` event', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -139,7 +187,7 @@ it('dispatches a `change` event after an `input` event', async () => {
   component.addEventListener('change', changeSpy);
   component.addEventListener('input', inputSpy);
 
-  await click(component.querySelector('glide-core-radio'));
+  await click(component.querySelector('glide-core-radio-group-radio'));
 
   await waitUntil(() => changeSpy.callCount === 1);
 

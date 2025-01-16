@@ -10,18 +10,21 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
-import GlideCoreRadio from './radio-group.radio.js';
 import GlideCoreRadioGroup from './radio-group.js';
+import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 
-GlideCoreRadio.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
+GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
 
 it('exposes standard form control properties and methods', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -38,8 +41,15 @@ it('can reset when `value` is programmatically changed', async () => {
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" value="one">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -62,15 +72,25 @@ it('can reset when the checked Radios are changed via click', async () => {
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
     },
   );
 
-  const radios = component.querySelectorAll<GlideCoreRadio>('glide-core-radio');
+  const radios = component.querySelectorAll<GlideCoreRadioGroupRadio>(
+    'glide-core-radio-group-radio',
+  );
 
   await click(radios[0]);
 
@@ -92,15 +112,25 @@ it('can reset when the checked Radios are changed programmatically', async () =>
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
     },
   );
 
-  const radios = component.querySelectorAll<GlideCoreRadio>('glide-core-radio');
+  const radios = component.querySelectorAll<GlideCoreRadioGroupRadio>(
+    'glide-core-radio-group-radio',
+  );
 
   radios[1].checked = false;
   radios[0].checked = true;
@@ -125,8 +155,16 @@ it('has `formData` when a Radio is checked', async () => {
 
   await fixture(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -142,8 +180,16 @@ it('has `formData` when the Radio Group has a `value`', async () => {
 
   await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" value="two">
-      <glide-core-radio label="One" value="one" checked></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -159,8 +205,15 @@ it('has no `formData` when no Radios are checked', async () => {
 
   await fixture(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -176,8 +229,16 @@ it('has no `formData` when the group is disabled and one Radio is checked', asyn
 
   await fixture(
     html`<glide-core-radio-group label="label" name="name" disabled>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -193,12 +254,12 @@ it('has no `formData` when a Radio is checked but disabled', async () => {
 
   await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio
+      <glide-core-radio-group-radio
         label="One"
         value="one"
         checked
         disabled
-      ></glide-core-radio>
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -214,8 +275,16 @@ it('has no `formData` when without a `name` but a Radio is checked', async () =>
 
   await fixture(
     html`<glide-core-radio-group label="label">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -231,8 +300,16 @@ it('has no `formData` value when a Radio is checked but without a `value`', asyn
 
   await fixture(
     html`<glide-core-radio-group label="label">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -248,8 +325,15 @@ it('submits its form on Enter', async () => {
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
@@ -274,15 +358,24 @@ it('resets `value` to an empty string when no Radios were initially selected', a
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
       parentNode: form,
     },
   );
 
-  const radios = component.querySelectorAll<GlideCoreRadio>('glide-core-radio');
+  const radios = component.querySelectorAll<GlideCoreRadioGroupRadio>(
+    'glide-core-radio-group-radio',
+  );
 
   await click(radios[0]);
 
@@ -296,8 +389,15 @@ it('resets `value` to an empty string when no Radios were initially selected', a
 it('is valid if not required and radios are unchecked', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -308,7 +408,7 @@ it('is valid if not required and radios are unchecked', async () => {
 
   await elementUpdated(component);
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
   expect(radios[0].privateInvalid).to.be.false;
   expect(radios[0].ariaInvalid).to.equal('false');
   expect(radios[1].privateInvalid).to.be.false;
@@ -318,8 +418,16 @@ it('is valid if not required and radios are unchecked', async () => {
 it('is valid if required and a radio is checked', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -330,7 +438,7 @@ it('is valid if required and a radio is checked', async () => {
 
   await elementUpdated(component);
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
   expect(radios[0].privateInvalid).to.be.false;
   expect(radios[0].ariaInvalid).to.equal('false');
   expect(radios[1].privateInvalid).to.be.false;
@@ -340,8 +448,15 @@ it('is valid if required and a radio is checked', async () => {
 it('is invalid if required and no radio is checked', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -354,11 +469,15 @@ it('is invalid if required and no radio is checked', async () => {
 it('is invalid after being unchecked when required', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
-  const radio = component.querySelector('glide-core-radio');
+  const radio = component.querySelector('glide-core-radio-group-radio');
   assert(radio);
 
   radio.checked = false;
@@ -372,8 +491,15 @@ it('is invalid after being unchecked when required', async () => {
 it('is both invalid and valid if required but disabled and no radio is checked', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" disabled required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -388,8 +514,15 @@ it('adds an error class after submit when invalid and required', async () => {
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -409,8 +542,15 @@ it('adds an error class after `reportValidity` is called when invalid and requir
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -424,7 +564,7 @@ it('adds an error class after `reportValidity` is called when invalid and requir
 
   expect(isComponentErrorClass).to.be.true;
 
-  const radios = document.querySelectorAll('glide-core-radio');
+  const radios = document.querySelectorAll('glide-core-radio-group-radio');
 
   expect(radios[0]?.privateInvalid).to.be.true;
   expect(radios[0]?.getAttribute('aria-invalid')).to.equal('true');
@@ -437,8 +577,15 @@ it('does not add an error class by default', async () => {
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -452,7 +599,7 @@ it('does not add an error class by default', async () => {
 
   expect(isComponentErrorClass).to.be.false;
 
-  const radios = document.querySelectorAll('glide-core-radio');
+  const radios = document.querySelectorAll('glide-core-radio-group-radio');
 
   let isRadioError = radios[0].shadowRoot
     ?.querySelector('[data-test="radio"]')
@@ -477,8 +624,15 @@ it('does not add an error class after `reportValidity` is called when not requir
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -492,7 +646,7 @@ it('does not add an error class after `reportValidity` is called when not requir
 
   expect(isComponentErrorClass).to.be.false;
 
-  const radios = document.querySelectorAll('glide-core-radio');
+  const radios = document.querySelectorAll('glide-core-radio-group-radio');
 
   let isRadioError = radios[0].shadowRoot
     ?.querySelector('[data-test="radio"]')
@@ -517,8 +671,16 @@ it('does not add an error class after `reportValidity` is called when required a
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -532,7 +694,7 @@ it('does not add an error class after `reportValidity` is called when required a
 
   expect(isComponentErrorClass).to.be.false;
 
-  const radios = document.querySelectorAll('glide-core-radio');
+  const radios = document.querySelectorAll('glide-core-radio-group-radio');
 
   let isRadioError = radios[0].shadowRoot
     ?.querySelector('[data-test="radio"]')
@@ -557,8 +719,16 @@ it('does not add an error class after `reportValidity` is called when required b
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required disabled>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two" checked></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -572,7 +742,7 @@ it('does not add an error class after `reportValidity` is called when required b
 
   expect(isComponentErrorClass).to.be.false;
 
-  const radios = document.querySelectorAll('glide-core-radio');
+  const radios = document.querySelectorAll('glide-core-radio-group-radio');
 
   let isRadioError = radios[0].shadowRoot
     ?.querySelector('[data-test="radio"]')
@@ -597,8 +767,15 @@ it('does not add an error class after `checkValidity` is called when required', 
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -612,7 +789,7 @@ it('does not add an error class after `checkValidity` is called when required', 
 
   expect(isComponentErrorClass).to.be.false;
 
-  const radios = document.querySelectorAll('glide-core-radio');
+  const radios = document.querySelectorAll('glide-core-radio-group-radio');
 
   let isRadioError = radios[0].shadowRoot
     ?.querySelector('[data-test="radio"]')
@@ -637,8 +814,15 @@ it('sets the group as valid when `required` is set to `false` dynamically', asyn
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -646,7 +830,7 @@ it('sets the group as valid when `required` is set to `false` dynamically', asyn
   component.required = false;
   await elementUpdated(component);
 
-  const radios = component.querySelectorAll('glide-core-radio');
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
   expect(radios[0].privateInvalid).to.be.false;
   expect(radios[0].ariaInvalid).to.equal('false');
@@ -664,8 +848,15 @@ it('sets the group as invalid when `required` is set to `true` dynamically when 
 
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     { parentNode: form },
   );
@@ -682,7 +873,10 @@ it('sets the group as invalid when `required` is set to `true` dynamically when 
 it('is valid when required after `value` is set', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -702,7 +896,10 @@ it('is valid when required after `value` is set', async () => {
 it('sets the validity message with `setCustomValidity()`', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -734,7 +931,10 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -756,7 +956,10 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
 it('is invalid when `setValidity()` is called', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -788,7 +991,10 @@ it('is invalid when `setValidity()` is called', async () => {
 it('is valid when `setValidity()` is called', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -814,7 +1020,10 @@ it('is valid when `setValidity()` is called', async () => {
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
@@ -828,8 +1037,15 @@ it('retains existing validity state when `setCustomValidity()` is called', async
 it('reports validity when blurred', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="Checkbox Group" required>
-      <glide-core-radio label="One" value="one"></glide-core-radio>
-      <glide-core-radio label="Two" value="two"></glide-core-radio>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
   );
 
