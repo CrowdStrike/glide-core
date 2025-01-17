@@ -62,7 +62,7 @@ const meta: Meta = {
     value: [],
     variant: '',
     version: '',
-    '<glide-core-dropdown-option>.label': `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`,
+    '<glide-core-dropdown-option>.label': 'One',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
     '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,

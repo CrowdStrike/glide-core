@@ -56,7 +56,7 @@ const meta: Meta = {
       </div>`,
   ],
   args: {
-    label: 'Content',
+    label: 'Label',
     'slot="target"': '',
     'addEventListener(event, handler)': '',
     disabled: false,
