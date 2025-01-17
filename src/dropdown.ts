@@ -931,6 +931,10 @@ export default class GlideCoreDropdown extends LitElement {
     return isValid;
   }
 
+  resetValidityFeedback() {
+    this.isReportValidityOrSubmit = false;
+  }
+
   setCustomValidity(message: string) {
     this.validityMessage = message;
 

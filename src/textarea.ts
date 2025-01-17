@@ -265,6 +265,10 @@ export default class GlideCoreTextarea extends LitElement {
     return isValid;
   }
 
+  resetValidityFeedback() {
+    this.isReportValidityOrSubmit = false;
+  }
+
   setCustomValidity(message: string) {
     this.validityMessage = message;
 

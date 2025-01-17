@@ -74,6 +74,7 @@ const meta: Meta = {
     readonly: false,
     'reportValidity()': '',
     required: false,
+    'resetValidityFeedback()': '',
     rows: 2,
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
@@ -184,6 +185,21 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '(): boolean',
+        },
+      },
+    },
+    'resetValidityFeedback()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: `
+(): void
+
+// Removes the error styling and validity message
+// from the component while maintaining the internal
+// validity state.
+          `,
         },
       },
     },

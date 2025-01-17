@@ -1057,3 +1057,35 @@ it('reports validity when blurred', async () => {
 
   expect(component.validity.valid).to.be.false;
 });
+
+it('removes validity feedback, but retains the validity state with `resetValidityFeedback()`', async () => {
+  const component = await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="label" name="name">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>`,
+  );
+
+  component.setCustomValidity('validity message');
+
+  expect(component.reportValidity()).to.be.false;
+
+  await elementUpdated(component);
+
+  expect(
+    component.shadowRoot
+      ?.querySelector('[data-test="validity-message"]')
+      ?.textContent?.trim(),
+  ).to.equal('validity message');
+
+  component.resetValidityFeedback();
+
+  await elementUpdated(component);
+
+  expect(component.shadowRoot?.querySelector('[data-test="validity-message"]'))
+    .to.be.null;
+
+  expect(component.validity?.valid).to.be.false;
+});
