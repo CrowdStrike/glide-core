@@ -378,7 +378,7 @@ it('sets `aria-describedby` on its target when hidden from screenreaders', async
   expect(button?.getAttribute('aria-describedby')).to.equal(null);
 });
 
-it('sets `aria-describedby` on its target not hidden from screenreaders', async () => {
+it('sets `aria-describedby` on its target when not hidden from screenreaders', async () => {
   const component = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip label="Label" screenreader-hidden>
       <button slot="target">Target</button>
