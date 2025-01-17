@@ -243,6 +243,19 @@ it('does not set Select All as indeterminate when all options are initially sele
   expect(selectAll?.privateIndeterminate).to.be.false;
 });
 
+it('does not set Select All as selected when no options are provided', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown filterable> </glide-core-dropdown>`,
+  );
+
+  const selectAll =
+    component.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+      '[data-test="select-all"]',
+    );
+
+  expect(selectAll?.selected).to.be.false;
+});
+
 it('sets its internal label to `placeholder` when no option is initially selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
