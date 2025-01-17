@@ -79,7 +79,7 @@ const meta: Meta = {
         type: {
           summary: 'Element',
           detail:
-            '// The element to which the tooltip will anchor. Can be any element with an implicity or explicit ARIA role.',
+            '// The element to which the tooltip will anchor. Can be any element with an implicit or explicit ARIA role.',
         },
       },
       type: { name: 'function', required: true },

@@ -21,7 +21,7 @@ declare global {
 // Tooltip is in a similar situation but has no default slot. So we can simply take
 // the value of its `label` attribute, pass it to Tooltip Container, then dump
 // Tooltp Container into Tooltip's light DOM for consumers. We can't do the same
-// for Menu it because necessarily has a default slot for Menu Buttons and Menu Links.
+// for Menu because it necessarily has a default slot for Menu Buttons and Menu Links.
 //
 // One alternative solution is to require that consumers wrap their default slot content
 // in any element. But doing so would be arguably more awkward than asking them to slot
