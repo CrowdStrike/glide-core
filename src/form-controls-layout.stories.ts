@@ -13,7 +13,6 @@ import GlideCoreTextarea from './textarea.js';
 
 const meta: Meta = {
   title: 'Form Controls Layout',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>

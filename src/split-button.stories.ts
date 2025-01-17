@@ -14,7 +14,6 @@ import type GlideCoreSplitButtonSecondaryButton from './split-button.secondary-b
 
 const meta: Meta = {
   title: 'Split Button',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>

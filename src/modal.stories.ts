@@ -12,7 +12,6 @@ import GlideCoreModal from './modal.js';
 
 const meta: Meta = {
   title: 'Modal',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) => {

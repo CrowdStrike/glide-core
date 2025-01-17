@@ -12,7 +12,6 @@ import GlideCoreTab from './tab.js';
 
 const meta: Meta = {
   title: 'Tab Group',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) => html`

@@ -6,7 +6,6 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 const meta: Meta = {
   title: 'Icon Button',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>

@@ -8,6 +8,7 @@ import { withActions } from '@storybook/addon-actions/decorator';
 import GlideCoreAccordion from './accordion.js';
 
 const meta: Meta = {
+  title: 'Accordion',
   decorators: [
     withActions,
     (story) =>
@@ -19,8 +20,6 @@ const meta: Meta = {
         ${story()}
       </div>`,
   ],
-  title: 'Accordion',
-  tags: ['autodocs'],
   parameters: {
     actions: {
       handles: ['toggle'],

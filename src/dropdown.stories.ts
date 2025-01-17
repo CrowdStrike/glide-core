@@ -10,7 +10,6 @@ import GlideCoreDropdown from './dropdown.js';
 
 const meta: Meta = {
   title: 'Dropdown',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) => {

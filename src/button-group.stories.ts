@@ -10,7 +10,6 @@ import GlideCoreButton from './button-group.button.js';
 
 const meta: Meta = {
   title: 'Button Group',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) => html`

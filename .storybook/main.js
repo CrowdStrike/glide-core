@@ -6,6 +6,9 @@ import packageJson from '../package.json';
 const config = {
   stories: ['../src/*.stories.ts'],
   addons: ['@storybook/addon-essentials'],
+  core: {
+    disableTelemetry: true,
+  },
   framework: {
     name: '@storybook/web-components-vite',
   },

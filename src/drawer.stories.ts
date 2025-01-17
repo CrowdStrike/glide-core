@@ -10,6 +10,7 @@ import ow from './library/ow.js';
 import GlideCoreDrawer from './drawer.js';
 
 const meta: Meta = {
+  title: 'Drawer',
   decorators: [
     withActions,
     (story) => html`
@@ -22,8 +23,6 @@ const meta: Meta = {
       </div>
     `,
   ],
-  title: 'Drawer',
-  tags: ['autodocs'],
   parameters: {
     actions: {
       handles: ['toggle'],

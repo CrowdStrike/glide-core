@@ -9,7 +9,6 @@ import GlideCoreCheckboxGroup from './checkbox-group.js';
 
 const meta: Meta = {
   title: 'Checkbox Group',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>

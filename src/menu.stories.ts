@@ -12,7 +12,6 @@ import GlideCoreMenu from './menu.js';
 
 const meta: Meta = {
   title: 'Menu',
-  tags: ['autodocs'],
   decorators: [
     withActions,
     (story) =>
