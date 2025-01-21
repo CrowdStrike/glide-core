@@ -458,7 +458,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
     }
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`<glide-core-dropdown
       add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}
@@ -477,32 +477,6 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       ?select-all=${arguments_['select-all']}
       .value=${arguments_.value}
     >
-      <glide-core-dropdown-option
-        label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
-        value=${arguments_['<glide-core-dropdown-option>.one.value'] || nothing}
-        ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
-        ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
-        ?selected=${arguments_.value.includes(
-          arguments_['<glide-core-dropdown-option>.one.value'],
-        )}
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Two"
-        value="two"
-        ?selected=${arguments_.value.includes(
-          arguments_['<glide-core-dropdown-option>.two.value'],
-        )}
-      ></glide-core-dropdown-option>
-
-      <glide-core-dropdown-option
-        label="Three"
-        value="three"
-        ?selected=${arguments_.value.includes(
-          arguments_['<glide-core-dropdown-option>.three.value'],
-        )}
-      ></glide-core-dropdown-option>
-
       ${arguments_['slot="description"']
         ? html`<div slot="description">
             ${unsafeHTML(arguments_['slot="description"'])}

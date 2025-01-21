@@ -20,10 +20,27 @@ it('opens when opened programmatically', async () => {
   );
 
   component.open = true;
+
+  // Wait for Floating UI.
   await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
   expect(options?.checkVisibility()).to.be.true;
+});
+
+it('does not open when opened programmatically and there are no options', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    </glide-core-dropdown>`,
+  );
+
+  component.open = true;
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+  expect(options?.checkVisibility()).to.be.false;
 });
 
 it('opens on ArrowUp', async () => {

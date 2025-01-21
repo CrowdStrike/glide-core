@@ -111,7 +111,7 @@ const meta: Meta = {
         type: {
           summary: 'boolean',
           detail:
-            '// Force visibility of the tooltip. Useful when it should be visible based on something other than hover or focus.',
+            '// Force visibility of the tooltip. Useful when it should be visible based on something other than\n// hover or focus.',
         },
       },
     },

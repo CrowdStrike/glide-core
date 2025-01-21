@@ -300,8 +300,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   private get isAllSelected() {
     return (
+      this.#optionElements.length > 0 &&
       this.#optionElements.filter(({ selected }) => selected).length ===
-      this.#optionElements.filter(({ disabled }) => !disabled).length
+        this.#optionElements.filter(({ disabled }) => !disabled).length
     );
   }
 
@@ -2003,8 +2004,6 @@ export default class GlideCoreDropdown extends LitElement {
     }
   }
 
-  // "input" is handled instead of the usual "change" because, for historical reasons,
-
   #onOptionsLabelChange() {
     if (this.selectedOptions.length > 0) {
       if (this.multiple) {
@@ -2335,68 +2334,70 @@ export default class GlideCoreDropdown extends LitElement {
   }
 
   #show() {
-    // `#show` is called whenever `open` is set. And `open` can be set arbitrarily
-    // by the consumer. Rather than guarding against calling `#show` everywhere,
-    // Floating UI is simply cleaned up every time `#show` is called.
-    this.#cleanUpFloatingUi?.();
+    if (this.#optionElements.length > 0) {
+      // `#show` is called whenever `open` is set. And `open` can be set arbitrarily
+      // by the consumer. Rather than guarding against calling `#show` everywhere,
+      // Floating UI is simply cleaned up every time `#show` is called.
+      this.#cleanUpFloatingUi?.();
 
-    // This is done now instead of after Floating UI does its thing because the
-    // user may begin arrowing immediately to another option option or may have
-    // arrowed to open Dropdown and then accidentally arrowed again.
-    if (this.#previouslyActiveOption) {
-      this.#previouslyActiveOption.privateActive = true;
-      this.ariaActivedescendant = this.#previouslyActiveOption.id;
-    }
+      // This is done now instead of after Floating UI does its thing because the
+      // user may begin arrowing immediately to another option option or may have
+      // arrowed to open Dropdown and then accidentally arrowed again.
+      if (this.#previouslyActiveOption) {
+        this.#previouslyActiveOption.privateActive = true;
+        this.ariaActivedescendant = this.#previouslyActiveOption.id;
+      }
 
-    if (
-      this.#dropdownElementRef.value &&
-      this.#optionsAndFooterElementRef.value
-    ) {
-      this.#cleanUpFloatingUi = autoUpdate(
-        this.#dropdownElementRef.value,
-        this.#optionsAndFooterElementRef.value,
-        () => {
-          (async () => {
-            if (
-              this.#dropdownElementRef.value &&
-              this.#optionsAndFooterElementRef.value
-            ) {
-              const { x, y, placement } = await computePosition(
-                this.#dropdownElementRef.value,
-                this.#optionsAndFooterElementRef.value,
-                {
-                  placement: 'bottom-start',
-                  middleware: [
-                    offset({
-                      mainAxis:
-                        Number.parseFloat(
-                          window
-                            .getComputedStyle(document.body)
-                            .getPropertyValue('--glide-core-spacing-xxs'),
-                        ) *
-                        Number.parseFloat(
-                          window.getComputedStyle(document.documentElement)
-                            .fontSize,
-                        ),
-                    }),
-                    flip(),
-                  ],
-                },
-              );
+      if (
+        this.#dropdownElementRef.value &&
+        this.#optionsAndFooterElementRef.value
+      ) {
+        this.#cleanUpFloatingUi = autoUpdate(
+          this.#dropdownElementRef.value,
+          this.#optionsAndFooterElementRef.value,
+          () => {
+            (async () => {
+              if (
+                this.#dropdownElementRef.value &&
+                this.#optionsAndFooterElementRef.value
+              ) {
+                const { x, y, placement } = await computePosition(
+                  this.#dropdownElementRef.value,
+                  this.#optionsAndFooterElementRef.value,
+                  {
+                    placement: 'bottom-start',
+                    middleware: [
+                      offset({
+                        mainAxis:
+                          Number.parseFloat(
+                            window
+                              .getComputedStyle(document.body)
+                              .getPropertyValue('--glide-core-spacing-xxs'),
+                          ) *
+                          Number.parseFloat(
+                            window.getComputedStyle(document.documentElement)
+                              .fontSize,
+                          ),
+                      }),
+                      flip(),
+                    ],
+                  },
+                );
 
-              this.#optionsAndFooterElementRef.value.dataset.placement =
-                placement;
+                this.#optionsAndFooterElementRef.value.dataset.placement =
+                  placement;
 
-              Object.assign(this.#optionsAndFooterElementRef.value.style, {
-                left: `${x}px`,
-                top: `${y}px`,
-              });
+                Object.assign(this.#optionsAndFooterElementRef.value.style, {
+                  left: `${x}px`,
+                  top: `${y}px`,
+                });
 
-              this.#optionsAndFooterElementRef.value?.showPopover();
-            }
-          })();
-        },
-      );
+                this.#optionsAndFooterElementRef.value?.showPopover();
+              }
+            })();
+          },
+        );
+      }
     }
   }
 
