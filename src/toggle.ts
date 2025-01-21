@@ -17,7 +17,6 @@ declare global {
  * @event input
  *
  * @slot description - Additional information or context.
- * @slot tooltip - Content for the tooltip.
  */
 @customElement('glide-core-toggle')
 export default class GlideCoreToggle extends LitElement {
@@ -54,6 +53,9 @@ export default class GlideCoreToggle extends LitElement {
   summary?: string;
 
   @property({ reflect: true })
+  tooltip?: string;
+
+  @property({ reflect: true })
   readonly version = packageJson.version;
 
   override click() {
@@ -69,10 +71,10 @@ export default class GlideCoreToggle extends LitElement {
       <glide-core-private-label
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
+        tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
         ?hide=${this.hideLabel}
       >
-        <slot name="tooltip" slot="tooltip"></slot>
         <label for="input"> ${this.label} </label>
 
         <div class="toggle-and-input" slot="control">

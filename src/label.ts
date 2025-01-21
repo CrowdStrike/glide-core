@@ -4,8 +4,10 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import ow, { owSlot } from './library/ow.js';
 import styles from './label.styles.js';
+import { LocalizeController } from './library/localize.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,7 +22,6 @@ declare global {
  * @slot control - The control with which the label is associated.
  * @slot summary - Additional information or context.
  * @slot description - Additional information or context.
- * @slot tooltip - Content for the tooltip.
  */
 @customElement('glide-core-private-label')
 export default class GlideCoreLabel extends LitElement {
@@ -48,6 +49,9 @@ export default class GlideCoreLabel extends LitElement {
 
   @property()
   split?: 'left' | 'middle';
+
+  @property()
+  tooltip?: string;
 
   override firstUpdated() {
     owSlot(this.#defaultSlotElementRef.value);
@@ -102,25 +106,27 @@ export default class GlideCoreLabel extends LitElement {
           class=${classMap({
             'optional-tooltip': true,
             vertical: this.orientation === 'vertical',
-            visible: this.hasTooltipSlot,
+            visible: this.tooltip ? true : false,
           })}
+          label=${ifDefined(this.tooltip)}
           placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
         >
-          <span class="optional-tooltip-target" slot="target" tabindex="0">
+          <button
+            aria-label=${this.#localize.term('tooltip')}
+            class="optional-tooltip-target"
+            slot="target"
+            type="button"
+          >
             ${icons.information}
-          </span>
-
-          <slot
-            name="tooltip"
-            @slotchange=${this.#onTooltipSlotChange}
-            ${ref(this.#tooltipSlotElementRef)}
-          ></slot>
+          </button>
         </glide-core-tooltip>
 
         <glide-core-tooltip
           class="label-tooltip"
+          label=${ifDefined(this.tooltip)}
           placement="right"
           ?disabled=${!this.isLabelTooltip}
+          screenreader-hidden
         >
           <div
             class=${classMap({
@@ -140,8 +146,6 @@ export default class GlideCoreLabel extends LitElement {
               ? html`<span aria-hidden="true" class="required-symbol">*</span>`
               : ''}
           </div>
-
-          <div aria-hidden="true">${this.label}</div>
         </glide-core-tooltip>
       </div>
 
@@ -176,7 +180,7 @@ export default class GlideCoreLabel extends LitElement {
           description: true,
           content: this.hasDescription,
           error: this.error,
-          tooltip: this.hasTooltipSlot,
+          tooltip: this.tooltip ? true : false,
         })}
         id="description"
         name="description"
@@ -192,9 +196,6 @@ export default class GlideCoreLabel extends LitElement {
   private hasSummarySlot = false;
 
   @state()
-  private hasTooltipSlot = false;
-
-  @state()
   private isLabelTooltip = false;
 
   @state()
@@ -208,9 +209,9 @@ export default class GlideCoreLabel extends LitElement {
 
   #labelElementRef = createRef<HTMLElement>();
 
-  #summarySlotElementRef = createRef<HTMLSlotElement>();
+  #localize = new LocalizeController(this);
 
-  #tooltipSlotElementRef = createRef<HTMLSlotElement>();
+  #summarySlotElementRef = createRef<HTMLSlotElement>();
 
   #onControlSlotChange() {
     owSlot(this.#controlSlotElementRef.value);
@@ -257,14 +258,6 @@ export default class GlideCoreLabel extends LitElement {
     });
 
     this.hasSummarySlot = Boolean(assignedNodes && assignedNodes.length > 0);
-  }
-
-  #onTooltipSlotChange() {
-    const assignedNodes = this.#tooltipSlotElementRef.value?.assignedNodes({
-      flatten: true,
-    });
-
-    this.hasTooltipSlot = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }
 

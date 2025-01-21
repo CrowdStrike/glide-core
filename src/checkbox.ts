@@ -24,7 +24,6 @@ declare global {
  * @event invalid
  *
  * @slot description - Additional information or context.
- * @slot tooltip - Content for the tooltip.
  * @slot private-icon
  */
 @customElement('glide-core-checkbox')
@@ -116,6 +115,9 @@ export default class GlideCoreCheckbox extends LitElement {
 
   @property({ reflect: true })
   summary?: string;
+
+  @property({ reflect: true })
+  tooltip?: string;
 
   @property({ reflect: true })
   get value() {
@@ -289,13 +291,14 @@ export default class GlideCoreCheckbox extends LitElement {
 
               <glide-core-tooltip
                 class="label-tooltip"
+                data-test="label-tooltip"
+                label=${ifDefined(this.tooltip)}
                 offset=${this.privateLabelTooltipOffset}
                 ?disabled=${!this.isLabelOverflow ||
                 this.privateDisableLabelTooltip}
                 ?open=${this.privateShowLabelTooltip}
+                screenreader-hidden
               >
-                <div aria-hidden="true" data-test="tooltip">${this.label}</div>
-
                 <div
                   class=${classMap({
                     label: true,
@@ -314,12 +317,12 @@ export default class GlideCoreCheckbox extends LitElement {
           html`<glide-core-private-label
             orientation=${this.orientation}
             split=${ifDefined(this.privateSplit ?? undefined)}
+            tooltip=${ifDefined(this.tooltip)}
             ?disabled=${this.disabled}
             ?error=${this.#isShowValidationFeedback}
             ?hide=${this.hideLabel}
             ?required=${this.required}
           >
-            <slot name="tooltip" slot="tooltip"></slot>
             <label for="input"> ${this.label} </label>
 
             <!--

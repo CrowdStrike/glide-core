@@ -38,16 +38,17 @@ export default class GlideCoreModalTertiaryIcon extends LitElement {
   override render() {
     return html`
       <glide-core-tooltip
+        label=${ifDefined(this.label)}
         placement=${this.tooltipPlacement}
+        screenreader-hidden
         ${ref(this.#tooltipElementRef)}
       >
-        ${this.label}
-        <span tabindex="0" aria-label=${ifDefined(this.label)} slot="target">
+        <button aria-label=${ifDefined(this.label)} slot="target">
           <slot
             @slotchange=${this.#onDefaultSlotChange}
             ${ref(this.#defaultSlotElementRef)}
           ></slot>
-        </span>
+        </button>
       </glide-core-tooltip>
     `;
   }

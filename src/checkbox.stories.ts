@@ -44,8 +44,8 @@ const meta: Meta = {
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
-    'slot="tooltip"': '',
     summary: '',
+    tooltip: '',
     value: '',
     version: '',
   },
@@ -157,12 +157,12 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
-    'slot="tooltip"': {
+    summary: {
       table: {
-        type: { summary: 'Element' },
+        type: { summary: 'string' },
       },
     },
-    summary: {
+    tooltip: {
       table: {
         type: { summary: 'string' },
       },
@@ -224,6 +224,7 @@ const meta: Meta = {
         name=${arguments_.name || nothing}
         orientation=${arguments_.orientation || nothing}
         summary=${arguments_.summary || nothing}
+        tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}
         ?checked=${arguments_.checked}
         ?disabled=${arguments_.disabled}
@@ -234,11 +235,6 @@ const meta: Meta = {
         ${arguments_['slot="description"']
           ? html`<div slot="description">
               ${unsafeHTML(arguments_['slot="description"'])}
-            </div>`
-          : nothing}
-        ${arguments_['slot="tooltip"']
-          ? html`<div slot="tooltip">
-              ${unsafeHTML(arguments_['slot="tooltip"'])}
             </div>`
           : nothing}
       </glide-core-checkbox>

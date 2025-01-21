@@ -6,9 +6,8 @@ import GlideCoreTooltip from './tooltip.js';
 
 it('dispatches a "toggle" event on open', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -25,9 +24,8 @@ it('dispatches a "toggle" event on open', async () => {
 
 it('dispatches a "toggle" event on close', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip open>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label" open>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -44,9 +42,8 @@ it('dispatches a "toggle" event on close', async () => {
 
 it('does not dispatch a "toggle" event when already open', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip open>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label" open>
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
@@ -61,9 +58,8 @@ it('does not dispatch a "toggle" event when already open', async () => {
 
 it('does not dispatch a "toggle" event when already closed', async () => {
   const component = await fixture<GlideCoreTooltip>(
-    html`<glide-core-tooltip>
-      Tooltip
-      <span slot="target" tabindex="0">Target</span>
+    html`<glide-core-tooltip label="Label">
+      <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 

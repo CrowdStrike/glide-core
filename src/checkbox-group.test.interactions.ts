@@ -13,7 +13,7 @@ import GlideCoreCheckboxGroup from './checkbox-group.js';
 
 GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 
-it('checks and unchecks Checkboxes when `value` is changed programmatically', async () => {
+it('checks and unchecks checkboxes when `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreCheckboxGroup>(
     html`<glide-core-checkbox-group label="Checkbox Group">
       <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
@@ -90,7 +90,7 @@ it('updates `value` when the `value` of a checked Checkbox is emptied programmat
   expect(component.getAttribute('value')).to.equal('["two"]');
 });
 
-it('enables disabled Checkboxes when `value` is set programmatically', async () => {
+it('enables disabled checkboxes when `value` is set programmatically', async () => {
   const component = await fixture<GlideCoreCheckboxGroup>(
     html`<glide-core-checkbox-group label="Checkbox Group">
       <glide-core-checkbox
@@ -111,6 +111,26 @@ it('enables disabled Checkboxes when `value` is set programmatically', async () 
 
   const checkbox = component.querySelector('glide-core-checkbox');
   expect(checkbox?.disabled).to.be.false;
+});
+
+it('can be disabled dynamically', async () => {
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group">
+      <glide-core-checkbox label="One"></glide-core-checkbox>
+      <glide-core-checkbox label="Two"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
+  );
+
+  component.disabled = true;
+  await elementUpdated(component);
+
+  const checkboxes = component.querySelectorAll('glide-core-checkbox');
+
+  expect(checkboxes[0].disabled).to.be.true;
+  expect(checkboxes[1].disabled).to.be.true;
+
+  expect(component.hasAttribute('disabled')).to.be.true;
+  expect(component.disabled).to.be.true;
 });
 
 it('adds values to `value` in the order they were selected or deselected', async () => {

@@ -24,7 +24,6 @@ declare global {
  *
  * @slot - One or more of `<glide-core-checkbox>`.
  * @slot description - Additional information or context.
- * @slot tooltip - Content for the tooltip.
  */
 @customElement('glide-core-checkbox-group')
 export default class GlideCoreCheckboxGroup extends LitElement {
@@ -91,6 +90,9 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
   @property({ reflect: true })
   summary?: string;
+
+  @property({ reflect: true })
+  tooltip?: string;
 
   @property({ reflect: true, type: Array })
   get value() {
@@ -236,12 +238,12 @@ export default class GlideCoreCheckboxGroup extends LitElement {
     >
       <glide-core-private-label
         split=${ifDefined(this.privateSplit ?? undefined)}
+        tooltip=${ifDefined(this.tooltip)}
         ?hide=${this.hideLabel}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
         ?required=${this.required}
       >
-        <slot name="tooltip" slot="tooltip"></slot>
         <label id="label">${this.label}</label>
 
         <!-- "aria-describedby" is more appropriate for a description but isn't read by VoiceOver. -->

@@ -15,6 +15,19 @@ declare global {
   }
 }
 
+// This component exists because Menu's target and its menu both need to be in
+// the light DOM so ARIA attributes can be associated with the IDs they reference.
+//
+// Tooltip is in a similar situation but has no default slot. So we can simply take
+// the value of its `label` attribute, pass it to Tooltip Container, then dump
+// Tooltp Container into Tooltip's light DOM for consumers. We can't do the same
+// for Menu because it necessarily has a default slot for Menu Buttons and Menu Links.
+//
+// One alternative solution is to require that consumers wrap their default slot content
+// in any element. But doing so would be arguably more awkward than asking them to slot
+// an element specifically for that purpose. It would also beget more questions, adding
+// to our support load.
+
 /**
  * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
  */

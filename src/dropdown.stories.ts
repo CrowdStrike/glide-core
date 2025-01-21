@@ -57,7 +57,7 @@ const meta: Meta = {
     size: 'large',
     'slot="description"': '',
     'slot="icon:<value>"': '',
-    'slot="tooltip"': '',
+    tooltip: '',
     value: [],
     variant: '',
     version: '',
@@ -254,9 +254,9 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         },
       },
     },
-    'slot="tooltip"': {
+    tooltip: {
       table: {
-        type: { summary: 'Element' },
+        type: { summary: 'string' },
       },
     },
     size: {
@@ -466,6 +466,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       orientation=${arguments_.orientation}
       placeholder=${arguments_.placeholder || nothing}
       size=${arguments_.size}
+      tooltip=${arguments_.tooltip || nothing}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
@@ -480,11 +481,6 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       ${arguments_['slot="description"']
         ? html`<div slot="description">
             ${unsafeHTML(arguments_['slot="description"'])}
-          </div>`
-        : nothing}
-      ${arguments_['slot="tooltip"']
-        ? html`<div slot="tooltip">
-            ${unsafeHTML(arguments_['slot="tooltip"'])}
           </div>`
         : nothing}
     </glide-core-dropdown>`;
@@ -533,6 +529,7 @@ export const WithIcons: StoryObj = {
       orientation=${arguments_.orientation}
       placeholder=${arguments_.placeholder}
       size=${arguments_.size}
+      tooltip=${arguments_.tooltip || nothing}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
@@ -597,11 +594,6 @@ export const WithIcons: StoryObj = {
       ${arguments_['slot="description"']
         ? html`<div slot="description">
             ${unsafeHTML(arguments_['slot="description"'])}
-          </div>`
-        : nothing}
-      ${arguments_['slot="tooltip"']
-        ? html`<div slot="tooltip">
-            ${unsafeHTML(arguments_['slot="tooltip"'])}
           </div>`
         : nothing}
     </glide-core-dropdown>`;

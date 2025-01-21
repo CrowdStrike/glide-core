@@ -1,13 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  aTimeout,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
-import { styleMap } from 'lit/directives/style-map.js';
+import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import GlideCoreCheckbox from './checkbox.js';
 
@@ -163,42 +156,6 @@ it('is still indeterminate on click when unchecked and disabled', async () => {
   expect(input?.indeterminate).to.be.true;
   expect(component.indeterminate).to.be.true;
   expect(component.hasAttribute('indeterminate')).to.be.true;
-});
-
-it('has a tooltip when minimal and with a long label', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox
-      style=${styleMap({
-        display: 'block',
-        maxWidth: '6.25rem',
-      })}
-      label=${'x'.repeat(100)}
-      private-variant="minimal"
-      private-show-label-tooltip
-    ></glide-core-checkbox>`,
-  );
-
-  // Wait for the tooltip.
-  await aTimeout(0);
-
-  const tooltip = component.shadowRoot?.querySelector('[data-test="tooltip"]');
-  expect(tooltip?.checkVisibility()).to.be.true;
-});
-
-it('has no tooltip when minimal and with a short label', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox
-      label="Label"
-      private-variant="minimal"
-      private-show-label-tooltip
-    ></glide-core-checkbox>`,
-  );
-
-  // Wait for the tooltip.
-  await aTimeout(0);
-
-  const tooltip = component.shadowRoot?.querySelector('[data-test="tooltip"]');
-  expect(tooltip?.checkVisibility()).to.be.false;
 });
 
 it('remains unchecked when its "click" event is canceled', async () => {

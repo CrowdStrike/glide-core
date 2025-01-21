@@ -44,7 +44,7 @@ const meta: Meta = {
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
-    'slot="tooltip"': '',
+    tooltip: '',
     value: [],
     version: '',
     '<glide-core-checkbox>.one.checked': false,
@@ -140,9 +140,9 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
-    'slot="tooltip"': {
+    tooltip: {
       table: {
-        type: { summary: 'Element' },
+        type: { summary: 'string' },
       },
     },
     value: {
@@ -231,6 +231,7 @@ const meta: Meta = {
         <glide-core-checkbox-group
           label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}
+          tooltip=${arguments_.tooltip || nothing}
           ?disabled=${arguments_.disabled}
           ?hide-label=${arguments_['hide-label'] || nothing}
           ?required=${arguments_.required}
@@ -250,13 +251,6 @@ const meta: Meta = {
             arguments_['slot="description"']
               ? html`<div slot="description">
                   ${unsafeHTML(arguments_['slot="description"'])}
-                </div>`
-              : nothing
-          }
-          ${
-            arguments_['slot="tooltip"']
-              ? html`<div slot="tooltip">
-                  ${unsafeHTML(arguments_['slot="tooltip"'])}
                 </div>`
               : nothing
           }

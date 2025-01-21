@@ -35,8 +35,8 @@ const meta: Meta = {
     'hide-label': false,
     orientation: 'horizontal',
     'slot="description"': '',
-    'slot="tooltip"': '',
     summary: '',
+    tooltip: '',
     version: '',
   },
   argTypes: {
@@ -83,9 +83,9 @@ const meta: Meta = {
         type: { summary: '"horizontal" | "vertical"' },
       },
     },
-    'slot="tooltip"': {
+    tooltip: {
       table: {
-        type: { summary: 'Element' },
+        type: { summary: 'string' },
       },
     },
     summary: {
@@ -124,6 +124,7 @@ const meta: Meta = {
       label=${arguments_.label || nothing}
       orientation=${arguments_.orientation || nothing}
       summary=${arguments_.summary || nothing}
+      tooltip=${arguments_.tooltip || nothing}
       ?checked=${arguments_.checked}
       ?disabled=${arguments_.disabled}
       ?hide-label=${arguments_['hide-label'] || nothing}
@@ -131,11 +132,6 @@ const meta: Meta = {
       ${arguments_['slot="description"']
         ? html`<div slot="description">
             ${unsafeHTML(arguments_['slot="description"'])}
-          </div>`
-        : nothing}
-      ${arguments_['slot="tooltip"']
-        ? html`<div slot="tooltip">
-            ${unsafeHTML(arguments_['slot="tooltip"'])}
           </div>`
         : nothing}
     </glide-core-toggle>`;

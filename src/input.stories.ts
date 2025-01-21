@@ -53,7 +53,7 @@ const meta: Meta = {
     'slot="description"': '',
     'slot="prefix-icon"': '',
     'slot="suffix-icon"': '',
-    'slot="tooltip"': '',
+    tooltip: '',
     spellcheck: 'false',
     type: 'text',
     value: '',
@@ -100,6 +100,7 @@ const meta: Meta = {
         pattern=${arguments_.pattern || nothing}
         placeholder=${arguments_.placeholder || nothing}
         spellcheck=${arguments_.spellcheck}
+        tooltip=${arguments_.tooltip || nothing}
         type=${arguments_.type || nothing}
         value=${arguments_.value || nothing}
         ?clearable=${arguments_.clearable}
@@ -112,11 +113,6 @@ const meta: Meta = {
         ${arguments_['slot="description"']
           ? html`<div slot="description">
               ${unsafeHTML(arguments_['slot="description"'])}
-            </div>`
-          : nothing}
-        ${arguments_['slot="tooltip"']
-          ? html`<div slot="tooltip">
-              ${unsafeHTML(arguments_['slot="tooltip"'])}
             </div>`
           : nothing}
       </glide-core-input>
@@ -296,9 +292,9 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
-    'slot="tooltip"': {
+    tooltip: {
       table: {
-        type: { summary: 'Element' },
+        type: { summary: 'string' },
       },
     },
     type: {
@@ -357,6 +353,7 @@ export const WithIcons: StoryObj = {
         orientation=${arguments_.orientation}
         placeholder=${arguments_.placeholder || nothing}
         spellcheck=${arguments_.spellcheck}
+        tooltip=${arguments_.tooltip || nothing}
         type=${arguments_.type}
         value=${arguments_.value || nothing}
         ?clearable=${arguments_.clearable}
@@ -366,10 +363,6 @@ export const WithIcons: StoryObj = {
         ?required=${arguments_.required}
         ?readonly=${arguments_.readonly}
       >
-        ${arguments_['slot="tooltip"']
-          ? html`<div slot="tooltip">${arguments_['slot="tooltip"']}</div>`
-          : nothing}
-
         <glide-core-example-icon
           slot="prefix-icon"
           name="edit"

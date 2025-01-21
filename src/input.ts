@@ -44,7 +44,6 @@ type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
  * @event input
  * @event invalid
  *
- * @slot tooltip - Content for the tooltip.
  * @slot description - Additional information or context.
  * @slot prefix-icon - An optional icon before the input field.
  * @slot suffix-icon - An optional icon after the input field.
@@ -133,6 +132,9 @@ export default class GlideCoreInput extends LitElement {
 
   @property({ reflect: true })
   readonly version = packageJson.version;
+
+  @property({ reflect: true })
+  tooltip?: string;
 
   get form() {
     return this.#internals.form;
@@ -228,13 +230,13 @@ export default class GlideCoreInput extends LitElement {
         })}
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
+        tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback ||
         this.#isMaxCharacterCountExceeded}
         ?hide=${this.hideLabel}
         ?required=${this.required}
       >
-        <slot name="tooltip" slot="tooltip"></slot>
         <label for="input"> ${this.label} </label>
 
         <div

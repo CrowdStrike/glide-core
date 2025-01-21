@@ -37,7 +37,6 @@ declare global {
  * @slot - One or more of `<glide-core-dropdown-option>`.
  * @slot description - Additional information or context.
  * @slot icon:<value> - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
- * @slot tooltip - Content for the tooltip.
  */
 @customElement('glide-core-dropdown')
 export default class GlideCoreDropdown extends LitElement {
@@ -225,6 +224,9 @@ export default class GlideCoreDropdown extends LitElement {
 
   @property({ reflect: true, type: Boolean })
   required = false;
+
+  @property({ reflect: true })
+  tooltip?: string;
 
   // Intentionally not reflected to match native.
   @property({ type: Array })
@@ -540,13 +542,13 @@ export default class GlideCoreDropdown extends LitElement {
       <glide-core-private-label
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
+        tooltip=${ifDefined(this.tooltip)}
         ?disabled=${this.disabled}
         ?error=${this.#isShowValidationFeedback}
         ?hide=${this.hideLabel}
         ?required=${this.required}
       >
         <label for="primary-button" id="label"> ${this.label} </label>
-        <slot name="tooltip" slot="tooltip"></slot>
 
         <div
           class="dropdown-and-options"
@@ -638,13 +640,13 @@ export default class GlideCoreDropdown extends LitElement {
                 visible: this.filterable || this.isFilterable,
               })}
               data-test="input-tooltip"
+              label=${this.inputValue}
               offset=${8}
               ?disabled=${this.open || !this.isInputOverflow}
               ?open=${!this.open && this.isInputTooltipOpen}
               @toggle=${this.#onTooltipToggle}
+              screenreader-hidden
             >
-              <div aria-hidden="true">${this.inputValue}</div>
-
               <div class="input-container" slot="target">
                 <input
                   aria-activedescendant=${this.ariaActivedescendant}
@@ -713,6 +715,7 @@ export default class GlideCoreDropdown extends LitElement {
                 visible: Boolean(this.internalLabel),
               })}
               data-test="internal-label-tooltip"
+              label=${ifDefined(this.internalLabel)}
               offset=${8}
               ?disabled=${this.open ||
               this.multiple ||
@@ -721,9 +724,8 @@ export default class GlideCoreDropdown extends LitElement {
               !this.isInternalLabelOverflow}
               ?open=${!this.open && this.isInternalLabelTooltipOpen}
               @toggle=${this.#onTooltipToggle}
+              screenreader-hidden
             >
-              <div aria-hidden="true">${this.internalLabel}</div>
-
               <div
                 class="internal-label"
                 data-test="internal-label"

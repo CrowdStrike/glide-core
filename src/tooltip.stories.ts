@@ -34,9 +34,12 @@ const meta: Meta = {
       >
         <style>
           [slot="target"] {
+            background-color: transparent;
+            border: none;
             border-radius: 50%;
             display: inline-flex;
             outline-offset: 1px;
+            padding: 0;
 
             &:focus-visible {
               ${focusOutline};
@@ -52,22 +55,21 @@ const meta: Meta = {
       </div>`,
   ],
   args: {
-    'slot="default"': 'Content',
+    label: 'Label',
     'slot="target"': '',
     'addEventListener(event, handler)': '',
     disabled: false,
     offset: 4,
     open: false,
     placement: 'bottom',
+    'screenreader-hidden': false,
     shortcut: [],
     version: '',
   },
   argTypes: {
-    'slot="default"': {
+    label: {
       table: {
-        type: {
-          summary: 'Element | string',
-        },
+        type: { summary: 'string' },
       },
       type: { name: 'string', required: true },
     },
@@ -75,7 +77,8 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'Element',
-          detail: '// The element to which the tooltip will anchor',
+          detail:
+            '// The element to which the tooltip will anchor. Can be any element with an implicit or explicit ARIA role.',
         },
       },
       type: { name: 'function', required: true },
@@ -127,6 +130,15 @@ const meta: Meta = {
         },
       },
     },
+    'screenreader-hidden': {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: {
+          summary: 'boolean',
+          detail: `// Screenreaders are able to read the entirety of the truncated text without the help of a tooltip\n// if it's truncated using CSS. Use this attribute to hide the tooltip from screenreaders so its text\n// isn't read in duplicate.`,
+        },
+      },
+    },
     shortcut: {
       table: {
         defaultValue: { summary: '[]' },
@@ -167,24 +179,22 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    // A `<span>` is used instead of a `<button>` for VoiceOver, so
-    // "button" isn't read aloud, implying the target can be interacted
-    // with via click.
-
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <glide-core-tooltip
+        label=${arguments_.label}
         offset=${arguments_.offset}
         placement=${arguments_.placement}
         ?disabled=${arguments_.disabled}
         ?open=${arguments_.open}
+        ?screenreader-hidden=${arguments_['screenreader-hidden']}
         .shortcut=${arguments_.shortcut}
       >
         ${unsafeHTML(arguments_['slot="default"'])}
 
-        <span slot="target" tabindex="0">
+        <button aria-label="Tooltip:" slot="target">
           <glide-core-example-icon name="info"></glide-core-example-icon>
-        </span>
+        </button>
       </glide-core-tooltip>
     `;
   },

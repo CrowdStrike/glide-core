@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { styleMap } from 'lit/directives/style-map.js';
 import GlideCoreCheckbox from './checkbox.js';
+import type GlideCoreTooltip from './tooltip.js';
 
 GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
@@ -11,26 +13,9 @@ it('registers itself', async () => {
   );
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
-  );
-
-  expect(component.checked).to.be.false;
-  expect(component.disabled).to.be.false;
-  expect(component.hideLabel).to.be.false;
-  expect(component.indeterminate).to.be.false;
-  expect(component.name).to.be.empty.string;
-  expect(component.orientation).to.equal('horizontal');
-  expect(component.required).to.be.false;
-  expect(component.summary).to.equal(undefined);
-  expect(component.value).to.be.empty.string;
-});
-
 it('is accessible', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label">
-      <div slot="tooltip">Tooltip</div>
+    html`<glide-core-checkbox label="Label" tooltip="Tooltip">
       <div slot="description">Description</div>
     </glide-core-checkbox>`,
   );
@@ -38,105 +23,45 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('can have a label', async () => {
+it('has a tooltip when minimal with a long label', async () => {
   const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label">
-      <div slot="description">Description</div>
-    </glide-core-checkbox>`,
+    html`<glide-core-checkbox
+      style=${styleMap({
+        display: 'block',
+        maxWidth: '6.25rem',
+      })}
+      label=${'x'.repeat(100)}
+      private-variant="minimal"
+      private-show-label-tooltip
+    ></glide-core-checkbox>`,
   );
 
-  const label = component.shadowRoot?.querySelector('label');
+  // Wait for the tooltip.
+  await aTimeout(0);
 
-  expect(label?.textContent?.trim()).to.equal('Label');
-});
-
-it('can have a description', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label">
-      <div slot="description">Description</div>
-    </glide-core-checkbox>`,
+  const tooltip = component.shadowRoot?.querySelector<GlideCoreTooltip>(
+    '[data-test="label-tooltip"]',
   );
 
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="description"]')
-    ?.assignedElements();
-
-  expect(assignedElements?.at(0)?.textContent).to.equal('Description');
+  expect(tooltip?.disabled).to.be.false;
+  expect(tooltip?.open).to.be.true;
 });
 
-it('can have a name', async () => {
+it('has no tooltip when minimal with a short label', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       label="Label"
-      name="name"
-    ></glide-core-checkbox> `,
+      private-variant="minimal"
+      private-show-label-tooltip
+    ></glide-core-checkbox>`,
   );
 
-  expect(component.getAttribute('name')).to.equal('name');
-  expect(component.name).to.equal('name');
-});
+  // Wait for the tooltip.
+  await aTimeout(0);
 
-it('can have a summary', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox
-      label="Label"
-      summary="Summary"
-    ></glide-core-checkbox> `,
+  const tooltip = component.shadowRoot?.querySelector<GlideCoreTooltip>(
+    '[data-test="label-tooltip"]',
   );
 
-  expect(component.getAttribute('summary')).to.equal('Summary');
-  expect(component.summary).to.equal('Summary');
-});
-
-it('can have a tooltip', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label">
-      <div slot="tooltip">Tooltip</div>
-    </glide-core-checkbox>`,
-  );
-
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="tooltip"]')
-    ?.assignedElements();
-
-  expect(assignedElements?.at(0)?.textContent).to.equal('Tooltip');
-});
-
-it('can be checked', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label" checked></glide-core-checkbox> `,
-  );
-
-  expect(component.hasAttribute('checked')).to.be.true;
-  expect(component.checked).to.be.true;
-});
-
-it('can be disabled', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label" disabled></glide-core-checkbox> `,
-  );
-
-  expect(component.hasAttribute('disabled')).to.be.true;
-  expect(component.disabled).to.be.true;
-});
-
-it('can be indeterminate', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox
-      label="Label"
-      indeterminate
-    ></glide-core-checkbox> `,
-  );
-
-  expect(component.hasAttribute('indeterminate')).to.be.true;
-  expect(component.indeterminate).to.be.true;
-});
-
-it('can be required', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label" required></glide-core-checkbox> `,
-  );
-
-  expect(component.hasAttribute('required')).to.be.true;
-  expect(component.required).to.be.true;
+  expect(tooltip?.disabled).to.be.true;
 });

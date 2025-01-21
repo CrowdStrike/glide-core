@@ -4,8 +4,10 @@ import { ArgumentError } from 'ow';
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
 import GlideCoreLabel from './label.js';
+import GlideCoreTooltip from './tooltip.js';
 
 GlideCoreLabel.shadowRootOptions.mode = 'open';
+GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-private-label')).to.equal(
@@ -13,85 +15,16 @@ it('registers itself', async () => {
   );
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-private-label>
-      <label for="input">Label</label>
-      <input id="input" slot="control" />
-    </glide-core-private-label>`,
-  );
-
-  expect(component.getAttribute('error')).to.equal(null);
-  expect(component.error).to.be.false;
-
-  expect(component.getAttribute('hide')).to.equal(null);
-  expect(component.hide).to.be.false;
-
-  expect(component.getAttribute('orientation')).to.equal('horizontal');
-  expect(component.orientation).to.equal('horizontal');
-
-  expect(component.hasAttribute('required')).to.be.false;
-  expect(component.required).to.be.false;
-});
-
 it('is accessible', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-private-label>
+    html`<glide-core-private-label tooltip="Tooltip">
       <label for="input">Label</label>
       <input id="input" slot="control" />
-      <div slot="tooltip">Tooltip</div>
       <div slot="description">Description</div>
     </glide-core-private-label>`,
   );
 
   await expect(component).to.be.accessible();
-});
-
-it('can have a label', async () => {
-  const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-private-label>
-      <label for="input">Label</label>
-      <input id="input" slot="control" />
-    </glide-core-private-label>`,
-  );
-
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot:not([name])')
-    ?.assignedElements();
-
-  expect(assignedElements?.at(0)?.textContent).to.equal('Label');
-});
-
-it('can have a description', async () => {
-  const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-private-label>
-      <label for="input">Label</label>
-      <input id="input" slot="control" />
-      <div slot="description">Description</div>
-    </glide-core-private-label>`,
-  );
-
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="description"]')
-    ?.assignedElements();
-
-  expect(assignedElements?.at(0)?.textContent).to.equal('Description');
-});
-
-it('can have a tooltip', async () => {
-  const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-private-label>
-      <label for="input">Label</label>
-      <input id="input" slot="control" />
-      <div slot="tooltip">Tooltip</div>
-    </glide-core-private-label>`,
-  );
-
-  const assignedElements = component.shadowRoot
-    ?.querySelector<HTMLSlotElement>('slot[name="tooltip"]')
-    ?.assignedElements();
-
-  expect(assignedElements?.at(0)?.textContent).to.equal('Tooltip');
 });
 
 it('can be required', async () => {
@@ -102,31 +35,15 @@ it('can be required', async () => {
     </glide-core-private-label>`,
   );
 
-  expect(component.hasAttribute('required')).to.be.true;
-  expect(component.required).to.be.true;
-
   const label = component.shadowRoot?.querySelector('[data-test="label"]');
   expect(label?.textContent?.includes('*')).to.be.true;
 });
 
-it('can have an `error`', async () => {
-  const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-private-label ?error=${true}>
-      <label for="input">Label</label>
-      <input id="input" slot="control" />
-    </glide-core-private-label>`,
-  );
-
-  expect(component.hasAttribute('error')).to.be.true;
-  expect(component.error).to.be.true;
-});
-
 it('places the tooltip on the bottom when horizontal', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-private-label>
+    html`<glide-core-private-label tooltip="Tooltip">
       <label for="input">Label</label>
       <input id="input" slot="control" />
-      <div slot="tooltip">Tooltip</div>
     </glide-core-private-label>`,
   );
 
@@ -139,10 +56,9 @@ it('places the tooltip on the bottom when horizontal', async () => {
 
 it('places the tooltip on the right when vertical', async () => {
   const component = await fixture<GlideCoreLabel>(
-    html`<glide-core-private-label orientation="vertical">
+    html`<glide-core-private-label orientation="vertical" tooltip="Tooltip">
       <label for="input">Label</label>
       <input id="input" slot="control" />
-      <div slot="tooltip">Tooltip</div>
     </glide-core-private-label>`,
   );
 

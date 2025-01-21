@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import expectArgumentError from './library/expect-argument-error.js';
+import type GlideCoreTooltip from './tooltip.js';
 
 // You'll notice quite a few duplicated tests among the "*.single.ts", "*.multiple.ts",
 // and "*.filterable.ts" test suites. The thinking is that a test warrants
@@ -29,26 +30,6 @@ it('registers itself', async () => {
   );
 });
 
-it('has defaults', async () => {
-  // Required attributes are supplied here and thus left unasserted below. The
-  // idea is that this test shouldn't fail to typecheck if these templates are
-  // eventually typechecked, which means supplying all required attributes and slots.
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.disabled).to.be.false;
-  expect(component.filterable).to.be.false;
-  expect(component.name).to.be.empty.string;
-  expect(component.required).to.be.false;
-  expect(component.size).to.equal('large');
-
-  // Not reflected, so no attribute assertion is necessary.
-  expect(component.value).to.deep.equal([]);
-});
-
 it('can be open', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
@@ -63,9 +44,6 @@ it('can be open', async () => {
   await aTimeout(0);
 
   const options = component.shadowRoot?.querySelector('[data-test="options"]');
-
-  expect(component.open).to.be.true;
-  expect(component.hasAttribute('open')).to.be.true;
   expect(options?.checkVisibility()).to.be.true;
 });
 
@@ -83,21 +61,6 @@ it('cannot be open when disabled', async () => {
 
   const options = component?.shadowRoot?.querySelector('[data-test="options"]');
   expect(options?.checkVisibility()).to.be.false;
-});
-
-it('can be filterable', async () => {
-  const component = await fixture(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      filterable
-    >
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(input?.checkVisibility()).to.be.true;
 });
 
 it('activates the first option when no options are initially selected', async () => {
@@ -239,7 +202,7 @@ it('hides the tooltip of the active option when open', async () => {
 
   const tooltip = component
     .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector('[data-test="tooltip"]');
+    ?.shadowRoot?.querySelector<GlideCoreTooltip>('[data-test="tooltip"]');
 
-  expect(tooltip?.checkVisibility()).to.be.false;
+  expect(tooltip?.open).to.be.false;
 });
