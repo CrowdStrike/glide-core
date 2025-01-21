@@ -575,7 +575,7 @@ it('retains existing validity state when `setCustomValidity()` is called', async
   expect(component.validity?.valueMissing).to.be.true;
 });
 
-it('removes validity feedback, but retains the validity state with `resetValidityFeedback()`', async () => {
+it('removes validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
   const component = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );

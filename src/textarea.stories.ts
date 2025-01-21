@@ -188,6 +188,12 @@ const meta: Meta = {
         },
       },
     },
+    required: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: { summary: 'boolean' },
+      },
+    },
     'resetValidityFeedback()': {
       control: false,
       table: {
@@ -196,17 +202,9 @@ const meta: Meta = {
           detail: `
 (): void
 
-// Removes the error styling and validity message
-// from the component while maintaining the internal
-// validity state.
+// Clears the validity feedback message and styling while maintaining the state of the component's\n// "validity" property.
           `,
         },
-      },
-    },
-    required: {
-      table: {
-        defaultValue: { summary: 'false' },
-        type: { summary: 'boolean' },
       },
     },
     rows: {

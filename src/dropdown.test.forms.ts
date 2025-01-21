@@ -407,7 +407,7 @@ it('retains existing validity state when `setCustomValidity()` is called', async
   expect(component.validity?.valueMissing).to.be.true;
 });
 
-it('removes validity feedback, but retains the validity state with `resetValidityFeedback()`', async () => {
+it('removes validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>

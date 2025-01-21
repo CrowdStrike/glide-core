@@ -498,7 +498,7 @@ it('submits its form on Meta + Enter', async () => {
   expect(spy.callCount).to.be.equal(1);
 });
 
-it('removes validity feedback, but retains the validity state with `resetValidityFeedback()`', async () => {
+it('removes validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
   const component = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );

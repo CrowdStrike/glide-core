@@ -218,9 +218,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
           detail: `
 (): void
 
-// Removes the error styling and validity message
-// from the component while maintaining the internal
-// validity state.
+// Clears the validity feedback message and styling while maintaining the state of the component's\n// "validity" property.
           `,
         },
       },

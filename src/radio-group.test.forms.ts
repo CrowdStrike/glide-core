@@ -1058,7 +1058,7 @@ it('reports validity when blurred', async () => {
   expect(component.validity.valid).to.be.false;
 });
 
-it('removes validity feedback, but retains the validity state with `resetValidityFeedback()`', async () => {
+it('removes validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
   const component = await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="label" name="name">
       <glide-core-radio-group-radio
