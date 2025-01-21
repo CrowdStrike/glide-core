@@ -429,3 +429,29 @@ it('retains existing validity state when `setCustomValidity()` is called', async
   expect(component.validity?.customError).to.be.true;
   expect(component.validity?.valueMissing).to.be.true;
 });
+
+it('removes validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
+  const component = await fixture<GlideCoreCheckbox>(
+    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
+  );
+
+  component.setCustomValidity('validity message');
+
+  expect(component.reportValidity()).to.be.false;
+
+  await elementUpdated(component);
+
+  expect(
+    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.equal('validity message');
+
+  component.resetValidityFeedback();
+
+  await elementUpdated(component);
+
+  expect(component.shadowRoot?.querySelector('[data-test="validity-message"]'))
+    .to.be.null;
+
+  expect(component.validity?.valid).to.be.false;
+});

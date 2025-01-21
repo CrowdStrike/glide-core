@@ -398,6 +398,10 @@ export default class GlideCoreCheckbox extends LitElement {
     return isValid;
   }
 
+  resetValidityFeedback() {
+    this.privateIsReportValidityOrSubmit = false;
+  }
+
   setCustomValidity(message: string) {
     this.validityMessage = message;
 

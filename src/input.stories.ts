@@ -48,6 +48,7 @@ const meta: Meta = {
     readonly: false,
     'reportValidity()': '',
     required: false,
+    'resetValidityFeedback()': '',
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
@@ -245,6 +246,19 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '(): boolean',
+        },
+      },
+    },
+    'resetValidityFeedback()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: `
+(): void
+
+// Clears the validity feedback message and styling while maintaining the state of the component's\n// "validity" property.
+          `,
         },
       },
     },

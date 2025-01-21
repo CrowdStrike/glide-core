@@ -51,6 +51,7 @@ const meta: Meta = {
     readonly: false,
     'reportValidity()': '',
     required: false,
+    'resetValidityFeedback()': '',
     'select-all': false,
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
@@ -146,10 +147,10 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
     return label.toLowerCase().includes(query.toLowerCase().trim());
   });
 }
-  
-// When overriding this method, return the options you want visible. The rest will be hidden. 
-// 
-// If you fetch when filtering, this is the place to do it. Just make sure you've updated 
+
+// When overriding this method, return the options you want visible. The rest will be hidden.
+//
+// If you fetch when filtering, this is the place to do it. Just make sure you've updated
 // Dropdown's default slot with the new set of options before you query-select and filter them.
 `,
         },
@@ -207,6 +208,19 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    'resetValidityFeedback()': {
+      control: false,
+      table: {
+        type: {
+          summary: 'method',
+          detail: `
+(): void
+
+// Clears the validity feedback message and styling while maintaining the state of the component's\n// "validity" property.
+          `,
+        },
       },
     },
     'select-all': {

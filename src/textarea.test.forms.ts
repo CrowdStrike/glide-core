@@ -497,3 +497,29 @@ it('submits its form on Meta + Enter', async () => {
 
   expect(spy.callCount).to.be.equal(1);
 });
+
+it('removes validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
+  const component = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
+  );
+
+  component.setCustomValidity('validity message');
+
+  expect(component.reportValidity()).to.be.false;
+
+  await elementUpdated(component);
+
+  expect(
+    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.equal('validity message');
+
+  component.resetValidityFeedback();
+
+  await elementUpdated(component);
+
+  expect(component.shadowRoot?.querySelector('[data-test="validity-message"]'))
+    .to.be.null;
+
+  expect(component.validity?.valid).to.be.false;
+});
