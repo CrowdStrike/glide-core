@@ -78,6 +78,7 @@ const meta: Meta = {
         ${unsafeHTML(arguments_['slot="default"'])}
 
         <glide-core-button label="Primary" slot="primary"></glide-core-button>
+        <input type="file" />
 
         <glide-core-button
           label="Secondary"

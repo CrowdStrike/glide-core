@@ -113,11 +113,12 @@ export default class GlideCorePopover extends LitElement {
     // 2. The user clicks the button.
     // 3. The button's click handler is called and it sets `this.open` to `true`.
     // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
-    // 5. That handler sets `open` to `false` because the click came from outside Dropdown.
+    // 5. That handler sets `open` to `false` because the click came from outside Popover.
     // 6. Popover is opened then closed in the same frame and so never opens.
     //
-    // `capture` ensures `#onDocumentClick` is called before #3, so that Popover
-    // opens when the button's handler sets `this.open` to `true`.
+    // `capture` ensures `#onDocumentClick` is called before #3, so the button click
+    // handler setting `open` to `true` isn't overwritten by this handler setting `open`
+    // to `false`.
     document.addEventListener('click', this.#onDocumentClick, {
       capture: true,
     });

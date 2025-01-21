@@ -94,6 +94,17 @@ it('does not close when clicked inside', async () => {
   expect(dialog?.checkVisibility()).to.be.true;
 });
 
+it('does not close when `click()` is called on a slotted element', async () => {
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" open>
+      <input />
+    </glide-core-modal>`,
+  );
+
+  component.querySelector('input')?.click();
+  expect(component.open).to.be.true;
+});
+
 it('locks scroll on open', async () => {
   await fixture(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,

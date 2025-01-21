@@ -330,8 +330,9 @@ export default class GlideCoreDropdown extends LitElement {
       // 5. That handler sets `open` to `false` because the click came from outside Dropdown.
       // 6. Dropdown is opened then closed in the same frame and so never opens.
       //
-      // `capture` ensures `#onDocumentClick` is called before #3, so that Dropdown
-      // opens when the button's handler sets `this.open` to `true`.
+      // `capture` ensures `#onDocumentClick` is called before #3, so the button click
+      // handler setting `open` to `true` isn't overwritten by this handler setting `open`
+      // to `false`.
       capture: true,
     });
   }
