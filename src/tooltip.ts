@@ -218,7 +218,8 @@ export default class GlideCoreTooltip extends LitElement {
     container.screenreaderHidden = this.screenreaderHidden;
     container.shortcut = this.shortcut;
 
-    this.append(container);
+        // There's a comment at the top of `./tooltip.container.ts` explaining why we append this component to the light DOM.
+        this.append(container);
   }
 
   override render() {
