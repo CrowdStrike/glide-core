@@ -2,14 +2,14 @@
 
 import './tree.item.icon-button.js';
 import './tree.item.menu.js';
-import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreTree from './tree.js';
 import { click } from './library/mouse.js';
 import GlideCoreTreeItem from './tree.item.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import expectWindowError from './library/expect-window-error.js';
 
 GlideCoreTree.shadowRootOptions.mode = 'open';
 
@@ -167,21 +167,13 @@ it('does not scroll the page when arrowing', async () => {
 });
 
 it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`<glide-core-tree></glide-core-tree>`);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  await expectUnhandledRejection(() => {
+    return fixture(html`<glide-core-tree></glide-core-tree>`);
+  });
 });
 
-it('throws if the default slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
+it('throws if its default slot is the incorrect type', async () => {
+  await expectWindowError(() => {
     return fixture(html`
       <glide-core-tree>
         <button>Button</button>

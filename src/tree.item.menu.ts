@@ -8,10 +8,10 @@ import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './tree.item.menu.styles.js';
 import GlideCoreIconButton from './icon-button.js';
-import ow, { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuLink from './menu.link.js';
 import GlideCoreMenuButton from './menu.button.js';
 import type GlideCoreMenu from './menu.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -42,21 +42,7 @@ export default class GlideCoreTreeItemMenu extends LitElement {
   readonly version = packageJson.version;
 
   override click() {
-    ow(
-      this.#iconButtonElementRef.value,
-      ow.object.instanceOf(GlideCoreIconButton),
-    );
-
-    this.#iconButtonElementRef.value.click();
-  }
-
-  override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreMenuButton,
-      GlideCoreMenuLink,
-    ]);
+    this.#iconButtonElementRef.value?.click();
   }
 
   override render() {
@@ -67,10 +53,7 @@ export default class GlideCoreTreeItemMenu extends LitElement {
         ${ref(this.#menuElementRef)}
       >
         <glide-core-menu-options>
-          <slot
-            @slotchange=${this.#onDefaultSlotChange}
-            ${ref(this.#defaultSlotElementRef)}
-          ></slot>
+          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}></slot>
         </glide-core-menu-options>
 
         <glide-core-icon-button
@@ -95,22 +78,11 @@ export default class GlideCoreTreeItemMenu extends LitElement {
   @state()
   private hasCustomIcon = false;
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
   #iconButtonElementRef = createRef<GlideCoreIconButton>();
 
   #iconSlotElementRef = createRef<HTMLSlotElement>();
 
   #menuElementRef = createRef<GlideCoreMenu>();
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreMenuButton,
-      GlideCoreMenuLink,
-    ]);
-  }
 
   #onIconSlotChange() {
     const assignedNodes = this.#iconSlotElementRef.value?.assignedNodes();

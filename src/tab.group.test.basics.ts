@@ -1,21 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  assert,
-  expect,
-  fixture,
-  html,
-  oneEvent,
-  waitUntil,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import sinon from 'sinon';
 import GlideCoreTabGroup from './tab.group.js';
 import './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
-
 import { click } from './library/mouse.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectWindowError from './library/expect-window-error.js';
 
 GlideCoreTabGroup.shadowRootOptions.mode = 'open';
 GlideCoreTabPanel.shadowRootOptions.mode = 'open';
@@ -313,7 +304,7 @@ it('sets padding-inline-end of the Tab Panel via `--panel-padding-inline-end`', 
 });
 
 it('throws an error when an element other than `glide-core-tab` is a child of the `nav` slot', async () => {
-  await expectArgumentError(() => {
+  await expectWindowError(() => {
     return fixture(html`
       <glide-core-tab-group>
         <div slot="nav">Tab 1</div>
@@ -324,13 +315,7 @@ it('throws an error when an element other than `glide-core-tab` is a child of th
 });
 
 it('throws an error when an element other than `glide-core-tab-panel` is a child of the default slot', async () => {
-  const spy = sinon.spy();
-  window.addEventListener('unhandledrejection', spy);
-
-  // https://github.com/CrowdStrike/glide-core/pull/335#issuecomment-2327451869
-  const stub = sinon.stub(console, 'error');
-
-  await expectArgumentError(() => {
+  await expectWindowError(() => {
     return fixture(html`
       <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
@@ -338,7 +323,4 @@ it('throws an error when an element other than `glide-core-tab-panel` is a child
       </glide-core-tab-group>
     `);
   });
-
-  await waitUntil(() => spy.callCount === 1);
-  stub.restore();
 });

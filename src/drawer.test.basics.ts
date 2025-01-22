@@ -2,7 +2,7 @@
 
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDrawer from './drawer.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
@@ -30,7 +30,7 @@ it('opens', async () => {
 });
 
 it('throws if it does not have a default slot', async () => {
-  await expectArgumentError(() => {
+  await expectUnhandledRejection(() => {
     return fixture(html`<glide-core-drawer></glide-core-drawer>`);
   });
 });

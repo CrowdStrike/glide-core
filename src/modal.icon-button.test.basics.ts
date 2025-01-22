@@ -1,7 +1,6 @@
-import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import sinon from 'sinon';
 import GlideCoreModalIconButton from './modal.icon-button.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 GlideCoreModalIconButton.shadowRootOptions.mode = 'open';
 
@@ -20,17 +19,9 @@ it('is accessible', async () => {
 });
 
 it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
+  await expectUnhandledRejection(() => {
+    return fixture(
       html`<glide-core-modal-icon-button></glide-core-modal-icon-button>`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  });
 });

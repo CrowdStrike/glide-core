@@ -13,7 +13,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
 import GlideCoreMenuOptions from './menu.options.js';
-import ow, { owSlot, owSlotType } from './library/ow.js';
+import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
 
 declare global {
@@ -131,27 +131,24 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   override firstUpdated() {
-    ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlot(this.#targetSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreMenuOptions]);
+    if (this.#defaultSlotElementRef.value) {
+      // `popover` is used so the options can break out of Modal or another container
+      // that has `overflow: hidden`. And elements with `popover` are positioned
+      // relative to the viewport. Thus Floating UI in addition to `popover`.
+      //
+      // Set here instead of in the template to escape Lit Analzyer, which isn't
+      // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+      //
+      // "auto" means only one popover can be open at a time. Consumers, however, may
+      // have popovers in own components that need to be open while this one is open.
+      //
+      // "auto" also automatically opens the popover when its target is clicked. We want
+      // it to remain closed when clicked when there are no menu options.
+      this.#defaultSlotElementRef.value.popover = 'manual';
 
-    // `popover` is used so the options can break out of Modal or another container
-    // that has `overflow: hidden`. And elements with `popover` are positioned
-    // relative to the viewport. Thus Floating UI in addition to `popover`.
-    //
-    // Set here instead of in the template to escape Lit Analzyer, which isn't
-    // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
-    //
-    // "auto" means only one popover can be open at a time. Consumers, however, may
-    // have popovers in own components that need to be open while this one is open.
-    //
-    // "auto" also automatically opens the popover when its target is clicked. We want
-    // it to remain closed when clicked when there are no menu options.
-    this.#defaultSlotElementRef.value.popover = 'manual';
-
-    if (this.open && !this.isTargetDisabled) {
-      this.#show();
+      if (this.open && !this.isTargetDisabled) {
+        this.#show();
+      }
     }
 
     // Menu's "click" handler on `document` listens for clicks in the capture
@@ -163,12 +160,12 @@ export default class GlideCoreMenu extends LitElement {
       this.#onTargetSlotMouseup,
     );
 
-    this.#defaultSlotElementRef.value.addEventListener(
+    this.#defaultSlotElementRef.value?.addEventListener(
       'mousedown',
       this.#onDefaultSlotMousedown,
     );
 
-    this.#defaultSlotElementRef.value.addEventListener(
+    this.#defaultSlotElementRef.value?.addEventListener(
       'mouseup',
       this.#onDefaultSlotMouseup,
     );
@@ -201,6 +198,7 @@ export default class GlideCoreMenu extends LitElement {
           @click=${this.#onTargetSlotClick}
           @keydown=${this.#onSlotKeydown}
           @slotchange=${this.#onTargetSlotChange}
+          ${assertSlot([Element])}
           ${ref(this.#targetSlotElementRef)}
         ></slot>
 
@@ -213,6 +211,7 @@ export default class GlideCoreMenu extends LitElement {
           @private-disabled=${this.#onOptionsDisabled}
           @private-slot-change=${this.#onOptionsSlotChange}
           @slotchange=${this.#onDefaultSlotChange}
+          ${assertSlot([GlideCoreMenuOptions])}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
       </div>
@@ -349,11 +348,9 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   #onDefaultSlotChange() {
-    ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreMenuOptions]);
-
-    this.#optionsElement.privateSize = this.size;
+    if (this.#optionsElement) {
+      this.#optionsElement.privateSize = this.size;
+    }
   }
 
   #onDefaultSlotClick(event: Event) {
@@ -440,8 +437,6 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   #onSlotKeydown(event: KeyboardEvent) {
-    ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-
     const isSpanOrDiv =
       this.#targetElement instanceof HTMLSpanElement ||
       this.#targetElement instanceof HTMLDivElement;
@@ -497,7 +492,8 @@ export default class GlideCoreMenu extends LitElement {
     if (
       ['ArrowUp', 'ArrowDown'].includes(event.key) &&
       !this.open &&
-      this.#activeOption
+      this.#activeOption &&
+      this.#optionsElement
     ) {
       event.preventDefault(); // Prevent scroll.
 
@@ -507,19 +503,7 @@ export default class GlideCoreMenu extends LitElement {
       return;
     }
 
-    if (this.open) {
-      ow(this.#optionElements, ow.array);
-      ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-
-      ow(
-        this.#activeOption,
-        ow.object.is(
-          (object) =>
-            object instanceof GlideCoreMenuButton ||
-            object instanceof GlideCoreMenuLink,
-        ),
-      );
-
+    if (this.open && this.#activeOption && this.#optionElements) {
       const activeOptionIndex = this.#optionElements.indexOf(
         this.#activeOption,
       );
@@ -537,7 +521,7 @@ export default class GlideCoreMenu extends LitElement {
           },
         );
 
-        if (previousOption) {
+        if (previousOption && this.#optionsElement) {
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = previousOption.id;
           previousOption.privateActive = true;
@@ -553,7 +537,7 @@ export default class GlideCoreMenu extends LitElement {
           return !option.disabled && index > activeOptionIndex;
         });
 
-        if (nextOption) {
+        if (nextOption && this.#optionsElement) {
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = nextOption.id;
           nextOption.privateActive = true;
@@ -573,7 +557,7 @@ export default class GlideCoreMenu extends LitElement {
           .reverse()
           .findLast((option) => !option.disabled);
 
-        if (firstOption) {
+        if (firstOption && this.#optionsElement) {
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = firstOption.id;
           firstOption.privateActive = true;
@@ -593,7 +577,7 @@ export default class GlideCoreMenu extends LitElement {
           (option) => !option.disabled,
         );
 
-        if (lastOption) {
+        if (lastOption && this.#optionsElement) {
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = lastOption.id;
           lastOption.privateActive = true;
@@ -605,10 +589,6 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   #onTargetSlotChange() {
-    owSlot(this.#targetSlotElementRef.value);
-    ow(this.#targetElement, ow.object.instanceOf(Element));
-    ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-
     const observer = new MutationObserver(() => {
       if (this.open && !this.isTargetDisabled) {
         this.#show();
@@ -617,15 +597,22 @@ export default class GlideCoreMenu extends LitElement {
       }
     });
 
-    observer.observe(this.#targetElement, {
-      attributes: true,
-      attributeFilter: ['aria-disabled', 'disabled'],
-    });
+    if (this.#targetElement && this.#optionsElement) {
+      observer.observe(this.#targetElement, {
+        attributes: true,
+        attributeFilter: ['aria-disabled', 'disabled'],
+      });
 
-    this.#targetElement.ariaHasPopup = 'true';
-    this.#targetElement.id = nanoid();
-    this.#targetElement.setAttribute('aria-controls', this.#optionsElement.id);
-    this.#optionsElement.ariaLabelledby = this.#targetElement.id;
+      this.#targetElement.ariaHasPopup = 'true';
+      this.#targetElement.id = nanoid();
+
+      this.#targetElement.setAttribute(
+        'aria-controls',
+        this.#optionsElement.id,
+      );
+
+      this.#optionsElement.ariaLabelledby = this.#targetElement.id;
+    }
 
     const isSpanOrDiv =
       this.#targetElement instanceof HTMLSpanElement ||

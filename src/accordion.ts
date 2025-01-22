@@ -3,9 +3,9 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { owSlot } from './library/ow.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './accordion.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -138,10 +138,6 @@ export default class GlideCoreAccordion extends LitElement {
     this.#summaryElementRef.value?.click();
   }
 
-  override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
-
   override render() {
     return html`<details class="component" ${ref(this.#detailsElementRef)}>
       <summary
@@ -184,7 +180,7 @@ export default class GlideCoreAccordion extends LitElement {
           indented: this.hasPrefixIcon,
         })}
         data-test="default-slot"
-        @slotchange=${this.#onDefaultSlotChange}
+        ${assertSlot()}
         ${ref(this.#defaultSlotElementRef)}
       ></slot>
     </details>`;
@@ -210,10 +206,6 @@ export default class GlideCoreAccordion extends LitElement {
   #suffixIconsSlotElementRef = createRef<HTMLSlotElement>();
 
   #summaryElementRef = createRef<HTMLElement>();
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
 
   #onPrefixIconSlotChange() {
     const assignedNodes = this.#prefixIconSlotElementRef.value?.assignedNodes();

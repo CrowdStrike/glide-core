@@ -7,12 +7,6 @@ import { playwrightLauncher } from '@web/test-runner-playwright';
 import rollupPluginCommonjs from '@rollup/plugin-commonjs';
 
 export default {
-  filterBrowserLogs(log) {
-    // Uncaught Ow errors are expected from "slotchange" handlers and shouldn't muddy the logs.
-    return log.type === 'error' && log.args.at(0)?.includes('node_modules/ow')
-      ? false
-      : true;
-  },
   browsers: [
     // https://github.com/modernweb-dev/web/issues/2588
     playwrightLauncher(),
@@ -22,21 +16,12 @@ export default {
     include: ['src/**/*.ts'],
     report: true,
     exclude: [
-      // Has an untestable condition that returns based on `window.location`.
-      // It's excluded so we don't have to reduce our coverage thresholds.
-      'src/library/ow.ts',
-
       // Juice not worth the squeeze. Testing this wouldn't add much given the
       // test code would look more or less like the code that's under test.
       // Testing whether the center of an element was clicked, for example, would
       // require the same `Math.ceil(x + width / 2)` and `Math.ceil(y + height / 2)`
       // calculations that are in the library itself.
       'src/library/mouse.ts',
-
-      // Istanbul claims it has a branch that's missing coverage even though
-      // there are no branches in this file. It's excluded so we don't have
-      // to reduce our coverage thresholds.
-      'src/library/expect-argument-error.ts',
     ],
     reportDir: 'dist/coverage',
     threshold: {

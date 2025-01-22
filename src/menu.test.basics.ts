@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './menu.options.js';
-import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import sinon from 'sinon';
 import GlideCoreMenu from './menu.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import expectWindowError from './library/expect-window-error.js';
 
 GlideCoreMenu.shadowRootOptions.mode = 'open';
 GlideCoreMenuButton.shadowRootOptions.mode = 'open';
@@ -173,8 +172,8 @@ it('adds `tabIndex` to its target when it is a `<span>`', async () => {
 });
 
 it('throws if it does not have a default slot', async () => {
-  await expectArgumentError(() => {
-    return fixture<GlideCoreMenu>(
+  await expectUnhandledRejection(() => {
+    return fixture(
       html`<glide-core-menu
         ><button slot="target">Target</button></glide-core-menu
       >`,
@@ -182,9 +181,9 @@ it('throws if it does not have a default slot', async () => {
   });
 });
 
-it('throws if the default slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
-    return fixture<GlideCoreMenu>(
+it('throws if its default slot is the incorrect type', async () => {
+  await expectWindowError(() => {
+    return fixture(
       html`<glide-core-menu>
         <option>Option</option>
         <button slot="target">Target</button>
@@ -194,27 +193,19 @@ it('throws if the default slot is the incorrect type', async () => {
 });
 
 it('throws if it does not have a "target" slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture<GlideCoreMenu>(
+  await expectUnhandledRejection(() => {
+    return fixture(
       html`<glide-core-menu>
         <glide-core-menu-options>
           <glide-core-menu-link label="Link"></glide-core-menu-link>
         </glide-core-menu-options>
       </glide-core-menu>`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  });
 });
 
 it('sets accessibility attributes', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const component = await fixture(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 

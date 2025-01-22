@@ -10,8 +10,8 @@ import { LocalizeController } from './library/localize.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
 import GlideCoreIconButton from './icon-button.js';
 import chevronIcon from './icons/chevron.js';
-import ow, { owSlotType } from './library/ow.js';
 import styles from './tree.item.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -136,6 +136,7 @@ export default class GlideCoreTreeItem extends LitElement {
             name="menu"
             ${ref(this.#menuSlotElementRef)}
             @slotchange=${this.#onMenuSlotChange}
+            ${assertSlot([GlideCoreTreeItemMenu], true)}
           ></slot>
 
           <slot name="suffix"></slot>
@@ -266,11 +267,11 @@ export default class GlideCoreTreeItem extends LitElement {
   }
 
   #onMenuSlotChange() {
-    owSlotType(this.#menuSlotElementRef.value, [GlideCoreTreeItemMenu]);
-
-    for (const assignedElement of this.#menuSlotElementRef.value.assignedElements()) {
-      if (assignedElement instanceof GlideCoreTreeItemMenu) {
-        assignedElement.label = this.#localize.term('actionsFor', this.label);
+    if (this.#menuSlotElementRef.value) {
+      for (const assignedElement of this.#menuSlotElementRef.value.assignedElements()) {
+        if (assignedElement instanceof GlideCoreTreeItemMenu) {
+          assignedElement.label = this.#localize.term('actionsFor', this.label);
+        }
       }
     }
   }
@@ -281,8 +282,9 @@ export default class GlideCoreTreeItem extends LitElement {
   }
 
   #setTabIndexes(tabIndex: -1 | 0) {
-    ow(this.#labelContainerElementRef.value, ow.object.instanceOf(HTMLElement));
-    this.#labelContainerElementRef.value.tabIndex = tabIndex;
+    if (this.#labelContainerElementRef.value) {
+      this.#labelContainerElementRef.value.tabIndex = tabIndex;
+    }
 
     for (const iconButton of this.querySelectorAll<GlideCoreIconButton>(
       '& > glide-core-tree-item-icon-button',

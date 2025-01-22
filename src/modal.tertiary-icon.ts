@@ -4,7 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreTooltip from './tooltip.js';
-import { owSlot } from './library/ow.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,10 +31,6 @@ export default class GlideCoreModalTertiaryIcon extends LitElement {
   @property({ reflect: true })
   readonly version = packageJson.version;
 
-  override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
-
   override render() {
     return html`
       <glide-core-tooltip
@@ -44,20 +40,11 @@ export default class GlideCoreModalTertiaryIcon extends LitElement {
         ${ref(this.#tooltipElementRef)}
       >
         <button aria-label=${ifDefined(this.label)} slot="target">
-          <slot
-            @slotchange=${this.#onDefaultSlotChange}
-            ${ref(this.#defaultSlotElementRef)}
-          ></slot>
+          <slot ${assertSlot()}></slot>
         </button>
       </glide-core-tooltip>
     `;
   }
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
   #tooltipElementRef = createRef<GlideCoreTooltip>();
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
 }

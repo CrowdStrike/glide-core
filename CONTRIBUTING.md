@@ -17,8 +17,7 @@
     - [Avoid Lit's `@query` decorators](#avoid-lits-query-decorators)
     - [Prefer using animations only when the user has no reduced motion preference](#prefer-using-animations-only-when-the-user-has-no-reduced-motion-preference)
   - [Prefer `rem`s](#prefer-rems)
-  - [Prefer assertions to narrow types](#prefer-assertions-to-narrow-types)
-  - [Prefer throwing to letting invalid state propagate](#prefer-throwing-to-letting-invalid-state-propagate)
+  - [Throw when slotted content is missing or the wrong type](#throw-when-slotted-content-is-missing-or-the-wrong-type)
   - [Prefer conventions set by built-in elements](#prefer-conventions-set-by-built-in-elements)
   - [Prefer separate test files](#prefer-separate-test-files)
   - [Typing property decorators](#typing-property-decorators)
@@ -360,62 +359,20 @@ button {
 }
 ```
 
-### Prefer assertions to narrow types
-
-Assert using `ow` to narrow instead of conditional when you're certain of a thing's type but nonetheless need to appease the typesystem.
-The difference in readability is often minor as it is below.
-But it can be significant when replacing big blocks wrapped in a conditional.
-
-```ts
-// ✅ -- GOOD
-ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
-this.value = this.#inputElementRef.value.value;
-this.dispatchEvent(new Event(event.type, event));
-```
-
-```ts
-// ❌ -- BAD
-if (this.#inputElementRef.value && event.target instanceof HTMLInputElement) {
-  this.value = this.#inputElementRef.value?.value;
-  this.dispatchEvent(new Event(event.type, event));
-}
-```
-
-> Be sure to import `ow` from `./library/ow.js`, which exports a modified `ow` that only throws locally.
-
-### Prefer throwing to letting invalid state propagate
+### Throw when slotted content is missing or the wrong type
 
 Invalid state let to propagate through a component is hard to discover and debug.
-Throw as soon as you can—using `ow`, our assertion library.
-
-When a slot is required, for example, use `owSlot` to assert the existence of slotted content.
-You can also use `owSlotType` to assert the content type.
+When a slot is required, use the `assertSlot()` directive to assert the existence or type of slotted content—or both.
 
 ```ts
-import ow, { owSlot, owSlotType } from './library/ow';
+import assertSlot from './library/assert-slot.js';
 
 @customElement('glide-core-example')
 export default class GlideCoreExample extends LitElement {
-  override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [HTMLButtonElement]);
-  }
-
   override render() {
-    return html`<slot @slotchange=${this.#onDefaultSlotChange}></slot>`;
-  }
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [HTMLButtonElement]);
+    return html`<slot ${assertSlot([HTMLButtonElement])}></slot>`;
   }
 }
-```
-
-For non-slot assertions, which should be rare, use the [default export](https://github.com/sindresorhus/ow) of `'./library/ow'`:
-
-```ts
-import ow from './library/ow';
 ```
 
 ### Prefer conventions set by built-in elements

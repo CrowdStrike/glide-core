@@ -1,11 +1,10 @@
 import './icon-button.js';
 import { html, LitElement } from 'lit';
-import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { owSlot } from './library/ow.js';
 import styles from './modal.icon-button.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -32,24 +31,11 @@ export default class GlideCoreModalIconButton extends LitElement {
   @property({ reflect: true })
   readonly version = packageJson.version;
 
-  override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
-
   override render() {
     return html`
       <glide-core-icon-button label=${ifDefined(this.label)} variant="tertiary">
-        <slot
-          @slotchange=${this.#onDefaultSlotChange}
-          ${ref(this.#defaultSlotElementRef)}
-        ></slot>
+        <slot ${assertSlot()}></slot>
       </glide-core-icon-button>
     `;
-  }
-
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
   }
 }

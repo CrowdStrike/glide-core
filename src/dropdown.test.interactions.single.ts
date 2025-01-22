@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { ArgumentError } from 'ow';
 import {
   assert,
   aTimeout,
@@ -494,10 +493,8 @@ it('throws when `value` is changed programmatically to include more than one val
 
   try {
     component.value = ['one', 'two'];
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
+  } catch {
+    spy();
   }
 
   expect(spy.callCount).to.equal(1);

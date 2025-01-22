@@ -2,11 +2,11 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js';
 import GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
 import styles from './split-button.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -66,20 +66,6 @@ export default class GlideCoreSplitButton extends LitElement {
   @property({ reflect: true })
   readonly version = packageJson.version;
 
-  override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlot(this.#secondaryButtonSlotElementRef.value);
-
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreSplitButtonPrimaryButton,
-      GlideCoreSplitButtonPrimaryLink,
-    ]);
-
-    owSlotType(this.#secondaryButtonSlotElementRef.value, [
-      GlideCoreSplitButtonSecondaryButton,
-    ]);
-  }
-
   private get secondaryButtonElement() {
     const element = this.#secondaryButtonSlotElementRef.value
       ?.assignedElements()
@@ -106,12 +92,17 @@ export default class GlideCoreSplitButton extends LitElement {
       <div class="component">
         <slot
           @slotchange=${this.#onDefaultSlotChange}
+          ${assertSlot([
+            GlideCoreSplitButtonPrimaryButton,
+            GlideCoreSplitButtonPrimaryLink,
+          ])}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
 
         <slot
           name="secondary-button"
           @slotchange=${this.#onSecondaryButtonSlotChange}
+          ${assertSlot([GlideCoreSplitButtonSecondaryButton])}
           ${ref(this.#secondaryButtonSlotElementRef)}
         ></slot>
       </div>
@@ -127,13 +118,6 @@ export default class GlideCoreSplitButton extends LitElement {
   #variant: 'primary' | 'secondary' = 'primary';
 
   #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreSplitButtonPrimaryButton,
-      GlideCoreSplitButtonPrimaryLink,
-    ]);
-
     if (this.primaryButtonElement) {
       this.primaryButtonElement.privateSize = this.size;
       this.primaryButtonElement.privateVariant = this.variant;
@@ -141,10 +125,6 @@ export default class GlideCoreSplitButton extends LitElement {
   }
 
   #onSecondaryButtonSlotChange() {
-    owSlotType(this.#secondaryButtonSlotElementRef.value, [
-      GlideCoreSplitButtonSecondaryButton,
-    ]);
-
     if (this.secondaryButtonElement) {
       this.secondaryButtonElement.privateSize = this.size;
       this.secondaryButtonElement.privateVariant = this.variant;
