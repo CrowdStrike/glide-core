@@ -148,7 +148,7 @@ export default [
       }
     }
 
-    .options-slot {
+    .default-slot {
       display: block;
       padding: var(--glide-core-spacing-xxxs);
     }

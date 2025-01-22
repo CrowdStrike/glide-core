@@ -866,7 +866,7 @@ export default class GlideCoreDropdown extends LitElement {
               ></glide-core-dropdown-option>
 
               <slot
-                class="options-slot"
+                class="default-slot"
                 @slotchange=${this.#onDefaultSlotChange}
                 ${ref(this.#defaultSlotElementRef)}
               ></slot>
@@ -2295,8 +2295,15 @@ export default class GlideCoreDropdown extends LitElement {
     this.#isSelectionChangeFromSelectAll = true;
 
     for (const option of this.#optionElements) {
-      option.selected =
-        this.#selectAllElementRef.value.selected && !option.disabled;
+      if (
+        this.#selectAllElementRef.value.selected &&
+        !option.selected &&
+        !option.disabled
+      ) {
+        option.selected = true;
+      } else if (!this.#selectAllElementRef.value.selected && option.selected) {
+        option.selected = false;
+      }
     }
 
     this.#isSelectionChangeFromSelectAll = false;
