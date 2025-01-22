@@ -7,9 +7,9 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreCheckbox from './checkbox.js';
 import styles from './checkbox-group.styles.js';
+import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
 
 declare global {
@@ -160,9 +160,6 @@ export default class GlideCoreCheckboxGroup
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreCheckbox]);
-
     if (this.disabled) {
       for (const checkbox of this.#checkboxes) {
         checkbox.disabled = true;
@@ -267,7 +264,7 @@ export default class GlideCoreCheckboxGroup
             class="checkboxes"
             @change=${this.#onCheckboxChange}
             @private-value-change=${this.#onCheckboxesValueChange}
-            @slotchange=${this.#onDefaultSlotChange}
+            ${assertSlot([GlideCoreCheckbox])}
             ${ref(this.#defaultSlotElementRef)}
           ></slot>
         </div>
@@ -484,10 +481,5 @@ export default class GlideCoreCheckboxGroup
     ) {
       this.value = this.#value.filter((value) => value !== event.detail.old);
     }
-  }
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreCheckbox]);
   }
 }

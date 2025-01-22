@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreTag from './tag.js';
@@ -40,7 +40,7 @@ it('can be reset', async () => {
 
   form.reset();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.value).to.deep.equal([]);
 

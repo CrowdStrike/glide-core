@@ -1,10 +1,9 @@
 import './checkbox.js';
 import './input.js';
-import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import sinon from 'sinon';
 import GlideCoreFormControlsLayout from './form-controls-layout.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import expectWindowError from './library/expect-window-error.js';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-form-controls-layout')).to.equal(
@@ -46,23 +45,15 @@ it('sets `privateActive` on each control', async () => {
 });
 
 it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`
+  await expectUnhandledRejection(() => {
+    return fixture(html`
       <glide-core-form-controls-layout></glide-core-form-controls-layout>
     `);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  });
 });
 
 it('throws if its default slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
+  await expectWindowError(() => {
     return fixture(html`
       <glide-core-form-controls-layout>
         <input />
@@ -72,7 +63,7 @@ it('throws if its default slot is the incorrect type', async () => {
 });
 
 it('throws if a vertical control is present', async () => {
-  await expectArgumentError(() => {
+  await expectWindowError(() => {
     return fixture(html`
       <glide-core-form-controls-layout>
         <glide-core-input

@@ -18,9 +18,9 @@ import { LocalizeController } from './library/localize.js';
 import GlideCoreTag from './tag.js';
 import chevronIcon from './icons/chevron.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
-import ow, { owSlotType } from './library/ow.js';
 import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.styles.js';
+import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
 
 declare global {
@@ -241,10 +241,9 @@ export default class GlideCoreDropdown
   set value(value: string[]) {
     this.#value = value;
 
-    ow(
-      this.multiple || (!this.multiple && value.length <= 1),
-      ow.boolean.true.message('Only one value is allowed when not `multiple`.'),
-    );
+    if (!this.multiple && value.length > 1) {
+      throw new Error('Only one value is allowed when not `multiple`.');
+    }
 
     this.#isSettingValueProgrammatically = true;
 
@@ -337,8 +336,9 @@ export default class GlideCoreDropdown
       // 5. That handler sets `open` to `false` because the click came from outside Dropdown.
       // 6. Dropdown is opened then closed in the same frame and so never opens.
       //
-      // `capture` ensures `#onDocumentClick` is called before #3, so that Dropdown
-      // opens when the button's handler sets `this.open` to `true`.
+      // `capture` ensures `#onDocumentClick` is called before #3, so the button click
+      // handler setting `open` to `true` isn't overwritten by this handler setting `open`
+      // to `false`.
       capture: true,
     });
   }
@@ -365,14 +365,6 @@ export default class GlideCoreDropdown
   }
 
   override firstUpdated() {
-    // `Text` is allowed so slotted content can be rendered asychronously. Imagine
-    // a case where the only slotted content is a `repeat` whose array is empty at
-    // first then populated after a fetch.
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreDropdownOption,
-      Text,
-    ]);
-
     if (this.#optionsAndFooterElementRef.value) {
       // `popover` is used so the options can break out of Modal or another container
       // that has `overflow: hidden`. And elements with `popover` are positioned
@@ -869,8 +861,9 @@ export default class GlideCoreDropdown
               ></glide-core-dropdown-option>
 
               <slot
-                class="options-slot"
+                class="default-slot"
                 @slotchange=${this.#onDefaultSlotChange}
+                ${assertSlot([GlideCoreDropdownOption, Text])}
                 ${ref(this.#defaultSlotElementRef)}
               ></slot>
             </div>
@@ -1215,12 +1208,7 @@ export default class GlideCoreDropdown
     this.#isComponentClick = true;
   }
 
-  #onDefaultSlotChange() {
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreDropdownOption,
-      Text,
-    ]);
-
+  async #onDefaultSlotChange() {
     this.isFilterable = this.#optionElements.length > 10;
     this.tagOverflowLimit = this.selectedOptions.length;
 
@@ -1281,24 +1269,20 @@ export default class GlideCoreDropdown
     // won't have rendered yet given we just set `this.isFilterable` above. So we piggyback
     // off of `this.requestUpdate()` and then wait for the update to complete before setting
     // the `value` of the `<input>`.
-    //
-    // `then` instead of `await` so the `owSlotType` assertion above isn't thrown in a promise,
-    // causing the dreaded "An error was thrown in a Promise outside a test" in tests for that
-    // the assertion.
-    this.updateComplete.then(() => {
-      if (
-        !this.multiple &&
-        this.#inputElementRef.value &&
-        this.lastSelectedOption?.value
-      ) {
-        this.#inputElementRef.value.value = this.lastSelectedOption.label;
-        this.inputValue = this.lastSelectedOption.label;
+    await this.updateComplete;
 
-        this.isInputOverflow =
-          this.#inputElementRef.value.scrollWidth >
-          this.#inputElementRef.value.clientWidth;
-      }
-    });
+    if (
+      !this.multiple &&
+      this.#inputElementRef.value &&
+      this.lastSelectedOption?.value
+    ) {
+      this.#inputElementRef.value.value = this.lastSelectedOption.label;
+      this.inputValue = this.lastSelectedOption.label;
+
+      this.isInputOverflow =
+        this.#inputElementRef.value.scrollWidth >
+        this.#inputElementRef.value.clientWidth;
+    }
   }
 
   #onDropdownAndOptionsFocusin(event: FocusEvent) {
@@ -1822,23 +1806,24 @@ export default class GlideCoreDropdown
   }
 
   async #onInputInput(event: Event) {
-    ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
-
     // Allowing the event to propagate would break things for consumers, who
     // expect "input" events only when an option is selected or deselected.
     event.stopPropagation();
 
     this.open = true;
     this.isShowSingleSelectIcon = false;
-    this.inputValue = this.#inputElementRef.value.value;
 
-    if (this.multiple && this.#inputElementRef.value.value !== '') {
+    if (this.#inputElementRef.value?.value) {
+      this.inputValue = this.#inputElementRef.value.value;
+    }
+
+    if (this.multiple && this.#inputElementRef.value?.value !== '') {
       this.isFiltering = true;
     } else if (this.multiple) {
       this.isFiltering = false;
     } else if (
-      this.#inputElementRef.value.value !== '' &&
-      this.#inputElementRef.value.value !== this.selectedOptions.at(0)?.label
+      this.#inputElementRef.value?.value !== '' &&
+      this.#inputElementRef.value?.value !== this.selectedOptions.at(0)?.label
     ) {
       this.isFiltering = true;
     } else {
@@ -1847,13 +1832,15 @@ export default class GlideCoreDropdown
 
     let options: GlideCoreDropdownOption[] | undefined;
 
-    try {
-      // It would be convenient for consumers if we passed an array of options
-      // as the second argument. The problem is consumers fetch and render new
-      // options when filtering. So the array will become stale.
-      options = await this.filter(this.#inputElementRef.value.value);
-      // eslint-disable-next-line no-empty
-    } catch {}
+    if (this.#inputElementRef.value?.value) {
+      try {
+        // It would be convenient for consumers if we passed an array of options
+        // as the second argument. The problem is consumers fetch and render new
+        // options when filtering. So the array will become stale.
+        options = await this.filter(this.#inputElementRef.value.value);
+        // eslint-disable-next-line no-empty
+      } catch {}
+    }
 
     if (options) {
       for (const option of this.#optionElements) {
@@ -2290,16 +2277,21 @@ export default class GlideCoreDropdown
   }
 
   #selectAllOrNone() {
-    ow(
-      this.#selectAllElementRef.value,
-      ow.object.instanceOf(GlideCoreDropdownOption),
-    );
-
     this.#isSelectionChangeFromSelectAll = true;
 
     for (const option of this.#optionElements) {
-      option.selected =
-        this.#selectAllElementRef.value.selected && !option.disabled;
+      if (
+        this.#selectAllElementRef.value?.selected &&
+        !option.selected &&
+        !option.disabled
+      ) {
+        option.selected = true;
+      } else if (
+        !this.#selectAllElementRef.value?.selected &&
+        option.selected
+      ) {
+        option.selected = false;
+      }
     }
 
     this.#isSelectionChangeFromSelectAll = false;

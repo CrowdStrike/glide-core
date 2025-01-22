@@ -4,7 +4,6 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
-import ow from './library/ow.js';
 import styles from './toasts.styles.js';
 
 declare global {
@@ -38,9 +37,6 @@ export default class GlideCoreToasts extends LitElement {
    *  Minimum: `5000`. Default: `5000`. For a Toast that never auto-hides, set to `Infinity`
    *  */
   add(toast: Toast) {
-    ow(this.#componentElementRef.value, ow.object.instanceOf(Element));
-    this.#componentElementRef.value.popover = 'manual';
-    this.#componentElementRef.value.showPopover();
     const { variant, label, description, duration } = toast;
 
     const toastElement = Object.assign(
@@ -53,7 +49,11 @@ export default class GlideCoreToasts extends LitElement {
       },
     );
 
-    this.#componentElementRef.value.append(toastElement);
+    if (this.#componentElementRef.value) {
+      this.#componentElementRef.value.popover = 'manual';
+      this.#componentElementRef.value.showPopover();
+      this.#componentElementRef.value.append(toastElement);
+    }
 
     toastElement.addEventListener(
       'close',

@@ -4,8 +4,8 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { owSlot } from './library/ow.js';
 import styles from './drawer.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -121,8 +121,6 @@ export default class GlideCoreDrawer extends LitElement {
   readonly version = packageJson.version;
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-
     if (this.#isOpen) {
       this.#componentElementRef?.value?.classList?.add('open');
 
@@ -164,10 +162,7 @@ export default class GlideCoreDrawer extends LitElement {
         @keydown=${this.#onComponentKeydown}
         ${ref(this.#componentElementRef)}
       >
-        <slot
-          @slotchange=${this.#onDefaultSlotChange}
-          ${ref(this.#defaultSlotElementRef)}
-        ></slot>
+        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}></slot>
       </aside>
     `;
   }
@@ -189,9 +184,5 @@ export default class GlideCoreDrawer extends LitElement {
 
       this.open = false;
     }
-  }
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
   }
 }

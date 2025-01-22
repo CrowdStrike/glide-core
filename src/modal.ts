@@ -9,9 +9,9 @@ import { LocalizeController } from './library/localize.js';
 import GlideCoreModalIconButton from './modal.icon-button.js';
 import GlideCoreButton from './button.js';
 import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
-import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './modal.styles.js';
 import xIcon from './icons/x.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -91,6 +91,20 @@ export default class GlideCoreModal extends LitElement {
     if (!isAdopted) {
       document.adoptedStyleSheets.push(globalStylesheet);
     }
+
+    // 1. The consumer has a click handler on a button.
+    // 2. The user clicks the button.
+    // 3. The button's click handler is called and sets `this.open` to `true`.
+    // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
+    // 5. That handler sets `open` to `false` because the click came from outside Modal.
+    // 6. Modal is opened then closed in the same frame and so never opens.
+    //
+    // `capture` ensures `#onDocumentClick` is called before #3, so the button click
+    // handler setting `open` to `true` isn't overwritten by this handler setting `open`
+    // to `false`.
+    document.addEventListener('click', this.#onDocumentClick, {
+      capture: true,
+    });
   }
 
   override disconnectedCallback() {
@@ -105,117 +119,138 @@ export default class GlideCoreModal extends LitElement {
         return stylesheet !== globalStylesheet;
       },
     );
+
+    document.removeEventListener('click', this.#onDocumentClick, {
+      capture: true,
+    });
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-
-    owSlotType(this.#headerActionsSlotElementRef.value, [
-      GlideCoreModalIconButton,
-    ]);
-
-    owSlotType(this.#footerMenuPrimarySlotElementRef.value, [GlideCoreButton]);
-
-    owSlotType(this.#footerMenuSecondarySlotElementRef.value, [
-      GlideCoreButton,
-    ]);
-
-    owSlotType(this.#footerMenuTertiarySlotElementRef.value, [
-      GlideCoreModalTertiaryIcon,
-      GlideCoreButton,
-    ]);
-
     if (this.open) {
       this.#show();
     }
+
+    // Modals's "click" handler on `document` listens for clicks in the capture
+    // phase. There's a comment explaining why. `#isContainerClick` must be set
+    // by this handler before that handler is called. That handler will be called
+    // first because events travel down instead of up the `document` during their
+    // capture phase. But this "click" handler, because it listens in the capture
+    // phase, will be called in the same frame. So the `document` handler checks
+    // `#isContainerClick` after a timeout to give this handler a chance to be called.
+    //
+    // In short, we have to listen in the capture phase here because the `document`
+    // listener listens in the capture phase.
+    this.#containerElementRef.value?.addEventListener(
+      'click',
+      this.#onContainerClick,
+      { capture: true },
+    );
+
+    // For the case where the user accidentally mouses down on the Modal's backdrop,
+    // then moves the mouse inside Modal before mousing up. Without this handler, Modal
+    // would close instead of remaining open. The reason it's needed in addition to
+    // the "click" handler is because programmatic clicks don't generate "mousedown"
+    // events. And we ran into a case where a consumer was calling `click()` on an
+    // element inside Modal, inadvertently closing it. Otherwise, this event handler
+    // would suffice.
+    this.#containerElementRef.value?.addEventListener(
+      'mouseup',
+      this.#onContainerMousedown,
+    );
   }
 
+  // The contents `<dialog>` are wrapped in a `<div>` so we can separate backdrop clicks
+  // from non-backdrop ones. We add "click" listeners to the `<div>` and the `document`.
+  // The former listener sets a boolean that the latter has a condition for. If the boolean
+  // is `false`, then we know the click came from the backdrop. That's also why the padding
+  // is on the `<div>`, so padding clicks come from inside it and Modal remains open.
   override render() {
     return html`<dialog
-      class=${classMap({
-        component: true,
-        small: this.size === 'small',
-        medium: this.size === 'medium',
-        large: this.size === 'large',
-        xlarge: this.size === 'xlarge',
-      })}
+      class="component"
       data-test="component"
       @keydown=${this.#onComponentKeyDown}
-      @click=${this.#onComponentClick}
       ${ref(this.#componentElementRef)}
     >
-      <header class="header">
-        <h2 class="label" data-test="heading" id="heading">
-          ${when(
-            this.backButton,
-            () =>
-              html`<glide-core-modal-icon-button
-                class="back-button"
-                data-test="back-button"
-                label=${this.#localize.term('dismiss')}
-                @click=${this.#onCloseButtonClick}
-                ${ref(this.#backButtonElementRef)}
-              >
-                ${icons.back}
-              </glide-core-modal-icon-button>`,
-          )}
-          ${this.label}
-        </h2>
+      <div
+        class=${classMap({
+          container: true,
+          small: this.size === 'small',
+          medium: this.size === 'medium',
+          large: this.size === 'large',
+          xlarge: this.size === 'xlarge',
+        })}
+        ${ref(this.#containerElementRef)}
+      >
+        <header class="header">
+          <h2 class="label" data-test="heading" id="heading">
+            ${when(
+              this.backButton,
+              () =>
+                html`<glide-core-modal-icon-button
+                  class="back-button"
+                  data-test="back-button"
+                  label=${this.#localize.term('dismiss')}
+                  @click=${this.#onCloseButtonClick}
+                  ${ref(this.#backButtonElementRef)}
+                >
+                  ${icons.back}
+                </glide-core-modal-icon-button>`,
+            )}
+            ${this.label}
+          </h2>
 
-        <div class="header-actions" role="toolbar">
-          <slot
-            name="header-actions"
-            @slotchange=${this.#onHeaderActionsSlotChange}
-            ${ref(this.#headerActionsSlotElementRef)}
-          ></slot>
-
-          <glide-core-modal-icon-button
-            class="close-button"
-            data-test="close-button"
-            label=${this.#localize.term('close')}
-            @click=${this.#onCloseButtonClick}
-            ${ref(this.#closeButtonElementRef)}
-          >
-            ${xIcon}
-          </glide-core-modal-icon-button>
-        </div>
-      </header>
-
-      <article aria-labelledby="heading" class="body" role="region">
-        <slot
-          @slotchange=${this.#onDefaultSlotChange}
-          ${ref(this.#defaultSlotElementRef)}
-        ></slot>
-      </article>
-
-      <footer>
-        <menu class="actions">
-          <li class="action">
+          <div class="header-actions" role="toolbar">
             <slot
-              class="tertiary-slot"
-              name="tertiary"
-              @slotchange=${this.#onFooterMenuTertiarySlotChange}
-              ${ref(this.#footerMenuTertiarySlotElementRef)}
+              name="header-actions"
+              ${assertSlot([GlideCoreModalIconButton], true)}
+              ${ref(this.#headerActionsSlotElementRef)}
             ></slot>
-          </li>
 
-          <li class="action">
-            <slot
-              name="secondary"
-              @slotchange=${this.#onFooterMenuSecondarySlotChange}
-              ${ref(this.#footerMenuSecondarySlotElementRef)}
-            ></slot>
-          </li>
+            <glide-core-modal-icon-button
+              class="close-button"
+              data-test="close-button"
+              label=${this.#localize.term('close')}
+              @click=${this.#onCloseButtonClick}
+              ${ref(this.#closeButtonElementRef)}
+            >
+              ${xIcon}
+            </glide-core-modal-icon-button>
+          </div>
+        </header>
 
-          <li class="action">
-            <slot
-              name="primary"
-              @slotchange=${this.#onFooterMenuPrimarySlotChange}
-              ${ref(this.#footerMenuPrimarySlotElementRef)}
-            ></slot>
-          </li>
-        </menu>
-      </footer>
+        <article aria-labelledby="heading" class="body" role="region">
+          <slot ${assertSlot()}></slot>
+        </article>
+
+        <footer>
+          <menu class="actions">
+            <li class="action">
+              <slot
+                class="tertiary-slot"
+                name="tertiary"
+                ${assertSlot(
+                  [GlideCoreModalTertiaryIcon, GlideCoreButton],
+                  true,
+                )}
+              ></slot>
+            </li>
+
+            <li class="action">
+              <slot
+                name="secondary"
+                ${assertSlot([GlideCoreButton], true)}
+              ></slot>
+            </li>
+
+            <li class="action">
+              <slot
+                name="primary"
+                ${assertSlot([GlideCoreButton], true)}
+              ></slot>
+            </li>
+          </menu>
+        </footer>
+      </div>
     </dialog>`;
   }
 
@@ -225,19 +260,45 @@ export default class GlideCoreModal extends LitElement {
 
   #componentElementRef = createRef<HTMLDialogElement>();
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
-  #footerMenuPrimarySlotElementRef = createRef<HTMLSlotElement>();
-
-  #footerMenuSecondarySlotElementRef = createRef<HTMLSlotElement>();
-
-  #footerMenuTertiarySlotElementRef = createRef<HTMLSlotElement>();
+  #containerElementRef = createRef<HTMLElement>();
 
   #headerActionsSlotElementRef = createRef<HTMLSlotElement>();
+
+  #isContainerClick = false;
 
   #isOpen = false;
 
   #localize = new LocalizeController(this);
+
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
+  #onContainerClick = () => {
+    this.#isContainerClick = true;
+  };
+
+  #onContainerMousedown = () => {
+    this.#isContainerClick = true;
+  };
+
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
+  #onDocumentClick = () => {
+    const isOpen = this.open;
+
+    // There's a comment in `firstUpdated()` explaining the timeout.
+    setTimeout(() => {
+      if (this.#isContainerClick) {
+        this.#isContainerClick = false;
+        // The click may be a result of the user clicking a button to open Modal.
+        // If so then `this.open` will have been set to `true` in the frame between
+        // when this handler was called and this timeout. And we don't want to
+        // immediately close Modal after the user has opened it. So we only close
+        // Modal if the state of `this.open` hasn't changed.
+      } else if (isOpen === this.open) {
+        this.open = false;
+      }
+    });
+  };
 
   #hide() {
     document.documentElement.classList.remove(
@@ -251,24 +312,6 @@ export default class GlideCoreModal extends LitElement {
     this.open = false;
   }
 
-  #onComponentClick(event: MouseEvent) {
-    if (this.#componentElementRef.value) {
-      const { height, width, top, left } =
-        this.#componentElementRef.value.getBoundingClientRect();
-
-      // https://stackoverflow.com/a/26984690
-      const isClickInside =
-        top <= event.clientY &&
-        event.clientY <= top + height &&
-        left <= event.clientX &&
-        event.clientX <= left + width;
-
-      if (!isClickInside) {
-        this.open = false;
-      }
-    }
-  }
-
   #onComponentKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       this.open = false;
@@ -276,43 +319,6 @@ export default class GlideCoreModal extends LitElement {
       // Prevent Safari from leaving full screen.
       event.preventDefault();
     }
-  }
-
-  #onDefaultSlotChange() {
-    ow(
-      this.#componentElementRef.value,
-      ow.object.instanceOf(HTMLDialogElement),
-    );
-
-    owSlot(this.#defaultSlotElementRef.value);
-  }
-
-  #onFooterMenuPrimarySlotChange() {
-    owSlotType(this.#footerMenuPrimarySlotElementRef.value, [GlideCoreButton]);
-  }
-
-  #onFooterMenuSecondarySlotChange() {
-    owSlotType(this.#footerMenuSecondarySlotElementRef.value, [
-      GlideCoreButton,
-    ]);
-  }
-
-  #onFooterMenuTertiarySlotChange() {
-    ow(
-      this.#componentElementRef.value,
-      ow.object.instanceOf(HTMLDialogElement),
-    );
-
-    owSlotType(this.#footerMenuTertiarySlotElementRef.value, [
-      GlideCoreModalTertiaryIcon,
-      GlideCoreButton,
-    ]);
-  }
-
-  #onHeaderActionsSlotChange() {
-    owSlotType(this.#headerActionsSlotElementRef.value, [
-      GlideCoreModalIconButton,
-    ]);
   }
 
   #show() {

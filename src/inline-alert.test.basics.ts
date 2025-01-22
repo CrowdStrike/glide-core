@@ -1,13 +1,6 @@
-import { ArgumentError } from 'ow';
-import {
-  aTimeout,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
-import sinon from 'sinon';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreInlineAlert from './inline-alert.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 GlideCoreInlineAlert.shadowRootOptions.mode = 'open';
 
@@ -30,23 +23,15 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 
   component.removable = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   await expect(component).to.be.accessible();
 });
 
 it('throws error if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture<GlideCoreInlineAlert>(
+  await expectUnhandledRejection(() => {
+    return fixture<GlideCoreInlineAlert>(
       html`<glide-core-inline-alert></glide-core-inline-alert>`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  });
 });

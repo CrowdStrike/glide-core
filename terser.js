@@ -9,7 +9,8 @@ await paths.map(async (path) => {
   const unminified = await readFile(path, 'utf8');
 
   const { code } = await minify(unminified, {
-    // Consumers expect unmangled class names in Ow error messages.
+    // Consumers expect unmangled class names in error messages when our slot
+    // assertions throw.
     keep_classnames: true,
   });
 

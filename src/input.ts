@@ -11,7 +11,6 @@ import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
-import ow from './library/ow.js';
 import styles from './input.styles.js';
 import xIcon from './icons/x.js';
 import type FormControl from './library/form-control.js';
@@ -538,8 +537,9 @@ export default class GlideCoreInput extends LitElement implements FormControl {
   }
 
   #onInputChange(event: Event) {
-    ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
-    this.value = this.#inputElementRef.value?.value;
+    if (this.#inputElementRef.value?.value) {
+      this.value = this.#inputElementRef.value?.value;
+    }
 
     // Unlike "input" events, "change" events aren't composed. So we have to
     // manually dispatch them.
@@ -553,8 +553,9 @@ export default class GlideCoreInput extends LitElement implements FormControl {
   }
 
   #onInputInput() {
-    ow(this.#inputElementRef.value, ow.object.instanceOf(HTMLInputElement));
-    this.value = this.#inputElementRef.value.value;
+    if (this.#inputElementRef.value) {
+      this.value = this.#inputElementRef.value.value;
+    }
   }
 
   #onInputKeydown(event: KeyboardEvent) {

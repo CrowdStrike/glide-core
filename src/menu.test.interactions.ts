@@ -3,14 +3,7 @@
 import './menu.button.js';
 import './menu.options.js';
 import { LitElement } from 'lit';
-import {
-  assert,
-  aTimeout,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
 import { click, hover } from './library/mouse.js';
@@ -271,7 +264,7 @@ it('closes when `open` is set programmatically', async () => {
   await aTimeout(0);
 
   component.open = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const defaultSlot =
     component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
@@ -1414,7 +1407,7 @@ it('sets the first enabled option as active when optionless and options are dyna
   component.querySelector('glide-core-menu-options')?.append(firstOption);
   component.querySelector('glide-core-menu-options')?.append(secondOption);
   component.querySelector('glide-core-menu-options')?.append(thirdOption);
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(firstOption?.privateActive).to.be.false;
   expect(secondOption?.privateActive).to.be.true;
@@ -1490,7 +1483,7 @@ it('retains its active option when an option is dynamically added', async () => 
   button.label = 'Three';
 
   component.querySelector('glide-core-menu-options')?.append(button);
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const options = component.querySelectorAll('glide-core-menu-button');
 

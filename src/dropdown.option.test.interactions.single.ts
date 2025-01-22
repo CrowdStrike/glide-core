@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  aTimeout,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { hover } from './library/mouse.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTooltip from './tooltip.js';
@@ -22,7 +16,7 @@ it('is selected when programmatically selected', async () => {
   );
 
   component.selected = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.ariaSelected).to.equal('true');
 });

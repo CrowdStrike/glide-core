@@ -14,9 +14,9 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import ow, { owSlot } from './library/ow.js';
 import styles from './tooltip.styles.js';
 import './tooltip.container.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -189,22 +189,21 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#targetSlotElementRef.value);
-    ow(this.#tooltipElementRef.value, ow.object.instanceOf(HTMLElement));
-
-    // `popover` is used so the tooltip can break out of Modal or another container
-    // that has `overflow: hidden`. And elements with `popover` are positioned
-    // relative to the viewport. Thus Floating UI in addition to `popover`.
-    //
-    // Set here instead of in the template to escape Lit Analzyer, which isn't
-    // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
-    //
-    // "auto" means only one popover can be open at a time. Consumers, however, may
-    // have popovers in own components that need to be open while this one is open.
-    //
-    // "auto" also automatically opens the popover when its target is clicked. We
-    // only want it to open on hover or focus.
-    this.#tooltipElementRef.value.popover = 'manual';
+    if (this.#tooltipElementRef.value) {
+      // `popover` is used so the tooltip can break out of Modal or another container
+      // that has `overflow: hidden`. And elements with `popover` are positioned
+      // relative to the viewport. Thus Floating UI in addition to `popover`.
+      //
+      // Set here instead of in the template to escape Lit Analzyer, which isn't
+      // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+      //
+      // "auto" means only one popover can be open at a time. Consumers, however, may
+      // have popovers in own components that need to be open while this one is open.
+      //
+      // "auto" also automatically opens the popover when its target is clicked. We
+      // only want it to open on hover or focus.
+      this.#tooltipElementRef.value.popover = 'manual';
+    }
 
     if (this.open && !this.disabled) {
       this.#show();
@@ -242,6 +241,7 @@ export default class GlideCoreTooltip extends LitElement {
             @focusout=${this.#onTargetSlotFocusout}
             @keydown=${this.#onTargetSlotKeydown}
             @slotchange=${this.#onTargetSlotChange}
+            ${assertSlot()}
             ${ref(this.#targetSlotElementRef)}
             name="target"
           ></slot>
@@ -330,8 +330,6 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   #onComponentMouseover() {
-    ow(this.#tooltipElementRef.value, ow.object.instanceOf(HTMLElement));
-
     this.#cancelClose();
 
     // The open and close delays are stored in data attributes so tests can
@@ -343,17 +341,15 @@ export default class GlideCoreTooltip extends LitElement {
     // never get hit in tests, so we'd fail to meet our coverage thresholds.
     this.#openTimeoutId = setTimeout(() => {
       this.open = true;
-    }, Number(this.#tooltipElementRef.value.dataset.openDelay));
+    }, Number(this.#tooltipElementRef.value?.dataset.openDelay));
   }
 
   #onTargetSlotChange() {
-    owSlot(this.#targetSlotElementRef.value);
-
     const container = this.querySelector(
       'glide-core-private-tooltip-container',
     );
 
-    const target = this.#targetSlotElementRef.value.assignedElements().at(0);
+    const target = this.#targetSlotElementRef.value?.assignedElements().at(0);
 
     if (container && target && !this.disabled && !this.screenreaderHidden) {
       target.setAttribute('aria-describedby', container.id);
@@ -375,11 +371,9 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   #scheduleClose() {
-    ow(this.#tooltipElementRef.value, ow.object.instanceOf(HTMLElement));
-
     this.#closeTimeoutId = setTimeout(() => {
       this.open = false;
-    }, Number(this.#tooltipElementRef.value.dataset.closeDelay));
+    }, Number(this.#tooltipElementRef.value?.dataset.closeDelay));
   }
 
   #show() {

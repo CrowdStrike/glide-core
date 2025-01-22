@@ -6,7 +6,6 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import ow from './library/ow.js';
 import GlideCoreDrawer from './drawer.js';
 
 const meta: Meta = {
@@ -37,8 +36,6 @@ const meta: Meta = {
     const divs = document.querySelectorAll<HTMLElement>('.docs-story > div');
 
     for (const div of divs) {
-      ow(div, ow.object.instanceOf(HTMLElement));
-
       // Pretty brittle. Prevents a layout shift when opening the drawer caused
       // by the addition of a horizontal scrollbar gutter.
       Object.assign(div.style, {

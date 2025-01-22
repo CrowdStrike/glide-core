@@ -2,6 +2,7 @@
 
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreAccordion from './accordion.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 GlideCoreAccordion.shadowRootOptions.mode = 'open';
 
@@ -25,6 +26,14 @@ it('has defaults', async () => {
   );
 
   expect(component.open).to.be.false;
+});
+
+it('throws if its default slot is empty', async () => {
+  await expectUnhandledRejection(() => {
+    return fixture<GlideCoreAccordion>(
+      html`<glide-core-accordion label="Label"></glide-core-accordion>`,
+    );
+  });
 });
 
 it('`#onPrefixIconSlotChange` coverage', async () => {

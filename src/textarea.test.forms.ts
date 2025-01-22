@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreTextarea from './textarea.js';
@@ -134,7 +134,7 @@ it('is valid by default', async () => {
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -157,7 +157,7 @@ it('is valid after being filled in and required', async () => {
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -178,7 +178,7 @@ it('is invalid if no value and required', async () => {
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -198,7 +198,7 @@ it('is valid if no value but required and disabled', async () => {
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -217,7 +217,7 @@ it('updates validity when `required` and `value` is changed programmatically', a
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -227,14 +227,14 @@ it('updates validity when `required` and `value` is changed programmatically', a
 
   component.value = 'text';
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.validity?.valid).to.be.true;
   expect(component.validity?.valueMissing).to.be.false;
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -246,7 +246,7 @@ it('updates validity when `required` and `value` is changed programmatically', a
   // back to an invalid state
   component.value = '';
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.validity?.valid).to.be.false;
   expect(component.validity?.valueMissing).to.be.true;
@@ -270,7 +270,7 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -280,7 +280,7 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
 
   component.required = true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.validity?.valid).to.be.false;
   expect(component.validity?.valueMissing).to.be.true;
@@ -304,7 +304,7 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -314,7 +314,7 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
 
   component.required = false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.validity?.valid).to.be.true;
   expect(component.validity?.valueMissing).to.be.false;
@@ -360,7 +360,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
   expect(component.validity?.customError).to.be.true;
   expect(component.checkValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   // Like native, the validity message shouldn't display until `reportValidity()` is called.
   expect(
@@ -370,7 +370,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 
   expect(component.reportValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -392,11 +392,11 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
   component.setCustomValidity('validity message');
   component.reportValidity();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   component.setCustomValidity('');
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -413,7 +413,7 @@ it('is invalid when `setValidity()` is called', async () => {
 
   expect(component.validity.valid).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   // Like native, the validity message shouldn't display until `reportValidity()` is called.
   expect(
@@ -425,7 +425,7 @@ it('is invalid when `setValidity()` is called', async () => {
 
   component.reportValidity();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -448,14 +448,14 @@ it('is valid when `setValidity()` is called', async () => {
 
   component.setValidity({});
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.validity.valid).to.be.true;
   expect(component.validity.customError).to.be.false;
 
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -507,7 +507,7 @@ it('removes validity feedback but retains its validity state when `resetValidity
 
   expect(component.reportValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -516,7 +516,7 @@ it('removes validity feedback but retains its validity state when `resetValidity
 
   component.resetValidityFeedback();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.shadowRoot?.querySelector('[data-test="validity-message"]'))
     .to.be.null;

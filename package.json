@@ -1,6 +1,6 @@
 {
   "name": "@crowdstrike/glide-core",
-  "version": "0.17.1",
+  "version": "0.18.0",
   "description": "CrowdStrike's Glide Design System components package for providing web components",
   "author": "CrowdStrike UX Team",
   "license": "Apache-2.0",
@@ -70,8 +70,7 @@
   "dependencies": {
     "@floating-ui/dom": "^1.6.12",
     "@shoelace-style/localize": "^3.2.1",
-    "nanoid": "^5.0.9",
-    "ow": "^2.0.0"
+    "nanoid": "^5.0.9"
   },
   "peerDependencies": {
     "lit": "^3.2.1"

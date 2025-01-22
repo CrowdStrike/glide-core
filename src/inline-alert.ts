@@ -6,10 +6,10 @@ import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { owSlot } from './library/ow.js';
 import { LocalizeController } from './library/localize.js';
 import styles from './inline-alert.styles.js';
 import xIcon from './icons/x.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -41,8 +41,6 @@ export default class GlideCoreInlineAlert extends LitElement {
   readonly version = packageJson.version;
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-
     this.#componentElementRef.value?.addEventListener(
       'animationend',
       () => {
@@ -80,13 +78,11 @@ export default class GlideCoreInlineAlert extends LitElement {
         >
           ${icons[this.variant]}
         </div>
+
         <div id="label" class="content">
-          <slot
-            @slotchange=${this.#onDefaultSlotChange}
-            ${ref(this.#defaultSlotElementRef)}
-          >
-          </slot>
+          <slot ${assertSlot()}> </slot>
         </div>
+
         ${when(
           this.removable,
           () =>
@@ -110,17 +106,11 @@ export default class GlideCoreInlineAlert extends LitElement {
 
   #componentElementRef = createRef<HTMLDivElement>();
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
   #isKeyboardClick = false;
 
   #localize = new LocalizeController(this);
 
   #removalButtonElementRef = createRef<HTMLButtonElement>();
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
 
   #onRemovalButtonClick() {
     if (this.#isKeyboardClick) {

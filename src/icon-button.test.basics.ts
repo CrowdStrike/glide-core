@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import sinon from 'sinon';
 import GlideCoreIconButton from './icon-button.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 GlideCoreIconButton.shadowRootOptions.mode = 'open';
 
@@ -47,17 +46,9 @@ it('has defaults', async () => {
 });
 
 it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture<GlideCoreIconButton>(
+  await expectUnhandledRejection(() => {
+    return fixture(
       html`<glide-core-icon-button label="Label"></glide-core-icon-button>`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  });
 });

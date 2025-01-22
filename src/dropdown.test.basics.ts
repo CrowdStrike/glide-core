@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { ArgumentError } from 'ow';
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
-import { repeat } from 'lit/directives/repeat.js';
-import sinon from 'sinon';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectWindowError from './library/expect-window-error.js';
 import type GlideCoreTooltip from './tooltip.js';
 
 // You'll notice quite a few duplicated tests among the "*.single.ts", "*.multiple.ts",
@@ -150,40 +147,6 @@ it('is not scrollable', async () => {
   expect(options.scrollHeight).to.equal(options.clientHeight);
 });
 
-it('throws if the default slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
-    return fixture<GlideCoreDropdown>(
-      html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-        <button>Button</button>
-      </glide-core-dropdown>`,
-    );
-  });
-});
-
-it('does not throw if the default slot only contains whitespace', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
-      html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-        ${repeat(
-          [],
-          () =>
-            html`<glide-core-dropdown-option
-              label="Option"
-            ></glide-core-dropdown-option>`,
-        )}
-      </glide-core-dropdown>`,
-    );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(0);
-});
-
 it('hides the tooltip of the active option when open', async () => {
   // The "x" is arbitrary. 500 of them ensures the component is wider
   // than the viewport even if the viewport's width is increased.
@@ -205,4 +168,14 @@ it('hides the tooltip of the active option when open', async () => {
     ?.shadowRoot?.querySelector<GlideCoreTooltip>('[data-test="tooltip"]');
 
   expect(tooltip?.open).to.be.false;
+});
+
+it('throws if its default slot is the incorrect type', async () => {
+  await expectWindowError(() => {
+    return fixture(
+      html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+        <button>Button</button>
+      </glide-core-dropdown>`,
+    );
+  });
 });

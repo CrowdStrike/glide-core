@@ -2,11 +2,10 @@
 
 import './button.js';
 import './modal.icon-button.js';
-import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import sinon from 'sinon';
-import expectArgumentError from './library/expect-argument-error.js';
 import GlideCoreModal from './modal.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import expectWindowError from './library/expect-window-error.js';
 
 GlideCoreModal.shadowRootOptions.mode = 'open';
 
@@ -49,21 +48,13 @@ it('can have a back button', async () => {
 });
 
 it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`<glide-core-modal label="Label"></glide-core-modal>`);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  await expectUnhandledRejection(() => {
+    return fixture(html`<glide-core-modal label="Label"></glide-core-modal>`);
+  });
 });
 
 it('throws an error when the "primary" footer slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
+  await expectWindowError(() => {
     return fixture(
       html`<glide-core-modal label="Label">
         Content
@@ -74,7 +65,7 @@ it('throws an error when the "primary" footer slot is the incorrect type', async
 });
 
 it('throws an error when the "secondary" footer slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
+  await expectWindowError(() => {
     return fixture(
       html`<glide-core-modal label="Label">
         Content
@@ -85,7 +76,7 @@ it('throws an error when the "secondary" footer slot is the incorrect type', asy
 });
 
 it('throws an error when the "header-actions" slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
+  await expectWindowError(() => {
     return fixture(
       html`<glide-core-modal label="Label">
         Content
@@ -96,7 +87,7 @@ it('throws an error when the "header-actions" slot is the incorrect type', async
 });
 
 it('throws an error when the "tertiary" footer slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
+  await expectWindowError(() => {
     return fixture(
       html`<glide-core-modal label="Label">
         Content

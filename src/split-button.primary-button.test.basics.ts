@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js';
 
 GlideCoreSplitButtonPrimaryButton.shadowRootOptions.mode = 'open';
@@ -21,7 +21,7 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 
   component.disabled = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   await expect(component).to.be.accessible();
 });

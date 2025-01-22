@@ -13,7 +13,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
 import GlideCoreMenuOptions from './menu.options.js';
-import ow, { owSlot, owSlotType } from './library/ow.js';
+import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
 
 declare global {
@@ -104,13 +104,14 @@ export default class GlideCoreMenu extends LitElement {
 
     // 1. The consumer has a click handler on a button.
     // 2. The user clicks the button.
-    // 3. The button's click handler is called and it sets `this.open` to `true`.
+    // 3. The button's click handler is called and sets `this.open` to `true`.
     // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
-    // 5. That handler sets `open` to `false` because the click came from outside Dropdown.
+    // 5. That handler sets `open` to `false` because the click came from outside Menu.
     // 6. Menu is opened then closed in the same frame and so never opens.
     //
-    // `capture` ensures `#onDocumentClick` is called before #3, so that Menu
-    // opens when the button's handler sets `this.open` to `true`.
+    // `capture` ensures `#onDocumentClick` is called before #3, so the button click
+    // handler setting `open` to `true` isn't overwritten by this handler setting `open`
+    // to `false`.
     document.addEventListener('click', this.#onDocumentClick, {
       capture: true,
     });
@@ -130,64 +131,43 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   override firstUpdated() {
-    ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlot(this.#targetSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreMenuOptions]);
+    if (this.#defaultSlotElementRef.value) {
+      // `popover` is used so the options can break out of Modal or another container
+      // that has `overflow: hidden`. And elements with `popover` are positioned
+      // relative to the viewport. Thus Floating UI in addition to `popover`.
+      //
+      // Set here instead of in the template to escape Lit Analzyer, which isn't
+      // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+      //
+      // "auto" means only one popover can be open at a time. Consumers, however, may
+      // have popovers in own components that need to be open while this one is open.
+      //
+      // "auto" also automatically opens the popover when its target is clicked. We want
+      // it to remain closed when clicked when there are no menu options.
+      this.#defaultSlotElementRef.value.popover = 'manual';
 
-    // `popover` is used so the options can break out of Modal or another container
-    // that has `overflow: hidden`. And elements with `popover` are positioned
-    // relative to the viewport. Thus Floating UI in addition to `popover`.
-    //
-    // Set here instead of in the template to escape Lit Analzyer, which isn't
-    // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
-    //
-    // "auto" means only one popover can be open at a time. Consumers, however, may
-    // have popovers in own components that need to be open while this one is open.
-    //
-    // "auto" also automatically opens the popover when its target is clicked. We want
-    // it to remain closed when clicked when there are no menu options.
-    this.#defaultSlotElementRef.value.popover = 'manual';
-
-    if (this.open && !this.isTargetDisabled) {
-      this.#show();
+      if (this.open && !this.isTargetDisabled) {
+        this.#show();
+      }
     }
 
     // Menu's "click" handler on `document` listens for clicks in the capture
     // phase. There's a comment explaining why. `#isTargetSlotClick` must be
     // set before that handler is called so it has the information it needs
     // to determine whether or not to close Menu.
-    this.#targetSlotElementRef.value.addEventListener('mouseup', () => {
-      this.#isTargetSlotClick = true;
-    });
-
-    this.#defaultSlotElementRef.value.addEventListener(
-      'mousedown',
-      (event: Event) => {
-        if (event.target === this.#defaultSlotElementRef.value) {
-          // So the `#onFocusout` handler, which closes Menu, isn't called when
-          // the border or padding on `.default-slot` is clicked.
-          event.preventDefault();
-        }
-      },
+    this.#targetSlotElementRef.value?.addEventListener(
+      'mouseup',
+      this.#onTargetSlotMouseup,
     );
 
-    this.#defaultSlotElementRef.value.addEventListener(
+    this.#defaultSlotElementRef.value?.addEventListener(
+      'mousedown',
+      this.#onDefaultSlotMousedown,
+    );
+
+    this.#defaultSlotElementRef.value?.addEventListener(
       'mouseup',
-      (event: Event) => {
-        if (event.target === this.#defaultSlotElementRef.value) {
-          this.#isDefaultSlotClick = true;
-          return;
-        }
-
-        if (event.target instanceof Element) {
-          const link = event.target?.closest('glide-core-menu-link');
-
-          if (link?.disabled) {
-            this.#isDisabledLinkClick = true;
-          }
-        }
-      },
+      this.#onDefaultSlotMouseup,
     );
   }
 
@@ -218,6 +198,7 @@ export default class GlideCoreMenu extends LitElement {
           @click=${this.#onTargetSlotClick}
           @keydown=${this.#onSlotKeydown}
           @slotchange=${this.#onTargetSlotChange}
+          ${assertSlot([Element])}
           ${ref(this.#targetSlotElementRef)}
         ></slot>
 
@@ -230,6 +211,7 @@ export default class GlideCoreMenu extends LitElement {
           @private-disabled=${this.#onOptionsDisabled}
           @private-slot-change=${this.#onOptionsSlotChange}
           @slotchange=${this.#onDefaultSlotChange}
+          ${assertSlot([GlideCoreMenuOptions])}
           ${ref(this.#defaultSlotElementRef)}
         ></slot>
       </div>
@@ -266,6 +248,32 @@ export default class GlideCoreMenu extends LitElement {
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
+  #onDefaultSlotMousedown = (event: Event) => {
+    if (event.target === this.#defaultSlotElementRef.value) {
+      // So the `#onFocusout` handler, which closes Menu, isn't called when
+      // the border or padding on `.default-slot` is clicked.
+      event.preventDefault();
+    }
+  };
+
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
+  #onDefaultSlotMouseup = (event: Event) => {
+    if (event.target === this.#defaultSlotElementRef.value) {
+      this.#isDefaultSlotClick = true;
+    }
+
+    if (event.target instanceof Element) {
+      const link = event.target?.closest('glide-core-menu-link');
+
+      if (link?.disabled) {
+        this.#isDisabledLinkClick = true;
+      }
+    }
+  };
+
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
   #onDocumentClick = () => {
     // So Menu isn't closed when the border or padding on `.default-slot` is clicked.
     //
@@ -294,6 +302,12 @@ export default class GlideCoreMenu extends LitElement {
     }
   };
 
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
+  #onTargetSlotMouseup = () => {
+    this.#isTargetSlotClick = true;
+  };
+
   #focus(options?: FocusOptions) {
     if (this.#targetElement && 'focus' in this.#targetElement) {
       (
@@ -316,16 +330,6 @@ export default class GlideCoreMenu extends LitElement {
     this.#defaultSlotElementRef.value?.hidePopover();
   }
 
-  get #optionsElement() {
-    const firstAssignedElement = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .at(0);
-
-    return firstAssignedElement instanceof GlideCoreMenuOptions
-      ? firstAssignedElement
-      : null;
-  }
-
   #onComponentFocusout(event: FocusEvent) {
     const isMenuFocused =
       event.relatedTarget instanceof HTMLElement &&
@@ -344,11 +348,9 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   #onDefaultSlotChange() {
-    ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreMenuOptions]);
-
-    this.#optionsElement.privateSize = this.size;
+    if (this.#optionsElement) {
+      this.#optionsElement.privateSize = this.size;
+    }
   }
 
   #onDefaultSlotClick(event: Event) {
@@ -435,8 +437,6 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   #onSlotKeydown(event: KeyboardEvent) {
-    ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-
     const isSpanOrDiv =
       this.#targetElement instanceof HTMLSpanElement ||
       this.#targetElement instanceof HTMLDivElement;
@@ -492,7 +492,8 @@ export default class GlideCoreMenu extends LitElement {
     if (
       ['ArrowUp', 'ArrowDown'].includes(event.key) &&
       !this.open &&
-      this.#activeOption
+      this.#activeOption &&
+      this.#optionsElement
     ) {
       event.preventDefault(); // Prevent scroll.
 
@@ -502,19 +503,7 @@ export default class GlideCoreMenu extends LitElement {
       return;
     }
 
-    if (this.open) {
-      ow(this.#optionElements, ow.array);
-      ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-
-      ow(
-        this.#activeOption,
-        ow.object.is(
-          (object) =>
-            object instanceof GlideCoreMenuButton ||
-            object instanceof GlideCoreMenuLink,
-        ),
-      );
-
+    if (this.open && this.#activeOption && this.#optionElements) {
       const activeOptionIndex = this.#optionElements.indexOf(
         this.#activeOption,
       );
@@ -532,7 +521,7 @@ export default class GlideCoreMenu extends LitElement {
           },
         );
 
-        if (previousOption) {
+        if (previousOption && this.#optionsElement) {
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = previousOption.id;
           previousOption.privateActive = true;
@@ -548,7 +537,7 @@ export default class GlideCoreMenu extends LitElement {
           return !option.disabled && index > activeOptionIndex;
         });
 
-        if (nextOption) {
+        if (nextOption && this.#optionsElement) {
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = nextOption.id;
           nextOption.privateActive = true;
@@ -568,7 +557,7 @@ export default class GlideCoreMenu extends LitElement {
           .reverse()
           .findLast((option) => !option.disabled);
 
-        if (firstOption) {
+        if (firstOption && this.#optionsElement) {
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = firstOption.id;
           firstOption.privateActive = true;
@@ -588,7 +577,7 @@ export default class GlideCoreMenu extends LitElement {
           (option) => !option.disabled,
         );
 
-        if (lastOption) {
+        if (lastOption && this.#optionsElement) {
           this.#activeOption.privateActive = false;
           this.#optionsElement.ariaActivedescendant = lastOption.id;
           lastOption.privateActive = true;
@@ -600,10 +589,6 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   #onTargetSlotChange() {
-    owSlot(this.#targetSlotElementRef.value);
-    ow(this.#targetElement, ow.object.instanceOf(Element));
-    ow(this.#optionsElement, ow.object.instanceOf(GlideCoreMenuOptions));
-
     const observer = new MutationObserver(() => {
       if (this.open && !this.isTargetDisabled) {
         this.#show();
@@ -612,15 +597,22 @@ export default class GlideCoreMenu extends LitElement {
       }
     });
 
-    observer.observe(this.#targetElement, {
-      attributes: true,
-      attributeFilter: ['aria-disabled', 'disabled'],
-    });
+    if (this.#targetElement && this.#optionsElement) {
+      observer.observe(this.#targetElement, {
+        attributes: true,
+        attributeFilter: ['aria-disabled', 'disabled'],
+      });
 
-    this.#targetElement.ariaHasPopup = 'true';
-    this.#targetElement.id = nanoid();
-    this.#targetElement.setAttribute('aria-controls', this.#optionsElement.id);
-    this.#optionsElement.ariaLabelledby = this.#targetElement.id;
+      this.#targetElement.ariaHasPopup = 'true';
+      this.#targetElement.id = nanoid();
+
+      this.#targetElement.setAttribute(
+        'aria-controls',
+        this.#optionsElement.id,
+      );
+
+      this.#optionsElement.ariaLabelledby = this.#targetElement.id;
+    }
 
     const isSpanOrDiv =
       this.#targetElement instanceof HTMLSpanElement ||
@@ -655,6 +647,16 @@ export default class GlideCoreMenu extends LitElement {
     if (this.#optionElements && this.#optionElements.length > 0) {
       this.open = !this.open;
     }
+  }
+
+  get #optionsElement() {
+    const firstAssignedElement = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .at(0);
+
+    return firstAssignedElement instanceof GlideCoreMenuOptions
+      ? firstAssignedElement
+      : null;
   }
 
   get #optionElements() {

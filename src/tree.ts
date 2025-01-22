@@ -2,9 +2,9 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -34,11 +34,6 @@ export default class GlideCoreTree extends LitElement {
     this.removeEventListener('focusout', this.#onHostFocusOut);
   }
 
-  override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTreeItem]);
-  }
-
   override render() {
     return html`<div
       class="component"
@@ -48,8 +43,8 @@ export default class GlideCoreTree extends LitElement {
       @keydown=${this.#onComponentKeydown}
     >
       <slot
-        @slotchange=${this.#onDefaultSlotChange}
         ${ref(this.#defaultSlotElementRef)}
+        ${assertSlot([GlideCoreTreeItem])}
       ></slot>
     </div>`;
   }
@@ -238,11 +233,6 @@ export default class GlideCoreTree extends LitElement {
         this.selectItem(focusedItem);
       }
     }
-  }
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTreeItem]);
   }
 
   #onHostFocusIn(event: FocusEvent) {

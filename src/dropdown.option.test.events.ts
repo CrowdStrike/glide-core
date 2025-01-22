@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-  oneEvent,
-} from '@open-wc/testing';
+import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
@@ -71,7 +65,7 @@ it('does not allow its "toggle" event to propagate', async () => {
   component.addEventListener('toggle', spy);
 
   component.privateIsTooltipOpen = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(spy.callCount).to.equal(0);
 });

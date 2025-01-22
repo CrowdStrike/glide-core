@@ -1,15 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreRadioGroup from './radio-group.js';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import expectWindowError from './library/expect-window-error.js';
 
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
@@ -211,14 +206,14 @@ it('renders Radios as disabled when `disabled` is programmatically set and remov
   expect(radio.shadowRoot?.querySelector('.disabled')).to.be.null;
 
   component.disabled = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radio.hasAttribute('disabled')).to.be.true;
   expect(radio.getAttribute('aria-disabled')).to.equal('true');
   expect(radio.shadowRoot?.querySelector('.disabled')).to.be.not.null;
 
   component.disabled = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radio).to.not.have.attribute('disabled');
   expect(radio.getAttribute('aria-disabled')).to.equal('false');
@@ -270,22 +265,24 @@ it('sets the group `value` when a Radio is set as `checked`', async () => {
   expect(component.value).to.equal('two');
 });
 
-it('throws if the default slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
+it('throws if it does not have a default slot', async () => {
+  await expectUnhandledRejection(() => {
+    return fixture(
+      html`<glide-core-radio-group
+        label="label"
+        name="name"
+      ></glide-core-radio-group>`,
+    );
+  });
+});
+
+it('throws if its default slot is the incorrect type', async () => {
+  await expectWindowError(() => {
     return fixture(html`
       <glide-core-radio-group label="label" name="name">
         <div>Option 1</div>
       </glide-core-radio-group>
     `);
-  });
-});
-
-it('throws if it does not have a default slot', async () => {
-  await expectArgumentError(() => {
-    return fixture(
-      html`<glide-core-radio-group label="label" name="name">
-      </glide-core-radio-group>`,
-    );
   });
 });
 
@@ -431,7 +428,7 @@ it('updates the tabbable state of each Radio based on programmatic updates to `c
   radios[0].checked = true;
   radios[1].checked = false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radios[0].getAttribute('tabindex')).to.equal('0');
   expect(radios[1].getAttribute('tabindex')).to.equal('-1');
@@ -467,7 +464,7 @@ it('updates the tabbable state of each Radio based on programmatic updates to `v
 
   component.value = 'two';
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radios[0].getAttribute('tabindex')).to.equal('-1');
   expect(radios[1].getAttribute('tabindex')).to.equal('0');

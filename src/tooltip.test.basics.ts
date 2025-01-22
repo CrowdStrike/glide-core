@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html, waitUntil } from '@open-wc/testing';
-import sinon from 'sinon';
 import GlideCoreTooltip from './tooltip.js';
 import GlideCoreTooltipContainer from './tooltip.container.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 GlideCoreTooltip.shadowRootOptions.mode = 'open';
 GlideCoreTooltipContainer.shadowRootOptions.mode = 'open';
@@ -139,18 +138,16 @@ it('does not set `aria-describedby` on its target when hidden from screenreaders
   expect(button?.getAttribute('aria-describedby')).to.equal(null);
 });
 
+it('throws if it does not have a default slot', async () => {
+  await expectUnhandledRejection(() => {
+    return fixture(html`<glide-core-tooltip></glide-core-tooltip>`);
+  });
+});
+
 it('throws if it does not have a "target" slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`<glide-core-tooltip>Tooltip</glide-core-tooltip>`);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  await expectUnhandledRejection(() => {
+    return fixture(html`<glide-core-tooltip>Tooltip</glide-core-tooltip>`);
+  });
 });
 
 it('has `placement="top"` coverage', async () => {
