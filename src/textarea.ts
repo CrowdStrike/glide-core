@@ -8,7 +8,6 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
-import ow from './library/ow.js';
 import styles from './textarea.styles.js';
 
 declare global {
@@ -395,12 +394,9 @@ export default class GlideCoreTextarea extends LitElement {
   }
 
   #onTextareaChange(event: Event) {
-    ow(
-      this.#textareaElementRef.value,
-      ow.object.instanceOf(HTMLTextAreaElement),
-    );
-
-    this.value = this.#textareaElementRef.value.value;
+    if (this.#textareaElementRef.value) {
+      this.value = this.#textareaElementRef.value.value;
+    }
 
     // Unlike "input" events, "change" events aren't composed. So we have to
     // manually dispatch them.
@@ -410,12 +406,9 @@ export default class GlideCoreTextarea extends LitElement {
   }
 
   #onTextareaInput() {
-    ow(
-      this.#textareaElementRef.value,
-      ow.object.instanceOf(HTMLTextAreaElement),
-    );
-
-    this.value = this.#textareaElementRef.value.value;
+    if (this.#textareaElementRef.value) {
+      this.value = this.#textareaElementRef.value.value;
+    }
   }
 
   #onTextareaKeydown(event: KeyboardEvent) {

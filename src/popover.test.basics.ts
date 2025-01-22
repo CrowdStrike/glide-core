@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { ArgumentError } from 'ow';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import sinon from 'sinon';
 import GlideCorePopover from './popover.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 GlideCorePopover.shadowRootOptions.mode = 'open';
 
@@ -61,29 +60,13 @@ it('is not open when disabled', async () => {
 });
 
 it('throws if it does not have a default slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`<glide-core-popover></glide-core-popover>`);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  await expectUnhandledRejection(() => {
+    return fixture(html`<glide-core-popover></glide-core-popover>`);
+  });
 });
 
 it('throws if it does not have a "target" slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`<glide-core-popover>Popover</glide-core-popover>`);
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  await expectUnhandledRejection(() => {
+    return fixture(html`<glide-core-popover>Popover</glide-core-popover>`);
+  });
 });

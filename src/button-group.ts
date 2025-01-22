@@ -4,8 +4,8 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreButtonGroupButton from './button-group.button.js';
-import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './button-group.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -59,11 +59,6 @@ export default class GlideCoreButtonGroup extends LitElement {
   @property({ reflect: true })
   readonly version = packageJson.version;
 
-  override firstUpdated() {
-    owSlot(this.#slotElementRef.value);
-    owSlotType(this.#slotElementRef.value, [GlideCoreButtonGroupButton]);
-  }
-
   override render() {
     return html`
       <div
@@ -88,6 +83,7 @@ export default class GlideCoreButtonGroup extends LitElement {
             @keydown=${this.#onSlotKeydown}
             @private-selected=${this.#onSlotSelected}
             @slotchange=${this.#onSlotChange}
+            ${assertSlot([GlideCoreButtonGroupButton])}
             ${ref(this.#slotElementRef)}
           ></slot>
         </div>
@@ -106,18 +102,6 @@ export default class GlideCoreButtonGroup extends LitElement {
   }
 
   #onSlotChange() {
-    ow(
-      this.#buttonElements.length,
-      ow.number
-        .greaterThan(1)
-        .message(
-          'A Button Group must contain two or more Button Group Buttons.',
-        ),
-    );
-
-    owSlot(this.#slotElementRef.value);
-    owSlotType(this.#slotElementRef.value, [GlideCoreButtonGroupButton]);
-
     const isButtonAlreadySelected = this.#buttonElements.find(
       ({ disabled, selected }) => !disabled && selected,
     );
@@ -163,8 +147,6 @@ export default class GlideCoreButtonGroup extends LitElement {
     const selectedButtonElement = this.querySelector(
       'glide-core-button-group-button[selected]',
     );
-
-    ow(selectedButtonElement, ow.object.instanceOf(GlideCoreButtonGroupButton));
 
     switch (event.key) {
       case 'ArrowUp':

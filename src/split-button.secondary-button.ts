@@ -9,8 +9,8 @@ import GlideCoreMenu from './menu.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
 import chevronIcon from './icons/chevron.js';
-import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './split-button.secondary-button.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -60,13 +60,6 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreMenuButton,
-      GlideCoreMenuLink,
-    ]);
-
     // A "click" handler on Menu would suffice for checking Menu's `open` property
     // and synchronizing it with `menuOpen` if Menu didn't close itself on `document`
     // click and when focus is lost.
@@ -79,12 +72,12 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
       }
     });
 
-    ow(this.#menuElementRef.value, ow.object.instanceOf(GlideCoreMenu));
-
-    observer.observe(this.#menuElementRef.value, {
-      attributes: true,
-      attributeFilter: ['open'],
-    });
+    if (this.#menuElementRef.value) {
+      observer.observe(this.#menuElementRef.value, {
+        attributes: true,
+        attributeFilter: ['open'],
+      });
+    }
   }
 
   override render() {
@@ -114,10 +107,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
         </button>
 
         <glide-core-menu-options>
-          <slot
-            @slotchange=${this.#onDefaultSlotChange}
-            ${ref(this.#defaultSlotElementRef)}
-          ></slot>
+          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}></slot>
         </glide-core-menu-options>
       </glide-core-menu>
     `;
@@ -125,16 +115,5 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
 
   #buttonElementRef = createRef<HTMLButtonElement>();
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
   #menuElementRef = createRef<GlideCoreMenu>();
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-
-    owSlotType(this.#defaultSlotElementRef.value, [
-      GlideCoreMenuButton,
-      GlideCoreMenuLink,
-    ]);
-  }
 }

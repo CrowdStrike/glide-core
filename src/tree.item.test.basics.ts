@@ -5,6 +5,7 @@ import { expect, fixture, html } from '@open-wc/testing';
 import TreeItemMenu from './tree.item.menu.js';
 import Menu from './menu.js';
 import GlideCoreTreeItem from './tree.item.js';
+import expectWindowError from './library/expect-window-error.js';
 
 GlideCoreTreeItem.shadowRootOptions.mode = 'open';
 TreeItemMenu.shadowRootOptions.mode = 'open';
@@ -157,4 +158,14 @@ it('can select child and grandchild items', async () => {
   expect(childItems[0].selected).to.be.false;
   expect(childItems[1].selected).to.be.false;
   expect(grandchildItems[0].selected).to.be.true;
+});
+
+it('throws if its "menu" slot is the incorrect type', async () => {
+  await expectWindowError(() => {
+    return fixture(html`
+      <glide-core-tree-item expanded label="Item">
+        <span slot="menu"></span>
+      </glide-core-tree-item>
+    `);
+  });
 });

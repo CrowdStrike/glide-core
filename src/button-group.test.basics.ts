@@ -3,7 +3,7 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButtonGroup from './button-group.js';
 import GlideCoreButtonGroupButton from './button-group.button.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectWindowError from './library/expect-window-error.js';
 
 GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
@@ -131,8 +131,8 @@ it('sets `privateVariant` on each button', async () => {
   expect(buttons[1].privateVariant).to.equal('icon-only');
 });
 
-it('throws when its default slot is the wrong type', async () => {
-  await expectArgumentError(() => {
+it('throws if its default slot is the wrong type', async () => {
+  await expectWindowError(() => {
     return fixture(html`
       <glide-core-button-group label="Label">
         <div></div>
@@ -140,7 +140,7 @@ it('throws when its default slot is the wrong type', async () => {
     `);
   });
 
-  await expectArgumentError(() => {
+  await expectWindowError(() => {
     return fixture(
       html`<glide-core-button-group label="Label"> </glide-core-button-group>`,
     );

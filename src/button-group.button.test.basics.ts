@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { ArgumentError } from 'ow';
 import { expect, fixture, html } from '@open-wc/testing';
-import sinon from 'sinon';
 import GlideCoreButtonGroupButton from './button-group.button.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
@@ -119,22 +118,12 @@ it('is not tabbable when not selected', async () => {
   expect(radio?.getAttribute('tabindex')).to.equal('-1');
 });
 
-it('throws when icon-only and no "icon" slot', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
+it('throws when `icon-only` and no "icon" slot', async () => {
+  await expectUnhandledRejection(() => {
+    return fixture(
       html`<glide-core-button-group-button
-        value="value"
-        selected
         privateVariant="icon-only"
       ></glide-core-button-group-button>`,
     );
-  } catch (error) {
-    if (error instanceof ArgumentError) {
-      spy();
-    }
-  }
-
-  expect(spy.callCount).to.equal(1);
+  });
 });

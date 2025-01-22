@@ -3,7 +3,8 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreRadioGroup from './radio-group.js';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import expectWindowError from './library/expect-window-error.js';
 
 GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
@@ -264,22 +265,24 @@ it('sets the group `value` when a Radio is set as `checked`', async () => {
   expect(component.value).to.equal('two');
 });
 
-it('throws if the default slot is the incorrect type', async () => {
-  await expectArgumentError(() => {
+it('throws if it does not have a default slot', async () => {
+  await expectUnhandledRejection(() => {
+    return fixture(
+      html`<glide-core-radio-group
+        label="label"
+        name="name"
+      ></glide-core-radio-group>`,
+    );
+  });
+});
+
+it('throws if its default slot is the incorrect type', async () => {
+  await expectWindowError(() => {
     return fixture(html`
       <glide-core-radio-group label="label" name="name">
         <div>Option 1</div>
       </glide-core-radio-group>
     `);
-  });
-});
-
-it('throws if it does not have a default slot', async () => {
-  await expectArgumentError(() => {
-    return fixture(
-      html`<glide-core-radio-group label="label" name="name">
-      </glide-core-radio-group>`,
-    );
   });
 });
 

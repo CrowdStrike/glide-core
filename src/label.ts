@@ -5,9 +5,9 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
-import ow, { owSlot } from './library/ow.js';
 import styles from './label.styles.js';
 import { LocalizeController } from './library/localize.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -54,9 +54,6 @@ export default class GlideCoreLabel extends LitElement {
   tooltip?: string;
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlot(this.#controlSlotElementRef.value);
-
     // The "description" slot has a top margin that needs to be conditionally
     // applied only if content is slotted so there's not stray whitespace
     // when there's no description.
@@ -139,6 +136,7 @@ export default class GlideCoreLabel extends LitElement {
           >
             <slot
               @slotchange=${this.#onDefaultSlotChange}
+              ${assertSlot()}
               ${ref(this.#defaultSlotElementRef)}
             ></slot>
 
@@ -160,8 +158,7 @@ export default class GlideCoreLabel extends LitElement {
             'hidden-label': this.hide,
           })}
           name="control"
-          @slotchange=${this.#onControlSlotChange}
-          ${ref(this.#controlSlotElementRef)}
+          ${assertSlot()}
         ></slot>
 
         <slot
@@ -201,8 +198,6 @@ export default class GlideCoreLabel extends LitElement {
   @state()
   private label = '';
 
-  #controlSlotElementRef = createRef<HTMLSlotElement>();
-
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #descriptionSlotElementRef = createRef<HTMLSlotElement>();
@@ -213,23 +208,14 @@ export default class GlideCoreLabel extends LitElement {
 
   #summarySlotElementRef = createRef<HTMLSlotElement>();
 
-  #onControlSlotChange() {
-    owSlot(this.#controlSlotElementRef.value);
-  }
-
   #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-
     const defaultSlotAssignedElement = this.#defaultSlotElementRef.value
       ?.assignedElements()
       .at(0);
 
     const labelElement = this.#labelElementRef.value;
 
-    ow(defaultSlotAssignedElement, ow.object.instanceOf(Element));
-    ow(labelElement, ow.object.instanceOf(HTMLElement));
-
-    if (defaultSlotAssignedElement.textContent) {
+    if (defaultSlotAssignedElement?.textContent) {
       this.label = defaultSlotAssignedElement.textContent;
     }
 
@@ -244,12 +230,16 @@ export default class GlideCoreLabel extends LitElement {
       // return a float. So using `clientWidth` for `labelElement` would mean the
       // width of `defaultSlotAssignedElement` is always fractionally greater than
       // that of `labelElement`.
-      this.isLabelTooltip =
-        defaultSlotAssignedElement.getBoundingClientRect().width >
-        labelElement.getBoundingClientRect().width;
+      if (defaultSlotAssignedElement && labelElement) {
+        this.isLabelTooltip =
+          defaultSlotAssignedElement.getBoundingClientRect().width >
+          labelElement.getBoundingClientRect().width;
+      }
     });
 
-    observer.observe(labelElement);
+    if (labelElement) {
+      observer.observe(labelElement);
+    }
   }
 
   #onSummarySlotChange() {

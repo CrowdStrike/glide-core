@@ -9,8 +9,8 @@ import { LocalizeController } from './library/localize.js';
 import GlideCoreTab from './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
 import chevronIcon from './icons/chevron.js';
-import ow, { owSlotType } from './library/ow.js';
 import styles from './tab.group.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -69,8 +69,6 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   override firstUpdated() {
-    owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
     this.#setupResizeObserver();
   }
 
@@ -117,7 +115,7 @@ export default class GlideCoreTabGroup extends LitElement {
           <slot
             name="nav"
             @slotchange=${this.#onNavSlotChange}
-            ${ref(this.#navSlotElementRef)}
+            ${assertSlot([GlideCoreTab])}
           ></slot>
         </div>
         ${when(
@@ -142,10 +140,7 @@ export default class GlideCoreTabGroup extends LitElement {
           `,
         )}
       </div>
-      <slot
-        @slotchange=${this.#onDefaultSlotChange}
-        ${ref(this.#defaultSlotElementRef)}
-      ></slot>
+      <slot ${assertSlot([GlideCoreTabPanel])}></slot>
     </div>`;
   }
 
@@ -158,11 +153,7 @@ export default class GlideCoreTabGroup extends LitElement {
   // Arbitrary debounce delay
   #debounceDelay = 100;
 
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
   #localize = new LocalizeController(this);
-
-  #navSlotElementRef = createRef<HTMLSlotElement>();
 
   // Theshold (in px) used to determine when to display overflow buttons.
   #overflowButtonsScrollDelta = 1;
@@ -210,10 +201,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #onClickOverflowStartButton() {
     this.#scrollTabsList('left');
-  }
-
-  #onDefaultSlotChange() {
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreTabPanel]);
   }
 
   #onFocusout() {
@@ -304,7 +291,6 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #onNavSlotChange() {
-    owSlotType(this.#navSlotElementRef.value, [GlideCoreTab]);
     this.#setupTabs();
     this.#setSelectedTab();
     this.#setOverflowButtonsState();
@@ -325,26 +311,24 @@ export default class GlideCoreTabGroup extends LitElement {
     const directionFactor = buttonPlacement === 'right' ? 1 : -1;
     const percentageFactor = 0.5;
 
-    ow(this.#tabListElementRef.value, ow.object.instanceOf(HTMLElement));
+    if (this.#tabListElementRef.value) {
+      const scrollDistance =
+        directionFactor *
+        this.#tabListElementRef.value.clientWidth *
+        percentageFactor;
 
-    const scrollDistance =
-      directionFactor *
-      this.#tabListElementRef.value?.clientWidth *
-      percentageFactor;
-
-    this.#tabListElementRef.value?.scrollBy({
-      left: scrollDistance,
-      top: 0,
-    });
+      this.#tabListElementRef.value.scrollBy({
+        left: scrollDistance,
+        top: 0,
+      });
+    }
   }
 
   #setEndOverflowButtonState() {
     const tabListElement = this.#tabListElementRef.value;
     const tabListElementRect = tabListElement?.getBoundingClientRect();
 
-    ow(tabListElement, ow.object.instanceOf(HTMLElement));
-
-    if (tabListElementRect) {
+    if (tabListElementRect && tabListElement) {
       const { width: tabListElementWidth } = tabListElementRect;
 
       // `scrollLeft` needn't be an integer
@@ -440,10 +424,10 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #setStartOverflowButtonState() {
-    ow(this.#tabListElementRef.value, ow.object.instanceOf(HTMLElement));
-
-    this.isDisableOverflowStartButton =
-      this.#tabListElementRef.value.scrollLeft <= 0;
+    if (this.#tabListElementRef.value) {
+      this.isDisableOverflowStartButton =
+        this.#tabListElementRef.value.scrollLeft <= 0;
+    }
   }
 
   #setupResizeObserver() {
@@ -460,9 +444,9 @@ export default class GlideCoreTabGroup extends LitElement {
       }
     });
 
-    ow(this.#tabListElementRef.value, ow.object.instanceOf(HTMLElement));
-
-    this.#resizeObserver.observe(this.#tabListElementRef.value);
+    if (this.#tabListElementRef.value) {
+      this.#resizeObserver.observe(this.#tabListElementRef.value);
+    }
   }
 
   #setupTabs() {

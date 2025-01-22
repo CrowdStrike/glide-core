@@ -8,9 +8,9 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 import styles from './radio-group.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -133,9 +133,6 @@ export default class GlideCoreRadioGroup extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreRadioGroupRadio]);
-
     if (this.disabled) {
       for (const radio of this.#radios) {
         radio.disabled = true;
@@ -276,9 +273,9 @@ export default class GlideCoreRadioGroup extends LitElement {
           >
             <slot
               @focusout=${this.#onRadioGroupFocusout}
-              @slotchange=${this.#onDefaultSlotChange}
               @private-checked-change=${this.#onRadiosCheckedChange}
               @private-value-change=${this.#onRadiosValueChange}
+              ${assertSlot([GlideCoreRadioGroupRadio])}
               ${ref(this.#defaultSlotElementRef)}
             ></slot>
           </div>
@@ -548,11 +545,6 @@ export default class GlideCoreRadioGroup extends LitElement {
         }
       }
     }
-  }
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlotType(this.#defaultSlotElementRef.value, [GlideCoreRadioGroupRadio]);
   }
 
   #onRadioGroupFocusout(event: FocusEvent) {

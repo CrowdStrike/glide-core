@@ -9,9 +9,9 @@ import { LocalizeController } from './library/localize.js';
 import GlideCoreModalIconButton from './modal.icon-button.js';
 import GlideCoreButton from './button.js';
 import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
-import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './modal.styles.js';
 import xIcon from './icons/x.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -126,23 +126,6 @@ export default class GlideCoreModal extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-
-    owSlotType(this.#headerActionsSlotElementRef.value, [
-      GlideCoreModalIconButton,
-    ]);
-
-    owSlotType(this.#footerMenuPrimarySlotElementRef.value, [GlideCoreButton]);
-
-    owSlotType(this.#footerMenuSecondarySlotElementRef.value, [
-      GlideCoreButton,
-    ]);
-
-    owSlotType(this.#footerMenuTertiarySlotElementRef.value, [
-      GlideCoreModalTertiaryIcon,
-      GlideCoreButton,
-    ]);
-
     if (this.open) {
       this.#show();
     }
@@ -219,7 +202,7 @@ export default class GlideCoreModal extends LitElement {
           <div class="header-actions" role="toolbar">
             <slot
               name="header-actions"
-              @slotchange=${this.#onHeaderActionsSlotChange}
+              ${assertSlot([GlideCoreModalIconButton], true)}
               ${ref(this.#headerActionsSlotElementRef)}
             ></slot>
 
@@ -236,10 +219,7 @@ export default class GlideCoreModal extends LitElement {
         </header>
 
         <article aria-labelledby="heading" class="body" role="region">
-          <slot
-            @slotchange=${this.#onDefaultSlotChange}
-            ${ref(this.#defaultSlotElementRef)}
-          ></slot>
+          <slot ${assertSlot()}></slot>
         </article>
 
         <footer>
@@ -248,24 +228,24 @@ export default class GlideCoreModal extends LitElement {
               <slot
                 class="tertiary-slot"
                 name="tertiary"
-                @slotchange=${this.#onFooterMenuTertiarySlotChange}
-                ${ref(this.#footerMenuTertiarySlotElementRef)}
+                ${assertSlot(
+                  [GlideCoreModalTertiaryIcon, GlideCoreButton],
+                  true,
+                )}
               ></slot>
             </li>
 
             <li class="action">
               <slot
                 name="secondary"
-                @slotchange=${this.#onFooterMenuSecondarySlotChange}
-                ${ref(this.#footerMenuSecondarySlotElementRef)}
+                ${assertSlot([GlideCoreButton], true)}
               ></slot>
             </li>
 
             <li class="action">
               <slot
                 name="primary"
-                @slotchange=${this.#onFooterMenuPrimarySlotChange}
-                ${ref(this.#footerMenuPrimarySlotElementRef)}
+                ${assertSlot([GlideCoreButton], true)}
               ></slot>
             </li>
           </menu>
@@ -281,14 +261,6 @@ export default class GlideCoreModal extends LitElement {
   #componentElementRef = createRef<HTMLDialogElement>();
 
   #containerElementRef = createRef<HTMLElement>();
-
-  #defaultSlotElementRef = createRef<HTMLSlotElement>();
-
-  #footerMenuPrimarySlotElementRef = createRef<HTMLSlotElement>();
-
-  #footerMenuSecondarySlotElementRef = createRef<HTMLSlotElement>();
-
-  #footerMenuTertiarySlotElementRef = createRef<HTMLSlotElement>();
 
   #headerActionsSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -347,43 +319,6 @@ export default class GlideCoreModal extends LitElement {
       // Prevent Safari from leaving full screen.
       event.preventDefault();
     }
-  }
-
-  #onDefaultSlotChange() {
-    ow(
-      this.#componentElementRef.value,
-      ow.object.instanceOf(HTMLDialogElement),
-    );
-
-    owSlot(this.#defaultSlotElementRef.value);
-  }
-
-  #onFooterMenuPrimarySlotChange() {
-    owSlotType(this.#footerMenuPrimarySlotElementRef.value, [GlideCoreButton]);
-  }
-
-  #onFooterMenuSecondarySlotChange() {
-    owSlotType(this.#footerMenuSecondarySlotElementRef.value, [
-      GlideCoreButton,
-    ]);
-  }
-
-  #onFooterMenuTertiarySlotChange() {
-    ow(
-      this.#componentElementRef.value,
-      ow.object.instanceOf(HTMLDialogElement),
-    );
-
-    owSlotType(this.#footerMenuTertiarySlotElementRef.value, [
-      GlideCoreModalTertiaryIcon,
-      GlideCoreButton,
-    ]);
-  }
-
-  #onHeaderActionsSlotChange() {
-    owSlotType(this.#headerActionsSlotElementRef.value, [
-      GlideCoreModalIconButton,
-    ]);
   }
 
   #show() {

@@ -14,8 +14,8 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import ow, { owSlot } from './library/ow.js';
 import styles from './popover.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -125,24 +125,21 @@ export default class GlideCorePopover extends LitElement {
   }
 
   override firstUpdated() {
-    owSlot(this.#defaultSlotElementRef.value);
-    owSlot(this.#targetSlotElementRef.value);
-
-    ow(this.#popoverElementRef.value, ow.object.instanceOf(HTMLElement));
-
-    // `popover` is used so the popover can break out of Modal or another container
-    // that has `overflow: hidden`. And elements with `popover` are positioned
-    // relative to the viewport. Thus Floating UI in addition to `popover`.
-    //
-    // Set here instead of in the template to escape Lit Analzyer, which isn't
-    // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
-    //
-    // "auto" means only one popover can be open at a time. Consumers, however, may
-    // have popovers in own components that need to be open while this one is open.
-    //
-    // "auto" also automatically opens the popover when its target is clicked. We want
-    // it to remain closed when clicked when there are no menu options.
-    this.#popoverElementRef.value.popover = 'manual';
+    if (this.#popoverElementRef.value) {
+      // `popover` is used so the popover can break out of Modal or another container
+      // that has `overflow: hidden`. And elements with `popover` are positioned
+      // relative to the viewport. Thus Floating UI in addition to `popover`.
+      //
+      // Set here instead of in the template to escape Lit Analzyer, which isn't
+      // aware of `popover` and doesn't have a way to disable a rule ("no-unknown-attribute").
+      //
+      // "auto" means only one popover can be open at a time. Consumers, however, may
+      // have popovers in own components that need to be open while this one is open.
+      //
+      // "auto" also automatically opens the popover when its target is clicked. We want
+      // it to remain closed when clicked when there are no menu options.
+      this.#popoverElementRef.value.popover = 'manual';
+    }
 
     if (this.open && !this.disabled) {
       this.#show();
@@ -153,11 +150,11 @@ export default class GlideCorePopover extends LitElement {
     // set before that handler is called so it has the information it needs
     // to determine whether or not to close Popover. Same for `#isTargetSlotClick`
     // and `#isArrowClick`.
-    this.#defaultSlotElementRef.value.addEventListener('mouseup', () => {
+    this.#defaultSlotElementRef.value?.addEventListener('mouseup', () => {
       this.#isDefaultSlotClick = true;
     });
 
-    this.#targetSlotElementRef.value.addEventListener('mouseup', () => {
+    this.#targetSlotElementRef.value?.addEventListener('mouseup', () => {
       this.#isTargetSlotClick = true;
     });
 
@@ -165,7 +162,7 @@ export default class GlideCorePopover extends LitElement {
       this.#isArrowClick = true;
     });
 
-    this.#targetSlotElementRef.value.addEventListener(
+    this.#targetSlotElementRef.value?.addEventListener(
       'keydown',
       (event: KeyboardEvent) => {
         if (event.key === 'Enter' || event.key === ' ') {
@@ -189,7 +186,7 @@ export default class GlideCorePopover extends LitElement {
           name="target"
           @click=${this.#onTargetSlotClick}
           @keydown=${this.#onTargetSlotKeydown}
-          @slotchange=${this.#onTargetSlotChange}
+          ${assertSlot([Element])}
           ${ref(this.#targetSlotElementRef)}
         ></slot>
 
@@ -220,7 +217,7 @@ export default class GlideCorePopover extends LitElement {
 
           <slot
             class="default-slot"
-            @slotchange=${this.#onDefaultSlotChange}
+            ${assertSlot()}
             ${ref(this.#defaultSlotElementRef)}
           ></slot>
         </div>
@@ -283,14 +280,6 @@ export default class GlideCorePopover extends LitElement {
     }
 
     this.#cleanUpFloatingUi?.();
-  }
-
-  #onDefaultSlotChange() {
-    owSlot(this.#defaultSlotElementRef.value);
-  }
-
-  #onTargetSlotChange() {
-    owSlot(this.#targetSlotElementRef.value);
   }
 
   #onTargetSlotClick() {

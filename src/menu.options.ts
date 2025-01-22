@@ -1,13 +1,12 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
-import { owSlot, owSlotType } from './library/ow.js';
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
 import styles from './menu.options.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -66,19 +65,6 @@ export default class GlideCoreMenuOptions extends LitElement {
     this.tabIndex = -1;
   }
 
-  override firstUpdated() {
-    owSlot(this.#slotElementRef.value);
-
-    // `Text` is allowed so slotted content can be rendered asychronously. Think of
-    // a case where the only slotted content is a `repeat` whose array is empty
-    // at first then populated after a fetch.
-    owSlotType(this.#slotElementRef.value, [
-      GlideCoreMenuButton,
-      GlideCoreMenuLink,
-      Text,
-    ]);
-  }
-
   override render() {
     return html`<div
       class=${classMap({
@@ -89,8 +75,8 @@ export default class GlideCoreMenuOptions extends LitElement {
       role="none"
     >
       <slot
+        ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink, Text])}
         @slotchange=${this.#onSlotChange}
-        ${ref(this.#slotElementRef)}
       ></slot>
     </div>`;
   }
@@ -102,17 +88,7 @@ export default class GlideCoreMenuOptions extends LitElement {
   // for sure. But one we can protect against with little effort.
   #id = nanoid();
 
-  #slotElementRef = createRef<HTMLSlotElement>();
-
   #onSlotChange() {
-    owSlot(this.#slotElementRef.value);
-
-    owSlotType(this.#slotElementRef.value, [
-      GlideCoreMenuButton,
-      GlideCoreMenuLink,
-      Text,
-    ]);
-
     this.dispatchEvent(new Event('private-slot-change', { bubbles: true }));
   }
 }

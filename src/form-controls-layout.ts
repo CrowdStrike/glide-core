@@ -9,8 +9,8 @@ import GlideCoreCheckboxGroup from './checkbox-group.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreInput from './input.js';
 import GlideCoreTextArea from './textarea.js';
-import ow, { owSlot, owSlotType } from './library/ow.js';
 import styles from './form-controls-layout.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -50,24 +50,17 @@ export default class GlideCoreFormControlsLayout extends LitElement {
   @property({ reflect: true })
   readonly version = packageJson.version;
 
-  override firstUpdated() {
-    owSlot(this.#slotElementRef.value);
-
-    owSlotType(this.#slotElementRef.value, [
-      GlideCoreCheckbox,
-      GlideCoreCheckboxGroup,
-      GlideCoreDropdown,
-      GlideCoreInput,
-      GlideCoreTextArea,
-    ]);
-
-    this.#assertHorizontalControls();
-  }
-
   override render() {
     return html`<div class="component">
       <slot
         @slotchange=${this.#onSlotChange}
+        ${assertSlot([
+          GlideCoreCheckbox,
+          GlideCoreCheckboxGroup,
+          GlideCoreDropdown,
+          GlideCoreInput,
+          GlideCoreTextArea,
+        ])}
         ${ref(this.#slotElementRef)}
       ></slot>
     </div>`;
@@ -77,35 +70,16 @@ export default class GlideCoreFormControlsLayout extends LitElement {
 
   #split: 'left' | 'middle' = 'left';
 
-  #assertHorizontalControls() {
-    owSlot(this.#slotElementRef.value);
-
-    for (const element of this.#slotElementRef.value.assignedElements()) {
-      if ('orientation' in element) {
-        ow(
-          element.orientation === 'horizontal',
-          ow.boolean.true.message('Only horizontal controls are supported.'),
-        );
-      }
-    }
-  }
-
   #onSlotChange() {
-    owSlot(this.#slotElementRef.value);
+    if (this.#slotElementRef.value) {
+      for (const element of this.#slotElementRef.value.assignedElements()) {
+        if ('privateSplit' in element) {
+          element.privateSplit = this.split;
+        }
 
-    owSlotType(this.#slotElementRef.value, [
-      GlideCoreCheckbox,
-      GlideCoreCheckboxGroup,
-      GlideCoreDropdown,
-      GlideCoreInput,
-      GlideCoreTextArea,
-    ]);
-
-    this.#assertHorizontalControls();
-
-    for (const element of this.#slotElementRef.value.assignedElements()) {
-      if ('privateSplit' in element) {
-        element.privateSplit = this.split;
+        if ('orientation' in element && element.orientation !== 'horizontal') {
+          throw new TypeError('Only horizontal controls are supported.');
+        }
       }
     }
   }

@@ -3,8 +3,8 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import packageJson from '../package.json' with { type: 'json' };
-import ow, { owSlot } from './library/ow.js';
 import styles from './button-group.button.styles.js';
+import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -61,12 +61,6 @@ export default class GlideCoreButtonGroupButton extends LitElement {
     this.#componentElementRef.value?.click();
   }
 
-  override firstUpdated() {
-    if (this.privateVariant === 'icon-only') {
-      owSlot(this.#iconSlotElementRef.value);
-    }
-  }
-
   override focus(options?: FocusOptions) {
     this.#componentElementRef.value?.focus(options);
   }
@@ -90,6 +84,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
       <slot
         name="icon"
         @slotchange=${this.#onIconSlotChange}
+        ${assertSlot(null, this.privateVariant !== 'icon-only')}
         ${ref(this.#iconSlotElementRef)}
       ></slot>
 
@@ -114,8 +109,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
   #isSelected = false;
 
   #onIconSlotChange() {
-    ow(this.#iconSlotElementRef.value, ow.object.instanceOf(HTMLElement));
-
-    this.hasIcon = this.#iconSlotElementRef.value?.assignedNodes().length > 0;
+    const assignedNodes = this.#iconSlotElementRef.value?.assignedNodes();
+    this.hasIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 }

@@ -273,7 +273,7 @@ it('deselects options on Space', async () => {
   options[1]?.focus();
   await sendKeys({ press: ' ' });
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const labels = component.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',

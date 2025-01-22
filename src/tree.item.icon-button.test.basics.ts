@@ -1,6 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
-import expectArgumentError from './library/expect-argument-error.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 GlideCoreTreeItemIconButton.shadowRootOptions.mode = 'open';
 
@@ -11,7 +11,7 @@ it('registers itself', async () => {
 });
 
 it('throws if it does not have a default slot', async () => {
-  await expectArgumentError(() => {
+  await expectUnhandledRejection(() => {
     return fixture<GlideCoreTreeItemIconButton>(html`
       <glide-core-tree-item-icon-button></glide-core-tree-item-icon-button>
     `);
