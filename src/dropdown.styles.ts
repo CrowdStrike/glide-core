@@ -348,7 +348,7 @@ export default [
       flex-grow: 1;
       font-family: var(--glide-core-font-sans);
       font-size: inherit;
-      min-inline-size: var(--min-inline-size);
+      inline-size: 100%;
       padding-block-end: 0;
       padding-inline: 0;
 
