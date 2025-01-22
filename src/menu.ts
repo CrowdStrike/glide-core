@@ -104,13 +104,14 @@ export default class GlideCoreMenu extends LitElement {
 
     // 1. The consumer has a click handler on a button.
     // 2. The user clicks the button.
-    // 3. The button's click handler is called and it sets `this.open` to `true`.
+    // 3. The button's click handler is called and sets `this.open` to `true`.
     // 4. The "click" event bubbles up and is handled by `#onDocumentClick`.
-    // 5. That handler sets `open` to `false` because the click came from outside Dropdown.
+    // 5. That handler sets `open` to `false` because the click came from outside Menu.
     // 6. Menu is opened then closed in the same frame and so never opens.
     //
-    // `capture` ensures `#onDocumentClick` is called before #3, so that Menu
-    // opens when the button's handler sets `this.open` to `true`.
+    // `capture` ensures `#onDocumentClick` is called before #3, so the button click
+    // handler setting `open` to `true` isn't overwritten by this handler setting `open`
+    // to `false`.
     document.addEventListener('click', this.#onDocumentClick, {
       capture: true,
     });
@@ -157,37 +158,19 @@ export default class GlideCoreMenu extends LitElement {
     // phase. There's a comment explaining why. `#isTargetSlotClick` must be
     // set before that handler is called so it has the information it needs
     // to determine whether or not to close Menu.
-    this.#targetSlotElementRef.value.addEventListener('mouseup', () => {
-      this.#isTargetSlotClick = true;
-    });
+    this.#targetSlotElementRef.value?.addEventListener(
+      'mouseup',
+      this.#onTargetSlotMouseup,
+    );
 
     this.#defaultSlotElementRef.value.addEventListener(
       'mousedown',
-      (event: Event) => {
-        if (event.target === this.#defaultSlotElementRef.value) {
-          // So the `#onFocusout` handler, which closes Menu, isn't called when
-          // the border or padding on `.default-slot` is clicked.
-          event.preventDefault();
-        }
-      },
+      this.#onDefaultSlotMousedown,
     );
 
     this.#defaultSlotElementRef.value.addEventListener(
       'mouseup',
-      (event: Event) => {
-        if (event.target === this.#defaultSlotElementRef.value) {
-          this.#isDefaultSlotClick = true;
-          return;
-        }
-
-        if (event.target instanceof Element) {
-          const link = event.target?.closest('glide-core-menu-link');
-
-          if (link?.disabled) {
-            this.#isDisabledLinkClick = true;
-          }
-        }
-      },
+      this.#onDefaultSlotMouseup,
     );
   }
 
@@ -266,6 +249,32 @@ export default class GlideCoreMenu extends LitElement {
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
+  #onDefaultSlotMousedown = (event: Event) => {
+    if (event.target === this.#defaultSlotElementRef.value) {
+      // So the `#onFocusout` handler, which closes Menu, isn't called when
+      // the border or padding on `.default-slot` is clicked.
+      event.preventDefault();
+    }
+  };
+
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
+  #onDefaultSlotMouseup = (event: Event) => {
+    if (event.target === this.#defaultSlotElementRef.value) {
+      this.#isDefaultSlotClick = true;
+    }
+
+    if (event.target instanceof Element) {
+      const link = event.target?.closest('glide-core-menu-link');
+
+      if (link?.disabled) {
+        this.#isDisabledLinkClick = true;
+      }
+    }
+  };
+
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
   #onDocumentClick = () => {
     // So Menu isn't closed when the border or padding on `.default-slot` is clicked.
     //
@@ -294,6 +303,12 @@ export default class GlideCoreMenu extends LitElement {
     }
   };
 
+  // An arrow function field instead of a method so `this` is closed over and
+  // set to the component instead of `document`.
+  #onTargetSlotMouseup = () => {
+    this.#isTargetSlotClick = true;
+  };
+
   #focus(options?: FocusOptions) {
     if (this.#targetElement && 'focus' in this.#targetElement) {
       (
@@ -314,16 +329,6 @@ export default class GlideCoreMenu extends LitElement {
     }
 
     this.#defaultSlotElementRef.value?.hidePopover();
-  }
-
-  get #optionsElement() {
-    const firstAssignedElement = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .at(0);
-
-    return firstAssignedElement instanceof GlideCoreMenuOptions
-      ? firstAssignedElement
-      : null;
   }
 
   #onComponentFocusout(event: FocusEvent) {
@@ -655,6 +660,16 @@ export default class GlideCoreMenu extends LitElement {
     if (this.#optionElements && this.#optionElements.length > 0) {
       this.open = !this.open;
     }
+  }
+
+  get #optionsElement() {
+    const firstAssignedElement = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .at(0);
+
+    return firstAssignedElement instanceof GlideCoreMenuOptions
+      ? firstAssignedElement
+      : null;
   }
 
   get #optionElements() {

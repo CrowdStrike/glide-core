@@ -36,26 +36,8 @@ export default [
       border-radius: 0.5rem;
       box-shadow: var(--glide-core-shadow-lg);
       font-family: var(--glide-core-body-xs-font-family);
-      max-block-size: 75vh;
-      max-inline-size: 80vw;
       opacity: 0;
-      padding: 1.25rem;
-
-      &.small {
-        inline-size: 22.5rem;
-      }
-
-      &.medium {
-        inline-size: 35rem;
-      }
-
-      &.large {
-        inline-size: 53.75rem;
-      }
-
-      &.xlarge {
-        inline-size: 69.375rem;
-      }
+      padding: 0;
 
       &[open] {
         opacity: 1;
@@ -83,6 +65,28 @@ export default [
 
         display: contents;
         size: 1rem;
+      }
+    }
+
+    .container {
+      max-block-size: 75vh;
+      max-inline-size: 80vw;
+      padding: 1.25rem;
+
+      &.small {
+        inline-size: 22.5rem;
+      }
+
+      &.medium {
+        inline-size: 35rem;
+      }
+
+      &.large {
+        inline-size: 53.75rem;
+      }
+
+      &.xlarge {
+        inline-size: 69.375rem;
       }
     }
 
