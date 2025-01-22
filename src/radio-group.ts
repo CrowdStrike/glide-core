@@ -11,6 +11,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 import styles from './radio-group.styles.js';
 import assertSlot from './library/assert-slot.js';
+import type FormControl from './library/form-control.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -27,7 +28,10 @@ declare global {
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-radio-group')
-export default class GlideCoreRadioGroup extends LitElement {
+export default class GlideCoreRadioGroup
+  extends LitElement
+  implements FormControl
+{
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -58,6 +62,9 @@ export default class GlideCoreRadioGroup extends LitElement {
 
   @property({ reflect: true })
   name = '';
+
+  @property({ reflect: true })
+  orientation = 'horizontal' as const;
 
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
@@ -121,10 +128,10 @@ export default class GlideCoreRadioGroup extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
-    const validity = this.#internals.checkValidity();
+    const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
 
-    return validity;
+    return isValid;
   }
 
   override disconnectedCallback() {
@@ -251,7 +258,7 @@ export default class GlideCoreRadioGroup extends LitElement {
         ${ref(this.#componentElementRef)}
       >
         <glide-core-private-label
-          orientation="horizontal"
+          orientation=${this.orientation}
           split=${ifDefined(this.privateSplit ?? undefined)}
           tooltip=${ifDefined(this.tooltip)}
           ?disabled=${this.disabled}

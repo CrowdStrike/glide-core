@@ -10,6 +10,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreCheckbox from './checkbox.js';
 import styles from './checkbox-group.styles.js';
 import assertSlot from './library/assert-slot.js';
+import type FormControl from './library/form-control.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,7 +27,10 @@ declare global {
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-checkbox-group')
-export default class GlideCoreCheckboxGroup extends LitElement {
+export default class GlideCoreCheckboxGroup
+  extends LitElement
+  implements FormControl
+{
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -57,6 +61,9 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
   @property({ reflect: true })
   name = '';
+
+  @property({ reflect: true })
+  orientation = 'horizontal' as const;
 
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
@@ -141,10 +148,10 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
-    const validity = this.#internals.checkValidity();
+    const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
 
-    return validity;
+    return isValid;
   }
 
   override disconnectedCallback() {
@@ -213,7 +220,6 @@ export default class GlideCoreCheckboxGroup extends LitElement {
 
   override focus(options?: FocusOptions) {
     const checkbox = this.#checkboxes.find(({ disabled }) => !disabled);
-
     checkbox?.focus(options);
   }
 
@@ -234,6 +240,7 @@ export default class GlideCoreCheckboxGroup extends LitElement {
       ${ref(this.#componentElementRef)}
     >
       <glide-core-private-label
+        orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}
         ?hide=${this.hideLabel}
