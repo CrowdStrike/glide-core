@@ -14,6 +14,7 @@ import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import ow from './library/ow.js';
 import styles from './input.styles.js';
 import xIcon from './icons/x.js';
+import type FormControl from './library/form-control.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -49,7 +50,7 @@ type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
  * @slot suffix-icon - An optional icon after the input field.
  */
 @customElement('glide-core-input')
-export default class GlideCoreInput extends LitElement {
+export default class GlideCoreInput extends LitElement implements FormControl {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -202,10 +203,10 @@ export default class GlideCoreInput extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
-    const validity = this.#internals.checkValidity();
+    const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
 
-    return validity;
+    return isValid;
   }
 
   override disconnectedCallback() {

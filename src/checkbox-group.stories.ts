@@ -39,6 +39,7 @@ const meta: Meta = {
     disabled: false,
     'hide-label': false,
     name: '',
+    orientation: 'horizontal',
     'reportValidity()': '',
     required: false,
     'resetValidityFeedback()': '',
@@ -101,6 +102,14 @@ const meta: Meta = {
       table: {
         defaultValue: { summary: '""' },
         type: { summary: 'string' },
+      },
+    },
+    orientation: {
+      control: false,
+      defaultValue: 'horizontal',
+      table: {
+        defaultValue: { summary: '"horizontal"' },
+        type: { summary: '"horizontal"' },
       },
     },
     'reportValidity()': {
@@ -245,6 +254,7 @@ const meta: Meta = {
         <glide-core-checkbox-group
           label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}
+          orientation=${arguments_.orientation}
           tooltip=${arguments_.tooltip || nothing}
           ?disabled=${arguments_.disabled}
           ?hide-label=${arguments_['hide-label'] || nothing}

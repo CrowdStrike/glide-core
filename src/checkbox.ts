@@ -11,6 +11,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import packageJson from '../package.json' with { type: 'json' };
 import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
+import type FormControl from './library/form-control.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -27,7 +28,10 @@ declare global {
  * @slot private-icon
  */
 @customElement('glide-core-checkbox')
-export default class GlideCoreCheckbox extends LitElement {
+export default class GlideCoreCheckbox
+  extends LitElement
+  implements FormControl
+{
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -160,10 +164,10 @@ export default class GlideCoreCheckbox extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
-    const validity = this.#internals.checkValidity();
+    const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
 
-    return validity;
+    return isValid;
   }
 
   override click() {
@@ -506,7 +510,7 @@ export default class GlideCoreCheckbox extends LitElement {
 
   #intersectionObserver?: IntersectionObserver;
 
-  #label = '';
+  #label? = '';
 
   #labelElementRef = createRef<HTMLElement>();
 

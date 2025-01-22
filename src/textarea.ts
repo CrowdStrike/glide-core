@@ -10,6 +10,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import ow from './library/ow.js';
 import styles from './textarea.styles.js';
+import type FormControl from './library/form-control.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -25,7 +26,10 @@ declare global {
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-textarea')
-export default class GlideCoreTextarea extends LitElement {
+export default class GlideCoreTextarea
+  extends LitElement
+  implements FormControl
+{
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -44,7 +48,7 @@ export default class GlideCoreTextarea extends LitElement {
   label?: string = '';
 
   @property({ attribute: 'hide-label', reflect: true, type: Boolean })
-  hideLabel? = false;
+  hideLabel = false;
 
   @property({ reflect: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
@@ -108,10 +112,10 @@ export default class GlideCoreTextarea extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
-    const validity = this.#internals.checkValidity();
+    const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
 
-    return validity;
+    return isValid;
   }
 
   override disconnectedCallback() {

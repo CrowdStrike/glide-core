@@ -21,6 +21,7 @@ import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import ow, { owSlotType } from './library/ow.js';
 import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.styles.js';
+import type FormControl from './library/form-control.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -39,7 +40,10 @@ declare global {
  * @slot icon:<value> - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
  */
 @customElement('glide-core-dropdown')
-export default class GlideCoreDropdown extends LitElement {
+export default class GlideCoreDropdown
+  extends LitElement
+  implements FormControl
+{
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -273,10 +277,10 @@ export default class GlideCoreDropdown extends LitElement {
 
   checkValidity() {
     this.isCheckingValidity = true;
-    const validity = this.#internals.checkValidity();
+    const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
 
-    return validity;
+    return isValid;
   }
 
   override click() {

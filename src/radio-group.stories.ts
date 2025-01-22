@@ -79,6 +79,7 @@ const meta: Meta = {
       <glide-core-radio-group
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
+        orientation=${arguments_.orientation}
         tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}
         ?disabled=${arguments_.disabled}
@@ -121,6 +122,7 @@ const meta: Meta = {
     'checkValidity()': '',
     disabled: false,
     name: '',
+    orientation: 'horizontal',
     'reportValidity()': '',
     required: false,
     'resetValidityFeedback()': '',
@@ -182,6 +184,14 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
       type: { name: 'string' },
+    },
+    orientation: {
+      control: false,
+      defaultValue: 'horizontal',
+      table: {
+        defaultValue: { summary: '"horizontal"' },
+        type: { summary: '"horizontal"' },
+      },
     },
     'reportValidity()': {
       control: false,
