@@ -7,7 +7,6 @@ export default [
   `,
   css`
     :host {
-      display: flex;
       outline: none;
     }
 
@@ -85,6 +84,10 @@ export default [
           }
         }
       }
+    }
+
+    .label {
+      line-height: 1;
     }
   `,
 ];

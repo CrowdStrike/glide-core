@@ -1,11 +1,11 @@
 import './form-controls-layout.js';
 import './radio-group.js';
-import './radio-group.radio.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
+import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreInput from './input.js';
@@ -16,7 +16,7 @@ const meta: Meta = {
   decorators: [
     withActions,
     (story) =>
-      html`<form action="/" style="height: 16rem;">
+      html`<form action="/" style="height: 21rem;">
         <script type="ignore">
           import '@crowdstrike/glide-core/form-controls-layout.js';
         </script>
@@ -41,6 +41,10 @@ const meta: Meta = {
     '<glide-core-checkbox-group>.value': [],
     '<glide-core-dropdown>.open': false,
     '<glide-core-dropdown>.value': [],
+    '<glide-core-radio-group>.value': '',
+    '<glide-core-radio-group-radio>.one.checked': true,
+    '<glide-core-radio-group-radio>.two.checked': false,
+    '<glide-core-radio-group-radio>.three.checked': false,
     '<glide-core-input>.value': '',
     '<glide-core-textarea>.value': '',
   },
@@ -49,7 +53,7 @@ const meta: Meta = {
       table: {
         type: {
           summary:
-            'GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreInput | GlideCoreTextArea',
+            'GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea',
         },
       },
       type: { name: 'function', required: true },
@@ -87,6 +91,26 @@ const meta: Meta = {
       },
     },
     '<glide-core-input>.value': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-radio-group>.value': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-radio-group-radio>.one.checked': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-radio-group-radio>.two.checked': {
+      table: {
+        disable: true,
+      },
+    },
+    '<glide-core-radio-group-radio>.three.checked': {
       table: {
         disable: true,
       },
@@ -160,6 +184,27 @@ const meta: Meta = {
         });
       });
     }
+
+    const radioGroup = context.canvasElement.querySelector(
+      'glide-core-radio-group',
+    );
+
+    radioGroup?.addEventListener('change', (event: Event) => {
+      if (event.target instanceof GlideCoreRadioGroupRadio) {
+        addons.getChannel().emit(UPDATE_STORY_ARGS, {
+          storyId: context.id,
+          updatedArgs: {
+            '<glide-core-radio-group>.value': radioGroup.value,
+            '<glide-core-radio-group-radio>.one.checked':
+              event.target.value === 'one',
+            '<glide-core-radio-group-radio>.two.checked':
+              event.target.value === 'two',
+            '<glide-core-radio-group-radio>.three.checked':
+              event.target.value === 'three',
+          },
+        });
+      }
+    });
 
     const textarea = context.canvasElement.querySelector('glide-core-textarea');
 
@@ -237,6 +282,28 @@ const meta: Meta = {
           placeholder="Placeholder"
           value=${arguments_['<glide-core-input>.value'] || nothing}
         ></glide-core-input>
+
+        <glide-core-radio-group label="Label">
+          <glide-core-radio-group-radio
+            label="One"
+            value="one"
+            ?checked=${arguments_['<glide-core-radio-group-radio>.one.checked']}
+          ></glide-core-radio-group-radio>
+
+          <glide-core-radio-group-radio
+            label="Two"
+            value="two"
+            ?checked=${arguments_['<glide-core-radio-group-radio>.two.checked']}
+          ></glide-core-radio-group-radio>
+
+          <glide-core-radio-group-radio
+            label="Three"
+            value="three"
+            ?checked=${arguments_[
+              '<glide-core-radio-group-radio>.three.checked'
+            ]}
+          ></glide-core-radio-group-radio>
+        </glide-core-radio-group>
 
         <glide-core-textarea
           label="Label"

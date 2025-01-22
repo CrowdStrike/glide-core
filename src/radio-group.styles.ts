@@ -4,13 +4,11 @@ export default [
   css`
     .component {
       color: var(--glide-core-text-body-1);
-      display: inline-flex;
       font-family: var(--glide-core-heading-xxxs-font-family);
       font-size: var(--glide-core-heading-xxxs-font-size);
       font-style: var(--glide-core-heading-xxxs-font-style);
       font-variant: var(--glide-core-heading-xxxs-font-variant);
       font-weight: var(--glide-core-heading-xxxs-font-weight);
-      line-height: 1;
     }
 
     .radio-container {
