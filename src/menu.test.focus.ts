@@ -2,14 +2,7 @@
 
 import './menu.link.js';
 import './menu.options.js';
-import {
-  assert,
-  aTimeout,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
 
@@ -116,7 +109,7 @@ it('sets an inactive option as active when focused', async () => {
   const options = component.querySelector('glide-core-menu-options');
 
   link?.focus();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(link?.privateActive).to.be.true;
   expect(button?.privateActive).to.be.false;
@@ -147,7 +140,7 @@ it('sets an already active option as active when focused', async () => {
   const options = component.querySelector('glide-core-menu-options');
 
   button?.focus();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(button?.privateActive).to.be.true;
   expect(link?.privateActive).to.be.false;

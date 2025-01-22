@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreDrawer from './drawer.js';
@@ -42,7 +36,7 @@ it('opens when not animated', async () => {
   );
 
   component.open = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const aside = component.shadowRoot?.querySelector('[data-test="component"]');
   expect(aside?.checkVisibility({ visibilityProperty: true })).to.be.true;
@@ -77,7 +71,7 @@ it('closes when not animated', async () => {
   );
 
   component.open = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const aside = component.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="component"]',
@@ -110,10 +104,10 @@ it('has `set open(isOpen: boolean)` coverage', async () => {
   );
 
   component.open = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   component.open = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const animationPromises = component.shadowRoot
     ?.querySelector('[data-test="component"]')

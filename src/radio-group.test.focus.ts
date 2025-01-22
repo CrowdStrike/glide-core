@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadioGroup from './radio-group.js';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
@@ -192,7 +192,7 @@ it('focuses the checked Radio using `value` on the group when `focus()` is calle
     </glide-core-radio-group>`,
   );
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   component.focus();
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { hover } from './library/mouse.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
@@ -16,8 +16,7 @@ it('is selected when programmatically selected', async () => {
   );
 
   component.selected = true;
-
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const checkbox = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="checkbox"]',
@@ -38,8 +37,7 @@ it('is deselected when programmatically deselected', async () => {
   );
 
   component.selected = false;
-
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const checkbox = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="checkbox"]',

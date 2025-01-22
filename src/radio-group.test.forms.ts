@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
@@ -58,11 +52,11 @@ it('can reset when `value` is programmatically changed', async () => {
 
   component.value = 'two';
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   form.reset();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.value).to.equal('one');
 });
@@ -100,7 +94,7 @@ it('can reset when the checked Radios are changed via click', async () => {
 
   form.reset();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radios[0].getAttribute('checked')).to.be.null;
   expect(radios[1].hasAttribute('checked')).to.be.true;
@@ -135,7 +129,7 @@ it('can reset when the checked Radios are changed programmatically', async () =>
   radios[1].checked = false;
   radios[0].checked = true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radios[0].hasAttribute('checked')).to.be.true;
   expect(radios[1]).to.not.have.attribute('checked');
@@ -143,7 +137,7 @@ it('can reset when the checked Radios are changed programmatically', async () =>
 
   form.reset();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radios[0].getAttribute('checked')).to.be.null;
   expect(radios[1].hasAttribute('checked')).to.be.true;
@@ -381,7 +375,7 @@ it('resets `value` to an empty string when no Radios were initially selected', a
 
   form.reset();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.value).to.equal('');
 });
@@ -406,7 +400,7 @@ it('is valid if not required and radios are unchecked', async () => {
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const radios = component.querySelectorAll('glide-core-radio-group-radio');
   expect(radios[0].privateInvalid).to.be.false;
@@ -436,7 +430,7 @@ it('is valid if required and a radio is checked', async () => {
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const radios = component.querySelectorAll('glide-core-radio-group-radio');
   expect(radios[0].privateInvalid).to.be.false;
@@ -528,7 +522,7 @@ it('adds an error class after submit when invalid and required', async () => {
   );
 
   form.requestSubmit();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.radio-container')
@@ -556,7 +550,7 @@ it('adds an error class after `reportValidity` is called when invalid and requir
   );
 
   component.reportValidity();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.radio-container')
@@ -591,7 +585,7 @@ it('does not add an error class by default', async () => {
   );
 
   component.checkValidity();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.radio-container')
@@ -638,7 +632,7 @@ it('does not add an error class after `reportValidity` is called when not requir
   );
 
   component.reportValidity();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.radio-container')
@@ -686,7 +680,7 @@ it('does not add an error class after `reportValidity` is called when required a
   );
 
   component.reportValidity();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.radio-container')
@@ -734,7 +728,7 @@ it('does not add an error class after `reportValidity` is called when required b
   );
 
   component.reportValidity();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.radio-container')
@@ -781,7 +775,7 @@ it('does not add an error class after `checkValidity` is called when required', 
   );
 
   component.checkValidity();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const isComponentErrorClass = component.shadowRoot
     ?.querySelector('.radio-container')
@@ -828,7 +822,7 @@ it('sets the group as valid when `required` is set to `false` dynamically', asyn
   );
 
   component.required = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const radios = component.querySelectorAll('glide-core-radio-group-radio');
 
@@ -862,7 +856,7 @@ it('sets the group as invalid when `required` is set to `true` dynamically when 
   );
 
   component.required = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.validity.valid).to.be.false;
   expect(component.validity?.valueMissing).to.be.true;
@@ -909,7 +903,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
   expect(component.validity?.customError).to.be.true;
   expect(component.checkValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   // Like native, the validity message shouldn't display until `reportValidity()` is called.
   expect(
@@ -919,7 +913,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 
   expect(component.reportValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -941,11 +935,11 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
   component.setCustomValidity('validity message');
   component.reportValidity();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   component.setCustomValidity('');
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -967,7 +961,7 @@ it('is invalid when `setValidity()` is called', async () => {
 
   expect(component.validity.valid).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   // Like native, the validity message shouldn't display until `reportValidity()` is called.
   expect(
@@ -979,7 +973,7 @@ it('is invalid when `setValidity()` is called', async () => {
 
   component.reportValidity();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -1002,14 +996,14 @@ it('is valid when `setValidity()` is called', async () => {
 
   component.setValidity({});
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.validity.valid).to.be.true;
   expect(component.validity.customError).to.be.false;
 
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -1072,7 +1066,7 @@ it('removes validity feedback but retains its validity state when `resetValidity
 
   expect(component.reportValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot
@@ -1082,7 +1076,7 @@ it('removes validity feedback but retains its validity state when `resetValidity
 
   component.resetValidityFeedback();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.shadowRoot?.querySelector('[data-test="validity-message"]'))
     .to.be.null;

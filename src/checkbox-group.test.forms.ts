@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './checkbox.js';
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 
@@ -280,7 +274,7 @@ it('sets the checkbox as valid when `required` is set to `false` dynamically', a
   );
 
   component.required = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const checkbox = component.querySelector('glide-core-checkbox');
   expect(checkbox?.validity.valid).to.be.true;
@@ -297,7 +291,7 @@ it('sets the checkbox as invalid when `required` is set to `true` dynamically', 
   );
 
   component.required = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const checkbox = component.querySelector('glide-core-checkbox');
   expect(checkbox?.validity.valid).to.be.false;
@@ -320,7 +314,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -341,11 +335,11 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
   component.setCustomValidity('validity message');
   component.reportValidity();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   component.setCustomValidity('');
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -367,7 +361,7 @@ it('is invalid when `setValidity()` is called', async () => {
 
   expect(component.validity.valid).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   // Like native, the validity message shouldn't display until `reportValidity()` is called.
   expect(
@@ -379,7 +373,7 @@ it('is invalid when `setValidity()` is called', async () => {
 
   component.reportValidity();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -401,14 +395,14 @@ it('is valid when `setValidity()` is called', async () => {
 
   component.setValidity({});
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.validity.valid).to.be.true;
   expect(component.validity.customError).to.be.false;
 
   expect(component.reportValidity()).to.be.true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -447,7 +441,7 @@ it('removes validity feedback but retains its validity state when `resetValidity
 
   expect(component.reportValidity()).to.be.false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -456,7 +450,7 @@ it('removes validity feedback but retains its validity state when `resetValidity
 
   component.resetValidityFeedback();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.shadowRoot?.querySelector('[data-test="validity-message"]'))
     .to.be.null;

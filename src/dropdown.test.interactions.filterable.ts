@@ -3,7 +3,6 @@
 import {
   assert,
   aTimeout,
-  elementUpdated,
   expect,
   fixture,
   html,
@@ -258,7 +257,7 @@ it('hides its magnifying glass icon when single-select and an option is selected
     '[data-test="magnifying-glass-icon"]',
   );
 
-  await elementUpdated(component);
+  await component.updateComplete;
   expect(icon?.checkVisibility()).to.be.not.ok;
 });
 
@@ -284,7 +283,7 @@ it('hides its magnifying glass icon when single-select and closed programmatical
   );
 
   component.open = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(icon?.checkVisibility()).to.not.be.ok;
 });
@@ -572,7 +571,7 @@ it('unhides every option after filtering when one is selected and Dropdown is re
   await sendKeys({ type: 'two' });
 
   component.blur();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   component.open = true;
 
@@ -633,7 +632,7 @@ it('updates the `value` of its `<input>` when `label` of a selected option is ch
   assert(option);
 
   option.label = 'Three';
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -669,7 +668,7 @@ it('sets the `value` of its `<input>` when made filterable', async () => {
   );
 
   component.filterable = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -698,7 +697,7 @@ it('clears the `value` of its `<input>` when `multiple` is set programmatically'
   );
 
   component.multiple = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -739,7 +738,7 @@ it('deselects the last selected option on Backspace', async () => {
   options[0].selected = true;
   options[1].selected = true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   component.focus();
 
@@ -767,7 +766,7 @@ it('deselects all options on Meta + Backspace', async () => {
   options[0].selected = true;
   options[1].selected = true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   component.focus();
 
@@ -841,7 +840,7 @@ it('does not clear its filter when a tag is removed', async () => {
       ?.shadowRoot?.querySelector('[data-test="removal-button"]'),
   );
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -859,7 +858,7 @@ it('uses `placeholder` as a placeholder when multiselect and no option is select
 
   component?.querySelector('glide-core-dropdown-option')?.click();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -1178,7 +1177,7 @@ it('sets `aria-activedescendant` when closed via click', async () => {
     ?.querySelector<HTMLButtonElement>('[data-test="primary-button"]')
     ?.click();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -1448,7 +1447,7 @@ it('shows an ellipsis when the label of the selected option overflows', async ()
   assert(option);
 
   option.selected = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const ellipsis = component.shadowRoot?.querySelector(
     '[data-test="ellipsis"]',
@@ -1477,7 +1476,7 @@ it('shows an ellipsis when the label of the selected option is changed programma
   // The "x" is arbitrary. 500 of them ensures the component is wider
   // than the viewport even if the viewport's width is increased.
   option.label = 'x'.repeat(500);
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const ellipsis = component.shadowRoot?.querySelector(
     '[data-test="ellipsis"]',

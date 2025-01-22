@@ -1,4 +1,4 @@
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 
 GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
@@ -22,7 +22,7 @@ it('renders the provided `label`', async () => {
     <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
   `);
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     component.shadowRoot

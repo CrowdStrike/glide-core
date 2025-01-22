@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import GlideCoreCheckbox from './checkbox.js';
 
@@ -12,7 +12,7 @@ it('is checked on click', async () => {
   );
 
   await click(component.shadowRoot?.querySelector('[data-test="input"]'));
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.checked).to.be.true;
   expect(component.hasAttribute('checked')).to.be.false;
@@ -24,7 +24,7 @@ it('is unchecked on click', async () => {
   );
 
   await click(component.shadowRoot?.querySelector('[data-test="input"]'));
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.checked).to.be.false;
   expect(component.hasAttribute('checked')).to.be.true;
@@ -39,7 +39,7 @@ it('is checked and not indeterminate on click when unchecked and indeterminate',
   );
 
   await click(component.shadowRoot?.querySelector('[data-test="input"]'));
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -62,7 +62,7 @@ it('is unchecked and not indeterminate on click when checked and indeterminate',
   );
 
   await click(component.shadowRoot?.querySelector('[data-test="input"]'));
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',
@@ -85,7 +85,7 @@ it('is still checked on click when checked but disabled', async () => {
   );
 
   await click(component.shadowRoot?.querySelector('[data-test="input"]'));
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.checked).to.be.true;
   expect(component.hasAttribute('checked')).to.be.true;
@@ -97,7 +97,7 @@ it('is still unchecked on click when unchecked and disabled', async () => {
   );
 
   await click(component.shadowRoot?.querySelector('[data-test="input"]'));
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
@@ -114,7 +114,7 @@ it('is unchecked on click then forcibly unchecked via a "input" listener', async
   });
 
   await click(component.shadowRoot?.querySelector('[data-test="input"]'));
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
@@ -131,7 +131,7 @@ it('is unchecked on click then forcibly unchecked via an "change" listener', asy
   });
 
   await click(component.shadowRoot?.querySelector('[data-test="input"]'));
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.hasAttribute('checked')).to.be.false;
   expect(component.checked).to.be.false;
@@ -147,7 +147,7 @@ it('is still indeterminate on click when unchecked and disabled', async () => {
   );
 
   await click(component.shadowRoot?.querySelector('[data-test="input"]'));
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const input = component.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="input"]',

@@ -4,7 +4,6 @@ import { LitElement } from 'lit';
 import {
   assert,
   aTimeout,
-  elementUpdated,
   expect,
   fixture,
   html,
@@ -227,7 +226,7 @@ it('selects options on Space', async () => {
   options[1]?.focus();
   await sendKeys({ press: ' ' });
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const labels = component.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
@@ -576,7 +575,7 @@ it('updates its tag when `label` of a selected option is changed programmaticall
   assert(option);
 
   option.label = 'Three';
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const tag =
     component.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]');
@@ -600,7 +599,7 @@ it('makes its tag editable when `editable` of a selected option is changed progr
   assert(option);
 
   option.editable = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const tag =
     component.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]');
@@ -708,7 +707,7 @@ it('updates `value` when multiselect is changed to `true` programmatically', asy
   expect(options[0].selected).to.be.false;
   expect(options[1].selected).to.be.true;
 
-  await elementUpdated(options[1]);
+  await options[1].updateComplete;
 
   const checkbox = options[1].shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="checkbox"]',
@@ -1360,7 +1359,7 @@ it('shows Select All when it is set programmatically', async () => {
   await aTimeout(0);
 
   component.selectAll = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const selectAll =
     component.shadowRoot?.querySelector<GlideCoreDropdownOption>(
@@ -1541,7 +1540,7 @@ it('closes when a tag is clicked', async () => {
   );
 
   await click(component.shadowRoot?.querySelector('[data-test="tag"]'), 'left');
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.open).to.be.false;
 });

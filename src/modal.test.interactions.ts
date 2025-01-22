@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreModal from './modal.js';
@@ -13,7 +13,7 @@ it('opens', async () => {
   );
 
   component.open = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const dialog = component.shadowRoot?.querySelector('[data-test="component"]');
   expect(dialog?.checkVisibility()).to.be.true;
@@ -25,7 +25,7 @@ it('closes', async () => {
   );
 
   component.open = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const dialog = component.shadowRoot?.querySelector('[data-test="component"]');
   expect(dialog?.checkVisibility()).to.be.false;
@@ -123,7 +123,7 @@ it('unlocks scroll on close', async () => {
   );
 
   component.open = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(
     document.documentElement.classList.contains(

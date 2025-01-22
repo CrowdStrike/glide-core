@@ -1,10 +1,4 @@
-import {
-  aTimeout,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreDropdown from './dropdown.js';
 import type GlideCoreTag from './tag.js';
@@ -136,7 +130,7 @@ it('focuses the second tag when the first one is removed', async () => {
     component.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
   tags?.[0].click();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
   await aTimeout(0);
@@ -173,7 +167,7 @@ it('focuses the third tag when the second one is removed', async () => {
     component.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
   tags?.[1].click();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
   await aTimeout(0);
@@ -210,7 +204,7 @@ it('focuses the second tag when the third tag removed', async () => {
     component.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
   tags?.[2].click();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
   await aTimeout(0);
@@ -232,7 +226,7 @@ it('focuses itself when the last tag is removed', async () => {
     ?.querySelector<GlideCoreTag>('[data-test="tag"]')
     ?.click();
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
   await aTimeout(0);

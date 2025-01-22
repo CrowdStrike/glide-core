@@ -1,4 +1,4 @@
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import GlideCoreDrawer from './drawer.js';
 
@@ -12,7 +12,7 @@ it('focuses itself on open', async () => {
   );
 
   component.open = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.shadowRoot?.activeElement).to.equal(
     component.shadowRoot?.querySelector('[data-test="component"]'),

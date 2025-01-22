@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreButtonGroupButton from './button-group.button.js';
 import { click } from './library/mouse.js';
@@ -10,7 +10,7 @@ GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
 it('selects a button on click', async () => {
-  const component = await fixture(
+  const component = await fixture<GlideCoreButtonGroup>(
     html`<glide-core-button-group>
       <glide-core-button-group-button
         label="One"
@@ -26,14 +26,14 @@ it('selects a button on click', async () => {
   const buttons = component.querySelectorAll('glide-core-button-group-button');
 
   await click(buttons[1]);
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(buttons[0].selected).to.be.false;
   expect(buttons[1].selected).to.be.true;
 });
 
 it('selects a button on `click()`', async () => {
-  const component = await fixture(
+  const component = await fixture<GlideCoreButtonGroup>(
     html`<glide-core-button-group>
       <glide-core-button-group-button
         label="One"
@@ -49,7 +49,7 @@ it('selects a button on `click()`', async () => {
   const buttons = component.querySelectorAll('glide-core-button-group-button');
 
   buttons[1].click();
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(buttons[0].selected).to.be.false;
   expect(buttons[1].selected).to.be.true;

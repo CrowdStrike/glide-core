@@ -1,4 +1,4 @@
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
 it('has the correct "role" when programatically disabled', async () => {
@@ -9,7 +9,7 @@ it('has the correct "role" when programatically disabled', async () => {
   );
 
   component.disabled = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.role).to.equal('none');
 });
