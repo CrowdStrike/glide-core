@@ -1,5 +1,56 @@
 # @crowdstrike/glide-core
 
+## 0.18.0
+
+### Minor Changes
+
+- [#607](https://github.com/CrowdStrike/glide-core/pull/607) [`798a268`](https://github.com/CrowdStrike/glide-core/commit/798a26814223c63d49f02ec67efc7e502e51dc2c) Thanks [@clintcs](https://github.com/clintcs)! - Tree Item Menu's `placement` attribute now only supports two values to better align with design requirements: `"bottom-start"` and `"top-start"`.
+
+- [#608](https://github.com/CrowdStrike/glide-core/pull/608) [`8a6c19d`](https://github.com/CrowdStrike/glide-core/commit/8a6c19d7d2e2d8f0d1acdfd7ea0df44d3ae83785) Thanks [@clintcs](https://github.com/clintcs)! - `<glide-core-radio>` has been renamed to `<glide-core-radio-group-radio>` to match the naming of other subcomponents like `<glide-core-button-group-button>`;
+
+- [#610](https://github.com/CrowdStrike/glide-core/pull/610) [`934338a`](https://github.com/CrowdStrike/glide-core/commit/934338ac0e84414d0cf010c1f4653aad147b5801) Thanks [@clintcs](https://github.com/clintcs)! - Tooltip's default slot has been changed to a `label` attribute to improve accessibility and increase design consistency by restricting usage.
+
+  As part of this change, make sure you're using an appropriate element as Tooltip's target.
+  If using a `<span>`, add `role="button"` to it or simply use a `<button>`.
+  Otherwise, if you're using an element without an implicit role, make sure to add the appropriate `role` to it.
+
+### Patch Changes
+
+- [#604](https://github.com/CrowdStrike/glide-core/pull/604) [`f9372f2`](https://github.com/CrowdStrike/glide-core/commit/f9372f2a7d29799e171e907fc35fe8c5eef721a2) Thanks [@clintcs](https://github.com/clintcs)! - Added a read-only `version` attribute to every component to help with debugging.
+
+- [#606](https://github.com/CrowdStrike/glide-core/pull/606) [`8678c71`](https://github.com/CrowdStrike/glide-core/commit/8678c71b998486c5f08ffb8c5587a27bf1492f2e) Thanks [@clintcs](https://github.com/clintcs)! - Textarea now submits its form on Command + Enter or Control + Enter.
+
+- [#603](https://github.com/CrowdStrike/glide-core/pull/603) [`1d37881`](https://github.com/CrowdStrike/glide-core/commit/1d3788187a8755b35c1593607d87859cc30ace4d) Thanks [@clintcs](https://github.com/clintcs)! - Filterable Dropdown's input field is now cleared when Dropdown is closed.
+
+- [#613](https://github.com/CrowdStrike/glide-core/pull/613) [`5831b8b`](https://github.com/CrowdStrike/glide-core/commit/5831b8b5a7774dcea8a50555b8e43b0fba1871fb) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Checkbox Group, Checkbox, Dropdown, Input, Radio Group, and Textarea now expose `resetValidityFeedback()`. This method can be used to remove the error styling and validity message from a component while maintaining the state of its `validity` property.
+
+- [#622](https://github.com/CrowdStrike/glide-core/pull/622) [`b18550e`](https://github.com/CrowdStrike/glide-core/commit/b18550e589bfa22dcb2dd58742f2500f7fc86e60) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown no longer adds duplicate values to its `value` when an option is already selected and Select All is clicked.
+
+- [#614](https://github.com/CrowdStrike/glide-core/pull/614) [`6577381`](https://github.com/CrowdStrike/glide-core/commit/6577381d7248b6c724267b222cca6cd3d767aab5) Thanks [@clintcs](https://github.com/clintcs)! - - Filterable Dropdown no longer sets the value of its input field to "Select All" when no options are provided.
+
+  - Dropdown no longer opens when no options are provided.
+
+- [#600](https://github.com/CrowdStrike/glide-core/pull/600) [`05e018c`](https://github.com/CrowdStrike/glide-core/commit/05e018c906ee09b1590dd714765366ed68be085e) Thanks [@clintcs](https://github.com/clintcs)! - Safari no longer logs an error about an invalid attribute on a `<rect>` in Accordion, Dropdown, Split Button Secondary Button, Tab Group, or Tree Item.
+
+- [#623](https://github.com/CrowdStrike/glide-core/pull/623) [`c3a1eb4`](https://github.com/CrowdStrike/glide-core/commit/c3a1eb4c65208795d8f0088c775197f8001af4be) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown's input field no longer has a minimum width, allowing it contract when its container is sized-constrained.
+  Dropdown as a whole still has a total minimum width of 150 pixels.
+
+- [#611](https://github.com/CrowdStrike/glide-core/pull/611) [`3737e3d`](https://github.com/CrowdStrike/glide-core/commit/3737e3db6425665e62c512c4e0175e86ce1e195a) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated Drawer to ensure that higher contrast content behind it no longer bleeds through.
+
+- [#605](https://github.com/CrowdStrike/glide-core/pull/605) [`32c8aa0`](https://github.com/CrowdStrike/glide-core/commit/32c8aa0140ecde754a5ac47f05250421d80bcba1) Thanks [@clintcs](https://github.com/clintcs)! - - Tree's `focusedItem`, `privateTabIndex`, and `selectedItem` properties are now marked as `private`.
+
+  - Tab Group's `selectedTab`, `isAfterFirstUpdated`, `isDisableOverflowStartButton`, `isDisableOverflowEndButton`, and `isShowOverflowButtons` properties are now marked as `private`.
+
+- [#610](https://github.com/CrowdStrike/glide-core/pull/610) [`934338a`](https://github.com/CrowdStrike/glide-core/commit/934338ac0e84414d0cf010c1f4653aad147b5801) Thanks [@clintcs](https://github.com/clintcs)! - - Tooltip's `placement` attribute is now reflected.
+
+  - Tooltip now has a `screenreader-hidden` attribute for cases where text is truncated and the full text is shown in a tooltip.
+    Screenreaders are able to read the entirety of the truncated text without the help of a tooltip if the text is truncated using CSS.
+    Use this attribute to hide the tooltip from screenreaders so its text isn't read in duplicate.
+
+- [#617](https://github.com/CrowdStrike/glide-core/pull/617) [`d98dbd6`](https://github.com/CrowdStrike/glide-core/commit/d98dbd6d657a035de045e9dac7396496bf14db88) Thanks [@clintcs](https://github.com/clintcs)! - Modal no longer closes when `click()` is called on a slotted element.
+
+- [#601](https://github.com/CrowdStrike/glide-core/pull/601) [`15f31c4`](https://github.com/CrowdStrike/glide-core/commit/15f31c403c881eb1f1a45a01843f68201faa8278) Thanks [@clintcs](https://github.com/clintcs)! - Internal Dropdown "toggle" events no longer propagate.
+
 ## 0.17.1
 
 ### Patch Changes
