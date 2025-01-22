@@ -8,6 +8,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import styles from './label.styles.js';
 import { LocalizeController } from './library/localize.js';
 import assertSlot from './library/assert-slot.js';
+import onResize from './library/on-resize.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
@@ -53,29 +54,6 @@ export default class GlideCoreLabel extends LitElement {
 
   @property()
   tooltip?: string;
-
-  override firstUpdated() {
-    // The "description" slot has a top margin that needs to be conditionally
-    // applied only if content is slotted so there's not stray whitespace
-    // when there's no description.
-    //
-    // Normally, we'd listen for "slotchange" and set `this.hasDescription`
-    // in the event handler. But form controls always slot content. We need
-    // to know if any text has been slotted instead.
-    //
-    // A Resize Observer is the best proxy for that. If the slot has a height,
-    // then we know it has text.
-    const observer = new ResizeObserver(() => {
-      this.hasDescription = Boolean(
-        this.#descriptionSlotElementRef.value &&
-          this.#descriptionSlotElementRef.value.offsetHeight > 0,
-      );
-    });
-
-    if (this.#descriptionSlotElementRef.value) {
-      observer.observe(this.#descriptionSlotElementRef.value);
-    }
-  }
 
   override render() {
     // `aria-hidden` is used on the tooltip so the contents of the label
@@ -182,6 +160,7 @@ export default class GlideCoreLabel extends LitElement {
         })}
         id="description"
         name="description"
+        ${onResize(this.#onDescriptionSlotResize.bind(this))}
         ${ref(this.#descriptionSlotElementRef)}
       ></slot>
     </div>`;
@@ -241,6 +220,23 @@ export default class GlideCoreLabel extends LitElement {
     if (labelElement) {
       observer.observe(labelElement);
     }
+  }
+
+  #onDescriptionSlotResize() {
+    // The "description" slot has a top margin that needs to be conditionally
+    // applied only if content is slotted so there's not stray whitespace
+    // when there's no description.
+    //
+    // Normally, we'd listen for "slotchange" and set `this.hasDescription`
+    // in the event handler. But form controls always slot content. We need
+    // to know if any text has been slotted instead.
+    //
+    // A Resize Observer is the best proxy for that. If the slot has a height,
+    // then we know it has text.
+    this.hasDescription = Boolean(
+      this.#descriptionSlotElementRef.value &&
+        this.#descriptionSlotElementRef.value.offsetHeight > 0,
+    );
   }
 
   #onSummarySlotChange() {

@@ -9,6 +9,7 @@ import { LocalizeController } from './library/localize.js';
 import GlideCoreTab from './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
 import chevronIcon from './icons/chevron.js';
+import onResize from './library/on-resize.js';
 import styles from './tab.group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -64,15 +65,6 @@ export default class GlideCoreTabGroup extends LitElement {
     this.#selectedTab = tab;
   }
 
-  override disconnectedCallback() {
-    this.#resizeObserver?.disconnect();
-    this.#resizeObserver = null;
-  }
-
-  override firstUpdated() {
-    this.#setupResizeObserver();
-  }
-
   override render() {
     return html`<div
       class="component"
@@ -108,8 +100,9 @@ export default class GlideCoreTabGroup extends LitElement {
             'tab-group': true,
             animated: this.isAfterFirstUpdated,
           })}
+          ${onResize(this.#onTabListResize.bind(this))}
           ${ref(this.#tabListElementRef)}
-          @scroll=${this.#onScroll}
+          @scroll=${this.#setOverflowButtonsState}
           @focusout=${this.#onFocusout}
           tabindex="-1"
         >
@@ -119,6 +112,7 @@ export default class GlideCoreTabGroup extends LitElement {
             ${assertSlot([GlideCoreTab])}
           ></slot>
         </div>
+
         ${when(
           this.isShowOverflowButtons,
           () => html`
@@ -133,8 +127,8 @@ export default class GlideCoreTabGroup extends LitElement {
               tabindex="-1"
               aria-label=${this.#localize.term('nextTab')}
               data-test="overflow-end-button"
-              ${ref(this.#overflowEndButtonElementRef)}
               ?disabled=${this.isDisableOverflowEndButton}
+              ${ref(this.#overflowEndButtonElementRef)}
             >
               ${chevronIcon}
             </button>
@@ -151,9 +145,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #componentElementRef = createRef<HTMLElement>();
 
-  // Arbitrary debounce delay
-  #debounceDelay = 100;
-
   #localize = new LocalizeController(this);
 
   // Theshold (in px) used to determine when to display overflow buttons.
@@ -165,11 +156,7 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #previousSelectedTab: GlideCoreTab | null = null;
 
-  #resizeObserver: ResizeObserver | null = null;
-
   #resizeTimeout: ReturnType<typeof setTimeout> | null = null;
-
-  #scrollTimeout: ReturnType<typeof setTimeout> | null = null;
 
   #selectedTab: GlideCoreTab | null = null;
 
@@ -297,15 +284,16 @@ export default class GlideCoreTabGroup extends LitElement {
     this.#setOverflowButtonsState();
   }
 
-  #onScroll() {
-    // Debounce overflow button visibility calculations.
-    if (this.#scrollTimeout) {
-      clearTimeout(this.#scrollTimeout);
+  #onTabListResize() {
+    if (this.#resizeTimeout) {
+      clearTimeout(this.#resizeTimeout);
     }
 
-    this.#scrollTimeout = setTimeout(() => {
+    // Toggling the overflow buttons will itself cause a resize. So we
+    // wait a tick to avoid a loop.
+    this.#resizeTimeout = setTimeout(() => {
       this.#setOverflowButtonsState();
-    }, this.#debounceDelay);
+    });
   }
 
   #scrollTabsList(buttonPlacement: 'left' | 'right') {
@@ -332,8 +320,6 @@ export default class GlideCoreTabGroup extends LitElement {
     if (tabListElementRect && tabListElement) {
       const { width: tabListElementWidth } = tabListElementRect;
 
-      // `scrollLeft` needn't be an integer
-      // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollLeft
       const tabListElementScrollRight =
         tabListElement.scrollLeft + tabListElementWidth;
 
@@ -346,14 +332,11 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #setOverflowButtonsState() {
-    const tabListElement = this.#tabListElementRef.value;
-    const tabListElementRect = tabListElement?.getBoundingClientRect();
-
-    if (tabListElement && tabListElementRect) {
-      const { width: tabListElementWidth } = tabListElementRect;
+    if (this.#tabListElementRef.value) {
+      const { width } = this.#tabListElementRef.value.getBoundingClientRect();
 
       this.isShowOverflowButtons =
-        tabListElement.scrollWidth - tabListElementWidth >
+        this.#tabListElementRef.value.scrollWidth - width >
         this.#overflowButtonsScrollDelta;
     }
 
@@ -428,25 +411,6 @@ export default class GlideCoreTabGroup extends LitElement {
     if (this.#tabListElementRef.value) {
       this.isDisableOverflowStartButton =
         this.#tabListElementRef.value.scrollLeft <= 0;
-    }
-  }
-
-  #setupResizeObserver() {
-    this.#resizeObserver = new ResizeObserver((entries) => {
-      if (entries?.at(0)?.target === this.#tabListElementRef.value) {
-        // Debounce overflow visibility calculations.
-        if (this.#resizeTimeout) {
-          clearTimeout(this.#resizeTimeout);
-        }
-
-        this.#resizeTimeout = setTimeout(() => {
-          this.#setOverflowButtonsState();
-        }, this.#debounceDelay);
-      }
-    });
-
-    if (this.#tabListElementRef.value) {
-      this.#resizeObserver.observe(this.#tabListElementRef.value);
     }
   }
 

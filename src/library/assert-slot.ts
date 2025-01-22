@@ -14,6 +14,7 @@ class AssertSlot extends Directive {
   render(
     // This method is required, both by `Directive` and so the directive's
     // options are typed at `assertSlot()` callsite.
+    //
     /* eslint-disable @typescript-eslint/no-unused-vars */
     slotted?: (typeof Element | typeof Text)[] | null,
     isOptional?: boolean,
@@ -31,7 +32,11 @@ class AssertSlot extends Directive {
     if (part.options?.host instanceof LitElement && isThrow) {
       const host = part.options.host;
 
-      if (!this.#hasUpdated && part.element && isThrow) {
+      if (
+        part.options?.host instanceof LitElement &&
+        !part.options.host.hasUpdated &&
+        isThrow
+      ) {
         // Equivalent to `firstUpdated()`. We need this in addition to the "slotchange"
         // handler because the handler won't be called if the slot is empty.
         part.options.host.updateComplete.then(() => {
@@ -65,8 +70,10 @@ class AssertSlot extends Directive {
           }
         });
 
-        // Guards against `this.#hasUpdated` so the event listener is only added once.
-        if (!this.#hasUpdated) {
+        if (
+          part.options?.host instanceof LitElement &&
+          !part.options.host.hasUpdated
+        ) {
           part.element?.addEventListener('slotchange', () => {
             if (
               isOptional &&
@@ -152,13 +159,11 @@ class AssertSlot extends Directive {
             }
           });
         }
-
-        this.#hasUpdated = true;
       }
     }
 
-    // Purely for test coverage purposes. If `updated()` doesn't call `render()`,
-    // nothing will because `updated()` exists.
+    // Purely for test coverage purposes. If `update()` doesn't call `render()`,
+    // nothing will because `update()` exists.
     return this.render();
   }
 
@@ -179,10 +184,6 @@ class AssertSlot extends Directive {
       }
     }
   }
-
-  #hasUpdated = false;
 }
 
-const assertSlot = directive(AssertSlot);
-
-export default assertSlot;
+export default directive(AssertSlot);
