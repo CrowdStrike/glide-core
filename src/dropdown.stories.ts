@@ -62,7 +62,8 @@ const meta: Meta = {
     value: [],
     variant: '',
     version: '',
-    '<glide-core-dropdown-option>.label': 'One',
+    '<glide-core-dropdown-option>.label':
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
     '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,

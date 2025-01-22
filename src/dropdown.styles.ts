@@ -336,6 +336,7 @@ export default [
     }
 
     .input-container {
+      align-items: baseline;
       display: flex;
       flex-grow: 1;
     }
@@ -368,19 +369,6 @@ export default [
         color: var(--glide-core-text-placeholder);
         font-family: var(--glide-core-font-sans);
       }
-    }
-
-    .ellipsis {
-      background-color: var(--glide-core-surface-page);
-      inset-block-end: 0;
-      inset-inline-end: 0;
-
-      /*
-        0.125rem so the value is vertically aligned with the value of ".input", which
-        has the same padding so it's centered vertically.
-      */
-      padding-block-start: 0.125rem;
-      position: absolute;
     }
 
     .description {
