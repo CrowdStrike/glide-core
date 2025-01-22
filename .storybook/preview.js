@@ -214,6 +214,14 @@ export default {
             )) {
               $option.removeAttribute('aria-selected');
             }
+
+            for (const $radio of $component.querySelectorAll(
+              'glide-core-radio-group-radio',
+            )) {
+              $radio.removeAttribute('aria-checked');
+              $radio.removeAttribute('aria-disabled');
+              $radio.removeAttribute('aria-label');
+            }
           }
 
           if (context.componentId === 'dropdown') {

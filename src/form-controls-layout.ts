@@ -1,5 +1,3 @@
-import './dropdown.option.js';
-import './label.js';
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
@@ -7,6 +5,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreCheckbox from './checkbox.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 import GlideCoreDropdown from './dropdown.js';
+import GlideCoreRadioGroup from './radio-group.js';
 import GlideCoreInput from './input.js';
 import GlideCoreTextArea from './textarea.js';
 import styles from './form-controls-layout.styles.js';
@@ -19,7 +18,7 @@ declare global {
 }
 
 /**
- * @slot - GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreInput | GlideCoreTextArea.
+ * @slot - GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea.
  */
 @customElement('glide-core-form-controls-layout')
 export default class GlideCoreFormControlsLayout extends LitElement {
@@ -58,6 +57,7 @@ export default class GlideCoreFormControlsLayout extends LitElement {
           GlideCoreCheckbox,
           GlideCoreCheckboxGroup,
           GlideCoreDropdown,
+          GlideCoreRadioGroup,
           GlideCoreInput,
           GlideCoreTextArea,
         ])}
