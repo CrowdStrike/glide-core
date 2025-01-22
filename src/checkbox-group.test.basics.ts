@@ -4,8 +4,6 @@ import GlideCoreCheckboxGroup from './checkbox-group.js';
 import expectWindowError from './library/expect-window-error.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
-GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
-
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-checkbox-group')).to.equal(
     GlideCoreCheckboxGroup,

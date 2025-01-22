@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { hover } from './library/mouse.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import GlideCoreTooltip from './tooltip.js';
-
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('is selected when programmatically selected', async () => {
   const component = await fixture<GlideCoreDropdownOption>(

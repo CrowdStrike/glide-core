@@ -1,24 +1,37 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './dropdown.option.js';
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreTag from './tag.js';
 import type GlideCoreDropdownOption from './dropdown.option.js';
 
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-
 it('is accessible', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
         label="Two"
-        selected
+        value="two"
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
+
+  const tag = component.shadowRoot
+    ?.querySelector('[data-test="tag"]')
+    ?.shadowRoot?.querySelector<HTMLElement>('[data-test="component"]');
+
+  assert(tag);
+
+  const timeout = tag.dataset.animationDuration;
+  assert(timeout);
+
+  // Tag animates its opacity when added to the page. We wait for the animation
+  // to complete to avoid a color contrast violation.
+  await aTimeout(Number(timeout));
 
   await expect(component).to.be.accessible();
 });

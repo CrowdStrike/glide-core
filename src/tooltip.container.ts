@@ -5,6 +5,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { type Placement } from '@floating-ui/dom';
 import { map } from 'lit/directives/map.js';
 import styles from './tooltip.container.styles.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,7 +34,7 @@ declare global {
 export default class GlideCoreTooltipContainer extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

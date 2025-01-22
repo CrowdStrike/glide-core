@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdown from './dropdown.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import './dropdown.option.js';
 import expectWindowError from './library/expect-window-error.js';
 import type GlideCoreTooltip from './tooltip.js';
 
@@ -17,9 +15,6 @@ import type GlideCoreTooltip from './tooltip.js';
 // three states. They nonetheless reside there because moving them out and
 // duplicating them in both `dropdown.test.interactions.single.ts` and
 // `dropdown.test.interactions.multiple.ts` would add a ton of test weight.
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-dropdown')).to.equal(

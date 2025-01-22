@@ -1,9 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTag from './tag.js';
-
-GlideCoreTag.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tag')).to.equal(GlideCoreTag);
@@ -14,8 +10,18 @@ it('is accessible', async () => {
     html`<glide-core-tag label="Label"></glide-core-tag>`,
   );
 
-  // Wait for the animation to complete.
-  await aTimeout(100);
+  const tag = component?.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="component"]',
+  );
+
+  assert(tag);
+
+  const timeout = tag.dataset.animationDuration;
+  assert(timeout);
+
+  // Tag animates its opacity when added to the page. We wait for the animation
+  // to complete to avoid a color contrast violation.
+  await aTimeout(Number(timeout));
 
   await expect(component).to.be.accessible();
 

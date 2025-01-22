@@ -4,12 +4,13 @@
  */
 import { css, html, LitElement, svg } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import shadowRootMode from '../library/shadow-root-mode.js';
 
 @customElement('glide-core-example-icon')
 export default class GlideCoreExampleIcon extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = [

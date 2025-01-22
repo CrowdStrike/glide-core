@@ -1,13 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './button.js';
 import './modal.icon-button.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreModal from './modal.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
-
-GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-modal')).to.equal(

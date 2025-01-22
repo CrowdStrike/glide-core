@@ -1,12 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { aTimeout, expect, fixture, html, waitUntil } from '@open-wc/testing';
 import GlideCoreTooltip from './tooltip.js';
 import GlideCoreTooltipContainer from './tooltip.container.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
-
-GlideCoreTooltip.shadowRootOptions.mode = 'open';
-GlideCoreTooltipContainer.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tooltip')).to.equal(

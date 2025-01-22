@@ -1,8 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButtonGroupButton from './button-group.button.js';
 
-GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
-
 it('focuses itself when `focus()` is called ', async () => {
   const component = await fixture<GlideCoreButtonGroupButton>(html`
     <glide-core-button-group-button

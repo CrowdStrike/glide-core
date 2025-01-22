@@ -24,7 +24,7 @@ export const consistentTestFixtureVariableDeclarator = createRule({
     schema: [],
   },
   defaultOptions: [],
-  create: (context) => {
+  create(context) {
     return {
       VariableDeclarator(node) {
         const isAFixture =

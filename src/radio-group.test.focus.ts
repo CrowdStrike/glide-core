@@ -1,13 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadioGroup from './radio-group.js';
-import GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import './radio-group.radio.js';
 import { click } from './library/mouse.js';
-
-GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
-GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
 
 it('focuses the checked Radio after it is clicked', async () => {
   const component = await fixture<GlideCoreRadioGroup>(

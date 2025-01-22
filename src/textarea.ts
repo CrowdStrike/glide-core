@@ -10,6 +10,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import styles from './textarea.styles.js';
 import type FormControl from './library/form-control.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,7 +34,7 @@ export default class GlideCoreTextarea
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
     delegatesFocus: true,
   };
 

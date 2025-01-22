@@ -2,9 +2,6 @@ import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTree from './tree.js';
 import GlideCoreTreeItem from './tree.item.js';
 
-GlideCoreTree.shadowRootOptions.mode = 'open';
-GlideCoreTreeItem.shadowRootOptions.mode = 'open';
-
 it('is accessible', async () => {
   const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>

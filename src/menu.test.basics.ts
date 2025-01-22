@@ -1,16 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './menu.options.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreMenu from './menu.js';
-import GlideCoreMenuButton from './menu.button.js';
-import GlideCoreMenuLink from './menu.link.js';
+import './menu.button.js';
+import './menu.link.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
-
-GlideCoreMenu.shadowRootOptions.mode = 'open';
-GlideCoreMenuButton.shadowRootOptions.mode = 'open';
-GlideCoreMenuLink.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-menu')).to.equal(GlideCoreMenu);

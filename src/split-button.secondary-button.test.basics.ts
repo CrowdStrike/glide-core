@@ -1,11 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreMenuButton from './menu.button.js';
+import './menu.button.js';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
-
-GlideCoreSplitButtonSecondaryButton.shadowRootOptions.mode = 'open';
-GlideCoreMenuButton.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(

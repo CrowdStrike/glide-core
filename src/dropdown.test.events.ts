@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import * as sinon from 'sinon';
 import {
   assert,
@@ -12,10 +10,7 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
+import './dropdown.option.js';
 
 it('dispatches an "edit" event on click', async () => {
   const component = await fixture<GlideCoreDropdown>(

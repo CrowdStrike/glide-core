@@ -1,12 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import './dropdown.option.js';
 import GlideCoreDropdown from './dropdown.js';
 import GlideCoreTag from './tag.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('can be reset', async () => {
   const form = document.createElement('form');

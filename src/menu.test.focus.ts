@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './menu.link.js';
 import './menu.options.js';
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
-
-GlideCoreMenu.shadowRootOptions.mode = 'open';
 
 it('closes when it loses focus', async () => {
   const component = await fixture<GlideCoreMenu>(

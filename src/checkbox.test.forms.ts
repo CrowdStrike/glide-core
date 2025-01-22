@@ -4,10 +4,6 @@ import sinon from 'sinon';
 import GlideCoreCheckbox from './checkbox.js';
 import { click } from './library/mouse.js';
 
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
-GlideCoreCheckbox.shadowRootOptions.mode = 'open';
-
 it('exposes standard form control properties and methods', async () => {
   const form = document.createElement('form');
 

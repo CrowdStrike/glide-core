@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import {
   assert,
   aTimeout,
@@ -13,9 +11,6 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { hover } from './library/mouse.js';
 import GlideCoreTooltip from './tooltip.js';
 import GlideCoreTooltipContainer from './tooltip.container.js';
-
-GlideCoreTooltip.shadowRootOptions.mode = 'open';
-GlideCoreTooltipContainer.shadowRootOptions.mode = 'open';
 
 it('passes down certain properties to its container', async () => {
   const component = await fixture<GlideCoreTooltip>(

@@ -1,14 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import * as sinon from 'sinon';
 import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreRadioGroup from './radio-group.js';
-import GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import './radio-group.radio.js';
 import { click } from './library/mouse.js';
-
-GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
-GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
 
 it('dispatches a `change` event when arrow keys are pressed', async () => {
   const component = await fixture<GlideCoreRadioGroup>(

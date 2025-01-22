@@ -2275,7 +2275,6 @@
   ```ts
   // test.ts
   import Button from '@crowdstrike/glide-core-components/button.js';
-  Button.shadowRootOptions.mode = 'open';
   ```
 
 - [#30](https://github.com/CrowdStrike/glide-core/pull/30) [`286786c`](https://github.com/CrowdStrike/glide-core/commit/286786c48b565337b33cca34c89783e6b929f733) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Updated CSS Variables in `@glide-core-styles` to align with Figma.

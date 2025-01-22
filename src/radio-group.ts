@@ -12,6 +12,7 @@ import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 import styles from './radio-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -36,7 +37,7 @@ export default class GlideCoreRadioGroup
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

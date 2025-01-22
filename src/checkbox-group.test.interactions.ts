@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './checkbox.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
-
-GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
 
 it('checks and unchecks checkboxes when `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreCheckboxGroup>(

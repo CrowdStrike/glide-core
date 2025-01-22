@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { expect, fixture, html } from '@open-wc/testing';
@@ -10,7 +8,6 @@ import { LocalizeController } from './localize.js';
 class GlideCoreMockComponent extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
   };
 
   localize = new LocalizeController(this);

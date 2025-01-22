@@ -1,12 +1,9 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
-import GlideCoreMenu from './menu.js';
+import './menu.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
 import expectWindowError from './library/expect-window-error.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
-
-GlideCoreTreeItemMenu.shadowRootOptions.mode = 'open';
-GlideCoreMenu.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tree-item-menu')).to.equal(

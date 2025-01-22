@@ -10,6 +10,7 @@ import { LocalizeController } from './library/localize.js';
 import styles from './toasts.toast.styles.js';
 import xIcon from './icons/x.js';
 import type { Toast } from './toasts.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -24,7 +25,7 @@ declare global {
 export default class GlideCoreToast extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

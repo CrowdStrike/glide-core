@@ -2,10 +2,7 @@ import * as sinon from 'sinon';
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
+import './dropdown.option.js';
 
 const defaultSlot = html`
   <glide-core-dropdown-option label="One"></glide-core-dropdown-option>

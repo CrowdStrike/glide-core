@@ -12,6 +12,7 @@ import GlideCoreMenuLink from './menu.link.js';
 import GlideCoreMenuButton from './menu.button.js';
 import type GlideCoreMenu from './menu.js';
 import assertSlot from './library/assert-slot.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -27,7 +28,7 @@ declare global {
 export default class GlideCoreTreeItemMenu extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

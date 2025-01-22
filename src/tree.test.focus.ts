@@ -1,13 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTree from './tree.js';
 import GlideCoreTreeItem from './tree.item.js';
 import GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
-
-GlideCoreTree.shadowRootOptions.mode = 'open';
 
 it('focuses the first tree item when tree is focused, if there are no selected items', async () => {
   const component = await fixture<GlideCoreTree>(html`

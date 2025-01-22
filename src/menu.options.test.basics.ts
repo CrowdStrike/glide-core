@@ -1,12 +1,10 @@
 import './menu.button.js';
 import './menu.link.js';
 import { fixture, html } from '@open-wc/testing';
-import GlideCoreMenu from './menu.js';
+import './menu.js';
 import './menu.options.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
-
-GlideCoreMenu.shadowRootOptions.mode = 'open';
 
 it('throws if it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {

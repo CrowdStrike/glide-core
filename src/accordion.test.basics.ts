@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreAccordion from './accordion.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
-
-GlideCoreAccordion.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-accordion')).to.equal(

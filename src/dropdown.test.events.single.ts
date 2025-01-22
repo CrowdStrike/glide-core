@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './dropdown.option.js';
 import * as sinon from 'sinon';
 import {
@@ -13,8 +11,6 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
 
 it('dispatches one "change" event when an option is selected via click', async () => {
   const component = await fixture<GlideCoreDropdown>(

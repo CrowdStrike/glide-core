@@ -270,34 +270,28 @@ export default class GlideCoreExample extends LitElement {
 
 #### Prefer a [closed](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot/mode) shadow root
 
-The shadow DOM prevents styles from leaking into a component.
-However, programmatic access to a component's DOM—including its styles—is still allowed if the component's shadow root is open.
+The shadow DOM prevents styles from leaking into components.
+
+However, programmatic access to a component's DOM—including its styles—is still allowed if it's shadow root is open.
 Our components extend `LitElement`, whose shadow root is open by default.
-We recommend closing it:
+Use `shadowRootMode` to close shadow roots except in tests.
+Opening the shadow root in tests faciliates querying elements and accessibility assertions:
 
 ```ts
-// component.ts
+import shadowRootMode from './src/library/shadow-root-mode.ts';
+
 static shadowRootOptions: ShadowRootInit = {
   ...LitElement.shadowRootOptions,
-  mode:'closed',
+  mode: shadowRootMode,
 };
-```
-
-You can reopen the shadow root in tests if needed:
-
-```ts
-// test.ts
-import Component from './component.js';
-Component.shadowRootOptions.mode = 'open';
 ```
 
 Closing the shadow root does mean that Lit will no longer attach it the host (`this`).
 That's what we want.
-But you may still need to access it from within your component.
+But you may need to access it from within your component.
 If so, you can implement `createRenderRoot` and attach `shadowRoot` privately to the host:
 
 ```ts
-// component.ts
 #shadowRoot?: ShadowRoot;
 
 override createRenderRoot() {

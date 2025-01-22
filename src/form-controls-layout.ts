@@ -10,6 +10,7 @@ import GlideCoreInput from './input.js';
 import GlideCoreTextArea from './textarea.js';
 import styles from './form-controls-layout.styles.js';
 import assertSlot from './library/assert-slot.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -24,7 +25,7 @@ declare global {
 export default class GlideCoreFormControlsLayout extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

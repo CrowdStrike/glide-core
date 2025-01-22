@@ -2,8 +2,6 @@ import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
-GlideCoreTreeItemIconButton.shadowRootOptions.mode = 'open';
-
 it('registers itself', async () => {
   expect(
     window.customElements.get('glide-core-tree-item-icon-button'),

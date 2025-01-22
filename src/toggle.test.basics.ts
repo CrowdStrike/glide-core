@@ -1,8 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreToggle from './toggle.js';
 
-GlideCoreToggle.shadowRootOptions.mode = 'open';
-
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-toggle')).to.equal(
     GlideCoreToggle,

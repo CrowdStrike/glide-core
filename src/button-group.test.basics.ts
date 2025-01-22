@@ -1,12 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButtonGroup from './button-group.js';
-import GlideCoreButtonGroupButton from './button-group.button.js';
+import './button-group.button.js';
 import expectWindowError from './library/expect-window-error.js';
-
-GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
-GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-button-group')).to.equal(

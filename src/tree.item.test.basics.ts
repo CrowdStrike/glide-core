@@ -1,15 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './menu.link.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import TreeItemMenu from './tree.item.menu.js';
-import Menu from './menu.js';
+import './tree.item.menu.js';
+import './menu.js';
 import GlideCoreTreeItem from './tree.item.js';
 import expectWindowError from './library/expect-window-error.js';
-
-GlideCoreTreeItem.shadowRootOptions.mode = 'open';
-TreeItemMenu.shadowRootOptions.mode = 'open';
-Menu.shadowRootOptions.mode = 'open';
 
 it('registers itself', () => {
   expect(window.customElements.get('glide-core-tree-item')).to.equal(

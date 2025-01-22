@@ -1,8 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 
-GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
-
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-radio-group-radio')).to.equal(
     GlideCoreRadioGroupRadio,

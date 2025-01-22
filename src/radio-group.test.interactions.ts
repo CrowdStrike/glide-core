@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './radio-group.radio.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreRadioGroup from './radio-group.js';
-
-GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
 
 it('sets `checked` on Radios when the `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreRadioGroup>(html`

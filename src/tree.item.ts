@@ -12,6 +12,7 @@ import GlideCoreIconButton from './icon-button.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './tree.item.styles.js';
 import assertSlot from './library/assert-slot.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,7 +31,7 @@ export default class GlideCoreTreeItem extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

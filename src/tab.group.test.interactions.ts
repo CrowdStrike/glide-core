@@ -1,15 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './tab.js';
 import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
 import GlideCoreTabGroup from './tab.group.js';
-import GlideCoreTabPanel from './tab.panel.js';
-
-GlideCoreTabGroup.shadowRootOptions.mode = 'open';
-GlideCoreTabPanel.shadowRootOptions.mode = 'open';
+import './tab.panel.js';
 
 it('does not render overflow buttons when there is no overflow', async () => {
   const component = await fixture(html`

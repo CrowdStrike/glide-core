@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreInput from './input.js';
 import { click } from './library/mouse.js';
-
-GlideCoreInput.shadowRootOptions.mode = 'open';
 
 it('can be reset to initial value', async () => {
   const form = document.createElement('form');

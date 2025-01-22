@@ -1,5 +1,4 @@
 {
-  "eslint.experimental.useFlatConfig": true,
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "editor.formatOnSave": true,
   "[javascript]": {

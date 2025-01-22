@@ -1,8 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js';
 
-GlideCoreSplitButtonPrimaryButton.shadowRootOptions.mode = 'open';
-
 it('focuses itself when `focus()` is called', async () => {
   const component = await fixture<GlideCoreSplitButtonPrimaryButton>(html`
     <glide-core-split-button-primary-button

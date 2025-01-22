@@ -1,9 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import './dropdown.option.js';
 import GlideCoreDropdown from './dropdown.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('focuses the primary button when `focus()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(

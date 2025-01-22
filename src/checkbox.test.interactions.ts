@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import GlideCoreCheckbox from './checkbox.js';
-
-GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('is checked on click', async () => {
   const component = await fixture<GlideCoreCheckbox>(

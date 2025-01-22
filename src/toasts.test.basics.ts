@@ -1,9 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreToasts from './toasts.js';
-
-GlideCoreToasts.shadowRootOptions.mode = 'open';
 
 // NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
 // to manually dispatch the `transitionend` event in tests.

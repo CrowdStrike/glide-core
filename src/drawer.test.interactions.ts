@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreDrawer from './drawer.js';
-
-GlideCoreDrawer.shadowRootOptions.mode = 'open';
 
 it('opens when animated', async () => {
   await emulateMedia({ reducedMotion: 'no-preference' });

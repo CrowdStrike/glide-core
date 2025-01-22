@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import GlideCoreModal from './modal.js';
-
-GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('dispatches a "toggle" event on open', async () => {
   const spy = sinon.spy();

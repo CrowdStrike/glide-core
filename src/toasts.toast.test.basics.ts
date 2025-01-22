@@ -2,8 +2,6 @@ import { assert, expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import GlideCoreToast from './toasts.toast.js';
 
-GlideCoreToast.shadowRootOptions.mode = 'open';
-
 // NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
 // to manually dispatch the `transitionend` event in tests.
 

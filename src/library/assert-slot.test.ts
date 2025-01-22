@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { aTimeout, expect, fixture, html, waitUntil } from '@open-wc/testing';
@@ -11,7 +9,6 @@ import assertSlot from './assert-slot.js';
 class GlideCoreWithSlot extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
   };
 
   @property()
@@ -35,7 +32,6 @@ class GlideCoreWithSlot extends LitElement {
 class GlideCoreWhenNotUsedOnSlot extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
   };
 
   override render() {
@@ -47,7 +43,6 @@ class GlideCoreWhenNotUsedOnSlot extends LitElement {
 class GlideCorewhenNotUsedInsideTag extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
   };
 
   override render() {

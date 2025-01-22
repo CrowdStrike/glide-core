@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { styleMap } from 'lit/directives/style-map.js';
 import GlideCoreCheckbox from './checkbox.js';
 import type GlideCoreTooltip from './tooltip.js';
-
-GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-checkbox')).to.equal(
