@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './radio-group.radio.js';
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreRadioGroup from './radio-group.js';
@@ -237,7 +231,7 @@ it('updates `value` when the `checked` attribute of Radios are changed programma
   radios[0].checked = false;
   radios[1].checked = true;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.value).to.equal('two');
 });
@@ -264,7 +258,7 @@ it('updates `value` when the `value` of a checked Radio is changed programmatica
 
   radio.value = 'three';
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.value).to.equal('three');
 });
@@ -291,7 +285,7 @@ it('updates `value` when the `value` of a checked Radio is emptied programmatica
 
   radio.value = '';
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.value).to.equal('');
 });

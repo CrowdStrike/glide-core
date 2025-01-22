@@ -1,11 +1,5 @@
 import { ArgumentError } from 'ow';
-import {
-  aTimeout,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import GlideCoreInlineAlert from './inline-alert.js';
 
@@ -30,7 +24,7 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 
   component.removable = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   await expect(component).to.be.accessible();
 });

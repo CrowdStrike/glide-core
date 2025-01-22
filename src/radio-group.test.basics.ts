@@ -1,12 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreRadioGroup from './radio-group.js';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 import expectArgumentError from './library/expect-argument-error.js';
@@ -211,14 +205,14 @@ it('renders Radios as disabled when `disabled` is programmatically set and remov
   expect(radio.shadowRoot?.querySelector('.disabled')).to.be.null;
 
   component.disabled = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radio.hasAttribute('disabled')).to.be.true;
   expect(radio.getAttribute('aria-disabled')).to.equal('true');
   expect(radio.shadowRoot?.querySelector('.disabled')).to.be.not.null;
 
   component.disabled = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radio).to.not.have.attribute('disabled');
   expect(radio.getAttribute('aria-disabled')).to.equal('false');
@@ -431,7 +425,7 @@ it('updates the tabbable state of each Radio based on programmatic updates to `c
   radios[0].checked = true;
   radios[1].checked = false;
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radios[0].getAttribute('tabindex')).to.equal('0');
   expect(radios[1].getAttribute('tabindex')).to.equal('-1');
@@ -467,7 +461,7 @@ it('updates the tabbable state of each Radio based on programmatic updates to `v
 
   component.value = 'two';
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(radios[0].getAttribute('tabindex')).to.equal('-1');
   expect(radios[1].getAttribute('tabindex')).to.equal('0');

@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 
 import './checkbox.js';
-import {
-  assert,
-  elementUpdated,
-  expect,
-  fixture,
-  html,
-} from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 
@@ -57,7 +51,7 @@ it('updates `value` when the `value` of a checked Checkbox is changed programmat
   assert(checkbox);
   checkbox.value = 'three';
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.value).to.deep.equal(['three', 'two']);
   expect(component.getAttribute('value')).to.equal('["three","two"]');
@@ -84,7 +78,7 @@ it('updates `value` when the `value` of a checked Checkbox is emptied programmat
   assert(checkbox);
   checkbox.value = '';
 
-  await elementUpdated(component);
+  await component.updateComplete;
 
   expect(component.value).to.deep.equal(['two']);
   expect(component.getAttribute('value')).to.equal('["two"]');
@@ -122,7 +116,7 @@ it('can be disabled dynamically', async () => {
   );
 
   component.disabled = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const checkboxes = component.querySelectorAll('glide-core-checkbox');
 

@@ -4,7 +4,6 @@ import { ArgumentError } from 'ow';
 import {
   assert,
   aTimeout,
-  elementUpdated,
   expect,
   fixture,
   html,
@@ -374,7 +373,7 @@ it('updates its internal label when `label` of the selected option is changed pr
   assert(option);
 
   option.label = 'Two';
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const label = component.shadowRoot?.querySelector(
     '[data-test="internal-label"]',
@@ -397,7 +396,7 @@ it('shows an Edit button when `editable` of the selected option is changed progr
   assert(option);
 
   option.editable = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const editButton = component.shadowRoot?.querySelector(
     '[data-test="edit-button"]',

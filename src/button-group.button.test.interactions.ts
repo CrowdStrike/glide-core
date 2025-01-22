@@ -1,4 +1,4 @@
-import { elementUpdated, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButtonGroupButton from './button-group.button.js';
 
 GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
@@ -11,7 +11,7 @@ it('sets `aria-checked` when selected programmatically', async () => {
   );
 
   component.selected = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
   expect(radio?.getAttribute('aria-checked')).to.equal('true');
@@ -26,7 +26,7 @@ it('sets `aria-checked` when deselected programmatically', async () => {
   );
 
   component.selected = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
   expect(radio?.getAttribute('aria-checked')).to.equal('false');
@@ -40,7 +40,7 @@ it('sets `aria-disabled` when disabled programmatically', async () => {
   );
 
   component.disabled = true;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
   expect(radio?.getAttribute('aria-disabled')).to.equal('true');
@@ -55,7 +55,7 @@ it('sets `aria-disabled` when enabled programmatically', async () => {
   );
 
   component.disabled = false;
-  await elementUpdated(component);
+  await component.updateComplete;
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
   expect(radio?.getAttribute('aria-disabled')).to.equal('false');
