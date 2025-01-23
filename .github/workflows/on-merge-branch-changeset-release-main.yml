@@ -69,6 +69,12 @@ jobs:
       - release
     steps:
       - uses: actions/download-artifact@v4
+      # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
       - name: Configure AWS CLI
         env:
           CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
