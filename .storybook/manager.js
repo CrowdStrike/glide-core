@@ -2,13 +2,14 @@ import '../src/styles/fonts.css';
 import '../src/styles/variables.css';
 import { addons } from '@storybook/manager-api';
 import { create } from '@storybook/theming/create';
-import GlideCoreLogo from './assets/glide-core.png';
+import logo from './assets/logo.png';
 
 addons.setConfig({
-  enableShortcuts: false, // We found people triggered shortcuts accidentally more than not.
+  // We've found people trigger shortcuts accidentally more than not.
+  enableShortcuts: false,
   theme: create({
     base: 'dark',
-    brandImage: GlideCoreLogo,
+    brandImage: logo,
     brandTitle: 'Glide Core',
     fontBase: '"Nunito", sans-serif',
     fontCode: 'monospace',

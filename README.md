@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://glide-core.crowdstrike-ux.workers.dev">
-    <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/glide-core.png?raw=true" alt="Glide Core logo" width="300" />
+    <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/logo.png?raw=true" alt="Glide Core logo" width="300" />
   </a>
 
   <p align="center"> 

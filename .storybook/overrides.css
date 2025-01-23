@@ -30,6 +30,16 @@
   white-space: nowrap !important;
 }
 
+/* The Hide Code button's container. */
+*:has(> .docblock-code-toggle) {
+  display: none !important;
+}
+
+/* The Hide Code button. */
+.docblock-code-toggle {
+  display: none !important;
+}
+
 /* The element containing our rendered component. */
 .docs-story {
   background-color: var(--glide-core-surface-background-image) !important;

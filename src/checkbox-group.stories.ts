@@ -135,7 +135,7 @@ const meta: Meta = {
           detail: `
 (): void
 
-// Clears the validity feedback message and styling while maintaining the state of the component's\n// "validity" property.
+// Clears the validity feedback message and styling while maintaining the state of the component's\n// \`validity\` property.
           `,
         },
       },

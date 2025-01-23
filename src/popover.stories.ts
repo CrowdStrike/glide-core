@@ -28,7 +28,7 @@ const meta: Meta = {
         style=${styleMap({
           alignItems: 'center',
           display: 'flex',
-          height: '10rem',
+          height: '7rem',
           justifyContent: 'center',
         })}
       >

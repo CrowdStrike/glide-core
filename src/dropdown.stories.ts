@@ -13,7 +13,7 @@ const meta: Meta = {
   decorators: [
     withActions,
     (story) => {
-      return html`<form action="/" style="padding-bottom: 1.5rem;">
+      return html`<form action="/">
         <script type="ignore">
           import '@crowdstrike/glide-core/dropdown.js';
           import '@crowdstrike/glide-core/dropdown.option.js';
@@ -62,8 +62,7 @@ const meta: Meta = {
     value: [],
     variant: '',
     version: '',
-    '<glide-core-dropdown-option>.label':
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    '<glide-core-dropdown-option>.label': 'One',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
     '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,
@@ -219,7 +218,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
           detail: `
 (): void
 
-// Clears the validity feedback message and styling while maintaining the state of the component's\n// "validity" property.
+// Clears the validity feedback message and styling while maintaining the state of the component's\n// \`validity\` property.
           `,
         },
       },
