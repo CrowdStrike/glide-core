@@ -417,8 +417,13 @@ export default class GlideCoreDropdown
     if (this.#inputElementRef.value) {
       const observer = new ResizeObserver(() => {
         if (this.#inputElementRef.value) {
+          // One is subtracted to account for an apparent Chrome bug when the viewport
+          // is reduced in size and the `<input>` is overflowing, then increased in size
+          // so its not overflowing. If you log `scrollWidth` and `clientWidth` you'll
+          // see the bug. In Safari and Firefox the two are equal upon increasing the
+          // size of the viewport.
           this.isInputOverflow =
-            this.#inputElementRef.value.scrollWidth >
+            this.#inputElementRef.value.scrollWidth - 1 >
             this.#inputElementRef.value.clientWidth;
         }
       });
@@ -682,11 +687,7 @@ export default class GlideCoreDropdown
                     this.isInputOverflow &&
                     this.inputValue === this.selectedOptions.at(-1)?.label,
                   () => {
-                    return html`<span
-                      aria-hidden="true"
-                      class="ellipsis"
-                      data-test="ellipsis"
-                    >
+                    return html`<span aria-hidden="true" data-test="ellipsis">
                       …
                     </span>`;
                   },
