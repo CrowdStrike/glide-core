@@ -3,13 +3,13 @@ import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTag from './tag.js';
 
 it('removes itself on click', async () => {
-  const component = await fixture<GlideCoreTag>(
+  const host = await fixture<GlideCoreTag>(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
-  component.click();
+  host.click();
 
-  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+  const animationDuration = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="component"]',
   )?.dataset.animationDuration;
 
@@ -19,13 +19,13 @@ it('removes itself on click', async () => {
 });
 
 it('does not remove itself on click when disabled', async () => {
-  const component = await fixture<GlideCoreTag>(
+  const host = await fixture<GlideCoreTag>(
     html`<glide-core-tag label="Label" disabled removable></glide-core-tag>`,
   );
 
-  component.click();
+  host.click();
 
-  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+  const animationDuration = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="component"]',
   )?.dataset.animationDuration;
 
@@ -36,14 +36,14 @@ it('does not remove itself on click when disabled', async () => {
 });
 
 it('removes itself on Space', async () => {
-  const component = await fixture<GlideCoreTag>(
+  const host = await fixture<GlideCoreTag>(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
-  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+  const animationDuration = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="component"]',
   )?.dataset.animationDuration;
 
@@ -53,14 +53,14 @@ it('removes itself on Space', async () => {
 });
 
 it('removes itself on Enter', async () => {
-  const component = await fixture<GlideCoreTag>(
+  const host = await fixture<GlideCoreTag>(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
-  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+  const animationDuration = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="component"]',
   )?.dataset.animationDuration;
 

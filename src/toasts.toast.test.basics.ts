@@ -1,4 +1,4 @@
-import { assert, expect, fixture, html } from '@open-wc/testing';
+import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import GlideCoreToast from './toasts.toast.js';
@@ -6,7 +6,7 @@ import GlideCoreToast from './toasts.toast.js';
 @customElement('glide-core-subclassed')
 class GlideCoreSubclassed extends GlideCoreToast {}
 
-// NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
+// Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
 // to manually dispatch the `transitionend` event in tests.
 
 it('registers itself', async () => {
@@ -16,208 +16,125 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreToast>(
+  const host = await fixture<GlideCoreToast>(
     html`<glide-core-toast
       variant="informational"
       label="Label"
-      description="Toast description"
+      description="Description"
     ></glide-core-toast>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
-it('sets correct role', async () => {
-  const component = await fixture<GlideCoreToast>(
-    html`<glide-core-toast
-      variant="informational"
-      label="Label"
-      description="Toast description"
-    ></glide-core-toast>`,
-  );
-
-  expect(
-    component.shadowRoot?.firstElementChild?.getAttribute('role'),
-  ).to.equal('alert');
-});
-
-it('sets correct aria labelling', async () => {
-  const component = await fixture<GlideCoreToast>(
-    html`<glide-core-toast
-      variant="informational"
-      label="Label"
-      description="Toast description"
-    ></glide-core-toast>`,
-  );
-
-  expect(
-    component.shadowRoot?.firstElementChild?.getAttribute('aria-labelledby'),
-  ).to.equal('label description');
-
-  expect(
-    component.shadowRoot?.firstElementChild?.querySelector('#label')
-      ?.textContent,
-  ).to.equal('Label');
-
-  expect(
-    component.shadowRoot?.firstElementChild?.querySelector('#description')
-      ?.textContent,
-  ).to.equal('Toast description');
-});
-
-it('sets variant, label, and description', async () => {
-  const component = await fixture<GlideCoreToast>(
-    html`<glide-core-toast
-      variant="informational"
-      label="Label"
-      description="Toast description"
-    ></glide-core-toast>`,
-  );
-
-  expect(component.variant).to.equal('informational');
-  expect(component.label).to.equal('Label');
-  expect(component.description).to.equal('Toast description');
-});
-
-it('opens and closes by default', async () => {
+it('opens and closes', async () => {
   const clock = sinon.useFakeTimers();
 
-  const component = await fixture<GlideCoreToast>(
+  const host = await fixture<GlideCoreToast>(
     html`<glide-core-toast
       variant="informational"
       label="Label"
-      description="Toast description"
+      description="Description"
     ></glide-core-toast>`,
   );
 
   clock.tick(3000);
 
-  const shadowElement = component.shadowRoot!.firstElementChild;
+  const component = host.shadowRoot?.querySelector('[data-test="component"]');
 
-  expect([...shadowElement!.classList]).to.deep.equal([
-    'component',
-    'informational',
-    'open',
-  ]);
+  expect(component?.classList.contains('open')).to.be.true;
 
   clock.tick(3000);
+  component?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
-
-  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
-    ['component', 'informational', 'closed'],
-  );
+  expect(component?.classList.contains('closed')).to.be.true;
 
   clock.restore();
 });
 
-it('responds to duration', async () => {
+it('can have an arbitrary duration', async () => {
   const clock = sinon.useFakeTimers();
 
-  const component = await fixture<GlideCoreToast>(
+  const host = await fixture<GlideCoreToast>(
     html`<glide-core-toast
       variant="informational"
       label="Label"
-      description="Toast description"
+      description="Description"
       duration="10000"
     ></glide-core-toast>`,
   );
 
+  const component = host.shadowRoot?.querySelector('[data-test="component"]');
+
   clock.tick(9500);
-
-  const shadowElement = component.shadowRoot!.firstElementChild;
-
-  expect([...shadowElement!.classList]).to.deep.equal([
-    'component',
-    'informational',
-    'open',
-  ]);
+  expect(component?.classList.contains('open')).to.be.true;
 
   clock.tick(1000);
+  component?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
-
-  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
-    ['component', 'informational', 'closed'],
-  );
+  expect(component?.classList.contains('closed')).to.be.true;
 
   clock.restore();
 });
 
-it('responds to duration of Infinity', async () => {
+it('can have an infinite duration', async () => {
   const clock = sinon.useFakeTimers();
 
-  const component = await fixture<GlideCoreToast>(
+  const host = await fixture<GlideCoreToast>(
     html`<glide-core-toast
       variant="informational"
       label="Label"
-      description="Toast description"
+      description="Description"
       duration="Infinity"
     ></glide-core-toast>`,
   );
 
   clock.tick(9500);
 
-  const shadowElement = component.shadowRoot!.firstElementChild;
-
-  expect([...shadowElement!.classList]).to.deep.equal([
-    'component',
-    'informational',
-    'open',
-  ]);
+  const component = host.shadowRoot?.querySelector('[data-test="component"]');
+  expect(component?.classList.contains('open')).to.be.true;
 
   clock.restore();
 });
 
-it('does not allow less than 5000 duration', async () => {
+it('has a minimum duration', async () => {
   const clock = sinon.useFakeTimers();
 
-  const component = await fixture<GlideCoreToast>(
+  const host = await fixture<GlideCoreToast>(
     html`<glide-core-toast
       variant="informational"
       label="Label"
-      description="Toast description"
+      description="Description"
       duration="3000"
     ></glide-core-toast>`,
   );
 
   clock.tick(4000);
 
-  const shadowElement = component.shadowRoot!.firstElementChild;
-
-  expect([...shadowElement!.classList]).to.deep.equal([
-    'component',
-    'informational',
-    'open',
-  ]);
+  const component = host.shadowRoot?.querySelector('[data-test="component"]');
+  expect(component?.classList.contains('open')).to.be.true;
 
   clock.restore();
 });
 
-it('can be closed by clicking on the x icon', async () => {
-  const component = await fixture<GlideCoreToast>(
+it('closes when its close button is clicked', async () => {
+  const host = await fixture<GlideCoreToast>(
     html`<glide-core-toast
       variant="informational"
       label="Label"
-      description="Toast description"
+      description="Description"
     ></glide-core-toast>`,
   );
 
-  const shadowElement = component.shadowRoot!.firstElementChild;
+  const component = host.shadowRoot?.querySelector('[data-test="component"]');
 
-  const closeButton = shadowElement?.querySelector<HTMLButtonElement>(
-    'glide-core-icon-button[label="Close"]',
-  );
+  host.shadowRoot
+    ?.querySelector<HTMLElement>('[data-test="close-button"]')
+    ?.click();
 
-  assert(closeButton);
+  component?.dispatchEvent(new TransitionEvent('transitionend'));
 
-  closeButton.click();
-
-  shadowElement?.dispatchEvent(new TransitionEvent('transitionend'));
-
-  await expect([
-    ...component.shadowRoot!.firstElementChild!.classList,
-  ]).to.deep.equal(['component', 'informational', 'closed']);
+  expect(component?.classList.contains('closed')).to.be.true;
 });
 
 it('throws when subclassed', async () => {

@@ -13,32 +13,19 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreSplitButtonPrimaryLink>(html`
+  const host = await fixture<GlideCoreSplitButtonPrimaryLink>(html`
     <glide-core-split-button-primary-link
       label="Label"
       url="/"
     ></glide-core-split-button-primary-link>
   `);
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 
-  component.disabled = true;
-  await component.updateComplete;
+  host.disabled = true;
+  await host.updateComplete;
 
-  await expect(component).to.be.accessible();
-});
-
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreSplitButtonPrimaryLink>(html`
-    <glide-core-split-button-primary-link
-      label="Label"
-      url="/"
-    ></glide-core-split-button-primary-link>
-  `);
-
-  expect(component.disabled).to.be.false;
-  expect(component.privateSize).to.equal('large');
-  expect(component.privateVariant).to.equal('primary');
+  await expect(host).to.be.accessible();
 });
 
 it('throws when subclassed', async () => {

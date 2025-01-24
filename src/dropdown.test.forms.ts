@@ -4,28 +4,11 @@ import sinon from 'sinon';
 import GlideCoreDropdown from './dropdown.js';
 import './dropdown.option.js';
 
-it('exposes standard form control properties and methods', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-    { parentNode: form },
-  );
-
-  expect(component.form).to.equal(form);
-  expect(component.validity instanceof ValidityState).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity).to.be.a('function');
-  expect(component.reportValidity).to.be.a('function');
-});
-
 it('submits its form on Enter when closed', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     {
@@ -40,7 +23,7 @@ it('submits its form on Enter when closed', async () => {
     spy();
   });
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
   expect(spy.callCount).to.equal(1);
@@ -49,8 +32,8 @@ it('submits its form on Enter when closed', async () => {
 it('does not submit its form on Enter when open', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     {
@@ -65,7 +48,7 @@ it('does not submit its form on Enter when open', async () => {
     spy();
   });
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
   expect(spy.callCount).to.equal(0);
@@ -74,8 +57,8 @@ it('does not submit its form on Enter when open', async () => {
 it('does not submit its form when Enter is pressed on the Edit button', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="Label"
         editable
@@ -94,7 +77,7 @@ it('does not submit its form when Enter is pressed on the Edit button', async ()
     spy();
   });
 
-  component.shadowRoot
+  host.shadowRoot
     ?.querySelector<HTMLButtonElement>('[data-test="edit-button"]')
     ?.focus();
 
@@ -104,8 +87,8 @@ it('does not submit its form when Enter is pressed on the Edit button', async ()
 });
 
 it('is valid if not required and no option is selected', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="Label"
         selected
@@ -113,319 +96,309 @@ it('is valid if not required and no option is selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  expect(component.validity.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 });
 
 it('is invalid if required and no option is selected', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.validity.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
-});
-
-it('is invalid if required and no option is selected when `filterable`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      filterable
-      required
-    >
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.validity.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
-});
-
-it('is both invalid and valid if required but disabled and no option is selected', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      disabled
-      required
-    >
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  expect(component.validity.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
-});
-
-it('sets the validity message with `setCustomValidity()`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label">
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  component.setCustomValidity('validity message');
-
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.customError).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-
-  await component.updateComplete;
-
-  // Like native, the validity message shouldn't display until `reportValidity()` is called.
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-
-  expect(component.reportValidity()).to.be.false;
-
-  await component.updateComplete;
-
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.equal('validity message');
-});
-
-it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label">
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  component.setCustomValidity('validity message');
-  component.reportValidity();
-
-  await component.updateComplete;
-
-  component.setCustomValidity('');
-
-  await component.updateComplete;
-
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-});
-
-it('is invalid when `setValidity()` is called', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label">
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  component.setValidity({ customError: true }, 'validity message');
-
-  expect(component.validity.valid).to.be.false;
-
-  await component.updateComplete;
-
-  // Like native, the validity message shouldn't display until `reportValidity()` is called.
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-
-  expect(component.validity?.customError).to.be.true;
-
-  component.reportValidity();
-
-  await component.updateComplete;
-
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.equal('validity message');
-});
-
-it('is valid when `setValidity()` is called', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label">
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  component.setValidity({ customError: true }, 'validity message');
-
-  component.setValidity({});
-
-  await component.updateComplete;
-
-  expect(component.validity.valid).to.be.true;
-  expect(component.validity.customError).to.be.false;
-
-  expect(component.reportValidity()).to.be.true;
-
-  await component.updateComplete;
-
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-});
-
-it('sets the validity message with `setCustomValidity()` when `filterable`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" filterable>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  component.setCustomValidity('validity message');
-
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.customError).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-
-  await component.updateComplete;
-
-  // Like native, the validity message shouldn't display until `reportValidity()` is called.
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-
-  expect(component.reportValidity()).to.be.false;
-
-  await component.updateComplete;
-
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.equal('validity message');
-});
-
-it('removes a validity message with an empty argument to `setCustomValidity()` when `filterable`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" filterable>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  component.setCustomValidity('validity message');
-  component.reportValidity();
-
-  await component.updateComplete;
-
-  component.setCustomValidity('');
-
-  await component.updateComplete;
-
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-});
-
-it('is invalid when `setValidity()` is called when `filterable`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" filterable>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  component.setValidity({ customError: true }, 'validity message');
-
-  expect(component.validity.valid).to.be.false;
-
-  await component.updateComplete;
-
-  // Like native, the validity message shouldn't display until `reportValidity()` is called.
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-
-  expect(component.validity?.customError).to.be.true;
-
-  component.reportValidity();
-
-  await component.updateComplete;
-
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.equal('validity message');
-});
-
-it('is valid when `setValidity()` is called when `filterable`', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" filterable>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  component.setValidity({ customError: true }, 'validity message');
-
-  component.setValidity({});
-
-  await component.updateComplete;
-
-  expect(component.validity.valid).to.be.true;
-  expect(component.validity.customError).to.be.false;
-
-  expect(component.reportValidity()).to.be.true;
-
-  await component.updateComplete;
-
-  expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
-      ?.textContent,
-  ).to.be.undefined;
-});
-
-it('retains existing validity state when `setCustomValidity()` is called', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  component.setCustomValidity('validity message');
-
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.customError).to.be.true;
-  expect(component.validity?.valueMissing).to.be.true;
+  expect(host.validity.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 });
 
-it('removes validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+it('is invalid if required and no option is selected when `filterable`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable required>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  expect(host.validity.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
+});
+
+it('is both invalid and valid if required and disabled and no option is selected', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" disabled required>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  expect(host.validity.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
+});
+
+it('sets the validity message with `setCustomValidity()`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  component.setCustomValidity('validity message');
+  host.setCustomValidity('validity message');
 
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.customError).to.be.true;
+  expect(host.checkValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
+
+  // Like native, the message shouldn't display until `reportValidity()` is called.
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+
+  expect(host.reportValidity()).to.be.false;
+
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.equal('validity message');
+});
+
+it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.setCustomValidity('validity message');
+  host.reportValidity();
+
+  await host.updateComplete;
+
+  host.setCustomValidity('');
+
+  await host.updateComplete;
+
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+});
+
+it('is invalid when `setValidity()` is called', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.setValidity({ customError: true }, 'validity message');
+
+  expect(host.validity.valid).to.be.false;
+
+  await host.updateComplete;
+
+  // Like native, the message shouldn't display until `reportValidity()` is called.
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+
+  expect(host.validity?.customError).to.be.true;
+
+  host.reportValidity();
+
+  await host.updateComplete;
+
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.equal('validity message');
+});
+
+it('is valid when `setValidity()` is called', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.setValidity({ customError: true }, 'validity message');
+
+  host.setValidity({});
+
+  await host.updateComplete;
+
+  expect(host.validity.valid).to.be.true;
+  expect(host.validity.customError).to.be.false;
+
+  expect(host.reportValidity()).to.be.true;
+
+  await host.updateComplete;
+
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+});
+
+it('sets the validity message with `setCustomValidity()` when `filterable`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.setCustomValidity('validity message');
+
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.customError).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+
+  await host.updateComplete;
+
+  // Like native, the message shouldn't display until `reportValidity()` is called.
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+
+  expect(host.reportValidity()).to.be.false;
+
+  await host.updateComplete;
+
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.equal('validity message');
+});
+
+it('removes a validity message with an empty argument to `setCustomValidity()` when `filterable`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.setCustomValidity('validity message');
+  host.reportValidity();
+
+  await host.updateComplete;
+
+  host.setCustomValidity('');
+
+  await host.updateComplete;
+
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+});
+
+it('is invalid when `setValidity()` is called when `filterable`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.setValidity({ customError: true }, 'validity message');
+
+  expect(host.validity.valid).to.be.false;
+
+  await host.updateComplete;
+
+  // Like native, the message shouldn't display until `reportValidity()` is called.
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+
+  expect(host.validity?.customError).to.be.true;
+
+  host.reportValidity();
+
+  await host.updateComplete;
+
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.equal('validity message');
+});
+
+it('is valid when `setValidity()` is called when `filterable`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.setValidity({ customError: true }, 'validity message');
+
+  host.setValidity({});
+
+  await host.updateComplete;
+
+  expect(host.validity.valid).to.be.true;
+  expect(host.validity.customError).to.be.false;
+
+  expect(host.reportValidity()).to.be.true;
+
+  await host.updateComplete;
+
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
+      ?.textContent,
+  ).to.be.undefined;
+});
+
+it('retains existing validity state when `setCustomValidity()` is called', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" required>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.setCustomValidity('validity message');
+
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.customError).to.be.true;
+  expect(host.validity?.valueMissing).to.be.true;
+});
+
+it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.setCustomValidity('validity message');
+
+  expect(host.reportValidity()).to.be.false;
+
+  await host.updateComplete;
+
+  expect(
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.equal('validity message');
 
-  component.resetValidityFeedback();
+  host.resetValidityFeedback();
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.shadowRoot?.querySelector('[data-test="validity-message"]'))
-    .to.be.null;
+  expect(host.shadowRoot?.querySelector('[data-test="validity-message"]')).to.be
+    .null;
 
-  expect(component.validity?.valid).to.be.false;
+  expect(host.validity?.valid).to.be.false;
 });

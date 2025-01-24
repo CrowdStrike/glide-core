@@ -80,6 +80,7 @@ export default class GlideCoreToasts extends LitElement {
     return html`
       <div
         class="component"
+        data-test="component"
         role="region"
         tabindex="-1"
         aria-label=${this.#localize.term('notifications')}

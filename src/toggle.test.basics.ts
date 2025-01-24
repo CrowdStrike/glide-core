@@ -13,13 +13,13 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreToggle>(
+  const host = await fixture<GlideCoreToggle>(
     html`<glide-core-toggle label="Label" tooltip="Tooltip">
       <div slot="description">Description</div>
     </glide-core-toggle>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
 it('throws when subclassed', async () => {

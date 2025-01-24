@@ -19,7 +19,7 @@ export const consistentTestFixtureVariableDeclarator = createRule({
     type: 'suggestion',
     messages: {
       consistentNaming:
-        'Prefer the variable name for the fixture to be "component".',
+        'Prefer the variable name for the fixture to be "host".',
     },
     schema: [],
   },
@@ -44,7 +44,7 @@ export const consistentTestFixtureVariableDeclarator = createRule({
         if (
           node.id &&
           node.id.type === AST_NODE_TYPES.Identifier &&
-          node.id.name !== 'component'
+          node.id.name !== 'host'
         ) {
           context.report({
             node: node.id,

@@ -16,14 +16,14 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreCheckboxGroup>(
-    html`<glide-core-checkbox-group label="Checkbox Group" tooltip="Tooltip">
-      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+  const host = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Label" tooltip="Tooltip">
+      <glide-core-checkbox label="Label"></glide-core-checkbox>
       <div slot="description">Description</div>
     </glide-core-checkbox-group>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
 it('throws when subclassed', async () => {
@@ -38,20 +38,20 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(
       html`<glide-core-checkbox-group
-        label="Checkbox Group"
+        label="Label"
       ></glide-core-checkbox-group>`,
     );
   });
 });
 
-it('throws if its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
-      html`<glide-core-checkbox-group label="Checkbox Group">
+      html`<glide-core-checkbox-group label="Label">
         <button>Button</button>
       </glide-core-checkbox-group>`,
     );

@@ -2,59 +2,59 @@ import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButtonGroupButton from './button-group.button.js';
 
 it('sets `aria-checked` when selected programmatically', async () => {
-  const component = await fixture<GlideCoreButtonGroupButton>(
+  const host = await fixture<GlideCoreButtonGroupButton>(
     html`<glide-core-button-group-button
-      label="Button"
+      label="Label"
     ></glide-core-button-group-button>`,
   );
 
-  component.selected = true;
-  await component.updateComplete;
+  host.selected = true;
+  await host.updateComplete;
 
-  const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio?.getAttribute('aria-checked')).to.equal('true');
+  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio?.ariaChecked).to.equal('true');
 });
 
 it('sets `aria-checked` when deselected programmatically', async () => {
-  const component = await fixture<GlideCoreButtonGroupButton>(
+  const host = await fixture<GlideCoreButtonGroupButton>(
     html`<glide-core-button-group-button
-      label="Button"
+      label="Label"
       selected
     ></glide-core-button-group-button>`,
   );
 
-  component.selected = false;
-  await component.updateComplete;
+  host.selected = false;
+  await host.updateComplete;
 
-  const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio?.getAttribute('aria-checked')).to.equal('false');
+  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio?.ariaChecked).to.equal('false');
 });
 
 it('sets `aria-disabled` when disabled programmatically', async () => {
-  const component = await fixture<GlideCoreButtonGroupButton>(
+  const host = await fixture<GlideCoreButtonGroupButton>(
     html`<glide-core-button-group-button
-      label="Button"
+      label="Label"
     ></glide-core-button-group-button>`,
   );
 
-  component.disabled = true;
-  await component.updateComplete;
+  host.disabled = true;
+  await host.updateComplete;
 
-  const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio?.getAttribute('aria-disabled')).to.equal('true');
+  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio?.ariaDisabled).to.equal('true');
 });
 
 it('sets `aria-disabled` when enabled programmatically', async () => {
-  const component = await fixture<GlideCoreButtonGroupButton>(
+  const host = await fixture<GlideCoreButtonGroupButton>(
     html`<glide-core-button-group-button
-      label="Button"
+      label="Label"
       disabled
     ></glide-core-button-group-button>`,
   );
 
-  component.disabled = false;
-  await component.updateComplete;
+  host.disabled = false;
+  await host.updateComplete;
 
-  const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(radio?.getAttribute('aria-disabled')).to.equal('false');
+  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  expect(radio?.ariaDisabled).to.equal('false');
 });

@@ -14,42 +14,38 @@ import GlideCoreDropdown from './dropdown.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
 it('opens on click', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  await click(
-    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
-  );
+  await click(host.shadowRoot?.querySelector('[data-test="primary-button"]'));
 
-  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+  const options = host.shadowRoot?.querySelector('[data-test="options"]');
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
   expect(options?.checkVisibility()).to.be.true;
 });
 
-it('toggles open and closed when the primary button is clicked', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+it('toggles open and closed when its primary button is clicked', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  await click(
-    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
-  );
+  await click(host.shadowRoot?.querySelector('[data-test="primary-button"]'));
 
-  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+  const options = host.shadowRoot?.querySelector('[data-test="options"]');
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
   expect(options?.checkVisibility()).to.be.false;
 });
 
 it('selects an option on click', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -60,23 +56,23 @@ it('selects an option on click', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
 
   await click(option);
 
-  const labels = component.shadowRoot?.querySelectorAll(
+  const labels = host.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
   );
 
   expect(option?.selected).to.be.true;
   expect(labels?.length).to.equal(1);
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
-  expect(component.value).to.deep.equal(['one']);
+  expect(host.value).to.deep.equal(['one']);
 });
 
 it('does not select a disabled option on click', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -88,22 +84,22 @@ it('does not select a disabled option on click', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
 
   await click(option);
 
-  const labels = component.shadowRoot?.querySelectorAll(
+  const labels = host.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
   );
 
   expect(option?.selected).to.be.false;
   expect(labels?.length).to.equal(0);
-  expect(component.value).to.deep.equal([]);
+  expect(host.value).to.deep.equal([]);
 });
 
 it('selects an option on Space', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -114,24 +110,24 @@ it('selects an option on Space', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
 
   option?.focus();
   await sendKeys({ press: ' ' });
 
-  const labels = component.shadowRoot?.querySelectorAll(
+  const labels = host.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
   );
 
   expect(option?.selected).to.be.true;
   expect(labels?.length).to.equal(1);
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
-  expect(component.value).to.deep.equal(['one']);
+  expect(host.value).to.deep.equal(['one']);
 });
 
 it('selects an option when its icon is clicked', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One" value="one">
         <svg
           slot="icon"
@@ -157,23 +153,23 @@ it('selects an option when its icon is clicked', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
 
   await click(option?.querySelector('[slot="icon"]'));
 
-  const labels = component.shadowRoot?.querySelectorAll(
+  const labels = host.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
   );
 
   expect(option?.selected).to.be.true;
   expect(labels?.length).to.equal(1);
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
-  expect(component.value).to.deep.equal(['one']);
+  expect(host.value).to.deep.equal(['one']);
 });
 
 it('does not deselect options on Space', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -185,24 +181,24 @@ it('does not deselect options on Space', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component?.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
 
-  const labels = component.shadowRoot?.querySelectorAll(
+  const labels = host.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
   );
 
   expect(option?.selected).to.be.true;
   expect(labels?.length).to.equal(1);
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
-  expect(component.value).to.deep.equal(['one']);
+  expect(host.value).to.deep.equal(['one']);
 });
 
 it('selects an option on Enter', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -213,22 +209,22 @@ it('selects an option on Enter', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
   option?.focus();
   await sendKeys({ press: 'Enter' });
 
-  const labels = component.shadowRoot?.querySelectorAll(
+  const labels = host.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
   );
 
   expect(option?.selected).to.be.true;
   expect(labels?.length).to.equal(1);
   expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
-  expect(component.value).to.deep.equal(['one']);
+  expect(host.value).to.deep.equal(['one']);
 });
 
 it('deactivates all other options when an option is hovered', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -238,7 +234,7 @@ it('deactivates all other options when an option is hovered', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
   await hover(options[0]);
   await hover(options[1]);
@@ -248,8 +244,8 @@ it('deactivates all other options when an option is hovered', async () => {
 });
 
 it('closes when an option is selected via click', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
@@ -257,14 +253,14 @@ it('closes when an option is selected via click', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  await click(component.querySelector('glide-core-dropdown-option'));
+  await click(host.querySelector('glide-core-dropdown-option'));
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
 });
 
 it('closes when an option is selected via Space', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
@@ -272,15 +268,15 @@ it('closes when an option is selected via Space', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
 });
 
 it('closes when an option is selected via Enter', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
@@ -288,15 +284,15 @@ it('closes when an option is selected via Enter', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
 });
 
 it('closes when an option is selected via Enter', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
@@ -304,15 +300,15 @@ it('closes when an option is selected via Enter', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.querySelector('glide-core-dropdown-option')?.focus();
+  host.querySelector('glide-core-dropdown-option')?.focus();
   await sendKeys({ press: 'Enter' });
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
 });
 
 it('closes when an option is selected via Space', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
@@ -320,17 +316,17 @@ it('closes when an option is selected via Space', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
 
   option?.focus();
   await sendKeys({ press: ' ' });
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
 });
 
 it('closes when an already selected option is clicked', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
         selected
@@ -341,14 +337,14 @@ it('closes when an already selected option is clicked', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  await click(component.querySelector('glide-core-dropdown-option'));
+  await click(host.querySelector('glide-core-dropdown-option'));
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
 });
 
 it('closes on edit via click', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
         editable
@@ -360,14 +356,14 @@ it('closes on edit via click', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  await click(component.shadowRoot?.querySelector('[data-test="edit-button"]'));
+  await click(host.shadowRoot?.querySelector('[data-test="edit-button"]'));
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
 });
 
 it('deselects all other options when one is newly selected', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="two"
@@ -389,19 +385,19 @@ it('deselects all other options when one is newly selected', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
   await click(options[1]);
 
   expect(options[0].selected).to.be.false;
   expect(options[1].selected).to.be.true;
   expect(options[2].selected).to.be.false;
-  expect(component.value).to.deep.equal(['two']);
+  expect(host.value).to.deep.equal(['two']);
 });
 
-it('updates its internal label when `label` of the selected option is changed programmatically', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+it('updates its internal label when `label` of the selected option is set programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
         selected
@@ -409,22 +405,20 @@ it('updates its internal label when `label` of the selected option is changed pr
     </glide-core-dropdown>`,
   );
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
   assert(option);
 
   option.label = 'Two';
-  await component.updateComplete;
+  await host.updateComplete;
 
-  const label = component.shadowRoot?.querySelector(
-    '[data-test="internal-label"]',
-  );
+  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
 
   expect(label?.textContent?.trim()).to.equal(option?.label);
 });
 
-it('shows an Edit button when `editable` of the selected option is changed programmatically', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+it('shows an Edit button when `editable` of the selected option is set programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
         selected
@@ -432,22 +426,22 @@ it('shows an Edit button when `editable` of the selected option is changed progr
     </glide-core-dropdown>`,
   );
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
   assert(option);
 
   option.editable = true;
-  await component.updateComplete;
+  await host.updateComplete;
 
-  const editButton = component.shadowRoot?.querySelector(
+  const editButton = host.shadowRoot?.querySelector(
     '[data-test="edit-button"]',
   );
 
   expect(editButton?.checkVisibility()).to.be.true;
 });
 
-it('selects and deselects options when `value` is changed programmatically', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+it('selects and deselects options when `value` is set programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -461,17 +455,17 @@ it('selects and deselects options when `value` is changed programmatically', asy
     </glide-core-dropdown>`,
   );
 
-  component.value = ['two'];
+  host.value = ['two'];
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
   expect(options[0].selected).to.be.false;
   expect(options[1].selected).to.be.true;
 });
 
-it('throws when `value` is changed programmatically to include more than one value', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+it('throws when `value` is set programmatically to include more than one value', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -487,7 +481,7 @@ it('throws when `value` is changed programmatically to include more than one val
   const spy = sinon.spy();
 
   try {
-    component.value = ['one', 'two'];
+    host.value = ['one', 'two'];
   } catch {
     spy();
   }
@@ -495,9 +489,9 @@ it('throws when `value` is changed programmatically to include more than one val
   expect(spy.callCount).to.equal(1);
 });
 
-it('updates `value` when an option `value` is changed programmatically', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+it('updates `value` when an option `value` is set programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -506,16 +500,16 @@ it('updates `value` when an option `value` is changed programmatically', async (
     </glide-core-dropdown>`,
   );
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
   assert(option);
   option.value = 'two';
 
-  expect(component.value).to.deep.equal(['two']);
+  expect(host.value).to.deep.equal(['two']);
 });
 
 it('does not update `value` when a disabled option is selected via click', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -527,13 +521,13 @@ it('does not update `value` when a disabled option is selected via click', async
   // Wait for Floating UI.
   await aTimeout(0);
 
-  await click(component.querySelector('glide-core-dropdown-option'));
+  await click(host.querySelector('glide-core-dropdown-option'));
 
-  expect(component.value).to.deep.equal([]);
+  expect(host.value).to.deep.equal([]);
 });
 
 it('updates `value` when `multiple` is changed to `false` programmatically', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -549,9 +543,9 @@ it('updates `value` when `multiple` is changed to `false` programmatically', asy
     </glide-core-dropdown>`,
   );
 
-  component.multiple = false;
+  host.multiple = false;
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
   const checkbox = options[1].shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="checkbox"]',
@@ -560,11 +554,11 @@ it('updates `value` when `multiple` is changed to `false` programmatically', asy
   expect(options[0].selected).to.be.false;
   expect(options[1].selected).to.be.true;
   expect(checkbox?.checked).to.be.true;
-  expect(component.value).to.deep.equal(['two']);
+  expect(host.value).to.deep.equal(['two']);
 });
 
-it('updates `value` when the `value` of the selected option is changed programmatically', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+it('updates `value` when the `value` of the selected option is set programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option
         label="One"
@@ -579,15 +573,15 @@ it('updates `value` when the `value` of the selected option is changed programma
     </glide-core-dropdown>`,
   );
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
   assert(option);
   option.value = 'three';
 
-  expect(component.value).to.deep.equal(['three']);
+  expect(host.value).to.deep.equal(['three']);
 });
 
 it('updates `value` when the `value` of the selected option is removed programmatically', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option
         label="One"
@@ -602,16 +596,16 @@ it('updates `value` when the `value` of the selected option is removed programma
     </glide-core-dropdown>`,
   );
 
-  const option = component.querySelector('glide-core-dropdown-option');
+  const option = host.querySelector('glide-core-dropdown-option');
   assert(option);
   option.value = '';
 
-  expect(component.value).to.deep.equal([]);
+  expect(host.value).to.deep.equal([]);
 });
 
 it('updates its internal label when an option is newly selected', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -627,26 +621,20 @@ it('updates its internal label when an option is newly selected', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const option = component.querySelector<GlideCoreDropdownOption>(
+  const option = host.querySelector<GlideCoreDropdownOption>(
     'glide-core-dropdown-option:last-of-type',
   );
 
   await click(option);
 
-  const label = component.shadowRoot?.querySelector(
-    '[data-test="internal-label"]',
-  );
+  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
 
   expect(label?.textContent?.trim()).to.equal(option?.label);
 });
 
 it('hides Select All', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      select-all
-    >
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" select-all>
       <glide-core-dropdown-option
         label="One"
         selected
@@ -656,16 +644,14 @@ it('hides Select All', async () => {
     </glide-core-dropdown>`,
   );
 
-  const selectAll = component.shadowRoot?.querySelector(
-    '[data-test="select-all"]',
-  );
+  const selectAll = host.shadowRoot?.querySelector('[data-test="select-all"]');
 
   expect(selectAll?.checkVisibility()).to.not.be.ok;
 });
 
-it('cannot be tabbed to when `disabled`', async () => {
+it('cannot be tabbed to when disabled', async () => {
   await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
+    html`<glide-core-dropdown label="Label" disabled>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -675,19 +661,17 @@ it('cannot be tabbed to when `disabled`', async () => {
   expect(document.activeElement).to.equal(document.body);
 });
 
-it('clicks the primary button when `click()` is called', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+it('clicks its primary button when `click()` is called', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  const button = component.shadowRoot?.querySelector(
-    '[data-test="primary-button"]',
-  );
+  const button = host.shadowRoot?.querySelector('[data-test="primary-button"]');
 
   setTimeout(() => {
-    component.click();
+    host.click();
   });
 
   assert(button);
@@ -697,24 +681,20 @@ it('clicks the primary button when `click()` is called', async () => {
 });
 
 it('unhides its options when made unfilterable', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      filterable
-    >
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'one' });
 
-  component.filterable = false;
+  host.filterable = false;
 
   const options = [
-    ...component.querySelectorAll('glide-core-dropdown-option'),
+    ...host.querySelectorAll('glide-core-dropdown-option'),
   ].filter(({ hidden }) => !hidden);
 
   expect(options.length).to.equal(2);

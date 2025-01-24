@@ -2,14 +2,14 @@ import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButtonGroupButton from './button-group.button.js';
 
 it('focuses itself when `focus()` is called ', async () => {
-  const component = await fixture<GlideCoreButtonGroupButton>(html`
+  const host = await fixture<GlideCoreButtonGroupButton>(html`
     <glide-core-button-group-button
-      label="Button"
+      label="Label"
     ></glide-core-button-group-button>
   `);
 
-  component.focus();
+  host.focus();
 
-  const radio = component.shadowRoot?.querySelector('[role="radio"]');
-  expect(component.shadowRoot?.activeElement).to.equal(radio);
+  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  expect(host.shadowRoot?.activeElement).to.equal(radio);
 });

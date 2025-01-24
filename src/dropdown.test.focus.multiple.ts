@@ -1,36 +1,32 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import './dropdown.option.js';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 import type GlideCoreTag from './tag.js';
 
-it('focuses the primary button when `focus()` is called', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+it('focuses its primary button when `focus()` is called', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
 
-  expect(component.shadowRoot?.activeElement).to.equal(
-    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
+  expect(host.shadowRoot?.activeElement).to.equal(
+    host.shadowRoot?.querySelector('[data-test="primary-button"]'),
   );
 });
 
-it('focuses the primary button on submit when required and no options are selected', async () => {
+it('focuses its primary button on submit when required and no options are selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      multiple
-      required
-    >
-      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" multiple required>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
-      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     {
       parentNode: form,
@@ -39,80 +35,61 @@ it('focuses the primary button on submit when required and no options are select
 
   form.requestSubmit();
 
-  const button = component.shadowRoot?.querySelector(
-    '[data-test="primary-button"]',
-  );
+  const button = host.shadowRoot?.querySelector('[data-test="primary-button"]');
 
-  expect(component.shadowRoot?.activeElement).to.be.equal(button);
+  expect(host.shadowRoot?.activeElement).to.be.equal(button);
 });
 
-it('focuses the primary button when `reportValidity` is called when required and no options are selected', async () => {
+it('focuses its primary button when `reportValidity()` is called when required and no options are selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      multiple
-      required
-    >
-      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" multiple required>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     { parentNode: form },
   );
 
-  component.reportValidity();
+  host.reportValidity();
 
-  const button = component.shadowRoot?.querySelector(
-    '[data-test="primary-button"]',
-  );
+  const button = host.shadowRoot?.querySelector('[data-test="primary-button"]');
 
-  expect(component.shadowRoot?.activeElement).to.equal(button);
+  expect(host.shadowRoot?.activeElement).to.equal(button);
 });
 
-it('does not focus the primary button when `checkValidity` is called', async () => {
+it('does not focus its primary button when `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      multiple
-      required
-    >
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" multiple required>
       <glide-core-dropdown-option
-        label="One"
+        label="Label"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
-        label="Two"
+        label="Label"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     { parentNode: form },
   );
 
-  component.checkValidity();
-  expect(component.shadowRoot?.activeElement).to.equal(null);
+  host.checkValidity();
+  expect(host.shadowRoot?.activeElement).to.equal(null);
 });
 
 it('focuses the second tag when the first one is removed', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      open
-      multiple
-    >
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
-        label="One"
+        label="Label"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
-        label="Two"
+        label="Label"
         selected
       ></glide-core-dropdown-option>
 
@@ -124,32 +101,27 @@ it('focuses the second tag when the first one is removed', async () => {
   );
 
   const tags =
-    component.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
+    host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
   tags?.[0].click();
-  await component.updateComplete;
+  await host.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
   await aTimeout(0);
 
-  expect(component.shadowRoot?.activeElement).to.equal(tags?.[1]);
+  expect(host.shadowRoot?.activeElement).to.equal(tags?.[1]);
 });
 
 it('focuses the third tag when the second one is removed', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      open
-      multiple
-    >
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
-        label="One"
+        label="Label"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
-        label="Two"
+        label="Label"
         selected
       ></glide-core-dropdown-option>
 
@@ -161,32 +133,27 @@ it('focuses the third tag when the second one is removed', async () => {
   );
 
   const tags =
-    component.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
+    host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
   tags?.[1].click();
-  await component.updateComplete;
+  await host.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
   await aTimeout(0);
 
-  expect(component.shadowRoot?.activeElement).to.equal(tags?.[2]);
+  expect(host.shadowRoot?.activeElement).to.equal(tags?.[2]);
 });
 
 it('focuses the second tag when the third tag removed', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      open
-      multiple
-    >
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
-        label="One"
+        label="Label"
         selected
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
-        label="Two"
+        label="Label"
         selected
       ></glide-core-dropdown-option>
 
@@ -198,35 +165,33 @@ it('focuses the second tag when the third tag removed', async () => {
   );
 
   const tags =
-    component.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
+    host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
   tags?.[2].click();
-  await component.updateComplete;
+  await host.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
   await aTimeout(0);
 
-  expect(component.shadowRoot?.activeElement).to.equal(tags?.[1]);
+  expect(host.shadowRoot?.activeElement).to.equal(tags?.[1]);
 });
 
 it('focuses itself when the last tag is removed', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
-        label="One"
+        label="Label"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  component.shadowRoot
-    ?.querySelector<GlideCoreTag>('[data-test="tag"]')
-    ?.click();
+  host.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]')?.click();
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
   await aTimeout(0);
 
-  expect(document.activeElement).to.equal(component);
+  expect(document.activeElement).to.equal(host);
 });

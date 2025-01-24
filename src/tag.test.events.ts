@@ -5,16 +5,16 @@ import { click } from './library/mouse.js';
 import GlideCoreTag from './tag.js';
 
 it('dispatches one "remove" event on click', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
-  click(component.shadowRoot?.querySelector('[data-test="removal-button"]'));
+  click(host.shadowRoot?.querySelector('[data-test="removal-button"]'));
 
   const spy = sinon.spy();
-  component.addEventListener('remove', spy);
+  host.addEventListener('remove', spy);
 
-  const event = await oneEvent(component, 'remove');
+  const event = await oneEvent(host, 'remove');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -23,20 +23,20 @@ it('dispatches one "remove" event on click', async () => {
 });
 
 it('dispatches one "remove" event on Enter ', async () => {
-  const component = await fixture<GlideCoreTag>(
+  const host = await fixture<GlideCoreTag>(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
-  component.shadowRoot
+  host.shadowRoot
     ?.querySelector<HTMLElement>('[data-test="removal-button"]')
     ?.focus();
 
   sendKeys({ press: 'Enter' });
 
   const spy = sinon.spy();
-  component.addEventListener('remove', spy);
+  host.addEventListener('remove', spy);
 
-  const event = await oneEvent(component, 'remove');
+  const event = await oneEvent(host, 'remove');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -45,20 +45,20 @@ it('dispatches one "remove" event on Enter ', async () => {
 });
 
 it('dispatches one "remove" event on Space ', async () => {
-  const component = await fixture<GlideCoreTag>(
+  const host = await fixture<GlideCoreTag>(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
-  component.shadowRoot
+  host.shadowRoot
     ?.querySelector<HTMLElement>('[data-test="removal-button"]')
     ?.focus();
 
   sendKeys({ press: ' ' });
 
   const spy = sinon.spy();
-  component.addEventListener('remove', spy);
+  host.addEventListener('remove', spy);
 
-  const event = await oneEvent(component, 'remove');
+  const event = await oneEvent(host, 'remove');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -67,16 +67,16 @@ it('dispatches one "remove" event on Space ', async () => {
 });
 
 it('dispatches one "edit" event on click', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-tag label="Label" private-editable></glide-core-tag>`,
   );
 
-  click(component.shadowRoot?.querySelector('[data-test="edit-button"]'));
+  click(host.shadowRoot?.querySelector('[data-test="edit-button"]'));
 
   const spy = sinon.spy();
-  component.addEventListener('edit', spy);
+  host.addEventListener('edit', spy);
 
-  const event = await oneEvent(component, 'edit');
+  const event = await oneEvent(host, 'edit');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -85,20 +85,20 @@ it('dispatches one "edit" event on click', async () => {
 });
 
 it('dispatches one "edit" event on Enter ', async () => {
-  const component = await fixture<GlideCoreTag>(
+  const host = await fixture<GlideCoreTag>(
     html`<glide-core-tag label="Label" private-editable></glide-core-tag>`,
   );
 
-  component.shadowRoot
+  host.shadowRoot
     ?.querySelector<HTMLElement>('[data-test="edit-button"]')
     ?.focus();
 
   sendKeys({ press: 'Enter' });
 
   const spy = sinon.spy();
-  component.addEventListener('edit', spy);
+  host.addEventListener('edit', spy);
 
-  const event = await oneEvent(component, 'edit');
+  const event = await oneEvent(host, 'edit');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -107,20 +107,20 @@ it('dispatches one "edit" event on Enter ', async () => {
 });
 
 it('dispatches one "edit" event on Space ', async () => {
-  const component = await fixture<GlideCoreTag>(
+  const host = await fixture<GlideCoreTag>(
     html`<glide-core-tag label="Label" private-editable></glide-core-tag>`,
   );
 
-  component.shadowRoot
+  host.shadowRoot
     ?.querySelector<HTMLElement>('[data-test="edit-button"]')
     ?.focus();
 
   sendKeys({ press: ' ' });
 
   const spy = sinon.spy();
-  component.addEventListener('edit', spy);
+  host.addEventListener('edit', spy);
 
-  const event = await oneEvent(component, 'edit');
+  const event = await oneEvent(host, 'edit');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;

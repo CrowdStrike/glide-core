@@ -14,7 +14,7 @@ it('registers itself', () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreInlineAlert>(
+  const host = await fixture<GlideCoreInlineAlert>(
     html`<glide-core-inline-alert variant="informational"
       >Label</glide-core-inline-alert
     >`,
@@ -23,12 +23,12 @@ it('is accessible', async () => {
   // Wait for the animation to complete.
   await aTimeout(100);
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 
-  component.removable = true;
-  await component.updateComplete;
+  host.removable = true;
+  await host.updateComplete;
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
 it('throws when subclassed', async () => {

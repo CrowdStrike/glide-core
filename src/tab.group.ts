@@ -97,16 +97,17 @@ export default class GlideCoreTabGroup extends LitElement {
           `,
         )}
         <div
-          role="tablist"
           class=${classMap({
             'tab-group': true,
             animated: this.isAfterFirstUpdated,
           })}
-          ${onResize(this.#onTabListResize.bind(this))}
-          ${ref(this.#tabListElementRef)}
+          data-test="tablist"
+          role="tablist"
+          tabindex="-1"
           @scroll=${this.#setOverflowButtonsState}
           @focusout=${this.#onFocusout}
-          tabindex="-1"
+          ${onResize(this.#onTabListResize.bind(this))}
+          ${ref(this.#tabListElementRef)}
         >
           <slot
             name="nav"
@@ -203,16 +204,17 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #onKeydown(event: KeyboardEvent) {
-    const target = event.target as HTMLElement;
-    const targetTab = target.closest('glide-core-tab');
+    const tab =
+      event.target instanceof HTMLElement &&
+      event.target.closest('glide-core-tab');
 
     if (
       ['Enter', ' '].includes(event.key) &&
-      targetTab &&
-      targetTab instanceof GlideCoreTab &&
-      !targetTab.disabled
+      tab &&
+      tab instanceof GlideCoreTab &&
+      !tab.disabled
     ) {
-      this.#showTab(targetTab);
+      this.#showTab(tab);
       event.preventDefault();
     }
 

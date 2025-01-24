@@ -1,5 +1,4 @@
 import './icon-button.js';
-import './tooltip.js';
 import { html, LitElement } from 'lit';
 import { choose } from 'lit/directives/choose.js';
 import { classMap } from 'lit/directives/class-map.js';
@@ -38,28 +37,25 @@ export default class GlideCoreToast extends LitElement {
   @property({ reflect: true })
   description?: string;
 
-  @property()
-  variant?: Toast['variant'];
-
   @property({ type: Number })
   duration? = 5000;
 
-  close() {
-    const componentElement = this.#componentElementRef?.value;
+  @property()
+  variant?: Toast['variant'];
 
-    componentElement?.addEventListener(
+  close() {
+    this.#componentElementRef.value?.addEventListener(
       'transitionend',
       () => {
-        componentElement?.classList?.remove('open');
-        componentElement?.classList?.remove('closing');
-        componentElement?.classList?.add('closed');
+        this.#componentElementRef.value?.classList.remove('open', 'closing');
+        this.#componentElementRef.value?.classList.add('closed');
 
         this.dispatchEvent(new Event('close', { bubbles: true }));
       },
       { once: true },
     );
 
-    componentElement?.classList?.add('closing');
+    this.#componentElementRef.value?.classList.add('closing');
   }
 
   override firstUpdated() {
@@ -83,14 +79,15 @@ export default class GlideCoreToast extends LitElement {
   override render() {
     return html`
       <div
+        aria-labelledby="label description"
         class=${classMap({
           component: true,
           error: this.variant === 'error',
           informational: this.variant === 'informational',
           success: this.variant === 'success',
         })}
+        data-test="component"
         role="alert"
-        aria-labelledby="label description"
         ${ref(this.#componentElementRef)}
       >
         ${choose(
@@ -105,9 +102,10 @@ export default class GlideCoreToast extends LitElement {
         <div class="label" id="label">${this.label}</div>
 
         <glide-core-icon-button
+          class="close-button"
+          data-test="close-button"
           label=${this.#localize.term('close')}
           variant="tertiary"
-          class="close-button"
           @click=${this.#handleCloseButtonClick}
         >
           ${xIcon}

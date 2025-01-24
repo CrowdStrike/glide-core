@@ -1,29 +1,29 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
 import './checkbox.js';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 
 it('focuses the first enabled checkbox when `focus()` is called', async () => {
-  const component = await fixture<GlideCoreCheckboxGroup>(
-    html`<glide-core-checkbox-group label="Checkbox Group">
-      <glide-core-checkbox label="One" disabled></glide-core-checkbox>
-      <glide-core-checkbox label="Two"></glide-core-checkbox>
+  const host = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Label">
+      <glide-core-checkbox label="Label" disabled></glide-core-checkbox>
+      <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
   );
 
-  component.focus();
+  host.focus();
 
   expect(document.activeElement).to.equal(
-    component.querySelector('glide-core-checkbox:last-of-type'),
+    host.querySelector('glide-core-checkbox:last-of-type'),
   );
 });
 
-it('focuses the first checkbox after submit when required but the checkbox is unchecked', async () => {
+it('focuses the first checkbox after submit when required and its checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreCheckboxGroup>(
-    html`<glide-core-checkbox-group label="Checkbox Group" required>
-      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+  const host = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Label" required>
+      <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
     {
       parentNode: form,
@@ -33,33 +33,33 @@ it('focuses the first checkbox after submit when required but the checkbox is un
   form.requestSubmit();
 
   expect(document.activeElement).to.equal(
-    component.querySelector('glide-core-checkbox'),
+    host.querySelector('glide-core-checkbox'),
   );
 });
 
-it('focuses the first checkbox after `reportValidity` is called when required but the checkbox is unchecked', async () => {
+it('focuses the first checkbox after `reportValidity()` is called when required and its checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreCheckboxGroup>(
-    html`<glide-core-checkbox-group label="Checkbox Group" required>
-      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+  const host = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Label" required>
+      <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 
-  component.reportValidity();
+  host.reportValidity();
 
   expect(document.activeElement).to.equal(
-    component.querySelector('glide-core-checkbox'),
+    host.querySelector('glide-core-checkbox'),
   );
 });
 
-it('focuses the first checkbox after `requestSubmit` is called when required but the checkbox is unchecked', async () => {
+it('focuses the first checkbox after `requestSubmit()` is called when required and its checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreCheckboxGroup>(
-    html`<glide-core-checkbox-group label="Checkbox Group" required>
-      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+  const host = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Label" required>
+      <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
     { parentNode: form },
   );
@@ -67,53 +67,46 @@ it('focuses the first checkbox after `requestSubmit` is called when required but
   form.requestSubmit();
 
   expect(document.activeElement).to.equal(
-    component.querySelector('glide-core-checkbox'),
+    host.querySelector('glide-core-checkbox'),
   );
 });
 
-it('does not focus the input after `checkValidity` is called', async () => {
+it('does not focus the input after `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreCheckboxGroup>(
-    html`<glide-core-checkbox-group label="Checkbox Group" required>
-      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
+  const host = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Label" required>
+      <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
     { parentNode: form },
   );
 
-  component.checkValidity();
+  host.checkValidity();
 
   expect(document.activeElement).to.not.equal(
-    component.querySelector('glide-core-checkbox'),
+    host.querySelector('glide-core-checkbox'),
   );
 });
 
 it('reports validity of checkboxes if blurred', async () => {
-  const component = await fixture<GlideCoreCheckboxGroup>(
-    html`<glide-core-checkbox-group label="Checkbox Group" required>
-      <glide-core-checkbox label="Checkbox1"></glide-core-checkbox>
-      <glide-core-checkbox label="Checkbox2"></glide-core-checkbox>
+  const host = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Label" required>
+      <glide-core-checkbox label="Label"></glide-core-checkbox>
+      <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
   );
 
-  component.focus();
-
-  const checkboxes = component.querySelectorAll('glide-core-checkbox');
-
-  expect(document.activeElement === checkboxes[0]).to.be.true;
   await sendKeys({ press: 'Tab' });
 
-  expect(document.activeElement === checkboxes[1]).to.be.true;
-  expect(checkboxes[0].privateIsReportValidityOrSubmit).to.be.false;
-  expect(checkboxes[1].privateIsReportValidityOrSubmit).to.be.false;
+  const checkboxes = host.querySelectorAll('glide-core-checkbox');
 
   await sendKeys({ press: 'Tab' });
+  expect(document.activeElement).to.equal(checkboxes[1]);
 
-  expect(document.activeElement === document.body).to.be.true;
+  await sendKeys({ press: 'Tab' });
+  expect(document.activeElement).to.equal(document.body);
 
-  expect(component.validity.valid).to.be.false;
+  expect(host.validity.valid).to.be.false;
   expect(checkboxes[0].validity.valid).to.be.false;
-  expect(checkboxes[0].privateIsReportValidityOrSubmit).to.be.true;
   expect(checkboxes[1].validity.valid).to.be.false;
-  expect(checkboxes[1].privateIsReportValidityOrSubmit).to.be.true;
 });

@@ -28,8 +28,8 @@ it('registers itself', async () => {
 });
 
 it('can be open', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
         selected
@@ -40,42 +40,37 @@ it('can be open', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+  const options = host.shadowRoot?.querySelector('[data-test="options"]');
   expect(options?.checkVisibility()).to.be.true;
 });
 
 it('cannot be open when disabled', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown
-      label="Label"
-      placeholder="Placeholder"
-      open
-      disabled
-    >
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open disabled>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  const options = component?.shadowRoot?.querySelector('[data-test="options"]');
+  const options = host?.shadowRoot?.querySelector('[data-test="options"]');
   expect(options?.checkVisibility()).to.be.false;
 });
 
 it('activates the first option when no options are initially selected', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
   expect(options[0]?.privateActive).to.be.true;
   expect(options[1]?.privateActive).to.be.false;
 });
 
 it('activates the last selected option when options are initially selected', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
@@ -91,7 +86,7 @@ it('activates the last selected option when options are initially selected', asy
     </glide-core-dropdown>`,
   );
 
-  const options = component.querySelectorAll('glide-core-dropdown-option');
+  const options = host.querySelectorAll('glide-core-dropdown-option');
 
   expect(options[0]?.privateActive).to.be.false;
   expect(options[1]?.privateActive).to.be.false;
@@ -99,7 +94,7 @@ it('activates the last selected option when options are initially selected', asy
 });
 
 it('is scrollable', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -117,14 +112,14 @@ it('is scrollable', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+  const options = host.shadowRoot?.querySelector('[data-test="options"]');
   assert(options);
 
   expect(options.scrollHeight).to.be.greaterThan(options.clientHeight);
 });
 
 it('is not scrollable', async () => {
-  const component = await fixture<GlideCoreDropdown>(
+  const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -141,7 +136,7 @@ it('is not scrollable', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const options = component.shadowRoot?.querySelector('[data-test="options"]');
+  const options = host.shadowRoot?.querySelector('[data-test="options"]');
   assert(options);
 
   expect(options.scrollHeight).to.equal(options.clientHeight);
@@ -150,8 +145,8 @@ it('is not scrollable', async () => {
 it('hides the tooltip of the active option when open', async () => {
   // The "x" is arbitrary. 500 of them ensures the component is wider
   // than the viewport even if the viewport's width is increased.
-  const component = await fixture(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+  const host = await fixture(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label=${'x'.repeat(500)}
       ></glide-core-dropdown-option>
@@ -163,7 +158,7 @@ it('hides the tooltip of the active option when open', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const tooltip = component
+  const tooltip = host
     .querySelector('glide-core-dropdown-option')
     ?.shadowRoot?.querySelector<GlideCoreTooltip>('[data-test="tooltip"]');
 
@@ -182,10 +177,10 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws if its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
-      html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+      html`<glide-core-dropdown label="Label">
         <button>Button</button>
       </glide-core-dropdown>`,
     );
