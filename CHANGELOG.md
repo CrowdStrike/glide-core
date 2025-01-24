@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.19.1
+
+### Patch Changes
+
+- [#635](https://github.com/CrowdStrike/glide-core/pull/635) [`c46eda4`](https://github.com/CrowdStrike/glide-core/commit/c46eda4abca154c37806f94c0c42e58204add9de) Thanks [@clintcs](https://github.com/clintcs)! - Form control label tooltips, shown when labels are truncated, are no longer empty.
+
 ## 0.19.0
 
 ### Minor Changes
