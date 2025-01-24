@@ -37,7 +37,6 @@ const meta: Meta = {
             background-color: transparent;
             border: none;
             border-radius: 50%;
-            display: inline-flex;
             outline-offset: 1px;
             padding: 0;
 
