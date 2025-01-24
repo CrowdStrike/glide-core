@@ -4,21 +4,6 @@ import sinon from 'sinon';
 import GlideCoreCheckbox from './checkbox.js';
 import { click } from './library/mouse.js';
 
-it('exposes standard form control properties and methods', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
-    { parentNode: form },
-  );
-
-  expect(component.form).to.equal(form);
-  expect(component.validity instanceof ValidityState).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity).to.be.a('function');
-  expect(component.reportValidity).to.be.a('function');
-});
-
 it('can be reset', async () => {
   const form = document.createElement('form');
 
@@ -218,9 +203,9 @@ it('is valid but not aria-invalid after being checked when unchecked and require
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('input')?.ariaInvalid).to.equal(
+    'false',
+  );
 });
 
 it('is invalid but not aria-invalid if unchecked and required', async () => {
@@ -233,9 +218,9 @@ it('is invalid but not aria-invalid if unchecked and required', async () => {
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
 
-  expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('input')?.ariaInvalid).to.equal(
+    'false',
+  );
 });
 
 it('is invalid but not aria-invalid after being unchecked when required', async () => {
@@ -254,9 +239,9 @@ it('is invalid but not aria-invalid after being unchecked when required', async 
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
 
-  expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('input')?.ariaInvalid).to.equal(
+    'false',
+  );
 });
 
 it('is both invalid and valid if unchecked and required but disabled', async () => {
@@ -286,9 +271,9 @@ it('is valid when `value` is empty and `required` is updated to `false` programm
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('input')?.ariaInvalid).to.equal(
+    'true',
+  );
 
   component.required = false;
 
@@ -299,9 +284,9 @@ it('is valid when `value` is empty and `required` is updated to `false` programm
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('input')?.ariaInvalid).to.equal(
+    'false',
+  );
 });
 
 it('sets the validity message with `setCustomValidity()`', async () => {
@@ -327,9 +312,9 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('input')?.ariaInvalid).to.equal(
+    'true',
+  );
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -380,9 +365,9 @@ it('is invalid when `setValidity()` is called', async () => {
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('input')?.ariaInvalid).to.equal(
+    'true',
+  );
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')

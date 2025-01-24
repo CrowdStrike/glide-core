@@ -47,8 +47,7 @@ it('renders correct markup and sets correct attributes for the default case', as
     'slot:not([name="nav"])',
   );
 
-  expect(slot).to.exist;
-  expect(slot!.assignedElements.length).to.equal(0);
+  expect(slot?.assignedElements.length).to.equal(0);
 });
 
 it('can switch tabs', async () => {

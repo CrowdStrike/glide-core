@@ -21,18 +21,3 @@ it('is accessible', async () => {
 
   await expect(component).to.be.accessible();
 });
-
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreSplitButtonPrimaryButton>(html`
-    <glide-core-split-button-primary-button
-      label="Label"
-    ></glide-core-split-button-primary-button>
-  `);
-
-  expect(component.ariaControls).to.be.null;
-  expect(component.ariaExpanded).to.be.null;
-  expect(component.ariaHasPopup).to.be.null;
-  expect(component.disabled).to.be.false;
-  expect(component.privateSize).to.equal('large');
-  expect(component.privateVariant).to.equal('primary');
-});

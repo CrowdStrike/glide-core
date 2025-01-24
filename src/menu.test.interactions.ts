@@ -60,7 +60,7 @@ it('opens on click', async () => {
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
 });
 
-it('opens when `open` is set programmatically', async () => {
+it('opens when opened programmatically', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
@@ -284,7 +284,7 @@ it('does not open on click when there are no options', async () => {
   expect(target?.ariaExpanded).to.equal('false');
 });
 
-it('does not open when `disabled` is set on its target', async () => {
+it('does not open when disabled is set on its target', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target" disabled>Target</button>
@@ -846,7 +846,7 @@ it('closes when an option is selected via Space and its target is a `<span>`', a
   expect(target?.ariaExpanded).to.equal('false');
 });
 
-it('activates the first menu link by default', async () => {
+it('activates the first link by default', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
@@ -869,7 +869,7 @@ it('activates the first menu link by default', async () => {
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0]?.id);
 });
 
-it('activates the first menu button by default when opened via click', async () => {
+it('activates the first button by default when opened via click', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
@@ -891,7 +891,7 @@ it('activates the first menu button by default when opened via click', async () 
   expect(options?.getAttribute('aria-activedescendant')).equal(buttons[0]?.id);
 });
 
-it('activates a menu link on hover', async () => {
+it('activates a link on hover', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
@@ -916,7 +916,7 @@ it('activates a menu link on hover', async () => {
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
-it('activates a menu link on hover when the link is in a nested slot', async () => {
+it('activates a link on hover when the link is in a nested slot', async () => {
   const component = await fixture<GlideCoreNestedSlot>(html`
     <glide-core-nested-slot>
       <glide-core-menu-link label="One"></glide-core-menu-link>
@@ -940,7 +940,7 @@ it('activates a menu link on hover when the link is in a nested slot', async () 
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
 });
 
-it('activates a menu button on hover', async () => {
+it('activates a button on hover', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
@@ -965,7 +965,7 @@ it('activates a menu button on hover', async () => {
   expect(options?.getAttribute('aria-activedescendant')).equal(buttons[1].id);
 });
 
-it('activates a menu button on hover when the button is in a nested slot', async () => {
+it('activates a button on hover when the button is in a nested slot', async () => {
   const component = await fixture<GlideCoreMenu>(html`
     <glide-core-nested-slot>
       <glide-core-menu-button label="One"></glide-core-menu-button>

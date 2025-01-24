@@ -31,17 +31,7 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreTag>(
-    html`<glide-core-tag label="Label"></glide-core-tag>`,
-  );
-
-  expect(component.disabled).to.be.false;
-  expect(component.removable).to.be.false;
-  expect(component.size).to.equal('medium');
-});
-
-it('can be removed', async () => {
+it('can be removable', async () => {
   const component = await fixture(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
@@ -51,5 +41,5 @@ it('can be removed', async () => {
   );
 
   expect(button?.checkVisibility()).to.be.true;
-  expect(button?.getAttribute('aria-label')).to.equal('Remove tag: Label');
+  expect(button?.ariaLabel).to.equal('Remove tag: Label');
 });

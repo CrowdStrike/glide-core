@@ -132,7 +132,7 @@ it('does not change focus or the `checked` attribute a disabled Radio is clicked
 
   expect(radios[0]).to.have.focus;
   expect(radios[0].hasAttribute('checked')).to.be.true;
-  expect(radios[1]).to.not.have.attribute('checked');
+  expect(radios[1].hasAttribute('checked')).to.be.false;
 });
 
 it('does not change focus or the `checked` attribute when clicking a disabled group', async () => {
@@ -158,7 +158,7 @@ it('does not change focus or the `checked` attribute when clicking a disabled gr
 
   expect(radios[0]).to.not.have.focus;
   expect(radios[0].hasAttribute('checked')).to.be.true;
-  expect(radios[1]).to.not.have.attribute('checked');
+  expect(radios[1].hasAttribute('checked')).to.be.false;
 });
 
 it('dispatches a `change` event after an `input` event', async () => {

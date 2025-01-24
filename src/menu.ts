@@ -664,7 +664,7 @@ export default class GlideCoreMenu extends LitElement {
     // A cleaner approach, which would obviate all the optional chaining and
     // conditions throughout, would be to return an empty array if `children`
     // is `undefined`. The problem is test coverage. `GlideCoreMenuOptions`
-    // throws if its default slot is empty. So the branch where `children` is
+    // throws when its default slot is empty. So the branch where `children` is
     // `undefined` is never reached.
     let elements: HTMLCollection | Element[] | undefined =
       this.#defaultSlotElementRef.value?.assignedElements()?.at(0)?.children;

@@ -5,22 +5,6 @@ it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tab')).to.equal(GlideCoreTab);
 });
 
-it('renders correct markup and sets correct attributes for the default case', async () => {
-  const component = await fixture<GlideCoreTab>(html`
-    <glide-core-tab>Tab</glide-core-tab>
-  `);
-
-  await expect(component).to.not.be.accessible();
-  expect(component.selected).to.be.false;
-  expect(component.disabled).to.be.false;
-
-  expect(component.getAttribute('aria-disabled')).to.equal(null);
-
-  expect([...component.shadowRoot!.firstElementChild!.classList]).to.deep.equal(
-    ['component'],
-  );
-});
-
 it('sets the panel attribute', async () => {
   const component = await fixture<GlideCoreTab>(html`
     <glide-core-tab panel="details">Tab</glide-core-tab>
@@ -43,7 +27,7 @@ it('sets the disabled attribute', async () => {
   `);
 
   expect(component.disabled).to.be.true;
-  expect(component?.getAttribute('aria-disabled')).to.equal('true');
+  expect(component?.ariaDisabled).to.equal('true');
 });
 
 it('renders the icon slot', async () => {

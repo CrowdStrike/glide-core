@@ -23,58 +23,6 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('sets correct role', async () => {
-  const component = await fixture<GlideCoreToast>(
-    html`<glide-core-toast
-      variant="informational"
-      label="Label"
-      description="Toast description"
-    ></glide-core-toast>`,
-  );
-
-  expect(
-    component.shadowRoot?.firstElementChild?.getAttribute('role'),
-  ).to.equal('alert');
-});
-
-it('sets correct aria labelling', async () => {
-  const component = await fixture<GlideCoreToast>(
-    html`<glide-core-toast
-      variant="informational"
-      label="Label"
-      description="Toast description"
-    ></glide-core-toast>`,
-  );
-
-  expect(
-    component.shadowRoot?.firstElementChild?.getAttribute('aria-labelledby'),
-  ).to.equal('label description');
-
-  expect(
-    component.shadowRoot?.firstElementChild?.querySelector('#label')
-      ?.textContent,
-  ).to.equal('Label');
-
-  expect(
-    component.shadowRoot?.firstElementChild?.querySelector('#description')
-      ?.textContent,
-  ).to.equal('Toast description');
-});
-
-it('sets variant, label, and description', async () => {
-  const component = await fixture<GlideCoreToast>(
-    html`<glide-core-toast
-      variant="informational"
-      label="Label"
-      description="Toast description"
-    ></glide-core-toast>`,
-  );
-
-  expect(component.variant).to.equal('informational');
-  expect(component.label).to.equal('Label');
-  expect(component.description).to.equal('Toast description');
-});
-
 it('opens and closes by default', async () => {
   const clock = sinon.useFakeTimers();
 

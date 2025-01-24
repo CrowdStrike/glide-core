@@ -4,24 +4,15 @@ import './dropdown.option.js';
 import { click } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
 
-const defaultSlot = html`
-  <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Five"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Six"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Seven"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Eight"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Nine"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Ten"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Eleven"></glide-core-dropdown-option>
-`;
-
 it('focuses the input when `focus()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -36,10 +27,12 @@ it('retains focus on the input when an option is selected via click', async () =
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       multiple
       open
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -57,8 +50,14 @@ it('retains focus on the input when an option is selected via click', async () =
 
 it('retains focus on the the input when an option is selected via Enter', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -80,8 +79,14 @@ it('retains focus on the the input when an option is selected via Enter', async 
 
 it('retains focus on the the input when the primary button is clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -101,8 +106,14 @@ it('focuses the input on submit when required and no option is selected', async 
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      required
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     {
       parentNode: form,
@@ -115,12 +126,18 @@ it('focuses the input on submit when required and no option is selected', async 
   expect(component.shadowRoot?.activeElement).to.be.equal(input);
 });
 
-it('focuses the input when `reportValidity` is called when required and no option is selected', async () => {
+it('focuses the input when `reportValidity()` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      required
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     { parentNode: form },
   );
@@ -131,12 +148,18 @@ it('focuses the input when `reportValidity` is called when required and no optio
   expect(component.shadowRoot?.activeElement).to.equal(input);
 });
 
-it('does not focus the input when `checkValidity` is called', async () => {
+it('does not focus the input when `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      required
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     { parentNode: form },
   );
@@ -145,10 +168,16 @@ it('does not focus the input when `checkValidity` is called', async () => {
   expect(component.shadowRoot?.activeElement).to.equal(null);
 });
 
-it('sets the `value` of its `<input>` to the selected option when focus is lost', async () => {
+it('sets the `value` of its input field to the selected option when focus is lost', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 

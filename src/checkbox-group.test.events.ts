@@ -64,7 +64,7 @@ it('dispatches an "invalid" event on submit when required and the checkbox is un
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an "invalid" event after `checkValidity` is called when required and the checkbox is unchecked', async () => {
+it('dispatches an "invalid" event after `checkValidity()` is called when required and the checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreCheckboxGroup>(
@@ -80,7 +80,7 @@ it('dispatches an "invalid" event after `checkValidity` is called when required 
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an "invalid" event after `reportValidity` is called when required and the checkbox is unchecked', async () => {
+it('dispatches an "invalid" event after `reportValidity()` is called when required and the checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreCheckboxGroup>(
@@ -96,7 +96,7 @@ it('dispatches an "invalid" event after `reportValidity` is called when required
   expect(event instanceof Event).to.be.true;
 });
 
-it('does not dispatch an "invalid" event after `checkValidity` is called when not required', async () => {
+it('does not dispatch an "invalid" event after `checkValidity()` is called when not required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreCheckboxGroup>(
@@ -115,7 +115,7 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when no
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an "invalid" event after `checkValidity` is called when disabled but required and the checkbox is unchecked', async () => {
+it('does not dispatch an "invalid" event after `checkValidity()` is called when disabled but required and the checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreCheckboxGroup>(
@@ -134,7 +134,7 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when di
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
+it('does not dispatch an "invalid" event when `reportValidity()` is called when not required,', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreCheckboxGroup>(
@@ -153,7 +153,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an "invalid" event when `reportValidity` is called when disabled but required and the checkbox is unchecked', async () => {
+it('does not dispatch an "invalid" event when `reportValidity()` is called when disabled but required and the checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreCheckboxGroup>(

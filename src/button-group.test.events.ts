@@ -5,7 +5,7 @@ import GlideCoreButtonGroupButton from './button-group.button.js';
 import { click } from './library/mouse.js';
 import './button-group.js';
 
-it('emits a "selected" event when a button is clicked and not already selected', async () => {
+it('dispatches a "selected" event when a button is clicked and not already selected', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
@@ -32,7 +32,7 @@ it('emits a "selected" event when a button is clicked and not already selected',
   expect(event.target).to.equal(button);
 });
 
-it('does not emit a "selected" event when an already selected button is clicked', async () => {
+it('does not dispatch a "selected" event when an already selected button is clicked', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
@@ -55,7 +55,7 @@ it('does not emit a "selected" event when an already selected button is clicked'
   expect(spy.callCount).to.equal(0);
 });
 
-it('emits "selected" events when arrowing', async () => {
+it('dispatches "selected" events when arrowing', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
@@ -103,7 +103,7 @@ it('emits "selected" events when arrowing', async () => {
   expect(event.target).to.equal(buttons[0]);
 });
 
-it('emits a "selected" event when a button is selected via Space', async () => {
+it('dispatches a "selected" event when a button is selected via Space', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
@@ -129,7 +129,7 @@ it('emits a "selected" event when a button is selected via Space', async () => {
   expect(event.target).to.be.equal(buttons[1]);
 });
 
-it('does not emit a "selected" event when a button is selected programmatically', async () => {
+it('does not dispatch a "selected" event when a button is selected programmatically', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
@@ -158,7 +158,7 @@ it('does not emit a "selected" event when a button is selected programmatically'
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not emit a "selected" event when an already selected button is selected via Space', async () => {
+it('does not dispatch a "selected" event when an already selected button is selected via Space', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
@@ -181,7 +181,7 @@ it('does not emit a "selected" event when an already selected button is selected
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not emit a "selected" event a button is selected programmatically', async () => {
+it('does not dispatch a "selected" event a button is selected programmatically', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button

@@ -1,24 +1,8 @@
 import './checkbox.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
-
-it('exposes standard form control properties and methods', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<GlideCoreCheckboxGroup>(
-    html`<glide-core-checkbox-group label="Checkbox Group">
-      <glide-core-checkbox label="Checkbox"></glide-core-checkbox>
-    </glide-core-checkbox-group>`,
-    { parentNode: form },
-  );
-
-  expect(component.form).to.equal(form);
-  expect(component.validity instanceof ValidityState).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity).to.be.a('function');
-  expect(component.reportValidity).to.be.a('function');
-});
 
 it('can be reset', async () => {
   const form = document.createElement('form');
@@ -316,6 +300,30 @@ it('sets the validity message with `setCustomValidity()`', async () => {
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.equal('validity message');
+});
+
+it('sets the validity of its checkboxes when when tabbed away from', async () => {
+  const component = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Checkbox Group" required>
+      <glide-core-checkbox label="Checkbox1"></glide-core-checkbox>
+      <glide-core-checkbox label="Checkbox2"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
+  );
+
+  component.focus();
+
+  const checkboxes = component.querySelectorAll('glide-core-checkbox');
+
+  expect(document.activeElement === checkboxes[0]).to.be.true;
+  await sendKeys({ press: 'Tab' });
+
+  expect(document.activeElement === checkboxes[1]).to.be.true;
+  await sendKeys({ press: 'Tab' });
+
+  expect(document.activeElement === document.body).to.be.true;
+  expect(component.validity.valid).to.be.false;
+  expect(checkboxes[0].validity.valid).to.be.false;
+  expect(checkboxes[1].validity.valid).to.be.false;
 });
 
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {

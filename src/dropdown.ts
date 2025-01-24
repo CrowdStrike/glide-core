@@ -438,10 +438,6 @@ export default class GlideCoreDropdown
     return this.#internals.validity;
   }
 
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
   formAssociatedCallback() {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }

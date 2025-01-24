@@ -26,7 +26,7 @@ it('checks and unchecks checkboxes when `value` is changed programmatically', as
   expect(checkboxes[2].checked).to.be.false;
 });
 
-it('updates `value` when the `value` of a checked Checkbox is changed programmatically', async () => {
+it('updates `value` when the `value` of a checked checkbox is changed programmatically', async () => {
   const component = await fixture<GlideCoreCheckboxGroup>(
     html`<glide-core-checkbox-group label="Checkbox Group">
       <glide-core-checkbox
@@ -53,7 +53,7 @@ it('updates `value` when the `value` of a checked Checkbox is changed programmat
   expect(component.getAttribute('value')).to.equal('["three","two"]');
 });
 
-it('updates `value` when the `value` of a checked Checkbox is emptied programmatically', async () => {
+it('updates `value` when the `value` of a checked checkbox is emptied programmatically', async () => {
   const component = await fixture<GlideCoreCheckboxGroup>(
     html`<glide-core-checkbox-group label="Checkbox Group">
       <glide-core-checkbox

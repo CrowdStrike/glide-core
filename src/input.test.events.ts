@@ -4,14 +4,15 @@ import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreInput from './input.js';
 
-it('dispatches a "change" event when typed in', async () => {
+it('dispatches a "change" event on input', async () => {
   const component = await fixture<GlideCoreInput>(
-    html`<glide-core-input></glide-core-input>`,
+    html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
+  component.focus();
+
   setTimeout(async () => {
-    component.focus();
-    await sendKeys({ type: 'testing' });
+    await sendKeys({ type: 'test' });
     component.blur();
   });
 
@@ -21,17 +22,16 @@ it('dispatches a "change" event when typed in', async () => {
   expect(event.composed).to.be.true;
 });
 
-it('dispatches an "input" event when typed in', async () => {
+it('dispatches an "input" event on input', async () => {
   const component = await fixture<GlideCoreInput>(
-    html`<glide-core-input></glide-core-input>`,
+    html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
-  setTimeout(() => {
-    component.focus();
-    sendKeys({ type: 'testing' });
-  });
+  component.focus();
+  sendKeys({ type: 'test' });
 
   const event = await oneEvent(component, 'input');
+
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
   expect(event.composed).to.be.true;
@@ -67,7 +67,7 @@ it('dispatches an "invalid" event on submit when required and no value', async (
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an "invalid" event after `checkValidity` is called when required and no value', async () => {
+it('dispatches an "invalid" event after `checkValidity()` is called when required and no value', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreInput>(
@@ -83,7 +83,7 @@ it('dispatches an "invalid" event after `checkValidity` is called when required 
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an "invalid" event after `reportValidity` is called when required and no value', async () => {
+it('dispatches an "invalid" event after `reportValidity()` is called when required and no value', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreInput>(
@@ -99,11 +99,11 @@ it('dispatches an "invalid" event after `reportValidity` is called when required
   expect(event instanceof Event).to.be.true;
 });
 
-it('does not dispatch an "invalid" event after `checkValidity` is called when not required', async () => {
+it('does not dispatch an "invalid" event after `checkValidity()` is called when not required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreInput>(
-    html`<glide-core-input></glide-core-input>`,
+    html`<glide-core-input label="Label"></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -118,7 +118,7 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when no
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an "invalid" event after `checkValidity` is called when required and no value but disabled', async () => {
+it('does not dispatch an "invalid" event after `checkValidity()` is called when required and no value but disabled', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreInput>(
@@ -135,11 +135,11 @@ it('does not dispatch an "invalid" event after `checkValidity` is called when re
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
+it('does not dispatch an "invalid" event when `reportValidity()` is called when not required,', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreInput>(
-    html`<glide-core-input></glide-core-input>`,
+    html`<glide-core-input label="Label"></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -154,7 +154,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an "invalid" event when `reportValidity` is called when required and no value but disabled', async () => {
+it('does not dispatch an "invalid" event when `reportValidity()` is called when required and no value but disabled', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreInput>(

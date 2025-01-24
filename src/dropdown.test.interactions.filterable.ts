@@ -15,24 +15,15 @@ import './dropdown.option.js';
 import './tag.js';
 import './tooltip.js';
 
-const defaultSlot = html`
-  <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Five"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Six"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Seven"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Eight"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Nine"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Ten"></glide-core-dropdown-option>
-  <glide-core-dropdown-option label="Eleven"></glide-core-dropdown-option>
-`;
-
 it('opens on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -46,8 +37,14 @@ it('opens on click', async () => {
 
 it('closes on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -66,8 +63,14 @@ it('closes on click', async () => {
 
 it('does not close on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -84,8 +87,13 @@ it('does not close on click', async () => {
 
 it('filters', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -101,8 +109,13 @@ it('filters', async () => {
 
 it('unfilters when an option is selected via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -120,13 +133,18 @@ it('unfilters when an option is selected via click', async () => {
     ...component.querySelectorAll('glide-core-dropdown-option'),
   ].filter(({ hidden }) => !hidden);
 
-  expect(options.length).to.equal(11);
+  expect(options.length).to.equal(2);
 });
 
 it('unfilters when an option is selected via Enter', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -138,13 +156,18 @@ it('unfilters when an option is selected via Enter', async () => {
     ...component.querySelectorAll('glide-core-dropdown-option'),
   ].filter(({ hidden }) => !hidden);
 
-  expect(options.length).to.equal(11);
+  expect(options.length).to.equal(2);
 });
 
 it('does nothing on Enter when every option is filtered out', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -165,14 +188,19 @@ it('does nothing on Enter when every option is filtered out', async () => {
   ].filter(({ selected }) => selected);
 
   expect(input?.value).to.equal('blah');
-  expect(hiddenOptions.length).to.equal(11);
+  expect(hiddenOptions.length).to.equal(2);
   expect(selectedOptions.length).to.equal(0);
 });
 
 it('shows its magnifying glass icon when single-select and filtering', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -188,8 +216,13 @@ it('shows its magnifying glass icon when single-select and filtering', async () 
 
 it('hides its magnifying glass icon when single-select and not filtering', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -204,10 +237,15 @@ it('hides its magnifying glass icon when single-select and not filtering', async
   expect(icon?.checkVisibility()).to.be.not.ok;
 });
 
-it('hides its magnifying glass icon when single-select and the filter is label of the selected option', async () => {
+it('hides its magnifying glass icon when single-select and the filter is label of its selected option', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -229,8 +267,14 @@ it('hides its magnifying glass icon when single-select and the filter is label o
 
 it('hides its magnifying glass icon when single-select and an option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -256,8 +300,14 @@ it('hides its magnifying glass icon when single-select and an option is selected
 
 it('hides its magnifying glass icon when single-select and closed programmatically and an option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -283,8 +333,14 @@ it('hides its magnifying glass icon when single-select and closed programmatical
 
 it('shows its magnifying glass icon when multiselect and filtering', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -300,8 +356,14 @@ it('shows its magnifying glass icon when multiselect and filtering', async () =>
 
 it('hides its magnifying glass icon when multiselect and not filtering', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -479,8 +541,13 @@ it('does not clear its filter when every tag is removed via Meta + Backspace', a
 
 it('does not filter on only whitespace', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -491,13 +558,19 @@ it('does not filter on only whitespace', async () => {
     ...component.querySelectorAll('glide-core-dropdown-option'),
   ].filter(({ hidden }) => !hidden);
 
-  expect(options.length).to.equal(11);
+  expect(options.length).to.equal(2);
 });
 
 it('hides the options when all of them are filtered out', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -522,11 +595,13 @@ it('hides Select All when filtering', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       open
       multiple
       select-all
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -545,8 +620,8 @@ it('unhides every option after filtering when one is selected and Dropdown is re
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
-      open
       filterable
+      open
     >
       <glide-core-dropdown-option
         label="One"
@@ -583,10 +658,12 @@ it('sets the first unfiltered option as active when the previously active option
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       multiple
       select-all
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -605,7 +682,7 @@ it('sets the first unfiltered option as active when the previously active option
   expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
 });
 
-it('updates the `value` of its `<input>` when `label` of a selected option is changed programmatically', async () => {
+it('updates the `value` of its input field when `label` of a selected option is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -636,8 +713,13 @@ it('updates the `value` of its `<input>` when `label` of a selected option is ch
 
 it('updates `value` when an option `value` is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -648,9 +730,13 @@ it('updates `value` when an option `value` is changed programmatically', async (
   expect(component.value).to.deep.equal(['two']);
 });
 
-it('sets the `value` of its `<input>` when made filterable', async () => {
+it('sets the `value` of its input field when made filterable', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
       <glide-core-dropdown-option
         label="One"
         selected
@@ -673,7 +759,7 @@ it('sets the `value` of its `<input>` when made filterable', async () => {
   expect(input?.value).to.equal('One');
 });
 
-it('clears the `value` of its `<input>` when `multiple` is set programmatically', async () => {
+it('clears the `value` of its input field when `multiple` is set programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -704,10 +790,12 @@ it('does not select options on Space', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       multiple
       open
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -721,8 +809,14 @@ it('does not select options on Space', async () => {
 
 it('deselects the last selected option on Backspace', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -749,8 +843,14 @@ it('deselects the last selected option on Backspace', async () => {
 
 it('deselects all options on Meta + Backspace', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -775,10 +875,15 @@ it('deselects all options on Meta + Backspace', async () => {
   expect(options[0].selected).to.be.false;
 });
 
-it('sets the `value` of its `<input>` to the label of the selected option when not `multiple`', async () => {
+it('sets the `value` of its input field to the label of its selected option when not `multiple`', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -792,10 +897,16 @@ it('sets the `value` of its `<input>` to the label of the selected option when n
   expect(input?.value).to.equal(option?.label);
 });
 
-it('clears the `value` of its `<input>` when multiselect and an option is selected', async () => {
+it('clears the `value` of its input field when multiselect and an option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -814,8 +925,14 @@ it('clears the `value` of its `<input>` when multiselect and an option is select
 
 it('does not clear its filter when a tag is removed', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -844,8 +961,14 @@ it('does not clear its filter when a tag is removed', async () => {
 
 it('uses `placeholder` as a placeholder when multiselect and no option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      multiple
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -862,7 +985,10 @@ it('uses `placeholder` as a placeholder when multiselect and no option is select
 
 it('sets `aria-activedescendant` on option hover', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open> ${defaultSlot} </glide-core-dropdown>`,
+    html`<glide-core-dropdown open>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
   );
 
   // Wait for Floating UI.
@@ -881,10 +1007,12 @@ it('sets `aria-activedescendant` on ArrowDown', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       open
       multiple
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -908,10 +1036,12 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       open
       multiple
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -937,10 +1067,12 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       open
       multiple
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -965,10 +1097,12 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       open
       multiple
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -993,10 +1127,12 @@ it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       open
       multiple
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1021,8 +1157,13 @@ it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
 
 it('sets `aria-activedescendant` on open via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1041,8 +1182,13 @@ it('sets `aria-activedescendant` on open via click', async () => {
 
 it('sets `aria-activedescendant` on open via Space', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1063,10 +1209,12 @@ it('sets `aria-activedescendant` on End', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       open
       multiple
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1096,10 +1244,12 @@ it('sets `aria-activedescendant` on PageDown', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       open
       multiple
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1129,10 +1279,12 @@ it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       open
       multiple
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1161,8 +1313,14 @@ it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
 
 it('sets `aria-activedescendant` when closed via click', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1181,8 +1339,14 @@ it('sets `aria-activedescendant` when closed via click', async () => {
 
 it('sets `aria-activedescendant` when closed because it lost focus', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1198,8 +1362,14 @@ it('sets `aria-activedescendant` when closed because it lost focus', async () =>
 
 it('sets `aria-activedescendant` when closed because something outside of it was clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1214,8 +1384,14 @@ it('sets `aria-activedescendant` when closed because something outside of it was
 
 it('sets `aria-activedescendant` when closed via Escape', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1229,15 +1405,17 @@ it('sets `aria-activedescendant` when closed via Escape', async () => {
   expect(input?.getAttribute('aria-activedescendant')).to.be.empty.string;
 });
 
-it('cannot be tabbed to when `disabled`', async () => {
+it('cannot be tabbed to when disabled', async () => {
   await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
+      filterable
       multiple
       disabled
     >
-      ${defaultSlot}
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1245,10 +1423,16 @@ it('cannot be tabbed to when `disabled`', async () => {
   expect(document.activeElement).to.equal(document.body);
 });
 
-it('sets the `value` of its `<input>` back to the label of selected option when something other than it is clicked', async () => {
+it('sets the `value` of its input field back to the label of selected option when something other than it is clicked', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1297,8 +1481,13 @@ it('selects the filter text when `click()` is called', async () => {
 
 it('clicks the `<input>` when `click()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
-      ${defaultSlot}
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
@@ -1421,7 +1610,7 @@ it('updates its item count after filtering', async () => {
   expect(itemCount?.ariaLabel).to.equal('1 items');
 });
 
-it('shows an ellipsis when the label of the selected option overflows', async () => {
+it('shows an ellipsis when the label of its selected option overflows', async () => {
   // The "x" is arbitrary. 500 of them ensures the component is wider
   // than the viewport even if the viewport's width is increased.
   const component = await fixture<GlideCoreDropdown>(
@@ -1449,7 +1638,7 @@ it('shows an ellipsis when the label of the selected option overflows', async ()
   expect(ellipsis?.checkVisibility()).to.be.true;
 });
 
-it('shows an ellipsis when the label of the selected option is changed programmatically and overflows', async () => {
+it('shows an ellipsis when the label of its selected option is changed programmatically and overflows', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -1478,7 +1667,7 @@ it('shows an ellipsis when the label of the selected option is changed programma
   expect(ellipsis?.checkVisibility()).to.be.true;
 });
 
-it('shows an ellipsis when made filterable programmatically and the label of the selected option overflows', async () => {
+it('shows an ellipsis when made filterable programmatically and the label of its selected option overflows', async () => {
   // The "x" is arbitrary. 500 of them ensures the component is wider
   // than the viewport even if the viewport's width is increased.
   const component = await fixture<GlideCoreDropdown>(
@@ -1498,7 +1687,7 @@ it('shows an ellipsis when made filterable programmatically and the label of the
       ?.checkVisibility();
   });
 
-  // Now wait for the Resize Observer to do its thing.
+  // Wait for the resize observer to do its thing.
   await aTimeout(0);
 
   const ellipsis = component.shadowRoot?.querySelector(

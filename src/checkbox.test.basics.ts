@@ -19,7 +19,7 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('has a tooltip when minimal with a long label', async () => {
+it('has a tooltip when "minimal" with a long label', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       style=${styleMap({
@@ -43,7 +43,7 @@ it('has a tooltip when minimal with a long label', async () => {
   expect(tooltip?.open).to.be.true;
 });
 
-it('has no tooltip when minimal with a short label', async () => {
+it('has no tooltip when "minimal" with a short label', async () => {
   const component = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       label="Label"

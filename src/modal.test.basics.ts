@@ -49,7 +49,7 @@ it('throws if it does not have a default slot', async () => {
   });
 });
 
-it('throws an error when the "primary" footer slot is the incorrect type', async () => {
+it('throws an error when the "primary" footer slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-modal label="Label">
@@ -60,7 +60,7 @@ it('throws an error when the "primary" footer slot is the incorrect type', async
   });
 });
 
-it('throws an error when the "secondary" footer slot is the incorrect type', async () => {
+it('throws an error when the "secondary" footer slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-modal label="Label">
@@ -71,7 +71,7 @@ it('throws an error when the "secondary" footer slot is the incorrect type', asy
   });
 });
 
-it('throws an error when the "header-actions" slot is the incorrect type', async () => {
+it('throws an error when the "header-actions" slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-modal label="Label">
@@ -82,7 +82,7 @@ it('throws an error when the "header-actions" slot is the incorrect type', async
   });
 });
 
-it('throws an error when the "tertiary" footer slot is the incorrect type', async () => {
+it('throws an error when the "tertiary" footer slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-modal label="Label">

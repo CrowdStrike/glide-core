@@ -20,7 +20,7 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('displays visually hidden character count text for screenreaders', async () => {
+it('has a visually hidden character count text for screenreaders', async () => {
   const component = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
       label="label"

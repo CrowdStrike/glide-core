@@ -215,10 +215,6 @@ export default class GlideCoreCheckboxGroup
     return this.#internals.validity;
   }
 
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
   override focus(options?: FocusOptions) {
     const checkbox = this.#checkboxes.find(({ disabled }) => !disabled);
     checkbox?.focus(options);

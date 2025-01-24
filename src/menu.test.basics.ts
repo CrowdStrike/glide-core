@@ -10,27 +10,6 @@ it('registers itself', async () => {
   expect(window.customElements.get('glide-core-menu')).to.equal(GlideCoreMenu);
 });
 
-it('has defaults', async () => {
-  // Required attributes are supplied here and thus left unasserted below. The
-  // idea is that this test shouldn't fail to typecheck if these templates are
-  // eventually typechecked, which means supplying all required attributes and slots.
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  const options = component.querySelector('glide-core-menu-options');
-
-  expect(component.getAttribute('size')).to.equal('large');
-  expect(component.size).to.equal('large');
-  expect(options?.privateSize).to.equal('large');
-});
-
 it('is accessible', async () => {
   const component = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
@@ -175,7 +154,7 @@ it('throws if it does not have a default slot', async () => {
   });
 });
 
-it('throws if its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-menu>

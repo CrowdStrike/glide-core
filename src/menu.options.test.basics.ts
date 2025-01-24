@@ -12,7 +12,7 @@ it('throws if it does not have a default slot', async () => {
   });
 });
 
-it('throws if its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-menu-options>

@@ -132,11 +132,9 @@ it('is valid by default', async () => {
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'false',
+  );
 });
 
 it('is valid after being filled in and required', async () => {
@@ -155,11 +153,9 @@ it('is valid after being filled in and required', async () => {
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'false',
+  );
 });
 
 it('is invalid if no value and required', async () => {
@@ -170,17 +166,14 @@ it('is invalid if no value and required', async () => {
   expect(component.validity?.valid).to.be.false;
   expect(component.validity?.valueMissing).to.be.true;
   expect(component.validity?.tooLong).to.be.false;
-  expect(component.willValidate).to.be.true;
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'true',
+  );
 });
 
 it('is valid if no value but required and disabled', async () => {
@@ -196,11 +189,9 @@ it('is valid if no value but required and disabled', async () => {
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'false',
+  );
 });
 
 it('updates validity when `required` and `value` is changed programmatically', async () => {
@@ -215,11 +206,9 @@ it('updates validity when `required` and `value` is changed programmatically', a
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'true',
+  );
 
   component.value = 'text';
 
@@ -232,11 +221,9 @@ it('updates validity when `required` and `value` is changed programmatically', a
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'false',
+  );
 
   // Resetting the value to empty to ensure it goes
   // back to an invalid state
@@ -249,11 +236,9 @@ it('updates validity when `required` and `value` is changed programmatically', a
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'true',
+  );
 });
 
 it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
@@ -268,11 +253,9 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'false',
+  );
 
   component.required = true;
 
@@ -283,11 +266,9 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
   expect(component.checkValidity()).to.be.false;
   expect(component.reportValidity()).to.be.false;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'true',
+  );
 });
 
 it('is valid when `value` is empty and `required` is set to `false` programmatically', async () => {
@@ -302,11 +283,9 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'true',
+  );
 
   component.required = false;
 
@@ -317,11 +296,9 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
   expect(component.checkValidity()).to.be.true;
   expect(component.reportValidity()).to.be.true;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('false');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'false',
+  );
 });
 
 it('blurs the textarea and reports validity if `blur` is called', async () => {
@@ -368,11 +345,9 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'true',
+  );
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')
@@ -423,11 +398,9 @@ it('is invalid when `setValidity()` is called', async () => {
 
   await component.updateComplete;
 
-  expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
-  ).to.equal('true');
+  expect(component.shadowRoot?.querySelector('textarea')?.ariaInvalid).to.equal(
+    'true',
+  );
 
   expect(
     component.shadowRoot?.querySelector('[data-test="validity-message"]')

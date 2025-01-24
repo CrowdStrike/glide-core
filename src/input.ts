@@ -193,10 +193,6 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     return this.#internals.validity;
   }
 
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
   override blur() {
     this.#inputElementRef.value?.blur();
   }

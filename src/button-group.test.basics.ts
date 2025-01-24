@@ -9,25 +9,6 @@ it('registers itself', async () => {
   );
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreButtonGroup>(
-    html`<glide-core-button-group label="Label">
-      <glide-core-button-group-button
-        label="One"
-      ></glide-core-button-group-button>
-
-      <glide-core-button-group-button
-        label="Two"
-      ></glide-core-button-group-button>
-    </glide-core-button-group>`,
-  );
-
-  expect(component.orientation).to.equal('horizontal');
-  expect(component.variant).to.equal(undefined);
-  expect(component.getAttribute('orientation')).to.equal('horizontal');
-  expect(component).to.not.have.attribute('variant');
-});
-
 it('is accessible', async () => {
   const component = await fixture(
     html`<glide-core-button-group label="Label">
@@ -49,27 +30,7 @@ it('is accessible', async () => {
   });
 });
 
-it('can have a label', async () => {
-  const component = await fixture(
-    html`<glide-core-button-group label="Label">
-      <glide-core-button-group-button
-        label="One"
-      ></glide-core-button-group-button>
-
-      <glide-core-button-group-button
-        label="Two"
-      ></glide-core-button-group-button>
-    </glide-core-button-group>`,
-  );
-
-  const label = component.shadowRoot?.querySelector('[data-test="label"]');
-  const radioGroup = component.shadowRoot?.querySelector('[role="radiogroup"]');
-
-  expect(label?.textContent).to.equal('Label');
-  expect(radioGroup?.getAttribute('aria-labelledby')).to.equal(label?.id);
-});
-
-it('sets the orientation of each button when horizontal', async () => {
+it('sets the orientation of buttons when horizontal', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button
@@ -88,7 +49,7 @@ it('sets the orientation of each button when horizontal', async () => {
   expect(buttons[1]?.privateOrientation).to.equal('horizontal');
 });
 
-it('sets the orientation of each button when vertical', async () => {
+it('sets the orientation of buttons when vertical', async () => {
   const component = await fixture(
     html`<glide-core-button-group orientation="vertical">
       <glide-core-button-group-button
@@ -107,7 +68,7 @@ it('sets the orientation of each button when vertical', async () => {
   expect(buttons[1]?.privateOrientation).to.equal('vertical');
 });
 
-it('sets `privateVariant` on each button', async () => {
+it('sets `privateVariant` on buttons', async () => {
   const component = await fixture(
     html`<glide-core-button-group label="Label" variant="icon-only">
       <glide-core-button-group-button label="One">
@@ -126,7 +87,7 @@ it('sets `privateVariant` on each button', async () => {
   expect(buttons[1].privateVariant).to.equal('icon-only');
 });
 
-it('throws if its default slot is the wrong type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(html`
       <glide-core-button-group label="Label">

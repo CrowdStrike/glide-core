@@ -5,7 +5,7 @@ import GlideCoreTreeItem from './tree.item.js';
 import GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
 
-it('focuses the first tree item when tree is focused, if there are no selected items', async () => {
+it('focuses the first tree item when tree is focused if there are no selected items', async () => {
   const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item 1">
@@ -26,7 +26,7 @@ it('focuses the first tree item when tree is focused, if there are no selected i
   expect(document.activeElement?.label).to.equal(childItems[0].label);
 });
 
-it('focuses the selected tree item on `focus()`, if there is one', async () => {
+it('focuses the selected tree item on `focus()` if there is one', async () => {
   const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
@@ -67,7 +67,7 @@ it('does not focus the selected tree item on `focus()` if collapsed', async () =
   expect(document.activeElement === childItems[0]).to.be.true;
 });
 
-it('expands a tree item if right arrow is pressed', async () => {
+it('expands a tree item on ArrowRight', async () => {
   const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item 1">
@@ -92,7 +92,7 @@ it('expands a tree item if right arrow is pressed', async () => {
   );
 });
 
-it(`focuses on an expanded tree item's child if right arrow is pressed`, async () => {
+it(`focuses on an expanded tree item's child on ArrowRight`, async () => {
   const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item 1" expanded>
@@ -140,7 +140,7 @@ it('collapses an expanded tree item if left arrow is pressed', async () => {
   );
 });
 
-it(`focuses on a non-collapsible tree item's parent if left arrow is pressed`, async () => {
+it(`focuses on a non-collapsible tree item's parent on ArrowLeft`, async () => {
   const component = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Child Item 1" expanded non-collapsible>
@@ -560,5 +560,5 @@ it('does not select a tree item if Enter is pressed while its tree item icon but
 
   await sendKeys({ press: 'Enter' });
 
-  expect(childItems[0].hasAttribute('selected')).to.be.false;
+  expect(childItems[0].selected).to.be.false;
 });

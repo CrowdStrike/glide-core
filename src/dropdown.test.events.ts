@@ -207,7 +207,7 @@ it('dispatches an "invalid" event on submit when required and no option is selec
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an "invalid" event when `checkValidity` is called when required and no option is selected', async () => {
+it('dispatches an "invalid" event when `checkValidity()` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
@@ -223,7 +223,7 @@ it('dispatches an "invalid" event when `checkValidity` is called when required a
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an "invalid" event when `reportValidity` is called when required and no option is selected', async () => {
+it('dispatches an "invalid" event when `reportValidity()` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
@@ -239,7 +239,7 @@ it('dispatches an "invalid" event when `reportValidity` is called when required 
   expect(event instanceof Event).to.be.true;
 });
 
-it('does not dispatch an "invalid" event when `checkValidity` is called when not required', async () => {
+it('does not dispatch an "invalid" event when `checkValidity()` is called when not required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
@@ -257,7 +257,7 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when not
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an "invalid" event when `checkValidity` is called when required, disabled, and no option is selected', async () => {
+it('does not dispatch an "invalid" event when `checkValidity()` is called when required, disabled, and no option is selected', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
@@ -280,7 +280,7 @@ it('does not dispatch an "invalid" event when `checkValidity` is called when req
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an "invalid" event when `reportValidity` is called when not required,', async () => {
+it('does not dispatch an "invalid" event when `reportValidity()` is called when not required,', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(
@@ -298,7 +298,7 @@ it('does not dispatch an "invalid" event when `reportValidity` is called when no
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an "invalid" event when `reportValidity` is called when required, disabled, and no option is selected', async () => {
+it('does not dispatch an "invalid" event when `reportValidity()` is called when required, disabled, and no option is selected', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreDropdown>(

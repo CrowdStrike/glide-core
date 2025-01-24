@@ -3,7 +3,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreModal from './modal.js';
 
-it('opens', async () => {
+it('can be opened programmatically', async () => {
   const component = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
@@ -15,7 +15,7 @@ it('opens', async () => {
   expect(dialog?.checkVisibility()).to.be.true;
 });
 
-it('closes', async () => {
+it('can be closed programmatically', async () => {
   const component = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );

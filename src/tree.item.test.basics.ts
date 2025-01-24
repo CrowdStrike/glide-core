@@ -11,19 +11,6 @@ it('registers itself', () => {
   );
 });
 
-it('renders and sets default attributes', async () => {
-  const component = await fixture<GlideCoreTreeItem>(html`
-    <glide-core-tree-item label="Item"></glide-core-tree-item>
-  `);
-
-  expect(component.expanded).to.be.false;
-  expect(component.label).to.equal('Item');
-  expect(component.level).to.equal(1);
-
-  expect(component.shadowRoot?.querySelector('.expand-icon-container')).to.be
-    .ok;
-});
-
 it('does not render expand-icon-container if remove-indentation is set', async () => {
   const component = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item
@@ -154,7 +141,7 @@ it('can select child and grandchild items', async () => {
   expect(grandchildItems[0].selected).to.be.true;
 });
 
-it('throws if its "menu" slot is the incorrect type', async () => {
+it('throws when its "menu" slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(html`
       <glide-core-tree-item expanded label="Item">

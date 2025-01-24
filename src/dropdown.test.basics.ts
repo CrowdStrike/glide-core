@@ -165,7 +165,7 @@ it('hides the tooltip of the active option when open', async () => {
   expect(tooltip?.open).to.be.false;
 });
 
-it('throws if its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-dropdown label="Label" placeholder="Placeholder">

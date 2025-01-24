@@ -1625,7 +1625,7 @@ it('closes on edit via Space', async () => {
   expect(component.open).to.be.false;
 });
 
-it('cannot be tabbed to when `disabled`', async () => {
+it('cannot be tabbed to when disabled', async () => {
   await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown
       label="Label"
@@ -1642,7 +1642,7 @@ it('cannot be tabbed to when `disabled`', async () => {
   expect(document.activeElement).to.equal(document.body);
 });
 
-it('clicks the primary button when `click()` is called', async () => {
+it('clicks its primary button when `click()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>

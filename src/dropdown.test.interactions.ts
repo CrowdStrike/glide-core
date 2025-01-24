@@ -53,7 +53,7 @@ it('opens on ArrowUp', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
-it('does not open on ArrowUp when `disabled`', async () => {
+it('does not open on ArrowUp when disabled', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -102,7 +102,7 @@ it('opens on ArrowDown', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
-it('does not open on ArrowDown when `disabled`', async () => {
+it('does not open on ArrowDown when disabled', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -189,7 +189,7 @@ it('opens on Space', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
-it('does not open on Space when `disabled`', async () => {
+it('does not open on Space when disabled', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>

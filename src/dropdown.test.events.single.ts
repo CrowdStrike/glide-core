@@ -209,7 +209,7 @@ it('dispatches an "edit" event on Space', async () => {
   expect(event.target).to.equal(option);
 });
 
-it('does not dispatch an "edit" event when `disabled`', async () => {
+it('does not dispatch an "edit" event when disabled', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
       <glide-core-dropdown-option

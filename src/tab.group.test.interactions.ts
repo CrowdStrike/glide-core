@@ -6,7 +6,7 @@ import { click } from './library/mouse.js';
 import GlideCoreTabGroup from './tab.group.js';
 import './tab.panel.js';
 
-it('does not render overflow buttons when there is no overflow', async () => {
+it('has no overflow buttons when there is no overflow', async () => {
   const component = await fixture(html`
     <div style="width:25rem">
       <glide-core-tab-group>
@@ -46,7 +46,7 @@ it('does not render overflow buttons when there is no overflow', async () => {
   expect(endOverflowButton).to.be.null;
 });
 
-it('renders overflow buttons when there is overflow', async () => {
+it('has overflow buttons when there is overflow', async () => {
   const component = await fixture(html`
     <div style="width:23rem">
       <glide-core-tab-group>
@@ -83,7 +83,7 @@ it('renders overflow buttons when there is overflow', async () => {
   });
 });
 
-it('renders a disabled start-overflow button when there is only overflow towards the end', async () => {
+it('has a disabled start-overflow button when there is only overflow towards the end', async () => {
   const component = await fixture(html`
     <div style="width:23rem">
       <glide-core-tab-group>

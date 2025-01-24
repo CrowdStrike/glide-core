@@ -158,10 +158,6 @@ export default class GlideCoreTextarea
     return this.#internals.validity;
   }
 
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
   formAssociatedCallback() {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
@@ -246,6 +242,7 @@ export default class GlideCoreTextarea
                   this.maxlength,
                 )}
               </span>
+
               <span class="hidden" data-test="character-count-announcement"
                 >${this.#localize.term(
                   'announcedCharacterCount',

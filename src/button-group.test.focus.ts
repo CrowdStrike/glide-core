@@ -3,7 +3,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import './button-group.button.js';
 import './button-group.js';
 
-it('moves focus', async () => {
+it('moves focus when arrowing', async () => {
   const component = await fixture(
     html`<glide-core-button-group>
       <glide-core-button-group-button

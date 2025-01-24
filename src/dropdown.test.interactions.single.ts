@@ -663,7 +663,7 @@ it('hides Select All', async () => {
   expect(selectAll?.checkVisibility()).to.not.be.ok;
 });
 
-it('cannot be tabbed to when `disabled`', async () => {
+it('cannot be tabbed to when disabled', async () => {
   await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" disabled>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -675,7 +675,7 @@ it('cannot be tabbed to when `disabled`', async () => {
   expect(document.activeElement).to.equal(document.body);
 });
 
-it('clicks the primary button when `click()` is called', async () => {
+it('clicks its primary button when `click()` is called', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>

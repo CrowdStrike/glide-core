@@ -5,26 +5,6 @@ import { click } from './library/mouse.js';
 import GlideCoreRadioGroup from './radio-group.js';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
 
-it('exposes standard form control properties and methods', async () => {
-  const form = document.createElement('form');
-
-  const component = await fixture<GlideCoreRadioGroup>(
-    html`<glide-core-radio-group label="label" name="name">
-      <glide-core-radio-group-radio
-        label="One"
-        value="one"
-      ></glide-core-radio-group-radio>
-    </glide-core-radio-group>`,
-    { parentNode: form },
-  );
-
-  expect(component.form).to.equal(form);
-  expect(component.validity instanceof ValidityState).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity).to.be.a('function');
-  expect(component.reportValidity).to.be.a('function');
-});
-
 it('can reset when `value` is programmatically changed', async () => {
   const form = document.createElement('form');
 
@@ -46,17 +26,15 @@ it('can reset when `value` is programmatically changed', async () => {
   );
 
   component.value = 'two';
-
   await component.updateComplete;
 
   form.reset();
-
   await component.updateComplete;
 
   expect(component.value).to.equal('one');
 });
 
-it('can reset when the checked Radios are changed via click', async () => {
+it('can reset when the checked radios are changed via click', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
@@ -83,20 +61,19 @@ it('can reset when the checked Radios are changed via click', async () => {
 
   await click(radios[0]);
 
-  expect(radios[0].hasAttribute('checked')).to.be.true;
-  expect(radios[1]).to.not.have.attribute('checked');
+  expect(radios[0].checked).to.be.true;
+  expect(radios[1].checked).to.be.false;
   expect(component.value).to.equal('one');
 
   form.reset();
-
   await component.updateComplete;
 
-  expect(radios[0].getAttribute('checked')).to.be.null;
-  expect(radios[1].hasAttribute('checked')).to.be.true;
+  expect(radios[0].checked).to.be.false;
+  expect(radios[1].checked).to.be.true;
   expect(component.value).to.equal('two');
 });
 
-it('can reset when the checked Radios are changed programmatically', async () => {
+it('can reset when the checked radios are changed programmatically', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
@@ -123,23 +100,20 @@ it('can reset when the checked Radios are changed programmatically', async () =>
 
   radios[1].checked = false;
   radios[0].checked = true;
-
   await component.updateComplete;
 
-  expect(radios[0].hasAttribute('checked')).to.be.true;
-  expect(radios[1]).to.not.have.attribute('checked');
   expect(component.value).to.equal('one');
 
   form.reset();
 
   await component.updateComplete;
 
-  expect(radios[0].getAttribute('checked')).to.be.null;
-  expect(radios[1].hasAttribute('checked')).to.be.true;
+  expect(radios[0].checked).to.be.false;
+  expect(radios[1].checked).to.be.true;
   expect(component.value).to.equal('two');
 });
 
-it('has `formData` when a Radio is checked', async () => {
+it('has `formData` when a radio is checked', async () => {
   const form = document.createElement('form');
 
   await fixture(
@@ -164,7 +138,7 @@ it('has `formData` when a Radio is checked', async () => {
   expect(formData.get('name')).to.be.equal('two');
 });
 
-it('has `formData` when the Radio Group has a `value`', async () => {
+it('has `formData` when it has a `value`', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreRadioGroup>(
@@ -189,7 +163,7 @@ it('has `formData` when the Radio Group has a `value`', async () => {
   expect(formData.get('name')).to.be.equal('two');
 });
 
-it('has no `formData` when no Radios are checked', async () => {
+it('has no `formData` when no radios are checked', async () => {
   const form = document.createElement('form');
 
   await fixture(
@@ -213,7 +187,7 @@ it('has no `formData` when no Radios are checked', async () => {
   expect(formData.get('name')).to.be.null;
 });
 
-it('has no `formData` when the group is disabled and one Radio is checked', async () => {
+it('has no `formData` when the group is disabled and one radio is checked', async () => {
   const form = document.createElement('form');
 
   await fixture(
@@ -238,7 +212,7 @@ it('has no `formData` when the group is disabled and one Radio is checked', asyn
   expect(formData.get('name')).to.be.null;
 });
 
-it('has no `formData` when a Radio is checked but disabled', async () => {
+it('has no `formData` when a radio is checked but disabled', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreRadioGroup>(
@@ -342,7 +316,7 @@ it('submits its form on Enter', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('resets `value` to an empty string when no Radios were initially selected', async () => {
+it('resets `value` to an empty string when no radios were initially selected', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
@@ -526,7 +500,7 @@ it('adds an error class after submit when invalid and required', async () => {
   expect(isComponentErrorClass).to.be.true;
 });
 
-it('adds an error class after `reportValidity` is called when invalid and required', async () => {
+it('adds an error class after `reportValidity()` is called when invalid and required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
@@ -556,9 +530,9 @@ it('adds an error class after `reportValidity` is called when invalid and requir
   const radios = document.querySelectorAll('glide-core-radio-group-radio');
 
   expect(radios[0]?.privateInvalid).to.be.true;
-  expect(radios[0]?.getAttribute('aria-invalid')).to.equal('true');
+  expect(radios[0]?.ariaInvalid).to.equal('true');
   expect(radios[1]?.privateInvalid).to.be.true;
-  expect(radios[1]?.getAttribute('aria-invalid')).to.equal('true');
+  expect(radios[1]?.ariaInvalid).to.equal('true');
 });
 
 it('does not add an error class by default', async () => {
@@ -603,12 +577,12 @@ it('does not add an error class by default', async () => {
   expect(isRadioError).to.be.false;
 
   expect(radios[0].privateInvalid).to.be.false;
-  expect(radios[0].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[0].ariaInvalid).to.equal('false');
   expect(radios[1].privateInvalid).to.be.false;
-  expect(radios[1].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[1].ariaInvalid).to.equal('false');
 });
 
-it('does not add an error class after `reportValidity` is called when not required', async () => {
+it('does not add an error class after `reportValidity()` is called when not required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
@@ -650,12 +624,12 @@ it('does not add an error class after `reportValidity` is called when not requir
   expect(isRadioError).to.be.false;
 
   expect(radios[0].privateInvalid).to.be.false;
-  expect(radios[0].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[0].ariaInvalid).to.equal('false');
   expect(radios[1].privateInvalid).to.be.false;
-  expect(radios[1].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[1].ariaInvalid).to.equal('false');
 });
 
-it('does not add an error class after `reportValidity` is called when required and a radio is checked', async () => {
+it('does not add an error class after `reportValidity()` is called when required and a radio is checked', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
@@ -698,12 +672,12 @@ it('does not add an error class after `reportValidity` is called when required a
   expect(isRadioError).to.be.false;
 
   expect(radios[0].privateInvalid).to.be.false;
-  expect(radios[0].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[0].ariaInvalid).to.equal('false');
   expect(radios[1].privateInvalid).to.be.false;
-  expect(radios[1].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[1].ariaInvalid).to.equal('false');
 });
 
-it('does not add an error class after `reportValidity` is called when required but disabled', async () => {
+it('does not add an error class after `reportValidity()` is called when required but disabled', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
@@ -746,12 +720,12 @@ it('does not add an error class after `reportValidity` is called when required b
   expect(isRadioError).to.be.false;
 
   expect(radios[0].privateInvalid).to.be.false;
-  expect(radios[0].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[0].ariaInvalid).to.equal('false');
   expect(radios[1].privateInvalid).to.be.false;
-  expect(radios[1].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[1].ariaInvalid).to.equal('false');
 });
 
-it('does not add an error class after `checkValidity` is called when required', async () => {
+it('does not add an error class after `checkValidity()` is called when required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreRadioGroup>(
@@ -793,9 +767,9 @@ it('does not add an error class after `checkValidity` is called when required', 
   expect(isRadioError).to.be.false;
 
   expect(radios[0].privateInvalid).to.be.false;
-  expect(radios[0].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[0].ariaInvalid).to.equal('false');
   expect(radios[1].privateInvalid).to.be.false;
-  expect(radios[1].getAttribute('aria-invalid')).to.equal('false');
+  expect(radios[1].ariaInvalid).to.equal('false');
 });
 
 it('sets the group as valid when `required` is set to `false` dynamically', async () => {

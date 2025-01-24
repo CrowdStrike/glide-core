@@ -28,7 +28,7 @@ it('focuses the input after submit when required and unchecked', async () => {
   expect(component.shadowRoot?.activeElement).to.be.equal(input);
 });
 
-it('focuses the input after `reportValidity` is called when required and unchecked', async () => {
+it('focuses the input after `reportValidity()` is called when required and unchecked', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreCheckbox>(
@@ -42,7 +42,7 @@ it('focuses the input after `reportValidity` is called when required and uncheck
   expect(component.shadowRoot?.activeElement).to.equal(input);
 });
 
-it('focuses the input after `requestSubmit` is called when required and unchecked', async () => {
+it('focuses the input after `requestSubmit()` is called when required and unchecked', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreCheckbox>(
@@ -56,7 +56,7 @@ it('focuses the input after `requestSubmit` is called when required and unchecke
   expect(component.shadowRoot?.activeElement).to.equal(input);
 });
 
-it('does not focus the input after `checkValidity` is called', async () => {
+it('does not focus the input after `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreCheckbox>(

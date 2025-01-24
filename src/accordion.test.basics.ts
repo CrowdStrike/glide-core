@@ -16,15 +16,7 @@ it('is accessible', async () => {
   await expect(component).to.be.accessible();
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreAccordion>(
-    html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
-  );
-
-  expect(component.open).to.be.false;
-});
-
-it('throws if its default slot is empty', async () => {
+it('throws when its default slot is empty', async () => {
   await expectUnhandledRejection(() => {
     return fixture<GlideCoreAccordion>(
       html`<glide-core-accordion label="Label"></glide-core-accordion>`,

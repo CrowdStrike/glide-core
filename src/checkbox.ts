@@ -394,7 +394,6 @@ export default class GlideCoreCheckbox
 
   reportValidity() {
     this.privateIsReportValidityOrSubmit = true;
-
     const isValid = this.#internals.reportValidity();
 
     // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
@@ -432,21 +431,13 @@ export default class GlideCoreCheckbox
 
   setValidity(flags?: ValidityStateFlags, message?: string) {
     this.validityMessage = message;
-
     this.#internals.setValidity(flags, ' ', this.#inputElementRef.value);
-  }
-
-  get willValidate() {
-    return this.#internals.willValidate;
   }
 
   override updated() {
     if (this.#inputElementRef.value) {
       // `indeterminate` needs to be updated both on initial render and after it has
       // changed. This handles both cases.
-      //
-      // TODO
-      // No need for this when browsers support the ":indeterminate" on the host.
       this.#inputElementRef.value.indeterminate = this.indeterminate;
     }
   }

@@ -4,32 +4,15 @@ import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import type GlideCoreTextarea from './textarea.js';
 
-it('dispatches a `input` event when typed in', async () => {
+it('dispatches an "change" event on input', async () => {
   const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label"></glide-core-textarea>`,
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
-  setTimeout(async () => {
-    component.focus();
-    await sendKeys({ type: 'testing' });
-    component.blur();
-  });
-
-  const event = await oneEvent(component, 'input');
-
-  expect(event instanceof Event).to.be.true;
-  expect(event.bubbles).to.be.true;
-  expect(event.composed).to.be.true;
-});
-
-it('dispatches an `change` event when typed in', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label"></glide-core-textarea>`,
-  );
+  component.focus();
 
   setTimeout(async () => {
-    component.focus();
-    await sendKeys({ type: 'testing' });
+    await sendKeys({ type: 'test' });
     component.blur();
   });
 
@@ -40,11 +23,26 @@ it('dispatches an `change` event when typed in', async () => {
   expect(event.composed).to.be.true;
 });
 
+it('dispatches an "input" event', async () => {
+  const component = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
+  );
+
+  component.focus();
+  sendKeys({ type: 'test' });
+
+  const event = await oneEvent(component, 'input');
+
+  expect(event instanceof Event).to.be.true;
+  expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+});
+
 it('dispatches an `invalid` event on submit when required and no value', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label" required></glide-core-textarea>`,
+    html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
     {
       parentNode: form,
     },
@@ -56,11 +54,11 @@ it('dispatches an `invalid` event on submit when required and no value', async (
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an `invalid` event after `checkValidity` is called when required and no value', async () => {
+it('dispatches an `invalid` event after `checkValidity()` is called when required and no value', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label" required></glide-core-textarea>`,
+    html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
     {
       parentNode: form,
     },
@@ -72,11 +70,11 @@ it('dispatches an `invalid` event after `checkValidity` is called when required 
   expect(event instanceof Event).to.be.true;
 });
 
-it('dispatches an `invalid` event after `reportValidity` is called when required and no value', async () => {
+it('dispatches an `invalid` event after `reportValidity()` is called when required and no value', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label" required></glide-core-textarea>`,
+    html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
     {
       parentNode: form,
     },
@@ -88,11 +86,11 @@ it('dispatches an `invalid` event after `reportValidity` is called when required
   expect(event instanceof Event).to.be.true;
 });
 
-it('does not dispatch an `invalid` event after `checkValidity` is called when not required', async () => {
+it('does not dispatch an `invalid` event after `checkValidity()` is called when not required', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label"></glide-core-textarea>`,
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
     {
       parentNode: form,
     },
@@ -106,12 +104,12 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when no
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an `invalid` event after `checkValidity` is called when required, no value, and disabled', async () => {
+it('does not dispatch an `invalid` event after `checkValidity()` is called when required, no value, and disabled', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
-      label="label"
+      label="Label"
       required
       disabled
     ></glide-core-textarea>`,
@@ -128,11 +126,11 @@ it('does not dispatch an `invalid` event after `checkValidity` is called when re
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an `invalid` event when `reportValidity` is called when not required,', async () => {
+it('does not dispatch an `invalid` event when `reportValidity()` is called when not required,', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label"></glide-core-textarea>`,
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
     {
       parentNode: form,
     },
@@ -146,12 +144,12 @@ it('does not dispatch an `invalid` event when `reportValidity` is called when no
   expect(spy.callCount).to.equal(0);
 });
 
-it('does not dispatch an `invalid` event when `reportValidity` is called when required, no value, and disabled', async () => {
+it('does not dispatch an `invalid` event when `reportValidity()` is called when required, no value, and disabled', async () => {
   const form = document.createElement('form');
 
   const component = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
-      label="label"
+      label="Label"
       required
       disabled
     ></glide-core-textarea>`,

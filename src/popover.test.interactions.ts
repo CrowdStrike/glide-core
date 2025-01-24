@@ -24,7 +24,7 @@ it('opens when opened programmatically', async () => {
   expect(popover?.checkVisibility()).to.be.true;
 });
 
-it('opens when `open` and enabled programmatically', async () => {
+it('opens when open and enabled programmatically', async () => {
   const component = await fixture<GlideCorePopover>(
     html`<glide-core-popover open disabled>
       Popover
@@ -44,7 +44,7 @@ it('opens when `open` and enabled programmatically', async () => {
   expect(popover?.checkVisibility()).to.be.true;
 });
 
-it('closes when `open` and disabled programmatically', async () => {
+it('closes when open and disabled programmatically', async () => {
   const component = await fixture<GlideCorePopover>(
     html`<glide-core-popover open>
       Popover

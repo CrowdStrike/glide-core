@@ -90,7 +90,6 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   // Private because it's only meant to be used by Radio Group.
   set privateRequired(required: boolean) {
     this.#privateRequired = required;
-
     this.ariaRequired = required.toString();
   }
 
