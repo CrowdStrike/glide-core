@@ -22,6 +22,9 @@ export default {
       // require the same `Math.ceil(x + width / 2)` and `Math.ceil(y + height / 2)`
       // calculations that are in the library itself.
       'src/library/mouse.ts',
+
+      // Not much to test. Also untestable.
+      'src/library/shadow-root-mode.ts',
     ],
     reportDir: 'dist/coverage',
     threshold: {

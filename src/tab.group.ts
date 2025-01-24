@@ -11,6 +11,7 @@ import GlideCoreTabPanel from './tab.panel.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './tab.group.styles.js';
 import assertSlot from './library/assert-slot.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,7 +34,7 @@ declare global {
 export default class GlideCoreTabGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

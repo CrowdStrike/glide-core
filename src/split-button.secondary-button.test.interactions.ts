@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './menu.button.js';
 import './menu.options.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
-
-GlideCoreSplitButtonSecondaryButton.shadowRootOptions.mode = 'open';
 
 it('sets `menuOpen` when its menu is opened', async () => {
   const component = await fixture<GlideCoreSplitButtonSecondaryButton>(html`

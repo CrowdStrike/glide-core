@@ -1,9 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreMenuLink from './menu.link.js';
-
-GlideCoreMenuLink.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-menu-link')).to.equal(

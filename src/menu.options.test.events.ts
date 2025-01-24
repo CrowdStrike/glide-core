@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './menu.button.js';
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import GlideCoreMenu from './menu.js';
+import './menu.js';
 import GlideCoreMenuOptions from './menu.options.js';
-
-GlideCoreMenu.shadowRootOptions.mode = 'open';
 
 it('dispatches a "private-slot-change" event', async () => {
   const component = await fixture<GlideCoreMenuOptions>(

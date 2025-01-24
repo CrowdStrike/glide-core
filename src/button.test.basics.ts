@@ -1,9 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreButton from './button.js';
-
-GlideCoreButton.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-button')).to.equal(

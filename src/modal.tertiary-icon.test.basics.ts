@@ -3,8 +3,6 @@ import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
-GlideCoreModalTertiaryIcon.shadowRootOptions.mode = 'open';
-
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-modal-tertiary-icon')).to.equal(
     GlideCoreModalTertiaryIcon,

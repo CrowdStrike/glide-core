@@ -1,15 +1,11 @@
 import './split-button.primary-button.js';
 import './split-button.primary-link.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreMenuButton from './menu.button.js';
+import './menu.button.js';
 import GlideCoreSplitButton from './split-button.js';
-import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
+import './split-button.secondary-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
-
-GlideCoreSplitButton.shadowRootOptions.mode = 'open';
-GlideCoreSplitButtonSecondaryButton.shadowRootOptions.mode = 'open';
-GlideCoreMenuButton.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-split-button')).to.equal(

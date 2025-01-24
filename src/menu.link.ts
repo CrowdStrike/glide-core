@@ -6,6 +6,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './menu.link.styles.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,7 +21,7 @@ declare global {
 export default class GlideCoreMenuLink extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

@@ -1,12 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
 import GlideCoreTag from './tag.js';
-
-GlideCoreTag.shadowRootOptions.mode = 'open';
 
 it('dispatches one "remove" event on click', async () => {
   const component = await fixture(

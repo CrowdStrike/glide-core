@@ -11,6 +11,7 @@ import checkedIcon from './icons/checked.js';
 import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.option.styles.js';
 import type GlideCoreCheckbox from './checkbox.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -25,7 +26,7 @@ declare global {
 export default class GlideCoreDropdownOption extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

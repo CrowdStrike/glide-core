@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreTextarea from './textarea.js';
-
-GlideCoreTextarea.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-textarea')).to.equal(

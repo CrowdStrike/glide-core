@@ -5,6 +5,7 @@ import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import styles from './toasts.styles.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -23,7 +24,7 @@ export interface Toast {
 export default class GlideCoreToasts extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

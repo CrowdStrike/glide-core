@@ -1,12 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreCheckbox from './checkbox.js';
+import './checkbox.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
-
-GlideCoreCheckboxGroup.shadowRootOptions.mode = 'open';
-GlideCoreCheckbox.shadowRootOptions.mode = 'open';
 
 it('focuses the first enabled checkbox when `focus()` is called', async () => {
   const component = await fixture<GlideCoreCheckboxGroup>(

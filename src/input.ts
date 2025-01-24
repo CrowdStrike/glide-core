@@ -14,6 +14,7 @@ import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import styles from './input.styles.js';
 import xIcon from './icons/x.js';
 import type FormControl from './library/form-control.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -54,7 +55,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
     delegatesFocus: true,
   };
 

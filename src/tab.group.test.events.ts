@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import GlideCoreTabGroup from './tab.group.js';
 import './tab.js';

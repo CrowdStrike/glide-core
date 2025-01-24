@@ -1,14 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreButtonGroupButton from './button-group.button.js';
 import { click } from './library/mouse.js';
-import GlideCoreButtonGroup from './button-group.js';
-
-GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
-GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
+import './button-group.js';
 
 it('emits a "selected" event when a button is clicked and not already selected', async () => {
   const component = await fixture(

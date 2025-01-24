@@ -6,6 +6,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import chevronIcon from './icons/chevron.js';
 import styles from './accordion.styles.js';
 import assertSlot from './library/assert-slot.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -25,7 +26,7 @@ export default class GlideCoreAccordion extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

@@ -8,7 +8,7 @@ import { noRedudantPropertyStringType } from './rules/no-redundant-property-stri
 import { noSkipTests } from './rules/no-skip-tests.js';
 import { noSpacePress } from './rules/no-space-press.js';
 import { noToHaveAttribute } from './rules/no-to-have-attribute.js';
-import { preferClosedShadowRoot } from './rules/prefer-closed-shadow-root.js';
+import { preferClosedShadowRoot } from './rules/prefer-shadow-root-mode.js';
 import { preferToBeTrueOrFalse } from './rules/prefer-to-be-true-or-false.js';
 import { prefixedClassDeclaration } from './rules/prefixed-lit-element-class-declaration.js';
 
@@ -25,7 +25,7 @@ const rules = {
   'no-skip-tests': noSkipTests,
   'no-space-press': noSpacePress,
   'no-to-have-attribute': noToHaveAttribute,
-  'prefer-closed-shadow-root': preferClosedShadowRoot,
+  'prefer-shadow-root-mode': preferClosedShadowRoot,
   'prefer-to-be-true-or-false': preferToBeTrueOrFalse,
   'prefixed-lit-element-class-declaration': prefixedClassDeclaration,
 };

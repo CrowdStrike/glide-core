@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { LitElement } from 'lit';
 import {
   assert,
@@ -21,7 +19,6 @@ import GlideCoreTag from './tag.js';
 class GlideCoreDropdownInAnotherComponent extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
   };
 
   override render() {
@@ -37,11 +34,6 @@ class GlideCoreDropdownInAnotherComponent extends LitElement {
     </glide-core-dropdown>`;
   }
 }
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
-GlideCoreDropdownInAnotherComponent.shadowRootOptions.mode = 'open';
-GlideCoreTag.shadowRootOptions.mode = 'open';
 
 it('opens on click', async () => {
   const component = await fixture<GlideCoreDropdown>(
@@ -430,7 +422,7 @@ it('deactivates all other options when an option is hovered', async () => {
 });
 
 it('remains open when an option is selected via click', async () => {
-  const component = await fixture(
+  const component = await fixture<GlideCoreDropdownInAnotherComponent>(
     html`<glide-core-dropdown-in-another-component></glide-core-dropdown-in-another-component>`,
   );
 

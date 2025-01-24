@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import GlideCoreToggle from './toggle.js';
-
-GlideCoreToggle.shadowRootOptions.mode = 'open';
 
 it('is checked after being clicked', async () => {
   const component = await fixture<GlideCoreToggle>(

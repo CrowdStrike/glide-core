@@ -1,13 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreRadioGroup from './radio-group.js';
-import GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import './radio-group.radio.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
-
-GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
-GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-radio-group')).to.equal(

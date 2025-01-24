@@ -1,9 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreInput from './input.js';
-
-GlideCoreInput.shadowRootOptions.mode = 'open';
 
 it('focuses the input when `focus()` is called', async () => {
   const component = await fixture<GlideCoreInput>(

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './tree.item.js';
 import './tree.item.menu.js';
 import './tree.js';

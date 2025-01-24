@@ -5,6 +5,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
 import assertSlot from './library/assert-slot.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -19,7 +20,7 @@ declare global {
 export default class GlideCoreTree extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

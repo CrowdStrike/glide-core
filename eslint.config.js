@@ -48,7 +48,7 @@ export default [
       '@crowdstrike/glide-core/no-skip-tests': 'error',
       '@crowdstrike/glide-core/no-space-press': 'error',
       '@crowdstrike/glide-core/no-to-have-attribute': 'error',
-      '@crowdstrike/glide-core/prefer-closed-shadow-root': 'error',
+      '@crowdstrike/glide-core/prefer-shadow-root-mode': 'error',
       '@crowdstrike/glide-core/prefer-to-be-true-or-false': 'error',
       '@crowdstrike/glide-core/prefixed-lit-element-class-declaration': 'error',
 
@@ -265,7 +265,13 @@ export default [
     },
   },
   {
-    files: ['*.ts', 'src/*.test.ts', 'src/*.*.test.*.ts', '.storybook/**/*'],
+    files: [
+      '*.ts',
+      'src/*.test.ts',
+      'src/*.test.*.ts',
+      'src/*.*.test.*.ts',
+      '.storybook/**/*',
+    ],
     languageOptions: {
       globals: globals.browser,
     },
@@ -283,14 +289,23 @@ export default [
       'src/*.test.*.ts',
       'src/*.*.test.*.ts',
     ],
-    rules: {
-      '@typescript-eslint/no-unused-expressions': 'off',
-    },
-
     // These rules don't apply to JavaScript. And for tests they're annoying
-    // due to how much of "@open-wc/testing" is typed as `any` or inconsistently.
-    // `expect`, for example, results sometimes in a promise and other times
-    // something else depending on what it's chained with.
+    // due to how much of Chai or "@open-wc/testing" is typed as `any` or
+    // inconsistently. `expect`, for example, results sometimes in a promise
+    // and other times something else depending on what it's chained with.
     ...typescript.configs.disableTypeChecked,
+  },
+
+  {
+    files: ['src/**/*.test.ts', 'src/*.test.*.ts', 'src/*.*.test.*.ts'],
+    rules: {
+      // This rule isn't disabled by `disableTypeChecked` but frequently produces
+      // an error in our tests, seemingly due to how Chai is typed.
+      '@typescript-eslint/no-unused-expressions': 'off',
+
+      // One-off components in tests can do whatever they need to with their shadow
+      // roots. Though most will stick with Lit's default, which is open.
+      '@crowdstrike/glide-core/prefer-shadow-root-mode': 'off',
+    },
   },
 ];

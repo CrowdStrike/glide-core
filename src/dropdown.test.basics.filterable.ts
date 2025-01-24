@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './dropdown.option.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdown from './dropdown.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
 
 const defaultSlot = html`
   <glide-core-dropdown-option label="One"></glide-core-dropdown-option>

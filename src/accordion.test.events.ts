@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreAccordion from './accordion.js';
-
-GlideCoreAccordion.shadowRootOptions.mode = 'open';
 
 it('dispatches a "toggle" event on open', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });

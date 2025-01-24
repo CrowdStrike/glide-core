@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreModal from './modal.js';
-
-GlideCoreModal.shadowRootOptions.mode = 'open';
 
 it('opens', async () => {
   const component = await fixture<GlideCoreModal>(

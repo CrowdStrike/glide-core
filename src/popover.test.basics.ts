@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCorePopover from './popover.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
-
-GlideCorePopover.shadowRootOptions.mode = 'open';
 
 it('registers', async () => {
   expect(window.customElements.get('glide-core-popover')).to.equal(

@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreTextarea from './textarea.js';
-
-GlideCoreTextarea.shadowRootOptions.mode = 'open';
 
 it('can be reset if it has an initial value', async () => {
   const form = document.createElement('form');

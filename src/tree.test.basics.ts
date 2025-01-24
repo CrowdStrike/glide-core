@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './tree.item.icon-button.js';
 import './tree.item.menu.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
@@ -10,8 +8,6 @@ import { click } from './library/mouse.js';
 import GlideCoreTreeItem from './tree.item.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
-
-GlideCoreTree.shadowRootOptions.mode = 'open';
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tree')).to.equal(GlideCoreTree);

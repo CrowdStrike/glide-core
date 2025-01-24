@@ -7,6 +7,7 @@ import GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
 import styles from './split-button.styles.js';
 import assertSlot from './library/assert-slot.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -24,7 +25,7 @@ declare global {
 export default class GlideCoreSplitButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

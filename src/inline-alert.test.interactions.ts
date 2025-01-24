@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreInlineAlert from './inline-alert.js';
-
-GlideCoreInlineAlert.shadowRootOptions.mode = 'open';
 
 it('removes itself on removable button click', async () => {
   const component = await fixture<GlideCoreInlineAlert>(

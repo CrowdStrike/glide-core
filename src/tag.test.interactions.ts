@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreTag from './tag.js';
-
-GlideCoreTag.shadowRootOptions.mode = 'open';
 
 it('removes itself on click', async () => {
   const component = await fixture<GlideCoreTag>(

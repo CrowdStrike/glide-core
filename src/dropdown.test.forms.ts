@@ -1,13 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreDropdown from './dropdown.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
+import './dropdown.option.js';
 
 it('exposes standard form control properties and methods', async () => {
   const form = document.createElement('form');

@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdown from './dropdown.js';
 import type GlideCoreDropdownOption from './dropdown.option.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
 
 it('is accessible ', async () => {
   const component = await fixture<GlideCoreDropdown>(

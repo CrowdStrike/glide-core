@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import GlideCorePopover from './popover.js';
-
-GlideCorePopover.shadowRootOptions.mode = 'open';
 
 it('dispatches a "toggle" event on open', async () => {
   const component = await fixture<GlideCorePopover>(

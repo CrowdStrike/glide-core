@@ -2,8 +2,6 @@ import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreModalIconButton from './modal.icon-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
-GlideCoreModalIconButton.shadowRootOptions.mode = 'open';
-
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-modal-icon-button')).to.equal(
     GlideCoreModalIconButton,

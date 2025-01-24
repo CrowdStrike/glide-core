@@ -1,14 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
 import GlideCoreRadioGroup from './radio-group.js';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
-
-GlideCoreRadioGroup.shadowRootOptions.mode = 'open';
-GlideCoreRadioGroupRadio.shadowRootOptions.mode = 'open';
 
 it('exposes standard form control properties and methods', async () => {
   const form = document.createElement('form');

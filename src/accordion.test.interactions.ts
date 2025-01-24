@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import GlideCoreAccordion from './accordion.js';
 import { click } from './library/mouse.js';
-
-GlideCoreAccordion.shadowRootOptions.mode = 'open';
 
 it('can be opened via click', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });

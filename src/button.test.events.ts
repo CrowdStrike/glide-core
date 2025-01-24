@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreButton from './button.js';
 import { click } from './library/mouse.js';
-
-GlideCoreButton.shadowRootOptions.mode = 'open';
 
 it('dispatches a "click" event on click', async () => {
   const component = await fixture<GlideCoreButton>(html`

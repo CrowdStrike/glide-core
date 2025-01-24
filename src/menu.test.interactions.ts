@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './menu.button.js';
 import './menu.options.js';
 import { LitElement } from 'lit';
@@ -14,7 +12,6 @@ import GlideCoreMenuLink from './menu.link.js';
 class GlideCoreNestedSlot extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
   };
 
   override render() {
@@ -32,7 +29,6 @@ class GlideCoreNestedSlot extends LitElement {
 class GlideCoreMenuInAnotherComponent extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
   };
 
   override render() {
@@ -45,10 +41,6 @@ class GlideCoreMenuInAnotherComponent extends LitElement {
     </glide-core-menu>`;
   }
 }
-
-GlideCoreMenu.shadowRootOptions.mode = 'open';
-GlideCoreNestedSlot.shadowRootOptions.mode = 'open';
-GlideCoreMenuInAnotherComponent.shadowRootOptions.mode = 'open';
 
 it('opens on click', async () => {
   const component = await fixture<GlideCoreMenu>(
@@ -642,7 +634,7 @@ it('sets `privateSize` on the options component when `size` is changed programma
 });
 
 it('closes when its target clicked', async () => {
-  const component = await fixture(
+  const component = await fixture<GlideCoreMenuInAnotherComponent>(
     html`<glide-core-menu-in-another-component></glide-core-menu-in-another-component>`,
   );
 
@@ -933,7 +925,7 @@ it('activates a menu link on hover', async () => {
 });
 
 it('activates a menu link on hover when the link is in a nested slot', async () => {
-  const component = await fixture<GlideCoreMenu>(html`
+  const component = await fixture<GlideCoreNestedSlot>(html`
     <glide-core-nested-slot>
       <glide-core-menu-link label="One"></glide-core-menu-link>
       <glide-core-menu-link label="Two"></glide-core-menu-link>

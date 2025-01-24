@@ -1,16 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import './dropdown.option.js';
 import GlideCoreTooltip from './tooltip.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
-GlideCoreTooltip.shadowRootOptions.mode = 'open';
 
 it('opens when opened programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(

@@ -1,11 +1,8 @@
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import './dropdown.option.js';
 import { click } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 const defaultSlot = html`
   <glide-core-dropdown-option label="One"></glide-core-dropdown-option>

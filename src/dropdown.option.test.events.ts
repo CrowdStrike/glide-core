@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import GlideCoreDropdownOption from './dropdown.option.js';
-
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
 
 it('dispatches a "private-label-change" event', async () => {
   const component = await fixture<GlideCoreDropdownOption>(

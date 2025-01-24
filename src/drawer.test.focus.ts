@@ -2,8 +2,6 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import GlideCoreDrawer from './drawer.js';
 
-GlideCoreDrawer.shadowRootOptions.mode = 'open';
-
 it('focuses itself on open', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 

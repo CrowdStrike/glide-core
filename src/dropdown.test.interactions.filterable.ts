@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import {
   assert,
   aTimeout,
@@ -13,14 +11,9 @@ import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click, hover } from './library/mouse.js';
 import GlideCoreDropdown from './dropdown.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
-import GlideCoreTag from './tag.js';
-import GlideCoreTooltip from './tooltip.js';
-
-GlideCoreDropdown.shadowRootOptions.mode = 'open';
-GlideCoreDropdownOption.shadowRootOptions.mode = 'open';
-GlideCoreTag.shadowRootOptions.mode = 'open';
-GlideCoreTooltip.shadowRootOptions.mode = 'open';
+import './dropdown.option.js';
+import './tag.js';
+import './tooltip.js';
 
 const defaultSlot = html`
   <glide-core-dropdown-option label="One"></glide-core-dropdown-option>

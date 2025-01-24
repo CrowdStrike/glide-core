@@ -1,13 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreButtonGroupButton from './button-group.button.js';
+import './button-group.button.js';
 import { click } from './library/mouse.js';
 import GlideCoreButtonGroup from './button-group.js';
-
-GlideCoreButtonGroup.shadowRootOptions.mode = 'open';
-GlideCoreButtonGroupButton.shadowRootOptions.mode = 'open';
 
 it('selects a button on click', async () => {
   const component = await fixture<GlideCoreButtonGroup>(

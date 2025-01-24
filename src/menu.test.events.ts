@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-
 import './menu.js';
 import './menu.link.js';
 import './menu.options.js';

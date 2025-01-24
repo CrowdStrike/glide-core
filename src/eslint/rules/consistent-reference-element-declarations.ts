@@ -27,7 +27,7 @@ export const consistentReferenceElementDeclarations = createRule({
     fixable: 'code',
   },
   defaultOptions: [],
-  create: (context) => {
+  create(context) {
     return {
       PropertyDefinition(node) {
         if (

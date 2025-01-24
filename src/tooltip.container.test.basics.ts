@@ -1,8 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTooltipContainer from './tooltip.container.js';
 
-GlideCoreTooltipContainer.shadowRootOptions.mode = 'open';
-
 it('registers itself', async () => {
   expect(
     window.customElements.get('glide-core-private-tooltip-container'),

@@ -11,6 +11,7 @@ import GlideCoreMenuLink from './menu.link.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './split-button.secondary-button.styles.js';
 import assertSlot from './library/assert-slot.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,7 +27,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

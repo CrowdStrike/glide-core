@@ -12,6 +12,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
 import type FormControl from './library/form-control.js';
+import shadowRootMode from './library/shadow-root-mode.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -36,7 +37,7 @@ export default class GlideCoreCheckbox
 
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
-    mode: 'closed',
+    mode: shadowRootMode,
   };
 
   static override styles = styles;

@@ -1,12 +1,12 @@
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 
 // https://github.com/typescript-eslint/typescript-eslint/blob/main/docs/developers/Custom_Rules.mdx?plain=1#L109
+
 const createRule = ESLintUtils.RuleCreator<{
   recommended: boolean;
-}>(
-  (name) =>
-    `https://github.com/CrowdStrike/glide-core/blob/main/packages/eslint-plugin/src/rules/${name}.ts`,
-);
+}>((name) => {
+  return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
+});
 
 export const noNestedTemplateLiterals = createRule({
   name: 'no-nested-template-literals',
@@ -24,7 +24,7 @@ export const noNestedTemplateLiterals = createRule({
     fixable: 'code',
   },
   defaultOptions: [],
-  create: (context) => {
+  create(context) {
     return {
       TemplateLiteral(node) {
         for (const expression of node.expressions) {

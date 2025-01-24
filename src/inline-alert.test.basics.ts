@@ -2,8 +2,6 @@ import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreInlineAlert from './inline-alert.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
-GlideCoreInlineAlert.shadowRootOptions.mode = 'open';
-
 it('registers itself', () => {
   expect(window.customElements.get('glide-core-inline-alert')).to.equal(
     GlideCoreInlineAlert,
