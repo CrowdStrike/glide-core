@@ -34,7 +34,7 @@ const meta: Meta = {
     },
   },
   args: {
-    label: 'One',
+    label: 'Label',
     placeholder: 'Placeholder',
     'slot="default"': '',
     'add-button-label': '',
