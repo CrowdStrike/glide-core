@@ -38,7 +38,12 @@ it('is accessible', async () => {
 
 it('sets `value` to that of the initially selected options', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -258,7 +263,12 @@ it('does not set Select All as indeterminate when all options are initially sele
 
 it('does not set Select All as selected when no options are provided', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown filterable> </glide-core-dropdown>`,
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      filterable
+    >
+    </glide-core-dropdown>`,
   );
 
   const selectAll =

@@ -229,7 +229,7 @@ it('selects an option on Enter', async () => {
 
 it('deactivates all other options when an option is hovered', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" placeholder="placeholder" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -534,7 +534,12 @@ it('does not update `value` when a disabled option is selected via click', async
 
 it('updates `value` when `multiple` is changed to `false` programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open multiple>
+    html`<glide-core-dropdown
+      label="Label"
+      placeholder="Placeholder"
+      open
+      multiple
+    >
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -565,7 +570,7 @@ it('updates `value` when `multiple` is changed to `false` programmatically', asy
 
 it('updates `value` when the `value` of the selected option is changed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -588,7 +593,7 @@ it('updates `value` when the `value` of the selected option is changed programma
 
 it('updates `value` when the `value` of the selected option is removed programmatically', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
       <glide-core-dropdown-option
         label="One"
         value="one"

@@ -862,7 +862,9 @@ it('uses `placeholder` as a placeholder when multiselect and no option is select
 
 it('sets `aria-activedescendant` on option hover', async () => {
   const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open> ${defaultSlot} </glide-core-dropdown>`,
+    html`<glide-core-dropdown label="Label" placeholder="Placeholder" open>
+      ${defaultSlot}
+    </glide-core-dropdown>`,
   );
 
   // Wait for Floating UI.

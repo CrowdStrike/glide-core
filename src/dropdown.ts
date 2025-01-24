@@ -23,6 +23,7 @@ import styles from './dropdown.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import assertProperties from './library/assert-properties.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -41,6 +42,7 @@ declare global {
  * @slot icon:<value> - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
  */
 @customElement('glide-core-dropdown')
+@assertProperties('label', 'placeholder')
 export default class GlideCoreDropdown
   extends LitElement
   implements FormControl
@@ -667,10 +669,11 @@ export default class GlideCoreDropdown
                   })}
                   data-test="input"
                   id="input"
-                  placeholder=${this.multiple ||
-                  !this.selectedOptions.at(-1)?.label
-                    ? (this.placeholder ?? '')
-                    : ''}
+                  placeholder=${ifDefined(
+                    this.multiple || !this.selectedOptions.at(-1)?.label
+                      ? this.placeholder
+                      : undefined,
+                  )}
                   role="combobox"
                   spellcheck="false"
                   tabindex=${this.disabled ? '-1' : '0'}
