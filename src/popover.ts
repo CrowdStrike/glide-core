@@ -288,10 +288,10 @@ export default class GlideCorePopover extends LitElement {
 
   #onTargetSlotKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
-      this.open = false;
-
       // Prevent Safari from leaving full screen.
       event.preventDefault();
+
+      this.open = false;
     }
   }
 
