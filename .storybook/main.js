@@ -5,7 +5,12 @@ import packageJson from '../package.json';
 
 const config = {
   stories: ['../src/*.stories.ts'],
-  addons: ['@storybook/addon-essentials'],
+  addons: [
+    '@storybook/addon-actions',
+    '@storybook/addon-controls',
+    '@storybook/addon-docs',
+    '@storybook/addon-toolbars',
+  ],
   core: {
     disableTelemetry: true,
   },
@@ -13,10 +18,12 @@ const config = {
     name: '@storybook/web-components-vite',
   },
   managerHead: process.env.BASE_URL
-    ? (head) => `
+    ? (head) => {
+        return `
           <base href="/${process.env.BASE_URL}/" />
           ${head}
-        `
+        `;
+      }
     : undefined,
   docs: {
     defaultName: 'Overview',

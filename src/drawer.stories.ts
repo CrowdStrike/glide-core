@@ -13,7 +13,7 @@ const meta: Meta = {
   decorators: [
     withActions,
     (story) => html`
-      <div style="height: 12.5rem;">
+      <div style="height: 12rem;">
         <script type="ignore">
           import '@crowdstrike/glide-core/drawer.js';
         </script>

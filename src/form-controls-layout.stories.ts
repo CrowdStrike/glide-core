@@ -16,7 +16,7 @@ const meta: Meta = {
   decorators: [
     withActions,
     (story) =>
-      html`<form action="/" style="height: 21rem;">
+      html`<form action="/">
         <script type="ignore">
           import '@crowdstrike/glide-core/form-controls-layout.js';
         </script>

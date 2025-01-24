@@ -8,13 +8,11 @@ const meta: Meta = {
   decorators: [
     withActions,
     (story) => html`
-      <div style="height: 6rem;">
-        <script type="ignore">
-          import '@crowdstrike/glide-core/inline-alert.js';
-        </script>
+      <script type="ignore">
+        import '@crowdstrike/glide-core/inline-alert.js';
+      </script>
 
-        ${story()}
-      </div>
+      ${story()}
     `,
   ],
   parameters: {

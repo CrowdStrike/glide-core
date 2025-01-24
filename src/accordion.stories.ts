@@ -11,14 +11,13 @@ const meta: Meta = {
   title: 'Accordion',
   decorators: [
     withActions,
-    (story) =>
-      html`<div style="min-height: 6rem;">
-        <script type="ignore">
-          import '@crowdstrike/glide-core/accordion.js';
-        </script>
+    (story) => html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/accordion.js';
+      </script>
 
-        ${story()}
-      </div>`,
+      ${story()}
+    `,
   ],
   parameters: {
     actions: {

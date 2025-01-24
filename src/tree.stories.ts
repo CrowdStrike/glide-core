@@ -7,7 +7,6 @@ import './tree.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html } from 'lit';
-import { styleMap } from 'lit/directives/style-map.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 import GlideCoreTreeItem from './tree.item.js';
@@ -16,23 +15,17 @@ const meta: Meta = {
   title: 'Tree',
   decorators: [
     withActions,
-    (story) =>
-      html`<div
-        style=${styleMap({
-          height: '10rem',
-          maxWidth: '18.75rem',
-        })}
-      >
-        <script type="ignore">
-          import '@crowdstrike/glide-core/tree.js';
-          import '@crowdstrike/glide-core/tree.item.js';
-          import '@crowdstrike/glide-core/tree.item.menu.js';
-          import '@crowdstrike/glide-core/tree.item.icon-button.js';
-          import '@crowdstrike/glide-core/menu.link.js';
-        </script>
+    (story) => html`
+      <script type="ignore">
+        import '@crowdstrike/glide-core/tree.js';
+        import '@crowdstrike/glide-core/tree.item.js';
+        import '@crowdstrike/glide-core/tree.item.menu.js';
+        import '@crowdstrike/glide-core/tree.item.icon-button.js';
+        import '@crowdstrike/glide-core/menu.link.js';
+      </script>
 
-        ${story()}
-      </div>`,
+      ${story()}
+    `,
   ],
   parameters: {
     actions: {

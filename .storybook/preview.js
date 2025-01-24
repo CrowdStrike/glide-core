@@ -10,14 +10,14 @@ export default {
   tags: ['autodocs'],
   decorators: [
     (story, context) => {
-      const selectedTheme = context.globals.theme || 'light';
+      const theme = context.globals.theme || 'light';
 
-      if (selectedTheme === 'dark') {
+      if (theme === 'dark') {
         document.documentElement.classList.remove('theme-light');
         document.documentElement.classList.add('theme-dark');
       }
 
-      if (selectedTheme === 'light') {
+      if (theme === 'light') {
         document.documentElement.classList.remove('theme-dark');
         document.documentElement.classList.add('theme-light');
       }
@@ -27,14 +27,12 @@ export default {
   ],
   globalTypes: {
     theme: {
-      description: 'Sets the global theme for components',
+      description: 'Change Theme',
       defaultValue: 'light',
       toolbar: {
-        title: 'Theme',
-        icon: 'circlehollow',
         items: [
           { value: 'light', icon: 'sun', title: 'Light' },
-          { value: 'dark', icon: 'moon', title: 'Dark (beta)' },
+          { value: 'dark', icon: 'moon', title: 'Dark (Beta)' },
         ],
         dynamicTitle: true,
       },
