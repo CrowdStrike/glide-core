@@ -366,6 +366,9 @@ export default class GlideCoreTooltip extends LitElement {
 
   #onTargetSlotKeydown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
+      // Prevent Safari from leaving full screen.
+      event.preventDefault();
+
       this.open = false;
     }
   }

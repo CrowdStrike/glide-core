@@ -140,10 +140,12 @@ export const WithIcons: StoryObj = {
         slot="prefix-icon"
         name="share"
       ></glide-core-example-icon>
+
       <glide-core-example-icon
         slot="suffix-icons"
         name="edit"
       ></glide-core-example-icon>
+
       <glide-core-example-icon
         slot="suffix-icons"
         name="settings"

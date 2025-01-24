@@ -42,7 +42,7 @@ const meta: Meta = {
     '<glide-core-dropdown>.open': false,
     '<glide-core-dropdown>.value': [],
     '<glide-core-radio-group>.value': '',
-    '<glide-core-radio-group-radio>.one.checked': true,
+    '<glide-core-radio-group-radio>.one.checked': false,
     '<glide-core-radio-group-radio>.two.checked': false,
     '<glide-core-radio-group-radio>.three.checked': false,
     '<glide-core-input>.value': '',
