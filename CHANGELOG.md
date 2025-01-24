@@ -1,5 +1,23 @@
 # @crowdstrike/glide-core
 
+## 0.19.0
+
+### Minor Changes
+
+- [#632](https://github.com/CrowdStrike/glide-core/pull/632) [`d31dfdc`](https://github.com/CrowdStrike/glide-core/commit/d31dfdca9ddee8e8de0e4a836c630b0f1850325d) Thanks [@clintcs](https://github.com/clintcs)! - Modal Tertiary Icon has been removed. It was only a thin wrapper around Tooltip. Tooltip can be used directly instead.
+
+### Patch Changes
+
+- [#628](https://github.com/CrowdStrike/glide-core/pull/628) [`6ba4587`](https://github.com/CrowdStrike/glide-core/commit/6ba4587d101501b805ebfca4042d1dbac9acf86c) Thanks [@clintcs](https://github.com/clintcs)! - Safari no longer leaves full screen when Popover and Tooltip are closed using Escape.
+
+- [#615](https://github.com/CrowdStrike/glide-core/pull/615) [`ca3dc13`](https://github.com/CrowdStrike/glide-core/commit/ca3dc1337b43f3c6391056014439bd208b08fcc9) Thanks [@clintcs](https://github.com/clintcs)! - Accordion now throws in development when its default slot is empty.
+
+- [#624](https://github.com/CrowdStrike/glide-core/pull/624) [`c6109c3`](https://github.com/CrowdStrike/glide-core/commit/c6109c32a46859b43270e09611dacd865d8141c5) Thanks [@clintcs](https://github.com/clintcs)! - Form Controls Layout now supports Radio Group.
+
+- [#627](https://github.com/CrowdStrike/glide-core/pull/627) [`42ff725`](https://github.com/CrowdStrike/glide-core/commit/42ff7251dc8328fd8b09348d1fd91a4b70744d0a) Thanks [@clintcs](https://github.com/clintcs)! - Component shadow roots are now automatically opened in test environments.
+
+- [#626](https://github.com/CrowdStrike/glide-core/pull/626) [`abf3456`](https://github.com/CrowdStrike/glide-core/commit/abf3456566c34c3d62c07cc3f1819141adbf329c) Thanks [@clintcs](https://github.com/clintcs)! - Filterable Dropdown's truncation ellipsis now blends in better with Dropdown's background when in dark mode.
+
 ## 0.18.0
 
 ### Minor Changes
