@@ -8,7 +8,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import GlideCoreModalIconButton from './modal.icon-button.js';
 import GlideCoreButton from './button.js';
-import GlideCoreModalTertiaryIcon from './modal.tertiary-icon.js';
+import GlideCoreTooltip from './tooltip.js';
 import styles from './modal.styles.js';
 import xIcon from './icons/x.js';
 import assertSlot from './library/assert-slot.js';
@@ -36,7 +36,7 @@ globalStylesheet.insertRule(`
  * @slot header-actions - One or more of `<glide-core-modal-icon-button>`.
  * @slot primary - One of `<glide-core-button>`.
  * @slot secondary - One of `<glide-core-button>`.
- * @slot tertiary - One or more of `<glide-core-button>` or `<glide-core-modal-tertiary-icon>`.
+ * @slot tertiary - One or more of `<glide-core-button>` or `<glide-core-tooltip>`.
  */
 @customElement('glide-core-modal')
 export default class GlideCoreModal extends LitElement {
@@ -229,10 +229,7 @@ export default class GlideCoreModal extends LitElement {
               <slot
                 class="tertiary-slot"
                 name="tertiary"
-                ${assertSlot(
-                  [GlideCoreModalTertiaryIcon, GlideCoreButton],
-                  true,
-                )}
+                ${assertSlot([GlideCoreButton, GlideCoreTooltip], true)}
               ></slot>
             </li>
 
