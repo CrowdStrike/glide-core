@@ -121,7 +121,7 @@ export default class GlideCoreLabel extends LitElement {
 
         <glide-core-tooltip
           class="label-tooltip"
-          label=${ifDefined(this.tooltip)}
+          label=${ifDefined(this.label)}
           placement="right"
           ?disabled=${!this.isLabelTooltip}
           screenreader-hidden
