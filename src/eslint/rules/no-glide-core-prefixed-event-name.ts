@@ -5,7 +5,7 @@ import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 const createRule = ESLintUtils.RuleCreator<{
   recommended: boolean;
 }>((name) => {
-  return `${process.cwd()}/src/eslint/rules/${name}.ts`;
+  return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
 });
 
 export const noPrefixedEventName = createRule({
