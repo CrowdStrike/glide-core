@@ -2,12 +2,12 @@ import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
-import require from './require.js';
+import required from './required.js';
 
 @customElement('glide-core-with-required-property')
 class GlideCoreWithRequiredProperty extends LitElement {
   @property()
-  @require
+  @required
   label?: string;
 }
 
