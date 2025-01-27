@@ -62,7 +62,7 @@ importers:
         version: 8.5.1(storybook@8.5.1(prettier@3.4.2))
       '@storybook/theming':
         specifier: ^8.5.1
-        version: 8.5.1(storybook@8.5.1(prettier@3.4.2))
+        version: 8.5.2(storybook@8.5.1(prettier@3.4.2))
       '@storybook/web-components':
         specifier: ^8.5.1
         version: 8.5.1(lit@3.2.1)(storybook@8.5.1(prettier@3.4.2))
@@ -1121,6 +1121,11 @@ packages:
 
   '@storybook/theming@8.5.1':
     resolution: {integrity: sha512-sg61vY1gM8w42CIi28vo//6E1gHgHLNBNaRhkfvLFpu9PuhAcVWLwBDZq0BoKmDMxRxbSPV2gvIKeXdOtbSCJw==}
+    peerDependencies:
+      storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
+
+  '@storybook/theming@8.5.2':
+    resolution: {integrity: sha512-vro8vJx16rIE0UehawEZbxFFA4/VGYS20PMKP6Y6Fpsce0t2/cF/U9qg3jOzVb/XDwfx+ne3/V+8rjfWx8wwJw==}
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
@@ -5401,6 +5406,10 @@ snapshots:
       storybook: 8.5.1(prettier@3.4.2)
 
   '@storybook/theming@8.5.1(storybook@8.5.1(prettier@3.4.2))':
+    dependencies:
+      storybook: 8.5.1(prettier@3.4.2)
+
+  '@storybook/theming@8.5.2(storybook@8.5.1(prettier@3.4.2))':
     dependencies:
       storybook: 8.5.1(prettier@3.4.2)
 
