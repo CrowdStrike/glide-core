@@ -17,10 +17,6 @@ import GlideCoreTag from './tag.js';
 
 @customElement('glide-core-dropdown-in-another-component')
 class GlideCoreDropdownInAnotherComponent extends LitElement {
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-  };
-
   override render() {
     return html`<glide-core-dropdown
       label="Label"
