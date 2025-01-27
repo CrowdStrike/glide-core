@@ -13,6 +13,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
+import onResize from './library/on-resize.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import { LocalizeController } from './library/localize.js';
 import GlideCoreTag from './tag.js';
@@ -394,43 +395,6 @@ export default class GlideCoreDropdown
     ) {
       this.#inputElementRef.value.value = this.lastSelectedOption.label;
     }
-
-    if (this.#componentElementRef.value) {
-      const observer = new ResizeObserver(() => {
-        this.#setTagOverflowLimit();
-      });
-
-      observer.observe(this.#componentElementRef.value);
-    }
-
-    if (this.#internalLabelElementRef.value) {
-      const observer = new ResizeObserver(() => {
-        if (this.#internalLabelElementRef.value) {
-          this.isInternalLabelOverflow =
-            this.#internalLabelElementRef.value.scrollWidth >
-            this.#internalLabelElementRef.value.clientWidth;
-        }
-      });
-
-      observer.observe(this.#internalLabelElementRef.value);
-    }
-
-    if (this.#inputElementRef.value) {
-      const observer = new ResizeObserver(() => {
-        if (this.#inputElementRef.value) {
-          // One is subtracted to account for an apparent Chrome bug when the viewport
-          // is reduced in size and the `<input>` is overflowing, then increased in size
-          // so its not overflowing. If you log `scrollWidth` and `clientWidth` you'll
-          // see the bug. In Safari and Firefox the two are equal upon increasing the
-          // size of the viewport.
-          this.isInputOverflow =
-            this.#inputElementRef.value.scrollWidth - 1 >
-            this.#inputElementRef.value.clientWidth;
-        }
-      });
-
-      observer.observe(this.#inputElementRef.value);
-    }
   }
 
   // The button doesn't receive focus when `shadowRoot.delegatesFocus` is set,
@@ -539,6 +503,7 @@ export default class GlideCoreDropdown
         vertical: this.orientation === 'vertical',
       })}
       @mouseup=${this.#onComponentMouseup}
+      ${onResize(this.#setTagOverflowLimit.bind(this))}
       ${ref(this.#componentElementRef)}
     >
       <glide-core-private-label
@@ -680,6 +645,7 @@ export default class GlideCoreDropdown
                   @focus=${this.#onInputFocus}
                   @input=${this.#onInputInput}
                   @keydown=${this.#onInputKeydown}
+                  ${onResize(this.#onInputResize.bind(this))}
                   ${ref(this.#inputElementRef)}
                 />
 
@@ -728,6 +694,7 @@ export default class GlideCoreDropdown
                 class="internal-label"
                 data-test="internal-label"
                 slot="target"
+                ${onResize(this.#onInternalLabelResize.bind(this))}
                 ${ref(this.#internalLabelElementRef)}
               >
                 ${when(
@@ -1761,54 +1728,6 @@ export default class GlideCoreDropdown
     this.open = false;
   }
 
-  get #optionElements() {
-    return (
-      this.#defaultSlotElementRef.value
-        ?.assignedElements()
-        .filter(
-          (element): element is GlideCoreDropdownOption =>
-            element instanceof GlideCoreDropdownOption,
-        ) ?? []
-    );
-  }
-
-  get #optionElementsIncludingSelectAll() {
-    const assignedElements = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption,
-      );
-
-    if (assignedElements && this.#selectAllElementRef.value) {
-      return [this.#selectAllElementRef.value, ...assignedElements];
-    }
-  }
-
-  get #optionElementsNotHidden() {
-    return this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption && !element.hidden,
-      );
-  }
-
-  get #optionElementsNotHiddenIncludingSelectAll() {
-    const assignedElementsNotHidden = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption && !element.hidden,
-      );
-
-    return this.#selectAllElementRef.value &&
-      !this.#selectAllElementRef.value.hidden &&
-      assignedElementsNotHidden
-      ? [this.#selectAllElementRef.value, ...assignedElementsNotHidden]
-      : assignedElementsNotHidden;
-  }
-
   #onInputBlur() {
     this.isCommunicateItemCountToScreenreaders = false;
     this.isInputTooltipOpen = false;
@@ -1932,6 +1851,75 @@ export default class GlideCoreDropdown
 
       return;
     }
+  }
+
+  #onInputResize() {
+    if (this.#inputElementRef.value) {
+      // One is subtracted to account for an apparent Chrome bug when the viewport
+      // is reduced in size and the `<input>` is overflowing, then increased in size
+      // so its not overflowing. If you log `scrollWidth` and `clientWidth` you'll
+      // see the bug. In Safari and Firefox the two are equal after increasing the
+      // size of the viewport.
+      this.isInputOverflow =
+        this.#inputElementRef.value.scrollWidth - 1 >
+        this.#inputElementRef.value.clientWidth;
+    }
+  }
+
+  #onInternalLabelResize() {
+    if (this.#internalLabelElementRef.value) {
+      this.isInternalLabelOverflow =
+        this.#internalLabelElementRef.value.scrollWidth >
+        this.#internalLabelElementRef.value.clientWidth;
+    }
+  }
+
+  get #optionElements() {
+    return (
+      this.#defaultSlotElementRef.value
+        ?.assignedElements()
+        .filter(
+          (element): element is GlideCoreDropdownOption =>
+            element instanceof GlideCoreDropdownOption,
+        ) ?? []
+    );
+  }
+
+  get #optionElementsIncludingSelectAll() {
+    const assignedElements = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreDropdownOption =>
+          element instanceof GlideCoreDropdownOption,
+      );
+
+    if (assignedElements && this.#selectAllElementRef.value) {
+      return [this.#selectAllElementRef.value, ...assignedElements];
+    }
+  }
+
+  get #optionElementsNotHidden() {
+    return this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreDropdownOption =>
+          element instanceof GlideCoreDropdownOption && !element.hidden,
+      );
+  }
+
+  get #optionElementsNotHiddenIncludingSelectAll() {
+    const assignedElementsNotHidden = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreDropdownOption =>
+          element instanceof GlideCoreDropdownOption && !element.hidden,
+      );
+
+    return this.#selectAllElementRef.value &&
+      !this.#selectAllElementRef.value.hidden &&
+      assignedElementsNotHidden
+      ? [this.#selectAllElementRef.value, ...assignedElementsNotHidden]
+      : assignedElementsNotHidden;
   }
 
   #onOptionsChange(event: Event) {

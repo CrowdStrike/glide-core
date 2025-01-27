@@ -337,9 +337,9 @@ export default class GlideCoreTooltip extends LitElement {
     // configure them. Tests configure them, rather than using fake timers,
     // because they need real timers so they can await Floating UI's setup.
     //
-    // Conditionals here and in `#scheduleClose` based on `navigator.webdriver`
-    // would be a lot nicer. But the non-`navigator.webdriver` condition would
-    // never get hit in tests, so we'd fail to meet our coverage thresholds.
+    // Conditionals here and in `#scheduleClose` based on `window.navigator.webdriver`
+    // would be a lot nicer. But one of that condition's branches would never get hit
+    // in tests. So we'd fail to meet our coverage thresholds.
     this.#openTimeoutId = setTimeout(() => {
       this.open = true;
     }, Number(this.#tooltipElementRef.value?.dataset.openDelay));
