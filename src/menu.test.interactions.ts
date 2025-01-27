@@ -10,10 +10,6 @@ import GlideCoreMenuLink from './menu.link.js';
 
 @customElement('glide-core-nested-slot')
 class GlideCoreNestedSlot extends LitElement {
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-  };
-
   override render() {
     return html`<glide-core-menu open>
       <button slot="target">Target</button>
@@ -27,10 +23,6 @@ class GlideCoreNestedSlot extends LitElement {
 
 @customElement('glide-core-menu-in-another-component')
 class GlideCoreMenuInAnotherComponent extends LitElement {
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-  };
-
   override render() {
     return html`<glide-core-menu open>
       <button slot="target">Target</button>
