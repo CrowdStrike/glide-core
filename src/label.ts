@@ -55,6 +55,20 @@ export default class GlideCoreLabel extends LitElement {
   @property()
   tooltip?: string;
 
+  // The default slot is what gets rendered as a label. This label, which
+  // should be the exact same, is for the tooltip shown when that label
+  // is truncated.
+  //
+  // Why not use this property for both labels? Because form controls need
+  // everything in their own shadow roots so they can wire up ARIA attributes,
+  // so the IDs referenced in those attributes aren't made inaccessible by
+  // being in another component's shadow root.
+  //
+  // Another way to get the contents of the default slot into the tooltip would
+  // be a mutation observer. But then we would have yet another mutation observer.
+  @property()
+  label?: string;
+
   override render() {
     // `aria-hidden` is used on the tooltip so the contents of the label
     // aren't read twice to screen readers. The label is truncated using
@@ -175,9 +189,6 @@ export default class GlideCoreLabel extends LitElement {
   @state()
   private isLabelTooltip = false;
 
-  @state()
-  private label = '';
-
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
   #descriptionSlotElementRef = createRef<HTMLSlotElement>();
@@ -193,12 +204,6 @@ export default class GlideCoreLabel extends LitElement {
       ?.assignedElements()
       .at(0);
 
-    const labelElement = this.#labelElementRef.value;
-
-    if (defaultSlotAssignedElement?.textContent) {
-      this.label = defaultSlotAssignedElement.textContent;
-    }
-
     const observer = new ResizeObserver(() => {
       // `getBoundingClientRect` is used so we're comparing apples to apples.
       //
@@ -210,15 +215,15 @@ export default class GlideCoreLabel extends LitElement {
       // return a float. So using `clientWidth` for `labelElement` would mean the
       // width of `defaultSlotAssignedElement` is always fractionally greater than
       // that of `labelElement`.
-      if (defaultSlotAssignedElement && labelElement) {
+      if (defaultSlotAssignedElement && this.#labelElementRef.value) {
         this.isLabelTooltip =
           defaultSlotAssignedElement.getBoundingClientRect().width >
-          labelElement.getBoundingClientRect().width;
+          this.#labelElementRef.value.getBoundingClientRect().width;
       }
     });
 
-    if (labelElement) {
-      observer.observe(labelElement);
+    if (this.#labelElementRef.value) {
+      observer.observe(this.#labelElementRef.value);
     }
   }
 

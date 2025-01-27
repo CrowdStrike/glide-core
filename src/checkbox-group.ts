@@ -241,6 +241,7 @@ export default class GlideCoreCheckboxGroup
       ${ref(this.#componentElementRef)}
     >
       <glide-core-private-label
+        label=${ifDefined(this.label)}
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}

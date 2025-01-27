@@ -70,6 +70,7 @@ export default class GlideCoreToggle extends LitElement {
   override render() {
     return html`<div data-test="component">
       <glide-core-private-label
+        label=${ifDefined(this.label)}
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}
