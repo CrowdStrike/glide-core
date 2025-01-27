@@ -6,10 +6,6 @@ import { LocalizeController } from './localize.js';
 
 @customElement('mock-component')
 class GlideCoreMockComponent extends LitElement {
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-  };
-
   localize = new LocalizeController(this);
 }
 

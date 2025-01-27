@@ -7,10 +7,6 @@ import assertSlot from './assert-slot.js';
 
 @customElement('glide-core-with-slot')
 class GlideCoreWithSlot extends LitElement {
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-  };
-
   @property()
   name?: string;
 
@@ -30,10 +26,6 @@ class GlideCoreWithSlot extends LitElement {
 
 @customElement('glide-core-when-not-used-on-slot')
 class GlideCoreWhenNotUsedOnSlot extends LitElement {
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-  };
-
   override render() {
     return html`<div ${assertSlot()}></div>`;
   }
@@ -41,10 +33,6 @@ class GlideCoreWhenNotUsedOnSlot extends LitElement {
 
 @customElement('glide-core-when-not-used-inside-tag')
 class GlideCorewhenNotUsedInsideTag extends LitElement {
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-  };
-
   override render() {
     return html`<slot>${assertSlot()}</slot>`;
   }
@@ -349,9 +337,6 @@ it('does not throw when an optional slot is empty', async () => {
   await fixture<GlideCoreWithSlot>(
     html`<glide-core-with-slot optional></glide-core-with-slot>`,
   );
-
-  // Wait for the event handler to be called.
-  await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
 });
