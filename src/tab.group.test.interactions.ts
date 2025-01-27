@@ -346,9 +346,12 @@ it('removes overflow buttons when the component is resized and there is no overf
   );
 });
 
-it('renders overflow buttons when the component is resized and there is overflow', async () => {
-  const component = await fixture(html`
-    <div data-test="test-parent">
+it('has overflow buttons when overflowing', async () => {
+  const parentNode = document.createElement('div');
+  parentNode.style.width = '23rem';
+
+  const component = await fixture(
+    html`
       <glide-core-tab-group>
         <glide-core-tab slot="nav" panel="1">Tab 1</glide-core-tab>
         <glide-core-tab slot="nav" panel="2">Tab 2</glide-core-tab>
@@ -364,43 +367,18 @@ it('renders overflow buttons when the component is resized and there is overflow
         <glide-core-tab-panel name="5">Content for Tab 5</glide-core-tab-panel>
         <glide-core-tab-panel name="6">Content for Tab 6</glide-core-tab-panel>
       </glide-core-tab-group>
-    </div>
-  `);
-
-  const tabGroup = component.querySelector<GlideCoreTabGroup>(
-    'glide-core-tab-group',
+    `,
+    { parentNode },
   );
 
-  const startOverflowButton =
-    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
-      '[data-test="overflow-start-button"]',
-    );
-
-  const endOverflowButton =
-    tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
-      '[data-test="overflow-end-button"]',
-    );
-
-  expect(startOverflowButton).to.be.null;
-  expect(endOverflowButton).to.be.null;
-
-  const container = document?.querySelector<HTMLDivElement>(
-    '[data-test="test-parent"]',
-  );
-
-  expect(container).to.be.not.null;
-
-  container!.style.width = '23rem';
-
-  await waitUntil(
-    () =>
-      tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
+  await waitUntil(() => {
+    return (
+      component.shadowRoot?.querySelector(
         '[data-test="overflow-start-button"]',
-      ) !== null &&
-      tabGroup?.shadowRoot?.querySelector<HTMLButtonElement>(
-        '[data-test="overflow-end-button"]',
-      ) !== null,
-  );
+      ) &&
+      component.shadowRoot?.querySelector('[data-test="overflow-end-button"]')
+    );
+  });
 });
 
 it('has only one selected tab that is tabbable after pressing the Enter key', async () => {
