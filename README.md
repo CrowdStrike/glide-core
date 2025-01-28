@@ -1,6 +1,11 @@
 <div align="center">
   <a href="https://glide-core.crowdstrike-ux.workers.dev">
-    <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/logo.png?raw=true" alt="Glide Core logo" width="300" />
+    <picture alt="Glide Core Logo">
+      <source srcset="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/light.png?raw=true" media="(prefers-color-scheme: light)" />
+      <source srcset="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/dark.png?raw=true" media="(prefers-color-scheme: dark)" />
+      <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/light.png?raw=true" style="margin-block-start: 1rem; max-inline-size: 30rem;">
+    </picture>
+
   </a>
 
   <p align="center"> 
