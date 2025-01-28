@@ -70,7 +70,7 @@ const meta: Meta = {
     maxlength: '',
     name: '',
     orientation: 'horizontal',
-    placeholder: 'Placeholder',
+    placeholder: '',
     readonly: false,
     'reportValidity()': '',
     required: false,

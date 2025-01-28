@@ -44,7 +44,7 @@ const meta: Meta = {
     orientation: 'horizontal',
     'password-toggle': false,
     pattern: '',
-    placeholder: 'Placeholder',
+    placeholder: '',
     readonly: false,
     'reportValidity()': '',
     required: false,
