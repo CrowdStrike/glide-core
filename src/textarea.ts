@@ -174,6 +174,7 @@ export default class GlideCoreTextarea
 
   override render() {
     return html`<glide-core-private-label
+      label=${ifDefined(this.label)}
       split=${ifDefined(this.privateSplit ?? undefined)}
       tooltip=${ifDefined(this.tooltip)}
       orientation=${this.orientation}

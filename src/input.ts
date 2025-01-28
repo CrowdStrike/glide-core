@@ -231,6 +231,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
           left: this.privateSplit === 'left',
           middle: this.privateSplit === 'middle',
         })}
+        label=${ifDefined(this.label)}
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}
