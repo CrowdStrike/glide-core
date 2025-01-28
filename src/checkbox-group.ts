@@ -12,6 +12,7 @@ import styles from './checkbox-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -28,6 +29,7 @@ declare global {
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-checkbox-group')
+@final
 export default class GlideCoreCheckboxGroup
   extends LitElement
   implements FormControl

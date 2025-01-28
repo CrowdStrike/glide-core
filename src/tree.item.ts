@@ -13,6 +13,7 @@ import chevronIcon from './icons/chevron.js';
 import styles from './tree.item.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -27,6 +28,7 @@ declare global {
  * @slot menu - A `<glide-core-menu>` made visible on hover or focus.
  */
 @customElement('glide-core-tree-item')
+@final
 export default class GlideCoreTreeItem extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

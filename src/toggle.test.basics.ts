@@ -1,5 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreToggle from './toggle.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreToggle {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-toggle')).to.equal(
@@ -15,4 +20,16 @@ it('is accessible', async () => {
   );
 
   await expect(component).to.be.accessible();
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

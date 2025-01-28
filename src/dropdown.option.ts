@@ -12,6 +12,7 @@ import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.option.styles.js';
 import type GlideCoreCheckbox from './checkbox.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -23,6 +24,7 @@ declare global {
  * @slot icon - An optional icon before the label.
  */
 @customElement('glide-core-dropdown-option')
+@final
 export default class GlideCoreDropdownOption extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

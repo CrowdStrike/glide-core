@@ -1,6 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreIconButton from './icon-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreIconButton {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-icon-button')).to.equal(
@@ -39,6 +44,18 @@ it('has defaults', async () => {
   expect(button?.ariaExpanded).to.equal(null);
   expect(button?.ariaHasPopup).to.equal(null);
   expect(button?.disabled).to.be.false;
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if it does not have a default slot', async () => {

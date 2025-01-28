@@ -1,7 +1,12 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import { click } from './library/mouse.js';
 import GlideCoreTextarea from './textarea.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTextarea {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-textarea')).to.equal(
@@ -150,4 +155,16 @@ it('blurs the textarea when `blur` is called', async () => {
   expect(
     component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
   ).to.not.equal('textarea');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

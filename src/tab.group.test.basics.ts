@@ -1,10 +1,15 @@
 import { assert, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCoreTabGroup from './tab.group.js';
 import './tab.js';
 import GlideCoreTabPanel from './tab.panel.js';
 import { click } from './library/mouse.js';
 import expectWindowError from './library/expect-window-error.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTabGroup {}
 
 function isPanelHidden(panel: GlideCoreTabPanel) {
   return panel.shadowRoot?.firstElementChild?.classList.contains('hidden');
@@ -296,6 +301,18 @@ it('sets padding-inline-end of the Tab Panel via `--panel-padding-inline-end`', 
   assert(tabPanel);
 
   expect(window.getComputedStyle(tabPanel).paddingInline).to.equal('0px 100px');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws an error when an element other than `glide-core-tab` is a child of the `nav` slot', async () => {

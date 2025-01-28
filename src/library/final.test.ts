@@ -8,14 +8,14 @@ import final from './final.js';
 @final
 class GlideCoreFinal extends LitElement {}
 
-@customElement('glide-core-extended')
-class GlideCoreExtended extends GlideCoreFinal {}
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreFinal {}
 
 it('throws when a class is extended', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreExtended();
+    new GlideCoreSubclassed();
   } catch (error) {
     spy(error);
   }

@@ -7,6 +7,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './drawer.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,6 +23,7 @@ declare global {
  * @slot - The content of the Drawer.
  */
 @customElement('glide-core-drawer')
+@final
 export default class GlideCoreDrawer extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

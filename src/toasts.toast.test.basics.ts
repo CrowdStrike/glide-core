@@ -1,6 +1,10 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreToast from './toasts.toast.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreToast {}
 
 // NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
 // to manually dispatch the `transitionend` event in tests.
@@ -214,4 +218,16 @@ it('can be closed by clicking on the x icon', async () => {
   await expect([
     ...component.shadowRoot!.firstElementChild!.classList,
   ]).to.deep.equal(['component', 'informational', 'closed']);
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

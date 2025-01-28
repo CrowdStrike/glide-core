@@ -1,9 +1,14 @@
 import './button.js';
 import './modal.icon-button.js';
 import { expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCoreModal from './modal.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreModal {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-modal')).to.equal(
@@ -41,6 +46,18 @@ it('can have a back button', async () => {
   );
 
   expect(button?.checkVisibility()).to.be.true;
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if it does not have a default slot', async () => {

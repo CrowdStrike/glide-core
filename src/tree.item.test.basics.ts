@@ -2,8 +2,13 @@ import './menu.link.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import './tree.item.menu.js';
 import './menu.js';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreTreeItem from './tree.item.js';
 import expectWindowError from './library/expect-window-error.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTreeItem {}
 
 it('registers itself', () => {
   expect(window.customElements.get('glide-core-tree-item')).to.equal(
@@ -152,6 +157,18 @@ it('can select child and grandchild items', async () => {
   expect(childItems[0].selected).to.be.false;
   expect(childItems[1].selected).to.be.false;
   expect(grandchildItems[0].selected).to.be.true;
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if its "menu" slot is the incorrect type', async () => {

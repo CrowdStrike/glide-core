@@ -11,6 +11,7 @@ import styles from './toasts.toast.styles.js';
 import xIcon from './icons/x.js';
 import type { Toast } from './toasts.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,6 +23,7 @@ declare global {
  * @private
  * */
 @customElement('glide-core-toast')
+@final
 export default class GlideCoreToast extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

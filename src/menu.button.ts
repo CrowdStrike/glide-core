@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './menu.button.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -17,6 +18,7 @@ declare global {
  * @slot icon - An optional icon.
  */
 @customElement('glide-core-menu-button')
+@final
 export default class GlideCoreMenuButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

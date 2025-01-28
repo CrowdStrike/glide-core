@@ -6,6 +6,7 @@ import { type Placement } from '@floating-ui/dom';
 import { map } from 'lit/directives/map.js';
 import styles from './tooltip.container.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,6 +32,7 @@ declare global {
 // The latter solution would also prevent us from restricting allowed content by using
 // an attribute (`label`). We'd be forced to allow arbitrary content via a slot.
 @customElement('glide-core-private-tooltip-container')
+@final
 export default class GlideCoreTooltipContainer extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
