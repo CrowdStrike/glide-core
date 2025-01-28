@@ -1,14 +1,31 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import { click } from './library/mouse.js';
 import './menu.js';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
+import { click } from './library/mouse.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
 import expectWindowError from './library/expect-window-error.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTreeItemMenu {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tree-item-menu')).to.equal(
     GlideCoreTreeItemMenu,
   );
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if it does not have a default slot', async () => {

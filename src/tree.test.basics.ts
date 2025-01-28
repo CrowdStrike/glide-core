@@ -3,11 +3,15 @@ import './tree.item.menu.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreTree from './tree.js';
 import { click } from './library/mouse.js';
 import GlideCoreTreeItem from './tree.item.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTree {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tree')).to.equal(GlideCoreTree);
@@ -160,6 +164,18 @@ it('does not scroll the page when arrowing', async () => {
   await aTimeout(100);
 
   expect(spy.callCount).to.equal(0);
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if it does not have a default slot', async () => {

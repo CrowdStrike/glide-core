@@ -18,6 +18,7 @@ import styles from './tooltip.styles.js';
 import './tooltip.container.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,6 +32,7 @@ declare global {
  * @slot target - The element to which the tooltip will anchor.
  */
 @customElement('glide-core-tooltip')
+@final
 export default class GlideCoreTooltip extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

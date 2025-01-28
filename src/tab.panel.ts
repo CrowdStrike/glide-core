@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './tab.panel.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -16,6 +17,7 @@ declare global {
  * @slot - The content of the panel.
  */
 @customElement('glide-core-tab-panel')
+@final
 export default class GlideCoreTabPanel extends LitElement {
   static instanceCount = 0;
 

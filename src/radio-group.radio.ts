@@ -4,6 +4,7 @@ import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './radio-group.radio.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -12,6 +13,7 @@ declare global {
 }
 
 @customElement('glide-core-radio-group-radio')
+@final
 export default class GlideCoreRadioGroupRadio extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

@@ -1,5 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreTooltipContainer from './tooltip.container.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTooltipContainer {}
 
 it('registers itself', async () => {
   expect(
@@ -49,4 +54,16 @@ it('has no `role` when disabled', async () => {
   );
 
   expect(component.role).to.equal('none');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

@@ -13,6 +13,7 @@ import styles from './radio-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,6 +30,7 @@ declare global {
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-radio-group')
+@final
 export default class GlideCoreRadioGroup
   extends LitElement
   implements FormControl

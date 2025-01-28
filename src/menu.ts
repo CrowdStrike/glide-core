@@ -16,6 +16,7 @@ import GlideCoreMenuOptions from './menu.options.js';
 import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,6 +31,7 @@ declare global {
  * @slot target - The element to which the menu will anchor, which can be any focusable element.
  */
 @customElement('glide-core-menu')
+@final
 export default class GlideCoreMenu extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

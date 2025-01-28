@@ -11,6 +11,7 @@ import { LocalizeController } from './library/localize.js';
 import styles from './textarea.styles.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,6 +27,7 @@ declare global {
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-textarea')
+@final
 export default class GlideCoreTextarea
   extends LitElement
   implements FormControl

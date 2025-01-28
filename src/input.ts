@@ -15,6 +15,7 @@ import styles from './input.styles.js';
 import xIcon from './icons/x.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -50,6 +51,7 @@ type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
  * @slot suffix-icon - An optional icon after the input field.
  */
 @customElement('glide-core-input')
+@final
 export default class GlideCoreInput extends LitElement implements FormControl {
   static formAssociated = true;
 

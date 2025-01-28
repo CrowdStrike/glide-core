@@ -1,7 +1,12 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { styleMap } from 'lit/directives/style-map.js';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreCheckbox from './checkbox.js';
 import type GlideCoreTooltip from './tooltip.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreCheckbox {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-checkbox')).to.equal(
@@ -60,4 +65,16 @@ it('has no tooltip when minimal with a short label', async () => {
   );
 
   expect(tooltip?.disabled).to.be.true;
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

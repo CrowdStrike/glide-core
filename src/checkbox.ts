@@ -13,6 +13,7 @@ import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,6 +30,7 @@ declare global {
  * @slot private-icon
  */
 @customElement('glide-core-checkbox')
+@final
 export default class GlideCoreCheckbox
   extends LitElement
   implements FormControl

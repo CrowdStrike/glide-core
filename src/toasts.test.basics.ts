@@ -1,5 +1,10 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCoreToasts from './toasts.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreToasts {}
 
 // NOTE: Due to https://github.com/modernweb-dev/web/issues/2520, we sometimes need
 // to manually dispatch the `transitionend` event in tests.
@@ -171,4 +176,16 @@ it('is hidden unless there are toasts displayed', async () => {
   toast.dispatchEvent(new Event('close', { bubbles: true }));
 
   expect(getComputedStyle(shadowComponent).display).to.equal('none');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
