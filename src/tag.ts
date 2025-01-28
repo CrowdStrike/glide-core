@@ -9,6 +9,7 @@ import pencilIcon from './icons/pencil.js';
 import styles from './tag.styles.js';
 import xIcon from './icons/x.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,6 +23,7 @@ declare global {
  * @slot icon
  */
 @customElement('glide-core-tag')
+@final
 export default class GlideCoreTag extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

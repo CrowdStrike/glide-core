@@ -1,6 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreButtonGroupButton from './button-group.button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreButtonGroupButton {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-button-group-button')).to.equal(
@@ -112,6 +117,18 @@ it('is not tabbable when not selected', async () => {
 
   const radio = component.shadowRoot?.querySelector('[role="radio"]');
   expect(radio?.getAttribute('tabindex')).to.equal('-1');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws when `icon-only` and no "icon" slot', async () => {

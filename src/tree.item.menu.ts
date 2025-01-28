@@ -13,6 +13,7 @@ import GlideCoreMenuButton from './menu.button.js';
 import type GlideCoreMenu from './menu.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -25,6 +26,7 @@ declare global {
  * @slot icon - An optional icon.
  */
 @customElement('glide-core-tree-item-menu')
+@final
 export default class GlideCoreTreeItemMenu extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

@@ -7,6 +7,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './icon-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -18,6 +19,7 @@ declare global {
  * @slot - An icon.
  */
 @customElement('glide-core-icon-button')
+@final
 export default class GlideCoreIconButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

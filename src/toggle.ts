@@ -6,6 +6,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './toggle.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,6 +21,7 @@ declare global {
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-toggle')
+@final
 export default class GlideCoreToggle extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

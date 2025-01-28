@@ -7,6 +7,7 @@ import chevronIcon from './icons/chevron.js';
 import styles from './accordion.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,6 +23,7 @@ declare global {
  * @slot suffix-icons - Optional icons after the label.
  */
 @customElement('glide-core-accordion')
+@final
 export default class GlideCoreAccordion extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

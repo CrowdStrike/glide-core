@@ -24,6 +24,7 @@ import styles from './dropdown.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -42,6 +43,7 @@ declare global {
  * @slot icon:<value> - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
  */
 @customElement('glide-core-dropdown')
+@final
 export default class GlideCoreDropdown
   extends LitElement
   implements FormControl

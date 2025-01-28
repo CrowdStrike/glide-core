@@ -1,6 +1,11 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCorePopover from './popover.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCorePopover {}
 
 it('registers', async () => {
   expect(window.customElements.get('glide-core-popover')).to.equal(
@@ -53,6 +58,18 @@ it('is not open when disabled', async () => {
   await aTimeout(0);
 
   expect(popover?.checkVisibility()).to.be.false;
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if it does not have a default slot', async () => {

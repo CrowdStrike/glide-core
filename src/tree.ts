@@ -6,6 +6,7 @@ import GlideCoreTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -17,6 +18,7 @@ declare global {
  * @slot - One or more of `<glide-core-tree-item>`.
  */
 @customElement('glide-core-tree')
+@final
 export default class GlideCoreTree extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

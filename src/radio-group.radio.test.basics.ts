@@ -1,5 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCoreRadioGroupRadio from './radio-group.radio.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreRadioGroupRadio {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-radio-group-radio')).to.equal(
@@ -99,4 +104,16 @@ it('sets `aria-label` on the host via `label`', async () => {
   component.label = 'Updated';
 
   expect(component.getAttribute('aria-label')).to.equal('Updated');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

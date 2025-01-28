@@ -11,6 +11,7 @@ import GlideCoreTextArea from './textarea.js';
 import styles from './form-controls-layout.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,6 +23,7 @@ declare global {
  * @slot - GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea.
  */
 @customElement('glide-core-form-controls-layout')
+@final
 export default class GlideCoreFormControlsLayout extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

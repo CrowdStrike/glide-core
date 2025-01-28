@@ -1,7 +1,12 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCoreButtonGroup from './button-group.js';
 import './button-group.button.js';
 import expectWindowError from './library/expect-window-error.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreButtonGroup {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-button-group')).to.equal(
@@ -124,6 +129,18 @@ it('sets `privateVariant` on each button', async () => {
 
   expect(buttons[0].privateVariant).to.equal('icon-only');
   expect(buttons[1].privateVariant).to.equal('icon-only');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if its default slot is the wrong type', async () => {

@@ -10,6 +10,7 @@ import { LocalizeController } from './library/localize.js';
 import assertSlot from './library/assert-slot.js';
 import onResize from './library/on-resize.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,6 +27,7 @@ declare global {
  * @slot description - Additional information or context.
  */
 @customElement('glide-core-private-label')
+@final
 export default class GlideCoreLabel extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

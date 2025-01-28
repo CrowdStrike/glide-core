@@ -1,5 +1,10 @@
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCoreTag from './tag.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTag {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tag')).to.equal(GlideCoreTag);
@@ -52,4 +57,16 @@ it('can be removed', async () => {
 
   expect(button?.checkVisibility()).to.be.true;
   expect(button?.getAttribute('aria-label')).to.equal('Remove tag: Label');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

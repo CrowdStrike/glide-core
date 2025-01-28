@@ -1,7 +1,12 @@
 import { aTimeout, expect, fixture, html, waitUntil } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreTooltip from './tooltip.js';
 import GlideCoreTooltipContainer from './tooltip.container.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTooltip {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tooltip')).to.equal(
@@ -131,6 +136,18 @@ it('does not set `aria-describedby` on its target when hidden from screenreaders
 
   const button = component.querySelector('button');
   expect(button?.getAttribute('aria-describedby')).to.equal(null);
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if it does not have a default slot', async () => {

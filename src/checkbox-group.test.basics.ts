@@ -1,8 +1,13 @@
 import './checkbox.js';
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreCheckboxGroup from './checkbox-group.js';
 import expectWindowError from './library/expect-window-error.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreCheckboxGroup {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-checkbox-group')).to.equal(
@@ -19,6 +24,18 @@ it('is accessible', async () => {
   );
 
   await expect(component).to.be.accessible();
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if it does not have a default slot', async () => {

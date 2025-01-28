@@ -5,6 +5,7 @@ import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './tab.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -19,6 +20,7 @@ declare global {
  * @slot icon - An optional icon.
  */
 @customElement('glide-core-tab')
+@final
 export default class GlideCoreTab extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

@@ -13,6 +13,7 @@ import styles from './modal.styles.js';
 import xIcon from './icons/x.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -39,6 +40,7 @@ globalStylesheet.insertRule(`
  * @slot tertiary - One or more of `<glide-core-button>` or `<glide-core-tooltip>`.
  */
 @customElement('glide-core-modal')
+@final
 export default class GlideCoreModal extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

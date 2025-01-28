@@ -7,6 +7,7 @@ import GlideCoreButtonGroupButton from './button-group.button.js';
 import styles from './button-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,6 +21,7 @@ declare global {
  * @slot - One or more of `<glide-core-button-group-button>`.
  */
 @customElement('glide-core-button-group')
+@final
 export default class GlideCoreButtonGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

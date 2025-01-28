@@ -1,7 +1,12 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import { click } from './library/mouse.js';
 import GlideCoreInput from './input.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreInput {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-input')).to.equal(
@@ -210,4 +215,16 @@ it('does not render a character count when attribute `maxlength` is set less tha
   );
 
   expect(container).to.be.null;
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

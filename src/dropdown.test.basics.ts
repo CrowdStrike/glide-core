@@ -1,4 +1,6 @@
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreDropdown from './dropdown.js';
 import './dropdown.option.js';
 import expectWindowError from './library/expect-window-error.js';
@@ -15,6 +17,9 @@ import type GlideCoreTooltip from './tooltip.js';
 // three states. They nonetheless reside there because moving them out and
 // duplicating them in both `dropdown.test.interactions.single.ts` and
 // `dropdown.test.interactions.multiple.ts` would add a ton of test weight.
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreDropdown {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-dropdown')).to.equal(
@@ -163,6 +168,18 @@ it('hides the tooltip of the active option when open', async () => {
     ?.shadowRoot?.querySelector<GlideCoreTooltip>('[data-test="tooltip"]');
 
   expect(tooltip?.open).to.be.false;
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if its default slot is the incorrect type', async () => {

@@ -11,6 +11,7 @@ import styles from './inline-alert.styles.js';
 import xIcon from './icons/x.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -24,6 +25,7 @@ declare global {
  * @slot - The content of the Inline Alert.
  */
 @customElement('glide-core-inline-alert')
+@final
 export default class GlideCoreInlineAlert extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,

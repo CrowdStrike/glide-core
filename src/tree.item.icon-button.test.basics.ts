@@ -1,6 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreTreeItemIconButton from './tree.item.icon-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTreeItemIconButton {}
 
 it('registers itself', async () => {
   expect(
@@ -26,4 +31,16 @@ it('passes its label to the icon button', async () => {
   expect(
     component.shadowRoot?.querySelector('glide-core-icon-button')?.label,
   ).to.equal('My label');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

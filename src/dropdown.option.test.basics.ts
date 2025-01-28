@@ -1,5 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreDropdownOption {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-dropdown-option')).to.equal(
@@ -47,4 +52,16 @@ it('is selectable', async () => {
   );
 
   expect(checkedIconContainer instanceof Element).to.be.true;
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

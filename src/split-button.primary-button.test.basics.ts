@@ -1,5 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreSplitButtonPrimaryButton {}
 
 it('registers itself', async () => {
   expect(
@@ -35,4 +40,16 @@ it('has defaults', async () => {
   expect(component.disabled).to.be.false;
   expect(component.privateSize).to.equal('large');
   expect(component.privateVariant).to.equal('primary');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

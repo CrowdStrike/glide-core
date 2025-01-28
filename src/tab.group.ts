@@ -13,6 +13,7 @@ import onResize from './library/on-resize.js';
 import styles from './tab.group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -32,6 +33,7 @@ declare global {
  * @slot nav - One or more of `<glide-core-tab>`.
  */
 @customElement('glide-core-tab-group')
+@final
 export default class GlideCoreTabGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
