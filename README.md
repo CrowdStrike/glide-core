@@ -3,7 +3,7 @@
     <picture alt="Glide Core Logo">
       <source srcset="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/light.png?raw=true" media="(prefers-color-scheme: light)" />
       <source srcset="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/dark.png?raw=true" media="(prefers-color-scheme: dark)" />
-      <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/light.png?raw=true" style="margin-block-start: 1rem; max-inline-size: 30rem;">
+      <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/light.png?raw=true" />
     </picture>
 
   </a>
