@@ -139,9 +139,6 @@ export default [
       align-items: center;
       display: flex;
       gap: var(--glide-core-spacing-sm);
-
-      /* https://css-tricks.com/flexbox-truncated-text/#aa-the-solution-is-min-width-0-on-the-flex-child */
-      min-inline-size: 0;
     }
 
     .control {
