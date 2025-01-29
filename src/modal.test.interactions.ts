@@ -3,7 +3,7 @@ import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
 import GlideCoreModal from './modal.js';
 
-it('opens', async () => {
+it('opens when opened programmatically', async () => {
   const component = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
@@ -15,7 +15,7 @@ it('opens', async () => {
   expect(dialog?.checkVisibility()).to.be.true;
 });
 
-it('closes', async () => {
+it('closes when closed programmatically', async () => {
   const component = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );
@@ -98,6 +98,20 @@ it('does not close when `click()` is called on a slotted element', async () => {
   );
 
   component.querySelector('input')?.click();
+  expect(component.open).to.be.true;
+});
+
+it('does not close when a slotted `<label>` is clicked', async () => {
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" open>
+      <label for="input"> Label </label>
+      <input id="input" />
+    </glide-core-modal>`,
+  );
+
+  const label = component.querySelector('label');
+  await click(label);
+
   expect(component.open).to.be.true;
 });
 

@@ -89,6 +89,8 @@ const meta: Meta = {
         ?back-button=${arguments_['back-button']}
         ?open=${arguments_.open}
       >
+        <label for="input"> Label </label>
+        <input id="input" />
         ${unsafeHTML(arguments_['slot="default"'])}
       </glide-core-modal>
     `;
