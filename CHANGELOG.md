@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.19.2
+
+### Patch Changes
+
+- [#658](https://github.com/CrowdStrike/glide-core/pull/658) [`ca7182b`](https://github.com/CrowdStrike/glide-core/commit/ca7182bb4e22acb8ae05b9e652ec555f22c22bfb) Thanks [@clintcs](https://github.com/clintcs)! - Modal no longer closes when a slotted `<label>` is clicked.
+
 ## 0.19.1
 
 ### Patch Changes
