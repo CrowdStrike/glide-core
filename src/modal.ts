@@ -286,7 +286,16 @@ export default class GlideCoreModal extends LitElement {
     // There's a comment in `firstUpdated()` explaining the timeout.
     setTimeout(() => {
       if (this.#isContainerClick) {
-        this.#isContainerClick = false;
+        // This handler will be called twice for a single click if the element clicked was
+        // a `<label>`. Because clicking a `<label>` produces two "click" events.
+        //
+        // If we immediately set `#isContainerClick` to `false`, Modal will close when this
+        // handler is called the second time. So we wait a tick to ensure both "click" events
+        // have been dispatched.
+        setTimeout(() => {
+          this.#isContainerClick = false;
+        });
+
         // The click may be a result of the user clicking a button to open Modal.
         // If so then `this.open` will have been set to `true` in the frame between
         // when this handler was called and this timeout. And we don't want to
