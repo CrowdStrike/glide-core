@@ -21,6 +21,8 @@ declare global {
 }
 
 /**
+ * @attribute {Boolean} hide-label
+ *
  * @event change
  * @event input
  * @event invalid

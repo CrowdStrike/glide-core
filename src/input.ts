@@ -42,6 +42,9 @@ export const SUPPORTED_TYPES = [
 type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
 
 /**
+ * @attribute {Boolean} hide-label
+ * @attribute {Boolean} password-toggle
+ *
  * @event change
  * @event input
  * @event invalid
