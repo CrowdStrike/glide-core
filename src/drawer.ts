@@ -162,7 +162,6 @@ export default class GlideCoreDrawer extends LitElement {
         class=${classMap({ component: true, pinned: this.pinned })}
         data-test="component"
         tabindex="-1"
-        @keydown=${this.#onComponentKeydown}
         ${ref(this.#componentElementRef)}
       >
         <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}></slot>
@@ -179,13 +178,4 @@ export default class GlideCoreDrawer extends LitElement {
   #isOpen = false;
 
   #openAnimation?: Animation;
-
-  #onComponentKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      // Prevent Safari from leaving full screen.
-      event.preventDefault();
-
-      this.open = false;
-    }
-  }
 }
