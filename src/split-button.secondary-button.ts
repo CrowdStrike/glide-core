@@ -21,6 +21,9 @@ declare global {
 }
 
 /**
+ * @attribute {Boolean} menu-open
+ * @attribute {'bottom-end' | 'top-end'} menu-placement
+ *
  * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
  */
 @customElement('glide-core-split-button-secondary-button')
