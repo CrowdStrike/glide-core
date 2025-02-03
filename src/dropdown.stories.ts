@@ -99,7 +99,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid" | "toggle", handler: (event: Event) => void): void',
+            '(event: "add" | "change" | "input" | "invalid" | "toggle", handler: (event: Event) => void): void',
         },
       },
     },
