@@ -33,6 +33,10 @@ declare global {
 }
 
 /**
+ * @attribute {String} add-button-label
+ * @attribute {Boolean} hide-label
+ * @attribute {Boolean} select-all
+ *
  * @event change
  * @event input
  * @event invalid

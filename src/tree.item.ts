@@ -22,6 +22,9 @@ declare global {
 }
 
 /**
+ * @attribute {Boolean} remove-indentation
+ * @attribute {Boolean} non-collapsible
+ *
  * @slot - Zero or more of `<glide-core-tree-item>`.
  * @slot prefix - An optional icon before the label.
  * @slot suffix - An optional icon after the label.

@@ -27,6 +27,8 @@ declare global {
 }
 
 /**
+ * @attribute {Boolean} screenreader-hidden
+ *
  * @event toggle
  *
  * @slot target - The element to which the tooltip will anchor.

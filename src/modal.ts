@@ -31,6 +31,8 @@ globalStylesheet.insertRule(`
 `);
 
 /**
+ * @attribute {Boolean} back-button
+ *
  * @event toggle
  *
  * @slot - The primary content of the modal.
