@@ -85,6 +85,7 @@ const meta: Meta = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        severity=${arguments_.severity || nothing}
         size=${arguments_.size}
         ?back-button=${arguments_['back-button']}
         ?open=${arguments_.open}
@@ -99,6 +100,7 @@ const meta: Meta = {
     'addEventListener(event, handler)': '',
     'back-button': false,
     open: false,
+    severity: '',
     size: 'medium',
     'slot="header-actions"': '',
     'slot="primary"': '',
@@ -138,6 +140,15 @@ const meta: Meta = {
         type: {
           detail: '// Adds a button to the header that closes Modal on click',
           summary: 'boolean',
+        },
+      },
+    },
+    severity: {
+      control: { type: 'select' },
+      options: ['', 'informational', 'medium', 'critical'],
+      table: {
+        type: {
+          summary: `"informational" | "medium" | "high" | "critical"`,
         },
       },
     },
