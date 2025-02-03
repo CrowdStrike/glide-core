@@ -2,4 +2,4 @@
 '@crowdstrike/glide-core': minor
 ---
 
-Drawer no longer closes when the `Escape` key is pressed to follow the latest design guidance.
+Drawer no longer closes when the `Escape` key is pressed.
