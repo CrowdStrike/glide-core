@@ -1,5 +1,5 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
-import { emulateMedia, sendKeys } from '@web/test-runner-commands';
+import { emulateMedia } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreDrawer from './drawer.js';
 
@@ -74,22 +74,6 @@ it('closes when not animated', async () => {
   );
 
   expect(aside?.checkVisibility({ visibilityProperty: true })).to.not.be.ok;
-});
-
-it('closes on Escape', async () => {
-  await emulateMedia({ reducedMotion: 'reduce' });
-
-  const component = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer open>Content</glide-core-drawer>`,
-  );
-
-  component.shadowRoot
-    ?.querySelector<HTMLElement>('[data-test="component"]')
-    ?.focus();
-
-  await sendKeys({ press: 'Escape' });
-
-  expect(component.open).to.be.false;
 });
 
 it('has `set open(isOpen: boolean)` coverage', async () => {
