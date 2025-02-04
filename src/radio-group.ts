@@ -272,7 +272,6 @@ export default class GlideCoreRadioGroup
           <div
             class=${classMap({
               'radio-container': true,
-              vertical: true,
               invalid: this.#isShowValidationFeedback,
             })}
             role="radiogroup"
