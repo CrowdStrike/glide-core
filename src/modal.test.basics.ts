@@ -55,14 +55,14 @@ it('can have a severity', async () => {
     </glide-core-modal>`,
   );
 
-  const severity = component.shadowRoot?.querySelector<HTMLSpanElement>(
-    '[data-test="severity"]',
-  );
-
-  expect(severity?.checkVisibility()).to.be.true;
+  expect(
+    component.shadowRoot
+      ?.querySelector<HTMLSpanElement>('[data-test="severity"]')
+      ?.checkVisibility(),
+  ).to.be.true;
 });
 
-it('renders the severity over the back-button when both are provided', async () => {
+it('has a severity icon instead of a back button when both are provided', async () => {
   const component = await fixture<GlideCoreModal>(
     html`<glide-core-modal
       label="Label"
@@ -74,14 +74,17 @@ it('renders the severity over the back-button when both are provided', async () 
     </glide-core-modal>`,
   );
 
-  const severity = component.shadowRoot?.querySelector<HTMLSpanElement>(
-    '[data-test="severity"]',
-  );
+  expect(
+    component.shadowRoot
+      ?.querySelector<HTMLElement>('[data-test="severity"]')
+      ?.checkVisibility(),
+  ).to.be.true;
 
-  expect(severity?.checkVisibility()).to.be.true;
-
-  expect(component.shadowRoot?.querySelector('[data-test="back-button"]')).to.be
-    .null;
+  expect(
+    component.shadowRoot
+      ?.querySelector('[data-test="back-button"]')
+      ?.checkVisibility(),
+  ).to.not.be.ok;
 });
 
 it('throws when subclassed', async () => {

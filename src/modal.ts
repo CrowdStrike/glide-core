@@ -84,7 +84,7 @@ export default class GlideCoreModal extends LitElement {
   }
 
   @property({ reflect: true })
-  severity?: keyof typeof severityIcons;
+  severity?: 'critical' | 'informational' | 'medium';
 
   @property({ reflect: true })
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
@@ -203,8 +203,9 @@ export default class GlideCoreModal extends LitElement {
                     medium: this.severity === 'medium',
                   })}
                   data-test="severity"
-                  >${this.severity && severityIcons[this.severity]}</span
-                >`,
+                >
+                  ${this.severity && icons[this.severity]}
+                </span>`,
             )}
             ${when(
               this.backButton && !this.severity,
@@ -373,10 +374,7 @@ const icons = {
       />
     </svg>
   `,
-};
-
-const severityIcons = {
+  critical: severityCriticalIcon,
   informational: severityInformationalIcon,
   medium: severityMediumIcon,
-  critical: severityCriticalIcon,
 };

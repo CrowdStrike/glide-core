@@ -250,6 +250,7 @@ export const WithHeaderActions: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        severity=${arguments_.severity || nothing}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -279,6 +280,7 @@ export const WithPrimaryButton: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        severity=${arguments_.severity || nothing}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -299,6 +301,7 @@ export const WithSecondaryButton: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        severity=${arguments_.severity || nothing}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -323,6 +326,7 @@ export const WithTertiaryTooltipAndButton: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        severity=${arguments_.severity || nothing}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -353,6 +357,7 @@ export const KitchenSink: StoryObj = {
 
       <glide-core-modal
         label=${arguments_.label || nothing}
+        severity=${arguments_.severity || nothing}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
