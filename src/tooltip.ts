@@ -411,6 +411,15 @@ export default class GlideCoreTooltip extends LitElement {
                           fallbackStrategy: 'initialPlacement',
                         }),
                         shift({
+                          // So the tooltip can overlap its target in cases where it would otherwise
+                          // overflow the viewport.
+                          //
+                          // Give a form control a super long label. Now reduce the size of your viewport.
+                          // The tooltip should flip to the left instead of overflowing on the right.
+                          //
+                          // https://github.com/floating-ui/floating-ui/blob/933cacc6672e2ccd9409cf0e9f64acd7ebf450c4/website/pages/docs/shift.mdx#crossaxiskey
+                          crossAxis: true,
+
                           limiter: limitShift({
                             // Shifting is limited so the arrow is never near the tooltip's rounded
                             // corners, which would leave a gap between the arrow and the part of
