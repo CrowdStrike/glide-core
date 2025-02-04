@@ -55,8 +55,15 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
 
   set disabled(disabled: boolean) {
     this.#disabled = disabled;
-
     this.ariaDisabled = disabled.toString();
+
+    // `this.disabled` can be changed programmatically. Radio Group needs to know when
+    // that happens so it can make radios tabbable or untabbable.
+    this.dispatchEvent(
+      new CustomEvent('private-disabled-change', {
+        bubbles: true,
+      }),
+    );
   }
 
   // Private because it's only meant to be used by Radio Group.
@@ -68,7 +75,6 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   // Private because it's only meant to be used by Radio Group.
   set privateInvalid(invalid: boolean) {
     this.#privateInvalid = invalid;
-
     this.ariaInvalid = invalid.toString();
   }
 
@@ -79,7 +85,6 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
 
   set label(label: string) {
     this.#label = label;
-
     this.ariaLabel = label.toString();
   }
 
@@ -92,7 +97,6 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   // Private because it's only meant to be used by Radio Group.
   set privateRequired(required: boolean) {
     this.#privateRequired = required;
-
     this.ariaRequired = required.toString();
   }
 
