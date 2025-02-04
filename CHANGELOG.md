@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.19.3
+
+### Patch Changes
+
+- [#674](https://github.com/CrowdStrike/glide-core/pull/674) [`8db5921`](https://github.com/CrowdStrike/glide-core/commit/8db5921c0f92a3a51f905dd402a1aac64e50eff6) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Radio Group Radio labels no longer restrict their width.
+
 ## 0.19.2
 
 ### Patch Changes
