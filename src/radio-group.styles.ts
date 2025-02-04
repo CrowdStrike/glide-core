@@ -12,9 +12,9 @@ export default [
     }
 
     .radio-container {
-      display: flex;
+      display: inline-flex;
+      flex-direction: column;
       gap: 0.375rem;
-      inline-size: min-content;
 
       &.invalid {
         border: 1px solid var(--glide-core-status-error);
@@ -23,11 +23,6 @@ export default [
         margin-block-end: -0.0625rem;
         margin-inline-start: -0.0625rem;
         padding: var(--glide-core-spacing-xxs) 0.375rem;
-      }
-
-      &.vertical {
-        display: flex;
-        flex-direction: column;
       }
     }
 
