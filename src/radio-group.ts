@@ -291,6 +291,7 @@ export default class GlideCoreRadioGroup
             <slot
               @focusout=${this.#onRadioGroupFocusout}
               @private-checked-change=${this.#onRadiosCheckedChange}
+              @private-disabled-change=${this.#onRadiosDisabledChange}
               @private-value-change=${this.#onRadiosValueChange}
               ${assertSlot([GlideCoreRadioGroupRadio])}
               ${ref(this.#defaultSlotElementRef)}
@@ -504,7 +505,7 @@ export default class GlideCoreRadioGroup
 
           const previousEnabledRadio = this.#radioElements
             .slice(0, this.#radioElements.indexOf(event.target))
-            .findLast((option) => !option.disabled);
+            .findLast((radio) => !radio.disabled);
 
           const lastEnabledRadio = this.#radioElements.findLast(
             (radio) => !radio.disabled,
@@ -524,9 +525,9 @@ export default class GlideCoreRadioGroup
         case 'ArrowRight': {
           event.preventDefault();
 
-          const nextEnabledRadio = this.#radioElements.find((option, index) => {
+          const nextEnabledRadio = this.#radioElements.find((radio, index) => {
             return (
-              !option.disabled &&
+              !radio.disabled &&
               event.target instanceof GlideCoreRadioGroupRadio &&
               index > this.#radioElements.indexOf(event.target)
             );
@@ -610,6 +611,46 @@ export default class GlideCoreRadioGroup
 
       this.#value = event.target.value;
       event.target.tabIndex = event.target.disabled ? -1 : 0;
+    }
+  }
+
+  #onRadiosDisabledChange(event: Event) {
+    if (
+      event.target instanceof GlideCoreRadioGroupRadio &&
+      event.target.disabled
+    ) {
+      const nextEnabledRadio = this.#radioElements.find((radio, index) => {
+        return (
+          !radio.disabled &&
+          event.target instanceof GlideCoreRadioGroupRadio &&
+          index > this.#radioElements.indexOf(event.target)
+        );
+      });
+
+      if (nextEnabledRadio && event.target.tabIndex === 0) {
+        nextEnabledRadio.tabIndex = 0;
+        event.target.tabIndex = -1;
+        return;
+      }
+
+      const firstEnabledRadio = this.#radioElements.find(
+        (radio) => !radio.disabled,
+      );
+
+      if (firstEnabledRadio && event.target.tabIndex === 0) {
+        firstEnabledRadio.tabIndex = 0;
+        event.target.tabIndex = -1;
+        return;
+      }
+    }
+
+    const hasTabbableRadio = this.#radioElements.some(
+      ({ tabIndex }) => tabIndex === 0,
+    );
+
+    if (event.target instanceof GlideCoreRadioGroupRadio && !hasTabbableRadio) {
+      event.target.tabIndex = 0;
+      return;
     }
   }
 

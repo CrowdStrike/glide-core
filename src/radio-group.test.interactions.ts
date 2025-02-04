@@ -309,3 +309,82 @@ it('enables a disabled Radio when `value` is set programmatically', async () => 
 
   expect(radio?.disabled).to.be.false;
 });
+
+it('makes the next enabled radio tabbable when the current one is disabled programmatically', async () => {
+  const component = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="Label"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Label"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Label"
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
+  radios[0].disabled = true;
+
+  expect(radios[1].tabIndex).to.equal(0);
+});
+
+it('makes the first enabled radio tabbable when the current one is disabled programmatically', async () => {
+  const component = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="Label"
+        disabled
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Label"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Label"
+        disabled
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Label"
+        checked
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
+  radios[3].disabled = true;
+
+  expect(radios[1].tabIndex).to.equal(0);
+});
+
+it('makes a radio tabbable when it is enabled programmatically and no other radio is tabbable', async () => {
+  const component = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="Label"
+        disabled
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Label"
+        disabled
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Label"
+        disabled
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+
+  const radios = component.querySelectorAll('glide-core-radio-group-radio');
+  radios[1].disabled = false;
+
+  expect(radios[1].tabIndex).to.equal(0);
+});
