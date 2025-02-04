@@ -61,7 +61,7 @@ const meta: Meta = {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
-            // value: radioGroup.value,
+            value: radioGroup.value,
             '<glide-core-radio-group-radio>.one.checked':
               event.target.id === 'one',
             '<glide-core-radio-group-radio>.two.checked':
