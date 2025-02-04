@@ -13,6 +13,7 @@ const config = {
   ],
   core: {
     disableTelemetry: true,
+    disableWhatsNewNotifications: true,
   },
   framework: {
     name: '@storybook/web-components-vite',
