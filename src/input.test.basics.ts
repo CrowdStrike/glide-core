@@ -41,7 +41,7 @@ it('has a max character and current character count', async () => {
   expect(maxCharacterCountText?.textContent?.trim()).to.equal('0/5');
 });
 
-it('has no character count when `maxlength` is set less than zero', async () => {
+it('has no character count when `maxlength` is zero', async () => {
   const host = await fixture<GlideCoreInput>(html`
     <glide-core-input label="Label" maxlength="0"></glide-core-input>
   `);
