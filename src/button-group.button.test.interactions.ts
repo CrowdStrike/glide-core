@@ -11,7 +11,7 @@ it('sets `aria-checked` when selected programmatically', async () => {
   host.selected = true;
   await host.updateComplete;
 
-  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector('[data-test="radio"]');
   expect(radio?.ariaChecked).to.equal('true');
 });
 
@@ -26,7 +26,7 @@ it('sets `aria-checked` when deselected programmatically', async () => {
   host.selected = false;
   await host.updateComplete;
 
-  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector('[data-test="radio"]');
   expect(radio?.ariaChecked).to.equal('false');
 });
 
@@ -40,7 +40,7 @@ it('sets `aria-disabled` when disabled programmatically', async () => {
   host.disabled = true;
   await host.updateComplete;
 
-  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector('[data-test="radio"]');
   expect(radio?.ariaDisabled).to.equal('true');
 });
 
@@ -55,6 +55,6 @@ it('sets `aria-disabled` when enabled programmatically', async () => {
   host.disabled = false;
   await host.updateComplete;
 
-  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector('[data-test="radio"]');
   expect(radio?.ariaDisabled).to.equal('false');
 });

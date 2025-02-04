@@ -10,6 +10,6 @@ it('focuses itself when `focus()` is called ', async () => {
 
   host.focus();
 
-  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector('[data-test="radio"]');
   expect(host.shadowRoot?.activeElement).to.equal(radio);
 });

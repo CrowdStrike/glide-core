@@ -31,7 +31,7 @@ it('sets `aria-checked` when selected', async () => {
     ></glide-core-button-group-button>`,
   );
 
-  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector('[data-test="radio"]');
   expect(radio?.ariaChecked).to.equal('true');
 });
 
@@ -42,7 +42,7 @@ it('sets `aria-checked` when not selected', async () => {
     ></glide-core-button-group-button>`,
   );
 
-  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector('[data-test="radio"]');
   expect(radio?.ariaChecked).to.equal('false');
 });
 
@@ -54,7 +54,7 @@ it('sets `aria-disabled` when disabled', async () => {
     ></glide-core-button-group-button>`,
   );
 
-  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector('[data-test="radio"]');
   expect(radio?.ariaDisabled).to.equal('true');
 });
 
@@ -65,7 +65,7 @@ it('sets `aria-disabled` when not disabled', async () => {
     ></glide-core-button-group-button>`,
   );
 
-  const radio = host.shadowRoot?.querySelector('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector('[data-test="radio"]');
   expect(radio?.ariaDisabled).to.equal('false');
 });
 
@@ -77,8 +77,9 @@ it('is tabbable when selected', async () => {
     ></glide-core-button-group-button>`,
   );
 
-  const radio =
-    host.shadowRoot?.querySelector<HTMLInputElement>('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="radio"]',
+  );
 
   expect(radio?.tabIndex).to.equal(0);
 });
@@ -90,8 +91,9 @@ it('is not tabbable when not selected', async () => {
     ></glide-core-button-group-button>`,
   );
 
-  const radio =
-    host.shadowRoot?.querySelector<HTMLInputElement>('[role="radio"]');
+  const radio = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="radio"]',
+  );
 
   expect(radio?.tabIndex).to.equal(-1);
 });
