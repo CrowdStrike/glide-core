@@ -181,8 +181,6 @@ const meta: Meta = {
             width: '100%',
           })}
         >
-          <label for="input">Label</label>
-          <input id="input" />
           ${unsafeHTML(arguments_['slot="default"'])}
         </div>
 
