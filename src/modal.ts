@@ -13,6 +13,9 @@ import styles from './modal.styles.js';
 import xIcon from './icons/x.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import severityInformationalIcon from './icons/severity-informational.js';
+import severityMediumIcon from './icons/severity-medium.js';
+import severityCriticalIcon from './icons/severity-critical.js';
 import final from './library/final.js';
 
 declare global {
@@ -81,6 +84,9 @@ export default class GlideCoreModal extends LitElement {
       );
     }
   }
+
+  @property({ reflect: true })
+  severity?: 'critical' | 'informational' | 'medium';
 
   @property({ reflect: true })
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
@@ -189,7 +195,22 @@ export default class GlideCoreModal extends LitElement {
         <header class="header">
           <h2 class="label" data-test="heading" id="heading">
             ${when(
-              this.backButton,
+              this.severity,
+              () =>
+                html`<span
+                  class=${classMap({
+                    severity: true,
+                    critical: this.severity === 'critical',
+                    informational: this.severity === 'informational',
+                    medium: this.severity === 'medium',
+                  })}
+                  data-test="severity"
+                >
+                  ${this.severity && icons[this.severity]}
+                </span>`,
+            )}
+            ${when(
+              this.backButton && !this.severity,
               () =>
                 html`<glide-core-modal-icon-button
                   class="back-button"
@@ -355,4 +376,7 @@ const icons = {
       />
     </svg>
   `,
+  critical: severityCriticalIcon,
+  informational: severityInformationalIcon,
+  medium: severityMediumIcon,
 };

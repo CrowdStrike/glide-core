@@ -48,6 +48,45 @@ it('can have a back button', async () => {
   expect(button?.checkVisibility()).to.be.true;
 });
 
+it('can have a severity', async () => {
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" severity="informational" open>
+      Content
+    </glide-core-modal>`,
+  );
+
+  expect(
+    component.shadowRoot
+      ?.querySelector<HTMLSpanElement>('[data-test="severity"]')
+      ?.checkVisibility(),
+  ).to.be.true;
+});
+
+it('has a severity icon instead of a back button when both are provided', async () => {
+  const component = await fixture<GlideCoreModal>(
+    html`<glide-core-modal
+      label="Label"
+      severity="informational"
+      back-button
+      open
+    >
+      Content
+    </glide-core-modal>`,
+  );
+
+  expect(
+    component.shadowRoot
+      ?.querySelector<HTMLElement>('[data-test="severity"]')
+      ?.checkVisibility(),
+  ).to.be.true;
+
+  expect(
+    component.shadowRoot
+      ?.querySelector('[data-test="back-button"]')
+      ?.checkVisibility(),
+  ).to.not.be.ok;
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
