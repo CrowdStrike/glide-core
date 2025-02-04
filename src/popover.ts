@@ -265,9 +265,17 @@ export default class GlideCorePopover extends LitElement {
       this.#isTargetSlotClick ||
       this.#isArrowClick
     ) {
-      this.#isDefaultSlotClick = false;
-      this.#isTargetSlotClick = false;
-      this.#isArrowClick = false;
+      setTimeout(() => {
+        // This handler will be called twice for a single click if the element clicked was
+        // a `<label>`. Because clicking a `<label>` produces two "click" events.
+        //
+        // If we immediately set these variables to `false`, Popover will close when this
+        // handler is called the second time. So we wait a tick to ensure both "click" events
+        // have been dispatched.
+        this.#isDefaultSlotClick = false;
+        this.#isTargetSlotClick = false;
+        this.#isArrowClick = false;
+      });
 
       return;
     }

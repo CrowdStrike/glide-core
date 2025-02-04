@@ -255,6 +255,25 @@ it('closes when something outside of it is clicked', async () => {
   expect(popover.checkVisibility()).to.not.be.ok;
 });
 
+it('does not close when a slotted `<label>` is clicked', async () => {
+  const component = await fixture<GlideCorePopover>(
+    html`<glide-core-popover open>
+      <label for="input">Label</label>
+      <input id="input" />
+
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const label = component.querySelector('label');
+  await click(label);
+
+  expect(component.open).to.be.true;
+});
+
 it('has `this.#cleanUpFloatingUi?.()` coverage', async () => {
   const component = await fixture<GlideCorePopover>(
     html`<glide-core-popover>
