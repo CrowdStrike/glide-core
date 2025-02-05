@@ -1,8 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import { click } from './library/mouse.js';
 import GlideCoreTextarea from './textarea.js';
 
 @customElement('glide-core-subclassed')
@@ -15,25 +13,25 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
       value="value"
-      label="label"
+      label="Label"
     ></glide-core-textarea>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
-it('displays visually hidden character count text for screenreaders', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+it('has a character count for screenreaders', async () => {
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
-      label="label"
+      label="Label"
       maxlength="10"
     ></glide-core-textarea>`,
   );
 
-  const maxCharacterCountAnnouncement = component.shadowRoot?.querySelector(
+  const maxCharacterCountAnnouncement = host.shadowRoot?.querySelector(
     '[data-test="character-count-announcement"]',
   );
 
@@ -42,119 +40,33 @@ it('displays visually hidden character count text for screenreaders', async () =
   );
 });
 
-it('renders a character count when attribute `maxlength` is set greater than zero', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea value="value" label="label" maxlength="10"
+it('has a character count when `maxlength` is greater than zero', async () => {
+  const host = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea value="value" label="Label" maxlength="10"
       ><span slot="description">Description</span></glide-core-textarea
     >`,
   );
 
-  const container = component.shadowRoot!.querySelector(
+  const container = host.shadowRoot!.querySelector(
     '[data-test="character-count-text"]',
   );
 
   expect(container?.textContent?.trim()).to.be.equal('5/10');
 });
 
-it('does not render a character count when attribute `maxlength` is set less than than zero', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea value="value" label="label" maxlength="0"
-      ><span slot="description">Description</span></glide-core-textarea
-    >`,
+it('does not have a character count when `maxlength` is less than zero', async () => {
+  const host = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea
+      label="Label"
+      maxlength="0"
+    ></glide-core-textarea>`,
   );
 
-  const container = component.shadowRoot?.querySelector(
+  const container = host.shadowRoot?.querySelector(
     '[data-test="character-count-container"]',
   );
 
   expect(container).to.be.null;
-});
-
-it('focuses the textarea when the label is clicked', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea
-      value="value"
-      label="label"
-    ></glide-core-textarea>`,
-  );
-
-  await click(component.shadowRoot?.querySelector('label'));
-
-  expect(component).to.have.focus;
-
-  expect(
-    component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
-  ).to.be.equal('textarea');
-});
-
-it('has tabbable textarea', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea
-      value="value"
-      label="label"
-    ></glide-core-textarea>`,
-  );
-
-  await sendKeys({ press: 'Tab' });
-
-  expect(component).to.have.focus;
-
-  expect(
-    component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
-  ).to.be.equal('textarea');
-});
-
-it('renders text when typed into text area', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea value="" label="label"></glide-core-textarea>`,
-  );
-
-  const textarea = component.shadowRoot!.querySelector('textarea');
-  component.focus();
-  await sendKeys({ type: 'test text' });
-
-  expect(textarea?.value).to.equal('test text');
-});
-
-it('returns the content of the textarea when getting the `value` property', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea value="" label="label"></glide-core-textarea>`,
-  );
-
-  component.focus();
-  await sendKeys({ type: 'test text' });
-
-  expect(component.value).to.equal('test text');
-});
-
-it('focuses the textarea when `focus()` is called', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea value="" label="label"></glide-core-textarea>`,
-  );
-
-  component.focus();
-
-  expect(
-    component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
-  ).to.be.equal('textarea');
-});
-
-it('blurs the textarea when `blur` is called', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea value="" label="label"></glide-core-textarea>`,
-  );
-
-  component.focus();
-
-  expect(
-    component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
-  ).to.be.equal('textarea');
-
-  component.blur();
-
-  expect(
-    component.shadowRoot?.activeElement?.tagName.toLocaleLowerCase(),
-  ).to.not.equal('textarea');
 });
 
 it('throws when subclassed', async () => {

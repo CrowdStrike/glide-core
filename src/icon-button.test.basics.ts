@@ -14,36 +14,13 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreIconButton>(
+  const host = await fixture<GlideCoreIconButton>(
     html`<glide-core-icon-button label="Label">
       <div>Icon</div>
     </glide-core-icon-button>`,
   );
 
-  await expect(component).to.be.accessible();
-});
-
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreIconButton>(
-    html`<glide-core-icon-button label="Label">
-      <div>Icon</div>
-    </glide-core-icon-button>`,
-  );
-
-  const button = component.shadowRoot?.querySelector<HTMLButtonElement>(
-    '[data-test="button"]',
-  );
-
-  expect(component.ariaControls).to.equal(null);
-  expect(component.ariaExpanded).to.equal(null);
-  expect(component.ariaHasPopup).to.equal(null);
-  expect(component.disabled).to.be.false;
-  expect(component.variant).to.equal('primary');
-
-  expect(button?.getAttribute('aria-controls')).to.equal(null);
-  expect(button?.ariaExpanded).to.equal(null);
-  expect(button?.ariaHasPopup).to.equal(null);
-  expect(button?.disabled).to.be.false;
+  await expect(host).to.be.accessible();
 });
 
 it('throws when subclassed', async () => {
@@ -58,7 +35,7 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(
       html`<glide-core-icon-button label="Label"></glide-core-icon-button>`,

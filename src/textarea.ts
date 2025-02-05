@@ -110,10 +110,6 @@ export default class GlideCoreTextarea
   @property({ reflect: true })
   readonly version = packageJson.version;
 
-  override blur() {
-    this.#textareaElementRef.value?.blur();
-  }
-
   checkValidity() {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
@@ -162,10 +158,6 @@ export default class GlideCoreTextarea
     return this.#internals.validity;
   }
 
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
   formAssociatedCallback() {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
@@ -198,6 +190,7 @@ export default class GlideCoreTextarea
               this.#isShowValidationFeedback ||
               this.#isMaxCharacterCountExceeded,
           })}
+          data-test="textarea"
           id="textarea"
           name=${ifDefined(this.name)}
           placeholder=${ifDefined(this.placeholder)}
@@ -251,6 +244,7 @@ export default class GlideCoreTextarea
                   this.maxlength,
                 )}
               </span>
+
               <span class="hidden" data-test="character-count-announcement"
                 >${this.#localize.term(
                   'announcedCharacterCount',

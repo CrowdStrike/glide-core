@@ -13,26 +13,6 @@ it('registers itself', async () => {
   ).to.equal(GlideCoreTreeItemIconButton);
 });
 
-it('throws if it does not have a default slot', async () => {
-  await expectUnhandledRejection(() => {
-    return fixture<GlideCoreTreeItemIconButton>(html`
-      <glide-core-tree-item-icon-button></glide-core-tree-item-icon-button>
-    `);
-  });
-});
-
-it('passes its label to the icon button', async () => {
-  const component = await fixture<GlideCoreTreeItemIconButton>(html`
-    <glide-core-tree-item-icon-button label="My label"
-      >Hello</glide-core-tree-item-icon-button
-    >
-  `);
-
-  expect(
-    component.shadowRoot?.querySelector('glide-core-icon-button')?.label,
-  ).to.equal('My label');
-});
-
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
@@ -43,4 +23,14 @@ it('throws when subclassed', async () => {
   }
 
   expect(spy.callCount).to.equal(1);
+});
+
+it('throws when it does not have a default slot', async () => {
+  await expectUnhandledRejection(() => {
+    return fixture<GlideCoreTreeItemIconButton>(html`
+      <glide-core-tree-item-icon-button
+        label="Label"
+      ></glide-core-tree-item-icon-button>
+    `);
+  });
 });

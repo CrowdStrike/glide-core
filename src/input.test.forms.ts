@@ -4,36 +4,36 @@ import sinon from 'sinon';
 import GlideCoreInput from './input.js';
 import { click } from './library/mouse.js';
 
-it('can be reset to initial value', async () => {
+it('can be reset to its initial value', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input value="value"></glide-core-input>`,
     {
       parentNode: form,
     },
   );
 
-  component.value = '';
+  host.value = '';
   form.reset();
 
-  expect(component.value).to.equal('value');
+  expect(host.value).to.equal('value');
 });
 
 it('can be reset if there was no initial value', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input></glide-core-input>`,
     {
       parentNode: form,
     },
   );
 
-  component.value = 'value';
+  host.value = 'value';
   form.reset();
 
-  expect(component.value).to.equal('');
+  expect(host.value).to.equal('');
 });
 
 it('has `formData` value when it has a value', async () => {
@@ -99,7 +99,7 @@ it('has no `formData` value when it has a value but without a `name`', async () 
 it('submits its form on Enter', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreInput>(
+  await fixture<GlideCoreInput>(
     html`<glide-core-input value="value"></glide-core-input>`,
     {
       parentNode: form,
@@ -113,70 +113,68 @@ it('submits its form on Enter', async () => {
     spy();
   });
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
   expect(spy.callCount).to.equal(1);
 });
 
 it('is valid if empty but not required', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input></glide-core-input>`,
   );
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
 it('is valid after being filled in when empty and required', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
   );
 
-  component.focus();
-
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ type: 'value' });
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
 it('is invalid if no value and required', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input required></glide-core-input>`,
   );
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 });
 
 it('is invalid after value is cleared when required', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       clearable
       value="value"
@@ -184,148 +182,146 @@ it('is invalid after value is cleared when required', async () => {
     ></glide-core-input>`,
   );
 
-  await click(
-    component.shadowRoot?.querySelector('[data-test="clear-button"]'),
-  );
+  await click(host.shadowRoot?.querySelector('[data-test="clear-button"]'));
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 });
 
-it('is valid if no value and required but disabled', async () => {
-  const component = await fixture<GlideCoreInput>(
+it('is valid if no value and required and disabled', async () => {
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input disabled required></glide-core-input>`,
   );
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
-it('updates validity when `required` and `value` is changed programmatically', async () => {
-  const component = await fixture<GlideCoreInput>(
+it('updates its validity when required and `value` is set programmatically', async () => {
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 
-  component.value = 'text';
+  host.value = 'text';
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('false');
 
   // Resetting the value to empty to ensure it goes
   // back to an invalid state
-  component.value = '';
+  host.value = '';
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 });
 
 it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('false');
 
-  component.required = true;
+  host.required = true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 });
 
 it('is valid when `value` is empty and `required` is updated to `false` programmatically', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 
-  component.required = false;
+  host.required = false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
 it('is valid when the `value` attribute matches `pattern`', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -333,40 +329,40 @@ it('is valid when the `value` attribute matches `pattern`', async () => {
     ></glide-core-input>`,
   );
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.patternMismatch).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.patternMismatch).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
 it('is valid when `value` matches `pattern` after being set programmatically', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
     ></glide-core-input>`,
   );
 
-  component.value = 'value';
+  host.value = 'value';
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.patternMismatch).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.patternMismatch).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
 it('is invalid when `value` does not match `pattern`', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -374,42 +370,42 @@ it('is invalid when `value` does not match `pattern`', async () => {
     ></glide-core-input>`,
   );
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.patternMismatch).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.patternMismatch).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 });
 
 it('is invalid when a programmatically set `value` does not match `pattern`', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
     ></glide-core-input>`,
   );
 
-  component.value = 'val';
+  host.value = 'val';
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.patternMismatch).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.patternMismatch).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 });
 
 it('is invalid when `required` and `value` does not match `pattern`', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -417,145 +413,145 @@ it('is invalid when `required` and `value` does not match `pattern`', async () =
     ></glide-core-input>`,
   );
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.patternMismatch).to.be.true;
-  expect(component.validity?.valueMissing).to.be.true;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.patternMismatch).to.be.true;
+  expect(host.validity?.valueMissing).to.be.true;
 });
 
 it('is valid when `pattern` is programmatically removed', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
     ></glide-core-input>`,
   );
 
-  component.pattern = undefined;
+  host.pattern = undefined;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.patternMismatch).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.patternMismatch).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
 it('sets the validity message with `setCustomValidity()`', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
-  component.setCustomValidity('validity message');
+  host.setCustomValidity('validity message');
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.customError).to.be.true;
-  expect(component.checkValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.customError).to.be.true;
+  expect(host.checkValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  // Like native, the validity message shouldn't display until `reportValidity()` is called.
+  // Like native, the message shouldn't display until `reportValidity()` is called.
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.be.undefined;
 
-  expect(component.reportValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.equal('validity message');
 });
 
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
-  component.setCustomValidity('validity message');
-  component.reportValidity();
+  host.setCustomValidity('validity message');
+  host.reportValidity();
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  component.setCustomValidity('');
+  host.setCustomValidity('');
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.be.undefined;
 });
 
 it('is invalid when `setValidity()` is called', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
-  component.setValidity({ customError: true }, 'validity message');
+  host.setValidity({ customError: true }, 'validity message');
 
-  expect(component.validity.valid).to.be.false;
+  expect(host.validity.valid).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  // Like native, the validity message shouldn't display until `reportValidity()` is called.
+  // Like native, the message shouldn't display until `reportValidity()` is called.
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.be.undefined;
 
-  expect(component.validity?.customError).to.be.true;
+  expect(host.validity?.customError).to.be.true;
 
-  component.reportValidity();
+  host.reportValidity();
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('input')?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
   ).to.equal('true');
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.equal('validity message');
 });
 
 it('is valid when `setValidity()` is called', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
-  component.setValidity({ customError: true }, 'validity message');
+  host.setValidity({ customError: true }, 'validity message');
 
-  component.setValidity({});
+  host.setValidity({});
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity.valid).to.be.true;
-  expect(component.validity.customError).to.be.false;
+  expect(host.validity.valid).to.be.true;
+  expect(host.validity.customError).to.be.false;
 
-  expect(component.reportValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.be.undefined;
 });
 
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
-  const component = await fixture<GlideCoreInput>(
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -563,36 +559,36 @@ it('retains existing validity state when `setCustomValidity()` is called', async
     ></glide-core-input>`,
   );
 
-  component.setCustomValidity('validity message');
+  host.setCustomValidity('validity message');
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.customError).to.be.true;
-  expect(component.validity?.patternMismatch).to.be.true;
-  expect(component.validity?.valueMissing).to.be.true;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.customError).to.be.true;
+  expect(host.validity?.patternMismatch).to.be.true;
+  expect(host.validity?.valueMissing).to.be.true;
 });
 
-it('removes validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const component = await fixture<GlideCoreInput>(
+it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
+  const host = await fixture<GlideCoreInput>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
-  component.setCustomValidity('validity message');
+  host.setCustomValidity('validity message');
 
-  expect(component.reportValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.equal('validity message');
 
-  component.resetValidityFeedback();
+  host.resetValidityFeedback();
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.shadowRoot?.querySelector('[data-test="validity-message"]'))
-    .to.be.null;
+  expect(host.shadowRoot?.querySelector('[data-test="validity-message"]')).to.be
+    .null;
 
-  expect(component.validity?.valid).to.be.false;
+  expect(host.validity?.valid).to.be.false;
 });

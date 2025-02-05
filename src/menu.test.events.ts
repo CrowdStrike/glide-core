@@ -15,12 +15,12 @@ import { click } from './library/mouse.js';
 import type GlideCoreMenu from './menu.js';
 
 it('dispatches one link "click" event when a link is selected via click', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -29,12 +29,12 @@ it('dispatches one link "click" event when a link is selected via click', async 
   await aTimeout(0);
 
   const spy = sinon.spy();
-  const link = component.querySelector('glide-core-menu-link');
+  const link = host.querySelector('glide-core-menu-link');
 
   link?.addEventListener('click', spy);
   click(link);
 
-  const event = await oneEvent(component, 'click');
+  const event = await oneEvent(host, 'click');
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -44,12 +44,12 @@ it('dispatches one link "click" event when a link is selected via click', async 
 });
 
 it('dispatches one button "click" event when a button is selected via click', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-button label="Button"></glide-core-menu-button>
+        <glide-core-menu-button label="Label"></glide-core-menu-button>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -58,7 +58,7 @@ it('dispatches one button "click" event when a button is selected via click', as
   await aTimeout(0);
 
   const spy = sinon.spy();
-  const button = component.querySelector('glide-core-menu-button');
+  const button = host.querySelector('glide-core-menu-button');
 
   assert(button);
 
@@ -75,12 +75,12 @@ it('dispatches one button "click" event when a button is selected via click', as
 });
 
 it('dispatches one link "click" event when a link is selected via Space', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -89,12 +89,12 @@ it('dispatches one link "click" event when a link is selected via Space', async 
   await aTimeout(0);
 
   const spy = sinon.spy();
-  const link = component.querySelector('glide-core-menu-link');
+  const link = host.querySelector('glide-core-menu-link');
 
   assert(link);
 
   link.addEventListener('click', spy);
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(link, 'click');
@@ -107,12 +107,12 @@ it('dispatches one link "click" event when a link is selected via Space', async 
 });
 
 it('dispatches one button "click" event when a button is selected via Space', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-button label="Button"></glide-core-menu-button>
+        <glide-core-menu-button label="Label"></glide-core-menu-button>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -121,12 +121,12 @@ it('dispatches one button "click" event when a button is selected via Space', as
   await aTimeout(0);
 
   const spy = sinon.spy();
-  const button = component.querySelector('glide-core-menu-button');
+  const button = host.querySelector('glide-core-menu-button');
 
   assert(button);
 
   button.addEventListener('click', spy);
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(button, 'click');
@@ -139,12 +139,12 @@ it('dispatches one button "click" event when a button is selected via Space', as
 });
 
 it('dispatches one link "click" event when a link is selected via Enter', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -153,12 +153,12 @@ it('dispatches one link "click" event when a link is selected via Enter', async 
   await aTimeout(0);
 
   const spy = sinon.spy();
-  const link = component.querySelector('glide-core-menu-link');
+  const link = host.querySelector('glide-core-menu-link');
 
   assert(link);
 
   link.addEventListener('click', spy);
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(link, 'click');
@@ -171,12 +171,12 @@ it('dispatches one link "click" event when a link is selected via Enter', async 
 });
 
 it('dispatches one button "click" event when a button is selected via Enter', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-button label="Button"></glide-core-menu-button>
+        <glide-core-menu-button label="Label"></glide-core-menu-button>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -185,12 +185,12 @@ it('dispatches one button "click" event when a button is selected via Enter', as
   await aTimeout(0);
 
   const spy = sinon.spy();
-  const button = component.querySelector('glide-core-menu-button');
+  const button = host.querySelector('glide-core-menu-button');
 
   assert(button);
 
   button.addEventListener('click', spy);
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(button, 'click');
@@ -203,12 +203,12 @@ it('dispatches one button "click" event when a button is selected via Enter', as
 });
 
 it('does not dispatch a "click" event when a disabled link is clicked', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link" disabled></glide-core-menu-link>
+        <glide-core-menu-link label="Label" disabled></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -217,7 +217,7 @@ it('does not dispatch a "click" event when a disabled link is clicked', async ()
   await aTimeout(0);
 
   const spy = sinon.spy();
-  const link = component.querySelector('glide-core-menu-link');
+  const link = host.querySelector('glide-core-menu-link');
 
   link?.addEventListener('click', spy);
   await click(link);
@@ -226,15 +226,12 @@ it('does not dispatch a "click" event when a disabled link is clicked', async ()
 });
 
 it('does not dispatch a "click" event when a disabled button is clicked', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-button
-          label="Button"
-          disabled
-        ></glide-core-menu-button>
+        <glide-core-menu-button label="Label" disabled></glide-core-menu-button>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -243,7 +240,7 @@ it('does not dispatch a "click" event when a disabled button is clicked', async 
   await aTimeout(0);
 
   const spy = sinon.spy();
-  const button = component.querySelector('glide-core-menu-button');
+  const button = host.querySelector('glide-core-menu-button');
 
   button?.addEventListener('click', spy);
   await click(button);

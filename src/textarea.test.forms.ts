@@ -6,34 +6,31 @@ import GlideCoreTextarea from './textarea.js';
 it('can be reset if it has an initial value', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea
-      value="testing"
-      label="label"
-    ></glide-core-textarea>`,
+  const host = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label" value="one"></glide-core-textarea>`,
     { parentNode: form },
   );
 
-  component.focus();
-  await sendKeys({ type: '-value' });
-  expect(component.value).to.equal('testing-value');
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ type: 'two' });
+
   form.reset();
 
-  expect(component.value).to.equal('testing');
+  expect(host.value).to.equal('one');
 });
 
 it('can be reset if it has no initial value', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label"></glide-core-textarea>`,
+  const host = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
     { parentNode: form },
   );
 
-  component.value = 'value';
+  host.value = 'value';
   form.reset();
 
-  expect(component.value).to.equal('');
+  expect(host.value).to.equal('');
 });
 
 it('has `formData` when it has a `value` and `name`', async () => {
@@ -42,7 +39,7 @@ it('has `formData` when it has a `value` and `name`', async () => {
   await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
       value="value"
-      label="label"
+      label="Label"
       name="name"
     ></glide-core-textarea>`,
     { parentNode: form },
@@ -56,20 +53,16 @@ it('has `formData` when it has a `value` and `name`', async () => {
 it('has `formData` when text is entered and has a `name`', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea
-      value=""
-      label="label"
-      name="name"
-    ></glide-core-textarea>`,
+  await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label" name="name"></glide-core-textarea>`,
     { parentNode: form },
   );
 
-  component?.focus();
-  await sendKeys({ type: 'testing' });
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ type: 'value' });
   const formData = new FormData(form);
 
-  expect(formData.get('name')).to.be.equal('testing');
+  expect(formData.get('name')).to.be.equal('value');
 });
 
 it('has no `formData` value when it has a value and is disabled', async () => {
@@ -77,9 +70,9 @@ it('has no `formData` value when it has a value and is disabled', async () => {
 
   await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
-      value="value"
-      label="label"
+      label="Label"
       name="test-name"
+      value="value"
       disabled
     ></glide-core-textarea>`,
     { parentNode: form },
@@ -96,13 +89,12 @@ it('appends no `formData` when it has a value and no `name`', async () => {
   await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea
       value="value"
-      label="label"
+      label="Label"
     ></glide-core-textarea>`,
     { parentNode: form },
   );
 
   const formData = new FormData(form);
-
   expect(formData).to.be.empty;
 });
 
@@ -110,7 +102,7 @@ it('appends no `formData` when it has no value and a `name`', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label" name="name"></glide-core-textarea>`,
+    html`<glide-core-textarea label="Label" name="name"></glide-core-textarea>`,
     { parentNode: form },
   );
 
@@ -120,362 +112,325 @@ it('appends no `formData` when it has no value and a `name`', async () => {
 });
 
 it('is valid by default', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea></glide-core-textarea>`,
   );
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.validity?.tooLong).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.validity?.tooLong).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
 it('is valid after being filled in and required', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea required></glide-core-textarea>`,
+  const host = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
-  component.focus();
+  host.focus();
   await sendKeys({ type: 'value' });
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.validity?.tooLong).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.validity?.tooLong).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
 it('is invalid if no value and required', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea required></glide-core-textarea>`,
+  const host = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.validity?.tooLong).to.be.false;
-  expect(component.willValidate).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.validity?.tooLong).to.be.false;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('true');
 });
 
 it('is valid if no value but required and disabled', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea required disabled></glide-core-textarea>`,
   );
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.validity?.tooLong).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.validity?.tooLong).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
-it('updates validity when `required` and `value` is changed programmatically', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+it('updates its validity when required and `value` is set programmatically', async () => {
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('true');
 
-  component.value = 'text';
+  host.value = 'text';
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('false');
 
   // Resetting the value to empty to ensure it goes
   // back to an invalid state
-  component.value = '';
+  host.value = '';
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('true');
 });
 
 it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('false');
 
-  component.required = true;
+  host.required = true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('true');
 });
 
 it('is valid when `value` is empty and `required` is set to `false` programmatically', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.valueMissing).to.be.true;
-  expect(component.checkValidity()).to.be.false;
-  expect(component.reportValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.checkValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('true');
 
-  component.required = false;
+  host.required = false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity?.valid).to.be.true;
-  expect(component.validity?.valueMissing).to.be.false;
-  expect(component.checkValidity()).to.be.true;
-  expect(component.reportValidity()).to.be.true;
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('false');
 });
 
-it('blurs the textarea and reports validity if `blur` is called', async () => {
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea required></glide-core-textarea>`,
+it('updates its validity on blur', async () => {
+  const host = await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: 'Tab' });
 
-  const textareaElement = component.shadowRoot?.querySelector('textarea');
-  expect(component.shadowRoot?.activeElement === textareaElement).to.be.true;
-
-  component.blur();
-  await component.updateComplete;
-
-  expect(component.shadowRoot?.activeElement === null).to.be.true;
-
-  expect(component.validity.valid).to.be.false;
-
-  expect(component.shadowRoot?.querySelector('glide-core-private-label')?.error)
-    .to.be.true;
+  expect(host.validity.valid).to.be.false;
 });
 
 it('sets the validity message with `setCustomValidity()`', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
-  component.setCustomValidity('validity message');
+  host.setCustomValidity('validity message');
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.customError).to.be.true;
-  expect(component.checkValidity()).to.be.false;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.customError).to.be.true;
+  expect(host.checkValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  // Like native, the validity message shouldn't display until `reportValidity()` is called.
+  // Like native, the message shouldn't display until `reportValidity()` is called.
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.be.undefined;
 
-  expect(component.reportValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('true');
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.equal('validity message');
 });
 
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
-  component.setCustomValidity('validity message');
-  component.reportValidity();
+  host.setCustomValidity('validity message');
+  host.reportValidity();
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  component.setCustomValidity('');
+  host.setCustomValidity('');
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.be.undefined;
 });
 
 it('is invalid when `setValidity()` is called', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
-  component.setValidity({ customError: true }, 'validity message');
+  host.setValidity({ customError: true }, 'validity message');
 
-  expect(component.validity.valid).to.be.false;
+  expect(host.validity.valid).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  // Like native, the validity message shouldn't display until `reportValidity()` is called.
+  // Like native, the message shouldn't display until `reportValidity()` is called.
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.be.undefined;
 
-  expect(component.validity?.customError).to.be.true;
+  expect(host.validity?.customError).to.be.true;
 
-  component.reportValidity();
+  host.reportValidity();
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot
-      ?.querySelector('textarea')
-      ?.getAttribute('aria-invalid'),
+    host.shadowRoot?.querySelector('[data-test="textarea"]')?.ariaInvalid,
   ).to.equal('true');
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.equal('validity message');
 });
 
 it('is valid when `setValidity()` is called', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
-  component.setValidity({ customError: true }, 'validity message');
+  host.setValidity({ customError: true }, 'validity message');
 
-  component.setValidity({});
+  host.setValidity({});
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.validity.valid).to.be.true;
-  expect(component.validity.customError).to.be.false;
+  expect(host.validity.valid).to.be.true;
+  expect(host.validity.customError).to.be.false;
 
-  expect(component.reportValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.be.undefined;
 });
 
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
-  component.setCustomValidity('validity message');
+  host.setCustomValidity('validity message');
 
-  expect(component.validity?.valid).to.be.false;
-  expect(component.validity?.customError).to.be.true;
-  expect(component.validity?.valueMissing).to.be.true;
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.customError).to.be.true;
+  expect(host.validity?.valueMissing).to.be.true;
 });
 
 it('submits its form on Meta + Enter', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea label="label"></glide-core-textarea>`,
+  await fixture<GlideCoreTextarea>(
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
     { parentNode: form },
   );
 
@@ -486,7 +441,7 @@ it('submits its form on Meta + Enter', async () => {
     spy();
   });
 
-  component?.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'Enter' });
   await sendKeys({ up: 'Meta' });
@@ -494,28 +449,28 @@ it('submits its form on Meta + Enter', async () => {
   expect(spy.callCount).to.be.equal(1);
 });
 
-it('removes validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const component = await fixture<GlideCoreTextarea>(
+it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
+  const host = await fixture<GlideCoreTextarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
-  component.setCustomValidity('validity message');
+  host.setCustomValidity('validity message');
 
-  expect(component.reportValidity()).to.be.false;
+  expect(host.reportValidity()).to.be.false;
 
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(
-    component.shadowRoot?.querySelector('[data-test="validity-message"]')
+    host.shadowRoot?.querySelector('[data-test="validity-message"]')
       ?.textContent,
   ).to.equal('validity message');
 
-  component.resetValidityFeedback();
+  host.resetValidityFeedback();
 
-  await component.updateComplete;
+  await host.updateComplete;
 
-  expect(component.shadowRoot?.querySelector('[data-test="validity-message"]'))
-    .to.be.null;
+  expect(host.shadowRoot?.querySelector('[data-test="validity-message"]')).to.be
+    .null;
 
-  expect(component.validity?.valid).to.be.false;
+  expect(host.validity?.valid).to.be.false;
 });

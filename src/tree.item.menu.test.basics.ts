@@ -16,6 +16,22 @@ it('registers itself', async () => {
   );
 });
 
+it('can be opened programmatically', async () => {
+  const host = await fixture<GlideCoreTreeItemMenu>(html`
+    <glide-core-tree-item-menu>
+      <glide-core-menu-link label="Label"></glide-core-menu-link>
+    </glide-core-tree-item-menu>
+  `);
+
+  const menu = host.shadowRoot?.querySelector('glide-core-menu');
+
+  expect(menu?.open).to.be.false;
+
+  await click(host.shadowRoot?.querySelector('[data-test="icon-button"]'));
+
+  expect(menu?.open).to.be.true;
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
@@ -28,7 +44,7 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture<GlideCoreTreeItemMenu>(html`
       <glide-core-tree-item-menu></glide-core-tree-item-menu>
@@ -36,7 +52,7 @@ it('throws if it does not have a default slot', async () => {
   });
 });
 
-it('throws if its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture<GlideCoreTreeItemMenu>(html`
       <glide-core-tree-item-menu>
@@ -46,33 +62,11 @@ it('throws if its default slot is the incorrect type', async () => {
   });
 });
 
-it('can be opened programmatically', async () => {
-  const component = await fixture<GlideCoreTreeItemMenu>(html`
-    <glide-core-tree-item-menu>
-      <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
-    </glide-core-tree-item-menu>
-  `);
-
-  expect(
-    component.shadowRoot
-      ?.querySelector('glide-core-menu')
-      ?.getAttribute('open'),
-  ).to.equal(null);
-
-  await click(component.shadowRoot?.querySelector('[data-test="icon-button"]'));
-
-  expect(
-    component.shadowRoot
-      ?.querySelector('glide-core-menu')
-      ?.getAttribute('open'),
-  ).to.equal('');
-});
-
 it('has `#onIconSlotChange` coverage', async () => {
   await fixture<GlideCoreTreeItemMenu>(html`
     <glide-core-tree-item-menu>
       <svg slot="icon"></svg>
-      <glide-core-menu-link label="One" url="/one"> </glide-core-menu-link>
+      <glide-core-menu-link label="Label"></glide-core-menu-link>
     </glide-core-tree-item-menu>
   `);
 });

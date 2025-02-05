@@ -33,7 +33,7 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
 
     this.ariaChecked = checked.toString();
 
-    // `this.checked` can be changed programmatically. Radio Group needs to know when
+    // `this.checked` can be set programmatically. Radio Group needs to know when
     // that happens so it can update its own `this.value`.
     this.dispatchEvent(
       new CustomEvent('private-checked-change', {
@@ -109,7 +109,7 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
     const old = this.#value;
     this.#value = value;
 
-    // `this.value` can be changed programmatically. Radio Group needs to know when
+    // `this.value` can be set programmatically. Radio Group needs to know when
     // that happens so it can update its own `this.value`.
     this.dispatchEvent(
       new CustomEvent('private-value-change', {

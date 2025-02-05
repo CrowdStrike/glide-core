@@ -444,10 +444,6 @@ export default class GlideCoreDropdown
     return this.#internals.validity;
   }
 
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
   formAssociatedCallback() {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
@@ -1679,7 +1675,7 @@ export default class GlideCoreDropdown
     if (event.detail !== 0) {
       this.open = true;
 
-      // If Dropdown was opened because the Primary button or `<input>` were clicked,
+      // If Dropdown was opened because its primary button or `<input>` were clicked,
       // then Dropdown will already have focus. But if something else was clicked, like
       // the padding around Dropdown or a Tag, then it won't. So we focus it manually.
       this.focus();

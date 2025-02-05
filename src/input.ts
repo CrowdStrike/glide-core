@@ -198,14 +198,6 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     return this.#internals.validity;
   }
 
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
-  override blur() {
-    this.#inputElementRef.value?.blur();
-  }
-
   checkValidity() {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
@@ -266,6 +258,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
             aria-invalid=${this.#isShowValidationFeedback ||
             this.#isMaxCharacterCountExceeded}
             class="input"
+            data-test="input"
             id="input"
             type=${this.type === 'password' && this.passwordVisible
               ? 'text'
@@ -367,13 +360,13 @@ export default class GlideCoreInput extends LitElement implements FormControl {
                     )}
                   </span>
 
-                  <span class="hidden" data-test="character-count-announcement"
-                    >${this.#localize.term(
+                  <span class="hidden" data-test="character-count-announcement">
+                    ${this.#localize.term(
                       'announcedCharacterCount',
                       this.#valueCharacterCount,
                       this.maxlength,
-                    )}</span
-                  >
+                    )}
+                  </span>
                 </div>
               `
             : nothing}

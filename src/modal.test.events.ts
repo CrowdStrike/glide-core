@@ -5,17 +5,17 @@ import GlideCoreModal from './modal.js';
 it('dispatches a "toggle" event on open', async () => {
   const spy = sinon.spy();
 
-  const component = await fixture<GlideCoreModal>(
+  const host = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
-  component.addEventListener('toggle', spy);
+  host.addEventListener('toggle', spy);
 
   setTimeout(() => {
-    component.open = true;
+    host.open = true;
   });
 
-  const event = await oneEvent(component, 'toggle');
+  const event = await oneEvent(host, 'toggle');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -26,17 +26,17 @@ it('dispatches a "toggle" event on open', async () => {
 it('dispatches a "toggle" event on close', async () => {
   const spy = sinon.spy();
 
-  const component = await fixture<GlideCoreModal>(
+  const host = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );
 
-  component.addEventListener('toggle', spy);
+  host.addEventListener('toggle', spy);
 
   setTimeout(() => {
-    component.open = false;
+    host.open = false;
   });
 
-  const event = await oneEvent(component, 'toggle');
+  const event = await oneEvent(host, 'toggle');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -47,14 +47,14 @@ it('dispatches a "toggle" event on close', async () => {
 it('does not dispatch a "toggle" event when already open', async () => {
   const spy = sinon.spy();
 
-  const component = await fixture<GlideCoreModal>(
+  const host = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );
 
-  component.addEventListener('toggle', spy);
+  host.addEventListener('toggle', spy);
 
   setTimeout(() => {
-    component.open = true;
+    host.open = true;
   });
 
   expect(spy.callCount).to.equal(0);
@@ -63,14 +63,14 @@ it('does not dispatch a "toggle" event when already open', async () => {
 it('does not dispatch a "toggle" event when already closed', async () => {
   const spy = sinon.spy();
 
-  const component = await fixture<GlideCoreModal>(
+  const host = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
-  component.addEventListener('toggle', spy);
+  host.addEventListener('toggle', spy);
 
   setTimeout(() => {
-    component.open = false;
+    host.open = false;
   });
 
   expect(spy.callCount).to.equal(0);

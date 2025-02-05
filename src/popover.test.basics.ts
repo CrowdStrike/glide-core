@@ -14,25 +14,25 @@ it('registers', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
 it('opens', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
@@ -43,14 +43,14 @@ it('opens', async () => {
 });
 
 it('is not open when disabled', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-popover open disabled>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
@@ -72,13 +72,13 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(html`<glide-core-popover></glide-core-popover>`);
   });
 });
 
-it('throws if it does not have a "target" slot', async () => {
+it('throws when it does not have a "target" slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(html`<glide-core-popover>Popover</glide-core-popover>`);
   });

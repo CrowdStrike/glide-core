@@ -5,14 +5,14 @@ import GlideCoreDrawer from './drawer.js';
 it('focuses itself on open', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const component = await fixture<GlideCoreDrawer>(
+  const host = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer>Content</glide-core-drawer>`,
   );
 
-  component.open = true;
-  await component.updateComplete;
+  host.open = true;
+  await host.updateComplete;
 
-  expect(component.shadowRoot?.activeElement).to.equal(
-    component.shadowRoot?.querySelector('[data-test="component"]'),
+  expect(host.shadowRoot?.activeElement).to.equal(
+    host.shadowRoot?.querySelector('[data-test="component"]'),
   );
 });

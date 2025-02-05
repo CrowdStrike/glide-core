@@ -4,56 +4,56 @@ import GlideCoreButton from './button.js';
 import { click } from './library/mouse.js';
 
 it('dispatches a "click" event on click', async () => {
-  const component = await fixture<GlideCoreButton>(html`
+  const host = await fixture<GlideCoreButton>(html`
     <glide-core-button label="Label" type="button"></glide-core-button>
   `);
 
-  click(component);
+  click(host);
 
-  const event = await oneEvent(component, 'click');
+  const event = await oneEvent(host, 'click');
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
 });
 
 it('dispatches a "click" event on `click()`', async () => {
-  const component = await fixture<GlideCoreButton>(html`
+  const host = await fixture<GlideCoreButton>(html`
     <glide-core-button label="Label" type="button"></glide-core-button>
   `);
 
   setTimeout(() => {
-    component.click();
+    host.click();
   });
 
-  const event = await oneEvent(component, 'click');
+  const event = await oneEvent(host, 'click');
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
 });
 
 it('dispatches a "click" event on Enter', async () => {
-  const component = await fixture<GlideCoreButton>(html`
+  const host = await fixture<GlideCoreButton>(html`
     <glide-core-button label="Label" type="button"></glide-core-button>
   `);
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   sendKeys({ press: 'Enter' });
 
-  const event = await oneEvent(component, 'click');
+  const event = await oneEvent(host, 'click');
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
 });
 
 it('dispatches a "click" event on Space', async () => {
-  const component = await fixture<GlideCoreButton>(html`
+  const host = await fixture<GlideCoreButton>(html`
     <glide-core-button label="Label" type="button"></glide-core-button>
   `);
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   sendKeys({ press: ' ' });
 
-  const event = await oneEvent(component, 'click');
+  const event = await oneEvent(host, 'click');
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -62,14 +62,14 @@ it('dispatches a "click" event on Space', async () => {
 it('dispatches a "reset" event on click', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreButton>(
+  const host = await fixture<GlideCoreButton>(
     html` <glide-core-button label="Label" type="reset"></glide-core-button>`,
     {
       parentNode: form,
     },
   );
 
-  click(component);
+  click(host);
 
   const event = await oneEvent(form, 'reset');
   expect(event instanceof Event).to.be.true;
@@ -78,14 +78,14 @@ it('dispatches a "reset" event on click', async () => {
 it('dispatches a "reset" event on Enter', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreButton>(
+  await fixture<GlideCoreButton>(
     html` <glide-core-button label="Label" type="reset"></glide-core-button>`,
     {
       parentNode: form,
     },
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(form, 'reset');
@@ -95,14 +95,14 @@ it('dispatches a "reset" event on Enter', async () => {
 it('dispatches a "reset" event on Space', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreButton>(
+  const host = await fixture<GlideCoreButton>(
     html` <glide-core-button label="Label" type="reset"></glide-core-button>`,
     {
       parentNode: form,
     },
   );
 
-  component.focus();
+  host.focus();
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(form, 'reset');
@@ -112,7 +112,7 @@ it('dispatches a "reset" event on Space', async () => {
 it('dispatches a "submit" event on click', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreButton>(
+  const host = await fixture<GlideCoreButton>(
     html` <glide-core-button label="Label" type="submit"></glide-core-button>`,
     {
       parentNode: form,
@@ -121,7 +121,7 @@ it('dispatches a "submit" event on click', async () => {
 
   form.addEventListener('submit', (event) => event.preventDefault());
 
-  click(component);
+  click(host);
 
   const event = await oneEvent(form, 'submit');
   expect(event instanceof Event).to.be.true;
@@ -130,7 +130,7 @@ it('dispatches a "submit" event on click', async () => {
 it('dispatches a "submit" event on Enter', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreButton>(
+  await fixture<GlideCoreButton>(
     html` <glide-core-button label="Label" type="submit"></glide-core-button>`,
     {
       parentNode: form,
@@ -139,7 +139,7 @@ it('dispatches a "submit" event on Enter', async () => {
 
   form.addEventListener('submit', (event) => event.preventDefault());
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   sendKeys({ press: 'Enter' });
 
   const event = await oneEvent(form, 'submit');
@@ -149,7 +149,7 @@ it('dispatches a "submit" event on Enter', async () => {
 it('dispatches a "submit" event on Space', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreButton>(
+  await fixture<GlideCoreButton>(
     html` <glide-core-button label="Label" type="submit"></glide-core-button>`,
     {
       parentNode: form,
@@ -158,7 +158,7 @@ it('dispatches a "submit" event on Space', async () => {
 
   form.addEventListener('submit', (event) => event.preventDefault());
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   sendKeys({ press: ' ' });
 
   const event = await oneEvent(form, 'submit');

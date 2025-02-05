@@ -15,17 +15,17 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label" tooltip="Tooltip">
       <div slot="description">Description</div>
     </glide-core-checkbox>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
-it('has a tooltip when minimal with a long label', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
+it('has a tooltip when "minimal" with a long label', async () => {
+  const host = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       style=${styleMap({
         display: 'block',
@@ -40,7 +40,7 @@ it('has a tooltip when minimal with a long label', async () => {
   // Wait for the tooltip.
   await aTimeout(0);
 
-  const tooltip = component.shadowRoot?.querySelector<GlideCoreTooltip>(
+  const tooltip = host.shadowRoot?.querySelector<GlideCoreTooltip>(
     '[data-test="label-tooltip"]',
   );
 
@@ -48,8 +48,8 @@ it('has a tooltip when minimal with a long label', async () => {
   expect(tooltip?.open).to.be.true;
 });
 
-it('has no tooltip when minimal with a short label', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
+it('has no tooltip when "minimal" with a short label', async () => {
+  const host = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
       label="Label"
       private-variant="minimal"
@@ -60,7 +60,7 @@ it('has no tooltip when minimal with a short label', async () => {
   // Wait for the tooltip.
   await aTimeout(0);
 
-  const tooltip = component.shadowRoot?.querySelector<GlideCoreTooltip>(
+  const tooltip = host.shadowRoot?.querySelector<GlideCoreTooltip>(
     '[data-test="label-tooltip"]',
   );
 

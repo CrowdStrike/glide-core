@@ -1,42 +1,35 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
-it('is selected when initially selected', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
+it('seta `aria-selected` when selected', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
-      value="value"
       selected
     ></glide-core-dropdown-option>`,
   );
 
-  expect(component.selected).to.be.true;
-  expect(component.ariaSelected).to.equal('true');
+  expect(host.ariaSelected).to.equal('true');
 });
 
-it('is unselected when initially unselected', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
+it('does not set `aria-selected` when unselected', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
-      value="value"
     ></glide-core-dropdown-option>`,
   );
 
-  expect(component.selected).to.be.false;
-  expect(component.ariaSelected).to.equal('false');
+  expect(host.ariaSelected).to.equal('false');
 });
 
 it('is editable', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       editable
     ></glide-core-dropdown-option>`,
   );
 
-  const button = component.shadowRoot?.querySelector(
-    '[data-test="edit-button"]',
-  );
-
+  const button = host.shadowRoot?.querySelector('[data-test="edit-button"]');
   expect(button?.checkVisibility()).to.be.true;
 });
