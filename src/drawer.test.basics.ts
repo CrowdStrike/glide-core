@@ -14,19 +14,19 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreDrawer>(
+  const host = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer open>Content</glide-core-drawer>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
 it('opens', async () => {
-  const component = await fixture<GlideCoreDrawer>(
+  const host = await fixture<GlideCoreDrawer>(
     html`<glide-core-drawer open>Content</glide-core-drawer>`,
   );
 
-  const aside = component.shadowRoot?.querySelector('[data-test="component"]');
+  const aside = host.shadowRoot?.querySelector('[data-test="component"]');
   expect(aside?.checkVisibility({ visibilityProperty: true })).to.be.true;
 });
 
@@ -42,7 +42,7 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(html`<glide-core-drawer></glide-core-drawer>`);
   });

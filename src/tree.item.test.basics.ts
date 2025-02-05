@@ -1,8 +1,8 @@
 import './menu.link.js';
-import { expect, fixture, html } from '@open-wc/testing';
 import './tree.item.menu.js';
 import './menu.js';
 import sinon from 'sinon';
+import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import GlideCoreTreeItem from './tree.item.js';
 import expectWindowError from './library/expect-window-error.js';
@@ -16,147 +16,87 @@ it('registers itself', () => {
   );
 });
 
-it('renders and sets default attributes', async () => {
-  const component = await fixture<GlideCoreTreeItem>(html`
-    <glide-core-tree-item label="Item"></glide-core-tree-item>
+it('has an expand icon when it has items', async () => {
+  const host = await fixture<GlideCoreTreeItem>(html`
+    <glide-core-tree-item label="Label">
+      <glide-core-tree-item label="Label"></glide-core-tree-item>
+    </glide-core-tree-item>
   `);
 
-  expect(component.expanded).to.be.false;
-  expect(component.label).to.equal('Item');
-  expect(component.level).to.equal(1);
-
-  expect(component.shadowRoot?.querySelector('.expand-icon-container')).to.be
-    .ok;
+  expect(
+    host.shadowRoot
+      ?.querySelector('[data-test="expand-icon-container"] svg')
+      ?.checkVisibility(),
+  ).to.be.true;
 });
 
-it('does not render expand-icon-container if remove-indentation is set', async () => {
-  const component = await fixture<GlideCoreTreeItem>(html`
+it('does not have an expand icon when `remove-indentation` is set', async () => {
+  const host = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item
-      label="Item"
+      label="Label"
       remove-indentation
     ></glide-core-tree-item>
   `);
 
-  expect(component.shadowRoot?.querySelector('.expand-icon-container')).to.be
-    .null;
+  expect(
+    host.shadowRoot
+      ?.querySelector('[data-test="expand-icon-container"] svg')
+      ?.checkVisibility(),
+  ).to.not.be.ok;
 });
 
-it('renders with a prefix slot', async () => {
-  await fixture<GlideCoreTreeItem>(html`
-    <glide-core-tree-item label="Item">
-      <span slot="prefix" data-prefix>prefix</span>
-    </glide-core-tree-item>
+it('does not have an expand icon if it has no items', async () => {
+  const host = await fixture<GlideCoreTreeItem>(html`
+    <glide-core-tree-item label="Label"></glide-core-tree-item>
   `);
 
-  expect(document.querySelector('[data-prefix]')).to.be.ok;
+  expect(
+    host.shadowRoot
+      ?.querySelector('[data-test="expand-icon-container"] svg')
+      ?.checkVisibility(),
+  ).to.not.be.ok;
 });
 
-it('adds label to menu target', async () => {
-  const component = await fixture<GlideCoreTreeItem>(html`
-    <glide-core-tree-item label="Item">
-      <glide-core-tree-item-menu slot="menu" data-menu>
-        <glide-core-menu-link label="Move" url="/move"> </glide-core-menu-link>
+it('sets `label` on its menu target', async () => {
+  const host = await fixture<GlideCoreTreeItem>(html`
+    <glide-core-tree-item label="Label">
+      <glide-core-tree-item-menu slot="menu">
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-tree-item-menu>
     </glide-core-tree-item>
   `);
 
-  const menuTarget = component
+  const target = host
     .querySelector('glide-core-tree-item-menu')
     ?.shadowRoot?.querySelector('glide-core-menu')
     ?.querySelector('glide-core-icon-button');
 
-  expect(menuTarget?.label).to.equal('Actions for Item');
+  expect(target?.label).to.equal('Actions for Label');
 });
 
-it('renders with a suffix slot', async () => {
-  await fixture<GlideCoreTreeItem>(html`
-    <glide-core-tree-item label="Item">
-      <span slot="suffix" data-suffix>suffix</span>
-    </glide-core-tree-item>
-  `);
+it('sets `level` on its items', async () => {
+  const host = await fixture<GlideCoreTreeItem>(html`
+    <glide-core-tree-item expanded label="Label">
+      <glide-core-tree-item label="Label"></glide-core-tree-item>
 
-  expect(document.querySelector('[data-suffix]')).to.be.ok;
-});
-
-it('does not have an expand icon if there are no child tree items', async () => {
-  const component = await fixture<GlideCoreTreeItem>(html`
-    <glide-core-tree-item label="Item"></glide-core-tree-item>
-  `);
-
-  expect(component.shadowRoot?.querySelector('.expand-icon')).to.equal(null);
-});
-
-it('renders child and grandchild tree items', async () => {
-  const component = await fixture<GlideCoreTreeItem>(html`
-    <glide-core-tree-item expanded label="Item">
-      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
-      <glide-core-tree-item label="Child Item 2">
-        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="Label">
+        <glide-core-tree-item label="Label"></glide-core-tree-item>
       </glide-core-tree-item>
     </glide-core-tree-item>
   `);
 
-  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+  const items = host.querySelectorAll<GlideCoreTreeItem>(
     ':scope > glide-core-tree-item',
   );
 
-  const grandchildItems = childItems?.[1].querySelectorAll(
-    'glide-core-tree-item',
+  const childItems = host.querySelectorAll<GlideCoreTreeItem>(
+    'glide-core-tree-item glide-core-tree-item',
   );
 
-  expect(component.shadowRoot?.querySelector('.expand-icon-container svg')).to
-    .be.ok;
-
-  expect(childItems?.length).to.equal(2);
-  expect(childItems?.[0].level).to.equal(2, 'Children are level 2');
-  expect(grandchildItems?.length).to.equal(1);
-  expect(grandchildItems?.[0].level).to.equal(3, 'Grandchildren are level 3');
-});
-
-it('sets the level for tree items programmatically added later', async () => {
-  const component = await fixture<GlideCoreTreeItem>(html`
-    <glide-core-tree-item expanded label="Item"></glide-core-tree-item>
-  `);
-
-  const newItem = Object.assign(
-    document.createElement('glide-core-tree-item'),
-    {
-      label: 'Child',
-    },
-  );
-
-  component.append(newItem);
-  await component.updateComplete;
-  expect(newItem.level).to.equal(2);
-});
-
-it('can select child and grandchild items', async () => {
-  const component = await fixture<GlideCoreTreeItem>(html`
-    <glide-core-tree-item expanded label="Item">
-      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
-      <glide-core-tree-item label="Child Item 2">
-        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
-      </glide-core-tree-item>
-    </glide-core-tree-item>
-  `);
-
-  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
-    ':scope > glide-core-tree-item',
-  );
-
-  const grandchildItems = childItems?.[1].querySelectorAll(
-    'glide-core-tree-item',
-  );
-
-  component.selectItem(childItems[0]);
-  expect(childItems[0].selected).to.be.true;
-  expect(childItems[1].selected).to.be.false;
-  expect(grandchildItems[0].selected).to.be.false;
-
-  component.selectItem(grandchildItems[0]);
-  expect(childItems[0].selected).to.be.false;
-  expect(childItems[1].selected).to.be.false;
-  expect(grandchildItems[0].selected).to.be.true;
+  expect(items?.[0].level).to.equal(2);
+  expect(childItems?.[0].level).to.equal(2);
+  expect(childItems?.[1].level).to.equal(2);
+  expect(childItems?.[2].level).to.equal(3);
 });
 
 it('throws when subclassed', async () => {
@@ -171,12 +111,20 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws if its "menu" slot is the incorrect type', async () => {
+it('throws when its "menu" slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(html`
-      <glide-core-tree-item expanded label="Item">
+      <glide-core-tree-item expanded label="Label">
         <span slot="menu"></span>
       </glide-core-tree-item>
     `);
   });
+});
+
+it('has "prefix" slot coverage', async () => {
+  await fixture<GlideCoreTreeItem>(html`
+    <glide-core-tree-item label="Label">
+      <span slot="prefix">Prefix</span>
+    </glide-core-tree-item>
+  `);
 });

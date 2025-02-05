@@ -73,15 +73,16 @@ export default class GlideCoreTreeItem extends LitElement {
 
   override render() {
     return html`<div
+      aria-label=${this.label}
+      aria-selected=${ifDefined(this.#ariaSelected)}
+      aria-expanded=${ifDefined(this.#ariaExpanded)}
       class=${classMap({
         component: true,
         expanded: this.expanded,
         selected: this.selected,
       })}
+      data-test="component"
       role="treeitem"
-      aria-label=${this.label}
-      aria-selected=${ifDefined(this.#ariaSelected)}
-      aria-expanded=${ifDefined(this.#ariaExpanded)}
     >
       <div
         class=${classMap({
@@ -100,15 +101,11 @@ export default class GlideCoreTreeItem extends LitElement {
             width: this.#indentationWidth,
           })}
         ></div>
-
         ${when(
-          /**
-           * By default, we indent the width of the expand icon,
-           * even if the item doesn't have children.
-           * This is to allow the sibling tree items' labels to line up vertically
-           * if some have children and some don't.
-           * But the user can opt out of this behavior via remove-indentation
-           */
+          // By default, we indent the width of the expand icon even if the item
+          // doesn't have children. This allows the sibling Tree Items' labels to
+          // line up vertically if some have their own children and some don't.
+          // Consumers can opt out of this behavior via `remove-indentation`.
           !this.removeIndentation || this.hasExpandIcon,
           () => html`
             <div
@@ -116,6 +113,7 @@ export default class GlideCoreTreeItem extends LitElement {
                 'expand-icon-container': true,
                 expanded: this.expanded,
               })}
+              data-test="expand-icon-container"
             >
               ${when(this.hasExpandIcon, () => chevronIcon)}
             </div>

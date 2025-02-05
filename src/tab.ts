@@ -52,9 +52,7 @@ export default class GlideCoreTab extends LitElement {
     >
       <div class="container">
         <slot name="icon"></slot>
-        <div class="default-slot">
-          <slot></slot>
-        </div>
+        <slot></slot>
       </div>
     </div> `;
   }

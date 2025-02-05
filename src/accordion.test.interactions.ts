@@ -3,44 +3,44 @@ import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import GlideCoreAccordion from './accordion.js';
 import { click } from './library/mouse.js';
 
-it('can be opened via click', async () => {
+it('opens when `click()` is called', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const component = await fixture<GlideCoreAccordion>(
+  const host = await fixture<GlideCoreAccordion>(
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  await click(component);
+  host.click();
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
 });
 
-it('can be opened via `click()`', async () => {
+it('opens on click when not animated', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const component = await fixture<GlideCoreAccordion>(
+  const host = await fixture<GlideCoreAccordion>(
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  component.click();
+  await click(host);
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
 });
 
-it('can be opened via click when animated', async () => {
+it('opens on click when animated', async () => {
   await emulateMedia({ reducedMotion: 'no-preference' });
 
-  const component = await fixture<GlideCoreAccordion>(
+  const host = await fixture<GlideCoreAccordion>(
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  await click(component.shadowRoot?.querySelector('[data-test="summary"]'));
+  await click(host.shadowRoot?.querySelector('[data-test="summary"]'));
 
   let animation: Animation | undefined;
   let isAnimationFinished = false;
 
   await waitUntil(() => {
-    animation = component.shadowRoot
+    animation = host.shadowRoot
       ?.querySelector('[data-test="default-slot"]')
       ?.getAnimations()
       ?.at(0);
@@ -54,65 +54,65 @@ it('can be opened via click when animated', async () => {
 
   await waitUntil(() => isAnimationFinished);
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
 });
 
-it('can be opened via Space', async () => {
+it('opens on Space', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const component = await fixture<GlideCoreAccordion>(
+  const host = await fixture<GlideCoreAccordion>(
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
 });
 
-it('can be opened via Enter', async () => {
+it('opens on Enter', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const component = await fixture<GlideCoreAccordion>(
+  const host = await fixture<GlideCoreAccordion>(
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
 });
 
-it('can be closed via click', async () => {
+it('closes on click when not animated', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const component = await fixture<GlideCoreAccordion>(
+  const host = await fixture<GlideCoreAccordion>(
     html`<glide-core-accordion label="Label" open>
       Content
     </glide-core-accordion>`,
   );
 
-  await click(component);
+  await click(host);
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
 });
 
-it('can be closed via click when animated', async () => {
+it('closes on click when animated', async () => {
   await emulateMedia({ reducedMotion: 'no-preference' });
 
-  const component = await fixture<GlideCoreAccordion>(
+  const host = await fixture<GlideCoreAccordion>(
     html`<glide-core-accordion label="Label" open>
       Content
     </glide-core-accordion>`,
   );
 
-  await click(component);
+  await click(host);
 
   let animation: Animation | undefined;
   let isAnimationFinished = false;
 
   await waitUntil(() => {
-    animation = component.shadowRoot
+    animation = host.shadowRoot
       ?.querySelector('[data-test="default-slot"]')
       ?.getAnimations()
       ?.at(0);
@@ -126,5 +126,5 @@ it('can be closed via click when animated', async () => {
 
   await waitUntil(() => isAnimationFinished);
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
 });

@@ -14,11 +14,11 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-modal-icon-button>Content</glide-core-modal-icon-button>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
 it('throws when subclassed', async () => {
@@ -33,7 +33,7 @@ it('throws when subclassed', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(
       html`<glide-core-modal-icon-button></glide-core-modal-icon-button>`,

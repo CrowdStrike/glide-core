@@ -14,19 +14,11 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreAccordion>(
+  const host = await fixture<GlideCoreAccordion>(
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  await expect(component).to.be.accessible();
-});
-
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreAccordion>(
-    html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
-  );
-
-  expect(component.open).to.be.false;
+  await expect(host).to.be.accessible();
 });
 
 it('throws when subclassed', async () => {

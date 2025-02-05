@@ -19,7 +19,7 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture(html`
+  const host = await fixture(html`
     <glide-core-split-button>
       <glide-core-split-button-primary-button
         label="Label"
@@ -34,27 +34,7 @@ it('is accessible', async () => {
     </glide-core-split-button>
   `);
 
-  await expect(component).to.be.accessible();
-});
-
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreSplitButton>(html`
-    <glide-core-split-button>
-      <glide-core-split-button-primary-link
-        label="Label"
-      ></glide-core-split-button-primary-link>
-
-      <glide-core-split-button-secondary-button
-        label="Label"
-        slot="secondary-button"
-      >
-        <glide-core-menu-button label="Label"></glide-core-menu-button>
-      </glide-core-split-button-secondary-button>
-    </glide-core-split-button>
-  `);
-
-  expect(component.size).to.equal('large');
-  expect(component.variant).to.equal('primary');
+  await expect(host).to.be.accessible();
 });
 
 it('throws when subclassed', async () => {
@@ -84,7 +64,7 @@ it('throws when its default slot is empty', async () => {
   });
 });
 
-it('throws when its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-split-button>
@@ -113,7 +93,7 @@ it('throws when its "secondary-button" slot is empty', async () => {
   });
 });
 
-it('throws when its "secondary-button" slot is the incorrect type', async () => {
+it('throws when its "secondary-button" slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-split-button>

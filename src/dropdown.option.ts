@@ -150,7 +150,7 @@ export default class GlideCoreDropdownOption extends LitElement {
     // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
     // By then, however, this component has has already completed its initial render. So
     // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple`
-    // is still useful for when Dropdown's `this.multiple` is changed programmatically.
+    // is still useful for when Dropdown's `this.multiple` is set programmatically.
     return (
       this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
     );
@@ -209,7 +209,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   set value(value) {
-    // `this.value` can be changed programmatically. Dropdown needs to know when that
+    // `this.value` can be set programmatically. Dropdown needs to know when that
     // happens so it can update its own `this.value`.
     this.dispatchEvent(
       new CustomEvent('private-value-change', {
@@ -227,7 +227,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   async privateUpdateCheckbox() {
-    // Hacky indeed. This is for the case where Dropdown is changed programmatically
+    // Hacky indeed. This is for the case where Dropdown is set programmatically
     // from a single to a multiselect. `this.isMultiple` is set to `true` but
     // `this.#checkboxElementRef.value` in the `multiple` setter is `undefined`
     // because this component hasn't had a chance to rerender. So we wait for it

@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import GlideCorePopover from './popover.js';
 
 it('dispatches a "toggle" event on open', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
@@ -11,10 +11,10 @@ it('dispatches a "toggle" event on open', async () => {
   );
 
   setTimeout(() => {
-    component.open = true;
+    host.open = true;
   });
 
-  const event = await oneEvent(component, 'toggle');
+  const event = await oneEvent(host, 'toggle');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -22,7 +22,7 @@ it('dispatches a "toggle" event on open', async () => {
 });
 
 it('dispatches a "toggle" event on close', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -30,10 +30,10 @@ it('dispatches a "toggle" event on close', async () => {
   );
 
   setTimeout(() => {
-    component.open = false;
+    host.open = false;
   });
 
-  const event = await oneEvent(component, 'toggle');
+  const event = await oneEvent(host, 'toggle');
 
   expect(event instanceof Event).to.be.true;
   expect(event.bubbles).to.be.true;
@@ -41,7 +41,7 @@ it('dispatches a "toggle" event on close', async () => {
 });
 
 it('does not dispatch a "toggle" event when already open', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -49,16 +49,16 @@ it('does not dispatch a "toggle" event when already open', async () => {
   );
 
   const spy = sinon.spy();
-  component.addEventListener('toggle', spy);
+  host.addEventListener('toggle', spy);
 
-  component.open = true;
+  host.open = true;
   await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
 });
 
 it('does not dispatch a "toggle" event when already closed', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
@@ -66,9 +66,9 @@ it('does not dispatch a "toggle" event when already closed', async () => {
   );
 
   const spy = sinon.spy();
-  component.addEventListener('toggle', spy);
+  host.addEventListener('toggle', spy);
 
-  component.open = false;
+  host.open = false;
   await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);

@@ -6,19 +6,19 @@ const ruleTester = new RuleTester();
 ruleTester.run('no-to-have-attribute', noToHaveAttribute, {
   valid: [
     {
-      code: "expect(component).getAttribute('role');",
+      code: "expect(host).getAttribute('role');",
     },
     {
-      code: "expect(component).hasAttribute('selected');",
+      code: "expect(host).hasAttribute('selected');",
     },
   ],
   invalid: [
     {
-      code: "expect(component).to.have.attribute('aria-checked', 'true');",
+      code: "expect(host).to.have.attribute('aria-checked', 'true');",
       errors: [{ messageId: 'noToHaveAttribute' }],
     },
     {
-      code: "expect(component).to.have.attribute('aria-disabled');",
+      code: "expect(host).to.have.attribute('aria-disabled');",
       errors: [{ messageId: 'noToHaveAttribute' }],
     },
   ],

@@ -61,7 +61,7 @@ it('throws when a required default slot is empty', async () => {
 });
 
 it('throws when a required default slot is emptied', async () => {
-  const component = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<GlideCoreWithSlot>(
     html`<glide-core-with-slot>
       <button>Button</button>
     </glide-core-with-slot>`,
@@ -73,7 +73,7 @@ it('throws when a required default slot is emptied', async () => {
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = spy;
-  component.innerHTML = '';
+  host.innerHTML = '';
 
   await waitUntil(() => spy.callCount);
 
@@ -112,7 +112,7 @@ it('throws when a required named slot is empty', async () => {
 });
 
 it('throws when a required named slot is emptied', async () => {
-  const component = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<GlideCoreWithSlot>(
     html`<glide-core-with-slot name="test">
       <button slot="test">Button</button>
     </glide-core-with-slot>`,
@@ -125,7 +125,7 @@ it('throws when a required named slot is emptied', async () => {
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = spy;
 
-  component.innerHTML = '';
+  host.innerHTML = '';
   await waitUntil(() => spy.callCount);
 
   expect(spy.callCount).to.equal(1);
@@ -165,7 +165,7 @@ it('throws when a typed and required default slot is empty', async () => {
 });
 
 it('throws when a typed and required default slot is emptied', async () => {
-  const component = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<GlideCoreWithSlot>(
     html`<glide-core-with-slot .slotted=${[HTMLButtonElement]}>
       <button>Button</button>
     </glide-core-with-slot>`,
@@ -178,7 +178,7 @@ it('throws when a typed and required default slot is emptied', async () => {
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = spy;
 
-  component.innerHTML = '';
+  host.innerHTML = '';
   await waitUntil(() => spy.callCount);
 
   expect(spy.callCount).to.equal(1);
@@ -273,7 +273,7 @@ it('throws when a typed and required named slot is empty', async () => {
 });
 
 it('throws when a typed and required named slot is emptied', async () => {
-  const component = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<GlideCoreWithSlot>(
     html`<glide-core-with-slot name="test" .slotted=${[HTMLButtonElement]}>
       <button slot="test">Button</button>
     </glide-core-with-slot>`,
@@ -286,7 +286,7 @@ it('throws when a typed and required named slot is emptied', async () => {
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = spy;
 
-  component.innerHTML = '';
+  host.innerHTML = '';
   await waitUntil(() => spy.callCount);
 
   expect(spy.callCount).to.equal(1);
@@ -345,13 +345,13 @@ it('does not throw when an optional slot is emptied', async () => {
   const spy = sinon.spy();
   window.addEventListener('error', spy);
 
-  const component = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<GlideCoreWithSlot>(
     html`<glide-core-with-slot optional>
       <button>Button</button>
     </glide-core-with-slot>`,
   );
 
-  component.innerHTML = '';
+  host.innerHTML = '';
 
   // Wait for the event handler to be called.
   await aTimeout(0);

@@ -80,6 +80,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
         icon: this.hasIcon,
         'icon-only': this.privateVariant === 'icon-only',
       })}
+      data-test="radio"
       role="radio"
       tabindex=${!this.selected || this.disabled ? -1 : 0}
       ${ref(this.#componentElementRef)}

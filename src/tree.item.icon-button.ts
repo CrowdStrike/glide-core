@@ -1,6 +1,7 @@
 import './icon-button.js';
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './tree.item.icon-button.styles.js';
 import assertSlot from './library/assert-slot.js';
@@ -27,7 +28,7 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
   static override styles = styles;
 
   @property()
-  label = '';
+  label?: string;
 
   @property({ reflect: true })
   readonly version = packageJson.version;
@@ -38,7 +39,7 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
         class="component"
         variant="tertiary"
         tabindex="-1"
-        label=${this.label}
+        label=${ifDefined(this.label)}
       >
         <slot ${assertSlot()}></slot>
       </glide-core-icon-button>
