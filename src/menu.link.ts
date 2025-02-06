@@ -29,8 +29,11 @@ export default class GlideCoreMenuLink extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -97,7 +100,10 @@ export default class GlideCoreMenuLink extends LitElement {
       @click=${this.#onClick}
       ${ref(this.#componentElementRef)}
     >
-      <slot name="icon"></slot>
+      <slot name="icon">
+        <!-- @type {Element} -->
+      </slot>
+
       ${this.label}
     </a>`;
   }

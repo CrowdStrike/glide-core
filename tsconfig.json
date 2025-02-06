@@ -8,8 +8,8 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
-    // So our import of `package.json` in various files doesn't cause our
-    // `./src` files in `./dist` to be nested under `./dist/src`.
+    // So that our import of `package.json` in various files doesn't cause
+    // our compiled `./src` files to be nested under `./dist/src`.
     "rootDir": "./src",
     "useDefineForClassFields": false, // https://lit.dev/docs/components/decorators#decorators-typescript
     "verbatimModuleSyntax": true,

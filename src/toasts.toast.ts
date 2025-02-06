@@ -8,7 +8,6 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { LocalizeController } from './library/localize.js';
 import styles from './toasts.toast.styles.js';
 import xIcon from './icons/x.js';
-import type { Toast } from './toasts.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 
@@ -41,9 +40,9 @@ export default class GlideCoreToast extends LitElement {
   duration? = 5000;
 
   @property()
-  variant?: Toast['variant'];
+  variant?: 'error' | 'informational' | 'success';
 
-  close() {
+  close(): void {
     this.#componentElementRef.value?.addEventListener(
       'transitionend',
       () => {
@@ -64,7 +63,7 @@ export default class GlideCoreToast extends LitElement {
     });
   }
 
-  open() {
+  open(): void {
     const duration = Math.max(this.duration ?? 0, 5000);
 
     if (duration < Number.POSITIVE_INFINITY) {

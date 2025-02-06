@@ -35,8 +35,11 @@ export default class GlideCoreButtonGroup extends LitElement {
   @required
   label?: string;
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
-  get variant() {
+  get variant(): 'icon-only' | undefined {
     return this.#variant;
   }
 
@@ -48,8 +51,11 @@ export default class GlideCoreButtonGroup extends LitElement {
     this.#variant = variant;
   }
 
+  /**
+   * @default 'horizontal'
+   */
   @property({ reflect: true })
-  get orientation() {
+  get orientation(): 'horizontal' | 'vertical' {
     return this.#orientation;
   }
 
@@ -90,7 +96,12 @@ export default class GlideCoreButtonGroup extends LitElement {
             @slotchange=${this.#onSlotChange}
             ${assertSlot([GlideCoreButtonGroupButton])}
             ${ref(this.#slotElementRef)}
-          ></slot>
+          >
+            <!-- 
+              @required
+              @type {GlideCoreButtonGroupButton} 
+            -->
+          </slot>
         </div>
       </div>
     `;
@@ -139,11 +150,7 @@ export default class GlideCoreButtonGroup extends LitElement {
       // Guards against `button.selected` to prevent duplicate "change" and
       // "input" events.
       if (button && !button.disabled && !button.selected) {
-        button.selected = true;
-
-        button.dispatchEvent(
-          new Event('selected', { bubbles: true, composed: true }),
-        );
+        button.privateSelect();
       }
     }
   }
@@ -174,11 +181,7 @@ export default class GlideCoreButtonGroup extends LitElement {
         }
 
         if (previousButton instanceof GlideCoreButtonGroupButton) {
-          previousButton.selected = true;
-
-          previousButton.dispatchEvent(
-            new Event('selected', { bubbles: true, composed: true }),
-          );
+          previousButton.privateSelect();
         }
 
         break;
@@ -202,11 +205,7 @@ export default class GlideCoreButtonGroup extends LitElement {
         }
 
         if (nextButton instanceof GlideCoreButtonGroupButton) {
-          nextButton.selected = true;
-
-          nextButton.dispatchEvent(
-            new Event('selected', { bubbles: true, composed: true }),
-          );
+          nextButton.privateSelect();
         }
 
         break;
@@ -222,11 +221,7 @@ export default class GlideCoreButtonGroup extends LitElement {
           const button = event.target.closest('glide-core-button-group-button');
 
           if (button && !button.disabled && !button.selected) {
-            button.selected = true;
-
-            button.dispatchEvent(
-              new Event('selected', { bubbles: true, composed: true }),
-            );
+            button.privateSelect();
           }
         }
 

@@ -2,6 +2,11 @@ import { css } from 'lit';
 
 export default [
   css`
+    :host {
+      /* The width the drawer */
+      --width: 27.375rem;
+    }
+
     .component {
       background-color: var(--glide-core-surface-base-xlightest);
       block-size: 0;
@@ -30,7 +35,7 @@ export default [
     .open {
       backdrop-filter: blur(50px);
       block-size: auto;
-      inline-size: var(--width, 27.375rem);
+      inline-size: var(--width);
       inset: 0 0 0 auto;
       visibility: visible;
     }

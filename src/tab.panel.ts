@@ -20,8 +20,6 @@ declare global {
 @customElement('glide-core-tab-panel')
 @final
 export default class GlideCoreTabPanel extends LitElement {
-  static instanceCount = 0;
-
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -30,15 +28,15 @@ export default class GlideCoreTabPanel extends LitElement {
   static override styles = styles;
 
   /**
-   * The name of this panel
-   * The corresponding <glide-core-tab> will have a `panel` attribute with this name
+   * The corresponding GlideCoreTab should have a `panel` attribute with this name.
    */
   @property({ reflect: true })
   @required
   name?: string;
 
   // Private because it's only meant to be used by Tab Group.
-  @property({ type: Boolean }) get privateIsSelected() {
+  @property({ type: Boolean })
+  get privateIsSelected() {
     return this.#isSelected;
   }
 
@@ -64,7 +62,12 @@ export default class GlideCoreTabPanel extends LitElement {
       })}
       data-test="tab-panel"
     >
-      <slot></slot>
+      <slot>
+        <!-- 
+          The content of the panel
+          @type {Element | string} 
+        -->
+      </slot>
     </div>`;
   }
 

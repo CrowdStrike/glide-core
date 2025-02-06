@@ -36,7 +36,27 @@ export default class GlideCoreTab extends LitElement {
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  @property({ type: Boolean, reflect: true }) selected = false;
+  /**
+   * @default false
+   */
+  @property({ type: Boolean, reflect: true })
+  get selected(): boolean {
+    return this.#isSelected;
+  }
+
+  set selected(isSelected: boolean) {
+    const hasChanged = isSelected !== this.#isSelected;
+    this.#isSelected = isSelected;
+
+    if (isSelected && hasChanged) {
+      this.dispatchEvent(
+        new Event('selected', {
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
+  }
 
   @property({ reflect: true })
   readonly version = packageJson.version;
@@ -54,8 +74,18 @@ export default class GlideCoreTab extends LitElement {
       })}
     >
       <div class="container">
-        <slot name="icon"></slot>
-        <slot></slot>
+        <slot name="icon">
+          <!-- 
+            @type {Element}
+          -->
+        </slot>
+
+        <slot>
+          <!-- 
+            A label 
+            @type {Element | string} 
+          -->
+        </slot>
       </div>
     </div> `;
   }
@@ -76,4 +106,6 @@ export default class GlideCoreTab extends LitElement {
   }
 
   #id = nanoid();
+
+  #isSelected = false;
 }

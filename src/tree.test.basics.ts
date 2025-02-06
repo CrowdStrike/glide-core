@@ -54,7 +54,7 @@ it('sets `aria-expanded`', async () => {
     items[1].shadowRoot?.querySelector('[data-test="component"]')?.ariaExpanded,
   ).to.equal('false');
 
-  items[1].toggleExpand();
+  items[1].privateToggleExpand();
   await items[1].updateComplete;
 
   expect(

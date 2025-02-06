@@ -43,7 +43,12 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
         tabindex="-1"
         label=${ifDefined(this.label)}
       >
-        <slot ${assertSlot()}></slot>
+        <slot ${assertSlot()}>
+          <!-- 
+            An icon
+            @type {Element} 
+          -->
+        </slot>
       </glide-core-icon-button>
     `;
   }

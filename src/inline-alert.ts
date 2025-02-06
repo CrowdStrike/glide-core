@@ -72,7 +72,7 @@ export default class GlideCoreInlineAlert extends LitElement {
         aria-labelledby="label"
         data-test="component"
         data-animation-duration=${this.#animationDuration}
-        style="--animation-duration: ${this.#animationDuration}ms"
+        style="--private-animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
         <div
@@ -86,7 +86,13 @@ export default class GlideCoreInlineAlert extends LitElement {
         </div>
 
         <div id="label" class="content">
-          <slot ${assertSlot()}> </slot>
+          <slot ${assertSlot()}>
+            <!-- 
+              The content of the alert 
+              @required
+              @type {Element | string}
+            -->
+          </slot>
         </div>
 
         ${when(
@@ -160,8 +166,8 @@ const icons = {
       viewBox="0 0 16 16"
       fill="none"
       style=${styleMap({
-        height: 'var(--size, 1rem)',
-        width: 'var(--size, 1rem)',
+        height: 'var(--private-size, 1rem)',
+        width: 'var(--private-size, 1rem)',
       })}
     >
       <path

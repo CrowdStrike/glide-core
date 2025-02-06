@@ -43,7 +43,8 @@ export default class GlideCoreButton extends LitElement {
   @property({ reflect: true })
   size: 'large' | 'small' = 'large';
 
-  @property({ reflect: true }) type: 'button' | 'submit' | 'reset' = 'button';
+  @property({ reflect: true })
+  type: 'button' | 'submit' | 'reset' = 'button';
 
   @property({ reflect: true }) value = '';
 
@@ -53,7 +54,7 @@ export default class GlideCoreButton extends LitElement {
   @property({ reflect: true })
   readonly version = packageJson.version;
 
-  get form() {
+  get form(): HTMLFormElement | null {
     return this.#internals.form;
   }
 
@@ -81,7 +82,12 @@ export default class GlideCoreButton extends LitElement {
         name="prefix-icon"
         @slotchange=${this.#onPrefixIconSlotChange}
         ${ref(this.#prefixIconSlotElementRef)}
-      ></slot>
+      >
+        <!-- 
+          An icon before the label  
+          @type {Element}
+        -->
+      </slot>
 
       ${this.label}
 
@@ -89,7 +95,12 @@ export default class GlideCoreButton extends LitElement {
         name="suffix-icon"
         @slotchange=${this.#onSuffixIconSlotChange}
         ${ref(this.#suffixIconSlotElementRef)}
-      ></slot>
+      >
+        <!-- 
+          An icon after the label  
+          @type {Element}
+        -->
+      </slot>
     </button>`;
   }
 

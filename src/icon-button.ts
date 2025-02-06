@@ -81,7 +81,13 @@ export default class GlideCoreIconButton extends LitElement {
         ?disabled=${this.disabled}
         ${ref(this.#buttonElementRef)}
       >
-        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}>
+          <!-- 
+            An icon
+            @required
+            @type {Element}
+          -->
+        </slot>
       </button>
     `;
   }

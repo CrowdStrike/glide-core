@@ -3,7 +3,17 @@ import { globby } from 'globby';
 import { minify } from 'terser';
 import { minifyHTMLLiterals } from 'minify-literals';
 
-const paths = await globby(['dist/**/*.js', '!**/*stories*', '!**/*test*']);
+const paths = await globby([
+  'dist/**/*.js',
+  '!**/.storybook/**',
+  '!**/*stories*',
+  '!**/*test*',
+  '!**/cem-analyzer-plugins/**',
+  '!**/coverage/**',
+  '!**/eslint/**',
+  '!**/stylelint/**',
+  '!**/ts-morph*/**',
+]);
 
 await paths.map(async (path) => {
   const unminified = await readFile(path, 'utf8');

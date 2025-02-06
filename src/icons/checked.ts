@@ -12,8 +12,8 @@ export default html`
     fill="none"
     viewBox="0 0 24 24"
     style=${styleMap({
-      height: 'var(--size, 0.875rem)',
-      width: 'var(--size, 0.875rem)',
+      height: 'var(--private-size, 0.875rem)',
+      width: 'var(--private-size, 0.875rem)',
     })}
   >
     <path

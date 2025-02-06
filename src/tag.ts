@@ -83,7 +83,7 @@ export default class GlideCoreTag extends LitElement {
         })}
         data-test="component"
         data-animation-duration=${this.#animationDuration}
-        style="--animation-duration: ${this.#animationDuration}ms"
+        style="--private-animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
         <slot
@@ -92,7 +92,9 @@ export default class GlideCoreTag extends LitElement {
             [this.size]: true,
           })}
           name="icon"
-        ></slot>
+        >
+          <!-- @type {Element} -->
+        </slot>
 
         ${this.label}
         ${when(this.privateEditable, () => {

@@ -146,44 +146,35 @@ Embrace encapsulation wherever you can.
 
 #### Avoid styling `:host`
 
-Styling `:host` exposes the styles to consumers—allowing internal styles to be overridden.
-Due to that, we do not recommend styling `:host` in our components, but rather using CSS variables targeting the tag directly or using a class name.
+Styling `:host` exposes styles to consumers—allowing internal styles to be overridden.
+Style classes directly instead:
 
 ```css
 /* ✅ -- GOOD */
-/* Target the button tag directly */
-button {
-  background-color: var(--button-background-color);
-}
-
-/* Or use a class name <button class="button" */
 .button {
-  background-color: var(--button-background-color);
+  display: flex;
 }
 ```
 
 ```css
 /* ❌ -- BAD */
-/* Consumers can override via */
-/* <cool-button style="background-color: red" which */
-/* may not be your intention */
 :host {
-  background-color: #4095bf;
+  display: flex;
 }
 ```
 
 If you have styles or style variables that apply to the whole component, consider styling a containing element instead.
-If your component doesn't have a single containing element, you can add one:
+If your component doesn't have a single containing element, simply add one:
 
 ```ts
-// checkbox.ts
+// component.ts
 render() {
   return html`<div class="component"></div>`
 }
 ```
 
 ```ts
-// checkbox.styles.ts
+// component.styles.ts
 import { css } from 'lit';
 
 export default css`
@@ -194,28 +185,26 @@ export default css`
 
 #### Avoid exposing `part`s
 
-[`Part`s](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) expose areas of your UI that consumers can target with CSS, which allows them to customize it to their needs.
-Presently, we have no use case for exposing a `part`.
-Instead, we should stick with exposing styles via CSS variables until the need arises.
+[Parts](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) expose tags within components to arbitrary styling by consumers.
+We don't currently have a reason to allow arbitrary styling.
+Until we do, use custom properties to allow only certain styles to be overridden.
 
 ```ts
 // ✅ -- GOOD
 @customElement('glide-core-example')
 export default class GlideCoreExample extends LitElement {
   static override styles = css`
-    .summary {
-      font-weight: var(--font-weight-bold);
+    :host {
+      --padding-inline: var(--glide-core-spacing-xs);
+    }
+
+    .component {
+      font-weight: var(--padding-inline);
     }
   `;
 
   override render() {
-    return html`
-      <details>
-        <!-- We style the summary directly ourselves -->
-        <summary class="summary">Details</summary>
-        <div><slot></slot></div>
-      </details>
-    `;
+    return html`<button class="component">Button</button>`;
   }
 }
 ```
@@ -225,13 +214,7 @@ export default class GlideCoreExample extends LitElement {
 @customElement('glide-core-example')
 export default class GlideCoreExample extends LitElement {
   override render() {
-    return html`
-      <details>
-        <!-- We do not want to expose a part -->
-        <summary part="summary">Details</summary>
-        <div><slot></slot></div>
-      </details>
-    `;
+    return html` <button part="component">Button</button>`;
   }
 }
 ```
@@ -347,15 +330,15 @@ If you need elements from a specific slot, use [assignedElements()](https://deve
 #### Prefer using animations only when the user has no reduced motion preference
 
 The [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) media query is used to detect if a user has enabled a setting on their device to minimize inessential motion.
-Our accessibility team recommends only enabling animations when the user doesn't prefer reduced motion.
+Our accessibility team recommends only enabling animations when the user has that setting turned off.
 
 ```css
 /* ✅ -- GOOD */
 .animation {
-  background-color: purple;
+  transform: translateX(100%);
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: pulse 1s linear infinite both;
+    transition: transform 1s;
   }
 }
 ```
@@ -363,8 +346,8 @@ Our accessibility team recommends only enabling animations when the user doesn't
 ```css
 /* ❌ -- BAD */
 .animation {
-  animation: pulse 1s linear infinite both;
-  background-color: purple;
+  transform: translateX(100%);
+  transition: transform 1s;
 }
 ```
 
@@ -552,7 +535,7 @@ There are many ways to target the root element of a component in CSS; however, w
 // ✅ -- GOOD
 css`
   .component {
-    background-color: red;
+    display: flex;
   }
 `;
 
@@ -565,7 +548,7 @@ render() {
 // ❌ -- BAD
 css`
   div {
-    background-color: red;
+    display: flex;
   }
 `;
 
@@ -616,4 +599,4 @@ So it's best to always override and decorate (using `@property`) inherited prope
 It helps clarify how different scripts are used in different contexts.
 It also neatly abstracts away specific script names from CI configuration.
 
-In general, think of `:development` scripts as either long-running (`--serve`, `--watch`) or mutative (`--fix`, `--write`) and `:production` scripts as neither of those things.
+In general, think of `*:development:*` scripts as long-running (`--serve`, `--watch`) and mutative (`--fix`, `--write`) and `*:production:*` scripts as neither.

@@ -38,8 +38,11 @@ export default class GlideCoreAccordion extends LitElement {
   @required
   label?: string;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -47,9 +50,11 @@ export default class GlideCoreAccordion extends LitElement {
     const hasChanged = isOpen !== this.#isOpen;
     this.#isOpen = isOpen;
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const isReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
 
-    if (reducedMotion.matches && hasChanged && this.#detailsElementRef.value) {
+    if (isReducedMotion && hasChanged && this.#detailsElementRef.value) {
       this.#detailsElementRef.value.open = isOpen;
 
       this.dispatchEvent(
@@ -164,7 +169,12 @@ export default class GlideCoreAccordion extends LitElement {
             name="prefix-icon"
             @slotchange=${this.#onPrefixIconSlotChange}
             ${ref(this.#prefixIconSlotElementRef)}
-          ></slot>
+          >
+            <!-- 
+              An icon before the label 
+              @type {Element}
+            -->
+          </slot>
 
           <span class="label">${this.label}</span>
         </div>
@@ -177,7 +187,12 @@ export default class GlideCoreAccordion extends LitElement {
           name="suffix-icons"
           @slotchange=${this.#onSuffixIconsSlotChange}
           ${ref(this.#suffixIconsSlotElementRef)}
-        ></slot>
+        >
+          <!-- 
+            Icons after the label 
+            @type {Element}
+          -->
+        </slot>
       </summary>
 
       <slot
@@ -188,7 +203,13 @@ export default class GlideCoreAccordion extends LitElement {
         data-test="default-slot"
         ${assertSlot()}
         ${ref(this.#defaultSlotElementRef)}
-      ></slot>
+      >
+        <!-- 
+          The content of the accordion 
+          @type {Element | string}
+          @required
+        -->
+      </slot>
     </details>`;
   }
 
