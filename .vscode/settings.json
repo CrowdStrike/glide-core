@@ -1,11 +1,11 @@
 {
-  "eslint.workingDirectories": [{ "mode": "auto" }],
-  "editor.formatOnSave": true,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "stylelint.validate": ["css", "postcss", "typescript"],
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "editor.formatOnSave": true,
+  "stylelint.validate": ["css", "postcss", "typescript"]
 }

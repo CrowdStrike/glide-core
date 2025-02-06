@@ -23,9 +23,15 @@ declare global {
 }
 
 /**
- * @event remove
+ * @attr {boolean} [removable=false]
+ * @attr {keyof typeof icons} [variant='informational']
  *
- * @slot - The content of the Inline Alert.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element | string} - The content of the alert
+ *
+ * @fire {Event} remove
  */
 @customElement('glide-core-inline-alert')
 @final
@@ -43,7 +49,7 @@ export default class GlideCoreInlineAlert extends LitElement {
   @property({ reflect: true, type: Boolean })
   removable? = false;
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override firstUpdated() {
@@ -72,7 +78,7 @@ export default class GlideCoreInlineAlert extends LitElement {
         aria-labelledby="label"
         data-test="component"
         data-animation-duration=${this.#animationDuration}
-        style="--animation-duration: ${this.#animationDuration}ms"
+        style="--private-animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
         <div
@@ -86,7 +92,13 @@ export default class GlideCoreInlineAlert extends LitElement {
         </div>
 
         <div id="label" class="content">
-          <slot ${assertSlot()}> </slot>
+          <slot ${assertSlot()}>
+            <!-- 
+              The content of the alert 
+              @required
+              @type {Element | string}
+            -->
+          </slot>
         </div>
 
         ${when(
@@ -160,8 +172,8 @@ const icons = {
       viewBox="0 0 16 16"
       fill="none"
       style=${styleMap({
-        height: 'var(--size, 1rem)',
-        width: 'var(--size, 1rem)',
+        height: 'var(--private-size, 1rem)',
+        width: 'var(--private-size, 1rem)',
       })}
     >
       <path

@@ -13,7 +13,7 @@ export default [
     }
 
     .toggle-and-input {
-      --inline-size: 1.5rem;
+      --private-inline-size: 1.5rem;
 
       align-items: center;
       background-color: var(--glide-core-surface-selected-disabled);
@@ -22,7 +22,7 @@ export default [
       border-radius: var(--glide-core-spacing-sm);
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
-      inline-size: var(--inline-size);
+      inline-size: var(--private-inline-size);
       justify-content: center;
       position: relative;
 
@@ -63,7 +63,7 @@ export default [
         inline-size: 0.875rem;
         inset-inline-end: 0;
         position: absolute;
-        transform: translateX(calc(var(--inline-size) * -1 + 100%));
+        transform: translateX(calc(var(--private-inline-size) * -1 + 100%));
         transition: 150ms transform;
       }
     }

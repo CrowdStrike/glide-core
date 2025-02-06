@@ -87,7 +87,7 @@ export const noRedudantPropertyAttribute = createRule({
                   context.report({
                     node: property,
                     messageId: 'noRedudantPropertyAttribute',
-                    fix: function (fixer) {
+                    fix(fixer) {
                       if (argument.properties?.length === 1) {
                         const source = context.sourceCode;
                         const tokenBefore = source.getTokenBefore(argument);

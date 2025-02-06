@@ -1,4 +1,3 @@
-import './toasts.toast.js';
 import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
@@ -7,6 +6,7 @@ import { LocalizeController } from './library/localize.js';
 import styles from './toasts.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import GlideCoreToast from './toasts.toast.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -14,13 +14,19 @@ declare global {
   }
 }
 
-export interface Toast {
-  label: string;
-  description: string;
-  variant: 'error' | 'informational' | 'success';
-  duration?: number;
-}
-
+/**
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @method add
+ * @param {{
+ *     label: string;
+ *     description: string;
+ *     variant: 'error' | 'informational' | 'success';
+ *     duration?: number; // Defaults to 5000. Set to `Infinity` to make the toast persist until dismissed.
+ *   }} toast
+ * @returns GlideCoreToast
+ */
 @customElement('glide-core-toasts')
 @final
 export default class GlideCoreToasts extends LitElement {
@@ -31,15 +37,15 @@ export default class GlideCoreToasts extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
-  /**
-   * @param {number} [toast.duration=5000]
-   *  Optional: Number of milliseconds before the Toast auto-hides.
-   *  Minimum: `5000`. Default: `5000`. For a Toast that never auto-hides, set to `Infinity`
-   *  */
-  add(toast: Toast) {
+  add(toast: {
+    label: string;
+    description: string;
+    variant: 'error' | 'informational' | 'success';
+    duration?: number; // Defaults to 5000. Set to `Infinity` to make the toast persist until dismissed.
+  }): GlideCoreToast {
     const { variant, label, description, duration } = toast;
 
     const toastElement = Object.assign(

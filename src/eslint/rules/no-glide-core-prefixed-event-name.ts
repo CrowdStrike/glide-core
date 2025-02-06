@@ -42,7 +42,7 @@ export const noPrefixedEventName = createRule({
           context.report({
             node,
             messageId: 'noPrefix',
-            fix: function (fixer) {
+            fix(fixer) {
               return fixer.replaceText(
                 node.arguments[0],
                 `'${eventName.replace('glide-core-', '')}'`,

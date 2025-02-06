@@ -17,7 +17,17 @@ declare global {
 }
 
 /**
- * @slot - An icon.
+ * @attr {string} label
+ * @attr {string|null} [aria-controls=null]
+ * @attr {'true'|'false'|null} [aria-expanded=null]
+ * @attr {'true'|'false'|'menu'|'listbox'|'tree'|'grid'|'dialog'|null} [aria-haspopup=null]
+ * @attr {boolean} [disabled=false]
+ * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} - An icon
  */
 @customElement('glide-core-icon-button')
 @final
@@ -56,7 +66,7 @@ export default class GlideCoreIconButton extends LitElement {
   @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override click() {
@@ -81,7 +91,13 @@ export default class GlideCoreIconButton extends LitElement {
         ?disabled=${this.disabled}
         ${ref(this.#buttonElementRef)}
       >
-        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}>
+          <!-- 
+            An icon
+            @required
+            @type {Element}
+          -->
+        </slot>
       </button>
     `;
   }

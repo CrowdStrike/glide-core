@@ -9,7 +9,7 @@ export default [
       border-radius: var(--glide-core-spacing-sm);
       display: flex;
       font: inherit;
-      gap: var(--gap);
+      gap: var(--private-gap);
       inline-size: 100%;
       padding-block: var(--padding-block);
       padding-inline: var(--padding-inline);

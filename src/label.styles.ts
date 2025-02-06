@@ -10,7 +10,7 @@ export default [
   css`
     .component {
       &.horizontal {
-        --column-gap: var(--glide-core-spacing-sm);
+        --private-column-gap: var(--glide-core-spacing-sm);
 
         column-gap: var(--glide-core-spacing-sm);
         display: grid;
@@ -27,8 +27,8 @@ export default [
       }
 
       &.middle {
-        grid-template-columns: calc(50% - var(--column-gap) / 2) calc(
-            50% - var(--column-gap) / 2
+        grid-template-columns: calc(50% - var(--private-column-gap) / 2) calc(
+            50% - var(--private-column-gap) / 2
           );
       }
 
@@ -67,9 +67,9 @@ export default [
 
       &.visible {
         /*
-    The default is "display: content". But "order" does not work with
-    "display: content" and "order" is needed above.
-  */
+          The default is "display: content". But "order" does not work with
+          "display: content" and "order" is needed above.
+        */
         display: block;
       }
     }
@@ -81,11 +81,10 @@ export default [
       color: var(--glide-core-text-body-1);
 
       /*
-    Any "display" that's not inline-level will do. We don't want the button to
-    acquire a line box, which will make it taller than its content and thus
-    make it difficult to center vertically with the label.
-    */
-
+        Any "display" that's not inline-level will do. We don't want the button to
+        acquire a line box, which will make it taller than its content and thus
+        make it difficult to center vertically with the label.
+      */
       display: flex;
       padding: 0;
 

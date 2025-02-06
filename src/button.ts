@@ -15,9 +15,22 @@ declare global {
 }
 
 /**
- * @slot - A label.
- * @slot prefix-icon - An optional icon before the label.
- * @slot suffix-icon - An optional icon after the label.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {string} [name='']
+ * @attr {'small'|'large'} [size='large']
+ * @attr {'button'|'submit'|'reset'} [type='button']
+ * @attr {string} [value='']
+ * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [prefix-icon] - An icon before the label
+ * @slot {Element} [suffix-icon] - An icon after the label
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
  */
 @customElement('glide-core-button')
 @final
@@ -41,7 +54,7 @@ export default class GlideCoreButton extends LitElement {
   @property({ reflect: true }) name = '';
 
   @property({ reflect: true })
-  size: 'large' | 'small' = 'large';
+  size: 'small' | 'large' = 'large';
 
   @property({ reflect: true }) type: 'button' | 'submit' | 'reset' = 'button';
 
@@ -50,10 +63,10 @@ export default class GlideCoreButton extends LitElement {
   @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
-  get form() {
+  get form(): HTMLFormElement | null {
     return this.#internals.form;
   }
 
@@ -81,7 +94,12 @@ export default class GlideCoreButton extends LitElement {
         name="prefix-icon"
         @slotchange=${this.#onPrefixIconSlotChange}
         ${ref(this.#prefixIconSlotElementRef)}
-      ></slot>
+      >
+        <!-- 
+          An icon before the label  
+          @type {Element}
+        -->
+      </slot>
 
       ${this.label}
 
@@ -89,7 +107,12 @@ export default class GlideCoreButton extends LitElement {
         name="suffix-icon"
         @slotchange=${this.#onSuffixIconSlotChange}
         ${ref(this.#suffixIconSlotElementRef)}
-      ></slot>
+      >
+        <!-- 
+          An icon after the label  
+          @type {Element}
+        -->
+      </slot>
     </button>`;
   }
 

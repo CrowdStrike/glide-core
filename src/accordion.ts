@@ -17,11 +17,17 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {string} label
+ * @attr {boolean} [open=false]
  *
- * @slot - The content of the accordion.
- * @slot prefix-icon - An optional icon before the label.
- * @slot suffix-icons - Optional icons after the label.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element | string} - The content of the accordion
+ * @slot {Element} [prefix-icon] - An icon before the label
+ * @slot {Element} [suffix-icons] - Optional icons after the label
+ *
+ * @fire {Event} toggle
  */
 @customElement('glide-core-accordion')
 @final
@@ -38,8 +44,11 @@ export default class GlideCoreAccordion extends LitElement {
   @required
   label?: string;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -137,7 +146,7 @@ export default class GlideCoreAccordion extends LitElement {
     }
   }
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override click() {
@@ -164,7 +173,12 @@ export default class GlideCoreAccordion extends LitElement {
             name="prefix-icon"
             @slotchange=${this.#onPrefixIconSlotChange}
             ${ref(this.#prefixIconSlotElementRef)}
-          ></slot>
+          >
+            <!-- 
+              An icon before the label 
+              @type {Element}
+            -->
+          </slot>
 
           <span class="label">${this.label}</span>
         </div>
@@ -177,7 +191,12 @@ export default class GlideCoreAccordion extends LitElement {
           name="suffix-icons"
           @slotchange=${this.#onSuffixIconsSlotChange}
           ${ref(this.#suffixIconsSlotElementRef)}
-        ></slot>
+        >
+          <!-- 
+            Optional icons after the label 
+            @type {Element}
+          -->
+        </slot>
       </summary>
 
       <slot
@@ -188,7 +207,13 @@ export default class GlideCoreAccordion extends LitElement {
         data-test="default-slot"
         ${assertSlot()}
         ${ref(this.#defaultSlotElementRef)}
-      ></slot>
+      >
+        <!-- 
+          The content of the accordion 
+          @type {Element | string}
+          @required
+        -->
+      </slot>
     </details>`;
   }
 

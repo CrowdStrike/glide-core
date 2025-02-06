@@ -65,7 +65,7 @@ export default [
     }
 
     .close-button {
-      --icon-color: var(--glide-core-icon-default2);
+      --private-icon-color: var(--glide-core-icon-default2);
 
       grid-column: 3;
     }

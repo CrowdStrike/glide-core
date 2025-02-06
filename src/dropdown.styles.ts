@@ -12,7 +12,7 @@ export default [
   `,
   css`
     .component {
-      --min-inline-size: 9.375rem;
+      --private-min-inline-size: 9.375rem;
 
       font-family: var(--glide-core-font-sans);
     }
@@ -31,12 +31,12 @@ export default [
           width on Label's ".control-and-summary". It's not clear to me why Grid
           behaves this way.
         */
-        min-inline-size: var(--min-inline-size);
+        min-inline-size: var(--private-min-inline-size);
       }
     }
 
     .dropdown {
-      --button-and-input-height: 1.25rem;
+      --private-button-and-input-height: 1.25rem;
 
       align-items: center;
       background-color: var(--glide-core-surface-base-lighter);
@@ -52,7 +52,7 @@ export default [
       font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-body-sm-font-weight);
       gap: var(--glide-core-spacing-xs);
-      min-inline-size: var(--min-inline-size);
+      min-inline-size: var(--private-min-inline-size);
       padding-inline: var(--glide-core-spacing-sm);
       text-align: start;
       transition:
@@ -114,14 +114,15 @@ export default [
     }
 
     .options-and-footer {
-      --border-width: 1px;
+      --private-border-width: 1px;
 
       background-color: var(--glide-core-surface-modal);
-      border: var(--border-width) solid var(--glide-core-border-base-lighter);
+      border: var(--private-border-width) solid
+        var(--glide-core-border-base-lighter);
       border-radius: var(--glide-core-spacing-xs);
       box-shadow: var(--glide-core-shadow-lg);
       inset: unset;
-      min-inline-size: var(--min-inline-size);
+      min-inline-size: var(--private-min-inline-size);
       padding: 0;
       position: absolute;
     }
@@ -130,7 +131,7 @@ export default [
       box-sizing: border-box;
       max-block-size: calc(
         var(--private-option-height) * 9 + var(--glide-core-spacing-xxxs) * 2 +
-          var(--border-width) * 2
+          var(--private-border-width) * 2
       );
       overflow: auto;
       scroll-behavior: smooth;
@@ -184,7 +185,7 @@ export default [
       text-align: start;
 
       &.large {
-        --size: 1rem;
+        --private-size: 1rem;
 
         column-gap: 0.625rem;
         font-size: var(--glide-core-body-sm-font-size);
@@ -193,7 +194,7 @@ export default [
       }
 
       &.small {
-        --size: 0.875rem;
+        --private-size: 0.875rem;
 
         column-gap: var(--glide-core-spacing-xs);
         font-size: var(--glide-core-body-xs-font-size);
@@ -310,7 +311,7 @@ export default [
     .primary-button {
       align-items: center;
       background: none;
-      block-size: var(--button-and-input-height);
+      block-size: var(--private-button-and-input-height);
       border: none;
       cursor: inherit;
       display: flex;
@@ -343,7 +344,7 @@ export default [
 
     .input {
       background-color: transparent;
-      block-size: var(--button-and-input-height);
+      block-size: var(--private-button-and-input-height);
       border: none;
       cursor: inherit;
       flex-grow: 1;

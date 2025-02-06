@@ -11,23 +11,33 @@ import { noToHaveAttribute } from './rules/no-to-have-attribute.js';
 import { preferClosedShadowRoot } from './rules/prefer-shadow-root-mode.js';
 import { preferToBeTrueOrFalse } from './rules/prefer-to-be-true-or-false.js';
 import { prefixedClassDeclaration } from './rules/prefixed-lit-element-class-declaration.js';
+import { explicitPublicMemberReturnType } from './rules/explicit-public-member-return-type.js';
+import { publicGetterDefaultComment } from './rules/public-getter-default-comment.js';
+import { eventDispatchFromThis } from './rules/event-dispatch-from-this.js';
+import { stringEventName } from './rules/string-event-name.js';
+import { slotTypeComment } from './rules/slot-type-comment.js';
 
-const rules = {
-  'consistent-reference-element-declarations':
-    consistentReferenceElementDeclarations,
-  'consistent-test-fixture-variable-declarator':
-    consistentTestFixtureVariableDeclarator,
-  'no-glide-core-prefixed-event-name': noPrefixedEventName,
-  'no-nested-template-literals': noNestedTemplateLiterals,
-  'no-only-tests': noOnlyTests,
-  'no-redundant-property-attribute': noRedudantPropertyAttribute,
-  'no-redundant-property-string-type': noRedudantPropertyStringType,
-  'no-skip-tests': noSkipTests,
-  'no-space-press': noSpacePress,
-  'no-to-have-attribute': noToHaveAttribute,
-  'prefer-shadow-root-mode': preferClosedShadowRoot,
-  'prefer-to-be-true-or-false': preferToBeTrueOrFalse,
-  'prefixed-lit-element-class-declaration': prefixedClassDeclaration,
+export default {
+  rules: {
+    'consistent-reference-element-declarations':
+      consistentReferenceElementDeclarations,
+    'consistent-test-fixture-variable-declarator':
+      consistentTestFixtureVariableDeclarator,
+    'no-glide-core-prefixed-event-name': noPrefixedEventName,
+    'no-nested-template-literals': noNestedTemplateLiterals,
+    'no-only-tests': noOnlyTests,
+    'no-redundant-property-attribute': noRedudantPropertyAttribute,
+    'no-redundant-property-string-type': noRedudantPropertyStringType,
+    'no-skip-tests': noSkipTests,
+    'no-space-press': noSpacePress,
+    'no-to-have-attribute': noToHaveAttribute,
+    'prefer-shadow-root-mode': preferClosedShadowRoot,
+    'prefer-to-be-true-or-false': preferToBeTrueOrFalse,
+    'prefixed-lit-element-class-declaration': prefixedClassDeclaration,
+    'explicit-public-member-return-type': explicitPublicMemberReturnType,
+    'public-getter-default-comment': publicGetterDefaultComment,
+    'event-dispatch-from-this': eventDispatchFromThis,
+    'string-event-name': stringEventName,
+    'slot-type-comment': slotTypeComment,
+  },
 };
-
-export default { rules };

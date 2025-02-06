@@ -5,7 +5,7 @@ import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreInput, { SUPPORTED_TYPES } from './input.js';
+import GlideCoreInput from './input.js';
 
 const meta: Meta = {
   title: 'Input',
@@ -313,15 +313,23 @@ const meta: Meta = {
     },
     type: {
       control: { type: 'select' },
-      options: [...SUPPORTED_TYPES],
+      options: [
+        'date',
+        'email',
+        'number',
+        'password',
+        'search',
+        'tel',
+        'text',
+        'url',
+      ],
       table: {
         defaultValue: {
           summary: '"text"',
         },
         type: {
-          summary: SUPPORTED_TYPES.map((type) => {
-            return `"${type}"`;
-          }).join(' | '),
+          summary:
+            'date | email | number | password | search | tel | text | url',
         },
       },
     },

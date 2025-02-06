@@ -17,11 +17,18 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {string} label
+ * @attr {boolean} [open=false]
+ * @attr {boolean} [pinned=false]
  *
- * @cssprop [--width] - The width the drawer.
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - The content of the Drawer.
+ * @slot {Element | string} - The content of the drawer
+ *
+ * @cssprop [--width=27.375rem] - The width the drawer
+ *
+ * @fire {Event} toggle
  */
 @customElement('glide-core-drawer')
 @final
@@ -40,8 +47,11 @@ export default class GlideCoreDrawer extends LitElement {
   @property({ reflect: true, type: Boolean })
   pinned = false;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -122,7 +132,7 @@ export default class GlideCoreDrawer extends LitElement {
     }
   }
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override firstUpdated() {
@@ -166,7 +176,14 @@ export default class GlideCoreDrawer extends LitElement {
         tabindex="-1"
         ${ref(this.#componentElementRef)}
       >
-        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}>
+          <!-- 
+            The content of the drawer
+
+            @required
+            @type {Element | string}
+          -->
+        </slot>
       </aside>
     `;
   }

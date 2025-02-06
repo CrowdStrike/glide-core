@@ -147,43 +147,33 @@ Embrace encapsulation wherever you can.
 #### Avoid styling `:host`
 
 Styling `:host` exposes the styles to consumers—allowing internal styles to be overridden.
-Due to that, we do not recommend styling `:host` in our components, but rather using CSS variables targeting the tag directly or using a class name.
+Instead, style the class directly:
 
 ```css
-/* ✅ -- GOOD */
-/* Target the button tag directly */
-button {
-  background-color: var(--button-background-color);
-}
-
-/* Or use a class name <button class="button" */
 .button {
-  background-color: var(--button-background-color);
+  display: flex;
 }
 ```
 
 ```css
 /* ❌ -- BAD */
-/* Consumers can override via */
-/* <cool-button style="background-color: red" which */
-/* may not be your intention */
 :host {
-  background-color: #4095bf;
+  display: flex;
 }
 ```
 
 If you have styles or style variables that apply to the whole component, consider styling a containing element instead.
-If your component doesn't have a single containing element, you can add one:
+If your component doesn't have a single containing element, simply add one:
 
 ```ts
-// checkbox.ts
+// component.ts
 render() {
   return html`<div class="component"></div>`
 }
 ```
 
 ```ts
-// checkbox.styles.ts
+// component.styles.ts
 import { css } from 'lit';
 
 export default css`
@@ -194,26 +184,28 @@ export default css`
 
 #### Avoid exposing `part`s
 
-[`Part`s](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) expose areas of your UI that consumers can target with CSS, which allows them to customize it to their needs.
-Presently, we have no use case for exposing a `part`.
-Instead, we should stick with exposing styles via CSS variables until the need arises.
+[Parts](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) expose tags within components to arbitrary styling by consumers.
+We don't currently have a case to allow arbitrary styling.
+Until we do, use custom properties to allow only specific styles to be overriden.
 
 ```ts
 // ✅ -- GOOD
 @customElement('glide-core-example')
 export default class GlideCoreExample extends LitElement {
   static override styles = css`
+    :host {
+      --font-weight: bold;
+    }
+
     .summary {
-      font-weight: var(--font-weight-bold);
+      font-weight: var(--font-weight);
     }
   `;
 
   override render() {
     return html`
       <details>
-        <!-- We style the summary directly ourselves -->
-        <summary class="summary">Details</summary>
-        <div><slot></slot></div>
+        <summary class="summary">Summary</summary>
       </details>
     `;
   }
@@ -227,9 +219,7 @@ export default class GlideCoreExample extends LitElement {
   override render() {
     return html`
       <details>
-        <!-- We do not want to expose a part -->
-        <summary part="summary">Details</summary>
-        <div><slot></slot></div>
+        <summary part="summary">Summary</summary>
       </details>
     `;
   }
@@ -352,10 +342,10 @@ Our accessibility team recommends only enabling animations when the user doesn't
 ```css
 /* ✅ -- GOOD */
 .animation {
-  background-color: purple;
+  transform: translateX(100%);
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: pulse 1s linear infinite both;
+    animation: transform 1s linear;
   }
 }
 ```
@@ -363,8 +353,8 @@ Our accessibility team recommends only enabling animations when the user doesn't
 ```css
 /* ❌ -- BAD */
 .animation {
-  animation: pulse 1s linear infinite both;
-  background-color: purple;
+  animation: transform 1s linear;
+  transform: translateX(100%);
 }
 ```
 
@@ -552,7 +542,7 @@ There are many ways to target the root element of a component in CSS; however, w
 // ✅ -- GOOD
 css`
   .component {
-    background-color: red;
+    display: flex;
   }
 `;
 
@@ -565,7 +555,7 @@ render() {
 // ❌ -- BAD
 css`
   div {
-    background-color: red;
+    display: flex;
   }
 `;
 

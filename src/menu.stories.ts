@@ -71,7 +71,7 @@ const meta: Meta = {
         type: {
           summary: 'Element',
           detail:
-            'The element to which the menu will anchor, which can be any focusable element',
+            'The element to which the menu will anchor. Can be any focusable element',
         },
       },
       type: { name: 'function', required: true },

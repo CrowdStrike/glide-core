@@ -16,8 +16,17 @@ declare global {
 }
 
 /**
- * @slot - A label.
- * @slot icon - An optional icon before the label.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [selected=false]
+ * @attr {string} [value='']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [icon]
+ *
+ * @fire {Event} selected
  */
 @customElement('glide-core-button-group-button')
 @final
@@ -33,8 +42,11 @@ export default class GlideCoreButtonGroupButton extends LitElement {
   @required
   label?: string;
 
+  /**
+   * @default false
+   */
   @property({ type: Boolean, reflect: true })
-  get selected() {
+  get selected(): boolean {
     return this.#isSelected;
   }
 
@@ -59,7 +71,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
   @property()
   privateVariant?: 'icon-only';
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override click() {
@@ -68,6 +80,14 @@ export default class GlideCoreButtonGroupButton extends LitElement {
 
   override focus(options?: FocusOptions) {
     this.#componentElementRef.value?.focus(options);
+  }
+
+  privateSelect() {
+    this.selected = true;
+
+    this.dispatchEvent(
+      new Event('selected', { bubbles: true, composed: true }),
+    );
   }
 
   override render() {
@@ -92,7 +112,9 @@ export default class GlideCoreButtonGroupButton extends LitElement {
         @slotchange=${this.#onIconSlotChange}
         ${assertSlot(null, this.privateVariant !== 'icon-only')}
         ${ref(this.#iconSlotElementRef)}
-      ></slot>
+      >
+        <!-- @type {Element} -->
+      </slot>
 
       <div
         class=${classMap({

@@ -20,15 +20,15 @@ export default [
       grid-template-columns: repeat(auto-fill, 2.5rem);
       line-height: 1.25rem;
 
-      --color: var(--glide-core-text-body-1);
+      --private-color: var(--glide-core-text-body-1);
 
       &.selected {
-        --color: var(--glide-core-text-selected);
+        --private-color: var(--glide-core-text-selected);
 
         ::slotted([slot='prefix']),
         ::slotted([slot='menu']),
         ::slotted([slot='suffix']) {
-          --hovered-icon-button-color: var(--glide-core-icon-hover);
+          --private-hovered-icon-button-color: var(--glide-core-icon-hover);
         }
       }
     }
@@ -69,7 +69,7 @@ export default [
     .label-container {
       align-items: center;
       border-radius: 0.5rem;
-      color: var(--color);
+      color: var(--private-color);
       display: flex;
       font-size: var(--glide-core-body-sm-font-size);
       padding-block: var(--glide-core-spacing-xxs);
@@ -111,7 +111,7 @@ export default [
     ::slotted([slot='prefix']),
     ::slotted([slot='menu']),
     ::slotted([slot='suffix']) {
-      --icon-button-color: var(--color);
+      --private-icon-button-color: var(--private-color);
     }
 
     .label-container:hover,

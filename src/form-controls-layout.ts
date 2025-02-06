@@ -20,7 +20,12 @@ declare global {
 }
 
 /**
- * @slot - GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea.
+ * @attr {'left'|'middle'} [split='left']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea}
  */
 @customElement('glide-core-form-controls-layout')
 @final
@@ -32,8 +37,11 @@ export default class GlideCoreFormControlsLayout extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default 'left'
+   */
   @property({ reflect: true })
-  get split() {
+  get split(): 'left' | 'middle' {
     return this.#split;
   }
 
@@ -49,7 +57,7 @@ export default class GlideCoreFormControlsLayout extends LitElement {
     }
   }
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override render() {
@@ -65,7 +73,9 @@ export default class GlideCoreFormControlsLayout extends LitElement {
           GlideCoreTextArea,
         ])}
         ${ref(this.#slotElementRef)}
-      ></slot>
+      >
+        <!-- @type {GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea} -->
+      </slot>
     </div>`;
   }
 

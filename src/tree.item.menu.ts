@@ -5,6 +5,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './tree.item.menu.styles.js';
 import GlideCoreIconButton from './icon-button.js';
@@ -22,8 +23,14 @@ declare global {
 }
 
 /**
- * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
- * @slot icon - An optional icon.
+ * @attr {string} [label]
+ * @attr {'bottom-start'|'top-start'} [placement='bottom-start']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
+ * @slot {Element} [icon]
  */
 @customElement('glide-core-tree-item-menu')
 @final
@@ -39,9 +46,9 @@ export default class GlideCoreTreeItemMenu extends LitElement {
   placement: 'bottom-start' | 'top-start' = 'bottom-start';
 
   @property()
-  label = '';
+  label?: string;
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override click() {
@@ -56,21 +63,25 @@ export default class GlideCoreTreeItemMenu extends LitElement {
         ${ref(this.#menuElementRef)}
       >
         <glide-core-menu-options>
-          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}></slot>
+          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}>
+            <!-- @type {GlideCoreMenuButton | GlideCoreMenuLink} -->
+          </slot>
         </glide-core-menu-options>
 
         <glide-core-icon-button
           data-test="icon-button"
           slot="target"
           variant="tertiary"
-          label=${this.label}
+          label=${ifDefined(this.label)}
           ${ref(this.#iconButtonElementRef)}
         >
           <slot
             name="icon"
             @slotchange=${this.#onIconSlotChange}
             ${ref(this.#iconSlotElementRef)}
-          ></slot>
+          >
+            <!-- @type {Element} -->
+          </slot>
 
           ${when(!this.hasCustomIcon, () => icons.dots)}
         </glide-core-icon-button>

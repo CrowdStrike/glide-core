@@ -22,15 +22,21 @@ declare global {
 }
 
 /**
- * @cssprop [--panel-padding-inline-end]
- * @cssprop [--panel-padding-inline-start]
- * @cssprop [--tabs-padding-block-end]
- * @cssprop [--tabs-padding-block-start]
- * @cssprop [--tabs-padding-inline-end]
- * @cssprop [--tabs-padding-inline-start]
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - One or more of `<glide-core-tab-panel>`.
- * @slot nav - One or more of `<glide-core-tab>`.
+ * @slot {GlideCoreTabPanel}
+ * @slot {GlideCoreTab} [nav]
+ *
+ * @cssprop [--tabs-padding-block-end=0rem]
+ * @cssprop [--tabs-padding-block-start=0rem]
+ * @cssprop [--tabs-padding-inline-end=0rem]
+ * @cssprop [--tabs-padding-inline-start=0rem]
+ *
+ * @prop {boolean} isAfterFirstUpdated
+ * @prop {boolean} isDisableOverflowEndButton
+ * @prop {boolean} isDisableOverflowStartButton
+ * @prop {boolean} isShowOverflowButtons
  */
 @customElement('glide-core-tab-group')
 @final
@@ -42,7 +48,7 @@ export default class GlideCoreTabGroup extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   @state()
@@ -113,7 +119,9 @@ export default class GlideCoreTabGroup extends LitElement {
             name="nav"
             @slotchange=${this.#onNavSlotChange}
             ${assertSlot([GlideCoreTab])}
-          ></slot>
+          >
+            <!-- @type {GlideCoreTab} -->
+          </slot>
         </div>
 
         ${when(
@@ -138,7 +146,10 @@ export default class GlideCoreTabGroup extends LitElement {
           `,
         )}
       </div>
-      <slot ${assertSlot([GlideCoreTabPanel])}></slot>
+
+      <slot ${assertSlot([GlideCoreTabPanel])}>
+        <!-- @type {GlideCoreTabPanel} -->
+      </slot>
     </div>`;
   }
 
@@ -389,7 +400,7 @@ export default class GlideCoreTabGroup extends LitElement {
           : this.selectedTab.offsetLeft - this.#tabElements[0].offsetLeft;
 
       this.#componentElementRef.value.style.setProperty(
-        '--selected-tab-indicator-translate',
+        '--private-selected-tab-indicator-translate',
         `${selectedTabIndicatorTranslateLeft}px`,
       );
 
@@ -403,7 +414,7 @@ export default class GlideCoreTabGroup extends LitElement {
         this.selectedTab.getBoundingClientRect();
 
       this.#componentElementRef.value.style.setProperty(
-        '--selected-tab-indicator-width',
+        '--private-selected-tab-indicator-width',
         `${selectedTabWidth - selectedTabIndicatorWidthAdjustment}px`,
       );
 
@@ -434,12 +445,5 @@ export default class GlideCoreTabGroup extends LitElement {
   #showTab(tab: GlideCoreTab) {
     this.selectedTab = tab;
     this.#setSelectedTab();
-
-    tab.dispatchEvent(
-      new Event('selected', {
-        bubbles: true,
-        composed: true,
-      }),
-    );
   }
 }

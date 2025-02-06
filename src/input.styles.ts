@@ -60,9 +60,10 @@ export default [
         border-color: var(--glide-core-status-error);
       }
 
-      /* We had to resort to a class selector because there may be a bug in Chrome and Safari
-       * with ":read-only": https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
-       */
+      /* 
+        We had to resort to a class selector because there may be a bug in Chrome and Safari
+        with ":read-only": https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
+      */
       &.readonly {
         background-color: transparent;
         border: 1px solid transparent;

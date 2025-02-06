@@ -16,7 +16,12 @@ declare global {
 }
 
 /**
- * @slot icon - An optional icon.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [icon]
  */
 @customElement('glide-core-menu-button')
 @final
@@ -28,8 +33,11 @@ export default class GlideCoreMenuButton extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -50,7 +58,7 @@ export default class GlideCoreMenuButton extends LitElement {
   @property({ type: Boolean })
   privateActive = false;
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override click() {
@@ -83,7 +91,10 @@ export default class GlideCoreMenuButton extends LitElement {
       type="button"
       ${ref(this.#componentElementRef)}
     >
-      <slot name="icon"></slot>
+      <slot name="icon">
+        <!-- @type {Element} -->
+      </slot>
+
       ${this.label}
     </button>`;
   }

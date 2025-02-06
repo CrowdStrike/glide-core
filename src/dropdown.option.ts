@@ -23,7 +23,18 @@ declare global {
 }
 
 /**
- * @slot icon - An optional icon before the label.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [editable=false]
+ * @attr {boolean} [selected=false]
+ * @attr {string} [value='']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [icon] - An icon before the label
+ *
+ * @fire {Event} edit
  */
 @customElement('glide-core-dropdown-option')
 @final
@@ -35,8 +46,11 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -45,8 +59,11 @@ export default class GlideCoreDropdownOption extends LitElement {
     this.#isDisabled = isDisabled;
   }
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get editable() {
+  get editable(): boolean {
     return this.#isEditable;
   }
 
@@ -60,9 +77,12 @@ export default class GlideCoreDropdownOption extends LitElement {
     );
   }
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
   @required
-  get label() {
+  get label(): string | undefined {
     return this.#label;
   }
 
@@ -95,8 +115,11 @@ export default class GlideCoreDropdownOption extends LitElement {
   @property({ attribute: 'private-multiple', type: Boolean })
   privateMultiple = false;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get selected() {
+  get selected(): boolean {
     return this.#selected;
   }
 
@@ -145,7 +168,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   @property({ type: Boolean })
   privateIsTooltipOpen = false;
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   @state()
@@ -206,8 +229,11 @@ export default class GlideCoreDropdownOption extends LitElement {
     }
   }
 
+  /**
+   * @default ''
+   */
   @property({ reflect: true })
-  get value() {
+  get value(): string {
     return this.#value;
   }
 
@@ -229,6 +255,10 @@ export default class GlideCoreDropdownOption extends LitElement {
     this.#value = value;
   }
 
+  privateEdit() {
+    this.dispatchEvent(new Event('edit', { bubbles: true, composed: true }));
+  }
+
   async privateUpdateCheckbox() {
     // Hacky indeed. This is for the case where Dropdown is set programmatically
     // from a single to a multiselect. `this.isMultiple` is set to `true` but
@@ -246,7 +276,6 @@ export default class GlideCoreDropdownOption extends LitElement {
     // The linter wants a keyboard handler. There's one on Dropdown itself. It's there
     // because options aren't focusable and thus don't produce keyboard events when Dropdown
     // is filterable.
-
     return html`<div
       class=${classMap({
         component: true,
@@ -274,8 +303,8 @@ export default class GlideCoreDropdownOption extends LitElement {
               private-size=${this.privateSize}
               private-variant="minimal"
               value=${this.value}
-              internally-inert
               @click=${this.#onCheckboxClick}
+              private-internally-inert
               ?disabled=${this.disabled}
               ?indeterminate=${this.privateIndeterminate}
               ?private-show-label-tooltip=${this.privateIsTooltipOpen}
@@ -289,7 +318,12 @@ export default class GlideCoreDropdownOption extends LitElement {
                 })}
                 name="icon"
                 slot="private-icon"
-              ></slot>
+              >
+                <!-- 
+                  An icon before the label 
+                  @type {Element}
+                -->
+              </slot>
             </glide-core-checkbox>
 
             ${when(this.editable, () => {
@@ -323,7 +357,12 @@ export default class GlideCoreDropdownOption extends LitElement {
               <slot class=${classMap({
                 'icon-slot': true,
                 [this.privateSize]: true,
-              })} name="icon"></slot>
+              })} name="icon">
+              <!-- 
+                An icon before the label 
+                @type {Element}
+              -->
+            </slot>
 
               <glide-core-tooltip
                 class="tooltip"

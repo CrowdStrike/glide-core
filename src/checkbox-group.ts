@@ -22,14 +22,47 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} hide-label
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {string} [name='']
+ * @attr {'horizontal'} [orientation='horizontal']
+ * @attr {boolean} [required=false]
+ * @attr {string} [summary]
+ * @attr {string} [tooltip]
+ * @attr {string[]} [value=[]]
  *
- * @event change
- * @event input
- * @event invalid
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - One or more of `<glide-core-checkbox>`.
- * @slot description - Additional information or context.
+ * @slot {GlideCoreCheckbox}
+ * @slot {Element | string} [description] - Additional information or context
+ *
+ * @fire {Event} invalid
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-checkbox-group')
 @final
@@ -46,8 +79,11 @@ export default class GlideCoreCheckboxGroup
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -76,8 +112,11 @@ export default class GlideCoreCheckboxGroup
   @property()
   privateSplit?: 'left' | 'middle';
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get required() {
+  get required(): boolean {
     return this.#isRequired;
   }
 
@@ -108,8 +147,11 @@ export default class GlideCoreCheckboxGroup
   @property({ reflect: true })
   tooltip?: string;
 
+  /**
+   * @default []
+   */
   @property({ reflect: true, type: Array })
-  get value() {
+  get value(): string[] {
     return this.#value;
   }
 
@@ -150,10 +192,10 @@ export default class GlideCoreCheckboxGroup
     }
   }
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
-  checkValidity() {
+  checkValidity(): boolean {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
@@ -186,11 +228,11 @@ export default class GlideCoreCheckboxGroup
     }
   }
 
-  get form() {
+  get form(): HTMLFormElement | null {
     return this.#internals.form;
   }
 
-  get validity() {
+  get validity(): ValidityState {
     const isChecked = this.#checkboxes.some(({ checked }) => checked);
 
     if (this.required && !isChecked) {
@@ -226,11 +268,11 @@ export default class GlideCoreCheckboxGroup
     checkbox?.focus(options);
   }
 
-  formAssociatedCallback() {
+  formAssociatedCallback(): void {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
 
-  formResetCallback() {
+  formResetCallback(): void {
     for (const checkbox of this.#checkboxes) {
       checkbox.formResetCallback();
     }
@@ -265,12 +307,17 @@ export default class GlideCoreCheckboxGroup
           })}
         >
           <slot
-            class="checkboxes"
+            class="default-slot"
             @change=${this.#onCheckboxChange}
             @private-value-change=${this.#onCheckboxesValueChange}
             ${assertSlot([GlideCoreCheckbox])}
             ${ref(this.#defaultSlotElementRef)}
-          ></slot>
+          >
+            <!-- 
+              @type {GlideCoreCheckbox} 
+              @required
+            -->
+          </slot>
         </div>
 
         <div id="description" slot="description">
@@ -282,7 +329,12 @@ export default class GlideCoreCheckboxGroup
               ),
             })}
             name="description"
-          ></slot>
+          >
+            <!-- 
+              Additional information or context
+              @type {Element | string}
+            -->
+          </slot>
 
           ${when(
             this.#isShowValidationFeedback && this.validityMessage,
@@ -296,7 +348,7 @@ export default class GlideCoreCheckboxGroup
     </div>`;
   }
 
-  reportValidity() {
+  reportValidity(): boolean {
     this.isReportValidityOrSubmit = true;
 
     const isValid = this.#internals.reportValidity();
@@ -307,11 +359,11 @@ export default class GlideCoreCheckboxGroup
     return isValid;
   }
 
-  resetValidityFeedback() {
+  resetValidityFeedback(): void {
     this.isReportValidityOrSubmit = false;
   }
 
-  setCustomValidity(message: string) {
+  setCustomValidity(message: string): void {
     this.validityMessage = message;
 
     if (message === '') {
@@ -334,7 +386,7 @@ export default class GlideCoreCheckboxGroup
     }
   }
 
-  setValidity(flags?: ValidityStateFlags, message?: string) {
+  setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
 
     // A validation message is required but unused because we disable native validation feedback.

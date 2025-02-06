@@ -19,9 +19,18 @@ declare global {
 }
 
 /**
- * @event remove
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [removable=false]
+ * @attr {'small'|'medium'|'large'} [size='medium']
  *
- * @slot icon
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [icon]
+ *
+ * @fire {Event} edit
+ * @fire {Event} remove
  */
 @customElement('glide-core-tag')
 @final
@@ -51,7 +60,7 @@ export default class GlideCoreTag extends LitElement {
   @property({ reflect: true })
   size: 'small' | 'medium' | 'large' = 'medium';
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override click() {
@@ -83,7 +92,7 @@ export default class GlideCoreTag extends LitElement {
         })}
         data-test="component"
         data-animation-duration=${this.#animationDuration}
-        style="--animation-duration: ${this.#animationDuration}ms"
+        style="--private-animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
         <slot
@@ -92,7 +101,9 @@ export default class GlideCoreTag extends LitElement {
             [this.size]: true,
           })}
           name="icon"
-        ></slot>
+        >
+          <!-- @type {Element} -->
+        </slot>
 
         ${this.label}
         ${when(this.privateEditable, () => {

@@ -45,6 +45,11 @@ export default [
       '@crowdstrike/glide-core/no-space-press': 'error',
       '@crowdstrike/glide-core/prefer-shadow-root-mode': 'error',
       '@crowdstrike/glide-core/prefixed-lit-element-class-declaration': 'error',
+      '@crowdstrike/glide-core/explicit-public-member-return-type': 'error',
+      '@crowdstrike/glide-core/public-getter-default-comment': 'error',
+      '@crowdstrike/glide-core/event-dispatch-from-this': 'error',
+      '@crowdstrike/glide-core/string-event-name': 'error',
+      '@crowdstrike/glide-core/slot-type-comment': 'error',
 
       // Enabling this rule would force us to `await` any function that returns a promise.
       // One example is a function that itself `await`s `updateComplete`. The rule is a bit
@@ -307,6 +312,11 @@ export default [
       '@crowdstrike/glide-core/no-skip-tests': 'error',
       '@crowdstrike/glide-core/no-to-have-attribute': 'error',
       '@crowdstrike/glide-core/prefer-to-be-true-or-false': 'error',
+      '@crowdstrike/glide-core/explicit-public-member-return-type': 'off',
+      '@crowdstrike/glide-core/public-getter-default-comment': 'off',
+      '@crowdstrike/glide-core/event-dispatch-from-this': 'off',
+      '@crowdstrike/glide-core/string-event-name': 'off',
+      '@crowdstrike/glide-core/slot-type-comment': 'off',
     },
   },
 ];

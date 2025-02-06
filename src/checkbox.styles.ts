@@ -133,7 +133,7 @@ export default [
     }
 
     .checked-icon {
-      --size: 0.75rem;
+      --private-size: 0.75rem;
 
       align-items: center;
       block-size: 100%;

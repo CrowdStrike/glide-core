@@ -21,13 +21,53 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} hide-label
+ * @attr {string} label
+ * @attr {'on'|'off'|'none'|'sentences'|'words'|'characters'} [autocapitalize='on']
+ * @attr {'on'|'off'} [autocomplete='on']
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {number} [maxlength]
+ * @attr {string} [name='']
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {string} [placeholder='']
+ * @attr {boolean} [readonly=false]
+ * @attr {boolean} [required=false]
+ * @attr {number} [rows=2]
+ * @attr {boolean} [spellcheck=false]
+ * @attr {string} [tooltip]
+ * @attr {string} [value='']
  *
- * @event change
- * @event input
- * @event invalid
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot description - Additional information or context.
+ * @slot {Element | string} [description] - Additional information or context
+ *
+ * @fire {Event} change
+ * @fire {Event} invalid
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-textarea')
 @final
@@ -109,10 +149,10 @@ export default class GlideCoreTextarea
   @property({ reflect: true })
   tooltip?: string;
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
-  checkValidity() {
+  checkValidity(): boolean {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
@@ -126,11 +166,11 @@ export default class GlideCoreTextarea
     this.form?.removeEventListener('formdata', this.#onFormdata);
   }
 
-  get form() {
+  get form(): HTMLFormElement | null {
     return this.#internals.form;
   }
 
-  get validity() {
+  get validity(): ValidityState {
     if (this.required && !this.value && !this.disabled) {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
@@ -160,11 +200,11 @@ export default class GlideCoreTextarea
     return this.#internals.validity;
   }
 
-  formAssociatedCallback() {
+  formAssociatedCallback(): void {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
 
-  formResetCallback() {
+  formResetCallback(): void {
     this.value = this.getAttribute('value') ?? '';
   }
 
@@ -222,7 +262,12 @@ export default class GlideCoreTextarea
             ),
           })}
           name="description"
-        ></slot>
+        >
+          <!-- 
+            Additional information or context 
+            @type {Element | string}
+          -->
+        </slot>
 
         ${when(
           this.#isShowValidationFeedback && this.validityMessage,
@@ -260,7 +305,7 @@ export default class GlideCoreTextarea
     >`;
   }
 
-  reportValidity() {
+  reportValidity(): boolean {
     this.isReportValidityOrSubmit = true;
 
     const isValid = this.#internals.reportValidity();
@@ -271,11 +316,11 @@ export default class GlideCoreTextarea
     return isValid;
   }
 
-  resetValidityFeedback() {
+  resetValidityFeedback(): void {
     this.isReportValidityOrSubmit = false;
   }
 
-  setCustomValidity(message: string) {
+  setCustomValidity(message: string): void {
     this.validityMessage = message;
 
     if (message === '') {
@@ -296,7 +341,7 @@ export default class GlideCoreTextarea
     }
   }
 
-  setValidity(flags?: ValidityStateFlags, message?: string) {
+  setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
 
     this.#internals.setValidity(flags, ' ', this.#textareaElementRef.value);
@@ -399,16 +444,14 @@ export default class GlideCoreTextarea
     this.isBlurring = false;
   }
 
-  #onTextareaChange(event: Event) {
+  #onTextareaChange() {
     if (this.#textareaElementRef.value) {
       this.value = this.#textareaElementRef.value.value;
     }
 
     // Unlike "input" events, "change" events aren't composed. So we have to
     // manually dispatch them.
-    this.dispatchEvent(
-      new Event(event.type, { bubbles: true, composed: true }),
-    );
+    this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
   }
 
   #onTextareaInput() {

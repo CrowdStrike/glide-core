@@ -9,7 +9,7 @@ export default [
   `,
   css`
     :host {
-      // https://github.com/CrowdStrike/glide-core/pull/307/files#r1718545771
+      /* https://github.com/CrowdStrike/glide-core/pull/307/files#r1718545771 */
       display: inline-block;
     }
 
@@ -80,8 +80,8 @@ export default [
     }
 
     .arrow {
-      --arrow-height: 0.375rem;
-      --arrow-width: 0.625rem;
+      --private-arrow-height: 0.375rem;
+      --private-arrow-width: 0.625rem;
 
       color: var(--glide-core-surface-base-dark);
       display: flex;
@@ -89,14 +89,14 @@ export default [
 
       &.top,
       &.bottom {
-        block-size: var(--arrow-height);
-        inline-size: var(--arrow-width);
+        block-size: var(--private-arrow-height);
+        inline-size: var(--private-arrow-width);
       }
 
       &.right,
       &.left {
-        block-size: var(--arrow-width);
-        inline-size: var(--arrow-height);
+        block-size: var(--private-arrow-width);
+        inline-size: var(--private-arrow-height);
         order: 2;
       }
     }

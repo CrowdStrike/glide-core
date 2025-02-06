@@ -1,11 +1,5 @@
 import { html, LitElement } from 'lit';
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  offset,
-  type Placement,
-} from '@floating-ui/dom';
+import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
@@ -25,10 +19,18 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {number} [offset=4]
+ * @attr {boolean} [open=false]
+ * @attr {'bottom'|'left'|'right'|'top'|'bottom-start'|'bottom-end'|'left-start'|'left-end'|'right-start'|'right-end'|'top-start'|'top-end'} [placement='bottom-start']
+ * @attr {'small'|'large'} [size='large']
  *
- * @slot - One of `<glide-core-menu-options>`.
- * @slot target - The element to which the menu will anchor, which can be any focusable element.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreMenuOptions}
+ * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
+ *
+ * @fire {Event} toggle
  */
 @customElement('glide-core-menu')
 @final
@@ -40,8 +42,11 @@ export default class GlideCoreMenu extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default 4
+   */
   @property({ reflect: true, type: Number })
-  get offset() {
+  get offset(): number {
     return (
       this.#offset ??
       Number.parseFloat(
@@ -59,8 +64,11 @@ export default class GlideCoreMenu extends LitElement {
     this.#offset = offset;
   }
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -84,10 +92,25 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   @property({ reflect: true })
-  placement: Placement = 'bottom-start';
+  placement:
+    | 'bottom'
+    | 'left'
+    | 'right'
+    | 'top'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'left-start'
+    | 'left-end'
+    | 'right-start'
+    | 'right-end'
+    | 'top-start'
+    | 'top-end' = 'bottom-start';
 
+  /**
+   * @default 'large'
+   */
   @property({ reflect: true })
-  get size() {
+  get size(): 'small' | 'large' {
     return this.#size;
   }
 
@@ -99,7 +122,7 @@ export default class GlideCoreMenu extends LitElement {
     }
   }
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override connectedCallback() {
@@ -203,7 +226,12 @@ export default class GlideCoreMenu extends LitElement {
           @slotchange=${this.#onTargetSlotChange}
           ${assertSlot([Element])}
           ${ref(this.#targetSlotElementRef)}
-        ></slot>
+        >
+          <!-- 
+            The element to which the popover will anchor. Can be any focusable element. 
+            @type {Element}
+          -->
+        </slot>
 
         <slot
           class="default-slot"
@@ -216,7 +244,12 @@ export default class GlideCoreMenu extends LitElement {
           @slotchange=${this.#onDefaultSlotChange}
           ${assertSlot([GlideCoreMenuOptions])}
           ${ref(this.#defaultSlotElementRef)}
-        ></slot>
+        >
+          <!-- 
+            @required
+            @type {GlideCoreMenuOptions} 
+          -->
+        </slot>
       </div>
     `;
   }

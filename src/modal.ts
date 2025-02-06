@@ -35,15 +35,22 @@ globalStylesheet.insertRule(`
 `);
 
 /**
- * @attribute {Boolean} back-button
+ * @attr {string} label
+ * @attr {boolean} [back-button=false]
+ * @attr {boolean} [open=false]
+ * @attr {'critical'|'informational'|'medium'} [severity]
+ * @attr {'small'|'medium'|'large'|'xlarge'} [size='medium']
  *
- * @event toggle
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - The primary content of the modal.
- * @slot header-actions - One or more of `<glide-core-modal-icon-button>`.
- * @slot primary - One of `<glide-core-button>`.
- * @slot secondary - One of `<glide-core-button>`.
- * @slot tertiary - One or more of `<glide-core-button>` or `<glide-core-tooltip>`.
+ * @slot {Element | string}
+ * @slot {GlideCoreModalIconButton} [header-actions]
+ * @slot {GlideCoreButton} [primary]
+ * @slot {GlideCoreButton} [secondary]
+ * @slot {GlideCoreButton | GlideCoreTooltip} [tertiary]
+ *
+ * @fire {Event} toggle
  */
 @customElement('glide-core-modal')
 @final
@@ -62,8 +69,11 @@ export default class GlideCoreModal extends LitElement {
   @required
   label?: string;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -93,7 +103,7 @@ export default class GlideCoreModal extends LitElement {
   @property({ reflect: true })
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override connectedCallback() {
@@ -232,7 +242,9 @@ export default class GlideCoreModal extends LitElement {
               name="header-actions"
               ${assertSlot([GlideCoreModalIconButton], true)}
               ${ref(this.#headerActionsSlotElementRef)}
-            ></slot>
+            >
+              <!-- @type {GlideCoreModalIconButton} -->
+            </slot>
 
             <glide-core-modal-icon-button
               class="close-button"
@@ -247,7 +259,9 @@ export default class GlideCoreModal extends LitElement {
         </header>
 
         <article aria-labelledby="heading" class="body" role="region">
-          <slot ${assertSlot()}></slot>
+          <slot ${assertSlot()}>
+            <!-- @type {Element | string} -->
+          </slot>
         </article>
 
         <footer>
@@ -257,21 +271,21 @@ export default class GlideCoreModal extends LitElement {
                 class="tertiary-slot"
                 name="tertiary"
                 ${assertSlot([GlideCoreButton, GlideCoreTooltip], true)}
-              ></slot>
+              >
+                <!-- @type {GlideCoreButton | GlideCoreTooltip} -->
+              </slot>
             </li>
 
             <li class="action">
-              <slot
-                name="secondary"
-                ${assertSlot([GlideCoreButton], true)}
-              ></slot>
+              <slot name="secondary" ${assertSlot([GlideCoreButton], true)}>
+                <!-- @type {GlideCoreButton} -->
+              </slot>
             </li>
 
             <li class="action">
-              <slot
-                name="primary"
-                ${assertSlot([GlideCoreButton], true)}
-              ></slot>
+              <slot name="primary" ${assertSlot([GlideCoreButton], true)}>
+                <!-- @type {GlideCoreButton} -->
+              </slot>
             </li>
           </menu>
         </footer>

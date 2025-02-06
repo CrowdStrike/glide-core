@@ -9,9 +9,9 @@ export default [
 
     .component {
       &.large {
-        --gap: var(--glide-core-spacing-sm);
-        --padding-inline: var(--glide-core-spacing-sm);
-        --padding-block: var(--glide-core-spacing-xxs);
+        --private-gap: var(--glide-core-spacing-sm);
+        --private-padding-inline: var(--glide-core-spacing-sm);
+        --private-padding-block: var(--glide-core-spacing-xxs);
 
         font-family: var(--glide-core-body-sm-font-family);
         font-size: var(--glide-core-body-sm-font-size);
@@ -21,10 +21,10 @@ export default [
       }
 
       &.small {
-        --gap: var(--glide-core-spacing-xs);
-        --padding-inline: var(--glide-core-spacing-xs);
-        --padding-block: var(--glide-core-spacing-xxxs);
-        --size: 0.75rem;
+        --private-gap: var(--glide-core-spacing-xs);
+        --private-padding-inline: var(--glide-core-spacing-xs);
+        --private-padding-block: var(--glide-core-spacing-xxxs);
+        --private-size: 0.75rem;
 
         font-family: var(--glide-core-body-xs-font-family);
         font-size: var(--glide-core-body-xs-font-size);

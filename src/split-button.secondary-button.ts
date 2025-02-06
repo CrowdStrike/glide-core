@@ -22,10 +22,14 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} menu-open
- * @attribute {'bottom-end' | 'top-end'} menu-placement
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [menu-open=false]
+ * @attr {'bottom-end'|'top-end'} [menu-placement='bottom-end']
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
+ * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
  */
 @customElement('glide-core-split-button-secondary-button')
 @final
@@ -55,12 +59,12 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   privateActive = false;
 
   @property()
-  privateSize: 'large' | 'small' = 'large';
+  privateSize: 'small' | 'large' = 'large';
 
   @property()
   privateVariant: 'primary' | 'secondary' = 'primary';
 
-  @property({ reflect: true })
+  @property({ noAccessor: true, reflect: true })
   readonly version = packageJson.version;
 
   override click() {
@@ -115,7 +119,9 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
         </button>
 
         <glide-core-menu-options>
-          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}></slot>
+          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}>
+            <!-- @type {GlideCoreMenuButton | GlideCoreMenuLink} -->
+          </slot>
         </glide-core-menu-options>
       </glide-core-menu>
     `;

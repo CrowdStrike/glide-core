@@ -7,8 +7,8 @@ export default html`
     viewBox="0 0 16 16"
     fill="none"
     style=${styleMap({
-      height: 'var(--size, 1rem)',
-      width: 'var(--size, 1rem)',
+      height: 'var(--private-size, 1rem)',
+      width: 'var(--private-size, 1rem)',
     })}
   >
     <path
