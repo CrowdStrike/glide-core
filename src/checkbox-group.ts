@@ -22,14 +22,47 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} hide-label
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {string} [name='']
+ * @attr {'horizontal'} [orientation='horizontal']
+ * @attr {boolean} [required=false]
+ * @attr {string} [summary]
+ * @attr {string} [tooltip]
+ * @attr {string[]} [value=[]]
  *
- * @event change
- * @event input
- * @event invalid
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - One or more of `<glide-core-checkbox>`.
- * @slot description - Additional information or context.
+ * @slot {GlideCoreCheckbox}
+ * @slot {Element | string} [description] - Additional information or context
+ *
+ * @fires {Event} invalid
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-checkbox-group')
 @final

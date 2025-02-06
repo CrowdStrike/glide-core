@@ -35,15 +35,22 @@ globalStylesheet.insertRule(`
 `);
 
 /**
- * @attribute {Boolean} back-button
+ * @attr {string} label
+ * @attr {boolean} [back-button=false]
+ * @attr {boolean} [open=false]
+ * @attr {'critical'|'informational'|'medium'} [severity]
+ * @attr {'small'|'medium'|'large'|'xlarge'} [size='medium']
  *
- * @event toggle
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - The primary content of the modal.
- * @slot header-actions - One or more of `<glide-core-modal-icon-button>`.
- * @slot primary - One of `<glide-core-button>`.
- * @slot secondary - One of `<glide-core-button>`.
- * @slot tertiary - One or more of `<glide-core-button>` or `<glide-core-tooltip>`.
+ * @slot {Element | string}
+ * @slot {GlideCoreModalIconButton} [header-actions]
+ * @slot {GlideCoreButton} [primary]
+ * @slot {GlideCoreButton} [secondary]
+ * @slot {GlideCoreButton | GlideCoreTooltip} [tertiary]
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-modal')
 @final

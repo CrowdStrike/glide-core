@@ -20,7 +20,12 @@ declare global {
 }
 
 /**
- * @slot - GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea.
+ * @attr {'left'|'middle'} [split='left']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea}
  */
 @customElement('glide-core-form-controls-layout')
 @final

@@ -25,16 +25,59 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} hide-label
- * @attribute {Boolean} password-toggle
+ * @attr {string} label
+ * @attr {'on'|'off'|'none'|'sentences'|'words'|'characters'} [autocapitalize='on']
+ * @attr {'on'|'off'} [autocomplete='on']
+ * @attr {boolean} [clearable=false]
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {number} [maxlength]
+ * @attr {string} [name='']
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {boolean} [password-toggle=false] - For 'password' type, whether to show a button to toggle the password's visibility
+ * @attr {string} [pattern]
+ * @attr {string} [placeholder]
+ * @attr {boolean} [readonly=false]
+ * @attr {boolean} [required=false]
+ * @attr {boolean} [spellcheck=false]
+ * @attr {string} [tooltip]
+ * @attr {'date'|'email'|'number'|'password'|'search'|'tel'|'text'|'time'|'url'} [type='text']
+ * @attr {string} [value='']
  *
- * @event change
- * @event input
- * @event invalid
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot description - Additional information or context.
- * @slot prefix-icon - An optional icon before the input field.
- * @slot suffix-icon - An optional icon after the input field.
+ * @slot {Element | string} [description] - Additional information or context
+ * @slot {Element} [prefix-icon] - An icon before the input field
+ * @slot {Element} [suffix-icon] - An icon after the input field
+ *
+ * @fires {Event} change
+ * @fires {Event} input
+ * @fires {Event} invalid
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-input')
 @final

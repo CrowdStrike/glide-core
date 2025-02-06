@@ -23,9 +23,15 @@ declare global {
 }
 
 /**
- * @event remove
+ * @attr {boolean} [removable=false]
+ * @attr {keyof typeof icons} [variant='informational']
  *
- * @slot - The content of the Inline Alert.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element | string} - The content of the alert
+ *
+ * @fires {Event} remove
  */
 @customElement('glide-core-inline-alert')
 @final

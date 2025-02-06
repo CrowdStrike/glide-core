@@ -15,9 +15,22 @@ declare global {
 }
 
 /**
- * @slot - A label.
- * @slot prefix-icon - An optional icon before the label.
- * @slot suffix-icon - An optional icon after the label.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {string} [name='']
+ * @attr {'large'|'small'} [size='large']
+ * @attr {'button'|'submit'|'reset'} [type='button']
+ * @attr {string} [value='']
+ * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [prefix-icon] - An icon before the label
+ * @slot {Element} [suffix-icon] - An icon after the label
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
  */
 @customElement('glide-core-button')
 @final

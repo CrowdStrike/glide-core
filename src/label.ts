@@ -20,12 +20,19 @@ declare global {
 }
 
 /**
- * @private
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [error=false]
+ * @attr {boolean} [hide=false]
+ * @attr {string} [label]
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {boolean} [required=false]
+ * @attr {'left'|'middle'} [split]
+ * @attr {string} [tooltip]
  *
- * @slot - The label.
- * @slot control - The control with which the label is associated.
- * @slot summary - Additional information or context.
- * @slot description - Additional information or context.
+ * @slot {HTMLLabelElement}
+ * @slot {Element} [control] - The element with which the label is associated
+ * @slot {Element | string} [description] - Additional information or context
+ * @slot {Element} [summary] - Additional information or context
  */
 @customElement('glide-core-private-label')
 @final

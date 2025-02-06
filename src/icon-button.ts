@@ -17,7 +17,17 @@ declare global {
 }
 
 /**
- * @slot - An icon.
+ * @attr {string} label
+ * @attr {string|null} [aria-controls=null]
+ * @attr {'true'|'false'|null} [aria-expanded=null]
+ * @attr {'true'|'false'|'menu'|'listbox'|'tree'|'grid'|'dialog'|null} [aria-haspopup=null]
+ * @attr {boolean} [disabled=false]
+ * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} - An icon
  */
 @customElement('glide-core-icon-button')
 @final

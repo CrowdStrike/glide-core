@@ -15,10 +15,17 @@ declare global {
 }
 
 /**
- * @event selected
+ * @attr {string} panel
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [selected=false]
  *
- * @slot - A label.
- * @slot icon - An optional icon.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element | string} - A label
+ * @slot {Element} [icon]
+ *
+ * @fires {Event} selected
  */
 @customElement('glide-core-tab')
 @final

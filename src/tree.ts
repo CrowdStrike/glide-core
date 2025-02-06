@@ -15,7 +15,13 @@ declare global {
 }
 
 /**
- * @slot - One or more of `<glide-core-tree-item>`.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreTreeItem}
+ *
+ * @method selectItem
+ * @param {GlideCoreTreeItem} item
  */
 @customElement('glide-core-tree')
 @final

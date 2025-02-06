@@ -16,8 +16,12 @@ declare global {
 }
 
 /**
- * @slot - The content of the button. Should only be an icon. The icon should also use the
- *         "label" attribute for accessibility.
+ * @attr {string} label
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} - An icon
  */
 @customElement('glide-core-modal-icon-button')
 @final

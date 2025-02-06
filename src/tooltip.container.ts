@@ -30,6 +30,14 @@ declare global {
 //
 // The latter solution would also prevent us from restricting allowed content by using
 // an attribute (`label`). We'd be forced to allow arbitrary content via a slot.
+
+/**
+ * @attr {boolean} [disabled=false]
+ * @attr {string} [label]
+ * @attr {'bottom'|'left'|'right'|'top'} [placement]
+ * @attr {boolean} [screenreader-hidden=false]
+ * @attr {string[]} [shortcut=[]]
+ */
 @customElement('glide-core-private-tooltip-container')
 @final
 export default class GlideCoreTooltipContainer extends LitElement {

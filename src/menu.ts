@@ -19,10 +19,18 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {number} [offset=4]
+ * @attr {boolean} [open=false]
+ * @attr {'bottom'|'left'|'right'|'top'|'bottom-start'|'bottom-end'|'left-start'|'left-end'|'right-start'|'right-end'|'top-start'|'top-end'} [placement='bottom-start']
+ * @attr {'large'|'small'} [size='large']
  *
- * @slot - One of `<glide-core-menu-options>`.
- * @slot target - The element to which the menu will anchor, which can be any focusable element.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreMenuOptions}
+ * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-menu')
 @final
@@ -102,11 +110,11 @@ export default class GlideCoreMenu extends LitElement {
    * @default 'large'
    */
   @property({ reflect: true })
-  get size(): 'small' | 'large' {
+  get size(): 'large' | 'small' {
     return this.#size;
   }
 
-  set size(size: 'small' | 'large') {
+  set size(size: 'large' | 'small') {
     this.#size = size;
 
     if (this.#optionsElement) {
@@ -266,7 +274,7 @@ export default class GlideCoreMenu extends LitElement {
 
   #shadowRoot?: ShadowRoot;
 
-  #size: 'small' | 'large' = 'large';
+  #size: 'large' | 'small' = 'large';
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 

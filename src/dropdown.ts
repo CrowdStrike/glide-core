@@ -34,18 +34,64 @@ declare global {
 }
 
 /**
- * @attribute {String} add-button-label
- * @attribute {Boolean} hide-label
- * @attribute {Boolean} select-all
+ * @attr {string} label
+ * @attr {string} [add-button-label]
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [filterable=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {boolean} [multiple=false]
+ * @attr {string} [name='']
+ * @attr {boolean} [open=false]
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {string} [placeholder]
+ * @attr {boolean} [readonly=false]
+ * @attr {boolean} [required=false]
+ * @attr {boolean} [select-all=false]
+ * @attr {'large'|'small'} [size='large']
+ * @attr {string} [tooltip]
+ * @attr {string[]} [value=[]]
+ * @attr {'quiet'} [variant]
  *
- * @event change
- * @event input
- * @event invalid
- * @event toggle
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - One or more of `<glide-core-dropdown-option>`.
- * @slot description - Additional information or context.
- * @slot icon:<value> - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
+ * @slot {GlideCoreDropdownOption}
+ * @slot {Element | string} [description] - Additional information or context
+ * @slot {Element} [icon:value] - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
+ *
+ * @fires {Event} add
+ * @fires {Event} change
+ * @fires {Event} input
+ * @fires {Event} invalid
+ * @fires {Event} toggle
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method filter
+ * @param {string} query
+ * @returns Promise<GlideCoreDropdownOption[]>
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-dropdown')
 @final
@@ -240,11 +286,11 @@ export default class GlideCoreDropdown
    * @default 'large'
    */
   @property({ reflect: true })
-  get size(): 'small' | 'large' {
+  get size(): 'large' | 'small' {
     return this.#size;
   }
 
-  set size(size: 'small' | 'large') {
+  set size(size: 'large' | 'small') {
     this.#size = size;
 
     if (this.#optionElementsIncludingSelectAll) {
@@ -1138,7 +1184,7 @@ export default class GlideCoreDropdown
 
   #shadowRoot?: ShadowRoot;
 
-  #size: 'small' | 'large' = 'large';
+  #size: 'large' | 'small' = 'large';
 
   #tagsElementRef = createRef<HTMLElement>();
 

@@ -26,10 +26,18 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {boolean} [disabled=false]
+ * @attr {number} [offset=4]
+ * @attr {boolean} [open=false]
+ * @attr {'bottom'|'left'|'right'|'top'} [placement]
  *
- * @slot - The content of the popover.
- * @slot target - The element to which the popover will anchor, which can be any focusable element.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element | string} - The content of the popover
+ * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-popover')
 @final

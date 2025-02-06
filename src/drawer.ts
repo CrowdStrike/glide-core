@@ -17,11 +17,18 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {string} label
+ * @attr {boolean} [open=false]
+ * @attr {boolean} [pinned=false]
  *
- * @cssprop [--width] - The width the drawer.
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - The content of the Drawer.
+ * @slot {Element | string} - The content of the drawer
+ *
+ * @cssprop [--width=27.375rem] - The width the drawer
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-drawer')
 @final

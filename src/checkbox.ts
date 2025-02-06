@@ -23,14 +23,50 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} hide-label
+ * @attr {string} label
+ * @attr {boolean} [checked=false]
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {boolean} [indeterminate=false]
+ * @attr {string} [name='']
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {boolean} [required=false]
+ * @attr {string} [summary]
+ * @attr {string} [tooltip]
+ * @attr {string} [value]
  *
- * @event change
- * @event input
- * @event invalid
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot description - Additional information or context.
- * @slot private-icon
+ * @slot {Element | string} [description] - Additional information or context
+ * @slot {Element} [private-icon]
+ *
+ * @fires {Event} change
+ * @fires {Event} invalid
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-checkbox')
 @final
@@ -114,7 +150,7 @@ export default class GlideCoreCheckbox
 
   // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-size' })
-  privateSize: 'small' | 'large' = 'large';
+  privateSize: 'large' | 'small' = 'large';
 
   // Private because it's only meant to be used by Form Controls Layout.
   @property()

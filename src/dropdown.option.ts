@@ -23,7 +23,18 @@ declare global {
 }
 
 /**
- * @slot icon - An optional icon before the label.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [editable=false]
+ * @attr {boolean} [selected=false]
+ * @attr {string} [value='']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [icon] - An icon before the label
+ *
+ * @fires {Event} edit
  */
 @customElement('glide-core-dropdown-option')
 @final
@@ -147,7 +158,7 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-size', reflect: true })
-  privateSize: 'small' | 'large' = 'large';
+  privateSize: 'large' | 'small' = 'large';
 
   // An option is considered active when it's interacted with via keyboard or hovered.
   // Used by Dropdown.

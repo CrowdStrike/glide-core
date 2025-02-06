@@ -21,13 +21,53 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} hide-label
+ * @attr {string} label
+ * @attr {'on'|'off'|'none'|'sentences'|'words'|'characters'} [autocapitalize='on']
+ * @attr {'on'|'off'} [autocomplete='on']
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {number} [maxlength]
+ * @attr {string} [name='']
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {string} [placeholder='']
+ * @attr {boolean} [readonly=false]
+ * @attr {boolean} [required=false]
+ * @attr {number} [rows=2]
+ * @attr {boolean} [spellcheck=false]
+ * @attr {string} [tooltip]
+ * @attr {string} [value='']
  *
- * @event change
- * @event input
- * @event invalid
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot description - Additional information or context.
+ * @slot {Element | string} [description] - Additional information or context
+ *
+ * @fires {Event} change
+ * @fires {Event} invalid
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-textarea')
 @final

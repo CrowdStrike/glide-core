@@ -17,11 +17,17 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {string} label
+ * @attr {boolean} [open=false]
  *
- * @slot - The content of the accordion.
- * @slot prefix-icon - An optional icon before the label.
- * @slot suffix-icons - Optional icons after the label.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element | string} - The content of the accordion
+ * @slot {Element} [prefix-icon] - An icon before the label
+ * @slot {Element} [suffix-icons] - Icons after the label
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-accordion')
 @final

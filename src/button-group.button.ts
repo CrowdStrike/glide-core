@@ -16,8 +16,17 @@ declare global {
 }
 
 /**
- * @slot - A label.
- * @slot icon - An optional icon before the label.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [selected=false]
+ * @attr {string} [value='']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [icon]
+ *
+ * @fires {Event} selected
  */
 @customElement('glide-core-button-group-button')
 @final

@@ -16,7 +16,12 @@ declare global {
 }
 
 /**
- * @slot - An icon.
+ * @attr {string} label
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} - An icon
  */
 @customElement('glide-core-tree-item-icon-button')
 @final
