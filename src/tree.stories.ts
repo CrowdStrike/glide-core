@@ -24,7 +24,7 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/menu.link.js';
       </script>
 
-      ${story()}
+      <div style="display:flex; inline-size:15rem;">${story()}</div>
     `,
   ],
   parameters: {
@@ -418,3 +418,101 @@ const meta: Meta = {
 export default meta;
 
 export const Tree: StoryObj = {};
+
+export const Checkable: StoryObj = {
+  render(arguments_) {
+    return html`<glide-core-tree>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        id="two"
+        checkable
+        ?expanded=${arguments_['<glide-core-tree-item>.two.expanded']}
+        ?non-collapsible=${arguments_['<glide-core-tree-item>.non-collapsible']}
+      >
+        <glide-core-example-icon
+          slot="prefix"
+          name="share"
+        ></glide-core-example-icon>
+
+        <glide-core-tree-item
+          label="Hover menu and suffix icon"
+          id="three"
+          checkable
+          ?expanded=${arguments_['<glide-core-tree-item>.three.expanded']}
+          ?selected=${arguments_['<glide-core-tree-item>.three.selected']}
+        >
+          <glide-core-tree-item-icon-button
+            slot="suffix"
+            label=${arguments_['<glide-core-tree-item-icon-button>.label']}
+          >
+            <glide-core-example-icon name="settings"></glide-core-example-icon>
+          </glide-core-tree-item-icon-button>
+
+          <glide-core-tree-item-menu
+            slot="menu"
+            placement=${arguments_['<glide-core-tree-item-menu>.placement']}
+          >
+            <glide-core-menu-button label="Edit">
+              <glide-core-example-icon
+                slot="icon"
+                name="edit"
+              ></glide-core-example-icon>
+            </glide-core-menu-button>
+
+            <glide-core-menu-link label="Share" url="/">
+              <glide-core-example-icon
+                slot="icon"
+                name="share"
+              ></glide-core-example-icon>
+            </glide-core-menu-link>
+          </glide-core-tree-item-menu>
+        </glide-core-tree-item>
+
+        <glide-core-tree-item
+          label="Custom suffix icon menu"
+          id="four"
+          checkable
+          ?expanded=${arguments_['<glide-core-tree-item>.four.expanded']}
+          ?selected=${arguments_['<glide-core-tree-item>.four.selected']}
+        >
+          <glide-core-tree-item-menu slot="suffix">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              slot="icon"
+            >
+              <path
+                d="M6 9L12 15L18 9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+
+            <glide-core-menu-link label="One" url="/"></glide-core-menu-link>
+            <glide-core-menu-link label="Two" url="/"> </glide-core-menu-link>
+          </glide-core-tree-item-menu>
+        </glide-core-tree-item>
+
+        <glide-core-tree-item
+          label="Branch"
+          id="five"
+          checkable
+          ?expanded=${arguments_['<glide-core-tree-item>.five.expanded']}
+          ?selected="${arguments_['<glide-core-tree-item>.five.selected']}"
+        >
+          <glide-core-tree-item
+            label="Leaf"
+            id="six"
+            checkable
+            ?expanded=${arguments_['<glide-core-tree-item>.six.expanded']}
+            ?selected="${arguments_['<glide-core-tree-item>.six.selected']}"
+          ></glide-core-tree-item>
+        </glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>`;
+  },
+};
