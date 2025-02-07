@@ -41,7 +41,7 @@ const meta: Meta = {
     'addEventListener(event, handler)': '',
     'checkValidity()': '',
     disabled: false,
-    filterable: true,
+    filterable: false,
     'filter(query, options)': '',
     'hide-label': false,
     multiple: false,
@@ -497,7 +497,9 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         value=${arguments_['<glide-core-dropdown-option>.one.value'] || nothing}
         ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
-        selected
+        ?selected=${arguments_.value.includes(
+          arguments_['<glide-core-dropdown-option>.one.value'],
+        )}
       ></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
