@@ -1276,7 +1276,7 @@ export default class GlideCoreDropdown
     if (
       !this.multiple &&
       this.#inputElementRef.value &&
-      this.lastSelectedOption?.value
+      this.lastSelectedOption
     ) {
       this.#inputElementRef.value.value = this.lastSelectedOption.label;
       this.inputValue = this.lastSelectedOption.label;
@@ -1284,6 +1284,8 @@ export default class GlideCoreDropdown
       this.isInputOverflow =
         this.#inputElementRef.value.scrollWidth >
         this.#inputElementRef.value.clientWidth;
+    } else if (!this.multiple && this.#inputElementRef.value) {
+      this.#inputElementRef.value.value = '';
     }
   }
 

@@ -792,6 +792,33 @@ it('sets the `value` of its `<input>` to the label of the selected option when n
   expect(input?.value).to.equal(option?.label);
 });
 
+it('clears the `value` of its `<input>` when single-select and its selected option is removed', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  component.querySelector('glide-core-dropdown-option')?.remove();
+
+  // Wait for `#onDefaultSlotChange()`.
+  await aTimeout(0);
+
+  // Now wait for the forced update in `#onDefaultSlotChange()`.
+  await component.updateComplete;
+
+  const input = component.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.be.empty.string;
+});
+
 it('clears the `value` of its `<input>` when multiselect and an option is selected', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
