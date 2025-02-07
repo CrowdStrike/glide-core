@@ -1,5 +1,12 @@
 # @crowdstrike/glide-core
 
+## 0.19.4
+
+### Patch Changes
+
+- [#678](https://github.com/CrowdStrike/glide-core/pull/678) [`d62c01e`](https://github.com/CrowdStrike/glide-core/commit/d62c01ea39c44f7286e5ab9787865675ae4fb03d) Thanks [@clintcs](https://github.com/clintcs)! - - Single-select Dropdown now clears its input field when its selected option is removed.
+  - Single-select Dropdown now sets the value of its input field to the label of the selected option on first render.
+
 ## 0.19.3
 
 ### Patch Changes
