@@ -15,6 +15,8 @@ const translation: Translation = {
   previousTab: 'Previous tab',
   noResults: 'No results found',
   tooltip: 'Tooltip:',
+  expand: 'Expand',
+  collapse: 'Collapse',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `Character count ${current} of ${maximum}`,

@@ -1,4 +1,4 @@
-import { html, LitElement } from 'lit';
+import { html, LitElement, nothing } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -8,6 +8,7 @@ import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
 import GlideCoreTreeItemMenu from './tree.item.menu.js';
+import './tree.item.icon-button.js';
 import GlideCoreIconButton from './icon-button.js';
 import chevronIcon from './icons/chevron.js';
 import styles from './tree.item.styles.js';
@@ -15,6 +16,7 @@ import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
+import './checkbox.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -24,6 +26,8 @@ declare global {
 
 /**
  * @attr {string} label
+ * @attr {boolean} [checkable=false]
+ * @attr {boolean} [checked=false]
  * @attr {boolean} [expanded=false]
  * @attr {number} [level=1]
  * @attr {boolean} [non-collapsible=false]
@@ -40,9 +44,8 @@ declare global {
  *
  * @fires {Event} selected
  *
- * @method selectItem - Traverses down the tree, selects the item, then deselects all other items.
+ * @method deselectAllExcept
  * @param {GlideCoreTreeItem} item
- * @returns GlideCoreTreeItem | undefined
  */
 @customElement('glide-core-tree-item')
 @final
@@ -54,6 +57,10 @@ export default class GlideCoreTreeItem extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ type: Boolean, reflect: true }) checkable = false;
+
+  @property({ type: Boolean, reflect: true }) checked = false;
 
   @property({ reflect: true, type: Boolean }) expanded = false;
 
@@ -68,14 +75,13 @@ export default class GlideCoreTreeItem extends LitElement {
    */
   @property({ reflect: true, type: Boolean })
   get selected(): boolean {
-    return this.#isSelected;
+    return this.#selected;
   }
 
   set selected(isSelected: boolean) {
-    const hasChanged = isSelected !== this.#isSelected;
-    this.#isSelected = isSelected;
+    this.#selected = isSelected;
 
-    if (isSelected && hasChanged) {
+    if (isSelected) {
       this.dispatchEvent(
         new Event('selected', { bubbles: true, composed: true }),
       );
@@ -91,9 +97,22 @@ export default class GlideCoreTreeItem extends LitElement {
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
+  deselectAllExcept(item: GlideCoreTreeItem): void {
+    if (this.#treeItemElements) {
+      for (const treeItem of this.#treeItemElements) {
+        if (item !== treeItem) {
+          treeItem.selected = false;
+        }
+
+        treeItem.deselectAllExcept(item);
+      }
+    }
+  }
+
   override focus(options?: FocusOptions) {
     this.#labelContainerElementRef.value?.focus(options);
-    this.#setTabIndexes(0);
+    this.isFocused = true;
+    this.#setChildTabIndexes(0);
   }
 
   get privateHasChildTreeItems() {
@@ -111,25 +130,36 @@ export default class GlideCoreTreeItem extends LitElement {
   override render() {
     return html`<div
       aria-label=${ifDefined(this.label)}
-      aria-selected=${ifDefined(this.#ariaSelected)}
+      aria-selected=${ifDefined(this.selected)}
+      aria-checked=${ifDefined(this.checked)}
       aria-expanded=${ifDefined(this.#ariaExpanded)}
       class=${classMap({
         component: true,
         expanded: this.expanded,
         selected: this.selected,
+        checkable: this.checkable,
+        checked: this.checked,
       })}
       data-test="component"
       role="treeitem"
     >
       <div
         class=${classMap({
-          'label-container': true,
+          'parent-item': true,
+          'interactive-container': !this.checkable,
           'prefix-icon': this.hasPrefixIcon,
           selected: this.selected,
+          hovered: this.isHovered && !this.isExpandIconHovered,
         })}
-        tabindex="-1"
+        tabindex=${this.isFocused ? '0' : '-1'}
         @focusout=${this.#onFocusOut}
         @focusin=${this.#onFocusIn}
+        @mouseenter=${() => (this.isHovered = true)}
+        @mouseleave=${() => (this.isHovered = false)}
+        @click=${this.checkable ? nothing : this.#onInteractiveContainerClick}
+        @keydown=${this.checkable
+          ? nothing
+          : this.#onInteractiveContainerKeydown}
         ${ref(this.#labelContainerElementRef)}
       >
         <div
@@ -149,54 +179,100 @@ export default class GlideCoreTreeItem extends LitElement {
               class=${classMap({
                 'expand-icon-container': true,
                 expanded: this.expanded,
+                selected: this.selected,
               })}
+              @mouseenter=${() => (this.isExpandIconHovered = true)}
+              @mouseleave=${() => (this.isExpandIconHovered = false)}
+              @click=${this.#onExpandIconContainerClick}
+              @keydown=${this.#onExpandIconContainerKeydown}
               data-test="expand-icon-container"
             >
-              ${when(this.hasExpandIcon, () => chevronIcon)}
+              ${when(
+                this.hasExpandIcon,
+                () => html`
+                  <glide-core-tree-item-icon-button
+                    tabindex=${this.isFocused && !this.checkable ? '0' : '-1'}
+                    label=${this.#localize.term(
+                      this.expanded ? 'collapse' : 'expand',
+                    )}
+                    ${ref(this.#expandIconButtonElementRef)}
+                  >
+                    ${chevronIcon}
+                  </glide-core-tree-item-icon-button>
+                `,
+              )}
+            </div>
+          `,
+        )}
+        ${when(
+          this.checkable,
+          () => html`
+            <div class="checkbox-container">
+              <glide-core-checkbox
+                hide-label
+                label="Check"
+                .inert=${!this.isFocused && !this.isHovered}
+                ${ref(this.#checkboxElementRef)}
+              ></glide-core-checkbox>
             </div>
           `,
         )}
 
-        <slot
-          name="prefix"
-          class="prefix-slot"
-          ${ref(this.#prefixSlotElementRef)}
-          @slotchange=${this.#onPrefixSlotChange}
+        <div
+          class=${classMap({
+            'label-and-icons': true,
+            'interactive-container': this.checkable,
+            selected: this.selected,
+          })}
+          tabindex=${this.checkable ? '0' : '-1'}
+          .inert=${!this.isFocused && !this.isHovered}
+          @click=${this.checkable ? this.#onInteractiveContainerClick : nothing}
+          @keydown=${this.checkable
+            ? this.#onInteractiveContainerKeydown
+            : nothing}
+          ${ref(this.#labelAndIconsElementRef)}
         >
-          <!--
+          <slot
+            name="prefix"
+            class="prefix-slot"
+            ${ref(this.#prefixSlotElementRef)}
+            @slotchange=${this.#onPrefixSlotChange}
+          >
+            <!--
             An icon before the label
             @type {Element}
           -->
-        </slot>
+          </slot>
 
-        <div
-          class=${classMap({
-            label: true,
-            'prefix-icon': this.hasPrefixIcon,
-          })}
-        >
-          ${this.label}
-        </div>
-
-        <div class="icon-container">
-          <slot
-            name="menu"
-            ${ref(this.#menuSlotElementRef)}
-            @slotchange=${this.#onMenuSlotChange}
-            ${assertSlot([GlideCoreTreeItemMenu], true)}
+          <div
+            class=${classMap({
+              label: true,
+              'prefix-icon': this.hasPrefixIcon,
+            })}
           >
-            <!--
+            ${this.label}
+          </div>
+
+          <div class="icon-container">
+            <slot
+              name="menu"
+              ${ref(this.#menuSlotElementRef)}
+              @slotchange=${this.#onMenuSlotChange}
+              ${assertSlot([GlideCoreTreeItemMenu], true)}
+            >
+              <!--
               Visible on hover and focus
               @type {GlideCoreTreeItemMenu}
             -->
-          </slot>
+            </slot>
 
-          <slot name="suffix">
-            <!--
+            <slot name="suffix">
+              <!--
               An icon after the label
               @type {Element}
             -->
-          </slot>
+            </slot>
+          </div>
         </div>
       </div>
 
@@ -217,43 +293,28 @@ export default class GlideCoreTreeItem extends LitElement {
     </div>`;
   }
 
-  /**
-   * Traverses down the tree, selects the item, then deselects all other items.
-   */
-  selectItem(item: GlideCoreTreeItem): GlideCoreTreeItem | undefined {
-    let selectedItem;
-
-    if (this.#treeItemElements) {
-      for (const treeItem of this.#treeItemElements) {
-        if (item === treeItem) {
-          treeItem.setAttribute('selected', 'true');
-
-          selectedItem = treeItem;
-        } else {
-          treeItem.removeAttribute('selected');
-
-          const nestedSelectedItem: GlideCoreTreeItem | undefined =
-            treeItem.selectItem(item);
-
-          if (nestedSelectedItem) {
-            selectedItem = nestedSelectedItem;
-          }
-        }
-      }
-    }
-
-    return selectedItem;
-  }
-
   @state()
   private childTreeItems: GlideCoreTreeItem[] = [];
 
   @state()
   private hasPrefixIcon = false;
 
+  @state()
+  private isExpandIconHovered = false;
+
+  @state()
+  private isFocused = false;
+
+  @state()
+  private isHovered = false;
+
+  #checkboxElementRef = createRef<HTMLSlotElement>();
+
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #isSelected = false;
+  #expandIconButtonElementRef = createRef<HTMLSlotElement>();
+
+  #labelAndIconsElementRef = createRef<HTMLSlotElement>();
 
   #labelContainerElementRef = createRef<HTMLInputElement>();
 
@@ -263,28 +324,13 @@ export default class GlideCoreTreeItem extends LitElement {
 
   #prefixSlotElementRef = createRef<HTMLSlotElement>();
 
-  get #treeItemElements() {
-    return this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreTreeItem =>
-          element instanceof GlideCoreTreeItem,
-      );
-  }
+  #selected = false;
 
   get #ariaExpanded() {
     if (this.privateHasChildTreeItems) {
       return this.expanded ? 'true' : 'false';
     } else {
       return;
-    }
-  }
-
-  get #ariaSelected() {
-    if (this.privateHasChildTreeItems) {
-      return;
-    } else {
-      return this.selected ? 'true' : 'false';
     }
   }
 
@@ -298,13 +344,29 @@ export default class GlideCoreTreeItem extends LitElement {
     return (
       target &&
       target instanceof HTMLElement &&
-      !(target instanceof GlideCoreTreeItem) &&
-      this.contains(target)
+      (target === this.#checkboxElementRef.value ||
+        target === this.#expandIconButtonElementRef.value ||
+        target === this.#labelAndIconsElementRef.value ||
+        (!(target instanceof GlideCoreTreeItem) && this.contains(target)))
     );
   }
 
   #onDefaultSlotChange() {
     this.#setupChildren();
+  }
+
+  #onExpandIconContainerClick(event: Event) {
+    if (this.hasExpandIcon) {
+      this.privateToggleExpand();
+      event.stopPropagation();
+    }
+  }
+
+  #onExpandIconContainerKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.privateToggleExpand();
+      event?.stopPropagation();
+    }
   }
 
   #onFocusIn(event: FocusEvent) {
@@ -317,8 +379,41 @@ export default class GlideCoreTreeItem extends LitElement {
     if (this.#isFocusTargetInternal(event.relatedTarget)) {
       event.stopPropagation();
     } else {
-      this.#setTabIndexes(-1);
+      this.isFocused = false;
+      this.#setChildTabIndexes(-1);
     }
+  }
+
+  #onInteractiveContainerClick(event: Event) {
+    if (
+      (event.target instanceof HTMLElement ||
+        event.target instanceof SVGElement) &&
+      (event.target.closest('glide-core-tree-item-icon-button') ??
+        event.target.closest('glide-core-tree-item-menu'))
+    ) {
+      return;
+    }
+
+    this.selected = true;
+  }
+
+  #onInteractiveContainerKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      if (!this.#isFocusTargetInternal(event.target)) {
+        this.selected = true;
+      }
+
+      event?.stopPropagation();
+    }
+  }
+
+  get #treeItemElements() {
+    return this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreTreeItem =>
+          element instanceof GlideCoreTreeItem,
+      );
   }
 
   #onMenuSlotChange() {
@@ -336,11 +431,7 @@ export default class GlideCoreTreeItem extends LitElement {
     this.hasPrefixIcon = Boolean(assignedNodes && assignedNodes.length > 0);
   }
 
-  #setTabIndexes(tabIndex: -1 | 0) {
-    if (this.#labelContainerElementRef.value) {
-      this.#labelContainerElementRef.value.tabIndex = tabIndex;
-    }
-
+  #setChildTabIndexes(tabIndex: -1 | 0) {
     for (const iconButton of this.querySelectorAll<GlideCoreIconButton>(
       '& > glide-core-tree-item-icon-button',
     )) {

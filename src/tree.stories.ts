@@ -24,7 +24,7 @@ const meta: Meta = {
         import '@crowdstrike/glide-core/menu.link.js';
       </script>
 
-      ${story()}
+      <div style="display:flex; inline-size:15rem;">${story()}</div>
     `,
   ],
   parameters: {
@@ -418,3 +418,56 @@ const meta: Meta = {
 export default meta;
 
 export const Tree: StoryObj = {};
+
+export const Checkable: StoryObj = {
+  render(arguments_) {
+    return html`<glide-core-tree>
+      <glide-core-tree-item
+        label=${arguments_['<glide-core-tree-item>.label']}
+        id="two"
+        checkable
+        ?expanded=${arguments_['<glide-core-tree-item>.two.expanded']}
+        ?non-collapsible=${arguments_['<glide-core-tree-item>.non-collapsible']}
+      >
+        <glide-core-example-icon
+          slot="prefix"
+          name="share"
+        ></glide-core-example-icon>
+
+        <glide-core-tree-item
+          label="Hover menu and suffix icon"
+          id="three"
+          checkable
+          ?expanded=${arguments_['<glide-core-tree-item>.three.expanded']}
+          ?selected=${arguments_['<glide-core-tree-item>.three.selected']}
+        >
+        </glide-core-tree-item>
+
+        <glide-core-tree-item
+          label="Custom suffix icon menu"
+          id="four"
+          checkable
+          ?expanded=${arguments_['<glide-core-tree-item>.four.expanded']}
+          ?selected=${arguments_['<glide-core-tree-item>.four.selected']}
+        >
+        </glide-core-tree-item>
+
+        <glide-core-tree-item
+          label="Branch"
+          id="five"
+          checkable
+          ?expanded=${arguments_['<glide-core-tree-item>.five.expanded']}
+          ?selected="${arguments_['<glide-core-tree-item>.five.selected']}"
+        >
+          <glide-core-tree-item
+            label="Leaf"
+            id="six"
+            checkable
+            ?expanded=${arguments_['<glide-core-tree-item>.six.expanded']}
+            ?selected="${arguments_['<glide-core-tree-item>.six.selected']}"
+          ></glide-core-tree-item>
+        </glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>`;
+  },
+};

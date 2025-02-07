@@ -34,7 +34,8 @@ it('focuses the selected item', async () => {
   const item = host.querySelector<GlideCoreTreeItem>('glide-core-tree-item');
 
   assert(item);
-  host.selectItem(item);
+  item.selected = true;
+  await host.updateComplete;
   await sendKeys({ press: 'Tab' });
 
   expect(document.activeElement).to.equal(item);
@@ -304,20 +305,35 @@ it('selects or expands and collapses items when Enter is pressed', async () => {
     'glide-core-tree-item glide-core-tree-item',
   );
 
-  items[0]?.focus();
-  await sendKeys({ press: 'Enter' });
-  expect(items[0]?.selected).to.be.true;
-  expect(items[1]?.selected).to.be.false;
-  expect(childItems[0]?.selected).to.be.false;
-  expect(items[1]?.expanded).to.be.false;
+  assert(items[0]);
+  assert(items[1]);
+  assert(childItems[0]);
 
-  items[1]?.focus();
+  items[0].focus();
   await sendKeys({ press: 'Enter' });
-  expect(items[1]?.expanded).to.be.true;
+  expect(items[0].selected).to.be.true;
+  expect(items[1].selected).to.be.false;
+  expect(childItems[0].selected).to.be.false;
+  expect(items[1].expanded).to.be.false;
 
-  childItems[0]?.focus();
+  items[1].focus();
+
+  // Enter on the entire item selects it
   await sendKeys({ press: 'Enter' });
-  expect(childItems[0]?.selected).to.be.true;
+  expect(items[1].selected).to.be.true;
+  expect(items[1].expanded).to.be.false;
+
+  assert(items[1].shadowRoot);
+
+  // Tab to the expand/collapse button
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: 'Enter' });
+
+  expect(items[1].expanded).to.be.true;
+
+  childItems[0].focus();
+  await sendKeys({ press: 'Enter' });
+  expect(childItems[0].selected).to.be.true;
 });
 
 it('selects a `non-collapsible` parent item on Enter', async () => {

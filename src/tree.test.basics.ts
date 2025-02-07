@@ -98,7 +98,7 @@ it('sets `aria-selected`', async () => {
   ).to.equal('true');
 
   assert(items[1]);
-  host.selectItem(items[1]);
+  items[1].selected = true;
   await items[1].updateComplete;
 
   expect(
