@@ -1286,6 +1286,11 @@ export default class GlideCoreDropdown
         this.#inputElementRef.value.clientWidth;
     } else if (!this.multiple && this.#inputElementRef.value) {
       this.#inputElementRef.value.value = '';
+      this.inputValue = '';
+
+      this.isInputOverflow =
+        this.#inputElementRef.value.scrollWidth >
+        this.#inputElementRef.value.clientWidth;
     }
   }
 
@@ -1836,7 +1841,7 @@ export default class GlideCoreDropdown
 
     let options: GlideCoreDropdownOption[] | undefined;
 
-    if (this.#inputElementRef.value?.value) {
+    if (this.#inputElementRef.value) {
       try {
         // It would be convenient for consumers if we passed an array of options
         // as the second argument. The problem is consumers fetch and render new
