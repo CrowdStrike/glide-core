@@ -1284,8 +1284,18 @@ export default class GlideCoreDropdown
       this.isInputOverflow =
         this.#inputElementRef.value.scrollWidth >
         this.#inputElementRef.value.clientWidth;
+
+      // For the case where the selected option is programmatically removed
+      // from the DOM. Without this, the value of the input field would still
+      // be set to the selected option's `label`. And an ellipsis would still
+      // be shown if the `label` was long enough to be truncated.
     } else if (!this.multiple && this.#inputElementRef.value) {
       this.#inputElementRef.value.value = '';
+      this.inputValue = '';
+
+      this.isInputOverflow =
+        this.#inputElementRef.value.scrollWidth >
+        this.#inputElementRef.value.clientWidth;
     }
   }
 
@@ -1836,7 +1846,7 @@ export default class GlideCoreDropdown
 
     let options: GlideCoreDropdownOption[] | undefined;
 
-    if (this.#inputElementRef.value?.value) {
+    if (this.#inputElementRef.value) {
       try {
         // It would be convenient for consumers if we passed an array of options
         // as the second argument. The problem is consumers fetch and render new

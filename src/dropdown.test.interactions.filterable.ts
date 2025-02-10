@@ -141,6 +141,26 @@ it('unfilters when an option is selected via Enter', async () => {
   expect(options.length).to.equal(11);
 });
 
+it('unfilters on Backspace', async () => {
+  const component = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      ${defaultSlot}
+    </glide-core-dropdown>`,
+  );
+
+  component.focus();
+  await sendKeys({ type: 'one' });
+  await sendKeys({ press: 'Backspace' });
+  await sendKeys({ press: 'Backspace' });
+  await sendKeys({ press: 'Backspace' });
+
+  const options = [
+    ...component.querySelectorAll('glide-core-dropdown-option'),
+  ].filter(({ hidden }) => !hidden);
+
+  expect(options.length).to.equal(11);
+});
+
 it('does nothing on Enter when every option is filtered out', async () => {
   const component = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
