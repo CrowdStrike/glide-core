@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.19.5
+
+### Patch Changes
+
+- [#681](https://github.com/CrowdStrike/glide-core/pull/681) [`2cf85b2`](https://github.com/CrowdStrike/glide-core/commit/2cf85b2bafd85be0159a5b3bf6ea6facbbd6754d) Thanks [@clintcs](https://github.com/clintcs)! - - Filterable Dropdown with a custom `filter()` method now calls that method when its input field is empty.
+
 ## 0.19.4
 
 ### Patch Changes
