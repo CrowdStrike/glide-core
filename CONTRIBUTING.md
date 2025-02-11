@@ -4,7 +4,7 @@
   - [Forking the repository](#forking-the-repository)
   - [Don't reference internal systems, issues, or links](#dont-reference-internal-systems-issues-or-links)
   - [Getting started](#getting-started)
-  - [Versioning the package](#versioning-the-package)
+  - [Adding a release note](#adding-a-release-note)
   - [Updating style variables](#updating-style-variables)
   - [Translations and static strings](#translations-and-static-strings)
 - [Best practices](#best-practices)
@@ -39,7 +39,7 @@
 If you are a member of the CrowdStrike GitHub organization, you can branch off of `main`.
 For those not in the organization, you can [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and contribute as if you were contributing to any other open source project on GitHub.
 
-### Don't reference internal systems, issues, or links
+### Don't reference internal systems, issues, or URLs
 
 > [!WARNING]
 > When writing commit messages, creating branch names, providing Pull Request feedback, and creating Pull Request descriptions, one must take caution in what is written.
@@ -59,19 +59,17 @@ pnpm start
 
 Read through the remainder of this document before opening a pull request.
 
-### Versioning the package
+### Adding a release note
 
-We use [changesets](https://github.com/changesets/changesets) to manage our release notes.
-Include a changeset with your Pull Request if the change you made is one that consumers should know about:
+We use [Changesets](https://github.com/changesets/changesets) for release notes.
+Include one with your Pull Request if you made a change consumers should know about:
 
 ```bash
 pnpm changeset
 ```
 
-You'll be prompted to select the type of change according to [Semantic Versioning](https://semver.org).
-You'll also be prompted for a description.
-Descriptions are used in our release notes for consumers.
-So be sure to be as descriptive and helpful as possible.
+Select the type of change according to [Semantic Versioning](https://semver.org).
+Add a concise but comprehensive description.
 
 ### Updating style variables
 
