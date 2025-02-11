@@ -21,6 +21,7 @@
     - [Prefer using animations only when the user has no reduced motion preference](#prefer-using-animations-only-when-the-user-has-no-reduced-motion-preference)
   - [Prefer `rem`s](#prefer-rems)
   - [Throw when slotted content is missing or the wrong type](#throw-when-slotted-content-is-missing-or-the-wrong-type)
+  - [Throw when required properties are missing](#throw-when-required-properties-are-missing)
   - [Prefer conventions set by built-in elements](#prefer-conventions-set-by-built-in-elements)
   - [Prefer separate test files](#prefer-separate-test-files)
   - [Typing property decorators](#typing-property-decorators)
@@ -399,6 +400,22 @@ export default class GlideCoreExample extends LitElement {
   override render() {
     return html`<slot ${assertSlot([HTMLButtonElement])}></slot>`;
   }
+}
+```
+
+### Throw when required properties are missing
+
+Some properties are required for accessibility or to ensure proper functionality.
+When a property is required, use the `@required` decorator to assert its existence.
+
+```ts
+import required from './library/required.js';
+
+@customElement('glide-core-example')
+export default class GlideCoreExample extends LitElement {
+  @property()
+  @required
+  name: string;
 }
 ```
 

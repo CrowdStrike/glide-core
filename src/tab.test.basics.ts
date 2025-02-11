@@ -12,11 +12,23 @@ it('registers itself', async () => {
 
 it('sets `ariaDisabled` and `tabIndex` when disabled', async () => {
   const host = await fixture<GlideCoreTab>(html`
-    <glide-core-tab disabled>Tab</glide-core-tab>
+    <glide-core-tab panel="panel" disabled>Tab</glide-core-tab>
   `);
 
   expect(host?.ariaDisabled).to.equal('true');
   expect(host?.tabIndex).to.equal(-1);
+});
+
+it('throws when `panel` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(html`<glide-core-tab>Tab</glide-core-tab>`);
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws when subclassed', async () => {

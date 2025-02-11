@@ -26,6 +26,22 @@ it('is accessible', async () => {
   await expect(host).to.be.accessible();
 });
 
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-checkbox-group>
+        <glide-core-checkbox label="Label"></glide-core-checkbox>
+      </glide-core-checkbox-group>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 

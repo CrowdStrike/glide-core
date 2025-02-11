@@ -6,7 +6,7 @@ import GlideCoreButtonGroup from './button-group.js';
 
 it('selects a button on click', async () => {
   const host = await fixture<GlideCoreButtonGroup>(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -29,7 +29,7 @@ it('selects a button on click', async () => {
 
 it('selects a button on `click()`', async () => {
   const host = await fixture<GlideCoreButtonGroup>(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -52,7 +52,7 @@ it('selects a button on `click()`', async () => {
 
 it('selects buttons when arrowing', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         disabled
@@ -92,7 +92,7 @@ it('selects buttons when arrowing', async () => {
 
 it('selects a button on Space', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -115,7 +115,7 @@ it('selects a button on Space', async () => {
 
 it('does not select a disabled button', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected

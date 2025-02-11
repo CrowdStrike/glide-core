@@ -3,7 +3,7 @@ import GlideCoreInput from './input.js';
 
 it('focuses itself when `focus()` is called', async () => {
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input required></glide-core-input>`,
+    html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
   host.focus();
@@ -16,7 +16,7 @@ it('focuses itself after submit when required and no value', async () => {
   const form = document.createElement('form');
 
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input required></glide-core-input>`,
+    html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -32,7 +32,7 @@ it('focuses itself after `reportValidity()` is called when required and no value
   const form = document.createElement('form');
 
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input required></glide-core-input>`,
+    html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -48,7 +48,7 @@ it('focuses itself after `requestSubmit()` is called when required and no value'
   const form = document.createElement('form');
 
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input required></glide-core-input>`,
+    html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -65,7 +65,7 @@ it('does not focus itself after `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input required></glide-core-input>`,
+    html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
     },

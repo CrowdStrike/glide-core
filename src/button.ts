@@ -5,6 +5,8 @@ import { customElement, property, state } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './button.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -18,6 +20,7 @@ declare global {
  * @slot suffix-icon - An optional icon after the label.
  */
 @customElement('glide-core-button')
+@final
 export default class GlideCoreButton extends LitElement {
   static formAssociated = true;
 
@@ -31,7 +34,9 @@ export default class GlideCoreButton extends LitElement {
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  @property({ reflect: true }) label?: string;
+  @property({ reflect: true })
+  @required
+  label?: string;
 
   @property({ reflect: true }) name = '';
 

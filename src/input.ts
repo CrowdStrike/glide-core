@@ -16,6 +16,7 @@ import xIcon from './icons/x.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -77,6 +78,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
   value = '';
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ attribute: 'hide-label', type: Boolean })

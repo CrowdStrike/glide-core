@@ -87,6 +87,18 @@ it('has a severity icon instead of a back button when both are provided', async 
   ).to.not.be.ok;
 });
 
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(html`<glide-core-modal>Content</glide-core-modal>`);
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 

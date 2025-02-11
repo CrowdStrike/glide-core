@@ -7,7 +7,7 @@ it('can be opened programmatically when animated', async () => {
   await emulateMedia({ reducedMotion: 'no-preference' });
 
   const host = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer>Content</glide-core-drawer>`,
+    html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
   );
 
   host.open = true;
@@ -28,7 +28,7 @@ it('can be opened programmatically when not animated', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
   const host = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer>Content</glide-core-drawer>`,
+    html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
   );
 
   host.open = true;
@@ -42,7 +42,7 @@ it('can be closed programmatically when animated', async () => {
   await emulateMedia({ reducedMotion: 'no-preference' });
 
   const host = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer open>Content</glide-core-drawer>`,
+    html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
   host.open = false;
@@ -63,7 +63,7 @@ it('can be closed programmatically when not animated', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
   const host = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer open>Content</glide-core-drawer>`,
+    html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
   host.open = false;
@@ -80,7 +80,7 @@ it('has `set open(isOpen: boolean)` coverage', async () => {
   const stub = sinon.stub(console, 'error');
 
   const host = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer open>Content</glide-core-drawer>`,
+    html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
   host.open = false;

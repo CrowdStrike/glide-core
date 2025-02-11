@@ -27,6 +27,20 @@ it('is selectable', async () => {
   expect(checkedIconContainer?.checkVisibility()).to.be.true;
 });
 
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-dropdown-option></glide-core-dropdown-option>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 

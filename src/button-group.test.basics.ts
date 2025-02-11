@@ -39,7 +39,7 @@ it('is accessible', async () => {
 
 it('sets the orientation of its buttons when horizontal', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
       ></glide-core-button-group-button>
@@ -58,7 +58,7 @@ it('sets the orientation of its buttons when horizontal', async () => {
 
 it('sets the orientation of its buttons when vertical', async () => {
   const host = await fixture(
-    html`<glide-core-button-group orientation="vertical">
+    html`<glide-core-button-group label="Label" orientation="vertical">
       <glide-core-button-group-button
         label="One"
       ></glide-core-button-group-button>
@@ -96,7 +96,7 @@ it('sets `privateVariant` on its buttons', async () => {
 
 it('selects the first button not disabled', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         disabled
@@ -121,7 +121,7 @@ it('selects the first button not disabled', async () => {
 
 it('selects no buttons when all are disabled', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         disabled
@@ -138,6 +138,24 @@ it('selects no buttons when all are disabled', async () => {
 
   expect(buttons[0].selected).to.be.false;
   expect(buttons[1].selected).to.be.false;
+});
+
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-button-group>
+        <glide-core-button-group-button
+          label="One"
+        ></glide-core-button-group-button>
+      </glide-core-button-group>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws when subclassed', async () => {

@@ -13,6 +13,22 @@ it('registers itself', async () => {
   ).to.equal(GlideCoreTreeItemIconButton);
 });
 
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-tree-item-icon-button>
+        <div>Icon</div>
+      </glide-core-tree-item-icon-button>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 

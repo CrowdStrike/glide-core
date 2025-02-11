@@ -7,6 +7,7 @@ import styles from './modal.icon-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,7 +30,8 @@ export default class GlideCoreModalIconButton extends LitElement {
   static override styles = styles;
 
   @property()
-  label? = '';
+  @required
+  label?: string;
 
   @property({ reflect: true })
   readonly version = packageJson.version;

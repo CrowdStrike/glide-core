@@ -8,7 +8,7 @@ it('can be reset to its initial value', async () => {
   const form = document.createElement('form');
 
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input value="value"></glide-core-input>`,
+    html`<glide-core-input label="Label" value="value"></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -24,7 +24,7 @@ it('can be reset if there was no initial value', async () => {
   const form = document.createElement('form');
 
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input></glide-core-input>`,
+    html`<glide-core-input label="Label"></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -40,7 +40,11 @@ it('has `formData` value when it has a value', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreInput>(
-    html`<glide-core-input name="name" value="value"></glide-core-input>`,
+    html`<glide-core-input
+      label="Label"
+      name="name"
+      value="value"
+    ></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -54,7 +58,7 @@ it('has no `formData` value when no value', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreInput>(
-    html`<glide-core-input name="name"></glide-core-input>`,
+    html`<glide-core-input label="Label" name="name"></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -69,6 +73,7 @@ it('has no `formData` value when it has a value but disabled', async () => {
 
   await fixture<GlideCoreInput>(
     html`<glide-core-input
+      label="Label"
       name="name"
       value="value"
       disabled
@@ -86,7 +91,7 @@ it('has no `formData` value when it has a value but without a `name`', async () 
   const form = document.createElement('form');
 
   await fixture<GlideCoreInput>(
-    html`<glide-core-input value="value"></glide-core-input>`,
+    html`<glide-core-input label="Label" value="value"></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -100,7 +105,7 @@ it('submits its form on Enter', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreInput>(
-    html`<glide-core-input value="value"></glide-core-input>`,
+    html`<glide-core-input label="Label" value="value"></glide-core-input>`,
     {
       parentNode: form,
     },
@@ -121,7 +126,7 @@ it('submits its form on Enter', async () => {
 
 it('is valid if empty but not required', async () => {
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input></glide-core-input>`,
+    html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
   expect(host.validity?.valid).to.be.true;
@@ -138,7 +143,7 @@ it('is valid if empty but not required', async () => {
 
 it('is valid after being filled in when empty and required', async () => {
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input required></glide-core-input>`,
+    html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
   await sendKeys({ press: 'Tab' });
@@ -158,7 +163,7 @@ it('is valid after being filled in when empty and required', async () => {
 
 it('is invalid if no value and required', async () => {
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input required></glide-core-input>`,
+    html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
   expect(host.validity?.valid).to.be.false;
@@ -176,8 +181,9 @@ it('is invalid if no value and required', async () => {
 it('is invalid after value is cleared when required', async () => {
   const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
-      clearable
+      label="Label"
       value="value"
+      clearable
       required
     ></glide-core-input>`,
   );
@@ -198,7 +204,7 @@ it('is invalid after value is cleared when required', async () => {
 
 it('is valid if no value and required and disabled', async () => {
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input disabled required></glide-core-input>`,
+    html`<glide-core-input label="Label" disabled required></glide-core-input>`,
   );
 
   expect(host.validity?.valid).to.be.true;

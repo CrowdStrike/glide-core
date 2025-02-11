@@ -60,7 +60,7 @@ it('does not have an expand icon if it has no items', async () => {
 it('sets `label` on its menu target', async () => {
   const host = await fixture<GlideCoreTreeItem>(html`
     <glide-core-tree-item label="Label">
-      <glide-core-tree-item-menu slot="menu">
+      <glide-core-tree-item-menu label="Label" slot="menu">
         <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-tree-item-menu>
     </glide-core-tree-item>
@@ -97,6 +97,18 @@ it('sets `level` on its items', async () => {
   expect(childItems?.[0].level).to.equal(2);
   expect(childItems?.[1].level).to.equal(2);
   expect(childItems?.[2].level).to.equal(3);
+});
+
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(html`<glide-core-tree-item></glide-core-tree-item>`);
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws when subclassed', async () => {

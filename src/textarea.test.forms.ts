@@ -113,7 +113,7 @@ it('appends no `formData` when it has no value and a `name`', async () => {
 
 it('is valid by default', async () => {
   const host = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea></glide-core-textarea>`,
+    html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
   expect(host.validity?.valid).to.be.true;
@@ -170,7 +170,11 @@ it('is invalid if no value and required', async () => {
 
 it('is valid if no value but required and disabled', async () => {
   const host = await fixture<GlideCoreTextarea>(
-    html`<glide-core-textarea required disabled></glide-core-textarea>`,
+    html`<glide-core-textarea
+      label="Label"
+      required
+      disabled
+    ></glide-core-textarea>`,
   );
 
   expect(host.validity?.valid).to.be.true;

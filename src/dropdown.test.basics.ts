@@ -57,7 +57,7 @@ it('cannot be open when disabled', async () => {
 
 it('activates the first option when no options are initially selected', async () => {
   const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -71,7 +71,7 @@ it('activates the first option when no options are initially selected', async ()
 
 it('activates the last selected option when options are initially selected', async () => {
   const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
@@ -95,7 +95,7 @@ it('activates the last selected option when options are initially selected', asy
 
 it('is scrollable', async () => {
   const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
@@ -120,7 +120,7 @@ it('is scrollable', async () => {
 
 it('is not scrollable', async () => {
   const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
@@ -163,6 +163,22 @@ it('hides the tooltip of the active option when open', async () => {
     ?.shadowRoot?.querySelector<GlideCoreTooltip>('[data-test="tooltip"]');
 
   expect(tooltip?.open).to.be.false;
+});
+
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-dropdown>
+        <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+      </glide-core-dropdown>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws when subclassed', async () => {

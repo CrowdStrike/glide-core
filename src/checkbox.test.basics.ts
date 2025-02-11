@@ -46,6 +46,7 @@ it('has a tooltip when "minimal" with a long label', async () => {
 
   expect(tooltip?.disabled).to.be.false;
   expect(tooltip?.open).to.be.true;
+  expect(tooltip?.textContent?.trim()).to.equal('x'.repeat(100));
 });
 
 it('has no tooltip when "minimal" with a short label', async () => {
@@ -65,6 +66,18 @@ it('has no tooltip when "minimal" with a short label', async () => {
   );
 
   expect(tooltip?.disabled).to.be.true;
+});
+
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(html`<glide-core-checkbox></glide-core-checkbox>`);
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws when subclassed', async () => {
