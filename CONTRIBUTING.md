@@ -405,7 +405,7 @@ export default class GlideCoreExample extends LitElement {
 
 ### Throw when required properties are missing
 
-Some properties are required for accessibility or to ensure proper functionality.
+Some properties are required for accessibility or ensure proper functionality.
 When a property is required, use the `@required` decorator to assert its existence.
 
 ```ts
