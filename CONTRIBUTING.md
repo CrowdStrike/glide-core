@@ -68,13 +68,13 @@ Include one with your Pull Request if you made a change consumers should know ab
 pnpm changeset
 ```
 
-Select the type of change according to [Semantic Versioning](https://semver.org).
-Add a concise but comprehensive description.
+1. Select the type of change according to [Semantic Versioning](https://semver.org).
+1. Add a concise but comprehensive description.
 
 ### Updating style variables
 
 1. Generate a Figma [personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens).
-2. `FIGMA_TOKEN=<token> pnpm start:production:figma`
+1. `FIGMA_TOKEN=<token> pnpm start:production:figma`
 
 ### Translations and static strings
 
@@ -84,9 +84,9 @@ In particular, static strings are helpful for screenreaders so that our componen
 The process for adding static strings is as follows:
 
 1. Update the type definition at [`src/library/localize.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/library/localize.ts) to include your new string.
-2. Add the new string directly to [`src/translations/en.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.ts). This is what will be used in code.
-3. Add the new string in the JSON format to [`src/translations/en.json`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.json).
-4. Copy the additions from `src/translations/en.ts` and `src/translations/en.json` to the other language files.
+1. Add the new string directly to [`src/translations/en.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.ts). This is what will be used in code.
+1. Add the new string in the JSON format to [`src/translations/en.json`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.json).
+1. Copy the additions from `src/translations/en.ts` and `src/translations/en.json` to the other language files.
 
 The non-English languages will fallback to English until they are translated.
 The `src/translations/en.json` will be sent to our translation team and returned for each language we support.
