@@ -87,11 +87,7 @@ export default class GlideCoreDropdown
 
   set filterable(isFilterable: boolean) {
     if (this.#isFilterable !== isFilterable && isFilterable && !this.multiple) {
-      if (
-        this.#inputElementRef.value &&
-        this.selectedOptions.length > 0 &&
-        this.selectedOptions[0].label
-      ) {
+      if (this.#inputElementRef.value && this.selectedOptions[0]?.label) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
 
@@ -139,8 +135,7 @@ export default class GlideCoreDropdown
       if (
         !this.multiple &&
         this.#inputElementRef.value &&
-        this.selectedOptions.length > 0 &&
-        this.selectedOptions[0].label
+        this.selectedOptions[0]?.label
       ) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
@@ -745,9 +740,7 @@ export default class GlideCoreDropdown
                 },
               )}
               ${when(
-                !this.multiple &&
-                  this.selectedOptions.length > 0 &&
-                  this.selectedOptions[0].editable,
+                !this.multiple && this.selectedOptions[0]?.editable,
                 () => {
                   return html`<glide-core-icon-button
                     class="edit-button"
@@ -2079,9 +2072,7 @@ export default class GlideCoreDropdown
     }
 
     this.isShowSingleSelectIcon =
-      !this.multiple &&
-      this.selectedOptions.length > 0 &&
-      Boolean(this.selectedOptions.at(0)?.value);
+      !this.multiple && Boolean(this.selectedOptions.at(0)?.value);
 
     // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {
