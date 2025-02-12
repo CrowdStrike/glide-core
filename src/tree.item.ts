@@ -122,6 +122,7 @@ export default class GlideCoreTreeItem extends LitElement {
 
         <slot
           name="prefix"
+          class="prefix-slot"
           ${ref(this.#prefixSlotElementRef)}
           @slotchange=${this.#onPrefixSlotChange}
         ></slot>

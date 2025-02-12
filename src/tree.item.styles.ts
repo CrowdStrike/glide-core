@@ -56,6 +56,11 @@ export default [
       }
     }
 
+    .prefix-slot {
+      align-items: center;
+      display: flex;
+    }
+
     .label-and-children {
       display: flex;
       flex-direction: column;
