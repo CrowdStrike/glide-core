@@ -2,7 +2,7 @@
 '@crowdstrike/glide-core': minor
 ---
 
-Required attributes now throw during development when they are missing. The following are now required:
+Required attributes now throw during development when missing. The following are now required:
 
 - `label`
   - Accordion
