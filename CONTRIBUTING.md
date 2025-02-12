@@ -1,9 +1,12 @@
-# Contributing Guidelines
+# Contributing
 
-- [Development setup](#development-setup)
-- [Forking the repository](#forking-the-repository)
-- [Don't reference internal systems, issues, or links](#dont-reference-internal-systems-issues-or-links)
-- [Versioning a package](#versioning-a-package)
+- [Development](#development)
+  - [Forking the repository](#forking-the-repository)
+  - [Don't reference internal systems, issues, or links](#dont-reference-internal-systems-issues-or-links)
+  - [Getting started](#getting-started)
+  - [Adding a release note](#adding-a-release-note)
+  - [Updating style variables](#updating-style-variables)
+  - [Translations and static strings](#translations-and-static-strings)
 - [Best practices](#best-practices)
   - [Proceed with caution when upgrading Storybook](#proceed-with-caution-when-upgrading-storybook)
   - [Prefer controls over stories](#prefer-controls-over-stories)
@@ -26,38 +29,68 @@
   - [Bubble and compose events](#bubble-and-compose-events)
   - [Avoid custom events](#avoid-custom-events)
   - [Override and decorate inherited properties used in templates](#override-and-decorate-inherited-properties-used-in-templates)
-  - [Translations and static strings](#translations-and-static-strings)
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
 
 ## Development
 
-Follow the instructions in [README](./README.md) to set up your machine for development.
-
-## Forking the repository
+### Forking the repository
 
 If you are a member of the CrowdStrike GitHub organization, you can branch off of `main`.
 For those not in the organization, you can [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and contribute as if you were contributing to any other open source project on GitHub.
 
-## Don't reference internal systems, issues, or links
+### Don't reference internal systems, issues, or URLs
 
-When writing commit messages, providing Pull Request feedback, and creating Pull Request descriptions, one must take caution in what is written.
-This content **cannot** contain references to internal systems, proprietary images or source code, or anything else that could harm CrowdStrike or any other organization or individual contributing to this repository.
-Use common sense. If you're unsure, please ask the team for guidance.
+> [!WARNING]
+> When writing commit messages, creating branch names, providing Pull Request feedback, and creating Pull Request descriptions, one must take caution in what is written.
+> This content **cannot** contain references to internal systems, proprietary images or source code, or anything else that could harm CrowdStrike or any other organization or individual contributing to this repository.
+> Use common sense. If you're unsure, please ask the team for guidance.
 
-## Versioning a package
+### Getting started
 
-We use [changesets](https://github.com/changesets/changesets) to manage our release notes.
-Include a changeset with your Pull Request if the change you made is one that consumers should know about:
+We recommend using [Corepack](https://pnpm.io/installation#using-corepack) to manage PNPM.
+
+```bash
+pnpm install
+pnpm start
+```
+
+- If you have `ignore-scripts=true` in your `~/.npmrc`, also run `pnpm prepare` to install the Git hooks.
+
+Read through the remainder of this document before opening a pull request.
+
+### Adding a release note
+
+We use [Changesets](https://github.com/changesets/changesets) for release notes.
+Include one with your Pull Request if you made a change consumers should know about:
 
 ```bash
 pnpm changeset
 ```
 
-You'll be prompted to select the type of change according to [Semantic Versioning](https://semver.org).
-You'll also be prompted for a description.
-Descriptions are used in our release notes for consumers.
-So be sure to be as descriptive and helpful as possible.
+1. Select the type of change according to [Semantic Versioning](https://semver.org).
+1. Add a concise but comprehensive description.
+
+### Updating style variables
+
+1. Generate a Figma [personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens).
+1. `FIGMA_TOKEN=<token> pnpm start:production:figma`
+
+### Translations and static strings
+
+Most of the text we render is provided by the consumer directly; however, we do have a few cases where we have static strings in place.
+In particular, static strings are helpful for screenreaders so that our components can provide additional context for accessibility.
+
+The process for adding static strings is as follows:
+
+1. Update the type definition at [`src/library/localize.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/library/localize.ts) to include your new string.
+1. Add the new string directly to [`src/translations/en.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.ts). This is what will be used in code.
+1. Add the new string in the JSON format to [`src/translations/en.json`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.json).
+1. Copy the additions from `src/translations/en.ts` and `src/translations/en.json` to the other language files.
+
+The non-English languages will fallback to English until they are translated.
+The `src/translations/en.json` will be sent to our translation team and returned for each language we support.
+When a new file is received from the translators, please update all `src/translations/*.json` and `src/translations/*.ts` files with the updated strings.
 
 ## Best practices
 
@@ -557,22 +590,6 @@ But when one is changed internally—say, via a click handler—the change won't
 Many components don't change inherited properties internally.
 However, if one is made to after the fact, it may result in a subtle bug.
 So it's best to always override and decorate (using `@property`) inherited properties used in templates.
-
-### Translations and static strings
-
-Most of the text we render is provided by the consumer directly; however, we do have a few cases where we have static strings in place.
-In particular, static strings are helpful for screenreaders so that our components can provide additional context for accessibility.
-
-The process for adding static strings is as follows:
-
-1. Update the type definition at [`src/library/localize.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/library/localize.ts) to include your new string.
-2. Add the new string directly to [`src/translations/en.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.ts). This is what will be used in code.
-3. Add the new string in the JSON format to [`src/translations/en.json`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.json).
-4. Copy the additions from `src/translations/en.ts` and `src/translations/en.json` to the other language files.
-
-The non-English languages will fallback to English until they are translated.
-The `src/translations/en.json` will be sent to our translation team and returned for each language we support.
-When a new file is received from the translators, please update all `src/translations/*.json` and `src/translations/*.ts` files with the updated strings.
 
 ## Questions
 
