@@ -30,7 +30,7 @@ it('checks a radio when `value` is set programmatically', async () => {
 
 it('unchecks the checked radio when a new one is checked programmatically', async () => {
   const host = await fixture<GlideCoreRadioGroup>(
-    html`<glide-core-radio-group>
+    html`<glide-core-radio-group label="Label">
       <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
 
       <glide-core-radio-group-radio
@@ -291,7 +291,7 @@ it('enables a disabled radio when `value` is set programmatically', async () => 
 
 it('updates the tabbable state of each radio when a radio is checked programmatically', async () => {
   const host = await fixture<GlideCoreRadioGroup>(
-    html`<glide-core-radio-group>
+    html`<glide-core-radio-group label="Label">
       <glide-core-radio-group-radio
         label="One"
         value="one"
@@ -355,7 +355,7 @@ it('enables radios when enabled programmatically', async () => {
 
 it('does not check a radio on click when it is disabled', async () => {
   const host = await fixture(
-    html`<glide-core-radio-group disabled>
+    html`<glide-core-radio-group label="Label" disabled>
       <glide-core-radio-group-radio
         label="One"
         checked

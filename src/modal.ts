@@ -17,6 +17,7 @@ import severityInformationalIcon from './icons/severity-informational.js';
 import severityMediumIcon from './icons/severity-medium.js';
 import severityCriticalIcon from './icons/severity-critical.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -58,6 +59,7 @@ export default class GlideCoreModal extends LitElement {
   backButton = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ reflect: true, type: Boolean })

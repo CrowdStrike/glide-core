@@ -6,6 +6,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './tab.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,7 +30,9 @@ export default class GlideCoreTab extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true }) panel = '';
+  @property({ reflect: true })
+  @required
+  panel?: string;
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 

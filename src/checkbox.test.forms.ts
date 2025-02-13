@@ -107,6 +107,7 @@ it('has no `formData` value when checked but disabled', async () => {
 
   await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox
+      label="Label"
       name="name"
       value="value"
       checked

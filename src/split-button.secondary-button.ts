@@ -13,6 +13,7 @@ import styles from './split-button.secondary-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -41,6 +42,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   disabled = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ attribute: 'menu-open', reflect: true, type: Boolean })

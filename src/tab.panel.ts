@@ -6,6 +6,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './tab.panel.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -32,7 +33,9 @@ export default class GlideCoreTabPanel extends LitElement {
    * The name of this panel
    * The corresponding <glide-core-tab> will have a `panel` attribute with this name
    */
-  @property({ reflect: true }) name = '';
+  @property({ reflect: true })
+  @required
+  name?: string;
 
   // Private because it's only meant to be used by Tab Group.
   @property({ type: Boolean }) get privateIsSelected() {

@@ -1,6 +1,7 @@
 import './checkbox.js';
 import './tooltip.js';
 import { html, LitElement } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -13,6 +14,7 @@ import styles from './dropdown.option.styles.js';
 import type GlideCoreCheckbox from './checkbox.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -59,6 +61,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   @property({ reflect: true })
+  @required
   get label() {
     return this.#label;
   }
@@ -322,13 +325,13 @@ export default class GlideCoreDropdownOption extends LitElement {
                 [this.privateSize]: true,
               })} name="icon"></slot>
 
-              <glide-core-tooltip 
-                class="tooltip" 
+              <glide-core-tooltip
+                class="tooltip"
                 data-test="tooltip"
-                label=${this.label}
-                offset=${10} 
-                ?disabled=${!this.isLabelOverflow || this.disabled} 
-                ?open=${this.privateIsTooltipOpen} 
+                label=${ifDefined(this.label)}
+                offset=${10}
+                ?disabled=${!this.isLabelOverflow || this.disabled}
+                ?open=${this.privateIsTooltipOpen}
                 screenreader-hidden
                 @toggle=${this.#onTooltipToggle}>
 
@@ -391,7 +394,7 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   #isEditable = false;
 
-  #label = '';
+  #label?: string;
 
   #labelElementRef = createRef<HTMLElement>();
 

@@ -93,7 +93,11 @@ it('does not select an item when an icon button is clicked', async () => {
   const host = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Label">
-        <glide-core-tree-item-icon-button slot="suffix" data-test-icon-button>
+        <glide-core-tree-item-icon-button
+          label="Label"
+          slot="suffix"
+          data-test-icon-button
+        >
           <svg viewBox="0 0 24 24">
             <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
@@ -115,7 +119,7 @@ it('does not select an item if its "menu" slot is clicked', async () => {
   const host = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Label">
-        <glide-core-tree-item-menu slot="menu" data-test-menu>
+        <glide-core-tree-item-menu label="Label" slot="menu" data-test-menu>
           <glide-core-menu-link label="Label"></glide-core-menu-link>
         </glide-core-tree-item-menu>
       </glide-core-tree-item>
@@ -137,7 +141,7 @@ it('does not scroll the page when arrowing', async () => {
   await fixture(html`
     <glide-core-tree>
       <glide-core-tree-item label="Label">
-        <glide-core-tree-item-menu slot="menu">
+        <glide-core-tree-item-menu label="Label" slot="menu">
           <glide-core-menu-link label="Label"></glide-core-menu-link>
         </glide-core-tree-item-menu>
       </glide-core-tree-item>

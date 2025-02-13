@@ -371,7 +371,7 @@ it('can use the keyboard to navigate to an icon button', async () => {
   await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Label">
-        <glide-core-tree-item-icon-button slot="suffix">
+        <glide-core-tree-item-icon-button label="Label" slot="suffix">
           <svg viewBox="0 0 24 24">
             <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
@@ -390,7 +390,7 @@ it('can use the keyboard to navigate to an item menu', async () => {
   const host = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Label">
-        <glide-core-tree-item-menu slot="menu">
+        <glide-core-tree-item-menu label="Label" slot="menu">
           <glide-core-menu-link label="Label"></glide-core-menu-link>
         </glide-core-tree-item-menu>
       </glide-core-tree-item>
@@ -411,7 +411,7 @@ it('does not focus on an icon button unless its parent item is focused', async (
       <glide-core-tree-item label="One"></glide-core-tree-item>
 
       <glide-core-tree-item label="Two">
-        <glide-core-tree-item-icon-button slot="suffix">
+        <glide-core-tree-item-icon-button label="Label" slot="suffix">
           <svg viewBox="0 0 24 24">
             <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
@@ -447,7 +447,7 @@ it('does not focus on an item menu unless its parent item is focused', async () 
       <glide-core-tree-item label="Label"></glide-core-tree-item>
 
       <glide-core-tree-item label="Label">
-        <glide-core-tree-item-menu slot="menu">
+        <glide-core-tree-item-menu label="Label" slot="menu">
           <glide-core-menu-link label="Label"></glide-core-menu-link>
         </glide-core-tree-item-menu>
       </glide-core-tree-item>
@@ -471,7 +471,7 @@ it('does not select an item if Enter is pressed while its icon button is focused
   const host = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Label">
-        <glide-core-tree-item-icon-button slot="suffix">
+        <glide-core-tree-item-icon-button label="Label" slot="suffix">
           <svg viewBox="0 0 24 24">
             <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>

@@ -378,7 +378,7 @@ it('activates an option on hover', async () => {
 
 it('does not activate a disabled option on hover', async () => {
   const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
       <glide-core-dropdown-option
@@ -873,7 +873,7 @@ it('deactivates the active option when the Add button is tabbed to', async () =>
 
 it('does not wrap on ArrowUp', async () => {
   const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -893,7 +893,7 @@ it('does not wrap on ArrowUp', async () => {
 
 it('does not wrap on ArrowDown', async () => {
   const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,

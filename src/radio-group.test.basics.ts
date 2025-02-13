@@ -91,7 +91,7 @@ it('sets `value` when a radio is checked', async () => {
 
 it('makes the first enabled radio tabbable', async () => {
   const host = await fixture(
-    html`<glide-core-radio-group>
+    html`<glide-core-radio-group label="Label">
       <glide-core-radio-group-radio
         label="One"
         disabled
@@ -109,7 +109,7 @@ it('makes the first enabled radio tabbable', async () => {
 
 it('makes radios untabbable when disabled', async () => {
   const host = await fixture(
-    html`<glide-core-radio-group disabled>
+    html`<glide-core-radio-group label="Label" disabled>
       <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
       <glide-core-radio-group-radio label="Two"></glide-core-radio-group-radio>
 

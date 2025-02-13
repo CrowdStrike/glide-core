@@ -69,6 +69,18 @@ it('does not have a character count when `maxlength` is less than zero', async (
   expect(container).to.be.null;
 });
 
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(html`<glide-core-textarea></glide-core-textarea>`);
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 

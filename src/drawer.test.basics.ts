@@ -15,7 +15,7 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const host = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer open>Content</glide-core-drawer>`,
+    html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
   await expect(host).to.be.accessible();
@@ -23,11 +23,23 @@ it('is accessible', async () => {
 
 it('opens', async () => {
   const host = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer open>Content</glide-core-drawer>`,
+    html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
   const aside = host.shadowRoot?.querySelector('[data-test="component"]');
   expect(aside?.checkVisibility({ visibilityProperty: true })).to.be.true;
+});
+
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(html`<glide-core-drawer>Content</glide-core-drawer>`);
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws when subclassed', async () => {
@@ -44,6 +56,6 @@ it('throws when subclassed', async () => {
 
 it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
-    return fixture(html`<glide-core-drawer></glide-core-drawer>`);
+    return fixture(html`<glide-core-drawer label="Label"></glide-core-drawer>`);
   });
 });

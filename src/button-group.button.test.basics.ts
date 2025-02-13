@@ -98,6 +98,20 @@ it('is not tabbable when not selected', async () => {
   expect(radio?.tabIndex).to.equal(-1);
 });
 
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-button-group-button></glide-core-button-group-button>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
@@ -114,6 +128,7 @@ it('throws when `icon-only` and no "icon" slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(
       html`<glide-core-button-group-button
+        label="Label"
         privateVariant="icon-only"
       ></glide-core-button-group-button>`,
     );

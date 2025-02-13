@@ -7,6 +7,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './toggle.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -42,6 +43,7 @@ export default class GlideCoreToggle extends LitElement {
   hideLabel = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ reflect: true })

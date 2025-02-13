@@ -76,7 +76,7 @@ it('dispatches an "invalid" event after `checkValidity()` is called when require
   const form = document.createElement('form');
 
   const host = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox required></glide-core-checkbox>`,
+    html`<glide-core-checkbox label="label" required></glide-core-checkbox>`,
     { parentNode: form },
   );
 

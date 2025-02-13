@@ -14,6 +14,7 @@ import styles from './checkbox.styles.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -62,6 +63,7 @@ export default class GlideCoreCheckbox
   indeterminate = false;
 
   @property({ reflect: true })
+  @required
   get label() {
     return this.#label;
   }
@@ -297,7 +299,7 @@ export default class GlideCoreCheckbox
               <glide-core-tooltip
                 class="label-tooltip"
                 data-test="label-tooltip"
-                label=${ifDefined(this.tooltip)}
+                label=${ifDefined(this.label)}
                 offset=${this.privateLabelTooltipOffset}
                 ?disabled=${!this.isLabelOverflow ||
                 this.privateDisableLabelTooltip}
@@ -503,7 +505,7 @@ export default class GlideCoreCheckbox
 
   #intersectionObserver?: IntersectionObserver;
 
-  #label? = '';
+  #label?: string;
 
   #labelElementRef = createRef<HTMLElement>();
 

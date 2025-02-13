@@ -859,7 +859,7 @@ it('uses `placeholder` as a placeholder when multiselect and no option is select
 
 it('sets `aria-activedescendant` on option hover', async () => {
   const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -1315,7 +1315,7 @@ it('supports custom filtering', async () => {
   host.filter = async (filter) => {
     const options = [...host.querySelectorAll('glide-core-dropdown-option')];
 
-    return options.filter(({ label }) => label.includes(filter));
+    return options.filter(({ label }) => label?.includes(filter));
   };
 
   await sendKeys({ press: 'Tab' });

@@ -8,6 +8,7 @@ import styles from './drawer.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -33,6 +34,7 @@ export default class GlideCoreDrawer extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ reflect: true, type: Boolean })

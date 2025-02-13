@@ -52,7 +52,7 @@ it('sets its internal `label` to the last initially selected option', async () =
 
 it('sets `value` to that of the last initially selected option', async () => {
   const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="one"

@@ -10,6 +10,7 @@ import styles from './tag.styles.js';
 import xIcon from './icons/x.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -37,6 +38,7 @@ export default class GlideCoreTag extends LitElement {
   disabled = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   // Private because it's only meant to be used by Dropdown.

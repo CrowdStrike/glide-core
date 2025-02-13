@@ -14,6 +14,7 @@ import styles from './tree.item.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -43,7 +44,9 @@ export default class GlideCoreTreeItem extends LitElement {
 
   @property({ reflect: true, type: Boolean }) expanded = false;
 
-  @property({ reflect: true }) label = '';
+  @property({ reflect: true })
+  @required
+  label?: string;
 
   @property({ reflect: true, type: Number }) level = 1;
 
@@ -73,7 +76,7 @@ export default class GlideCoreTreeItem extends LitElement {
 
   override render() {
     return html`<div
-      aria-label=${this.label}
+      aria-label=${ifDefined(this.label)}
       aria-selected=${ifDefined(this.#ariaSelected)}
       aria-expanded=${ifDefined(this.#ariaExpanded)}
       class=${classMap({
@@ -274,7 +277,7 @@ export default class GlideCoreTreeItem extends LitElement {
   #onMenuSlotChange() {
     if (this.#menuSlotElementRef.value) {
       for (const assignedElement of this.#menuSlotElementRef.value.assignedElements()) {
-        if (assignedElement instanceof GlideCoreTreeItemMenu) {
+        if (assignedElement instanceof GlideCoreTreeItemMenu && this.label) {
           assignedElement.label = this.#localize.term('actionsFor', this.label);
         }
       }
