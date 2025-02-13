@@ -19,6 +19,7 @@ import './tooltip.container.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -75,7 +76,8 @@ export default class GlideCoreTooltip extends LitElement {
   }
 
   @property({ reflect: true })
-  get label() {
+  @required
+  get label(): string | undefined {
     return this.#label;
   }
 
@@ -307,7 +309,7 @@ export default class GlideCoreTooltip extends LitElement {
 
   #isScreenreaderHidden = false;
 
-  #label = '';
+  #label?: string;
 
   #offset: number | undefined;
 

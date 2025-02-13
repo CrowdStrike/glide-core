@@ -120,7 +120,7 @@ it('has no `formData` value when no option is selected', async () => {
   await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" name="name" multiple>
       <glide-core-dropdown-option
-        label=""
+        label="Label"
         value="value"
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,

@@ -7,7 +7,7 @@ import './button-group.js';
 
 it('dispatches a "selected" event when a button is clicked and not already selected', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
       ></glide-core-button-group-button>
@@ -34,7 +34,7 @@ it('dispatches a "selected" event when a button is clicked and not already selec
 
 it('does not dispatch a "selected" event when an already selected button is clicked', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -56,7 +56,7 @@ it('does not dispatch a "selected" event when an already selected button is clic
 
 it('dispatches "selected" events when arrowing', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -104,7 +104,7 @@ it('dispatches "selected" events when arrowing', async () => {
 
 it('dispatches a "selected" event when a button is selected via Space', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -131,7 +131,7 @@ it('dispatches a "selected" event when a button is selected via Space', async ()
 
 it('does not dispatch a "selected" event when a button is selected programmatically', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -160,7 +160,7 @@ it('does not dispatch a "selected" event when a button is selected programmatica
 
 it('does not dispatch a "selected" event when an already selected button is selected via Space', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -183,7 +183,7 @@ it('does not dispatch a "selected" event when an already selected button is sele
 
 it('does not dispatch a "selected" event a button is selected programmatically', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected

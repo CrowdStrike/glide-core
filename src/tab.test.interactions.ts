@@ -12,7 +12,7 @@ it('registers itself', async () => {
 
 it('sets `ariaDisabled` and `tabIndex` when disabled programmatically', async () => {
   const host = await fixture<GlideCoreTab>(html`
-    <glide-core-tab>Tab</glide-core-tab>
+    <glide-core-tab panel="panel">Tab</glide-core-tab>
   `);
 
   host.disabled = true;

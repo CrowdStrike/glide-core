@@ -13,6 +13,7 @@ import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -62,6 +63,7 @@ export default class GlideCoreCheckboxGroup
   hideLabel = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ reflect: true })

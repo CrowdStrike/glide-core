@@ -5,6 +5,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './radio-group.radio.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -79,7 +80,8 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   }
 
   @property({ reflect: true })
-  get label() {
+  @required
+  get label(): string | undefined {
     return this.#label;
   }
 
@@ -131,9 +133,12 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
     this.ariaChecked = this.checked.toString();
     this.ariaDisabled = this.disabled.toString();
     this.ariaInvalid = this.privateInvalid.toString();
-    this.ariaLabel = this.label;
     this.ariaRequired = this.privateRequired.toString();
     this.role = 'radio';
+
+    if (this.label) {
+      this.ariaLabel = this.label;
+    }
   }
 
   override render() {
@@ -158,7 +163,7 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
 
   #disabled = false;
 
-  #label = '';
+  #label?: string;
 
   #privateInvalid = false;
 

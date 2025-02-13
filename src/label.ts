@@ -5,6 +5,7 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
 import styles from './label.styles.js';
 import { LocalizeController } from './library/localize.js';
 import assertSlot from './library/assert-slot.js';
@@ -94,28 +95,32 @@ export default class GlideCoreLabel extends LitElement {
         })}
         part="private-tooltips"
       >
-        <glide-core-tooltip
-          class=${classMap({
-            'optional-tooltip': true,
-            vertical: this.orientation === 'vertical',
-            visible: this.tooltip ? true : false,
-          })}
-          label=${ifDefined(this.tooltip)}
-          placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
-        >
-          <button
-            aria-label=${this.#localize.term('tooltip')}
-            class="optional-tooltip-target"
-            slot="target"
-            type="button"
-          >
-            ${icons.information}
-          </button>
-        </glide-core-tooltip>
+        ${when(
+          this.tooltip,
+          () =>
+            html`<glide-core-tooltip
+              class=${classMap({
+                'optional-tooltip': true,
+                vertical: this.orientation === 'vertical',
+                visible: this.tooltip ? true : false,
+              })}
+              label=${ifDefined(this.tooltip)}
+              placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
+            >
+              <button
+                aria-label=${this.#localize.term('tooltip')}
+                class="optional-tooltip-target"
+                slot="target"
+                type="button"
+              >
+                ${icons.information}
+              </button>
+            </glide-core-tooltip>`,
+        )}
 
         <glide-core-tooltip
           class="label-tooltip"
-          label=${ifDefined(this.label)}
+          label=${this.label ?? ''}
           placement="right"
           ?disabled=${!this.isLabelTooltip}
           screenreader-hidden

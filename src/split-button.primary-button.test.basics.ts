@@ -27,6 +27,20 @@ it('is accessible', async () => {
   await expect(host).to.be.accessible();
 });
 
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-split-button-primary-button></glide-core-split-button-primary-button>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 

@@ -18,7 +18,7 @@ it('registers itself', async () => {
 
 it('can be opened programmatically', async () => {
   const host = await fixture<GlideCoreTreeItemMenu>(html`
-    <glide-core-tree-item-menu>
+    <glide-core-tree-item-menu label="Label">
       <glide-core-menu-link label="Label"></glide-core-menu-link>
     </glide-core-tree-item-menu>
   `);
@@ -47,7 +47,7 @@ it('throws when subclassed', async () => {
 it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture<GlideCoreTreeItemMenu>(html`
-      <glide-core-tree-item-menu></glide-core-tree-item-menu>
+      <glide-core-tree-item-menu label="Label"></glide-core-tree-item-menu>
     `);
   });
 });
@@ -55,7 +55,7 @@ it('throws when it does not have a default slot', async () => {
 it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture<GlideCoreTreeItemMenu>(html`
-      <glide-core-tree-item-menu>
+      <glide-core-tree-item-menu label="Label">
         <button>Button</button>
       </glide-core-tree-item-menu>
     `);
@@ -64,7 +64,7 @@ it('throws when its default slot is the wrong type', async () => {
 
 it('has `#onIconSlotChange` coverage', async () => {
   await fixture<GlideCoreTreeItemMenu>(html`
-    <glide-core-tree-item-menu>
+    <glide-core-tree-item-menu label="Label">
       <svg slot="icon"></svg>
       <glide-core-menu-link label="Label"></glide-core-menu-link>
     </glide-core-tree-item-menu>

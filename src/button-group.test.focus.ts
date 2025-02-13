@@ -5,7 +5,7 @@ import './button-group.js';
 
 it('moves focus when arrowing', async () => {
   const host = await fixture(
-    html`<glide-core-button-group>
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
       ></glide-core-button-group-button>

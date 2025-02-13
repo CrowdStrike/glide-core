@@ -6,7 +6,7 @@ it('focuses itself on open', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
   const host = await fixture<GlideCoreDrawer>(
-    html`<glide-core-drawer>Content</glide-core-drawer>`,
+    html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
   );
 
   host.open = true;

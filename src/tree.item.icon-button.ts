@@ -7,6 +7,7 @@ import styles from './tree.item.icon-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -28,6 +29,7 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
   static override styles = styles;
 
   @property()
+  @required
   label?: string;
 
   @property({ reflect: true })

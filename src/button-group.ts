@@ -8,6 +8,7 @@ import styles from './button-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,7 +32,8 @@ export default class GlideCoreButtonGroup extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  label? = '';
+  @required
+  label?: string;
 
   @property({ reflect: true })
   get variant() {

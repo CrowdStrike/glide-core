@@ -6,6 +6,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './split-button.primary-button.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -48,6 +49,7 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
   disabled = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property()

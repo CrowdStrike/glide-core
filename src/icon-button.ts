@@ -8,6 +8,7 @@ import styles from './icon-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -49,7 +50,8 @@ export default class GlideCoreIconButton extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   @property()
-  label = '';
+  @required
+  label?: string;
 
   @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
@@ -67,7 +69,7 @@ export default class GlideCoreIconButton extends LitElement {
         aria-controls=${ifDefined(this.ariaControls ?? undefined)}
         aria-expanded=${ifDefined(this.ariaExpanded ?? undefined)}
         aria-haspopup=${ifDefined(this.ariaHasPopup ?? undefined)}
-        aria-label=${this.label}
+        aria-label=${ifDefined(this.label)}
         class=${classMap({
           component: true,
           primary: this.variant === 'primary',

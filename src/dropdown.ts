@@ -25,6 +25,7 @@ import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -86,7 +87,7 @@ export default class GlideCoreDropdown
 
   set filterable(isFilterable: boolean) {
     if (this.#isFilterable !== isFilterable && isFilterable && !this.multiple) {
-      if (this.#inputElementRef.value && this.selectedOptions.length > 0) {
+      if (this.#inputElementRef.value && this.selectedOptions[0]?.label) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
 
@@ -105,6 +106,7 @@ export default class GlideCoreDropdown
   hideLabel = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ reflect: true })
@@ -133,7 +135,7 @@ export default class GlideCoreDropdown
       if (
         !this.multiple &&
         this.#inputElementRef.value &&
-        this.selectedOptions.length > 0
+        this.selectedOptions[0]?.label
       ) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
@@ -368,7 +370,7 @@ export default class GlideCoreDropdown
   // eslint-disable-next-line @typescript-eslint/require-await
   async filter(query: string): Promise<GlideCoreDropdownOption[]> {
     return this.#optionElements.filter(({ label }) => {
-      return label.toLowerCase().includes(query.toLowerCase().trim());
+      return label?.toLowerCase().includes(query.toLowerCase().trim());
     });
   }
 
@@ -397,7 +399,8 @@ export default class GlideCoreDropdown
     if (
       !this.multiple &&
       this.lastSelectedOption &&
-      this.#inputElementRef.value
+      this.#inputElementRef.value &&
+      this.lastSelectedOption.label
     ) {
       this.#inputElementRef.value.value = this.lastSelectedOption.label;
     }
@@ -570,7 +573,7 @@ export default class GlideCoreDropdown
                       <glide-core-tag
                         data-test="tag"
                         data-id=${id}
-                        label=${label}
+                        label=${ifDefined(label)}
                         removable
                         size=${this.size}
                         ?disabled=${this.disabled || this.readonly}
@@ -682,7 +685,7 @@ export default class GlideCoreDropdown
                 visible: Boolean(this.internalLabel),
               })}
               data-test="internal-label-tooltip"
-              label=${ifDefined(this.internalLabel)}
+              label=${this.internalLabel ?? ''}
               offset=${8}
               ?disabled=${this.open ||
               this.multiple ||
@@ -737,16 +740,14 @@ export default class GlideCoreDropdown
                 },
               )}
               ${when(
-                !this.multiple &&
-                  this.selectedOptions.length > 0 &&
-                  this.selectedOptions[0].editable,
+                !this.multiple && this.selectedOptions[0]?.editable,
                 () => {
                   return html`<glide-core-icon-button
                     class="edit-button"
                     data-test="edit-button"
                     label=${this.#localize.term(
                       'editOption',
-                      this.selectedOptions[0].label,
+                      this.selectedOptions[0].label!,
                     )}
                     tabindex=${this.disabled || this.readonly ? '-1' : '0'}
                     variant="tertiary"
@@ -1246,7 +1247,8 @@ export default class GlideCoreDropdown
     if (
       !this.multiple &&
       this.#inputElementRef.value &&
-      this.lastSelectedOption?.value
+      this.lastSelectedOption?.value &&
+      this.lastSelectedOption.label
     ) {
       this.#inputElementRef.value.value = this.lastSelectedOption.label;
       this.inputValue = this.lastSelectedOption.label;
@@ -2004,7 +2006,8 @@ export default class GlideCoreDropdown
         });
       } else if (
         (this.filterable || this.isFilterable) &&
-        this.#inputElementRef.value
+        this.#inputElementRef.value &&
+        this.selectedOptions[0].label
       ) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
@@ -2069,9 +2072,7 @@ export default class GlideCoreDropdown
     }
 
     this.isShowSingleSelectIcon =
-      !this.multiple &&
-      this.selectedOptions.length > 0 &&
-      Boolean(this.selectedOptions.at(0)?.value);
+      !this.multiple && Boolean(this.selectedOptions.at(0)?.value);
 
     // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {
@@ -2107,7 +2108,7 @@ export default class GlideCoreDropdown
       ) {
         this.#value = event.target.value ? [event.target.value] : [];
 
-        if (this.#inputElementRef.value) {
+        if (this.#inputElementRef.value && event.target.label) {
           this.isFiltering = false;
           this.#inputElementRef.value.value = event.target.label;
           this.inputValue = event.target.label;

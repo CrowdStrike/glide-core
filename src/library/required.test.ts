@@ -3,8 +3,14 @@ import { customElement, property } from 'lit/decorators.js';
 import { expect, fixture, html, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
 import required from './required.js';
+import final from './final.js';
 
+// In non-test scenarios, both `@required` and `@final` are
+// used together. Using both decorators in tests allow us
+// to verifying the component name is included in the
+// message.
 @customElement('glide-core-with-required-property')
+@final
 class GlideCoreWithRequiredProperty extends LitElement {
   @property()
   @required

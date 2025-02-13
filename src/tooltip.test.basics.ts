@@ -134,6 +134,22 @@ it('does not set `aria-describedby` on its target when hidden from screenreaders
   expect(button?.getAttribute('aria-describedby')).to.equal(null);
 });
 
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-tooltip>
+        <button slot="target">Target</button>
+      </glide-core-tooltip>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
@@ -148,13 +164,17 @@ it('throws when subclassed', async () => {
 
 it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
-    return fixture(html`<glide-core-tooltip></glide-core-tooltip>`);
+    return fixture(
+      html`<glide-core-tooltip label="Label"></glide-core-tooltip>`,
+    );
   });
 });
 
 it('throws when it does not have a "target" slot', async () => {
   await expectUnhandledRejection(() => {
-    return fixture(html`<glide-core-tooltip>Tooltip</glide-core-tooltip>`);
+    return fixture(
+      html`<glide-core-tooltip label="Label">Tooltip</glide-core-tooltip>`,
+    );
   });
 });
 

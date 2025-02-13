@@ -12,6 +12,7 @@ import styles from './textarea.styles.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -49,7 +50,8 @@ export default class GlideCoreTextarea
   value = '';
 
   @property({ reflect: true })
-  label?: string = '';
+  @required
+  label?: string;
 
   @property({ attribute: 'hide-label', reflect: true, type: Boolean })
   hideLabel = false;
