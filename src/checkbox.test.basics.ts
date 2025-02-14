@@ -16,7 +16,7 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const host = await fixture<GlideCoreCheckbox>(
-    html`<glide-core-checkbox label="Label" tooltip="Tooltip">
+    html`<glide-core-checkbox label="Label" summary="Summary" tooltip="Tooltip">
       <div slot="description">Description</div>
     </glide-core-checkbox>`,
   );
