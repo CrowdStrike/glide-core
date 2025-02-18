@@ -58,6 +58,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     | 'search'
     | 'tel'
     | 'text'
+    | 'time'
     | 'url' = 'text';
 
   @property({ reflect: true })

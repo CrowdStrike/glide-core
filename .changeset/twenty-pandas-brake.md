@@ -6,7 +6,7 @@
 - Toggle no longer has a `name` property. `name` only applies to form controls and was unused.
 - Tree Item's `hasChildTreeItems` and `hasExpandIcon` properties and its `toggleExpand()` method have been marked private.
 
-Additionally, some internal changes we made to facillitate generating documentation programmatically forced us remove a few exported types and rename some custom properties:
+Additionally, some internal changes were made to facillitate generating documentation programmatically forced us remove a few exported types and rename some custom properties:
 
 - Input no longer exports a `SUPPORTED_TYPES` interface.
 - Toasts no longer exports a `Toast` interface.

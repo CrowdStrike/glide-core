@@ -321,6 +321,7 @@ const meta: Meta = {
         'search',
         'tel',
         'text',
+        'time',
         'url',
       ],
       table: {
@@ -329,7 +330,7 @@ const meta: Meta = {
         },
         type: {
           summary:
-            'date | email | number | password | search | tel | text | url',
+            'date | email | number | password | search | tel | text | time | url',
         },
       },
     },

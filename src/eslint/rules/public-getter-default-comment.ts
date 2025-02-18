@@ -17,13 +17,13 @@ export const publicGetterDefaultComment = createRule({
   meta: {
     docs: {
       description:
-        'Ensures getters that have setters have a comment with `@default` tag.',
+        'Ensures getters that have setters have a comment with a `@default` tag.',
       recommended: true,
     },
     type: 'suggestion',
     messages: {
       addDefaultTag:
-        'Add a "@default" tag to your comment help us populate our elements manifest with the correct default type.',
+        'Add a "@default" tag to your comment to help us populate our elements manifest with the correct default type.',
       addCommentAndDefaultTag:
         'Add a JSDoc comment with a "@default" tag to help us populate our elements manifest with the correct default type.',
       useJsDocComment:

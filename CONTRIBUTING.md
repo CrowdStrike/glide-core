@@ -195,11 +195,11 @@ Until we do, use custom properties to allow only certain styles to be overridden
 export default class GlideCoreExample extends LitElement {
   static override styles = css`
     :host {
-      --padding-inline: var(--glide-core-spacing-xs);
+      --font-weight: 700;
     }
 
     .component {
-      font-weight: var(--padding-inline);
+      font-weight: var(--font-weight);
     }
   `;
 
