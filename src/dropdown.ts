@@ -873,8 +873,8 @@ export default class GlideCoreDropdown
                 ${ref(this.#defaultSlotElementRef)}
               >
                 <!-- 
-                  @type {GlideCoreDropdownOption}
                   @required
+                  @type {GlideCoreDropdownOption}
                 -->
               </slot>
             </div>

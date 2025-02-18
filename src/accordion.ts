@@ -206,8 +206,9 @@ export default class GlideCoreAccordion extends LitElement {
       >
         <!-- 
           The content of the accordion 
-          @type {Element | string}
+
           @required
+          @type {Element | string}
         -->
       </slot>
     </details>`;
