@@ -14,7 +14,7 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const host = await fixture<GlideCoreToggle>(
-    html`<glide-core-toggle label="Label" tooltip="Tooltip">
+    html`<glide-core-toggle label="Label" summary="Summary" tooltip="Tooltip">
       <div slot="description">Description</div>
     </glide-core-toggle>`,
   );

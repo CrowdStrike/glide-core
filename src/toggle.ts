@@ -3,6 +3,7 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './toggle.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -115,7 +116,10 @@ export default class GlideCoreToggle extends LitElement {
           />
         </div>
 
-        <div slot="summary" id="summary">${this.summary}</div>
+        ${when(
+          this.summary,
+          () => html`<div id="summary" slot="summary">${this.summary}</div>`,
+        )}
 
         <slot
           class="description"

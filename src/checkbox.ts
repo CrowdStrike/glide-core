@@ -376,7 +376,11 @@ export default class GlideCoreCheckbox
               </div>
             </div>
 
-            <div id="summary" slot="summary">${this.summary}</div>
+            ${when(
+              this.summary,
+              () =>
+                html`<div id="summary" slot="summary">${this.summary}</div>`,
+            )}
 
             <div id="description" slot="description">
               <!-- 
