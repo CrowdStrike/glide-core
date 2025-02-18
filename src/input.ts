@@ -37,6 +37,7 @@ export const SUPPORTED_TYPES = [
   'search',
   'tel',
   'text',
+  'time',
   'url',
 ] as const;
 
