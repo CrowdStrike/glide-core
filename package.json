@@ -9,6 +9,9 @@
     "type": "git",
     "url": "https://github.com/CrowdStrike/glide-core.git"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "files": [
     "dist",
     "!dist/eslint",
