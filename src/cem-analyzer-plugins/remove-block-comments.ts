@@ -16,10 +16,10 @@ export default () => {
   return {
     name: 'remove-comments',
     collectPhase({ node }: { node: Node }) {
-      // We're only interested in class JSDocs because class members can
-      // have comments too. And those we need to keep. The default return
-      // types of getters, for example, are specified in JSDocs because
-      // they're otherwise difficult to determine.
+      // We're only interested in class JSDocs because class members can have
+      // comments too. And those we need to keep. The default return types of
+      // getters, for example, are specified in JSDocs comments because they're
+      // otherwise difficult to determine.
       if (isClassDeclaration(node) && 'jsDoc' in node) {
         node.jsDoc = [];
       }
