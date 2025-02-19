@@ -36,7 +36,11 @@ it('dispatches an "input" event on input', async () => {
 
 it('dispatches an "input" event on clear', async () => {
   const host = await fixture<GlideCoreInput>(
-    html`<glide-core-input label="Label" clearable></glide-core-input>`,
+    html`<glide-core-input
+      label="Label"
+      value="value"
+      clearable
+    ></glide-core-input>`,
   );
 
   click(host.shadowRoot?.querySelector('[data-test="clear-button"]'));
