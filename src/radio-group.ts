@@ -47,8 +47,11 @@ export default class GlideCoreRadioGroup
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -81,8 +84,11 @@ export default class GlideCoreRadioGroup
   @property({ reflect: true })
   tooltip?: string;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get required() {
+  get required(): boolean {
     return this.#isRequired;
   }
 
@@ -99,8 +105,11 @@ export default class GlideCoreRadioGroup
   }
 
   // Intentionally not reflected to match native.
+  /**
+   * @default ''
+   */
   @property()
-  get value() {
+  get value(): string {
     return this.#value;
   }
 
@@ -134,7 +143,7 @@ export default class GlideCoreRadioGroup
   @property({ reflect: true })
   readonly version = packageJson.version;
 
-  checkValidity() {
+  checkValidity(): boolean {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
@@ -205,11 +214,11 @@ export default class GlideCoreRadioGroup
     radio?.focus(options);
   }
 
-  get form() {
+  get form(): HTMLFormElement | null {
     return this.#internals.form;
   }
 
-  get validity() {
+  get validity(): ValidityState {
     const isChecked = this.#radioElements.some(({ checked }) => checked);
 
     if (this.required && !isChecked && !this.disabled) {
@@ -248,11 +257,11 @@ export default class GlideCoreRadioGroup
     return this.#internals.validity;
   }
 
-  formAssociatedCallback() {
+  formAssociatedCallback(): void {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
 
-  formResetCallback() {
+  formResetCallback(): void {
     this.value = this.getAttribute('value') ?? '';
   }
 
@@ -292,7 +301,9 @@ export default class GlideCoreRadioGroup
               @private-value-change=${this.#onRadiosValueChange}
               ${assertSlot([GlideCoreRadioGroupRadio])}
               ${ref(this.#defaultSlotElementRef)}
-            ></slot>
+            >
+              <!-- @type {GlideCoreRadio} -->
+            </slot>
           </div>
 
           <div id="description" slot="description">
@@ -304,7 +315,12 @@ export default class GlideCoreRadioGroup
                 ),
               })}
               name="description"
-            ></slot>
+            >
+              <!-- 
+                Additional information or context 
+                @type {Element | string}
+              -->
+            </slot>
 
             ${when(
               this.#isShowValidationFeedback && this.validityMessage,
@@ -319,7 +335,7 @@ export default class GlideCoreRadioGroup
     `;
   }
 
-  reportValidity() {
+  reportValidity(): boolean {
     this.isReportValidityOrSubmit = true;
 
     const isValid = this.#internals.reportValidity();
@@ -330,11 +346,11 @@ export default class GlideCoreRadioGroup
     return isValid;
   }
 
-  resetValidityFeedback() {
+  resetValidityFeedback(): void {
     this.isReportValidityOrSubmit = false;
   }
 
-  setCustomValidity(message: string) {
+  setCustomValidity(message: string): void {
     this.validityMessage = message;
 
     if (message === '') {
@@ -355,7 +371,7 @@ export default class GlideCoreRadioGroup
     }
   }
 
-  setValidity(flags?: ValidityStateFlags, message?: string) {
+  setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
     this.#internals.setValidity(flags, ' ', this.#componentElementRef.value);
   }
@@ -443,8 +459,6 @@ export default class GlideCoreRadioGroup
     radio.checked = true;
     radio.tabIndex = 0;
     radio.focus();
-    radio.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-    radio.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
   }
 
   #onComponentClick(event: MouseEvent) {

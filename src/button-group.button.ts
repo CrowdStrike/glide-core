@@ -33,8 +33,11 @@ export default class GlideCoreButtonGroupButton extends LitElement {
   @required
   label?: string;
 
+  /**
+   * @default false
+   */
   @property({ type: Boolean, reflect: true })
-  get selected() {
+  get selected(): boolean {
     return this.#isSelected;
   }
 
@@ -70,6 +73,14 @@ export default class GlideCoreButtonGroupButton extends LitElement {
     this.#componentElementRef.value?.focus(options);
   }
 
+  privateSelect() {
+    this.selected = true;
+
+    this.dispatchEvent(
+      new Event('selected', { bubbles: true, composed: true }),
+    );
+  }
+
   override render() {
     return html`<div
       aria-checked=${this.selected}
@@ -92,7 +103,9 @@ export default class GlideCoreButtonGroupButton extends LitElement {
         @slotchange=${this.#onIconSlotChange}
         ${assertSlot(null, this.privateVariant !== 'icon-only')}
         ${ref(this.#iconSlotElementRef)}
-      ></slot>
+      >
+        <!-- @type {Element} -->
+      </slot>
 
       <div
         class=${classMap({

@@ -39,7 +39,13 @@ export default class GlideCoreModalIconButton extends LitElement {
   override render() {
     return html`
       <glide-core-icon-button label=${ifDefined(this.label)} variant="tertiary">
-        <slot ${assertSlot()}></slot>
+        <slot ${assertSlot()}>
+          <!-- 
+            An icon
+            @required
+            @type {Element}
+          -->
+        </slot>
       </glide-core-icon-button>
     `;
   }

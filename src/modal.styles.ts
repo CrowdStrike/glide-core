@@ -61,7 +61,7 @@ export default [
       }
 
       ::slotted([slot='tertiary']) {
-        --size: 1rem;
+        --private-size: 1rem;
 
         display: contents;
         size: 1rem;
@@ -127,7 +127,7 @@ export default [
     }
 
     .severity {
-      --size: 1.5rem;
+      --private-size: 1.5rem;
 
       display: flex;
 
@@ -153,7 +153,7 @@ export default [
     }
 
     .close-button {
-      --size: 1.25rem;
+      --private-size: 1.25rem;
 
       /*
         Flex so the icon doesn't sit on the baseline and extend the height of

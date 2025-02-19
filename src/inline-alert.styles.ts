@@ -37,13 +37,13 @@ export default [
 
       &.added {
         @media (prefers-reduced-motion: no-preference) {
-          animation: fade-in var(--animation-duration) ease-in-out;
+          animation: fade-in var(--private-animation-duration) ease-in-out;
         }
       }
 
       &.removed {
         @media (prefers-reduced-motion: no-preference) {
-          animation-duration: var(--animation-duration);
+          animation-duration: var(--private-animation-duration);
           animation-fill-mode: forwards;
           animation-name: fade-out;
           animation-timing-function: ease-in-out;
@@ -99,7 +99,7 @@ export default [
     }
 
     .removal-button {
-      --icon-color: var(--glide-core-icon-default2);
+      --private-icon-color: var(--glide-core-icon-default2);
 
       align-self: flex-start;
       transition: color 200ms ease-in-out;

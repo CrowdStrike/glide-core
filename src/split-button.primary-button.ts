@@ -53,7 +53,7 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
   label?: string;
 
   @property()
-  privateSize: 'large' | 'small' = 'large';
+  privateSize: 'small' | 'large' = 'large';
 
   @property()
   privateVariant: 'primary' | 'secondary' = 'primary';
@@ -76,7 +76,13 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
       type="button"
       ?disabled=${this.disabled}
     >
-      <slot name="icon"></slot>
+      <slot name="icon">
+        <!-- 
+          An icon before the label 
+          @type {Element}
+        -->
+      </slot>
+
       ${this.label}
     </button>`;
   }

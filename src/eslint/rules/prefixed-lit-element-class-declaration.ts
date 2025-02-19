@@ -37,7 +37,7 @@ export const prefixedClassDeclaration = createRule({
           context.report({
             node,
             messageId: 'addPrefix',
-            fix: function (fixer) {
+            fix(fixer) {
               const nodeId = node.id;
 
               if (!nodeId) {

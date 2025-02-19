@@ -13,9 +13,9 @@ export default [
     glide-core-icon-button {
       display: flex;
 
-      --icon-color: var(--icon-button-color);
-      --hovered-icon-color: var(--hovered-icon-button-color);
-      --size: 1rem;
+      --private-icon-color: var(--private-icon-button-color);
+      --private-hovered-icon-color: var(--private-hovered-icon-button-color);
+      --private-size: 1rem;
     }
   `,
 ];

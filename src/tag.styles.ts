@@ -40,7 +40,7 @@ export default [
 
       &.added {
         @media (prefers-reduced-motion: no-preference) {
-          animation: fade-in var(--animation-duration) ease-in-out;
+          animation: fade-in var(--private-animation-duration) ease-in-out;
         }
       }
 
@@ -50,7 +50,7 @@ export default [
 
       &.removed {
         @media (prefers-reduced-motion: no-preference) {
-          animation-duration: var(--animation-duration);
+          animation-duration: var(--private-animation-duration);
           animation-fill-mode: forwards;
           animation-name: fade-out;
           animation-timing-function: ease-in-out;
@@ -167,13 +167,13 @@ export default [
       }
 
       &.medium {
-        --size: 0.75rem;
+        --private-size: 0.75rem;
 
         margin-inline-start: 0.375rem;
       }
 
       &.small {
-        --size: 0.625rem;
+        --private-size: 0.625rem;
 
         margin-inline-start: var(--glide-core-spacing-xxs);
       }

@@ -40,7 +40,7 @@ export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
   url?: string;
 
   @property()
-  privateSize: 'large' | 'small' = 'large';
+  privateSize: 'small' | 'large' = 'large';
 
   @property()
   privateVariant: 'primary' | 'secondary' = 'primary';
@@ -60,7 +60,13 @@ export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
         })}
         role="link"
       >
-        <slot name="icon"></slot>
+        <slot name="icon">
+          <!-- 
+            An icon before the label 
+            @type {Element}
+          -->
+        </slot>
+
         ${this.label}
       </span>`;
     }
@@ -74,7 +80,10 @@ export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
       data-test="component"
       href=${ifDefined(this.url)}
     >
-      <slot name="icon"></slot>
+      <slot name="icon">
+        <!-- @type {Element} -->
+      </slot>
+
       ${this.label}
     </a>`;
   }

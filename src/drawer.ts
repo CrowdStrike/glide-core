@@ -40,8 +40,11 @@ export default class GlideCoreDrawer extends LitElement {
   @property({ reflect: true, type: Boolean })
   pinned = false;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -166,7 +169,14 @@ export default class GlideCoreDrawer extends LitElement {
         tabindex="-1"
         ${ref(this.#componentElementRef)}
       >
-        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}>
+          <!-- 
+            The content of the drawer
+
+            @required
+            @type {Element | string}
+          -->
+        </slot>
       </aside>
     `;
   }

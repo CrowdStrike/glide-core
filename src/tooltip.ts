@@ -44,8 +44,11 @@ export default class GlideCoreTooltip extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -75,6 +78,9 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
   @required
   get label(): string | undefined {
@@ -93,8 +99,11 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 
+  /**
+   * @default 4
+   */
   @property({ reflect: true, type: Number })
-  get offset() {
+  get offset(): number {
     return (
       this.#offset ??
       Number.parseFloat(
@@ -112,11 +121,17 @@ export default class GlideCoreTooltip extends LitElement {
     this.#offset = offset;
   }
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
+  /**
+   * @default false
+   */
   set open(isOpen: boolean) {
     const hasChanged = isOpen !== this.#isOpen;
     this.#isOpen = isOpen;
@@ -136,15 +151,18 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 
-  /*
-    The placement of the tooltip relative to its target. Automatic placement will
-    take over if the tooltip is cut off by the viewport. "bottom" by default.
-  */
+  /**
+   * The placement of the tooltip relative to its target. Automatic placement will
+   * take over if the tooltip is cut off by the viewport.
+   */
   @property({ reflect: true })
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
+  /**
+   * @default false
+   */
   @property({ attribute: 'screenreader-hidden', reflect: true, type: Boolean })
-  get screenreaderHidden() {
+  get screenreaderHidden(): boolean {
     return this.#isScreenreaderHidden;
   }
 
@@ -168,8 +186,11 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 
+  /**
+   * @default []
+   */
   @property({ reflect: true, type: Array })
-  get shortcut() {
+  get shortcut(): string[] {
     return this.#shortcut;
   }
 
@@ -251,7 +272,15 @@ export default class GlideCoreTooltip extends LitElement {
             ${assertSlot()}
             ${ref(this.#targetSlotElementRef)}
             name="target"
-          ></slot>
+          >
+            <!-- 
+              The element to which the tooltip will anchor. 
+              Can be any element with an implicit or explicit ARIA role. 
+
+              @required
+              @type {Element}
+            -->
+          </slot>
         </div>
 
         <div
@@ -287,7 +316,11 @@ export default class GlideCoreTooltip extends LitElement {
               reversed: this.effectivePlacement === 'left',
             })}
           >
-            <slot class="default-slot" name="private"></slot>
+            <slot class="default-slot" name="private">
+              <!-- 
+                @type {GlideCoreTooltipContainer}
+              -->
+            </slot>
           </div>
         </div>
       </div>
@@ -456,7 +489,13 @@ export default class GlideCoreTooltip extends LitElement {
                   'glide-core-private-tooltip-container',
                 );
 
-                if (container) {
+                const isSupportedPlacement =
+                  placement === 'bottom' ||
+                  placement === 'left' ||
+                  placement === 'right' ||
+                  placement === 'top';
+
+                if (container && isSupportedPlacement) {
                   container.placement = placement;
                 }
               }

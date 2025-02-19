@@ -5,7 +5,7 @@ const createRule = ESLintUtils.RuleCreator<{
   recommended: boolean;
 }>(
   (name) =>
-    `https://github.com/CrowdStrike/glide-core/blob/main/packages/eslint-plugin/src/rules/${name}.ts`,
+    `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`,
 );
 
 export const consistentReferenceElementDeclarations = createRule({
