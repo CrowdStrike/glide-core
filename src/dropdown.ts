@@ -284,6 +284,14 @@ export default class GlideCoreDropdown
     }
 
     this.#isSettingValueProgrammatically = false;
+
+    if (
+      !this.multiple &&
+      this.value.length === 0 &&
+      this.#inputElementRef.value
+    ) {
+      this.#inputElementRef.value.value = '';
+    }
   }
 
   /*
