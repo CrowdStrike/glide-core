@@ -7,6 +7,8 @@ on:
 jobs:
   remove_cloudflare_artifacts:
     name: Remove Cloudflare Artifacts
+    # Ubuntu instead of MacOS because the performance difference is
+    # negligible and Ubuntu includes the AWS CLI.
     runs-on: ubuntu-latest
     steps:
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
