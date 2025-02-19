@@ -38,8 +38,6 @@ const meta: Meta = {
     'slot="default"': '',
     'slot="nav"': '',
     version: '',
-    '--panel-padding-inline-end': '',
-    '--panel-padding-inline-start': '',
     '--tabs-padding-block-end': '',
     '--tabs-padding-block-start': '',
     '--tabs-padding-inline-end': '',
@@ -63,6 +61,8 @@ const meta: Meta = {
     '<glide-core-tab-panel>.name': '',
     '<glide-core-tab-panel>[slot="default"]': 'Panel',
     '<glide-core-tab-panel>.version': '',
+    '<glide-core-tab-panel>[--padding-inline-end]': '',
+    '<glide-core-tab-panel>[--padding-inline-start]': '',
   },
   play(context) {
     const tabs = context.canvasElement.querySelectorAll('glide-core-tab');
@@ -88,10 +88,6 @@ const meta: Meta = {
     return html`
       <glide-core-tab-group
         style=${styleMap({
-          '--panel-padding-inline-start':
-            arguments_['--panel-padding-inline-start'] || null,
-          '--panel-padding-inline-end':
-            arguments_['--panel-padding-inline-end'] || null,
           '--tabs-padding-block-start':
             arguments_['--tabs-padding-block-start'] || null,
           '--tabs-padding-block-end':
@@ -124,7 +120,17 @@ const meta: Meta = {
           ></glide-core-example-icon>
         </glide-core-tab>
 
-        <glide-core-tab-panel name="1">
+        <glide-core-tab-panel
+          name="1"
+          style=${styleMap({
+            '--padding-inline-end':
+              arguments_['<glide-core-tab-panel>[--padding-inline-end]'] ||
+              null,
+            '--padding-inline-start':
+              arguments_['<glide-core-tab-panel>[--padding-inline-start]'] ||
+              null,
+          })}
+        >
           ${unsafeHTML(arguments_['<glide-core-tab-panel>[slot="default"]'])}
         </glide-core-tab-panel>
         <glide-core-tab-panel name="2"> With Icon </glide-core-tab-panel>
@@ -153,20 +159,6 @@ const meta: Meta = {
           summary: import.meta.env.VITE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
-      },
-    },
-    '--panel-padding-inline-end': {
-      table: {
-        type: {
-          summary: 'CSS custom property',
-        },
-      },
-    },
-    '--panel-padding-inline-start': {
-      table: {
-        type: {
-          summary: 'CSS custom property',
-        },
       },
     },
     '--tabs-padding-block-end': {
@@ -335,6 +327,24 @@ const meta: Meta = {
         type: { summary: 'string', detail: '// For debugging' },
       },
     },
+    '<glide-core-tab-panel>[--padding-inline-end]': {
+      name: '--padding-inline-end',
+      table: {
+        category: 'Tab Panel',
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
+    '<glide-core-tab-panel>[--padding-inline-start]': {
+      name: '--padding-inline-start',
+      table: {
+        category: 'Tab Panel',
+        type: {
+          summary: 'CSS custom property',
+        },
+      },
+    },
   },
 };
 
@@ -420,7 +430,19 @@ export const WithOverflow: StoryObj = {
             Ten
           </glide-core-tab>
 
-          <glide-core-tab-panel name="1"> One </glide-core-tab-panel>
+          <glide-core-tab-panel
+            name="1"
+            style=${styleMap({
+              '--padding-inline-end':
+                arguments_['<glide-core-tab-panel>[--padding-inline-end]'] ||
+                null,
+              '--padding-inline-start':
+                arguments_['<glide-core-tab-panel>[--padding-inline-start]'] ||
+                null,
+            })}
+          >
+            One
+          </glide-core-tab-panel>
           <glide-core-tab-panel name="2"> Two </glide-core-tab-panel>
           <glide-core-tab-panel name="3"> Three </glide-core-tab-panel>
           <glide-core-tab-panel name="4"> Four </glide-core-tab-panel>

@@ -28,8 +28,11 @@ export default class GlideCoreMenuButton extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -83,7 +86,10 @@ export default class GlideCoreMenuButton extends LitElement {
       type="button"
       ${ref(this.#componentElementRef)}
     >
-      <slot name="icon"></slot>
+      <slot name="icon">
+        <!-- @type {Element} -->
+      </slot>
+
       ${this.label}
     </button>`;
   }

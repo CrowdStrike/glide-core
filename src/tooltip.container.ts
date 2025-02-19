@@ -2,7 +2,6 @@ import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
 import { classMap } from 'lit/directives/class-map.js';
-import { type Placement } from '@floating-ui/dom';
 import { map } from 'lit/directives/map.js';
 import styles from './tooltip.container.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -41,8 +40,11 @@ export default class GlideCoreTooltipContainer extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -55,9 +57,9 @@ export default class GlideCoreTooltipContainer extends LitElement {
   label?: string;
 
   @property()
-  placement?: Placement;
+  placement?: 'bottom' | 'left' | 'right' | 'top';
 
-  @property({ type: Boolean })
+  @property({ attribute: 'screenreader-hidden', type: Boolean })
   screenreaderHidden = false;
 
   @property({ type: Array })

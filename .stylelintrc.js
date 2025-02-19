@@ -6,6 +6,7 @@ export default {
     'stylelint-use-nesting',
     'stylelint-use-logical',
     'stylelint-order',
+    './dist/stylelint/plugin',
   ],
   rules: {
     // https://github.com/w3c/csswg-drafts/issues/9496
@@ -17,5 +18,6 @@ export default {
     'no-descending-specificity': null,
     'order/properties-alphabetical-order': true,
     'prettier/prettier': true,
+    'glide-core/no-unprefixed-private-custom-property': true,
   },
 };

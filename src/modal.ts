@@ -62,8 +62,11 @@ export default class GlideCoreModal extends LitElement {
   @required
   label?: string;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -232,7 +235,9 @@ export default class GlideCoreModal extends LitElement {
               name="header-actions"
               ${assertSlot([GlideCoreModalIconButton], true)}
               ${ref(this.#headerActionsSlotElementRef)}
-            ></slot>
+            >
+              <!-- @type {GlideCoreModalIconButton} -->
+            </slot>
 
             <glide-core-modal-icon-button
               class="close-button"
@@ -247,7 +252,9 @@ export default class GlideCoreModal extends LitElement {
         </header>
 
         <article aria-labelledby="heading" class="body" role="region">
-          <slot ${assertSlot()}></slot>
+          <slot ${assertSlot()}>
+            <!-- @type {Element | string} -->
+          </slot>
         </article>
 
         <footer>
@@ -257,21 +264,21 @@ export default class GlideCoreModal extends LitElement {
                 class="tertiary-slot"
                 name="tertiary"
                 ${assertSlot([GlideCoreButton, GlideCoreTooltip], true)}
-              ></slot>
+              >
+                <!-- @type {GlideCoreButton | GlideCoreTooltip} -->
+              </slot>
             </li>
 
             <li class="action">
-              <slot
-                name="secondary"
-                ${assertSlot([GlideCoreButton], true)}
-              ></slot>
+              <slot name="secondary" ${assertSlot([GlideCoreButton], true)}>
+                <!-- @type {GlideCoreButton} -->
+              </slot>
             </li>
 
             <li class="action">
-              <slot
-                name="primary"
-                ${assertSlot([GlideCoreButton], true)}
-              ></slot>
+              <slot name="primary" ${assertSlot([GlideCoreButton], true)}>
+                <!-- @type {GlideCoreButton} -->
+              </slot>
             </li>
           </menu>
         </footer>

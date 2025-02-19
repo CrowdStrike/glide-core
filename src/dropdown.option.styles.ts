@@ -152,7 +152,7 @@ export default [
     }
 
     .checked-icon-container {
-      --size: 1rem;
+      --private-size: 1rem;
 
       display: contents;
 

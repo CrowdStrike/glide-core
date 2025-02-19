@@ -8,6 +8,13 @@ export default [
     ${visuallyHidden('.hidden')}
   `,
   css`
+    :host {
+      --padding-inline-end: 0rem;
+      --padding-inline-start: 0rem;
+    }
+
+    /* https://github.com/csstools/stylelint-use-nesting/issues/23 */
+    /* stylelint-disable-next-line csstools/use-nesting */
     :host(:focus-visible) {
       outline: none;
     }
@@ -38,8 +45,8 @@ export default [
         can set these properties on the parent Tab Group
         and it will apply to all child panels for convenience.
       */
-      padding-inline-end: var(--panel-padding-inline-end);
-      padding-inline-start: var(--panel-padding-inline-start);
+      padding-inline-end: var(--padding-inline-end);
+      padding-inline-start: var(--padding-inline-start);
 
       &.selected {
         block-size: 100%;

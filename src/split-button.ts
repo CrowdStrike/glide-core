@@ -32,12 +32,15 @@ export default class GlideCoreSplitButton extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default 'large'
+   */
   @property({ reflect: true })
-  get size() {
+  get size(): 'small' | 'large' {
     return this.#size;
   }
 
-  set size(size: 'large' | 'small') {
+  set size(size: 'small' | 'large') {
     this.#size = size;
 
     if (this.primaryButtonElement) {
@@ -49,8 +52,11 @@ export default class GlideCoreSplitButton extends LitElement {
     }
   }
 
+  /**
+   * @default 'primary'
+   */
   @property({ reflect: true })
-  get variant() {
+  get variant(): 'primary' | 'secondary' {
     return this.#variant;
   }
 
@@ -100,14 +106,18 @@ export default class GlideCoreSplitButton extends LitElement {
             GlideCoreSplitButtonPrimaryLink,
           ])}
           ${ref(this.#defaultSlotElementRef)}
-        ></slot>
+        >
+          <!-- @type {GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink} -->
+        </slot>
 
         <slot
           name="secondary-button"
           @slotchange=${this.#onSecondaryButtonSlotChange}
           ${assertSlot([GlideCoreSplitButtonSecondaryButton])}
           ${ref(this.#secondaryButtonSlotElementRef)}
-        ></slot>
+        >
+          <!-- @type {GlideCoreSplitButtonSecondaryButton} -->
+        </slot>
       </div>
     `;
   }
@@ -116,7 +126,7 @@ export default class GlideCoreSplitButton extends LitElement {
 
   #secondaryButtonSlotElementRef = createRef<HTMLSlotElement>();
 
-  #size: 'large' | 'small' = 'large';
+  #size: 'small' | 'large' = 'large';
 
   #variant: 'primary' | 'secondary' = 'primary';
 

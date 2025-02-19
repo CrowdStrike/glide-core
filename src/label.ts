@@ -138,7 +138,9 @@ export default class GlideCoreLabel extends LitElement {
               @slotchange=${this.#onDefaultSlotChange}
               ${assertSlot()}
               ${ref(this.#defaultSlotElementRef)}
-            ></slot>
+            >
+              <!-- @type {HTMLLabelElement} -->
+            </slot>
 
             ${this.required
               ? html`<span aria-hidden="true" class="required-symbol">*</span>`
@@ -159,7 +161,12 @@ export default class GlideCoreLabel extends LitElement {
           })}
           name="control"
           ${assertSlot()}
-        ></slot>
+        >
+          <!-- 
+            The element with which the label is associated 
+            @type {Element}
+          -->
+        </slot>
 
         <slot
           class=${classMap({
@@ -169,7 +176,12 @@ export default class GlideCoreLabel extends LitElement {
           name="summary"
           @slotchange=${this.#onSummarySlotChange}
           ${ref(this.#summarySlotElementRef)}
-        ></slot>
+        >
+          <!-- 
+            Additional information or context 
+            @type {Element}
+          -->
+        </slot>
       </div>
 
       <slot
@@ -183,7 +195,12 @@ export default class GlideCoreLabel extends LitElement {
         name="description"
         ${onResize(this.#onDescriptionSlotResize.bind(this))}
         ${ref(this.#descriptionSlotElementRef)}
-      ></slot>
+      >
+        <!-- 
+          Additional information or context  
+          @type {Element | string}
+        -->
+      </slot>
     </div>`;
   }
 

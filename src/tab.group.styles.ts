@@ -3,6 +3,11 @@ import { css } from 'lit';
 export default [
   css`
     :host {
+      --tabs-padding-block-end: 0rem;
+      --tabs-padding-block-start: 0rem;
+      --tabs-padding-inline-end: 0rem;
+      --tabs-padding-inline-start: 0rem;
+
       background-color: transparent;
       block-size: 100%;
       display: flex;
@@ -39,12 +44,12 @@ export default [
         background: var(--glide-core-border-focus);
         block-size: 0.125rem;
         content: '';
-        inline-size: var(--selected-tab-indicator-width);
+        inline-size: var(--private-selected-tab-indicator-width);
         inset-block-end: 0;
         inset-inline: 0;
         position: absolute;
         transform-origin: left;
-        translate: var(--selected-tab-indicator-translate, 0) 0;
+        translate: var(--private-selected-tab-indicator-translate, 0) 0;
       }
 
       &.animated {
@@ -59,7 +64,7 @@ export default [
     }
 
     .overflow-button {
-      --size: 1.125rem;
+      --private-size: 1.125rem;
 
       align-items: center;
       background-color: transparent;

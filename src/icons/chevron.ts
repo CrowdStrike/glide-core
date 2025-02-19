@@ -5,8 +5,8 @@ export default html`
   <svg
     aria-hidden="true"
     style=${styleMap({
-      height: 'var(--size, 1rem)',
-      width: 'var(--size, 1rem)',
+      height: 'var(--private-size, 1rem)',
+      width: 'var(--private-size, 1rem)',
     })}
     viewBox="0 0 24 24"
     fill="none"

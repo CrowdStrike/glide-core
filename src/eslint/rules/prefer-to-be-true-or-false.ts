@@ -50,7 +50,7 @@ export const preferToBeTrueOrFalse = createRule({
             context.report({
               node,
               messageId: 'preferToBeFalse',
-              fix: function (fixer) {
+              fix(fixer) {
                 if (node.callee.type !== AST_NODE_TYPES.MemberExpression) {
                   return null;
                 }
@@ -79,7 +79,7 @@ export const preferToBeTrueOrFalse = createRule({
             context.report({
               node,
               messageId: 'preferToBeTrue',
-              fix: function (fixer) {
+              fix(fixer) {
                 if (node.callee.type !== AST_NODE_TYPES.MemberExpression) {
                   return null;
                 }

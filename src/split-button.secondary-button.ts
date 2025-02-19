@@ -55,7 +55,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   privateActive = false;
 
   @property()
-  privateSize: 'large' | 'small' = 'large';
+  privateSize: 'small' | 'large' = 'large';
 
   @property()
   privateVariant: 'primary' | 'secondary' = 'primary';
@@ -115,7 +115,9 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
         </button>
 
         <glide-core-menu-options>
-          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}></slot>
+          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}>
+            <!-- @type {GlideCoreMenuButton | GlideCoreMenuLink} -->
+          </slot>
         </glide-core-menu-options>
       </glide-core-menu>
     `;

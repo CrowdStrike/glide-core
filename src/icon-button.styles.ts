@@ -13,14 +13,14 @@ export default [
 
     .component {
       align-items: center;
-      block-size: var(--size, 1.625rem);
+      block-size: var(--private-size, 1.625rem);
       border-color: transparent;
       border-radius: 0.5rem;
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
       display: inline-flex;
-      inline-size: var(--size, 1.625rem);
+      inline-size: var(--private-size, 1.625rem);
       justify-content: center;
       padding-inline: 0;
       transition-duration: 150ms;
@@ -39,7 +39,7 @@ export default [
       &.primary {
         background-color: var(--glide-core-surface-primary);
         border-color: transparent;
-        color: var(--icon-color, var(--glide-core-icon-selected));
+        color: var(--private-icon-color, var(--glide-core-icon-selected));
 
         &:disabled {
           background-color: var(--glide-core-surface-base-gray-light);
@@ -64,7 +64,7 @@ export default [
       &.secondary {
         background-color: transparent;
         border-color: transparent;
-        color: var(--icon-color, var(--glide-core-icon-default));
+        color: var(--private-icon-color, var(--glide-core-icon-default));
 
         &:disabled {
           background-color: transparent;
@@ -86,10 +86,10 @@ export default [
 
       &.tertiary {
         background-color: transparent;
-        block-size: var(--size, 1rem);
+        block-size: var(--private-size, 1rem);
         border-color: transparent;
-        color: var(--icon-color, var(--glide-core-icon-default));
-        inline-size: var(--size, 1rem);
+        color: var(--private-icon-color, var(--glide-core-icon-default));
+        inline-size: var(--private-size, 1rem);
         padding: 0;
 
         &:focus-visible {
@@ -106,7 +106,7 @@ export default [
 
         &:not(:active):hover:not(:disabled) {
           color: var(
-            --hovered-icon-color,
+            --private-hovered-icon-color,
             var(--glide-core-icon-primary-hover)
           );
         }

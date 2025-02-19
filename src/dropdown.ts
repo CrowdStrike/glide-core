@@ -65,8 +65,11 @@ export default class GlideCoreDropdown
   @property({ attribute: 'add-button-label', reflect: true })
   addButtonLabel?: string;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -80,8 +83,11 @@ export default class GlideCoreDropdown
     }
   }
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get filterable() {
+  get filterable(): boolean {
     return this.#isFilterable;
   }
 
@@ -112,8 +118,11 @@ export default class GlideCoreDropdown
   @property({ reflect: true })
   name = '';
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -183,23 +192,14 @@ export default class GlideCoreDropdown
   @property({ attribute: 'select-all', reflect: true, type: Boolean })
   selectAll = false;
 
-  @property({ reflect: true })
-  get size() {
-    return this.#size;
-  }
-
-  set size(size: 'small' | 'large') {
-    this.#size = size;
-
-    if (this.#optionElementsIncludingSelectAll) {
-      for (const option of this.#optionElementsIncludingSelectAll) {
-        option.privateSize = size;
-      }
-    }
-  }
-
   @property({ reflect: true, type: Boolean })
-  get multiple() {
+  required = false;
+
+  /**
+   * @default false
+   */
+  @property({ reflect: true, type: Boolean })
+  get multiple(): boolean {
     return this.#isMultiple;
   }
 
@@ -236,15 +236,33 @@ export default class GlideCoreDropdown
     }
   }
 
-  @property({ reflect: true, type: Boolean })
-  required = false;
+  /**
+   * @default 'large'
+   */
+  @property({ reflect: true })
+  get size(): 'small' | 'large' {
+    return this.#size;
+  }
+
+  set size(size: 'small' | 'large') {
+    this.#size = size;
+
+    if (this.#optionElementsIncludingSelectAll) {
+      for (const option of this.#optionElementsIncludingSelectAll) {
+        option.privateSize = size;
+      }
+    }
+  }
 
   @property({ reflect: true })
   tooltip?: string;
 
   // Intentionally not reflected to match native.
+  /**
+   * @default []
+   */
   @property({ type: Array })
-  get value() {
+  get value(): string[] {
     return this.#value;
   }
 
@@ -284,7 +302,7 @@ export default class GlideCoreDropdown
     );
   }
 
-  checkValidity() {
+  checkValidity(): boolean {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
@@ -367,6 +385,8 @@ export default class GlideCoreDropdown
     });
   }
 
+  // `async` because it may return a promise when overridden.
+  //
   // eslint-disable-next-line @typescript-eslint/require-await
   async filter(query: string): Promise<GlideCoreDropdownOption[]> {
     return this.#optionElements.filter(({ label }) => {
@@ -416,11 +436,11 @@ export default class GlideCoreDropdown
     }
   }
 
-  get form() {
+  get form(): HTMLFormElement | null {
     return this.#internals.form;
   }
 
-  get validity() {
+  get validity(): ValidityState {
     if (this.required && this.selectedOptions.length === 0) {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
@@ -447,11 +467,11 @@ export default class GlideCoreDropdown
     return this.#internals.validity;
   }
 
-  formAssociatedCallback() {
+  formAssociatedCallback(): void {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
 
-  formResetCallback() {
+  formResetCallback(): void {
     for (const option of this.#optionElements) {
       const isInitiallySelected = option.hasAttribute('selected');
 
@@ -587,7 +607,15 @@ export default class GlideCoreDropdown
                               data-test="multiselect-icon-slot"
                               name="icon:${value}"
                               slot="icon"
-                            ></slot>
+                            >
+                              <!-- 
+                                Icons for the selected option or options. 
+                                Slot one icon per option. \`<value>\` should be equal to the \`value\` of each option.
+
+                                @name icon:value 
+                                @type {Element}
+                              -->
+                            </slot>
                           `;
                         })}
                       </glide-core-tag>
@@ -604,7 +632,12 @@ export default class GlideCoreDropdown
                 })}
                 data-test="single-select-icon-slot"
                 name="icon:${this.selectedOptions.at(0)?.value}"
-              ></slot>`;
+              >
+                <!-- 
+                  @type {Element}
+                  @ignore 
+                -->
+              </slot>`;
             })}
 
             <glide-core-tooltip
@@ -838,7 +871,12 @@ export default class GlideCoreDropdown
                 @slotchange=${this.#onDefaultSlotChange}
                 ${assertSlot([GlideCoreDropdownOption, Text])}
                 ${ref(this.#defaultSlotElementRef)}
-              ></slot>
+              >
+                <!-- 
+                  @required
+                  @type {GlideCoreDropdownOption}
+                -->
+              </slot>
             </div>
 
             ${when(this.isNoResults, () => {
@@ -880,7 +918,13 @@ export default class GlideCoreDropdown
               ),
             })}
             name="description"
-          ></slot>
+          >
+            <!-- 
+              Additional information or context
+              @type {Element | string}
+            -->
+          </slot>
+
           ${when(
             this.#isShowValidationFeedback && this.validityMessage,
             () =>
@@ -893,9 +937,8 @@ export default class GlideCoreDropdown
     </div>`;
   }
 
-  reportValidity() {
+  reportValidity(): boolean {
     this.isReportValidityOrSubmit = true;
-
     const isValid = this.#internals.reportValidity();
 
     // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
@@ -904,11 +947,11 @@ export default class GlideCoreDropdown
     return isValid;
   }
 
-  resetValidityFeedback() {
+  resetValidityFeedback(): void {
     this.isReportValidityOrSubmit = false;
   }
 
-  setCustomValidity(message: string) {
+  setCustomValidity(message: string): void {
     this.validityMessage = message;
 
     if (message === '') {
@@ -935,7 +978,7 @@ export default class GlideCoreDropdown
     }
   }
 
-  setValidity(flags?: ValidityStateFlags, message?: string) {
+  setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
 
     // A validation message is required but unused because we disable native validation feedback.
@@ -1430,9 +1473,7 @@ export default class GlideCoreDropdown
           // A "click" event, on the other hand, is dispatched when an Edit button is
           // clicked. So Dropdown Option could dispatch "edit" in that case. But then
           // two components instead of one would be responsible for dispatching "edit".
-          this.activeOption.dispatchEvent(
-            new Event('edit', { bubbles: true, composed: true }),
-          );
+          this.activeOption.privateEdit();
 
           this.open = false;
 
@@ -1650,9 +1691,7 @@ export default class GlideCoreDropdown
       event.target instanceof Node &&
       this.#editButtonElementRef.value?.contains(event.target)
     ) {
-      this.selectedOptions[0].dispatchEvent(
-        new Event('edit', { bubbles: true, composed: true }),
-      );
+      this.selectedOptions[0].privateEdit();
 
       return;
     }
@@ -1939,10 +1978,7 @@ export default class GlideCoreDropdown
         option instanceof GlideCoreDropdownOption &&
         option.privateIsEditActive
       ) {
-        option.dispatchEvent(
-          new Event('edit', { bubbles: true, composed: true }),
-        );
-
+        option.privateEdit();
         this.open = false;
 
         return;
@@ -2417,8 +2453,8 @@ const icons = {
       viewBox="0 0 16 16"
       fill="none"
       style=${styleMap({
-        height: 'var(--size)',
-        width: 'var(--size)',
+        height: 'var(--private-size)',
+        width: 'var(--private-size)',
       })}
     >
       <path

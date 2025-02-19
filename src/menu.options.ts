@@ -80,7 +80,9 @@ export default class GlideCoreMenuOptions extends LitElement {
       <slot
         ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink, Text])}
         @slotchange=${this.#onSlotChange}
-      ></slot>
+      >
+        <!-- @type {GlideCoreMenuButton | GlideCoreMenuLink} -->
+      </slot>
     </div>`;
   }
 

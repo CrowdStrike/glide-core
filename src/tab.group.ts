@@ -113,7 +113,9 @@ export default class GlideCoreTabGroup extends LitElement {
             name="nav"
             @slotchange=${this.#onNavSlotChange}
             ${assertSlot([GlideCoreTab])}
-          ></slot>
+          >
+            <!-- @type {GlideCoreTab} -->
+          </slot>
         </div>
 
         ${when(
@@ -138,7 +140,10 @@ export default class GlideCoreTabGroup extends LitElement {
           `,
         )}
       </div>
-      <slot ${assertSlot([GlideCoreTabPanel])}></slot>
+
+      <slot ${assertSlot([GlideCoreTabPanel])}>
+        <!-- @type {GlideCoreTabPanel} -->
+      </slot>
     </div>`;
   }
 
@@ -389,7 +394,7 @@ export default class GlideCoreTabGroup extends LitElement {
           : this.selectedTab.offsetLeft - this.#tabElements[0].offsetLeft;
 
       this.#componentElementRef.value.style.setProperty(
-        '--selected-tab-indicator-translate',
+        '--private-selected-tab-indicator-translate',
         `${selectedTabIndicatorTranslateLeft}px`,
       );
 
@@ -403,7 +408,7 @@ export default class GlideCoreTabGroup extends LitElement {
         this.selectedTab.getBoundingClientRect();
 
       this.#componentElementRef.value.style.setProperty(
-        '--selected-tab-indicator-width',
+        '--private-selected-tab-indicator-width',
         `${selectedTabWidth - selectedTabIndicatorWidthAdjustment}px`,
       );
 
@@ -434,12 +439,5 @@ export default class GlideCoreTabGroup extends LitElement {
   #showTab(tab: GlideCoreTab) {
     this.selectedTab = tab;
     this.#setSelectedTab();
-
-    tab.dispatchEvent(
-      new Event('selected', {
-        bubbles: true,
-        composed: true,
-      }),
-    );
   }
 }

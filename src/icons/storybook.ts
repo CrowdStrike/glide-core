@@ -16,9 +16,9 @@ export default class GlideCoreExampleIcon extends LitElement {
   static override styles = [
     css`
       .component {
-        block-size: var(--size, 1rem);
+        block-size: var(--private-size, 1rem);
         display: flex;
-        inline-size: var(--size, 1rem);
+        inline-size: var(--private-size, 1rem);
       }
     `,
   ];

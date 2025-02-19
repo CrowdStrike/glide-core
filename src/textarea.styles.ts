@@ -1,16 +1,16 @@
 import { css, unsafeCSS } from 'lit';
 import visuallyHidden from './styles/visually-hidden.js';
 
-/**
- * `field-sizing` is only supported in Chrome and Edge
- * at the moment (https://caniuse.com/mdn-css_properties_field-sizing),
- * making this a progressive enhancement. This functionality is additive,
- * rather than required for use with our components.
- *
- * `field-sizing` is also not recognized by lit-plugin, so we are seeing
- * https://github.com/runem/lit-analyzer/issues/157 when
- * attempting to use it directly in our CSS below. This use of unsafeCSS
- * is a workaround for that bug for the time being.
+/*
+  `field-sizing` is only supported in Chrome and Edge
+  at the moment (https://caniuse.com/mdn-css_properties_field-sizing),
+  making this a progressive enhancement. This functionality is additive,
+  rather than required for use with our components.
+ 
+  `field-sizing` is also not recognized by lit-plugin, so we are seeing
+  https://github.com/runem/lit-analyzer/issues/157 when
+  attempting to use it directly in our CSS below. This use of unsafeCSS
+  is a workaround for that bug for the time being.
  */
 const fieldSizingContent = unsafeCSS(`
   field-sizing: content;

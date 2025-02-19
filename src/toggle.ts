@@ -50,9 +50,6 @@ export default class GlideCoreToggle extends LitElement {
   @property({ reflect: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
-  @property({ reflect: true })
-  name?: string;
-
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle';
@@ -129,7 +126,12 @@ export default class GlideCoreToggle extends LitElement {
           id="description"
           name="description"
           slot="description"
-        ></slot>
+        >
+          <!-- 
+            Additional information or context 
+            @type {Element | string}
+          -->
+        </slot>
       </glide-core-private-label>
     </div>`;
   }
@@ -163,7 +165,7 @@ export default class GlideCoreToggle extends LitElement {
       // Unlike "input" events, "change" events aren't composed. So we have to
       // manually dispatch them.
       this.dispatchEvent(
-        new Event(event.type, { bubbles: true, composed: true }),
+        new Event('change', { bubbles: true, composed: true }),
       );
     }
   }

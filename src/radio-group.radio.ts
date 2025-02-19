@@ -23,16 +23,27 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ type: Boolean, reflect: true })
-  get checked() {
+  get checked(): boolean {
     return this.#checked;
   }
 
-  set checked(checked: boolean) {
-    const old = this.#checked;
-    this.#checked = checked;
+  set checked(isChecked: boolean) {
+    const wasChecked = this.#checked;
 
-    this.ariaChecked = checked.toString();
+    this.#checked = isChecked;
+    this.ariaChecked = isChecked.toString();
+
+    if (isChecked && wasChecked !== isChecked) {
+      this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+
+      this.dispatchEvent(
+        new Event('change', { bubbles: true, composed: true }),
+      );
+    }
 
     // `this.checked` can be set programmatically. Radio Group needs to know when
     // that happens so it can update its own `this.value`.
@@ -42,15 +53,18 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
         detail: {
           // Without knowing what the old value was, Radio Group would be unable to
           // update `this.value`.
-          old,
-          new: checked,
+          old: wasChecked,
+          new: isChecked,
         },
       }),
     );
   }
 
+  /**
+   * @default false
+   */
   @property({ type: Boolean, reflect: true })
-  get disabled() {
+  get disabled(): boolean {
     return this.#disabled;
   }
 
@@ -79,6 +93,9 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
     this.ariaInvalid = invalid.toString();
   }
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
   @required
   get label(): string | undefined {
@@ -102,8 +119,11 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
     this.ariaRequired = required.toString();
   }
 
+  /**
+   * @default undefined
+   */
   @property()
-  get value() {
+  get value(): string {
     return this.#value;
   }
 
