@@ -66,20 +66,21 @@ export default class GlideCoreMenu extends LitElement {
 
   set open(isOpen) {
     const hasChanged = isOpen !== this.#isOpen;
-    this.#isOpen = isOpen;
 
-    if (isOpen && hasChanged && !this.isTargetDisabled) {
+    if (!hasChanged || this.isTargetDisabled) {
+      return;
+    }
+
+    const isUncanceled = this.dispatchEvent(
+      new Event('toggle', { bubbles: true, cancelable: true, composed: true }),
+    );
+
+    if (isUncanceled && isOpen) {
+      this.#isOpen = isOpen;
       this.#show();
-
-      this.dispatchEvent(
-        new Event('toggle', { bubbles: true, composed: true }),
-      );
-    } else if (hasChanged) {
+    } else if (isUncanceled && !isOpen) {
       this.#hide();
-
-      this.dispatchEvent(
-        new Event('toggle', { bubbles: true, composed: true }),
-      );
+      this.#isOpen = isOpen;
     }
   }
 
@@ -256,8 +257,6 @@ export default class GlideCoreMenu extends LitElement {
 
   #isDefaultSlotClick = false;
 
-  #isDisabledLinkClick = false;
-
   #isOpen = false;
 
   #isTargetSlotClick = false;
@@ -279,7 +278,7 @@ export default class GlideCoreMenu extends LitElement {
   #onDefaultSlotMousedown = (event: Event) => {
     if (event.target === this.#defaultSlotElementRef.value) {
       // So the `#onFocusout` handler, which closes Menu, isn't called when
-      // the border or padding on `.default-slot` is clicked.
+      // the border or padding of `.default-slot` is clicked.
       event.preventDefault();
     }
   };
@@ -287,16 +286,12 @@ export default class GlideCoreMenu extends LitElement {
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onDefaultSlotMouseup = (event: Event) => {
-    if (event.target === this.#defaultSlotElementRef.value) {
+    if (
+      event.target === this.#defaultSlotElementRef.value ||
+      event.target instanceof GlideCoreMenuButton ||
+      event.target instanceof GlideCoreMenuLink
+    ) {
       this.#isDefaultSlotClick = true;
-    }
-
-    if (event.target instanceof Element) {
-      const link = event.target?.closest('glide-core-menu-link');
-
-      if (link?.disabled) {
-        this.#isDisabledLinkClick = true;
-      }
     }
   };
 
@@ -310,11 +305,6 @@ export default class GlideCoreMenu extends LitElement {
     // `event.target` will be that component. Same for the conditions below.
     if (this.#isDefaultSlotClick) {
       this.#isDefaultSlotClick = false;
-      return;
-    }
-
-    if (this.#isDisabledLinkClick) {
-      this.#isDisabledLinkClick = false;
       return;
     }
 

@@ -60,6 +60,32 @@ it('opens on click', async () => {
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
 });
 
+it('does not open when its "toggle" event is canceled', async () => {
+  const host = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  host.addEventListener('toggle', (event) => event.preventDefault());
+  await click(host.querySelector('button'));
+
+  const defaultSlot =
+    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const target = host.querySelector('button');
+  const options = host.querySelector('glide-core-menu-options');
+
+  expect(host.open).to.be.false;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
+});
+
 it('opens when opened programmatically', async () => {
   const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
@@ -634,7 +660,6 @@ it('closes when its target clicked', async () => {
   await aTimeout(0);
 
   const target = host.shadowRoot?.querySelector('button');
-
   const menu = host.shadowRoot?.querySelector('glide-core-menu');
 
   const defaultSlot =
@@ -648,6 +673,35 @@ it('closes when its target clicked', async () => {
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
+});
+
+it('does not close when its target clicked and its "toggle" event is canceled', async () => {
+  const host = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  host.addEventListener('toggle', (event) => event.preventDefault());
+
+  const target = host.querySelector('button');
+  const defaultSlot = host?.querySelector<HTMLSlotElement>('slot:not([name])');
+  const options = host?.querySelector('glide-core-menu-options');
+  const link = host.querySelector('glide-core-menu-link');
+
+  await click(target);
+
+  expect(host.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.not.be.ok;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
+  expect(target?.ariaExpanded).to.equal('true');
 });
 
 it('closes when something outside of it is clicked', async () => {
@@ -689,7 +743,7 @@ it('closes on Escape', async () => {
     </glide-core-menu>`,
   );
 
-  // Wait for it to open
+  // Wait for Floating UI.
   await aTimeout(0);
 
   host.querySelector('button')?.focus();
@@ -718,6 +772,9 @@ it('closes when an option is selected via click', async () => {
     </glide-core-menu>`,
   );
 
+  // Wait for Floating UI.
+  await aTimeout(0);
+
   await click(host.querySelector('glide-core-menu-link'));
 
   const defaultSlot =
@@ -730,6 +787,36 @@ it('closes when an option is selected via click', async () => {
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
   expect(target?.ariaExpanded).to.equal('false');
+});
+
+it('does not close when an option is selected via click and its "toggle" event is canceled', async () => {
+  const host = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const defaultSlot =
+    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const target = host.querySelector('button');
+  const options = host.querySelector('glide-core-menu-options');
+  const link = host.querySelector('glide-core-menu-link');
+
+  host.addEventListener('toggle', (event) => event.preventDefault());
+  await click(link);
+
+  expect(host.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
 });
 
 it('closes when an option is selected via Enter', async () => {
