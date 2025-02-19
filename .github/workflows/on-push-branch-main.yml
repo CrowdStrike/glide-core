@@ -15,7 +15,7 @@ concurrency:
 jobs:
   install_dependencies:
     name: Install
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
   release:
     name: Release
     timeout-minutes: 5
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs:
       - install_dependencies
 
@@ -42,7 +42,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs:
       - install_dependencies
     steps:
@@ -58,6 +58,8 @@ jobs:
 
   deploy:
     name: Deploy
+    # Ubuntu instead of MacOS because the performance difference is
+    # negligible and Ubuntu includes the AWS CLI.
     runs-on: ubuntu-latest
     needs:
       - install_dependencies

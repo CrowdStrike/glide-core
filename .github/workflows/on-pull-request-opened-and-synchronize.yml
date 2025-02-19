@@ -14,14 +14,14 @@ concurrency:
 jobs:
   install_dependencies:
     name: Install
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
 
   format:
     name: Format
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs:
       - install_dependencies
     steps:
@@ -33,7 +33,7 @@ jobs:
 
   lint:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs:
       - install_dependencies
     steps:
@@ -48,7 +48,7 @@ jobs:
 
   typecheck:
     name: Typecheck
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs:
       - install_dependencies
     steps:
@@ -60,7 +60,7 @@ jobs:
 
   test:
     name: Test
-    runs-on: windows-latest
+    runs-on: macos-latest
     # It's possible our tests can hang and we don't want to blow through our
     # GitHub Action minutes, so we'll timeout after 10 minutes to prevent
     # that from happening.
@@ -71,19 +71,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      # TODO
-      #
-      # Change to `pnpm test` when we switch to a MacOS runner or back to the
-      # Ubuntu one.
-      #
-      # https://github.com/ericclemmons/per-env/issues/9
-      - run: pnpm test:production
+      - run: pnpm test
         env:
           NODE_ENV: production
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     needs:
       - install_dependencies
     steps:
@@ -99,6 +93,8 @@ jobs:
 
   deploy:
     name: Deploy
+    # Ubuntu instead of MacOS because the performance difference is
+    # negligible and Ubuntu includes the AWS CLI.
     runs-on: ubuntu-latest
     needs:
       - install_dependencies
