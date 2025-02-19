@@ -32,7 +32,7 @@ declare global {
  * @slot {HTMLLabelElement}
  * @slot {Element} [control] - The element with which the label is associated
  * @slot {Element | string} [description] - Additional information or context
- * @slot {Element} [summary] - Additional information or context
+ * @slot {Element | string} [summary] - Additional information or context
  */
 @customElement('glide-core-private-label')
 @final
@@ -186,7 +186,7 @@ export default class GlideCoreLabel extends LitElement {
         >
           <!-- 
             Additional information or context 
-            @type {Element}
+            @type {Element | string}
           -->
         </slot>
       </div>

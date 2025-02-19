@@ -5715,7 +5715,7 @@
               "name": "summary",
               "description": "Additional information or context",
               "type": {
-                "text": "Element"
+                "text": "Element | string"
               }
             },
             {
