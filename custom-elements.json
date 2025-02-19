@@ -4816,7 +4816,7 @@
               "kind": "field",
               "name": "variant",
               "type": {
-                "text": "keyof typeof icons"
+                "text": "'informational' | 'medium' | 'high' | 'critical'"
               },
               "default": "'informational'",
               "attribute": "variant",
@@ -4908,7 +4908,7 @@
             {
               "name": "variant",
               "type": {
-                "text": "keyof typeof icons"
+                "text": "'informational' | 'medium' | 'high' | 'critical'"
               },
               "default": "'informational'",
               "fieldName": "variant"

@@ -24,7 +24,7 @@ declare global {
 
 /**
  * @attr {boolean} [removable=false]
- * @attr {keyof typeof icons} [variant='informational']
+ * @attr {'informational'|'medium'|'high'|'critical'} [variant='informational']
  *
  * @readonly
  * @attr {0.19.1} [version]
@@ -44,7 +44,7 @@ export default class GlideCoreInlineAlert extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  variant: keyof typeof icons = 'informational';
+  variant: 'informational' | 'medium' | 'high' | 'critical' = 'informational';
 
   @property({ reflect: true, type: Boolean })
   removable? = false;
