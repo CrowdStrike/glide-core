@@ -3,49 +3,46 @@ import { hover } from './library/mouse.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
 it('is selected when programmatically selected', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
-      value="value"
       private-multiple
     ></glide-core-dropdown-option>`,
   );
 
-  component.selected = true;
-  await component.updateComplete;
+  host.selected = true;
+  await host.updateComplete;
 
-  const checkbox = component.shadowRoot?.querySelector<HTMLInputElement>(
+  const checkbox = host.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="checkbox"]',
   );
 
-  expect(component.ariaSelected).to.equal('true');
+  expect(host.ariaSelected).to.equal('true');
   expect(checkbox?.checked).to.be.true;
 });
 
 it('is deselected when programmatically deselected', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
-      value="value"
       private-multiple
       selected
     ></glide-core-dropdown-option>`,
   );
 
-  component.selected = false;
-  await component.updateComplete;
+  host.selected = false;
+  await host.updateComplete;
 
-  const checkbox = component.shadowRoot?.querySelector<HTMLInputElement>(
+  const checkbox = host.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="checkbox"]',
   );
 
-  expect(component.selected).to.be.false;
-  expect(component.ariaSelected).to.equal('false');
+  expect(host.ariaSelected).to.equal('false');
   expect(checkbox?.checked).to.be.false;
 });
 
 it('sets `privateIsEditActive`', async () => {
-  const component = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       editable
@@ -53,13 +50,11 @@ it('sets `privateIsEditActive`', async () => {
     ></glide-core-dropdown-option>`,
   );
 
-  const button = component.shadowRoot?.querySelector(
-    '[data-test="edit-button"]',
-  );
+  const button = host.shadowRoot?.querySelector('[data-test="edit-button"]');
 
   await hover(button);
-  expect(component.privateIsEditActive).to.be.true;
+  expect(host.privateIsEditActive).to.be.true;
 
   await hover(button, 'outside');
-  expect(component.privateIsEditActive).to.be.false;
+  expect(host.privateIsEditActive).to.be.false;
 });

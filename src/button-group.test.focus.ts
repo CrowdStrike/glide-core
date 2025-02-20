@@ -3,9 +3,9 @@ import { sendKeys } from '@web/test-runner-commands';
 import './button-group.button.js';
 import './button-group.js';
 
-it('moves focus', async () => {
-  const component = await fixture(
-    html`<glide-core-button-group>
+it('moves focus when arrowing', async () => {
+  const host = await fixture(
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
       ></glide-core-button-group-button>
@@ -26,8 +26,8 @@ it('moves focus', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = component.querySelectorAll('glide-core-button-group-button');
-  buttons[3]?.focus();
+  const buttons = host.querySelectorAll('glide-core-button-group-button');
+  await sendKeys({ press: 'Tab' });
 
   await sendKeys({ press: 'ArrowRight' });
   expect(buttons[0]).to.have.focus;

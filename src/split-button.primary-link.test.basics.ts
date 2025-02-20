@@ -1,5 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreSplitButtonPrimaryLink {}
 
 it('registers itself', async () => {
   expect(
@@ -8,30 +13,59 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreSplitButtonPrimaryLink>(html`
+  const host = await fixture<GlideCoreSplitButtonPrimaryLink>(html`
     <glide-core-split-button-primary-link
       label="Label"
       url="/"
     ></glide-core-split-button-primary-link>
   `);
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 
-  component.disabled = true;
-  await component.updateComplete;
+  host.disabled = true;
+  await host.updateComplete;
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreSplitButtonPrimaryLink>(html`
-    <glide-core-split-button-primary-link
-      label="Label"
-      url="/"
-    ></glide-core-split-button-primary-link>
-  `);
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
 
-  expect(component.disabled).to.be.false;
-  expect(component.privateSize).to.equal('large');
-  expect(component.privateVariant).to.equal('primary');
+  try {
+    await fixture(
+      html`<glide-core-split-button-primary-link url="/">
+      </glide-core-split-button-primary-link>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
+it('throws when `url` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-split-button-primary-link label="label">
+      </glide-core-split-button-primary-link>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

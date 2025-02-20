@@ -5,7 +5,7 @@ const createRule = ESLintUtils.RuleCreator<{
   recommended: boolean;
 }>(
   (name) =>
-    `https://github.com/CrowdStrike/glide-core/blob/main/packages/eslint-plugin/src/rules/${name}.ts`,
+    `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`,
 );
 
 export const consistentTestFixtureVariableDeclarator = createRule({
@@ -19,7 +19,7 @@ export const consistentTestFixtureVariableDeclarator = createRule({
     type: 'suggestion',
     messages: {
       consistentNaming:
-        'Prefer the variable name for the fixture to be "component".',
+        'Prefer the variable name for the fixture to be "host".',
     },
     schema: [],
   },
@@ -27,7 +27,7 @@ export const consistentTestFixtureVariableDeclarator = createRule({
   create(context) {
     return {
       VariableDeclarator(node) {
-        const isAFixture =
+        const isFixture =
           node.init &&
           node.init.type === AST_NODE_TYPES.AwaitExpression &&
           node.init.argument &&
@@ -37,14 +37,14 @@ export const consistentTestFixtureVariableDeclarator = createRule({
           node.init.argument.callee.name === 'fixture' &&
           node.init.argument.arguments?.length > 0;
 
-        if (!isAFixture) {
+        if (!isFixture) {
           return;
         }
 
         if (
           node.id &&
           node.id.type === AST_NODE_TYPES.Identifier &&
-          node.id.name !== 'component'
+          node.id.name !== 'host'
         ) {
           context.report({
             node: node.id,

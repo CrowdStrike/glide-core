@@ -35,7 +35,6 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    placeholder: 'Placeholder',
     'slot="default"': '',
     'add-button-label': '',
     'addEventListener(event, handler)': '',
@@ -48,6 +47,7 @@ const meta: Meta = {
     name: '',
     open: false,
     orientation: 'horizontal',
+    placeholder: '',
     readonly: false,
     'reportValidity()': '',
     required: false,
@@ -82,12 +82,6 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    placeholder: {
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
-    },
     'slot="default"': {
       table: {
         type: { summary: 'GlideCoreDropdownOption' },
@@ -105,7 +99,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail:
-            '(event: "change" | "input" | "invalid" | "toggle", handler: (event: Event) => void): void',
+            '(event: "add" | "change" | "input" | "invalid" | "toggle", handler: (event: Event) => void): void',
         },
       },
     },
@@ -187,6 +181,11 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       table: {
         defaultValue: { summary: '"horizontal"' },
         type: { summary: '"horizontal" | "vertical"' },
+      },
+    },
+    placeholder: {
+      table: {
+        type: { summary: 'string' },
       },
     },
     readonly: {

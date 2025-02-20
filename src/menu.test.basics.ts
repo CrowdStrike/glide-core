@@ -1,63 +1,68 @@
 import './menu.options.js';
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import GlideCoreMenu from './menu.js';
 import './menu.button.js';
 import './menu.link.js';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
+import GlideCoreMenu from './menu.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreMenu {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-menu')).to.equal(GlideCoreMenu);
 });
 
-it('has defaults', async () => {
-  // Required attributes are supplied here and thus left unasserted below. The
-  // idea is that this test shouldn't fail to typecheck if these templates are
-  // eventually typechecked, which means supplying all required attributes and slots.
-  const component = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  const options = component.querySelector('glide-core-menu-options');
-
-  expect(component.getAttribute('size')).to.equal('large');
-  expect(component.size).to.equal('large');
-  expect(options?.privateSize).to.equal('large');
-});
-
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
-  const target = component.querySelector('button');
-  const options = component.querySelector('glide-core-menu-options');
+  const target = host.querySelector('button');
+  const options = host.querySelector('glide-core-menu-options');
 
   expect(target?.getAttribute('aria-controls')).to.equal(options?.id);
   expect(target?.getAttribute('aria-haspopup')).to.equal('true');
   expect(options?.ariaLabelledby).to.equal(target?.id);
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
-it('can be opened', async () => {
-  const component = await fixture<GlideCoreMenu>(
+it('sets accessibility attributes', async () => {
+  const host = await fixture(
+    html`<glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  const target = host.querySelector('button');
+  const options = host.querySelector('glide-core-menu-options');
+
+  expect(target?.getAttribute('aria-expanded')).to.equal('false');
+  expect(target?.getAttribute('aria-haspopup')).to.equal('true');
+  expect(target?.ariaExpanded).to.equal('false');
+  expect(target?.ariaHasPopup).to.equal('true');
+  expect(options?.ariaLabelledby).to.equal(target?.id);
+});
+
+it('can be open', async () => {
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -65,25 +70,25 @@ it('can be opened', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const defaultSlot = component?.shadowRoot?.querySelector('slot:not([name])');
-  const options = component.querySelector('glide-core-menu-options');
-  const target = component.querySelector('button');
-  const link = component.querySelector('glide-core-menu-link');
+  const defaultSlot = host?.shadowRoot?.querySelector('slot:not([name])');
+  const options = host.querySelector('glide-core-menu-options');
+  const target = host.querySelector('button');
+  const link = host.querySelector('glide-core-menu-link');
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
   expect(defaultSlot?.checkVisibility()).to.be.true;
   expect(target?.ariaExpanded).to.equal('true');
   expect(options?.getAttribute('aria-activedescendant')).to.equal(link?.id);
 });
 
-it('activates the first menu link by default', async () => {
-  const component = await fixture<GlideCoreMenu>(html`
+it('activates the first link by default', async () => {
+  const host = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="One"></glide-core-menu-link>
-        <glide-core-menu-link label="Two"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>
   `);
@@ -91,22 +96,22 @@ it('activates the first menu link by default', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const links = component.querySelectorAll('glide-core-menu-link');
-  const options = component.querySelector('glide-core-menu-options');
+  const links = host.querySelectorAll('glide-core-menu-link');
+  const options = host.querySelector('glide-core-menu-options');
 
   expect(links[0].privateActive).to.be.true;
   expect(links[1].privateActive).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0].id);
 });
 
-it('activates the first menu button by default', async () => {
-  const component = await fixture<GlideCoreMenu>(html`
+it('activates the first button by default', async () => {
+  const host = await fixture<GlideCoreMenu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-button label="One"></glide-core-menu-button>
-        <glide-core-menu-button label="Two"></glide-core-menu-button>
+        <glide-core-menu-button label="Label"></glide-core-menu-button>
+        <glide-core-menu-button label="Label"></glide-core-menu-button>
       </glide-core-menu-options>
     </glide-core-menu>
   `);
@@ -114,8 +119,8 @@ it('activates the first menu button by default', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const buttons = component.querySelectorAll('glide-core-menu-button');
-  const options = component.querySelector('glide-core-menu-options');
+  const buttons = host.querySelectorAll('glide-core-menu-button');
+  const options = host.querySelector('glide-core-menu-options');
 
   expect(buttons[0].privateActive).to.be.true;
   expect(buttons[1].privateActive).to.be.false;
@@ -125,13 +130,13 @@ it('activates the first menu button by default', async () => {
   );
 });
 
-it('is not opened when initially `open` and its target is `disabled`', async () => {
-  const component = await fixture<GlideCoreMenu>(
+it('is not opened when open and its target is `disabled`', async () => {
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target" disabled>Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -140,10 +145,10 @@ it('is not opened when initially `open` and its target is `disabled`', async () 
   await aTimeout(0);
 
   const defaultSlot =
-    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
-  const target = component.querySelector('button');
-  const options = component.querySelector('glide-core-menu-options');
+  const target = host.querySelector('button');
+  const options = host.querySelector('glide-core-menu-options');
 
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(target?.ariaExpanded).to.equal('false');
@@ -151,21 +156,33 @@ it('is not opened when initially `open` and its target is `disabled`', async () 
 });
 
 it('adds `tabIndex` to its target when it is a `<span>`', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <span slot="target">Target</span>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
-  const target = component.querySelector('span');
+  const target = host.querySelector('span');
   expect(target?.tabIndex).to.equal(0);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(
       html`<glide-core-menu
@@ -175,7 +192,7 @@ it('throws if it does not have a default slot', async () => {
   });
 });
 
-it('throws if its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-menu>
@@ -186,35 +203,14 @@ it('throws if its default slot is the incorrect type', async () => {
   });
 });
 
-it('throws if it does not have a "target" slot', async () => {
+it('throws when it does not have a "target" slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(
       html`<glide-core-menu>
         <glide-core-menu-options>
-          <glide-core-menu-link label="Link"></glide-core-menu-link>
+          <glide-core-menu-link label="Label"></glide-core-menu-link>
         </glide-core-menu-options>
       </glide-core-menu>`,
     );
   });
-});
-
-it('sets accessibility attributes', async () => {
-  const component = await fixture(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  const target = component.querySelector('button');
-  const options = component.querySelector('glide-core-menu-options');
-
-  expect(target?.getAttribute('aria-expanded')).to.equal('false');
-  expect(target?.getAttribute('aria-haspopup')).to.equal('true');
-  expect(target?.ariaExpanded).to.equal('false');
-  expect(target?.ariaHasPopup).to.equal('true');
-  expect(options?.ariaLabelledby).to.equal(target?.id);
 });

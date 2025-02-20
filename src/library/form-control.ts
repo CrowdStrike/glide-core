@@ -11,12 +11,11 @@ export default interface FormControl {
   tooltip?: string;
   validity: ValidityState;
   value: string | string[];
-  willValidate: boolean;
-  checkValidity: () => boolean;
-  formAssociatedCallback: () => void;
-  formResetCallback: () => void;
-  reportValidity: () => boolean;
-  resetValidityFeedback: () => void;
-  setCustomValidity: (message: string) => void;
-  setValidity: (flags?: ValidityStateFlags, message?: string) => void;
+  checkValidity(): boolean;
+  formAssociatedCallback(): void;
+  formResetCallback(): void;
+  reportValidity(): boolean;
+  resetValidityFeedback(): void;
+  setCustomValidity(message: string): void;
+  setValidity(flags?: ValidityStateFlags, message?: string): void;
 }

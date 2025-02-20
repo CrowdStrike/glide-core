@@ -39,7 +39,7 @@ export const noSpacePress = createRule({
           context.report({
             node,
             messageId: 'preferWhitespace',
-            fix: function (fixer) {
+            fix(fixer) {
               return fixer.replaceText(node.right, "' '");
             },
           });
@@ -68,7 +68,7 @@ export const noSpacePress = createRule({
                 context.report({
                   node: property,
                   messageId: 'preferWhitespace',
-                  fix: function (fixer) {
+                  fix(fixer) {
                     return fixer.replaceText(property.value, "' '");
                   },
                 });

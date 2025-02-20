@@ -4,17 +4,15 @@ import { click } from './library/mouse.js';
 import GlideCoreInlineAlert from './inline-alert.js';
 
 it('removes itself on removable button click', async () => {
-  const component = await fixture<GlideCoreInlineAlert>(
-    html`<glide-core-inline-alert variant="informational" removable
-      >Label</glide-core-inline-alert
-    >`,
+  const host = await fixture<GlideCoreInlineAlert>(
+    html`<glide-core-inline-alert variant="informational" removable>
+      Label
+    </glide-core-inline-alert>`,
   );
 
-  await click(
-    component.shadowRoot?.querySelector('[data-test="removal-button"]'),
-  );
+  await click(host.shadowRoot?.querySelector('[data-test="removal-button"]'));
 
-  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+  const animationDuration = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="component"]',
   )?.dataset.animationDuration;
 
@@ -24,16 +22,16 @@ it('removes itself on removable button click', async () => {
 });
 
 it('removes itself on removable button Space', async () => {
-  const component = await fixture<GlideCoreInlineAlert>(
-    html`<glide-core-inline-alert variant="informational" removable
-      >Label</glide-core-inline-alert
-    >`,
+  const host = await fixture<GlideCoreInlineAlert>(
+    html`<glide-core-inline-alert variant="informational" removable>
+      Label
+    </glide-core-inline-alert>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
-  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+  const animationDuration = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="component"]',
   )?.dataset.animationDuration;
 
@@ -43,16 +41,16 @@ it('removes itself on removable button Space', async () => {
 });
 
 it('removes itself on removable button Enter', async () => {
-  const component = await fixture<GlideCoreInlineAlert>(
-    html`<glide-core-inline-alert variant="informational" removable
-      >Label</glide-core-inline-alert
-    >`,
+  const host = await fixture<GlideCoreInlineAlert>(
+    html`<glide-core-inline-alert variant="informational" removable>
+      Label
+    </glide-core-inline-alert>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'Enter' });
 
-  const animationDuration = component.shadowRoot?.querySelector<HTMLElement>(
+  const animationDuration = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="component"]',
   )?.dataset.animationDuration;
 

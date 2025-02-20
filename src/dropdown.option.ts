@@ -1,6 +1,7 @@
 import './checkbox.js';
 import './tooltip.js';
 import { html, LitElement } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
@@ -12,6 +13,8 @@ import pencilIcon from './icons/pencil.js';
 import styles from './dropdown.option.styles.js';
 import type GlideCoreCheckbox from './checkbox.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,9 +23,21 @@ declare global {
 }
 
 /**
- * @slot icon - An optional icon before the label.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [editable=false]
+ * @attr {boolean} [selected=false]
+ * @attr {string} [value='']
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element} [icon] - An icon before the label
+ *
+ * @fires {Event} edit
  */
 @customElement('glide-core-dropdown-option')
+@final
 export default class GlideCoreDropdownOption extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -31,8 +46,11 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -41,8 +59,11 @@ export default class GlideCoreDropdownOption extends LitElement {
     this.#isDisabled = isDisabled;
   }
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get editable() {
+  get editable(): boolean {
     return this.#isEditable;
   }
 
@@ -56,8 +77,12 @@ export default class GlideCoreDropdownOption extends LitElement {
     );
   }
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
-  get label() {
+  @required
+  get label(): string | undefined {
     return this.#label;
   }
 
@@ -90,8 +115,11 @@ export default class GlideCoreDropdownOption extends LitElement {
   @property({ attribute: 'private-multiple', type: Boolean })
   privateMultiple = false;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get selected() {
+  get selected(): boolean {
     return this.#selected;
   }
 
@@ -130,7 +158,7 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-size', reflect: true })
-  privateSize: 'small' | 'large' = 'large';
+  privateSize: 'large' | 'small' = 'large';
 
   // An option is considered active when it's interacted with via keyboard or hovered.
   // Used by Dropdown.
@@ -148,7 +176,7 @@ export default class GlideCoreDropdownOption extends LitElement {
     // The soonest Dropdown can set `this.privateMultiple` is in its `firstUpdated`.
     // By then, however, this component has has already completed its initial render. So
     // we fall sadly back to `this.closest('glide-core-dropdown')`. `this.privateMultiple`
-    // is still useful for when Dropdown's `this.multiple` is changed programmatically.
+    // is still useful for when Dropdown's `this.multiple` is set programmatically.
     return (
       this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
     );
@@ -201,13 +229,16 @@ export default class GlideCoreDropdownOption extends LitElement {
     }
   }
 
+  /**
+   * @default ''
+   */
   @property({ reflect: true })
-  get value() {
+  get value(): string {
     return this.#value;
   }
 
   set value(value) {
-    // `this.value` can be changed programmatically. Dropdown needs to know when that
+    // `this.value` can be set programmatically. Dropdown needs to know when that
     // happens so it can update its own `this.value`.
     this.dispatchEvent(
       new CustomEvent('private-value-change', {
@@ -224,8 +255,12 @@ export default class GlideCoreDropdownOption extends LitElement {
     this.#value = value;
   }
 
+  privateEdit() {
+    this.dispatchEvent(new Event('edit', { bubbles: true, composed: true }));
+  }
+
   async privateUpdateCheckbox() {
-    // Hacky indeed. This is for the case where Dropdown is changed programmatically
+    // Hacky indeed. This is for the case where Dropdown is set programmatically
     // from a single to a multiselect. `this.isMultiple` is set to `true` but
     // `this.#checkboxElementRef.value` in the `multiple` setter is `undefined`
     // because this component hasn't had a chance to rerender. So we wait for it
@@ -241,7 +276,6 @@ export default class GlideCoreDropdownOption extends LitElement {
     // The linter wants a keyboard handler. There's one on Dropdown itself. It's there
     // because options aren't focusable and thus don't produce keyboard events when Dropdown
     // is filterable.
-
     return html`<div
       class=${classMap({
         component: true,
@@ -269,8 +303,8 @@ export default class GlideCoreDropdownOption extends LitElement {
               private-size=${this.privateSize}
               private-variant="minimal"
               value=${this.value}
-              internally-inert
               @click=${this.#onCheckboxClick}
+              private-internally-inert
               ?disabled=${this.disabled}
               ?indeterminate=${this.privateIndeterminate}
               ?private-show-label-tooltip=${this.privateIsTooltipOpen}
@@ -284,7 +318,12 @@ export default class GlideCoreDropdownOption extends LitElement {
                 })}
                 name="icon"
                 slot="private-icon"
-              ></slot>
+              >
+                <!--
+                  An icon before the label
+                  @type {Element}
+                -->
+              </slot>
             </glide-core-checkbox>
 
             ${when(this.editable, () => {
@@ -318,15 +357,20 @@ export default class GlideCoreDropdownOption extends LitElement {
               <slot class=${classMap({
                 'icon-slot': true,
                 [this.privateSize]: true,
-              })} name="icon"></slot>
+              })} name="icon">
+              <!--
+                An icon before the label
+                @type {Element}
+              -->
+            </slot>
 
-              <glide-core-tooltip 
-                class="tooltip" 
+              <glide-core-tooltip
+                class="tooltip"
                 data-test="tooltip"
-                label=${this.label}
-                offset=${10} 
-                ?disabled=${!this.isLabelOverflow || this.disabled} 
-                ?open=${this.privateIsTooltipOpen} 
+                label=${ifDefined(this.label)}
+                offset=${10}
+                ?disabled=${!this.isLabelOverflow || this.disabled}
+                ?open=${this.privateIsTooltipOpen}
                 screenreader-hidden
                 @toggle=${this.#onTooltipToggle}>
 
@@ -389,7 +433,7 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   #isEditable = false;
 
-  #label = '';
+  #label?: string;
 
   #labelElementRef = createRef<HTMLElement>();
 

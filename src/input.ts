@@ -15,6 +15,8 @@ import styles from './input.styles.js';
 import xIcon from './icons/x.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -22,34 +24,63 @@ declare global {
   }
 }
 
-/*
- * A selection of `type` attributes that align with native that we support
- * with our component.
- * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
- */
-export const SUPPORTED_TYPES = [
-  'date',
-  'email',
-  'number',
-  'password',
-  'search',
-  'tel',
-  'text',
-  'url',
-] as const;
-
-type SupportedTypes = (typeof SUPPORTED_TYPES)[number];
-
 /**
- * @event change
- * @event input
- * @event invalid
+ * @attr {string} label
+ * @attr {'on'|'off'|'none'|'sentences'|'words'|'characters'} [autocapitalize='on']
+ * @attr {'on'|'off'} [autocomplete='on']
+ * @attr {boolean} [clearable=false]
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {number} [maxlength]
+ * @attr {string} [name='']
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {boolean} [password-toggle=false] - For 'password' type, whether to show a button to toggle the password's visibility
+ * @attr {string} [pattern]
+ * @attr {string} [placeholder]
+ * @attr {boolean} [readonly=false]
+ * @attr {boolean} [required=false]
+ * @attr {boolean} [spellcheck=false]
+ * @attr {string} [tooltip]
+ * @attr {'date'|'email'|'number'|'password'|'search'|'tel'|'text'|'time'|'url'} [type='text']
+ * @attr {string} [value='']
  *
- * @slot description - Additional information or context.
- * @slot prefix-icon - An optional icon before the input field.
- * @slot suffix-icon - An optional icon after the input field.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element | string} [description] - Additional information or context
+ * @slot {Element} [prefix-icon] - An icon before the input field
+ * @slot {Element} [suffix-icon] - An icon after the input field
+ *
+ * @fires {Event} change
+ * @fires {Event} input
+ * @fires {Event} invalid
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-input')
+@final
 export default class GlideCoreInput extends LitElement implements FormControl {
   static formAssociated = true;
 
@@ -61,8 +92,17 @@ export default class GlideCoreInput extends LitElement implements FormControl {
 
   static override styles = styles;
 
-  @property()
-  type: SupportedTypes = 'text';
+  @property({ reflect: true })
+  type:
+    | 'date'
+    | 'email'
+    | 'number'
+    | 'password'
+    | 'search'
+    | 'tel'
+    | 'text'
+    | 'time'
+    | 'url' = 'text';
 
   @property({ reflect: true })
   name = '';
@@ -72,6 +112,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
   value = '';
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ attribute: 'hide-label', type: Boolean })
@@ -137,11 +178,11 @@ export default class GlideCoreInput extends LitElement implements FormControl {
   @property({ reflect: true })
   tooltip?: string;
 
-  get form() {
+  get form(): HTMLFormElement | null {
     return this.#internals.form;
   }
 
-  get validity() {
+  get validity(): ValidityState {
     if (this.pattern) {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
@@ -193,15 +234,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     return this.#internals.validity;
   }
 
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
-  override blur() {
-    this.#inputElementRef.value?.blur();
-  }
-
-  checkValidity() {
+  checkValidity(): boolean {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
@@ -214,11 +247,11 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     this.form?.removeEventListener('formdata', this.#onFormdata);
   }
 
-  formAssociatedCallback() {
+  formAssociatedCallback(): void {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
 
-  formResetCallback() {
+  formResetCallback(): void {
     this.value = this.getAttribute('value') ?? '';
   }
 
@@ -229,6 +262,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
           left: this.privateSplit === 'left',
           middle: this.privateSplit === 'middle',
         })}
+        label=${ifDefined(this.label)}
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}
@@ -253,13 +287,19 @@ export default class GlideCoreInput extends LitElement implements FormControl {
           })}
           slot="control"
         >
-          <slot name="prefix-icon"></slot>
+          <slot name="prefix-icon">
+            <!-- 
+              An icon before the input field
+              @type {Element}
+            -->
+          </slot>
 
           <input
             aria-describedby="meta"
             aria-invalid=${this.#isShowValidationFeedback ||
             this.#isMaxCharacterCountExceeded}
             class="input"
+            data-test="input"
             id="input"
             type=${this.type === 'password' && this.passwordVisible
               ? 'text'
@@ -317,7 +357,14 @@ export default class GlideCoreInput extends LitElement implements FormControl {
           <div class="suffix-icon">
             ${this.type === 'search'
               ? magnifyingGlassIcon
-              : html`<slot name="suffix-icon"></slot>`}
+              : html`
+                  <slot name="suffix-icon">
+                    <!--
+                      An icon after the input field
+                      @type {Element}
+                    -->
+                  </slot>
+                `}
           </div>
         </div>
 
@@ -330,7 +377,12 @@ export default class GlideCoreInput extends LitElement implements FormControl {
               ),
             })}
             name="description"
-          ></slot>
+          >
+            <!-- 
+              Additional information or context 
+              @type {Element | string}
+            -->
+          </slot>
 
           ${when(
             this.#isShowValidationFeedback && this.validityMessage,
@@ -361,13 +413,13 @@ export default class GlideCoreInput extends LitElement implements FormControl {
                     )}
                   </span>
 
-                  <span class="hidden" data-test="character-count-announcement"
-                    >${this.#localize.term(
+                  <span class="hidden" data-test="character-count-announcement">
+                    ${this.#localize.term(
                       'announcedCharacterCount',
                       this.#valueCharacterCount,
                       this.maxlength,
-                    )}</span
-                  >
+                    )}
+                  </span>
                 </div>
               `
             : nothing}
@@ -376,7 +428,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     `;
   }
 
-  reportValidity() {
+  reportValidity(): boolean {
     this.isReportValidityOrSubmit = true;
 
     const isValid = this.#internals.reportValidity();
@@ -387,11 +439,11 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     return isValid;
   }
 
-  resetValidityFeedback() {
+  resetValidityFeedback(): void {
     this.isReportValidityOrSubmit = false;
   }
 
-  setCustomValidity(message: string) {
+  setCustomValidity(message: string): void {
     this.validityMessage = message;
 
     if (message === '') {
@@ -415,7 +467,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     }
   }
 
-  setValidity(flags?: ValidityStateFlags, message?: string) {
+  setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
 
     // A validation message is required but unused because we disable native validation feedback.
@@ -537,16 +589,14 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     this.hasFocus = false;
   }
 
-  #onInputChange(event: Event) {
+  #onInputChange() {
     if (this.#inputElementRef.value?.value) {
       this.value = this.#inputElementRef.value?.value;
     }
 
     // Unlike "input" events, "change" events aren't composed. So we have to
     // manually dispatch them.
-    this.dispatchEvent(
-      new Event(event.type, { bubbles: true, composed: true }),
-    );
+    this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
   }
 
   #onInputFocus() {

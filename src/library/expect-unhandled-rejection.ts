@@ -1,7 +1,7 @@
 import { expect, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
 
-export default async function (callback: () => Promise<unknown>) {
+export default async function (callback: () => unknown) {
   const stub = sinon.stub(console, 'error');
   const spy = sinon.spy();
 

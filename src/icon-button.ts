@@ -7,6 +7,8 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './icon-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -15,9 +17,20 @@ declare global {
 }
 
 /**
- * @slot - An icon.
+ * @attr {string} label
+ * @attr {string|null} [aria-controls=null]
+ * @attr {'true'|'false'|null} [aria-expanded=null]
+ * @attr {'true'|'false'|'menu'|'listbox'|'tree'|'grid'|'dialog'|null} [aria-haspopup=null]
+ * @attr {boolean} [disabled=false]
+ * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element} - An icon
  */
 @customElement('glide-core-icon-button')
+@final
 export default class GlideCoreIconButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -47,7 +60,8 @@ export default class GlideCoreIconButton extends LitElement {
   @property({ type: Boolean, reflect: true }) disabled = false;
 
   @property()
-  label = '';
+  @required
+  label?: string;
 
   @property({ reflect: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
@@ -65,7 +79,7 @@ export default class GlideCoreIconButton extends LitElement {
         aria-controls=${ifDefined(this.ariaControls ?? undefined)}
         aria-expanded=${ifDefined(this.ariaExpanded ?? undefined)}
         aria-haspopup=${ifDefined(this.ariaHasPopup ?? undefined)}
-        aria-label=${this.label}
+        aria-label=${ifDefined(this.label)}
         class=${classMap({
           component: true,
           primary: this.variant === 'primary',
@@ -77,7 +91,13 @@ export default class GlideCoreIconButton extends LitElement {
         ?disabled=${this.disabled}
         ${ref(this.#buttonElementRef)}
       >
-        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}>
+          <!--
+            An icon
+            @required
+            @type {Element}
+          -->
+        </slot>
       </button>
     `;
   }

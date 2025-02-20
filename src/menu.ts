@@ -1,11 +1,5 @@
 import { html, LitElement } from 'lit';
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  offset,
-  type Placement,
-} from '@floating-ui/dom';
+import { autoUpdate, computePosition, flip, offset } from '@floating-ui/dom';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
@@ -16,6 +10,7 @@ import GlideCoreMenuOptions from './menu.options.js';
 import assertSlot from './library/assert-slot.js';
 import styles from './menu.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -24,12 +19,21 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {number} [offset=4]
+ * @attr {boolean} [open=false]
+ * @attr {'bottom'|'left'|'right'|'top'|'bottom-start'|'bottom-end'|'left-start'|'left-end'|'right-start'|'right-end'|'top-start'|'top-end'} [placement='bottom-start']
+ * @attr {'large'|'small'} [size='large']
  *
- * @slot - One of `<glide-core-menu-options>`.
- * @slot target - The element to which the menu will anchor, which can be any focusable element.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {GlideCoreMenuOptions}
+ * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-menu')
+@final
 export default class GlideCoreMenu extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -38,8 +42,11 @@ export default class GlideCoreMenu extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default 4
+   */
   @property({ reflect: true, type: Number })
-  get offset() {
+  get offset(): number {
     return (
       this.#offset ??
       Number.parseFloat(
@@ -57,8 +64,11 @@ export default class GlideCoreMenu extends LitElement {
     this.#offset = offset;
   }
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -82,14 +92,29 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   @property({ reflect: true })
-  placement: Placement = 'bottom-start';
+  placement:
+    | 'bottom'
+    | 'left'
+    | 'right'
+    | 'top'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'left-start'
+    | 'left-end'
+    | 'right-start'
+    | 'right-end'
+    | 'top-start'
+    | 'top-end' = 'bottom-start';
 
+  /**
+   * @default 'large'
+   */
   @property({ reflect: true })
-  get size() {
+  get size(): 'large' | 'small' {
     return this.#size;
   }
 
-  set size(size: 'small' | 'large') {
+  set size(size: 'large' | 'small') {
     this.#size = size;
 
     if (this.#optionsElement) {
@@ -201,7 +226,12 @@ export default class GlideCoreMenu extends LitElement {
           @slotchange=${this.#onTargetSlotChange}
           ${assertSlot([Element])}
           ${ref(this.#targetSlotElementRef)}
-        ></slot>
+        >
+          <!--
+            The element to which the popover will anchor. Can be any focusable element.
+            @type {Element}
+          -->
+        </slot>
 
         <slot
           class="default-slot"
@@ -214,7 +244,12 @@ export default class GlideCoreMenu extends LitElement {
           @slotchange=${this.#onDefaultSlotChange}
           ${assertSlot([GlideCoreMenuOptions])}
           ${ref(this.#defaultSlotElementRef)}
-        ></slot>
+        >
+          <!--
+            @required
+            @type {GlideCoreMenuOptions}
+          -->
+        </slot>
       </div>
     `;
   }
@@ -239,7 +274,7 @@ export default class GlideCoreMenu extends LitElement {
 
   #shadowRoot?: ShadowRoot;
 
-  #size: 'small' | 'large' = 'large';
+  #size: 'large' | 'small' = 'large';
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -664,7 +699,7 @@ export default class GlideCoreMenu extends LitElement {
     // A cleaner approach, which would obviate all the optional chaining and
     // conditions throughout, would be to return an empty array if `children`
     // is `undefined`. The problem is test coverage. `GlideCoreMenuOptions`
-    // throws if its default slot is empty. So the branch where `children` is
+    // throws when its default slot is empty. So the branch where `children` is
     // `undefined` is never reached.
     let elements: HTMLCollection | Element[] | undefined =
       this.#defaultSlotElementRef.value?.assignedElements()?.at(0)?.children;

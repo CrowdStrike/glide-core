@@ -18,6 +18,8 @@ import styles from './tooltip.styles.js';
 import './tooltip.container.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -26,11 +28,24 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {number} [offset=4]
+ * @attr {boolean} [open=false]
+ * @attr {'bottom'|'left'|'right'|'top'} [placement] - The placement of the tooltip relative to its target. Automatic placement will take over if the tooltip is cut off by the viewport.
+ * @attr {boolean} [screenreader-hidden=false]
+ * @attr {string[]} [shortcut=[]]
  *
- * @slot target - The element to which the tooltip will anchor.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {GlideCoreTooltipContainer} [private]
+ * @slot {Element} target - The element to which the tooltip will anchor. Can be any element with an implicit or explicit ARIA role.
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-tooltip')
+@final
 export default class GlideCoreTooltip extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -39,8 +54,11 @@ export default class GlideCoreTooltip extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -70,8 +88,12 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
-  get label() {
+  @required
+  get label(): string | undefined {
     return this.#label;
   }
 
@@ -87,8 +109,11 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 
+  /**
+   * @default 4
+   */
   @property({ reflect: true, type: Number })
-  get offset() {
+  get offset(): number {
     return (
       this.#offset ??
       Number.parseFloat(
@@ -106,11 +131,17 @@ export default class GlideCoreTooltip extends LitElement {
     this.#offset = offset;
   }
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
+  /**
+   * @default false
+   */
   set open(isOpen: boolean) {
     const hasChanged = isOpen !== this.#isOpen;
     this.#isOpen = isOpen;
@@ -130,15 +161,18 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 
-  /*
-    The placement of the tooltip relative to its target. Automatic placement will
-    take over if the tooltip is cut off by the viewport. "bottom" by default.
-  */
+  /**
+   * The placement of the tooltip relative to its target. Automatic placement will
+   * take over if the tooltip is cut off by the viewport.
+   */
   @property({ reflect: true })
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
+  /**
+   * @default false
+   */
   @property({ attribute: 'screenreader-hidden', reflect: true, type: Boolean })
-  get screenreaderHidden() {
+  get screenreaderHidden(): boolean {
     return this.#isScreenreaderHidden;
   }
 
@@ -162,8 +196,11 @@ export default class GlideCoreTooltip extends LitElement {
     }
   }
 
+  /**
+   * @default []
+   */
   @property({ reflect: true, type: Array })
-  get shortcut() {
+  get shortcut(): string[] {
     return this.#shortcut;
   }
 
@@ -245,7 +282,15 @@ export default class GlideCoreTooltip extends LitElement {
             ${assertSlot()}
             ${ref(this.#targetSlotElementRef)}
             name="target"
-          ></slot>
+          >
+            <!--
+              The element to which the tooltip will anchor.
+              Can be any element with an implicit or explicit ARIA role.
+
+              @required
+              @type {Element}
+            -->
+          </slot>
         </div>
 
         <div
@@ -281,7 +326,11 @@ export default class GlideCoreTooltip extends LitElement {
               reversed: this.effectivePlacement === 'left',
             })}
           >
-            <slot class="default-slot" name="private"></slot>
+            <slot class="default-slot" name="private">
+              <!--
+                @type {GlideCoreTooltipContainer}
+              -->
+            </slot>
           </div>
         </div>
       </div>
@@ -303,7 +352,7 @@ export default class GlideCoreTooltip extends LitElement {
 
   #isScreenreaderHidden = false;
 
-  #label = '';
+  #label?: string;
 
   #offset: number | undefined;
 
@@ -337,9 +386,9 @@ export default class GlideCoreTooltip extends LitElement {
     // configure them. Tests configure them, rather than using fake timers,
     // because they need real timers so they can await Floating UI's setup.
     //
-    // Conditionals here and in `#scheduleClose` based on `navigator.webdriver`
-    // would be a lot nicer. But the non-`navigator.webdriver` condition would
-    // never get hit in tests, so we'd fail to meet our coverage thresholds.
+    // Conditionals here and in `#scheduleClose` based on `window.navigator.webdriver`
+    // would be a lot nicer. But one of that condition's branches would never get hit
+    // in tests. So we'd fail to meet our coverage thresholds.
     this.#openTimeoutId = setTimeout(() => {
       this.open = true;
     }, Number(this.#tooltipElementRef.value?.dataset.openDelay));
@@ -407,6 +456,15 @@ export default class GlideCoreTooltip extends LitElement {
                           fallbackStrategy: 'initialPlacement',
                         }),
                         shift({
+                          // So the tooltip can overlap its target in cases where it would otherwise
+                          // overflow the viewport.
+                          //
+                          // Give a form control a super long label. Now reduce the size of your viewport.
+                          // The tooltip should flip to the left instead of overflowing on the right.
+                          //
+                          // https://github.com/floating-ui/floating-ui/blob/933cacc6672e2ccd9409cf0e9f64acd7ebf450c4/website/pages/docs/shift.mdx#crossaxiskey
+                          crossAxis: true,
+
                           limiter: limitShift({
                             // Shifting is limited so the arrow is never near the tooltip's rounded
                             // corners, which would leave a gap between the arrow and the part of
@@ -441,7 +499,13 @@ export default class GlideCoreTooltip extends LitElement {
                   'glide-core-private-tooltip-container',
                 );
 
-                if (container) {
+                const isSupportedPlacement =
+                  placement === 'bottom' ||
+                  placement === 'left' ||
+                  placement === 'right' ||
+                  placement === 'top';
+
+                if (container && isSupportedPlacement) {
                   container.placement = placement;
                 }
               }

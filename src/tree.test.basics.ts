@@ -1,174 +1,124 @@
 import './tree.item.icon-button.js';
 import './tree.item.menu.js';
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
-import { sendKeys } from '@web/test-runner-commands';
+import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreTree from './tree.js';
-import { click } from './library/mouse.js';
 import GlideCoreTreeItem from './tree.item.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTree {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tree')).to.equal(GlideCoreTree);
 });
 
-it('can select child and grandchild items', async () => {
-  const component = await fixture<GlideCoreTree>(html`
+it('is accessible', async () => {
+  const host = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
-      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
-      <glide-core-tree-item label="Child Item 2">
-        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="One"></glide-core-tree-item>
+
+      <glide-core-tree-item label="Two">
+        <glide-core-tree-item label="Three"></glide-core-tree-item>
       </glide-core-tree-item>
     </glide-core-tree>
   `);
 
-  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+  await expect(host).to.be.accessible();
+});
+
+it('sets `aria-expanded`', async () => {
+  const host = await fixture(html`
+    <glide-core-tree>
+      <glide-core-tree-item label="One"></glide-core-tree-item>
+
+      <glide-core-tree-item label="Two">
+        <glide-core-tree-item label="Three"></glide-core-tree-item>
+      </glide-core-tree-item>
+
+      <glide-core-tree-item label="Four" expanded>
+        <glide-core-tree-item label="Five"></glide-core-tree-item>
+      </glide-core-tree-item>
+    </glide-core-tree>
+  `);
+
+  const items = host.querySelectorAll<GlideCoreTreeItem>(
     ':scope > glide-core-tree-item',
   );
 
-  const grandchildItems = childItems?.[1].querySelectorAll(
-    'glide-core-tree-item',
-  );
+  expect(items[0].ariaExpanded).to.equal(null);
 
-  component.selectItem(childItems[0]);
-  let selectedItem = component.querySelector('glide-core-tree-item[selected]');
+  expect(
+    items[1].shadowRoot?.querySelector('[data-test="component"]')?.ariaExpanded,
+  ).to.equal('false');
 
-  expect(childItems[0].selected).to.be.true;
-  expect(selectedItem).to.equal(childItems[0]);
-  expect(childItems[1].selected).to.be.false;
-  expect(grandchildItems[0].selected).to.be.false;
+  items[1].privateToggleExpand();
+  await items[1].updateComplete;
 
-  component.selectItem(grandchildItems[0]);
-  selectedItem = component.querySelector('glide-core-tree-item[selected]');
+  expect(
+    items[1].shadowRoot?.querySelector('[data-test="component"]')?.ariaExpanded,
+  ).to.equal('true');
 
-  expect(childItems[0].selected).to.be.false;
-  expect(childItems[1].selected).to.be.false;
-  expect(grandchildItems[0].selected).to.be.true;
-  expect(selectedItem).to.equal(grandchildItems[0]);
+  expect(
+    items[2].shadowRoot?.querySelector('[data-test="component"]')?.ariaExpanded,
+  ).to.equal('true');
 });
 
-it('can click child and grandchild items to expand or select them', async () => {
-  const component = await fixture<GlideCoreTree>(html`
+it('sets `aria-selected`', async () => {
+  const host = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
-      <glide-core-tree-item label="Child Item 1"></glide-core-tree-item>
-      <glide-core-tree-item label="Child Item 2">
-        <glide-core-tree-item label="Grandchild Item 1"></glide-core-tree-item>
+      <glide-core-tree-item label="One">
+        <glide-core-tree-item label="Two"></glide-core-tree-item>
       </glide-core-tree-item>
-      <glide-core-tree-item label="Child Item 3" expanded non-collapsible>
-        <glide-core-tree-item label="Grandchild Item 2"></glide-core-tree-item>
-      </glide-core-tree-item>
+
+      <glide-core-tree-item label="Three"></glide-core-tree-item>
+      <glide-core-tree-item label="Four" selected></glide-core-tree-item>
     </glide-core-tree>
   `);
 
-  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
+  const items = host.querySelectorAll<GlideCoreTreeItem>(
     ':scope > glide-core-tree-item',
   );
 
-  const grandchildItems = childItems?.[1].querySelectorAll(
-    'glide-core-tree-item',
-  );
+  expect(items[0].ariaSelected).to.equal(null);
 
-  // Clicking an item that doesn't have children selects it
-  await click(childItems[0]);
-  expect(childItems[0].selected).to.be.true;
-  expect(childItems[1].selected).to.be.false;
-  expect(grandchildItems[0].selected).to.be.false;
-  expect(childItems[1].expanded).to.be.false;
+  expect(
+    items[1].shadowRoot?.querySelector('[data-test="component"]')?.ariaSelected,
+  ).to.equal('false');
 
-  // Clicking an item that has children expands it
-  await click(childItems[1]);
-  expect(childItems[1].expanded).to.be.true;
+  expect(
+    items[2].shadowRoot?.querySelector('[data-test="component"]')?.ariaSelected,
+  ).to.equal('true');
 
-  // Can click and select a grandchild item
-  await click(grandchildItems[0]);
-  expect(grandchildItems[0].selected).to.be.true;
+  host.selectItem(items[1]);
+  await items[1].updateComplete;
 
-  // Can click and select a non-collapsible parent item.
-  //
-  // "top" because the default, clicking the center of the element,
-  // will click the child's child.
-  await click(childItems[2], 'top');
-  expect(childItems[2].selected).to.be.true;
+  expect(
+    items[1].shadowRoot?.querySelector('[data-test="component"]')?.ariaSelected,
+  ).to.equal('true');
 });
 
-it('does not select an item if a tree-item-icon-button is clicked', async () => {
-  const component = await fixture<GlideCoreTree>(html`
-    <glide-core-tree>
-      <glide-core-tree-item label="Child Item 1">
-        <glide-core-tree-item-icon-button slot="suffix" data-test-icon-button>
-          <svg viewBox="0 0 24 24">
-            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-          </svg>
-        </glide-core-tree-item-icon-button>
-      </glide-core-tree-item>
-    </glide-core-tree>
-  `);
-
-  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
-    ':scope > glide-core-tree-item',
-  );
-
-  await click(childItems[0].querySelector('[data-test-icon-button]'));
-
-  expect(childItems[0].selected).to.be.false;
-});
-
-it('does not select an item if its menu slot is clicked', async () => {
-  const component = await fixture<GlideCoreTree>(html`
-    <glide-core-tree>
-      <glide-core-tree-item label="Child Item 1">
-        <glide-core-tree-item-menu slot="menu" data-test-menu>
-          <glide-core-menu-link label="Edit" url="/edit"></glide-core-menu-link>
-        </glide-core-tree-item-menu>
-      </glide-core-tree-item>
-    </glide-core-tree>
-  `);
-
-  const childItems = component.querySelectorAll<GlideCoreTreeItem>(
-    ':scope > glide-core-tree-item',
-  );
-
-  await click(childItems[0].querySelector('[data-test-menu]'));
-
-  expect(childItems[0].selected).to.be.false;
-});
-
-it('does not scroll the page when arrowing', async () => {
-  document.body.style.height = '200vh';
-  document.body.style.scrollBehavior = 'auto';
-
-  const component = await fixture(html`
-    <glide-core-tree>
-      <glide-core-tree-item label="label">
-        <glide-core-tree-item-menu slot="menu">
-          <glide-core-menu-link label="Label" url="/"></glide-core-menu-link>
-        </glide-core-tree-item-menu>
-      </glide-core-tree-item>
-    </glide-core-tree>
-  `);
-
+it('throws when subclassed', async () => {
   const spy = sinon.spy();
-  document.addEventListener('scroll', spy);
 
-  component.querySelector('glide-core-tree-item')?.focus();
-  await sendKeys({ press: 'ArrowDown' });
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
 
-  // The browser apparently inserts a slight delay after arrowing before scrolling,
-  // even when smooth scrolling is disabled. `100` is a round number that comfortably
-  // gets us past that delay.
-  await aTimeout(100);
-
-  expect(spy.callCount).to.equal(0);
+  expect(spy.callCount).to.equal(1);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(html`<glide-core-tree></glide-core-tree>`);
   });
 });
 
-it('throws if its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(html`
       <glide-core-tree>

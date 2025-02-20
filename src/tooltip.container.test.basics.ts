@@ -1,5 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreTooltipContainer from './tooltip.container.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTooltipContainer {}
 
 it('registers itself', async () => {
   expect(
@@ -8,7 +13,7 @@ it('registers itself', async () => {
 });
 
 it('can have a single-key shortcut', async () => {
-  const component = await fixture<GlideCoreTooltipContainer>(
+  const host = await fixture<GlideCoreTooltipContainer>(
     html`<glide-core-private-tooltip-container
       label="Label"
       .shortcut=${['Enter']}
@@ -17,7 +22,7 @@ it('can have a single-key shortcut', async () => {
     </glide-core-private-tooltip-container>`,
   );
 
-  const shortcut = component.shadowRoot?.querySelector<HTMLElement>(
+  const shortcut = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="shortcut"]',
   );
 
@@ -25,7 +30,7 @@ it('can have a single-key shortcut', async () => {
 });
 
 it('can have a multi-key shortcut', async () => {
-  const component = await fixture<GlideCoreTooltipContainer>(
+  const host = await fixture<GlideCoreTooltipContainer>(
     html`<glide-core-private-tooltip-container
       label="Label"
       .shortcut=${['CMD', 'K']}
@@ -34,7 +39,7 @@ it('can have a multi-key shortcut', async () => {
     </glide-core-private-tooltip-container>`,
   );
 
-  const shortcut = component.shadowRoot?.querySelector<HTMLElement>(
+  const shortcut = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="shortcut"]',
   );
 
@@ -42,11 +47,23 @@ it('can have a multi-key shortcut', async () => {
 });
 
 it('has no `role` when disabled', async () => {
-  const component = await fixture<GlideCoreTooltipContainer>(
+  const host = await fixture<GlideCoreTooltipContainer>(
     html`<glide-core-private-tooltip-container label="Label" disabled>
       <button slot="target">Target</button>
     </glide-core-private-tooltip-container>`,
   );
 
-  expect(component.role).to.equal('none');
+  expect(host.role).to.equal('none');
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });

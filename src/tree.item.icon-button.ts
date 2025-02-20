@@ -1,10 +1,13 @@
 import './icon-button.js';
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './tree.item.icon-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -13,9 +16,15 @@ declare global {
 }
 
 /**
- * @slot - An icon.
+ * @attr {string} label
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element} - An icon
  */
 @customElement('glide-core-tree-item-icon-button')
+@final
 export default class GlideCoreTreeItemIconButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -25,7 +34,8 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
   static override styles = styles;
 
   @property()
-  label = '';
+  @required
+  label?: string;
 
   @property({ reflect: true })
   readonly version = packageJson.version;
@@ -36,9 +46,14 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
         class="component"
         variant="tertiary"
         tabindex="-1"
-        label=${this.label}
+        label=${ifDefined(this.label)}
       >
-        <slot ${assertSlot()}></slot>
+        <slot ${assertSlot()}>
+          <!-- 
+            An icon
+            @type {Element}
+          -->
+        </slot>
       </glide-core-icon-button>
     `;
   }

@@ -4,43 +4,39 @@ import { expect, fixture, html } from '@open-wc/testing';
 import en from '../translations/en.js';
 import { LocalizeController } from './localize.js';
 
-@customElement('mock-component')
+@customElement('mock-host')
 class GlideCoreMockComponent extends LitElement {
-  static override shadowRootOptions: ShadowRootInit = {
-    ...LitElement.shadowRootOptions,
-  };
-
   localize = new LocalizeController(this);
 }
 
 it('can call any term from en translation if locale is Japanese', async () => {
-  const component = await fixture<GlideCoreMockComponent>(
-    html`<mock-component></mock-component>`,
+  const host = await fixture<GlideCoreMockComponent>(
+    html`<mock-host></mock-host>`,
   );
 
-  component.lang = 'ja';
+  host.lang = 'ja';
 
-  expect(component.localize.lang()).to.equal('ja');
+  expect(host.localize.lang()).to.equal('ja');
 
   const keys = Object.keys(en) as (keyof typeof en)[];
 
   for (const key of keys) {
-    expect(component.localize.term(key)).to.be.ok;
+    expect(host.localize.term(key)).to.be.ok;
   }
 });
 
 it('can call any term from en translation if locale is French', async () => {
-  const component = await fixture<GlideCoreMockComponent>(
-    html`<mock-component></mock-component>`,
+  const host = await fixture<GlideCoreMockComponent>(
+    html`<mock-host></mock-host>`,
   );
 
-  component.lang = 'fr';
+  host.lang = 'fr';
 
-  expect(component.localize.lang()).to.equal('fr');
+  expect(host.localize.lang()).to.equal('fr');
 
   const keys = Object.keys(en) as (keyof typeof en)[];
 
   for (const key of keys) {
-    expect(component.localize.term(key)).to.be.ok;
+    expect(host.localize.term(key)).to.be.ok;
   }
 });

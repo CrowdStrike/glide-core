@@ -12,7 +12,7 @@ ruleTester.run(
         code: 'const notAFixture = html``;',
       },
       {
-        code: 'const component = await fixture(html``);',
+        code: 'const host = await fixture(html``);',
       },
     ],
     invalid: [

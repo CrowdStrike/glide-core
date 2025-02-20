@@ -13,6 +13,8 @@ import checkedIcon from './icons/checked.js';
 import styles from './checkbox.styles.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -21,14 +23,53 @@ declare global {
 }
 
 /**
- * @event change
- * @event input
- * @event invalid
+ * @attr {string} label
+ * @attr {boolean} [checked=false]
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {boolean} [indeterminate=false]
+ * @attr {string} [name='']
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {boolean} [required=false]
+ * @attr {string} [summary]
+ * @attr {string} [tooltip]
+ * @attr {string} [value]
  *
- * @slot description - Additional information or context.
- * @slot private-icon
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element | string} [description] - Additional information or context
+ * @slot {Element} [private-icon]
+ *
+ * @fires {Event} change
+ * @fires {Event} invalid
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-checkbox')
+@final
 export default class GlideCoreCheckbox
   extends LitElement
   implements FormControl
@@ -45,8 +86,8 @@ export default class GlideCoreCheckbox
   @property({ type: Boolean })
   checked = false;
 
-  @property({ attribute: 'internally-inert', type: Boolean })
-  internallyInert = false;
+  @property({ attribute: 'private-internally-inert', type: Boolean })
+  privateInternallyInert = false;
 
   @property({ reflect: true, type: Boolean })
   disabled = false;
@@ -57,8 +98,12 @@ export default class GlideCoreCheckbox
   @property({ type: Boolean })
   indeterminate = false;
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
-  get label() {
+  @required
+  get label(): string | undefined {
     return this.#label;
   }
 
@@ -124,8 +169,11 @@ export default class GlideCoreCheckbox
   @property({ reflect: true })
   tooltip?: string;
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
-  get value() {
+  get value(): string {
     return this.#value;
   }
 
@@ -133,7 +181,7 @@ export default class GlideCoreCheckbox
     const old = this.#value;
     this.#value = value;
 
-    // `this.value` can be changed programmatically. Checkbox Group needs to know when
+    // `this.value` can be set programmatically. Checkbox Group needs to know when
     // that happens so it can update its own `this.value`.
     this.dispatchEvent(
       new CustomEvent('private-value-change', {
@@ -155,15 +203,11 @@ export default class GlideCoreCheckbox
   @property({ reflect: true })
   readonly version = packageJson.version;
 
-  get form() {
+  get form(): HTMLFormElement | null {
     return this.#internals.form;
   }
 
-  override blur() {
-    this.#inputElementRef.value?.blur();
-  }
-
-  checkValidity() {
+  checkValidity(): boolean {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
@@ -198,7 +242,7 @@ export default class GlideCoreCheckbox
     this.#intersectionObserver?.disconnect();
   }
 
-  get validity() {
+  get validity(): ValidityState {
     // If we're in a Checkbox Group, `disabled`, `required`, and whether or not
     // the form has been submitted don't apply because Checkbox Group handles those
     // states for the group as a whole.
@@ -243,11 +287,11 @@ export default class GlideCoreCheckbox
     this.#inputElementRef.value?.focus(options);
   }
 
-  formAssociatedCallback() {
+  formAssociatedCallback(): void {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
 
-  formResetCallback() {
+  formResetCallback(): void {
     this.checked = this.getAttribute('checked') === '';
     this.indeterminate = this.getAttribute('indeterminate') === '';
   }
@@ -271,7 +315,7 @@ export default class GlideCoreCheckbox
                 data-test="input"
                 type="checkbox"
                 .checked=${this.checked}
-                .inert=${this.internallyInert}
+                .inert=${this.privateInternallyInert}
                 ?disabled=${this.disabled}
                 ?required=${this.required}
                 @change=${this.#onInputChangeOrInput}
@@ -292,12 +336,14 @@ export default class GlideCoreCheckbox
             </div>
 
             <div class="icon-and-label">
-              <slot name="private-icon"></slot>
+              <slot name="private-icon">
+                <!-- @type {Element} -->
+              </slot>
 
               <glide-core-tooltip
                 class="label-tooltip"
                 data-test="label-tooltip"
-                label=${ifDefined(this.tooltip)}
+                label=${ifDefined(this.label)}
                 offset=${this.privateLabelTooltipOffset}
                 ?disabled=${!this.isLabelOverflow ||
                 this.privateDisableLabelTooltip}
@@ -320,6 +366,7 @@ export default class GlideCoreCheckbox
         `,
         () =>
           html`<glide-core-private-label
+            label=${ifDefined(this.label)}
             orientation=${this.orientation}
             split=${ifDefined(this.privateSplit ?? undefined)}
             tooltip=${ifDefined(this.tooltip)}
@@ -365,9 +412,17 @@ export default class GlideCoreCheckbox
               </div>
             </div>
 
-            <div id="summary" slot="summary">${this.summary}</div>
+            ${when(
+              this.summary,
+              () =>
+                html`<div id="summary" slot="summary">${this.summary}</div>`,
+            )}
 
             <div id="description" slot="description">
+              <!--
+                  Additional information or context
+                  @type {Element | string}
+                -->
               <slot
                 class=${classMap({
                   description: true,
@@ -376,7 +431,13 @@ export default class GlideCoreCheckbox
                   ),
                 })}
                 name="description"
-              ></slot>
+              >
+                <!--
+                  Additional information or context
+                  @type {Element | string}
+                -->
+              </slot>
+
               ${when(
                 this.#isShowValidationFeedback && this.validityMessage,
                 () =>
@@ -392,9 +453,8 @@ export default class GlideCoreCheckbox
     </div>`;
   }
 
-  reportValidity() {
+  reportValidity(): boolean {
     this.privateIsReportValidityOrSubmit = true;
-
     const isValid = this.#internals.reportValidity();
 
     // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
@@ -403,11 +463,11 @@ export default class GlideCoreCheckbox
     return isValid;
   }
 
-  resetValidityFeedback() {
+  resetValidityFeedback(): void {
     this.privateIsReportValidityOrSubmit = false;
   }
 
-  setCustomValidity(message: string) {
+  setCustomValidity(message: string): void {
     this.validityMessage = message;
 
     if (message === '') {
@@ -430,23 +490,15 @@ export default class GlideCoreCheckbox
     }
   }
 
-  setValidity(flags?: ValidityStateFlags, message?: string) {
+  setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
-
     this.#internals.setValidity(flags, ' ', this.#inputElementRef.value);
-  }
-
-  get willValidate() {
-    return this.#internals.willValidate;
   }
 
   override updated() {
     if (this.#inputElementRef.value) {
       // `indeterminate` needs to be updated both on initial render and after it has
       // changed. This handles both cases.
-      //
-      // TODO
-      // No need for this when browsers support the ":indeterminate" on the host.
       this.#inputElementRef.value.indeterminate = this.indeterminate;
     }
   }
@@ -511,7 +563,7 @@ export default class GlideCoreCheckbox
 
   #intersectionObserver?: IntersectionObserver;
 
-  #label? = '';
+  #label?: string;
 
   #labelElementRef = createRef<HTMLElement>();
 
@@ -575,7 +627,7 @@ export default class GlideCoreCheckbox
       // Unlike "input" events, "change" events aren't composed. So we have to
       // manually dispatch them.
       this.dispatchEvent(
-        new Event(event.type, { bubbles: true, composed: true }),
+        new Event('change', { bubbles: true, composed: true }),
       );
     }
   }

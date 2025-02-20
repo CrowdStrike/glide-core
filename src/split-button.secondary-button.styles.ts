@@ -48,7 +48,7 @@ export default [
       &:focus-visible {
         box-shadow: 0 0 0 1px var(--glide-core-surface-page);
 
-        /* So the box shadow isn't covered up by the primary button. */
+        /* So the box shadow isn't covered up by its primary button. */
         z-index: 1;
       }
 
@@ -94,7 +94,7 @@ export default [
       &:not(:active, .active, :disabled):is(:hover) {
         box-shadow: var(--glide-core-glow-sm);
 
-        /* So the box shadow isn't covered up by the primary button. */
+        /* So the box shadow isn't covered up by its primary button. */
         z-index: 1;
       }
 

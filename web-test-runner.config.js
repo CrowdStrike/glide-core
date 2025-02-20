@@ -34,7 +34,14 @@ export default {
       lines: 100,
     },
   },
-  files: ['src/**/*.test.ts', 'src/**/*.test.*.ts', '!**/eslint/**'],
+  files: [
+    'src/**/*.test.ts',
+    'src/**/*.test.*.ts',
+    '!**/eslint/**',
+    '!**/icons/**',
+    '!**/stylelint/**',
+    '!**/translations/**',
+  ],
   nodeResolve: {
     // Ow is an example of a module that supports both the browser and Node.js
     // and uses the `browser` field in `package.json` to switch between artifacts.

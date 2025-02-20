@@ -3,18 +3,18 @@ import GlideCoreDropdown from './dropdown.js';
 import type GlideCoreDropdownOption from './dropdown.option.js';
 
 it('is accessible ', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
 it('has a selected option label when an option is initially selected', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
         selected
@@ -22,7 +22,7 @@ it('has a selected option label when an option is initially selected', async () 
     </glide-core-dropdown>`,
   );
 
-  const labels = component.shadowRoot?.querySelectorAll(
+  const labels = host.shadowRoot?.querySelectorAll(
     '[data-test="selected-option-label"]',
   );
 
@@ -31,8 +31,8 @@ it('has a selected option label when an option is initially selected', async () 
 });
 
 it('sets its internal `label` to the last initially selected option', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
         selected
@@ -45,16 +45,14 @@ it('sets its internal `label` to the last initially selected option', async () =
     </glide-core-dropdown>`,
   );
 
-  const label = component.shadowRoot?.querySelector(
-    '[data-test="internal-label"]',
-  );
+  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
 
   expect(label?.textContent?.trim()).to.equal('Two');
 });
 
 it('sets `value` to that of the last initially selected option', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown open>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -74,12 +72,12 @@ it('sets `value` to that of the last initially selected option', async () => {
     </glide-core-dropdown>`,
   );
 
-  expect(component.value).to.deep.equal(['three']);
+  expect(host.value).to.deep.equal(['three']);
 });
 
 it('hides Select All', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
         value="one"
@@ -93,17 +91,16 @@ it('hides Select All', async () => {
     </glide-core-dropdown>`,
   );
 
-  const selectAll =
-    component.shadowRoot?.querySelector<GlideCoreDropdownOption>(
-      '[data-test="select-all"]',
-    );
+  const selectAll = host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+    '[data-test="select-all"]',
+  );
 
   expect(selectAll?.checkVisibility()).to.not.be.ok;
 });
 
 it('has an icon when an option with a value is selected', async () => {
-  const component = await fixture(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture(
+    html`<glide-core-dropdown label="Label">
       <div slot="icon:one">✓</div>
       <div slot="icon:two">✓</div>
 
@@ -117,7 +114,7 @@ it('has an icon when an option with a value is selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  const iconSlot = component.shadowRoot?.querySelector<HTMLSlotElement>(
+  const iconSlot = host.shadowRoot?.querySelector<HTMLSlotElement>(
     '[data-test="single-select-icon-slot"]',
   );
 
@@ -126,8 +123,8 @@ it('has an icon when an option with a value is selected', async () => {
 });
 
 it('has no icon when an option without a value is selected', async () => {
-  const component = await fixture(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture(
+    html`<glide-core-dropdown label="Label">
       <div slot="icon:one">✓</div>
       <div slot="icon:two">✓</div>
 
@@ -141,7 +138,7 @@ it('has no icon when an option without a value is selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  const iconSlot = component.shadowRoot?.querySelector(
+  const iconSlot = host.shadowRoot?.querySelector(
     '[data-test="single-select-icon-slot"]',
   );
 
@@ -149,8 +146,8 @@ it('has no icon when an option without a value is selected', async () => {
 });
 
 it('has no icon when no option is selected', async () => {
-  const component = await fixture(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+  const host = await fixture(
+    html`<glide-core-dropdown label="Label">
       <div slot="icon:one">✓</div>
       <div slot="icon:two">✓</div>
 
@@ -164,7 +161,7 @@ it('has no icon when no option is selected', async () => {
     </glide-core-dropdown>`,
   );
 
-  const iconSlot = component.shadowRoot?.querySelector(
+  const iconSlot = host.shadowRoot?.querySelector(
     '[data-test="single-select-icon-slot"]',
   );
 

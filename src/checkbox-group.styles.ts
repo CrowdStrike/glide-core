@@ -26,7 +26,7 @@ export default [
       }
     }
 
-    .checkboxes {
+    .default-slot {
       display: flex;
       flex-direction: column;
       grid-column: 2;

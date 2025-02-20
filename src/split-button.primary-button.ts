@@ -5,6 +5,8 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './split-button.primary-button.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -13,9 +15,19 @@ declare global {
 }
 
 /**
- * @slot icon - An optional icon before the label.
+ * @attr {string} label
+ * @attr {string|null} [aria-controls=null]
+ * @attr {'true'|'false'|null} [aria-expanded=null]
+ * @attr {'true'|'false'|'menu'|'listbox'|'tree'|'grid'|'dialog'|null} [aria-haspopup=null]
+ * @attr {boolean} [disabled=false]
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element} [icon] - An icon before the label
  */
 @customElement('glide-core-split-button-primary-button')
+@final
 export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -46,6 +58,7 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
   disabled = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property()
@@ -72,7 +85,13 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
       type="button"
       ?disabled=${this.disabled}
     >
-      <slot name="icon"></slot>
+      <slot name="icon">
+        <!-- 
+          An icon before the label
+          @type {Element}
+        -->
+      </slot>
+
       ${this.label}
     </button>`;
   }

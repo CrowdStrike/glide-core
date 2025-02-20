@@ -6,6 +6,8 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './button-group.button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -14,10 +16,20 @@ declare global {
 }
 
 /**
- * @slot - A label.
- * @slot icon - An optional icon before the label.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [selected=false]
+ * @attr {string} [value='']
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element} [icon]
+ *
+ * @fires {Event} selected
  */
 @customElement('glide-core-button-group-button')
+@final
 export default class GlideCoreButtonGroupButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -27,10 +39,14 @@ export default class GlideCoreButtonGroupButton extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  label? = '';
+  @required
+  label?: string;
 
+  /**
+   * @default false
+   */
   @property({ type: Boolean, reflect: true })
-  get selected() {
+  get selected(): boolean {
     return this.#isSelected;
   }
 
@@ -66,6 +82,14 @@ export default class GlideCoreButtonGroupButton extends LitElement {
     this.#componentElementRef.value?.focus(options);
   }
 
+  privateSelect() {
+    this.selected = true;
+
+    this.dispatchEvent(
+      new Event('selected', { bubbles: true, composed: true }),
+    );
+  }
+
   override render() {
     return html`<div
       aria-checked=${this.selected}
@@ -78,6 +102,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
         icon: this.hasIcon,
         'icon-only': this.privateVariant === 'icon-only',
       })}
+      data-test="radio"
       role="radio"
       tabindex=${!this.selected || this.disabled ? -1 : 0}
       ${ref(this.#componentElementRef)}
@@ -87,7 +112,9 @@ export default class GlideCoreButtonGroupButton extends LitElement {
         @slotchange=${this.#onIconSlotChange}
         ${assertSlot(null, this.privateVariant !== 'icon-only')}
         ${ref(this.#iconSlotElementRef)}
-      ></slot>
+      >
+        <!-- @type {Element} -->
+      </slot>
 
       <div
         class=${classMap({

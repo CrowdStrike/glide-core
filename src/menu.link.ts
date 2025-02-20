@@ -7,6 +7,8 @@ import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './menu.link.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -15,9 +17,17 @@ declare global {
 }
 
 /**
- * @slot icon - An optional icon.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {string} [url]
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element} [icon]
  */
 @customElement('glide-core-menu-link')
+@final
 export default class GlideCoreMenuLink extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -26,8 +36,11 @@ export default class GlideCoreMenuLink extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -40,6 +53,7 @@ export default class GlideCoreMenuLink extends LitElement {
   }
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ reflect: true })
@@ -93,7 +107,10 @@ export default class GlideCoreMenuLink extends LitElement {
       @click=${this.#onClick}
       ${ref(this.#componentElementRef)}
     >
-      <slot name="icon"></slot>
+      <slot name="icon">
+        <!-- @type {Element} -->
+      </slot>
+
       ${this.label}
     </a>`;
   }

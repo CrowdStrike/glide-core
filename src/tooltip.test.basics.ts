@@ -1,7 +1,12 @@
 import { aTimeout, expect, fixture, html, waitUntil } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreTooltip from './tooltip.js';
 import GlideCoreTooltipContainer from './tooltip.container.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreTooltip {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-tooltip')).to.equal(
@@ -10,23 +15,23 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreTooltip>(
+  const host = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
 it('can be open', async () => {
-  const component = await fixture<GlideCoreTooltip>(
+  const host = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip label="Label" open>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
-  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+  const tooltip = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="tooltip"]',
   );
 
@@ -37,7 +42,7 @@ it('can be open', async () => {
 });
 
 it('passes down certain properties to its container', async () => {
-  const component = await fixture<GlideCoreTooltip>(
+  const host = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip
       label="Label"
       .shortcut=${['CMD', 'K']}
@@ -48,12 +53,12 @@ it('passes down certain properties to its container', async () => {
   );
 
   await waitUntil(() => {
-    return component.querySelector<GlideCoreTooltipContainer>(
+    return host.querySelector<GlideCoreTooltipContainer>(
       'glide-core-private-tooltip-container',
     );
   });
 
-  const container = component.querySelector<GlideCoreTooltipContainer>(
+  const container = host.querySelector<GlideCoreTooltipContainer>(
     'glide-core-private-tooltip-container',
   );
 
@@ -63,13 +68,13 @@ it('passes down certain properties to its container', async () => {
 });
 
 it('is not open when disabled', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-tooltip label="Label" open disabled>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
-  const tooltip = component.shadowRoot?.querySelector<HTMLElement>(
+  const tooltip = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="tooltip"]',
   );
 
@@ -80,68 +85,96 @@ it('is not open when disabled', async () => {
 });
 
 it('sets `aria-describedby` on its target when enabled', async () => {
-  const component = await fixture<GlideCoreTooltip>(
+  const host = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
-  const button = component.querySelector('button');
+  const button = host.querySelector('button');
 
-  const container = component.querySelector(
-    'glide-core-private-tooltip-container',
-  );
+  const container = host.querySelector('glide-core-private-tooltip-container');
 
   expect(button?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('does not set `aria-describedby` on its target when disabled', async () => {
-  const component = await fixture<GlideCoreTooltip>(
+  const host = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip label="Label" disabled>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
-  const button = component.querySelector('button');
+  const button = host.querySelector('button');
   expect(button?.getAttribute('aria-describedby')).to.equal(null);
 });
 
 it('sets `aria-describedby` when not hidden from screenreaders', async () => {
-  const component = await fixture<GlideCoreTooltip>(
+  const host = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
-  const button = component.querySelector('button');
+  const button = host.querySelector('button');
 
-  const container = component.querySelector(
-    'glide-core-private-tooltip-container',
-  );
+  const container = host.querySelector('glide-core-private-tooltip-container');
 
   expect(button?.getAttribute('aria-describedby')).to.equal(container?.id);
 });
 
 it('does not set `aria-describedby` on its target when hidden from screenreaders', async () => {
-  const component = await fixture<GlideCoreTooltip>(
+  const host = await fixture<GlideCoreTooltip>(
     html`<glide-core-tooltip label="Label" screenreader-hidden>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
-  const button = component.querySelector('button');
+  const button = host.querySelector('button');
   expect(button?.getAttribute('aria-describedby')).to.equal(null);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
+
+  try {
+    await fixture(
+      html`<glide-core-tooltip>
+        <button slot="target">Target</button>
+      </glide-core-tooltip>`,
+    );
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
-    return fixture(html`<glide-core-tooltip></glide-core-tooltip>`);
+    return fixture(
+      html`<glide-core-tooltip label="Label"></glide-core-tooltip>`,
+    );
   });
 });
 
-it('throws if it does not have a "target" slot', async () => {
+it('throws when it does not have a "target" slot', async () => {
   await expectUnhandledRejection(() => {
-    return fixture(html`<glide-core-tooltip>Tooltip</glide-core-tooltip>`);
+    return fixture(
+      html`<glide-core-tooltip label="Label">Tooltip</glide-core-tooltip>`,
+    );
   });
 });
 

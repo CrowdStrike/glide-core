@@ -1,26 +1,27 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import './dropdown.option.js';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreDropdown from './dropdown.js';
 
-it('focuses the primary button when `focus()` is called', async () => {
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder">
+it('focuses its primary button when `focus()` is called', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
 
-  expect(component.shadowRoot?.activeElement).to.equal(
-    component.shadowRoot?.querySelector('[data-test="primary-button"]'),
+  expect(host.shadowRoot?.activeElement).to.equal(
+    host.shadowRoot?.querySelector('[data-test="primary-button"]'),
   );
 });
 
 it('focuses the button on submit', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     {
@@ -30,42 +31,38 @@ it('focuses the button on submit', async () => {
 
   form.requestSubmit();
 
-  const button = component.shadowRoot?.querySelector(
-    '[data-test="primary-button"]',
-  );
+  const button = host.shadowRoot?.querySelector('[data-test="primary-button"]');
 
-  expect(component.shadowRoot?.activeElement).to.be.equal(button);
+  expect(host.shadowRoot?.activeElement).to.be.equal(button);
 });
 
-it('focuses the primary button when `reportValidity` is called when required and no option is selected', async () => {
+it('focuses its primary button when `reportValidity()` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     { parentNode: form },
   );
 
-  component.reportValidity();
+  host.reportValidity();
 
-  const button = component.shadowRoot?.querySelector(
-    '[data-test="primary-button"]',
-  );
+  const button = host.shadowRoot?.querySelector('[data-test="primary-button"]');
 
-  expect(component.shadowRoot?.activeElement).to.equal(button);
+  expect(host.shadowRoot?.activeElement).to.equal(button);
 });
 
-it('does not focus the primary button when `checkValidity` is called', async () => {
+it('does not focus its primary button when `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label" placeholder="Placeholder" required>
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
     { parentNode: form },
   );
 
-  component.checkValidity();
-  expect(component.shadowRoot?.activeElement).to.equal(null);
+  host.checkValidity();
+  expect(host.shadowRoot?.activeElement).to.equal(null);
 });

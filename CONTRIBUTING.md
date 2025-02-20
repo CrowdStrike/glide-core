@@ -1,9 +1,12 @@
-# Contributing Guidelines
+# Contributing
 
-- [Development setup](#development-setup)
-- [Forking the repository](#forking-the-repository)
-- [Don't reference internal systems, issues, or links](#dont-reference-internal-systems-issues-or-links)
-- [Versioning a package](#versioning-a-package)
+- [Development](#development)
+  - [Forking the repository](#forking-the-repository)
+  - [Don't reference internal systems, issues, or links](#dont-reference-internal-systems-issues-or-links)
+  - [Getting started](#getting-started)
+  - [Adding a release note](#adding-a-release-note)
+  - [Updating style variables](#updating-style-variables)
+  - [Translations and static strings](#translations-and-static-strings)
 - [Best practices](#best-practices)
   - [Proceed with caution when upgrading Storybook](#proceed-with-caution-when-upgrading-storybook)
   - [Prefer controls over stories](#prefer-controls-over-stories)
@@ -18,6 +21,7 @@
     - [Prefer using animations only when the user has no reduced motion preference](#prefer-using-animations-only-when-the-user-has-no-reduced-motion-preference)
   - [Prefer `rem`s](#prefer-rems)
   - [Throw when slotted content is missing or the wrong type](#throw-when-slotted-content-is-missing-or-the-wrong-type)
+  - [Throw when required properties are missing](#throw-when-required-properties-are-missing)
   - [Prefer conventions set by built-in elements](#prefer-conventions-set-by-built-in-elements)
   - [Prefer separate test files](#prefer-separate-test-files)
   - [Typing property decorators](#typing-property-decorators)
@@ -26,38 +30,68 @@
   - [Bubble and compose events](#bubble-and-compose-events)
   - [Avoid custom events](#avoid-custom-events)
   - [Override and decorate inherited properties used in templates](#override-and-decorate-inherited-properties-used-in-templates)
-  - [Translations and static strings](#translations-and-static-strings)
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
 
 ## Development
 
-Follow the instructions in [README](./README.md) to set up your machine for development.
-
-## Forking the repository
+### Forking the repository
 
 If you are a member of the CrowdStrike GitHub organization, you can branch off of `main`.
 For those not in the organization, you can [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and contribute as if you were contributing to any other open source project on GitHub.
 
-## Don't reference internal systems, issues, or links
+### Don't reference internal systems, issues, or URLs
 
-When writing commit messages, providing Pull Request feedback, and creating Pull Request descriptions, one must take caution in what is written.
-This content **cannot** contain references to internal systems, proprietary images or source code, or anything else that could harm CrowdStrike or any other organization or individual contributing to this repository.
-Use common sense. If you're unsure, please ask the team for guidance.
+> [!WARNING]
+> When writing commit messages, creating branch names, providing Pull Request feedback, and creating Pull Request descriptions, one must take caution in what is written.
+> This content **cannot** contain references to internal systems, proprietary images or source code, or anything else that could harm CrowdStrike or any other organization or individual contributing to this repository.
+> Use common sense. If you're unsure, please ask the team for guidance.
 
-## Versioning a package
+### Getting started
 
-We use [changesets](https://github.com/changesets/changesets) to manage our release notes.
-Include a changeset with your Pull Request if the change you made is one that consumers should know about:
+We recommend using [Corepack](https://pnpm.io/installation#using-corepack) to manage PNPM.
+
+```bash
+pnpm install
+pnpm start
+```
+
+- If you have `ignore-scripts=true` in your `~/.npmrc`, also run `pnpm prepare` to install the Git hooks.
+
+Read through the remainder of this document before opening a pull request.
+
+### Adding a release note
+
+We use [Changesets](https://github.com/changesets/changesets) for release notes.
+Include one with your Pull Request if you made a change consumers should know about:
 
 ```bash
 pnpm changeset
 ```
 
-You'll be prompted to select the type of change according to [Semantic Versioning](https://semver.org).
-You'll also be prompted for a description.
-Descriptions are used in our release notes for consumers.
-So be sure to be as descriptive and helpful as possible.
+1. Select the type of change according to [Semantic Versioning](https://semver.org).
+1. Add a concise but comprehensive description.
+
+### Updating style variables
+
+1. Generate a Figma [personal access token](https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens).
+1. `FIGMA_TOKEN=<token> pnpm start:production:figma`
+
+### Translations and static strings
+
+Most of the text we render is provided by the consumer directly; however, we do have a few cases where we have static strings in place.
+In particular, static strings are helpful for screenreaders so that our components can provide additional context for accessibility.
+
+The process for adding static strings is as follows:
+
+1. Update the type definition at [`src/library/localize.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/library/localize.ts) to include your new string.
+1. Add the new string directly to [`src/translations/en.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.ts). This is what will be used in code.
+1. Add the new string in the JSON format to [`src/translations/en.json`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.json).
+1. Copy the additions from `src/translations/en.ts` and `src/translations/en.json` to the other language files.
+
+The non-English languages will fallback to English until they are translated.
+The `src/translations/en.json` will be sent to our translation team and returned for each language we support.
+When a new file is received from the translators, please update all `src/translations/*.json` and `src/translations/*.ts` files with the updated strings.
 
 ## Best practices
 
@@ -112,44 +146,35 @@ Embrace encapsulation wherever you can.
 
 #### Avoid styling `:host`
 
-Styling `:host` exposes the styles to consumers—allowing internal styles to be overridden.
-Due to that, we do not recommend styling `:host` in our components, but rather using CSS variables targeting the tag directly or using a class name.
+Styling `:host` exposes styles to consumers—allowing internal styles to be overridden.
+Style classes directly instead:
 
 ```css
 /* ✅ -- GOOD */
-/* Target the button tag directly */
-button {
-  background-color: var(--button-background-color);
-}
-
-/* Or use a class name <button class="button" */
 .button {
-  background-color: var(--button-background-color);
+  display: flex;
 }
 ```
 
 ```css
 /* ❌ -- BAD */
-/* Consumers can override via */
-/* <cool-button style="background-color: red" which */
-/* may not be your intention */
 :host {
-  background-color: #4095bf;
+  display: flex;
 }
 ```
 
 If you have styles or style variables that apply to the whole component, consider styling a containing element instead.
-If your component doesn't have a single containing element, you can add one:
+If your component doesn't have a single containing element, simply add one:
 
 ```ts
-// checkbox.ts
+// component.ts
 render() {
   return html`<div class="component"></div>`
 }
 ```
 
 ```ts
-// checkbox.styles.ts
+// component.styles.ts
 import { css } from 'lit';
 
 export default css`
@@ -160,28 +185,26 @@ export default css`
 
 #### Avoid exposing `part`s
 
-[`Part`s](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) expose areas of your UI that consumers can target with CSS, which allows them to customize it to their needs.
-Presently, we have no use case for exposing a `part`.
-Instead, we should stick with exposing styles via CSS variables until the need arises.
+[Parts](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) expose tags within components to arbitrary styling by consumers.
+We don't currently have a reason to allow arbitrary styling.
+Until we do, use custom properties to allow only certain styles to be overridden.
 
 ```ts
 // ✅ -- GOOD
 @customElement('glide-core-example')
 export default class GlideCoreExample extends LitElement {
   static override styles = css`
-    .summary {
-      font-weight: var(--font-weight-bold);
+    :host {
+      --font-weight: 700;
+    }
+
+    .component {
+      font-weight: var(--font-weight);
     }
   `;
 
   override render() {
-    return html`
-      <details>
-        <!-- We style the summary directly ourselves -->
-        <summary class="summary">Details</summary>
-        <div><slot></slot></div>
-      </details>
-    `;
+    return html`<button class="component">Button</button>`;
   }
 }
 ```
@@ -191,13 +214,7 @@ export default class GlideCoreExample extends LitElement {
 @customElement('glide-core-example')
 export default class GlideCoreExample extends LitElement {
   override render() {
-    return html`
-      <details>
-        <!-- We do not want to expose a part -->
-        <summary part="summary">Details</summary>
-        <div><slot></slot></div>
-      </details>
-    `;
+    return html` <button part="component">Button</button>`;
   }
 }
 ```
@@ -313,15 +330,15 @@ If you need elements from a specific slot, use [assignedElements()](https://deve
 #### Prefer using animations only when the user has no reduced motion preference
 
 The [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) media query is used to detect if a user has enabled a setting on their device to minimize inessential motion.
-Our accessibility team recommends only enabling animations when the user doesn't prefer reduced motion.
+Our accessibility team recommends only enabling animations when the user has that setting turned off.
 
 ```css
 /* ✅ -- GOOD */
 .animation {
-  background-color: purple;
+  transform: translateX(100%);
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: pulse 1s linear infinite both;
+    transition: transform 1s;
   }
 }
 ```
@@ -329,8 +346,8 @@ Our accessibility team recommends only enabling animations when the user doesn't
 ```css
 /* ❌ -- BAD */
 .animation {
-  animation: pulse 1s linear infinite both;
-  background-color: purple;
+  transform: translateX(100%);
+  transition: transform 1s;
 }
 ```
 
@@ -366,6 +383,22 @@ export default class GlideCoreExample extends LitElement {
   override render() {
     return html`<slot ${assertSlot([HTMLButtonElement])}></slot>`;
   }
+}
+```
+
+### Throw when required properties are missing
+
+Some properties are required for accessibility or ensure proper functionality.
+When a property is required, use the `@required` decorator to assert its existence.
+
+```ts
+import required from './library/required.js';
+
+@customElement('glide-core-example')
+export default class GlideCoreExample extends LitElement {
+  @property()
+  @required
+  name: string;
 }
 ```
 
@@ -502,7 +535,7 @@ There are many ways to target the root element of a component in CSS; however, w
 // ✅ -- GOOD
 css`
   .component {
-    background-color: red;
+    display: flex;
   }
 `;
 
@@ -515,7 +548,7 @@ render() {
 // ❌ -- BAD
 css`
   div {
-    background-color: red;
+    display: flex;
   }
 `;
 
@@ -558,22 +591,6 @@ Many components don't change inherited properties internally.
 However, if one is made to after the fact, it may result in a subtle bug.
 So it's best to always override and decorate (using `@property`) inherited properties used in templates.
 
-### Translations and static strings
-
-Most of the text we render is provided by the consumer directly; however, we do have a few cases where we have static strings in place.
-In particular, static strings are helpful for screenreaders so that our components can provide additional context for accessibility.
-
-The process for adding static strings is as follows:
-
-1. Update the type definition at [`src/library/localize.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/library/localize.ts) to include your new string.
-2. Add the new string directly to [`src/translations/en.ts`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.ts). This is what will be used in code.
-3. Add the new string in the JSON format to [`src/translations/en.json`](https://github.com/CrowdStrike/glide-core/blob/main/src/translations/en.json).
-4. Copy the additions from `src/translations/en.ts` and `src/translations/en.json` to the other language files.
-
-The non-English languages will fallback to English until they are translated.
-The `src/translations/en.json` will be sent to our translation team and returned for each language we support.
-When a new file is received from the translators, please update all `src/translations/*.json` and `src/translations/*.ts` files with the updated strings.
-
 ## Questions
 
 ### What is [`per-env`](https://github.com/ericclemmons/per-env)?
@@ -582,4 +599,4 @@ When a new file is received from the translators, please update all `src/transla
 It helps clarify how different scripts are used in different contexts.
 It also neatly abstracts away specific script names from CI configuration.
 
-In general, think of `:development` scripts as either long-running (`--serve`, `--watch`) or mutative (`--fix`, `--write`) and `:production` scripts as neither of those things.
+In general, think of `*:development:*` scripts as long-running (`--serve`, `--watch`) and mutative (`--fix`, `--write`) and `*:production:*` scripts as neither.

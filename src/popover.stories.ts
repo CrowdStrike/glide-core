@@ -81,7 +81,7 @@ const meta: Meta = {
         type: {
           summary: 'Element',
           detail:
-            '// The element to which the popover will anchor, which can be any focusable element',
+            '// The element to which the popover will anchor. Can be any focusable element',
         },
       },
       type: { name: 'function', required: true },

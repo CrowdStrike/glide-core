@@ -5,6 +5,8 @@ import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './tab.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -13,12 +15,20 @@ declare global {
 }
 
 /**
- * @event selected
+ * @attr {string} panel
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [selected=false]
  *
- * @slot - A label.
- * @slot icon - An optional icon.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element | string} - A label
+ * @slot {Element} [icon]
+ *
+ * @fires {Event} selected
  */
 @customElement('glide-core-tab')
+@final
 export default class GlideCoreTab extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -27,11 +37,33 @@ export default class GlideCoreTab extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true }) panel = '';
+  @property({ reflect: true })
+  @required
+  panel?: string;
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  @property({ type: Boolean, reflect: true }) selected = false;
+  /**
+   * @default false
+   */
+  @property({ type: Boolean, reflect: true })
+  get selected(): boolean {
+    return this.#isSelected;
+  }
+
+  set selected(isSelected: boolean) {
+    const hasChanged = isSelected !== this.#isSelected;
+    this.#isSelected = isSelected;
+
+    if (isSelected && hasChanged) {
+      this.dispatchEvent(
+        new Event('selected', {
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    }
+  }
 
   @property({ reflect: true })
   readonly version = packageJson.version;
@@ -49,10 +81,18 @@ export default class GlideCoreTab extends LitElement {
       })}
     >
       <div class="container">
-        <slot name="icon"></slot>
-        <div class="default-slot">
-          <slot></slot>
-        </div>
+        <slot name="icon">
+          <!--
+            @type {Element}
+          -->
+        </slot>
+
+        <slot>
+          <!--
+            A label
+            @type {Element | string}
+          -->
+        </slot>
       </div>
     </div> `;
   }
@@ -73,4 +113,6 @@ export default class GlideCoreTab extends LitElement {
   }
 
   #id = nanoid();
+
+  #isSelected = false;
 }

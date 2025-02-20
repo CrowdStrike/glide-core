@@ -3,9 +3,12 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './toggle.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -14,12 +17,23 @@ declare global {
 }
 
 /**
- * @event change
- * @event input
+ * @attr {string} label
+ * @attr {boolean} [checked=false]
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {string} [summary]
+ * @attr {string} [tooltip]
  *
- * @slot description - Additional information or context.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element | string} [description] - Additional information or context
+ *
+ * @fires {Event} change
  */
 @customElement('glide-core-toggle')
+@final
 export default class GlideCoreToggle extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -38,13 +52,11 @@ export default class GlideCoreToggle extends LitElement {
   hideLabel = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ reflect: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
-
-  @property({ reflect: true })
-  name?: string;
 
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
@@ -70,6 +82,7 @@ export default class GlideCoreToggle extends LitElement {
   override render() {
     return html`<div data-test="component">
       <glide-core-private-label
+        label=${ifDefined(this.label)}
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}
@@ -111,14 +124,22 @@ export default class GlideCoreToggle extends LitElement {
           />
         </div>
 
-        <div slot="summary" id="summary">${this.summary}</div>
+        ${when(
+          this.summary,
+          () => html`<div id="summary" slot="summary">${this.summary}</div>`,
+        )}
 
         <slot
           class="description"
           id="description"
           name="description"
           slot="description"
-        ></slot>
+        >
+          <!--
+            Additional information or context
+            @type {Element | string}
+          -->
+        </slot>
       </glide-core-private-label>
     </div>`;
   }
@@ -152,7 +173,7 @@ export default class GlideCoreToggle extends LitElement {
       // Unlike "input" events, "change" events aren't composed. So we have to
       // manually dispatch them.
       this.dispatchEvent(
-        new Event(event.type, { bubbles: true, composed: true }),
+        new Event('change', { bubbles: true, composed: true }),
       );
     }
   }

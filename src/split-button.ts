@@ -8,6 +8,7 @@ import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button
 import styles from './split-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -16,12 +17,17 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {'large'|'small'} [size='large']
+ * @attr {'primary'|'secondary'} [variant='primary']
  *
- * @slot - One of `<glide-core-split-button-primary-button>` or `<glide-core-split-button-primary-link>`.
- * @slot secondary-button - One of `<glide-core-split-button-secondary-button>`.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink}
+ * @slot {GlideCoreSplitButtonSecondaryButton} [secondary-button]
  */
 @customElement('glide-core-split-button')
+@final
 export default class GlideCoreSplitButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -30,8 +36,11 @@ export default class GlideCoreSplitButton extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default 'large'
+   */
   @property({ reflect: true })
-  get size() {
+  get size(): 'large' | 'small' {
     return this.#size;
   }
 
@@ -47,8 +56,11 @@ export default class GlideCoreSplitButton extends LitElement {
     }
   }
 
+  /**
+   * @default 'primary'
+   */
   @property({ reflect: true })
-  get variant() {
+  get variant(): 'primary' | 'secondary' {
     return this.#variant;
   }
 
@@ -98,14 +110,18 @@ export default class GlideCoreSplitButton extends LitElement {
             GlideCoreSplitButtonPrimaryLink,
           ])}
           ${ref(this.#defaultSlotElementRef)}
-        ></slot>
+        >
+          <!-- @type {GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink} -->
+        </slot>
 
         <slot
           name="secondary-button"
           @slotchange=${this.#onSecondaryButtonSlotChange}
           ${assertSlot([GlideCoreSplitButtonSecondaryButton])}
           ${ref(this.#secondaryButtonSlotElementRef)}
-        ></slot>
+        >
+          <!-- @type {GlideCoreSplitButtonSecondaryButton} -->
+        </slot>
       </div>
     `;
   }

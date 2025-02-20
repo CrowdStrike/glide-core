@@ -5,36 +5,36 @@ import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreMenu from './menu.js';
 
 it('closes when it loses focus', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
 
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
   await sendKeys({ press: 'Tab' });
 
   const defaultSlot =
-    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
-  const options = component.querySelector('glide-core-menu-options');
+  const options = host.querySelector('glide-core-menu-options');
 
-  expect(component.open).to.be.false;
+  expect(host.open).to.be.false;
   expect(defaultSlot?.checkVisibility()).be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal('');
 });
 
-it('remains open when the options component is focused', async () => {
-  const component = await fixture<GlideCoreMenu>(
+it('remains open when the options host is focused', async () => {
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -42,26 +42,26 @@ it('remains open when the options component is focused', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
 
-  const options = component.querySelector('glide-core-menu-options');
+  const options = host.querySelector('glide-core-menu-options');
 
   const defaultSlot =
-    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
   options?.focus();
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
   expect(defaultSlot?.checkVisibility()).to.be.true;
 });
 
 it('remains open when an option is focused', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -69,28 +69,28 @@ it('remains open when an option is focused', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
 
   const defaultSlot =
-    component?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
 
-  const option = component.querySelector('glide-core-menu-link');
+  const option = host.querySelector('glide-core-menu-link');
 
   assert(option);
   option?.focus();
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
   expect(defaultSlot?.checkVisibility()).to.be.true;
 });
 
 it('sets an inactive option as active when focused', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
         <glide-core-menu-button label="Button"></glide-core-menu-button>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -98,14 +98,14 @@ it('sets an inactive option as active when focused', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
 
-  const button = component.querySelector('glide-core-menu-button');
-  const link = component.querySelector('glide-core-menu-link');
-  const options = component.querySelector('glide-core-menu-options');
+  const button = host.querySelector('glide-core-menu-button');
+  const link = host.querySelector('glide-core-menu-link');
+  const options = host.querySelector('glide-core-menu-options');
 
   link?.focus();
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(link?.privateActive).to.be.true;
   expect(button?.privateActive).to.be.false;
@@ -115,13 +115,13 @@ it('sets an inactive option as active when focused', async () => {
 // Kind of an odd test. There's a comment in `#onDefaultSlotFocusin` that
 // explains it.
 it('sets an already active option as active when focused', async () => {
-  const component = await fixture<GlideCoreMenu>(
+  const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
         <glide-core-menu-button label="Button"></glide-core-menu-button>
-        <glide-core-menu-link label="Link"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );
@@ -129,14 +129,14 @@ it('sets an already active option as active when focused', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
 
-  const button = component.querySelector('glide-core-menu-button');
-  const link = component.querySelector('glide-core-menu-link');
-  const options = component.querySelector('glide-core-menu-options');
+  const button = host.querySelector('glide-core-menu-button');
+  const link = host.querySelector('glide-core-menu-link');
+  const options = host.querySelector('glide-core-menu-options');
 
   button?.focus();
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(button?.privateActive).to.be.true;
   expect(link?.privateActive).to.be.false;

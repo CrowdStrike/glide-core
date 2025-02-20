@@ -6,7 +6,7 @@ import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreSplitButton from './split-button.js';
 
 it('sets `privateSize` on its buttons when `size` is set programmatically', async () => {
-  const component = await fixture<GlideCoreSplitButton>(html`
+  const host = await fixture<GlideCoreSplitButton>(html`
     <glide-core-split-button>
       <glide-core-split-button-primary-button
         label="Label"
@@ -16,18 +16,18 @@ it('sets `privateSize` on its buttons when `size` is set programmatically', asyn
         label="Label"
         slot="secondary-button"
       >
-        <glide-core-menu-link label="Label" url="/"></glide-core-menu-link
+        <glide-core-menu-link label="Label"></glide-core-menu-link
       ></glide-core-split-button-secondary-button>
     </glide-core-split-button>
   `);
 
-  component.size = 'small';
+  host.size = 'small';
 
-  const primaryButton = component.querySelector(
+  const primaryButton = host.querySelector(
     'glide-core-split-button-primary-button',
   );
 
-  const secondaryButton = component.querySelector(
+  const secondaryButton = host.querySelector(
     'glide-core-split-button-secondary-button',
   );
 
@@ -36,7 +36,7 @@ it('sets `privateSize` on its buttons when `size` is set programmatically', asyn
 });
 
 it('sets `privateVariant` on its buttons when `variant` is set programmatically', async () => {
-  const component = await fixture<GlideCoreSplitButton>(html`
+  const host = await fixture<GlideCoreSplitButton>(html`
     <glide-core-split-button>
       <glide-core-split-button-primary-button
         label="Label"
@@ -46,18 +46,18 @@ it('sets `privateVariant` on its buttons when `variant` is set programmatically'
         label="Label"
         slot="secondary-button"
       >
-        <glide-core-menu-link label="Label" url="/"></glide-core-menu-link>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
       </glide-core-split-button-secondary-button>
     </glide-core-split-button>
   `);
 
-  component.variant = 'secondary';
+  host.variant = 'secondary';
 
-  const primaryButton = component.querySelector(
+  const primaryButton = host.querySelector(
     'glide-core-split-button-primary-button',
   );
 
-  const secondaryButton = component.querySelector(
+  const secondaryButton = host.querySelector(
     'glide-core-split-button-secondary-button',
   );
 

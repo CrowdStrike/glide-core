@@ -28,10 +28,12 @@ export const noPrefixedEventName = createRule({
   create(context) {
     return {
       NewExpression(node) {
-        if (
+        const isEvent =
           node.callee.type === AST_NODE_TYPES.Identifier &&
-          (node.callee.name === 'Event' ||
-            node.callee.name === 'CustomEvent') &&
+          ['Event', 'CustomEvent'].includes(node.callee.name);
+
+        if (
+          isEvent &&
           node.arguments.length > 0 &&
           node.arguments[0].type === AST_NODE_TYPES.Literal &&
           typeof node.arguments[0].value === 'string' &&
@@ -42,7 +44,7 @@ export const noPrefixedEventName = createRule({
           context.report({
             node,
             messageId: 'noPrefix',
-            fix: function (fixer) {
+            fix(fixer) {
               return fixer.replaceText(
                 node.arguments[0],
                 `'${eventName.replace('glide-core-', '')}'`,

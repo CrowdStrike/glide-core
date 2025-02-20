@@ -42,9 +42,11 @@ export default [
       background-color: var(--glide-core-surface-base-lighter);
       border: 1px solid var(--glide-core-border-base);
       border-radius: var(--glide-core-spacing-xs);
+      box-sizing: border-box;
       color: var(--glide-core-text-body-1);
       display: flex;
       line-height: var(--glide-core-body-xs-line-height);
+      min-inline-size: 3.75rem;
       padding-inline: var(--glide-core-spacing-sm);
 
       &.focused,
@@ -58,9 +60,10 @@ export default [
         border-color: var(--glide-core-status-error);
       }
 
-      /* We had to resort to a class selector because there may be a bug in Chrome and Safari
-       * with ":read-only": https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
-       */
+      /* 
+        We had to resort to a class selector because there may be a bug in Chrome and Safari
+        with ":read-only": https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
+      */
       &.readonly {
         background-color: transparent;
         border: 1px solid transparent;

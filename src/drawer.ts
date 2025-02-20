@@ -7,6 +7,8 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './drawer.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -15,13 +17,21 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {string} label
+ * @attr {boolean} [open=false]
+ * @attr {boolean} [pinned=false]
  *
- * @cssprop [--width] - The width the drawer.
+ * @readonly
+ * @attr {0.19.5} [version]
  *
- * @slot - The content of the Drawer.
+ * @slot {Element | string} - The content of the drawer
+ *
+ * @cssprop [--width=27.375rem] - The width the drawer
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-drawer')
+@final
 export default class GlideCoreDrawer extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -31,13 +41,17 @@ export default class GlideCoreDrawer extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ reflect: true, type: Boolean })
   pinned = false;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -160,10 +174,16 @@ export default class GlideCoreDrawer extends LitElement {
         class=${classMap({ component: true, pinned: this.pinned })}
         data-test="component"
         tabindex="-1"
-        @keydown=${this.#onComponentKeydown}
         ${ref(this.#componentElementRef)}
       >
-        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}></slot>
+        <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}>
+          <!--
+            The content of the drawer
+
+            @required
+            @type {Element | string}
+          -->
+        </slot>
       </aside>
     `;
   }
@@ -177,13 +197,4 @@ export default class GlideCoreDrawer extends LitElement {
   #isOpen = false;
 
   #openAnimation?: Animation;
-
-  #onComponentKeydown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      // Prevent Safari from leaving full screen.
-      event.preventDefault();
-
-      this.open = false;
-    }
-  }
 }

@@ -12,6 +12,8 @@ import chevronIcon from './icons/chevron.js';
 import styles from './split-button.secondary-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -20,9 +22,18 @@ declare global {
 }
 
 /**
- * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [menu-open=false]
+ * @attr {'bottom-end'|'top-end'} [menu-placement='bottom-end']
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
  */
 @customElement('glide-core-split-button-secondary-button')
+@final
 export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -36,6 +47,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   disabled = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ attribute: 'menu-open', reflect: true, type: Boolean })
@@ -108,7 +120,9 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
         </button>
 
         <glide-core-menu-options>
-          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}></slot>
+          <slot ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink])}>
+            <!-- @type {GlideCoreMenuButton | GlideCoreMenuLink} -->
+          </slot>
         </glide-core-menu-options>
       </glide-core-menu>
     `;

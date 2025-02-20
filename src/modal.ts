@@ -13,6 +13,11 @@ import styles from './modal.styles.js';
 import xIcon from './icons/x.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import severityInformationalIcon from './icons/severity-informational.js';
+import severityMediumIcon from './icons/severity-medium.js';
+import severityCriticalIcon from './icons/severity-critical.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,15 +35,25 @@ globalStylesheet.insertRule(`
 `);
 
 /**
- * @event toggle
+ * @attr {string} label
+ * @attr {boolean} [back-button=false]
+ * @attr {boolean} [open=false]
+ * @attr {'critical'|'informational'|'medium'} [severity]
+ * @attr {'small'|'medium'|'large'|'xlarge'} [size='medium']
  *
- * @slot - The primary content of the modal.
- * @slot header-actions - One or more of `<glide-core-modal-icon-button>`.
- * @slot primary - One of `<glide-core-button>`.
- * @slot secondary - One of `<glide-core-button>`.
- * @slot tertiary - One or more of `<glide-core-button>` or `<glide-core-tooltip>`.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element | string}
+ * @slot {GlideCoreModalIconButton} [header-actions]
+ * @slot {GlideCoreButton} [primary]
+ * @slot {GlideCoreButton} [secondary]
+ * @slot {GlideCoreButton | GlideCoreTooltip} [tertiary]
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-modal')
+@final
 export default class GlideCoreModal extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -51,10 +66,14 @@ export default class GlideCoreModal extends LitElement {
   backButton = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -77,6 +96,9 @@ export default class GlideCoreModal extends LitElement {
       );
     }
   }
+
+  @property({ reflect: true })
+  severity?: 'critical' | 'informational' | 'medium';
 
   @property({ reflect: true })
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
@@ -185,7 +207,22 @@ export default class GlideCoreModal extends LitElement {
         <header class="header">
           <h2 class="label" data-test="heading" id="heading">
             ${when(
-              this.backButton,
+              this.severity,
+              () =>
+                html`<span
+                  class=${classMap({
+                    severity: true,
+                    critical: this.severity === 'critical',
+                    informational: this.severity === 'informational',
+                    medium: this.severity === 'medium',
+                  })}
+                  data-test="severity"
+                >
+                  ${this.severity && icons[this.severity]}
+                </span>`,
+            )}
+            ${when(
+              this.backButton && !this.severity,
               () =>
                 html`<glide-core-modal-icon-button
                   class="back-button"
@@ -205,7 +242,9 @@ export default class GlideCoreModal extends LitElement {
               name="header-actions"
               ${assertSlot([GlideCoreModalIconButton], true)}
               ${ref(this.#headerActionsSlotElementRef)}
-            ></slot>
+            >
+              <!-- @type {GlideCoreModalIconButton} -->
+            </slot>
 
             <glide-core-modal-icon-button
               class="close-button"
@@ -220,7 +259,9 @@ export default class GlideCoreModal extends LitElement {
         </header>
 
         <article aria-labelledby="heading" class="body" role="region">
-          <slot ${assertSlot()}></slot>
+          <slot ${assertSlot()}>
+            <!-- @type {Element | string} -->
+          </slot>
         </article>
 
         <footer>
@@ -230,21 +271,21 @@ export default class GlideCoreModal extends LitElement {
                 class="tertiary-slot"
                 name="tertiary"
                 ${assertSlot([GlideCoreButton, GlideCoreTooltip], true)}
-              ></slot>
+              >
+                <!-- @type {GlideCoreButton | GlideCoreTooltip} -->
+              </slot>
             </li>
 
             <li class="action">
-              <slot
-                name="secondary"
-                ${assertSlot([GlideCoreButton], true)}
-              ></slot>
+              <slot name="secondary" ${assertSlot([GlideCoreButton], true)}>
+                <!-- @type {GlideCoreButton} -->
+              </slot>
             </li>
 
             <li class="action">
-              <slot
-                name="primary"
-                ${assertSlot([GlideCoreButton], true)}
-              ></slot>
+              <slot name="primary" ${assertSlot([GlideCoreButton], true)}>
+                <!-- @type {GlideCoreButton} -->
+              </slot>
             </li>
           </menu>
         </footer>
@@ -360,4 +401,7 @@ const icons = {
       />
     </svg>
   `,
+  critical: severityCriticalIcon,
+  informational: severityInformationalIcon,
+  medium: severityMediumIcon,
 };

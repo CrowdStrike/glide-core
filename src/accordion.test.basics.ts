@@ -1,6 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreAccordion from './accordion.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreAccordion {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-accordion')).to.equal(
@@ -9,19 +14,35 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreAccordion>(
+  const host = await fixture<GlideCoreAccordion>(
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreAccordion>(
-    html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
-  );
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
 
-  expect(component.open).to.be.false;
+  try {
+    await fixture(html`<glide-core-accordion>Content</glide-core-accordion>`);
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws if its default slot is empty', async () => {

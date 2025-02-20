@@ -5,47 +5,47 @@ import { click } from './library/mouse.js';
 import GlideCorePopover from './popover.js';
 
 it('opens when opened programmatically', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  component.open = true;
+  host.open = true;
 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
   expect(popover?.checkVisibility()).to.be.true;
 });
 
-it('opens when `open` and enabled programmatically', async () => {
-  const component = await fixture<GlideCorePopover>(
+it('opens when open and enabled programmatically', async () => {
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover open disabled>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  component.disabled = false;
+  host.disabled = false;
 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
   expect(popover?.checkVisibility()).to.be.true;
 });
 
-it('closes when `open` and disabled programmatically', async () => {
-  const component = await fixture<GlideCorePopover>(
+it('closes when open and disabled programmatically', async () => {
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -55,12 +55,12 @@ it('closes when `open` and disabled programmatically', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.disabled = true;
+  host.disabled = true;
 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
@@ -68,19 +68,19 @@ it('closes when `open` and disabled programmatically', async () => {
 });
 
 it('does not open when opened programmatically and disabled', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover disabled>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  component.open = true;
+  host.open = true;
 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
@@ -88,7 +88,7 @@ it('does not open when opened programmatically and disabled', async () => {
 });
 
 it('closes on Escape', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -98,30 +98,28 @@ it('closes on Escape', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
   await sendKeys({ press: 'Escape' });
 
   expect(
-    component.shadowRoot
-      ?.querySelector('[data-test="popover"]')
-      ?.checkVisibility(),
+    host.shadowRoot?.querySelector('[data-test="popover"]')?.checkVisibility(),
   ).to.be.false;
 });
 
 it('opens on click', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  await click(component.querySelector('button'));
+  await click(host.querySelector('button'));
 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
@@ -129,20 +127,20 @@ it('opens on click', async () => {
 });
 
 it('opens on Enter', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
   await sendKeys({ press: 'Enter' });
 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
@@ -150,20 +148,20 @@ it('opens on Enter', async () => {
 });
 
 it('opens on Space', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  component.querySelector('button')?.focus();
+  host.querySelector('button')?.focus();
   await sendKeys({ press: ' ' });
 
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
@@ -171,7 +169,7 @@ it('opens on Space', async () => {
 });
 
 it('remains open when its popover is clicked', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -181,8 +179,8 @@ it('remains open when its popover is clicked', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const popover = component.shadowRoot?.querySelector('[data-test="popover"]');
-  const defaultSlot = component.shadowRoot?.querySelector('slot:not([name])');
+  const popover = host.shadowRoot?.querySelector('[data-test="popover"]');
+  const defaultSlot = host.shadowRoot?.querySelector('slot:not([name])');
 
   // The assertion below intermittently fails with `click()`. Seems to be
   // a bug either in Web Test Runner or Playwright related to concurrency.
@@ -196,7 +194,7 @@ it('remains open when its popover is clicked', async () => {
 });
 
 it('remains open when its arrow is clicked', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -206,7 +204,7 @@ it('remains open when its arrow is clicked', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const arrow = component.shadowRoot?.querySelector('[data-test="arrow"]');
+  const arrow = host.shadowRoot?.querySelector('[data-test="arrow"]');
 
   // The assertion below intermittently fails with `click()`. Seems to be
   // a bug either in Web Test Runner or Playwright related to concurrency.
@@ -220,16 +218,16 @@ it('remains open when its arrow is clicked', async () => {
 });
 
 it('remains closed on click when disabled', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-popover disabled>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  await click(component.querySelector('button'));
+  await click(host.querySelector('button'));
 
-  const popover = component.shadowRoot?.querySelector<HTMLElement>(
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
     '[data-test="popover"]',
   );
 
@@ -237,7 +235,7 @@ it('remains closed on click when disabled', async () => {
 });
 
 it('closes when something outside of it is clicked', async () => {
-  const component = await fixture(
+  const host = await fixture(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -249,14 +247,33 @@ it('closes when something outside of it is clicked', async () => {
 
   await click(document.body);
 
-  const popover = component.shadowRoot?.querySelector('[data-test="popover"]');
+  const popover = host.shadowRoot?.querySelector('[data-test="popover"]');
   assert(popover);
 
   expect(popover.checkVisibility()).to.not.be.ok;
 });
 
+it('does not close when a slotted `<label>` is clicked', async () => {
+  const host = await fixture<GlideCorePopover>(
+    html`<glide-core-popover open>
+      <label for="input">Label</label>
+      <input id="input" />
+
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const label = host.querySelector('label');
+  await click(label);
+
+  expect(host.open).to.be.true;
+});
+
 it('has `this.#cleanUpFloatingUi?.()` coverage', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
@@ -268,22 +285,22 @@ it('has `this.#cleanUpFloatingUi?.()` coverage', async () => {
 
   // Wait for Floating UI.
   await aTimeout(0);
-  component.open = true;
+  host.open = true;
 
   // Wait for Floating UI.
   await aTimeout(0);
-  component.open = true;
+  host.open = true;
 });
 
 it('has `set offset(offset: number)` coverage', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  component.offset = 0;
+  host.offset = 0;
 });
 
 it('has `middlewareData.arrow.y` coverage', async () => {
@@ -309,14 +326,14 @@ it('has `middlewareData.arrow.y` coverage', async () => {
 });
 
 it('has `#show()` coverage', async () => {
-  const component = await fixture<GlideCorePopover>(
+  const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover placement="right">
       Popover
       <button slot="target">Target</button>
     </glide-core-popover>`,
   );
 
-  component.open = true;
-  component.open = false;
-  component.open = true;
+  host.open = true;
+  host.open = false;
+  host.open = true;
 });

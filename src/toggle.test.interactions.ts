@@ -3,35 +3,35 @@ import { click } from './library/mouse.js';
 import GlideCoreToggle from './toggle.js';
 
 it('is checked after being clicked', async () => {
-  const component = await fixture<GlideCoreToggle>(
+  const host = await fixture<GlideCoreToggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
-  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
+  await click(host.shadowRoot?.querySelector('[data-test="input"]'));
 
-  expect(component.checked).to.be.true;
-  expect(component.hasAttribute('checked')).to.be.false;
+  expect(host.checked).to.be.true;
+  expect(host.hasAttribute('checked')).to.be.false;
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(input?.getAttribute('aria-checked')).to.equal('true');
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.ariaChecked).to.equal('true');
 });
 
 it('is unchecked after being clicked', async () => {
-  const component = await fixture<GlideCoreToggle>(
+  const host = await fixture<GlideCoreToggle>(
     html`<glide-core-toggle label="Label" checked></glide-core-toggle>`,
   );
 
-  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
+  await click(host.shadowRoot?.querySelector('[data-test="input"]'));
 
-  expect(component.checked).to.be.false;
-  expect(component.hasAttribute('checked')).to.be.true;
+  expect(host.checked).to.be.false;
+  expect(host.hasAttribute('checked')).to.be.true;
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(input?.getAttribute('aria-checked')).to.equal('false');
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.ariaChecked).to.equal('false');
 });
 
 it('is still checked after being clicked when checked but disabled', async () => {
-  const component = await fixture<GlideCoreToggle>(
+  const host = await fixture<GlideCoreToggle>(
     html`<glide-core-toggle
       label="Label"
       checked
@@ -39,81 +39,81 @@ it('is still checked after being clicked when checked but disabled', async () =>
     ></glide-core-toggle>`,
   );
 
-  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
+  await click(host.shadowRoot?.querySelector('[data-test="input"]'));
 
-  expect(component.checked).to.be.true;
-  expect(component.hasAttribute('checked')).to.be.true;
+  expect(host.checked).to.be.true;
+  expect(host.hasAttribute('checked')).to.be.true;
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(input?.getAttribute('aria-checked')).to.equal('true');
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.ariaChecked).to.equal('true');
 });
 
 it('is still unchecked after being clicked when unchecked and disabled', async () => {
-  const component = await fixture<GlideCoreToggle>(
+  const host = await fixture<GlideCoreToggle>(
     html`<glide-core-toggle label="Label" disabled></glide-core-toggle>`,
   );
 
-  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
+  await click(host.shadowRoot?.querySelector('[data-test="input"]'));
 
-  expect(component.hasAttribute('checked')).to.be.false;
-  expect(component.checked).to.be.false;
+  expect(host.hasAttribute('checked')).to.be.false;
+  expect(host.checked).to.be.false;
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(input?.getAttribute('aria-checked')).to.equal('false');
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.ariaChecked).to.equal('false');
 });
 
 it('is unchecked after being clicked then forcibly unchecked via a "change" listener', async () => {
-  const component = await fixture<GlideCoreToggle>(
+  const host = await fixture<GlideCoreToggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
-  component.addEventListener('change', async () => {
-    await component.updateComplete;
-    component.checked = false;
+  host.addEventListener('change', async () => {
+    await host.updateComplete;
+    host.checked = false;
   });
 
-  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
+  await click(host.shadowRoot?.querySelector('[data-test="input"]'));
 
-  expect(component.hasAttribute('checked')).to.be.false;
-  expect(component.checked).to.be.false;
+  expect(host.hasAttribute('checked')).to.be.false;
+  expect(host.checked).to.be.false;
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(input?.getAttribute('aria-checked')).to.equal('false');
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.ariaChecked).to.equal('false');
 });
 
 it('is unchecked after being clicked then forcibly unchecked via an "input" listener', async () => {
-  const component = await fixture<GlideCoreToggle>(
+  const host = await fixture<GlideCoreToggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
-  component.addEventListener('input', async () => {
-    await component.updateComplete;
-    component.checked = false;
+  host.addEventListener('input', async () => {
+    await host.updateComplete;
+    host.checked = false;
   });
 
-  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
+  await click(host.shadowRoot?.querySelector('[data-test="input"]'));
 
-  expect(component.hasAttribute('checked')).to.be.false;
-  expect(component.checked).to.be.false;
+  expect(host.hasAttribute('checked')).to.be.false;
+  expect(host.checked).to.be.false;
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(input?.getAttribute('aria-checked')).to.equal('false');
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.ariaChecked).to.equal('false');
 });
 
 it('remains unchecked when its "click" event is canceled', async () => {
-  const component = await fixture<GlideCoreToggle>(
+  const host = await fixture<GlideCoreToggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
-  component.addEventListener('click', async (event) => {
+  host.addEventListener('click', async (event) => {
     event.preventDefault();
   });
 
-  await click(component.shadowRoot?.querySelector('[data-test="input"]'));
+  await click(host.shadowRoot?.querySelector('[data-test="input"]'));
 
-  expect(component.hasAttribute('checked')).to.be.false;
-  expect(component.checked).to.be.false;
+  expect(host.hasAttribute('checked')).to.be.false;
+  expect(host.checked).to.be.false;
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(input?.getAttribute('aria-checked')).to.equal('false');
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.ariaChecked).to.equal('false');
 });

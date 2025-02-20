@@ -1,6 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import sinon from 'sinon';
+import { customElement } from 'lit/decorators.js';
 import GlideCoreIconButton from './icon-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreIconButton {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-icon-button')).to.equal(
@@ -9,39 +14,44 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture<GlideCoreIconButton>(
+  const host = await fixture<GlideCoreIconButton>(
     html`<glide-core-icon-button label="Label">
       <div>Icon</div>
     </glide-core-icon-button>`,
   );
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreIconButton>(
-    html`<glide-core-icon-button label="Label">
-      <div>Icon</div>
-    </glide-core-icon-button>`,
-  );
+it('throws when `label` is empty', async () => {
+  const spy = sinon.spy();
 
-  const button = component.shadowRoot?.querySelector<HTMLButtonElement>(
-    '[data-test="button"]',
-  );
+  try {
+    await fixture(
+      html`<glide-core-icon-button>
+        <div>Icon</div>
+      </glide-core-icon-button>`,
+    );
+  } catch {
+    spy();
+  }
 
-  expect(component.ariaControls).to.equal(null);
-  expect(component.ariaExpanded).to.equal(null);
-  expect(component.ariaHasPopup).to.equal(null);
-  expect(component.disabled).to.be.false;
-  expect(component.variant).to.equal('primary');
-
-  expect(button?.getAttribute('aria-controls')).to.equal(null);
-  expect(button?.ariaExpanded).to.equal(null);
-  expect(button?.ariaHasPopup).to.equal(null);
-  expect(button?.disabled).to.be.false;
+  expect(spy.callCount).to.equal(1);
 });
 
-it('throws if it does not have a default slot', async () => {
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
+
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
+
+  expect(spy.callCount).to.equal(1);
+});
+
+it('throws when it does not have a default slot', async () => {
   await expectUnhandledRejection(() => {
     return fixture(
       html`<glide-core-icon-button label="Label"></glide-core-icon-button>`,

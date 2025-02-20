@@ -11,8 +11,8 @@ export default html`
     stroke="currentColor"
     style=${styleMap({
       display: 'block',
-      height: 'var(--size, 1rem)',
-      width: 'var(--size, 1rem)',
+      height: 'var(--private-size, 1rem)',
+      width: 'var(--private-size, 1rem)',
     })}
   >
     <path

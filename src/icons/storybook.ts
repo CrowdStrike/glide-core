@@ -16,17 +16,17 @@ export default class GlideCoreExampleIcon extends LitElement {
   static override styles = [
     css`
       .component {
-        block-size: var(--size, 1rem);
+        block-size: var(--private-size, 1rem);
         display: flex;
-        inline-size: var(--size, 1rem);
+        inline-size: var(--private-size, 1rem);
       }
     `,
   ];
 
   @property()
-  name!: keyof typeof ICONS;
+  name!: keyof typeof icons;
 
-  ICONS = ICONS;
+  icons = icons;
 
   override firstUpdated() {
     this.ariaHidden = 'true';
@@ -41,13 +41,13 @@ export default class GlideCoreExampleIcon extends LitElement {
         stroke-width="1.5"
         stroke="currentColor"
       >
-        ${ICONS[this.name]}
+        ${icons[this.name]}
       </svg>
     `;
   }
 }
 
-const ICONS = {
+const icons = {
   edit: svg`
     <path
       stroke-linecap="round"

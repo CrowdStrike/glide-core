@@ -6,6 +6,7 @@ import GlideCoreTreeItem from './tree.item.js';
 import styles from './tree.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -14,9 +15,16 @@ declare global {
 }
 
 /**
- * @slot - One or more of `<glide-core-tree-item>`.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {GlideCoreTreeItem}
+ *
+ * @method selectItem
+ * @param {GlideCoreTreeItem} item
  */
 @customElement('glide-core-tree')
+@final
 export default class GlideCoreTree extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -46,11 +54,13 @@ export default class GlideCoreTree extends LitElement {
       <slot
         ${ref(this.#defaultSlotElementRef)}
         ${assertSlot([GlideCoreTreeItem])}
-      ></slot>
+      >
+        <!-- @type {GlideCoreTreeItem} -->
+      </slot>
     </div>`;
   }
 
-  selectItem(item: GlideCoreTreeItem) {
+  selectItem(item: GlideCoreTreeItem): void {
     if (this.#treeItemElements) {
       for (const treeItem of this.#treeItemElements) {
         if (item === treeItem) {
@@ -68,10 +78,6 @@ export default class GlideCoreTree extends LitElement {
           this.selectedItem = nestedSelectedItem;
         }
       }
-
-      item.dispatchEvent(
-        new Event('selected', { bubbles: true, composed: true }),
-      );
     }
   }
 
@@ -133,8 +139,8 @@ export default class GlideCoreTree extends LitElement {
     const clickedItem = target.closest('glide-core-tree-item');
 
     if (clickedItem) {
-      if (clickedItem.hasChildTreeItems && !clickedItem.nonCollapsible) {
-        clickedItem.toggleExpand();
+      if (clickedItem.privateHasChildTreeItems && !clickedItem.nonCollapsible) {
+        clickedItem.privateToggleExpand();
       } else {
         this.selectItem(clickedItem);
       }
@@ -187,17 +193,17 @@ export default class GlideCoreTree extends LitElement {
       item.matches(':focus'),
     );
 
-    if (event.key === 'ArrowRight' && focusedItem?.hasChildTreeItems) {
+    if (event.key === 'ArrowRight' && focusedItem?.privateHasChildTreeItems) {
       if (focusedItem.expanded) {
         this.#focusItem(focusedItem.querySelector('glide-core-tree-item'));
       } else {
-        focusedItem.toggleExpand();
+        focusedItem.privateToggleExpand();
       }
     }
 
     if (event.key === 'ArrowLeft') {
       if (focusedItem?.expanded && !focusedItem.nonCollapsible) {
-        focusedItem.toggleExpand();
+        focusedItem.privateToggleExpand();
       } else {
         const parentTreeItem = focusedItem?.parentElement?.closest(
           'glide-core-tree-item',
@@ -228,8 +234,8 @@ export default class GlideCoreTree extends LitElement {
     }
 
     if (event.key === 'Enter' && focusedItem) {
-      if (focusedItem.hasChildTreeItems && !focusedItem.nonCollapsible) {
-        focusedItem.toggleExpand();
+      if (focusedItem.privateHasChildTreeItems && !focusedItem.nonCollapsible) {
+        focusedItem.privateToggleExpand();
       } else {
         this.selectItem(focusedItem);
       }

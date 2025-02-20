@@ -75,8 +75,8 @@ export default [
     }
 
     .arrow {
-      --arrow-height: 0.5625rem;
-      --arrow-width: 1rem;
+      --private-arrow-height: 0.5625rem;
+      --private-arrow-width: 1rem;
 
       color: var(--glide-core-surface-modal);
       display: flex;
@@ -84,14 +84,14 @@ export default [
 
       &.top,
       &.bottom {
-        block-size: var(--arrow-height);
-        inline-size: var(--arrow-width);
+        block-size: var(--private-arrow-height);
+        inline-size: var(--private-arrow-width);
       }
 
       &.right,
       &.left {
-        block-size: var(--arrow-width);
-        inline-size: var(--arrow-height);
+        block-size: var(--private-arrow-width);
+        inline-size: var(--private-arrow-height);
         order: 2;
       }
     }

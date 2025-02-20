@@ -61,7 +61,7 @@ export default [
       }
 
       ::slotted([slot='tertiary']) {
-        --size: 1rem;
+        --private-size: 1rem;
 
         display: contents;
         size: 1rem;
@@ -118,27 +118,45 @@ export default [
       gap: 0.625rem;
 
       ::slotted(*) {
-        /* 
-          Flex so the actions don't sit on the baseline of ".header" and can be 
+        /*
+          Flex so the actions don't sit on the baseline of ".header" and can be
           vertically centered.
         */
         display: flex;
       }
     }
 
+    .severity {
+      --private-size: 1.5rem;
+
+      display: flex;
+
+      &.informational {
+        color: var(--glide-core-status-warning-informational);
+      }
+
+      &.medium {
+        color: var(--glide-core-status-warning-medium);
+      }
+
+      &.critical {
+        color: var(--glide-core-status-warning-critical);
+      }
+    }
+
     .back-button {
-      /* 
-        Flex so the icon doesn't sit on the baseline and extend the height of 
+      /*
+        Flex so the icon doesn't sit on the baseline and extend the height of
         ".back-button", making the icon not vertically centered relative to ".label".
       */
       display: flex;
     }
 
     .close-button {
-      --size: 1.25rem;
+      --private-size: 1.25rem;
 
-      /* 
-        Flex so the icon doesn't sit on the baseline and extend the height of 
+      /*
+        Flex so the icon doesn't sit on the baseline and extend the height of
         ".close-button", making the icon not vertically centered relative to ".label".
       */
       display: flex;

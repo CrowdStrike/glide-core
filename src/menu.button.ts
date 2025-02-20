@@ -6,6 +6,8 @@ import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './menu.button.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -14,9 +16,16 @@ declare global {
 }
 
 /**
- * @slot icon - An optional icon.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element} [icon]
  */
 @customElement('glide-core-menu-button')
+@final
 export default class GlideCoreMenuButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -25,8 +34,11 @@ export default class GlideCoreMenuButton extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -39,6 +51,7 @@ export default class GlideCoreMenuButton extends LitElement {
   }
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   // A button is considered active when it's interacted with via keyboard or hovered.
@@ -79,7 +92,10 @@ export default class GlideCoreMenuButton extends LitElement {
       type="button"
       ${ref(this.#componentElementRef)}
     >
-      <slot name="icon"></slot>
+      <slot name="icon">
+        <!-- @type {Element} -->
+      </slot>
+
       ${this.label}
     </button>`;
   }

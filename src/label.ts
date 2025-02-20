@@ -5,10 +5,13 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { when } from 'lit/directives/when.js';
 import styles from './label.styles.js';
 import { LocalizeController } from './library/localize.js';
 import assertSlot from './library/assert-slot.js';
+import onResize from './library/on-resize.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -17,14 +20,22 @@ declare global {
 }
 
 /**
- * @private
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [error=false]
+ * @attr {boolean} [hide=false]
+ * @attr {string} [label]
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {boolean} [required=false]
+ * @attr {'left'|'middle'} [split]
+ * @attr {string} [tooltip]
  *
- * @slot - The label.
- * @slot control - The control with which the label is associated.
- * @slot summary - Additional information or context.
- * @slot description - Additional information or context.
+ * @slot {HTMLLabelElement}
+ * @slot {Element} [control] - The element with which the label is associated
+ * @slot {Element | string} [description] - Additional information or context
+ * @slot {Element | string} [summary] - Additional information or context
  */
 @customElement('glide-core-private-label')
+@final
 export default class GlideCoreLabel extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -54,28 +65,19 @@ export default class GlideCoreLabel extends LitElement {
   @property()
   tooltip?: string;
 
-  override firstUpdated() {
-    // The "description" slot has a top margin that needs to be conditionally
-    // applied only if content is slotted so there's not stray whitespace
-    // when there's no description.
-    //
-    // Normally, we'd listen for "slotchange" and set `this.hasDescription`
-    // in the event handler. But form controls always slot content. We need
-    // to know if any text has been slotted instead.
-    //
-    // A Resize Observer is the best proxy for that. If the slot has a height,
-    // then we know it has text.
-    const observer = new ResizeObserver(() => {
-      this.hasDescription = Boolean(
-        this.#descriptionSlotElementRef.value &&
-          this.#descriptionSlotElementRef.value.offsetHeight > 0,
-      );
-    });
-
-    if (this.#descriptionSlotElementRef.value) {
-      observer.observe(this.#descriptionSlotElementRef.value);
-    }
-  }
+  // The default slot is what gets rendered as a label. This label, which
+  // should be the exact same, is for the tooltip shown when that label
+  // is truncated.
+  //
+  // Why not use this property for both labels? Because form controls need
+  // everything in their own shadow roots so they can wire up ARIA attributes,
+  // so the IDs referenced in those attributes aren't made inaccessible by
+  // being in another component's shadow root.
+  //
+  // Another way to get the contents of the default slot into the tooltip would
+  // be a mutation observer. But then we would have yet another mutation observer.
+  @property()
+  label?: string;
 
   override render() {
     // `aria-hidden` is used on the tooltip so the contents of the label
@@ -100,28 +102,32 @@ export default class GlideCoreLabel extends LitElement {
         })}
         part="private-tooltips"
       >
-        <glide-core-tooltip
-          class=${classMap({
-            'optional-tooltip': true,
-            vertical: this.orientation === 'vertical',
-            visible: this.tooltip ? true : false,
-          })}
-          label=${ifDefined(this.tooltip)}
-          placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
-        >
-          <button
-            aria-label=${this.#localize.term('tooltip')}
-            class="optional-tooltip-target"
-            slot="target"
-            type="button"
-          >
-            ${icons.information}
-          </button>
-        </glide-core-tooltip>
+        ${when(
+          this.tooltip,
+          () =>
+            html`<glide-core-tooltip
+              class=${classMap({
+                'optional-tooltip': true,
+                vertical: this.orientation === 'vertical',
+                visible: this.tooltip ? true : false,
+              })}
+              label=${ifDefined(this.tooltip)}
+              placement=${this.orientation === 'vertical' ? 'right' : 'bottom'}
+            >
+              <button
+                aria-label=${this.#localize.term('tooltip')}
+                class="optional-tooltip-target"
+                slot="target"
+                type="button"
+              >
+                ${icons.information}
+              </button>
+            </glide-core-tooltip>`,
+        )}
 
         <glide-core-tooltip
           class="label-tooltip"
-          label=${ifDefined(this.label)}
+          label=${this.label ?? ''}
           placement="right"
           ?disabled=${!this.isLabelTooltip}
           screenreader-hidden
@@ -139,7 +145,9 @@ export default class GlideCoreLabel extends LitElement {
               @slotchange=${this.#onDefaultSlotChange}
               ${assertSlot()}
               ${ref(this.#defaultSlotElementRef)}
-            ></slot>
+            >
+              <!-- @type {HTMLLabelElement} -->
+            </slot>
 
             ${this.required
               ? html`<span aria-hidden="true" class="required-symbol">*</span>`
@@ -160,7 +168,12 @@ export default class GlideCoreLabel extends LitElement {
           })}
           name="control"
           ${assertSlot()}
-        ></slot>
+        >
+          <!--
+            The element with which the label is associated
+            @type {Element}
+          -->
+        </slot>
 
         <slot
           class=${classMap({
@@ -170,7 +183,12 @@ export default class GlideCoreLabel extends LitElement {
           name="summary"
           @slotchange=${this.#onSummarySlotChange}
           ${ref(this.#summarySlotElementRef)}
-        ></slot>
+        >
+          <!-- 
+            Additional information or context 
+            @type {Element | string}
+          -->
+        </slot>
       </div>
 
       <slot
@@ -182,8 +200,14 @@ export default class GlideCoreLabel extends LitElement {
         })}
         id="description"
         name="description"
+        ${onResize(this.#onDescriptionSlotResize.bind(this))}
         ${ref(this.#descriptionSlotElementRef)}
-      ></slot>
+      >
+        <!--
+          Additional information or context
+          @type {Element | string}
+        -->
+      </slot>
     </div>`;
   }
 
@@ -195,9 +219,6 @@ export default class GlideCoreLabel extends LitElement {
 
   @state()
   private isLabelTooltip = false;
-
-  @state()
-  private label = '';
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -214,12 +235,6 @@ export default class GlideCoreLabel extends LitElement {
       ?.assignedElements()
       .at(0);
 
-    const labelElement = this.#labelElementRef.value;
-
-    if (defaultSlotAssignedElement?.textContent) {
-      this.label = defaultSlotAssignedElement.textContent;
-    }
-
     const observer = new ResizeObserver(() => {
       // `getBoundingClientRect` is used so we're comparing apples to apples.
       //
@@ -231,16 +246,33 @@ export default class GlideCoreLabel extends LitElement {
       // return a float. So using `clientWidth` for `labelElement` would mean the
       // width of `defaultSlotAssignedElement` is always fractionally greater than
       // that of `labelElement`.
-      if (defaultSlotAssignedElement && labelElement) {
+      if (defaultSlotAssignedElement && this.#labelElementRef.value) {
         this.isLabelTooltip =
           defaultSlotAssignedElement.getBoundingClientRect().width >
-          labelElement.getBoundingClientRect().width;
+          this.#labelElementRef.value.getBoundingClientRect().width;
       }
     });
 
-    if (labelElement) {
-      observer.observe(labelElement);
+    if (this.#labelElementRef.value) {
+      observer.observe(this.#labelElementRef.value);
     }
+  }
+
+  #onDescriptionSlotResize() {
+    // The "description" slot has a top margin that needs to be conditionally
+    // applied only if content is slotted so there's not stray whitespace
+    // when there's no description.
+    //
+    // Normally, we'd listen for "slotchange" and set `this.hasDescription`
+    // in the event handler. But form controls always slot content. We need
+    // to know if any text has been slotted instead.
+    //
+    // A Resize Observer is the best proxy for that. If the slot has a height,
+    // then we know it has text.
+    this.hasDescription = Boolean(
+      this.#descriptionSlotElementRef.value &&
+        this.#descriptionSlotElementRef.value.offsetHeight > 0,
+    );
   }
 
   #onSummarySlotChange() {

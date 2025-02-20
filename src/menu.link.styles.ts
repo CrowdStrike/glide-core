@@ -10,10 +10,10 @@ export default [
       box-sizing: border-box;
       display: flex;
       font: inherit;
-      gap: var(--gap);
+      gap: var(--private-gap);
       inline-size: 100%;
-      padding-block: var(--padding-block);
-      padding-inline: var(--padding-inline);
+      padding-block: var(--private-padding-block);
+      padding-inline: var(--private-padding-inline);
       text-decoration: none;
       transition: background-color 100ms ease-in-out;
       user-select: none;

@@ -5,22 +5,22 @@ import { click } from './library/mouse.js';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
 
 it('sets `menuOpen` when its menu is opened', async () => {
-  const component = await fixture<GlideCoreSplitButtonSecondaryButton>(html`
+  const host = await fixture<GlideCoreSplitButtonSecondaryButton>(html`
     <glide-core-split-button-secondary-button label="Label">
       <glide-core-menu-button label="Label"></glide-core-menu-button>
     </glide-core-split-button-secondary-button>
   `);
 
-  await click(component);
+  await click(host);
 
   // Wait for the Mutation Observer to pick up the attribute change.
   await aTimeout(0);
 
-  expect(component.menuOpen).to.be.true;
+  expect(host.menuOpen).to.be.true;
 });
 
 it('sets `menuOpen` when its menu is closed', async () => {
-  const component = await fixture<GlideCoreSplitButtonSecondaryButton>(html`
+  const host = await fixture<GlideCoreSplitButtonSecondaryButton>(html`
     <glide-core-split-button-secondary-button label="Label" menu-open>
       <glide-core-menu-button label="Label"></glide-core-menu-button>
     </glide-core-split-button-secondary-button>
@@ -34,5 +34,5 @@ it('sets `menuOpen` when its menu is closed', async () => {
   // Wait for the Mutation Observer to pick up the attribute change.
   await aTimeout(0);
 
-  expect(component.menuOpen).to.be.false;
+  expect(host.menuOpen).to.be.false;
 });

@@ -1,21 +1,22 @@
 import { expect, fixture, html } from '@open-wc/testing';
+import { sendKeys } from '@web/test-runner-commands';
 import GlideCoreCheckbox from './checkbox.js';
 
 it('focuses the input when `focus()` is called', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
-  component.focus();
+  host.focus();
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(component.shadowRoot?.activeElement).to.equal(input);
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(host.shadowRoot?.activeElement).to.equal(input);
 });
 
 it('focuses the input after submit when required and unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
     {
       parentNode: form,
@@ -24,68 +25,58 @@ it('focuses the input after submit when required and unchecked', async () => {
 
   form.requestSubmit();
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(component.shadowRoot?.activeElement).to.be.equal(input);
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(host.shadowRoot?.activeElement).to.be.equal(input);
 });
 
-it('focuses the input after `reportValidity` is called when required and unchecked', async () => {
+it('focuses the input after `reportValidity()` is called when required and unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
     { parentNode: form },
   );
 
-  component.reportValidity();
+  host.reportValidity();
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(component.shadowRoot?.activeElement).to.equal(input);
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(host.shadowRoot?.activeElement).to.equal(input);
 });
 
-it('focuses the input after `requestSubmit` is called when required and unchecked', async () => {
+it('focuses the input after `requestSubmit()` is called when required and unchecked', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
     { parentNode: form },
   );
 
   form.requestSubmit();
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(component.shadowRoot?.activeElement).to.equal(input);
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(host.shadowRoot?.activeElement).to.equal(input);
 });
 
-it('does not focus the input after `checkValidity` is called', async () => {
+it('does not focus the input after `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const component = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
     { parentNode: form },
   );
 
-  component.checkValidity();
+  host.checkValidity();
 
-  expect(component.shadowRoot?.activeElement).to.equal(null);
+  expect(host.shadowRoot?.activeElement).to.equal(null);
 });
 
-it('blurs the input and reports validity if `blur` is called', async () => {
-  const component = await fixture<GlideCoreCheckbox>(
+it('updates its validity on blur', async () => {
+  const host = await fixture<GlideCoreCheckbox>(
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
   );
 
-  component.focus();
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: 'Tab' });
 
-  const input = component.shadowRoot?.querySelector('[data-test="input"]');
-  expect(component.shadowRoot?.activeElement).to.equal(input);
-
-  component.blur();
-  await component.updateComplete;
-
-  expect(component.shadowRoot?.activeElement).to.equal(null);
-
-  expect(component.validity.valid).to.be.false;
-
-  expect(component.shadowRoot?.querySelector('glide-core-private-label')?.error)
-    .to.be.true;
+  expect(host.validity.valid).to.be.false;
 });

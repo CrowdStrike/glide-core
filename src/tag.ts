@@ -9,6 +9,8 @@ import pencilIcon from './icons/pencil.js';
 import styles from './tag.styles.js';
 import xIcon from './icons/x.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -17,11 +19,21 @@ declare global {
 }
 
 /**
- * @event remove
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [removable=false]
+ * @attr {'small'|'medium'|'large'} [size='medium']
  *
- * @slot icon
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element} [icon]
+ *
+ * @fires {Event} edit
+ * @fires {Event} remove
  */
 @customElement('glide-core-tag')
+@final
 export default class GlideCoreTag extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -35,6 +47,7 @@ export default class GlideCoreTag extends LitElement {
   disabled = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   // Private because it's only meant to be used by Dropdown.
@@ -79,7 +92,7 @@ export default class GlideCoreTag extends LitElement {
         })}
         data-test="component"
         data-animation-duration=${this.#animationDuration}
-        style="--animation-duration: ${this.#animationDuration}ms"
+        style="--private-animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
         <slot
@@ -88,7 +101,9 @@ export default class GlideCoreTag extends LitElement {
             [this.size]: true,
           })}
           name="icon"
-        ></slot>
+        >
+          <!-- @type {Element} -->
+        </slot>
 
         ${this.label}
         ${when(this.privateEditable, () => {

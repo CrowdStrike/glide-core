@@ -13,6 +13,8 @@ import chevronIcon from './icons/chevron.js';
 import styles from './tree.item.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -21,12 +23,29 @@ declare global {
 }
 
 /**
- * @slot - Zero or more of `<glide-core-tree-item>`.
- * @slot prefix - An optional icon before the label.
- * @slot suffix - An optional icon after the label.
- * @slot menu - A `<glide-core-menu>` made visible on hover or focus.
+ * @attr {string} label
+ * @attr {boolean} [expanded=false]
+ * @attr {number} [level=1]
+ * @attr {boolean} [non-collapsible=false]
+ * @attr {boolean} [remove-indentation=false]
+ * @attr {boolean} [selected=false]
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {GlideCoreTreeItem}
+ * @slot {GlideCoreTreeItemMenu} [menu] - Visible on hover and focus
+ * @slot {Element} [prefix] - An icon before the label
+ * @slot {Element} [suffix] - An icon after the label
+ *
+ * @fires {Event} selected
+ *
+ * @method selectItem - Traverses down the tree, selects the item, then deselects all other items.
+ * @param {GlideCoreTreeItem} item
+ * @returns GlideCoreTreeItem | undefined
  */
 @customElement('glide-core-tree-item')
+@final
 export default class GlideCoreTreeItem extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -38,11 +57,30 @@ export default class GlideCoreTreeItem extends LitElement {
 
   @property({ reflect: true, type: Boolean }) expanded = false;
 
-  @property({ reflect: true }) label = '';
+  @property({ reflect: true })
+  @required
+  label?: string;
 
   @property({ reflect: true, type: Number }) level = 1;
 
-  @property({ reflect: true, type: Boolean }) selected = false;
+  /**
+   * @default false
+   */
+  @property({ reflect: true, type: Boolean })
+  get selected(): boolean {
+    return this.#isSelected;
+  }
+
+  set selected(isSelected: boolean) {
+    const hasChanged = isSelected !== this.#isSelected;
+    this.#isSelected = isSelected;
+
+    if (isSelected && hasChanged) {
+      this.dispatchEvent(
+        new Event('selected', { bubbles: true, composed: true }),
+      );
+    }
+  }
 
   @property({ reflect: true, type: Boolean, attribute: 'remove-indentation' })
   removeIndentation = false;
@@ -58,25 +96,30 @@ export default class GlideCoreTreeItem extends LitElement {
     this.#setTabIndexes(0);
   }
 
-  get hasChildTreeItems() {
+  get privateHasChildTreeItems() {
     return this.childTreeItems.length > 0;
   }
 
-  get hasExpandIcon() {
-    return this.hasChildTreeItems && !this.nonCollapsible;
+  private get hasExpandIcon() {
+    return this.privateHasChildTreeItems && !this.nonCollapsible;
+  }
+
+  privateToggleExpand() {
+    this.expanded = !this.expanded;
   }
 
   override render() {
     return html`<div
+      aria-label=${ifDefined(this.label)}
+      aria-selected=${ifDefined(this.#ariaSelected)}
+      aria-expanded=${ifDefined(this.#ariaExpanded)}
       class=${classMap({
         component: true,
         expanded: this.expanded,
         selected: this.selected,
       })}
+      data-test="component"
       role="treeitem"
-      aria-label=${this.label}
-      aria-selected=${ifDefined(this.#ariaSelected)}
-      aria-expanded=${ifDefined(this.#ariaExpanded)}
     >
       <div
         class=${classMap({
@@ -95,15 +138,11 @@ export default class GlideCoreTreeItem extends LitElement {
             width: this.#indentationWidth,
           })}
         ></div>
-
         ${when(
-          /**
-           * By default, we indent the width of the expand icon,
-           * even if the item doesn't have children.
-           * This is to allow the sibling tree items' labels to line up vertically
-           * if some have children and some don't.
-           * But the user can opt out of this behavior via remove-indentation
-           */
+          // By default, we indent the width of the expand icon even if the item
+          // doesn't have children. This allows the sibling Tree Items' labels to
+          // line up vertically if some have their own children and some don't.
+          // Consumers can opt out of this behavior via `remove-indentation`.
           !this.removeIndentation || this.hasExpandIcon,
           () => html`
             <div
@@ -111,6 +150,7 @@ export default class GlideCoreTreeItem extends LitElement {
                 'expand-icon-container': true,
                 expanded: this.expanded,
               })}
+              data-test="expand-icon-container"
             >
               ${when(this.hasExpandIcon, () => chevronIcon)}
             </div>
@@ -119,9 +159,15 @@ export default class GlideCoreTreeItem extends LitElement {
 
         <slot
           name="prefix"
+          class="prefix-slot"
           ${ref(this.#prefixSlotElementRef)}
           @slotchange=${this.#onPrefixSlotChange}
-        ></slot>
+        >
+          <!--
+            An icon before the label
+            @type {Element}
+          -->
+        </slot>
 
         <div
           class=${classMap({
@@ -138,9 +184,19 @@ export default class GlideCoreTreeItem extends LitElement {
             ${ref(this.#menuSlotElementRef)}
             @slotchange=${this.#onMenuSlotChange}
             ${assertSlot([GlideCoreTreeItemMenu], true)}
-          ></slot>
+          >
+            <!--
+              Visible on hover and focus
+              @type {GlideCoreTreeItemMenu}
+            -->
+          </slot>
 
-          <slot name="suffix"></slot>
+          <slot name="suffix">
+            <!--
+              An icon after the label
+              @type {Element}
+            -->
+          </slot>
         </div>
       </div>
 
@@ -154,15 +210,15 @@ export default class GlideCoreTreeItem extends LitElement {
         <slot
           @slotchange=${this.#onDefaultSlotChange}
           ${ref(this.#defaultSlotElementRef)}
-        ></slot>
+        >
+          <!-- @type {GlideCoreTreeItem} -->
+        </slot>
       </div>
     </div>`;
   }
 
   /**
-   * Traverses down the tree, selecting the passed-in item,
-   * and deselecting all other items.
-   * Returns the selected item
+   * Traverses down the tree, selects the item, then deselects all other items.
    */
   selectItem(item: GlideCoreTreeItem): GlideCoreTreeItem | undefined {
     let selectedItem;
@@ -189,10 +245,6 @@ export default class GlideCoreTreeItem extends LitElement {
     return selectedItem;
   }
 
-  toggleExpand() {
-    this.expanded = !this.expanded;
-  }
-
   @state()
   private childTreeItems: GlideCoreTreeItem[] = [];
 
@@ -200,6 +252,8 @@ export default class GlideCoreTreeItem extends LitElement {
   private hasPrefixIcon = false;
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
+
+  #isSelected = false;
 
   #labelContainerElementRef = createRef<HTMLInputElement>();
 
@@ -219,7 +273,7 @@ export default class GlideCoreTreeItem extends LitElement {
   }
 
   get #ariaExpanded() {
-    if (this.hasChildTreeItems) {
+    if (this.privateHasChildTreeItems) {
       return this.expanded ? 'true' : 'false';
     } else {
       return;
@@ -227,7 +281,7 @@ export default class GlideCoreTreeItem extends LitElement {
   }
 
   get #ariaSelected() {
-    if (this.hasChildTreeItems) {
+    if (this.privateHasChildTreeItems) {
       return;
     } else {
       return this.selected ? 'true' : 'false';
@@ -270,7 +324,7 @@ export default class GlideCoreTreeItem extends LitElement {
   #onMenuSlotChange() {
     if (this.#menuSlotElementRef.value) {
       for (const assignedElement of this.#menuSlotElementRef.value.assignedElements()) {
-        if (assignedElement instanceof GlideCoreTreeItemMenu) {
+        if (assignedElement instanceof GlideCoreTreeItemMenu && this.label) {
           assignedElement.label = this.#localize.term('actionsFor', this.label);
         }
       }

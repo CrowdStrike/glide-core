@@ -13,6 +13,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
+import onResize from './library/on-resize.js';
 import GlideCoreDropdownOption from './dropdown.option.js';
 import { LocalizeController } from './library/localize.js';
 import GlideCoreTag from './tag.js';
@@ -23,6 +24,8 @@ import styles from './dropdown.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,16 +34,67 @@ declare global {
 }
 
 /**
- * @event change
- * @event input
- * @event invalid
- * @event toggle
+ * @attr {string} label
+ * @attr {string} [add-button-label]
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [filterable=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {boolean} [multiple=false]
+ * @attr {string} [name='']
+ * @attr {boolean} [open=false]
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {string} [placeholder]
+ * @attr {boolean} [readonly=false]
+ * @attr {boolean} [required=false]
+ * @attr {boolean} [select-all=false]
+ * @attr {'large'|'small'} [size='large']
+ * @attr {string} [tooltip]
+ * @attr {string[]} [value=[]]
+ * @attr {'quiet'} [variant]
  *
- * @slot - One or more of `<glide-core-dropdown-option>`.
- * @slot description - Additional information or context.
- * @slot icon:<value> - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {GlideCoreDropdownOption}
+ * @slot {Element | string} [description] - Additional information or context
+ * @slot {Element} [icon:value] - Icons for the selected option or options. Slot one icon per option. `<value>` should be equal to the `value` of each option.
+ *
+ * @fires {Event} add
+ * @fires {Event} change
+ * @fires {Event} input
+ * @fires {Event} invalid
+ * @fires {Event} toggle
+ *
+ * @readonly
+ * @prop {HTMLFormElement | null} form
+ *
+ * @readonly
+ * @prop {ValidityState} validity
+ *
+ * @method checkValidity
+ * @returns boolean
+ *
+ * @method filter
+ * @param {string} query
+ * @returns Promise<GlideCoreDropdownOption[]>
+ *
+ * @method formAssociatedCallback
+ * @method formResetCallback
+ *
+ * @method reportValidity
+ * @returns boolean
+ *
+ * @method resetValidityFeedback
+ *
+ * @method setCustomValidity
+ * @param {string} message
+ *
+ * @method setValidity
+ * @param {ValidityStateFlags} [flags]
+ * @param {string} [message]
  */
 @customElement('glide-core-dropdown')
+@final
 export default class GlideCoreDropdown
   extends LitElement
   implements FormControl
@@ -57,8 +111,11 @@ export default class GlideCoreDropdown
   @property({ attribute: 'add-button-label', reflect: true })
   addButtonLabel?: string;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -72,14 +129,17 @@ export default class GlideCoreDropdown
     }
   }
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get filterable() {
+  get filterable(): boolean {
     return this.#isFilterable;
   }
 
   set filterable(isFilterable: boolean) {
     if (this.#isFilterable !== isFilterable && isFilterable && !this.multiple) {
-      if (this.#inputElementRef.value && this.selectedOptions.length > 0) {
+      if (this.#inputElementRef.value && this.selectedOptions[0]?.label) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
 
@@ -98,13 +158,17 @@ export default class GlideCoreDropdown
   hideLabel = false;
 
   @property({ reflect: true })
+  @required
   label?: string;
 
   @property({ reflect: true })
   name = '';
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -126,7 +190,7 @@ export default class GlideCoreDropdown
       if (
         !this.multiple &&
         this.#inputElementRef.value &&
-        this.selectedOptions.length > 0
+        this.selectedOptions[0]?.label
       ) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
@@ -174,23 +238,14 @@ export default class GlideCoreDropdown
   @property({ attribute: 'select-all', reflect: true, type: Boolean })
   selectAll = false;
 
-  @property({ reflect: true })
-  get size() {
-    return this.#size;
-  }
-
-  set size(size: 'small' | 'large') {
-    this.#size = size;
-
-    if (this.#optionElementsIncludingSelectAll) {
-      for (const option of this.#optionElementsIncludingSelectAll) {
-        option.privateSize = size;
-      }
-    }
-  }
-
   @property({ reflect: true, type: Boolean })
-  get multiple() {
+  required = false;
+
+  /**
+   * @default false
+   */
+  @property({ reflect: true, type: Boolean })
+  get multiple(): boolean {
     return this.#isMultiple;
   }
 
@@ -227,15 +282,33 @@ export default class GlideCoreDropdown
     }
   }
 
-  @property({ reflect: true, type: Boolean })
-  required = false;
+  /**
+   * @default 'large'
+   */
+  @property({ reflect: true })
+  get size(): 'large' | 'small' {
+    return this.#size;
+  }
+
+  set size(size: 'large' | 'small') {
+    this.#size = size;
+
+    if (this.#optionElementsIncludingSelectAll) {
+      for (const option of this.#optionElementsIncludingSelectAll) {
+        option.privateSize = size;
+      }
+    }
+  }
 
   @property({ reflect: true })
   tooltip?: string;
 
   // Intentionally not reflected to match native.
+  /**
+   * @default []
+   */
   @property({ type: Array })
-  get value() {
+  get value(): string[] {
     return this.#value;
   }
 
@@ -257,6 +330,14 @@ export default class GlideCoreDropdown
     }
 
     this.#isSettingValueProgrammatically = false;
+
+    if (
+      !this.multiple &&
+      this.value.length === 0 &&
+      this.#inputElementRef.value
+    ) {
+      this.#inputElementRef.value.value = '';
+    }
   }
 
   /*
@@ -275,7 +356,7 @@ export default class GlideCoreDropdown
     );
   }
 
-  checkValidity() {
+  checkValidity(): boolean {
     this.isCheckingValidity = true;
     const isValid = this.#internals.checkValidity();
     this.isCheckingValidity = false;
@@ -358,10 +439,12 @@ export default class GlideCoreDropdown
     });
   }
 
+  // `async` because it may return a promise when overridden.
+  //
   // eslint-disable-next-line @typescript-eslint/require-await
   async filter(query: string): Promise<GlideCoreDropdownOption[]> {
     return this.#optionElements.filter(({ label }) => {
-      return label.toLowerCase().includes(query.toLowerCase().trim());
+      return label?.toLowerCase().includes(query.toLowerCase().trim());
     });
   }
 
@@ -390,46 +473,10 @@ export default class GlideCoreDropdown
     if (
       !this.multiple &&
       this.lastSelectedOption &&
-      this.#inputElementRef.value
+      this.#inputElementRef.value &&
+      this.lastSelectedOption.label
     ) {
       this.#inputElementRef.value.value = this.lastSelectedOption.label;
-    }
-
-    if (this.#componentElementRef.value) {
-      const observer = new ResizeObserver(() => {
-        this.#setTagOverflowLimit();
-      });
-
-      observer.observe(this.#componentElementRef.value);
-    }
-
-    if (this.#internalLabelElementRef.value) {
-      const observer = new ResizeObserver(() => {
-        if (this.#internalLabelElementRef.value) {
-          this.isInternalLabelOverflow =
-            this.#internalLabelElementRef.value.scrollWidth >
-            this.#internalLabelElementRef.value.clientWidth;
-        }
-      });
-
-      observer.observe(this.#internalLabelElementRef.value);
-    }
-
-    if (this.#inputElementRef.value) {
-      const observer = new ResizeObserver(() => {
-        if (this.#inputElementRef.value) {
-          // One is subtracted to account for an apparent Chrome bug when the viewport
-          // is reduced in size and the `<input>` is overflowing, then increased in size
-          // so its not overflowing. If you log `scrollWidth` and `clientWidth` you'll
-          // see the bug. In Safari and Firefox the two are equal upon increasing the
-          // size of the viewport.
-          this.isInputOverflow =
-            this.#inputElementRef.value.scrollWidth - 1 >
-            this.#inputElementRef.value.clientWidth;
-        }
-      });
-
-      observer.observe(this.#inputElementRef.value);
     }
   }
 
@@ -443,11 +490,11 @@ export default class GlideCoreDropdown
     }
   }
 
-  get form() {
+  get form(): HTMLFormElement | null {
     return this.#internals.form;
   }
 
-  get validity() {
+  get validity(): ValidityState {
     if (this.required && this.selectedOptions.length === 0) {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
@@ -474,15 +521,11 @@ export default class GlideCoreDropdown
     return this.#internals.validity;
   }
 
-  get willValidate() {
-    return this.#internals.willValidate;
-  }
-
-  formAssociatedCallback() {
+  formAssociatedCallback(): void {
     this.form?.addEventListener('formdata', this.#onFormdata);
   }
 
-  formResetCallback() {
+  formResetCallback(): void {
     for (const option of this.#optionElements) {
       const isInitiallySelected = option.hasAttribute('selected');
 
@@ -539,9 +582,11 @@ export default class GlideCoreDropdown
         vertical: this.orientation === 'vertical',
       })}
       @mouseup=${this.#onComponentMouseup}
+      ${onResize(this.#setTagOverflowLimit.bind(this))}
       ${ref(this.#componentElementRef)}
     >
       <glide-core-private-label
+        label=${ifDefined(this.label)}
         orientation=${this.orientation}
         split=${ifDefined(this.privateSplit ?? undefined)}
         tooltip=${ifDefined(this.tooltip)}
@@ -602,7 +647,7 @@ export default class GlideCoreDropdown
                       <glide-core-tag
                         data-test="tag"
                         data-id=${id}
-                        label=${label}
+                        label=${ifDefined(label)}
                         removable
                         size=${this.size}
                         ?disabled=${this.disabled || this.readonly}
@@ -616,7 +661,15 @@ export default class GlideCoreDropdown
                               data-test="multiselect-icon-slot"
                               name="icon:${value}"
                               slot="icon"
-                            ></slot>
+                            >
+                              <!--
+                                Icons for the selected option or options.
+                                Slot one icon per option. \`<value>\` should be equal to the \`value\` of each option.
+
+                                @name icon:value
+                                @type {Element}
+                              -->
+                            </slot>
                           `;
                         })}
                       </glide-core-tag>
@@ -633,7 +686,12 @@ export default class GlideCoreDropdown
                 })}
                 data-test="single-select-icon-slot"
                 name="icon:${this.selectedOptions.at(0)?.value}"
-              ></slot>`;
+              >
+                <!--
+                  @type {Element}
+                  @ignore
+                -->
+              </slot>`;
             })}
 
             <glide-core-tooltip
@@ -680,6 +738,7 @@ export default class GlideCoreDropdown
                   @focus=${this.#onInputFocus}
                   @input=${this.#onInputInput}
                   @keydown=${this.#onInputKeydown}
+                  ${onResize(this.#onInputResize.bind(this))}
                   ${ref(this.#inputElementRef)}
                 />
 
@@ -713,7 +772,7 @@ export default class GlideCoreDropdown
                 visible: Boolean(this.internalLabel),
               })}
               data-test="internal-label-tooltip"
-              label=${ifDefined(this.internalLabel)}
+              label=${this.internalLabel ?? ''}
               offset=${8}
               ?disabled=${this.open ||
               this.multiple ||
@@ -728,6 +787,7 @@ export default class GlideCoreDropdown
                 class="internal-label"
                 data-test="internal-label"
                 slot="target"
+                ${onResize(this.#onInternalLabelResize.bind(this))}
                 ${ref(this.#internalLabelElementRef)}
               >
                 ${when(
@@ -767,16 +827,14 @@ export default class GlideCoreDropdown
                 },
               )}
               ${when(
-                !this.multiple &&
-                  this.selectedOptions.length > 0 &&
-                  this.selectedOptions[0].editable,
+                !this.multiple && this.selectedOptions[0]?.editable,
                 () => {
                   return html`<glide-core-icon-button
                     class="edit-button"
                     data-test="edit-button"
                     label=${this.#localize.term(
                       'editOption',
-                      this.selectedOptions[0].label,
+                      this.selectedOptions[0].label!,
                     )}
                     tabindex=${this.disabled || this.readonly ? '-1' : '0'}
                     variant="tertiary"
@@ -867,7 +925,12 @@ export default class GlideCoreDropdown
                 @slotchange=${this.#onDefaultSlotChange}
                 ${assertSlot([GlideCoreDropdownOption, Text])}
                 ${ref(this.#defaultSlotElementRef)}
-              ></slot>
+              >
+                <!--
+                  @required
+                  @type {GlideCoreDropdownOption}
+                -->
+              </slot>
             </div>
 
             ${when(this.isNoResults, () => {
@@ -909,7 +972,13 @@ export default class GlideCoreDropdown
               ),
             })}
             name="description"
-          ></slot>
+          >
+            <!--
+              Additional information or context
+              @type {Element | string}
+            -->
+          </slot>
+
           ${when(
             this.#isShowValidationFeedback && this.validityMessage,
             () =>
@@ -922,9 +991,8 @@ export default class GlideCoreDropdown
     </div>`;
   }
 
-  reportValidity() {
+  reportValidity(): boolean {
     this.isReportValidityOrSubmit = true;
-
     const isValid = this.#internals.reportValidity();
 
     // Ensures that getters referencing this.validity?.valid update (i.e. #isShowValidationFeedback)
@@ -933,11 +1001,11 @@ export default class GlideCoreDropdown
     return isValid;
   }
 
-  resetValidityFeedback() {
+  resetValidityFeedback(): void {
     this.isReportValidityOrSubmit = false;
   }
 
-  setCustomValidity(message: string) {
+  setCustomValidity(message: string): void {
     this.validityMessage = message;
 
     if (message === '') {
@@ -964,7 +1032,7 @@ export default class GlideCoreDropdown
     }
   }
 
-  setValidity(flags?: ValidityStateFlags, message?: string) {
+  setValidity(flags?: ValidityStateFlags, message?: string): void {
     this.validityMessage = message;
 
     // A validation message is required but unused because we disable native validation feedback.
@@ -1124,7 +1192,7 @@ export default class GlideCoreDropdown
 
   #shadowRoot?: ShadowRoot;
 
-  #size: 'small' | 'large' = 'large';
+  #size: 'large' | 'small' = 'large';
 
   #tagsElementRef = createRef<HTMLElement>();
 
@@ -1276,7 +1344,7 @@ export default class GlideCoreDropdown
     if (
       !this.multiple &&
       this.#inputElementRef.value &&
-      this.lastSelectedOption
+      this.lastSelectedOption?.label
     ) {
       this.#inputElementRef.value.value = this.lastSelectedOption.label;
       this.inputValue = this.lastSelectedOption.label;
@@ -1470,9 +1538,7 @@ export default class GlideCoreDropdown
           // A "click" event, on the other hand, is dispatched when an Edit button is
           // clicked. So Dropdown Option could dispatch "edit" in that case. But then
           // two components instead of one would be responsible for dispatching "edit".
-          this.activeOption.dispatchEvent(
-            new Event('edit', { bubbles: true, composed: true }),
-          );
+          this.activeOption.privateEdit();
 
           this.open = false;
 
@@ -1690,9 +1756,7 @@ export default class GlideCoreDropdown
       event.target instanceof Node &&
       this.#editButtonElementRef.value?.contains(event.target)
     ) {
-      this.selectedOptions[0].dispatchEvent(
-        new Event('edit', { bubbles: true, composed: true }),
-      );
+      this.selectedOptions[0].privateEdit();
 
       return;
     }
@@ -1717,7 +1781,7 @@ export default class GlideCoreDropdown
     if (event.detail !== 0) {
       this.open = true;
 
-      // If Dropdown was opened because the Primary button or `<input>` were clicked,
+      // If Dropdown was opened because its primary button or `<input>` were clicked,
       // then Dropdown will already have focus. But if something else was clicked, like
       // the padding around Dropdown or a Tag, then it won't. So we focus it manually.
       this.focus();
@@ -1759,54 +1823,6 @@ export default class GlideCoreDropdown
 
   #onEditButtonClick() {
     this.open = false;
-  }
-
-  get #optionElements() {
-    return (
-      this.#defaultSlotElementRef.value
-        ?.assignedElements()
-        .filter(
-          (element): element is GlideCoreDropdownOption =>
-            element instanceof GlideCoreDropdownOption,
-        ) ?? []
-    );
-  }
-
-  get #optionElementsIncludingSelectAll() {
-    const assignedElements = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption,
-      );
-
-    if (assignedElements && this.#selectAllElementRef.value) {
-      return [this.#selectAllElementRef.value, ...assignedElements];
-    }
-  }
-
-  get #optionElementsNotHidden() {
-    return this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption && !element.hidden,
-      );
-  }
-
-  get #optionElementsNotHiddenIncludingSelectAll() {
-    const assignedElementsNotHidden = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption && !element.hidden,
-      );
-
-    return this.#selectAllElementRef.value &&
-      !this.#selectAllElementRef.value.hidden &&
-      assignedElementsNotHidden
-      ? [this.#selectAllElementRef.value, ...assignedElementsNotHidden]
-      : assignedElementsNotHidden;
   }
 
   #onInputBlur() {
@@ -1934,6 +1950,75 @@ export default class GlideCoreDropdown
     }
   }
 
+  #onInputResize() {
+    if (this.#inputElementRef.value) {
+      // One is subtracted to account for an apparent Chrome bug when the viewport
+      // is reduced in size and the `<input>` is overflowing, then increased in size
+      // so its not overflowing. If you log `scrollWidth` and `clientWidth` you'll
+      // see the bug. In Safari and Firefox the two are equal after increasing the
+      // size of the viewport.
+      this.isInputOverflow =
+        this.#inputElementRef.value.scrollWidth - 1 >
+        this.#inputElementRef.value.clientWidth;
+    }
+  }
+
+  #onInternalLabelResize() {
+    if (this.#internalLabelElementRef.value) {
+      this.isInternalLabelOverflow =
+        this.#internalLabelElementRef.value.scrollWidth >
+        this.#internalLabelElementRef.value.clientWidth;
+    }
+  }
+
+  get #optionElements() {
+    return (
+      this.#defaultSlotElementRef.value
+        ?.assignedElements()
+        .filter(
+          (element): element is GlideCoreDropdownOption =>
+            element instanceof GlideCoreDropdownOption,
+        ) ?? []
+    );
+  }
+
+  get #optionElementsIncludingSelectAll() {
+    const assignedElements = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreDropdownOption =>
+          element instanceof GlideCoreDropdownOption,
+      );
+
+    if (assignedElements && this.#selectAllElementRef.value) {
+      return [this.#selectAllElementRef.value, ...assignedElements];
+    }
+  }
+
+  get #optionElementsNotHidden() {
+    return this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreDropdownOption =>
+          element instanceof GlideCoreDropdownOption && !element.hidden,
+      );
+  }
+
+  get #optionElementsNotHiddenIncludingSelectAll() {
+    const assignedElementsNotHidden = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .filter(
+        (element): element is GlideCoreDropdownOption =>
+          element instanceof GlideCoreDropdownOption && !element.hidden,
+      );
+
+    return this.#selectAllElementRef.value &&
+      !this.#selectAllElementRef.value.hidden &&
+      assignedElementsNotHidden
+      ? [this.#selectAllElementRef.value, ...assignedElementsNotHidden]
+      : assignedElementsNotHidden;
+  }
+
   #onOptionsChange(event: Event) {
     if (event.target instanceof GlideCoreDropdownOption) {
       event.target.selected = !event.target.selected;
@@ -1958,10 +2043,7 @@ export default class GlideCoreDropdown
         option instanceof GlideCoreDropdownOption &&
         option.privateIsEditActive
       ) {
-        option.dispatchEvent(
-          new Event('edit', { bubbles: true, composed: true }),
-        );
-
+        option.privateEdit();
         this.open = false;
 
         return;
@@ -2025,7 +2107,8 @@ export default class GlideCoreDropdown
         });
       } else if (
         (this.filterable || this.isFilterable) &&
-        this.#inputElementRef.value
+        this.#inputElementRef.value &&
+        this.selectedOptions[0].label
       ) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;
@@ -2090,9 +2173,7 @@ export default class GlideCoreDropdown
     }
 
     this.isShowSingleSelectIcon =
-      !this.multiple &&
-      this.selectedOptions.length > 0 &&
-      Boolean(this.selectedOptions.at(0)?.value);
+      !this.multiple && Boolean(this.selectedOptions.at(0)?.value);
 
     // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {
@@ -2128,7 +2209,7 @@ export default class GlideCoreDropdown
       ) {
         this.#value = event.target.value ? [event.target.value] : [];
 
-        if (this.#inputElementRef.value) {
+        if (this.#inputElementRef.value && event.target.label) {
           this.isFiltering = false;
           this.#inputElementRef.value.value = event.target.label;
           this.inputValue = event.target.label;
@@ -2437,8 +2518,8 @@ const icons = {
       viewBox="0 0 16 16"
       fill="none"
       style=${styleMap({
-        height: 'var(--size)',
-        width: 'var(--size)',
+        height: 'var(--private-size)',
+        width: 'var(--private-size)',
       })}
     >
       <path

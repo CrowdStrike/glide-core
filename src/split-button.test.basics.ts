@@ -2,10 +2,15 @@ import './split-button.primary-button.js';
 import './split-button.primary-link.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import './menu.button.js';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
 import GlideCoreSplitButton from './split-button.js';
 import './split-button.secondary-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
+
+@customElement('glide-core-subclassed')
+class GlideCoreSubclassed extends GlideCoreSplitButton {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-split-button')).to.equal(
@@ -14,7 +19,7 @@ it('registers itself', async () => {
 });
 
 it('is accessible', async () => {
-  const component = await fixture(html`
+  const host = await fixture(html`
     <glide-core-split-button>
       <glide-core-split-button-primary-button
         label="Label"
@@ -29,27 +34,19 @@ it('is accessible', async () => {
     </glide-core-split-button>
   `);
 
-  await expect(component).to.be.accessible();
+  await expect(host).to.be.accessible();
 });
 
-it('has defaults', async () => {
-  const component = await fixture<GlideCoreSplitButton>(html`
-    <glide-core-split-button>
-      <glide-core-split-button-primary-link
-        label="Label"
-      ></glide-core-split-button-primary-link>
+it('throws when subclassed', async () => {
+  const spy = sinon.spy();
 
-      <glide-core-split-button-secondary-button
-        label="Label"
-        slot="secondary-button"
-      >
-        <glide-core-menu-button label="Label"></glide-core-menu-button>
-      </glide-core-split-button-secondary-button>
-    </glide-core-split-button>
-  `);
+  try {
+    new GlideCoreSubclassed();
+  } catch {
+    spy();
+  }
 
-  expect(component.size).to.equal('large');
-  expect(component.variant).to.equal('primary');
+  expect(spy.callCount).to.equal(1);
 });
 
 it('throws when its default slot is empty', async () => {
@@ -67,7 +64,7 @@ it('throws when its default slot is empty', async () => {
   });
 });
 
-it('throws when its default slot is the incorrect type', async () => {
+it('throws when its default slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-split-button>
@@ -96,7 +93,7 @@ it('throws when its "secondary-button" slot is empty', async () => {
   });
 });
 
-it('throws when its "secondary-button" slot is the incorrect type', async () => {
+it('throws when its "secondary-button" slot is the wrong type', async () => {
   await expectWindowError(() => {
     return fixture(
       html`<glide-core-split-button>

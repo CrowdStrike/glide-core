@@ -17,6 +17,7 @@ import packageJson from '../package.json' with { type: 'json' };
 import styles from './popover.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -25,12 +26,21 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {boolean} [disabled=false]
+ * @attr {number} [offset=4]
+ * @attr {boolean} [open=false]
+ * @attr {'bottom'|'left'|'right'|'top'} [placement]
  *
- * @slot - The content of the popover.
- * @slot target - The element to which the popover will anchor, which can be any focusable element.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {Element | string} - The content of the popover
+ * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-popover')
+@final
 export default class GlideCorePopover extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -39,8 +49,11 @@ export default class GlideCorePopover extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get disabled() {
+  get disabled(): boolean {
     return this.#isDisabled;
   }
 
@@ -54,8 +67,11 @@ export default class GlideCorePopover extends LitElement {
     }
   }
 
+  /**
+   * @default 4
+   */
   @property({ reflect: true, type: Number })
-  get offset() {
+  get offset(): number {
     return (
       this.#offset ??
       Number.parseFloat(
@@ -73,8 +89,11 @@ export default class GlideCorePopover extends LitElement {
     this.#offset = offset;
   }
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  get open() {
+  get open(): boolean {
     return this.#isOpen;
   }
 
@@ -99,7 +118,7 @@ export default class GlideCorePopover extends LitElement {
 
   /*
     The placement of the popover relative to its target. Automatic placement will
-    take over if the popover is cut off by the viewport. "bottom" by default.
+    take over if the popover is cut off by the viewport. 
   */
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
@@ -189,7 +208,12 @@ export default class GlideCorePopover extends LitElement {
           @keydown=${this.#onTargetSlotKeydown}
           ${assertSlot([Element])}
           ${ref(this.#targetSlotElementRef)}
-        ></slot>
+        >
+          <!--
+            The element to which the popover will anchor. Can be any focusable element.
+            @type {Element}
+          -->
+        </slot>
 
         <div
           class=${classMap({
@@ -220,7 +244,12 @@ export default class GlideCorePopover extends LitElement {
             class="default-slot"
             ${assertSlot()}
             ${ref(this.#defaultSlotElementRef)}
-          ></slot>
+          >
+            <!--
+              The content of the popover
+              @type {Element | string}
+            -->
+          </slot>
         </div>
       </div>
     `;
@@ -263,9 +292,17 @@ export default class GlideCorePopover extends LitElement {
       this.#isTargetSlotClick ||
       this.#isArrowClick
     ) {
-      this.#isDefaultSlotClick = false;
-      this.#isTargetSlotClick = false;
-      this.#isArrowClick = false;
+      setTimeout(() => {
+        // This handler will be called twice for a single click if the element clicked was
+        // a `<label>`. Because clicking a `<label>` produces two "click" events.
+        //
+        // If we immediately set these variables to `false`, Popover will close when this
+        // handler is called the second time. So we wait a tick to ensure both "click" events
+        // have been dispatched.
+        this.#isDefaultSlotClick = false;
+        this.#isTargetSlotClick = false;
+        this.#isArrowClick = false;
+      });
 
       return;
     }

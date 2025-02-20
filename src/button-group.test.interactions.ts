@@ -5,8 +5,8 @@ import { click } from './library/mouse.js';
 import GlideCoreButtonGroup from './button-group.js';
 
 it('selects a button on click', async () => {
-  const component = await fixture<GlideCoreButtonGroup>(
-    html`<glide-core-button-group>
+  const host = await fixture<GlideCoreButtonGroup>(
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -18,18 +18,18 @@ it('selects a button on click', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = component.querySelectorAll('glide-core-button-group-button');
+  const buttons = host.querySelectorAll('glide-core-button-group-button');
 
   await click(buttons[1]);
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(buttons[0].selected).to.be.false;
   expect(buttons[1].selected).to.be.true;
 });
 
 it('selects a button on `click()`', async () => {
-  const component = await fixture<GlideCoreButtonGroup>(
-    html`<glide-core-button-group>
+  const host = await fixture<GlideCoreButtonGroup>(
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -41,18 +41,18 @@ it('selects a button on `click()`', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = component.querySelectorAll('glide-core-button-group-button');
+  const buttons = host.querySelectorAll('glide-core-button-group-button');
 
   buttons[1].click();
-  await component.updateComplete;
+  await host.updateComplete;
 
   expect(buttons[0].selected).to.be.false;
   expect(buttons[1].selected).to.be.true;
 });
 
 it('selects buttons when arrowing', async () => {
-  const component = await fixture(
-    html`<glide-core-button-group>
+  const host = await fixture(
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         disabled
@@ -74,8 +74,8 @@ it('selects buttons when arrowing', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = component.querySelectorAll('glide-core-button-group-button');
-  buttons[1]?.focus();
+  const buttons = host.querySelectorAll('glide-core-button-group-button');
+  await sendKeys({ press: 'Tab' });
 
   await sendKeys({ press: 'ArrowRight' });
   expect(buttons[2].selected).to.be.true;
@@ -91,8 +91,8 @@ it('selects buttons when arrowing', async () => {
 });
 
 it('selects a button on Space', async () => {
-  const component = await fixture(
-    html`<glide-core-button-group>
+  const host = await fixture(
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -104,9 +104,9 @@ it('selects a button on Space', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = component.querySelectorAll('glide-core-button-group-button');
-  buttons[1]?.focus();
+  const buttons = host.querySelectorAll('glide-core-button-group-button');
 
+  buttons[1]?.focus();
   await sendKeys({ press: ' ' });
 
   expect(buttons[0].selected).to.be.false;
@@ -114,8 +114,8 @@ it('selects a button on Space', async () => {
 });
 
 it('does not select a disabled button', async () => {
-  const component = await fixture(
-    html`<glide-core-button-group>
+  const host = await fixture(
+    html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
         selected
@@ -128,7 +128,7 @@ it('does not select a disabled button', async () => {
     </glide-core-button-group>`,
   );
 
-  const buttons = component.querySelectorAll('glide-core-button-group-button');
+  const buttons = host.querySelectorAll('glide-core-button-group-button');
 
   await click(buttons[1]);
 

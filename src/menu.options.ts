@@ -8,6 +8,7 @@ import GlideCoreMenuLink from './menu.link.js';
 import styles from './menu.options.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -29,9 +30,16 @@ declare global {
 // to our support load.
 
 /**
- * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
+ * @attr {string} [aria-activedescendant='']
+ * @attr {string} [aria-labelledby='']
+ *
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
  */
 @customElement('glide-core-menu-options')
+@final
 export default class GlideCoreMenuOptions extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -47,7 +55,7 @@ export default class GlideCoreMenuOptions extends LitElement {
   ariaLabelledby = '';
 
   @property()
-  privateSize: 'small' | 'large' = 'large';
+  privateSize: 'large' | 'small' = 'large';
 
   @property({ reflect: true })
   readonly version = packageJson.version;
@@ -78,7 +86,9 @@ export default class GlideCoreMenuOptions extends LitElement {
       <slot
         ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink, Text])}
         @slotchange=${this.#onSlotChange}
-      ></slot>
+      >
+        <!-- @type {GlideCoreMenuButton | GlideCoreMenuLink} -->
+      </slot>
     </div>`;
   }
 

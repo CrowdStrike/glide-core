@@ -7,6 +7,8 @@ import GlideCoreButtonGroupButton from './button-group.button.js';
 import styles from './button-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
+import final from './library/final.js';
+import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -15,11 +17,17 @@ declare global {
 }
 
 /**
- * @event selected
+ * @attr {string} label
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {'icon-only'} [variant]
  *
- * @slot - One or more of `<glide-core-button-group-button>`.
+ * @readonly
+ * @attr {0.19.5} [version]
+ *
+ * @slot {GlideCoreButtonGroupButton}
  */
 @customElement('glide-core-button-group')
+@final
 export default class GlideCoreButtonGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
@@ -29,10 +37,14 @@ export default class GlideCoreButtonGroup extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  label? = '';
+  @required
+  label?: string;
 
+  /**
+   * @default undefined
+   */
   @property({ reflect: true })
-  get variant() {
+  get variant(): 'icon-only' | undefined {
     return this.#variant;
   }
 
@@ -44,8 +56,11 @@ export default class GlideCoreButtonGroup extends LitElement {
     this.#variant = variant;
   }
 
+  /**
+   * @default 'horizontal'
+   */
   @property({ reflect: true })
-  get orientation() {
+  get orientation(): 'horizontal' | 'vertical' {
     return this.#orientation;
   }
 
@@ -86,7 +101,12 @@ export default class GlideCoreButtonGroup extends LitElement {
             @slotchange=${this.#onSlotChange}
             ${assertSlot([GlideCoreButtonGroupButton])}
             ${ref(this.#slotElementRef)}
-          ></slot>
+          >
+            <!-- 
+              @required
+              @type {GlideCoreButtonGroupButton}
+            -->
+          </slot>
         </div>
       </div>
     `;
@@ -135,11 +155,7 @@ export default class GlideCoreButtonGroup extends LitElement {
       // Guards against `button.selected` to prevent duplicate "change" and
       // "input" events.
       if (button && !button.disabled && !button.selected) {
-        button.selected = true;
-
-        button.dispatchEvent(
-          new Event('selected', { bubbles: true, composed: true }),
-        );
+        button.privateSelect();
       }
     }
   }
@@ -170,11 +186,7 @@ export default class GlideCoreButtonGroup extends LitElement {
         }
 
         if (previousButton instanceof GlideCoreButtonGroupButton) {
-          previousButton.selected = true;
-
-          previousButton.dispatchEvent(
-            new Event('selected', { bubbles: true, composed: true }),
-          );
+          previousButton.privateSelect();
         }
 
         break;
@@ -198,11 +210,7 @@ export default class GlideCoreButtonGroup extends LitElement {
         }
 
         if (nextButton instanceof GlideCoreButtonGroupButton) {
-          nextButton.selected = true;
-
-          nextButton.dispatchEvent(
-            new Event('selected', { bubbles: true, composed: true }),
-          );
+          nextButton.privateSelect();
         }
 
         break;
@@ -218,11 +226,7 @@ export default class GlideCoreButtonGroup extends LitElement {
           const button = event.target.closest('glide-core-button-group-button');
 
           if (button && !button.disabled && !button.selected) {
-            button.selected = true;
-
-            button.dispatchEvent(
-              new Event('selected', { bubbles: true, composed: true }),
-            );
+            button.privateSelect();
           }
         }
 
