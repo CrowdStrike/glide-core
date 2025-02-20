@@ -60,6 +60,8 @@ export default {
     // https://github.com/modernweb-dev/web/issues/1700#issuecomment-1059441615
     fromRollup(rollupPluginCommonjs)({
       include: ['**/node_modules/**'],
+      // The default, `true`, doesn't play well with Axe Core, which our
+      // `expect(host).to.be.accessible()` assertions use.
       strictRequires: 'auto',
     }),
     esbuildPlugin({
@@ -76,7 +78,7 @@ export default {
           'lcov',
           {
             start() {
-              // eslint-disable-next-line no-console -- ok since this is a script run in the terminal
+              // eslint-disable-next-line no-console
               console.log(
                 `Code coverage report: ${chalk.bgBlue(
                   'http://localhost:8080',
@@ -84,7 +86,7 @@ export default {
               );
             },
             onTestRunStarted() {
-              // eslint-disable-next-line no-console -- ok since this is a script run in the terminal
+              // eslint-disable-next-line no-console
               console.log(
                 `Code coverage report: ${chalk.bgBlue(
                   'http://localhost:8080',
@@ -96,8 +98,11 @@ export default {
   testRunnerHtml(testFramework) {
     return `<html>
       <body>
-        <link href="./dist/styles/fonts.css" rel="stylesheet">
-        <link href="./dist/styles/variables.css" rel="stylesheet">
+        <link href="./src/styles/fonts.css" rel="stylesheet">
+        <link href="./src/styles/variables/light.css" rel="stylesheet">
+        <link href="./src/styles/variables/dark.css" rel="stylesheet">
+        <link href="./src/styles/variables/miscellaneous.css" rel="stylesheet">
+        <link href="./src/styles/variables/system.css" rel="stylesheet">
         <script type="module" src="${testFramework}"></script>
       </body>
     </html>`;
