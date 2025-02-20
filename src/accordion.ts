@@ -17,11 +17,17 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {string} label
+ * @attr {boolean} [open=false]
  *
- * @slot - The content of the accordion.
- * @slot prefix-icon - An optional icon before the label.
- * @slot suffix-icons - Optional icons after the label.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element | string} - The content of the accordion
+ * @slot {Element} [prefix-icon] - An icon before the label
+ * @slot {Element} [suffix-icons] - Icons after the label
+ *
+ * @fires {Event} toggle
  */
 @customElement('glide-core-accordion')
 @final
@@ -171,7 +177,7 @@ export default class GlideCoreAccordion extends LitElement {
             ${ref(this.#prefixIconSlotElementRef)}
           >
             <!-- 
-              An icon before the label 
+              An icon before the label
               @type {Element}
             -->
           </slot>
@@ -204,8 +210,8 @@ export default class GlideCoreAccordion extends LitElement {
         ${assertSlot()}
         ${ref(this.#defaultSlotElementRef)}
       >
-        <!-- 
-          The content of the accordion 
+        <!--
+          The content of the accordion
 
           @required
           @type {Element | string}

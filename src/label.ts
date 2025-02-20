@@ -20,12 +20,19 @@ declare global {
 }
 
 /**
- * @private
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [error=false]
+ * @attr {boolean} [hide=false]
+ * @attr {string} [label]
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {boolean} [required=false]
+ * @attr {'left'|'middle'} [split]
+ * @attr {string} [tooltip]
  *
- * @slot - The label.
- * @slot control - The control with which the label is associated.
- * @slot summary - Additional information or context.
- * @slot description - Additional information or context.
+ * @slot {HTMLLabelElement}
+ * @slot {Element} [control] - The element with which the label is associated
+ * @slot {Element | string} [description] - Additional information or context
+ * @slot {Element | string} [summary] - Additional information or context
  */
 @customElement('glide-core-private-label')
 @final
@@ -162,8 +169,8 @@ export default class GlideCoreLabel extends LitElement {
           name="control"
           ${assertSlot()}
         >
-          <!-- 
-            The element with which the label is associated 
+          <!--
+            The element with which the label is associated
             @type {Element}
           -->
         </slot>
@@ -179,7 +186,7 @@ export default class GlideCoreLabel extends LitElement {
         >
           <!-- 
             Additional information or context 
-            @type {Element}
+            @type {Element | string}
           -->
         </slot>
       </div>
@@ -196,8 +203,8 @@ export default class GlideCoreLabel extends LitElement {
         ${onResize(this.#onDescriptionSlotResize.bind(this))}
         ${ref(this.#descriptionSlotElementRef)}
       >
-        <!-- 
-          Additional information or context  
+        <!--
+          Additional information or context
           @type {Element | string}
         -->
       </slot>

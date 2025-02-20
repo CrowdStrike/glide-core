@@ -19,9 +19,18 @@ declare global {
 }
 
 /**
- * @event remove
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [removable=false]
+ * @attr {'small'|'medium'|'large'} [size='medium']
  *
- * @slot icon
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [icon]
+ *
+ * @fires {Event} edit
+ * @fires {Event} remove
  */
 @customElement('glide-core-tag')
 @final

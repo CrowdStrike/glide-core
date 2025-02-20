@@ -15,10 +15,17 @@ declare global {
 }
 
 /**
- * @event selected
+ * @attr {string} panel
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [selected=false]
  *
- * @slot - A label.
- * @slot icon - An optional icon.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element | string} - A label
+ * @slot {Element} [icon]
+ *
+ * @fires {Event} selected
  */
 @customElement('glide-core-tab')
 @final
@@ -75,15 +82,15 @@ export default class GlideCoreTab extends LitElement {
     >
       <div class="container">
         <slot name="icon">
-          <!-- 
+          <!--
             @type {Element}
           -->
         </slot>
 
         <slot>
-          <!-- 
-            A label 
-            @type {Element | string} 
+          <!--
+            A label
+            @type {Element | string}
           -->
         </slot>
       </div>

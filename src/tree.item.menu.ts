@@ -23,8 +23,14 @@ declare global {
 }
 
 /**
- * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
- * @slot icon - An optional icon.
+ * @attr {string} [label]
+ * @attr {'bottom-start'|'top-start'} [placement='bottom-start']
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
+ * @slot {Element} [icon]
  */
 @customElement('glide-core-tree-item-menu')
 @final

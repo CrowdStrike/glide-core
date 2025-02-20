@@ -18,8 +18,16 @@ declare global {
 }
 
 /**
- * @private
- * */
+ * @attr {string} [description]
+ * @attr {number} [duration=5000]
+ * @attr {string} [label]
+ * @attr {'error'|'informational'|'success'} [variant]
+ *
+ * @fires {Event} close
+ *
+ * @method close
+ * @method open
+ */
 @customElement('glide-core-toast')
 @final
 export default class GlideCoreToast extends LitElement {

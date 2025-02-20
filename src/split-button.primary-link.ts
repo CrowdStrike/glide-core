@@ -15,7 +15,14 @@ declare global {
 }
 
 /**
- * @slot icon - An optional icon before the label.
+ * @attr {string} label
+ * @attr {string} url
+ * @attr {boolean} [disabled=false]
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [icon] - An icon before the label
  */
 @customElement('glide-core-split-button-primary-link')
 @final
@@ -40,7 +47,7 @@ export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
   url?: string;
 
   @property()
-  privateSize: 'small' | 'large' = 'large';
+  privateSize: 'large' | 'small' = 'large';
 
   @property()
   privateVariant: 'primary' | 'secondary' = 'primary';
@@ -61,8 +68,8 @@ export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
         role="link"
       >
         <slot name="icon">
-          <!-- 
-            An icon before the label 
+          <!--
+            An icon before the label
             @type {Element}
           -->
         </slot>

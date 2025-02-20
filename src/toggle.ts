@@ -17,12 +17,20 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} hide-label
+ * @attr {string} label
+ * @attr {boolean} [checked=false]
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [hide-label=false]
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {string} [summary]
+ * @attr {string} [tooltip]
  *
- * @event change
- * @event input
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot description - Additional information or context.
+ * @slot {Element | string} [description] - Additional information or context
+ *
+ * @fires {Event} change
  */
 @customElement('glide-core-toggle')
 @final
@@ -127,8 +135,8 @@ export default class GlideCoreToggle extends LitElement {
           name="description"
           slot="description"
         >
-          <!-- 
-            Additional information or context 
+          <!--
+            Additional information or context
             @type {Element | string}
           -->
         </slot>

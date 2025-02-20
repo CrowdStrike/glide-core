@@ -17,7 +17,14 @@ declare global {
 }
 
 /**
- * @slot icon - An optional icon.
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {string} [url]
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element} [icon]
  */
 @customElement('glide-core-menu-link')
 @final

@@ -23,9 +23,15 @@ declare global {
 }
 
 /**
- * @event remove
+ * @attr {boolean} [removable=false]
+ * @attr {'informational'|'medium'|'high'|'critical'} [variant='informational']
  *
- * @slot - The content of the Inline Alert.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {Element | string} - The content of the alert
+ *
+ * @fires {Event} remove
  */
 @customElement('glide-core-inline-alert')
 @final
@@ -38,7 +44,7 @@ export default class GlideCoreInlineAlert extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  variant: keyof typeof icons = 'informational';
+  variant: 'informational' | 'medium' | 'high' | 'critical' = 'informational';
 
   @property({ reflect: true, type: Boolean })
   removable? = false;
@@ -87,8 +93,8 @@ export default class GlideCoreInlineAlert extends LitElement {
 
         <div id="label" class="content">
           <slot ${assertSlot()}>
-            <!-- 
-              The content of the alert 
+            <!--
+              The content of the alert
               @required
               @type {Element | string}
             -->

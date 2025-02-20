@@ -23,13 +23,26 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} remove-indentation
- * @attribute {Boolean} non-collapsible
+ * @attr {string} label
+ * @attr {boolean} [expanded=false]
+ * @attr {number} [level=1]
+ * @attr {boolean} [non-collapsible=false]
+ * @attr {boolean} [remove-indentation=false]
+ * @attr {boolean} [selected=false]
  *
- * @slot - Zero or more of `<glide-core-tree-item>`.
- * @slot prefix - An optional icon before the label.
- * @slot suffix - An optional icon after the label.
- * @slot menu - A `<glide-core-menu>` made visible on hover or focus.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreTreeItem}
+ * @slot {GlideCoreTreeItemMenu} [menu] - Visible on hover and focus
+ * @slot {Element} [prefix] - An icon before the label
+ * @slot {Element} [suffix] - An icon after the label
+ *
+ * @fires {Event} selected
+ *
+ * @method selectItem - Traverses down the tree, selects the item, then deselects all other items.
+ * @param {GlideCoreTreeItem} item
+ * @returns GlideCoreTreeItem | undefined
  */
 @customElement('glide-core-tree-item')
 @final
@@ -150,8 +163,8 @@ export default class GlideCoreTreeItem extends LitElement {
           ${ref(this.#prefixSlotElementRef)}
           @slotchange=${this.#onPrefixSlotChange}
         >
-          <!-- 
-            An icon before the label 
+          <!--
+            An icon before the label
             @type {Element}
           -->
         </slot>
@@ -172,15 +185,15 @@ export default class GlideCoreTreeItem extends LitElement {
             @slotchange=${this.#onMenuSlotChange}
             ${assertSlot([GlideCoreTreeItemMenu], true)}
           >
-            <!-- 
-              Made visible on hover or focus
-              @type {GlideCoreTreeItemMenu} 
+            <!--
+              Visible on hover and focus
+              @type {GlideCoreTreeItemMenu}
             -->
           </slot>
 
           <slot name="suffix">
-            <!-- 
-              An icon after the label 
+            <!--
+              An icon after the label
               @type {Element}
             -->
           </slot>

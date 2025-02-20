@@ -14,6 +14,19 @@ declare global {
   }
 }
 
+/**
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @method add
+ * @param {{
+ *     label: string;
+ *     description: string;
+ *     variant: 'error' | 'informational' | 'success';
+ *     duration?: number; // Defaults to 5000. Set to `Infinity` to make the toast persist until dismissed.
+ *   }} toast
+ * @returns GlideCoreToast
+ */
 @customElement('glide-core-toasts')
 @final
 export default class GlideCoreToasts extends LitElement {

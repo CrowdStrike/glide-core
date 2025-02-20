@@ -17,9 +17,14 @@ declare global {
 }
 
 /**
- * @event selected
+ * @attr {string} label
+ * @attr {'horizontal'|'vertical'} [orientation='horizontal']
+ * @attr {'icon-only'} [variant]
  *
- * @slot - One or more of `<glide-core-button-group-button>`.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreButtonGroupButton}
  */
 @customElement('glide-core-button-group')
 @final
@@ -99,7 +104,7 @@ export default class GlideCoreButtonGroup extends LitElement {
           >
             <!-- 
               @required
-              @type {GlideCoreButtonGroupButton} 
+              @type {GlideCoreButtonGroupButton}
             -->
           </slot>
         </div>

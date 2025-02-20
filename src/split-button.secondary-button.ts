@@ -22,10 +22,15 @@ declare global {
 }
 
 /**
- * @attribute {Boolean} menu-open
- * @attribute {'bottom-end' | 'top-end'} menu-placement
+ * @attr {string} label
+ * @attr {boolean} [disabled=false]
+ * @attr {boolean} [menu-open=false]
+ * @attr {'bottom-end'|'top-end'} [menu-placement='bottom-end']
  *
- * @slot - One or more of `<glide-core-menu-button>` or `<glide-core-menu-link>`.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
  */
 @customElement('glide-core-split-button-secondary-button')
 @final
@@ -55,7 +60,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   privateActive = false;
 
   @property()
-  privateSize: 'small' | 'large' = 'large';
+  privateSize: 'large' | 'small' = 'large';
 
   @property()
   privateVariant: 'primary' | 'secondary' = 'primary';

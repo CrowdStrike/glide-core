@@ -17,10 +17,14 @@ declare global {
 }
 
 /**
- * @event toggle
+ * @attr {'large'|'small'} [size='large']
+ * @attr {'primary'|'secondary'} [variant='primary']
  *
- * @slot - One of `<glide-core-split-button-primary-button>` or `<glide-core-split-button-primary-link>`.
- * @slot secondary-button - One of `<glide-core-split-button-secondary-button>`.
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @slot {GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink}
+ * @slot {GlideCoreSplitButtonSecondaryButton} [secondary-button]
  */
 @customElement('glide-core-split-button')
 @final
@@ -36,11 +40,11 @@ export default class GlideCoreSplitButton extends LitElement {
    * @default 'large'
    */
   @property({ reflect: true })
-  get size(): 'small' | 'large' {
+  get size(): 'large' | 'small' {
     return this.#size;
   }
 
-  set size(size: 'small' | 'large') {
+  set size(size: 'large' | 'small') {
     this.#size = size;
 
     if (this.primaryButtonElement) {
@@ -126,7 +130,7 @@ export default class GlideCoreSplitButton extends LitElement {
 
   #secondaryButtonSlotElementRef = createRef<HTMLSlotElement>();
 
-  #size: 'small' | 'large' = 'large';
+  #size: 'large' | 'small' = 'large';
 
   #variant: 'primary' | 'secondary' = 'primary';
 

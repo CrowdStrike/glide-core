@@ -22,15 +22,16 @@ declare global {
 }
 
 /**
- * @cssprop [--panel-padding-inline-end]
- * @cssprop [--panel-padding-inline-start]
- * @cssprop [--tabs-padding-block-end]
- * @cssprop [--tabs-padding-block-start]
- * @cssprop [--tabs-padding-inline-end]
- * @cssprop [--tabs-padding-inline-start]
+ * @readonly
+ * @attr {0.19.1} [version]
  *
- * @slot - One or more of `<glide-core-tab-panel>`.
- * @slot nav - One or more of `<glide-core-tab>`.
+ * @slot {GlideCoreTabPanel}
+ * @slot {GlideCoreTab} [nav]
+ *
+ * @cssprop [--tabs-padding-block-end=0rem]
+ * @cssprop [--tabs-padding-block-start=0rem]
+ * @cssprop [--tabs-padding-inline-end=0rem]
+ * @cssprop [--tabs-padding-inline-start=0rem]
  */
 @customElement('glide-core-tab-group')
 @final
@@ -44,28 +45,6 @@ export default class GlideCoreTabGroup extends LitElement {
 
   @property({ reflect: true })
   readonly version = packageJson.version;
-
-  @state()
-  isAfterFirstUpdated = false;
-
-  @state()
-  isDisableOverflowEndButton = false;
-
-  @state()
-  isDisableOverflowStartButton = false;
-
-  @state()
-  isShowOverflowButtons = false;
-
-  @state()
-  private get selectedTab() {
-    return this.#selectedTab;
-  }
-
-  private set selectedTab(tab: GlideCoreTab | null) {
-    this.#previousSelectedTab = this.#selectedTab;
-    this.#selectedTab = tab;
-  }
 
   override render() {
     return html`<div
@@ -147,9 +126,31 @@ export default class GlideCoreTabGroup extends LitElement {
     </div>`;
   }
 
+  @state()
+  private get selectedTab() {
+    return this.#selectedTab;
+  }
+
+  private set selectedTab(tab: GlideCoreTab | null) {
+    this.#previousSelectedTab = this.#selectedTab;
+    this.#selectedTab = tab;
+  }
+
   override updated() {
     this.#setupTabs();
   }
+
+  @state()
+  private isAfterFirstUpdated = false;
+
+  @state()
+  private isDisableOverflowEndButton = false;
+
+  @state()
+  private isDisableOverflowStartButton = false;
+
+  @state()
+  private isShowOverflowButtons = false;
 
   #componentElementRef = createRef<HTMLElement>();
 

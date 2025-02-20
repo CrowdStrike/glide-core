@@ -13,6 +13,18 @@ declare global {
   }
 }
 
+/**
+ * @attr {string} label
+ * @attr {boolean} [checked=false]
+ * @attr {boolean} [disabled=false]
+ * @attr {string} [value]
+ *
+ * @readonly
+ * @attr {0.19.1} [version]
+ *
+ * @fires {Event} change
+ * @fires {Event} input
+ */
 @customElement('glide-core-radio-group-radio')
 @final
 export default class GlideCoreRadioGroupRadio extends LitElement {
