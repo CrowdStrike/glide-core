@@ -43,7 +43,10 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - install_dependencies
-
+    permissions:
+      contents: read
+      # https://docs.npmjs.com/generating-provenance-statements#publishing-packages-with-provenance-via-github-actions
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
