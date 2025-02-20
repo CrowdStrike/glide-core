@@ -18,7 +18,7 @@ declare global {
  * @attr {string} name - The corresponding GlideCoreTab should have a `panel` attribute with this name
  *
  * @readonly
- * @attr {0.19.1} [version]
+ * @attr {0.19.5} [version]
  *
  * @slot {Element | string} - The content of the panel
  *

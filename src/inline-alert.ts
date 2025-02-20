@@ -27,7 +27,7 @@ declare global {
  * @attr {'informational'|'medium'|'high'|'critical'} [variant='informational']
  *
  * @readonly
- * @attr {0.19.1} [version]
+ * @attr {0.19.5} [version]
  *
  * @slot {Element | string} - The content of the alert
  *

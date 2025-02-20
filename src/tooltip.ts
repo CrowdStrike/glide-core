@@ -37,7 +37,7 @@ declare global {
  * @attr {string[]} [shortcut=[]]
  *
  * @readonly
- * @attr {0.19.1} [version]
+ * @attr {0.19.5} [version]
  *
  * @slot {GlideCoreTooltipContainer} [private]
  * @slot {Element} target - The element to which the tooltip will anchor. Can be any element with an implicit or explicit ARIA role.

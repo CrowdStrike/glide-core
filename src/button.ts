@@ -24,7 +24,7 @@ declare global {
  * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
  *
  * @readonly
- * @attr {0.19.1} [version]
+ * @attr {0.19.5} [version]
  *
  * @slot {Element} [prefix-icon] - An icon before the label
  * @slot {Element} [suffix-icon] - An icon after the label

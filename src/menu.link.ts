@@ -22,7 +22,7 @@ declare global {
  * @attr {string} [url]
  *
  * @readonly
- * @attr {0.19.1} [version]
+ * @attr {0.19.5} [version]
  *
  * @slot {Element} [icon]
  */
