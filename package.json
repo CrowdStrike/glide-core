@@ -79,7 +79,7 @@
     "lint:production:lit-analyzer": "lit-analyzer **/*.ts",
     "lint:production:stylelint": "tsc --noCheck --outDir ./dist && stylelint '**/*.styles.ts' --custom-syntax postcss-lit --no-color",
     "test": "per-env",
-    "test:development": "pnpm start:production:stylesheets && npm-run-all --parallel test:development:components test:development:serve-component-coverage",
+    "test:development": "npm-run-all --parallel test:development:components test:development:serve-component-coverage",
     "test:development:components": "web-test-runner --watch",
     "test:development:lint-rules": "vitest --config ./vitest.config.js & chokidar './src/eslint/**' './src/stylelint/**' --ignore './src/eslint/rules/*.test.ts' './src/stylelint/*.test.ts' --initial --silent --command 'tsc --noCheck --outDir ./dist'",
     "test:development:lint-rules:comment": "Excluded from `test:development` because Vitest muddies the console when running alongside Web Test Runner.",
