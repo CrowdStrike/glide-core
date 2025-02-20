@@ -3,7 +3,7 @@
 // then compile and import them as JavaScript.
 import addCustomProperties from './dist/cem-analyzer-plugins/add-custom-properties.js';
 import addEvents from './dist/cem-analyzer-plugins/add-events.js';
-import addRequiredToAttribute from './dist/cem-analyzer-plugins/add-required-to-attributes.js';
+import addRequiredToAttributes from './dist/cem-analyzer-plugins/add-required-to-attributes.js';
 import addSlots from './dist/cem-analyzer-plugins/add-slots.js';
 import modifyVersionAttribute from './dist/cem-analyzer-plugins/modify-version-attribute.js';
 import removeBlockComments from './dist/cem-analyzer-plugins/remove-block-comments.js';
@@ -27,7 +27,7 @@ export default {
     removeBlockComments(),
     addCustomProperties(),
     addEvents(),
-    addRequiredToAttribute(),
+    addRequiredToAttributes(),
     addSlots(),
     modifyVersionAttribute(),
   ],
