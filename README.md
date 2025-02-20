@@ -1,16 +1,21 @@
-<p align="center">
-  <a href="https://glide-core.crowdstrike-ux.workers.dev">
-    <picture alt="Glide Core Logo">
-      <source srcset="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/light.png?raw=true" media="(prefers-color-scheme: light)" />
-      <source srcset="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/dark.png?raw=true" media="(prefers-color-scheme: dark)" />
-      <img src="https://github.com/CrowdStrike/glide-core/blob/main/.github/logos/light.png?raw=true" width="500" />
-    </picture>
-  </a>
-</p>
+<div align="center">
+  <p align="center">
+    <a href="https://glide-core.crowdstrike-ux.workers.dev">
+      <picture alt="Glide Core Logo">
+        <source srcset="/.github/logos/light.png?raw=true" media="(prefers-color-scheme: light)" />
+        <source srcset="/.github/logos/dark.png?raw=true" media="(prefers-color-scheme: dark)" />
+        <img src="/.github/logos/light.png?raw=true" width="500" />
+      </picture>
+    </a>
+  </p>
 
-<p align="center"> 
-  A Web Component design system from CrowdStrike.
-</p>
+A Web Component design system
+
+[![Code coverage](https://img.shields.io/badge/coverage%20-%20100%25%20-%20yellowgreen)](/src)
+[![Build status](https://img.shields.io/github/check-runs/crowdstrike/glide-core/main)](https://github.com/CrowdStrike/glide-core/actions?query=branch%3Amain)
+[![NPM version](https://img.shields.io/npm/v/%40crowdstrike%2Fglide-core)](https://www.npmjs.com/package/@crowdstrike/glide-core)
+
+</div>
 
 ## Usage
 
