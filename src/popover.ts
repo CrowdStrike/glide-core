@@ -209,8 +209,8 @@ export default class GlideCorePopover extends LitElement {
           ${assertSlot([Element])}
           ${ref(this.#targetSlotElementRef)}
         >
-          <!-- 
-            The element to which the popover will anchor. Can be any focusable element. 
+          <!--
+            The element to which the popover will anchor. Can be any focusable element.
             @type {Element}
           -->
         </slot>
@@ -245,8 +245,8 @@ export default class GlideCorePopover extends LitElement {
             ${assertSlot()}
             ${ref(this.#defaultSlotElementRef)}
           >
-            <!-- 
-              The content of the popover 
+            <!--
+              The content of the popover
               @type {Element | string}
             -->
           </slot>

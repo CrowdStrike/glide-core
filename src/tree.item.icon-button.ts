@@ -51,7 +51,7 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
         <slot ${assertSlot()}>
           <!-- 
             An icon
-            @type {Element} 
+            @type {Element}
           -->
         </slot>
       </glide-core-icon-button>

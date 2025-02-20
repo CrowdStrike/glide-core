@@ -169,8 +169,8 @@ export default class GlideCoreLabel extends LitElement {
           name="control"
           ${assertSlot()}
         >
-          <!-- 
-            The element with which the label is associated 
+          <!--
+            The element with which the label is associated
             @type {Element}
           -->
         </slot>
@@ -203,8 +203,8 @@ export default class GlideCoreLabel extends LitElement {
         ${onResize(this.#onDescriptionSlotResize.bind(this))}
         ${ref(this.#descriptionSlotElementRef)}
       >
-        <!-- 
-          Additional information or context  
+        <!--
+          Additional information or context
           @type {Element | string}
         -->
       </slot>

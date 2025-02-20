@@ -283,9 +283,9 @@ export default class GlideCoreTooltip extends LitElement {
             ${ref(this.#targetSlotElementRef)}
             name="target"
           >
-            <!-- 
-              The element to which the tooltip will anchor. 
-              Can be any element with an implicit or explicit ARIA role. 
+            <!--
+              The element to which the tooltip will anchor.
+              Can be any element with an implicit or explicit ARIA role.
 
               @required
               @type {Element}
@@ -327,7 +327,7 @@ export default class GlideCoreTooltip extends LitElement {
             })}
           >
             <slot class="default-slot" name="private">
-              <!-- 
+              <!--
                 @type {GlideCoreTooltipContainer}
               -->
             </slot>

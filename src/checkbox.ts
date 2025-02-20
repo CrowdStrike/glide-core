@@ -419,8 +419,8 @@ export default class GlideCoreCheckbox
             )}
 
             <div id="description" slot="description">
-              <!-- 
-                  Additional information or context 
+              <!--
+                  Additional information or context
                   @type {Element | string}
                 -->
               <slot
@@ -432,8 +432,8 @@ export default class GlideCoreCheckbox
                 })}
                 name="description"
               >
-                <!-- 
-                  Additional information or context 
+                <!--
+                  Additional information or context
                   @type {Element | string}
                 -->
               </slot>

@@ -135,8 +135,8 @@ export default class GlideCoreToggle extends LitElement {
           name="description"
           slot="description"
         >
-          <!-- 
-            Additional information or context 
+          <!--
+            Additional information or context
             @type {Element | string}
           -->
         </slot>

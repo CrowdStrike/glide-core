@@ -82,15 +82,15 @@ export default class GlideCoreTab extends LitElement {
     >
       <div class="container">
         <slot name="icon">
-          <!-- 
+          <!--
             @type {Element}
           -->
         </slot>
 
         <slot>
-          <!-- 
-            A label 
-            @type {Element | string} 
+          <!--
+            A label
+            @type {Element | string}
           -->
         </slot>
       </div>

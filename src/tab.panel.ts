@@ -71,9 +71,9 @@ export default class GlideCoreTabPanel extends LitElement {
       data-test="tab-panel"
     >
       <slot>
-        <!-- 
+        <!--
           The content of the panel
-          @type {Element | string} 
+          @type {Element | string}
         -->
       </slot>
     </div>`;

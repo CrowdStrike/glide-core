@@ -177,7 +177,7 @@ export default class GlideCoreAccordion extends LitElement {
             ${ref(this.#prefixIconSlotElementRef)}
           >
             <!-- 
-              An icon before the label 
+              An icon before the label
               @type {Element}
             -->
           </slot>
@@ -210,8 +210,8 @@ export default class GlideCoreAccordion extends LitElement {
         ${assertSlot()}
         ${ref(this.#defaultSlotElementRef)}
       >
-        <!-- 
-          The content of the accordion 
+        <!--
+          The content of the accordion
 
           @required
           @type {Element | string}

@@ -96,8 +96,8 @@ export default class GlideCoreButton extends LitElement {
         @slotchange=${this.#onPrefixIconSlotChange}
         ${ref(this.#prefixIconSlotElementRef)}
       >
-        <!-- 
-          An icon before the label  
+        <!--
+          An icon before the label
           @type {Element}
         -->
       </slot>

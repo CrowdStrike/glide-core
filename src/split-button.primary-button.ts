@@ -87,7 +87,7 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
     >
       <slot name="icon">
         <!-- 
-          An icon before the label 
+          An icon before the label
           @type {Element}
         -->
       </slot>

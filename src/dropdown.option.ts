@@ -319,8 +319,8 @@ export default class GlideCoreDropdownOption extends LitElement {
                 name="icon"
                 slot="private-icon"
               >
-                <!-- 
-                  An icon before the label 
+                <!--
+                  An icon before the label
                   @type {Element}
                 -->
               </slot>
@@ -358,8 +358,8 @@ export default class GlideCoreDropdownOption extends LitElement {
                 'icon-slot': true,
                 [this.privateSize]: true,
               })} name="icon">
-              <!-- 
-                An icon before the label 
+              <!--
+                An icon before the label
                 @type {Element}
               -->
             </slot>

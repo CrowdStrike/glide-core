@@ -263,8 +263,8 @@ export default class GlideCoreTextarea
           })}
           name="description"
         >
-          <!-- 
-            Additional information or context 
+          <!--
+            Additional information or context
             @type {Element | string}
           -->
         </slot>

@@ -163,8 +163,8 @@ export default class GlideCoreTreeItem extends LitElement {
           ${ref(this.#prefixSlotElementRef)}
           @slotchange=${this.#onPrefixSlotChange}
         >
-          <!-- 
-            An icon before the label 
+          <!--
+            An icon before the label
             @type {Element}
           -->
         </slot>
@@ -185,15 +185,15 @@ export default class GlideCoreTreeItem extends LitElement {
             @slotchange=${this.#onMenuSlotChange}
             ${assertSlot([GlideCoreTreeItemMenu], true)}
           >
-            <!-- 
+            <!--
               Visible on hover and focus
-              @type {GlideCoreTreeItemMenu} 
+              @type {GlideCoreTreeItemMenu}
             -->
           </slot>
 
           <slot name="suffix">
-            <!-- 
-              An icon after the label 
+            <!--
+              An icon after the label
               @type {Element}
             -->
           </slot>

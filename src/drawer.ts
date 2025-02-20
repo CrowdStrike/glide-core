@@ -177,7 +177,7 @@ export default class GlideCoreDrawer extends LitElement {
         ${ref(this.#componentElementRef)}
       >
         <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}>
-          <!-- 
+          <!--
             The content of the drawer
 
             @required

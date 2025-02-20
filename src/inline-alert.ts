@@ -93,8 +93,8 @@ export default class GlideCoreInlineAlert extends LitElement {
 
         <div id="label" class="content">
           <slot ${assertSlot()}>
-            <!-- 
-              The content of the alert 
+            <!--
+              The content of the alert
               @required
               @type {Element | string}
             -->

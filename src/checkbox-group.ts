@@ -313,8 +313,8 @@ export default class GlideCoreCheckboxGroup
             ${assertSlot([GlideCoreCheckbox])}
             ${ref(this.#defaultSlotElementRef)}
           >
-            <!-- 
-              @type {GlideCoreCheckbox} 
+            <!--
+              @type {GlideCoreCheckbox}
               @required
             -->
           </slot>

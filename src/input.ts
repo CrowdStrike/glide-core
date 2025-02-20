@@ -289,7 +289,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
         >
           <slot name="prefix-icon">
             <!-- 
-              An icon before the input field 
+              An icon before the input field
               @type {Element}
             -->
           </slot>
@@ -359,8 +359,8 @@ export default class GlideCoreInput extends LitElement implements FormControl {
               ? magnifyingGlassIcon
               : html`
                   <slot name="suffix-icon">
-                    <!-- 
-                      An icon after the input field 
+                    <!--
+                      An icon after the input field
                       @type {Element}
                     -->
                   </slot>

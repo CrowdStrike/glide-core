@@ -104,7 +104,7 @@ export default class GlideCoreButtonGroup extends LitElement {
           >
             <!-- 
               @required
-              @type {GlideCoreButtonGroupButton} 
+              @type {GlideCoreButtonGroupButton}
             -->
           </slot>
         </div>

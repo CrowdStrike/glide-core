@@ -349,8 +349,8 @@ export default class GlideCoreRadioGroup
               })}
               name="description"
             >
-              <!-- 
-                Additional information or context 
+              <!--
+                Additional information or context
                 @type {Element | string}
               -->
             </slot>
