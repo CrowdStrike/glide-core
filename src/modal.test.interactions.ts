@@ -100,17 +100,17 @@ it('does not close when `click()` is called on a slotted element', async () => {
 });
 
 it('does not close when a slotted `<label>` is clicked', async () => {
-  const component = await fixture<GlideCoreModal>(
+  const host = await fixture<GlideCoreModal>(
     html`<glide-core-modal label="Label" open>
       <label for="input"> Label </label>
       <input id="input" />
     </glide-core-modal>`,
   );
 
-  const label = component.querySelector('label');
+  const label = host.querySelector('label');
   await click(label);
 
-  expect(component.open).to.be.true;
+  expect(host.open).to.be.true;
 });
 
 it('locks scroll on open', async () => {
