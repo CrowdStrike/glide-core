@@ -277,7 +277,7 @@ export default [
     },
   },
   {
-    files: ['*.js', '.storybook/**/*'],
+    files: ['*.js', '.storybook/**/*', 'src/figma/*'],
     languageOptions: {
       globals: globals.node,
     },
