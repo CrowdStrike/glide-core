@@ -579,7 +579,7 @@ it('sets the first unfiltered option as active when the previously active option
   expect(input?.getAttribute('aria-activedescendant')).to.equal(option?.id);
 });
 
-it('updates the `value` of its `<input> when `label` of a selected option is set programmatically', async () => {
+it('updates its input field when the `label` of its selected option is set programmatically', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
@@ -604,7 +604,7 @@ it('updates the `value` of its `<input> when `label` of a selected option is set
   expect(input?.value).to.equal('Three');
 });
 
-it('updates `value` when an option `value` is set programmatically', async () => {
+it('updates its `value` when the `value` of an option is set programmatically', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -619,7 +619,7 @@ it('updates `value` when an option `value` is set programmatically', async () =>
   expect(host.value).to.deep.equal(['two']);
 });
 
-it('sets the `value` of its `<input> when made filterable', async () => {
+it('updates its input field when made filterable', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
@@ -644,7 +644,7 @@ it('sets the `value` of its `<input> when made filterable', async () => {
   expect(input?.value).to.equal('One');
 });
 
-it('clears the `value` of its `<input> when `multiple` is set programmatically', async () => {
+it('clears its input field when `multiple` is set programmatically', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
@@ -737,7 +737,7 @@ it('deselects all options on Meta + Backspace', async () => {
   expect(options[0].selected).to.be.false;
 });
 
-it('sets the `value` of its `<input> to the label of its selected option when not `multiple`', async () => {
+it('sets its input field to the `label` of its selected option when not `multiple`', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -753,6 +753,27 @@ it('sets the `value` of its `<input> to the label of its selected option when no
   );
 
   expect(input?.value).to.equal(option?.label);
+});
+
+it('clears its input field when single-select and `value` is emptied programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.value = [];
+
+  const input = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.be.empty.string;
 });
 
 it('clears the `value` of its `<input>` when single-select and its selected option is removed', async () => {
@@ -782,7 +803,7 @@ it('clears the `value` of its `<input>` when single-select and its selected opti
   expect(input?.value).to.be.empty.string;
 });
 
-it('clears the `value` of its `<input> when multiselect and an option is selected', async () => {
+it('clears its input field when multiselect and an option is selected', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -1213,7 +1234,7 @@ it('cannot be tabbed to when disabled', async () => {
   expect(document.activeElement).to.equal(document.body);
 });
 
-it('sets the `value` of its `<input> back to the label of the selected option when something other than it is clicked', async () => {
+it('sets its input field back to the `label` of the selected option when something outside the host is clicked', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
