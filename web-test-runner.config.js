@@ -60,6 +60,7 @@ export default {
     // https://github.com/modernweb-dev/web/issues/1700#issuecomment-1059441615
     fromRollup(rollupPluginCommonjs)({
       include: ['**/node_modules/**'],
+      strictRequires: 'auto',
     }),
     esbuildPlugin({
       ts: true,
