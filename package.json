@@ -110,7 +110,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.17.0",
     "@open-wc/testing": "^4.0.0",
-    "@rollup/plugin-commonjs": "^25.0.8",
+    "@rollup/plugin-commonjs": "^28.0.2",
     "@storybook/addon-actions": "^8.5.8",
     "@storybook/addon-controls": "^8.5.8",
     "@storybook/addon-docs": "^8.5.8",
