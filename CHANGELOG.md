@@ -1,5 +1,111 @@
 # @crowdstrike/glide-core
 
+## 0.20.0
+
+### Minor Changes
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Components now throw when subclassed. Let's have a conversation if one of our components doesn't meet your needs.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Required attributes now throw during development when missing. The following are now required:
+
+  - `label`
+    - Accordion
+    - Button Group Button
+    - Button Group
+    - Button
+    - Checkbox Group
+    - Checkbox
+    - Drawer
+    - Dropdown Option
+    - Dropdown
+    - Icon Button
+    - Input
+    - Menu Button
+    - Menu Link
+    - Modal Icon Button
+    - Modal
+    - Radio Group Radio
+    - Radio Group
+    - Split Button Primary Button
+    - Split Button Primary Link
+    - Split Button Secondary Button
+    - Tag
+    - Textarea
+    - Toggle
+    - Tooltip
+    - Tree Item Icon Button
+    - Tree Item Menu
+    - Tree Item
+  - `name`
+    - Tab Panel
+  - `panel`
+    - Tab
+  - `url`
+    - Split Button Primary Link
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Form controls no longer have a `willValidate` property. We think it will remain unused.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Drawer no longer closes when `Escape` is pressed.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - - Tab Panel no longer has an unused static `instanceCount` property.
+
+  - Toggle no longer has a `name` property. `name` only applies to form controls and was unused.
+  - Tree Item's `hasChildTreeItems` and `hasExpandIcon` properties and its `toggleExpand()` method have been marked private.
+
+  Additionally, some internal changes were made to facillitate generating documentation programmatically forced us remove a few exported types and rename some custom properties:
+
+  - Input no longer exports a `SUPPORTED_TYPES` interface.
+  - Toasts no longer exports a `Toast` interface.
+  - Tab Panel's custom properties have been renamed:
+
+    ```diff
+    - --panel-padding-inline-end
+    + --padding-inline-end
+
+    - --panel-padding-inline-start
+    + --padding-inline-start
+    ```
+
+### Patch Changes
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Form controls with long labels no longer overflow their containers.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - - A Checkbox or Toggle without a summary no longer has extra space to the right.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Filterable Dropdown's input field now has a minimum width of 60 pixels.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - SVGs placed in the `prefix` slot of a Tree Item will no longer shrink at narrow widths.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - The `label` of a Dropdown Option with a checkbox is now displayed in a tooltip when the label is truncated.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Single-select Dropdown's input field is now cleared when Dropdown's `value` is emptied programmatically.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Modal now allows for an optional `severity` attribute to render a severity icon in the header. When both `severity` and `back-button` are provided, only the severity icon is displayed.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Added JSDoc `@attribute` information so that tools like [lit-analyzer](https://github.com/runem/lit-analyzer) will properly parse multi-word property names.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown's `placeholder` attribute is now optional.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - - Radio Group no longer immediately deselects a selected Radio Group Radio that does not have a value.
+
+  - Programmatically disabled Radio Groups and Radio Group Radios are no longer tabbable.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Each component now includes a JSDoc comment at the top with its attributes, slots, custom properties, events, properties, and methods.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Form control label overflow tooltips now flip to the opposite side in a rare case when they would otherwise overflow the viewport.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Popover no longer closes when a slotted `<label>` is clicked.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Input now supports `type="time"`.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Input's `type` attribute is now reflected.
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Form control labels truncate with a tooltip when they overflow. The contents of that tooltip previously didn't reflect changes to form controls' `label` attribute. Now if you change a form control's `label` after initial render you'll see the new `label` in the truncation tooltip.
+
+- [`39db6a4`](https://github.com/CrowdStrike/glide-core/commit/39db6a4a520a52836c804b4f8e7f1668151bb20d) Thanks [@clintcs](https://github.com/clintcs)! - `@crowdstrike/glide-core` [now](https://www.npmjs.com/package/@crowdstrike/glide-core#provenance-details-header) has an NPM [provenance statement](https://docs.npmjs.com/generating-provenance-statements#about-npm-provenances).
+
+- [`a06768e`](https://github.com/CrowdStrike/glide-core/commit/a06768ee6c01d5d4ed0eb27b688aa90307b8cb1f) Thanks [@clintcs](https://github.com/clintcs)! - Input now has a minimum width of 60 pixels.
+
 ## 0.19.5
 
 ### Patch Changes
