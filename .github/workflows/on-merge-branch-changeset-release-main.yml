@@ -45,7 +45,7 @@ jobs:
       - install_dependencies
     permissions:
       # https://docs.npmjs.com/generating-provenance-statements#publishing-packages-with-provenance-via-github-actions
-      contents: read
+      contents: write
       id-token: write
     steps:
       - uses: actions/checkout@v4
