@@ -864,8 +864,8 @@ it('activates the first link by default', async () => {
   const links = host.querySelectorAll('glide-core-menu-link');
   const options = host.querySelector('glide-core-menu-options');
 
-  expect(links[0].privateActive).to.be.true;
-  expect(links[1].privateActive).to.be.false;
+  expect(links[0]?.privateActive).to.be.true;
+  expect(links[1]?.privateActive).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0]?.id);
 });
 
@@ -886,8 +886,8 @@ it('activates the first button by default when opened via click', async () => {
   const buttons = host.querySelectorAll('glide-core-menu-button');
   const options = host.querySelector('glide-core-menu-options');
 
-  expect(buttons[0].privateActive).to.be.true;
-  expect(buttons[1].privateActive).to.be.false;
+  expect(buttons[0]?.privateActive).to.be.true;
+  expect(buttons[1]?.privateActive).to.be.false;
   expect(options?.getAttribute('aria-activedescendant')).equal(buttons[0]?.id);
 });
 
@@ -911,9 +911,9 @@ it('activates a link on hover', async () => {
 
   await hover(links[1]);
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('activates a link on hover when the link is in a nested slot', async () => {
@@ -933,9 +933,9 @@ it('activates a link on hover when the link is in a nested slot', async () => {
 
   await hover(links[1]);
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('activates a button on hover', async () => {
@@ -958,9 +958,9 @@ it('activates a button on hover', async () => {
 
   await hover(buttons[1]);
 
-  expect(buttons[0].privateActive).to.be.false;
-  expect(buttons[1].privateActive).to.be.true;
-  expect(options?.getAttribute('aria-activedescendant')).equal(buttons[1].id);
+  expect(buttons[0]?.privateActive).to.be.false;
+  expect(buttons[1]?.privateActive).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).equal(buttons[1]?.id);
 });
 
 it('activates a button on hover when the button is in a nested slot', async () => {
@@ -980,9 +980,9 @@ it('activates a button on hover when the button is in a nested slot', async () =
 
   await hover(links[1]);
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('activates the next option on ArrowDown', async () => {
@@ -1006,9 +1006,9 @@ it('activates the next option on ArrowDown', async () => {
   host.querySelector('button')?.focus();
   await sendKeys({ press: 'ArrowDown' });
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('activates the previous enabled option on ArrowUp', async () => {
@@ -1034,10 +1034,10 @@ it('activates the previous enabled option on ArrowUp', async () => {
   await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'ArrowUp' });
 
-  expect(links[0].privateActive).to.be.true;
-  expect(links[1].privateActive).to.be.false;
-  expect(links[2].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0].id);
+  expect(links[0]?.privateActive).to.be.true;
+  expect(links[1]?.privateActive).to.be.false;
+  expect(links[2]?.privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0]?.id);
 });
 
 it('activates the first enabled option on Home', async () => {
@@ -1063,10 +1063,10 @@ it('activates the first enabled option on Home', async () => {
   await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'Home' });
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(links[2].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(links[2]?.privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('activates the first enabled option on PageUp', async () => {
@@ -1092,10 +1092,10 @@ it('activates the first enabled option on PageUp', async () => {
   await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ press: 'PageUp' });
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(links[2].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(links[2]?.privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('activates the first enabled option on Meta + ArrowUp', async () => {
@@ -1123,10 +1123,10 @@ it('activates the first enabled option on Meta + ArrowUp', async () => {
   await sendKeys({ press: 'ArrowUp' });
   await sendKeys({ up: 'Meta' });
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(links[2].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(links[2]?.privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('activates the last enabled option on End', async () => {
@@ -1151,10 +1151,10 @@ it('activates the last enabled option on End', async () => {
   const links = host.querySelectorAll('glide-core-menu-link');
   const options = host.querySelector('glide-core-menu-options');
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(links[2].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(links[2]?.privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('activates the last enabled option on PageDown', async () => {
@@ -1179,10 +1179,10 @@ it('activates the last enabled option on PageDown', async () => {
   const links = host.querySelectorAll('glide-core-menu-link');
   const options = host.querySelector('glide-core-menu-options');
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(links[2].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(links[2]?.privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('activates the last enabled option on Meta + ArrowDown', async () => {
@@ -1209,10 +1209,10 @@ it('activates the last enabled option on Meta + ArrowDown', async () => {
   const links = host.querySelectorAll('glide-core-menu-link');
   const options = host.querySelector('glide-core-menu-options');
 
-  expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
-  expect(links[2].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1].id);
+  expect(links[0]?.privateActive).to.be.false;
+  expect(links[1]?.privateActive).to.be.true;
+  expect(links[2]?.privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[1]?.id);
 });
 
 it('sets `aria-activedescendant` on open', async () => {
@@ -1410,10 +1410,12 @@ it('sets the next enabled option as active when current option is programmatical
   await aTimeout(0);
 
   const links = host.querySelectorAll('glide-core-menu-link');
+  assert(links[0]);
+
   links[0].disabled = true;
 
   expect(links[0].privateActive).to.be.false;
-  expect(links[1].privateActive).to.be.true;
+  expect(links[1]?.privateActive).to.be.true;
 });
 
 it('sets the previous enabled option as active when current option is programmatically disabled', async () => {
@@ -1433,13 +1435,14 @@ it('sets the previous enabled option as active when current option is programmat
   await aTimeout(0);
 
   const buttons = host.querySelectorAll('glide-core-menu-button');
+  assert(buttons[1]);
 
   await hover(buttons[1]);
   buttons[1].disabled = true;
 
-  expect(buttons[0].privateActive).to.be.true;
+  expect(buttons[0]?.privateActive).to.be.true;
   expect(buttons[1].privateActive).to.be.false;
-  expect(buttons[2].privateActive).to.be.false;
+  expect(buttons[2]?.privateActive).to.be.false;
 });
 
 it('retains its active option when an option is programmatically added', async () => {

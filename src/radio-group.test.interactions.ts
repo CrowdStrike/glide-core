@@ -24,8 +24,8 @@ it('checks a radio when `value` is set programmatically', async () => {
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
 
-  expect(radios[0].checked).to.be.true;
-  expect(radios[1].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.true;
+  expect(radios[1]?.checked).to.be.false;
 });
 
 it('unchecks the checked radio when a new one is checked programmatically', async () => {
@@ -46,12 +46,13 @@ it('unchecks the checked radio when a new one is checked programmatically', asyn
 
   const radios = document.querySelectorAll('glide-core-radio-group-radio');
 
+  assert(radios[0]);
   radios[0].checked = true;
 
   await host.updateComplete;
 
-  expect(radios[1].checked).to.be.false;
-  expect(radios[2].checked).to.be.false;
+  expect(radios[1]?.checked).to.be.false;
+  expect(radios[2]?.checked).to.be.false;
 });
 
 it('checks a radio on click', async () => {
@@ -66,8 +67,8 @@ it('checks a radio on click', async () => {
 
   await click(radios[1]);
 
-  expect(radios[0].checked).to.be.false;
-  expect(radios[1].checked).to.be.true;
+  expect(radios[0]?.checked).to.be.false;
+  expect(radios[1]?.checked).to.be.true;
 });
 
 it('checks radios when arrowing', async () => {
@@ -96,27 +97,27 @@ it('checks radios when arrowing', async () => {
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
-  expect(radios[0].checked).to.be.false;
-  expect(radios[1].checked).to.be.true;
-  expect(radios[2].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.false;
+  expect(radios[1]?.checked).to.be.true;
+  expect(radios[2]?.checked).to.be.false;
 
   await sendKeys({ press: 'ArrowDown' });
 
-  expect(radios[0].checked).to.be.false;
-  expect(radios[1].checked).to.be.false;
-  expect(radios[2].checked).to.be.true;
+  expect(radios[0]?.checked).to.be.false;
+  expect(radios[1]?.checked).to.be.false;
+  expect(radios[2]?.checked).to.be.true;
 
   await sendKeys({ press: 'ArrowUp' });
 
-  expect(radios[0].checked).to.be.false;
-  expect(radios[1].checked).to.be.true;
-  expect(radios[2].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.false;
+  expect(radios[1]?.checked).to.be.true;
+  expect(radios[2]?.checked).to.be.false;
 
   await sendKeys({ press: 'ArrowLeft' });
 
-  expect(radios[0].checked).to.be.true;
-  expect(radios[1].checked).to.be.false;
-  expect(radios[2].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.true;
+  expect(radios[1]?.checked).to.be.false;
+  expect(radios[2]?.checked).to.be.false;
 });
 
 it('does not check radios when arrowing when the group is disabled', async () => {
@@ -140,34 +141,34 @@ it('does not check radios when arrowing when the group is disabled', async () =>
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
-  expect(radios[0].checked).to.be.true;
-  expect(radios[1].checked).to.be.false;
-  expect(radios[2].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.true;
+  expect(radios[1]?.checked).to.be.false;
+  expect(radios[2]?.checked).to.be.false;
 
   await sendKeys({ press: 'ArrowDown' });
 
-  expect(radios[0].checked).to.be.true;
-  expect(radios[1].checked).to.be.false;
-  expect(radios[2].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.true;
+  expect(radios[1]?.checked).to.be.false;
+  expect(radios[2]?.checked).to.be.false;
 
   await sendKeys({ press: 'ArrowUp' });
 
-  expect(radios[0].checked).to.be.true;
-  expect(radios[1].checked).to.be.false;
-  expect(radios[2].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.true;
+  expect(radios[1]?.checked).to.be.false;
+  expect(radios[2]?.checked).to.be.false;
 
   await sendKeys({ press: 'ArrowLeft' });
 
-  expect(radios[0].checked).to.be.true;
-  expect(radios[1].checked).to.be.false;
-  expect(radios[2].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.true;
+  expect(radios[1]?.checked).to.be.false;
+  expect(radios[2]?.checked).to.be.false;
 
-  radios[1].focus();
+  radios[1]?.focus();
   await sendKeys({ press: ' ' });
 
-  expect(radios[0].checked).to.be.true;
-  expect(radios[1].checked).to.be.false;
-  expect(radios[2].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.true;
+  expect(radios[1]?.checked).to.be.false;
+  expect(radios[2]?.checked).to.be.false;
 });
 
 it('checks a radio on Space', async () => {
@@ -183,8 +184,8 @@ it('checks a radio on Space', async () => {
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: ' ' });
 
-  expect(radios[0].checked).to.be.true;
-  expect(radios[1].checked).to.be.false;
+  expect(radios[0]?.checked).to.be.true;
+  expect(radios[1]?.checked).to.be.false;
 });
 
 it('updates `value` when a radio is checked programmatically', async () => {
@@ -204,6 +205,9 @@ it('updates `value` when a radio is checked programmatically', async () => {
   );
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
+
+  assert(radios[0]);
+  assert(radios[1]);
 
   radios[0].checked = false;
   radios[1].checked = true;
@@ -232,9 +236,7 @@ it('updates `value` when the `value` of a checked radio is set programmatically'
   const radio = host.querySelector('glide-core-radio-group-radio');
 
   assert(radio);
-
   radio.value = 'three';
-
   await host.updateComplete;
 
   expect(host.value).to.equal('three');
@@ -257,8 +259,8 @@ it('updates `value` when the `value` of a checked radio is emptied programmatica
   `);
 
   const radio = host.querySelector('glide-core-radio-group-radio');
-  assert(radio);
 
+  assert(radio);
   radio.value = '';
   await host.updateComplete;
 
@@ -285,7 +287,6 @@ it('enables a disabled radio when `value` is set programmatically', async () => 
   host.value = 'one';
 
   const radio = host.querySelector('glide-core-radio-group-radio');
-
   expect(radio?.disabled).to.be.false;
 });
 
@@ -307,12 +308,12 @@ it('updates the tabbable state of each radio when a radio is checked programmati
 
   const radios = document.querySelectorAll('glide-core-radio-group-radio');
 
+  assert(radios[0]);
   radios[0].checked = true;
-
   await host.updateComplete;
 
   expect(radios[0].tabIndex).to.equal(0);
-  expect(radios[1].tabIndex).to.equal(-1);
+  expect(radios[1]?.tabIndex).to.equal(-1);
 });
 
 it('disables radios when disabled programmatically', async () => {
@@ -369,8 +370,8 @@ it('does not check a radio on click when it is disabled', async () => {
   await click(radios[1]);
 
   expect(radios[0]).to.not.have.focus;
-  expect(radios[0].hasAttribute('checked')).to.be.true;
-  expect(radios[1].hasAttribute('checked')).to.be.false;
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
+  expect(radios[1]?.hasAttribute('checked')).to.be.false;
 });
 
 it('does not check a disabled radio when clicked', async () => {
@@ -391,8 +392,8 @@ it('does not check a disabled radio when clicked', async () => {
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
   await click(radios[1]);
 
-  expect(radios[0].hasAttribute('checked')).to.be.true;
-  expect(radios[1].hasAttribute('checked')).to.be.false;
+  expect(radios[0]?.hasAttribute('checked')).to.be.true;
+  expect(radios[1]?.hasAttribute('checked')).to.be.false;
 });
 
 it('makes the selected radio tabbable when `value` is set programmatically', async () => {
@@ -415,8 +416,8 @@ it('makes the selected radio tabbable when `value` is set programmatically', asy
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
 
-  expect(radios[0].tabIndex).to.equal(-1);
-  expect(radios[1].tabIndex).to.equal(0);
+  expect(radios[0]?.tabIndex).to.equal(-1);
+  expect(radios[1]?.tabIndex).to.equal(0);
 });
 
 it('makes the next enabled radio tabbable when the current one is disabled programmatically', async () => {
@@ -437,9 +438,11 @@ it('makes the next enabled radio tabbable when the current one is disabled progr
   `);
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
+
+  assert(radios[0]);
   radios[0].disabled = true;
 
-  expect(radios[1].tabIndex).to.equal(0);
+  expect(radios[1]?.tabIndex).to.equal(0);
 });
 
 it('makes the first enabled radio tabbable when the current one is disabled programmatically', async () => {
@@ -467,9 +470,11 @@ it('makes the first enabled radio tabbable when the current one is disabled prog
   `);
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
+
+  assert(radios[3]);
   radios[3].disabled = true;
 
-  expect(radios[1].tabIndex).to.equal(0);
+  expect(radios[1]?.tabIndex).to.equal(0);
 });
 
 it('makes a radio tabbable when it is enabled programmatically and no other radio is tabbable', async () => {
@@ -493,6 +498,8 @@ it('makes a radio tabbable when it is enabled programmatically and no other radi
   `);
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
+
+  assert(radios[1]);
   radios[1].disabled = false;
 
   expect(radios[1].tabIndex).to.equal(0);

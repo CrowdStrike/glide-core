@@ -834,7 +834,7 @@ export default class GlideCoreDropdown
                     data-test="edit-button"
                     label=${this.#localize.term(
                       'editOption',
-                      this.selectedOptions[0].label!,
+                      this.selectedOptions[0]!.label!,
                     )}
                     tabindex=${this.disabled || this.readonly ? '-1' : '0'}
                     variant="tertiary"
@@ -1756,7 +1756,7 @@ export default class GlideCoreDropdown
       event.target instanceof Node &&
       this.#editButtonElementRef.value?.contains(event.target)
     ) {
-      this.selectedOptions[0].privateEdit();
+      this.selectedOptions[0]?.privateEdit();
 
       return;
     }
@@ -2108,7 +2108,7 @@ export default class GlideCoreDropdown
       } else if (
         (this.filterable || this.isFilterable) &&
         this.#inputElementRef.value &&
-        this.selectedOptions[0].label
+        this.selectedOptions[0]?.label
       ) {
         this.#inputElementRef.value.value = this.selectedOptions[0].label;
         this.inputValue = this.selectedOptions[0].label;

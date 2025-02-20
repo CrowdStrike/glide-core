@@ -924,8 +924,8 @@ it('updates `privateSize` on every option when `size` is set programmatically', 
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].privateSize).to.equal('small');
-  expect(options[1].privateSize).to.equal('small');
+  expect(options[0]?.privateSize).to.equal('small');
+  expect(options[1]?.privateSize).to.equal('small');
 });
 
 it('opens when something other than its primary button is clicked', async () => {

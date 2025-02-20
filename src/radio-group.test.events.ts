@@ -1,5 +1,12 @@
 import * as sinon from 'sinon';
-import { expect, fixture, html, oneEvent, waitUntil } from '@open-wc/testing';
+import {
+  assert,
+  expect,
+  fixture,
+  html,
+  oneEvent,
+  waitUntil,
+} from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import './radio-group.js';
 import './radio-group.radio.js';
@@ -27,6 +34,7 @@ it('dispatches a "change" event when arrowing', async () => {
   let event: Event;
 
   sendKeys({ press: 'ArrowLeft' });
+  assert(radios[0]);
   event = await oneEvent(radios[0], 'change');
 
   expect(event instanceof Event).to.be.true;
@@ -34,6 +42,7 @@ it('dispatches a "change" event when arrowing', async () => {
   expect(event.composed).to.be.true;
 
   sendKeys({ press: 'ArrowRight' });
+  assert(radios[1]);
   event = await oneEvent(radios[1], 'change');
 
   expect(event instanceof Event).to.be.true;
@@ -77,6 +86,7 @@ it('dispatches an "input" event when arrowing', async () => {
   let event: Event;
 
   sendKeys({ press: 'ArrowLeft' });
+  assert(radios[0]);
   event = await oneEvent(radios[0], 'input');
 
   expect(event instanceof Event).to.be.true;
@@ -84,6 +94,7 @@ it('dispatches an "input" event when arrowing', async () => {
   expect(event.composed).to.be.true;
 
   sendKeys({ press: 'ArrowRight' });
+  assert(radios[1]);
   event = await oneEvent(radios[1], 'input');
 
   expect(event instanceof Event).to.be.true;

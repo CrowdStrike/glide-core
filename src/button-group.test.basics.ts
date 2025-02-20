@@ -90,8 +90,8 @@ it('sets `privateVariant` on its buttons', async () => {
 
   const buttons = host.querySelectorAll('glide-core-button-group-button');
 
-  expect(buttons[0].privateVariant).to.equal('icon-only');
-  expect(buttons[1].privateVariant).to.equal('icon-only');
+  expect(buttons[0]?.privateVariant).to.equal('icon-only');
+  expect(buttons[1]?.privateVariant).to.equal('icon-only');
 });
 
 it('selects the first button not disabled', async () => {
@@ -114,9 +114,9 @@ it('selects the first button not disabled', async () => {
 
   const buttons = host.querySelectorAll('glide-core-button-group-button');
 
-  expect(buttons[0].selected).to.be.false;
-  expect(buttons[1].selected).to.be.true;
-  expect(buttons[2].selected).to.be.false;
+  expect(buttons[0]?.selected).to.be.false;
+  expect(buttons[1]?.selected).to.be.true;
+  expect(buttons[2]?.selected).to.be.false;
 });
 
 it('selects no buttons when all are disabled', async () => {
@@ -136,8 +136,8 @@ it('selects no buttons when all are disabled', async () => {
 
   const buttons = host.querySelectorAll('glide-core-button-group-button');
 
-  expect(buttons[0].selected).to.be.false;
-  expect(buttons[1].selected).to.be.false;
+  expect(buttons[0]?.selected).to.be.false;
+  expect(buttons[1]?.selected).to.be.false;
 });
 
 it('throws when `label` is empty', async () => {

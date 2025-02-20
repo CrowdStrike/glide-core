@@ -93,10 +93,10 @@ it('sets `level` on its items', async () => {
     'glide-core-tree-item glide-core-tree-item',
   );
 
-  expect(items?.[0].level).to.equal(2);
-  expect(childItems?.[0].level).to.equal(2);
-  expect(childItems?.[1].level).to.equal(2);
-  expect(childItems?.[2].level).to.equal(3);
+  expect(items?.[0]?.level).to.equal(2);
+  expect(childItems?.[0]?.level).to.equal(2);
+  expect(childItems?.[1]?.level).to.equal(2);
+  expect(childItems?.[2]?.level).to.equal(3);
 });
 
 it('throws when `label` is empty', async () => {

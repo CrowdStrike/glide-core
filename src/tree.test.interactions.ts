@@ -1,6 +1,6 @@
 import './tree.item.icon-button.js';
 import './tree.item.menu.js';
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import GlideCoreTree from './tree.js';
@@ -26,20 +26,22 @@ it('can select items', async () => {
     'glide-core-tree-item glide-core-tree-item',
   );
 
+  assert(items[0]);
   host.selectItem(items[0]);
   let selected = host.querySelector('glide-core-tree-item[selected]');
 
-  expect(items[0].selected).to.be.true;
+  expect(items[0]?.selected).to.be.true;
   expect(selected).to.equal(items[0]);
-  expect(items[1].selected).to.be.false;
-  expect(childItems[0].selected).to.be.false;
+  expect(items[1]?.selected).to.be.false;
+  expect(childItems[0]?.selected).to.be.false;
 
+  assert(childItems[0]);
   host.selectItem(childItems[0]);
   selected = host.querySelector('glide-core-tree-item[selected]');
 
-  expect(items[0].selected).to.be.false;
-  expect(items[1].selected).to.be.false;
-  expect(childItems[0].selected).to.be.true;
+  expect(items[0]?.selected).to.be.false;
+  expect(items[1]?.selected).to.be.false;
+  expect(childItems[0]?.selected).to.be.true;
   expect(selected).to.equal(childItems[0]);
 });
 
@@ -68,25 +70,25 @@ it('can click items to expand or select them', async () => {
 
   // Clicking an item that doesn't have items selects it
   await click(items[0]);
-  expect(items[0].selected).to.be.true;
-  expect(items[1].selected).to.be.false;
-  expect(childItems[0].selected).to.be.false;
-  expect(items[1].expanded).to.be.false;
+  expect(items[0]?.selected).to.be.true;
+  expect(items[1]?.selected).to.be.false;
+  expect(childItems[0]?.selected).to.be.false;
+  expect(items[1]?.expanded).to.be.false;
 
   // Clicking an item that has items expands it
   await click(items[1]);
-  expect(items[1].expanded).to.be.true;
+  expect(items[1]?.expanded).to.be.true;
 
   // Can click and select a nested item
   await click(childItems[0]);
-  expect(childItems[0].selected).to.be.true;
+  expect(childItems[0]?.selected).to.be.true;
 
   // Can click and select a non-collapsible parent item.
   //
   // "top" because the default, clicking the center of the element,
   // will click the item's item.
   await click(items[2], 'top');
-  expect(items[2].selected).to.be.true;
+  expect(items[2]?.selected).to.be.true;
 });
 
 it('does not select an item when an icon button is clicked', async () => {
@@ -110,9 +112,9 @@ it('does not select an item when an icon button is clicked', async () => {
     ':scope > glide-core-tree-item',
   );
 
-  await click(items[0].querySelector('[data-test-icon-button]'));
+  await click(items[0]?.querySelector('[data-test-icon-button]'));
 
-  expect(items[0].selected).to.be.false;
+  expect(items[0]?.selected).to.be.false;
 });
 
 it('does not select an item if its "menu" slot is clicked', async () => {
@@ -130,9 +132,9 @@ it('does not select an item if its "menu" slot is clicked', async () => {
     ':scope > glide-core-tree-item',
   );
 
-  await click(items[0].querySelector('[data-test-menu]'));
+  await click(items[0]?.querySelector('[data-test-menu]'));
 
-  expect(items[0].selected).to.be.false;
+  expect(items[0]?.selected).to.be.false;
 });
 
 it('does not scroll the page when arrowing', async () => {

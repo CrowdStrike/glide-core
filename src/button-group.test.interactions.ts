@@ -23,8 +23,8 @@ it('selects a button on click', async () => {
   await click(buttons[1]);
   await host.updateComplete;
 
-  expect(buttons[0].selected).to.be.false;
-  expect(buttons[1].selected).to.be.true;
+  expect(buttons[0]?.selected).to.be.false;
+  expect(buttons[1]?.selected).to.be.true;
 });
 
 it('selects a button on `click()`', async () => {
@@ -43,11 +43,11 @@ it('selects a button on `click()`', async () => {
 
   const buttons = host.querySelectorAll('glide-core-button-group-button');
 
-  buttons[1].click();
+  buttons[1]?.click();
   await host.updateComplete;
 
-  expect(buttons[0].selected).to.be.false;
-  expect(buttons[1].selected).to.be.true;
+  expect(buttons[0]?.selected).to.be.false;
+  expect(buttons[1]?.selected).to.be.true;
 });
 
 it('selects buttons when arrowing', async () => {
@@ -78,16 +78,16 @@ it('selects buttons when arrowing', async () => {
   await sendKeys({ press: 'Tab' });
 
   await sendKeys({ press: 'ArrowRight' });
-  expect(buttons[2].selected).to.be.true;
+  expect(buttons[2]?.selected).to.be.true;
 
   await sendKeys({ press: 'ArrowDown' });
-  expect(buttons[1].selected).to.be.true;
+  expect(buttons[1]?.selected).to.be.true;
 
   await sendKeys({ press: 'ArrowLeft' });
-  expect(buttons[2].selected).to.be.true;
+  expect(buttons[2]?.selected).to.be.true;
 
   await sendKeys({ press: 'ArrowUp' });
-  expect(buttons[1].selected).to.be.true;
+  expect(buttons[1]?.selected).to.be.true;
 });
 
 it('selects a button on Space', async () => {
@@ -109,8 +109,8 @@ it('selects a button on Space', async () => {
   buttons[1]?.focus();
   await sendKeys({ press: ' ' });
 
-  expect(buttons[0].selected).to.be.false;
-  expect(buttons[1].selected).to.be.true;
+  expect(buttons[0]?.selected).to.be.false;
+  expect(buttons[1]?.selected).to.be.true;
 });
 
 it('does not select a disabled button', async () => {
@@ -132,6 +132,6 @@ it('does not select a disabled button', async () => {
 
   await click(buttons[1]);
 
-  expect(buttons[0].selected).to.be.true;
-  expect(buttons[1].selected).to.be.false;
+  expect(buttons[0]?.selected).to.be.true;
+  expect(buttons[1]?.selected).to.be.false;
 });

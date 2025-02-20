@@ -32,8 +32,8 @@ it('selects the first tab when none is selected', async () => {
 
   const tabs = host.querySelectorAll('glide-core-tab');
 
-  expect(tabs[0].selected).to.be.true;
-  expect(tabs[1].selected).to.be.false;
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[1]?.selected).to.be.false;
 });
 
 it('throws when subclassed', async () => {

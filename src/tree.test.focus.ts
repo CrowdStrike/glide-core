@@ -75,7 +75,7 @@ it('expands an item on ArrowRight', async () => {
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowRight' });
 
-  expect(items[0].expanded).to.be.true;
+  expect(items[0]?.expanded).to.be.true;
   expect(document.activeElement).to.equal(items[0]);
 });
 
@@ -118,7 +118,7 @@ it('collapses an expanded item on ArrowLeft', async () => {
   await sendKeys({ press: 'Tab' });
   await sendKeys({ press: 'ArrowLeft' });
 
-  expect(items[0].expanded).to.be.false;
+  expect(items[0]?.expanded).to.be.false;
   expect(document.activeElement).to.equal(items[0]);
 });
 
@@ -141,7 +141,7 @@ it('focuses the parent of an uncollapsable item on ArrowLeft', async () => {
     'glide-core-tree-item glide-core-tree-item',
   );
 
-  childItems[0].focus();
+  childItems[0]?.focus();
   await sendKeys({ press: 'ArrowLeft' });
 
   expect(document.activeElement).to.equal(items[0]);
@@ -166,7 +166,7 @@ it('focuses the parent of a collapsed item on ArrowLeft', async () => {
     'glide-core-tree-item glide-core-tree-item',
   );
 
-  childItems[0].focus();
+  childItems[0]?.focus();
   await sendKeys({ press: 'ArrowLeft' });
   expect(document.activeElement === items[0]).to.be.true;
 });
@@ -194,7 +194,7 @@ it('moves down the unexpanded items on ArrowDown', async () => {
   await sendKeys({ press: 'ArrowDown' });
 
   expect(document.activeElement).to.equal(
-    items[0].querySelector('glide-core-tree-item'),
+    items[0]?.querySelector('glide-core-tree-item'),
   );
 
   await sendKeys({ press: 'ArrowDown' });
@@ -225,7 +225,7 @@ it('moves up the unexpanded items on ArrowUp', async () => {
   );
 
   // Start at the last item
-  items[1].querySelector('glide-core-tree-item')?.focus();
+  items[1]?.querySelector('glide-core-tree-item')?.focus();
 
   await sendKeys({ press: 'ArrowUp' });
   expect(document.activeElement).to.equal(items[1]);
@@ -254,7 +254,7 @@ it('moves to the first item when Home is pressed', async () => {
     ':scope > glide-core-tree-item',
   );
 
-  items[1].querySelector('glide-core-tree-item')?.focus();
+  items[1]?.querySelector('glide-core-tree-item')?.focus();
 
   await sendKeys({ press: 'Home' });
   expect(document.activeElement).to.equal(items[0]);
@@ -277,11 +277,11 @@ it('moves to the last item on End', async () => {
     ':scope > glide-core-tree-item',
   );
 
-  items[0].focus();
+  items[0]?.focus();
   await sendKeys({ press: 'End' });
 
   expect(document.activeElement).to.equal(
-    items[1].querySelector('glide-core-tree-item'),
+    items[1]?.querySelector('glide-core-tree-item'),
   );
 });
 
@@ -304,20 +304,20 @@ it('selects or expands and collapses items when Enter is pressed', async () => {
     'glide-core-tree-item glide-core-tree-item',
   );
 
-  items[0].focus();
+  items[0]?.focus();
   await sendKeys({ press: 'Enter' });
-  expect(items[0].selected).to.be.true;
-  expect(items[1].selected).to.be.false;
-  expect(childItems[0].selected).to.be.false;
-  expect(items[1].expanded).to.be.false;
+  expect(items[0]?.selected).to.be.true;
+  expect(items[1]?.selected).to.be.false;
+  expect(childItems[0]?.selected).to.be.false;
+  expect(items[1]?.expanded).to.be.false;
 
-  items[1].focus();
+  items[1]?.focus();
   await sendKeys({ press: 'Enter' });
-  expect(items[1].expanded).to.be.true;
+  expect(items[1]?.expanded).to.be.true;
 
-  childItems[0].focus();
+  childItems[0]?.focus();
   await sendKeys({ press: 'Enter' });
-  expect(childItems[0].selected).to.be.true;
+  expect(childItems[0]?.selected).to.be.true;
 });
 
 it('selects a `non-collapsible` parent item on Enter', async () => {
@@ -337,11 +337,11 @@ it('selects a `non-collapsible` parent item on Enter', async () => {
     'glide-core-tree-item glide-core-tree-item',
   );
 
-  childItems[0].focus();
-  items[0].focus();
+  childItems[0]?.focus();
+  items[0]?.focus();
   await sendKeys({ press: 'Enter' });
-  expect(childItems[0].selected).to.be.false;
-  expect(items[0].selected).to.be.true;
+  expect(childItems[0]?.selected).to.be.false;
+  expect(items[0]?.selected).to.be.true;
 });
 
 it('does nothing if an unsupported key is pressed', async () => {
@@ -424,11 +424,11 @@ it('does not focus on an icon button unless its parent item is focused', async (
     'glide-core-tree-item',
   );
 
-  items[0].focus();
+  items[0]?.focus();
   await sendKeys({ press: 'Tab' });
   expect(document.activeElement).to.equal(document.body);
 
-  items[1].focus();
+  items[1]?.focus();
   await sendKeys({ press: 'Tab' });
 
   expect(document.activeElement instanceof GlideCoreTreeItemIconButton).to.be
@@ -458,11 +458,11 @@ it('does not focus on an item menu unless its parent item is focused', async () 
 
   const items = host.querySelectorAll('glide-core-tree-item');
 
-  items[0].focus();
+  items[0]?.focus();
   await sendKeys({ press: 'Tab' });
   expect(document.activeElement).to.equal(document.body);
 
-  items[1].focus();
+  items[1]?.focus();
   await sendKeys({ press: 'Tab' });
   expect(document.activeElement instanceof GlideCoreTreeItemMenu).to.be.true;
 });
@@ -486,10 +486,10 @@ it('does not select an item if Enter is pressed while its icon button is focused
 
   const iconButton = host.querySelector('glide-core-tree-item-icon-button');
 
-  items[0].focus();
+  items[0]?.focus();
   await sendKeys({ press: 'Tab' });
   expect(document.activeElement).to.equal(iconButton);
 
   await sendKeys({ press: 'Enter' });
-  expect(items[0].selected).to.be.false;
+  expect(items[0]?.selected).to.be.false;
 });

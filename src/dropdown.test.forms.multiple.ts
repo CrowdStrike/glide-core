@@ -82,8 +82,8 @@ it('can be reset to its initially selected options', async () => {
     host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
   expect(tags?.length).to.equal(2);
-  expect(tags?.[0].label).to.equal('Two');
-  expect(tags?.[1].label).to.equal('Three');
+  expect(tags?.[0]?.label).to.equal('Two');
+  expect(tags?.[1]?.label).to.equal('Three');
   expect(host.value).to.deep.equal(['two', 'three']);
 });
 

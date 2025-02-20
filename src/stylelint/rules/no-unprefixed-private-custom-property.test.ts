@@ -9,9 +9,7 @@ const config = {
 };
 
 it('warns if a custom property not on the host is unprefixed', async () => {
-  const {
-    results: [{ warnings }],
-  } = await stylelint.lint({
+  const { results } = await stylelint.lint({
     code: `
       .component {
         --color: black;
@@ -21,13 +19,11 @@ it('warns if a custom property not on the host is unprefixed', async () => {
     config,
   });
 
-  expect(warnings).toHaveLength(1);
+  expect(results.at(0)?.warnings).toHaveLength(1);
 });
 
 it('does not warn if a custom property not on the host is prefixed', async () => {
-  const {
-    results: [{ warnings }],
-  } = await stylelint.lint({
+  const { results } = await stylelint.lint({
     code: `
       .component {
         --private-color: black;
@@ -37,13 +33,11 @@ it('does not warn if a custom property not on the host is prefixed', async () =>
     config,
   });
 
-  expect(warnings).toHaveLength(0);
+  expect(results.at(0)?.warnings).toHaveLength(0);
 });
 
 it('warns if a custom property on the host is prefixed', async () => {
-  const {
-    results: [{ warnings }],
-  } = await stylelint.lint({
+  const { results } = await stylelint.lint({
     code: `
       :host {
         --private-color: black;
@@ -53,13 +47,11 @@ it('warns if a custom property on the host is prefixed', async () => {
     config,
   });
 
-  expect(warnings).toHaveLength(1);
+  expect(results.at(0)?.warnings).toHaveLength(1);
 });
 
 it('does not warn if a custom property on the host is unprefixed', async () => {
-  const {
-    results: [{ warnings }],
-  } = await stylelint.lint({
+  const { results } = await stylelint.lint({
     code: `
       :host {
         --color: black;
@@ -69,5 +61,5 @@ it('does not warn if a custom property on the host is unprefixed', async () => {
     config,
   });
 
-  expect(warnings).toHaveLength(0);
+  expect(results.at(0)?.warnings).toHaveLength(0);
 });

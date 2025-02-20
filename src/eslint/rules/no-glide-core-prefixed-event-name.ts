@@ -35,7 +35,7 @@ export const noPrefixedEventName = createRule({
         if (
           isEvent &&
           node.arguments.length > 0 &&
-          node.arguments[0].type === AST_NODE_TYPES.Literal &&
+          node.arguments[0]?.type === AST_NODE_TYPES.Literal &&
           typeof node.arguments[0].value === 'string' &&
           node.arguments[0].value.startsWith('glide-core-')
         ) {
@@ -46,7 +46,7 @@ export const noPrefixedEventName = createRule({
             messageId: 'noPrefix',
             fix(fixer) {
               return fixer.replaceText(
-                node.arguments[0],
+                node.arguments[0]!,
                 `'${eventName.replace('glide-core-', '')}'`,
               );
             },

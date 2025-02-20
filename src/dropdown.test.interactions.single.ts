@@ -389,9 +389,9 @@ it('deselects all other options when one is newly selected', async () => {
 
   await click(options[1]);
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.true;
-  expect(options[2].selected).to.be.false;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
+  expect(options[2]?.selected).to.be.false;
   expect(host.value).to.deep.equal(['two']);
 });
 
@@ -459,8 +459,8 @@ it('selects and deselects options when `value` is set programmatically', async (
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.true;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
 });
 
 it('throws when `value` is set programmatically to include more than one value', async () => {
@@ -547,12 +547,12 @@ it('updates `value` when `multiple` is changed to `false` programmatically', asy
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  const checkbox = options[1].shadowRoot?.querySelector<HTMLInputElement>(
+  const checkbox = options[1]?.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="checkbox"]',
   );
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.true;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
   expect(checkbox?.checked).to.be.true;
   expect(host.value).to.deep.equal(['two']);
 });

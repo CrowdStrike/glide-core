@@ -268,7 +268,7 @@ export default class GlideCoreTabGroup extends LitElement {
           index = 0;
         }
 
-        this.#tabElements[index].focus({
+        this.#tabElements[index]?.focus({
           preventScroll: false,
         });
 
@@ -392,7 +392,7 @@ export default class GlideCoreTabGroup extends LitElement {
       const selectedTabIndicatorTranslateLeft =
         this.selectedTab === this.#tabElements.at(0)
           ? selectedTabInlinePadding
-          : this.selectedTab.offsetLeft - this.#tabElements[0].offsetLeft;
+          : this.selectedTab.offsetLeft - this.#tabElements.at(0)!.offsetLeft;
 
       this.#componentElementRef.value.style.setProperty(
         '--private-selected-tab-indicator-translate',
