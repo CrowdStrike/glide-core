@@ -1,7 +1,7 @@
 import './menu.link.js';
 import './tree.item.menu.js';
 import './menu.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreTreeItem from './tree.item.js';
 
 it('can select items', async () => {
@@ -23,14 +23,18 @@ it('can select items', async () => {
     'glide-core-tree-item glide-core-tree-item',
   );
 
+  assert(items[0]);
   host.selectItem(items[0]);
-  expect(items[0].selected).to.be.true;
-  expect(items[1].selected).to.be.false;
-  expect(childItems[1].selected).to.be.false;
 
+  expect(items[0].selected).to.be.true;
+  expect(items[1]?.selected).to.be.false;
+  expect(childItems[1]?.selected).to.be.false;
+
+  assert(childItems[2]);
   host.selectItem(childItems[2]);
+
   expect(items[0].selected).to.be.false;
-  expect(items[1].selected).to.be.false;
+  expect(items[1]?.selected).to.be.false;
   expect(childItems[2].selected).to.be.true;
 });
 

@@ -103,7 +103,7 @@ it('focuses the second tag when the first one is removed', async () => {
   const tags =
     host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
-  tags?.[0].click();
+  tags?.[0]?.click();
   await host.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
@@ -135,7 +135,7 @@ it('focuses the third tag when the second one is removed', async () => {
   const tags =
     host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
-  tags?.[1].click();
+  tags?.[1]?.click();
   await host.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.
@@ -167,7 +167,7 @@ it('focuses the second tag when the third tag removed', async () => {
   const tags =
     host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
 
-  tags?.[2].click();
+  tags?.[2]?.click();
   await host.updateComplete;
 
   // Wait for the timeout in `#onTagRemove`.

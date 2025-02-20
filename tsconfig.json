@@ -14,6 +14,7 @@
     "useDefineForClassFields": false, // https://lit.dev/docs/components/decorators#decorators-typescript
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
+    "noUncheckedIndexedAccess": true,
     "plugins": [
       {
         "name": "ts-lit-plugin",

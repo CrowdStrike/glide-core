@@ -21,33 +21,33 @@ it('changes tabs on click', async () => {
   const tabs = host.querySelectorAll('glide-core-tab');
   const panels = host.querySelectorAll('glide-core-tab-panel');
 
-  expect(tabs[0].selected).to.be.true;
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[2].selected).to.be.false;
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[2]?.selected).to.be.false;
 
-  expect(panels[0].ariaHidden).to.equal('false');
-  expect(panels[1].ariaHidden).to.equal('true');
-  expect(panels[2].ariaHidden).to.equal('true');
+  expect(panels[0]?.ariaHidden).to.equal('false');
+  expect(panels[1]?.ariaHidden).to.equal('true');
+  expect(panels[2]?.ariaHidden).to.equal('true');
 
   await click(tabs[1]);
 
-  expect(tabs[0].selected).to.be.false;
-  expect(tabs[1].selected).to.be.true;
-  expect(tabs[2].selected).to.be.false;
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[1]?.selected).to.be.true;
+  expect(tabs[2]?.selected).to.be.false;
 
-  expect(panels[0].ariaHidden).to.equal('true');
-  expect(panels[1].ariaHidden).to.equal('false');
-  expect(panels[2].ariaHidden).to.equal('true');
+  expect(panels[0]?.ariaHidden).to.equal('true');
+  expect(panels[1]?.ariaHidden).to.equal('false');
+  expect(panels[2]?.ariaHidden).to.equal('true');
 
   await click(tabs[2]);
 
-  expect(tabs[0].selected).to.be.false;
-  expect(tabs[1].selected).to.be.true;
-  expect(tabs[2].selected).to.be.false;
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[1]?.selected).to.be.true;
+  expect(tabs[2]?.selected).to.be.false;
 
-  expect(panels[0].ariaHidden).to.equal('true');
-  expect(panels[1].ariaHidden).to.equal('false');
-  expect(panels[2].ariaHidden).to.equal('true');
+  expect(panels[0]?.ariaHidden).to.equal('true');
+  expect(panels[1]?.ariaHidden).to.equal('false');
+  expect(panels[2]?.ariaHidden).to.equal('true');
 });
 
 it('changes tabs on keyboard interaction', async () => {
@@ -65,67 +65,67 @@ it('changes tabs on keyboard interaction', async () => {
 
   const tabs = host.querySelectorAll('glide-core-tab');
 
-  tabs[0].focus();
+  tabs[0]?.focus();
 
   await sendKeys({ press: 'ArrowRight' });
   await sendKeys({ press: 'Enter' });
 
-  expect(tabs[0].selected).to.be.true;
-  expect(tabs[0].tabIndex).to.equal(-1);
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[1].tabIndex).to.equal(0);
-  expect(tabs[2].selected).to.be.false;
-  expect(tabs[2].tabIndex).to.equal(-1);
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[0]?.tabIndex).to.equal(-1);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(0);
+  expect(tabs[2]?.selected).to.be.false;
+  expect(tabs[2]?.tabIndex).to.equal(-1);
 
   await sendKeys({ press: 'ArrowRight' });
   await sendKeys({ press: 'Enter' });
 
-  expect(tabs[0].selected).to.be.false;
-  expect(tabs[0].tabIndex).to.equal(-1);
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[1].tabIndex).to.equal(-1);
-  expect(tabs[2].selected).to.be.true;
-  expect(tabs[2].tabIndex).to.equal(0);
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[0]?.tabIndex).to.equal(-1);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(-1);
+  expect(tabs[2]?.selected).to.be.true;
+  expect(tabs[2]?.tabIndex).to.equal(0);
 
   await sendKeys({ press: 'ArrowRight' });
   await sendKeys({ press: 'Enter' });
 
-  expect(tabs[0].selected).to.be.true;
-  expect(tabs[0].tabIndex).to.equal(0);
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[1].tabIndex).to.equal(-1);
-  expect(tabs[2].selected).to.be.false;
-  expect(tabs[2].tabIndex).to.equal(-1);
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[0]?.tabIndex).to.equal(0);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(-1);
+  expect(tabs[2]?.selected).to.be.false;
+  expect(tabs[2]?.tabIndex).to.equal(-1);
 
   await sendKeys({ press: 'ArrowLeft' });
   await sendKeys({ press: 'Enter' });
 
-  expect(tabs[0].selected).to.be.false;
-  expect(tabs[0].tabIndex).to.equal(-1);
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[1].tabIndex).to.equal(-1);
-  expect(tabs[2].selected).to.be.true;
-  expect(tabs[2].tabIndex).to.equal(0);
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[0]?.tabIndex).to.equal(-1);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(-1);
+  expect(tabs[2]?.selected).to.be.true;
+  expect(tabs[2]?.tabIndex).to.equal(0);
 
   await sendKeys({ press: 'Home' });
   await sendKeys({ press: 'Enter' });
 
-  expect(tabs[0].selected).to.be.true;
-  expect(tabs[0].tabIndex).to.equal(0);
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[1].tabIndex).to.equal(-1);
-  expect(tabs[2].selected).to.be.false;
-  expect(tabs[2].tabIndex).to.equal(-1);
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[0]?.tabIndex).to.equal(0);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(-1);
+  expect(tabs[2]?.selected).to.be.false;
+  expect(tabs[2]?.tabIndex).to.equal(-1);
 
   await sendKeys({ press: 'End' });
   await sendKeys({ press: 'Enter' });
 
-  expect(tabs[0].selected).to.be.false;
-  expect(tabs[0].tabIndex).to.equal(-1);
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[1].tabIndex).to.equal(-1);
-  expect(tabs[2].selected).to.be.true;
-  expect(tabs[2].tabIndex).to.equal(0);
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[0]?.tabIndex).to.equal(-1);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(-1);
+  expect(tabs[2]?.selected).to.be.true;
+  expect(tabs[2]?.tabIndex).to.equal(0);
 });
 
 it('has overflow buttons when overflowing', async () => {
@@ -335,23 +335,23 @@ it('sets the selected tab as tabbable on tab blur', async () => {
 
   const tabs = host.querySelectorAll('glide-core-tab');
 
-  expect(tabs[0].selected).to.be.true;
-  expect(tabs[0].tabIndex).to.equal(0);
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[1].tabIndex).to.equal(-1);
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[0]?.tabIndex).to.equal(0);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(-1);
 
-  tabs[0].focus();
+  tabs[0]?.focus();
   await sendKeys({ press: 'ArrowRight' });
 
-  expect(tabs[0].selected).to.be.true;
-  expect(tabs[0].tabIndex).to.equal(-1);
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[1].tabIndex).to.equal(0);
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[0]?.tabIndex).to.equal(-1);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(0);
 
   await click(document.body);
 
-  expect(tabs[0].selected).to.be.true;
-  expect(tabs[0].tabIndex).to.equal(0);
-  expect(tabs[1].selected).to.be.false;
-  expect(tabs[1].tabIndex).to.equal(-1);
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[0]?.tabIndex).to.equal(0);
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[1]?.tabIndex).to.equal(-1);
 });

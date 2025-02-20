@@ -26,13 +26,13 @@ it('has toasts', async () => {
   const toasts = host.shadowRoot?.querySelectorAll('glide-core-toast');
   expect(toasts?.length).to.equal(2);
 
-  expect(toasts?.[0].label).to.equal('One');
-  expect(toasts?.[0].description).to.equal('One');
-  expect(toasts?.[0].variant).to.equal('informational');
+  expect(toasts?.[0]?.label).to.equal('One');
+  expect(toasts?.[0]?.description).to.equal('One');
+  expect(toasts?.[0]?.variant).to.equal('informational');
 
-  expect(toasts?.[1].label).to.equal('Two');
-  expect(toasts?.[1].description).to.equal('Two');
-  expect(toasts?.[1].variant).to.equal('success');
+  expect(toasts?.[1]?.label).to.equal('Two');
+  expect(toasts?.[1]?.description).to.equal('Two');
+  expect(toasts?.[1]?.variant).to.equal('success');
 });
 
 it('removes a closed toast', async () => {
@@ -51,8 +51,8 @@ it('removes a closed toast', async () => {
 
   expect(toasts?.length).to.equal(1);
 
-  toasts[0].close();
-  toasts[0].dispatchEvent(new Event('close', { bubbles: true }));
+  toasts[0]?.close();
+  toasts[0]?.dispatchEvent(new Event('close', { bubbles: true }));
 
   toasts = host.shadowRoot?.querySelectorAll('glide-core-toast');
   expect(toasts?.length).to.equal(0);

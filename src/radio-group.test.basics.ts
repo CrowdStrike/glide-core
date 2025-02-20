@@ -50,8 +50,8 @@ it('can be required', async () => {
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
 
-  expect(radios[0].ariaRequired).to.equal('true');
-  expect(radios[1].ariaRequired).to.equal('true');
+  expect(radios[0]?.ariaRequired).to.equal('true');
+  expect(radios[1]?.ariaRequired).to.equal('true');
 });
 
 it('can be disabled', async () => {
@@ -64,10 +64,10 @@ it('can be disabled', async () => {
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
 
-  expect(radios[0].disabled).to.be.true;
-  expect(radios[0].ariaDisabled).to.equal('true');
-  expect(radios[1].disabled).to.be.true;
-  expect(radios[1].ariaDisabled).to.equal('true');
+  expect(radios[0]?.disabled).to.be.true;
+  expect(radios[0]?.ariaDisabled).to.equal('true');
+  expect(radios[1]?.disabled).to.be.true;
+  expect(radios[1]?.ariaDisabled).to.equal('true');
 });
 
 it('sets `value` when a radio is checked', async () => {
@@ -103,8 +103,8 @@ it('makes the first enabled radio tabbable', async () => {
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
 
-  expect(radios[0].tabIndex).to.equal(-1);
-  expect(radios[1].tabIndex).to.equal(0);
+  expect(radios[0]?.tabIndex).to.equal(-1);
+  expect(radios[1]?.tabIndex).to.equal(0);
 });
 
 it('makes radios untabbable when disabled', async () => {
@@ -122,9 +122,9 @@ it('makes radios untabbable when disabled', async () => {
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
 
-  expect(radios[0].tabIndex).to.equal(-1);
-  expect(radios[1].tabIndex).to.equal(-1);
-  expect(radios[2].tabIndex).to.equal(-1);
+  expect(radios[0]?.tabIndex).to.equal(-1);
+  expect(radios[1]?.tabIndex).to.equal(-1);
+  expect(radios[2]?.tabIndex).to.equal(-1);
 });
 
 it('throws when subclassed', async () => {

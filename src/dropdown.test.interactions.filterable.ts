@@ -705,11 +705,11 @@ it('deselects the last selected option on Backspace', async () => {
     ?.setSelectionRange(0, 0);
 
   await sendKeys({ press: 'Backspace' });
-  expect(options[1].selected).to.be.false;
-  expect(options[0].selected).to.be.true;
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.false;
 
   await sendKeys({ press: 'Backspace' });
-  expect(options[0].selected).to.be.false;
+  expect(options[0]?.selected).to.be.false;
 });
 
 it('deselects all options on Meta + Backspace', async () => {
@@ -734,8 +734,8 @@ it('deselects all options on Meta + Backspace', async () => {
   await sendKeys({ press: 'Backspace' });
   await sendKeys({ up: 'Meta' });
 
-  expect(options[1].selected).to.be.false;
-  expect(options[0].selected).to.be.false;
+  expect(options[1]?.selected).to.be.false;
+  expect(options[0]?.selected).to.be.false;
 });
 
 it('sets its input field to the `label` of its selected option when not `multiple`', async () => {
@@ -895,7 +895,7 @@ it('sets `aria-activedescendant` on option hover', async () => {
 
   await hover(options[1]);
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1].id);
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1]?.id);
 });
 
 it('sets `aria-activedescendant` on ArrowDown', async () => {
@@ -918,7 +918,7 @@ it('sets `aria-activedescendant` on ArrowDown', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1].id);
+  expect(input?.getAttribute('aria-activedescendant')).to.equal(options[1]?.id);
 });
 
 it('sets `aria-activedescendant` on ArrowUp', async () => {
@@ -1348,7 +1348,7 @@ it('supports custom filtering', async () => {
   ].filter(({ hidden }) => !hidden);
 
   expect(options.length).to.equal(1);
-  expect(options[0].label).to.equal('One');
+  expect(options[0]?.label).to.equal('One');
 });
 
 it('does nothing when filtering fails', async () => {

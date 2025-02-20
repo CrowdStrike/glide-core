@@ -1,6 +1,6 @@
 import './tree.item.icon-button.js';
 import './tree.item.menu.js';
-import { expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import GlideCoreTree from './tree.js';
@@ -48,21 +48,24 @@ it('sets `aria-expanded`', async () => {
     ':scope > glide-core-tree-item',
   );
 
-  expect(items[0].ariaExpanded).to.equal(null);
+  expect(items[0]?.ariaExpanded).to.equal(null);
 
   expect(
-    items[1].shadowRoot?.querySelector('[data-test="component"]')?.ariaExpanded,
+    items[1]?.shadowRoot?.querySelector('[data-test="component"]')
+      ?.ariaExpanded,
   ).to.equal('false');
 
-  items[1].privateToggleExpand();
-  await items[1].updateComplete;
+  items[1]?.privateToggleExpand();
+  await items[1]?.updateComplete;
 
   expect(
-    items[1].shadowRoot?.querySelector('[data-test="component"]')?.ariaExpanded,
+    items[1]?.shadowRoot?.querySelector('[data-test="component"]')
+      ?.ariaExpanded,
   ).to.equal('true');
 
   expect(
-    items[2].shadowRoot?.querySelector('[data-test="component"]')?.ariaExpanded,
+    items[2]?.shadowRoot?.querySelector('[data-test="component"]')
+      ?.ariaExpanded,
   ).to.equal('true');
 });
 
@@ -82,16 +85,19 @@ it('sets `aria-selected`', async () => {
     ':scope > glide-core-tree-item',
   );
 
-  expect(items[0].ariaSelected).to.equal(null);
+  expect(items[0]?.ariaSelected).to.equal(null);
 
   expect(
-    items[1].shadowRoot?.querySelector('[data-test="component"]')?.ariaSelected,
+    items[1]?.shadowRoot?.querySelector('[data-test="component"]')
+      ?.ariaSelected,
   ).to.equal('false');
 
   expect(
-    items[2].shadowRoot?.querySelector('[data-test="component"]')?.ariaSelected,
+    items[2]?.shadowRoot?.querySelector('[data-test="component"]')
+      ?.ariaSelected,
   ).to.equal('true');
 
+  assert(items[1]);
   host.selectItem(items[1]);
   await items[1].updateComplete;
 

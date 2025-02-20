@@ -107,6 +107,6 @@ it('reports validity of checkboxes if blurred', async () => {
   expect(document.activeElement).to.equal(document.body);
 
   expect(host.validity.valid).to.be.false;
-  expect(checkboxes[0].validity.valid).to.be.false;
-  expect(checkboxes[1].validity.valid).to.be.false;
+  expect(checkboxes[0]?.validity.valid).to.be.false;
+  expect(checkboxes[1]?.validity.valid).to.be.false;
 });

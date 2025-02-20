@@ -99,9 +99,9 @@ it('activates the first link by default', async () => {
   const links = host.querySelectorAll('glide-core-menu-link');
   const options = host.querySelector('glide-core-menu-options');
 
-  expect(links[0].privateActive).to.be.true;
-  expect(links[1].privateActive).to.be.false;
-  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0].id);
+  expect(links[0]?.privateActive).to.be.true;
+  expect(links[1]?.privateActive).to.be.false;
+  expect(options?.getAttribute('aria-activedescendant')).to.equal(links[0]?.id);
 });
 
 it('activates the first button by default', async () => {
@@ -122,11 +122,11 @@ it('activates the first button by default', async () => {
   const buttons = host.querySelectorAll('glide-core-menu-button');
   const options = host.querySelector('glide-core-menu-options');
 
-  expect(buttons[0].privateActive).to.be.true;
-  expect(buttons[1].privateActive).to.be.false;
+  expect(buttons[0]?.privateActive).to.be.true;
+  expect(buttons[1]?.privateActive).to.be.false;
 
   expect(options?.getAttribute('aria-activedescendant')).to.equal(
-    buttons[0].id,
+    buttons[0]?.id,
   );
 });
 

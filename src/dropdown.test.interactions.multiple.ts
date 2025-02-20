@@ -531,9 +531,9 @@ it('selects and deselects options when `value` is set programmatically', async (
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.true;
-  expect(options[2].selected).to.be.true;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
+  expect(options[2]?.selected).to.be.true;
 });
 
 it('selects no options when `value` is set programmatically to an empty string and some options have no `value`', async () => {
@@ -553,9 +553,9 @@ it('selects no options when `value` is set programmatically to an empty string a
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.false;
-  expect(options[2].selected).to.be.false;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.false;
+  expect(options[2]?.selected).to.be.false;
 });
 
 it('does not update `value` when a disabled option is selected via click', async () => {
@@ -598,12 +598,12 @@ it('updates `value` when multiselect is changed to `true` programmatically', asy
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
   expect(host.value).to.deep.equal(['two']);
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.true;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
 
-  await options[1].updateComplete;
+  await options[1]?.updateComplete;
 
-  const checkbox = options[1].shadowRoot?.querySelector<HTMLInputElement>(
+  const checkbox = options[1]?.shadowRoot?.querySelector<HTMLInputElement>(
     '[data-test="checkbox"]',
   );
 
@@ -797,8 +797,8 @@ it('deselects an option when its tag is removed', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.true;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
   expect(host.value).to.deep.equal(['two']);
 });
 
@@ -828,8 +828,8 @@ it('deselects all but the last selected option when `multiple` is changed to `fa
     '[data-test="selected-option-label"]',
   );
 
-  expect(options[0].selected).be.false;
-  expect(options[1].selected).be.true;
+  expect(options[0]?.selected).be.false;
+  expect(options[1]?.selected).be.true;
   expect(labels?.length).to.equal(1);
   expect(labels?.[0]?.textContent?.trim()).to.equal('Two,');
   expect(host.value).to.deep.equal(['two']);
@@ -862,9 +862,9 @@ it('selects all enabled options when none are selected and Select All is selecte
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.true;
-  expect(options[2].selected).to.be.true;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
+  expect(options[2]?.selected).to.be.true;
   expect(host.value).to.deep.equal(['two', 'three']);
 });
 
@@ -902,10 +902,10 @@ it('selects all enabled options when some are selected and Select All is selecte
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.true;
-  expect(options[1].selected).to.be.false;
-  expect(options[2].selected).to.be.true;
-  expect(options[3].selected).to.be.true;
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.false;
+  expect(options[2]?.selected).to.be.true;
+  expect(options[3]?.selected).to.be.true;
   expect(host.value).to.deep.equal(['one', 'three', 'four']);
 });
 
@@ -935,8 +935,8 @@ it('deselects all options when all are selected and Select All is selected via c
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.false;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.false;
   expect(host.value).to.deep.equal([]);
 });
 
@@ -969,9 +969,9 @@ it('selects all enabled options when none are selected and Select All is selecte
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.true;
-  expect(options[2].selected).to.be.true;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
+  expect(options[2]?.selected).to.be.true;
   expect(host.value).to.deep.equal(['two', 'three']);
 });
 
@@ -1000,8 +1000,8 @@ it('selects all options when some are selected and Select All is selected via Sp
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.true;
-  expect(options[1].selected).to.be.true;
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.true;
   expect(host.value).to.deep.equal(['one', 'two']);
 });
 
@@ -1031,8 +1031,8 @@ it('deselects all options when all are selected and Select All is selected via S
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.false;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.false;
   expect(host.value).to.deep.equal([]);
 });
 
@@ -1065,9 +1065,9 @@ it('selects all enabled options when none are selected and Select All is selecte
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.true;
-  expect(options[2].selected).to.be.true;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
+  expect(options[2]?.selected).to.be.true;
   expect(host.value).to.deep.equal(['two', 'three']);
 });
 
@@ -1107,10 +1107,10 @@ it('selects all enabled options when some are selected and Select All is selecte
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.true;
-  expect(options[1].selected).to.be.false;
-  expect(options[2].selected).to.be.true;
-  expect(options[3].selected).to.be.true;
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.false;
+  expect(options[2]?.selected).to.be.true;
+  expect(options[3]?.selected).to.be.true;
   expect(host.value).to.deep.equal(['one', 'three', 'four']);
 });
 
@@ -1140,8 +1140,8 @@ it('deselects all options when all are selected and Select All is selected via E
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  expect(options[0].selected).to.be.false;
-  expect(options[1].selected).to.be.false;
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.false;
   expect(host.value).to.deep.equal([]);
 });
 

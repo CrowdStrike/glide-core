@@ -242,8 +242,8 @@ it('is valid if not required and radios are unchecked', async () => {
   await host.updateComplete;
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
-  expect(radios[0].ariaInvalid).to.equal('false');
-  expect(radios[1].ariaInvalid).to.equal('false');
+  expect(radios[0]?.ariaInvalid).to.equal('false');
+  expect(radios[1]?.ariaInvalid).to.equal('false');
 });
 
 it('is valid if required and a radio is checked', async () => {
@@ -270,8 +270,8 @@ it('is valid if required and a radio is checked', async () => {
   await host.updateComplete;
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
-  expect(radios[0].ariaInvalid).to.equal('false');
-  expect(radios[1].ariaInvalid).to.equal('false');
+  expect(radios[0]?.ariaInvalid).to.equal('false');
+  expect(radios[1]?.ariaInvalid).to.equal('false');
 });
 
 it('is invalid if required and no radio is checked', async () => {
@@ -361,8 +361,8 @@ it('is valid when `required` is set to `false` programmatically', async () => {
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
 
-  expect(radios[0].ariaInvalid).to.equal('false');
-  expect(radios[1].ariaInvalid).to.equal('false');
+  expect(radios[0]?.ariaInvalid).to.equal('false');
+  expect(radios[1]?.ariaInvalid).to.equal('false');
 
   expect(host.validity.valid).to.be.true;
   expect(host.validity?.valueMissing).to.be.false;

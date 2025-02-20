@@ -21,9 +21,9 @@ it('checks and unchecks checkboxes when `value` is set programmatically', async 
 
   const checkboxes = host.querySelectorAll('glide-core-checkbox');
 
-  expect(checkboxes[0].checked).to.be.true;
-  expect(checkboxes[1].checked).to.be.true;
-  expect(checkboxes[2].checked).to.be.false;
+  expect(checkboxes[0]?.checked).to.be.true;
+  expect(checkboxes[1]?.checked).to.be.true;
+  expect(checkboxes[2]?.checked).to.be.false;
 });
 
 it('updates `value` when the `value` of its checkbox is set programmatically', async () => {
@@ -116,8 +116,8 @@ it('can be disabled programmatically', async () => {
 
   const checkboxes = host.querySelectorAll('glide-core-checkbox');
 
-  expect(checkboxes[0].disabled).to.be.true;
-  expect(checkboxes[1].disabled).to.be.true;
+  expect(checkboxes[0]?.disabled).to.be.true;
+  expect(checkboxes[1]?.disabled).to.be.true;
 
   expect(host.hasAttribute('disabled')).to.be.true;
   expect(host.disabled).to.be.true;

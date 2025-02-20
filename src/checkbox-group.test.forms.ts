@@ -322,8 +322,8 @@ it('sets its validity of its checkboxes when tabbed away from', async () => {
 
   expect(document.activeElement).to.equal(document.body);
   expect(host.validity.valid).to.be.false;
-  expect(checkboxes[0].validity.valid).to.be.false;
-  expect(checkboxes[1].validity.valid).to.be.false;
+  expect(checkboxes[0]?.validity.valid).to.be.false;
+  expect(checkboxes[1]?.validity.valid).to.be.false;
 });
 
 it('sets its validity of its checkboxes when it loses focus', async () => {
@@ -346,8 +346,8 @@ it('sets its validity of its checkboxes when it loses focus', async () => {
 
   expect(document.activeElement).to.equal(document.body);
   expect(host.validity.valid).to.be.false;
-  expect(checkboxes[0].validity.valid).to.be.false;
-  expect(checkboxes[1].validity.valid).to.be.false;
+  expect(checkboxes[0]?.validity.valid).to.be.false;
+  expect(checkboxes[1]?.validity.valid).to.be.false;
 });
 
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
