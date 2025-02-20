@@ -11,6 +11,7 @@ const paths = await globby([
   '!**/cem-analyzer-plugins/**',
   '!**/coverage/**',
   '!**/eslint/**',
+  '!**/figma/**',
   '!**/stylelint/**',
   '!**/ts-morph*/**',
 ]);
