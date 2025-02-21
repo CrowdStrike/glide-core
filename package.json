@@ -160,6 +160,8 @@
     "postcss": "^8.4.49",
     "postcss-lit": "^1.1.1",
     "prettier": "3.5.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "rimraf": "^6.0.1",
     "sinon": "^19.0.2",
     "storybook": "^8.5.8",
