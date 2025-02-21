@@ -12289,6 +12289,26 @@
             },
             {
               "kind": "field",
+              "name": "checkable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "checkable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "checked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "expanded",
               "type": {
                 "text": "boolean"
@@ -12358,6 +12378,23 @@
             },
             {
               "kind": "method",
+              "name": "deselectAllExcept",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "GlideCoreTreeItem"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "focus",
               "parameters": [
                 {
@@ -12385,24 +12422,6 @@
               "name": "privateToggleExpand"
             },
             {
-              "kind": "method",
-              "name": "selectItem",
-              "return": {
-                "type": {
-                  "text": "GlideCoreTreeItem | undefined"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "item",
-                  "type": {
-                    "text": "GlideCoreTreeItem"
-                  }
-                }
-              ],
-              "description": "Traverses down the tree, selects the item, then deselects all other items."
-            },
-            {
               "kind": "field",
               "name": "childTreeItems",
               "type": {
@@ -12427,15 +12446,6 @@
             },
             {
               "kind": "field",
-              "name": "#isSelected",
-              "privacy": "private",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false"
-            },
-            {
-              "kind": "field",
               "name": "#labelContainerElementRef",
               "privacy": "private"
             },
@@ -12457,19 +12467,16 @@
             },
             {
               "kind": "field",
-              "name": "#treeItemElements",
+              "name": "#selected",
               "privacy": "private",
-              "readonly": true
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false"
             },
             {
               "kind": "field",
               "name": "#ariaExpanded",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "#ariaSelected",
               "privacy": "private",
               "readonly": true
             },
@@ -12499,6 +12506,24 @@
             },
             {
               "kind": "method",
+              "name": "#onExpandIconContainerClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onExpandIconContainerKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
               "name": "#onFocusIn",
               "privacy": "private",
               "parameters": [
@@ -12522,6 +12547,30 @@
                   }
                 }
               ]
+            },
+            {
+              "kind": "method",
+              "name": "#onInteractiveContainerClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onInteractiveContainerKeydown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "#treeItemElements",
+              "privacy": "private",
+              "readonly": true
             },
             {
               "kind": "method",
@@ -12561,6 +12610,22 @@
             }
           ],
           "attributes": [
+            {
+              "name": "checkable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "checkable"
+            },
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "checked"
+            },
             {
               "name": "expanded",
               "type": {
@@ -12697,23 +12762,6 @@
               "reflects": true
             },
             {
-              "kind": "method",
-              "name": "selectItem",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "item",
-                  "type": {
-                    "text": "GlideCoreTreeItem"
-                  }
-                }
-              ]
-            },
-            {
               "kind": "field",
               "name": "focusedItem",
               "type": {
@@ -12769,19 +12817,6 @@
             },
             {
               "kind": "method",
-              "name": "#onComponentClick",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "event",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
               "name": "#onComponentKeydown",
               "privacy": "private",
               "parameters": [
@@ -12815,6 +12850,19 @@
                   "name": "event",
                   "type": {
                     "text": "FocusEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "#onItemSelected",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
                   }
                 }
               ]
