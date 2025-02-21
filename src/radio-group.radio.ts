@@ -20,7 +20,7 @@ declare global {
  * @attr {string} [value]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr [version]
  *
  * @fires {Event} change
  * @fires {Event} input

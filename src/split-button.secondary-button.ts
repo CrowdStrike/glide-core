@@ -28,7 +28,7 @@ declare global {
  * @attr {'bottom-end'|'top-end'} [menu-placement='bottom-end']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
  */
@@ -66,7 +66,7 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   privateVariant: 'primary' | 'secondary' = 'primary';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override click() {
     this.#buttonElementRef.value?.click();

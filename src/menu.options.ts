@@ -34,7 +34,7 @@ declare global {
  * @attr {string} [aria-labelledby='']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
  */
@@ -58,7 +58,7 @@ export default class GlideCoreMenuOptions extends LitElement {
   privateSize: 'large' | 'small' = 'large';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override connectedCallback() {
     super.connectedCallback();

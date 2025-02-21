@@ -33,7 +33,7 @@ declare global {
  * @attr {string[]} [value=[]]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreCheckbox}
  * @slot {Element | string} [description] - Additional information or context
@@ -193,7 +193,7 @@ export default class GlideCoreCheckboxGroup
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   checkValidity(): boolean {
     this.isCheckingValidity = true;

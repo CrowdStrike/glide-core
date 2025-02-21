@@ -5,7 +5,6 @@ import addCustomProperties from './dist/cem-analyzer-plugins/add-custom-properti
 import addEvents from './dist/cem-analyzer-plugins/add-events.js';
 import addRequiredToAttributes from './dist/cem-analyzer-plugins/add-required-to-attributes.js';
 import addSlots from './dist/cem-analyzer-plugins/add-slots.js';
-import modifyVersionAttribute from './dist/cem-analyzer-plugins/modify-version-attribute.js';
 import removeBlockComments from './dist/cem-analyzer-plugins/remove-block-comments.js';
 
 export default {
@@ -29,6 +28,5 @@ export default {
     addEvents(),
     addRequiredToAttributes(),
     addSlots(),
-    modifyVersionAttribute(),
   ],
 };

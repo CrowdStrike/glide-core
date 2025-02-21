@@ -21,7 +21,7 @@ declare global {
  * @attr {boolean} [open=false]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string} - The content of the accordion
  * @slot {Element} [prefix-icon] - An icon before the label
@@ -149,7 +149,7 @@ export default class GlideCoreAccordion extends LitElement {
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override click() {
     this.#summaryElementRef.value?.click();

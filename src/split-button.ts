@@ -21,7 +21,7 @@ declare global {
  * @attr {'primary'|'secondary'} [variant='primary']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink}
  * @slot {GlideCoreSplitButtonSecondaryButton} [secondary-button]
@@ -77,7 +77,7 @@ export default class GlideCoreSplitButton extends LitElement {
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   private get secondaryButtonElement() {
     const element = this.#secondaryButtonSlotElementRef.value

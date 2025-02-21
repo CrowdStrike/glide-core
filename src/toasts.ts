@@ -16,7 +16,7 @@ declare global {
 
 /**
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @method add
  * @param {{
@@ -38,7 +38,7 @@ export default class GlideCoreToasts extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   add(toast: {
     label: string;

@@ -107,6 +107,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -227,11 +230,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -361,6 +364,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -484,11 +490,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -619,6 +625,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -723,11 +732,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -886,6 +895,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -1018,11 +1030,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -1270,6 +1282,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -1620,11 +1635,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -1892,6 +1907,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -2314,11 +2332,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -2456,6 +2474,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -2531,11 +2552,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -2704,6 +2725,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -2981,11 +3005,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             },
             {
               "name": "value",
@@ -4353,10 +4377,7 @@
             {
               "name": "version",
               "readonly": true,
-              "fieldName": "version",
-              "type": {
-                "text": "0.19.5"
-              }
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -4440,6 +4461,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -4475,11 +4499,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -4639,6 +4663,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -4709,11 +4736,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -4835,6 +4862,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -4923,11 +4953,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -5194,6 +5224,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -5633,11 +5666,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             },
             {
               "name": "tooltip",
@@ -6041,6 +6074,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -6104,11 +6140,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -6219,6 +6255,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -6302,11 +6341,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -6409,6 +6448,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -6459,11 +6501,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -6612,6 +6654,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -6917,11 +6962,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -7031,6 +7076,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -7047,11 +7095,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -7201,6 +7249,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -7348,11 +7399,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -7647,10 +7698,7 @@
             {
               "name": "version",
               "readonly": true,
-              "fieldName": "version",
-              "type": {
-                "text": "0.19.5"
-              }
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -7900,10 +7948,7 @@
             {
               "name": "version",
               "readonly": true,
-              "fieldName": "version",
-              "type": {
-                "text": "0.19.5"
-              }
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -8077,6 +8122,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -8480,11 +8528,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -8625,6 +8673,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -8689,11 +8740,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -8799,6 +8850,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -8847,11 +8901,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -8991,6 +9045,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -9069,11 +9126,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -9174,6 +9231,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -9248,11 +9308,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -9351,6 +9411,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -9576,11 +9639,11 @@
           "attributes": [
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -9679,6 +9742,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -9714,11 +9780,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -9883,10 +9949,7 @@
             {
               "name": "version",
               "readonly": true,
-              "fieldName": "version",
-              "type": {
-                "text": "0.19.5"
-              }
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -10009,6 +10072,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -10149,11 +10215,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -10390,6 +10456,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -10745,11 +10814,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -10982,6 +11051,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -11018,11 +11090,11 @@
           "attributes": [
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -11169,6 +11241,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -11281,11 +11356,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -11616,6 +11691,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -11846,11 +11924,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -11932,6 +12010,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -11948,11 +12029,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -12051,6 +12132,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -12107,11 +12191,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -12265,6 +12349,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -12524,11 +12611,11 @@
             },
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -12602,6 +12689,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -12733,11 +12823,11 @@
           "attributes": [
             {
               "name": "version",
-              "readonly": true,
-              "fieldName": "version",
               "type": {
-                "text": "0.19.5"
-              }
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {

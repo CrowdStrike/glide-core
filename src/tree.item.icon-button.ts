@@ -19,7 +19,7 @@ declare global {
  * @attr {string} label
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element} - An icon
  */
@@ -38,7 +38,7 @@ export default class GlideCoreTreeItemIconButton extends LitElement {
   label?: string;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override render() {
     return html`

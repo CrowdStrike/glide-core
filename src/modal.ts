@@ -42,7 +42,7 @@ globalStylesheet.insertRule(`
  * @attr {'small'|'medium'|'large'|'xlarge'} [size='medium']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string}
  * @slot {GlideCoreModalIconButton} [header-actions]
@@ -104,7 +104,7 @@ export default class GlideCoreModal extends LitElement {
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override connectedCallback() {
     super.connectedCallback();

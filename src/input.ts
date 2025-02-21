@@ -45,7 +45,7 @@ declare global {
  * @attr {string} [value='']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string} [description] - Additional information or context
  * @slot {Element} [prefix-icon] - An icon before the input field
@@ -173,7 +173,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
   maxlength?: number;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   @property({ reflect: true })
   tooltip?: string;

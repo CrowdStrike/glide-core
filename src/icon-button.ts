@@ -25,7 +25,7 @@ declare global {
  * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element} - An icon
  */
@@ -67,7 +67,7 @@ export default class GlideCoreIconButton extends LitElement {
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override click() {
     this.#buttonElementRef.value?.click();

@@ -32,7 +32,7 @@ declare global {
  * @attr {'bottom'|'left'|'right'|'top'} [placement]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr [version]
  *
  * @slot {Element | string} - The content of the popover
  * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
