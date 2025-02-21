@@ -42,7 +42,7 @@ globalStylesheet.insertRule(`
  * @attr {'small'|'medium'|'large'|'xlarge'} [size='medium']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {Element | string}
  * @slot {GlideCoreModalIconButton} [header-actions]

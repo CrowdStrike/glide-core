@@ -25,7 +25,7 @@ declare global {
  * @attr {'large'|'small'} [size='large']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {GlideCoreMenuOptions}
  * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.

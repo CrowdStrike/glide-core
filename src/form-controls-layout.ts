@@ -23,7 +23,7 @@ declare global {
  * @attr {'left'|'middle'} [split='left']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea}
  */

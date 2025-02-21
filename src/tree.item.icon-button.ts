@@ -19,7 +19,7 @@ declare global {
  * @attr {string} label
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {Element} - An icon
  */

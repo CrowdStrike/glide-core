@@ -31,7 +31,7 @@ declare global {
  * @attr {boolean} [selected=false]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {GlideCoreTreeItem}
  * @slot {GlideCoreTreeItemMenu} [menu] - Visible on hover and focus

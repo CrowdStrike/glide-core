@@ -25,7 +25,7 @@ declare global {
  * @attr {'small'|'medium'|'large'} [size='medium']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {Element} [icon]
  *

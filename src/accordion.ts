@@ -21,7 +21,7 @@ declare global {
  * @attr {boolean} [open=false]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {Element | string} - The content of the accordion
  * @slot {Element} [prefix-icon] - An icon before the label

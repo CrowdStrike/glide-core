@@ -25,7 +25,7 @@ declare global {
  * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {Element} - An icon
  */

@@ -28,7 +28,7 @@ declare global {
  * @attr {'bottom-end'|'top-end'} [menu-placement='bottom-end']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
  */

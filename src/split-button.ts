@@ -21,7 +21,7 @@ declare global {
  * @attr {'primary'|'secondary'} [variant='primary']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink}
  * @slot {GlideCoreSplitButtonSecondaryButton} [secondary-button]

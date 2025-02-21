@@ -27,7 +27,7 @@ declare global {
  * @attr {'bottom-start'|'top-start'} [placement='bottom-start']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {0.20.0} [version]
  *
  * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
  * @slot {Element} [icon]

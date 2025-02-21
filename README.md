@@ -13,7 +13,7 @@ A Web Component design system
 
 [![Code coverage](https://img.shields.io/badge/coverage%20-%20100%25%20-%20yellowgreen)](/src)
 [![Build status](https://img.shields.io/github/check-runs/crowdstrike/glide-core/main)](https://github.com/CrowdStrike/glide-core/actions?query=branch%3Amain)
-[![NPM version](https://img.shields.io/npm/v/%40crowdstrike%2Fglide-core)](https://www.npmjs.com/package/@crowdstrike/glide-core)
+[![NPM version](https://img.shields.io/npm/v/%40crowdstrike%2Fglide-core?color=yellowgreen)](https://www.npmjs.com/package/@crowdstrike/glide-core)
 
 </div>
 
