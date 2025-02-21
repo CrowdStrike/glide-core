@@ -25,7 +25,7 @@ declare global {
  * @attr {'small'|'medium'|'large'} [size='medium']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element} [icon]
  *
@@ -61,7 +61,7 @@ export default class GlideCoreTag extends LitElement {
   size: 'small' | 'medium' | 'large' = 'medium';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override click() {
     this.#removalButtonElementRef.value?.click();

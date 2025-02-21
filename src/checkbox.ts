@@ -36,7 +36,7 @@ declare global {
  * @attr {string} [value]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string} [description] - Additional information or context
  * @slot {Element} [private-icon]
@@ -201,7 +201,7 @@ export default class GlideCoreCheckbox
   privateIsReportValidityOrSubmit = false;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   get form(): HTMLFormElement | null {
     return this.#internals.form;

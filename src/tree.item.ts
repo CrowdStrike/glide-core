@@ -31,7 +31,7 @@ declare global {
  * @attr {boolean} [selected=false]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreTreeItem}
  * @slot {GlideCoreTreeItemMenu} [menu] - Visible on hover and focus
@@ -89,7 +89,7 @@ export default class GlideCoreTreeItem extends LitElement {
   nonCollapsible = false;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override focus(options?: FocusOptions) {
     this.#labelContainerElementRef.value?.focus(options);

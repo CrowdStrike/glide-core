@@ -43,12 +43,6 @@ export default {
     '!**/translations/**',
   ],
   nodeResolve: {
-    // Ow is an example of a module that supports both the browser and Node.js
-    // and uses the `browser` field in `package.json` to switch between artifacts.
-    // Setting `browser` here ensures that the field is used in resolution.
-    //
-    // - https://github.com/defunctzombie/package-browser-field-spec
-    // - https://github.com/rollup/plugins/tree/master/packages/node-resolve#browser
     browser: true,
 
     // https://lit.dev/docs/tools/development#development-and-production-builds

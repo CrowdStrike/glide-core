@@ -33,7 +33,7 @@ declare global {
  * @attr {string} [value='']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreRadio}
  * @slot {Element | string} [description] - Additional information or context
@@ -173,7 +173,7 @@ export default class GlideCoreRadioGroup
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   checkValidity(): boolean {
     this.isCheckingValidity = true;

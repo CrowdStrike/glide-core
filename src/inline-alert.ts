@@ -27,7 +27,7 @@ declare global {
  * @attr {'informational'|'medium'|'high'|'critical'} [variant='informational']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string} - The content of the alert
  *
@@ -50,7 +50,7 @@ export default class GlideCoreInlineAlert extends LitElement {
   removable? = false;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override firstUpdated() {
     this.#componentElementRef.value?.addEventListener(

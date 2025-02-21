@@ -26,7 +26,7 @@ declare global {
  * @attr {string} [tooltip]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string} [description] - Additional information or context
  *
@@ -69,7 +69,7 @@ export default class GlideCoreToggle extends LitElement {
   tooltip?: string;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override click() {
     this.#inputElementRef.value?.click();

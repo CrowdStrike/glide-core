@@ -21,7 +21,6 @@ jobs:
         env:
           CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
           CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
-
         # https://developers.cloudflare.com/r2/examples/aws/aws-cli
         run: |
           aws configure set region auto

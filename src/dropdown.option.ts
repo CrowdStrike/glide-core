@@ -30,7 +30,7 @@ declare global {
  * @attr {string} [value='']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element} [icon] - An icon before the label
  *
@@ -169,7 +169,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   privateIsTooltipOpen = false;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   @state()
   private get isMultiple() {

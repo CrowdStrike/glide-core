@@ -25,7 +25,7 @@ declare global {
  * @attr {'large'|'small'} [size='large']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreMenuOptions}
  * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
@@ -123,7 +123,7 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override connectedCallback() {
     super.connectedCallback();

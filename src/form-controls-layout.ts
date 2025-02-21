@@ -23,7 +23,7 @@ declare global {
  * @attr {'left'|'middle'} [split='left']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea}
  */
@@ -58,7 +58,7 @@ export default class GlideCoreFormControlsLayout extends LitElement {
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override render() {
     return html`<div class="component">

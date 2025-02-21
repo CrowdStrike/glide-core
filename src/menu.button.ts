@@ -20,7 +20,7 @@ declare global {
  * @attr {boolean} [disabled=false]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element} [icon]
  */
@@ -60,7 +60,7 @@ export default class GlideCoreMenuButton extends LitElement {
   privateActive = false;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override click() {
     this.#componentElementRef.value?.click();

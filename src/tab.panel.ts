@@ -18,7 +18,7 @@ declare global {
  * @attr {string} name - The corresponding GlideCoreTab should have a `panel` attribute with this name
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string} - The content of the panel
  *
@@ -54,7 +54,7 @@ export default class GlideCoreTabPanel extends LitElement {
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   protected override firstUpdated() {
     this.setAttribute('role', 'tabpanel');

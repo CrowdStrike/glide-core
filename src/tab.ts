@@ -20,7 +20,7 @@ declare global {
  * @attr {boolean} [selected=false]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr [version]
  *
  * @slot {Element | string} - A label
  * @slot {Element} [icon]

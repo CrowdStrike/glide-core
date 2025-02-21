@@ -22,7 +22,7 @@ declare global {
  * @attr {boolean} [pinned=false]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string} - The content of the drawer
  *
@@ -133,7 +133,7 @@ export default class GlideCoreDrawer extends LitElement {
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override firstUpdated() {
     if (this.#isOpen) {

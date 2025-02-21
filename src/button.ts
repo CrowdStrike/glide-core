@@ -24,7 +24,7 @@ declare global {
  * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element} [prefix-icon] - An icon before the label
  * @slot {Element} [suffix-icon] - An icon after the label
@@ -65,7 +65,7 @@ export default class GlideCoreButton extends LitElement {
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   get form(): HTMLFormElement | null {
     return this.#internals.form;

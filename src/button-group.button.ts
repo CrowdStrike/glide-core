@@ -22,7 +22,7 @@ declare global {
  * @attr {string} [value='']
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element} [icon]
  *
@@ -72,7 +72,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
   privateVariant?: 'icon-only';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override click() {
     this.#componentElementRef.value?.click();

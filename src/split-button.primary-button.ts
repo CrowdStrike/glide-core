@@ -22,7 +22,7 @@ declare global {
  * @attr {boolean} [disabled=false]
  *
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {Element} [icon] - An icon before the label
  */
@@ -68,7 +68,7 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
   privateVariant: 'primary' | 'secondary' = 'primary';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override render() {
     return html`<button

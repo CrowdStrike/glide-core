@@ -16,7 +16,7 @@ declare global {
 
 /**
  * @readonly
- * @attr {0.19.5} [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreTreeItem}
  *
@@ -34,7 +34,7 @@ export default class GlideCoreTree extends LitElement {
   static override styles = styles;
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override disconnectedCallback() {
     super.disconnectedCallback();
