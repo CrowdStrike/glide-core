@@ -5,7 +5,7 @@ import { create } from '@storybook/theming/create';
 import { html } from 'lit';
 import { IconButton, Icons } from '@storybook/components';
 import logo from './assets/logo.png';
-import React, { useState } from 'react';
+import React from 'react';
 
 addons.register('github', () => {
   addons.add('github/toolextra', {
