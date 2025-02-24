@@ -34,6 +34,7 @@ jobs:
           NODE_ENV: production
       - uses: actions/upload-artifact@v4
         with:
+          name: storybook
           path: dist/storybook
 
   release:
@@ -91,4 +92,4 @@ jobs:
           aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
       - name: Deploy
-        run: aws s3 sync ./artifact s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/ --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
+        run: aws s3 sync ./storybook s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/ --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
