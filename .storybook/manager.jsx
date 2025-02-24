@@ -37,7 +37,7 @@ addons.register('github', () => {
 });
 
 addons.setConfig({
-  // We've found people trigger shortcuts accidentally more than not.
+  // We've found that people trigger shortcuts accidentally more than not.
   enableShortcuts: false,
   theme: create({
     base: 'dark',

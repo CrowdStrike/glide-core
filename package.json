@@ -12,6 +12,11 @@
   "publishConfig": {
     "provenance": true
   },
+  "keywords": [
+    "web-components",
+    "lit",
+    "design-system"
+  ],
   "files": [
     "dist",
     "!dist/*.*.test.*.d.ts",

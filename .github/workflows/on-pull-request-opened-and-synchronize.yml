@@ -61,9 +61,7 @@ jobs:
   test:
     name: Test
     runs-on: macos-latest
-    # It's possible our tests can hang and we don't want to blow through our
-    # GitHub Action minutes, so we'll timeout after 10 minutes to prevent
-    # that from happening.
+    # Something has gone wrong if our tests take longer than 10 minutes.
     timeout-minutes: 10
 
     needs:
