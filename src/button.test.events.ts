@@ -5,7 +5,7 @@ import { click } from './library/mouse.js';
 
 it('dispatches a "click" event on click', async () => {
   const host = await fixture<GlideCoreButton>(html`
-    <glide-core-button label="Label" type="button"></glide-core-button>
+    <glide-core-button label="Label"></glide-core-button>
   `);
 
   click(host);
@@ -18,7 +18,7 @@ it('dispatches a "click" event on click', async () => {
 
 it('dispatches a "click" event on `click()`', async () => {
   const host = await fixture<GlideCoreButton>(html`
-    <glide-core-button label="Label" type="button"></glide-core-button>
+    <glide-core-button label="Label"></glide-core-button>
   `);
 
   setTimeout(() => {
@@ -33,7 +33,7 @@ it('dispatches a "click" event on `click()`', async () => {
 
 it('dispatches a "click" event on Enter', async () => {
   const host = await fixture<GlideCoreButton>(html`
-    <glide-core-button label="Label" type="button"></glide-core-button>
+    <glide-core-button label="Label"></glide-core-button>
   `);
 
   await sendKeys({ press: 'Tab' });
@@ -47,7 +47,7 @@ it('dispatches a "click" event on Enter', async () => {
 
 it('dispatches a "click" event on Space', async () => {
   const host = await fixture<GlideCoreButton>(html`
-    <glide-core-button label="Label" type="button"></glide-core-button>
+    <glide-core-button label="Label"></glide-core-button>
   `);
 
   await sendKeys({ press: 'Tab' });

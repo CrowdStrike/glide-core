@@ -87,8 +87,8 @@ export default () => {
             return;
           }
 
-          // `text` instead of `getText()` because `getText()` returns
-          // an escaped value and so is doubly quoted.
+          // `text` instead of `getText()` because `getText()` returns an
+          // escaped value that is doubly quoted.
           const eventName = firstArgument.text;
 
           for (const declaration of moduleDoc.declarations) {
