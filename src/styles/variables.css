@@ -1,8 +1,6 @@
 /*
-  Order matters here.
-  "light" is our default. "dark" uses the
-  same variable names, but different values,
-  so it must come after "light".
+  Order matters here. "light" is our default. "dark" uses the same
+  variable names but different values. So it must come after "light".
 */
 @import './variables/light.css';
 @import './variables/dark.css';
