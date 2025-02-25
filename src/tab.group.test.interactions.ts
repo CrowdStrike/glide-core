@@ -4,6 +4,8 @@ import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { click } from './library/mouse.js';
 import GlideCoreTabGroup from './tab.group.js';
 import './tab.panel.js';
+import type GlideCoreTab from './tab.js';
+import type GlideCoreTabPanel from './tab.panel.js';
 
 it('changes tabs on click', async () => {
   const host = await fixture<GlideCoreTabGroup>(html`
@@ -127,6 +129,36 @@ it('changes tabs on keyboard interaction', async () => {
   expect(tabs[2]?.selected).to.be.true;
   expect(tabs[2]?.tabIndex).to.equal(0);
 });
+
+it('only changes nested tabs when clicking a nested tab group', async () => {
+  const host = await fixture<GlideCoreTabGroup>(html`
+   <glide-core-tab-group>
+      <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
+      <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
+      <glide-core-tab-panel name="1">
+        One
+        <glide-core-tab-group>
+          <glide-core-tab panel="nested_1" slot="nav">Nested 1</glide-core-tab>
+          <glide-core-tab panel="nested_2" slot="nav">Nested 2</glide-core-tab>
+          <glide-core-tab-panel name="nested_1">Nested 1</glide-core-tab-panel>
+          <glide-core-tab-panel name="nested_2">Nested 2</glide-core-tab-panel>
+        </glide-core-tab-group>
+      </glide-core-tab-panel>
+      <glide-core-tab-panel name="2">
+        Two
+      </glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const parentTabs = host.querySelectorAll<GlideCoreTab>(':scope > glide-core-tab');
+  const panels = host.querySelectorAll<GlideCoreTabPanel>(':scope > glide-core-tab-panel');
+  const nestedTabs = panels[0]?.querySelectorAll<GlideCoreTab>('glide-core-tab') || [];
+
+  await click(nestedTabs[1]);
+
+  expect(parentTabs[1]?.selected).to.be.false;
+  expect(nestedTabs[1]?.selected).to.be.true;
+})
 
 it('has overflow buttons when overflowing', async () => {
   const parentNode = document.createElement('div');

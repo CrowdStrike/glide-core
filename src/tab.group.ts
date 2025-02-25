@@ -176,7 +176,7 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   get #tabElements() {
-    return [...this.querySelectorAll('glide-core-tab')];
+    return [...this.querySelectorAll<GlideCoreTab>(':scope > glide-core-tab')];
   }
 
   #onClick(event: Event) {
@@ -186,7 +186,8 @@ export default class GlideCoreTabGroup extends LitElement {
     if (
       clickedTab &&
       clickedTab instanceof GlideCoreTab &&
-      !clickedTab.disabled
+      !clickedTab.disabled &&
+      this.#tabElements.includes(clickedTab)
     ) {
       this.#showTab(clickedTab);
     }
