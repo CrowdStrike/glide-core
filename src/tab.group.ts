@@ -49,8 +49,8 @@ export default class GlideCoreTabGroup extends LitElement {
   override render() {
     return html`<div
       class="component"
-      @click=${this.#onClick}
-      @keydown=${this.#onKeydown}
+      @click=${this.#onComponentClick}
+      @keydown=${this.#onComponentKeydown}
       ${ref(this.#componentElementRef)}
     >
       <div class="tab-container" data-test="tab-container">
@@ -64,7 +64,7 @@ export default class GlideCoreTabGroup extends LitElement {
                 start: true,
                 disabled: this.isDisableOverflowStartButton,
               })}
-              @click=${this.#onClickOverflowStartButton}
+              @click=${this.#onOverflowStartButtonClick}
               tabindex="-1"
               aria-label=${this.#localize.term('previousTab')}
               data-test="overflow-start-button"
@@ -78,13 +78,13 @@ export default class GlideCoreTabGroup extends LitElement {
         <div
           class=${classMap({
             'tab-group': true,
-            animated: this.isAfterFirstUpdated,
+            animated: this.hasUpdated,
           })}
           data-test="tablist"
           role="tablist"
           tabindex="-1"
           @scroll=${this.#setOverflowButtonsState}
-          @focusout=${this.#onFocusout}
+          @focusout=${this.#onTabListFocusout}
           ${onResize(this.#onTabListResize.bind(this))}
           ${ref(this.#tabListElementRef)}
         >
@@ -107,7 +107,7 @@ export default class GlideCoreTabGroup extends LitElement {
                 end: true,
                 disabled: this.isDisableOverflowEndButton,
               })}
-              @click=${this.#onClickOverflowEndButton}
+              @click=${this.#onOverflowEndButtonClick}
               tabindex="-1"
               aria-label=${this.#localize.term('nextTab')}
               data-test="overflow-end-button"
@@ -137,11 +137,8 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   override updated() {
-    this.#setupTabs();
+    this.#setUpTabs();
   }
-
-  @state()
-  private isAfterFirstUpdated = false;
 
   @state()
   private isDisableOverflowEndButton = false;
@@ -172,44 +169,35 @@ export default class GlideCoreTabGroup extends LitElement {
   #tabListElementRef = createRef<HTMLElement>();
 
   get #panelElements() {
-    return [...this.querySelectorAll('glide-core-tab-panel')];
+    return [
+      ...this.querySelectorAll<GlideCoreTabPanel>(
+        ':scope > glide-core-tab-panel',
+      ),
+    ];
   }
 
   get #tabElements() {
-    return [...this.querySelectorAll('glide-core-tab')];
+    return [...this.querySelectorAll<GlideCoreTab>(':scope > glide-core-tab')];
   }
 
-  #onClick(event: Event) {
+  #onComponentClick(event: Event) {
     const target = event.target as HTMLElement;
     const clickedTab = target.closest('glide-core-tab');
 
     if (
       clickedTab &&
       clickedTab instanceof GlideCoreTab &&
-      !clickedTab.disabled
+      !clickedTab.disabled &&
+      // Tab Panels can themselves include a Tab Group. We want to ensure
+      // we're dealing with one of this instance's Tabs and not a Tab in
+      // a Tab Panel.
+      this.#tabElements.includes(clickedTab)
     ) {
       this.#showTab(clickedTab);
     }
   }
 
-  #onClickOverflowEndButton() {
-    this.#scrollTabsList('right');
-  }
-
-  #onClickOverflowStartButton() {
-    this.#scrollTabsList('left');
-  }
-
-  #onFocusout() {
-    // Set the last selected tab as tabbable so that when pressing shift + tab on the tab panel
-    // focus goes back to the last selected tab.
-    // The `focusout` event is used since it bubbles up from the tab.
-    for (const [, tabElement] of this.#tabElements.entries()) {
-      tabElement.tabIndex = tabElement === this.selectedTab ? 0 : -1;
-    }
-  }
-
-  #onKeydown(event: KeyboardEvent) {
+  #onComponentKeydown(event: KeyboardEvent) {
     const tab =
       event.target instanceof HTMLElement &&
       event.target.closest('glide-core-tab');
@@ -289,9 +277,26 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #onNavSlotChange() {
-    this.#setupTabs();
+    this.#setUpTabs();
     this.#setSelectedTab();
     this.#setOverflowButtonsState();
+  }
+
+  #onOverflowEndButtonClick() {
+    this.#scrollTabsList('right');
+  }
+
+  #onOverflowStartButtonClick() {
+    this.#scrollTabsList('left');
+  }
+
+  #onTabListFocusout() {
+    // Set the last selected tab as tabbable so that when pressing shift + tab on the tab panel
+    // focus goes back to the last selected tab.
+    // The `focusout` event is used since it bubbles up from the tab.
+    for (const [, tabElement] of this.#tabElements.entries()) {
+      tabElement.tabIndex = tabElement === this.selectedTab ? 0 : -1;
+    }
   }
 
   #onTabListResize() {
@@ -375,7 +380,9 @@ export default class GlideCoreTabGroup extends LitElement {
       panel.tabIndex = thisPanelName === selectedTabPanelName ? 0 : -1;
     }
 
-    if (this.selectedTab === this.#previousSelectedTab) return;
+    if (this.selectedTab === this.#previousSelectedTab) {
+      return;
+    }
 
     // Set the selected tab indicator.
     if (
@@ -412,8 +419,6 @@ export default class GlideCoreTabGroup extends LitElement {
         '--private-selected-tab-indicator-width',
         `${selectedTabWidth - selectedTabIndicatorWidthAdjustment}px`,
       );
-
-      this.isAfterFirstUpdated = true;
     }
   }
 
@@ -424,7 +429,7 @@ export default class GlideCoreTabGroup extends LitElement {
     }
   }
 
-  #setupTabs() {
+  #setUpTabs() {
     for (const tabElement of this.#tabElements) {
       const relatedPanel = this.#panelElements
         .filter((panel) => panel.name === tabElement.panel)
