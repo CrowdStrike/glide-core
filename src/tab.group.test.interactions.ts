@@ -377,6 +377,7 @@ it('can be nested', async () => {
   `);
 
   const tabs = host.querySelectorAll('glide-core-tab');
+  const panels = host.querySelectorAll('glide-core-tab-panel');
 
   tabs[1]?.click();
   await host.updateComplete;
@@ -386,6 +387,11 @@ it('can be nested', async () => {
   expect(tabs[2]?.selected).to.be.true;
   expect(tabs[3]?.selected).to.be.false;
 
+  expect(panels[0]?.ariaHidden).to.equal('true');
+  expect(panels[1]?.ariaHidden).to.equal('false');
+  expect(panels[2]?.ariaHidden).to.equal('false');
+  expect(panels[3]?.ariaHidden).to.equal('true');
+
   tabs[0]?.click();
   await host.updateComplete;
 
@@ -393,4 +399,9 @@ it('can be nested', async () => {
   expect(tabs[1]?.selected).to.be.false;
   expect(tabs[2]?.selected).to.be.true;
   expect(tabs[3]?.selected).to.be.false;
+
+  expect(panels[0]?.ariaHidden).to.equal('false');
+  expect(panels[1]?.ariaHidden).to.equal('true');
+  expect(panels[2]?.ariaHidden).to.equal('false');
+  expect(panels[3]?.ariaHidden).to.equal('true');
 });

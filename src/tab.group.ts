@@ -169,7 +169,11 @@ export default class GlideCoreTabGroup extends LitElement {
   #tabListElementRef = createRef<HTMLElement>();
 
   get #panelElements() {
-    return [...this.querySelectorAll('glide-core-tab-panel')];
+    return [
+      ...this.querySelectorAll<GlideCoreTabPanel>(
+        ':scope > glide-core-tab-panel',
+      ),
+    ];
   }
 
   get #tabElements() {
