@@ -127,24 +127,6 @@ const meta: Meta = {
           })}
         >
           ${unsafeHTML(arguments_['<glide-core-tab-panel>[slot="default"]'])}
-
-          <glide-core-tab-group>
-            <glide-core-tab slot="nav" panel="1"> test </glide-core-tab>
-
-            <glide-core-tab slot="nav" panel="2">
-              With Icon test
-
-              <glide-core-example-icon
-                slot="icon"
-                name="checkmark"
-              ></glide-core-example-icon>
-            </glide-core-tab>
-
-            <glide-core-tab-panel name="1"> </glide-core-tab-panel>
-            <glide-core-tab-panel name="2">
-              With Icon test
-            </glide-core-tab-panel>
-          </glide-core-tab-group>
         </glide-core-tab-panel>
         <glide-core-tab-panel name="2"> With Icon </glide-core-tab-panel>
       </glide-core-tab-group>
