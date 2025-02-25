@@ -1,5 +1,47 @@
 # @crowdstrike/glide-core
 
+## 0.20.1
+
+### Patch Changes
+
+- [#719](https://github.com/CrowdStrike/glide-core/pull/719) [`eba8d56`](https://github.com/CrowdStrike/glide-core/commit/eba8d56ab7acdc503eb4b3d33e3195d8bf76c929) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Dark
+
+  ### Added
+
+  ```diff
+  + --glide-core-icon-empty-state: #db4743;
+  + --glide-core-surface-empty-state: #ff3b3014;
+  + --glide-core-text-syntax-aliases: #095341;
+  + --glide-core-text-syntax-fields: #7c1faa;
+  + --glide-core-text-syntax-formatting: #212121;
+  + --glide-core-text-syntax-function: #ff2893;
+  + --glide-core-text-syntax-literals: #794d0c;
+  + --glide-core-text-syntax-object: #c8095e;
+  + --glide-core-text-syntax-operator: #1b51b5;
+  ```
+
+  ## Light
+
+  ### Added
+
+  ```diff
+  + --glide-core-icon-empty-state: #db2d24;
+  + --glide-core-surface-empty-state: #ff3b3014;
+  + --glide-core-text-syntax-aliases: #095341;
+  + --glide-core-text-syntax-fields: #7c1faa;
+  + --glide-core-text-syntax-formatting: #212121;
+  + --glide-core-text-syntax-function: #ff2893;
+  + --glide-core-text-syntax-literals: #794d0c;
+  + --glide-core-text-syntax-object: #c8095e;
+  + --glide-core-text-syntax-operator: #1b51b5;
+  ```
+
+- [#721](https://github.com/CrowdStrike/glide-core/pull/721) [`434fcc3`](https://github.com/CrowdStrike/glide-core/commit/434fcc31c370b0db88a8b49d0189235b57acf02d) Thanks [@clintcs](https://github.com/clintcs)! - Tab Groups can now be nested.
+
+- [#718](https://github.com/CrowdStrike/glide-core/pull/718) [`4ed59e1`](https://github.com/CrowdStrike/glide-core/commit/4ed59e1adf5db3e85cfc2bf2ea1b227d96db70c4) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Components are no longer stuck in light mode.
+
 ## 0.20.0
 
 ### Minor Changes
