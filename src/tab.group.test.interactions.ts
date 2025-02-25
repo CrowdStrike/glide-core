@@ -355,3 +355,42 @@ it('sets the selected tab as tabbable on tab blur', async () => {
   expect(tabs[1]?.selected).to.be.false;
   expect(tabs[1]?.tabIndex).to.equal(-1);
 });
+
+it('can be nested', async () => {
+  const host = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
+      <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
+
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+
+      <glide-core-tab-panel name="2">
+        <glide-core-tab-group>
+          <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
+          <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
+
+          <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+          <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+        </glide-core-tab-group>
+      </glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const tabs = host.querySelectorAll('glide-core-tab');
+
+  tabs[1]?.click();
+  await host.updateComplete;
+
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[1]?.selected).to.be.true;
+  expect(tabs[2]?.selected).to.be.true;
+  expect(tabs[3]?.selected).to.be.false;
+
+  tabs[0]?.click();
+  await host.updateComplete;
+
+  expect(tabs[0]?.selected).to.be.true;
+  expect(tabs[1]?.selected).to.be.false;
+  expect(tabs[2]?.selected).to.be.true;
+  expect(tabs[3]?.selected).to.be.false;
+});

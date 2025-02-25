@@ -9425,15 +9425,6 @@
             },
             {
               "kind": "field",
-              "name": "isAfterFirstUpdated",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "field",
               "name": "isDisableOverflowEndButton",
               "type": {
                 "text": "boolean"
@@ -9535,7 +9526,7 @@
             },
             {
               "kind": "method",
-              "name": "#onClick",
+              "name": "#onComponentClick",
               "privacy": "private",
               "parameters": [
                 {
@@ -9548,22 +9539,7 @@
             },
             {
               "kind": "method",
-              "name": "#onClickOverflowEndButton",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "#onClickOverflowStartButton",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "#onFocusout",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "#onKeydown",
+              "name": "#onComponentKeydown",
               "privacy": "private",
               "parameters": [
                 {
@@ -9577,6 +9553,21 @@
             {
               "kind": "method",
               "name": "#onNavSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "#onOverflowEndButtonClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "#onOverflowStartButtonClick",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "#onTabListFocusout",
               "privacy": "private"
             },
             {
@@ -9619,7 +9610,7 @@
             },
             {
               "kind": "method",
-              "name": "#setupTabs",
+              "name": "#setUpTabs",
               "privacy": "private"
             },
             {

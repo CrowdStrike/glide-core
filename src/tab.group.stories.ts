@@ -65,23 +65,18 @@ const meta: Meta = {
     '<glide-core-tab-panel>[--padding-inline-start]': '',
   },
   play(context) {
-    const tabs = context.canvasElement.querySelectorAll('glide-core-tab');
-
-    for (const tab of tabs) {
-      tab.addEventListener('click', (event: Event) => {
+    context.canvasElement
+      .querySelector('glide-core-tab-group')
+      ?.addEventListener('selected', (event: Event) => {
         if (event.target instanceof GlideCoreTab) {
-          for (const tab of tabs) {
-            addons.getChannel().emit(UPDATE_STORY_ARGS, {
-              storyId: context.id,
-              updatedArgs: {
-                [`<glide-core-tab>.${tab.panel}.selected`]:
-                  tab === event.target,
-              },
-            });
-          }
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              [`<glide-core-tab>.${event.target.panel}.selected`]: true,
+            },
+          });
         }
       });
-    }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment */
@@ -132,6 +127,24 @@ const meta: Meta = {
           })}
         >
           ${unsafeHTML(arguments_['<glide-core-tab-panel>[slot="default"]'])}
+
+          <glide-core-tab-group>
+            <glide-core-tab slot="nav" panel="1"> test </glide-core-tab>
+
+            <glide-core-tab slot="nav" panel="2">
+              With Icon test
+
+              <glide-core-example-icon
+                slot="icon"
+                name="checkmark"
+              ></glide-core-example-icon>
+            </glide-core-tab>
+
+            <glide-core-tab-panel name="1"> </glide-core-tab-panel>
+            <glide-core-tab-panel name="2">
+              With Icon test
+            </glide-core-tab-panel>
+          </glide-core-tab-group>
         </glide-core-tab-panel>
         <glide-core-tab-panel name="2"> With Icon </glide-core-tab-panel>
       </glide-core-tab-group>
