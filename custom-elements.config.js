@@ -6,6 +6,7 @@ import addEvents from './dist/cem-analyzer-plugins/add-events.js';
 import addRequiredToAttributes from './dist/cem-analyzer-plugins/add-required-to-attributes.js';
 import addSlots from './dist/cem-analyzer-plugins/add-slots.js';
 import removeBlockComments from './dist/cem-analyzer-plugins/remove-block-comments.js';
+import removePrivateMembers from './dist/cem-analyzer-plugins/remove-private-members.js';
 
 export default {
   exclude: [
@@ -24,6 +25,7 @@ export default {
   litelement: true,
   plugins: [
     removeBlockComments(),
+    removePrivateMembers(),
     addCustomProperties(),
     addEvents(),
     addRequiredToAttributes(),
