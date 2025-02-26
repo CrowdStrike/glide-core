@@ -32,19 +32,6 @@ export default [
     .component {
       font-family: var(--glide-core-font-sans);
       outline: none;
-
-      /*
-        Prefixing the CSS custom property with "panel" will
-        ensure we are robust. Imagine cases where consumers
-        have set "--padding-inline-start" or "--padding-inline-end"
-        already and now we require these variables to adjust
-        padding within our panels. Adding the prefix of "panel"
-        should ensure uniqueness to our component.
-
-        A second reason we prefix this is so that consumers
-        can set these properties on the parent Tab Group
-        and it will apply to all child panels for convenience.
-      */
       padding-inline-end: var(--padding-inline-end);
       padding-inline-start: var(--padding-inline-start);
 

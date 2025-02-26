@@ -7,6 +7,8 @@
   - [Adding a release note](#adding-a-release-note)
   - [Updating style variables](#updating-style-variables)
   - [Localization](#localization)
+- [Documentation](#documentation)
+  - [Components](#components)
 - [Best practices](#best-practices)
   - [CSS](#css)
     - [Animate conditionally](#animate-conditionally)
@@ -94,6 +96,43 @@ To localize a string:
 The non-English languages will fallback to English until they are translated.
 The `src/translations/en.json` will be sent to our translation team and returned for each language we support.
 When a new file is received from the translators, please update all `src/translations/*.json` and `src/translations/*.ts` files with the updated strings.
+
+## Documentation
+
+### Components
+
+Each component has a JSDoc comment above it generated from the [elements manifest](https://github.com/CrowdStrike/glide-core/blob/main/custom-elements.json).
+So no need to write one yourself.
+It'll get overwritten when you run `pnpm start`.
+
+If you need to get information into the comment—such as an attribute description—simply add a comment above the attribute:
+
+```ts
+/**
+ * Description
+ **/
+@property({ reflect: true })
+label?: string;
+```
+
+Similar for slots:
+
+```html
+<slot>
+  <!-- Description -->
+</slot>
+```
+
+If a slot is required, add a `@required` tag:
+
+```html
+<slot>
+  <!--
+    Description
+    @required
+  -->
+</slot>
+```
 
 ## Best practices
 
@@ -589,3 +628,11 @@ It helps clarify how different scripts are used in different contexts.
 It also neatly abstracts away specific script names from CI configuration.
 
 In general, think of `*:development:*` scripts as long-running (`--serve`, `--watch`) and mutative (`--fix`, `--write`) and `*:production:*` scripts as neither.
+
+### Why are `assets` and `fonts` protected branches on GitHub?
+
+All of our code is deployed to a single Cloudflare R2 bucket.
+Each branch is [deployed](https://github.com/CrowdStrike/glide-core/blob/main/.github/workflows/on-pull-request-opened-and-synchronize.yml#L126) to a directory based on the branch name.
+And artifacts from our latest publish are [deployed](https://github.com/CrowdStrike/glide-core/blob/main/.github/workflows/on-merge-branch-changeset-release-main.yml#L95) to the top level of the bucket.
+It's a simple setup.
+But it means we can't have branch names that conflict and thus overwrite top-level directories that contain artifacts.
