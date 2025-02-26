@@ -45,7 +45,7 @@
 ### Forking the repository
 
 If you are a member of the CrowdStrike GitHub organization, you can branch off of `main`.
-For those not in the organization, you can [fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) and contribute as if you were contributing to any other open source project on GitHub.
+For those not in the organization, you can [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository and as you would any other open source project on GitHub.
 
 ### Don't reference internal systems, issues, or URLs
 
@@ -629,7 +629,7 @@ It also neatly abstracts away specific script names from CI configuration.
 
 In general, think of `*:development:*` scripts as long-running (`--serve`, `--watch`) and mutative (`--fix`, `--write`) and `*:production:*` scripts as neither.
 
-### Why are `assets` and `fonts` protected branches on GitHub?
+### Why are `assets`, `fonts`, and `snapshots` protected branches on GitHub?
 
 All of our code is deployed to a single Cloudflare R2 bucket.
 Each branch is [deployed](https://github.com/CrowdStrike/glide-core/blob/main/.github/workflows/on-pull-request-opened-and-synchronize.yml#L126) to a directory based on the branch name.

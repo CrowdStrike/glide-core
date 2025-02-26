@@ -12,9 +12,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  install_dependencies:
+  install-dependencies:
     name: Install
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
@@ -23,7 +26,7 @@ jobs:
     name: Format
     runs-on: macos-latest
     needs:
-      - install_dependencies
+      - install-dependencies
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
@@ -35,7 +38,7 @@ jobs:
     name: Lint
     runs-on: macos-latest
     needs:
-      - install_dependencies
+      - install-dependencies
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
@@ -50,7 +53,7 @@ jobs:
     name: Typecheck
     runs-on: macos-latest
     needs:
-      - install_dependencies
+      - install-dependencies
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
@@ -63,9 +66,8 @@ jobs:
     runs-on: macos-latest
     # Something has gone wrong if our tests take longer than 10 minutes.
     timeout-minutes: 10
-
     needs:
-      - install_dependencies
+      - install-dependencies
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
@@ -77,35 +79,12 @@ jobs:
         if: ${{ failure() }}
         with:
           name: coverage
-          path: dist/coverage/
+          path: dist/coverage
 
-  build:
-    name: Build
-    runs-on: macos-latest
-    needs:
-      - install_dependencies
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/pnpm
-      - run: pnpm start
-        env:
-          BASE_URL: ${{ github.head_ref }}
-          NODE_ENV: production
-      - uses: actions/upload-artifact@v4
-        with:
-          name: storybook
-          path: dist/storybook
-
-  deploy:
-    name: Deploy
-    # Ubuntu instead of MacOS because the performance difference is
-    # negligible and Ubuntu includes the AWS CLI.
+  fetch-visual-snapshots:
+    name: Fetch Visual Snapshots
     runs-on: ubuntu-latest
-    needs:
-      - install_dependencies
-      - build
     steps:
-      - uses: actions/download-artifact@v4
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
       - name: Install AWS CLI
         run: |
@@ -122,10 +101,155 @@ jobs:
           aws configure set output json
           aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
-      - name: Deploy
+      - run: aws s3 sync s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/snapshots ./snapshots --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
+      - name: Upload snapshots
+        uses: actions/upload-artifact@v4
+        with:
+          path: snapshots
+          name: visual-snapshots
+
+  test-visuals:
+    name: Test (Visuals)
+    # Invididual MacOS jobs are likely faster. But MacOS runner concurrency is
+    # limited to 5. So it would be overall slower and we'd soak up all of our
+    # account's MacOS runners.
+    runs-on: ubuntu-latest
+    # Increase sharding if the job takes longer than 5 minutes. We want it to
+    # be no slower than the `test` job, which is our slowest.
+    timeout-minutes: 5
+    needs:
+      - install-dependencies
+      - fetch-visual-snapshots
+    strategy:
+      # We need every job in the matrix to finish so we can produce a full report.
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4, 5]
+        shardTotal: [5]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - name: Download snapshots
+        uses: actions/download-artifact@v4
+        with:
+          path: dist/snapshots
+          name: visual-snapshots
+      - name: Test
+        # Failing would add quite a bit of time to CI. It would also add complexity, both
+        # for developers and to this workflow.
+        #
+        # To do it, we'd have to hack up GitHub's staged deployments feature to require an
+        # approval of the visual changes. After they're approved, we'd update the snapshots
+        # on R2. Then we'd to force a re-run of this job so it passes for the branch in question.
+        # Lastly, after merge, we'd have to synchronize the snapshots again in case another
+        # branch was merged in the meantime and overwrote them.
+        #
+        # So we simply expect the developer and reviewers to look over the test report, deployed
+        # below, before merging.
+        continue-on-error: true
+        run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      - name: Upload blob report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-test-report-blob-${{ matrix.shardIndex }}
+          path: blob-report
+
+  deploy-visual-test-report:
+    name: Deploy Test Report
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    needs:
+      - test-visuals
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - name: Download blob reports
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          path: visual-test-report-blob
+          pattern: visual-test-report-blob-*
+      - name: Merge blob reports
+        run: |
+          PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL=https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}/visual-test-report/data/ npx playwright merge-reports --reporter html ./visual-test-report-blob
+      # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+      - name: Configure AWS CLI
+        env:
+          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+        # https://developers.cloudflare.com/r2/examples/aws/aws-cli
+        run: |
+          aws configure set region auto
+          aws configure set output json
+          aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
+      - name: Deploy HTML report
+        run: aws s3 sync ./playwright-report s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }}/visual-test-report --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: visual-test-report
+          message: |+
+            ## Visual Test Report
+            https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}/visual-test-report
+
+  build:
+    name: Build
+    runs-on: macos-latest
+    needs:
+      - install-dependencies
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - run: pnpm start
+        env:
+          BASE_URL: ${{ github.head_ref }}
+          NODE_ENV: production
+      - name: Upload Storybook
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook
+          path: dist/storybook
+
+  deploy-storybook:
+    name: Deploy Storybook
+    # Ubuntu instead of MacOS because the performance difference is
+    # negligible and Ubuntu includes the AWS CLI.
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+      - name: Configure AWS CLI
+        env:
+          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+        # https://developers.cloudflare.com/r2/examples/aws/aws-cli
+        run: |
+          aws configure set region auto
+          aws configure set output json
+          aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
+      - name: Download Storybook
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook
+          path: storybook
+      - name: Deploy Storybook
         run: aws s3 sync ./storybook s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }} --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
+          header: storybook
           message: |+
-            ## Preview URL
+            ## Storybook
             https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}

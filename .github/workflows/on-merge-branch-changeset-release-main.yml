@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  install_dependencies:
+  install-dependencies:
     name: Install
     if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
     runs-on: macos-latest
@@ -25,14 +25,15 @@ jobs:
     if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
     runs-on: macos-latest
     needs:
-      - install_dependencies
+      - install-dependencies
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
       - run: pnpm start
         env:
           NODE_ENV: production
-      - uses: actions/upload-artifact@v4
+      - name: Upload Storybook
+        uses: actions/upload-artifact@v4
         with:
           name: storybook
           path: dist/storybook
@@ -43,7 +44,7 @@ jobs:
     timeout-minutes: 5
     runs-on: macos-latest
     needs:
-      - install_dependencies
+      - install-dependencies
     permissions:
       # https://docs.npmjs.com/generating-provenance-statements#publishing-packages-with-provenance-via-github-actions
       contents: write
@@ -63,18 +64,22 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  deploy:
-    name: Deploy
+  deploy-storybook:
+    name: Deploy Storybook
     if: github.event.pull_request.merged == true && github.head_ref == 'changeset-release/main'
     # Ubuntu instead of MacOS because the performance difference is
     # negligible and Ubuntu includes the AWS CLI.
     runs-on: ubuntu-latest
     needs:
-      - install_dependencies
+      - install-dependencies
       - build
       - release
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download Storybook
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook
+          path: storybook
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
       - name: Install AWS CLI
         run: |
@@ -91,5 +96,5 @@ jobs:
           aws configure set output json
           aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
-      - name: Deploy
+      - name: Deploy Storybook
         run: aws s3 sync ./storybook s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/ --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}

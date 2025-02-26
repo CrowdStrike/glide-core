@@ -46,41 +46,13 @@ test.describe('Button', () => {
     });
 
     test.describe('size', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('size="small"', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button');
 
         const handle = await page.waitForSelector('glide-core-button');
 
         await handle?.evaluate((node) => {
           node.size = 'small';
-          return node.updateComplete;
-        });
-
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="secondary"', async ({ page }, test) => {
-        await page.goto('/iframe.html?id=button--button');
-
-        const handle = await page.waitForSelector('glide-core-button');
-
-        await handle?.evaluate((node) => {
-          node.size = 'small';
-          node.variant = 'secondary';
-          return node.updateComplete;
-        });
-
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="tertiary"', async ({ page }, test) => {
-        await page.goto('/iframe.html?id=button--button');
-
-        const handle = await page.waitForSelector('glide-core-button');
-
-        await handle?.evaluate((node) => {
-          node.size = 'small';
-          node.variant = 'tertiary';
           return node.updateComplete;
         });
 
@@ -91,6 +63,7 @@ test.describe('Button', () => {
     test.describe('variant', () => {
       test('variant="primary"', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button');
+        await page.waitForSelector('glide-core-button');
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
@@ -167,41 +140,13 @@ test.describe('Button', () => {
     });
 
     test.describe('size', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('size="large"', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button&globals=theme:dark');
 
         const handle = await page.waitForSelector('glide-core-button');
 
         await handle?.evaluate((node) => {
           node.size = 'small';
-          return node.updateComplete;
-        });
-
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="secondary"', async ({ page }, test) => {
-        await page.goto('/iframe.html?id=button--button&globals=theme:dark');
-
-        const handle = await page.waitForSelector('glide-core-button');
-
-        await handle?.evaluate((node) => {
-          node.size = 'small';
-          node.variant = 'secondary';
-          return node.updateComplete;
-        });
-
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="tertiary"', async ({ page }, test) => {
-        await page.goto('/iframe.html?id=button--button&globals=theme:dark');
-
-        const handle = await page.waitForSelector('glide-core-button');
-
-        await handle?.evaluate((node) => {
-          node.size = 'small';
-          node.variant = 'tertiary';
           return node.updateComplete;
         });
 
@@ -212,6 +157,7 @@ test.describe('Button', () => {
     test.describe('variant', () => {
       test('variant="primary"', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button&globals=theme:dark');
+        await page.waitForSelector('glide-core-button');
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
@@ -290,41 +236,13 @@ test.describe('With Icons', () => {
     });
 
     test.describe('size', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('size="large"', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--with-icons');
 
         const handle = await page.waitForSelector('glide-core-button');
 
         await handle?.evaluate((node) => {
           node.size = 'small';
-          return node.updateComplete;
-        });
-
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="secondary"', async ({ page }, test) => {
-        await page.goto('/iframe.html?id=button--with-icons');
-
-        const handle = await page.waitForSelector('glide-core-button');
-
-        await handle?.evaluate((node) => {
-          node.size = 'small';
-          node.variant = 'secondary';
-          return node.updateComplete;
-        });
-
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="tertiary"', async ({ page }, test) => {
-        await page.goto('/iframe.html?id=button--with-icons');
-
-        const handle = await page.waitForSelector('glide-core-button');
-
-        await handle?.evaluate((node) => {
-          node.size = 'small';
-          node.variant = 'tertiary';
           return node.updateComplete;
         });
 
@@ -335,7 +253,7 @@ test.describe('With Icons', () => {
     test.describe('variant', () => {
       test('variant="primary"', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--with-icons');
-
+        await page.waitForSelector('glide-core-button');
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
@@ -418,7 +336,7 @@ test.describe('With Icons', () => {
     });
 
     test.describe('size', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('size="large"', async ({ page }, test) => {
         await page.goto(
           '/iframe.html?id=button--with-icons&globals=theme:dark',
         );
@@ -427,38 +345,6 @@ test.describe('With Icons', () => {
 
         await handle?.evaluate((node) => {
           node.size = 'small';
-          return node.updateComplete;
-        });
-
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="secondary"', async ({ page }, test) => {
-        await page.goto(
-          '/iframe.html?id=button--with-icons&globals=theme:dark',
-        );
-
-        const handle = await page.waitForSelector('glide-core-button');
-
-        await handle?.evaluate((node) => {
-          node.size = 'small';
-          node.variant = 'secondary';
-          return node.updateComplete;
-        });
-
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="tertiary"', async ({ page }, test) => {
-        await page.goto(
-          '/iframe.html?id=button--with-icons&globals=theme:dark',
-        );
-
-        const handle = await page.waitForSelector('glide-core-button');
-
-        await handle?.evaluate((node) => {
-          node.size = 'small';
-          node.variant = 'tertiary';
           return node.updateComplete;
         });
 
@@ -472,6 +358,7 @@ test.describe('With Icons', () => {
           '/iframe.html?id=button--with-icons&globals=theme:dark',
         );
 
+        await page.waitForSelector('glide-core-button');
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 

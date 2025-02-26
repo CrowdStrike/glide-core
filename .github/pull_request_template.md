@@ -15,6 +15,7 @@
 - I have followed the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) or met with the Accessibility Team.
 - I have included a [changeset](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#versioning-a-package).
 - I have scheduled a design review.
+- I have reviewed the Storybook and Visual Test Report links below.
 
 ## 🔬 How to Test
 

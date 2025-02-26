@@ -6,26 +6,22 @@ runs:
       name: Install Node.js
       with:
         node-version: 22.12.0
-
     - uses: pnpm/action-setup@v4.0.0
-      name: Install pnpm
+      name: Install PNPM
       with:
         version: '9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c'
         run_install: false
-
-    - name: Get PNPM Store Path
+    - name: Get PNPM store path
       shell: bash
       run: |
         echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
     - uses: actions/cache@v4
-      name: Setup pnpm cache
+      name: Set up PNPM cache
       with:
         path: ${{ env.STORE_PATH }}
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
-
-    - name: Install Dependencies
+    - name: Install dependencies
       shell: bash
       run: pnpm install
