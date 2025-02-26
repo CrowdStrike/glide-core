@@ -1,0 +1,34 @@
+name: Update Snapshots
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      # TODO: figure out how to parallelize this
+      - run: npx playwright test --update-snapshots
+      - uses: actions/upload-artifact@v4
+        with:
+          path: dist/snapshots
+          # TODO: think about this name. should also probably include "visual"
+          name: visual-test-snapshots (updated)
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: update
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: snapshots
+          name: visual-test-snapshots (updated)
+      - uses: ./.github/actions/aws-cli
+      - run: aws s3 sync ./snapshots s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/snapshots --delete --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
