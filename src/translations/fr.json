@@ -1,13 +1,19 @@
 {
-  "close": "Fermer",
-  "dismiss": "Congédier",
+  "close": "FERMER",
+  "dismiss": "Ignorer",
   "selectAll": "Tout sélectionner",
   "notifications": "Notifications",
   "nextTab": "Onglet suivant",
   "previousTab": "Onglet précédent",
-  "announcedCharacterCount": "Nombre de caractères {current} de {maximum}",
+  "noResults": "Aucun résultat trouvé",
+  "tooltip": "Info-bulle :",
+  "announcedCharacterCount": "Nombre de caractères {current} sur {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
   "clearEntry": "Effacer l'entrée {label}",
-  "removeTag": "Supprimer la balise : {label}",
-  "actionsFor": "Actions pour {label}"
+  "editOption": "Modifier l'option : {label}",
+  "editTag": "Modifier la balise : {label}",
+  "removeTag": "Enlever la balise : {label}",
+  "actionsFor": "Action pour {label}",
+  "itemCount": "{count} éléments",
+  "closeInlineAlert": "Fermer l'alerte {variant}"
 }

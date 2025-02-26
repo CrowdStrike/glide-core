@@ -1,13 +1,6 @@
 import type { Translation } from '../library/localize.js';
 
-export const PENDING_STRINGS = [
-  'editOption',
-  'editTag',
-  'itemCount',
-  'noResults',
-  'closeInlineAlert',
-  'tooltip',
-] as const;
+export const PENDING_STRINGS = [] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
 
@@ -18,19 +11,25 @@ const translation: Omit<Translation, PendingTranslation> = {
 
   // These come from ./ja.json
   close: '閉じる',
-  dismiss: '無視',
+  dismiss: '閉じる',
   selectAll: 'すべて選択',
   notifications: '通知',
   nextTab: 'Onglet suivant',
   previousTab: 'Onglet précédent',
+  noResults: '結果が見つかりません',
+  tooltip: 'ツールチップ：',
 
   announcedCharacterCount: (current: number, maximum: number) =>
-    `${maximum} 文字数の${current}`,
+    `文字数 ${current}/${maximum}`,
   displayedCharacterCount: (current: number, maximum: number) =>
     `${current}/${maximum}`,
-  clearEntry: (label: string) => `${label}エントリのクリア`,
-  removeTag: (label: string) => `タグを削除: ${label}`,
+  clearEntry: (label: string) => `${label}入力をクリア`,
+  editOption: (label: string) => `編集オプション：${label}`,
+  editTag: (label: string) => `タグの編集：${label}`,
+  removeTag: (label: string) => `タグの削除：${label}`,
   actionsFor: (label: string) => `${label}のアクション`,
+  itemCount: (count: string) => `${count}件`,
+  closeInlineAlert: (variant: string) => `${variant}アラートを閉じる`,
 };
 
 export default translation;

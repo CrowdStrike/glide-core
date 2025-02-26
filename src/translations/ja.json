@@ -1,13 +1,19 @@
 {
   "close": "閉じる",
-  "dismiss": "無視",
+  "dismiss": "閉じる",
   "selectAll": "すべて選択",
   "notifications": "通知",
   "nextTab": "次のタブ",
   "previousTab": "前のタブ",
-  "announcedCharacterCount": "{maximum} 文字数の{current}",
+  "noResults": "結果が見つかりません",
+  "tooltip": "ツールチップ：",
+  "announcedCharacterCount": "文字数 {current}/{maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
-  "clearEntry": "{label}エントリのクリア",
-  "removeTag": "タグを削除: {label}",
-  "actionsFor": "{label}のアクション"
+  "clearEntry": "{label}入力をクリア",
+  "editOption": "編集オプション：{label}",
+  "editTag": "タグの編集：{label}",
+  "removeTag": "タグの削除：{label}",
+  "actionsFor": "{label}のアクション",
+  "itemCount": "{count}件",
+  "closeInlineAlert": "{variant}アラートを閉じる"
 }
