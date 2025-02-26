@@ -1,5 +1,13 @@
 # @crowdstrike/glide-core
 
+## 0.20.2
+
+### Patch Changes
+
+- [#725](https://github.com/CrowdStrike/glide-core/pull/725) [`1e2c38f`](https://github.com/CrowdStrike/glide-core/commit/1e2c38f11dd5ed9019dce8377ac84bdc4eb509e0) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Most text is provided by consumers via attributes. But many components have built-in text to help screenreaders. That text has been fully localized for French and Japanese.
+
+- [#724](https://github.com/CrowdStrike/glide-core/pull/724) [`94a66f0`](https://github.com/CrowdStrike/glide-core/commit/94a66f0f392e386ab7767af6aa2b84ab245040f7) Thanks [@ynotdraw](https://github.com/ynotdraw)! - System CSS variables are no longer overridden by light or dark mode variables.
+
 ## 0.20.1
 
 ### Patch Changes
