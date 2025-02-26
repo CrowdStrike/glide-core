@@ -1,0 +1,51 @@
+name: Update Snapshots
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  update:
+    name: Update
+    runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      # TODO: figure out how to parallelize this
+      - run: npx playwright test --update-snapshots
+      - uses: actions/upload-artifact@v4
+        with:
+          path: dist/snapshots
+          # TODO: think about this name. should also probably include "visual"
+          name: visual-test-snapshots-updated
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: update
+    steps:
+      # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+      - name: Configure AWS CLI
+        env:
+          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+        # https://developers.cloudflare.com/r2/examples/aws/aws-cli
+        run: |
+          aws configure set region auto
+          aws configure set output json
+          aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
+      - uses: actions/download-artifact@v4
+        with:
+          path: snapshots
+          name: visual-test-snapshots-updated
+      # TODO: --delete
+      - run: aws s3 sync ./snapshots s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/snapshots --delete --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
