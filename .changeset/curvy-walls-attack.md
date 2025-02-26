@@ -2,4 +2,4 @@
 '@crowdstrike/glide-core': patch
 ---
 
-Accessibility strings are now fully translated for French and Japanese.
+Most text is provided by consumers via attributes. But many components have built-in text to help screenreaders. That text has been fully localized for French and Japanese.
