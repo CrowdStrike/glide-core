@@ -41,6 +41,8 @@ export default {
     '!**/icons/**',
     '!**/stylelint/**',
     '!**/translations/**',
+    '!src/**/*.*.test.visuals.ts',
+    '!src/**/*.test.visuals.ts',
   ],
   nodeResolve: {
     browser: true,

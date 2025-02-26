@@ -2622,6 +2622,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -2938,6 +2941,9 @@
             },
             {
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "fieldName": "version"
             }
@@ -5367,6 +5373,9 @@
             {
               "kind": "field",
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "attribute": "version",
               "reflects": true
@@ -5414,6 +5423,9 @@
             },
             {
               "name": "version",
+              "type": {
+                "text": "string"
+              },
               "readonly": true,
               "fieldName": "version"
             }
