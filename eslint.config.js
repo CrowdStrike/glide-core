@@ -50,6 +50,7 @@ export default [
       '@crowdstrike/glide-core/event-dispatch-from-this': 'error',
       '@crowdstrike/glide-core/string-event-name': 'error',
       '@crowdstrike/glide-core/slot-type-comment': 'error',
+      '@crowdstrike/glide-core/public-property-expression-type': 'error',
 
       // Enabling this rule would force us to `await` any function that returns a promise.
       // One example is a function that itself `await`s `updateComplete`. The rule is a bit
@@ -316,6 +317,7 @@ export default [
       '@crowdstrike/glide-core/event-dispatch-from-this': 'off',
       '@crowdstrike/glide-core/string-event-name': 'off',
       '@crowdstrike/glide-core/slot-type-comment': 'off',
+      '@crowdstrike/glide-core/public-property-expression-type': 'off',
     },
   },
   {

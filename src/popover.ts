@@ -32,7 +32,7 @@ declare global {
  * @attr {'bottom'|'left'|'right'|'top'} [placement]
  *
  * @readonly
- * @attr [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string} - The content of the popover
  * @slot {Element} [target] - The element to which the popover will anchor. Can be any focusable element.
@@ -118,13 +118,13 @@ export default class GlideCorePopover extends LitElement {
 
   /*
     The placement of the popover relative to its target. Automatic placement will
-    take over if the popover is cut off by the viewport. 
+    take over if the popover is cut off by the viewport.
   */
   @property()
   placement?: 'bottom' | 'left' | 'right' | 'top';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override connectedCallback() {
     super.connectedCallback();

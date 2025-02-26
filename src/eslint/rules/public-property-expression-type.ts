@@ -7,41 +7,38 @@ const createRule = ESLintUtils.RuleCreator<{
   return `https://github.com/CrowdStrike/glide-core/blob/main/src/eslint/rules/${name}.ts`;
 });
 
-export const publicMemberReturnType = createRule({
-  name: 'public-member-return-type',
+export const publicPropertyExpressionType = createRule({
+  name: 'public-property-expression-type',
   meta: {
     docs: {
       description:
-        'Ensures a return type annotation on public methods and getters with setters.',
+        'Ensures a type annotation on public properties whose value is an expression.',
       recommended: true,
     },
     type: 'suggestion',
     messages: {
-      addReturnType:
-        'Add a return type annotation to help us populate our elements manifest with the correct type.',
+      addExplicitType:
+        'Add a type annotation to help us populate our elements manifest with the correct type.',
     },
     schema: [],
   },
   defaultOptions: [],
   create(context) {
     return {
-      MethodDefinition(node) {
+      PropertyDefinition(node) {
         const isPseudoPrivate =
           node.key.type === AST_NODE_TYPES.Identifier &&
           node.key.name.startsWith('private');
 
         if (
-          node.kind !== 'constructor' &&
-          node.kind !== 'set' &&
+          node.value?.type === AST_NODE_TYPES.MemberExpression &&
           node.key.type !== AST_NODE_TYPES.PrivateIdentifier &&
-          node.accessibility !== 'private' &&
           !isPseudoPrivate &&
-          !node.override &&
-          !node.value.returnType
+          !node.typeAnnotation
         ) {
           context.report({
             node,
-            messageId: 'addReturnType',
+            messageId: 'addExplicitType',
           });
         }
       },

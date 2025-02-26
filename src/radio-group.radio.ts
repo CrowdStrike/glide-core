@@ -20,7 +20,7 @@ declare global {
  * @attr {string} [value]
  *
  * @readonly
- * @attr [version]
+ * @attr {string} [version]
  *
  * @fires {Event} change
  * @fires {Event} input
@@ -159,7 +159,7 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   override firstUpdated() {
     this.ariaChecked = this.checked.toString();
