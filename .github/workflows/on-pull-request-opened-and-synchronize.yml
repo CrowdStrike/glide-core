@@ -104,8 +104,14 @@ jobs:
     needs:
       - install_dependencies
       - build
+      - test
     steps:
       - uses: actions/download-artifact@v4
+        with:
+          name: storybook
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
       - name: Install AWS CLI
         run: |
@@ -127,5 +133,8 @@ jobs:
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |+
-            ## Preview URL
+            ## Storybook
             https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}
+
+            ## Coverage Report
+            https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}/coverage/lcov-report
