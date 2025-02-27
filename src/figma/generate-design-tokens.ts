@@ -298,7 +298,7 @@ function buildTokensFromVariables(
         variable,
       });
 
-      const token: Token = {
+      const token = {
         $type,
         $value: getTokenValueFromVariable({
           $type,
@@ -316,7 +316,7 @@ function buildTokensFromVariables(
             mode: mode.name,
           },
         },
-      };
+      } as Extract<Token, { $type: typeof $type }>;
 
       // As mentioned above, the groups of a variable, separated by a `/`, are used as keys.
       //
