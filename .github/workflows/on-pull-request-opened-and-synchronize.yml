@@ -29,13 +29,6 @@ jobs:
     name: Fetch Baseline Screenshots
     runs-on: ubuntu-latest
     steps:
-      # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
-      - name: Install AWS CLI
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
-          echo "8119ccf67de875f39d386abea986738fa710be57e20d4df66fa99c7f7fd09997 awscliv2.zip" | sha256sum --check
-          unzip awscliv2.zip
-          sudo ./aws/install --update
       - name: Configure AWS CLI
         env:
           CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
@@ -209,13 +202,6 @@ jobs:
       - name: Merge blob reports
         run: |
           PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL=https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}/visual-test-report/data/ pnpm exec playwright merge-reports --reporter html ./visual-test-report-blob
-      # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
-      - name: Install AWS CLI
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
-          echo "8119ccf67de875f39d386abea986738fa710be57e20d4df66fa99c7f7fd09997 awscliv2.zip" | sha256sum --check
-          unzip awscliv2.zip
-          sudo ./aws/install --update
       - name: Configure AWS CLI
         env:
           CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
@@ -264,13 +250,6 @@ jobs:
     needs:
       - build
     steps:
-      # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
-      - name: Install AWS CLI
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
-          echo "8119ccf67de875f39d386abea986738fa710be57e20d4df66fa99c7f7fd09997 awscliv2.zip" | sha256sum --check
-          unzip awscliv2.zip
-          sudo ./aws/install --update
       - name: Configure AWS CLI
         env:
           CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
