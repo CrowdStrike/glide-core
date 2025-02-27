@@ -16,6 +16,7 @@ import { publicGetterDefaultComment } from './rules/public-getter-default-commen
 import { eventDispatchFromThis } from './rules/event-dispatch-from-this.js';
 import { stringEventName } from './rules/string-event-name.js';
 import { slotTypeComment } from './rules/slot-type-comment.js';
+import { publicPropertyExpressionType } from './rules/public-property-expression-type.js';
 
 export default {
   rules: {
@@ -39,5 +40,6 @@ export default {
     'event-dispatch-from-this': eventDispatchFromThis,
     'string-event-name': stringEventName,
     'slot-type-comment': slotTypeComment,
+    'public-property-expression-type': publicPropertyExpressionType,
   },
 };

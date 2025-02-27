@@ -53,7 +53,7 @@ declare global {
  * @attr {'quiet'} [variant]
  *
  * @readonly
- * @attr [version]
+ * @attr {string} [version]
  *
  * @slot {GlideCoreDropdownOption}
  * @slot {Element | string} [description] - Additional information or context
@@ -348,7 +348,7 @@ export default class GlideCoreDropdown
   variant?: 'quiet';
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   private get activeOption() {
     return this.#optionElementsIncludingSelectAll?.find(

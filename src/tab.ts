@@ -20,7 +20,7 @@ declare global {
  * @attr {boolean} [selected=false]
  *
  * @readonly
- * @attr [version]
+ * @attr {string} [version]
  *
  * @slot {Element | string} - A label
  * @slot {Element} [icon]
@@ -66,7 +66,7 @@ export default class GlideCoreTab extends LitElement {
   }
 
   @property({ reflect: true })
-  readonly version = packageJson.version;
+  readonly version: string = packageJson.version;
 
   protected override firstUpdated() {
     this.setAttribute('role', 'tab');
