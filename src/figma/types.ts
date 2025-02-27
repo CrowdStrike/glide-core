@@ -3,15 +3,15 @@ import {
   type VariableScope,
 } from '@figma/rest-api-spec';
 
-// A Token is standardized, machine-readable Design Token format.
+// A Token is an object in a standardized, machine-readable format.
 //
-// We follow the [Design Tokens Format Module](https://tr.designtokens.org/format/)
+// We follow the Design Tokens Format Module (https://tr.designtokens.org/format/)
 // W3C draft. It provides a technical specification for a file format to exchange
 // design tokens between different tools. While we don't leverage additional tooling
 // at the moment, this allows us to potentially leverage one in the future, while also
 // putting our tokens in a format that is easily readable by humans and parseable by code.
 //
-// Tokens are distinct from Figma variables, in that a [token](https://tr.designtokens.org/format/#design-token)
+// Tokens are distinct from Figma variables, in that a token (https://tr.designtokens.org/format/#design-token)
 // is a name/value pair (with other properties), while a variable in Figma stores multiple values,
 // one for each mode.
 //
@@ -32,7 +32,7 @@ import {
 // `font-style` CSS properties, for example, should use a `string` type until
 // the specification provides additional guidance on these properties.
 // At the moment, these types are being considered, but no
-// [guidance currently exists](https://tr.designtokens.org/format/#additional-types).
+// guidance currently exists (https://tr.designtokens.org/format/#additional-types).
 
 interface BaseToken {
   $description?: string;
@@ -95,7 +95,7 @@ export interface TokenGroup {
  * Defines what we expect a Design Tokens file to look like.
  *
  * This format mostly adheres to the [draft W3C spec for Design Tokens](https://tr.designtokens.org/format/#file-format).
- * As mentioned above, we did make a few changes to `$type`.
+ * As mentioned at the top of this file, we did make a few changes to `$type`.
  *
  * We expect each tokens file to define tokens for a single variable collection and mode.
  * There isn't a way currently to represent modes or themes in the W3C community group design token specification.
