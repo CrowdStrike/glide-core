@@ -138,7 +138,7 @@ function getTokenValueFromVariable({
     }
 
     throw new Error(
-      `The variable "${JSON.stringify(value)}" is an object, but is unable to be parsed to an rgba value or variable alias.`,
+      `The variable "${JSON.stringify(value)}" is an object, but is unable to be parsed to a hex value or variable alias.`,
     );
   }
 
@@ -148,7 +148,7 @@ function getTokenValueFromVariable({
     // Figma's API returns numbers as pixels, but we prefer using
     // rem instead. Assuming a `dimension` should use a rem unit
     // may not be true in the future, so we may need to update accordingly
-    // as new use cases come in. But for now, this is a safe assumption.
+    // as new use cases come in.
     if ($type === 'dimension') {
       return { value: value / 16, unit: 'rem' };
     }
@@ -173,7 +173,7 @@ function buildTokensFromVariables(
     // A `remote` variable is a type of variable that is defined and managed in a separate file
     // and can be used across multiple files or projects.
     // We should not use remote variables in our Design System as we instead rely on
-    // local variables.
+    // local variables from the provided Figma file.
     if (variable.remote) {
       continue;
     }
@@ -215,7 +215,7 @@ function buildTokensFromVariables(
           : null;
 
       // Token file names use the `.tokens.json` extension to follow the
-      // [file extension](https://tr.designtokens.org/format/#file-extensions)
+      // file extension (https://tr.designtokens.org/format/#file-extensions)
       // guidance provided by the draft specification.
       //
       // Tokens are grouped based on the Figma collection they are a part of.
@@ -225,7 +225,7 @@ function buildTokensFromVariables(
       // the theme, for example. They contain a single set of values for each variable.
       //
       // The naming convention we use is `{collection}.tokens.json` for modeless collections.
-      // Collections with modes should include the mode, e.g., `{collection}-{mode}.tokens.json`.
+      // Collections with modes should use kebab casing, e.g., `{collection}-{mode}.tokens.json`.
       //
       // Adjusting this naming convention will have consequences in other parts of the
       // export process, so take care in making changes here.
@@ -270,7 +270,7 @@ function buildTokensFromVariables(
       //   }
       // }
       //
-      // To do this, we break the full name up into parts.
+      // To do this, we break the full name into parts separated by `/`.
       const parts = variable.name.split('/');
 
       for (let index = 0; index < parts.length - 1; index++) {
@@ -377,7 +377,7 @@ function getTokenTypeFromVariable({
       //
       // https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Values_and_units#numbers
       //
-      // There are more, of course, but we don't have needs for them at the moment.
+      // There are more number types, of course, but we don't have needs for them at the moment.
       if (scopes.includes('LINE_HEIGHT') || scopes.includes('OPACITY')) {
         return 'number';
       }

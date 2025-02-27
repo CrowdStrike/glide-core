@@ -45,9 +45,9 @@ export default async ({
       // it in our variable name to match the naming convention
       // outlined at the top of this file.
       //
-      // Dashes are used to separate a collection from its mode
+      // A dash is used to separate a collection from its mode
       // (e.g., {collection}-{mode}) from the previous step,
-      // so we can safely split on the dash here to get what we're after.
+      // so we can safely split on it here to get the collection name.
       const tokenCollectionName = file.includes('-')
         ? fileName.split('-').at(0)
         : fileName;
@@ -183,7 +183,7 @@ function generateCSSVariablesFromTokens({
       //   }
       // }
       //
-      // At this stage in the loop, we are at `group` level.
+      // At this stage in the loop, we are at the `group` level.
       // We need to go one layer deeper to get to our actual
       // token, so we recursively call this function to
       // get there.

@@ -27,6 +27,7 @@
     "!dist/*.test.*.js",
     "!dist/cem-analyzer-plugins",
     "!dist/eslint",
+    "!dist/figma",
     "!dist/icons/storybook.*",
     "!dist/storybook",
     "!dist/stylelint",
