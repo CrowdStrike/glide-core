@@ -3,55 +3,43 @@ import {
   type VariableScope,
 } from '@figma/rest-api-spec';
 
-/**
- * A standardized, machine-readable Design Token format.
- *
- * We follow the [Design Tokens Format Module](https://tr.designtokens.org/format/)
- * W3C draft. It provides a technical specification for a file format to exchange
- * design tokens between different tools. While we don't leverage additional tooling
- * at the moment, this allows us to potentially leverage one in the future, while also
- * putting our tokens in a format that is easily readable by humans and parseable by code.
- *
- * Tokens are distinct from Figma variables, in that a [token](https://tr.designtokens.org/format/#design-token)
- * is a name/value pair (with other properties), while a variable in Figma stores multiple values,
- * one for each mode.
- */
-export interface Token {
-  /**
-   * The [type](https://tr.designtokens.org/format/#types) of the token.
-   *
-   * We support a subset of the types listed in the document. `duration`
-   * and `cubic-bezier` are not currently applicable to our variables.
-   *
-   * Adding support for these types would lead to additional code for
-   * processing them. It's better to be explicit in the types we support and
-   * keep an eye on the W3C document for updates. If a Figma variable is
-   * created using a currently unsupported type, we can add it then.
-   *
-   * Additionally, we diverge slightly from the draft W3C types by allowing
-   * for a `string` type. This is to better align with the resolved types
-   * for Figma variables.
-   *
-   * `font-style` CSS properties, for example, should use a `string` type until
-   * the specification provides additional guidance on these properties.
-   * At the moment, these types are being considered, but no
-   * [guidance currently exists](https://tr.designtokens.org/format/#additional-types).
-   */
-  $type:
-    | 'color'
-    | 'dimension'
-    | 'fontFamily'
-    | 'fontWeight'
-    | 'number'
-    | 'string';
-  $value: string | number | { value: number; unit: 'rem' };
+// A Token is standardized, machine-readable Design Token format.
+//
+// We follow the [Design Tokens Format Module](https://tr.designtokens.org/format/)
+// W3C draft. It provides a technical specification for a file format to exchange
+// design tokens between different tools. While we don't leverage additional tooling
+// at the moment, this allows us to potentially leverage one in the future, while also
+// putting our tokens in a format that is easily readable by humans and parseable by code.
+//
+// Tokens are distinct from Figma variables, in that a [token](https://tr.designtokens.org/format/#design-token)
+// is a name/value pair (with other properties), while a variable in Figma stores multiple values,
+// one for each mode.
+//
+// The `$type` property of a Token follows the format specified at https://tr.designtokens.org/format/#types.
+//
+// We support a subset of the types listed in the document. `duration`
+// and `cubic-bezier` are not currently applicable to our variables.
+//
+// Adding support for these types would lead to additional code for
+// processing them. It's better to be explicit in the types we support and
+// keep an eye on the W3C document for updates. If a Figma variable is
+// created using a currently unsupported type, we can add it then.
+//
+// Additionally, we diverge slightly from the draft W3C types by allowing
+// for a `string` type. This is to better align with the resolved types
+// for Figma variables.
+//
+// `font-style` CSS properties, for example, should use a `string` type until
+// the specification provides additional guidance on these properties.
+// At the moment, these types are being considered, but no
+// [guidance currently exists](https://tr.designtokens.org/format/#additional-types).
+
+interface BaseToken {
   $description?: string;
   $extensions?: {
-    /**
-     * https://tr.designtokens.org/format/#extensions-0
-     *
-     * The `com.figma` namespace stores Figma-specific variable properties.
-     */
+    // https://tr.designtokens.org/format/#extensions-0
+    //
+    // Used to store Figma-specific variable properties.
     'com.figma'?: {
       codeSyntax?: VariableCodeSyntax;
       hiddenFromPublishing?: boolean;
@@ -60,6 +48,44 @@ export interface Token {
     };
   };
 }
+
+interface ColorToken extends BaseToken {
+  $type: 'color';
+  $value: string;
+}
+
+interface DimensionToken extends BaseToken {
+  $type: 'dimension';
+  $value: { value: number; unit: 'rem' };
+}
+
+interface FontFamilyToken extends BaseToken {
+  $type: 'fontFamily';
+  $value: string;
+}
+
+interface FontWeightToken extends BaseToken {
+  $type: 'fontWeight';
+  $value: number;
+}
+
+interface NumberToken extends BaseToken {
+  $type: 'number';
+  $value: number;
+}
+
+interface StringToken extends BaseToken {
+  $type: 'string';
+  $value: string;
+}
+
+export type Token =
+  | ColorToken
+  | DimensionToken
+  | FontFamilyToken
+  | FontWeightToken
+  | NumberToken
+  | StringToken;
 
 export interface TokenGroup {
   [key: string]: Token | TokenGroup;

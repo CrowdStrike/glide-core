@@ -1,21 +1,14 @@
 import type { Token } from './types.js';
 
+/**
+ * Convenience method to ensure a provided object
+ * is a Token. Used across multiple files in the process
+ * for type narrowing.
+ */
 export default (object: unknown): object is Token => {
   if (typeof object !== 'object' || object === null) {
     return false;
   }
 
-  return (
-    '$type' in object &&
-    '$value' in object &&
-    (object.$type === 'color' ||
-      object.$type === 'number' ||
-      object.$type === 'string' ||
-      object.$type === 'dimension' ||
-      object.$type === 'fontFamily' ||
-      object.$type === 'fontWeight') &&
-    (typeof object.$value === 'string' ||
-      typeof object.$value === 'number' ||
-      typeof object.$value === 'object')
-  );
+  return '$type' in object && '$value' in object;
 };

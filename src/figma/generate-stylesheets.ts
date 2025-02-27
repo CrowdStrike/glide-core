@@ -144,55 +144,49 @@ function generateCSSVariablesFromTokens({
       switch (value.$type) {
         case 'color':
         case 'string': {
-          if (typeof value.$value !== 'string') {
-            throw new TypeError(
-              `Unexpected value type for color/string: ${JSON.stringify(value.$value)}`,
-            );
-          }
-
           cssValue = value.$value;
           break;
         }
         case 'dimension': {
-          if (typeof value.$value !== 'object') {
-            throw new TypeError(
-              `Unexpected value type for dimension: ${JSON.stringify(value.$value)}`,
-            );
-          }
-
           const dimension = value.$value;
           cssValue = `${dimension.value}${dimension.unit}`;
           break;
         }
         case 'number':
         case 'fontWeight': {
-          if (typeof value.$value !== 'number') {
-            throw new TypeError(
-              `Unexpected value type for number/fontWeight: ${JSON.stringify(value.$value)}`,
-            );
-          }
-
           cssValue = value.$value.toString();
           break;
         }
         case 'fontFamily': {
-          if (typeof value.$value !== 'string') {
-            throw new TypeError(
-              `Unexpected value type for fontFamily: ${typeof value.$value}`,
-            );
-          }
-
           cssValue = `"${value.$value}"`;
           break;
         }
 
         default: {
-          cssValue = JSON.stringify(value.$value);
+          throw new Error(`Unknown $type for "${JSON.stringify(value)}".`);
         }
       }
 
       cssVariables.push(`${prefix}-${key.toLowerCase()}: ${cssValue};`);
     } else if (typeof value === 'object') {
+      // Why wouldn't `value` be a Token?
+      //
+      // It's the start of our Token Group.
+      // Remember how we store tokens:
+      //
+      // {
+      //   "group": {
+      //     "token-1": {
+      //       "$type": "color",
+      //       "$value": "#000000"
+      //     }
+      //   }
+      // }
+      //
+      // At this stage in the loop, we are at `group` level.
+      // We need to go one layer deeper to get to our actual
+      // token, so we recursively call this function to
+      // get there.
       cssVariables.push(
         ...generateCSSVariablesFromTokens({
           tokens: value,
