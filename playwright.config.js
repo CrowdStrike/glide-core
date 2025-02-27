@@ -1,7 +1,8 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  snapshotPathTemplate: './dist/playwright/{testFilePath}/{arg}{ext}',
+  fullyParallel: true,
+  snapshotPathTemplate: './dist/playwright/{arg}{ext}',
   testDir: './src/',
   testMatch: /.*\.test\.visuals\.ts/,
   use: {

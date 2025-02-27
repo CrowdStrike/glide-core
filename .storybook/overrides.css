@@ -40,8 +40,13 @@
   display: none !important;
 }
 
-/* The element containing our rendered component. */
+/* The element on the overview page that contains our rendered component. */
 .docs-story {
+  background-color: var(--glide-core-surface-background-image) !important;
+}
+
+/* The element on individual story pages that contains our rendered component. */
+.sb-show-main {
   background-color: var(--glide-core-surface-background-image) !important;
 }
 

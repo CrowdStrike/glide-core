@@ -185,7 +185,7 @@ export default [
       'no-restricted-syntax': [
         'error',
         {
-          // See CONTRIBUTING.md for detailed reasoning
+          // See CONTRIBUTING.md for our reasoning.
           selector: `CallExpression[callee.name='describe']`,
           message:
             "Please use separate files rather than the 'describe' block.",
