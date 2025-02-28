@@ -629,7 +629,7 @@ It also neatly abstracts away specific script names from CI configuration.
 
 In general, think of `*:development:*` scripts as long-running (`--serve`, `--watch`) and mutative (`--fix`, `--write`) and `*:production:*` scripts as neither.
 
-### Why are `assets` and `fonts` protected branches on GitHub?
+### Why are `assets`, `fonts`, and `snapshots` protected branches on GitHub?
 
 All of our code is deployed to a single Cloudflare R2 bucket.
 Each branch is [deployed](https://github.com/CrowdStrike/glide-core/blob/main/.github/workflows/on-pull-request-opened-and-synchronize.yml#L126) to a directory based on the branch name.
