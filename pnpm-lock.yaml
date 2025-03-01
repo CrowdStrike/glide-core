@@ -64,7 +64,7 @@ importers:
         version: 8.5.8(storybook@8.5.8(prettier@3.5.1))
       '@storybook/core-events':
         specifier: ^8.5.8
-        version: 8.5.8(storybook@8.5.8(prettier@3.5.1))
+        version: 8.6.3(storybook@8.5.8(prettier@3.5.1))
       '@storybook/manager-api':
         specifier: ^8.5.8
         version: 8.5.8(storybook@8.5.8(prettier@3.5.1))
@@ -982,8 +982,8 @@ packages:
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
-  '@storybook/core-events@8.5.8':
-    resolution: {integrity: sha512-yjzDgoErmzzkesA7goiAi4zi4dMSZAS9KVoRwjIyW/w/uzldLJmp+EIg7pHRtZPDsNYGwEiHfsHIz/hwYCgaHA==}
+  '@storybook/core-events@8.6.3':
+    resolution: {integrity: sha512-+UCkypJKcrITCuA84IITcn1RI1gxXGl72e0KszfFYgsSkJpDMvxSU2RwVqJSORBe5GU3XOIR3FaNngbkO3nXMg==}
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
@@ -5352,7 +5352,7 @@ snapshots:
     dependencies:
       storybook: 8.5.8(prettier@3.5.1)
 
-  '@storybook/core-events@8.5.8(storybook@8.5.8(prettier@3.5.1))':
+  '@storybook/core-events@8.6.3(storybook@8.5.8(prettier@3.5.1))':
     dependencies:
       storybook: 8.5.8(prettier@3.5.1)
 
