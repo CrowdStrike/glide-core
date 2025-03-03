@@ -39,6 +39,16 @@ export default async ({ token, fileId }: { token: string; fileId: string }) => {
       throw new Error("Figma's API returned an unknown error.");
     }
 
+    if (Object.keys(tokens.meta.variables).length === 0) {
+      throw new Error('There were no variables returned in the response.');
+    }
+
+    if (Object.keys(tokens.meta.variableCollections).length === 0) {
+      throw new Error(
+        'There were no variable collections returned in the response.',
+      );
+    }
+
     spinner.success('Figma variables collected.');
 
     return tokens;
