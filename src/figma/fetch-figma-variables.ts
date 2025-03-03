@@ -2,7 +2,8 @@ import { type GetLocalVariablesResponse } from '@figma/rest-api-spec';
 import yoctoSpinner from 'yocto-spinner';
 
 /**
- * Fetches the variables from Figma's API and returns them as JSON.
+ * Fetches the variables and variable collections from Figma's API
+ * and returns them.
  *
  * https://www.figma.com/developers/api?fuid=1111467023992153920#variables
  */
@@ -51,7 +52,7 @@ export default async ({ token, fileId }: { token: string; fileId: string }) => {
 
     spinner.success('Figma variables collected.');
 
-    return tokens;
+    return tokens.meta;
   } catch (error) {
     spinner.error('An error occurred fetching the tokens from Figma.');
     throw error;

@@ -11,12 +11,12 @@ import { type Token, type TokenGroup, type TokensFile } from './types.js';
 import isToken from './is-design-token.js';
 
 /**
- * Uses the `GetLocalVariablesResponse` from Figma's API to
+ * Uses the `GetLocalVariablesResponse` meta from Figma's API to
  * generate [design tokens](https://tr.designtokens.org/format/#design-token)
  * grouped by the Figma collection.
  */
-export default (response: GetLocalVariablesResponse) => {
-  if (!response) {
+export default (meta: GetLocalVariablesResponse['meta']) => {
+  if (!meta) {
     throw new Error('The JSON response from Figma was empty.');
   }
 
@@ -24,7 +24,7 @@ export default (response: GetLocalVariablesResponse) => {
 
   try {
     const { deletedButReferencedVariableNames, tokens } =
-      buildTokensFromVariables(response);
+      buildTokensFromVariables(meta);
 
     if (deletedButReferencedVariableNames.length > 0) {
       // eslint-disable-next-line no-console
@@ -159,13 +159,15 @@ function getTokenValueFromVariable({
   return String(value);
 }
 
-function buildTokensFromVariables(
-  localVariablesResponse: GetLocalVariablesResponse,
-) {
+function buildTokensFromVariables({
+  variables,
+  variableCollections,
+}: {
+  variables: GetLocalVariablesResponse['meta']['variables'];
+  variableCollections: GetLocalVariablesResponse['meta']['variableCollections'];
+}) {
   const tokens: Record<string, TokensFile> = {};
   const deletedButReferencedVariableNames: string[] = [];
-
-  const { variables, variableCollections } = localVariablesResponse.meta;
 
   for (const variable of Object.values(variables)) {
     // https://www.figma.com/developers/api?fuid=1111467023992153920#variables-types
