@@ -3,7 +3,7 @@ import yoctoSpinner from 'yocto-spinner';
 import type { TokenGroup } from './types.js';
 
 /**
- * Writes the tokens to provided directory. Having them on disk helps with
+ * Writes the tokens to the provided directory. Having them on disk helps with
  * debugging by letting us manually verify them against what's shown in
  * Figma's UI.
  */

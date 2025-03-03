@@ -12,8 +12,9 @@ import isToken from './is-design-token.js';
 
 /**
  * Uses the `GetLocalVariablesResponse` meta from Figma's API to
- * generate [design tokens](https://tr.designtokens.org/format/#design-token)
- * grouped by the Figma collection.
+ * generate design tokens¹ grouped by the Figma collection.
+ *
+ * 1: https://tr.designtokens.org/format/#design-token
  */
 export default (meta: GetLocalVariablesResponse['meta']) => {
   if (!meta) {
@@ -143,12 +144,12 @@ function getTokenValueFromVariable({
   }
 
   if (typeof value === 'number') {
-    // https://tr.designtokens.org/format/#dimension
-    //
     // Figma's API returns numbers as pixels, but we prefer using
-    // rem instead. Assuming a `dimension` should use a rem unit
+    // rem instead. Assuming a dimension¹ should use a rem unit
     // may not be true in the future, so we may need to update accordingly
     // as new use cases come in.
+    //
+    // 1: https://tr.designtokens.org/format/#dimension
     if ($type === 'dimension') {
       return { value: value / 16, unit: 'rem' };
     }
@@ -170,25 +171,25 @@ function buildTokensFromVariables({
   const deletedButReferencedVariableNames: string[] = [];
 
   for (const variable of Object.values(variables)) {
-    // https://www.figma.com/developers/api?fuid=1111467023992153920#variables-types
-    //
-    // A `remote` variable is a type of variable that is defined and managed in a separate file
+    // A remote variable¹ is a type of variable that is defined and managed in a separate file
     // and can be used across multiple files or projects.
     // We should not use remote variables in our Design System as we instead rely on
     // local variables from the provided Figma file.
+    //
+    // 1: https://www.figma.com/developers/api?fuid=1111467023992153920#variables-types
     if (variable.remote) {
       continue;
     }
 
-    // https://www.figma.com/developers/api?fuid=1111467023992153920#variables-types
-    //
-    // `deletedButReferenced` indicates that the variable was deleted in the editor,
+    // `deletedButReferenced¹` indicates that the variable was deleted in the editor,
     // but the document may still contain references to the variable.
     // References to the variable may exist through bound values or variable aliases.
     //
     // We should not generate a token from these variables, but we can notify the
     // design team of their existence, in hopes they can be properly removed from
     // the Figma side of things.
+    //
+    // 1: https://www.figma.com/developers/api?fuid=1111467023992153920#variables-types
     if (variable.deletedButReferenced) {
       deletedButReferencedVariableNames.push(variable.name);
       continue;
@@ -217,8 +218,7 @@ function buildTokensFromVariables({
           : null;
 
       // Token file names use the `.tokens.json` extension to follow the
-      // file extension (https://tr.designtokens.org/format/#file-extensions)
-      // guidance provided by the draft specification.
+      // file extension¹ guidance provided by the draft specification.
       //
       // Tokens are grouped based on the Figma collection they are a part of.
       // Some collections also have a mode specified, as outlined above.
@@ -235,6 +235,8 @@ function buildTokensFromVariables({
       // Additionally, we use the collection and optional mode as the file name
       // as it aligns closely with what users see in Figma's UI. This helps with
       // troubleshooting.
+      //
+      // 1: https://tr.designtokens.org/format/#file-extensions
       const tokenFileName = modeName
         ? `${collection.name.toLowerCase()}-${modeName}.tokens.json`
         : `${collection.name.toLowerCase()}.tokens.json`;
@@ -256,9 +258,9 @@ function buildTokensFromVariables({
       // │  ├─ child-group-2/
       // │  │  ├─ variable-3
       //
-      // In our API response, a Figma variable's name includes the group(s) it is part of, separated
-      // by a `/`. `parent-group/child-group-1/variable-1` would be the full name for `variable-1`
-      // in the example above.
+      // In our API response, a Figma variable's name includes the group(s) it is part of,
+      // separated by a `/`. `parent-group/child-group-1/variable-1` would be the full name
+      // for `variable-1` in the example above.
       //
       // To make it easier to do a diff between Figma's UI and our generated
       // token JSON files, we put them in a similar format, where each group is a separate
@@ -316,12 +318,12 @@ function buildTokensFromVariables({
 
       // As mentioned above, the groups of a variable, separated by a `/`, are used as keys.
       //
-      // Going back to the example above of the `parent-group/child-group-1/variable-1` full name,
-      // `parent-group` and `child-group-1` will be nested keys in the object, with `variable-1`
-      // holding the actual token value.
+      // Going back to the example above of the `parent-group/child-group-1/variable-1`
+      // full name, `parent-group` and `child-group-1` will be nested keys in the object,
+      // with `variable-1` holding the actual token value.
       //
-      // Now that we have our token constructed, we simply need to grab the last segment (`variable-1`)
-      // and write our token to it.
+      // Now that we have our token constructed, we simply need to grab the last
+      // segment (`variable-1`) and write our token to it.
       const lastPart = parts.at(-1);
 
       if (!lastPart) {
@@ -369,11 +371,11 @@ function getTokenTypeFromVariable({
         return 'fontWeight';
       }
 
-      // `line-height` and `opacity` CSS properties are numbers.
+      // `line-height` and `opacity` CSS properties are numbers¹.
+      // There are more number types, of course, but we don't have needs
+      // for them at the moment.
       //
-      // https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Values_and_units#numbers
-      //
-      // There are more number types, of course, but we don't have needs for them at the moment.
+      // 1: https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Values_and_units#numbers
       if (scopes.includes('LINE_HEIGHT') || scopes.includes('OPACITY')) {
         return 'number';
       }

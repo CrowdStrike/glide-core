@@ -2,10 +2,10 @@ import { type GetLocalVariablesResponse } from '@figma/rest-api-spec';
 import yoctoSpinner from 'yocto-spinner';
 
 /**
- * Fetches the variables and variable collections from Figma's API
+ * Fetches the variables and variable collections from Figma's API¹
  * and returns them.
  *
- * https://www.figma.com/developers/api?fuid=1111467023992153920#variables
+ * 1: https://www.figma.com/developers/api?fuid=1111467023992153920#variables
  */
 export default async ({ token, fileId }: { token: string; fileId: string }) => {
   if (!token) {

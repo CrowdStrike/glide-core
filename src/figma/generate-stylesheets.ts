@@ -39,8 +39,8 @@ export default async ({
     for (const file of files) {
       // We follow the naming convention outlined by the
       // W3C draft by applying `.tokens.json` as the file extension.
-      // It's safe to drop the extension completely. We only care about the file
-      // name from this point on.
+      // It's safe to drop the extension completely. We only care about
+      // the file name from this point on.
       const fileName = file.replace('.tokens.json', '');
 
       // Variable names should include the Figma collection they

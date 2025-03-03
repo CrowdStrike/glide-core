@@ -14,9 +14,11 @@ const stylesheetsDirectory = 'stylesheets';
  * stylesheets from the tokens.
  *
  * This process has many layers and requires a general understanding
- * of [Figma variables, collections, and modes](https://help.figma.com/hc/en-us/articles/14506821864087-Overview-of-variables-collections-and-modes).
- * A general understanding of the W3C [Design Token format](https://tr.designtokens.org/format)
- * draft is also recommended.
+ * of Figma variables, collections, and modes¹. A general understanding
+ * of the W3C Design Token format draft² is also recommended.
+ *
+ * 1: https://github.com/open-wc/custom-elements-manifest/blob/e7ec7424aa418b220fc4ec7e70464b4d6f35b596/packages/analyzer/src/features/analyse-phase/creators/createClass.js#L151-L153
+ * 2: https://tr.designtokens.org/format
  */
 async function run() {
   const variables = await fetchFigmaVariables({
