@@ -1,7 +1,7 @@
 import generateStylesheets from './generate-stylesheets.js';
 import fetchFigmaVariables from './fetch-figma-variables.js';
 import getDesignTokens from './get-design-tokens.js';
-import writeTokens from './write-tokens.js';
+import writeDesignTokens from './write-design-tokens.js';
 
 const figmaToken = process.env.FIGMA_TOKEN ?? '';
 const figmaFileId = 'A4B1kaT5HVLqcijwK4GXzt';
@@ -26,7 +26,7 @@ async function run() {
 
   const tokens = getDesignTokens(variables);
 
-  await writeTokens({
+  await writeDesignTokens({
     tokens,
     directory: tokensDirectory,
   });
