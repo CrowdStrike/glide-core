@@ -15,8 +15,8 @@ import isToken from './is-token.js';
  * generate [design tokens](https://tr.designtokens.org/format/#design-token)
  * grouped by the Figma collection.
  */
-export default (tokensJson: GetLocalVariablesResponse) => {
-  if (!tokensJson) {
+export default (response: GetLocalVariablesResponse) => {
+  if (!response) {
     throw new Error('The JSON response from Figma was empty.');
   }
 
@@ -24,7 +24,7 @@ export default (tokensJson: GetLocalVariablesResponse) => {
 
   try {
     const { deletedButReferencedVariableNames, tokens } =
-      buildTokensFromVariables(tokensJson);
+      buildTokensFromVariables(response);
 
     if (deletedButReferencedVariableNames.length > 0) {
       // eslint-disable-next-line no-console
