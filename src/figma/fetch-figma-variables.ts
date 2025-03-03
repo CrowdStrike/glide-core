@@ -35,6 +35,10 @@ export default async ({ token, fileId }: { token: string; fileId: string }) => {
 
     tokens = (await response.json()) as GetLocalVariablesResponse;
 
+    if (tokens.error) {
+      throw new Error("Figma's API returned an unknown error.");
+    }
+
     spinner.success('Figma variables collected.');
 
     return tokens;
