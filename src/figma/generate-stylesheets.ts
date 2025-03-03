@@ -1,6 +1,7 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import yoctoSpinner from 'yocto-spinner';
+import { format } from 'prettier';
 import { type TokenGroup } from './types.js';
 import isToken from './is-design-token.js';
 
@@ -76,7 +77,7 @@ export default async ({
         tokens,
       });
 
-      let generatedContent = '/* Generated file. Do not edit directly. */';
+      let cssContent = '/* Generated file. Do not edit directly. */\n';
 
       // We need to handle the CSS generation for our color collections
       // quite a bit differently from the other stylesheets. Light and dark
@@ -87,16 +88,20 @@ export default async ({
         const theme = fileName.replace('color-', '');
 
         if (theme === 'light') {
-          generatedContent += `\n:root,\n:host,\n.theme-light {\n  color-scheme: light;\n  ${cssVariables.join('\n  ')}\n}\n`;
+          cssContent += `:root, :host, .theme-light {color-scheme: light; ${cssVariables.join('\n  ')}}`;
         }
 
         if (theme === 'dark') {
-          generatedContent += `\n:host,\n.theme-dark {\n  color-scheme: dark;\n  ${cssVariables.join('\n  ')}\n}\n`;
+          cssContent += `:host, .theme-dark {color-scheme: dark; ${cssVariables.join('\n  ')}}`;
         }
       } else {
         // All non-color collections simply target `:root`.
-        generatedContent += `\n:root {\n  ${cssVariables.join('\n  ')}\n}\n`;
+        cssContent += `:root {${cssVariables.join('\n  ')}}`;
       }
+
+      const formattedContent = await format(cssContent, {
+        parser: 'css',
+      });
 
       const cssPath = path.join(
         process.cwd(),
@@ -107,7 +112,7 @@ export default async ({
 
       await mkdir(directory, { recursive: true });
 
-      await writeFile(cssPath, generatedContent, 'utf8');
+      await writeFile(cssPath, formattedContent, 'utf8');
     }
   } catch (error) {
     spinner.error('An error occurred generating the stylesheets.');
