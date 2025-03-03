@@ -1,5 +1,5 @@
 import generateStylesheets from './generate-stylesheets.js';
-import getFigmaVariables from './get-figma-variables.js';
+import fetchFigmaVariables from './fetch-figma-variables.js';
 import generateDesignTokens from './generate-design-tokens.js';
 import writeTokens from './write-tokens.js';
 
@@ -19,7 +19,7 @@ const stylesheetsDirectory = 'stylesheets';
  * draft is also recommended.
  */
 async function run() {
-  const variables = await getFigmaVariables({
+  const variables = await fetchFigmaVariables({
     token: figmaToken,
     fileId: figmaFileId,
   });
