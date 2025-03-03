@@ -1,6 +1,6 @@
 import generateStylesheets from './generate-stylesheets.js';
 import fetchFigmaVariables from './fetch-figma-variables.js';
-import generateDesignTokens from './generate-design-tokens.js';
+import getDesignTokens from './get-design-tokens.js';
 import writeTokens from './write-tokens.js';
 
 const figmaToken = process.env.FIGMA_TOKEN ?? '';
@@ -24,11 +24,11 @@ async function run() {
     fileId: figmaFileId,
   });
 
-  const tokensGroupedByCollection = generateDesignTokens(variables);
+  const tokens = getDesignTokens(variables);
 
   await writeTokens({
-    tokensGroupedByCollection,
-    outputDirectory: tokensDirectory,
+    tokens,
+    directory: tokensDirectory,
   });
 
   await generateStylesheets({
