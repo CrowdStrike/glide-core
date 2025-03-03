@@ -6,10 +6,10 @@ import isToken from './is-token.js';
 
 /**
  * Reads the `.tokens.json` files generated from the previous step
- * to generate CSS stylesheets, grouped by collection and mode,
- * from all of the design tokens.
+ * to generate stylesheets, grouped by collection and mode, from
+ * all of the design tokens.
  *
- * Each variable follows this naming convention to align with design:
+ * Each variable follows this naming convention to align with Design:
  *
  * --glide-core-{collection}-{category*}-{scope*}-{property}-{variant*}--{state*}
  *   * = optional
@@ -32,9 +32,8 @@ export default async ({
     for (const file of files) {
       // We follow the naming convention outlined by the
       // W3C draft by applying `.tokens.json` as the file extension.
-      // At this stage it is safe to drop the extension completely
-      // as we only care about the file name from this point
-      // on.
+      // It's safe to drop the extension completely. We only care about the file
+      // name from this point on.
       const fileName = file.replace('.tokens.json', '');
 
       // Variable names should include the Figma collection they
@@ -114,7 +113,7 @@ export default async ({
 };
 
 /**
- * Loops over every design token, looks at the `$type`, and determines
+ * Loops over every design token, looks at its `$type`, and determines
  * how to create a CSS property and value from it.
  */
 function generateCSSVariablesFromTokens({

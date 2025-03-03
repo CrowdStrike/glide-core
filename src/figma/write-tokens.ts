@@ -4,11 +4,9 @@ import yoctoSpinner from 'yocto-spinner';
 import type { TokenGroup } from './types.js';
 
 /**
- * Writes all design tokens to disc for convenience and
- * so that they aren't stored solely in memory.
- *
- * Viewing the design tokens in the outputDirectory aids
- * in troubleshooting and verification against Figma's UI.
+ * Writes the tokens to `outputDirectory`. Having them on disk helps with 
+ * debugging by letting us manually verify them against what's shown in
+ * Figma's UI.
  */
 export default async ({
   outputDirectory,
