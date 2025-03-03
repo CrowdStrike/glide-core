@@ -1,4 +1,3 @@
-import { existsSync } from 'node:fs';
 import { mkdir, writeFile } from 'node:fs/promises';
 import yoctoSpinner from 'yocto-spinner';
 import type { TokenGroup } from './types.js';
@@ -18,9 +17,7 @@ export default async ({
   const spinner = yoctoSpinner({ text: 'Writing tokens to files…\n' }).start();
 
   try {
-    if (!existsSync(directory)) {
-      await mkdir(directory);
-    }
+    await mkdir(directory, { recursive: true });
 
     for (const [fileName, fileContent] of Object.entries(tokens)) {
       await writeFile(
