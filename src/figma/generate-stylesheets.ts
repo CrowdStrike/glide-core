@@ -162,6 +162,12 @@ function generateCSSVariablesFromTokens({
         }
 
         default: {
+          // This shouldn't happen given all of the checks prior to this point.
+          //
+          // But why `JSON.stringify()`? It may not be needed, but if value happened
+          // to be an object somehow at this point, without JSON.stringify we'd
+          // get everyone's favorite [object Object]. Easier to just always stringify
+          // to play it safe.
           throw new Error(`Unknown $type for "${JSON.stringify(value)}".`);
         }
       }
