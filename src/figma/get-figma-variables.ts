@@ -14,7 +14,7 @@ export default async ({ token, fileId }: { token: string; fileId: string }) => {
   }
 
   const spinner = yoctoSpinner({ text: 'Fetching Figma variables…' }).start();
-  let tokensJson: GetLocalVariablesResponse;
+  let tokens: GetLocalVariablesResponse;
 
   try {
     const response = await fetch(
@@ -33,11 +33,11 @@ export default async ({ token, fileId }: { token: string; fileId: string }) => {
       );
     }
 
-    tokensJson = (await response.json()) as GetLocalVariablesResponse;
+    tokens = (await response.json()) as GetLocalVariablesResponse;
 
     spinner.success('Figma variables collected.');
 
-    return tokensJson;
+    return tokens;
   } catch (error) {
     spinner.error('An error occurred fetching the tokens from Figma.');
     throw error;
