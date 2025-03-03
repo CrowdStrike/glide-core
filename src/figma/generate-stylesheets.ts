@@ -2,7 +2,7 @@ import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import yoctoSpinner from 'yocto-spinner';
 import { type TokenGroup } from './types.js';
-import isToken from './is-token.js';
+import isToken from './is-design-token.js';
 
 /**
  * Reads the `.tokens.json` files generated from the previous step
@@ -26,9 +26,16 @@ export default async ({
     text: 'Converting tokens to stylesheets…\n',
   }).start();
 
-  try {
-    const files = await readdir(tokensDirectory);
+  let files: string[];
 
+  try {
+    files = await readdir(tokensDirectory);
+  } catch (error) {
+    spinner.error(`Failed to read the tokens directory "${tokensDirectory}".`);
+    throw error;
+  }
+
+  try {
     for (const file of files) {
       // We follow the naming convention outlined by the
       // W3C draft by applying `.tokens.json` as the file extension.
@@ -102,14 +109,14 @@ export default async ({
 
       await writeFile(cssPath, generatedContent, 'utf8');
     }
-
-    spinner.success(
-      `Stylesheets have been written to the "${outputDirectory}" directory.`,
-    );
   } catch (error) {
     spinner.error('An error occurred generating the stylesheets.');
     throw error;
   }
+
+  spinner.success(
+    `Stylesheets have been written to the "${outputDirectory}" directory.`,
+  );
 };
 
 /**

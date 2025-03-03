@@ -8,7 +8,7 @@ import {
 } from '@figma/rest-api-spec';
 import yoctoSpinner from 'yocto-spinner';
 import { type Token, type TokenGroup, type TokensFile } from './types.js';
-import isToken from './is-token.js';
+import isToken from './is-design-token.js';
 
 /**
  * Uses the `GetLocalVariablesResponse` from Figma's API to
