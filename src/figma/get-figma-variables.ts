@@ -9,7 +9,7 @@ import yoctoSpinner from 'yocto-spinner';
 export default async ({ token, fileId }: { token: string; fileId: string }) => {
   if (!token) {
     throw new Error(
-      '"FIGMA_TOKEN" is a required environment variable. View CONTRIBUTING.md for more information on configuring this token.',
+      '"FIGMA_TOKEN" is a required environment variable. See [`CONTRIBUTING.md`](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#updating-style-variables) for more information.',
     );
   }
 
