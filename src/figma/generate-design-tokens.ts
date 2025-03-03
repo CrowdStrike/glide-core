@@ -273,13 +273,7 @@ function buildTokensFromVariables(
       // To do this, we break the full name into parts separated by `/`.
       const parts = variable.name.split('/');
 
-      for (let index = 0; index < parts.length - 1; index++) {
-        const part = parts[index];
-
-        if (!part) {
-          throw new Error(`Could not break "${variable.name}" into parts.`);
-        }
-
+      for (const part of parts.values()) {
         if (!(part in tokenGroup) || isToken(tokenGroup[part])) {
           tokenGroup[part] = {};
         }
