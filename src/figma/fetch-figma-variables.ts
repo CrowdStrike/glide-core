@@ -15,7 +15,6 @@ export default async ({ token, fileId }: { token: string; fileId: string }) => {
   }
 
   const spinner = yoctoSpinner({ text: 'Fetching Figma variables…' }).start();
-  let tokens: GetLocalVariablesResponse;
 
   try {
     const response = await fetch(
@@ -34,7 +33,7 @@ export default async ({ token, fileId }: { token: string; fileId: string }) => {
       );
     }
 
-    tokens = (await response.json()) as GetLocalVariablesResponse;
+    const tokens = (await response.json()) as GetLocalVariablesResponse;
 
     if (tokens.error) {
       throw new Error("Figma's API returned an unknown error.");
