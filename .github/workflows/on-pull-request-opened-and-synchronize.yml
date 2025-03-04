@@ -81,8 +81,8 @@ jobs:
           name: coverage
           path: dist/coverage
 
-  fetch-visual-snapshots:
-    name: Fetch Visual Snapshots
+  fetch-baseline-screenshots:
+    name: Fetch Baseline Screenshots
     runs-on: ubuntu-latest
     steps:
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
@@ -101,12 +101,12 @@ jobs:
           aws configure set output json
           aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
-      - run: aws s3 sync s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/snapshots ./snapshots --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
-      - name: Upload snapshots
+      - run: aws s3 sync s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/baseline-screenshots ./baseline-screenshots --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
+      - name: Upload baseline screenshots
         uses: actions/upload-artifact@v4
         with:
-          path: snapshots
-          name: visual-snapshots
+          path: baseline-screenshots
+          name: baseline-screenshots
 
   test-visuals:
     name: Test (Visuals)
@@ -119,7 +119,7 @@ jobs:
     timeout-minutes: 5
     needs:
       - install-dependencies
-      - fetch-visual-snapshots
+      - fetch-baseline-screenshots
     strategy:
       # We need every job in the matrix to finish so we can produce a full report.
       fail-fast: false
@@ -129,25 +129,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - name: Download snapshots
+      - name: Download baseline screenshots
         uses: actions/download-artifact@v4
         with:
-          path: dist/snapshots
-          name: visual-snapshots
+          path: dist/baseline-screenshots
+          name: baseline-screenshots
       - name: Test
         # Failing would add quite a bit of time to CI. It would also add complexity, both
         # for developers and to this workflow.
         #
         # To do it, we'd have to hack up GitHub's staged deployments feature to require an
-        # approval of the visual changes. After they're approved, we'd update the snapshots
+        # approval of the visual changes. After they're approved, we'd update the screenshots
         # on R2. Then we'd force a re-run of this job so it passes for the branch in question.
-        # Lastly, after merge, we'd have to synchronize the snapshots again in case another
+        # Lastly, after merge, we'd have to synchronize the screenshots again in case another
         # branch was merged in the meantime and overwrote them.
         #
         # So we simply expect the developer and reviewers to look over the test report, deployed
         # below, before merging.
         continue-on-error: true
-        run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4

@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   fullyParallel: true,
   reporter: process.env.CI ? 'blob' : 'html',
-  snapshotPathTemplate: './dist/snapshots/{arg}{ext}',
+  snapshotPathTemplate: './dist/baseline-screenshots/{arg}{ext}',
   testDir: './src/',
   testMatch: /.*\.test\.visuals\.ts/,
   use: {
