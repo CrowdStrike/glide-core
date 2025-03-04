@@ -64,12 +64,13 @@ jobs:
   test:
     name: Test
     runs-on: macos-latest
-    # Something has gone wrong if our tests take longer than 10 minutes.
+    # Something has gone wrong if testing takes longer than 10 minutes.
     timeout-minutes: 10
     needs:
       - install-dependencies
     steps:
       - uses: actions/checkout@v4
+      - run: git fetch origin main --depth 1
       - uses: ./.github/actions/pnpm
       - run: pnpm test
         env:
@@ -128,6 +129,7 @@ jobs:
         shardTotal: [5]
     steps:
       - uses: actions/checkout@v4
+      - run: git fetch origin main --depth 1
       - uses: ./.github/actions/pnpm
       - name: Download baseline screenshots
         uses: actions/download-artifact@v4
@@ -147,7 +149,7 @@ jobs:
         # So we simply expect the developer and reviewers to look over the test report, deployed
         # below, before merging.
         continue-on-error: true
-        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: pnpm exec playwright test --only-changed origin/main --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
@@ -172,7 +174,7 @@ jobs:
           pattern: visual-test-report-blob-*
       - name: Merge blob reports
         run: |
-          PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL=https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}/visual-test-report/data/ npx playwright merge-reports --reporter html ./visual-test-report-blob
+          PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL=https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}/visual-test-report/data/ pnpm exec playwright merge-reports --reporter html ./visual-test-report-blob
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
       - name: Install AWS CLI
         run: |

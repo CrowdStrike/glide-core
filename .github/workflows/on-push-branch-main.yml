@@ -60,7 +60,7 @@ jobs:
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
-      - run: npx playwright test --update-snapshots
+      - run: pnpm exec playwright test --update-snapshots
       - run: aws s3 sync ./dist/baseline-screenshots s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/baseline-screenshots --delete --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
 
   build:
