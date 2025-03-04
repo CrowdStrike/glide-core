@@ -77,7 +77,7 @@ export default async ({
         tokens,
       });
 
-      let cssContent = '/* Generated file. Do not edit directly. */\n';
+      let cssContent = '/* Generated file. Do not edit directly. */';
 
       // We need to handle the CSS generation for our color collections
       // quite a bit differently from the other stylesheets. Light and dark
@@ -88,15 +88,29 @@ export default async ({
         const theme = fileName.replace('color-', '');
 
         if (theme === 'light') {
-          cssContent += `:root, :host, .theme-light {color-scheme: light; ${cssVariables.join('\n  ')}}`;
+          cssContent += `
+            :root,
+            :host,
+            .theme-light {
+              color-scheme: light;
+              ${cssVariables.join('\n  ')}
+            }`;
         }
 
         if (theme === 'dark') {
-          cssContent += `:host, .theme-dark {color-scheme: dark; ${cssVariables.join('\n  ')}}`;
+          cssContent += `
+            :host,
+            .theme-dark {
+              color-scheme: dark;
+              ${cssVariables.join('\n  ')}
+            }`;
         }
       } else {
         // All non-color collections simply target `:root`.
-        cssContent += `:root {${cssVariables.join('\n  ')}}`;
+        cssContent += `
+          :root {
+            ${cssVariables.join('\n  ')}
+          }`;
       }
 
       const formattedContent = await format(cssContent, {
