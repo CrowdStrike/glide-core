@@ -140,7 +140,7 @@ jobs:
         #
         # To do it, we'd have to hack up GitHub's staged deployments feature to require an
         # approval of the visual changes. After they're approved, we'd update the snapshots
-        # on R2. Then we'd to force a re-run of this job so it passes for the branch in question.
+        # on R2. Then we'd force a re-run of this job so it passes for the branch in question.
         # Lastly, after merge, we'd have to synchronize the snapshots again in case another
         # branch was merged in the meantime and overwrote them.
         #

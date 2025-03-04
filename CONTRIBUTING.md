@@ -45,7 +45,7 @@
 ### Forking the repository
 
 If you are a member of the CrowdStrike GitHub organization, you can branch off of `main`.
-For those not in the organization, you can [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository and as you would any other open source project on GitHub.
+For those not in the organization, you can [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository as you would any other open source project on GitHub.
 
 ### Don't reference internal systems, issues, or URLs
 
