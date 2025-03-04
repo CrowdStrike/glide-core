@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 test.describe('Button', () => {
   test.describe('Light Mode', () => {
     test.describe('disabled', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('primary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -16,7 +16,7 @@ test.describe('Button', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="secondary"', async ({ page }, test) => {
+      test('secondary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -30,7 +30,7 @@ test.describe('Button', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="tertiary"', async ({ page }, test) => {
+      test('tertiary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -46,7 +46,7 @@ test.describe('Button', () => {
     });
 
     test.describe('size', () => {
-      test('size="small"', async ({ page }, test) => {
+      test('small', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -61,13 +61,13 @@ test.describe('Button', () => {
     });
 
     test.describe('variant', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('primary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button');
         await page.waitForSelector('glide-core-button');
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="secondary"', async ({ page }, test) => {
+      test('secondary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -80,7 +80,7 @@ test.describe('Button', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="tertiary"', async ({ page }, test) => {
+      test('tertiary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -97,7 +97,7 @@ test.describe('Button', () => {
 
   test.describe('Dark Mode', () => {
     test.describe('disabled', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('primary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button&globals=theme:dark');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -110,7 +110,7 @@ test.describe('Button', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="secondary"', async ({ page }, test) => {
+      test('secondary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button&globals=theme:dark');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -124,7 +124,7 @@ test.describe('Button', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="tertiary"', async ({ page }, test) => {
+      test('tertiary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button&globals=theme:dark');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -140,7 +140,7 @@ test.describe('Button', () => {
     });
 
     test.describe('size', () => {
-      test('size="large"', async ({ page }, test) => {
+      test('small', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button&globals=theme:dark');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -155,13 +155,13 @@ test.describe('Button', () => {
     });
 
     test.describe('variant', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('primary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button&globals=theme:dark');
         await page.waitForSelector('glide-core-button');
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="secondary"', async ({ page }, test) => {
+      test('secondary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button&globals=theme:dark');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -174,7 +174,7 @@ test.describe('Button', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="tertiary"', async ({ page }, test) => {
+      test('tertiary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--button&globals=theme:dark');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -193,7 +193,7 @@ test.describe('Button', () => {
 test.describe('With Icons', () => {
   test.describe('Light Mode', () => {
     test.describe('disabled', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('primary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--with-icons');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -206,7 +206,7 @@ test.describe('With Icons', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="secondary"', async ({ page }, test) => {
+      test('secondary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--with-icons');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -220,7 +220,7 @@ test.describe('With Icons', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="tertiary"', async ({ page }, test) => {
+      test('tertiary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--with-icons');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -236,7 +236,7 @@ test.describe('With Icons', () => {
     });
 
     test.describe('size', () => {
-      test('size="large"', async ({ page }, test) => {
+      test('small', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--with-icons');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -251,13 +251,13 @@ test.describe('With Icons', () => {
     });
 
     test.describe('variant', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('primary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--with-icons');
         await page.waitForSelector('glide-core-button');
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="secondary"', async ({ page }, test) => {
+      test('secondary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--with-icons');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -270,7 +270,7 @@ test.describe('With Icons', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="tertiary"', async ({ page }, test) => {
+      test('tertiary', async ({ page }, test) => {
         await page.goto('/iframe.html?id=button--with-icons');
 
         const handle = await page.waitForSelector('glide-core-button');
@@ -287,7 +287,7 @@ test.describe('With Icons', () => {
 
   test.describe('Dark Mode', () => {
     test.describe('disabled', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('primary', async ({ page }, test) => {
         await page.goto(
           '/iframe.html?id=button--with-icons&globals=theme:dark',
         );
@@ -302,7 +302,7 @@ test.describe('With Icons', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="secondary"', async ({ page }, test) => {
+      test('secondary', async ({ page }, test) => {
         await page.goto(
           '/iframe.html?id=button--with-icons&globals=theme:dark',
         );
@@ -318,7 +318,7 @@ test.describe('With Icons', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="tertiary"', async ({ page }, test) => {
+      test('tertiary', async ({ page }, test) => {
         await page.goto(
           '/iframe.html?id=button--with-icons&globals=theme:dark',
         );
@@ -336,7 +336,7 @@ test.describe('With Icons', () => {
     });
 
     test.describe('size', () => {
-      test('size="large"', async ({ page }, test) => {
+      test('small', async ({ page }, test) => {
         await page.goto(
           '/iframe.html?id=button--with-icons&globals=theme:dark',
         );
@@ -353,7 +353,7 @@ test.describe('With Icons', () => {
     });
 
     test.describe('variant', () => {
-      test('variant="primary"', async ({ page }, test) => {
+      test('primary', async ({ page }, test) => {
         await page.goto(
           '/iframe.html?id=button--with-icons&globals=theme:dark',
         );
@@ -362,7 +362,7 @@ test.describe('With Icons', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="secondary"', async ({ page }, test) => {
+      test('secondary', async ({ page }, test) => {
         await page.goto(
           '/iframe.html?id=button--with-icons&globals=theme:dark',
         );
@@ -377,7 +377,7 @@ test.describe('With Icons', () => {
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
 
-      test('variant="tertiary"', async ({ page }, test) => {
+      test('tertiary', async ({ page }, test) => {
         await page.goto(
           '/iframe.html?id=button--with-icons&globals=theme:dark',
         );
