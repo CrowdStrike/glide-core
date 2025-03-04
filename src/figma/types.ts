@@ -44,9 +44,9 @@ import {
 interface BaseToken {
   $description?: string;
   $extensions?: {
-    // Used to store Figma-specific variable properties¹.
+    // Used to store Figma-specific variable properties.
     //
-    // 1: https://tr.designtokens.org/format/#extensions-0
+    // https://tr.designtokens.org/format/#extensions-0
     'com.figma'?: {
       codeSyntax?: VariableCodeSyntax;
       hiddenFromPublishing?: boolean;
