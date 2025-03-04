@@ -165,6 +165,14 @@ const meta: Meta = {
           storyId: context.id,
           updatedArgs: {
             open: tooltip.open,
+            // Storybook reverts arguments back to their initial values when the
+            // above event is emitted unless the argument's value was changed via
+            // a control. And, for whatever reason, only changes to Lit property
+            // expressions cause a re-render and thus a reversion.
+            //
+            // So the current value of `shortcut` is preserved for visual tests and
+            // for when users change its value via DevTools instead of a control.
+            shortcut: tooltip.shortcut,
           },
         });
       }
