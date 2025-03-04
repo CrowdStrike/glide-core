@@ -277,7 +277,13 @@ export default [
     },
   },
   {
-    files: ['*.js', '.storybook/**/*', 'src/figma/*'],
+    files: ['*.js', '.storybook/**/*'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
+    files: ['src/figma/*.ts'],
     languageOptions: {
       globals: globals.node,
     },
