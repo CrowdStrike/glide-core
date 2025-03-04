@@ -277,7 +277,7 @@ function buildTokensFromVariables({
       // To do this, we break the full name into parts separated by `/`.
       const parts = variable.name.split('/');
 
-      for (const part of parts.values()) {
+      for (const part of parts) {
         if (!(part in tokenGroup) || isDesignToken(tokenGroup[part])) {
           tokenGroup[part] = {};
         }
