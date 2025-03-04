@@ -7,7 +7,7 @@ test.describe('Accordion', () => {
 
       const handle = await page.waitForSelector('glide-core-accordion');
 
-      await handle?.evaluate((node) => {
+      await handle.evaluate((node) => {
         node.open = true;
         return node.updateComplete;
       });
@@ -30,7 +30,7 @@ test.describe('Accordion', () => {
 
       const handle = await page.waitForSelector('glide-core-accordion');
 
-      await handle?.evaluate((node) => {
+      await handle.evaluate((node) => {
         node.open = true;
         return node.updateComplete;
       });
@@ -56,7 +56,7 @@ test.describe('With Icons', () => {
 
       const handle = await page.waitForSelector('glide-core-accordion');
 
-      await handle?.evaluate((node) => {
+      await handle.evaluate((node) => {
         node.open = true;
         return node.updateComplete;
       });
@@ -79,7 +79,7 @@ test.describe('With Icons', () => {
 
       const handle = await page.waitForSelector('glide-core-accordion');
 
-      await handle?.evaluate((node) => {
+      await handle.evaluate((node) => {
         node.open = true;
         return node.updateComplete;
       });

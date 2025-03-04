@@ -86,7 +86,7 @@
     "lint:production:stylelint": "tsc --noCheck --outDir ./dist && stylelint '**/*.styles.ts' --custom-syntax postcss-lit --no-color",
     "test": "per-env",
     "test:development": "npm-run-all --parallel test:development:web-test-runner test:development:web-test-runner:serve-coverage",
-    "test:development:playwright": "chokidar './src/*test.visuals*' --initial --silent --command 'playwright test --ignore-snapshots --quiet --only-changed'",
+    "test:development:playwright": "chokidar './src/*test.visuals*' --initial --silent --command 'playwright test --quiet --only-changed --update-snapshots'",
     "test:development:playwright:comment:chokidar": "`--ui` gives us watching but doesn't allow `--only-changed`. And we need the latter flag so testing is fast locally.",
     "test:development:playwright:comment:ignore-snapshots": "`--ignore-snapshots` because this script is meant to be a quick smoke test ensuring tests are written correctly. Snapshot testing is done separately so tests can be sharded and so we can use `continue-on-error` to stop snapshot differences from failing CI.",
     "test:development:vitest": "vitest --config ./vitest.config.js & chokidar './src/eslint/**' './src/stylelint/**' --ignore './src/eslint/rules/*.test.ts' './src/stylelint/*.test.ts' --initial --silent --command 'tsc --noCheck --outDir ./dist'",

@@ -134,7 +134,7 @@ jobs:
       - name: Download baseline screenshots
         uses: actions/download-artifact@v4
         with:
-          path: dist/baseline-screenshots
+          path: dist/playwright-baseline-screenshots
           name: baseline-screenshots
       - name: Test
         # Failing would add quite a bit of time to CI. It would also add complexity, both

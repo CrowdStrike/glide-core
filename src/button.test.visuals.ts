@@ -8,7 +8,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           return node.updateComplete;
         });
@@ -21,7 +21,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           node.variant = 'secondary';
           return node.updateComplete;
@@ -35,7 +35,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           node.variant = 'tertiary';
           return node.updateComplete;
@@ -51,7 +51,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.size = 'small';
           return node.updateComplete;
         });
@@ -72,7 +72,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.variant = 'secondary';
           return node.updateComplete;
         });
@@ -85,7 +85,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.variant = 'tertiary';
           return node.updateComplete;
         });
@@ -102,7 +102,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           return node.updateComplete;
         });
@@ -115,7 +115,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           node.variant = 'secondary';
           return node.updateComplete;
@@ -129,7 +129,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           node.variant = 'tertiary';
           return node.updateComplete;
@@ -145,7 +145,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.size = 'small';
           return node.updateComplete;
         });
@@ -166,7 +166,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.variant = 'secondary';
           return node.updateComplete;
         });
@@ -179,7 +179,7 @@ test.describe('Button', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.variant = 'tertiary';
           return node.updateComplete;
         });
@@ -198,7 +198,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           return node.updateComplete;
         });
@@ -211,7 +211,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           node.variant = 'secondary';
           return node.updateComplete;
@@ -225,7 +225,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           node.variant = 'tertiary';
           return node.updateComplete;
@@ -241,7 +241,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.size = 'small';
           return node.updateComplete;
         });
@@ -262,7 +262,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.variant = 'secondary';
           return node.updateComplete;
         });
@@ -275,7 +275,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.variant = 'tertiary';
           return node.updateComplete;
         });
@@ -294,7 +294,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           return node.updateComplete;
         });
@@ -309,7 +309,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           node.variant = 'secondary';
           return node.updateComplete;
@@ -325,7 +325,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.disabled = true;
           node.variant = 'tertiary';
           return node.updateComplete;
@@ -343,7 +343,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.size = 'small';
           return node.updateComplete;
         });
@@ -369,7 +369,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.variant = 'secondary';
           return node.updateComplete;
         });
@@ -384,7 +384,7 @@ test.describe('With Icons', () => {
 
         const handle = await page.waitForSelector('glide-core-button');
 
-        await handle?.evaluate((node) => {
+        await handle.evaluate((node) => {
           node.variant = 'tertiary';
           return node.updateComplete;
         });
