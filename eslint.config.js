@@ -283,6 +283,12 @@ export default [
     },
   },
   {
+    files: ['src/figma/*.ts'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
     files: [
       '**/*.js',
       'src/**/*.test.ts',

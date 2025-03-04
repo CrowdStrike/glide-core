@@ -10,3 +10,5 @@ variables.json
 tokens.json
 dist/
 node_modules/
+tokens/
+stylesheets/

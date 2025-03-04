@@ -41,6 +41,9 @@ importers:
       '@eslint/js':
         specifier: ^9.17.0
         version: 9.17.0
+      '@figma/rest-api-spec':
+        specifier: ^0.24.0
+        version: 0.24.0
       '@open-wc/testing':
         specifier: ^4.0.0
         version: 4.0.0
@@ -257,6 +260,9 @@ importers:
       vitest:
         specifier: ^3.0.6
         version: 3.0.6(@types/node@22.10.2)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+      yocto-spinner:
+        specifier: ^0.2.0
+        version: 0.2.0
 
 packages:
 
@@ -581,6 +587,9 @@ packages:
 
   '@esm-bundle/chai@4.3.4-fix.0':
     resolution: {integrity: sha512-26SKdM4uvDWlY8/OOOxSB1AqQWeBosCX3wRYUZO7enTAj03CtVxIiCimYVG2WpULcyV51qapK4qTovwkUr5Mlw==}
+
+  '@figma/rest-api-spec@0.24.0':
+    resolution: {integrity: sha512-c/LHQNzfn8HSuo608TnfHJS8K3Ps61MvDbqTTL+qVx2FCIui7dI3RC2bG2/kSHmQXXKTbgbcAADyU6Rf8YkZbQ==}
 
   '@floating-ui/core@1.6.8':
     resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
@@ -4611,6 +4620,14 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  yocto-spinner@0.2.0:
+    resolution: {integrity: sha512-Qu6WAqNLGleB687CCGcmgHIo8l+J19MX/32UrSMfbf/4L8gLoxjpOYoiHT1asiWyqvjRZbgvOhLlvne6E5Tbdw==}
+    engines: {node: '>=18.19'}
+
+  yoctocolors@2.1.1:
+    resolution: {integrity: sha512-GQHQqAopRhwU8Kt1DDM8NjibDXHC8eoh1erhGAJPEyveY9qqVeXvVikNKrDz69sHowPMorbPUrH/mx8c50eiBQ==}
+    engines: {node: '>=18'}
+
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
@@ -4977,6 +4994,8 @@ snapshots:
   '@esm-bundle/chai@4.3.4-fix.0':
     dependencies:
       '@types/chai': 4.3.20
+
+  '@figma/rest-api-spec@0.24.0': {}
 
   '@floating-ui/core@1.6.8':
     dependencies:
@@ -9448,5 +9467,11 @@ snapshots:
   ylru@1.4.0: {}
 
   yocto-queue@0.1.0: {}
+
+  yocto-spinner@0.2.0:
+    dependencies:
+      yoctocolors: 2.1.1
+
+  yoctocolors@2.1.1: {}
 
   zod@3.23.8: {}
