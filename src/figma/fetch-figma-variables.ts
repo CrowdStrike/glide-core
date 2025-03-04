@@ -7,7 +7,7 @@ import yoctoSpinner from 'yocto-spinner';
  *
  * 1: https://www.figma.com/developers/api?fuid=1111467023992153920#variables
  */
-export default async ({ token, fileId }: { token: string; fileId: string }) => {
+export default async ({ token, fileId }: { fileId: string; token: string }) => {
   if (!token) {
     throw new Error(
       '"FIGMA_TOKEN" is a required environment variable. See [`CONTRIBUTING.md`](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#updating-style-variables) for more information.',

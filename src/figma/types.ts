@@ -6,7 +6,7 @@ import {
 // A Token is an object in a standardized, machine-readable format.
 //
 // We follow the Design Tokens Format Module¹ W3C draft. It provides
-// a technical specification for a file format to exchange design tokens
+// a technical specification for a file format to exchange Design Tokens
 // between different tools. While we don't leverage additional tooling
 // at the moment, this allows us to potentially leverage one in the future,
 // while also putting our tokens in a format that is easily readable by humans
@@ -86,7 +86,7 @@ interface StringToken extends BaseToken {
   $value: string;
 }
 
-export type Token =
+export type DesignToken =
   | ColorToken
   | DimensionToken
   | FontFamilyToken
@@ -95,7 +95,7 @@ export type Token =
   | StringToken;
 
 export interface TokenGroup {
-  [key: string]: Token | TokenGroup;
+  [key: string]: DesignToken | TokenGroup;
 }
 
 /**
@@ -106,7 +106,7 @@ export interface TokenGroup {
  *
  * We expect each tokens file to define tokens for a single variable collection and mode.
  * There isn't a way currently to represent modes or themes in the W3C community group
- * design token specification. Once the spec resolves how it wants to handle modes, we'll
+ * Design Token specification. Once the spec resolves how it wants to handle modes, we'll
  * need to update our code to reflect the new standard. For the time being, we add mode
  * information via the `$extensions['com.figma']` property.
  *

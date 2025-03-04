@@ -1,7 +1,8 @@
-import generateStylesheets from './generate-stylesheets.js';
 import fetchFigmaVariables from './fetch-figma-variables.js';
+import getCSSVariables from './get-css-variables.js';
 import getDesignTokens from './get-design-tokens.js';
 import writeDesignTokens from './write-design-tokens.js';
+import writeStylesheets from './write-stylesheets.js';
 
 const figmaToken = process.env.FIGMA_TOKEN ?? '';
 const figmaFileId = 'A4B1kaT5HVLqcijwK4GXzt';
@@ -9,9 +10,11 @@ const tokensDirectory = 'tokens';
 const stylesheetsDirectory = 'stylesheets';
 
 /**
- * Queries Figma's API for variables, converts them to a
- * Design Token format, and generates CSS custom property
- * stylesheets from the tokens.
+ * Queries Figma's API for variables. Converts those
+ * variables into a Design Token format. Uses the Design
+ * Tokens to build CSS custom properties, grouped by
+ * the Figma collection.  Writes stylesheets for each
+ * Figma collection with the CSS custom properties.
  *
  * This process has many layers and requires a general understanding
  * of Figma variables, collections, and modes¹. A general understanding
@@ -21,22 +24,21 @@ const stylesheetsDirectory = 'stylesheets';
  * 2: https://tr.designtokens.org/format
  */
 async function run() {
-  const variables = await fetchFigmaVariables({
-    token: figmaToken,
+  const figmaVariables = await fetchFigmaVariables({
     fileId: figmaFileId,
+    token: figmaToken,
   });
 
-  const tokens = getDesignTokens(variables);
+  const tokens = getDesignTokens(figmaVariables);
 
   await writeDesignTokens({
-    tokens,
     directory: tokensDirectory,
+    tokens,
   });
 
-  await generateStylesheets({
-    tokensDirectory,
-    outputDirectory: stylesheetsDirectory,
-  });
+  const cssVariables = await getCSSVariables(tokensDirectory);
+
+  await writeStylesheets({ directory: stylesheetsDirectory, cssVariables });
 }
 
 await run();

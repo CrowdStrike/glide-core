@@ -1,10 +1,10 @@
-import type { Token } from './types.js';
+import type { DesignToken } from './types.js';
 
 /**
- * Type guard to verify a provided object is a Token.
+ * Type guard to verify a provided object is a Design Token.
  * Used across multiple files for type narrowing.
  */
-export default (object: unknown): object is Token => {
+export default (object: unknown): object is DesignToken => {
   if (typeof object !== 'object' || object === null) {
     return false;
   }

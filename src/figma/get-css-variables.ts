@@ -1,14 +1,29 @@
-import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import yoctoSpinner from 'yocto-spinner';
-import { format } from 'prettier';
 import { type TokenGroup } from './types.js';
-import isToken from './is-design-token.js';
+import isDesignToken from './is-design-token.js';
 
 /**
- * Reads the `.tokens.json` files generated from the previous step
- * to generate stylesheets, grouped by collection and mode, from
- * all of the design tokens.
+ * Reads the `.tokens.json` files generated from the previous step to
+ * generate CSS variables, grouped by collection and mode,
+ * from all of the Design Tokens. This function will return an
+ * object in the following pattern:
+ *
+ * {
+ *   "collection-1-mode-1": [
+ *     "variable-1: #000000",
+ *     "variable-2: #000001",
+ *   ],
+ *   "collection-1-mode-2": [
+ *     "variable-1: #000000",
+ *     "variable-2: #000001",
+ *   ],
+ *   "collection-2": [
+ *     "variable-1: #ffffff,
+ *     "variable-2: #000001,
+ *   ]
+ * }
  *
  * Each variable follows this naming convention to align with Design:
  *
@@ -16,32 +31,27 @@ import isToken from './is-design-token.js';
  *   * = optional
  *
  */
-export default async ({
-  outputDirectory,
-  tokensDirectory,
-}: {
-  outputDirectory: string;
-  tokensDirectory: string;
-}) => {
+export default async (directory: string) => {
   const spinner = yoctoSpinner({
-    text: 'Converting tokens to stylesheets…\n',
+    text: 'Converting tokens to CSS variables…\n',
   }).start();
 
   let files: string[];
 
   try {
-    files = await readdir(tokensDirectory);
+    files = await readdir(directory);
   } catch (error) {
-    spinner.error(`Failed to read the tokens directory "${tokensDirectory}".`);
+    spinner.error(`Failed to read the tokens directory "${directory}".`);
     throw error;
   }
 
   try {
+    const variablesByCollection: Record<string, string[]> = {};
+
     for (const file of files) {
       // We follow the naming convention outlined by the
       // W3C draft by applying `.tokens.json` as the file extension.
-      // It's safe to drop the extension completely. We only care about
-      // the file name from this point on.
+      // It's safe to drop the extension completely at this point.
       const fileName = file.replace('.tokens.json', '');
 
       // Variable names should include the Figma collection they
@@ -61,85 +71,33 @@ export default async ({
 
       if (!tokenCollectionName) {
         throw new Error(
-          `Could not determine the collection from the file "${file}"`,
+          `Could not determine the collection from the file "${file}".`,
         );
       }
 
-      const fileContent = await readFile(
-        path.join(tokensDirectory, file),
-        'utf8',
-      );
+      const fileContent = await readFile(path.join(directory, file), 'utf8');
 
       const tokens = JSON.parse(fileContent.toString()) as TokenGroup;
 
-      const cssVariables = generateCSSVariablesFromTokens({
+      const variables = generateCSSVariablesFromTokens({
         prefix: `--glide-core-${tokenCollectionName}`,
         tokens,
       });
 
-      let cssContent = '/* Generated file. Do not edit directly. */';
-
-      // We need to handle the CSS generation for our color collections
-      // quite a bit differently from the other stylesheets. Light and dark
-      // stylesheets use the same variable names, but different variable
-      // values. They also set `color-scheme` and use different selectors
-      // between light and dark modes.
-      if (file.startsWith('color-')) {
-        const theme = fileName.replace('color-', '');
-
-        if (theme === 'light') {
-          cssContent += `
-            :root,
-            :host,
-            .theme-light {
-              color-scheme: light;
-              ${cssVariables.join('\n  ')}
-            }`;
-        }
-
-        if (theme === 'dark') {
-          cssContent += `
-            :host,
-            .theme-dark {
-              color-scheme: dark;
-              ${cssVariables.join('\n  ')}
-            }`;
-        }
-      } else {
-        // All non-color collections simply target `:root`.
-        cssContent += `
-          :root {
-            ${cssVariables.join('\n  ')}
-          }`;
-      }
-
-      const formattedContent = await format(cssContent, {
-        parser: 'css',
-      });
-
-      const cssPath = path.join(
-        process.cwd(),
-        `./${outputDirectory}/${fileName}.css`,
-      );
-
-      const directory = path.dirname(cssPath);
-
-      await mkdir(directory, { recursive: true });
-
-      await writeFile(cssPath, formattedContent, 'utf8');
+      variablesByCollection[fileName] = variables;
     }
+
+    spinner.success('Tokens successfully converted to CSS variables.');
+
+    return variablesByCollection;
   } catch (error) {
-    spinner.error('An error occurred generating the stylesheets.');
+    spinner.error('An error occurred converting the tokens to CSS variables.');
     throw error;
   }
-
-  spinner.success(
-    `Stylesheets have been written to the "${outputDirectory}" directory.`,
-  );
 };
 
 /**
- * Loops over every design token, looks at its `$type`, and determines
+ * Loops over every Design Token, looks at its `$type`, and determines
  * how to create a CSS property and value from it.
  */
 function generateCSSVariablesFromTokens({
@@ -152,7 +110,7 @@ function generateCSSVariablesFromTokens({
   const cssVariables: string[] = [];
 
   for (const [key, value] of Object.entries(tokens)) {
-    if (isToken(value)) {
+    if (isDesignToken(value)) {
       // Skip tokens with empty or undefined scopes.
       // If the scope is empty, it's an extended style.
       // Extended styles are local to a component and not
@@ -190,17 +148,16 @@ function generateCSSVariablesFromTokens({
         default: {
           // This shouldn't happen given all of the checks prior to this point.
           //
-          // But why `JSON.stringify()`? It may not be needed, but if value happened
-          // to be an object somehow at this point, without JSON.stringify we'd
-          // get everyone's favorite [object Object]. Easier to just always stringify
-          // to play it safe.
+          // But why `JSON.stringify()`? It may not be needed, but if `value` happened
+          // to be an object at this point, without `JSON.stringify()` we'd get
+          // `[object Object]` logged. It's safer to always stringify.
           throw new Error(`Unknown $type for "${JSON.stringify(value)}".`);
         }
       }
 
       cssVariables.push(`${prefix}-${key.toLowerCase()}: ${cssValue};`);
     } else if (typeof value === 'object') {
-      // Why wouldn't `value` be a Token?
+      // Why wouldn't `value` be a Design Token?
       //
       // It's the start of our Token Group.
       // Remember how we store tokens:
@@ -214,7 +171,7 @@ function generateCSSVariablesFromTokens({
       //   }
       // }
       //
-      // At this stage in the loop, we are at the `group` level.
+      // At this stage in the process, we are at the `group` level.
       // We need to go one layer deeper to get to our actual
       // token, so we recursively call this function to
       // get there.

@@ -7,12 +7,12 @@ import {
   type RGBA,
 } from '@figma/rest-api-spec';
 import yoctoSpinner from 'yocto-spinner';
-import { type Token, type TokenGroup, type TokensFile } from './types.js';
-import isToken from './is-design-token.js';
+import { type DesignToken, type TokenGroup, type TokensFile } from './types.js';
+import isDesignToken from './is-design-token.js';
 
 /**
  * Uses the `GetLocalVariablesResponse` meta from Figma's API to
- * generate design tokens¹ grouped by the Figma collection.
+ * generate Design Tokens¹ grouped by the Figma collection.
  *
  * 1: https://tr.designtokens.org/format/#design-token
  */
@@ -96,7 +96,7 @@ function getTokenValueFromVariable({
   variable,
   variables,
 }: {
-  $type: Token['$type'];
+  $type: DesignToken['$type'];
   modeId: string;
   scopes: VariableScope[];
   variable: LocalVariable;
@@ -187,7 +187,7 @@ function buildTokensFromVariables({
     //
     // We should not generate a token from these variables, but we can notify the
     // design team of their existence, in hopes they can be properly removed from
-    // the Figma side of things.
+    // Figma.
     //
     // 1: https://www.figma.com/developers/api?fuid=1111467023992153920#variables-types
     if (variable.deletedButReferenced) {
@@ -278,7 +278,7 @@ function buildTokensFromVariables({
       const parts = variable.name.split('/');
 
       for (const part of parts.values()) {
-        if (!(part in tokenGroup) || isToken(tokenGroup[part])) {
+        if (!(part in tokenGroup) || isDesignToken(tokenGroup[part])) {
           tokenGroup[part] = {};
         }
 
@@ -314,7 +314,7 @@ function buildTokensFromVariables({
             mode: mode.name,
           },
         },
-      } as Extract<Token, { $type: typeof $type }>;
+      } as Extract<DesignToken, { $type: typeof $type }>;
 
       // As mentioned above, the groups of a variable, separated by a `/`, are used as keys.
       //
@@ -389,9 +389,8 @@ function getTokenTypeFromVariable({
       // numbers should be converted from pixels to rems.
       //
       // As time goes on, we may collect additional unitless CSS values
-      // that come back as a FLOAT from Figma.
-      // When that is the case, we'll need to update this `case` block to handle
-      // these new units.
+      // that come back as a FLOAT from Figma. When that is the case, we'll
+      // need to update this `case` block to handle these new units.
       //
       // Because we've handled fontWeight and other unitless cases above,
       // it's safe to assume that if we land here, we want these values in
