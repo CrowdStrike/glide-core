@@ -31,7 +31,7 @@ export default () => {
 
                 return (
                   member.privacy !== 'private' &&
-                  !member.name.startsWith('private')
+                  !member.name.startsWith('private') // Pseudo-private
                 );
               });
             }

@@ -2,14 +2,15 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   fullyParallel: true,
-  snapshotPathTemplate: './dist/playwright/{arg}{ext}',
+  reporter: process.env.CI ? 'blob' : 'html',
+  snapshotPathTemplate: './dist/baseline-screenshots/{arg}{ext}',
   testDir: './src/',
   testMatch: /.*\.test\.visuals\.ts/,
   use: {
     baseURL: 'http://localhost:6006',
   },
   webServer: {
-    command: 'pnpm start',
+    command: 'pnpm start:development:storybook',
     reuseExistingServer: !process.env.CI,
     url: 'http://localhost:6006',
   },

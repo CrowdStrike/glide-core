@@ -5,8 +5,8 @@ on:
     types: [closed]
 
 jobs:
-  remove_cloudflare_artifacts:
-    name: Remove Cloudflare Artifacts
+  remove-cloudflare-artifacts:
+    name: Remove Cloudflare artifacts
     # Ubuntu instead of MacOS because the performance difference is
     # negligible and Ubuntu includes the AWS CLI.
     runs-on: ubuntu-latest
@@ -27,5 +27,5 @@ jobs:
           aws configure set output json
           aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
-      - name: Remove Cloudflare artifacts
+      - name: Remove artifacts
         run: aws s3 rm s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }} --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }} --recursive
