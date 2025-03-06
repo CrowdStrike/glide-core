@@ -6,6 +6,10 @@
   only a root selector.
 */
 @import './variables/system.css';
-@import './variables/light.css';
-@import './variables/dark.css';
+@import './variables/color-light.css';
+@import './variables/color-dark.css';
 @import './variables/miscellaneous.css';
+@import './variables/rounding.css';
+@import './variables/spacing.css';
+@import './variables/stroke.css';
+@import './variables/typography.css';

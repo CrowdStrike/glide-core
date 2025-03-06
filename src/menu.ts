@@ -52,7 +52,7 @@ export default class GlideCoreMenu extends LitElement {
       Number.parseFloat(
         window
           .getComputedStyle(document.body)
-          .getPropertyValue('--glide-core-spacing-xxs'),
+          .getPropertyValue('--glide-core-spacing-base-xxs'),
       ) *
         Number.parseFloat(
           window.getComputedStyle(document.documentElement).fontSize,

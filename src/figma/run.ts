@@ -7,7 +7,7 @@ import writeStylesheets from './write-stylesheets.js';
 const figmaToken = process.env.FIGMA_TOKEN ?? '';
 const figmaFileId = 'A4B1kaT5HVLqcijwK4GXzt';
 const tokensDirectory = 'tokens';
-const stylesheetsDirectory = 'stylesheets';
+const stylesheetsDirectory = 'src/styles/variables';
 
 /**
  * Queries Figma's API for variables. Converts those

@@ -13,7 +13,7 @@ export default [
       border-end-start-radius: 0.625rem;
       border-start-start-radius: 0.625rem;
       box-shadow: var(--glide-core-shadow-xl);
-      font-family: var(--glide-core-body-xs-font-family);
+      font-family: var(--glide-core-typography-family-primary);
       inline-size: 0;
       inset: 0;
       max-inline-size: 100%;

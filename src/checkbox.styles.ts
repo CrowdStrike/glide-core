@@ -13,27 +13,27 @@ export default [
       line-height: 100%;
 
       &.large {
-        column-gap: var(--glide-core-spacing-sm);
-        font-family: var(--glide-core-body-sm-font-family);
-        font-size: var(--glide-core-body-sm-font-size);
+        column-gap: var(--glide-core-spacing-base-sm);
+        font-family: var(--glide-core-typography-family-primary);
+        font-size: var(--glide-core-typography-size-body-label);
         font-style: var(--glide-core-body-sm-font-style);
         font-variant: var(--glide-core-body-sm-font-variant);
-        font-weight: var(--glide-core-body-sm-font-weight);
+        font-weight: var(--glide-core-typography-weight-regular);
       }
 
       &.small {
-        column-gap: var(--glide-core-spacing-xs);
-        font-family: var(--glide-core-body-xs-font-family);
-        font-size: var(--glide-core-body-xs-font-size);
+        column-gap: var(--glide-core-spacing-base-xs);
+        font-family: var(--glide-core-typography-family-primary);
+        font-size: var(--glide-core-typography-size-body-small);
         font-style: var(--glide-core-body-xs-font-style);
         font-variant: var(--glide-core-body-xs-font-variant);
-        font-weight: var(--glide-core-body-xs-font-weight);
+        font-weight: var(--glide-core-typography-weight-regular);
       }
     }
 
     .input-and-checkbox-and-summary {
       display: flex;
-      gap: var(--glide-core-spacing-sm);
+      gap: var(--glide-core-spacing-base-sm);
     }
 
     .input-and-checkbox {
@@ -52,7 +52,7 @@ export default [
     .checkbox {
       align-items: center;
       block-size: 100%;
-      border: 1px solid var(--glide-core-border-base-dark);
+      border: 1px solid var(--glide-core-color-interactive-stroke-contrast);
       border-radius: 0.25rem;
       box-sizing: border-box;
       color: var(--glide-core-icon-selected);
@@ -68,7 +68,7 @@ export default [
       }
 
       &.error:not(.disabled) {
-        border-color: var(--glide-core-status-error);
+        border-color: var(--glide-core-color-error-stroke-primary);
       }
 
       &:not(.disabled):hover {
@@ -87,7 +87,7 @@ export default [
       position: absolute;
 
       &:not(:disabled):hover ~ .checkbox {
-        border-color: var(--glide-core-border-focus);
+        border-color: var(--glide-core-color-interactive-stroke-focus);
         box-shadow: var(--glide-core-shadow-checkbox);
       }
 
@@ -100,17 +100,17 @@ export default [
       }
 
       &:disabled:not(:is(:checked, :indeterminate)) ~ .checkbox {
-        background-color: var(--glide-core-surface-disabled);
-        border-color: var(--glide-core-border-base);
+        background-color: var(--glide-core-color-interactive-surface-container--disabled);
+        border-color: var(--glide-core-color-static-stroke-primary);
       }
 
       &:is(:checked, :indeterminate):not(:disabled) ~ .checkbox {
-        background-color: var(--glide-core-surface-primary);
+        background-color: var(--glide-core-color-interactive-surface-container-active);
         border-color: transparent;
       }
 
       &:is(:checked, :indeterminate):disabled ~ .checkbox {
-        background-color: var(--glide-core-surface-primary-disabled);
+        background-color: var(--glide-core-color-interactive-surface-container-active--disabled);
         border-color: transparent;
       }
 
@@ -167,13 +167,13 @@ export default [
 
     .indeterminate-icon {
       display: none;
-      fill: var(--glide-core-icon-active);
-      stroke: var(--glide-core-icon-active);
+      fill: var(--glide-core-color-interactive-icon-active);
+      stroke: var(--glide-core-color-interactive-icon-active);
     }
 
     .icon-and-label {
       align-items: center;
-      column-gap: var(--glide-core-spacing-xs);
+      column-gap: var(--glide-core-spacing-base-xs);
       display: flex;
       overflow: hidden;
     }
@@ -188,7 +188,7 @@ export default [
       white-space: nowrap;
 
       &.disabled {
-        color: var(--glide-core-icon-tertiary-disabled);
+        color: var(--glide-core-color-interactive-icon-default--disabled);
       }
     }
 

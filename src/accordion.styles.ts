@@ -7,25 +7,25 @@ export default [
   `,
   css`
     .component {
-      border: 1px solid var(--glide-core-border-base-lighter);
+      border: 1px solid var(--glide-core-color-static-surface-container-secondary);
       border-radius: 0.625rem;
       box-shadow: var(--glide-core-shadow-md);
-      font-family: var(--glide-core-body-xs-font-family);
+      font-family: var(--glide-core-typography-family-primary);
     }
 
     .summary {
       align-items: center;
       border-radius: 0.625rem;
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       cursor: pointer;
       display: flex;
-      font-size: var(--glide-core-body-sm-font-size);
+      font-size: var(--glide-core-typography-size-body-label);
       font-weight: 700;
       justify-content: space-between;
       line-height: 1.5rem;
       list-style: none;
-      padding-block: var(--glide-core-spacing-xs);
-      padding-inline: var(--glide-core-spacing-sm);
+      padding-block: var(--glide-core-spacing-base-xs);
+      padding-inline: var(--glide-core-spacing-base-sm);
       user-select: none;
 
       &:focus {
@@ -38,7 +38,7 @@ export default [
       }
 
       &.active {
-        padding-block-end: var(--glide-core-spacing-xxs);
+        padding-block-end: var(--glide-core-spacing-base-xxs);
       }
 
       &.open {
@@ -50,7 +50,7 @@ export default [
       svg {
         align-items: center;
         display: flex;
-        margin-inline-end: var(--glide-core-spacing-xxs);
+        margin-inline-end: var(--glide-core-spacing-base-xxs);
         rotate: -90deg;
 
         @media (prefers-reduced-motion: no-preference) {
@@ -63,7 +63,7 @@ export default [
       align-items: center;
       display: flex;
       flex: 1;
-      gap: var(--glide-core-spacing-xs);
+      gap: var(--glide-core-spacing-base-xs);
       overflow: hidden;
       white-space: nowrap;
     }
@@ -75,15 +75,15 @@ export default [
     }
 
     .default-slot {
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       display: block;
-      font-size: var(--glide-core-body-sm-font-size);
-      font-weight: var(--glide-core-body-xs-font-weight);
+      font-size: var(--glide-core-typography-size-body-label);
+      font-weight: var(--glide-core-typography-weight-regular);
       overflow: hidden;
-      padding-block-end: var(--glide-core-spacing-sm);
+      padding-block-end: var(--glide-core-spacing-base-sm);
 
       /* Hardcoded spacing here is intentional so that it better aligns with the Accordion label */
-      padding-inline: 2rem var(--glide-core-spacing-sm);
+      padding-inline: 2rem var(--glide-core-spacing-base-sm);
 
       &.indented {
         padding-inline-start: 3.5rem;
@@ -92,9 +92,9 @@ export default [
 
     .suffix-icons-slot {
       align-items: center;
-      color: var(--glide-core-icon-primary);
+      color: var(--glide-core-color-interactive-icon-link);
       gap: 0.625rem;
-      margin-inline-start: var(--glide-core-spacing-xs);
+      margin-inline-start: var(--glide-core-spacing-base-xs);
 
       &.icons {
         display: flex;

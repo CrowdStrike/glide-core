@@ -42,7 +42,7 @@ export default [
       background-color: transparent;
       border: none;
       inset: unset;
-      padding: var(--glide-core-spacing-xs);
+      padding: var(--glide-core-spacing-base-xs);
       position: absolute;
 
       &:popover-open {
@@ -98,7 +98,7 @@ export default [
 
     .default-slot {
       background-color: var(--glide-core-surface-modal);
-      border-radius: var(--glide-core-spacing-xs);
+      border-radius: var(--glide-core-spacing-base-xs);
 
       /* 
         ".popover" can't overflow because the Popover API won't allow it. And 
@@ -109,18 +109,18 @@ export default [
         0 3px 8px 0 rgba(0 0 0 / 15%),
         0 3px 1px 0 rgba(0 0 0 / 6%);
       box-sizing: border-box;
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       display: flex;
-      font-family: var(--glide-core-body-md-font-family);
-      font-size: var(--glide-core-body-sm-font-size);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-label);
       font-style: var(--glide-core-body-sm-font-style);
-      font-weight: var(--glide-core-body-sm-font-weight);
+      font-weight: var(--glide-core-typography-weight-regular);
       inset-block-start: 50%;
       line-height: var(--glide-core-body-sm-line-height);
       max-inline-size: 23.75rem;
       min-block-size: 2rem;
       min-inline-size: 5rem;
-      padding: var(--glide-core-spacing-sm);
+      padding: var(--glide-core-spacing-base-sm);
     }
   `,
 ];

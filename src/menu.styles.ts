@@ -12,7 +12,7 @@ export default [
     }
 
     .component {
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       display: flex;
     }
 
@@ -23,15 +23,15 @@ export default [
 
     .default-slot {
       background-color: var(--glide-core-surface-modal);
-      border: 1px solid var(--glide-core-border-base-lighter);
-      border-radius: var(--glide-core-spacing-xs);
+      border: 1px solid var(--glide-core-color-static-surface-container-secondary);
+      border-radius: var(--glide-core-spacing-base-xs);
       box-shadow: var(--glide-core-shadow-lg);
       box-sizing: border-box;
       inline-size: max-content;
       inset: unset;
       margin-block: 0;
       min-inline-size: 9.375rem;
-      padding: var(--glide-core-spacing-xxxs);
+      padding: var(--glide-core-spacing-base-xxxs);
       position: absolute;
     }
   `,

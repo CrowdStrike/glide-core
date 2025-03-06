@@ -14,7 +14,7 @@ export default [
     .component {
       --private-min-inline-size: 9.375rem;
 
-      font-family: var(--glide-core-font-sans);
+      font-family: var(--glide-core-typography-family-primary);
     }
 
     .dropdown-and-options {
@@ -39,21 +39,21 @@ export default [
       --private-button-and-input-height: 1.25rem;
 
       align-items: center;
-      background-color: var(--glide-core-surface-base-lighter);
+      background-color: var(--glide-core-color-interactive-surface-container);
       block-size: 2.125rem;
-      border: 1px solid var(--glide-core-border-base);
-      border-radius: var(--glide-core-spacing-xs);
+      border: 1px solid var(--glide-core-color-static-stroke-primary);
+      border-radius: var(--glide-core-spacing-base-xs);
       box-sizing: border-box;
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       cursor: inherit;
       display: inline-flex;
       flex-grow: 1;
-      font-size: var(--glide-core-body-sm-font-size);
+      font-size: var(--glide-core-typography-size-body-label);
       font-style: var(--glide-core-body-sm-font-style);
-      font-weight: var(--glide-core-body-sm-font-weight);
-      gap: var(--glide-core-spacing-xs);
+      font-weight: var(--glide-core-typography-weight-regular);
+      gap: var(--glide-core-spacing-base-xs);
       min-inline-size: var(--private-min-inline-size);
-      padding-inline: var(--glide-core-spacing-sm);
+      padding-inline: var(--glide-core-spacing-base-sm);
       text-align: start;
       transition:
         background-color 200ms ease-in-out,
@@ -64,22 +64,24 @@ export default [
         background-color: transparent;
         block-size: 1.5rem;
         border-color: transparent;
-        border-radius: var(--glide-core-border-radius-round);
-        column-gap: var(--glide-core-spacing-xxs);
+        border-radius: var(--glide-core-rounding-base-radius-round);
+        column-gap: var(--glide-core-spacing-base-xxs);
         min-inline-size: 3.75rem;
         padding-block: 0;
-        padding-inline: var(--glide-core-spacing-sm);
+        padding-inline: var(--glide-core-spacing-base-sm);
       }
 
       &.disabled {
-        background: var(--glide-core-surface-disabled);
-        border-color: var(--glide-core-border-base-light);
-        color: var(--glide-core-text-tertiary-disabled);
+        background: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
+        border-color: var(--glide-core-color-static-stroke-secondary);
+        color: var(--glide-core-color-interactive-text-default--disabled);
       }
 
       &.error {
-        border-color: var(--glide-core-status-error);
-        color: var(--glide-core-status-error);
+        border-color: var(--glide-core-color-error-stroke-primary);
+        color: var(--glide-core-color-error-stroke-primary);
       }
 
       &.readonly {
@@ -93,8 +95,10 @@ export default [
             :hover,
             :has(.primary-button:focus-visible, .input:focus-visible)
           ):not(&.error, &.disabled, &.multiple, &.readonly) {
-          background-color: var(--glide-core-surface-hover);
-          color: var(--glide-core-text-body-1);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--hover
+          );
+          color: var(--glide-core-color-static-text-default);
         }
       }
 
@@ -103,12 +107,12 @@ export default [
           :has(.primary-button:hover),
           :has(.primary-button:focus-visible, .input:focus-visible)
         ):not(&.disabled, &.error, &.quiet, &.readonly) {
-        border-color: var(--glide-core-border-focus);
+        border-color: var(--glide-core-color-interactive-stroke-focus);
       }
 
       &:has(.primary-button:focus-visible, .input:focus-visible) {
         &.quiet {
-          border-color: var(--glide-core-border-focus);
+          border-color: var(--glide-core-color-interactive-stroke-focus);
         }
       }
     }
@@ -118,8 +122,8 @@ export default [
 
       background-color: var(--glide-core-surface-modal);
       border: var(--private-border-width) solid
-        var(--glide-core-border-base-lighter);
-      border-radius: var(--glide-core-spacing-xs);
+        var(--glide-core-color-static-surface-container-secondary);
+      border-radius: var(--glide-core-spacing-base-xs);
       box-shadow: var(--glide-core-shadow-lg);
       inset: unset;
       min-inline-size: var(--private-min-inline-size);
@@ -130,8 +134,8 @@ export default [
     .options {
       box-sizing: border-box;
       max-block-size: calc(
-        var(--private-option-height) * 9 + var(--glide-core-spacing-xxxs) * 2 +
-          var(--private-border-width) * 2
+        var(--private-option-height) * 9 + var(--glide-core-spacing-base-xxxs) *
+          2 + var(--private-border-width) * 2
       );
       overflow: auto;
       scroll-behavior: smooth;
@@ -151,15 +155,15 @@ export default [
 
     .default-slot {
       display: block;
-      padding: var(--glide-core-spacing-xxxs);
+      padding: var(--glide-core-spacing-base-xxxs);
     }
 
     .footer {
-      background-color: var(--glide-core-surface-base-gray-lighter);
+      background-color: var(--glide-core-color-static-surface-header);
       display: none;
-      inline-size: calc(100% - var(--glide-core-spacing-xxxs) * 2);
+      inline-size: calc(100% - var(--glide-core-spacing-base-xxxs) * 2);
       inset-block-end: 0;
-      padding: var(--glide-core-spacing-xxxs);
+      padding: var(--glide-core-spacing-base-xxxs);
 
       /*
         "sticky" is a little hack so that footer is absolutely positioned but
@@ -178,8 +182,8 @@ export default [
       border: none;
       border-radius: 0.75rem;
       display: flex;
-      font-family: var(--glide-core-body-sm-font-family);
-      font-weight: var(--glide-core-body-sm-font-weight);
+      font-family: var(--glide-core-typography-family-primary);
+      font-weight: var(--glide-core-typography-weight-regular);
       inline-size: 100%;
       line-height: 100%;
       text-align: start;
@@ -188,18 +192,18 @@ export default [
         --private-size: 1rem;
 
         column-gap: 0.625rem;
-        font-size: var(--glide-core-body-sm-font-size);
+        font-size: var(--glide-core-typography-size-body-label);
         padding-block: 0.375rem;
-        padding-inline: var(--glide-core-spacing-sm);
+        padding-inline: var(--glide-core-spacing-base-sm);
       }
 
       &.small {
         --private-size: 0.875rem;
 
-        column-gap: var(--glide-core-spacing-xs);
-        font-size: var(--glide-core-body-xs-font-size);
-        padding-block: var(--glide-core-spacing-xxxs);
-        padding-inline: var(--glide-core-spacing-xs);
+        column-gap: var(--glide-core-spacing-base-xs);
+        font-size: var(--glide-core-typography-size-body-small);
+        padding-block: var(--glide-core-spacing-base-xxxs);
+        padding-inline: var(--glide-core-spacing-base-xs);
       }
 
       &:focus {
@@ -212,13 +216,15 @@ export default [
 
       &:focus,
       &:hover {
-        background-color: var(--glide-core-surface-hover);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--hover
+        );
       }
     }
 
     .select-all {
-      background-color: var(--glide-core-surface-base-gray-lighter);
-      padding: var(--glide-core-spacing-xxxs);
+      background-color: var(--glide-core-color-static-surface-header);
+      padding: var(--glide-core-spacing-base-xxxs);
 
       &:not([hidden]) {
         display: block;
@@ -226,27 +232,27 @@ export default [
     }
 
     .no-results {
-      font-family: var(--glide-core-body-sm-font-family);
-      font-size: var(--glide-core-body-sm-font-size);
-      font-weight: var(--glide-core-body-sm-font-weight);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-label);
+      font-weight: var(--glide-core-typography-weight-regular);
       line-height: var(--glide-core-body-sm-line-height);
       padding: 0.625rem 0.875rem;
       text-transform: capitalize;
     }
 
     .placeholder {
-      color: var(--glide-core-text-placeholder);
+      color: var(--glide-core-color-interactive-text-placeholder);
 
       &.quiet {
         &:not(.disabled) {
-          color: var(--glide-core-text-body-1);
+          color: var(--glide-core-color-static-text-default);
         }
       }
     }
 
     .tags {
       display: grid;
-      gap: var(--glide-core-spacing-xs);
+      gap: var(--glide-core-spacing-base-xs);
 
       /*
         Tags will shrink down to zero and never overflow if they don't have a minimum
@@ -282,15 +288,15 @@ export default [
 
     .tag-overflow-text {
       align-content: center;
-      color: var(--glide-core-text-link);
-      margin-inline-end: var(--glide-core-spacing-md);
+      color: var(--glide-core-color-interactive-text-link);
+      margin-inline-end: var(--glide-core-spacing-base-md);
       white-space: nowrap;
     }
 
     .single-select-icon-slot {
       &.quiet {
         &::slotted(*) {
-          margin-inline-end: var(--glide-core-spacing-xxs);
+          margin-inline-end: var(--glide-core-spacing-base-xxs);
         }
       }
 
@@ -338,7 +344,7 @@ export default [
 
     .edit-button {
       display: flex;
-      margin-inline-end: var(--glide-core-spacing-xxs);
+      margin-inline-end: var(--glide-core-spacing-base-xxs);
     }
 
     .input-tooltip {
@@ -362,7 +368,7 @@ export default [
       border: none;
       cursor: inherit;
       flex-grow: 1;
-      font-family: var(--glide-core-font-sans);
+      font-family: var(--glide-core-typography-family-primary);
       font-size: inherit;
       inline-size: 100%;
       min-inline-size: 3.75rem;
@@ -382,8 +388,8 @@ export default [
       }
 
       &::placeholder {
-        color: var(--glide-core-text-placeholder);
-        font-family: var(--glide-core-font-sans);
+        color: var(--glide-core-color-interactive-text-placeholder);
+        font-family: var(--glide-core-typography-family-primary);
       }
     }
 

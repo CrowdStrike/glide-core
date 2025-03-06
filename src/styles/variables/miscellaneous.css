@@ -1,3 +1,9 @@
+/* TODO: --glide-core-shadow-lg rename to `glide-core-shadow-floating-and-blurred */
+/* TODO: Rename all manual shadows/effects to match Figma */
+/* TODO: delete line-heights completely */
+/* TODO: Search for `--tbd` uses and fix */
+/* TODO: Search for `var(0.125rem)` and fix */
+
 /* These variables are not yet defined in Figma */
 :root {
   --glide-core-body-md-font-family: var(--glide-core-font-sans);
@@ -34,32 +40,25 @@
   --glide-core-heading-xxxs-font-variant: normal;
   --glide-core-heading-xxxs-font-weight: var(--glide-core-font-weight-bold);
   --glide-core-heading-xxxs-line-height: 1.7;
-  --glide-core-shadow-checkbox: 0px 0px 7px 0px #5ba4ee;
-  --glide-core-shadow-sm: var(--glide-core-effects-shadow-small-x)
-    var(--glide-core-effects-shadow-small-y)
-    var(--glide-core-effects-shadow-small-blur)
-    var(--glide-core-effects-shadow-small-spread)
-    var(--glide-core-effects-shadow-small-fill);
-  --glide-core-shadow-md: 0px 3px 8px 0px rgba(0, 0, 0, 0.15),
-    0px 3px 1px 0px rgba(0, 0, 0, 0.06);
-  --glide-core-shadow-lg: var(--glide-core-effects-shadow-large-x)
-    var(--glide-core-effects-shadow-large-y)
-    var(--glide-core-effects-shadow-large-blur)
-    var(--glide-core-effects-shadow-large-spread)
-    var(--glide-core-effects-shadow-large-fill);
-  --glide-core-shadow-xl: var(--glide-core-effects-shadow-xlarge-x)
-    var(--glide-core-effects-shadow-xlarge-y)
-    var(--glide-core-effects-shadow-xlarge-blur)
-    var(--glide-core-effects-shadow-xlarge-spread)
-    var(--glide-core-effects-shadow-xlarge-fill);
+  --glide-core-shadow-checkbox: 0px 0px 2px 0px
+    var(--glide-core-color-effect-color-elevation-hovered);
+  --glide-core-shadow-sm: 0px 2px 8px 0px
+    var(--glide-core-color-effect-color-elevation-lifted);
+  --glide-core-shadow-md:
+    0px 3px 1px 0px var(--glide-core-color-effect-color-elevation-raised-1),
+    0px 3px 8px 0 var(--glide-core-color-effect-color-elevation-raised-2);
+  --glide-core-shadow-lg: 0px
+    var(--glide-core-color-effect-position-elevation-floating-y)
+    var(--glide-core-color-effect-blur-elevation-floating-blur)
+    var(--glide-core-color-effect-color-elevation-floating);
+  --glide-core-shadow-xl: 0px 4px 60px 0px
+    var(--glide-core-color-effect-color-elevation-detail-panel);
   --glide-core-shadow-footer: var(--glide-core-effects-shadow-footer-x)
     var(--glide-core-effects-shadow-footer-y)
     var(--glide-core-effects-shadow-footer-blur)
     var(--glide-core-effects-shadow-footer-spread)
     var(--glide-core-effects-shadow-footer-fill);
-  --glide-core-shadow-nav: var(--glide-core-effects-shadow-nav-x)
-    var(--glide-core-effects-shadow-nav-y)
-    var(--glide-core-effects-shadow-nav-blur)
-    var(--glide-core-effects-shadow-nav-spread)
-    var(--glide-core-effects-shadow-nav-fill);
+  --glide-core-shadow-nav:
+    0px 3px 1px 0px var(--glide-core-color-effect-color-elevation-raised-1),
+    0px 3px 8px 0 var(--glide-core-color-effect-color-elevation-raised-2);
 }
