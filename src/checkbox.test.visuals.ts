@@ -49,10 +49,10 @@ test.describe('checkbox--checkbox', () => {
             element.disabled = true;
           });
 
-        await page
-          .locator('glide-core-checkbox')
-          // TODO: add comment here and elsehwere
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -66,9 +66,10 @@ test.describe('checkbox--checkbox', () => {
             element.checked = true;
           });
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -76,9 +77,10 @@ test.describe('checkbox--checkbox', () => {
       test('checked=${false}', async ({ page }, test) => {
         await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -209,9 +211,10 @@ test.describe('checkbox--checkbox', () => {
             element.disabled = true;
           });
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -225,9 +228,10 @@ test.describe('checkbox--checkbox', () => {
             element.checked = true;
           });
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -235,9 +239,10 @@ test.describe('checkbox--checkbox', () => {
       test('checked=${false}', async ({ page }, test) => {
         await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -370,9 +375,10 @@ test.describe('checkbox--with-error', () => {
             element.disabled = true;
           });
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -386,9 +392,10 @@ test.describe('checkbox--with-error', () => {
             element.checked = true;
           });
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -396,9 +403,10 @@ test.describe('checkbox--with-error', () => {
       test('checked=${false}', async ({ page }, test) => {
         await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -529,9 +537,10 @@ test.describe('checkbox--with-error', () => {
             element.disabled = true;
           });
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -545,9 +554,10 @@ test.describe('checkbox--with-error', () => {
             element.checked = true;
           });
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
@@ -555,9 +565,10 @@ test.describe('checkbox--with-error', () => {
       test('checked=${false}', async ({ page }, test) => {
         await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
 
-        await page
-          .locator('glide-core-checkbox')
-          .hover({ position: { x: 0, y: 0 } });
+        // We hover the input field instead of the host because the host is made
+        // to fill the width of the viewport by Label. So most of the host's width
+        // is empty space that's unresponsive to hover.
+        await page.locator('glide-core-checkbox').getByRole('checkbox').hover();
 
         await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
       });
