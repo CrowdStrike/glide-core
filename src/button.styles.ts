@@ -19,13 +19,13 @@ export default [
       border-width: 1px;
       cursor: pointer;
       display: inline-flex;
-      font-family: var(--glide-core-heading-xxs-font-family);
+      font-family: var(--glide-core-typography-family-primary);
       font-style: var(--glide-core-heading-xxs-font-style);
-      font-weight: var(--glide-core-heading-xxs-font-weight);
+      font-weight: var(--glide-core-typography-weight-bold);
       gap: 0.625rem;
       justify-content: center;
-      padding-block: var(--glide-core-spacing-xs);
-      padding-inline: var(--glide-core-spacing-md);
+      padding-block: var(--glide-core-spacing-base-xs);
+      padding-inline: var(--glide-core-spacing-base-md);
       transition-duration: 150ms;
       transition-property: color, background-color, border-color, fill, stroke;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -49,83 +49,98 @@ export default [
       }
 
       &.primary {
-        background-color: var(--glide-core-surface-primary);
+        background-color: var(
+          --glide-core-color-interactive-surface-container-active
+        );
         border-color: transparent;
-        color: var(--glide-core-text-selected);
+        /* TODO: Button / text / primary */
+        color: var(--glide-core-color-interactive-text-onsolid);
 
         &:disabled {
-          background-color: var(--glide-core-surface-disabled);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--disabled
+          );
           border-color: transparent;
-          color: var(--glide-core-text-tertiary-disabled);
+          color: var(--glide-core-color-interactive-text-default--disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--glide-core-surface-selected-hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container-active--hover
+          );
           border-color: transparent;
-          color: var(--glide-core-text-selected);
+          color: var(--glide-core-color-interactive-text-onsolid);
         }
 
         &:not(:active):hover:not(:disabled) {
-          background-color: var(--glide-core-surface-hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--hover
+          );
           border-color: transparent;
           box-shadow: var(--glide-core-glow-sm);
-          color: var(--glide-core-text-primary);
+          color: var(--glide-core-color-interactive-text-link);
         }
       }
 
       &.secondary {
         background-color: transparent;
-        border-color: var(--glide-core-border-primary);
-        color: var(--glide-core-text-primary);
+        border-color: var(--tbd);
+        color: var(--glide-core-color-interactive-text-link);
 
         &:disabled {
-          background-color: var(--glide-core-surface-disabled);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--disabled
+          );
           border-color: transparent;
-          color: var(--glide-core-text-tertiary-disabled);
+          color: var(--glide-core-color-interactive-text-default--disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--glide-core-surface-selected-hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container-active--hover
+          );
           border-color: transparent;
-          color: var(--glide-core-text-selected);
+          color: var(--glide-core-color-interactive-text-onsolid);
         }
 
         &:not(:active):hover:not(:disabled) {
-          background-color: var(--glide-core-surface-hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--hover
+          );
           border-color: transparent;
           box-shadow: var(--glide-core-glow-sm);
-          color: var(--glide-core-text-primary);
+          color: var(--glide-core-color-interactive-text-link);
         }
       }
 
       &.tertiary {
         background-color: transparent;
         border-color: transparent;
-        color: var(--glide-core-text-primary);
+        color: var(--glide-core-color-interactive-text-link);
 
         &:disabled {
-          color: var(--glide-core-text-tertiary-disabled);
+          color: var(--glide-core-color-interactive-text-default--disabled);
         }
 
         &:not(:disabled):active {
-          color: var(--glide-core-text-secondary);
+          color: var(--glide-core-color-interactive-text-link);
         }
 
         &:not(:active):hover:not(:disabled) {
-          color: var(--glide-core-text-primary-hover);
+          color: var(--glide-core-color-interactive-text-link--hover);
         }
       }
 
       &.large {
         block-size: 2.125rem;
-        font-size: var(--glide-core-heading-xxs-font-size);
+        font-size: var(--glide-core-typography-size-component-button-lg);
         line-height: 1.5rem;
         min-inline-size: 5.1875rem;
       }
 
       &.small {
         block-size: 1.75rem;
-        font-size: var(--glide-core-body-xs-font-size);
+        font-size: var(--glide-core-typography-size-body-small);
         line-height: 1rem;
         min-inline-size: 4.375rem;
       }

@@ -41,13 +41,21 @@
 }
 
 /* The element on the overview page that contains our rendered component. */
-.docs-story {
-  background-color: var(--glide-core-surface-background-image) !important;
+:root[class~='theme-light'] .docs-story {
+  background-color: #ffffff00 !important;
+}
+
+:root[class~='theme-dark'] .docs-story {
+  background-color: #141414 !important;
 }
 
 /* The element on individual story pages that contains our rendered component. */
-.sb-show-main {
-  background-color: var(--glide-core-surface-background-image) !important;
+:root[class~='theme-light'] .sb-show-main {
+  background-color: #ffffff00 !important;
+}
+
+:root[class~='theme-dark'] .sb-show-main {
+  background-color: #141414 !important;
 }
 
 /* The tooltip shown when `argTypes[key].table.type` is clicked. */

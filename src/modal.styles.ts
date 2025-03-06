@@ -35,7 +35,7 @@ export default [
       border: none;
       border-radius: 0.5rem;
       box-shadow: var(--glide-core-shadow-lg);
-      font-family: var(--glide-core-body-xs-font-family);
+      font-family: var(--glide-core-typography-family-primary);
       opacity: 0;
       padding: 0;
 
@@ -98,11 +98,11 @@ export default [
 
     .label {
       align-items: center;
-      color: var(--glide-core-text-body);
+      color: var(--glide-core-color-static-text-default);
       display: flex;
       font-size: 1.5rem;
       font-weight: 600;
-      gap: var(--glide-core-spacing-xs);
+      gap: var(--glide-core-spacing-base-xs);
       inline-size: 100%;
       line-height: 1.875rem;
       margin-block-end: 0;
@@ -132,15 +132,15 @@ export default [
       display: flex;
 
       &.informational {
-        color: var(--glide-core-status-warning-informational);
+        color: var(--glide-core-color-info-surface-solid);
       }
 
       &.medium {
-        color: var(--glide-core-status-warning-medium);
+        color: var(--glide-core-color-attention-stroke-primary);
       }
 
       &.critical {
-        color: var(--glide-core-status-warning-critical);
+        color: var(--glide-core-color-error-stroke-primary);
       }
     }
 
@@ -176,7 +176,7 @@ export default [
     .actions {
       align-items: center;
       display: flex;
-      gap: var(--glide-core-spacing-xs);
+      gap: var(--glide-core-spacing-base-xs);
       list-style-type: none;
       margin: 0;
       padding: 0;

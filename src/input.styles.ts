@@ -7,7 +7,7 @@ export default [
   `,
   css`
     .meta {
-      column-gap: var(--glide-core-spacing-xs);
+      column-gap: var(--glide-core-spacing-base-xs);
       display: flex;
       font-size: 0.75rem;
       grid-column: 2;
@@ -28,7 +28,7 @@ export default [
 
     .character-count {
       &.error {
-        font-weight: var(--glide-core-font-weight-bold);
+        font-weight: var(--glide-core-typography-weight-bold);
       }
     }
 
@@ -39,25 +39,25 @@ export default [
 
     .input-container {
       align-items: center;
-      background-color: var(--glide-core-surface-base-lighter);
-      border: 1px solid var(--glide-core-border-base);
-      border-radius: var(--glide-core-spacing-xs);
+      background-color: var(--glide-core-color-interactive-surface-container);
+      border: 1px solid var(--glide-core-color-static-stroke-primary);
+      border-radius: var(--glide-core-spacing-base-xs);
       box-sizing: border-box;
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       display: flex;
       line-height: var(--glide-core-body-xs-line-height);
       min-inline-size: 3.75rem;
-      padding-inline: var(--glide-core-spacing-sm);
+      padding-inline: var(--glide-core-spacing-base-sm);
 
       &.focused,
       &:hover,
       &:has(.input:hover) {
-        border-color: var(--glide-core-border-focus);
+        border-color: var(--glide-core-color-interactive-stroke-focus);
         transition: border-color 200ms ease-in-out;
       }
 
       &.error {
-        border-color: var(--glide-core-status-error);
+        border-color: var(--glide-core-color-error-stroke-primary);
       }
 
       /* 
@@ -71,9 +71,9 @@ export default [
       }
 
       &.disabled {
-        background-color: var(--glide-core-surface-disabled);
-        border-color: var(--glide-core-border-base-light);
-        color: var(--glide-core-text-tertiary-disabled);
+        background-color: var(--glide-core-color-interactive-surface-container--disabled);
+        border-color: var(--glide-core-color-static-stroke-secondary);
+        color: var(--glide-core-color-interactive-text-default--disabled);
       }
     }
 
@@ -83,16 +83,16 @@ export default [
       border: none;
       color: inherit;
       cursor: inherit;
-      font-family: var(--glide-core-font-sans);
-      font-size: var(--glide-core-body-sm-font-size);
-      font-weight: var(--glide-core-body-xs-font-weight);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-label);
+      font-weight: var(--glide-core-typography-weight-regular);
       inline-size: 100%;
       min-inline-size: 0;
       outline: none;
       padding: 0;
 
       &::placeholder {
-        color: var(--glide-core-text-placeholder);
+        color: var(--glide-core-color-interactive-text-placeholder);
       }
 
       &::-webkit-search-decoration,
@@ -105,12 +105,12 @@ export default [
       /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
       &[type='date'] {
         &::-webkit-calendar-picker-indicator {
-          border-radius: var(--glide-core-border-radius-xs);
-          padding: var(--glide-core-spacing-xxs);
+          border-radius: var(0.125rem);
+          padding: var(--glide-core-spacing-base-xxs);
         }
         /* stylelint-disable-next-line csstools/use-nesting */
         &::-webkit-calendar-picker-indicator:focus-visible {
-          outline: 2px solid var(--glide-core-border-focus);
+          outline: 2px solid var(--glide-core-color-interactive-stroke-focus);
         }
       }
     }
@@ -126,10 +126,10 @@ export default [
       align-items: center;
       background: none;
       border: none;
-      color: var(--glide-core-icon-default);
+      color: var(--glide-core-color-interactive-icon-default);
       display: inline-flex;
       justify-content: center;
-      padding-inline-start: var(--glide-core-spacing-xxs);
+      padding-inline-start: var(--glide-core-spacing-base-xxs);
     }
 
     .clear-icon-button,
@@ -141,7 +141,7 @@ export default [
     }
 
     ::slotted([slot='prefix-icon']) {
-      padding-inline-end: var(--glide-core-spacing-xxs);
+      padding-inline-end: var(--glide-core-spacing-base-xxs);
     }
 
     .empty .clear-icon-button {

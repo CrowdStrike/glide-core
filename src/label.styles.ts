@@ -10,9 +10,9 @@ export default [
   css`
     .component {
       &.horizontal {
-        --private-column-gap: var(--glide-core-spacing-sm);
+        --private-column-gap: var(--glide-core-spacing-base-sm);
 
-        column-gap: var(--glide-core-spacing-sm);
+        column-gap: var(--glide-core-spacing-base-sm);
         display: grid;
         grid-template-columns: auto minmax(auto, 1fr);
       }
@@ -40,7 +40,7 @@ export default [
 
     .tooltips {
       align-items: center;
-      column-gap: var(--glide-core-spacing-xs);
+      column-gap: var(--glide-core-spacing-base-xs);
       display: flex;
 
       /*
@@ -78,7 +78,7 @@ export default [
       background-color: transparent;
       border: none;
       border-radius: 50%;
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
 
       /*
         Any "display" that's not inline-level will do. We don't want the button to
@@ -94,13 +94,13 @@ export default [
     }
 
     .label {
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       display: block;
-      font-family: var(--glide-core-heading-xxxs-font-family);
-      font-size: var(--glide-core-heading-xxxs-font-size);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-label);
       font-style: var(--glide-core-heading-xxxs-font-style);
       font-variant: var(--glide-core-heading-xxxs-font-variant);
-      font-weight: var(--glide-core-heading-xxxs-font-weight);
+      font-weight: var(--glide-core-typography-weight-bold);
       line-height: 100%;
       margin-inline-start: auto;
       overflow: hidden;
@@ -118,7 +118,7 @@ export default [
       }
 
       &.vertical {
-        margin-block-end: var(--glide-core-spacing-xxs);
+        margin-block-end: var(--glide-core-spacing-base-xxs);
       }
     }
 
@@ -131,13 +131,13 @@ export default [
     }
 
     .required-symbol {
-      color: var(--glide-core-status-error);
+      color: var(--glide-core-color-error-stroke-primary);
     }
 
     .control-and-summary {
       align-items: center;
       display: flex;
-      gap: var(--glide-core-spacing-sm);
+      gap: var(--glide-core-spacing-base-sm);
     }
 
     .control {
@@ -153,37 +153,37 @@ export default [
       }
 
       &.vertical:not(.hidden-label) {
-        margin-block-start: var(--glide-core-spacing-xxs);
+        margin-block-start: var(--glide-core-spacing-base-xxs);
       }
     }
 
     .summary {
-      font-family: var(--glide-core-body-sm-font-family);
-      font-size: var(--glide-core-body-sm-font-size);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-label);
       font-style: var(--glide-core-body-sm-font-style);
-      font-weight: var(--glide-core-body-sm-font-weight);
+      font-weight: var(--glide-core-typography-weight-regular);
 
       &.error {
-        color: var(--glide-core-status-error);
+        color: var(--glide-core-color-error-stroke-primary);
       }
     }
 
     .description {
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       display: block;
-      font-family: var(--glide-core-body-xs-font-family);
-      font-size: var(--glide-core-body-xs-font-size);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-small);
       font-style: var(--glide-core-body-xs-font-style);
-      font-weight: var(--glide-core-body-xs-font-weight);
+      font-weight: var(--glide-core-typography-weight-regular);
       grid-column: 2;
       line-height: var(--glide-core-body-xs-line-height);
 
       &.content {
-        margin-block-start: var(--glide-core-spacing-xxs);
+        margin-block-start: var(--glide-core-spacing-base-xxs);
       }
 
       &.error {
-        color: var(--glide-core-status-error);
+        color: var(--glide-core-color-error-stroke-primary);
       }
     }
   `,
