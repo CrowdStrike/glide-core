@@ -23,7 +23,7 @@ export default [
   css`
     glide-core-private-label::part(private-tooltips) {
       align-items: flex-start;
-      margin-block-start: var(--glide-core-spacing-sm);
+      margin-block-start: var(--glide-core-spacing-base-sm);
     }
 
     .textarea-container {
@@ -44,19 +44,19 @@ export default [
 
     textarea {
       appearance: none;
-      background-color: var(--glide-core-surface-base-lighter);
-      border: 1px solid var(--glide-core-border-base);
+      background-color: var(--glide-core-color-interactive-surface-container);
+      border: 1px solid var(--glide-core-color-static-stroke-primary);
       border-radius: 0.5rem;
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       cursor: inherit;
       display: block;
       flex-grow: 1;
-      font-family: var(--glide-core-body-xs-font-family);
-      font-size: var(--glide-core-body-sm-font-size);
-      font-weight: var(--glide-core-body-xs-font-weight);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-label);
+      font-weight: var(--glide-core-typography-weight-regular);
       max-block-size: 5lh;
       min-block-size: 3lh;
-      padding: var(--glide-core-spacing-xs) var(--glide-core-spacing-sm);
+      padding: var(--glide-core-spacing-base-xs) var(--glide-core-spacing-base-sm);
       resize: vertical;
       transition: border-color 200ms ease-in-out;
 
@@ -69,15 +69,15 @@ export default [
       &:focus-visible,
       &:focus-visible[readonly],
       &:hover {
-        border-color: var(--glide-core-border-focus);
+        border-color: var(--glide-core-color-interactive-stroke-focus);
       }
 
       &::placeholder {
-        color: var(--glide-core-text-placeholder);
+        color: var(--glide-core-color-interactive-text-placeholder);
       }
 
       &.error {
-        border-color: var(--glide-core-status-error);
+        border-color: var(--glide-core-color-error-stroke-primary);
       }
 
       &[readonly] {
@@ -90,22 +90,22 @@ export default [
       }
 
       &[disabled] {
-        background-color: var(--glide-core-surface-disabled);
-        border: 0.0625rem solid var(--glide-core-border-base-light);
-        color: var(--glide-core-text-tertiary-disabled);
+        background-color: var(--glide-core-color-interactive-surface-container--disabled);
+        border: 0.0625rem solid var(--glide-core-color-static-stroke-secondary);
+        color: var(--glide-core-color-interactive-text-default--disabled);
       }
     }
 
     .meta {
-      column-gap: var(--glide-core-spacing-xs);
+      column-gap: var(--glide-core-spacing-base-xs);
       display: flex;
-      font-size: var(--glide-core-body-xs-font-size);
+      font-size: var(--glide-core-typography-size-body-small);
       justify-content: space-between;
     }
 
     .character-count {
       &.error {
-        font-weight: var(--glide-core-font-weight-bold);
+        font-weight: var(--glide-core-typography-weight-bold);
       }
     }
   `,

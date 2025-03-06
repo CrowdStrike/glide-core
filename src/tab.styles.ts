@@ -15,21 +15,21 @@ export default [
       box-sizing: border-box;
       cursor: pointer;
       display: flex;
-      font-family: var(--glide-core-heading-xxs-font-family);
-      font-size: var(--glide-core-heading-xxxs-font-size);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-label);
       font-style: var(--glide-core-heading-xxs-font-style);
-      font-weight: var(--glide-core-body-sm-font-weight);
+      font-weight: var(--glide-core-typography-weight-regular);
       gap: 0.4375rem;
       justify-content: center;
       padding-block: 0.4375rem;
 
       &:hover {
-        color: var(--glide-core-text-primary);
+        color: var(--glide-core-color-interactive-text-link);
       }
 
       &.disabled {
         border: none;
-        color: var(--glide-core-text-tertiary-disabled);
+        color: var(--glide-core-color-interactive-text-default--disabled);
         pointer-events: none;
       }
     }
@@ -39,7 +39,7 @@ export default [
       border-radius: 0.0625rem;
       display: flex;
       flex-shrink: 0;
-      gap: var(--glide-core-spacing-xs);
+      gap: var(--glide-core-spacing-base-xs);
       white-space: nowrap;
     }
   `,
