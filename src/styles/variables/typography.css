@@ -1,0 +1,34 @@
+/* Generated file. Do not edit directly. */
+:root {
+  --glide-core-typography-size-heading-h1: 1.75rem;
+  --glide-core-typography-size-heading-h2: 1.5rem;
+  --glide-core-typography-size-heading-h3: 1.25rem;
+  --glide-core-typography-size-heading-h4: 0.875rem;
+  --glide-core-typography-size-body-large: 1rem;
+  --glide-core-typography-size-body-small: 0.75rem;
+  --glide-core-typography-size-body-label: 0.875rem;
+  --glide-core-typography-size-body-bulletlist: 0.75rem;
+  --glide-core-typography-size-component-button-lg: 1rem;
+  --glide-core-typography-size-component-button-sm: 0.75rem;
+  --glide-core-typography-size-component-inputvalue: 0.875rem;
+  --glide-core-typography-size-component-chartlabel-md: 0.625rem;
+  --glide-core-typography-size-component-chartlabel-sm: 0.5rem;
+  --glide-core-typography-family-primary: "Nunito";
+  --glide-core-typography-family-secondary: "Inter";
+  --glide-core-typography-family-monospace: "Oxygen Mono";
+  --glide-core-typography-weight-light: 300;
+  --glide-core-typography-weight-regular: 400;
+  --glide-core-typography-weight-semibold: 600;
+  --glide-core-typography-weight-bold: 700;
+  --glide-core-typography-weight-extrabold: 800;
+  --glide-core-typography-weight-italic: italic;
+  --glide-core-typography-height-heading-h1: 36;
+  --glide-core-typography-height-heading-h2: 32;
+  --glide-core-typography-height-heading-h3: 26;
+  --glide-core-typography-height-heading-h4: 24;
+  --glide-core-typography-height-body-lg: 28;
+  --glide-core-typography-height-component-button-lg: 24;
+  --glide-core-typography-height-component-button-sm: 24;
+  --glide-core-typography-paragraph-body-lg: 0rem;
+  --glide-core-typography-paragraph-body-md: 0rem;
+}

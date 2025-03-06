@@ -30,7 +30,7 @@ export default [
     }
 
     .component {
-      font-family: var(--glide-core-font-sans);
+      font-family: var(--glide-core-typography-family-primary);
       outline: none;
       padding-inline-end: var(--padding-inline-end);
       padding-inline-start: var(--padding-inline-start);

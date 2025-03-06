@@ -7,7 +7,7 @@ export default [
   `,
   css`
     .component {
-      border: 1px solid var(--glide-core-border-base);
+      border: 1px solid var(--glide-core-color-static-stroke-primary);
       border-radius: 0.75rem;
       display: inline-block;
     }
@@ -19,7 +19,7 @@ export default [
         is to add "ignoredRules: ['color-contrast']" to that test, disabling contrast 
         checking for the entire component.
       */
-      color: var(--glide-core-color-white);
+      color: var(--glide-core-color-static-text-onsolid);
     }
 
     .container {
