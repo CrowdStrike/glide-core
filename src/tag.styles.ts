@@ -24,12 +24,14 @@ export default [
       min-block-size: var(--glide-core-spacing-base-md);
       opacity: 1;
       overflow: hidden;
-      padding: var(--glide-core-spacing-base-xxxs) var(--glide-core-spacing-base-xs);
+      padding: var(--glide-core-spacing-base-xxxs)
+        var(--glide-core-spacing-base-xs);
       white-space: nowrap;
 
       &.large {
         min-block-size: 0.875rem;
-        padding: var(--glide-core-spacing-base-xxs) var(--glide-core-spacing-base-sm);
+        padding: var(--glide-core-spacing-base-xxs)
+          var(--glide-core-spacing-base-sm);
       }
 
       &.small {

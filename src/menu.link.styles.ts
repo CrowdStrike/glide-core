@@ -19,7 +19,9 @@ export default [
       user-select: none;
 
       &.active {
-        background-color: var(--glide-core-color-interactive-surface-container--hover);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--hover
+        );
       }
 
       &.disabled {
