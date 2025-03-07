@@ -7,22 +7,23 @@ export default [
   `,
   css`
     .component {
-      border: 1px solid var(--glide-core-color-static-surface-container-secondary);
-      border-radius: 0.625rem;
+      border: 1px solid
+        var(--glide-core-color-static-surface-container-secondary);
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-shadow-md);
       font-family: var(--glide-core-typography-family-primary);
     }
 
     .summary {
       align-items: center;
-      border-radius: 0.625rem;
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       color: var(--glide-core-color-static-text-default);
       cursor: pointer;
       display: flex;
-      font-size: var(--glide-core-typography-size-body-label);
-      font-weight: 700;
+      font-size: var(--glide-core-typography-size-heading-h4);
+      font-weight: var(--glide-core-typography-weight-bold);
       justify-content: space-between;
-      line-height: 1.5rem;
+      line-height: var(--glide-core-typography-height-heading-h4);
       list-style: none;
       padding-block: var(--glide-core-spacing-base-xs);
       padding-inline: var(--glide-core-spacing-base-sm);
