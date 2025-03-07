@@ -60,7 +60,7 @@
     "start:production": "rimraf ./dist && npm-run-all --aggregate-output --print-label --parallel start:production:typescript start:production:storybook start:production:esbuild",
     "start:production:esbuild": "node ./esbuild.js",
     "start:production:cem-analyze": "tsc --noCheck --outDir ./dist && NODE_OPTIONS=--no-warnings=ExperimentalWarning cem analyze --config ./custom-elements.config.js --quiet && git diff --quiet -- || { echo ERROR: Uncommitted elements manifest changes. Run this command locally and commit the changes.; exit 1; }",
-    "start:production:figma": "pnpm dt export-variables && pnpm dt build-tokens && pnpm dt build-styles",
+    "start:production:figma": "tsx ./src/figma/run.ts",
     "start:production:storybook": "storybook build --config-dir .storybook --disable-telemetry --output-dir ./dist/storybook",
     "start:production:ts-morph": "tsx ./src/ts-morph/run.ts && git diff --quiet -- || { echo ERROR: Uncommitted code modifications. Run this command locally and commit the changes.; exit 1; }",
     "start:production:typescript": "tsc --noCheck --outDir ./dist && node ./terser.js",
@@ -109,7 +109,6 @@
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.10",
-    "@crowdstrike/design-tokens": "^2.0.1",
     "@custom-elements-manifest/analyzer": "^0.10.4",
     "@eslint/eslintrc": "^3.3.0",
     "@eslint/js": "^9.22.0",

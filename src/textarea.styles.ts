@@ -6,7 +6,7 @@ import visuallyHidden from './styles/visually-hidden.js';
   at the moment (https://caniuse.com/mdn-css_properties_field-sizing),
   making this a progressive enhancement. This functionality is additive,
   rather than required for use with our components.
- 
+
   `field-sizing` is also not recognized by lit-plugin, so we are seeing
   https://github.com/runem/lit-analyzer/issues/157 when
   attempting to use it directly in our CSS below. This use of unsafeCSS
@@ -56,7 +56,8 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
       max-block-size: 5lh;
       min-block-size: 3lh;
-      padding: var(--glide-core-spacing-base-xs) var(--glide-core-spacing-base-sm);
+      padding: var(--glide-core-spacing-base-xs)
+        var(--glide-core-spacing-base-sm);
       resize: vertical;
       transition: border-color 200ms ease-in-out;
 
@@ -90,7 +91,9 @@ export default [
       }
 
       &[disabled] {
-        background-color: var(--glide-core-color-interactive-surface-container--disabled);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
         border: 0.0625rem solid var(--glide-core-color-static-stroke-secondary);
         color: var(--glide-core-color-interactive-text-default--disabled);
       }

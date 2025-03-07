@@ -19,7 +19,8 @@ export default [
     }
 
     .tab-container {
-      border-block-end: 1px solid var(--glide-core-color-static-surface-container-secondary);
+      border-block-end: 1px solid
+        var(--glide-core-color-static-surface-container-secondary);
       box-sizing: border-box;
       display: flex;
       padding-block-end: var(--tabs-padding-block-end);

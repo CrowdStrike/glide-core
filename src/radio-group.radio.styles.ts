@@ -50,7 +50,9 @@ export default [
 
         &.checked {
           background-color: var(--glide-core-color-static-text-onsolid);
-          border-color: var(--glide-core-color-interactive-surface-container-active);
+          border-color: var(
+            --glide-core-color-interactive-surface-container-active
+          );
 
           &.animate {
             @media (prefers-reduced-motion: no-preference) {
@@ -61,7 +63,9 @@ export default [
           }
 
           &::after {
-            background-color: var(--glide-core-color-interactive-surface-container-active);
+            background-color: var(
+              --glide-core-color-interactive-surface-container-active
+            );
             block-size: 0.5rem;
             border-radius: 50%;
             box-sizing: border-box;
@@ -75,12 +79,16 @@ export default [
         }
 
         &.disabled {
-          border-color: var(--glide-core-color-interactive-surface-container-active--disabled);
+          border-color: var(
+            --glide-core-color-interactive-surface-container-active--disabled
+          );
           box-shadow: none;
           cursor: not-allowed;
 
           &::after {
-            background-color: var(--glide-core-color-interactive-surface-container-active--disabled);
+            background-color: var(
+              --glide-core-color-interactive-surface-container-active--disabled
+            );
           }
         }
       }
