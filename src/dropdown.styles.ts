@@ -120,7 +120,9 @@ export default [
     .options-and-footer {
       --private-border-width: 1px;
 
-      background-color: var(--glide-core-surface-modal);
+      background-color: var(
+        --glide-core-private-color-dialog-and-modal-surface-container
+      );
       border: var(--private-border-width) solid
         var(--glide-core-color-static-surface-container-secondary);
       border-radius: var(--glide-core-spacing-base-xs);

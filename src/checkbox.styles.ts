@@ -55,7 +55,9 @@ export default [
       border: 1px solid var(--glide-core-color-interactive-stroke-contrast);
       border-radius: 0.25rem;
       box-sizing: border-box;
-      color: var(--glide-core-icon-selected);
+      color: var(
+        --glide-core-private-color-checkbox-surface-background-selected--default
+      );
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
       inline-size: 100%;
@@ -100,17 +102,23 @@ export default [
       }
 
       &:disabled:not(:is(:checked, :indeterminate)) ~ .checkbox {
-        background-color: var(--glide-core-color-interactive-surface-container--disabled);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
         border-color: var(--glide-core-color-static-stroke-primary);
       }
 
       &:is(:checked, :indeterminate):not(:disabled) ~ .checkbox {
-        background-color: var(--glide-core-color-interactive-surface-container-active);
+        background-color: var(
+          --glide-core-color-interactive-surface-container-active
+        );
         border-color: transparent;
       }
 
       &:is(:checked, :indeterminate):disabled ~ .checkbox {
-        background-color: var(--glide-core-color-interactive-surface-container-active--disabled);
+        background-color: var(
+          --glide-core-color-interactive-surface-container-active--disabled
+        );
         border-color: transparent;
       }
 

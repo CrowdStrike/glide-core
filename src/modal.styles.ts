@@ -31,7 +31,9 @@ export default [
 
     .component {
       backdrop-filter: blur(100px);
-      background-color: var(--glide-core-surface-modal);
+      background-color: var(
+        --glide-core-private-color-dialog-and-modal-surface-container
+      );
       border: none;
       border-radius: 0.5rem;
       box-shadow: var(--glide-core-shadow-lg);
