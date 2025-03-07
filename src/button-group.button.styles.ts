@@ -39,7 +39,7 @@ export default [
       cursor: pointer;
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-large);
+      font-size: var(--glide-core-typography-size-component-button-lg);
       font-style: var(--glide-core-heading-xxs-font-style);
       font-weight: var(--glide-core-typography-weight-bold);
       gap: 0.625rem;
@@ -94,12 +94,10 @@ export default [
 
       &.disabled {
         background-color: var(
-          --glide-core-color-static-surface-container-secondary
+          --glide-core-color-interactive-surface-container--disabled
         );
-        border-color: var(
-          --glide-core-color-static-surface-container-secondary
-        );
-        color: var(--glide-core-color-interactive-text-default--disabled);
+        border-color: var(--glide-core-color-static-stroke-primary);
+        color: var(--glide-core-color-interactive-text-link--disabled);
         cursor: not-allowed;
       }
 
