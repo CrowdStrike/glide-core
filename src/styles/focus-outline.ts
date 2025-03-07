@@ -8,7 +8,7 @@ export default (selector: string) => {
   return css`
     /* stylelint-disable selector-type-case, selector-type-no-unknown */
     ${unsafeCSS(selector)} {
-      outline: 2px solid var(--glide-core-border-focus) !important;
+      outline: 2px solid var(--glide-core-color-interactive-stroke-focus) !important;
       outline-offset: 1px;
     }
   `;

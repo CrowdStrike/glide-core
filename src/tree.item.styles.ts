@@ -14,21 +14,23 @@ export default [
 
     .component {
       display: contents;
-      font-family: var(--glide-core-body-sm-font-family);
+      font-family: var(--glide-core-typography-family-primary);
       font-style: var(--glide-core-body-sm-font-style);
-      font-weight: var(--glide-core-body-sm-font-weight);
+      font-weight: var(--glide-core-typography-weight-regular);
       grid-template-columns: repeat(auto-fill, 2.5rem);
       line-height: 1.25rem;
 
-      --private-color: var(--glide-core-text-body-1);
+      --private-color: var(--glide-core-color-static-text-default);
 
       &.selected {
-        --private-color: var(--glide-core-text-selected);
+        --private-color: var(--glide-core-color-interactive-text-onsolid);
 
         ::slotted([slot='prefix']),
         ::slotted([slot='menu']),
         ::slotted([slot='suffix']) {
-          --private-hovered-icon-button-color: var(--glide-core-icon-hover);
+          --private-hovered-icon-button-color: var(
+            --glide-core-color-interactive-icon-active--hover
+          );
         }
       }
     }
@@ -71,23 +73,29 @@ export default [
       border-radius: 0.5rem;
       color: var(--private-color);
       display: flex;
-      font-size: var(--glide-core-body-sm-font-size);
-      padding-block: var(--glide-core-spacing-xxs);
-      padding-inline: var(--glide-core-spacing-xs);
+      font-size: var(--glide-core-typography-size-body-label);
+      padding-block: var(--glide-core-spacing-base-xxs);
+      padding-inline: var(--glide-core-spacing-base-xs);
 
       @media (prefers-reduced-motion: no-preference) {
         transition: background-color 150ms ease-in-out;
       }
 
       &.selected {
-        background-color: var(--glide-core-surface-selected);
+        background-color: var(
+          --glide-core-color-interactive-surface-container-active
+        );
       }
 
       &:hover {
-        background-color: var(--glide-core-surface-hover);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--hover
+        );
 
         &.selected {
-          background-color: var(--glide-core-surface-selected-hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container-active--hover
+          );
         }
       }
 
@@ -98,7 +106,8 @@ export default [
         }
 
         &.selected {
-          outline: 1px solid var(--glide-core-icon-selected);
+          outline: 1px solid
+            var(--glide-core-color-interactive-icon-default--active);
           outline-offset: -3px;
         }
       }
@@ -131,7 +140,7 @@ export default [
       white-space: nowrap;
 
       &.prefix-icon {
-        padding-inline-start: var(--glide-core-spacing-xs);
+        padding-inline-start: var(--glide-core-spacing-base-xs);
       }
     }
 
@@ -150,8 +159,8 @@ export default [
 
     .icon-container {
       display: flex;
-      gap: var(--glide-core-spacing-xxs);
-      padding-inline: var(--glide-core-spacing-xxs);
+      gap: var(--glide-core-spacing-base-xxs);
+      padding-inline: var(--glide-core-spacing-base-xxs);
     }
   `,
 ];
