@@ -1,9 +1,3 @@
-/* TODO: --glide-core-shadow-lg rename to `glide-core-shadow-floating-and-blurred */
-/* TODO: Rename all manual shadows/effects to match Figma */
-/* TODO: delete line-heights completely */
-/* TODO: Search for `--tbd` uses and fix */
-/* TODO: Search for `var(0.125rem)` and fix */
-
 /* These variables are not yet defined in Figma */
 :root {
   --glide-core-body-md-font-family: var(--glide-core-font-sans);
