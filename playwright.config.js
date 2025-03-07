@@ -7,7 +7,7 @@ export default defineConfig({
 
   // For whatever reason, Playwright can't find snapshots that exist
   // in an subdirectory of `outputDir`. So they're at the top level.
-  snapshotPathTemplate: './dist/baseline-screenshots/{arg}{ext}',
+  snapshotPathTemplate: './dist/playwright-baseline-screenshots/{arg}{ext}',
 
   testDir: './src/',
   testMatch: /.*\.test\.visuals\.ts/,
@@ -18,7 +18,7 @@ export default defineConfig({
   timeout: 5000,
 
   use: {
-    baseURL: 'http://localhost:6006',
+    baseURL: 'http://localhost:6006/iframe.html',
   },
   webServer: {
     command: 'pnpm start:development:storybook',

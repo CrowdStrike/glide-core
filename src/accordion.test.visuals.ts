@@ -1,98 +1,85 @@
 import { expect, test } from '@playwright/test';
+import type GlideCoreAccordion from './accordion.js';
 
-test.describe('Accordion', () => {
-  test.describe('Light Mode', () => {
-    test('open', async ({ page }, test) => {
-      await page.goto('/iframe.html?id=accordion--accordion');
-
-      const handle = await page.waitForSelector('glide-core-accordion');
-
-      await handle?.evaluate((node) => {
-        node.open = true;
-        return node.updateComplete;
-      });
-
+test.describe('accordion--accordion', () => {
+  test.describe('globals=theme:light', () => {
+    test('open=${false}', async ({ page }, test) => {
+      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+      await page.locator('glide-core-accordion').waitFor();
       await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
     });
 
-    test('closed', async ({ page }, test) => {
-      await page.goto('/iframe.html?id=accordion--accordion');
-      await page.waitForSelector('glide-core-accordion');
+    test('open=${true}', async ({ page }, test) => {
+      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+
+      await page
+        .locator('glide-core-accordion')
+        .evaluate<void, GlideCoreAccordion>((element) => {
+          element.open = true;
+        });
+
       await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
     });
   });
 
-  test.describe('Dark Mode', () => {
-    test('open', async ({ page }, test) => {
-      await page.goto(
-        '/iframe.html?id=accordion--accordion&globals=theme:dark',
-      );
-
-      const handle = await page.waitForSelector('glide-core-accordion');
-
-      await handle?.evaluate((node) => {
-        node.open = true;
-        return node.updateComplete;
-      });
-
+  test.describe('globals=theme:dark', () => {
+    test('open=${false}', async ({ page }, test) => {
+      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+      await page.locator('glide-core-accordion').waitFor();
       await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
     });
 
-    test('closed', async ({ page }, test) => {
-      await page.goto(
-        '/iframe.html?id=accordion--accordion&globals=theme:dark',
-      );
+    test('open=${true}', async ({ page }, test) => {
+      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
 
-      await page.waitForSelector('glide-core-accordion');
+      await page
+        .locator('glide-core-accordion')
+        .evaluate<void, GlideCoreAccordion>((element) => {
+          element.open = true;
+        });
+
       await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
     });
   });
 });
 
-test.describe('With Icons', () => {
-  test.describe('Light Mode', () => {
-    test('open', async ({ page }, test) => {
-      await page.goto('/iframe.html?id=accordion--with-icons');
-
-      const handle = await page.waitForSelector('glide-core-accordion');
-
-      await handle?.evaluate((node) => {
-        node.open = true;
-        return node.updateComplete;
-      });
-
+test.describe('accordion--with-icons', () => {
+  test.describe('globals=theme:light', () => {
+    test('open=${false}', async ({ page }, test) => {
+      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+      await page.locator('glide-core-accordion').waitFor();
       await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
     });
 
-    test('closed', async ({ page }, test) => {
-      await page.goto('/iframe.html?id=accordion--with-icons');
-      await page.waitForSelector('glide-core-accordion');
+    test('open=${true}', async ({ page }, test) => {
+      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+
+      await page
+        .locator('glide-core-accordion')
+        .evaluate<void, GlideCoreAccordion>((element) => {
+          element.open = true;
+        });
+
       await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
     });
   });
 
-  test.describe('Dark Mode', () => {
-    test('open', async ({ page }, test) => {
-      await page.goto(
-        '/iframe.html?id=accordion--with-icons&globals=theme:dark',
-      );
-
-      const handle = await page.waitForSelector('glide-core-accordion');
-
-      await handle?.evaluate((node) => {
-        node.open = true;
-        return node.updateComplete;
-      });
-
+  test.describe('globals=theme:dark', () => {
+    test('open=${false}', async ({ page }, test) => {
+      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+      await page.locator('glide-core-accordion').waitFor();
       await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
     });
 
-    test('closed', async ({ page }, test) => {
-      await page.goto(
-        '/iframe.html?id=accordion--with-icons&globals=theme:dark',
-      );
+    test('open=${true}', async ({ page }, test) => {
+      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
 
-      await page.waitForSelector('glide-core-accordion');
+      await page
+        .locator('glide-core-accordion')
+        .evaluate<void, GlideCoreAccordion>((element) => {
+          element.open = true;
+        });
+
       await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
     });
   });

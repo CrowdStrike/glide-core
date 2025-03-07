@@ -1,4 +1,5 @@
 import './button.js';
+import './drawer.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
@@ -6,7 +7,6 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreDrawer from './drawer.js';
 
 const meta: Meta = {
   title: 'Drawer',
@@ -49,11 +49,7 @@ const meta: Meta = {
     button?.addEventListener('click', () => {
       if (drawer) {
         drawer.open = !drawer.open;
-      }
-    });
 
-    const observer = new MutationObserver(() => {
-      if (drawer instanceof GlideCoreDrawer) {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
@@ -62,13 +58,6 @@ const meta: Meta = {
         });
       }
     });
-
-    if (drawer) {
-      observer.observe(drawer, {
-        attributes: true,
-        attributeFilter: ['open'],
-      });
-    }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment */

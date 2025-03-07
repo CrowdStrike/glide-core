@@ -134,7 +134,7 @@ jobs:
       - name: Download baseline screenshots
         uses: actions/download-artifact@v4
         with:
-          path: dist/baseline-screenshots
+          path: dist/playwright-baseline-screenshots
           name: baseline-screenshots
       - name: Test
         # Failing would add quite a bit of time to CI. It would also add complexity, both
@@ -149,7 +149,7 @@ jobs:
         # So we simply expect the developer and reviewers to look over the test report, deployed
         # below, before merging.
         continue-on-error: true
-        run: pnpm exec playwright test --only-changed origin/main --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4

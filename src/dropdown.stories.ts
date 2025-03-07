@@ -439,6 +439,14 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
+              // Storybook reverts arguments back to their initial values when the
+              // above event is emitted unless the argument's value was changed via
+              // a control. And, for whatever reason, only changes to Lit property
+              // expressions cause a re-render and thus a reversion.
+              //
+              // Dropdown throws when `value` contains more than one value and `multiple`
+              // isn't `true`. So `multiple` is preserved for visual tests and for when
+              // users change its value via DevTools instead of a control.
               open: dropdown.open,
               value: dropdown.value,
             },
