@@ -7,7 +7,7 @@ import GlideCoreTree from './tree.js';
 import { click } from './library/mouse.js';
 import GlideCoreTreeItem from './tree.item.js';
 
-it('can select items', async () => {
+it('handles item selection', async () => {
   const host = await fixture<GlideCoreTree>(html`
     <glide-core-tree>
       <glide-core-tree-item label="Label"></glide-core-tree-item>
@@ -27,7 +27,8 @@ it('can select items', async () => {
   );
 
   assert(items[0]);
-  host.selectItem(items[0]);
+  items[0].selected = true;
+  await host.updateComplete;
   let selected = host.querySelector('glide-core-tree-item[selected]');
 
   expect(items[0]?.selected).to.be.true;
@@ -36,7 +37,8 @@ it('can select items', async () => {
   expect(childItems[0]?.selected).to.be.false;
 
   assert(childItems[0]);
-  host.selectItem(childItems[0]);
+  childItems[0].selected = true;
+  await host.updateComplete;
   selected = host.querySelector('glide-core-tree-item[selected]');
 
   expect(items[0]?.selected).to.be.false;
@@ -75,8 +77,13 @@ it('can click items to expand or select them', async () => {
   expect(childItems[0]?.selected).to.be.false;
   expect(items[1]?.expanded).to.be.false;
 
-  // Clicking an item that has items expands it
-  await click(items[1]);
+  assert(items[1]);
+  assert(items[1].shadowRoot);
+
+  await click(
+    items[1].shadowRoot.querySelector('[data-test="expand-icon-container"]'),
+  );
+
   expect(items[1]?.expanded).to.be.true;
 
   // Can click and select a nested item

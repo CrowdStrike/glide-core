@@ -3,7 +3,7 @@ import focusOutline from './styles/focus-outline.js';
 
 export default [
   css`
-    ${focusOutline('.label-container:not(.selected):focus-visible')}
+    ${focusOutline('.interactive-container:not(.selected):focus-visible')}
   `,
   css`
     :host {
@@ -23,8 +23,6 @@ export default [
       --private-color: var(--glide-core-text-body-1);
 
       &.selected {
-        --private-color: var(--glide-core-text-selected);
-
         ::slotted([slot='prefix']),
         ::slotted([slot='menu']),
         ::slotted([slot='suffix']) {
@@ -34,12 +32,27 @@ export default [
     }
 
     .expand-icon-container {
+      align-items: center;
+      display: flex;
       flex-shrink: 0;
+      justify-content: center;
       min-inline-size: 1.5625rem;
 
       &.expanded {
         svg {
           rotate: 0deg;
+        }
+      }
+
+      &.selected {
+        svg {
+          color: var(--private-color);
+        }
+
+        &:hover {
+          svg {
+            color: var(--glide-core-icon-hover);
+          }
         }
       }
 
@@ -61,17 +74,21 @@ export default [
       display: flex;
     }
 
-    .label-and-children {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .label-container {
+    .parent-item,
+    .interactive-container {
       align-items: center;
       border-radius: 0.5rem;
-      color: var(--private-color);
       display: flex;
       font-size: var(--glide-core-body-sm-font-size);
+
+      &:focus-visible {
+        /* The outline is inside the component since children have overflow hidden */
+        outline-offset: -2px;
+      }
+    }
+
+    .interactive-container {
+      color: var(--private-color);
       padding-block: var(--glide-core-spacing-xxs);
       padding-inline: var(--glide-core-spacing-xs);
 
@@ -80,10 +97,13 @@ export default [
       }
 
       &.selected {
+        --private-color: var(--glide-core-text-selected);
+
         background-color: var(--glide-core-surface-selected);
       }
 
-      &:hover {
+      &.hovered:hover,
+      .parent-item.hovered &:hover {
         background-color: var(--glide-core-surface-hover);
 
         &.selected {
@@ -114,13 +134,26 @@ export default [
       --private-icon-button-color: var(--private-color);
     }
 
-    .label-container:hover,
-    .label-container:focus,
-    .label-container:focus-within,
-    .label-container:focus-visible {
+    .interactive-container:hover,
+    .interactive-container:focus,
+    .interactive-container:focus-within,
+    .interactive-container:focus-visible {
       ::slotted([slot='menu']) {
         visibility: visible;
       }
+    }
+
+    .checkbox-container {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      min-inline-size: 1.5rem;
+    }
+
+    .label-and-icons {
+      align-items: center;
+      display: flex;
+      flex: 1;
     }
 
     .label {

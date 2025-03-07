@@ -19,9 +19,6 @@ declare global {
  * @attr {string} [version]
  *
  * @slot {GlideCoreTreeItem}
- *
- * @method selectItem
- * @param {GlideCoreTreeItem} item
  */
 @customElement('glide-core-tree')
 @final
@@ -48,7 +45,7 @@ export default class GlideCoreTree extends LitElement {
       class="component"
       role="tree"
       tabindex=${this.privateTabIndex}
-      @click=${this.#onComponentClick}
+      @selected=${this.#onItemSelected}
       @keydown=${this.#onComponentKeydown}
     >
       <slot
@@ -58,27 +55,6 @@ export default class GlideCoreTree extends LitElement {
         <!-- @type {GlideCoreTreeItem} -->
       </slot>
     </div>`;
-  }
-
-  selectItem(item: GlideCoreTreeItem): void {
-    if (this.#treeItemElements) {
-      for (const treeItem of this.#treeItemElements) {
-        if (item === treeItem) {
-          treeItem.setAttribute('selected', 'true');
-          this.selectedItem = treeItem;
-        } else {
-          treeItem.removeAttribute('selected');
-        }
-
-        // Also traverse down the tree to select/deselect all children
-        const nestedSelectedItem: GlideCoreTreeItem | undefined =
-          treeItem.selectItem(item);
-
-        if (nestedSelectedItem) {
-          this.selectedItem = nestedSelectedItem;
-        }
-      }
-    }
   }
 
   constructor() {
@@ -124,27 +100,6 @@ export default class GlideCoreTree extends LitElement {
 
       return !collapsedItems.has(item);
     });
-  }
-
-  #onComponentClick(event: Event) {
-    const target = event.target as HTMLElement;
-
-    if (
-      target.closest('glide-core-tree-item-icon-button') ??
-      target.closest('glide-core-tree-item-menu')
-    ) {
-      return;
-    }
-
-    const clickedItem = target.closest('glide-core-tree-item');
-
-    if (clickedItem) {
-      if (clickedItem.privateHasChildTreeItems && !clickedItem.nonCollapsible) {
-        clickedItem.privateToggleExpand();
-      } else {
-        this.selectItem(clickedItem);
-      }
-    }
   }
 
   // https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
@@ -237,7 +192,7 @@ export default class GlideCoreTree extends LitElement {
       if (focusedItem.privateHasChildTreeItems && !focusedItem.nonCollapsible) {
         focusedItem.privateToggleExpand();
       } else {
-        this.selectItem(focusedItem);
+        // this.selectItem(focusedItem);
       }
     }
   }
@@ -269,6 +224,22 @@ export default class GlideCoreTree extends LitElement {
     ) {
       this.privateTabIndex = 0;
       this.focusedItem = undefined;
+    }
+  }
+
+  #onItemSelected(event: Event) {
+    if (event.target instanceof GlideCoreTreeItem) {
+      this.selectedItem = event.target;
+
+      if (this.#treeItemElements) {
+        for (const treeItem of this.#treeItemElements) {
+          if (event.target !== treeItem) {
+            treeItem.selected = false;
+          }
+
+          treeItem.deselectAllExcept(event.target);
+        }
+      }
     }
   }
 }

@@ -9056,6 +9056,26 @@
             },
             {
               "kind": "field",
+              "name": "checkable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "checkable",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "checked",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "expanded",
               "type": {
                 "text": "boolean"
@@ -9125,6 +9145,23 @@
             },
             {
               "kind": "method",
+              "name": "deselectAllExcept",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "item",
+                  "type": {
+                    "text": "GlideCoreTreeItem"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "focus",
               "parameters": [
                 {
@@ -9135,24 +9172,6 @@
                   }
                 }
               ]
-            },
-            {
-              "kind": "method",
-              "name": "selectItem",
-              "return": {
-                "type": {
-                  "text": "GlideCoreTreeItem | undefined"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "item",
-                  "type": {
-                    "text": "GlideCoreTreeItem"
-                  }
-                }
-              ],
-              "description": "Traverses down the tree, selects the item, then deselects all other items."
             }
           ],
           "events": [
@@ -9164,6 +9183,22 @@
             }
           ],
           "attributes": [
+            {
+              "name": "checkable",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "checkable"
+            },
+            {
+              "name": "checked",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "checked"
+            },
             {
               "name": "expanded",
               "type": {
@@ -9298,23 +9333,6 @@
               "readonly": true,
               "attribute": "version",
               "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "selectItem",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "item",
-                  "type": {
-                    "text": "GlideCoreTreeItem"
-                  }
-                }
-              ]
             }
           ],
           "attributes": [
