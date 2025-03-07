@@ -112,5 +112,8 @@
   --glide-core-private-color-button-stroke-default: #054fb9;
   --glide-core-private-color-button-text-primary: #ffffff;
   --glide-core-private-color-button-icon-primary: #ffffff;
+  --glide-core-private-color-checkbox-surface-background-selected--default: #ffffff;
   --glide-core-private-color-dialog-and-modal-surface-container: #ffffff;
+  --glide-core-private-color-tooltip-surface-container: #212121;
+  --glide-core-private-color-tooltip-text-primary: #ffffff;
 }

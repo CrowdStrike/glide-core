@@ -54,12 +54,13 @@ export default [
         background-color: var(
           --glide-core-color-interactive-surface-container-active
         );
-        border-color: var(--tbd);
+        border-color: var(--glide-core-private-color-button-stroke-default);
         color: var(--glide-core-color-interactive-text-link);
 
         &:not(.disabled) {
           /* So it has a right border when the secondary button is disabled. */
-          box-shadow: 1px 0 0 var(--tbd);
+          box-shadow: 1px 0 0
+            var(--glide-core-private-color-button-stroke-default);
         }
       }
 

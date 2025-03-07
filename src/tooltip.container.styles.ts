@@ -4,7 +4,9 @@ export default [
   css`
     .component {
       align-items: center;
-      background-color: var(--glide-core-surface-base-dark);
+      background-color: var(
+        --glide-core-private-color-tooltip-surface-container
+      );
       border-radius: var(--glide-core-spacing-base-xs);
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
@@ -14,7 +16,8 @@ export default [
       inline-size: max-content;
       inset-block-start: 50%;
       line-height: var(--glide-core-body-sm-line-height);
-      padding: var(--glide-core-spacing-base-xs) var(--glide-core-spacing-base-sm);
+      padding: var(--glide-core-spacing-base-xs)
+        var(--glide-core-spacing-base-sm);
 
       &.reversed {
         flex-direction: row-reverse;
@@ -22,7 +25,7 @@ export default [
     }
 
     .label {
-      color: var(--glide-core-color-interactive-text-onsolid);
+      color: var(--glide-core-private-color-tooltip-text-primary);
       display: block;
       hyphens: auto;
       max-inline-size: 11.25rem;
@@ -31,7 +34,7 @@ export default [
     }
 
     .shortcut {
-      color: var(--glide-core-color-static-text-onsolid-secondary);
+      color: var(--glide-core-color-interactive-text-placeholder);
       display: none;
       white-space: nowrap;
 
