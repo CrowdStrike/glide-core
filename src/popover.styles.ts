@@ -78,7 +78,7 @@ export default [
       --private-arrow-height: 0.5625rem;
       --private-arrow-width: 1rem;
 
-      color: var(--glide-core-surface-modal);
+      color: var(--glide-core-private-color-dialog-and-modal-surface-container);
       display: flex;
       position: relative;
 
@@ -97,12 +97,14 @@ export default [
     }
 
     .default-slot {
-      background-color: var(--glide-core-surface-modal);
+      background-color: var(
+        --glide-core-private-color-dialog-and-modal-surface-container
+      );
       border-radius: var(--glide-core-spacing-base-xs);
 
-      /* 
-        ".popover" can't overflow because the Popover API won't allow it. And 
-        a shadow counts as overflow. So make sure to adjust the padding on 
+      /*
+        ".popover" can't overflow because the Popover API won't allow it. And
+        a shadow counts as overflow. So make sure to adjust the padding on
         ".popover" when changing this shadow so ".popover" has enough room for it.
       */
       box-shadow:

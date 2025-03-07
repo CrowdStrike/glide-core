@@ -72,7 +72,9 @@ export default [
       }
 
       &.disabled {
-        background: var(--glide-core-color-interactive-surface-container--disabled);
+        background: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
         border-color: var(--glide-core-color-static-stroke-secondary);
         color: var(--glide-core-color-interactive-text-default--disabled);
       }
@@ -93,7 +95,9 @@ export default [
             :hover,
             :has(.primary-button:focus-visible, .input:focus-visible)
           ):not(&.error, &.disabled, &.multiple, &.readonly) {
-          background-color: var(--glide-core-color-interactive-surface-container--hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--hover
+          );
           color: var(--glide-core-color-static-text-default);
         }
       }
@@ -116,7 +120,9 @@ export default [
     .options-and-footer {
       --private-border-width: 1px;
 
-      background-color: var(--glide-core-surface-modal);
+      background-color: var(
+        --glide-core-private-color-dialog-and-modal-surface-container
+      );
       border: var(--private-border-width) solid
         var(--glide-core-color-static-surface-container-secondary);
       border-radius: var(--glide-core-spacing-base-xs);
@@ -130,8 +136,8 @@ export default [
     .options {
       box-sizing: border-box;
       max-block-size: calc(
-        var(--private-option-height) * 9 + var(--glide-core-spacing-base-xxxs) * 2 +
-          var(--private-border-width) * 2
+        var(--private-option-height) * 9 + var(--glide-core-spacing-base-xxxs) *
+          2 + var(--private-border-width) * 2
       );
       overflow: auto;
       scroll-behavior: smooth;
@@ -212,7 +218,9 @@ export default [
 
       &:focus,
       &:hover {
-        background-color: var(--glide-core-color-interactive-surface-container--hover);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--hover
+        );
       }
     }
 

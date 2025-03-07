@@ -53,8 +53,7 @@ export default [
           --glide-core-color-interactive-surface-container-active
         );
         border-color: transparent;
-        /* TODO: Button / text / primary */
-        color: var(--glide-core-color-interactive-text-onsolid);
+        color: var(--glide-core-private-color-button-text-primary);
 
         &:disabled {
           background-color: var(
@@ -69,7 +68,7 @@ export default [
             --glide-core-color-interactive-surface-container-active--hover
           );
           border-color: transparent;
-          color: var(--glide-core-color-interactive-text-onsolid);
+          color: var(--glide-core-private-color-button-text-primary);
         }
 
         &:not(:active):hover:not(:disabled) {
@@ -84,7 +83,7 @@ export default [
 
       &.secondary {
         background-color: transparent;
-        border-color: var(--tbd);
+        border-color: var(--glide-core-private-color-button-stroke-default);
         color: var(--glide-core-color-interactive-text-link);
 
         &:disabled {
