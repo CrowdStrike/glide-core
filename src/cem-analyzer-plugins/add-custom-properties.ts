@@ -9,7 +9,7 @@ import {
   type Node,
 } from 'typescript';
 import postcss, { Comment, Declaration, Rule } from 'postcss';
-import getParentClassName from '../library/get-parent-class-name.js';
+import getParentClassName from './get-parent-class-name.js';
 
 /**
  * Adds custom properties to the manifest. Custom properties inside `:host`
