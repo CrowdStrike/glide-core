@@ -3,6 +3,7 @@ import path from 'node:path';
 import yoctoSpinner from 'yocto-spinner';
 import { type TokenGroup } from './types.js';
 import isDesignToken from './is-design-token.js';
+import { tokensDirectory } from './constants.js';
 
 /**
  * Reads the `.tokens.json` files generated from the previous step to
@@ -31,7 +32,7 @@ import isDesignToken from './is-design-token.js';
  *   * = optional
  *
  */
-export default async (directory: string) => {
+export default async () => {
   const spinner = yoctoSpinner({
     text: 'Converting tokens to CSS variables…\n',
   }).start();
@@ -39,9 +40,9 @@ export default async (directory: string) => {
   let files: string[];
 
   try {
-    files = await readdir(directory);
+    files = await readdir(tokensDirectory);
   } catch (error) {
-    spinner.error(`Failed to read the tokens directory "${directory}".`);
+    spinner.error(`Failed to read the tokens directory "${tokensDirectory}".`);
     throw error;
   }
 
@@ -75,7 +76,10 @@ export default async (directory: string) => {
         );
       }
 
-      const fileContent = await readFile(path.join(directory, file), 'utf8');
+      const fileContent = await readFile(
+        path.join(tokensDirectory, file),
+        'utf8',
+      );
 
       const tokens = JSON.parse(fileContent.toString()) as TokenGroup;
 
