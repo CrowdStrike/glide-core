@@ -108,4 +108,7 @@
   --glide-core-color-effect-color-elevation-floating: #14141459;
   --glide-core-color-effect-color-elevation-detail-panel: #14141480;
   --glide-core-color-effect-position-elevation-floating-y: 0.75rem;
+  --glide-core-private-color-button-stroke-default: #6ca4db;
+  --glide-core-private-color-button-text-primary: #dcdcdc;
+  --glide-core-private-color-button-icon-primary: #dcdcdc;
 }
