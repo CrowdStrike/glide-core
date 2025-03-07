@@ -1,12 +1,15 @@
-<!-- Please provide a descriptive title for your Pull Request above.  -->
-
 ## 🚀 Description
 
-<!-- Please provide a description of the changes in your Pull Request, in particular the motivation for the changes. -->
+<!--
+
+  - Tell us about your changes and the motivation for them.
+  - Write "N/A" if your changes are explained by the PR's title.
+
+-->
 
 ## 📋 Checklist
 
-<!-- Please ensure you've gone through this checklist before adding reviewers. -->
+<!-- Do the following before adding reviewers: -->
 
 - I have followed the [Contributing Guidelines](https://github.com/crowdstrike/glide-core/blob/main/CONTRIBUTING.md).
 - I have added tests to cover new or updated functionality.
@@ -17,18 +20,28 @@
 - I have scheduled a design review.
 - I have reviewed the Storybook and Visual Test Report links below.
 
-## 🔬 How to Test
+## 🔬 Testing
 
-<!-- Please provide steps to test the functionality added/updated/removed. Preview URLs are generated with each build. -->
+<!--
 
-## 📸 Images/Videos of Functionality
+  Tell us how to reproduce and verify your changes:
 
-<!-- For visual changes, it's extremely helpful to include screenshots, gifs, or videos of what has changed. Before and after images are ideal when adjusting styling.
+  1. Navigate to Checkbox in Storybook.
+  1. Click the label.
+  1. Verify Checkbox is checked.
 
-Use a markdown table to display changes side-by-side for easier comparison.
+-->
 
-| Before  | After |
-| ------- | ----- |
-|  Image  | Image |
+## 📸 Images and videos
+
+<!--
+
+  - Include images or videos of your visual changes.
+  - Use the table below to show them side by side if possible.
+  - Write "N/A" for non-visual changes.
+
+  | Before | After |
+  | ------ | ----- |
+  | Image  | Image |
 
 -->
