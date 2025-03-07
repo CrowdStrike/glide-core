@@ -14,6 +14,7 @@ export const extendedVariables = [
   'Color/Button/Icon/primary',
   'Color/Button/Text/primary',
   'Color/Button/Stroke/default',
+  'Color/Dialog and Modal/Surface/container',
 ];
 
 export const figmaFileId = 'A4B1kaT5HVLqcijwK4GXzt';
