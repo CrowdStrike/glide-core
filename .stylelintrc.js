@@ -19,5 +19,9 @@ export default {
     'order/properties-alphabetical-order': true,
     'prettier/prettier': true,
     'glide-core/no-unprefixed-private-custom-property': true,
+    // TODO: Use a regex here or write our custom rule.
+    //       The default one doesn't allow for `--` in
+    //       a variable name.
+    'custom-property-pattern': null,
   },
 };
