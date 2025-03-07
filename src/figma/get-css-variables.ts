@@ -114,7 +114,11 @@ function generateCSSVariablesFromTokens({
   const cssVariables: string[] = [];
 
   for (const [key, value] of Object.entries(tokens)) {
-    const variableName = `${prefix}-${key.toLowerCase()}`;
+    // Design Token names can contain spaces, which don't
+    // translate to CSS custom properties. We'll use a `-`
+    // instead as our separator.
+    const formattedPrefix = prefix.replaceAll(' ', '-');
+    const variableName = `${formattedPrefix}-${key.toLowerCase()}`;
 
     if (isDesignToken(value)) {
       let isExtendedVariable = false;
@@ -138,7 +142,15 @@ function generateCSSVariablesFromTokens({
       // outside of this repository.
       if (!value.$extensions?.['com.figma']?.scopes?.length) {
         const extendedVariable = extendedVariables.find((variable) =>
-          variableName.endsWith(variable.toLowerCase().replaceAll('/', '-')),
+          variableName.endsWith(
+            // Our extendedVariables array matches the naming
+            // conventions of Figma for convenience. But this
+            // means we need to format those variables so
+            // that they can be translated to CSS custom
+            // properties. We do this by replacing the invalid
+            // characters with a `-` instead.
+            variable.toLowerCase().replaceAll('/', '-').replaceAll(' ', '-'),
+          ),
         );
 
         if (!extendedVariable) {
@@ -182,8 +194,8 @@ function generateCSSVariablesFromTokens({
       }
 
       const variablePrefix = isExtendedVariable
-        ? prefix.replace('--glide-core-', '--glide-core-private-')
-        : prefix;
+        ? formattedPrefix.replace('--glide-core-', '--glide-core-private-')
+        : formattedPrefix;
 
       cssVariables.push(`${variablePrefix}-${key.toLowerCase()}: ${cssValue};`);
     } else if (typeof value === 'object') {
