@@ -118,8 +118,7 @@ export default [
       }
 
       svg {
-        /* TODO: button / icon / primary */
-        color: var(--glide-core-color-interactive-icon-link);
+        color: var(--glide-core-private-color-button-icon-primary);
       }
     }
   `,
