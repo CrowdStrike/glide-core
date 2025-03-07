@@ -6,9 +6,6 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-variables.json
-tokens.json
 dist/
 node_modules/
 tokens/
-stylesheets/
