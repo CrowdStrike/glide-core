@@ -13,7 +13,9 @@ export default [
 
       &.active {
         &:not(.disabled) {
-          background-color: var(--glide-core-color-interactive-surface-container--hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--hover
+          );
         }
       }
     }

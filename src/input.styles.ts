@@ -60,7 +60,7 @@ export default [
         border-color: var(--glide-core-color-error-stroke-primary);
       }
 
-      /* 
+      /*
         We had to resort to a class selector because there may be a bug in Chrome and Safari
         with ":read-only": https://bugs.chromium.org/p/chromium/issues/detail?id=1519649
       */
@@ -71,7 +71,9 @@ export default [
       }
 
       &.disabled {
-        background-color: var(--glide-core-color-interactive-surface-container--disabled);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
         border-color: var(--glide-core-color-static-stroke-secondary);
         color: var(--glide-core-color-interactive-text-default--disabled);
       }
@@ -105,7 +107,7 @@ export default [
       /* The input obscures an offset outline for -webkit-calendar-picker-indicator, so 'focus-outline' is not used */
       &[type='date'] {
         &::-webkit-calendar-picker-indicator {
-          border-radius: var(0.125rem);
+          border-radius: 0.125rem;
           padding: var(--glide-core-spacing-base-xxs);
         }
         /* stylelint-disable-next-line csstools/use-nesting */
