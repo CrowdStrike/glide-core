@@ -1,5 +1,20 @@
 # @crowdstrike/glide-core
 
+## 0.20.3
+
+### Patch Changes
+
+- [#746](https://github.com/CrowdStrike/glide-core/pull/746) [`b1b1029`](https://github.com/CrowdStrike/glide-core/commit/b1b10298a14232d51720b619f16adb9b83261d34) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Dark
+
+  ### Changed
+
+  ```diff
+  - --glide-core-surface-empty-state: #ff3b3014;
+  + --glide-core-surface-empty-state: #ff3b3026;
+  ```
+
 ## 0.20.2
 
 ### Patch Changes
