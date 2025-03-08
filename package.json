@@ -91,7 +91,7 @@
     "typecheck": "per-env",
     "typecheck:development": "tsc --erasableSyntaxOnly --outDir ./dist -w",
     "typecheck:production": "tsc --erasableSyntaxOnly --outDir ./dist",
-    "postinstall": "pnpm dlx playwright@1.50.1 install --only-shell --with-deps chromium",
+    "postinstall": "is-ci || pnpm dlx playwright@1.50.1 install --only-shell --with-deps chromium",
     "prepare": "is-ci || husky install",
     "release": "changeset publish"
   },
@@ -128,6 +128,7 @@
     "@types/eslint": "^8.56.12",
     "@types/mocha": "^10.0.10",
     "@types/sinon": "^17.0.3",
+    "@types/yargs": "^17.0.33",
     "@typescript-eslint/rule-tester": "^8.26.0",
     "@typescript-eslint/types": "^8.26.0",
     "@typescript-eslint/utils": "^8.26.0",
@@ -183,6 +184,7 @@
     "typescript-eslint": "^8.26.0",
     "vite": "^6.2.1",
     "vitest": "^3.0.8",
+    "yargs": "^17.7.2",
     "yocto-spinner": "^0.2.0"
   },
   "engines": {

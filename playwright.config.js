@@ -1,3 +1,4 @@
+import os from 'node:os';
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
@@ -25,4 +26,5 @@ export default defineConfig({
     reuseExistingServer: true,
     url: 'http://localhost:6006',
   },
+  workers: process.env.CI ? os.cpus().length : os.cpus().length / 2,
 });
