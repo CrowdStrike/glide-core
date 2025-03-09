@@ -184,8 +184,8 @@ export default class GlideCoreLabel extends LitElement {
           @slotchange=${this.#onSummarySlotChange}
           ${ref(this.#summarySlotElementRef)}
         >
-          <!-- 
-            Additional information or context 
+          <!--
+            Additional information or context
             @type {Element | string}
           -->
         </slot>
@@ -287,6 +287,7 @@ export default class GlideCoreLabel extends LitElement {
 const icons = {
   information: html`
     <svg
+      aria-hidden="true"
       style=${styleMap({
         height: '1rem',
         width: '1rem',

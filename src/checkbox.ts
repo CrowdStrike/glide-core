@@ -650,6 +650,7 @@ export default class GlideCoreCheckbox
 const icons = {
   indeterminate: html`
     <svg
+      aria-hidden="true"
       style=${styleMap({
         height: '0.875rem',
         width: '0.875rem',

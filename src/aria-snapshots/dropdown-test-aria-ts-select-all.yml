@@ -1,0 +1,11 @@
+- text: Label
+- button "Label" [expanded]
+- listbox:
+  - option "Select all":
+    - checkbox "Select all"
+  - option "One":
+    - checkbox "One"
+  - option "Two":
+    - checkbox "Two"
+  - option "Three":
+    - checkbox "Three"

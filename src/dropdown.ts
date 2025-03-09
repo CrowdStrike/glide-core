@@ -712,7 +712,7 @@ export default class GlideCoreDropdown
                   aria-activedescendant=${this.ariaActivedescendant}
                   aria-controls="options"
                   aria-describedby="description"
-                  aria-expanded=${this.open}
+                  aria-expanded=${this.open && !this.disabled}
                   aria-labelledby="selected-option-labels label ${this
                     .isCommunicateItemCountToScreenreaders
                     ? 'item-count'
@@ -848,12 +848,12 @@ export default class GlideCoreDropdown
               )}
 
               <button
-                aria-expanded=${this.open}
+                aria-controls="options"
+                aria-describedby="description"
+                aria-expanded=${this.open && !this.disabled}
                 aria-haspopup="listbox"
                 aria-hidden=${this.filterable || this.isFilterable}
                 aria-labelledby="selected-option-labels label"
-                aria-describedby="description"
-                aria-controls="options"
                 class="primary-button"
                 data-test="primary-button"
                 id="primary-button"
@@ -861,6 +861,7 @@ export default class GlideCoreDropdown
                   ? '-1'
                   : '0'}
                 type="button"
+                ?disabled=${this.disabled}
                 @focusin=${this.#onPrimaryButtonFocusin}
                 @focusout=${this.#onPrimaryButtonFocusout}
                 ${ref(this.#primaryButtonElementRef)}
