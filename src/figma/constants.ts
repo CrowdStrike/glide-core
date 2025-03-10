@@ -16,8 +16,10 @@ export const extendedVariables = [
   'Color/Button/Stroke/default',
   'Color/Button/Surface/active',
   'Color/Checkbox/Icon/default--disabled',
+  'Color/Checkbox/Surface/background-idle',
   'Color/Checkbox/Surface/background-selected--default',
   'Color/Dialog and Modal/Surface/container',
+  'Color/Radio/Icon/default--disabled',
   'Color/Tooltip/Surface/container',
   'Color/Tooltip/Text/primary',
 ];
