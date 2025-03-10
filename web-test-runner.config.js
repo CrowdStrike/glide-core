@@ -110,10 +110,14 @@ export default {
     return `<html>
       <body>
         <link href="./src/styles/fonts.css" rel="stylesheet">
-        <link href="./src/styles/variables/light.css" rel="stylesheet">
-        <link href="./src/styles/variables/dark.css" rel="stylesheet">
-        <link href="./src/styles/variables/miscellaneous.css" rel="stylesheet">
         <link href="./src/styles/variables/system.css" rel="stylesheet">
+        <link href="./src/styles/variables/color-light.css" rel="stylesheet">
+        <link href="./src/styles/variables/color-dark.css" rel="stylesheet">
+        <link href="./src/styles/variables/miscellaneous.css" rel="stylesheet">
+        <link href="./src/styles/variables/rounding.css" rel="stylesheet">
+        <link href="./src/styles/variables/spacing.css" rel="stylesheet">
+        <link href="./src/styles/variables/stroke.css" rel="stylesheet">
+        <link href="./src/styles/variables/typography.css" rel="stylesheet">
         <script type="module" src="${testFramework}"></script>
       </body>
     </html>`;
