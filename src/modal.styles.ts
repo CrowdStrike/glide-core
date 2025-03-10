@@ -35,7 +35,7 @@ export default [
         --glide-core-private-color-dialog-and-modal-surface-container
       );
       border: none;
-      border-radius: 0.5rem;
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-shadow-lg);
       font-family: var(--glide-core-typography-family-primary);
       opacity: 0;
@@ -102,11 +102,11 @@ export default [
       align-items: center;
       color: var(--glide-core-color-static-text-default);
       display: flex;
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: var(--glide-core-typography-size-heading-h2);
+      font-weight: var(--glide-core-typography-weight-semibold);
       gap: var(--glide-core-spacing-base-xs);
       inline-size: 100%;
-      line-height: 1.875rem;
+      line-height: var(--glide-core-typography-height-heading-h2);
       margin-block-end: 0;
       margin-block-start: 0;
       overflow: hidden;
@@ -134,15 +134,15 @@ export default [
       display: flex;
 
       &.informational {
-        color: var(--glide-core-color-info-surface-solid);
+        color: var(--glide-core-color-info-icon-default);
       }
 
       &.medium {
-        color: var(--glide-core-color-attention-stroke-primary);
+        color: var(--glide-core-color-attention-icon-default);
       }
 
       &.critical {
-        color: var(--glide-core-color-error-stroke-primary);
+        color: var(--glide-core-color-error-icon-default);
       }
     }
 
