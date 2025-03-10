@@ -40,19 +40,23 @@ export default [
     .input-container {
       align-items: center;
       background-color: var(--glide-core-color-interactive-surface-container);
-      border: 1px solid var(--glide-core-color-static-stroke-primary);
-      border-radius: var(--glide-core-spacing-base-xs);
+      border: 1px solid var(--glide-core-color-interactive-stroke-primary);
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       box-sizing: border-box;
-      color: var(--glide-core-color-static-text-default);
+      color: var(--glide-core-typography-size-component-inputvalue);
       display: flex;
-      line-height: var(--glide-core-body-xs-line-height);
       min-inline-size: 3.75rem;
       padding-inline: var(--glide-core-spacing-base-sm);
 
       &.focused,
-      &:hover,
       &:has(.input:hover) {
         border-color: var(--glide-core-color-interactive-stroke-focus);
+        transition: border-color 200ms ease-in-out;
+      }
+
+      &:hover,
+      &:has(.input:hover) {
+        border-color: var(--glide-core-color-interactive-stroke-primary--hover);
         transition: border-color 200ms ease-in-out;
       }
 
@@ -74,7 +78,9 @@ export default [
         background-color: var(
           --glide-core-color-interactive-surface-container--disabled
         );
-        border-color: var(--glide-core-color-static-stroke-secondary);
+        border-color: var(
+          --glide-core-color-interactive-stroke-primary--disabled
+        );
         color: var(--glide-core-color-interactive-text-default--disabled);
       }
     }
@@ -86,7 +92,7 @@ export default [
       color: inherit;
       cursor: inherit;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-component-inputvalue);
       font-weight: var(--glide-core-typography-weight-regular);
       inline-size: 100%;
       min-inline-size: 0;
