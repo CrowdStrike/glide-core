@@ -125,7 +125,7 @@ export default [
       );
       border: var(--private-border-width) solid
         var(--glide-core-color-static-surface-container-secondary);
-      border-radius: var(--glide-core-spacing-base-xs);
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-shadow-lg);
       inset: unset;
       min-inline-size: var(--private-min-inline-size);
