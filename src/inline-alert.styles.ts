@@ -5,14 +5,13 @@ export default [
     .component {
       align-items: flex-start;
       border: 1px solid;
-      border-radius: var(--glide-core-spacing-base-sm);
+      border-radius: var(--glide-core-rounding-base-radius-md);
       color: var(--glide-core-color-static-text-default);
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-component-inputvalue);
       font-weight: var(--glide-core-typography-weight-regular);
       gap: var(--glide-core-spacing-base-xs);
-      line-height: var(--glide-core-body-sm-line-height);
       padding: var(--glide-core-spacing-base-sm);
 
       &.informational {
@@ -21,17 +20,21 @@ export default [
       }
 
       &.medium {
-        background-color: var(--glide-core-color-warning-surface-container);
+        background-color: var(
+          --glide-core-color-attention-surface-container-light
+        );
         border-color: var(--glide-core-color-attention-stroke-secondary);
       }
 
       &.high {
-        background-color: var(--glide-core-color-warning-surface-container);
+        background-color: var(
+          --glide-core-color-warning-surface-container-light
+        );
         border-color: var(--glide-core-color-warning-stroke-secondary);
       }
 
       &.critical {
-        background-color: var(--glide-core-color-error-surface-container);
+        background-color: var(--glide-core-color-error-surface-container-light);
         border-color: var(--glide-core-color-error-stroke-secondary);
       }
 
@@ -76,19 +79,19 @@ export default [
       inline-size: 1rem;
 
       &.informational {
-        color: var(--glide-core-color-info-surface-solid);
+        color: var(--glide-core-color-info-icon-default);
       }
 
       &.medium {
-        color: var(--glide-core-color-attention-stroke-primary);
+        color: var(--glide-core-color-attention-icon-default);
       }
 
       &.high {
-        color: var(--glide-core-color-warning-stroke-primary);
+        color: var(--glide-core-color-warning-icon-default);
       }
 
       &.critical {
-        color: var(--glide-core-color-error-stroke-primary);
+        color: var(--glide-core-color-error-icon-default);
       }
     }
 
