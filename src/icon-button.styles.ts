@@ -15,7 +15,7 @@ export default [
       align-items: center;
       block-size: var(--private-size, 1.625rem);
       border-color: transparent;
-      border-radius: 0.5rem;
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
@@ -47,17 +47,19 @@ export default [
         );
 
         &:disabled {
-          background-color: var(--glide-core-color-static-surface-header);
+          background-color: var(
+            --glide-core-color-static-surface-container-secondary
+          );
           border-color: transparent;
           color: var(--glide-core-color-interactive-icon-default--disabled);
         }
 
         &:not(:disabled):active {
           background-color: var(
-            --glide-core-color-interactive-surface-container-active
+            --glide-core-private-color-button-surface-active
           );
           border-color: transparent;
-          color: var(--glide-core-color-interactive-icon-onsolid);
+          color: var(--glide-core-color-interactive-icon-default--active);
         }
 
         &:not(:active):hover:not(:disabled) {
@@ -72,23 +74,24 @@ export default [
 
       &.secondary {
         background-color: transparent;
-        border-color: transparent;
+        border-color: var(--glide-core-private-color-button-stroke-default);
         color: var(
           --private-icon-color,
           var(--glide-core-color-interactive-icon-default)
         );
 
         &:disabled {
-          background-color: transparent;
+          background-color: var(--glide-core-color-static-surface-container);
+          border-color: transparent;
           color: var(--glide-core-color-interactive-icon-default--disabled);
         }
 
         &:not(:disabled):active {
           background-color: var(
-            --glide-core-color-interactive-surface-container-active
+            --glide-core-private-color-button-surface-active
           );
           border-color: transparent;
-          color: var(--glide-core-color-interactive-icon-onsolid);
+          color: var(--glide-core-color-interactive-icon-default--active);
         }
 
         &:not(:active):hover:not(:disabled) {
