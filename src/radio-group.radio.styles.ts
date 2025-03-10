@@ -24,14 +24,26 @@ export default [
 
     .component {
       align-items: center;
-      color: var(--glide-core-color-static-text-default);
+      color: var(--glide-core-color-interactive-text-default);
       display: flex;
       font-weight: var(--glide-core-typography-weight-regular);
 
       &:hover {
-        .circle {
-          border-color: var(--glide-core-color-interactive-stroke-focus);
-          box-shadow: var(--glide-core-glow-sm);
+        .circle:not(.disabled) {
+          border-color: var(--glide-core-color-interactive-icon-active--hover);
+
+          &.checked {
+            border-color: var(
+              --glide-core-color-interactive-icon-active--hover
+            );
+            box-shadow: var(--glide-core-glow-sm);
+
+            &::after {
+              background-color: var(
+                --glide-core-color-interactive-icon-active--hover
+              );
+            }
+          }
         }
       }
 
@@ -49,10 +61,10 @@ export default [
           box-shadow 200ms ease-in-out;
 
         &.checked {
-          background-color: var(--glide-core-color-static-text-onsolid);
-          border-color: var(
-            --glide-core-color-interactive-surface-container-active
+          background-color: var(
+            --glide-core-private-color-checkbox-surface-background-idle
           );
+          border-color: var(--glide-core-color-interactive-icon-active);
 
           &.animate {
             @media (prefers-reduced-motion: no-preference) {
@@ -80,14 +92,14 @@ export default [
 
         &.disabled {
           border-color: var(
-            --glide-core-color-interactive-surface-container-active--disabled
+            --glide-core-private-color-radio-icon-default--disabled
           );
           box-shadow: none;
           cursor: not-allowed;
 
           &::after {
             background-color: var(
-              --glide-core-color-interactive-surface-container-active--disabled
+              --glide-core-private-color-radio-icon-default--disabled
             );
           }
         }
