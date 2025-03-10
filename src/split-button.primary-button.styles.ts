@@ -9,7 +9,8 @@ export default [
   css`
     .component {
       align-items: center;
-      border-radius: 0.75rem 0 0 0.75rem;
+      border-radius: var(--glide-core-rounding-base-radius-md) 0 0
+        var(--glide-core-rounding-base-radius-md);
       border-style: solid;
       border-width: 1px 0 1px 1px;
       cursor: pointer;
@@ -47,13 +48,11 @@ export default [
           --glide-core-color-interactive-surface-container-active
         );
         border-color: transparent;
-        color: var(--glide-core-color-interactive-text-onsolid);
+        color: var(--glide-core-private-color-button-text-primary);
       }
 
       &.secondary {
-        background-color: var(
-          --glide-core-color-interactive-surface-container-active
-        );
+        background-color: var(--glide-core-color-interactive-surface-container);
         border-color: var(--glide-core-private-color-button-stroke-default);
         color: var(--glide-core-color-interactive-text-link);
 
@@ -61,6 +60,12 @@ export default [
           /* So it has a right border when the secondary button is disabled. */
           box-shadow: 1px 0 0
             var(--glide-core-private-color-button-stroke-default);
+        }
+
+        &.disabled {
+          border-color: var(
+            --glide-core-color-interactive-stroke-primary--disabled
+          );
         }
       }
 
@@ -74,7 +79,7 @@ export default [
       &.large {
         block-size: 2.125rem;
         box-sizing: border-box;
-        font-size: var(--glide-core-body-xxs-font-size);
+        font-size: var(--glide-core-typography-size-component-button-lg);
         line-height: 1.5rem;
       }
 
@@ -87,7 +92,7 @@ export default [
           --glide-core-color-interactive-surface-container--disabled
         );
         border-color: transparent;
-        color: var(--glide-core-color-interactive-text-default--disabled);
+        color: var(--glide-core-color-interactive-text-link--disabled);
         cursor: not-allowed;
       }
 
@@ -106,9 +111,9 @@ export default [
 
       &:not(.disabled):active {
         background-color: var(
-          --glide-core-color-interactive-surface-container-active--hover
+          --glide-core-color-interactive-surface-container-active
         );
-        color: var(--glide-core-color-interactive-text-onsolid);
+        color: var(--glide-core-private-color-button-text-primary);
       }
     }
   `,
