@@ -1,12 +1,6 @@
 import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
 
-// TODO: Border separating both buttons
-//       Top, right, bottom should remain
-//       --glide-core-color-interactive-surface-container-active
-//       border on the left should use:
-//       button / stroke / default
-
 export default [
   css`
     ${focusOutline('.component:focus-visible')}
@@ -20,7 +14,11 @@ export default [
       border-color: var(
         --glide-core-color-interactive-surface-container-active
       );
-      border-radius: 0 0.75rem 0.75rem 0;
+      border-inline-start-color: var(
+        --glide-core-private-color-button-stroke-default
+      );
+      border-radius: 0 var(--glide-core-rounding-base-radius-md)
+        var(--glide-core-rounding-base-radius-md) 0;
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
@@ -51,7 +49,7 @@ export default [
         cursor: not-allowed;
 
         svg {
-          color: var(--glide-core-color-interactive-text-default--disabled);
+          color: var(--glide-core-color-interactive-icon-link--disabled);
         }
       }
 
@@ -65,6 +63,10 @@ export default [
 
         /* So the box shadow isn't covered up by its primary button. */
         z-index: 1;
+
+        svg {
+          color: var(--glide-core-color-interactive-icon-link);
+        }
       }
 
       &.primary {
@@ -72,7 +74,25 @@ export default [
       }
 
       &.secondary {
+        background-color: var(--glide-core-color-interactive-surface-container);
+        border: 1px solid var(--glide-core-private-color-button-stroke-default);
         color: var(--glide-core-color-interactive-text-link);
+
+        svg {
+          color: var(--glide-core-color-interactive-icon-active);
+        }
+
+        &.disabled {
+          background-color: var(
+            --glide-core-color-interactive-surface-container--disabled
+          );
+          border: 1px solid
+            var(--glide-core-color-interactive-stroke-primary--disabled);
+
+          svg {
+            color: var(--glide-core-color-interactive-icon-link--disabled);
+          }
+        }
       }
 
       &.small {
@@ -92,10 +112,10 @@ export default [
 
       &:not(:disabled):is(:active, .active) {
         background-color: var(
-          --glide-core-color-interactive-surface-container-active--hover
+          --glide-core-color-interactive-surface-container-active
         );
         border-color: transparent;
-        color: var(--glide-core-color-interactive-text-onsolid);
+        color: var(--glide-core-private-color-button-text-primary);
 
         svg {
           color: var(--glide-core-icon-selected);
@@ -107,7 +127,7 @@ export default [
           --glide-core-color-interactive-surface-container--hover
         );
         border-color: transparent;
-        color: var(--glide-core-color-interactive-text-link);
+        color: var(--glide-core-color-interactive-icon-link);
       }
 
       &:not(:active, .active, :disabled):is(:hover) {
@@ -115,6 +135,10 @@ export default [
 
         /* So the box shadow isn't covered up by its primary button. */
         z-index: 1;
+
+        svg {
+          color: var(--glide-core-color-interactive-icon-link);
+        }
       }
 
       svg {
