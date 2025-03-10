@@ -3,6 +3,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   fullyParallel: true,
+  globalSetup: './playwright.setup.js',
   outputDir: './dist/playwright',
   reporter: process.env.CI ? 'blob' : 'line',
 

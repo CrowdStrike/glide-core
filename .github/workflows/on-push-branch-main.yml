@@ -15,7 +15,7 @@ concurrency:
 jobs:
   install-dependencies:
     name: Install
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
   release-preview:
     name: Release Preview
     timeout-minutes: 5
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     needs:
       - install-dependencies
     steps:
@@ -65,7 +65,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     needs:
       - install-dependencies
     steps:
