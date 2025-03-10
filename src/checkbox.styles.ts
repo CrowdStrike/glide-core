@@ -105,21 +105,28 @@ export default [
         background-color: var(
           --glide-core-color-interactive-surface-container--disabled
         );
-        border-color: var(--glide-core-color-static-stroke-primary);
+        border-color: var(
+          --glide-core-private-color-checkbox-icon-default--disabled
+        );
       }
 
       &:is(:checked, :indeterminate):not(:disabled) ~ .checkbox {
-        background-color: var(
-          --glide-core-color-interactive-surface-container-active
-        );
+        background-color: var(--glide-core-color-interactive-icon-active);
         border-color: transparent;
       }
 
       &:is(:checked, :indeterminate):disabled ~ .checkbox {
         background-color: var(
-          --glide-core-color-interactive-surface-container-active--disabled
+          --glide-core-private-color-checkbox-icon-default--disabled
         );
         border-color: transparent;
+
+        .indeterminate-icon {
+          fill: var(--glide-core-private-color-checkbox-icon-default--disabled);
+          stroke: var(
+            --glide-core-private-color-checkbox-icon-default--disabled
+          );
+        }
       }
 
       &:checked ~ .checkbox > .checked-icon {

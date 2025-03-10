@@ -164,7 +164,7 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
 
       &.error {
-        color: var(--glide-core-color-error-stroke-primary);
+        color: var(--glide-core-color-error-text-status);
       }
     }
 
@@ -183,7 +183,7 @@ export default [
       }
 
       &.error {
-        color: var(--glide-core-color-error-stroke-primary);
+        color: var(--glide-core-color-error-text-status);
       }
     }
   `,
