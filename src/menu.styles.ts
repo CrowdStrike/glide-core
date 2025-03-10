@@ -27,7 +27,7 @@ export default [
       );
       border: 1px solid
         var(--glide-core-color-static-surface-container-secondary);
-      border-radius: var(--glide-core-spacing-base-xs);
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-shadow-lg);
       box-sizing: border-box;
       inline-size: max-content;
