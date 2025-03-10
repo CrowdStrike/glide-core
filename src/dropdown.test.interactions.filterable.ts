@@ -1429,8 +1429,10 @@ it('shows an ellipsis when the label of its selected option is set programmatica
   option.label = 'x'.repeat(500);
   await host.updateComplete;
 
-  const ellipsis = host.shadowRoot?.querySelector('[data-test="ellipsis"]');
+  // Wait for the resize observer to do its thing.
+  await aTimeout(0);
 
+  const ellipsis = host.shadowRoot?.querySelector('[data-test="ellipsis"]');
   expect(ellipsis?.checkVisibility()).to.be.true;
 });
 
@@ -1468,7 +1470,7 @@ it('does not allow its "toggle" event to propagate', async () => {
   const host = await fixture(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
-        label=${'x'.repeat(500)}
+        label="Label"
         selected
       ></glide-core-dropdown-option>
     </glide-core-dropdown>`,
