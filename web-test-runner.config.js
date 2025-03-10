@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url';
+import os from 'node:os';
 import chalk from 'chalk';
 import { defaultReporter } from '@web/test-runner';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
@@ -11,6 +12,7 @@ export default {
     // https://github.com/modernweb-dev/web/issues/2588
     playwrightLauncher(),
   ],
+  concurrency: process.env.CI ? os.cpus().length : os.cpus().length / 2,
   coverage: true,
   coverageConfig: {
     include: ['src/**/*.ts'],
@@ -56,12 +58,14 @@ export default {
     // https://github.com/modernweb-dev/web/issues/1700#issuecomment-1059441615
     fromRollup(rollupPluginCommonjs)({
       include: ['**/node_modules/**'],
+
       // The default, `true`, doesn't play well with Axe Core, which our
       // `expect(host).to.be.accessible()` assertions use.
       strictRequires: 'auto',
     }),
     esbuildPlugin({
       ts: true,
+
       // https://github.com/lit/lit/issues/3807#issuecomment-1513369439
       tsconfig: fileURLToPath(new URL('tsconfig.json', import.meta.url)),
     }),
@@ -74,20 +78,24 @@ export default {
           'lcov',
           {
             start() {
-              // eslint-disable-next-line no-console
-              console.log(
-                `Code coverage report: ${chalk.bgBlue(
-                  'http://localhost:8080',
-                )}\n`,
-              );
+              if (process.env.NODE_ENV === 'development') {
+                // eslint-disable-next-line no-console
+                console.log(
+                  `Code coverage report: ${chalk.bgBlue(
+                    'http://localhost:8080',
+                  )}\n`,
+                );
+              }
             },
             onTestRunStarted() {
-              // eslint-disable-next-line no-console
-              console.log(
-                `Code coverage report: ${chalk.bgBlue(
-                  'http://localhost:8080',
-                )}\n`,
-              );
+              if (process.env.NODE_ENV === 'development') {
+                // eslint-disable-next-line no-console
+                console.log(
+                  `Code coverage report: ${chalk.bgBlue(
+                    'http://localhost:8080',
+                  )}\n`,
+                );
+              }
             },
           },
         ],
