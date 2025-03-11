@@ -9,7 +9,7 @@ export default [
     .meta {
       column-gap: var(--glide-core-spacing-base-xs);
       display: flex;
-      font-size: 0.75rem;
+      font-size: var(--glide-core-typography-size-body-small);
       grid-column: 2;
       justify-content: space-between;
     }
@@ -43,7 +43,7 @@ export default [
       border: 1px solid var(--glide-core-color-interactive-stroke-primary);
       border-radius: var(--glide-core-rounding-base-radius-sm);
       box-sizing: border-box;
-      color: var(--glide-core-typography-size-component-inputvalue);
+      color: var(--glide-core-color-interactive-text-default);
       display: flex;
       min-inline-size: 3.75rem;
       padding-inline: var(--glide-core-spacing-base-sm);
