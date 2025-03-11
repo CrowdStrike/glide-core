@@ -1,6 +1,8 @@
 /*
   Variables defined in Figma, but not easily
-  exportable via scripting.
+  exportable via scripting. The naming of
+  variables is a manual process, but they
+  should align with the name in Figma.
 */
 :root {
   --glide-core-effect-hovered: 0px 0px 2px 0px

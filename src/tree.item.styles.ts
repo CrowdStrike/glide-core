@@ -72,7 +72,7 @@ export default [
 
     .label-container {
       align-items: center;
-      border-radius: 0.5rem;
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       color: var(--private-color);
       display: flex;
       font-size: var(--glide-core-typography-size-component-inputvalue);

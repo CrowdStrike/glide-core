@@ -182,7 +182,7 @@ export default [
       align-items: center;
       background-color: transparent;
       border: none;
-      border-radius: 0.75rem;
+      border-radius: var(--glide-core-rounding-base-radius-md);
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
       font-weight: var(--glide-core-typography-weight-regular);

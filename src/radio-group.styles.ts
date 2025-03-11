@@ -16,7 +16,7 @@ export default [
 
       &.invalid {
         border: 1px solid var(--glide-core-color-error-stroke-primary);
-        border-radius: 0.5rem;
+        border-radius: var(--glide-core-rounding-base-radius-sm);
         color: var(--glide-core-color-error-stroke-primary);
         margin-block-end: -0.0625rem;
         margin-inline-start: -0.0625rem;
