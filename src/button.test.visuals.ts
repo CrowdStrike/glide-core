@@ -21,7 +21,7 @@ for (const story of stories.Button) {
           );
         });
 
-        test.describe('hover', () => {
+        test.describe(':active', () => {
           test('disabled', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -32,6 +32,7 @@ for (const story of stories.Button) {
               });
 
             await page.locator('glide-core-button').hover();
+            await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -41,6 +42,7 @@ for (const story of stories.Button) {
           test('variant="primary"', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
             await page.locator('glide-core-button').hover();
+            await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -57,6 +59,7 @@ for (const story of stories.Button) {
               });
 
             await page.locator('glide-core-button').hover();
+            await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -73,6 +76,7 @@ for (const story of stories.Button) {
               });
 
             await page.locator('glide-core-button').hover();
+            await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -80,7 +84,7 @@ for (const story of stories.Button) {
           });
         });
 
-        test.describe('press', () => {
+        test.describe(':hover', () => {
           test('disabled', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -91,7 +95,6 @@ for (const story of stories.Button) {
               });
 
             await page.locator('glide-core-button').hover();
-            await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -101,7 +104,6 @@ for (const story of stories.Button) {
           test('variant="primary"', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
             await page.locator('glide-core-button').hover();
-            await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -118,7 +120,6 @@ for (const story of stories.Button) {
               });
 
             await page.locator('glide-core-button').hover();
-            await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -135,7 +136,6 @@ for (const story of stories.Button) {
               });
 
             await page.locator('glide-core-button').hover();
-            await page.mouse.down();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,

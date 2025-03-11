@@ -74,6 +74,29 @@ for (const story of stories['Split Button']) {
               `${test.titlePath.join('.')}.png`,
             );
           });
+
+          test('<glide-core-split-button-primary-link>:active', async ({
+            page,
+          }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-split-button-primary-link').hover();
+            await page.mouse.down();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('<glide-core-split-button-primary-link>:hover', async ({
+            page,
+          }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-split-button-primary-link').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         } else {
           test('<glide-core-split-button-primary-button>.disabled', async ({
             page,
@@ -85,6 +108,36 @@ for (const story of stories['Split Button']) {
               .evaluate<void, GlideCoreSplitButtonPrimaryButton>((element) => {
                 element.disabled = true;
               });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('<glide-core-split-button-primary-button>:active', async ({
+            page,
+          }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-split-button-primary-button')
+              .hover();
+
+            await page.mouse.down();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('<glide-core-split-button-primary-button>:hover', async ({
+            page,
+          }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-split-button-primary-button')
+              .hover();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -102,6 +155,36 @@ for (const story of stories['Split Button']) {
             .evaluate<void, GlideCoreSplitButtonSecondaryButton>((element) => {
               element.disabled = true;
             });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('<glide-core-split-button-secondary-button>:active', async ({
+          page,
+        }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-split-button-secondary-button')
+            .hover();
+
+          await page.mouse.down();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('<glide-core-split-button-secondary-button>:hover', async ({
+          page,
+        }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-split-button-secondary-button')
+            .hover();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,

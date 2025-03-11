@@ -49,7 +49,7 @@ for (const story of stories.Checkbox) {
           );
         });
 
-        test.describe('hover', () => {
+        test.describe(':hover', () => {
           test('disabled', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 

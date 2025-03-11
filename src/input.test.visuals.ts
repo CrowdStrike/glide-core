@@ -51,6 +51,15 @@ for (const story of stories.Input) {
           );
         });
 
+        test(':hover', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-input').hover();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('max-length', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 

@@ -8,7 +8,7 @@ for (const story of stories['Button Group']) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
-        test('hover', async ({ page }, test) => {
+        test(':hover', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
           await page.locator('glide-core-button-group-button').nth(1).hover();
 

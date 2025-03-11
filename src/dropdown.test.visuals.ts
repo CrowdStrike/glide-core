@@ -67,6 +67,15 @@ for (const story of stories.Dropdown) {
           );
         });
 
+        test(':hover', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-dropdown').hover();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('open', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
