@@ -8,16 +8,15 @@ export default [
   css`
     .component {
       align-items: center;
-      border-radius: var(--glide-core-spacing-base-sm);
+      border-radius: var(--glide-core-rounding-base-radius-md);
       box-shadow: var(--glide-core-shadow-lg);
       color: var(--glide-core-color-static-text-default);
       column-gap: var(--glide-core-spacing-base-xs);
       display: grid;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-component-inputvalue);
       font-weight: var(--glide-core-typography-weight-regular);
       grid-template-columns: auto minmax(0, 1fr);
-      line-height: var(--glide-core-body-xs-line-height);
       padding: var(--glide-core-spacing-base-sm);
       transform: translateX(110%);
 
@@ -32,7 +31,7 @@ export default [
       }
 
       &.informational {
-        background-color: var(--glide-core-color-info-surface-container-light);
+        background-color: var(--glide-core-color-info-surface-container);
       }
 
       &.success {
@@ -66,6 +65,7 @@ export default [
       font-size: var(--glide-core-typography-size-heading-h3);
       font-weight: var(--glide-core-typography-weight-semibold);
       grid-column: 2;
+      line-height: var(--glide-core-typography-height-heading-h3);
     }
 
     .close-button {
@@ -80,15 +80,15 @@ export default [
     }
 
     .error {
-      color: var(--glide-core-color-error-stroke-primary);
+      color: var(--glide-core-color-error-icon-default);
     }
 
     .success {
-      color: var(--glide-core-color-success-stroke-primary);
+      color: var(--glide-core-color-success-icon-default);
     }
 
     .warning-informational {
-      color: var(--glide-core-color-info-surface-solid);
+      color: var(--glide-core-color-info-icon-default);
     }
   `,
 ];
