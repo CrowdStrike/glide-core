@@ -3,7 +3,6 @@
   exportable via scripting.
 */
 :root {
-  --glide-core-glow-sm: 0px 0px 2px 0px #2c97eee5;
   --glide-core-effect-hovered: 0px 0px 2px 0px
     var(--glide-core-color-effect-color-elevation-hovered);
   --glide-core-effect-lifted: 0px 2px 8px 0px

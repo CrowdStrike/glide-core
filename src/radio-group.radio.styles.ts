@@ -36,7 +36,7 @@ export default [
             border-color: var(
               --glide-core-color-interactive-icon-active--hover
             );
-            box-shadow: var(--glide-core-glow-sm);
+            box-shadow: var(--glide-core-effect-hovered);
 
             &::after {
               background-color: var(

@@ -104,7 +104,7 @@ export default [
       }
 
       &:not(:active, .disabled):is(:hover) {
-        box-shadow: var(--glide-core-glow-sm);
+        box-shadow: var(--glide-core-effect-hovered);
         z-index: 1;
       }
 

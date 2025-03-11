@@ -117,7 +117,7 @@ export default [
           --glide-core-color-interactive-surface-container--hover
         );
         border-color: transparent;
-        box-shadow: var(--glide-core-glow-sm);
+        box-shadow: var(--glide-core-effect-hovered);
         color: var(--glide-core-color-interactive-text-link);
       }
     }
