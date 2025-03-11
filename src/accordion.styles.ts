@@ -10,7 +10,7 @@ export default [
       border: 1px solid
         var(--glide-core-color-static-surface-container-secondary);
       border-radius: var(--glide-core-rounding-base-radius-sm);
-      box-shadow: var(--glide-core-shadow-md);
+      box-shadow: var(--glide-core-effect-raised);
       font-family: var(--glide-core-typography-family-primary);
     }
 

@@ -8,7 +8,9 @@ export default [
     }
 
     .component {
-      background-color: var(--glide-core-surface-base-xlightest);
+      background-color: var(
+        --glide-core-private-color-template-surface-container-detail
+      );
       block-size: 0;
       border-end-start-radius: 0.625rem;
       border-start-start-radius: 0.625rem;
@@ -23,7 +25,9 @@ export default [
       visibility: hidden;
 
       &.pinned {
-        background-color: var(--glide-core-surface-base-xlightest);
+        background-color: var(
+          --glide-core-private-color-template-surface-container-detail
+        );
         box-shadow: none;
       }
 

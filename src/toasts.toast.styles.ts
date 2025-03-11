@@ -9,7 +9,7 @@ export default [
     .component {
       align-items: center;
       border-radius: var(--glide-core-rounding-base-radius-md);
-      box-shadow: var(--glide-core-shadow-lg);
+      box-shadow: var(--glide-core-effect-floating);
       color: var(--glide-core-color-static-text-default);
       column-gap: var(--glide-core-spacing-base-xs);
       display: grid;

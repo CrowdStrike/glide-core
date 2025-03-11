@@ -74,7 +74,7 @@ export default [
       }
 
       &:not(.disabled):hover {
-        box-shadow: var(--glide-core-shadow-checkbox);
+        box-shadow: var(--glide-core-effect-hovered);
       }
     }
 
@@ -90,7 +90,7 @@ export default [
 
       &:not(:disabled):hover ~ .checkbox {
         border-color: var(--glide-core-color-interactive-stroke-focus);
-        box-shadow: var(--glide-core-shadow-checkbox);
+        box-shadow: var(--glide-core-effect-hovered);
       }
 
       &:checked:not(:indeterminate) ~ .checkbox .checked-icon {
