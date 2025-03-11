@@ -182,6 +182,8 @@ for (const story of stories.Dropdown) {
               element.tooltip = 'Tooltip';
             });
 
+          await page.locator('glide-core-tooltip').getByRole('button').focus();
+
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
           );
