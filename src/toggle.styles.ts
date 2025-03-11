@@ -21,7 +21,7 @@ export default [
       );
       block-size: 0.875rem;
       border: 1px solid transparent;
-      border-radius: var(--glide-core-spacing-base-sm);
+      border-radius: var(--glide-core-rounding-base-radius-round);
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
       inline-size: var(--private-inline-size);
