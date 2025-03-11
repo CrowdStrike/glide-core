@@ -17,7 +17,6 @@ export default [
         font-family: var(--glide-core-typography-family-primary);
         font-size: var(--glide-core-typography-size-body-label);
         font-style: var(--glide-core-body-sm-font-style);
-        font-variant: var(--glide-core-body-sm-font-variant);
         font-weight: var(--glide-core-typography-weight-regular);
       }
 
@@ -26,7 +25,6 @@ export default [
         font-family: var(--glide-core-typography-family-primary);
         font-size: var(--glide-core-typography-size-body-small);
         font-style: var(--glide-core-body-xs-font-style);
-        font-variant: var(--glide-core-body-xs-font-variant);
         font-weight: var(--glide-core-typography-weight-regular);
       }
     }
