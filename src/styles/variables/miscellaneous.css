@@ -26,6 +26,4 @@
     var(--glide-core-color-effect-position-elevation-floating-y)
     var(--glide-core-color-effect-blur-elevation-floating-blur)
     var(--glide-core-color-effect-color-elevation-floating);
-  --glide-core-shadow-xl: 0px 4px 60px 0px
-    var(--glide-core-color-effect-color-elevation-detail-panel);
 }

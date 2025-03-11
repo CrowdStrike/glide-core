@@ -21,6 +21,7 @@ export const extendedVariables = [
   'Color/Dialog and Modal/Surface/container',
   'Color/Radio/Icon/default--disabled',
   'Color/Tabs/Stroke/underline',
+  'Color/Template/Surface/container-detail',
   'Color/Tooltip/Surface/container',
   'Color/Tooltip/Text/primary',
 ];

@@ -14,7 +14,8 @@ export default [
       block-size: 0;
       border-end-start-radius: 0.625rem;
       border-start-start-radius: 0.625rem;
-      box-shadow: var(--glide-core-shadow-xl);
+      box-shadow: 0 4px 60px 0
+        var(--glide-core-color-effect-color-elevation-detail-panel);
       font-family: var(--glide-core-typography-family-primary);
       inline-size: 0;
       inset: 0;
