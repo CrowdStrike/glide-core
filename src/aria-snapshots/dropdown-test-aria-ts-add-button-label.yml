@@ -1,0 +1,8 @@
+- text: Label
+- button "Label" [expanded]
+- listbox:
+  - option "One"
+  - option "Two"
+  - option "Three"
+- contentinfo:
+  - button "Add"

@@ -1,0 +1,18 @@
+- text: Label One, Two,
+- list:
+  - listitem:
+    - text: One
+    - 'button "Remove tag: One"':
+      - img
+  - listitem:
+    - text: Two
+    - 'button "Remove tag: Two"':
+      - img
+- button "One, Two, Label" [expanded]
+- listbox:
+  - option "One" [selected]:
+    - checkbox "One" [checked]
+  - option "Two" [selected]:
+    - checkbox "Two" [checked]
+  - option "Three":
+    - checkbox "Three"

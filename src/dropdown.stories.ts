@@ -447,6 +447,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
               // Dropdown throws when `value` contains more than one value and `multiple`
               // isn't `true`. So `multiple` is preserved for visual tests and for when
               // users change its value via DevTools instead of a control.
+              multiple: dropdown.multiple,
               open: dropdown.open,
               value: dropdown.value,
             },

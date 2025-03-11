@@ -37,13 +37,15 @@ export default {
     },
   },
   files: [
-    'src/**/*.test.ts',
     'src/**/*.test.*.ts',
+    'src/**/*.test.ts',
     '!**/eslint/**',
     '!**/icons/**',
     '!**/stylelint/**',
     '!**/translations/**',
+    '!src/**/*.*.test.aria.ts',
     '!src/**/*.*.test.visuals.ts',
+    '!src/**/*.test.aria.ts',
     '!src/**/*.test.visuals.ts',
   ],
   nodeResolve: {

@@ -19,6 +19,33 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
 
+  fetch-baseline-screenshots:
+    name: Fetch Baseline Screenshots
+    runs-on: ubuntu-latest
+    steps:
+      # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+      - name: Configure AWS CLI
+        env:
+          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
+          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
+        # https://developers.cloudflare.com/r2/examples/aws/aws-cli
+        run: |
+          aws configure set region auto
+          aws configure set output json
+          aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
+      - run: aws s3 sync s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/baseline-screenshots ./baseline-screenshots --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
+      - name: Upload baseline screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          path: baseline-screenshots
+          name: baseline-screenshots
+
   format:
     name: Format
     runs-on: ubuntu-latest
@@ -81,32 +108,26 @@ jobs:
           name: coverage
           path: dist/coverage
 
-  fetch-baseline-screenshots:
-    name: Fetch Baseline Screenshots
+  # Its own job instead of putting it in `test-visuals` and renaming that job
+  # because `test-visual` sets `continue-on-error` so that missing and changed
+  # snapshots don't cause it to fail.
+  test-aria:
+    name: Test (ARIA)
     runs-on: ubuntu-latest
+    # Increase sharding if the job takes longer than a few minutes.
+    timeout-minutes: 5
+    needs:
+      - install-dependencies
+    strategy:
+      matrix:
+        shardIndex: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        shardTotal: [10]
     steps:
-      # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
-      - name: Install AWS CLI
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.35.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install --update
-      - name: Configure AWS CLI
-        env:
-          CLOUDFLARE_R2_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_ACCESS_KEY_ID }}
-          CLOUDFLARE_R2_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_SECRET_ACCESS_KEY }}
-        # https://developers.cloudflare.com/r2/examples/aws/aws-cli
-        run: |
-          aws configure set region auto
-          aws configure set output json
-          aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
-          aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
-      - run: aws s3 sync s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/baseline-screenshots ./baseline-screenshots --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
-      - name: Upload baseline screenshots
-        uses: actions/upload-artifact@v4
-        with:
-          path: baseline-screenshots
-          name: baseline-screenshots
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/pnpm
+      - run: pnpm dlx playwright@1.50.1 install --only-shell --with-deps chromium
+      - name: Test
+        run: pnpm exec playwright test --project aria --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
 
   test-visuals:
     name: Test (Visuals)
@@ -124,7 +145,6 @@ jobs:
         shardTotal: [10]
     steps:
       - uses: actions/checkout@v4
-      - run: git fetch origin main --depth 1
       - uses: ./.github/actions/pnpm
       - run: pnpm dlx playwright@1.50.1 install --only-shell --with-deps chromium
       - name: Download baseline screenshots
@@ -145,7 +165,7 @@ jobs:
         # So we simply expect the developer and reviewers to look over the test report, deployed
         # below, before merging.
         continue-on-error: true
-        run: pnpm exec playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        run: pnpm exec playwright test --project visuals --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       - name: Upload blob report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4

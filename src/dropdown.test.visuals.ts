@@ -238,7 +238,6 @@ for (const story of stories.Dropdown) {
 
             await page
               .locator('glide-core-dropdown')
-              .first()
               .evaluate<void, GlideCoreDropdown>((element) => {
                 element.open = true;
               });
@@ -260,7 +259,6 @@ for (const story of stories.Dropdown) {
 
             await page
               .locator('glide-core-dropdown')
-              .first()
               .evaluate<void, GlideCoreDropdown>((element) => {
                 element.multiple = true;
                 element.open = true;
@@ -285,7 +283,6 @@ for (const story of stories.Dropdown) {
 
             await page
               .locator('glide-core-dropdown')
-              .first()
               .evaluate<void, GlideCoreDropdown>((element) => {
                 element.open = true;
               });
@@ -307,7 +304,6 @@ for (const story of stories.Dropdown) {
 
             await page
               .locator('glide-core-dropdown')
-              .first()
               .evaluate<void, GlideCoreDropdown>((element) => {
                 element.multiple = true;
                 element.open = true;

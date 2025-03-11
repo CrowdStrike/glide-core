@@ -1,0 +1,4 @@
+- button "Tooltip:"
+- tooltip "Tooltip"
+- text: Label
+- checkbox "Label"

@@ -1,0 +1,4 @@
+- button "Tooltip:"
+- tooltip "Tooltip"
+- text: Label
+- button "Label"
