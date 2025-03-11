@@ -10,10 +10,12 @@ Our CSS custom properties have been updated to follow a new semantic token forma
 
 `*` = optional
 
-All components have been updated to use these new tokens. Some components have visual updates that are worth mentioning:
+All components have been updated to use these new tokens. Some components have visual updates that are worth calling out:
 
-- Button secondary and tertiary states have been redesigned
-- Button colors in dark mode have been changed to different values
-- Icon Button was updated to follow Button's changes
-- Checkbox when indeterminate and disabled has a new visual design
-- Split Button was visually redesigned
+- Button secondary and tertiary visual states have been redesigned.
+- Button colors in dark mode have been changed to different values.
+- Icon Button was updated to follow Button's changes.
+- Checkbox when indeterminate and disabled has a new visual design.
+- Split Button was visually redesigned.
+- Radio's selected, hover, and disabled visuals were updated.
+- Explicitly set `line-height`s were removed from most components.

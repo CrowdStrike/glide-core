@@ -131,19 +131,19 @@ function generateCSSVariablesFromTokens({
       // "private"-prefixed CSS variables in code, but on
       // the Figma side.
       //
-      // Some extended styles we do need to make accessible
-      // in our code to develop components and features.
+      // Some extended styles we need to make accessible
+      // to our code to develop components and features.
       // These unique cases should be included in the
-      // `extendedVariables` array. When the variable is
-      // included, we generate a "private"-prefixed CSS
-      // variable for them.
+      // `extendedVariables` array in `constants.ts`.
+      // When the variable is included, we generate a
+      // "private"-prefixed CSS variable for them.
       //
       // These private variables are not meant to be used
       // outside of this repository.
       if (!value.$extensions?.['com.figma']?.scopes?.length) {
         const extendedVariable = extendedVariables.find((variable) =>
           variableName.endsWith(
-            // Our extendedVariables array matches the naming
+            // Our `extendedVariables` array matches the naming
             // conventions of Figma for convenience. But this
             // means we need to format those variables so
             // that they can be translated to CSS custom
