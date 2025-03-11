@@ -45,14 +45,14 @@ export default [
     textarea {
       appearance: none;
       background-color: var(--glide-core-color-interactive-surface-container);
-      border: 1px solid var(--glide-core-color-static-stroke-primary);
-      border-radius: 0.5rem;
-      color: var(--glide-core-color-static-text-default);
+      border: 1px solid var(--glide-core-color-interactive-stroke-primary);
+      border-radius: var(--glide-core-rounding-base-radius-sm);
+      color: var(--glide-core-color-interactive-text-default);
       cursor: inherit;
       display: block;
       flex-grow: 1;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-component-inputvalue);
       font-weight: var(--glide-core-typography-weight-regular);
       max-block-size: 5lh;
       min-block-size: 3lh;
@@ -70,7 +70,7 @@ export default [
       &:focus-visible,
       &:focus-visible[readonly],
       &:hover {
-        border-color: var(--glide-core-color-interactive-stroke-focus);
+        border-color: var(--glide-core-color-interactive-stroke-primary--hover);
       }
 
       &::placeholder {
@@ -94,7 +94,8 @@ export default [
         background-color: var(
           --glide-core-color-interactive-surface-container--disabled
         );
-        border: 0.0625rem solid var(--glide-core-color-static-stroke-secondary);
+        border: 0.0625rem solid
+          var(--glide-core-color-interactive-stroke-primary--disabled);
         color: var(--glide-core-color-interactive-text-default--disabled);
       }
     }
