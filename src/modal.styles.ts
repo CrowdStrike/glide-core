@@ -36,7 +36,7 @@ export default [
       );
       border: none;
       border-radius: var(--glide-core-rounding-base-radius-sm);
-      box-shadow: var(--glide-core-shadow-lg);
+      box-shadow: var(--glide-core-effect-floating);
       font-family: var(--glide-core-typography-family-primary);
       opacity: 0;
       padding: 0;
