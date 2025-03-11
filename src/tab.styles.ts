@@ -13,10 +13,11 @@ export default [
     .component {
       align-items: center;
       box-sizing: border-box;
+      color: var(--glide-core-color-interactive-text-default);
       cursor: pointer;
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-component-inputvalue);
       font-style: var(--glide-core-heading-xxs-font-style);
       font-weight: var(--glide-core-typography-weight-regular);
       gap: 0.4375rem;
