@@ -4,145 +4,182 @@ import type GlideCoreIconButton from './icon-button.js';
 const stories = JSON.parse(process.env.STORIES ?? '');
 
 for (const story of stories['Icon Button']) {
-  test.describe(story, () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(story);
+  test.describe(story.id, () => {
+    for (const theme of story.themes) {
+      test.describe(theme, () => {
+        test('disabled', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-      await page
-        .locator('glide-core-icon-button')
-        .evaluate<void, GlideCoreIconButton>((element) => {
-          element.disabled = true;
+          await page
+            .locator('glide-core-icon-button')
+            .evaluate<void, GlideCoreIconButton>((element) => {
+              element.disabled = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test.describe('hover', () => {
+          test('disabled', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test.describe('hover', () => {
-      test('disabled', async ({ page }, test) => {
-        await page.goto(story);
+            await page
+              .locator('glide-core-icon-button')
+              .evaluate<void, GlideCoreIconButton>((element) => {
+                element.disabled = true;
+              });
 
-        await page
-          .locator('glide-core-icon-button')
-          .evaluate<void, GlideCoreIconButton>((element) => {
-            element.disabled = true;
+            await page.locator('glide-core-icon-button').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
           });
 
-        await page.locator('glide-core-icon-button').hover();
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
+          test('variant="primary"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-icon-button').hover();
 
-      test('variant="primary"', async ({ page }, test) => {
-        await page.goto(story);
-        await page.locator('glide-core-icon-button').hover();
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="secondary"', async ({ page }, test) => {
-        await page.goto(story);
-
-        await page
-          .locator('glide-core-icon-button')
-          .evaluate<void, GlideCoreIconButton>((element) => {
-            element.variant = 'secondary';
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
           });
 
-        await page.locator('glide-core-icon-button').hover();
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
+          test('variant="secondary"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-      test('variant="tertiary"', async ({ page }, test) => {
-        await page.goto(story);
+            await page
+              .locator('glide-core-icon-button')
+              .evaluate<void, GlideCoreIconButton>((element) => {
+                element.variant = 'secondary';
+              });
 
-        await page
-          .locator('glide-core-icon-button')
-          .evaluate<void, GlideCoreIconButton>((element) => {
-            element.variant = 'tertiary';
+            await page.locator('glide-core-icon-button').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
           });
 
-        await page.locator('glide-core-icon-button').hover();
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-    });
+          test('variant="tertiary"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test.describe('press', () => {
-      test('disabled', async ({ page }, test) => {
-        await page.goto(story);
+            await page
+              .locator('glide-core-icon-button')
+              .evaluate<void, GlideCoreIconButton>((element) => {
+                element.variant = 'tertiary';
+              });
 
-        await page
-          .locator('glide-core-icon-button')
-          .evaluate<void, GlideCoreIconButton>((element) => {
-            element.disabled = true;
+            await page.locator('glide-core-icon-button').hover();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
           });
-
-        await page.locator('glide-core-icon-button').hover();
-        await page.mouse.down();
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="primary"', async ({ page }, test) => {
-        await page.goto(story);
-        await page.locator('glide-core-icon-button').hover();
-        await page.mouse.down();
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="secondary"', async ({ page }, test) => {
-        await page.goto(story);
-
-        await page
-          .locator('glide-core-icon-button')
-          .evaluate<void, GlideCoreIconButton>((element) => {
-            element.variant = 'secondary';
-          });
-
-        await page.locator('glide-core-icon-button').hover();
-        await page.mouse.down();
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-
-      test('variant="tertiary"', async ({ page }, test) => {
-        await page.goto(story);
-
-        await page
-          .locator('glide-core-icon-button')
-          .evaluate<void, GlideCoreIconButton>((element) => {
-            element.variant = 'tertiary';
-          });
-
-        await page.locator('glide-core-icon-button').hover();
-        await page.mouse.down();
-        await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-      });
-    });
-
-    test('variant="primary"', async ({ page }, test) => {
-      await page.goto(story);
-      await page.locator('glide-core-icon-button').waitFor();
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('variant="secondary"', async ({ page }, test) => {
-      await page.goto(story);
-
-      await page
-        .locator('glide-core-icon-button')
-        .evaluate<void, GlideCoreIconButton>((element) => {
-          element.variant = 'secondary';
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test.describe('press', () => {
+          test('disabled', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('variant="tertiary"', async ({ page }, test) => {
-      await page.goto(story);
+            await page
+              .locator('glide-core-icon-button')
+              .evaluate<void, GlideCoreIconButton>((element) => {
+                element.disabled = true;
+              });
 
-      await page
-        .locator('glide-core-icon-button')
-        .evaluate<void, GlideCoreIconButton>((element) => {
-          element.variant = 'secondary';
+            await page.locator('glide-core-icon-button').hover();
+            await page.mouse.down();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('variant="primary"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-icon-button').hover();
+            await page.mouse.down();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('variant="secondary"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-icon-button')
+              .evaluate<void, GlideCoreIconButton>((element) => {
+                element.variant = 'secondary';
+              });
+
+            await page.locator('glide-core-icon-button').hover();
+            await page.mouse.down();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('variant="tertiary"', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-icon-button')
+              .evaluate<void, GlideCoreIconButton>((element) => {
+                element.variant = 'tertiary';
+              });
+
+            await page.locator('glide-core-icon-button').hover();
+            await page.mouse.down();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('variant="primary"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-icon-button').waitFor();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('variant="secondary"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-icon-button')
+            .evaluate<void, GlideCoreIconButton>((element) => {
+              element.variant = 'secondary';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('variant="tertiary"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-icon-button')
+            .evaluate<void, GlideCoreIconButton>((element) => {
+              element.variant = 'secondary';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+      });
+    }
   });
 }

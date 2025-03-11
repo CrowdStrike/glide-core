@@ -15,10 +15,10 @@ export default async () => {
       stories[story.title] = [];
     }
 
-    stories[story.title].push(
-      `?id=${story.id}&globals=theme:light`,
-      `?id=${story.id}&globals=theme:dark`,
-    );
+    stories[story.title].push({
+      id: story.id,
+      themes: ['light', 'dark'],
+    });
   }
 
   process.env.STORIES = JSON.stringify(stories);
