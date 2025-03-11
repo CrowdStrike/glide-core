@@ -130,7 +130,7 @@ export default [
       }
 
       &:not(:active, .active, :disabled):is(:hover) {
-        box-shadow: var(--glide-core-glow-sm);
+        box-shadow: var(--glide-core-effect-hovered);
 
         /* So the box shadow isn't covered up by its primary button. */
         z-index: 1;
