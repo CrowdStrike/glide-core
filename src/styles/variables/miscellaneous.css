@@ -3,11 +3,7 @@
   exportable via scripting.
 */
 :root {
-  --glide-core-body-md-line-height: normal;
-  --glide-core-body-sm-line-height: 1.3;
-  --glide-core-body-xs-line-height: 1.3;
   --glide-core-glow-sm: 0px 0px 2px 0px #2c97eee5;
-  --glide-core-heading-xxxs-line-height: 1.7;
   --glide-core-effect-hovered: 0px 0px 2px 0px
     var(--glide-core-color-effect-color-elevation-hovered);
   --glide-core-effect-lifted: 0px 2px 8px 0px
