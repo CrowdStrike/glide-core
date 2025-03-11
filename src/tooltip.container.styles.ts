@@ -15,7 +15,6 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
       inline-size: max-content;
       inset-block-start: 50%;
-      line-height: var(--glide-core-body-sm-line-height);
       padding: var(--glide-core-spacing-base-xs)
         var(--glide-core-spacing-base-sm);
 

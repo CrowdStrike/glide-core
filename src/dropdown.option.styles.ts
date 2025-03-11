@@ -34,7 +34,6 @@ export default [
         font-size: var(--glide-core-typography-size-body-label);
         font-style: var(--glide-core-body-sm-font-style);
         font-weight: var(--glide-core-typography-weight-regular);
-        line-height: var(--glide-core-body-sm-line-height);
         padding-inline-start: 0.625rem;
 
         &:not(.editable) {
@@ -47,7 +46,6 @@ export default [
         font-size: var(--glide-core-typography-size-body-small);
         font-style: var(--glide-core-body-xs-font-style);
         font-weight: var(--glide-core-typography-weight-regular);
-        line-height: var(--glide-core-body-xs-line-height);
         padding-inline-start: var(--glide-core-spacing-base-sm);
 
         &:not(.editable) {
