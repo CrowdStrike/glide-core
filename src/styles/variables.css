@@ -1,7 +1,8 @@
 /*
   Order matters here. Our color stylesheets need to be first.
-  "light.css" is our default so it comes before "dark.css".
-  Then other stylesheets targeting only the root selector.
+  "color-light.css" is our default so it comes before
+  "color-dark.css". Then other stylesheets targeting only the
+  `:root` selector.
 */
 @import './variables/color-light.css';
 @import './variables/color-dark.css';

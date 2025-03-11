@@ -1,5 +1,5 @@
-// There are a handful of extended variables we
-// need to make available. This array captures
+// There are some extended variables we need to
+// make available internally. This array captures
 // those unique cases.
 //
 // Each string in this array should align with
@@ -7,9 +7,10 @@
 //
 // {collection}/{group(s)}/{variable}
 //
-// The collection must be manually added, but
-// one can copy the rest of the variable's name
-// from Figma's Details modal.
+// This information can be found in Figma's
+// Deatils modal when clicking on an extended
+// style by combining the collection information
+// with the variable's full name.
 export const extendedVariables = [
   'Color/Button/Icon/primary',
   'Color/Button/Text/primary',

@@ -51,7 +51,7 @@ export default [
       align-items: center;
       block-size: 100%;
       border: 1px solid var(--glide-core-color-interactive-stroke-contrast);
-      border-radius: 0.25rem;
+      border-radius: var(--glide-core-rounding-base-radius-xs);
       box-sizing: border-box;
       color: var(
         --glide-core-private-color-checkbox-surface-background-selected--default
