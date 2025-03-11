@@ -110,7 +110,6 @@ export default {
     return `<html>
       <body>
         <link href="./src/styles/fonts.css" rel="stylesheet">
-        <link href="./src/styles/variables/system.css" rel="stylesheet">
         <link href="./src/styles/variables/color-light.css" rel="stylesheet">
         <link href="./src/styles/variables/color-dark.css" rel="stylesheet">
         <link href="./src/styles/variables/miscellaneous.css" rel="stylesheet">
