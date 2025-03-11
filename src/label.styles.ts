@@ -174,7 +174,6 @@ export default [
       font-style: var(--glide-core-body-xs-font-style);
       font-weight: var(--glide-core-typography-weight-regular);
       grid-column: 2;
-      line-height: var(--glide-core-body-xs-line-height);
 
       &.content {
         margin-block-start: var(--glide-core-spacing-base-xxs);

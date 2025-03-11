@@ -237,7 +237,6 @@ export default [
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-label);
       font-weight: var(--glide-core-typography-weight-regular);
-      line-height: var(--glide-core-body-sm-line-height);
       padding: 0.625rem 0.875rem;
       text-transform: capitalize;
     }

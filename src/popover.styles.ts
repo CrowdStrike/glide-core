@@ -118,7 +118,6 @@ export default [
       font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-typography-weight-regular);
       inset-block-start: 50%;
-      line-height: var(--glide-core-body-sm-line-height);
       max-inline-size: 23.75rem;
       min-block-size: 2rem;
       min-inline-size: 5rem;
