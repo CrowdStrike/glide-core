@@ -81,7 +81,7 @@ const meta: Meta = {
         name=${arguments_.name || nothing}
         orientation=${arguments_.orientation}
         tooltip=${arguments_.tooltip || nothing}
-        value=${arguments_.value || nothing}
+        value="two"
         ?disabled=${arguments_.disabled}
         ?required=${arguments_.required}
       >
