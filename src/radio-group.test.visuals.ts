@@ -22,9 +22,17 @@ for (const story of stories['Radio Group']) {
           );
         });
 
+        test(':focus', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-radio-group-radio').first().focus();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test(':hover', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-          await page.locator('glide-core-radio-group').waitFor();
           await page.locator('glide-core-radio-group-radio').nth(1).hover();
 
           await expect(page).toHaveScreenshot(

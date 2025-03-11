@@ -8,6 +8,15 @@ for (const story of stories.Tree) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
+        test('<glide-core-tree-item>:focus', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-tree-item').first().focus();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('<glide-core-tree-item>.expanded', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 

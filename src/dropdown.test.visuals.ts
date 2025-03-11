@@ -53,6 +53,33 @@ for (const story of stories.Dropdown) {
           );
         });
 
+        test.describe(':focus', () => {
+          test('filterable=${true}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-dropdown')
+              .evaluate<void, GlideCoreDropdown>((element) => {
+                element.filterable = true;
+              });
+
+            await page.getByRole('combobox').focus();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('filterable=${false}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.getByRole('button').focus();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+        });
+
         test('hide-label', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 

@@ -35,6 +35,15 @@ for (const story of stories.Checkbox) {
           );
         });
 
+        test(':focus', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.getByRole('checkbox').focus();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('hide-label', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -62,10 +71,7 @@ for (const story of stories.Checkbox) {
             // We hover the input field instead of the host because the host is made
             // to fill the width of the viewport by Label. So most of the host's width
             // is empty space that's unresponsive to hover.
-            await page
-              .locator('glide-core-checkbox')
-              .getByRole('checkbox')
-              .hover();
+            await page.getByRole('checkbox').hover();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -84,10 +90,7 @@ for (const story of stories.Checkbox) {
             // We hover the input field instead of the host because the host is made
             // to fill the width of the viewport by Label. So most of the host's width
             // is empty space that's unresponsive to hover.
-            await page
-              .locator('glide-core-checkbox')
-              .getByRole('checkbox')
-              .hover();
+            await page.getByRole('checkbox').hover();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -100,10 +103,7 @@ for (const story of stories.Checkbox) {
             // We hover the input field instead of the host because the host is made
             // to fill the width of the viewport by Label. So most of the host's width
             // is empty space that's unresponsive to hover.
-            await page
-              .locator('glide-core-checkbox')
-              .getByRole('checkbox')
-              .hover();
+            await page.getByRole('checkbox').hover();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,

@@ -1456,8 +1456,11 @@ it('shows an ellipsis when made filterable programmatically and the label of its
       ?.checkVisibility();
   });
 
-  // Wait for the resize observer to do its thing.
-  await aTimeout(0);
+  await waitUntil(() => {
+    return host.shadowRoot
+      ?.querySelector('[data-test="ellipsis"]')
+      ?.checkVisibility();
+  });
 
   const ellipsis = host.shadowRoot?.querySelector('[data-test="ellipsis"]');
 

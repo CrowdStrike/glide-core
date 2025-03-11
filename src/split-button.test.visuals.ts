@@ -87,6 +87,17 @@ for (const story of stories['Split Button']) {
             );
           });
 
+            test('<glide-core-split-button-primary-link>:focus', async ({
+            page,
+          }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-split-button-primary-link').focus();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
           test('<glide-core-split-button-primary-link>:hover', async ({
             page,
           }, test) => {
@@ -124,6 +135,20 @@ for (const story of stories['Split Button']) {
               .hover();
 
             await page.mouse.down();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('<glide-core-split-button-primary-button>:focus', async ({
+            page,
+          }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-split-button-primary-button')
+              .focus();
 
             await expect(page).toHaveScreenshot(
               `${test.titlePath.join('.')}.png`,
@@ -176,6 +201,22 @@ for (const story of stories['Split Button']) {
             `${test.titlePath.join('.')}.png`,
           );
         });
+
+        
+        test('<glide-core-split-button-secondary-button>:focus', async ({
+          page,
+        }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-split-button-secondary-button')
+            .focus();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
 
         test('<glide-core-split-button-secondary-button>:hover', async ({
           page,
