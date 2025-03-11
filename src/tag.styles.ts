@@ -29,7 +29,7 @@ export default [
 
     .component {
       align-items: center;
-      background: var(--glide-core-color-static-surface-header);
+      background: var(--glide-core-color-static-surface-container-secondary);
       border-radius: var(--glide-core-rounding-base-radius-round);
       color: var(--glide-core-color-static-text-default);
       display: flex;
