@@ -20,6 +20,7 @@ export const extendedVariables = [
   'Color/Checkbox/Surface/background-selected--default',
   'Color/Dialog and Modal/Surface/container',
   'Color/Radio/Icon/default--disabled',
+  'Color/Tabs/Stroke/underline',
   'Color/Tooltip/Surface/container',
   'Color/Tooltip/Text/primary',
 ];
