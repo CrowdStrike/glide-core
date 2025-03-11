@@ -1,5 +1,18 @@
 # @crowdstrike/glide-core
 
+## 0.20.4
+
+### Patch Changes
+
+- [#756](https://github.com/CrowdStrike/glide-core/pull/756) [`7defd95`](https://github.com/CrowdStrike/glide-core/commit/7defd9577d3531d74bedb1c0e9ab31cd5085103e) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown now selects options when `value` is set initially.
+
+  - Radio Group now checks radios when `value` is set initially.
+
+- [#751](https://github.com/CrowdStrike/glide-core/pull/751) [`507a9f4`](https://github.com/CrowdStrike/glide-core/commit/507a9f4fcbc86aacd4f2633bd75683b37311c9aa) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown no longer presents as expanded to screenreaders when open but disabled.
+  - Single-select Dropdown now presents to screenreaders as disabled when disabled.
+  - Form controls' tooltip icon is no longer presented to screenreaders.
+  - Checkbox's indeterminate icon is no longer presented to screenreaders.
+
 ## 0.20.3
 
 ### Patch Changes
