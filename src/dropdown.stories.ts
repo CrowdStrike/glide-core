@@ -497,7 +497,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       ?readonly=${arguments_.readonly}
       ?required=${arguments_.required}
       ?select-all=${arguments_['select-all']}
-      .value=${['one']}
+      .value=${arguments_.value}
     >
       <glide-core-dropdown-option
         label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
