@@ -20,7 +20,7 @@ export default [
 
     .tab-container {
       border-block-end: 1px solid
-        var(--glide-core-color-static-surface-container-secondary);
+        var(--glide-core-private-color-tabs-stroke-underline);
       box-sizing: border-box;
       display: flex;
       padding-block-end: var(--tabs-padding-block-end);
@@ -42,7 +42,7 @@ export default [
       }
 
       &::after {
-        background: var(--glide-core-color-interactive-stroke-focus);
+        background: var(--glide-core-color-interactive-stroke-active);
         block-size: 0.125rem;
         content: '';
         inline-size: var(--private-selected-tab-indicator-width);
