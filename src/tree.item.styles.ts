@@ -20,10 +20,12 @@ export default [
       grid-template-columns: repeat(auto-fill, 2.5rem);
       line-height: 1.25rem;
 
-      --private-color: var(--glide-core-color-static-text-default);
+      --private-color: var(--glide-core-color-interactive-text-default);
 
       &.selected {
-        --private-color: var(--glide-core-color-interactive-text-onsolid);
+        --private-color: var(
+          --glide-core-color-interactive-text-default--active
+        );
 
         ::slotted([slot='prefix']),
         ::slotted([slot='menu']),
@@ -73,7 +75,7 @@ export default [
       border-radius: 0.5rem;
       color: var(--private-color);
       display: flex;
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-component-inputvalue);
       padding-block: var(--glide-core-spacing-base-xxs);
       padding-inline: var(--glide-core-spacing-base-xs);
 
