@@ -19,9 +19,19 @@ export default {
     'order/properties-alphabetical-order': true,
     'prettier/prettier': true,
     'glide-core/no-unprefixed-private-custom-property': true,
-    // TODO: Use a regex here or write our custom rule.
-    //       The default one doesn't allow for `--` in
-    //       a variable name.
-    'custom-property-pattern': null,
+    // Most of our CSS custom properties follow this format:
+    //
+    // --glide-core-{collection}-{category*}-{scope*}-{property}-{variant*}--{state*}
+    //   * = optional
+    //
+    // `--state` is not supported by default with this
+    // rule, so we have to extend it. The regex applies to
+    // the input after the initial `--`.
+    //
+    // We can't add `glide-core` to this regex, because
+    // it's not always applicable. In cases where we're
+    // using component-scoped private custom properties,
+    // they do not contain the `--glide-core-` prefix.
+    'custom-property-pattern': '^[a-z]+(-[a-z0-9]+)*(-{1,2}[a-z0-9]+)*$',
   },
 };
