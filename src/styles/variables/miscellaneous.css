@@ -15,25 +15,17 @@
   --glide-core-heading-xxxs-font-style: normal;
   --glide-core-heading-xxxs-font-variant: normal;
   --glide-core-heading-xxxs-line-height: 1.7;
-  --glide-core-shadow-checkbox: 0px 0px 2px 0px
+  --glide-core-effect-hovered: 0px 0px 2px 0px
     var(--glide-core-color-effect-color-elevation-hovered);
-  --glide-core-shadow-sm: 0px 2px 8px 0px
+  --glide-core-effect-lifted: 0px 2px 8px 0px
     var(--glide-core-color-effect-color-elevation-lifted);
-  --glide-core-shadow-md:
+  --glide-core-effect-raised:
     0px 3px 1px 0px var(--glide-core-color-effect-color-elevation-raised-1),
     0px 3px 8px 0 var(--glide-core-color-effect-color-elevation-raised-2);
-  --glide-core-shadow-lg: 0px
+  --glide-core-effect-floating: 0px
     var(--glide-core-color-effect-position-elevation-floating-y)
     var(--glide-core-color-effect-blur-elevation-floating-blur)
     var(--glide-core-color-effect-color-elevation-floating);
   --glide-core-shadow-xl: 0px 4px 60px 0px
     var(--glide-core-color-effect-color-elevation-detail-panel);
-  --glide-core-shadow-footer: var(--glide-core-effects-shadow-footer-x)
-    var(--glide-core-effects-shadow-footer-y)
-    var(--glide-core-effects-shadow-footer-blur)
-    var(--glide-core-effects-shadow-footer-spread)
-    var(--glide-core-effects-shadow-footer-fill);
-  --glide-core-shadow-nav:
-    0px 3px 1px 0px var(--glide-core-color-effect-color-elevation-raised-1),
-    0px 3px 8px 0 var(--glide-core-color-effect-color-elevation-raised-2);
 }

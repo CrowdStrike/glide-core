@@ -28,7 +28,7 @@ export default [
       border: 1px solid
         var(--glide-core-color-static-surface-container-secondary);
       border-radius: var(--glide-core-rounding-base-radius-sm);
-      box-shadow: var(--glide-core-shadow-lg);
+      box-shadow: var(--glide-core-effect-floating);
       box-sizing: border-box;
       inline-size: max-content;
       inset: unset;
