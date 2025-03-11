@@ -73,7 +73,7 @@ export default [
       }
 
       &.secondary {
-        background-color: transparent;
+        background-color: var(--glide-core-color-interactive-surface-container);
         border-color: var(--glide-core-private-color-button-stroke-default);
         color: var(
           --private-icon-color,
