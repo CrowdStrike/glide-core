@@ -1,322 +1,101 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreCheckboxGroup from './checkbox-group.js';
 
-test.describe('checkbox-group--checkbox-group', () => {
-  test.describe('globals=theme:light', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+const stories = JSON.parse(process.env.STORIES ?? '');
 
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.disabled = true;
+for (const story of stories['Checkbox Group']) {
+  test.describe(story.id, () => {
+    for (const theme of story.themes) {
+      test.describe(theme, () => {
+        test('disabled', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-checkbox-group')
+            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+              element.disabled = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('hide-label', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('hide-label', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-checkbox-group')
+            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+              element.hideLabel = true;
+            });
 
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.hideLabel = true;
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('required', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('required', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-checkbox-group')
+            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+              element.required = true;
+            });
 
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.required = true;
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('slot="description"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('slot="description"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-checkbox-group')
+            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+              const div = document.createElement('div');
 
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          const div = document.createElement('div');
+              div.textContent = 'Description';
+              div.slot = 'description';
 
-          div.textContent = 'Description';
-          div.slot = 'description';
+              element.append(div);
+            });
 
-          element.append(div);
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('tooltip', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('tooltip', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-checkbox-group')
+            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+              element.tooltip = 'Tooltip';
+            });
 
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.tooltip = 'Tooltip';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('value', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('value', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-checkbox-group')
+            .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+              element.value = ['one'];
+            });
 
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.value = ['one'];
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+      });
+    }
   });
-
-  test.describe('globals=theme:dark', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.disabled = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('hide-label', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.hideLabel = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('required', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.required = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('slot="description"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          const div = document.createElement('div');
-
-          div.textContent = 'Description';
-          div.slot = 'description';
-
-          element.append(div);
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('tooltip', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.tooltip = 'Tooltip';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('value', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.value = ['one'];
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-});
-
-test.describe('checkbox-group--with-error', () => {
-  test.describe('globals=theme:light', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.disabled = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('hide-label', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.hideLabel = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('required', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.required = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('slot="description"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          const div = document.createElement('div');
-
-          div.textContent = 'Description';
-          div.slot = 'description';
-
-          element.append(div);
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('tooltip', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.tooltip = 'Tooltip';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('value', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.value = ['one'];
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-
-  test.describe('globals=theme:dark', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.disabled = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('hide-label', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.hideLabel = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('required', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.required = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('slot="description"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          const div = document.createElement('div');
-
-          div.textContent = 'Description';
-          div.slot = 'description';
-
-          element.append(div);
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('tooltip', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.tooltip = 'Tooltip';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('value', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-checkbox-group')
-        .evaluate<void, GlideCoreCheckboxGroup>((element) => {
-          element.value = ['one'];
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-});
+}

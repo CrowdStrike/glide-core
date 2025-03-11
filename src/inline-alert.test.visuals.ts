@@ -1,116 +1,77 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreInlineAlert from './inline-alert.js';
 
-test.describe('inline-alert--inline-alert', () => {
-  test.describe('globals=theme:light', () => {
-    test('removable', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+const stories = JSON.parse(process.env.STORIES ?? '');
 
-      await page
-        .locator('glide-core-inline-alert')
-        .evaluate<void, GlideCoreInlineAlert>((element) => {
-          element.removable = true;
+for (const story of stories['Inline Alert']) {
+  test.describe(story.id, () => {
+    for (const theme of story.themes) {
+      test.describe(theme, () => {
+        test('removable', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-inline-alert')
+            .evaluate<void, GlideCoreInlineAlert>((element) => {
+              element.removable = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('variant="informational', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-inline-alert').waitFor();
 
-    test('variant="informational', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-      await page.locator('glide-core-inline-alert').waitFor();
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('variant="medium', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-inline-alert')
-        .evaluate<void, GlideCoreInlineAlert>((element) => {
-          element.variant = 'medium';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('variant="medium', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('variant="high', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-inline-alert')
+            .evaluate<void, GlideCoreInlineAlert>((element) => {
+              element.variant = 'medium';
+            });
 
-      await page
-        .locator('glide-core-inline-alert')
-        .evaluate<void, GlideCoreInlineAlert>((element) => {
-          element.variant = 'high';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('variant="high', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('variant="critical', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-inline-alert')
+            .evaluate<void, GlideCoreInlineAlert>((element) => {
+              element.variant = 'high';
+            });
 
-      await page
-        .locator('glide-core-inline-alert')
-        .evaluate<void, GlideCoreInlineAlert>((element) => {
-          element.variant = 'critical';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('variant="critical', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-inline-alert')
+            .evaluate<void, GlideCoreInlineAlert>((element) => {
+              element.variant = 'critical';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+      });
+    }
   });
-
-  test.describe('globals=theme:dark', () => {
-    test('removable', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-inline-alert')
-        .evaluate<void, GlideCoreInlineAlert>((element) => {
-          element.removable = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('variant="informational', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-      await page.locator('glide-core-inline-alert').waitFor();
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('variant="medium', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-inline-alert')
-        .evaluate<void, GlideCoreInlineAlert>((element) => {
-          element.variant = 'medium';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('variant="high', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-inline-alert')
-        .evaluate<void, GlideCoreInlineAlert>((element) => {
-          element.variant = 'high';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('variant="critical', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-inline-alert')
-        .evaluate<void, GlideCoreInlineAlert>((element) => {
-          element.variant = 'critical';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-});
+}

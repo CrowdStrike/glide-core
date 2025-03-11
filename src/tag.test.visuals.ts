@@ -1,254 +1,82 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreTag from './tag.js';
 
-test.describe('tag--tag', () => {
-  test.describe('globals=theme:light', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+const stories = JSON.parse(process.env.STORIES ?? '');
 
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.disabled = true;
+for (const story of stories.Tag) {
+  test.describe(story.id, () => {
+    for (const theme of story.themes) {
+      test.describe(theme, () => {
+        test('disabled', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-tag')
+            .evaluate<void, GlideCoreTag>((element) => {
+              element.disabled = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('removable', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('removable', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-tag')
+            .evaluate<void, GlideCoreTag>((element) => {
+              element.removable = true;
+            });
 
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.removable = true;
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('size="small"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('size="small"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-tag')
+            .evaluate<void, GlideCoreTag>((element) => {
+              element.size = 'small';
+            });
 
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'small';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('size="medium"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('size="medium"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-tag')
+            .evaluate<void, GlideCoreTag>((element) => {
+              element.size = 'medium';
+            });
 
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'medium';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('size="large"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('size="large"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-tag')
+            .evaluate<void, GlideCoreTag>((element) => {
+              element.size = 'large';
+            });
 
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'large';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+      });
+    }
   });
-
-  test.describe('globals=theme:dark', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.disabled = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('removable', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.removable = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('size="small"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'small';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('size="medium"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'medium';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('size="large"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'large';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-});
-
-test.describe('tag--with-icon', () => {
-  test.describe('globals=theme:light', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.disabled = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('removable', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.removable = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('size="small"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'small';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('size="medium"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'medium';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('size="large"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'large';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-
-  test.describe('globals=theme:dark', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.disabled = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('removable', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.removable = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('size="small"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'small';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('size="medium"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'medium';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('size="large"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-tag')
-        .evaluate<void, GlideCoreTag>((element) => {
-          element.size = 'large';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-});
+}

@@ -1,86 +1,35 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreAccordion from './accordion.js';
 
-test.describe('accordion--accordion', () => {
-  test.describe('globals=theme:light', () => {
-    test('open=${false}', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-      await page.locator('glide-core-accordion').waitFor();
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+const stories = JSON.parse(process.env.STORIES ?? '');
 
-    test('open=${true}', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+for (const story of stories.Accordion) {
+  test.describe(story.id, () => {
+    for (const theme of story.themes) {
+      test.describe(theme, () => {
+        test('open=${false}', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-accordion').waitFor();
 
-      await page
-        .locator('glide-core-accordion')
-        .evaluate<void, GlideCoreAccordion>((element) => {
-          element.open = true;
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
+        test('open=${true}', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-  test.describe('globals=theme:dark', () => {
-    test('open=${false}', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-      await page.locator('glide-core-accordion').waitFor();
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+          await page
+            .locator('glide-core-accordion')
+            .evaluate<void, GlideCoreAccordion>((element) => {
+              element.open = true;
+            });
 
-    test('open=${true}', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-accordion')
-        .evaluate<void, GlideCoreAccordion>((element) => {
-          element.open = true;
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+      });
+    }
   });
-});
-
-test.describe('accordion--with-icons', () => {
-  test.describe('globals=theme:light', () => {
-    test('open=${false}', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-      await page.locator('glide-core-accordion').waitFor();
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('open=${true}', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-accordion')
-        .evaluate<void, GlideCoreAccordion>((element) => {
-          element.open = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-
-  test.describe('globals=theme:dark', () => {
-    test('open=${false}', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-      await page.locator('glide-core-accordion').waitFor();
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('open=${true}', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-accordion')
-        .evaluate<void, GlideCoreAccordion>((element) => {
-          element.open = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-});
+}

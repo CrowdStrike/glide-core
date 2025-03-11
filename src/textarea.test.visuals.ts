@@ -1,518 +1,159 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreTextarea from './textarea.js';
 
-test.describe('textarea--textarea', () => {
-  test.describe('globals=theme:light', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+const stories = JSON.parse(process.env.STORIES ?? '');
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.disabled = true;
+for (const story of stories.Textarea) {
+  test.describe(story.id, () => {
+    for (const theme of story.themes) {
+      test.describe(theme, () => {
+        test('disabled', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              element.disabled = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('hide-label', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('hide-label', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              element.hideLabel = true;
+            });
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.hideLabel = true;
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('max-length', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('max-length', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              element.maxlength = 1;
+            });
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.maxlength = 1;
+          await page.getByRole('textbox').fill('Test');
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await page.getByRole('textbox').fill('Test');
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('orientation', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('orientation', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              element.orientation = 'vertical';
+            });
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.orientation = 'vertical';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('placeholder', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('placeholder', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              element.placeholder = 'Placeholder';
+            });
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.placeholder = 'Placeholder';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('readonly', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('readonly', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              element.readonly = true;
+            });
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.readonly = true;
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('required', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('required', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              element.required = true;
+            });
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.required = true;
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('slot="description"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('slot="description"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              const div = document.createElement('div');
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          const div = document.createElement('div');
+              div.textContent = 'Description';
+              div.slot = 'description';
 
-          div.textContent = 'Description';
-          div.slot = 'description';
+              element.append(div);
+            });
 
-          element.append(div);
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('tooltip', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('tooltip', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              element.tooltip = 'Tooltip';
+            });
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.tooltip = 'Tooltip';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('value', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('value', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-textarea')
+            .evaluate<void, GlideCoreTextarea>((element) => {
+              element.value = 'Value';
+            });
 
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.value = 'Value';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+      });
+    }
   });
-
-  test.describe('globals=theme:dark', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.disabled = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('hide-label', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.hideLabel = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('max-length', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.maxlength = 1;
-        });
-
-      await page.getByRole('textbox').fill('Test');
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('orientation', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.orientation = 'vertical';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('placeholder', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.placeholder = 'Placeholder';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('readonly', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.readonly = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('required', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.required = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('slot="description"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          const div = document.createElement('div');
-
-          div.textContent = 'Description';
-          div.slot = 'description';
-
-          element.append(div);
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('tooltip', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.tooltip = 'Tooltip';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('value', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.value = 'Value';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-});
-
-test.describe('textarea--with-error', () => {
-  test.describe('globals=theme:light', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.disabled = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('hide-label', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.hideLabel = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('max-length', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.maxlength = 1;
-        });
-
-      await page.getByRole('textbox').fill('Test');
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('orientation', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.orientation = 'vertical';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('placeholder', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.placeholder = 'Placeholder';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('readonly', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.readonly = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('required', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.required = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('slot="description"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          const div = document.createElement('div');
-
-          div.textContent = 'Description';
-          div.slot = 'description';
-
-          element.append(div);
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('tooltip', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.tooltip = 'Tooltip';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('value', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.value = 'Value';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-
-  test.describe('globals=theme:dark', () => {
-    test('disabled', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.disabled = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('hide-label', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.hideLabel = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('max-length', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.maxlength = 1;
-        });
-
-      await page.getByRole('textbox').fill('Test');
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('orientation', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.orientation = 'vertical';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('placeholder', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.placeholder = 'Placeholder';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('readonly', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.readonly = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('required', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.required = true;
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('slot="description"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          const div = document.createElement('div');
-
-          div.textContent = 'Description';
-          div.slot = 'description';
-
-          element.append(div);
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('tooltip', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.tooltip = 'Tooltip';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('value', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-textarea')
-        .evaluate<void, GlideCoreTextarea>((element) => {
-          element.value = 'Value';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-});
+}

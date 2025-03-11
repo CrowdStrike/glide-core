@@ -1,56 +1,40 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreFormControlsLayout from './form-controls-layout.js';
 
-test.describe('form-controls-layout--form-controls-layout', () => {
-  test.describe('globals=theme:light', () => {
-    test('split="left"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+const stories = JSON.parse(process.env.STORIES ?? '');
 
-      await page
-        .locator('glide-core-form-controls-layout')
-        .evaluate<void, GlideCoreFormControlsLayout>((element) => {
-          element.split = 'left';
+for (const story of stories['Form Controls Layout']) {
+  test.describe(story.id, () => {
+    for (const theme of story.themes) {
+      test.describe(theme, () => {
+        test('split="left"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-form-controls-layout')
+            .evaluate<void, GlideCoreFormControlsLayout>((element) => {
+              element.split = 'left';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
 
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+        test('split="middle"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-    test('split="middle"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
+          await page
+            .locator('glide-core-form-controls-layout')
+            .evaluate<void, GlideCoreFormControlsLayout>((element) => {
+              element.split = 'middle';
+            });
 
-      await page
-        .locator('glide-core-form-controls-layout')
-        .evaluate<void, GlideCoreFormControlsLayout>((element) => {
-          element.split = 'middle';
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
         });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
+      });
+    }
   });
-
-  test.describe('globals=theme:dark', () => {
-    test('split="left"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-form-controls-layout')
-        .evaluate<void, GlideCoreFormControlsLayout>((element) => {
-          element.split = 'left';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-
-    test('split="middle"', async ({ page }, test) => {
-      await page.goto(`?id=${test.titlePath.at(1)}&${test.titlePath.at(2)}`);
-
-      await page
-        .locator('glide-core-form-controls-layout')
-        .evaluate<void, GlideCoreFormControlsLayout>((element) => {
-          element.split = 'middle';
-        });
-
-      await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
-    });
-  });
-});
+}
