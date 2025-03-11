@@ -20,7 +20,6 @@ export default [
       cursor: pointer;
       display: inline-flex;
       font-family: var(--glide-core-typography-family-primary);
-      font-style: var(--glide-core-heading-xxs-font-style);
       font-weight: var(--glide-core-typography-weight-bold);
       gap: 0.625rem;
       justify-content: center;

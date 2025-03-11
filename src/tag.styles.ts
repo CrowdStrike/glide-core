@@ -35,7 +35,6 @@ export default [
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-small);
-      font-style: var(--glide-core-body-xs-font-variant);
       font-weight: var(--glide-core-typography-weight-regular);
       justify-content: center;
       line-height: 1;
