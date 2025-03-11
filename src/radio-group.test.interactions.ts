@@ -21,6 +21,7 @@ it('checks a radio when `value` is set programmatically', async () => {
   `);
 
   host.value = 'one';
+  await host.updateComplete;
 
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
 
@@ -285,6 +286,7 @@ it('enables a disabled radio when `value` is set programmatically', async () => 
   `);
 
   host.value = 'one';
+  await host.updateComplete;
 
   const radio = host.querySelector('glide-core-radio-group-radio');
   expect(radio?.disabled).to.be.false;

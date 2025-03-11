@@ -127,6 +127,27 @@ it('makes radios untabbable when disabled', async () => {
   expect(radios[2]?.tabIndex).to.equal(-1);
 });
 
+it('checks radios when `value` is set initially', async () => {
+  const host = await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="Label" value="two">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>`,
+  );
+
+  const radios = host.querySelectorAll('glide-core-radio-group-radio');
+
+  expect(radios[0]?.checked).to.be.false;
+  expect(radios[1]?.checked).to.be.true;
+});
+
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 

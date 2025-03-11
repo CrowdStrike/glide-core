@@ -413,6 +413,7 @@ it('is valid when required after `value` is set', async () => {
   expect(host.reportValidity()).to.be.false;
 
   host.value = 'one';
+  await host.updateComplete;
 
   expect(host.validity?.valid).to.be.true;
   expect(host.validity?.valueMissing).to.be.false;

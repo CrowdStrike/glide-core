@@ -44,6 +44,27 @@ it('can be open', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
+it('selects options when `value` is set initially', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" .value=${['two']}>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0]?.selected).to.be.false;
+  expect(options[1]?.selected).to.be.true;
+});
+
 it('cannot be open when disabled', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" open disabled>

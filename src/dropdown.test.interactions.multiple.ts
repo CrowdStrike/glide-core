@@ -528,6 +528,7 @@ it('selects and deselects options when `value` is set programmatically', async (
   );
 
   host.value = ['two', 'three'];
+  await host.updateComplete;
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 

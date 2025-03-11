@@ -319,17 +319,26 @@ export default class GlideCoreDropdown
       throw new Error('Only one value is allowed when not `multiple`.');
     }
 
-    this.#isSettingValueProgrammatically = true;
+    // When `value` is set on initial render, this setter is called before
+    // `connectedCallback()` and thus before the default slot has any assigned
+    // elements. So we wait for the update to complete so `this.#optionElements`
+    // isn't empty.
+    this.updateComplete.then(() => {
+      this.#isSettingValueProgrammatically = true;
 
-    for (const option of this.#optionElements) {
-      // If `value` is falsy, every option is left unselected. Otherwise, every
-      // `option.value` that's an empty string would be selected. If multiple
-      // options have the same `value`, they'll all be selected. No way to
-      // avoid that unfortunately.
-      option.selected = value.some((value) => value && value === option.value);
-    }
+      for (const option of this.#optionElements) {
+        // If `value` is falsy, every option is left unselected. Otherwise, every
+        // `option.value` that's an empty string would be selected. If multiple
+        // options have the same `value`, they'll all be selected. No way to
+        // avoid that unfortunately.
 
-    this.#isSettingValueProgrammatically = false;
+        option.selected = value.some(
+          (value) => value && value === option.value,
+        );
+      }
+
+      this.#isSettingValueProgrammatically = false;
+    });
 
     if (
       !this.multiple &&

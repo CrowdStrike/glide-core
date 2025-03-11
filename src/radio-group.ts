@@ -148,28 +148,34 @@ export default class GlideCoreRadioGroup
   set value(value: string) {
     this.#value = value;
 
-    for (const radio of this.#radioElements) {
-      const isChecked = Boolean(value && radio.value === value);
+    // When `value` is set on initial render, this setter is called before
+    // `connectedCallback()` and thus before the default slot has any assigned
+    // elements. So we wait for the update to complete so `this.#radioElements`
+    // isn't empty.
+    this.updateComplete.then(() => {
+      for (const radio of this.#radioElements) {
+        const isChecked = Boolean(value && radio.value === value);
 
-      radio.checked = isChecked ? true : false;
-      radio.tabIndex = isChecked ? 0 : -1;
+        radio.checked = isChecked ? true : false;
+        radio.tabIndex = isChecked ? 0 : -1;
 
-      // We have a few options if `value` is set programmatically to include
-      // the value of a disabled Radio. We can throw, remove the value
-      // from `value`, or enable the Radio.
-      //
-      // Throwing is attractive because the inclusion of a disabled Radio
-      // in `value` is likely a mistake, either due to bad data or developer
-      // error.
-      //
-      // But we only throw in development. So the form will be submitted with
-      // the new `value` in production regardless if it was by mistake. By enabling
-      // the Radio, we at least ensure the user is aware of the fact that it'll
-      // be included in the submission.
-      if (radio.checked && radio.disabled) {
-        radio.disabled = false;
+        // We have a few options if `value` is set programmatically to include
+        // the value of a disabled Radio. We can throw, remove the value
+        // from `value`, or enable the Radio.
+        //
+        // Throwing is attractive because the inclusion of a disabled Radio
+        // in `value` is likely a mistake, either due to bad data or developer
+        // error.
+        //
+        // But we only throw in development. So the form will be submitted with
+        // the new `value` in production regardless if it was by mistake. By enabling
+        // the Radio, we at least ensure the user is aware of the fact that it'll
+        // be included in the submission.
+        if (radio.checked && radio.disabled) {
+          radio.disabled = false;
+        }
       }
-    }
+    });
   }
 
   @property({ reflect: true })
