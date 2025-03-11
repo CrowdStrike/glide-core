@@ -24,10 +24,12 @@ export default [
 
     :host(:last-of-type) .component.horizontal {
       border-end-end-radius: 0.6875rem;
+      border-inline-end: none;
       border-start-end-radius: 0.6875rem;
     }
 
     :host(:last-of-type) .component.vertical {
+      border-block-end: none;
       border-end-end-radius: 0.6875rem;
       border-end-start-radius: 0.6875rem;
     }
@@ -36,6 +38,7 @@ export default [
       align-items: center;
       appearance: none;
       background-color: var(--glide-core-color-static-surface-container);
+      color: var(--glide-core-color-static-text-default);
       cursor: pointer;
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
@@ -108,7 +111,17 @@ export default [
           border-color: var(
             --glide-core-color-interactive-surface-container-active
           );
-          color: var(--glide-core-color-static-text-onsolid);
+          color: var(--glide-core-private-color-button-text-primary);
+
+          &:hover {
+            background-color: var(
+              --glide-core-color-interactive-surface-container--hover
+            );
+            border-color: var(
+              --glide-core-color-interactive-surface-container--hover
+            );
+            color: var(--glide-core-color-interactive-text-link);
+          }
         }
       }
 
