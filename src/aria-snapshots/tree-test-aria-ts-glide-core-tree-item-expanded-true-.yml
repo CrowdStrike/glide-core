@@ -1,0 +1,10 @@
+- tree:
+  - treeitem "Back"
+  - treeitem "Branch" [expanded]:
+    - group:
+      - treeitem "Hover menu and suffix icon":
+        - button "Settings"
+      - treeitem "Custom suffix icon menu"
+      - treeitem "Branch" [expanded]:
+        - group:
+          - treeitem "Leaf"

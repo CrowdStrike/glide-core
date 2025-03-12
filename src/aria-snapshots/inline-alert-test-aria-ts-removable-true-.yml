@@ -1,0 +1,2 @@
+- alert "Content":
+  - button "Close informational alert"

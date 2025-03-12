@@ -1,0 +1,3 @@
+- region "Notifications":
+  - 'alert "Informational: Label Description"':
+    - button "Close"

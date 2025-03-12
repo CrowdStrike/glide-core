@@ -1,0 +1,7 @@
+- dialog:
+  - banner:
+    - 'heading "Severity: Medium - Label" [level=2]'
+    - toolbar:
+      - button "Close"
+  - 'region "Severity: Medium - Label"'
+  - contentinfo

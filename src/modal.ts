@@ -1,7 +1,7 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
@@ -210,6 +210,13 @@ export default class GlideCoreModal extends LitElement {
               this.severity,
               () =>
                 html`<span
+                  aria-label="${this.#localize.term(
+                    this.severity === 'informational'
+                      ? 'severityInformational'
+                      : this.severity === 'critical'
+                        ? 'severityCritical'
+                        : 'severityMedium',
+                  )} - "
                   class=${classMap({
                     severity: true,
                     critical: this.severity === 'critical',
@@ -265,25 +272,42 @@ export default class GlideCoreModal extends LitElement {
         </article>
 
         <footer>
-          <menu class="actions">
-            <li class="action">
+          <menu
+            aria-hidden=${!this.hasTertiarySlotContent &&
+            !this.hasSecondarySlotContent &&
+            !this.hasPrimarySlotContent}
+            class="actions"
+          >
+            <li aria-hidden=${!this.hasTertiarySlotContent} class="action">
               <slot
                 class="tertiary-slot"
                 name="tertiary"
+                @slotchange=${this.#onTertiarySlotChange}
                 ${assertSlot([GlideCoreButton, GlideCoreTooltip], true)}
+                ${ref(this.#tertiarySlotElementRef)}
               >
                 <!-- @type {GlideCoreButton | GlideCoreTooltip} -->
               </slot>
             </li>
 
-            <li class="action">
-              <slot name="secondary" ${assertSlot([GlideCoreButton], true)}>
+            <li aria-hidden=${!this.hasSecondarySlotContent} class="action">
+              <slot
+                name="secondary"
+                @slotchange=${this.#onSecondarySlotChange}
+                ${assertSlot([GlideCoreButton], true)}
+                ${ref(this.#secondarySlotElementRef)}
+              >
                 <!-- @type {GlideCoreButton} -->
               </slot>
             </li>
 
-            <li class="action">
-              <slot name="primary" ${assertSlot([GlideCoreButton], true)}>
+            <li aria-hidden=${!this.hasPrimarySlotContent} class="action">
+              <slot
+                name="primary"
+                @slotchange=${this.#onPrimarySlotChange}
+                ${assertSlot([GlideCoreButton], true)}
+                ${ref(this.#primarySlotElementRef)}
+              >
                 <!-- @type {GlideCoreButton} -->
               </slot>
             </li>
@@ -292,6 +316,12 @@ export default class GlideCoreModal extends LitElement {
       </div>
     </dialog>`;
   }
+
+  @state() private hasPrimarySlotContent = false;
+
+  @state() private hasSecondarySlotContent = false;
+
+  @state() private hasTertiarySlotContent = false;
 
   #backButtonElementRef = createRef<GlideCoreModalIconButton>();
 
@@ -308,6 +338,12 @@ export default class GlideCoreModal extends LitElement {
   #isOpen = false;
 
   #localize = new LocalizeController(this);
+
+  #primarySlotElementRef = createRef<HTMLSlotElement>();
+
+  #secondarySlotElementRef = createRef<HTMLSlotElement>();
+
+  #tertiarySlotElementRef = createRef<HTMLSlotElement>();
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
@@ -367,6 +403,24 @@ export default class GlideCoreModal extends LitElement {
       // Prevent Safari from leaving full screen.
       event.preventDefault();
     }
+  }
+
+  #onPrimarySlotChange() {
+    this.hasPrimarySlotContent = Boolean(
+      this.#primarySlotElementRef.value?.assignedElements().length,
+    );
+  }
+
+  #onSecondarySlotChange() {
+    this.hasSecondarySlotContent = Boolean(
+      this.#secondarySlotElementRef.value?.assignedElements().length,
+    );
+  }
+
+  #onTertiarySlotChange() {
+    this.hasTertiarySlotContent = Boolean(
+      this.#tertiarySlotElementRef.value?.assignedElements().length,
+    );
   }
 
   #show() {

@@ -176,7 +176,7 @@ export default class GlideCoreAccordion extends LitElement {
             @slotchange=${this.#onPrefixIconSlotChange}
             ${ref(this.#prefixIconSlotElementRef)}
           >
-            <!-- 
+            <!--
               An icon before the label
               @type {Element}
             -->
@@ -194,8 +194,8 @@ export default class GlideCoreAccordion extends LitElement {
           @slotchange=${this.#onSuffixIconsSlotChange}
           ${ref(this.#suffixIconsSlotElementRef)}
         >
-          <!-- 
-            Icons after the label 
+          <!--
+            Icons after the label
             @type {Element}
           -->
         </slot>

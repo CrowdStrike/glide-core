@@ -1,6 +1,13 @@
 import type { Translation } from '../library/localize.js';
 
-export const PENDING_STRINGS = [] as const;
+export const PENDING_STRINGS = [
+  'severityInformational',
+  'severityCritical',
+  'severityMedium',
+  'success',
+  'error',
+  'informational',
+] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
 

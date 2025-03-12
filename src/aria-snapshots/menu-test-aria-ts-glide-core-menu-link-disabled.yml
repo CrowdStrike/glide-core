@@ -1,0 +1,8 @@
+- button "Target"
+- menu "Target":
+  - menuitem "One":
+    - button "One"
+  - menuitem "Two":
+    - button "Two"
+  - menuitem "Three":
+    - link "Three" [disabled]

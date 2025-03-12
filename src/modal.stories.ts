@@ -332,7 +332,7 @@ export const WithTertiaryTooltipAndButton: StoryObj = {
       >
         ${arguments_['slot="default"']}
 
-        <glide-core-tooltip label="Tooltip" slot="tertiary" screenreader-hidden>
+        <glide-core-tooltip label="Tooltip" slot="tertiary">
           <button aria-label="Tooltip:" slot="target">
             <glide-core-example-icon name="info"></glide-core-example-icon>
           </button>

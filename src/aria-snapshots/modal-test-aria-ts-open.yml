@@ -1,0 +1,7 @@
+- dialog:
+  - banner:
+    - heading "Label" [level=2]
+    - toolbar:
+      - button "Close"
+  - region "Label": Content
+  - contentinfo

@@ -3,6 +3,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 
 export default html`
   <svg
+    aria-hidden="true"
     style=${styleMap({
       height: 'var(--private-size, 1rem)',
       width: 'var(--private-size, 1rem)',

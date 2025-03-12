@@ -111,8 +111,8 @@ export default class GlideCoreTreeItem extends LitElement {
   override render() {
     return html`<div
       aria-label=${ifDefined(this.label)}
-      aria-selected=${ifDefined(this.#ariaSelected)}
-      aria-expanded=${ifDefined(this.#ariaExpanded)}
+      aria-selected=${this.selected}
+      aria-expanded=${this.expanded}
       class=${classMap({
         component: true,
         expanded: this.expanded,
@@ -270,22 +270,6 @@ export default class GlideCoreTreeItem extends LitElement {
         (element): element is GlideCoreTreeItem =>
           element instanceof GlideCoreTreeItem,
       );
-  }
-
-  get #ariaExpanded() {
-    if (this.privateHasChildTreeItems) {
-      return this.expanded ? 'true' : 'false';
-    } else {
-      return;
-    }
-  }
-
-  get #ariaSelected() {
-    if (this.privateHasChildTreeItems) {
-      return;
-    } else {
-      return this.selected ? 'true' : 'false';
-    }
   }
 
   get #indentationWidth() {
