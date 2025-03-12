@@ -49,7 +49,6 @@ export default [
       display: inline-flex;
       flex-grow: 1;
       font-size: var(--glide-core-typography-size-body-label);
-      font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-typography-weight-regular);
       gap: var(--glide-core-spacing-base-xs);
       min-inline-size: var(--private-min-inline-size);

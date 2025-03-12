@@ -15,7 +15,6 @@ export default [
     .component {
       display: contents;
       font-family: var(--glide-core-typography-family-primary);
-      font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-typography-weight-regular);
       grid-template-columns: repeat(auto-fill, 2.5rem);
       line-height: 1.25rem;
