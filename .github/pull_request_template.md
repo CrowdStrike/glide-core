@@ -31,17 +31,3 @@
   1. Verify Checkbox is checked.
 
 -->
-
-## 📸 Images and videos
-
-<!--
-
-  - Include images or videos of your visual changes.
-  - Use the table below to show them side by side if possible.
-  - Write "N/A" for non-visual changes.
-
-  | Before | After |
-  | ------ | ----- |
-  | Image  | Image |
-
--->
