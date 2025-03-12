@@ -115,7 +115,6 @@ export default [
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-label);
-      font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-typography-weight-regular);
       inset-block-start: 50%;
       max-inline-size: 23.75rem;

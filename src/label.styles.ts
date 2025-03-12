@@ -158,7 +158,6 @@ export default [
     .summary {
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-label);
-      font-style: var(--glide-core-body-sm-font-style);
       font-weight: var(--glide-core-typography-weight-regular);
 
       &.error {
@@ -171,7 +170,6 @@ export default [
       display: block;
       font-family: var(--glide-core-typography-family-primary);
       font-size: var(--glide-core-typography-size-body-small);
-      font-style: var(--glide-core-body-xs-font-style);
       font-weight: var(--glide-core-typography-weight-regular);
       grid-column: 2;
 
