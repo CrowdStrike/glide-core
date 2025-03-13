@@ -108,7 +108,7 @@ it('has no `formData` when it is disabled', async () => {
   expect(formData.get('name')).to.be.null;
 });
 
-it('has `formData` when its checked radio is disabled', async () => {
+it('has no `formData` when its checked radio is disabled', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreRadioGroup>(
@@ -126,7 +126,7 @@ it('has `formData` when its checked radio is disabled', async () => {
   );
 
   const formData = new FormData(form);
-  expect(formData.get('name')).to.equal('value');
+  expect(formData.get('name')).to.be.null;
 });
 
 it('has no `formData` when without a `name`', async () => {

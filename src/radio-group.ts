@@ -205,7 +205,7 @@ export default class GlideCoreRadioGroup
     // than one radio. How native handles it with `<select>` is to choose the last
     // selected option. This mimics that behavior, which seems reasonable.
     const lastCheckedRadio = this.#radioElements.findLast(
-      ({ checked }) => checked,
+      ({ checked, disabled }) => checked && !disabled,
     );
 
     if (lastCheckedRadio) {
@@ -653,9 +653,11 @@ export default class GlideCoreRadioGroup
   }
 
   #onDefaultSlotChange() {
-    const lastCheckedRadio = this.#radioElements.findLast(({ checked }) => {
-      return checked;
-    });
+    const lastCheckedRadio = this.#radioElements.findLast(
+      ({ checked, disabled }) => {
+        return checked && !disabled;
+      },
+    );
 
     if (lastCheckedRadio) {
       this.#value = lastCheckedRadio.value;
