@@ -42,12 +42,36 @@ it('has `formData` when it has a `value`', async () => {
       <glide-core-radio-group-radio
         label="One"
         value="one"
-        checked
       ></glide-core-radio-group-radio>
 
       <glide-core-radio-group-radio
         label="Two"
         value="two"
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>`,
+    {
+      parentNode: form,
+    },
+  );
+
+  const formData = new FormData(form);
+  expect(formData.get('name')).to.be.equal('two');
+});
+
+it('has `formData` when a radio is checked', async () => {
+  const form = document.createElement('form');
+
+  await fixture<GlideCoreRadioGroup>(
+    html`<glide-core-radio-group label="Label" name="name">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
       ></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
     {
@@ -84,14 +108,14 @@ it('has no `formData` when it is disabled', async () => {
   expect(formData.get('name')).to.be.null;
 });
 
-it('has no `formData` when its checked radio is disabled', async () => {
+it('has `formData` when its checked radio is disabled', async () => {
   const form = document.createElement('form');
 
   await fixture<GlideCoreRadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio
-        label="One"
-        value="one"
+        label="Label"
+        value="value"
         checked
         disabled
       ></glide-core-radio-group-radio>
@@ -102,7 +126,7 @@ it('has no `formData` when its checked radio is disabled', async () => {
   );
 
   const formData = new FormData(form);
-  expect(formData.get('name')).to.be.null;
+  expect(formData.get('name')).to.equal('value');
 });
 
 it('has no `formData` when without a `name`', async () => {

@@ -65,6 +65,29 @@ it('selects options when `value` is set initially', async () => {
   expect(options[1]?.selected).to.be.true;
 });
 
+it('gives selected options precedence over an initial `value`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" .value=${['two']}>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  expect(options[0]?.selected).to.be.true;
+  expect(options[1]?.selected).to.be.false;
+  expect(host.value).to.deep.equal(['one']);
+});
+
 it('cannot be open when disabled', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" open disabled>

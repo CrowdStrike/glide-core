@@ -319,26 +319,17 @@ export default class GlideCoreDropdown
       throw new Error('Only one value is allowed when not `multiple`.');
     }
 
-    // When `value` is set on initial render, this setter is called before
-    // `connectedCallback()` and thus before the default slot has any assigned
-    // elements. So we wait for the update to complete so `this.#optionElements`
-    // isn't empty.
-    this.updateComplete.then(() => {
-      this.#isSettingValueProgrammatically = true;
+    this.#isSettingValueProgrammatically = true;
 
-      for (const option of this.#optionElements) {
-        // If `value` is falsy, every option is left unselected. Otherwise, every
-        // `option.value` that's an empty string would be selected. If multiple
-        // options have the same `value`, they'll all be selected. No way to
-        // avoid that unfortunately.
+    for (const option of this.#optionElements) {
+      // If `value` is falsy, every option is left unselected. Otherwise, every
+      // `option.value` that's an empty string would be selected. If multiple
+      // options have the same `value`, they'll all be selected. No way to
+      // avoid that unfortunately.
+      option.selected = value.some((value) => value && value === option.value);
+    }
 
-        option.selected = value.some(
-          (value) => value && value === option.value,
-        );
-      }
-
-      this.#isSettingValueProgrammatically = false;
-    });
+    this.#isSettingValueProgrammatically = false;
 
     if (
       !this.multiple &&
@@ -487,6 +478,45 @@ export default class GlideCoreDropdown
     ) {
       this.#inputElementRef.value.value = this.lastSelectedOption.label;
     }
+
+    const hasNoSelectedOptions = this.#optionElements.every(
+      ({ selected }) => !selected,
+    );
+
+    // When `value` is set on initial render, its setter is called before
+    // `connectedCallback()` and thus before the default slot has any assigned
+    // elements. So we set it again here after the initial render is complete
+    // so `this.#optionElements` isn't empty.
+    //
+    // Additionally, `#onDefaultSlotChange()` is called after `firstUpdated()`
+    // and sets `value` based on which options are selected. And the initial `value`
+    // may conflict with the one derived from which options are selected.
+    //
+    // So we have a decision to make. On first render, do we defer to the initial
+    // `value` and select and deselect options below? Or do we defer to `#onDefaultSlotChange()`
+    // and let that method change `value` from its initial value based on which options
+    // are selected?
+    //
+    // It's largely a toss-up. But the latter seems like the logial choice given
+    // `#onDefaultSlotChange()` is called after `firstUpdated()`. In other words, we
+    // defer to the lifecycle. `#onDefaultSlotChange()` is called second. So it gets to
+    // override what `value` was initially.
+    //
+    // If no options are selected, then it's obvious that the consumer's intention is
+    // to select options based on the initial `value` and that the initial `value` is
+    // the intended one. So we proceed.
+    if (hasNoSelectedOptions) {
+      for (const option of this.#optionElements) {
+        // If `value` is an empty string, every option is left unselected. Otherwise,
+        // every `option.value` that's an empty string would be selected.
+        //
+        // If multiple options have the same `value`, they'll all be selected. But no
+        // way to avoid that unfortunately.
+        option.selected = this.value.some(
+          (value) => value !== '' && value === option.value,
+        );
+      }
+    }
   }
 
   // The button doesn't receive focus when `shadowRoot.delegatesFocus` is set,
@@ -549,7 +579,7 @@ export default class GlideCoreDropdown
       });
 
     // Even with a single-select, there's nothing to stop developers from adding
-    // a `selected` attribute to more than one option. How native handles this
+    // a `selected` attribute to more than one option. How native handles it
     // is to choose the last selected option. This mimics that behavior, which
     // seems reasonable.
     const lastValue = initiallySelectedOptionElementsWithValue.at(-1)?.value;
@@ -1321,7 +1351,6 @@ export default class GlideCoreDropdown
     } else if (!this.activeOption && firstOption) {
       this.#previouslyActiveOption = firstOption;
       this.ariaActivedescendant = this.open ? firstOption.id : '';
-
       firstOption.privateActive = true;
     }
 
