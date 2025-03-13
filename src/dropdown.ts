@@ -327,6 +327,22 @@ export default class GlideCoreDropdown
       // options have the same `value`, they'll all be selected. No way to
       // avoid that unfortunately.
       option.selected = value.some((value) => value && value === option.value);
+
+      // We have a few options if `value` is set programmatically to include
+      // the value of a disabled option. We can throw, remove the value from
+      // `value`, or enable the option.
+      //
+      // Throwing is attractive because the inclusion of a disabled option
+      // in `value` is likely a mistake, either due to bad data or developer
+      // error.
+      //
+      // But we only throw in development. So the form will be submitted with
+      // the new `value` in production regardless if it was by mistake. By enabling
+      // the option, we at least ensure the user is aware of the fact that it'll
+      // be included in the submission.
+      if (option.selected && option.disabled) {
+        option.disabled = false;
+      }
     }
 
     this.#isSettingValueProgrammatically = false;
@@ -497,7 +513,7 @@ export default class GlideCoreDropdown
     // and let that method change `value` from its initial value based on which options
     // are selected?
     //
-    // It's largely a toss-up. But the latter seems like the logial choice given
+    // It's largely a toss-up. But the latter seems like the logical choice given
     // `#onDefaultSlotChange()` is called after `firstUpdated()`. In other words, we
     // defer to the lifecycle. `#onDefaultSlotChange()` is called second. So it gets to
     // override what `value` was initially.
@@ -515,6 +531,10 @@ export default class GlideCoreDropdown
         option.selected = this.value.some(
           (value) => value !== '' && value === option.value,
         );
+
+        if (option.selected && option.disabled) {
+          option.disabled = false;
+        }
       }
     }
   }

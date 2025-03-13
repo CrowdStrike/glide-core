@@ -420,9 +420,9 @@ export default class GlideCoreCheckbox
 
             <div id="description" slot="description">
               <!--
-                  Additional information or context
-                  @type {Element | string}
-                -->
+                Additional information or context
+                @type {Element | string}
+              -->
               <slot
                 class=${classMap({
                   description: true,

@@ -288,7 +288,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
           slot="control"
         >
           <slot name="prefix-icon">
-            <!-- 
+            <!--
               An icon before the input field
               @type {Element}
             -->
@@ -378,8 +378,8 @@ export default class GlideCoreInput extends LitElement implements FormControl {
             })}
             name="description"
           >
-            <!-- 
-              Additional information or context 
+            <!--
+              Additional information or context
               @type {Element | string}
             -->
           </slot>
