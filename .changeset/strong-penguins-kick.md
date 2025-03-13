@@ -29,3 +29,4 @@ All components have been updated to use these new tokens. Some components have v
 - Radio's selected, hover, and disabled visuals were updated.
 - Split Button was visually redesigned.
 - Toast colors in dark mode have been changed to different values.
+- Tooltip's background color in dark mode has been updated.
