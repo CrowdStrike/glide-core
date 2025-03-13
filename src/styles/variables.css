@@ -1,11 +1,13 @@
 /*
-  Order matters here. "system.css" comes first due to its
-  "root:" and ":host" selectors and "color-scheme: normal".
-  Then our color stylesheets: "light.css" is our default so
-  comes it before "dark.css". Then "miscellaneous.css" with
-  only a root selector.
+  Order matters here. Our color stylesheets need to be first.
+  "color-light.css" is our default so it comes before
+  "color-dark.css". Then other stylesheets targeting only the
+  `:root` selector.
 */
-@import './variables/system.css';
-@import './variables/light.css';
-@import './variables/dark.css';
+@import './variables/color-light.css';
+@import './variables/color-dark.css';
 @import './variables/miscellaneous.css';
+@import './variables/rounding.css';
+@import './variables/spacing.css';
+@import './variables/stroke.css';
+@import './variables/typography.css';
