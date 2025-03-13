@@ -23,7 +23,7 @@ export default [
     }
 
     .label {
-      color: var(--glide-core-private-color-tooltip-text-primary);
+      color: var(--glide-core-color-static-text-onsolid);
       display: block;
       hyphens: auto;
       max-inline-size: 11.25rem;
