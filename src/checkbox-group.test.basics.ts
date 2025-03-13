@@ -26,6 +26,22 @@ it('is accessible', async () => {
   await expect(host).to.be.accessible();
 });
 
+it('enables a disabled checkbox when `value` is set initially', async () => {
+  const host = await fixture(
+    html`<glide-core-checkbox-group label="Label" .value=${['value']}>
+      <glide-core-checkbox
+        label="Label"
+        value="value"
+        disabled
+      ></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
+  );
+
+  // TODO: add test to Radio Group and Dropdown
+  const checkbox = host.querySelector('glide-core-checkbox');
+  expect(checkbox?.disabled).to.be.false;
+});
+
 it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 

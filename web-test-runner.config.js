@@ -101,6 +101,11 @@ export default {
             },
           },
         ],
+
+  // If a test suite take longer than a a minute, it's almost certainly hanging
+  // and won't finish. 2 minutes is the default.
+  testsFinishTimeout: 60_000,
+
   testRunnerHtml(testFramework) {
     return `<html>
       <body>
