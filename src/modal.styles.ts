@@ -193,6 +193,7 @@ export default [
     .tertiary-slot {
       align-items: center;
       display: flex;
+      gap: var(--glide-core-spacing-base-xxs);
     }
   `,
 ];

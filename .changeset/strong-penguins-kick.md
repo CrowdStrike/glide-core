@@ -21,6 +21,7 @@ All components have been updated to use these new tokens. Some components have v
 
 - Box shadow values have been redesigned.
 - Button secondary and tertiary visual states have been redesigned.
+  - If you were previously relying on the tertiary Button's included padding for spacing between elements, you'll now need to explicitly set `gap` due to the hover state changes.
 - Button colors in dark mode have been changed to different values.
 - Checkbox when indeterminate and disabled has a new visual design.
 - Explicitly set `line-height`s were removed from most components.
