@@ -32,6 +32,9 @@
     - [Typing @property decorators](#typing-property-decorators)
   - [Testing](#testing)
     - [Separate your test files](#separate-your-test-files)
+    - [Writing ARIA tests](#writing-aria-tests)
+    - [Writing visual tests](#writing-visual-tests)
+    - [Verifying visual changes](#verifying-visual-changes)
   - [Storybook](#storybook)
     - [Don't add controls for properties and methods inherited from `HTMLElement` or `Element`](#dont-add-controls-for-properties-and-methods-inherited-from-htmlelement-or-element)
     - [Only give required attributes a value](#only-give-required-attributes-a-value)
@@ -39,6 +42,10 @@
     - [Proceed with caution when upgrading](#proceed-with-caution-when-upgrading)
 - [Questions](#questions)
   - [What is `per-env`?](#what-is-per-env)
+  - [Why are `assets` and `baseline-screenshots` protected branches on GitHub?](#why-are-assets-and-baseline-screenshots-protected-branches-on-github)
+  - [How does ARIA snapshot testing fit into overall accessibility testing?](#how-does-aria-snapshot-testing-fit-into-overall-accessibility-testing)
+  - [Why is visual testing set up the way it is?](#why-is-visual-testing-set-up-the-way-it-is)
+  - [Why three separate test runners?](#why-three-separate-test-runners)
 
 ## Development
 
@@ -619,6 +626,95 @@ src/
 describe('Checkbox Basics', () => {});
 ```
 
+##### `*.test.aria.ts`
+
+Assertions against a component's accessibility tree.
+
+##### `*.test.basics.ts`
+
+A bit of a misnomer, but we've yet to think of a better name.
+These are assertions against a component in its initial state—even if it's not its default slot.
+Think of attributes and slots provided on first render.
+
+##### `*.test.events.ts`
+
+Tests that exclusively assert that a certain event has been dispatched.
+
+Don't forget to assert the event's `composed` and `bubbles` properties and, if appropriate, the event's `target`.
+It's also good to assert, using `sinon`, that an event was only dispatchd once.
+
+##### `*.test.focus.ts`
+
+Tests that exclusively assert that an element is focused after some interaction.
+Each test should mainly be asserting against `document.activeElement`.
+
+##### `*.test.interactions.ts`
+
+A dumping ground for most interaction assertions.
+An interaction can be a simulated user interaction such as a click.
+Or it can be a developer interaction—such as programmatically setting an attribute or changing a slot after initial render.
+
+This suite can get pretty large.
+So we break down specific types of interactions into two sub-suites: `*.test.events.ts` and `*.test.focus.ts`.
+
+##### `*.test.visuals.ts`
+
+Tests that assert against a baseline screenshot of a component in some state.
+
+#### Writing ARIA tests
+
+An ARIA test is just an assertion against a component's [accessibility tree](https://developer.mozilla.org/en-US/docs/Glossary/Accessibility_tree) in serialized form (YAML).
+The resultant YAML is called a "snapshot".
+We [commit](https://github.com/CrowdStrike/glide-core/tree/main/src/aria-snapshots) snapshots for every test and use those as the baseline for assertions.
+
+ARIA tests don't supplant manual VoiceOver testing.
+But they let us do much less of it, and they help us catch things easily missed with VoiceOver.
+**Each component should have a suite of ARIA tests**.
+Take a look at some existing tests before writing one for the first time.
+Button's are a great place to start.
+
+We test against individual stories.
+So, when you're ready, simply go down the component's controls table in Storybook and write a test for every optional attribute that affects accessibility in some way.
+No need to test required attributes.
+Values for them are provided by the story, and they'll be well tested by your optional attribute tests.
+
+#### Writing visual tests
+
+Visual tests go a long way to help us catch minor visual differences with a code change.
+**Each component should have a suite of visual tests**.
+Take a look at some existing tests before writing one for the first time.
+Button's are a great place to start.
+
+We test against individual stories.
+Similar to ARIA tests, simply go down the component's controls table in Storybook and write a test for every optional attribute with a visual aspect.
+No need to test required attributes.
+Values for them are provided by the story, and they'll be well tested by your optional attribute tests.
+
+It would be costly and impractical to test every combination of a component's attributes.
+So use your best judgement.
+But make sure you write a test for important combination of attributes and states ( `:active:`, `:focus`, `:hover`).
+Button, for example, tests every possible value of its `disabled` and `variant` attributes in combination with all three of those states.
+
+Additionally, don't be afraid to use Playwright's `locator()` to select components.
+Playwright recommends `getByRole()`, `getByLabel()`, and similar over `locator()`.
+But visual tests, like ARIA ones, are different from end-to-end tests in that they don't benefit by simulating how a user would interact with the page.
+Visual tests, at least ours, are only concerned selecting a component and putting it in a certain state as simply and directly as possible.
+
+#### Verifying visual changes
+
+When you've finished writing your tests, simply commit and push them.
+After your branch is built, a Visual Test Report link will be added to your PR.
+
+You're good to go if the report doesn't contain any failed tests.
+Otherwise, the expectation is for you to review the failed tests before adding reviewers—who are also expected to review the report.
+
+Some tests may fail because they're new and a baseline screenshot doesn't exist.
+That's okay.
+One will be generated and sent to Cloudflare when your PR is merged.
+Others may fail because there's a difference between the screenshot generated by your PR and the baseline.
+If the difference is one you expect, then simply check that failure off your list.
+Feel free to add reviewers after you've reviewed all the failures.
+
 ## Questions
 
 ### What is [`per-env`](https://github.com/ericclemmons/per-env)?
@@ -627,7 +723,7 @@ describe('Checkbox Basics', () => {});
 It helps clarify how different scripts are used in different contexts.
 It also neatly abstracts away specific script names from CI configuration.
 
-In general, think of `*:development:*` scripts as long-running (`--serve`, `--watch`) and mutative (`--fix`, `--write`) and `*:production:*` scripts as neither.
+Think of `*:development:*` scripts as long-running (`--serve`, `--watch`) and mutative (`--fix`, `--write`) and `*:production:*` scripts as neither.
 
 ### Why are `assets` and `baseline-screenshots` protected branches on GitHub?
 
@@ -636,3 +732,63 @@ Each branch is [deployed](https://github.com/CrowdStrike/glide-core/blob/main/.g
 And artifacts from our latest publish are [deployed](https://github.com/CrowdStrike/glide-core/blob/main/.github/workflows/on-merge-branch-changeset-release-main.yml#L95) to the top level of the bucket.
 It's a simple setup.
 But it means we can't have branch names that conflict and thus overwrite top-level directories that contain artifacts.
+
+### How does ARIA snapshot testing fit into overall accessibility testing?
+
+We use Axe to test accessibility.
+But Axe only tells us that a component's accessibility tree doesn't contain any obvious violations and that the accessibility tree is valid.
+What Axe doesn't tell us is whether the accessibility tree is correct.
+
+Dropdown, for example, when open, should show up as expanded in the accessibility tree.
+But, if it doesn't, Axe won't throw because Dropdown's accessibility tree is valid when Dropdown is open but not expanded in the tree.
+
+Tracking a component's accessibility tree from commit to commit helps with issues like that and more.
+And it gives us confidence when making changes to a component.
+If a component's accessibility tree remains unchanged after the component is changed, we can more or less be sure that the component is just as accessible as it was prior to the change.
+
+That said, ARIA tests do not obviate manual testing with screenreaders.
+Because there's no guarantee that what's in the accessibility tree is interpreted correctly by screenreaders or that a screenreader hasn't had a regression.
+But it gets us about halfway there, and it greatly reduces continual and time-consuming VoiceOver passes that we'd otherwise have to do.
+
+### Why is visual testing set up the way it is?
+
+We need a set of screenshots that serve as the baseline set for comparison.
+But comparing screenshots generated locally (the baseline) with ones generated in CI, by a branch, is famously difficult because there are invariably differences across operating systems—especially when it comes to font rendering.
+And there's no guarantee that a developer's operating system is the same as CI because developers use a variety of them.
+
+Services like Chromatic and Percy are, in part, a solution to this problem.
+But, rather than rely on a third-party service, we've chosen to solve the problem by only generating screenshots in CI.
+When a PR is merged, we send the new and updated screenshots from your branch to Cloudflare R2.
+When you open your next PR, those baseline screenshots are retrieved from R2 and compared against the ones generated by your branch.
+We then add a link to your PR to the test report that shows the differences between the baseline screenshots and those of your branch.
+
+### Why three separate test runners?
+
+In short, because each is incomplete or imperfect but the best at what it does well.
+This situation is far from ideal.
+So we're closely watching all three with the hope that one (likely Playwright) will subsume the others.
+
+### Playwright
+
+End-to-end testing doesn't apply to a design system.
+But visual tests do and Playwright runs them well.
+It also supports ARIA testing.
+So we use it for it too.
+
+Its [component testing](https://playwright.dev/docs/test-components), on the other hand, is still experimental and doesn't support code coverage.
+Similar for unit testing.
+Playwright can be made to work for unit tests.
+But it doesn't support code coverage out of the box, and its watch mode is behind a flag and only watches for changes to test files.
+
+### Vitest
+
+We use Vitest for our unit tests, which are limited to our custom ESLint and Stylelint rules.
+Vitest doesn't support visual testing, however, and it's [Browser Mode](https://vitest.dev/guide/browser), which we could use for component tests, is still experimental and buggy.
+
+### Web Test Runner
+
+Web Test Runner has its quirks and bugs.
+But it does run tests in a browser, and it generally works.
+So we use it exclusively for component tests.
+Web Test Runner does support visual testing—but not sharding—though it appears to be heading toward archival.
+So we limit our use of it.
