@@ -48,6 +48,15 @@ for (const story of stories['Tab Group']) {
           );
         });
 
+        test('<glide-core-tab>:focus', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-tab').first().focus();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('<glide-core-tab>:hover', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
           await page.locator('glide-core-tab').first().hover();

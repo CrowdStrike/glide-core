@@ -84,6 +84,15 @@ for (const story of stories['Icon Button']) {
           });
         });
 
+        test(':focus', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-icon-button').focus();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test.describe(':hover', () => {
           test('disabled', async ({ page }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);

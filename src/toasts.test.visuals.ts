@@ -7,6 +7,26 @@ for (const story of stories.Toasts) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
+        test(':focus', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-toasts')
+            .evaluate<void, GlideCoreToasts>((element) => {
+              element.add({
+                label: 'Label',
+                description: 'Description',
+                variant: 'informational',
+              });
+            });
+
+          await page.getByLabel('Close').focus();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('informational', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 

@@ -21,6 +21,38 @@ for (const story of stories.Tag) {
           );
         });
 
+        test(':focus', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-tag')
+            .evaluate<void, GlideCoreTag>((element) => {
+              element.removable = true;
+            });
+
+          await page.getByRole('button').focus();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test(':hover', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-tag')
+            .evaluate<void, GlideCoreTag>((element) => {
+              element.removable = true;
+            });
+
+          await page.getByRole('button').hover();
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('removable', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
