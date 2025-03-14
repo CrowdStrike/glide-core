@@ -7,22 +7,25 @@ import stylistic from '@stylistic/eslint-plugin';
 import importPlugin from 'eslint-plugin-import';
 import typescript from 'typescript-eslint';
 import unicorn from 'eslint-plugin-unicorn';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import glideCore from './dist/eslint/plugin.js';
 
 const compat = new FlatCompat();
 
-export default [
-  eslint.configs.recommended,
-  unicorn.configs['flat/all'],
-  sortClassMembers.configs['flat/recommended'],
-  importPlugin.flatConfigs.recommended,
-  ...compat.extends('plugin:lit/recommended'),
-  ...compat.extends('plugin:lit-a11y/recommended'),
-  ...typescript.configs.recommendedTypeChecked,
-  ...typescript.configs.stylisticTypeChecked,
-  prettier,
+export default defineConfig([
+  globalIgnores(['dist']),
   {
-    ignores: ['dist'],
+    extends: [
+      eslint.configs.recommended,
+      unicorn.configs['flat/all'],
+      sortClassMembers.configs['flat/recommended'],
+      importPlugin.flatConfigs.recommended,
+      compat.extends('plugin:lit/recommended'),
+      compat.extends('plugin:lit-a11y/recommended'),
+      typescript.configs.recommendedTypeChecked,
+      typescript.configs.stylisticTypeChecked,
+      prettier,
+    ],
   },
   {
     plugins: {
@@ -333,4 +336,4 @@ export default [
       '@crowdstrike/glide-core/public-getter-default-comment': 'off',
     },
   },
-];
+]);

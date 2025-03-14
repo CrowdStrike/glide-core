@@ -25,7 +25,7 @@ const meta: Meta = {
     },
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check, @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-button
         label=${arguments_.label || nothing}
@@ -154,6 +154,7 @@ export const Button: StoryObj = {
 
 export const WithIcons: StoryObj = {
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-button
         label=${arguments_.label || nothing}

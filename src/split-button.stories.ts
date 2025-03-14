@@ -89,6 +89,7 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-split-button
         size=${arguments_.size}
@@ -357,6 +358,7 @@ export const SplitButton: StoryObj = {
 };
 
 export const WithIcon: StoryObj = {
+  /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
   render(arguments_) {
     return html`
       <glide-core-split-button
@@ -403,7 +405,6 @@ export const WithIcon: StoryObj = {
 
 export const WithPrimaryLink: StoryObj = {
   render(arguments_) {
-    // eslint-disable unicorn/explicit-length-check
     return html`
       <glide-core-split-button
         size=${arguments_.size}

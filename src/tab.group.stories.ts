@@ -79,7 +79,7 @@ const meta: Meta = {
       });
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-tab-group
         style=${styleMap({

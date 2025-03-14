@@ -480,7 +480,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
     }
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access  */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing */
     return html`<glide-core-dropdown
       add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}
@@ -570,6 +570,7 @@ export const WithIcons: StoryObj = {
     },
   },
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`<glide-core-dropdown
       add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}

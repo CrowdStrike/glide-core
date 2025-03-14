@@ -261,7 +261,7 @@ const meta: Meta = {
     });
   },
   render(arguments_) {
-    /* eslint-disable unicorn/explicit-length-check */
+    /* eslint-disable unicorn/explicit-length-check, @typescript-eslint/prefer-nullish-coalescing */
     return html`<glide-core-menu
       offset=${arguments_.offset}
       placement=${arguments_.placement}

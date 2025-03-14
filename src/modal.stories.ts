@@ -77,7 +77,7 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <script type="ignore">
         import '@crowdstrike/glide-core/modal.js';
@@ -242,6 +242,7 @@ export const Modal: StoryObj = {
 
 export const WithHeaderActions: StoryObj = {
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <script type="ignore">
         import '@crowdstrike/glide-core/modal.js';
@@ -273,6 +274,7 @@ export const WithHeaderActions: StoryObj = {
 
 export const WithPrimaryButton: StoryObj = {
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <script type="ignore">
         import '@crowdstrike/glide-core/modal.js';
@@ -294,6 +296,7 @@ export const WithPrimaryButton: StoryObj = {
 
 export const WithSecondaryButton: StoryObj = {
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <script type="ignore">
         import '@crowdstrike/glide-core/modal.js';
@@ -318,6 +321,7 @@ export const WithSecondaryButton: StoryObj = {
 };
 
 export const WithTertiaryTooltipAndButton: StoryObj = {
+  /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
   render(arguments_) {
     return html`
       <script type="ignore">
@@ -349,6 +353,7 @@ export const WithTertiaryTooltipAndButton: StoryObj = {
 };
 
 export const KitchenSink: StoryObj = {
+  /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
   render(arguments_) {
     return html`
       <script type="ignore">

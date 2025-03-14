@@ -231,7 +231,7 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-checkbox
         label=${arguments_.label || nothing}

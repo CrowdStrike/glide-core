@@ -268,6 +268,7 @@ const meta: Meta = {
     },
   },
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-textarea
         autocapitalize=${arguments_.autocapitalize}

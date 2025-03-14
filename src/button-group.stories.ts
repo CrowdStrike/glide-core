@@ -53,6 +53,7 @@ const meta: Meta = {
     });
   },
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-button-group
         label=${arguments_.label || nothing}
@@ -277,6 +278,7 @@ export const ButtonGroup: StoryObj = {
 
 export const WithIcons: StoryObj = {
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-button-group
         label=${arguments_.label || nothing}
