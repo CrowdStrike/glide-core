@@ -768,24 +768,24 @@ In short, because each is incomplete or imperfect but the best at what it does w
 This situation is far from ideal.
 So we're closely watching all three with the hope that one (likely Playwright) will subsume the others.
 
-### Playwright
+#### Playwright
 
 End-to-end testing doesn't apply to a design system.
 But visual tests do and Playwright runs them well.
 It also supports ARIA testing.
-So we use it for it too.
+So we use it for that too.
 
 Its [component testing](https://playwright.dev/docs/test-components), on the other hand, is still experimental and doesn't support code coverage.
 Similar for unit testing.
 Playwright can be made to work for unit tests.
 But it doesn't support code coverage out of the box, and its watch mode is behind a flag and only watches for changes to test files.
 
-### Vitest
+#### Vitest
 
 We use Vitest for our unit tests, which are limited to our custom ESLint and Stylelint rules.
-Vitest doesn't support visual testing, however, and it's [Browser Mode](https://vitest.dev/guide/browser), which we could use for component tests, is still experimental and buggy.
+Vitest doesn't support visual testing, however, and its [Browser Mode](https://vitest.dev/guide/browser), which we could use for component tests, is still experimental and buggy.
 
-### Web Test Runner
+#### Web Test Runner
 
 Web Test Runner has its quirks and bugs.
 But it does run tests in a browser, and it generally works.
