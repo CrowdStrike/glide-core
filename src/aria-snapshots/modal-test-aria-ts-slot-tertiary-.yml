@@ -8,3 +8,4 @@
     - list:
       - listitem:
         - button "Tooltip:"
+        - tooltip "Tooltip"
