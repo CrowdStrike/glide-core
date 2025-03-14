@@ -143,6 +143,8 @@ jobs:
       matrix:
         shardIndex: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         shardTotal: [10]
+    outputs:
+      result: ${{ steps.test.outcome == 'success' && '✅' || '⚠️' }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/pnpm
@@ -153,6 +155,7 @@ jobs:
           path: dist/playwright-baseline-screenshots
           name: baseline-screenshots
       - name: Test
+        id: test
         # Failing would add quite a bit of time to CI. It would also add complexity, both
         # for developers and to this workflow.
         #
@@ -213,7 +216,7 @@ jobs:
         with:
           header: visual-test-report
           message: |+
-            ## Visual Test Report
+            ## ${{ needs.test-visuals.outputs.result }} Visual Test Report
             https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}/visual-test-report
 
   build:
