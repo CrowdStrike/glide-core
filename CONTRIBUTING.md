@@ -728,8 +728,8 @@ Think of `*:development:*` scripts as long-running (`--serve`, `--watch`) and mu
 ### Why are `assets` and `baseline-screenshots` protected branches on GitHub?
 
 All of our code is deployed to a single Cloudflare R2 bucket.
-Each branch is [deployed](https://github.com/CrowdStrike/glide-core/blob/main/.github/workflows/on-pull-request-opened-and-synchronize.yml#L126) to a directory based on the branch name.
-And artifacts from our latest publish are [deployed](https://github.com/CrowdStrike/glide-core/blob/main/.github/workflows/on-merge-branch-changeset-release-main.yml#L95) to the top level of the bucket.
+Each branch is deployed to a directory based on the branch name.
+And artifacts from our latest publish are deployed to the top level of the bucket.
 It's a simple setup.
 But it means we can't have branch names that conflict and thus overwrite top-level directories that contain artifacts.
 
