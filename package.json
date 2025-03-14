@@ -57,7 +57,6 @@
     "start:development:storybook": "storybook dev --config-dir .storybook --no-open --no-version-updates --port 6006",
     "start:development:ts-morph": "chokidar ./custom-elements.json './src/ts-morph/**' --initial --silent --command 'tsx ./src/ts-morph/run.ts'",
     "start:development:ts-morph:comment:tsx": "Remove `tsx` once Node.js type stripping is available.",
-    "start:development:ts-morph:comment:watching": "It would be helpful to also watch './custom-elements.json`. But doing so would create a loop between this script and `start:development:cem-analyze`.",
     "start:production": "rimraf ./dist && npm-run-all --aggregate-output --print-label --parallel start:production:typescript start:production:storybook start:production:esbuild",
     "start:production:esbuild": "node ./esbuild.js",
     "start:production:cem-analyze": "tsc --noCheck --outDir ./dist && NODE_OPTIONS=--no-warnings=ExperimentalWarning cem analyze --config ./custom-elements.config.js --quiet && git diff --quiet -- || { echo ERROR: Uncommitted elements manifest changes. Run this command locally and commit the changes.; exit 1; }",
