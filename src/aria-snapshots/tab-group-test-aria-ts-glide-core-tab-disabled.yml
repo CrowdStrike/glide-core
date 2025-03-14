@@ -1,0 +1,4 @@
+- tablist:
+  - tab "Tab" [disabled] [selected]
+  - tab "With Icon"
+- tabpanel "Tab": Panel

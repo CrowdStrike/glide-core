@@ -1,0 +1,6 @@
+- text: Label
+- radiogroup "Label Description":
+  - radio "One" [checked]
+  - radio "Two"
+  - radio "Three"
+- text: Description

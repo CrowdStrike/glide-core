@@ -97,6 +97,7 @@ export default class GlideCoreMenuLink extends LitElement {
     // Tabbing forward from there should move focus to where it was previously,
     // which would be on the option.
     return html`<a
+      aria-disabled=${this.disabled}
       class=${classMap({
         component: true,
         active: this.privateActive,

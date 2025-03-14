@@ -86,7 +86,7 @@ export default class GlideCoreToast extends LitElement {
   override render() {
     return html`
       <div
-        aria-labelledby="label description"
+        aria-labelledby="prefix label description"
         class=${classMap({
           component: true,
           error: this.variant === 'error',
@@ -97,6 +97,10 @@ export default class GlideCoreToast extends LitElement {
         role="alert"
         ${ref(this.#componentElementRef)}
       >
+        <span class="prefix" id="prefix">
+          ${this.#localize.term(this.variant!)}
+        </span>
+
         ${choose(
           this.variant,
           [

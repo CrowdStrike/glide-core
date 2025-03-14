@@ -15,6 +15,12 @@ const translation: Translation = {
   previousTab: 'Previous tab',
   noResults: 'No results found',
   tooltip: 'Tooltip:',
+  severityInformational: 'Severity: Informational',
+  severityCritical: 'Severity: Critical',
+  severityMedium: 'Severity: Medium',
+  success: 'Success:',
+  error: 'Error:',
+  informational: 'Informational:',
 
   announcedCharacterCount: (current: number, maximum: number) =>
     `Character count ${current} of ${maximum}`,

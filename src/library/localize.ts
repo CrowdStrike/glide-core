@@ -27,6 +27,12 @@ export interface Translation extends DefaultTranslation {
   previousTab: string;
   noResults: string;
   tooltip: string;
+  severityInformational: string;
+  severityCritical: string;
+  severityMedium: string;
+  success: string;
+  error: string;
+  informational: string;
 
   announcedCharacterCount: (current: number, maximum: number) => string;
   displayedCharacterCount: (current: number, maximum: number) => string;

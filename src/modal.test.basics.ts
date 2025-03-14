@@ -160,3 +160,19 @@ it('throws an error when the "tertiary" footer slot is the wrong type', async ()
     );
   });
 });
+
+it('has `severity="critical" coverage', async () => {
+  await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" severity="critical">
+      Content
+    </glide-core-modal>`,
+  );
+});
+
+it('has `severity="medium" coverage', async () => {
+  await fixture<GlideCoreModal>(
+    html`<glide-core-modal label="Label" severity="medium">
+      Content
+    </glide-core-modal>`,
+  );
+});

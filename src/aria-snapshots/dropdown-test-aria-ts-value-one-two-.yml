@@ -2,12 +2,10 @@
 - list:
   - listitem:
     - text: One
-    - 'button "Remove tag: One"':
-      - img
+    - 'button "Remove tag: One"'
   - listitem:
     - text: Two
-    - 'button "Remove tag: Two"':
-      - img
+    - 'button "Remove tag: Two"'
 - button "One, Two, Label" [expanded]
 - listbox:
   - option "One" [selected]:

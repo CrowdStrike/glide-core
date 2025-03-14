@@ -1,0 +1,6 @@
+- text: Label
+- group "Label":
+  - checkbox "One" [disabled]
+  - checkbox "Two" [disabled]
+  - checkbox "Three" [disabled]
+  - text: Three
