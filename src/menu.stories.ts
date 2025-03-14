@@ -134,7 +134,7 @@ const meta: Meta = {
       control: false,
       table: {
         defaultValue: {
-          summary: import.meta.env.VITE_CORE_VERSION,
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },
@@ -156,7 +156,7 @@ const meta: Meta = {
       table: {
         category: 'Menu Options',
         defaultValue: {
-          summary: import.meta.env.VITE_CORE_VERSION,
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },
@@ -183,7 +183,7 @@ const meta: Meta = {
       table: {
         category: 'Menu Button',
         defaultValue: {
-          summary: import.meta.env.VITE_CORE_VERSION,
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },
@@ -217,7 +217,7 @@ const meta: Meta = {
       table: {
         category: 'Menu Link',
         defaultValue: {
-          summary: import.meta.env.VITE_CORE_VERSION,
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },

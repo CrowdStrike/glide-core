@@ -259,7 +259,7 @@ const meta: Meta = {
       control: false,
       table: {
         defaultValue: {
-          summary: import.meta.env.VITE_CORE_VERSION,
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },
@@ -302,7 +302,7 @@ const meta: Meta = {
       table: {
         category: 'Radio Group Radio',
         defaultValue: {
-          summary: import.meta.env.VITE_CORE_VERSION,
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },
