@@ -148,34 +148,31 @@ export default class GlideCoreRadioGroup
   set value(value: string) {
     this.#value = value;
 
-    // When `value` is set on initial render, this setter is called before
-    // `connectedCallback()` and thus before the default slot has any assigned
-    // elements. So we wait for the update to complete so `this.#radioElements`
-    // isn't empty.
-    this.updateComplete.then(() => {
-      for (const radio of this.#radioElements) {
-        const isChecked = Boolean(value && radio.value === value);
+    for (const radio of this.#radioElements) {
+      // If both `value` and the radio's `value` are empty strings, the
+      // desired outcome from the perspective of the consumer is almost
+      // certainly not to check the radio.
+      const isChecked = Boolean(value !== '' && radio.value === value);
 
-        radio.checked = isChecked ? true : false;
-        radio.tabIndex = isChecked ? 0 : -1;
+      radio.checked = isChecked ? true : false;
+      radio.tabIndex = isChecked ? 0 : -1;
 
-        // We have a few options if `value` is set programmatically to include
-        // the value of a disabled Radio. We can throw, remove the value
-        // from `value`, or enable the Radio.
-        //
-        // Throwing is attractive because the inclusion of a disabled Radio
-        // in `value` is likely a mistake, either due to bad data or developer
-        // error.
-        //
-        // But we only throw in development. So the form will be submitted with
-        // the new `value` in production regardless if it was by mistake. By enabling
-        // the Radio, we at least ensure the user is aware of the fact that it'll
-        // be included in the submission.
-        if (radio.checked && radio.disabled) {
-          radio.disabled = false;
-        }
+      // We have a few options if `value` is set programmatically to include
+      // the value of a disabled Radio. We can throw, remove the value from
+      // `value`, or enable the Radio.
+      //
+      // Throwing is attractive because the inclusion of a disabled Radio
+      // in `value` is likely a mistake, either due to bad data or developer
+      // error.
+      //
+      // But we only throw in development. So the form will be submitted with
+      // the new `value` in production regardless if it was by mistake. By enabling
+      // the Radio, we at least ensure the user is aware of the fact that it'll
+      // be included in the submission.
+      if (radio.checked && radio.disabled) {
+        radio.disabled = false;
       }
-    });
+    }
   }
 
   @property({ reflect: true })
@@ -195,51 +192,90 @@ export default class GlideCoreRadioGroup
   }
 
   override firstUpdated() {
-    if (this.disabled) {
-      for (const radio of this.#radioElements) {
-        radio.disabled = true;
+    for (const radio of this.#radioElements) {
+      radio.privateRequired = this.required;
+      radio.tabIndex = -1;
+
+      if (this.disabled) {
+        radio.disabled = this.disabled;
       }
     }
 
-    if (this.required) {
-      for (const radio of this.#radioElements) {
-        radio.privateRequired = true;
+    // There's nothing to stop developers from adding a `checked` attribute to more
+    // than one radio. How native handles it with `<select>` is to choose the last
+    // selected option. This mimics that behavior, which seems reasonable.
+    const lastCheckedRadio = this.#radioElements.findLast(
+      ({ checked, disabled }) => checked && !disabled,
+    );
+
+    if (lastCheckedRadio) {
+      this.#value = lastCheckedRadio.value;
+
+      if (!this.disabled) {
+        lastCheckedRadio.tabIndex = 0;
       }
-    }
 
-    const checkedRadio = this.value
-      ? this.#radioElements.find(({ value }) => value === this.value)
-      : this.#radioElements.find(
-          ({ checked, disabled }) => checked && !disabled,
-        );
-
-    // When there isn't a default `value` attribute set on the group, but a
-    // child radio has `checked` set instead, we need to manually set the
-    // `value` attribute on the group.
-    //
-    // This way when `form.reset()` is called we know what value to reset
-    // back to.
-    if (!this.value && checkedRadio?.value) {
-      this.setAttribute('value', checkedRadio.value);
-    }
-
-    if (checkedRadio) {
-      this.#value = checkedRadio.value;
-
-      for (const radio of this.#radioElements) {
-        radio.tabIndex = radio === checkedRadio && !radio.disabled ? 0 : -1;
+      // When there's not a default `value` set on the group and a radio is checked
+      // set, we need to manually set `value` on the group.
+      //
+      // This way when `form.reset()` is called we know what value to reset
+      // back to.
+      //
+      // Guarding against `value` being an empty string ensures this component's `value`
+      // setter, which is called after the attribute is set here, doesn't uncheck the radio.
+      if (lastCheckedRadio.value !== '') {
+        this.setAttribute('value', lastCheckedRadio.value);
       }
 
       return;
     }
 
-    // When there is no default selected radio, we set the first non-disabled
-    // radio to have a tab index so that a user can tab into the radio group
-    // and begin interacting with it using their keyboard.
-    const firstRadio = this.#radioElements.find(({ disabled }) => !disabled);
+    // When `value` is set on initial render, its setter is called before
+    // `connectedCallback()` and thus before the default slot has any assigned
+    // elements. So we set it again here after the initial render is complete
+    // so `this.#radioElements` isn't empty.
+    //
+    // Additionally, `#onDefaultSlotChange()` is called after `firstUpdated()`
+    // and sets `value` based on which radios are checked. And the initial `value`
+    // may conflict with the one derived from which radios are checked.
+    //
+    // So we have a decision to make. On first render, do we defer to the initial
+    // `value` and check a radio below? Or do we defer to `#onDefaultSlotChange()`
+    // and let that method change `value` from its initial value based on which radios
+    // are checked?
+    //
+    // It's largely a toss-up. But the latter seems like the logial choice given
+    // `#onDefaultSlotChange()` is called after `firstUpdated()`. In other words, we
+    // defer to the lifecycle. `#onDefaultSlotChange()` is called second. So it gets
+    // to override what `value` was initially.
+    //
+    // If no radios are checked, then it's obvious that the consumer's intention is
+    // to check radios based on the initial `value` and that the initial `value` is
+    // the intended one. So we proceed.
+    if (!lastCheckedRadio && this.value !== '') {
+      const lastRadioWithMatchingValue = this.#radioElements.findLast(
+        ({ value }) => value === this.value,
+      );
 
-    for (const radio of this.#radioElements) {
-      radio.tabIndex = radio === firstRadio ? 0 : -1;
+      if (!this.disabled && lastRadioWithMatchingValue?.disabled) {
+        lastRadioWithMatchingValue.disabled = false;
+      }
+
+      if (lastRadioWithMatchingValue) {
+        lastRadioWithMatchingValue.checked = true;
+        lastRadioWithMatchingValue.tabIndex = 0;
+      }
+
+      return;
+    }
+
+    const firstEnabledRadio = this.#radioElements.find(
+      ({ disabled }) => !disabled,
+    );
+
+    if (firstEnabledRadio) {
+      firstEnabledRadio.tabIndex = 0;
+      return;
     }
   }
 
@@ -337,6 +373,7 @@ export default class GlideCoreRadioGroup
               @private-checked-change=${this.#onRadiosCheckedChange}
               @private-disabled-change=${this.#onRadiosDisabledChange}
               @private-value-change=${this.#onRadiosValueChange}
+              @slotchange=${this.#onDefaultSlotChange}
               ${assertSlot([GlideCoreRadioGroupRadio])}
               ${ref(this.#defaultSlotElementRef)}
             >
@@ -615,6 +652,18 @@ export default class GlideCoreRadioGroup
     }
   }
 
+  #onDefaultSlotChange() {
+    const lastCheckedRadio = this.#radioElements.findLast(
+      ({ checked, disabled }) => {
+        return checked && !disabled;
+      },
+    );
+
+    if (lastCheckedRadio) {
+      this.#value = lastCheckedRadio.value;
+    }
+  }
+
   #onRadioGroupFocusout(event: FocusEvent) {
     // If `event.relatedTarget` is `null`, the user has clicked an element outside
     // Radio Group that cannot receive focus. Otherwise, the user has either clicked
@@ -697,7 +746,11 @@ export default class GlideCoreRadioGroup
       ({ tabIndex }) => tabIndex === 0,
     );
 
-    if (event.target instanceof GlideCoreRadioGroupRadio && !hasTabbableRadio) {
+    if (
+      event.target instanceof GlideCoreRadioGroupRadio &&
+      !hasTabbableRadio &&
+      !this.disabled
+    ) {
       event.target.tabIndex = 0;
       return;
     }

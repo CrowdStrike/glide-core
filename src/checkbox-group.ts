@@ -125,6 +125,7 @@ export default class GlideCoreCheckboxGroup
 
     // Changes to `required` change the validity state. If no checkboxes are
     // checked and Checkbox Group is `required`, then Checkbox Group is invalid.
+    //
     // However, if `required` is programmatically removed, then Checkbox Group
     // is suddenly valid. So we update the validity of every checkbox to match
     // Checkbox Group. This ensures that any visual feedback shown by Checkbox
@@ -175,8 +176,8 @@ export default class GlideCoreCheckboxGroup
       }
 
       // We have a few options if `value` is set programmatically to include
-      // the value of a disabled Checkbox. We can throw, remove the value
-      // from `value`, or enable the Checkbox.
+      // the value of a disabled Checkbox. We can throw, remove the value from
+      // `value`, or enable the Checkbox.
       //
       // Throwing is attractive because the inclusion of a disabled Checkbox
       // in `value` is likely a mistake, either due to bad data or developer
@@ -330,7 +331,7 @@ export default class GlideCoreCheckboxGroup
             })}
             name="description"
           >
-            <!-- 
+            <!--
               Additional information or context
               @type {Element | string}
             -->
