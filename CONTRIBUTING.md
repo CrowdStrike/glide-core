@@ -740,7 +740,7 @@ But Axe only tells us that a component's accessibility tree doesn't contain any 
 What Axe doesn't tell us is whether the accessibility tree is correct.
 
 Dropdown, for example, when open, should show up as expanded in the accessibility tree.
-But, if it doesn't, Axe won't throw because Dropdown's accessibility tree is valid when Dropdown is open but not expanded in the tree.
+But, if it doesn't, Axe won't throw because Dropdown's accessibility tree is valid when Dropdown is open even if it's not expanded in the tree.
 
 Tracking a component's accessibility tree from commit to commit helps with issues like that and more.
 And it gives us confidence when making changes to a component.
