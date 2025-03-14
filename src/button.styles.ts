@@ -13,6 +13,7 @@ export default [
 
     .component {
       align-items: center;
+      background-color: blue !important;
       border-color: transparent;
       border-radius: 0.75rem;
       border-style: solid;
