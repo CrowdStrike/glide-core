@@ -220,7 +220,7 @@ const meta: Meta = {
     }
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+    /* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-form-controls-layout split=${arguments_.split}>
         <glide-core-checkbox-group label="Label">
