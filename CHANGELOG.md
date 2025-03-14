@@ -1,5 +1,28 @@
 # @crowdstrike/glide-core
 
+## 0.21.0
+
+### Minor Changes
+
+- [#764](https://github.com/CrowdStrike/glide-core/pull/764) [`9b656ec`](https://github.com/CrowdStrike/glide-core/commit/9b656ec29df5a586722f8344d62175d43c096250) Thanks [@clintcs](https://github.com/clintcs)! - - To match native, Radio Group now sets its `value` to that of the last checked Radio instead of the first.
+  - When `value` is set initially and a Radio is checked, Radio Group now defers to the checked Radio and overwrites its own initial `value`.
+  - When `value` is set initially and a Dropdown Option is selected, Dropdown now defers to the selected Dropdown Option and overwrites its own initial `value`.
+
+### Patch Changes
+
+- [#764](https://github.com/CrowdStrike/glide-core/pull/764) [`9b656ec`](https://github.com/CrowdStrike/glide-core/commit/9b656ec29df5a586722f8344d62175d43c096250) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown and Radio Group no longer reset their `value` after initial render when `value` is set initially.
+
+  - Radio Group now enables a disabled Radio when Radio Group's `value` is set to that `value` of that Radio.
+
+- [#763](https://github.com/CrowdStrike/glide-core/pull/763) [`fc5d8ce`](https://github.com/CrowdStrike/glide-core/commit/fc5d8ce2e7a9977375045c25436d0ef6a9334fc8) Thanks [@clintcs](https://github.com/clintcs)! - - Inline Alert's removal icon is no longer presented to screenreaders.
+  - Disabled Menu Link's are now presented to screenreaders as disabled.
+  - Dropdown's tag removal icon is no longer presented to screenreaders.
+  - Modal's footer slots are no longer presented to screenreaders when they don't have content.
+  - Modal's severity icon is now presented to screenreaders.
+  - Tag's removal icon is no longer presented to screenreaders.
+  - Toasts' variant is now presented to screenreaders.
+  - Tree Item is now presented to screenreaders as selected when selected.
+
 ## 0.20.4
 
 ### Patch Changes
