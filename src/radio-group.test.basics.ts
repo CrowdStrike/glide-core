@@ -166,6 +166,9 @@ it('checks radios when `value` is set initially', async () => {
 
   expect(radios[0]?.checked).to.be.false;
   expect(radios[1]?.checked).to.be.true;
+
+  // https://github.com/CrowdStrike/glide-core/pull/764#discussion_r1995792862
+  expect(host.value).to.deep.equal('two');
 });
 
 it('enables radios when `value` is set initially', async () => {

@@ -63,6 +63,9 @@ it('selects options when `value` is set initially', async () => {
 
   expect(options[0]?.selected).to.be.false;
   expect(options[1]?.selected).to.be.true;
+
+  // https://github.com/CrowdStrike/glide-core/pull/764#discussion_r1995792862
+  expect(host.value).to.deep.equal(['two']);
 });
 
 it('gives selected options precedence over an initial `value`', async () => {
