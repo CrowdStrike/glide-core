@@ -299,7 +299,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       control: false,
       table: {
         defaultValue: {
-          summary: import.meta.env.VITE_CORE_VERSION,
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },
@@ -392,7 +392,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       table: {
         category: 'Dropdown Option',
         defaultValue: {
-          summary: import.meta.env.VITE_CORE_VERSION,
+          summary: import.meta.env.VITE_GLIDE_CORE_VERSION,
         },
         type: { summary: 'string', detail: '// For debugging' },
       },
