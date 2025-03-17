@@ -667,8 +667,8 @@ An ARIA test is just an assertion against a component's [accessibility tree](htt
 The resultant YAML is called a "snapshot".
 We [commit](https://github.com/CrowdStrike/glide-core/tree/main/src/aria-snapshots) snapshots for every test and use those as the baseline for assertions.
 
-ARIA tests don't supplant manual VoiceOver testing.
-But they let us do much less of it, and they help us catch things easily missed with VoiceOver.
+ARIA tests don't supplant manual testing with a screenreader.
+But they let us do much less of it, and they help us catch things easily missed with a screenreader.
 **Each component should have a suite of ARIA tests**.
 Take a look at some existing tests before writing one for the first time.
 Button's are a great place to start.
@@ -748,7 +748,7 @@ If a component's accessibility tree remains unchanged after the component is cha
 
 That said, ARIA tests do not obviate manual testing with screenreaders.
 Because there's no guarantee that what's in the accessibility tree is interpreted correctly by screenreaders or that a screenreader hasn't had a regression.
-But it gets us about halfway there, and it greatly reduces continual and time-consuming VoiceOver passes that we'd otherwise have to do.
+But it gets us about halfway there, and it greatly reduces continual and time-consuming passes we'd otherwise have to do with a screenreader.
 
 ### Why is visual testing set up the way it is?
 
