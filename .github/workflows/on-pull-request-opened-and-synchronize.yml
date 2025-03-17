@@ -218,7 +218,6 @@ jobs:
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
       - name: Deploy HTML report
         run: aws s3 sync ./playwright-report s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }}/visual-test-report --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
-      - run: echo "${{ needs.test-visuals.outputs.failed }}"
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: visual-test-report
