@@ -138,7 +138,7 @@ jobs:
       - install-dependencies
       - fetch-baseline-screenshots
     outputs:
-      failed: ${{ steps.set-failed.outputs.failed }}
+      failed: ${{ steps.get-test-job-outcome.outputs.failed }}
     strategy:
       # We need every job in the matrix to finish so we can produce a full report.
       fail-fast: false
@@ -169,8 +169,8 @@ jobs:
         # below, before merging.
         continue-on-error: true
         run: pnpm exec playwright test --project visuals --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-      - name: Set failed
-        id: set-failed
+      - name: Get `test` job outcome
+        id: get-test-job-outcome
         run: |
           if [ "${{ steps.test.outcome }}" == "failure" ]; then
             echo "failed=true" >> $GITHUB_OUTPUT
