@@ -22,6 +22,7 @@ const meta: Meta = {
     },
   },
   render(arguments_) {
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
