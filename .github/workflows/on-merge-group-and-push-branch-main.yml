@@ -1,7 +1,9 @@
-name: On Merge Group Branch "main"
+name: On Merge Group And Push Branch "main"
 
 on:
   merge_group:
+    types: [checks_requested]
+  push:
     branches:
       - main
 
