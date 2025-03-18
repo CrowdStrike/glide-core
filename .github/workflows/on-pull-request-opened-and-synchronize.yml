@@ -6,9 +6,6 @@ on:
   merge_group:
     types: [checks_requested]
 
-env:
-  CI: true
-
 concurrency:
   group: ${{ github.head_ref || github.ref }}
   cancel-in-progress: true
