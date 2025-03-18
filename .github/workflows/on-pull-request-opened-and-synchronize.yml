@@ -3,6 +3,8 @@ name: On Pull Request Opened And Synchronize
 on:
   pull_request:
     types: [opened, synchronize]
+  merge_group:
+    types: [checks_requested]
 
 env:
   CI: true
