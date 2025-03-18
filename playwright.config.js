@@ -1,6 +1,9 @@
 import os from 'node:os';
 import { defineConfig } from '@playwright/test';
 
+// eslint-disable-next-line no-console
+console.log(process.env.CI);
+
 export default defineConfig({
   fullyParallel: true,
   globalSetup: './playwright.setup.js',

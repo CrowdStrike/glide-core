@@ -4,9 +4,6 @@ on:
   pull_request:
     types: [closed]
 
-env:
-  CI: true
-
 concurrency:
   group: ${{ github.head_ref || github.ref }}
   cancel-in-progress: true
