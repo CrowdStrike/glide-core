@@ -1,8 +1,9 @@
-name: On Merge Group
+name: On Push Branch "main"
 
 on:
-  merge_group:
-    types: [checks_requested]
+  push:
+    branches:
+      - main
 
 env:
   CI: true
@@ -115,85 +116,3 @@ jobs:
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
       - name: Deploy Storybook
         run: aws s3 sync ./storybook s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/main --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
-
-  format:
-    name: Format
-    runs-on: ubuntu-latest
-    needs:
-      - install-dependencies
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/pnpm
-      - run: pnpm format
-        env:
-          NODE_ENV: production
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    needs:
-      - install-dependencies
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/pnpm
-      - run: pnpm start
-        env:
-          NODE_ENV: production
-      - run: pnpm lint
-        env:
-          NODE_ENV: production
-
-  test:
-    name: Test
-    # https://github.com/CrowdStrike/glide-core/pull/529#discussion_r1886905184
-    runs-on: macos-latest
-    # Something has gone wrong if testing takes longer than 10 minutes.
-    timeout-minutes: 10
-    needs:
-      - install-dependencies
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/pnpm
-      - run: pnpm dlx playwright@1.50.1 install --only-shell --with-deps chromium
-      - run: pnpm test
-        env:
-          NODE_ENV: production
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        if: ${{ failure() }}
-        with:
-          name: coverage
-          path: dist/coverage
-
-  # Its own job instead of putting it in `test-visuals` and renaming that job
-  # because `test-visual` sets `continue-on-error` so that missing and changed
-  # snapshots don't cause it to fail.
-  test-aria:
-    name: Test (ARIA)
-    runs-on: ubuntu-latest
-    # Increase sharding if the job takes longer than a few minutes.
-    timeout-minutes: 5
-    needs:
-      - install-dependencies
-    strategy:
-      matrix:
-        shardIndex: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        shardTotal: [10]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/pnpm
-      - run: pnpm dlx playwright@1.50.1 install --only-shell --with-deps chromium
-      - name: Test
-        run: pnpm exec playwright test --project aria --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-
-  typecheck:
-    name: Typecheck
-    runs-on: ubuntu-latest
-    needs:
-      - install-dependencies
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/pnpm
-      - run: pnpm typecheck
-        env:
-          NODE_ENV: production
