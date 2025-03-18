@@ -130,7 +130,7 @@ export default {
             const isStyleTag = $element.tagName === 'STYLE';
 
             // IDs are only for internal use and so are removed. You'll find comments in
-            // the Radio Group and Tree stories explaining why they're needed.
+            // the Radio Group story explaining why they're needed.
             $element.removeAttribute('id');
 
             if (isScriptTag) {

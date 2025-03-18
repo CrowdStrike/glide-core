@@ -30,7 +30,6 @@ const translation: Translation = {
   editOption: (label: string) => `Edit option: ${label}`,
   editTag: (label: string) => `Edit tag: ${label}`,
   removeTag: (label: string) => `Remove tag: ${label}`,
-  actionsFor: (label: string) => `Actions for ${label}`,
   itemCount: (count: string) => `${count} items`,
   closeInlineAlert: (variant: string) => `Close ${variant} alert`,
 };

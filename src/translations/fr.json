@@ -13,7 +13,6 @@
   "editOption": "Modifier l'option : {label}",
   "editTag": "Modifier la balise : {label}",
   "removeTag": "Enlever la balise : {label}",
-  "actionsFor": "Action pour {label}",
   "itemCount": "{count} éléments",
   "closeInlineAlert": "Fermer l'alerte {variant}"
 }
