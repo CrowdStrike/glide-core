@@ -1,7 +1,7 @@
-name: On Push Branch "main"
+name: On Merge Group Branch "main"
 
 on:
-  push:
+  merge_group:
     branches:
       - main
 
