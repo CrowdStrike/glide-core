@@ -34,7 +34,6 @@ const translation: Omit<Translation, PendingTranslation> = {
   editOption: (label: string) => `編集オプション：${label}`,
   editTag: (label: string) => `タグの編集：${label}`,
   removeTag: (label: string) => `タグの削除：${label}`,
-  actionsFor: (label: string) => `${label}のアクション`,
   itemCount: (count: string) => `${count}件`,
   closeInlineAlert: (variant: string) => `${variant}アラートを閉じる`,
 };

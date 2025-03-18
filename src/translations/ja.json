@@ -13,7 +13,6 @@
   "editOption": "編集オプション：{label}",
   "editTag": "タグの編集：{label}",
   "removeTag": "タグの削除：{label}",
-  "actionsFor": "{label}のアクション",
   "itemCount": "{count}件",
   "closeInlineAlert": "{variant}アラートを閉じる"
 }

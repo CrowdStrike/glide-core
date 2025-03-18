@@ -34,7 +34,6 @@ const translation: Omit<Translation, PendingTranslation> = {
   editOption: (label: string) => `Modifier l'option : ${label}`,
   editTag: (label: string) => `Modifier la balise : ${label}`,
   removeTag: (label: string) => `Enlever la balise : ${label}`,
-  actionsFor: (label: string) => `Action pour ${label}`,
   itemCount: (count: string) => `${count} éléments`,
   closeInlineAlert: (variant: string) => `Fermer l'alerte ${variant}`,
 };
