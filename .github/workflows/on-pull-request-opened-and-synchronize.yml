@@ -95,7 +95,6 @@ jobs:
       - install-dependencies
     steps:
       - uses: actions/checkout@v4
-      - run: git fetch origin main --depth 1
       - uses: ./.github/actions/pnpm
       - run: pnpm dlx playwright@1.50.1 install --only-shell --with-deps chromium
       - run: pnpm test
