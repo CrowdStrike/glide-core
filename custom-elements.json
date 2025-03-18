@@ -3601,6 +3601,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "default": "''",
               "attribute": "pattern",
               "reflects": true
             },
@@ -3905,6 +3906,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "default": "''",
               "fieldName": "pattern"
             },
             {

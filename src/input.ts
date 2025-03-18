@@ -35,7 +35,7 @@ declare global {
  * @attr {string} [name='']
  * @attr {'horizontal'|'vertical'} [orientation='horizontal']
  * @attr {boolean} [password-toggle=false] - For 'password' type, whether to show a button to toggle the password's visibility
- * @attr {string} [pattern]
+ * @attr {string} [pattern='']
  * @attr {string} [placeholder]
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
@@ -122,7 +122,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property({ reflect: true })
-  pattern?: string;
+  pattern: string | undefined = '';
 
   @property({ reflect: true })
   placeholder?: string;
@@ -183,13 +183,26 @@ export default class GlideCoreInput extends LitElement implements FormControl {
   }
 
   get validity(): ValidityState {
-    if (this.pattern) {
+    if (this.pattern && this.pattern.length > 0) {
       // A validation message is required but unused because we disable native validation feedback.
       // And an empty string isn't allowed. Thus a single space.
       this.#internals.setValidity(
         {
           customError: Boolean(this.validityMessage),
-          patternMismatch: !new RegExp(this.pattern).test(this.value),
+          // Empty values do not trigger a pattern mismatch error to align
+          // with native behavior¹.
+          //
+          // When checking pattern validity like the native input element, we
+          // need to ensure it matches the entire string, not just a portion of it¹.
+          //
+          // The regex we use internally matches native's according to the documentation².
+          //
+          // 1: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern#constraint_validation
+          // 2: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern#overview
+          patternMismatch: Boolean(
+            this.value &&
+              !new RegExp(`^(?:${this.pattern})$`, 'v').test(this.value),
+          ),
           valueMissing: Boolean(this.required && !this.value),
         },
         ' ',
@@ -288,7 +301,7 @@ export default class GlideCoreInput extends LitElement implements FormControl {
           slot="control"
         >
           <slot name="prefix-icon">
-            <!-- 
+            <!--
               An icon before the input field
               @type {Element}
             -->
@@ -378,8 +391,8 @@ export default class GlideCoreInput extends LitElement implements FormControl {
             })}
             name="description"
           >
-            <!-- 
-              Additional information or context 
+            <!--
+              Additional information or context
               @type {Element | string}
             -->
           </slot>

@@ -330,7 +330,7 @@ it('is valid when the `value` attribute matches `pattern`', async () => {
   const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
-      pattern="[a-z]{4,8}"
+      pattern="[A-Za-z_s][A-Za-z_0-9s]*"
       value="value"
     ></glide-core-input>`,
   );
@@ -367,12 +367,30 @@ it('is valid when `value` matches `pattern` after being set programmatically', a
   ).to.equal('false');
 });
 
-it('is invalid when `value` does not match `pattern`', async () => {
+it('is valid when `pattern` is set and `value` is empty', async () => {
   const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
-      value="1234"
+    ></glide-core-input>`,
+  );
+
+  expect(host.validity?.valid).to.be.true;
+  expect(host.validity?.patternMismatch).to.be.false;
+  expect(host.checkValidity()).to.be.true;
+  expect(host.reportValidity()).to.be.true;
+
+  expect(
+    host.shadowRoot?.querySelector('[data-test="input"]')?.ariaInvalid,
+  ).to.equal('false');
+});
+
+it('is invalid when `value` does not match `pattern`', async () => {
+  const host = await fixture<GlideCoreInput>(
+    html`<glide-core-input
+      label="Label"
+      pattern="[A-Za-z_s][A-Za-z_0-9s]*"
+      value="!value"
     ></glide-core-input>`,
   );
 
@@ -415,12 +433,26 @@ it('is invalid when `required` and `value` does not match `pattern`', async () =
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
+      value="val"
       required
     ></glide-core-input>`,
   );
 
   expect(host.validity?.valid).to.be.false;
   expect(host.validity?.patternMismatch).to.be.true;
+});
+
+it('is invalid when `required`, has an empty `value`, and a `pattern`', async () => {
+  const host = await fixture<GlideCoreInput>(
+    html`<glide-core-input
+      label="Label"
+      pattern="[a-z]{4,8}"
+      required
+    ></glide-core-input>`,
+  );
+
+  expect(host.validity?.valid).to.be.false;
+  expect(host.validity?.patternMismatch).to.be.false;
   expect(host.validity?.valueMissing).to.be.true;
 });
 
@@ -429,6 +461,7 @@ it('is valid when `pattern` is programmatically removed', async () => {
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
+      value="val"
     ></glide-core-input>`,
   );
 
@@ -557,10 +590,12 @@ it('is valid when `setValidity()` is called', async () => {
 });
 
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
+  // `value` does not match `pattern` intentionally to force an invalid state
   const host = await fixture<GlideCoreInput>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
+      value="val"
       required
     ></glide-core-input>`,
   );
@@ -570,7 +605,7 @@ it('retains existing validity state when `setCustomValidity()` is called', async
   expect(host.validity?.valid).to.be.false;
   expect(host.validity?.customError).to.be.true;
   expect(host.validity?.patternMismatch).to.be.true;
-  expect(host.validity?.valueMissing).to.be.true;
+  expect(host.validity?.valueMissing).to.be.false;
 });
 
 it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
