@@ -80,7 +80,7 @@ it('updates `value` when the `value` of its checkbox is emptied programmatically
   expect(host.getAttribute('value')).to.equal('["two"]');
 });
 
-it('enables disabled checkboxes when `value` is set programmatically', async () => {
+it('enables checkboxes when `value` is set programmatically', async () => {
   const host = await fixture<GlideCoreCheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox

@@ -238,7 +238,6 @@ it('updates `value` when the `value` of a checked radio is set programmatically'
 
   assert(radio);
   radio.value = 'three';
-  await host.updateComplete;
 
   expect(host.value).to.equal('three');
 });
@@ -263,12 +262,11 @@ it('updates `value` when the `value` of a checked radio is emptied programmatica
 
   assert(radio);
   radio.value = '';
-  await host.updateComplete;
 
   expect(host.value).to.equal('');
 });
 
-it('enables a disabled radio when `value` is set programmatically', async () => {
+it('enables radios when `value` is set programmatically', async () => {
   const host = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="Label">
       <glide-core-radio-group-radio
@@ -286,7 +284,6 @@ it('enables a disabled radio when `value` is set programmatically', async () => 
   `);
 
   host.value = 'one';
-  await host.updateComplete;
 
   const radio = host.querySelector('glide-core-radio-group-radio');
   expect(radio?.disabled).to.be.false;

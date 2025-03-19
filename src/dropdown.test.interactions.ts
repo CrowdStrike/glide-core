@@ -1047,3 +1047,20 @@ it('does not allow its "toggle" event to propagate', async () => {
 
   expect(spy.callCount).to.equal(0);
 });
+
+it('enables options when `value` is set programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="one"
+        value="one"
+        disabled
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.value = ['one'];
+
+  const option = host.querySelector('glide-core-dropdown-option');
+  expect(option?.disabled).to.be.false;
+});

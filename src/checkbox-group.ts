@@ -90,7 +90,7 @@ export default class GlideCoreCheckboxGroup
   set disabled(isDisabled: boolean) {
     this.#isDisabled = isDisabled;
 
-    for (const checkbox of this.#checkboxes) {
+    for (const checkbox of this.#checkboxElements) {
       checkbox.disabled = isDisabled;
     }
   }
@@ -130,7 +130,7 @@ export default class GlideCoreCheckboxGroup
     // is suddenly valid. So we update the validity of every checkbox to match
     // Checkbox Group. This ensures that any visual feedback shown by Checkbox
     // based on validity is correct.
-    for (const checkbox of this.#checkboxes) {
+    for (const checkbox of this.#checkboxElements) {
       if (isRequired) {
         checkbox.setValidity(this.#internals.validity, ' ');
       } else {
@@ -159,9 +159,9 @@ export default class GlideCoreCheckboxGroup
   set value(value: string[]) {
     this.#value = value;
 
-    for (const checkbox of this.#checkboxes) {
+    for (const checkbox of this.#checkboxElements) {
       const isChecked = value.some(
-        (value) => value && value === checkbox.value,
+        (value) => value !== '' && value === checkbox.value,
       );
 
       // It would be simpler if we just checked and unchecked every Checkbox
@@ -211,21 +211,48 @@ export default class GlideCoreCheckboxGroup
 
   override firstUpdated() {
     if (this.disabled) {
-      for (const checkbox of this.#checkboxes) {
+      for (const checkbox of this.#checkboxElements) {
         checkbox.disabled = true;
       }
     }
 
-    this.value = this.#checkboxes
-      .filter(({ checked, disabled }) => checked && !disabled)
-      .map(({ value }) => value)
-      // Disabled because simply filtering by `Boolean` doesn't narrow the type.
-      // eslint-disable-next-line unicorn/prefer-native-coercion-functions
-      .filter((value): value is string => Boolean(value));
+    const hasNoCheckedCheckboxes = this.#checkboxElements.every(
+      ({ checked }) => !checked,
+    );
 
-    for (const checkbox of this.#checkboxes) {
+    for (const checkbox of this.#checkboxElements) {
       checkbox.privateVariant = 'minimal';
       checkbox.addEventListener('blur', this.#onCheckboxBlur.bind(this));
+
+      // When `value` is set on initial render, its setter is called before
+      // `connectedCallback()` and thus before the default slot has any assigned
+      // elements. So we set it again here after the initial render is complete
+      // so `this.#checkboxElements` isn't empty.
+      //
+      // Additionally, `#onDefaultSlotChange()` is called after `firstUpdated()`
+      // and sets `value` based on which checkboxes are checked. And the initial `value`
+      // may conflict with the one derived from which checkboxes are checked.
+      //
+      // So we have a decision to make. On first render, do we defer to the initial
+      // `value` and check and uncheck checkboxes below? Or do we defer to `#onDefaultSlotChange()`
+      // and let that method change `value` from its initial value based on which checkboxes
+      // are checked?
+      //
+      // It's largely a toss-up. But the latter seems like the logical choice given
+      // `#onDefaultSlotChange()` is called after `firstUpdated()`. In other words, we
+      // defer to the lifecycle. `#onDefaultSlotChange()` is called second. So it gets to
+      // override what `value` was initially.
+      //
+      // If no checkboxes are checked, then it's obvious that the consumer's intention is
+      // to check checkboxes based on the initial `value` and that the initial `value` is
+      // the intended one. So we proceed.
+      if (hasNoCheckedCheckboxes) {
+        checkbox.checked = this.value.includes(checkbox.value);
+
+        if (checkbox.checked && !this.disabled) {
+          checkbox.disabled = false;
+        }
+      }
     }
   }
 
@@ -234,7 +261,7 @@ export default class GlideCoreCheckboxGroup
   }
 
   get validity(): ValidityState {
-    const isChecked = this.#checkboxes.some(({ checked }) => checked);
+    const isChecked = this.#checkboxElements.some(({ checked }) => checked);
 
     if (this.required && !isChecked) {
       // A validation message is required but unused because we disable native validation feedback.
@@ -254,7 +281,7 @@ export default class GlideCoreCheckboxGroup
       this.#internals.setValidity({});
     }
 
-    for (const checkbox of this.#checkboxes) {
+    for (const checkbox of this.#checkboxElements) {
       checkbox.setValidity(this.#internals.validity, ' ');
 
       // Checkbox's `this.#internals.validity` isn't reactive.
@@ -265,7 +292,7 @@ export default class GlideCoreCheckboxGroup
   }
 
   override focus(options?: FocusOptions) {
-    const checkbox = this.#checkboxes.find(({ disabled }) => !disabled);
+    const checkbox = this.#checkboxElements.find(({ disabled }) => !disabled);
     checkbox?.focus(options);
   }
 
@@ -274,7 +301,7 @@ export default class GlideCoreCheckboxGroup
   }
 
   formResetCallback(): void {
-    for (const checkbox of this.#checkboxes) {
+    for (const checkbox of this.#checkboxElements) {
       checkbox.formResetCallback();
     }
   }
@@ -311,6 +338,7 @@ export default class GlideCoreCheckboxGroup
             class="default-slot"
             @change=${this.#onCheckboxChange}
             @private-value-change=${this.#onCheckboxesValueChange}
+            @slotchange=${this.#onDefaultSlotChange}
             ${assertSlot([GlideCoreCheckbox])}
             ${ref(this.#defaultSlotElementRef)}
           >
@@ -461,7 +489,7 @@ export default class GlideCoreCheckboxGroup
 
   #value: string[] = [];
 
-  get #checkboxes() {
+  get #checkboxElements() {
     return this.#defaultSlotElementRef.value
       ? this.#defaultSlotElementRef.value
           .assignedElements()
@@ -486,7 +514,7 @@ export default class GlideCoreCheckboxGroup
   }
 
   #onBlur() {
-    for (const checkbox of this.#checkboxes) {
+    for (const checkbox of this.#checkboxElements) {
       checkbox.privateIsReportValidityOrSubmit = true;
     }
   }
@@ -497,7 +525,7 @@ export default class GlideCoreCheckboxGroup
     if (
       !newlyFocusedElement ||
       !(newlyFocusedElement instanceof GlideCoreCheckbox) ||
-      !this.#checkboxes.includes(newlyFocusedElement)
+      !this.#checkboxElements.includes(newlyFocusedElement)
     ) {
       this.#onBlur();
     }
@@ -538,5 +566,13 @@ export default class GlideCoreCheckboxGroup
     ) {
       this.value = this.#value.filter((value) => value !== event.detail.old);
     }
+  }
+
+  #onDefaultSlotChange() {
+    this.#value = this.#checkboxElements
+      .filter(
+        ({ checked, disabled, value }) => checked && !disabled && value !== '',
+      )
+      .map(({ value }) => value);
   }
 }

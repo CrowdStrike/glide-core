@@ -102,7 +102,7 @@ export default class GlideCoreButtonGroup extends LitElement {
             ${assertSlot([GlideCoreButtonGroupButton])}
             ${ref(this.#slotElementRef)}
           >
-            <!-- 
+            <!--
               @required
               @type {GlideCoreButtonGroupButton}
             -->

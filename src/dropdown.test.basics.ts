@@ -102,6 +102,21 @@ it('cannot be open when disabled', async () => {
   expect(options?.checkVisibility()).to.be.false;
 });
 
+it('enables options when `value` is set initially', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" .value=${['one']}>
+      <glide-core-dropdown-option
+        label="one"
+        value="one"
+        disabled
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+  expect(option?.disabled).to.be.false;
+});
+
 it('activates the first option when no options are initially selected', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" open>

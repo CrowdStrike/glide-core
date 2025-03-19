@@ -244,7 +244,7 @@ export default class GlideCoreRadioGroup
     // and let that method change `value` from its initial value based on which radios
     // are checked?
     //
-    // It's largely a toss-up. But the latter seems like the logial choice given
+    // It's largely a toss-up. But the latter seems like the logical choice given
     // `#onDefaultSlotChange()` is called after `firstUpdated()`. In other words, we
     // defer to the lifecycle. `#onDefaultSlotChange()` is called second. So it gets
     // to override what `value` was initially.
