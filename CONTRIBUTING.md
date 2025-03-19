@@ -46,7 +46,7 @@
   - [How does ARIA snapshot testing fit into overall accessibility testing?](#how-does-aria-snapshot-testing-fit-into-overall-accessibility-testing)
   - [Why is visual testing set up the way it is?](#why-is-visual-testing-set-up-the-way-it-is)
   - [Why three separate test runners?](#why-three-separate-test-runners)
-  - [Why does `main` have a merge queue](#why-does-main-have-a-merge-queue)
+  - [Why does `main` have a merge queue?](#why-does-main-have-a-merge-queue)
 
 ## Development
 
