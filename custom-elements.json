@@ -7463,16 +7463,6 @@
             },
             {
               "kind": "field",
-              "name": "rows",
-              "type": {
-                "text": "number"
-              },
-              "default": "2",
-              "attribute": "rows",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "required",
               "type": {
                 "text": "boolean"
@@ -7735,14 +7725,6 @@
               },
               "default": "''",
               "fieldName": "placeholder"
-            },
-            {
-              "name": "rows",
-              "type": {
-                "text": "number"
-              },
-              "default": "2",
-              "fieldName": "rows"
             },
             {
               "name": "required",

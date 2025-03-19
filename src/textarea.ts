@@ -32,7 +32,6 @@ declare global {
  * @attr {string} [placeholder='']
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
- * @attr {number} [rows=2]
  * @attr {boolean} [spellcheck=false]
  * @attr {string} [tooltip]
  * @attr {string} [value='']
@@ -101,9 +100,6 @@ export default class GlideCoreTextarea
 
   @property({ reflect: true })
   placeholder?: string = '';
-
-  @property({ reflect: true, type: Number })
-  rows = 2;
 
   @property({ reflect: true, type: Boolean })
   required = false;
@@ -236,7 +232,6 @@ export default class GlideCoreTextarea
           id="textarea"
           name=${ifDefined(this.name)}
           placeholder=${ifDefined(this.placeholder)}
-          rows=${this.rows}
           autocapitalize=${this.autocapitalize}
           autocomplete=${this.autocomplete}
           spellcheck=${this.spellcheck}
