@@ -2,6 +2,8 @@ name: On Pull Request Opened And Synchronize
 
 on:
   pull_request:
+    paths-ignore:
+      - '*.md'
     types: [opened, synchronize]
   merge_group:
     types: [checks_requested]

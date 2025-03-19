@@ -46,6 +46,7 @@
   - [How does ARIA snapshot testing fit into overall accessibility testing?](#how-does-aria-snapshot-testing-fit-into-overall-accessibility-testing)
   - [Why is visual testing set up the way it is?](#why-is-visual-testing-set-up-the-way-it-is)
   - [Why three separate test runners?](#why-three-separate-test-runners)
+  - [Why does `main` have a merge queue](#why-does-main-have-a-merge-queue)
 
 ## Development
 
@@ -792,3 +793,22 @@ But it does run tests in a browser, and it generally works.
 So we use it exclusively for component tests.
 Web Test Runner does support visual testing—but not sharding—though it appears to be heading toward archival.
 So we limit our use of it.
+
+#### Why does `main` have a [merge queue](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue#about-merge-queues)?
+
+We use merge queues to avoid a deployment race condition when two PRs are merged around the same time.
+
+Say we have two branches about to be merged—branch `a` and `b`—and both branches change some components.
+Branch `a` is merged.
+Then a minute later branch `b` is merged.
+Branch `a` is likely to finish building and deploying first.
+But it may not given how variable CI times are.
+
+Branch `b` may finish first instead.
+If it does, branch `a`—which doesn't include the changes in branch `b`—will re-deploy both Storybook and our baseline screenshots to R2 and replace those of branch `b` with its own.
+`main` will still include changes from both branches.
+But our baseline screenshots won't represent `main`, and Storybook won't include the changes from `b`.
+
+This is usually only a problem on larger teams.
+But we figured we'd run into it sooner or later, and merge queues easily solve it.
+Putting `main` merges into a queue forces branches to be deployed sequentially.
