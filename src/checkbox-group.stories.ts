@@ -259,7 +259,7 @@ const meta: Meta = {
           ?disabled=${arguments_.disabled}
           ?hide-label=${arguments_['hide-label'] || nothing}
           ?required=${arguments_.required}
-          .value=${['one', 'two']}
+          .value=${arguments_.value || nothing}
         >
           <glide-core-checkbox label="One" value="one" ?checked=${
             arguments_['<glide-core-checkbox>.one.checked']
