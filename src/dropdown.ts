@@ -881,6 +881,7 @@ export default class GlideCoreDropdown
                     <span data-test="tag-overflow-count">
                       ${this.selectedOptions.length - this.tagOverflowLimit}
                     </span>
+
                     more
                   </div>`;
                 },
