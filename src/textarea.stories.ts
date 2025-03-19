@@ -75,7 +75,6 @@ const meta: Meta = {
     'reportValidity()': '',
     required: false,
     'resetValidityFeedback()': '',
-    rows: 2,
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
     'slot="description"': '',
@@ -207,13 +206,6 @@ const meta: Meta = {
         },
       },
     },
-    rows: {
-      control: 'number',
-      table: {
-        defaultValue: { summary: '2' },
-        type: { summary: 'number' },
-      },
-    },
     'setCustomValidity(message)': {
       control: false,
       table: {
@@ -278,7 +270,6 @@ const meta: Meta = {
         name=${arguments_.name || nothing}
         orientation=${arguments_.orientation}
         placeholder=${arguments_.placeholder || nothing}
-        rows=${arguments_.rows}
         spellcheck=${arguments_.spellcheck}
         tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}
