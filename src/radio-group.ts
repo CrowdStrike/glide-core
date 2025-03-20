@@ -91,8 +91,25 @@ export default class GlideCoreRadioGroup
     this.#isDisabled = isDisabled;
 
     for (const radio of this.#radioElements) {
+      this.#isEnablingOrDisablingTheGroup = true;
       radio.disabled = isDisabled;
-      radio.tabIndex = isDisabled ? -1 : 0;
+      this.#isEnablingOrDisablingTheGroup = false;
+
+      const firstCheckedRadio = this.#radioElements.find(
+        (radio) => radio.checked,
+      );
+
+      const firstEnabledRadio = this.#radioElements.find(
+        (radio) => !radio.disabled,
+      );
+
+      if (isDisabled) {
+        radio.tabIndex = -1;
+      } else if (radio === firstCheckedRadio) {
+        radio.tabIndex = 0;
+      } else if (!firstCheckedRadio && radio === firstEnabledRadio) {
+        radio.tabIndex = 0;
+      }
     }
   }
 
@@ -501,6 +518,8 @@ export default class GlideCoreRadioGroup
 
   #isDisabled = false;
 
+  #isEnablingOrDisablingTheGroup = false;
+
   #isRequired = false;
 
   #value = '';
@@ -713,6 +732,10 @@ export default class GlideCoreRadioGroup
   }
 
   #onRadiosDisabledChange(event: Event) {
+    if (this.#isEnablingOrDisablingTheGroup) {
+      return;
+    }
+
     if (
       event.target instanceof GlideCoreRadioGroupRadio &&
       event.target.disabled
