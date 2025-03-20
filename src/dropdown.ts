@@ -2223,6 +2223,20 @@ export default class GlideCoreDropdown
   }
 
   #onOptionsSelectedChange(event: Event) {
+    if (!this.multiple) {
+      for (const option of this.#optionElements) {
+        if (
+          option !== event.target &&
+          event.target instanceof GlideCoreDropdownOption &&
+          event.target.selected &&
+          option.selected &&
+          event.target !== this.#selectAllElementRef.value
+        ) {
+          option.selected = false;
+        }
+      }
+    }
+
     if (
       event.target !== this.#selectAllElementRef.value &&
       !this.#isSelectionChangeFromSelectAll &&
