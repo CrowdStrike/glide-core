@@ -308,7 +308,12 @@ export default class GlideCoreCheckbox
             })}
             part="private-label-and-input-and-checkbox"
           >
-            <div class="input-and-checkbox">
+            <div
+              class=${classMap({
+                'input-and-checkbox': true,
+                disabled: this.disabled,
+              })}
+            >
               <input
                 aria-invalid=${this.#isShowValidationFeedback}
                 class="input"

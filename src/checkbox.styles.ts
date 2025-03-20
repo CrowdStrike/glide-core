@@ -43,6 +43,10 @@ export default [
       flex-shrink: 0;
       inline-size: 0.875rem;
       position: relative;
+
+      &.disabled {
+        cursor: not-allowed;
+      }
     }
 
     .checkbox {
