@@ -6,7 +6,7 @@ import {
   isTaggedTemplateExpression,
   type Node,
 } from 'typescript';
-import getParentClassName from '../library/get-parent-class-name.js';
+import getParentClassName from './get-parent-class-name.js';
 
 /**
  * Adds slots to the manifest.
@@ -51,8 +51,8 @@ export default () => {
               };
             }
 
-            const block = commentParser(`/** 
-                  ${comment.rawText} 
+            const block = commentParser(`/**
+                  ${comment.rawText}
                 */`).at(0);
 
             return {

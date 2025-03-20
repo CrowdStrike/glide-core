@@ -83,7 +83,7 @@ export default [
       --private-arrow-height: 0.375rem;
       --private-arrow-width: 0.625rem;
 
-      color: var(--glide-core-surface-base-dark);
+      color: var(--glide-core-private-color-tooltip-surface-container);
       display: flex;
       position: relative;
 

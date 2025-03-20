@@ -5,7 +5,7 @@ export default [
     :host(:not(:disabled)) .component {
       &.error {
         .checkbox {
-          border-color: var(--glide-core-status-error);
+          border-color: var(--glide-core-color-error-stroke-primary);
         }
       }
     }
@@ -20,9 +20,9 @@ export default [
       inline-size: min-content;
 
       &.invalid {
-        border: 1px solid var(--glide-core-status-error);
-        border-radius: 0.5rem;
-        padding: var(--glide-core-spacing-xxs) 0.375rem;
+        border: 1px solid var(--glide-core-color-error-stroke-primary);
+        border-radius: var(--glide-core-rounding-base-radius-sm);
+        padding: var(--glide-core-spacing-base-xxs) 0.375rem;
       }
     }
 
@@ -30,7 +30,7 @@ export default [
       display: flex;
       flex-direction: column;
       grid-column: 2;
-      row-gap: var(--glide-core-spacing-xs);
+      row-gap: var(--glide-core-spacing-base-xs);
     }
 
     .description {
