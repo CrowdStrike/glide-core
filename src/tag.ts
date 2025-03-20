@@ -105,7 +105,8 @@ export default class GlideCoreTag extends LitElement {
           <!-- @type {Element} -->
         </slot>
 
-        ${this.label}
+        <div class="label">${this.label}</div>
+
         ${when(this.privateEditable, () => {
           return html`<button
             aria-label=${this.#localize.term('editTag', this.label!)}

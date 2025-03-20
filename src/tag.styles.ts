@@ -7,6 +7,26 @@ export default [
     ${focusOutline('.removal-button:focus-visible')}
   `,
   css`
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fade-out {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
     .component {
       align-items: center;
       background: var(--glide-core-surface-base-gray-lighter);
@@ -19,13 +39,10 @@ export default [
       font-weight: var(--glide-core-body-xs-font-weight);
       justify-content: center;
       line-height: 1;
-      margin: 0;
       max-inline-size: max-content;
       min-block-size: var(--glide-core-spacing-md);
       opacity: 1;
-      overflow: hidden;
       padding: var(--glide-core-spacing-xxxs) var(--glide-core-spacing-xs);
-      white-space: nowrap;
 
       &.large {
         min-block-size: 0.875rem;
@@ -58,24 +75,10 @@ export default [
       }
     }
 
-    @keyframes fade-in {
-      0% {
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 1;
-      }
-    }
-
-    @keyframes fade-out {
-      0% {
-        opacity: 1;
-      }
-
-      100% {
-        opacity: 0;
-      }
+    .label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .removal-button {
