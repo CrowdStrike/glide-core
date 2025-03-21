@@ -57,6 +57,14 @@ export default class GlideCoreDropdownOption extends LitElement {
   set disabled(isDisabled: boolean) {
     this.role = isDisabled ? 'none' : 'option';
     this.#isDisabled = isDisabled;
+
+    if (this.#checkboxElementRef.value?.checked && isDisabled) {
+      this.#checkboxElementRef.value.checked = false;
+    } else if (this.#checkboxElementRef.value && this.selected && !isDisabled) {
+      this.#checkboxElementRef.value.checked = true;
+    }
+
+    this.dispatchEvent(new Event('private-disabled-change', { bubbles: true }));
   }
 
   /**
@@ -211,7 +219,7 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   override firstUpdated() {
     if (this.#checkboxElementRef.value) {
-      this.#checkboxElementRef.value.checked = this.selected;
+      this.#checkboxElementRef.value.checked = this.selected && !this.disabled;
     }
   }
 

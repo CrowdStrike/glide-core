@@ -2205,6 +2205,12 @@
               }
             },
             {
+              "name": "private-disabled-change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
               "name": "private-editable-change",
               "type": {
                 "text": "Event"

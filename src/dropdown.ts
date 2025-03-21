@@ -392,7 +392,11 @@ export default class GlideCoreDropdown
   private get selectedOptions() {
     return this.#optionElements.filter(
       (option): option is GlideCoreDropdownOption => {
-        return option instanceof GlideCoreDropdownOption && option.selected;
+        return (
+          option instanceof GlideCoreDropdownOption &&
+          option.selected &&
+          !option.disabled
+        );
       },
     );
   }
@@ -964,6 +968,7 @@ export default class GlideCoreDropdown
               @focusin=${this.#onOptionsFocusin}
               @mousedown=${this.#onOptionsMousedown}
               @mouseover=${this.#onOptionsMouseover}
+              @private-disabled-change=${this.#onOptionsDisabledChange}
               @private-editable-change=${this.#onOptionsEditableChange}
               @private-label-change=${this.#onOptionsLabelChange}
               @private-selected-change=${this.#onOptionsSelectedChange}
@@ -1382,9 +1387,12 @@ export default class GlideCoreDropdown
 
     if (this.multiple) {
       this.#value = this.selectedOptions
-        .filter((option) => Boolean(option.value))
+        .filter((option) => Boolean(option.value) && !option.disabled)
         .map(({ value }) => value);
-    } else if (this.lastSelectedOption?.value) {
+    } else if (
+      this.lastSelectedOption?.value &&
+      !this.lastSelectedOption.disabled
+    ) {
       this.#value = [this.lastSelectedOption.value];
     }
 
@@ -2134,6 +2142,35 @@ export default class GlideCoreDropdown
         return;
       }
     }
+  }
+
+  #onOptionsDisabledChange(event: Event) {
+    if (
+      event.target instanceof GlideCoreDropdownOption &&
+      event.target.disabled &&
+      event.target.selected
+    ) {
+      // TODO: say why splice out only one
+      const index = this.#value.lastIndexOf(event.target.value);
+      this.#value.splice(index, index + 1);
+    } else if (
+      this.multiple &&
+      event.target instanceof GlideCoreDropdownOption &&
+      event.target.selected &&
+      event.target.value
+    ) {
+      this.#value.push(event.target.value);
+    } else if (
+      event.target instanceof GlideCoreDropdownOption &&
+      event.target.selected &&
+      event.target.value &&
+      event.target === this.lastSelectedOption
+    ) {
+      this.#value = [event.target.value];
+    }
+
+    // TODO: say why
+    this.requestUpdate();
   }
 
   #onOptionsEditableChange() {
