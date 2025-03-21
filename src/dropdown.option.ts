@@ -127,27 +127,8 @@ export default class GlideCoreDropdownOption extends LitElement {
     this.#selected = isSelected;
     this.ariaSelected = isSelected.toString();
 
-    if (this.isMultiple) {
-      if (this.#checkboxElementRef.value) {
-        this.#checkboxElementRef.value.checked = isSelected;
-      }
-    } else {
-      // When not `this.isMultiple`, only one option may be selected at the time. This handles
-      // deselecting every other option when a new one is selected.
-      //
-      // Siblings modifying siblings is unusual but simplifies things for Dropdown. Dropdown
-      // selects and deselects options in various situations. So it's simpler and more reliable
-      // to iterate through them once here instead of doing so multiple times in Dropdown or
-      // else abstracting the deselection into a Dropdown method that will result in a bug
-      // when not used.
-      //
-      // `this.privateActive` would get the same treatment if not for Select All, which is in
-      // Dropdown's shadow DOM and so is inaccessible from this component.
-      for (const option of this.#optionElements) {
-        if (option !== this && this.selected && option.selected) {
-          option.selected = false;
-        }
-      }
+    if (this.isMultiple && this.#checkboxElementRef.value) {
+      this.#checkboxElementRef.value.checked = isSelected;
     }
 
     // Prefixed with "private" because Dropdown uses it internally, to track the set of
@@ -180,6 +161,11 @@ export default class GlideCoreDropdownOption extends LitElement {
     return (
       this.privateMultiple || this.closest('glide-core-dropdown')?.multiple
     );
+  }
+
+  @state()
+  private get lastSelectedOption() {
+    return this.#optionElements.findLast((option) => option.selected);
   }
 
   override click() {
@@ -381,7 +367,7 @@ export default class GlideCoreDropdownOption extends LitElement {
                 </div>
               </glide-core-tooltip>
 
-              ${when(this.selected, () => {
+              ${when(this.selected && this === this.lastSelectedOption, () => {
                 return html`<div
                   class="checked-icon-container"
                   data-test="checked-icon-container"

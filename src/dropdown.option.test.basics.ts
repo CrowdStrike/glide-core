@@ -12,21 +12,6 @@ it('registers itself', async () => {
   );
 });
 
-it('is selectable', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
-    html`<glide-core-dropdown-option
-      label="Label"
-      selected
-    ></glide-core-dropdown-option>`,
-  );
-
-  const checkedIconContainer = host.shadowRoot?.querySelector(
-    '[data-test="checked-icon-container"] svg',
-  );
-
-  expect(checkedIconContainer?.checkVisibility()).to.be.true;
-});
-
 it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 

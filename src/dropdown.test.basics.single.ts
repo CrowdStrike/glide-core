@@ -1,4 +1,4 @@
-import { expect, fixture, html } from '@open-wc/testing';
+import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdown from './dropdown.js';
 import type GlideCoreDropdownOption from './dropdown.option.js';
 
@@ -166,4 +166,39 @@ it('has no icon when no option is selected', async () => {
   );
 
   expect(iconSlot).to.be.null;
+});
+
+it('only shows the last selected option as selected when multiple are selected initially', async () => {
+  const host = await fixture(
+    html`<glide-core-dropdown label="Label" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  expect(
+    options[0]?.shadowRoot
+      ?.querySelector('[data-test="checked-icon-container"] svg')
+      ?.checkVisibility(),
+  ).to.not.be.ok;
+
+  expect(
+    options[1]?.shadowRoot
+      ?.querySelector('[data-test="checked-icon-container"] svg')
+      ?.checkVisibility(),
+  ).to.be.true;
 });
