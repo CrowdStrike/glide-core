@@ -218,7 +218,7 @@ jobs:
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
       - name: Deploy HTML report
         run: aws s3 sync ./playwright-report s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }}/visual-test-report --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
-      - uses: marocchino/sticky-pull-request-comment@v2
+      - uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728
         with:
           header: visual-test-report
           message: |+
@@ -274,7 +274,7 @@ jobs:
           path: storybook
       - name: Deploy Storybook
         run: aws s3 sync ./storybook s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }} --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
-      - uses: marocchino/sticky-pull-request-comment@v2
+      - uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728
         with:
           header: storybook
           message: |+
