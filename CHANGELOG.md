@@ -1,5 +1,38 @@
 # @crowdstrike/glide-core
 
+## 0.22.0
+
+### Minor Changes
+
+- [#773](https://github.com/CrowdStrike/glide-core/pull/773) [`d678bce`](https://github.com/CrowdStrike/glide-core/commit/d678bce537912dedfb0e07460d3523baa210e7a1) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Input's `pattern` validation now matches native behavior:
+
+  - Requires a full string `value` match instead of a partial match.
+  - Empty values are considered valid when `pattern` is present.
+
+- [#777](https://github.com/CrowdStrike/glide-core/pull/777) [`e77f4e8`](https://github.com/CrowdStrike/glide-core/commit/e77f4e819995747c17cb8022d3e878fe673f76f8) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tree components have been removed from Core due to their limited use.
+
+- [#781](https://github.com/CrowdStrike/glide-core/pull/781) [`99bc0ca`](https://github.com/CrowdStrike/glide-core/commit/99bc0caede5cb8d59ba63864860ffdbff88cac35) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Textarea no longer exposes a `rows` attribute. Following the design guidelines, Textarea is three rows by default, with the ability to grow to five based on the value entered.
+
+- [#765](https://github.com/CrowdStrike/glide-core/pull/765) [`2211d30`](https://github.com/CrowdStrike/glide-core/commit/2211d30acda53e220953bd0d042602c7e5f07295) Thanks [@clintcs](https://github.com/clintcs)! - - When `value` is set initially and a Checkbox is checked, Checkbox Group now defers to the checked Checkbox and overwrites its own initial `value`.
+  - Checkbox Group now enables disabled Checkboxes whose `value` is included in Checkbox Group's `value`.
+  - Dropdown now enables disabled Dropdown Options whose `value` is included in Dropdown's `value`.
+
+### Patch Changes
+
+- [#784](https://github.com/CrowdStrike/glide-core/pull/784) [`ee2fe74`](https://github.com/CrowdStrike/glide-core/commit/ee2fe743972996044552053387bb3c0a85932e12) Thanks [@clintcs](https://github.com/clintcs)! - Radio Group no longer makes every Radio tabbable when Radio Group is enabled programmatically.
+
+- [#785](https://github.com/CrowdStrike/glide-core/pull/785) [`bddcbba`](https://github.com/CrowdStrike/glide-core/commit/bddcbbaa5c06ec4a3a3a614d4afc071cec1ee759) Thanks [@clintcs](https://github.com/clintcs)! - - Multiselect Dropdown no longer deselects initially selected options on first render.
+
+  - Single-select Dropdown now only shows a checkmark for the last selected option if multiple are selected. Dropdown already only includes in its `value` the `value` of the last selected option. This change brings what the user sees as selected in line with what's submitted with the form.
+
+- [#786](https://github.com/CrowdStrike/glide-core/pull/786) [`afa1b9d`](https://github.com/CrowdStrike/glide-core/commit/afa1b9db8040f84d04918ac5ce3d7648afd31568) Thanks [@clintcs](https://github.com/clintcs)! - - Checkboxes when disabled and used with Checkbox Group now show a `not-allowed` cursor on hover.
+
+  - Multiselectable Dropdown Options when disabled now show a `not-allowed` cursor on hover.
+
+- [#765](https://github.com/CrowdStrike/glide-core/pull/765) [`2211d30`](https://github.com/CrowdStrike/glide-core/commit/2211d30acda53e220953bd0d042602c7e5f07295) Thanks [@clintcs](https://github.com/clintcs)! - Checkbox Group now supports setting its `value` on initial render.
+
+- [#783](https://github.com/CrowdStrike/glide-core/pull/783) [`5293765`](https://github.com/CrowdStrike/glide-core/commit/52937659388cabfcdf0875c397bfe7b9c5c81415) Thanks [@clintcs](https://github.com/clintcs)! - Tag now truncates with an ellipsis when it would otherwise overflow its container.
+
 ## 0.21.0
 
 ### Minor Changes
