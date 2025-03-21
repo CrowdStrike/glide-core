@@ -57,6 +57,15 @@ export default class GlideCoreDropdownOption extends LitElement {
   set disabled(isDisabled: boolean) {
     this.role = isDisabled ? 'none' : 'option';
     this.#isDisabled = isDisabled;
+
+    if (this.#checkboxElementRef.value?.checked && isDisabled) {
+      this.#checkboxElementRef.value.checked = false;
+    } else if (this.#checkboxElementRef.value && this.selected && !isDisabled) {
+      this.#checkboxElementRef.value.checked = true;
+    }
+
+    this.ariaSelected = !isDisabled && this.selected ? 'true' : 'false';
+    this.dispatchEvent(new Event('private-disabled-change', { bubbles: true }));
   }
 
   /**
@@ -125,7 +134,7 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   set selected(isSelected) {
     this.#selected = isSelected;
-    this.ariaSelected = isSelected.toString();
+    this.ariaSelected = !this.disabled && isSelected ? 'true' : 'false';
 
     if (this.isMultiple && this.#checkboxElementRef.value) {
       this.#checkboxElementRef.value.checked = isSelected;
@@ -164,8 +173,14 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   @state()
-  private get lastSelectedOption() {
-    return this.#optionElements.findLast((option) => option.selected);
+  private get lastSelectedOption(): GlideCoreDropdownOption | undefined {
+    const options = this.parentElement?.querySelectorAll(
+      'glide-core-dropdown-option',
+    );
+
+    if (options && options.length > 0) {
+      return [...options].findLast((option) => option.selected);
+    }
   }
 
   override click() {
@@ -186,7 +201,7 @@ export default class GlideCoreDropdownOption extends LitElement {
     // These three are likewise on the host due to `aria-activedescendant`. The active
     // descendant must be the element with `ariaSelected` and `role`, and also has
     // to be programmatically focusable.
-    this.ariaSelected = this.selected.toString();
+    this.ariaSelected = !this.disabled && this.selected ? 'true' : 'false';
     this.role = this.disabled ? 'none' : 'option';
     this.tabIndex = -1;
 
@@ -211,7 +226,7 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   override firstUpdated() {
     if (this.#checkboxElementRef.value) {
-      this.#checkboxElementRef.value.checked = this.selected;
+      this.#checkboxElementRef.value.checked = this.selected && !this.disabled;
     }
   }
 
@@ -367,14 +382,19 @@ export default class GlideCoreDropdownOption extends LitElement {
                 </div>
               </glide-core-tooltip>
 
-              ${when(this.selected && this === this.lastSelectedOption, () => {
-                return html`<div
-                  class="checked-icon-container"
-                  data-test="checked-icon-container"
-                >
-                  ${checkedIcon}
-                </div>`;
-              })}
+              ${when(
+                this.selected &&
+                  this === this.lastSelectedOption &&
+                  !this.disabled,
+                () => {
+                  return html`<div
+                    class="checked-icon-container"
+                    data-test="checked-icon-container"
+                  >
+                    ${checkedIcon}
+                  </div>`;
+                },
+              )}
 
               ${when(this.editable, () => {
                 return html`<button
@@ -426,15 +446,6 @@ export default class GlideCoreDropdownOption extends LitElement {
   #selected = false;
 
   #value = '';
-
-  get #optionElements() {
-    const elements =
-      this.closest('glide-core-dropdown')?.querySelectorAll(
-        'glide-core-dropdown-option',
-      ) ?? [];
-
-    return [...elements];
-  }
 
   #onCheckboxClick(event: MouseEvent) {
     // Form controls emit two events when their labels are clicked: one from the

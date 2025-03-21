@@ -342,3 +342,25 @@ it('has no "single-select" icon', async () => {
 
   expect(iconSlot).to.be.null;
 });
+
+it('does not include in its `value` disabled options that are selected', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        disabled
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  expect(host.value).to.deep.equal([]);
+});

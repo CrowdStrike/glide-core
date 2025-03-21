@@ -58,3 +58,36 @@ it('sets `privateIsEditActive`', async () => {
   await hover(button, 'outside');
   expect(host.privateIsEditActive).to.be.false;
 });
+
+it('is checked when selected and programmatically enabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      private-multiple
+      disabled
+      selected
+    ></glide-core-dropdown-option>`,
+  );
+
+  host.disabled = false;
+  await host.updateComplete;
+
+  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  expect(checkbox?.checked).to.be.true;
+});
+
+it('is unchecked when selected and programmatically disabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      private-multiple
+      selected
+    ></glide-core-dropdown-option>`,
+  );
+
+  host.disabled = true;
+  await host.updateComplete;
+
+  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  expect(checkbox?.checked).to.be.false;
+});

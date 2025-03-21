@@ -2205,6 +2205,12 @@
               }
             },
             {
+              "name": "private-disabled-change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
               "name": "private-editable-change",
               "type": {
                 "text": "Event"
@@ -2380,7 +2386,7 @@
           "slots": [
             {
               "name": "icon:value",
-              "description": "Icons for the selected option or options. Slot one icon per option. \\`<value>\\` should be equal to the \\`value\\` of each option.",
+              "description": "Icons for the selected option or options. Slot one icon per Dropdown Option. \\`<value>\\` should be equal to the \\`value\\` of each Dropdown Option.",
               "type": {
                 "text": "Element"
               }

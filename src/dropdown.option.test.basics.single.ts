@@ -1,7 +1,7 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
-it('seta `aria-selected` when selected', async () => {
+it('sets `aria-selected` when selected', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -12,7 +12,7 @@ it('seta `aria-selected` when selected', async () => {
   expect(host.ariaSelected).to.equal('true');
 });
 
-it('does not set `aria-selected` when unselected', async () => {
+it('sets `aria-selected` when unselected', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -32,4 +32,35 @@ it('is editable', async () => {
 
   const button = host.shadowRoot?.querySelector('[data-test="edit-button"]');
   expect(button?.checkVisibility()).to.be.true;
+});
+
+it('is checked when selected', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      selected
+    ></glide-core-dropdown-option>`,
+  );
+
+  const checkmark = host.shadowRoot?.querySelector(
+    '[data-test="checked-icon-container"] svg',
+  );
+
+  expect(checkmark?.checkVisibility()).to.be.true;
+});
+
+it('is unchecked when selected and disabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      selected
+      disabled
+    ></glide-core-dropdown-option>`,
+  );
+
+  const checkmark = host.shadowRoot?.querySelector(
+    '[data-test="checked-icon-container"] svg',
+  );
+
+  expect(checkmark?.checkVisibility()).to.not.be.ok;
 });

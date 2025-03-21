@@ -202,3 +202,18 @@ it('only shows the last selected option as selected when multiple are selected i
       ?.checkVisibility(),
   ).to.be.true;
 });
+
+it('does not include in its `value` disabled options that are selected', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="Label"
+        value="value"
+        disabled
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  expect(host.value).to.deep.equal([]);
+});

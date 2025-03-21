@@ -700,3 +700,106 @@ it('unhides its options when made unfilterable', async () => {
 
   expect(options.length).to.equal(2);
 });
+
+it('adds the `value` of a programmatically enabled option to its `value`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+
+  assert(option);
+  option.disabled = false;
+
+  expect(host.value).to.deep.equal(['one']);
+});
+
+it('removes the `value` of a programmatically disabled option from its `value`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+
+  assert(option);
+  option.disabled = true;
+
+  expect(host.value).to.deep.equal([]);
+  expect(option.selected).to.be.true;
+});
+
+it('updates its internal label when a selected option is enabled programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.disabled = false;
+  await host.updateComplete;
+
+  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
+  expect(label?.textContent?.trim()).to.equal('One');
+});
+
+it('updates its internal label when a selected option is disabled programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.disabled = true;
+  await host.updateComplete;
+
+  const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
+  expect(label?.textContent?.trim()).to.equal('');
+});
