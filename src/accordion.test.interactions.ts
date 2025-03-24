@@ -106,7 +106,7 @@ it('closes on click when animated', async () => {
     </glide-core-accordion>`,
   );
 
-  await click(host);
+  click(host);
 
   let animation: Animation | undefined;
   let isAnimationFinished = false;

@@ -3,6 +3,7 @@ import '../src/styles/variables.css';
 import { addons, types, useStorybookApi } from '@storybook/manager-api';
 import { create } from '@storybook/theming/create';
 import { html } from 'lit';
+import { STORY_RENDERED } from '@storybook/core-events';
 import { IconButton, Icons } from '@storybook/components';
 import logo from './assets/logo.png';
 import React from 'react';
@@ -33,6 +34,17 @@ addons.register('github', () => {
         </IconButton>
       );
     },
+  });
+});
+
+addons.register('title', (api) => {
+  api?.on(STORY_RENDERED, () => {
+    const storyData = api.getCurrentStoryData();
+
+    document.title =
+      storyData && storyData.title
+        ? `${storyData.title} ⋅ Glide Core`
+        : 'Glide Core';
   });
 });
 
