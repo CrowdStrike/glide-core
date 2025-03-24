@@ -1,0 +1,12 @@
+import './button.js';
+import './icons/storybook.js';
+import './tooltip.js';
+import type { Meta, StoryObj } from '@storybook/web-components';
+declare const meta: Meta;
+export default meta;
+export declare const Modal: StoryObj;
+export declare const WithHeaderActions: StoryObj;
+export declare const WithPrimaryButton: StoryObj;
+export declare const WithSecondaryButton: StoryObj;
+export declare const WithTertiaryTooltipAndButton: StoryObj;
+export declare const KitchenSink: StoryObj;

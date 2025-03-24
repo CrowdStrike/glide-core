@@ -1,0 +1,1013 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+import { LitElement } from 'lit';
+import { assert, aTimeout, expect, fixture, html, oneEvent, } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import { sendKeys } from '@web/test-runner-commands';
+import { styleMap } from 'lit/directives/style-map.js';
+import { click, hover } from './library/mouse.js';
+import GlideCoreDropdown from './dropdown.js';
+import GlideCoreDropdownOption from './dropdown.option.js';
+import GlideCoreTag from './tag.js';
+let GlideCoreDropdownInAnotherComponent = class GlideCoreDropdownInAnotherComponent extends LitElement {
+    render() {
+        return html `<glide-core-dropdown label="Label" multiple open>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+    </glide-core-dropdown>`;
+    }
+};
+GlideCoreDropdownInAnotherComponent = __decorate([
+    customElement('glide-core-dropdown-in-another-component')
+], GlideCoreDropdownInAnotherComponent);
+it('opens on click', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    await click(host.shadowRoot?.querySelector('[data-test="primary-button"]'));
+    const options = host.shadowRoot?.querySelector('[data-test="options"]');
+    expect(host.open).to.be.true;
+    expect(options?.checkVisibility()).to.be.true;
+});
+it('toggles open and closed when the button is clicked', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    await click(host.shadowRoot?.querySelector('[data-test="primary-button"]'));
+    const options = host.shadowRoot?.querySelector('[data-test="options"]');
+    expect(host.open).to.be.false;
+    expect(options?.checkVisibility()).to.be.false;
+});
+it('selects options on click', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    await click(options[0]);
+    await click(options[1]);
+    const labels = host.shadowRoot?.querySelectorAll('[data-test="selected-option-label"]');
+    expect(options[0]?.selected).to.be.true;
+    expect(labels?.length).to.equal(2);
+    expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+    expect(labels?.[1]?.textContent?.trim()).to.equal('Two,');
+    expect(host.value).to.deep.equal(['one', 'two']);
+});
+it('deselects options on click', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    await click(options[0]);
+    await click(options[1]);
+    const labels = host.shadowRoot?.querySelectorAll('[data-test="selected-option-label"]');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.false;
+    expect(labels?.length).to.equal(0);
+    expect(host.value).to.deep.equal([]);
+});
+it('does not select a disabled option on click', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const option = host.querySelector('glide-core-dropdown-option');
+    await click(option);
+    const labels = host.shadowRoot?.querySelectorAll('[data-test="selected-option-label"]');
+    expect(option?.selected).to.be.false;
+    expect(labels?.length).to.equal(0);
+    expect(host.value).to.deep.equal([]);
+});
+it('selects options on Space', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    options[0]?.focus();
+    await sendKeys({ press: ' ' });
+    options[1]?.focus();
+    await sendKeys({ press: ' ' });
+    await host.updateComplete;
+    const labels = host.shadowRoot?.querySelectorAll('[data-test="selected-option-label"]');
+    expect(options[0]?.selected).to.be.true;
+    expect(options[1]?.selected).to.be.true;
+    expect(labels?.length).to.equal(2);
+    expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+    expect(labels?.[1]?.textContent?.trim()).to.equal('Two,');
+    expect(host.value).to.deep.equal(['one', 'two']);
+});
+it('deselects options on Space', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    options[0]?.focus();
+    await sendKeys({ press: ' ' });
+    options[1]?.focus();
+    await sendKeys({ press: ' ' });
+    await host.updateComplete;
+    const labels = host.shadowRoot?.querySelectorAll('[data-test="selected-option-label"]');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.false;
+    expect(labels?.length).to.equal(0);
+    expect(host.value).to.deep.equal([]);
+});
+it('selects options on Enter', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    options[0]?.focus();
+    await sendKeys({ press: 'Enter' });
+    options[1]?.focus();
+    await sendKeys({ press: 'Enter' });
+    const labels = host.shadowRoot?.querySelectorAll('[data-test="selected-option-label"]');
+    expect(options[0]?.selected).to.be.true;
+    expect(options[1]?.selected).to.be.true;
+    expect(labels?.length).to.equal(2);
+    expect(labels?.[0]?.textContent?.trim()).to.equal('One,');
+    expect(labels?.[1]?.textContent?.trim()).to.equal('Two,');
+    expect(host.value).to.deep.equal(['one', 'two']);
+});
+it('deselects options on Enter', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    options[0]?.focus();
+    await sendKeys({ press: 'Enter' });
+    options[1]?.focus();
+    await sendKeys({ press: 'Enter' });
+    const labels = host.shadowRoot?.querySelectorAll('[data-test="selected-option-label"]');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.false;
+    expect(labels?.length).to.equal(0);
+    expect(host.value).to.deep.equal([]);
+});
+it('activates Select All by default', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple select-all>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    const selectAll = host.shadowRoot?.querySelector('[data-test="select-all"]');
+    expect(selectAll?.privateActive).to.be.true;
+    expect(options[0]?.privateActive).to.be.false;
+    expect(options[1]?.privateActive).to.be.false;
+});
+it('deactivates all other options when an option is hovered', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple select-all>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = [
+        ...host.querySelectorAll('glide-core-dropdown-option'),
+        host.shadowRoot?.querySelector('[data-test="select-all"]'),
+    ];
+    await hover(options[0]);
+    await hover(options[1]);
+    expect(options[0]?.privateActive).to.be.false;
+    expect(options[1]?.privateActive).to.be.true;
+    expect(options[2]?.privateActive).to.be.false;
+});
+it('remains open when an option is selected via click', async () => {
+    const host = await fixture(html `<glide-core-dropdown-in-another-component></glide-core-dropdown-in-another-component>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    await click(host.shadowRoot?.querySelector('glide-core-dropdown-option'));
+    const dropdown = host.shadowRoot?.querySelector('glide-core-dropdown');
+    expect(dropdown?.open).to.be.true;
+});
+it('remains open when an option is selected via Enter', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.querySelector('glide-core-dropdown-option')?.focus();
+    await sendKeys({ press: 'Enter' });
+    expect(host.open).to.be.true;
+});
+it('remains open when an option is selected via Space', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const option = host.querySelector('glide-core-dropdown-option');
+    option?.focus();
+    await sendKeys({ press: ' ' });
+    expect(host.open).to.be.true;
+});
+it('activates Select All on hover', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    await hover(options[0]);
+    expect(options[0]?.privateActive).to.be.true;
+});
+it('does not activate the next option on ArrowDown when a tag is focused', async () => {
+    // This test only accounts for when ArrowDown is pressed. Other keys like
+    // ArrowUp and Home are left untested to avoid an additional seven or so
+    // tests. Only testing ArrowDown is hopefully sufficient.
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    host.shadowRoot?.querySelector('[data-test="tag"]')?.focus();
+    await sendKeys({ press: 'ArrowDown' });
+    expect(options[0]?.privateActive).to.be.true;
+});
+it('updates its tag when `label` of a selected option is set programmatically', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    const option = host.querySelector('glide-core-dropdown-option');
+    assert(option);
+    option.label = 'Three';
+    await host.updateComplete;
+    const tag = host.shadowRoot?.querySelector('[data-test="tag"]');
+    expect(tag?.label).to.equal('Three');
+});
+it('makes its tag editable when `editable` of a selected option is set programmatically', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    const option = host.querySelector('glide-core-dropdown-option');
+    assert(option);
+    option.editable = true;
+    await host.updateComplete;
+    const tag = host.shadowRoot?.querySelector('[data-test="tag"]');
+    expect(tag?.privateEditable).to.be.true;
+});
+it('selects and deselects options when `value` is set programmatically', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    host.value = ['two', 'three'];
+    await host.updateComplete;
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.true;
+    expect(options[2]?.selected).to.be.true;
+});
+it('selects no options when `value` is set programmatically to an empty string and some options have no `value`', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    host.value = [''];
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.false;
+    expect(options[2]?.selected).to.be.false;
+});
+it('does not update `value` when a disabled option is selected via click', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    await click(host.querySelector('glide-core-dropdown-option'));
+    expect(host.value).to.deep.equal([]);
+});
+it('updates `value` when multiselect is changed to `true` programmatically', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    host.multiple = true;
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(host.value).to.deep.equal(['two']);
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.true;
+    await options[1]?.updateComplete;
+    const checkbox = options[1]?.shadowRoot?.querySelector('[data-test="checkbox"]');
+    expect(checkbox?.checked).to.be.true;
+});
+it('updates `value` when the `value` of a selected option is set programmatically', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    const option = host.querySelector('glide-core-dropdown-option');
+    assert(option);
+    option.value = 'three';
+    expect(host.value).to.deep.equal(['three', 'two']);
+});
+it('updates `value` when the `value` of a selected option is emptied programmatically', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    const option = host.querySelector('glide-core-dropdown-option');
+    assert(option);
+    option.value = '';
+    expect(host.value).to.deep.equal(['two']);
+});
+it('does not add duplicate values to `value` when `value` is set programmatically', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    host.value = ['one', 'two'];
+    expect(host.value).to.deep.equal(['one', 'two']);
+});
+it('has no internal label when an option is newly selected', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    await click(host.querySelector('glide-core-dropdown-option:last-of-type'));
+    const label = host.shadowRoot?.querySelector('[data-test="internal-label"]');
+    expect(label?.checkVisibility()).to.not.be.ok;
+});
+it('hides tags to prevent overflow', async () => {
+    const host = await fixture(html `<glide-core-dropdown
+      label="Label"
+      style=${styleMap({
+        display: 'block',
+        maxWidth: '20rem',
+    })}
+      multiple
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    await click(options[0]);
+    await click(options[1]);
+    await click(options[2]);
+    await click(options[3]);
+    // Wait for the Resize Observer to do its thing.
+    await aTimeout(0);
+    const tagContainers = [
+        ...(host.shadowRoot?.querySelectorAll('[data-test="tag-container"]') ?? []),
+    ].filter((element) => element.checkVisibility());
+    expect(tagContainers?.length).to.equal(2);
+});
+it('has overflow text when its tags are overflowing', async () => {
+    const host = await fixture(html `<glide-core-dropdown
+      label="Label"
+      style=${styleMap({
+        display: 'block',
+        maxWidth: '20rem',
+    })}
+      multiple
+      open
+    >
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    await click(options[0]);
+    await click(options[1]);
+    await click(options[2]);
+    await click(options[3]);
+    // Wait for the Resize Observer to do its thing.
+    await aTimeout(0);
+    const tagOverflow = host.shadowRoot?.querySelector('[data-test="tag-overflow-count"]');
+    expect(tagOverflow?.textContent?.trim()).to.equal('2');
+});
+it('deselects an option when its tag is removed', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    host.shadowRoot?.querySelector('[data-test="tag"]')?.click();
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.true;
+    expect(host.value).to.deep.equal(['two']);
+});
+it('deselects all but the last selected option when `multiple` is changed to `false` programmatically', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    host.multiple = false;
+    await host.updateComplete;
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    const labels = host.shadowRoot?.querySelectorAll('[data-test="selected-option-label"]');
+    expect(options[0]?.selected).be.false;
+    expect(options[1]?.selected).be.true;
+    expect(labels?.length).to.equal(1);
+    expect(labels?.[0]?.textContent?.trim()).to.equal('Two,');
+    expect(host.value).to.deep.equal(['two']);
+});
+it('selects all enabled options when none are selected and Select All is selected via click', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        disabled
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    await click(host.shadowRoot?.querySelector('[data-test="select-all"]'));
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.true;
+    expect(options[2]?.selected).to.be.true;
+    expect(host.value).to.deep.equal(['two', 'three']);
+});
+it('selects all enabled options when some are selected and Select All is selected via click', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        disabled
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Four"
+        value="four"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    await click(host.shadowRoot?.querySelector('[data-test="select-all"]'));
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.true;
+    expect(options[1]?.selected).to.be.false;
+    expect(options[2]?.selected).to.be.true;
+    expect(options[3]?.selected).to.be.true;
+    expect(host.value).to.deep.equal(['one', 'three', 'four']);
+});
+it('deselects all options when all are selected and Select All is selected via click', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    await click(host.shadowRoot?.querySelector('[data-test="select-all"]'));
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.false;
+    expect(host.value).to.deep.equal([]);
+});
+it('selects all enabled options when none are selected and Select All is selected via Space', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.focus();
+    await sendKeys({ press: ' ' });
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.true;
+    expect(options[2]?.selected).to.be.true;
+    expect(host.value).to.deep.equal(['two', 'three']);
+});
+it('selects all options when some are selected and Select All is selected via Space', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.focus();
+    await sendKeys({ press: 'ArrowUp' });
+    await sendKeys({ press: ' ' });
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.true;
+    expect(options[1]?.selected).to.be.true;
+    expect(host.value).to.deep.equal(['one', 'two']);
+});
+it('deselects all options when all are selected and Select All is selected via Space', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.focus();
+    await sendKeys({ press: 'Home' });
+    await sendKeys({ press: ' ' });
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.false;
+    expect(host.value).to.deep.equal([]);
+});
+it('selects all enabled options when none are selected and Select All is selected via Enter', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.focus();
+    await sendKeys({ press: 'Enter' });
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.true;
+    expect(options[2]?.selected).to.be.true;
+    expect(host.value).to.deep.equal(['two', 'three']);
+});
+it('selects all enabled options when some are selected and Select All is selected via Enter', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        disabled
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Three"
+        value="three"
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Four"
+        value="four"
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.focus();
+    await sendKeys({ press: 'ArrowUp' });
+    await sendKeys({ press: 'Enter' });
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.true;
+    expect(options[1]?.selected).to.be.false;
+    expect(options[2]?.selected).to.be.true;
+    expect(options[3]?.selected).to.be.true;
+    expect(host.value).to.deep.equal(['one', 'three', 'four']);
+});
+it('deselects all options when all are selected and Select All is selected via Enter', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.focus();
+    await sendKeys({ press: 'Home' });
+    await sendKeys({ press: 'Enter' });
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    expect(options[0]?.selected).to.be.false;
+    expect(options[1]?.selected).to.be.false;
+    expect(host.value).to.deep.equal([]);
+});
+it('shows Select All when it is set programmatically', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.selectAll = true;
+    await host.updateComplete;
+    const selectAll = host.shadowRoot?.querySelector('[data-test="select-all"]');
+    expect(selectAll?.checkVisibility()).to.be.true;
+});
+it('sets Select All as selected when all enabled options are selected', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option
+        label="One"
+        disabled
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    await click(options[1]);
+    await click(options[2]);
+    const selectAll = host.shadowRoot?.querySelector('[data-test="select-all"]');
+    expect(selectAll?.selected).to.be.true;
+});
+it('sets Select All as deselected when no options are selected', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    await click(options[0]);
+    await click(options[1]);
+    await click(options[0]);
+    await click(options[1]);
+    const selectAll = host.shadowRoot?.querySelector('[data-test="select-all"]');
+    expect(selectAll?.selected).to.be.false;
+});
+it('sets Select All as indeterminate when not all options are selected', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    await click(host.querySelector('glide-core-dropdown-option'));
+    const selectAll = host.shadowRoot?.querySelector('[data-test="select-all"]');
+    expect(selectAll?.privateIndeterminate).to.be.true;
+});
+it('does not set Select All as indeterminate when no options are selected', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple open select-all>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    await click(options[0]);
+    await click(options[0]);
+    const selectAll = host.shadowRoot?.querySelector('[data-test="select-all"]');
+    expect(selectAll?.privateIndeterminate).to.be.false;
+});
+it('does not set Select All as indeterminate when all options are selected', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple select-all>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+    await click(options[0]);
+    await click(options[1]);
+    const selectAll = host.shadowRoot?.querySelector('[data-test="select-all"]');
+    expect(selectAll?.privateIndeterminate).to.be.false;
+});
+it('closes when a tag is clicked', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    await click(host.shadowRoot?.querySelector('[data-test="tag"]'), 'left');
+    await host.updateComplete;
+    expect(host.open).to.be.false;
+});
+it('closes on edit via click', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    await click(host.shadowRoot
+        ?.querySelector('glide-core-tag')
+        ?.shadowRoot?.querySelector('[data-test="edit-button"]'));
+    expect(host.open).to.be.false;
+});
+it('closes on edit via Enter', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.shadowRoot
+        ?.querySelector('glide-core-tag')
+        ?.shadowRoot?.querySelector('[data-test="edit-button"]')
+        ?.focus();
+    await sendKeys({ press: 'Enter' });
+    expect(host.open).to.be.false;
+});
+it('closes on edit via Space', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" open multiple>
+      <glide-core-dropdown-option
+        label="One"
+        editable
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    // Wait for Floating UI.
+    await aTimeout(0);
+    host.shadowRoot
+        ?.querySelector('glide-core-tag')
+        ?.shadowRoot?.querySelector('[data-test="edit-button"]')
+        ?.focus();
+    await sendKeys({ press: ' ' });
+    expect(host.open).to.be.false;
+});
+it('cannot be tabbed to when disabled', async () => {
+    await fixture(html `<glide-core-dropdown label="Label" disabled multiple>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    await sendKeys({ press: 'Tab' });
+    expect(document.activeElement).to.equal(document.body);
+});
+it('clicks its primary button when `click()` is called', async () => {
+    const host = await fixture(html `<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`);
+    setTimeout(() => {
+        host.click();
+    });
+    const button = host.shadowRoot?.querySelector('[data-test="primary-button"]');
+    assert(button);
+    const event = await oneEvent(button, 'click');
+    expect(event instanceof PointerEvent).to.be.true;
+});

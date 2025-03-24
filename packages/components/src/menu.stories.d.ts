@@ -1,0 +1,10 @@
+import './button.js';
+import './icons/storybook.js';
+import './menu.button.js';
+import './menu.link.js';
+import './menu.options.js';
+import type { Meta, StoryObj } from '@storybook/web-components';
+declare const meta: Meta;
+export default meta;
+export declare const Menu: StoryObj;
+export declare const WithIcons: StoryObj;

@@ -1,0 +1,55 @@
+import { expect, test } from '@playwright/test';
+const stories = JSON.parse(process.env.STORIES ?? '');
+for (const story of stories['Button Group']) {
+    test.describe(story.id, () => {
+        for (const theme of story.themes) {
+            test.describe(theme, () => {
+                test(':focus:nth-of-type(1)', async ({ page }, test) => {
+                    await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+                    await page.getByRole('radio').nth(0).focus();
+                    await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
+                });
+                test(':focus:nth-of-type(2)', async ({ page }, test) => {
+                    await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+                    await page
+                        .locator('glide-core-button-group-button')
+                        .nth(1)
+                        .evaluate((element) => {
+                        element.selected = true;
+                    });
+                    await page.getByRole('radio').nth(1).focus();
+                    await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
+                });
+                test(':hover', async ({ page }, test) => {
+                    await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+                    await page.locator('glide-core-button-group-button').nth(1).hover();
+                    await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
+                });
+                test('orientation="horizontal"', async ({ page }, test) => {
+                    await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+                    await page.locator('glide-core-button-group').waitFor();
+                    await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
+                });
+                test('orientation="vertical"', async ({ page }, test) => {
+                    await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+                    await page
+                        .locator('glide-core-button-group')
+                        .evaluate((element) => {
+                        element.orientation = 'vertical';
+                    });
+                    await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
+                });
+                test('<glide-core-button-group-button>.disabled', async ({ page, }, test) => {
+                    await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+                    await page
+                        .locator('glide-core-button-group-button')
+                        .nth(1)
+                        .evaluate((element) => {
+                        element.disabled = true;
+                    });
+                    await expect(page).toHaveScreenshot(`${test.titlePath.join('.')}.png`);
+                });
+            });
+        }
+    });
+}

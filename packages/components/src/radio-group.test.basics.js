@@ -1,0 +1,205 @@
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+import { expect, fixture, html } from '@open-wc/testing';
+import { customElement } from 'lit/decorators.js';
+import sinon from 'sinon';
+import GlideCoreRadioGroup from './radio-group.js';
+import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
+import expectWindowError from './library/expect-window-error.js';
+let GlideCoreSubclassed = class GlideCoreSubclassed extends GlideCoreRadioGroup {
+};
+GlideCoreSubclassed = __decorate([
+    customElement('glide-core-subclassed')
+], GlideCoreSubclassed);
+it('registers itself', async () => {
+    expect(window.customElements.get('glide-core-radio-group')).to.equal(GlideCoreRadioGroup);
+});
+it('is accessible', async () => {
+    const host = await fixture(html `
+    <glide-core-radio-group
+      label="Label"
+      name="name"
+      value="one"
+      tooltip="Tooltip"
+    >
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
+
+      <div slot="description">Description</div>
+    </glide-core-radio-group>
+  `);
+    await expect(host).to.be.accessible();
+});
+it('can be required', async () => {
+    const host = await fixture(html `
+    <glide-core-radio-group label="Label" required>
+      <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
+      <glide-core-radio-group-radio label="Two"></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+    const radios = host.querySelectorAll('glide-core-radio-group-radio');
+    expect(radios[0]?.ariaRequired).to.equal('true');
+    expect(radios[1]?.ariaRequired).to.equal('true');
+});
+it('can be disabled', async () => {
+    const host = await fixture(html `
+    <glide-core-radio-group label="Label" disabled>
+      <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
+      <glide-core-radio-group-radio label="Two"></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+    const radios = host.querySelectorAll('glide-core-radio-group-radio');
+    expect(radios[0]?.disabled).to.be.true;
+    expect(radios[0]?.ariaDisabled).to.equal('true');
+    expect(radios[1]?.disabled).to.be.true;
+    expect(radios[1]?.ariaDisabled).to.equal('true');
+});
+it('sets `value` when a radio is checked', async () => {
+    const host = await fixture(html `
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+    expect(host.value).to.equal('two');
+});
+it('sets `value` to the last checked radio', async () => {
+    const host = await fixture(html `
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+    expect(host.value).to.equal('two');
+});
+it('makes the first enabled radio tabbable', async () => {
+    const host = await fixture(html `<glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="One"
+        disabled
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio label="Two"></glide-core-radio-group-radio>
+    </glide-core-radio-group>`);
+    const radios = host.querySelectorAll('glide-core-radio-group-radio');
+    expect(radios[0]?.tabIndex).to.equal(-1);
+    expect(radios[1]?.tabIndex).to.equal(0);
+});
+it('makes radios untabbable when disabled', async () => {
+    const host = await fixture(html `<glide-core-radio-group label="Label" disabled>
+      <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
+      <glide-core-radio-group-radio label="Two"></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        checked
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>`);
+    const radios = host.querySelectorAll('glide-core-radio-group-radio');
+    expect(radios[0]?.tabIndex).to.equal(-1);
+    expect(radios[1]?.tabIndex).to.equal(-1);
+    expect(radios[2]?.tabIndex).to.equal(-1);
+});
+it('checks radios when `value` is set initially', async () => {
+    const host = await fixture(html `<glide-core-radio-group label="Label" value="two">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>`);
+    const radios = host.querySelectorAll('glide-core-radio-group-radio');
+    expect(radios[0]?.checked).to.be.false;
+    expect(radios[1]?.checked).to.be.true;
+    // https://github.com/CrowdStrike/glide-core/pull/764#discussion_r1995792862
+    expect(host.value).to.deep.equal('two');
+});
+it('enables radios when `value` is set initially', async () => {
+    const host = await fixture(html `<glide-core-radio-group label="Label" value="two">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        disabled
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>`);
+    const radio = host.querySelector('glide-core-radio-group-radio:nth-of-type(2)');
+    expect(radio?.disabled).to.be.false;
+});
+it('gives precedence to a checked radio over an initial `value`', async () => {
+    const host = await fixture(html `
+    <glide-core-radio-group label="Label" value="one">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+    expect(host.value).to.equal('two');
+});
+it('throws when subclassed', async () => {
+    const spy = sinon.spy();
+    try {
+        new GlideCoreSubclassed();
+    }
+    catch {
+        spy();
+    }
+    expect(spy.callCount).to.equal(1);
+});
+it('throws when it does not have a default slot', async () => {
+    await expectUnhandledRejection(() => {
+        return fixture(html `<glide-core-radio-group label="Label"></glide-core-radio-group>`);
+    });
+});
+it('throws when its default slot is the wrong type', async () => {
+    await expectWindowError(() => {
+        return fixture(html `
+      <glide-core-radio-group label="Label">
+        <div>Option 1</div>
+      </glide-core-radio-group>
+    `);
+    });
+});
