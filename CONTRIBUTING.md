@@ -47,6 +47,7 @@
   - [Why is visual testing set up the way it is?](#why-is-visual-testing-set-up-the-way-it-is)
   - [Why three separate test runners?](#why-three-separate-test-runners)
   - [Why does `main` have a merge queue?](#why-does-main-have-a-merge-queue)
+  - [What should I do when a Dependabot or Release Preview pull request doesn't build?](#what-should-i-do-when-a-dependabot-or-release-preview-pull-request-doesnt-build)
 
 ## Development
 
@@ -812,3 +813,13 @@ But our baseline screenshots won't represent `main`, and Storybook won't include
 This is usually only a problem on larger teams.
 But we figured we'd run into it sooner or later, and merge queues easily solve it.
 Putting `main` merges into a queue forces branches to be deployed sequentially.
+
+#### What should I do when a Dependabot or Release Preview pull request doesn't build?
+
+These pull requests will never build because our `on-pull-request-opened-and-synchronize.yml` workflow accesses secrets, and workflows initiated by a bot or by another workflow have limited permissions.
+Additionally, workflows initiated by another workflow don't run to prevent infinite loops.
+
+For Dependabot pull requests, you'll need to check out and test the branch locally before merging.
+Release Preview pull requests, on the other hand, are safe to merge without local testing.
+
+When you're ready to merge either type of pull request, check the "Merge without waiting for requirements to be met" box (or have someone with the permission check it for you), then merge away.
