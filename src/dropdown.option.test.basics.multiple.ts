@@ -44,3 +44,30 @@ it('is editable', async () => {
   const button = host.shadowRoot?.querySelector('[data-test="edit-button"]');
   expect(button?.checkVisibility()).to.be.true;
 });
+
+it('is unchecked when selected and enabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      private-multiple
+      selected
+    ></glide-core-dropdown-option>`,
+  );
+
+  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  expect(checkbox?.checked).to.be.true;
+});
+
+it('is unchecked when selected and disabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      disabled
+      private-multiple
+      selected
+    ></glide-core-dropdown-option>`,
+  );
+
+  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+  expect(checkbox?.checked).to.be.false;
+});

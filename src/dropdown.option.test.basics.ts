@@ -12,6 +12,39 @@ it('registers itself', async () => {
   );
 });
 
+it('sets `aria-selected` when selected', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      selected
+    ></glide-core-dropdown-option>`,
+  );
+
+  expect(host.ariaSelected).to.equal('true');
+});
+
+it('sets `aria-selected` when unselected', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+    ></glide-core-dropdown-option>`,
+  );
+
+  expect(host.ariaSelected).to.equal('false');
+});
+
+it('sets `aria-selected` when disabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      selected
+      disabled
+    ></glide-core-dropdown-option>`,
+  );
+
+  expect(host.ariaSelected).to.equal('false');
+});
+
 it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 

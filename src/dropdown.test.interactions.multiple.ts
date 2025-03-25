@@ -1410,9 +1410,120 @@ it('clicks its primary button when `click()` is called', async () => {
   });
 
   const button = host.shadowRoot?.querySelector('[data-test="primary-button"]');
-
   assert(button);
 
   const event = await oneEvent(button, 'click');
   expect(event instanceof PointerEvent).to.be.true;
+});
+
+it('adds the `value` of a programmatically enabled option to its `value`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+
+  assert(option);
+  option.disabled = false;
+
+  expect(host.value).to.deep.equal(['two', 'one']);
+});
+
+it('removes the `value` of a programmatically disabled option from its `value`', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label">
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+
+  assert(option);
+  option.disabled = true;
+
+  expect(host.value).to.deep.equal(['two']);
+});
+
+it('updates its tags when a selected option is enabled programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        disabled
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.disabled = false;
+  await host.updateComplete;
+
+  const tagContainers = host.shadowRoot?.querySelectorAll<HTMLElement>(
+    '[data-test="tag-container"]',
+  );
+
+  expect(tagContainers?.length).to.equal(2);
+});
+
+it('updates its tags when a selected option is disabled programmatically', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" multiple>
+      <glide-core-dropdown-option
+        label="One"
+        value="one"
+        selected
+      ></glide-core-dropdown-option>
+
+      <glide-core-dropdown-option
+        label="Two"
+        value="two"
+        selected
+      ></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  const option = host.querySelector('glide-core-dropdown-option');
+  assert(option);
+
+  option.disabled = true;
+  await host.updateComplete;
+
+  const tagContainers = host.shadowRoot?.querySelectorAll<HTMLElement>(
+    '[data-test="tag-container"]',
+  );
+
+  expect(tagContainers?.length).to.equal(1);
 });
