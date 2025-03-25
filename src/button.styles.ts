@@ -35,7 +35,7 @@ export default [
         outline: none;
       }
 
-      &:disabled {
+      &.disabled {
         cursor: not-allowed;
         opacity: 1;
       }
@@ -53,19 +53,19 @@ export default [
         border-color: transparent;
         color: var(--glide-core-text-selected);
 
-        &:disabled {
+        &.disabled {
           background-color: var(--glide-core-surface-disabled);
           border-color: transparent;
           color: var(--glide-core-text-tertiary-disabled);
         }
 
-        &:not(:disabled):active {
+        &:not(.disabled):active {
           background-color: var(--glide-core-surface-selected-hover);
           border-color: transparent;
           color: var(--glide-core-text-selected);
         }
 
-        &:not(:active):hover:not(:disabled) {
+        &:not(:active):hover:not(.disabled) {
           background-color: var(--glide-core-surface-hover);
           border-color: transparent;
           box-shadow: var(--glide-core-glow-sm);
@@ -78,19 +78,19 @@ export default [
         border-color: var(--glide-core-border-primary);
         color: var(--glide-core-text-primary);
 
-        &:disabled {
+        &.disabled {
           background-color: var(--glide-core-surface-disabled);
           border-color: transparent;
           color: var(--glide-core-text-tertiary-disabled);
         }
 
-        &:not(:disabled):active {
+        &:not(.disabled):active {
           background-color: var(--glide-core-surface-selected-hover);
           border-color: transparent;
           color: var(--glide-core-text-selected);
         }
 
-        &:not(:active):hover:not(:disabled) {
+        &:not(:active):hover:not(.disabled) {
           background-color: var(--glide-core-surface-hover);
           border-color: transparent;
           box-shadow: var(--glide-core-glow-sm);
@@ -103,15 +103,15 @@ export default [
         border-color: transparent;
         color: var(--glide-core-text-primary);
 
-        &:disabled {
+        &.disabled {
           color: var(--glide-core-text-tertiary-disabled);
         }
 
-        &:not(:disabled):active {
+        &:not(.disabled):active {
           color: var(--glide-core-text-secondary);
         }
 
-        &:not(:active):hover:not(:disabled) {
+        &:not(:active):hover:not(.disabled) {
           color: var(--glide-core-text-primary-hover);
         }
       }

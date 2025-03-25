@@ -111,7 +111,7 @@ test('slot="tertiary"', async ({ page }, test) => {
       element.open = true;
     });
 
-  await page.locator('glide-core-tooltip').getByRole('button').focus();
+  await page.locator('glide-core-tooltip').first().getByRole('button').focus();
 
   await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot({
     name: `${test.titlePath.join('.')}.yml`,
