@@ -27,7 +27,7 @@ jobs:
   release-preview:
     name: Release Preview
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
     timeout-minutes: 5
     runs-on: ubuntu-latest
