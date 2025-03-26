@@ -34,7 +34,7 @@ it('opens on click when animated', async () => {
     html`<glide-core-accordion label="Label">Content</glide-core-accordion>`,
   );
 
-  await click(host.shadowRoot?.querySelector('[data-test="summary"]'));
+  click(host.shadowRoot?.querySelector('[data-test="summary"]'));
 
   let animation: Animation | undefined;
   let isAnimationFinished = false;
