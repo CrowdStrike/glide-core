@@ -38,7 +38,7 @@ jobs:
       - uses: ./.github/actions/pnpm
       - name: Create Release Pull Request
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@ff7179cf129faeb3e444f56e6290adef5901f936
         with:
           title: Release Preview
           commit: Version package
