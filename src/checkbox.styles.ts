@@ -47,6 +47,9 @@ export default [
 
     .checkbox {
       align-items: center;
+      background-color: var(
+        --glide-core-private-color-checkbox-surface-background-idle
+      );
       block-size: 100%;
       border: 1px solid var(--glide-core-color-interactive-stroke-contrast);
       border-radius: var(--glide-core-rounding-base-radius-xs);
