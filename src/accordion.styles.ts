@@ -78,7 +78,7 @@ export default [
     .default-slot {
       color: var(--glide-core-color-static-text-default);
       display: block;
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       overflow: hidden;
       padding-block-end: var(--glide-core-spacing-base-sm);

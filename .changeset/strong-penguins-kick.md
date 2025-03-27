@@ -19,6 +19,7 @@ Our CSS custom properties have been updated to follow a new semantic token forma
 
 All components have been updated to use these new tokens. Some components have visual updates that are worth calling out:
 
+- Accordion's label font-size has increased.
 - Box shadow values have been redesigned.
 - Button secondary and tertiary visual states have been redesigned.
   - If you were previously relying on the tertiary Button's included padding for spacing between elements, you'll now need to explicitly set `gap` due to the hover state changes.
@@ -28,5 +29,6 @@ All components have been updated to use these new tokens. Some components have v
 - Icon Button was updated to follow Button's changes.
 - Radio's selected, hover, and disabled visuals were updated.
 - Split Button was visually redesigned.
-- Toast colors in dark mode have been changed to different values.
+- Toast and Inline Alert variant colors in dark mode have been updated to different values.
 - Tooltip's background color in dark mode has been updated.
+- Checkbox when unchecked now has a solid background color.

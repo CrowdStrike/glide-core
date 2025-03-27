@@ -52,7 +52,7 @@ export default [
       display: block;
       flex-grow: 1;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-component-inputvalue);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       max-block-size: 5lh;
       min-block-size: 3lh;

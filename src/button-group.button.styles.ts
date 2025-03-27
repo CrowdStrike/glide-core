@@ -42,7 +42,7 @@ export default [
       cursor: pointer;
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-component-button-lg);
+      font-size: var(--glide-core-typography-size-body-large);
       font-weight: var(--glide-core-typography-weight-bold);
       gap: 0.625rem;
       justify-content: center;

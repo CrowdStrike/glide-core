@@ -92,7 +92,7 @@ export default [
       color: inherit;
       cursor: inherit;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-component-inputvalue);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       inline-size: 100%;
       min-inline-size: 0;

@@ -14,7 +14,7 @@ export default [
       column-gap: var(--glide-core-spacing-base-xs);
       display: grid;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-component-inputvalue);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       grid-template-columns: auto minmax(0, 1fr);
       padding: var(--glide-core-spacing-base-sm);

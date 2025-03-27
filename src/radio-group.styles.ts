@@ -5,7 +5,7 @@ export default [
     .component {
       color: var(--glide-core-color-static-text-default);
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-bold);
     }
 

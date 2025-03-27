@@ -31,7 +31,7 @@ export default [
 
       &.large {
         font-family: var(--glide-core-typography-family-primary);
-        font-size: var(--glide-core-typography-size-body-label);
+        font-size: var(--glide-core-typography-size-body-default);
         font-weight: var(--glide-core-typography-weight-regular);
         padding-inline-start: 0.625rem;
 

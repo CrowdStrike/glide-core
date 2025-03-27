@@ -48,7 +48,7 @@ export default [
       cursor: inherit;
       display: inline-flex;
       flex-grow: 1;
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       gap: var(--glide-core-spacing-base-xs);
       min-inline-size: var(--private-min-inline-size);
@@ -193,7 +193,7 @@ export default [
         --private-size: 1rem;
 
         column-gap: 0.625rem;
-        font-size: var(--glide-core-typography-size-body-label);
+        font-size: var(--glide-core-typography-size-body-default);
         padding-block: 0.375rem;
         padding-inline: var(--glide-core-spacing-base-sm);
       }
@@ -234,7 +234,7 @@ export default [
 
     .no-results {
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       padding: 0.625rem 0.875rem;
       text-transform: capitalize;

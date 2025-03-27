@@ -114,7 +114,7 @@ export default [
       color: var(--glide-core-color-static-text-default);
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-label);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       inset-block-start: 50%;
       max-inline-size: 23.75rem;

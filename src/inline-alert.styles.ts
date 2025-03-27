@@ -9,7 +9,7 @@ export default [
       color: var(--glide-core-color-static-text-default);
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-component-inputvalue);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       gap: var(--glide-core-spacing-base-xs);
       padding: var(--glide-core-spacing-base-sm);

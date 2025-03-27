@@ -78,7 +78,7 @@ export default [
       &.large {
         block-size: 2.125rem;
         box-sizing: border-box;
-        font-size: var(--glide-core-typography-size-component-button-lg);
+        font-size: var(--glide-core-typography-size-body-large);
         line-height: 1.5rem;
       }
 

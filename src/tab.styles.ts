@@ -17,7 +17,7 @@ export default [
       cursor: pointer;
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-component-inputvalue);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       gap: 0.4375rem;
       justify-content: center;

@@ -138,7 +138,7 @@ export default [
 
       &.large {
         block-size: 2.125rem;
-        font-size: var(--glide-core-typography-size-component-button-lg);
+        font-size: var(--glide-core-typography-size-body-large);
         line-height: 1.5rem;
         min-inline-size: 5.1875rem;
       }
