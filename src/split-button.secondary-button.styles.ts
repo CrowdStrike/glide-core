@@ -110,9 +110,7 @@ export default [
       }
 
       &:not(:disabled):is(:active, .active) {
-        background-color: var(
-          --glide-core-color-interactive-surface-container-active
-        );
+        background-color: var(--glide-core-private-color-button-surface-active);
         border-color: transparent;
         color: var(--glide-core-private-color-button-text-primary);
 
