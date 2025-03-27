@@ -380,7 +380,7 @@ it('makes the first enabled radio tabbable when the group is enabled programmati
   expect(radios[2]?.tabIndex).to.equal(-1);
 });
 
-it('makes the first checked radio tabbable when the group is enabled programmatically', async () => {
+it('makes last checked radio tabbable when the group is enabled programmatically', async () => {
   const host = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="Label" disabled>
       <glide-core-radio-group-radio
@@ -394,6 +394,7 @@ it('makes the first checked radio tabbable when the group is enabled programmati
 
       <glide-core-radio-group-radio
         label="Label"
+        checked
       ></glide-core-radio-group-radio>
     </glide-core-radio-group>
   `);
@@ -404,8 +405,8 @@ it('makes the first checked radio tabbable when the group is enabled programmati
   const radios = host.querySelectorAll('glide-core-radio-group-radio');
 
   expect(radios[0]?.tabIndex).to.equal(-1);
-  expect(radios[1]?.tabIndex).to.equal(0);
-  expect(radios[2]?.tabIndex).to.equal(-1);
+  expect(radios[1]?.tabIndex).to.equal(-1);
+  expect(radios[2]?.tabIndex).to.equal(0);
 });
 
 it('does not check a radio on click when it is disabled', async () => {
@@ -562,4 +563,164 @@ it('makes a radio tabbable when it is enabled programmatically and no other radi
   expect(radios[0]?.tabIndex).to.equal(-1);
   expect(radios[1].tabIndex).to.equal(0);
   expect(radios[2]?.tabIndex).to.equal(-1);
+});
+
+it('updates its `value` when a checked radio is programmatically enabled', async () => {
+  const host = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+        disabled
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+
+  const radios = host.querySelectorAll('glide-core-radio-group-radio');
+
+  assert(radios[1]);
+  radios[1].disabled = false;
+
+  expect(host.value).to.equal('two');
+});
+
+it('updates its `value` when a checked radio is programmatically disabled', async () => {
+  const host = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+
+  const radios = host.querySelectorAll('glide-core-radio-group-radio');
+
+  assert(radios[1]);
+  radios[1].disabled = true;
+
+  expect(host.value).to.equal('one');
+});
+
+it('updates its `value` when the group is programmatically enabled', async () => {
+  const host = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="Label" disabled>
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+
+  host.disabled = false;
+  await host.updateComplete;
+
+  expect(host.value).to.equal('two');
+});
+
+it('updates its `value` when the group is programmatically disabled', async () => {
+  const host = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+
+  host.disabled = true;
+  await host.updateComplete;
+
+  expect(host.value).to.equal('');
+});
+
+it('retains its `value` when the `value` of a checked radio that is not the last enabled one is changed', async () => {
+  const host = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        value="three"
+        checked
+        disabled
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+
+  const radios = host.querySelectorAll('glide-core-radio-group-radio');
+
+  assert(radios[0]);
+  radios[0].value = 'test';
+
+  expect(host.value).to.equal('two');
+});
+
+it('updates its `value` when the `value` of the last checked and enabled radio is unchecked', async () => {
+  const host = await fixture<GlideCoreRadioGroup>(html`
+    <glide-core-radio-group label="Label">
+      <glide-core-radio-group-radio
+        label="One"
+        value="one"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-radio-group-radio>
+
+      <glide-core-radio-group-radio
+        label="Three"
+        value="three"
+        checked
+        disabled
+      ></glide-core-radio-group-radio>
+    </glide-core-radio-group>
+  `);
+
+  const radios = host.querySelectorAll('glide-core-radio-group-radio');
+
+  assert(radios[1]);
+  radios[1].checked = false;
+
+  expect(host.value).to.equal('two');
 });

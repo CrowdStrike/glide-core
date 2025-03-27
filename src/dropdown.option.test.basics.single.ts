@@ -34,7 +34,7 @@ it('is editable', async () => {
   expect(button?.checkVisibility()).to.be.true;
 });
 
-it('is checked when selected', async () => {
+it('appears checked when selected', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -49,7 +49,7 @@ it('is checked when selected', async () => {
   expect(checkmark?.checkVisibility()).to.be.true;
 });
 
-it('is unchecked when selected and disabled', async () => {
+it('appears unchecked when selected and disabled', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"

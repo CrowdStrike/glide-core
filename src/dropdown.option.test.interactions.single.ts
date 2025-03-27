@@ -160,7 +160,7 @@ it('sets `privateIsEditActive`', async () => {
   expect(host.privateIsEditActive).to.be.false;
 });
 
-it('is checked when programmatically enabled', async () => {
+it('appears checked when programmatically enabled', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -179,7 +179,7 @@ it('is checked when programmatically enabled', async () => {
   expect(checkmark?.checkVisibility()).to.be.true;
 });
 
-it('is unchecked when programmatically disabled', async () => {
+it('appears unchecked when programmatically disabled', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
