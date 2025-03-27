@@ -83,14 +83,40 @@ export default class GlideCoreCheckbox
 
   static override styles = styles;
 
+  /**
+    @default false
+  */
   @property({ type: Boolean })
-  checked = false;
+  get checked(): boolean {
+    return this.#isChecked;
+  }
+
+  set checked(isChecked: boolean) {
+    const hasChanged = isChecked !== this.#isChecked;
+    this.#isChecked = isChecked;
+
+    if (hasChanged) {
+      this.dispatchEvent(
+        new Event('private-checked-change', { bubbles: true }),
+      );
+    }
+  }
 
   @property({ attribute: 'private-internally-inert', type: Boolean })
   privateInternallyInert = false;
 
+  /**
+   * @default false
+   */
   @property({ reflect: true, type: Boolean })
-  disabled = false;
+  get disabled(): boolean {
+    return this.#isDisabled;
+  }
+
+  set disabled(isDisabled: boolean) {
+    this.#isDisabled = isDisabled;
+    this.dispatchEvent(new Event('private-disabled-change', { bubbles: true }));
+  }
 
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
@@ -567,6 +593,10 @@ export default class GlideCoreCheckbox
   #internals: ElementInternals;
 
   #intersectionObserver?: IntersectionObserver;
+
+  #isChecked = false;
+
+  #isDisabled = false;
 
   #label?: string;
 

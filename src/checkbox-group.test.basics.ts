@@ -41,6 +41,31 @@ it('enables checkboxes when `value` is set initially', async () => {
   expect(checkbox?.disabled).to.be.false;
 });
 
+it('does not include in its `value` disabled checkboxes that are checked', async () => {
+  const host = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Label">
+      <glide-core-checkbox
+        label="One"
+        value="one"
+        checked
+        disabled
+      ></glide-core-checkbox>
+
+      <glide-core-checkbox
+        label="Two"
+        value="two"
+        checked
+      ></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
+  );
+
+  const checkboxes = host.querySelectorAll('glide-core-checkbox');
+
+  expect(host.value).to.deep.equal(['two']);
+  expect(checkboxes[0]?.checked).to.be.true;
+  expect(checkboxes[1]?.checked).to.be.true;
+});
+
 it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 
