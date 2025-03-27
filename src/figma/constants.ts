@@ -12,7 +12,6 @@
 // style by combining the collection information
 // with the variable's full name.
 export const extendedVariables = [
-  'Color/Button/Icon/primary',
   'Color/Button/Text/primary',
   'Color/Button/Stroke/default',
   'Color/Button/Surface/active',
