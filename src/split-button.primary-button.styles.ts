@@ -39,7 +39,7 @@ export default [
       &:focus-visible {
         /* Covers up the secondary button's border. */
         box-shadow: 0 0 0 2px
-          var(--glide-core-color-interactive-surface-container-active) !important;
+          var(--glide-core-color-interactive-surface-container) !important;
       }
 
       &.primary {
