@@ -43,7 +43,7 @@ export default [
         border-color: transparent;
         color: var(
           --private-icon-color,
-          var(--glide-core-color-interactive-icon-onsolid)
+          var(--glide-core-color-button-icon-primary)
         );
 
         &:disabled {
