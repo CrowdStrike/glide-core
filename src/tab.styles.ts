@@ -22,6 +22,7 @@ export default [
       gap: 0.4375rem;
       justify-content: center;
       padding-block: 0.4375rem;
+      user-select: none;
 
       &:hover {
         color: var(--glide-core-text-primary);
