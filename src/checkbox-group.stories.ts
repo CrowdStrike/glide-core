@@ -232,19 +232,19 @@ const meta: Meta = {
           },
         });
 
-        // const checkboxes = context.canvasElement.querySelectorAll(
-        //   'glide-core-checkbox',
-        // );
+        const checkboxes = context.canvasElement.querySelectorAll(
+          'glide-core-checkbox',
+        );
 
-        // for (const checkbox of checkboxes) {
-        //   addons.getChannel().emit(UPDATE_STORY_ARGS, {
-        //     storyId: context.id,
-        //     updatedArgs: {
-        //       [`<glide-core-checkbox>.${checkbox.value}.checked`]:
-        //         checkboxGroup.value.includes(checkbox.value),
-        //     },
-        //   });
-        // }
+        for (const checkbox of checkboxes) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              [`<glide-core-checkbox>.${checkbox.value}.checked`]:
+                checkboxGroup.value.includes(checkbox.value),
+            },
+          });
+        }
       });
     }
   },
