@@ -139,12 +139,12 @@ const meta: Meta = {
 
     const dropdown = context.canvasElement.querySelector('glide-core-dropdown');
 
-    const option = context.canvasElement.querySelector(
-      'glide-core-dropdown-option',
-    );
-
     if (dropdown instanceof GlideCoreDropdown) {
       dropdown.addEventListener('change', () => {
+        const option = context.canvasElement.querySelector(
+          'glide-core-dropdown-option',
+        );
+
         if (option) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
@@ -155,7 +155,7 @@ const meta: Meta = {
         }
       });
 
-      const observer = new MutationObserver(() => {
+      dropdown.addEventListener('toggle', () => {
         if (dropdown instanceof GlideCoreDropdown) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
@@ -164,11 +164,6 @@ const meta: Meta = {
             },
           });
         }
-      });
-
-      observer.observe(dropdown, {
-        attributes: true,
-        attributeFilter: ['open'],
       });
     }
 

@@ -56,25 +56,18 @@ const meta: Meta = {
         }
       });
 
-    const modal = context.canvasElement.querySelector('glide-core-modal');
-
-    const observer = new MutationObserver(() => {
-      if (modal instanceof GlideCoreModal) {
-        addons.getChannel().emit(UPDATE_STORY_ARGS, {
-          storyId: context.id,
-          updatedArgs: {
-            open: modal.open,
-          },
-        });
-      }
-    });
-
-    if (modal) {
-      observer.observe(modal, {
-        attributes: true,
-        attributeFilter: ['open'],
+    context.canvasElement
+      .querySelector('glide-core-modal')
+      ?.addEventListener('toggle', (event: Event) => {
+        if (event.target instanceof GlideCoreModal) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              open: event.target.open,
+            },
+          });
+        }
       });
-    }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/prefer-nullish-coalescing */
