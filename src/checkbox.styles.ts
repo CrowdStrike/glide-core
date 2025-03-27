@@ -102,7 +102,7 @@ export default [
 
       &:disabled:not(:is(:checked, :indeterminate)) ~ .checkbox {
         background-color: var(
-          --glide-core-color-interactive-surface-container--disabled
+          --glide-core-private-color-checkbox-surface-background-idle
         );
         border-color: var(
           --glide-core-private-color-checkbox-icon-default--disabled
@@ -212,6 +212,10 @@ export default [
       &.hidden {
         display: none;
       }
+    }
+
+    .summary.disabled {
+      color: var(--glide-core-color-interactive-text-default--disabled);
     }
 
     .validity-message {

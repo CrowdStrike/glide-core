@@ -420,7 +420,13 @@ export default class GlideCoreCheckbox
             ${when(
               this.summary,
               () =>
-                html`<div id="summary" slot="summary">${this.summary}</div>`,
+                html`<div
+                  class=${classMap({ summary: true, disabled: this.disabled })}
+                  id="summary"
+                  slot="summary"
+                >
+                  ${this.summary}
+                </div>`,
             )}
 
             <div id="description" slot="description">
