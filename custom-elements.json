@@ -1027,8 +1027,7 @@
                 "text": "string[]"
               },
               "default": "[]",
-              "attribute": "value",
-              "reflects": true
+              "attribute": "value"
             },
             {
               "kind": "field",
@@ -1654,6 +1653,18 @@
             },
             {
               "name": "invalid",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "private-checked-change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
+              "name": "private-disabled-change",
               "type": {
                 "text": "Event"
               }

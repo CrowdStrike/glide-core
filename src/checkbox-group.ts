@@ -148,10 +148,11 @@ export default class GlideCoreCheckboxGroup
   @property({ reflect: true })
   tooltip?: string;
 
+  // Intentionally not reflected to match native.
   /**
    * @default []
    */
-  @property({ reflect: true, type: Array })
+  @property({ type: Array })
   get value(): string[] {
     return this.#value;
   }
@@ -336,8 +337,9 @@ export default class GlideCoreCheckboxGroup
         >
           <slot
             class="default-slot"
-            @change=${this.#onCheckboxChange}
-            @private-value-change=${this.#onCheckboxesValueChange}
+            @private-checked-change=${this.#onCheckboxCheckedChange}
+            @private-disabled-change=${this.#onCheckboxDisabledChange}
+            @private-value-change=${this.#onCheckboxValueChange}
             @slotchange=${this.#onDefaultSlotChange}
             ${assertSlot([GlideCoreCheckbox])}
             ${ref(this.#defaultSlotElementRef)}
@@ -531,18 +533,18 @@ export default class GlideCoreCheckboxGroup
     }
   }
 
-  #onCheckboxChange(event: Event) {
+  #onCheckboxCheckedChange(event: Event) {
     if (
       event.target instanceof GlideCoreCheckbox &&
       event.target.checked &&
       event.target.value
     ) {
-      this.value = [...this.value, event.target.value];
+      this.#value = [...this.value, event.target.value];
     } else if (
       event.target instanceof GlideCoreCheckbox &&
       !event.target.checked
     ) {
-      this.value = this.value.filter((value) => {
+      this.#value = this.value.filter((value) => {
         return (
           event.target instanceof GlideCoreCheckbox &&
           value !== event.target.value
@@ -551,7 +553,31 @@ export default class GlideCoreCheckboxGroup
     }
   }
 
-  #onCheckboxesValueChange(event: CustomEvent<{ new: string; old: string }>) {
+  #onCheckboxDisabledChange(event: Event) {
+    if (
+      event.target instanceof GlideCoreCheckbox &&
+      event.target.disabled &&
+      event.target.checked
+    ) {
+      // `this.#value` may include multiple of the same value because multiple checkboxes
+      // may have the same value. So we only remove the last.
+      //
+      // Ideally, Checkbox Group wouldn't always remove the last value but would know the
+      // exact index to remove. But Checkbox Group, the way it's built, doesn't know which
+      // value in `this.#value` corresponds to which checkbox. It probably should if cases
+      // like this continue to pile up. For now, though, consumers' needs seem to be met.
+      const index = this.#value.lastIndexOf(event.target.value);
+      this.#value.splice(index, index + 1);
+    } else if (
+      event.target instanceof GlideCoreCheckbox &&
+      event.target.checked &&
+      event.target.value
+    ) {
+      this.#value.push(event.target.value);
+    }
+  }
+
+  #onCheckboxValueChange(event: CustomEvent<{ new: string; old: string }>) {
     if (
       event.target instanceof GlideCoreCheckbox &&
       event.target.checked &&
