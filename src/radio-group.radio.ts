@@ -80,9 +80,10 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
     return this.#disabled;
   }
 
-  set disabled(disabled: boolean) {
-    this.#disabled = disabled;
-    this.ariaDisabled = disabled.toString();
+  set disabled(isDisabled: boolean) {
+    this.#disabled = isDisabled;
+    this.ariaDisabled = isDisabled.toString();
+    this.ariaChecked = this.checked && !isDisabled ? 'true' : 'false';
 
     // `this.disabled` can be changed programmatically. Radio Group needs to know when
     // that happens so it can make radios tabbable or untabbable.

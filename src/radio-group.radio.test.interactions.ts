@@ -10,6 +10,31 @@ it('sets `aria-checked` on the host when checked programmatically', async () => 
   expect(host.ariaChecked).to.equal('false');
 });
 
+it('sets `aria-checked` on the host when checked and enabled programmatically', async () => {
+  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+    <glide-core-radio-group-radio
+      label="Label"
+      checked
+      disabled
+    ></glide-core-radio-group-radio>
+  `);
+
+  host.disabled = false;
+  expect(host.ariaChecked).to.equal('true');
+});
+
+it('sets `aria-checked` on the host when checked and disabled programmatically', async () => {
+  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+    <glide-core-radio-group-radio
+      label="Label"
+      checked
+    ></glide-core-radio-group-radio>
+  `);
+
+  host.disabled = true;
+  expect(host.ariaChecked).to.equal('false');
+});
+
 it('sets `aria-disabled` on the host when disabled programmatically', async () => {
   const host = await fixture<GlideCoreRadioGroupRadio>(html`
     <glide-core-radio-group-radio label="Label"></glide-core-radio-group-radio>
