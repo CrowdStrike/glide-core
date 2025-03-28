@@ -2591,7 +2591,7 @@ export default class GlideCoreDropdown
                           Number.parseFloat(
                             window
                               .getComputedStyle(document.body)
-                              .getPropertyValue('--glide-core-spacing-xxs'),
+                              .getPropertyValue('--glide-core-spacing-base-xxs'),
                           ) *
                           Number.parseFloat(
                             window.getComputedStyle(document.documentElement)

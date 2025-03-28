@@ -2,22 +2,17 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import yoctoSpinner from 'yocto-spinner';
 import { format } from 'prettier';
+import { stylesheetsDirectory } from './constants.js';
 
 /**
  * Writes CSS variables to the provided directory.
  */
-export default async ({
-  cssVariables,
-  directory,
-}: {
-  cssVariables: Record<string, string[]>;
-  directory: string;
-}) => {
+export default async (cssVariables: Record<string, string[]>) => {
   if (!cssVariables) {
     throw new Error('There were no CSS variables to write.');
   }
 
-  if (!directory) {
+  if (!stylesheetsDirectory) {
     throw new Error('A directory to write the stylesheets to is required.');
   }
 
@@ -69,12 +64,12 @@ export default async ({
 
       const cssPath = path.join(
         process.cwd(),
-        `./${directory}/${collection}.css`,
+        `./${stylesheetsDirectory}/${collection}.css`,
       );
 
-      const stylesheetsDirectory = path.dirname(cssPath);
+      const outputDirectory = path.dirname(cssPath);
 
-      await mkdir(stylesheetsDirectory, { recursive: true });
+      await mkdir(outputDirectory, { recursive: true });
 
       await writeFile(cssPath, formattedContent, 'utf8');
     } catch (error) {
@@ -84,6 +79,6 @@ export default async ({
   }
 
   spinner.success(
-    `Stylesheets have been written to the "${directory}" directory.`,
+    `Stylesheets have been written to the "${stylesheetsDirectory}" directory.`,
   );
 };

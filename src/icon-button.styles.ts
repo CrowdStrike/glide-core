@@ -15,7 +15,7 @@ export default [
       align-items: center;
       block-size: var(--private-size, 1.625rem);
       border-color: transparent;
-      border-radius: 0.5rem;
+      border-radius: var(--glide-core-rounding-base-radius-sm);
       border-style: solid;
       border-width: 1px;
       cursor: pointer;
@@ -37,50 +37,68 @@ export default [
       }
 
       &.primary {
-        background-color: var(--glide-core-surface-primary);
+        background-color: var(
+          --glide-core-color-interactive-surface-container-active
+        );
         border-color: transparent;
-        color: var(--private-icon-color, var(--glide-core-icon-selected));
+        color: var(
+          --private-icon-color,
+          var(--glide-core-color-button-icon-primary)
+        );
 
         &:disabled {
-          background-color: var(--glide-core-surface-base-gray-light);
+          background-color: var(
+            --glide-core-color-static-surface-container-secondary
+          );
           border-color: transparent;
-          color: var(--glide-core-icon-tertiary-disabled);
+          color: var(--glide-core-color-interactive-icon-default--disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--glide-core-surface-selected);
+          background-color: var(
+            --glide-core-private-color-button-surface-active
+          );
           border-color: transparent;
-          color: var(--glide-core-icon-selected);
+          color: var(--glide-core-color-interactive-icon-default--active);
         }
 
         &:not(:active):hover:not(:disabled) {
-          background-color: var(--glide-core-surface-hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--hover
+          );
           border-color: transparent;
-          box-shadow: var(--glide-core-glow-sm);
-          color: var(--glide-core-icon-primary);
+          box-shadow: var(--glide-core-effect-hovered);
+          color: var(--glide-core-color-interactive-icon-link);
         }
       }
 
       &.secondary {
-        background-color: transparent;
-        border-color: transparent;
-        color: var(--private-icon-color, var(--glide-core-icon-default));
+        background-color: var(--glide-core-color-interactive-surface-container);
+        color: var(
+          --private-icon-color,
+          var(--glide-core-color-interactive-icon-default)
+        );
 
         &:disabled {
-          background-color: transparent;
-          color: var(--glide-core-icon-tertiary-disabled);
+          background-color: var(--glide-core-color-static-surface-container);
+          border-color: transparent;
+          color: var(--glide-core-color-interactive-icon-default--disabled);
         }
 
         &:not(:disabled):active {
-          background-color: var(--glide-core-surface-selected);
+          background-color: var(
+            --glide-core-private-color-button-surface-active
+          );
           border-color: transparent;
-          color: var(--glide-core-icon-selected);
+          color: var(--glide-core-color-interactive-icon-default--active);
         }
 
         &:not(:active):hover:not(:disabled) {
-          background-color: var(--glide-core-surface-hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--hover
+          );
           border-color: transparent;
-          color: var(--glide-core-icon-primary);
+          color: var(--glide-core-color-interactive-icon-link);
         }
       }
 
@@ -88,7 +106,10 @@ export default [
         background-color: transparent;
         block-size: var(--private-size, 1rem);
         border-color: transparent;
-        color: var(--private-icon-color, var(--glide-core-icon-default));
+        color: var(
+          --private-icon-color,
+          var(--glide-core-color-interactive-icon-default)
+        );
         inline-size: var(--private-size, 1rem);
         padding: 0;
 
@@ -97,17 +118,17 @@ export default [
         }
 
         &:disabled {
-          color: var(--glide-core-icon-tertiary-disabled);
+          color: var(--glide-core-color-interactive-icon-default--disabled);
         }
 
         &:not(:disabled):active {
-          color: var(--glide-core-icon-active);
+          color: var(--glide-core-color-interactive-icon-active);
         }
 
         &:not(:active):hover:not(:disabled) {
           color: var(
             --private-hovered-icon-color,
-            var(--glide-core-icon-primary-hover)
+            var(--glide-core-color-interactive-icon-active--hover)
           );
         }
       }

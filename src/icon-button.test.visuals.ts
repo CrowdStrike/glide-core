@@ -181,7 +181,7 @@ for (const story of stories['Icon Button']) {
           await page
             .locator('glide-core-icon-button')
             .evaluate<void, GlideCoreIconButton>((element) => {
-              element.variant = 'secondary';
+              element.variant = 'tertiary';
             });
 
           await expect(page).toHaveScreenshot(

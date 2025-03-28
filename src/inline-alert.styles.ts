@@ -5,34 +5,37 @@ export default [
     .component {
       align-items: flex-start;
       border: 1px solid;
-      border-radius: var(--glide-core-spacing-sm);
-      color: var(--glide-core-text-body-2);
+      border-radius: var(--glide-core-rounding-base-radius-md);
+      color: var(--glide-core-color-static-text-default);
       display: flex;
-      font-family: var(--glide-core-body-sm-font-family);
-      font-size: var(--glide-core-body-sm-font-size);
-      font-weight: var(--glide-core-body-sm-font-weight);
-      gap: var(--glide-core-spacing-xs);
-      line-height: var(--glide-core-body-sm-line-height);
-      padding: var(--glide-core-spacing-sm);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
+      font-weight: var(--glide-core-typography-weight-regular);
+      gap: var(--glide-core-spacing-base-xs);
+      padding: var(--glide-core-spacing-base-sm);
 
       &.informational {
-        background-color: var(--glide-core-surface-informational);
-        border-color: var(--glide-core-border-informational);
+        background-color: var(--glide-core-color-info-surface-container-light);
+        border-color: var(--glide-core-color-info-stroke-secondary);
       }
 
       &.medium {
-        background-color: var(--glide-core-surface-warning);
-        border-color: var(--glide-core-border-attention);
+        background-color: var(
+          --glide-core-color-attention-surface-container-light
+        );
+        border-color: var(--glide-core-color-attention-stroke-secondary);
       }
 
       &.high {
-        background-color: var(--glide-core-surface-warning);
-        border-color: var(--glide-core-border-warning);
+        background-color: var(
+          --glide-core-color-warning-surface-container-light
+        );
+        border-color: var(--glide-core-color-warning-stroke-secondary);
       }
 
       &.critical {
-        background-color: var(--glide-core-surface-error);
-        border-color: var(--glide-core-border-error);
+        background-color: var(--glide-core-color-error-surface-container-light);
+        border-color: var(--glide-core-color-error-stroke-secondary);
       }
 
       &.added {
@@ -76,19 +79,19 @@ export default [
       inline-size: 1rem;
 
       &.informational {
-        color: var(--glide-core-status-warning-informational);
+        color: var(--glide-core-color-info-icon-default);
       }
 
       &.medium {
-        color: var(--glide-core-status-warning-medium);
+        color: var(--glide-core-color-attention-icon-default);
       }
 
       &.high {
-        color: var(--glide-core-status-warning-high);
+        color: var(--glide-core-color-warning-icon-default);
       }
 
       &.critical {
-        color: var(--glide-core-status-warning-critical);
+        color: var(--glide-core-color-error-icon-default);
       }
     }
 
@@ -99,7 +102,7 @@ export default [
     }
 
     .removal-button {
-      --private-icon-color: var(--glide-core-icon-default2);
+      --private-icon-color: var(--glide-core-color-interactive-icon-default);
 
       align-self: flex-start;
       transition: color 200ms ease-in-out;

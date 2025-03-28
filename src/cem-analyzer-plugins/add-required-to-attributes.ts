@@ -1,6 +1,6 @@
 import { type Module } from 'custom-elements-manifest' with { type: 'json' };
 import { isDecorator, type Node } from 'typescript';
-import getParentClassName from '../library/get-parent-class-name.js';
+import getParentClassName from './get-parent-class-name.js';
 
 /**
  * Adds to every attribute in the manifest a `required` property if

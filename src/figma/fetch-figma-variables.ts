@@ -1,5 +1,6 @@
 import { type GetLocalVariablesResponse } from '@figma/rest-api-spec';
 import yoctoSpinner from 'yocto-spinner';
+import { figmaFileId } from './constants.js';
 
 /**
  * Fetches the variables and variable collections from Figma's API¹
@@ -7,7 +8,9 @@ import yoctoSpinner from 'yocto-spinner';
  *
  * 1: https://www.figma.com/developers/api?fuid=1111467023992153920#variables
  */
-export default async ({ token, fileId }: { fileId: string; token: string }) => {
+export default async () => {
+  const token = process.env.FIGMA_TOKEN;
+
   if (!token) {
     throw new Error(
       '"FIGMA_TOKEN" is a required environment variable. See [`CONTRIBUTING.md`](https://github.com/CrowdStrike/glide-core/blob/main/CONTRIBUTING.md#updating-style-variables) for more information.',
@@ -18,7 +21,7 @@ export default async ({ token, fileId }: { fileId: string; token: string }) => {
 
   try {
     const response = await fetch(
-      `https://api.figma.com/v1/files/${fileId}/variables/local?scopes=file_variables:read&branch_data=true`,
+      `https://api.figma.com/v1/files/${figmaFileId}/variables/local?scopes=file_variables:read&branch_data=true`,
       {
         method: 'GET',
         headers: {

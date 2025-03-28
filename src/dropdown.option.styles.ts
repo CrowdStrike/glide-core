@@ -5,7 +5,7 @@ export default [
     .component {
       align-items: center;
       block-size: var(--private-option-height);
-      border-radius: var(--glide-core-spacing-sm);
+      border-radius: var(--glide-core-spacing-base-sm);
       display: flex;
       max-inline-size: 21.875rem;
       transition: background-color 100ms ease-in-out;
@@ -13,7 +13,9 @@ export default [
 
       &.active {
         &:not(.disabled) {
-          background-color: var(--glide-core-surface-hover);
+          background-color: var(
+            --glide-core-color-interactive-surface-container--hover
+          );
         }
       }
     }
@@ -21,40 +23,36 @@ export default [
     .option {
       align-items: center;
       block-size: 100%;
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       display: flex;
       flex-grow: 1;
       overflow: hidden;
       user-select: none;
 
       &.large {
-        font-family: var(--glide-core-body-sm-font-family);
-        font-size: var(--glide-core-body-sm-font-size);
-        font-style: var(--glide-core-body-sm-font-style);
-        font-weight: var(--glide-core-body-sm-font-weight);
-        line-height: var(--glide-core-body-sm-line-height);
+        font-family: var(--glide-core-typography-family-primary);
+        font-size: var(--glide-core-typography-size-body-default);
+        font-weight: var(--glide-core-typography-weight-regular);
         padding-inline-start: 0.625rem;
 
         &:not(.editable) {
-          padding-inline-end: var(--glide-core-spacing-sm);
+          padding-inline-end: var(--glide-core-spacing-base-sm);
         }
       }
 
       &.small {
-        font-family: var(--glide-core-body-xs-font-family);
-        font-size: var(--glide-core-body-xs-font-size);
-        font-style: var(--glide-core-body-xs-font-style);
-        font-weight: var(--glide-core-body-xs-font-weight);
-        line-height: var(--glide-core-body-xs-line-height);
-        padding-inline-start: var(--glide-core-spacing-sm);
+        font-family: var(--glide-core-typography-family-primary);
+        font-size: var(--glide-core-typography-size-body-small);
+        font-weight: var(--glide-core-typography-weight-regular);
+        padding-inline-start: var(--glide-core-spacing-base-sm);
 
         &:not(.editable) {
-          padding-inline-end: var(--glide-core-spacing-xs);
+          padding-inline-end: var(--glide-core-spacing-base-xs);
         }
       }
 
       &.disabled {
-        color: var(--glide-core-icon-tertiary-disabled);
+        color: var(--glide-core-color-interactive-icon-default--disabled);
       }
     }
 
@@ -64,24 +62,24 @@ export default [
 
       &.large {
         &::part(private-label-and-input-and-checkbox) {
-          padding-inline-start: var(--glide-core-spacing-sm);
+          padding-inline-start: var(--glide-core-spacing-base-sm);
         }
 
         &:not(.editable) {
           &::part(private-label-and-input-and-checkbox) {
-            padding-inline-end: var(--glide-core-spacing-sm);
+            padding-inline-end: var(--glide-core-spacing-base-sm);
           }
         }
       }
 
       &.small {
         &::part(private-label-and-input-and-checkbox) {
-          padding-inline-start: var(--glide-core-spacing-xs);
+          padding-inline-start: var(--glide-core-spacing-base-xs);
         }
 
         &:not(.editable) {
           &::part(private-label-and-input-and-checkbox) {
-            padding-inline-end: var(--glide-core-spacing-xs);
+            padding-inline-end: var(--glide-core-spacing-base-xs);
           }
         }
       }
@@ -113,7 +111,7 @@ export default [
       &::slotted(*) {
         align-items: center;
         display: flex;
-        padding-inline-end: var(--glide-core-spacing-xs);
+        padding-inline-end: var(--glide-core-spacing-base-xs);
       }
     }
 
@@ -158,7 +156,7 @@ export default [
 
       > svg {
         flex-shrink: 0;
-        padding-inline-start: var(--glide-core-spacing-xs);
+        padding-inline-start: var(--glide-core-spacing-base-xs);
       }
     }
 
@@ -169,24 +167,24 @@ export default [
       border: none;
       display: flex;
       padding-block: 0;
-      padding-inline-start: var(--glide-core-spacing-xs);
+      padding-inline-start: var(--glide-core-spacing-base-xs);
 
       &.active {
         &:not(.disabled) {
-          color: var(--glide-core-text-primary-hover);
+          color: var(--glide-core-color-interactive-text-link--hover);
         }
       }
 
       &.disabled {
-        color: var(--glide-core-icon-tertiary-disabled);
+        color: var(--glide-core-color-interactive-icon-default--disabled);
       }
 
       &.large {
-        padding-inline-end: var(--glide-core-spacing-sm);
+        padding-inline-end: var(--glide-core-spacing-base-sm);
       }
 
       &.small {
-        padding-inline-end: var(--glide-core-spacing-xs);
+        padding-inline-end: var(--glide-core-spacing-base-xs);
       }
 
       &:focus {

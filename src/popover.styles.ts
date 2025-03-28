@@ -42,7 +42,7 @@ export default [
       background-color: transparent;
       border: none;
       inset: unset;
-      padding: var(--glide-core-spacing-xs);
+      padding: var(--glide-core-spacing-base-xs);
       position: absolute;
 
       &:popover-open {
@@ -78,7 +78,7 @@ export default [
       --private-arrow-height: 0.5625rem;
       --private-arrow-width: 1rem;
 
-      color: var(--glide-core-surface-modal);
+      color: var(--glide-core-private-color-dialog-and-modal-surface-container);
       display: flex;
       position: relative;
 
@@ -97,30 +97,30 @@ export default [
     }
 
     .default-slot {
-      background-color: var(--glide-core-surface-modal);
-      border-radius: var(--glide-core-spacing-xs);
+      background-color: var(
+        --glide-core-private-color-dialog-and-modal-surface-container
+      );
+      border-radius: var(--glide-core-spacing-base-xs);
 
-      /* 
-        ".popover" can't overflow because the Popover API won't allow it. And 
-        a shadow counts as overflow. So make sure to adjust the padding on 
+      /*
+        ".popover" can't overflow because the Popover API won't allow it. And
+        a shadow counts as overflow. So make sure to adjust the padding on
         ".popover" when changing this shadow so ".popover" has enough room for it.
       */
       box-shadow:
         0 3px 8px 0 rgba(0 0 0 / 15%),
         0 3px 1px 0 rgba(0 0 0 / 6%);
       box-sizing: border-box;
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-static-text-default);
       display: flex;
-      font-family: var(--glide-core-body-md-font-family);
-      font-size: var(--glide-core-body-sm-font-size);
-      font-style: var(--glide-core-body-sm-font-style);
-      font-weight: var(--glide-core-body-sm-font-weight);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
+      font-weight: var(--glide-core-typography-weight-regular);
       inset-block-start: 50%;
-      line-height: var(--glide-core-body-sm-line-height);
       max-inline-size: 23.75rem;
       min-block-size: 2rem;
       min-inline-size: 5rem;
-      padding: var(--glide-core-spacing-sm);
+      padding: var(--glide-core-spacing-base-sm);
     }
   `,
 ];
