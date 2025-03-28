@@ -144,25 +144,18 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const popover = context.canvasElement.querySelector('glide-core-popover');
-
-    const observer = new MutationObserver(() => {
-      if (popover instanceof GlideCorePopover) {
-        addons.getChannel().emit(UPDATE_STORY_ARGS, {
-          storyId: context.id,
-          updatedArgs: {
-            open: popover.open,
-          },
-        });
-      }
-    });
-
-    if (popover) {
-      observer.observe(popover, {
-        attributes: true,
-        attributeFilter: ['open'],
+    context.canvasElement
+      .querySelector('glide-core-popover')
+      ?.addEventListener('toggle', (event: Event) => {
+        if (event.target instanceof GlideCorePopover) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              open: event.target.open,
+            },
+          });
+        }
       });
-    }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */

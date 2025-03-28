@@ -4,13 +4,12 @@ import './menu.link.js';
 import './split-button.js';
 import './split-button.primary-button.js';
 import './split-button.primary-link.js';
-import './split-button.secondary-button.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import type GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
+import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
 
 const meta: Meta = {
   title: 'Split Button',
@@ -65,28 +64,19 @@ const meta: Meta = {
         }
       });
 
-    const secondaryButton = context.canvasElement.querySelector(
-      'glide-core-split-button-secondary-button',
-    );
-
-    const observer = new MutationObserver(() => {
-      addons.getChannel().emit(UPDATE_STORY_ARGS, {
-        storyId: context.id,
-        updatedArgs: {
-          ['<glide-core-split-button-secondary-button>.menu-open']:
-            context.canvasElement.querySelector<GlideCoreSplitButtonSecondaryButton>(
-              'glide-core-split-button-secondary-button',
-            )?.menuOpen,
-        },
+    context.canvasElement
+      .querySelector('glide-core-split-button-secondary-button')
+      ?.addEventListener('toggle', (event: Event) => {
+        if (event.target instanceof GlideCoreSplitButtonSecondaryButton) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              ['<glide-core-split-button-secondary-button>.menu-open']:
+                !event.target.menuOpen,
+            },
+          });
+        }
       });
-    });
-
-    if (secondaryButton) {
-      observer.observe(secondaryButton, {
-        attributes: true,
-        attributeFilter: ['menu-open'],
-      });
-    }
   },
   render(arguments_) {
     /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */

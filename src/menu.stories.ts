@@ -224,41 +224,36 @@ const meta: Meta = {
     },
   },
   play(context) {
-    const menu = context.canvasElement.querySelector('glide-core-menu');
-
-    const observer = new MutationObserver(() => {
-      if (menu instanceof GlideCoreMenu) {
-        addons.getChannel().emit(UPDATE_STORY_ARGS, {
-          storyId: context.id,
-          updatedArgs: {
-            open: menu.open,
-          },
-        });
-      }
-    });
-
-    if (menu) {
-      observer.observe(menu, {
-        attributes: true,
-        attributeFilter: ['open'],
+    context.canvasElement
+      .querySelector('glide-core-menu')
+      ?.addEventListener('toggle', (event: Event) => {
+        if (event.target instanceof GlideCoreMenu) {
+          addons.getChannel().emit(UPDATE_STORY_ARGS, {
+            storyId: context.id,
+            updatedArgs: {
+              open: event.target.open,
+            },
+          });
+        }
       });
-    }
 
-    menu?.addEventListener('click', (event: Event) => {
-      const isLink =
-        event.target instanceof Element &&
-        event.target.closest('glide-core-menu-link');
+    context.canvasElement
+      .querySelector('glide-core-menu')
+      ?.addEventListener('click', (event: Event) => {
+        const isLink =
+          event.target instanceof Element &&
+          event.target.closest('glide-core-menu-link');
 
-      if (isLink && window.top) {
-        event.preventDefault();
+        if (isLink && window.top) {
+          event.preventDefault();
 
-        // The Storybook user expects to navigate when the link is clicked but
-        // doesn't expect to be redirected to the first story. So we refresh the
-        // page to give the impression of a navigation while keeping the user
-        // on the same page.
-        window.top.location.reload();
-      }
-    });
+          // The Storybook user expects to navigate when the link is clicked but
+          // doesn't expect to be redirected to the first story. So we refresh the
+          // page to give the impression of a navigation while keeping the user
+          // on the same page.
+          window.top.location.reload();
+        }
+      });
   },
   render(arguments_) {
     /* eslint-disable unicorn/explicit-length-check, @typescript-eslint/prefer-nullish-coalescing */

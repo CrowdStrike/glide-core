@@ -87,8 +87,12 @@ for (const story of stories.Tooltip) {
           await page
             .locator('glide-core-tooltip')
             .evaluate<void, GlideCoreTooltip>((element) => {
-              element.open = true;
               element.shortcut = ['CMD', 'K'];
+
+              // `open` will synchronously trigger a "toggle" event. So `shortcut` needs
+              // to be set first. Otherwise, the story (via its `play()` method) will set
+              // `shortcut` back to its initial value: an empty array.
+              element.open = true;
             });
 
           await expect(page).toHaveScreenshot(
