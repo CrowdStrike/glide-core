@@ -380,7 +380,7 @@ it('makes the first enabled radio tabbable when the group is enabled programmati
   expect(radios[2]?.tabIndex).to.equal(-1);
 });
 
-it('makes last checked radio tabbable when the group is enabled programmatically', async () => {
+it('makes the last checked radio tabbable when the group is enabled programmatically', async () => {
   const host = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="Label" disabled>
       <glide-core-radio-group-radio
@@ -693,7 +693,7 @@ it('retains its `value` when the `value` of a checked radio that is not the last
   expect(host.value).to.equal('two');
 });
 
-it('updates its `value` when the `value` of the last checked and enabled radio is unchecked', async () => {
+it('updates its `value` when the last checked and enabled radio is unchecked', async () => {
   const host = await fixture<GlideCoreRadioGroup>(html`
     <glide-core-radio-group label="Label">
       <glide-core-radio-group-radio
