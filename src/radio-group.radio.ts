@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
 import styles from './radio-group.radio.styles.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -47,7 +47,7 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
     const wasChecked = this.#checked;
 
     this.#checked = isChecked;
-    this.ariaChecked = isChecked.toString();
+    this.ariaChecked = isChecked && !this.disabled ? 'true' : 'false';
 
     if (isChecked && wasChecked !== isChecked) {
       this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
@@ -80,9 +80,10 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
     return this.#disabled;
   }
 
-  set disabled(disabled: boolean) {
-    this.#disabled = disabled;
-    this.ariaDisabled = disabled.toString();
+  set disabled(isDisabled: boolean) {
+    this.#disabled = isDisabled;
+    this.ariaDisabled = isDisabled.toString();
+    this.ariaChecked = this.checked && !isDisabled ? 'true' : 'false';
 
     // `this.disabled` can be changed programmatically. Radio Group needs to know when
     // that happens so it can make radios tabbable or untabbable.
@@ -162,7 +163,11 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   readonly version: string = packageJson.version;
 
   override firstUpdated() {
-    this.ariaChecked = this.checked.toString();
+    this.ariaChecked =
+      this.checked && !this.disabled && this === this.lastCheckedRadio
+        ? 'true'
+        : 'false';
+
     this.ariaDisabled = this.disabled.toString();
     this.ariaInvalid = this.privateInvalid.toString();
     this.ariaRequired = this.privateRequired.toString();
@@ -173,13 +178,25 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
     }
   }
 
+  @state()
+  private get lastCheckedRadio(): GlideCoreRadioGroupRadio | undefined {
+    const radios = this.parentElement?.querySelectorAll(
+      'glide-core-radio-group-radio',
+    );
+
+    if (radios && radios.length > 0) {
+      return [...radios].findLast((radio) => radio.checked);
+    }
+  }
+
   override render() {
     return html`
       <div class="component" data-test="component">
         <div
           class=${classMap({
             circle: true,
-            checked: this.checked,
+            checked:
+              this.checked && this === this.lastCheckedRadio && !this.disabled,
             disabled: this.disabled,
             animate: this.hasUpdated,
           })}

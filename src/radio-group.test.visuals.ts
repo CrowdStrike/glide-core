@@ -89,21 +89,41 @@ for (const story of stories['Radio Group']) {
           );
         });
 
-        test('<glide-core-radio-group-radio>.disabled', async ({
-          page,
-        }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+        test.describe('<glide-core-radio-group-radio>.disabled', () => {
+          test('<glide-core-radio-group-radio>[checked=${true}]', async ({
+            page,
+          }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await page
-            .locator('glide-core-radio-group-radio')
-            .nth(1)
-            .evaluate<void, GlideCoreRadioGroupRadio>((element) => {
-              element.disabled = true;
-            });
+            await page
+              .locator('glide-core-radio-group-radio')
+              .nth(1)
+              .evaluate<void, GlideCoreRadioGroupRadio>((element) => {
+                element.disabled = true;
+                element.checked = true;
+              });
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('<glide-core-radio-group-radio>[checked=${false}]', async ({
+            page,
+          }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-radio-group-radio')
+              .nth(1)
+              .evaluate<void, GlideCoreRadioGroupRadio>((element) => {
+                element.disabled = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
       });
     }
