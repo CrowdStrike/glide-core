@@ -1,5 +1,36 @@
 # @crowdstrike/glide-core
 
+## 0.23.0
+
+### Minor Changes
+
+- [#801](https://github.com/CrowdStrike/glide-core/pull/801) [`179d028`](https://github.com/CrowdStrike/glide-core/commit/179d02842bcb5571c282ed082469e38b0ad06394) Thanks [@clintcs](https://github.com/clintcs)! - - Radio Group no longer unchecks all but the last checked Radio Group Radio when multiple are checked initially.
+
+  - Radio Group now sets its `value` to an empty string when disabled.
+  - Radio Group now sets its `value` to an empty string when its checked Radio Group Radio is disabled.
+  - When multiple Radio Group Radios are checked and the `value` of one that isn't the last is changed programmatically, Radio Group's `value` remains set to that of the last checked and enabled Radio Group Radio.
+
+- [#788](https://github.com/CrowdStrike/glide-core/pull/788) [`eea8890`](https://github.com/CrowdStrike/glide-core/commit/eea88903d9b7da259b026e60fa1d9e31f6b423d6) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown now removes from its `value` the `value` of a selected Dropdown Option that is disabled. This also works in reverse. If a disabled but selected Dropdown Option is enabled, it's `value` is added to Dropdown's `value`.
+
+- [#800](https://github.com/CrowdStrike/glide-core/pull/800) [`247cdc3`](https://github.com/CrowdStrike/glide-core/commit/247cdc3336a482b5817a6f9bbc82201056a7b21c) Thanks [@clintcs](https://github.com/clintcs)! - - Checkbox Group's `value` is no longer reflected to match native.
+  - Checkbox Group now removes from its `value` the `value` of a checked Checkbox that is disabled. This also works in reverse. If a disabled but checked Checkbox is enabled, it's `value` is added to Checkbox Group's `value`.
+
+### Patch Changes
+
+- [#801](https://github.com/CrowdStrike/glide-core/pull/801) [`179d028`](https://github.com/CrowdStrike/glide-core/commit/179d02842bcb5571c282ed082469e38b0ad06394) Thanks [@clintcs](https://github.com/clintcs)! - - Disabled Radio Group Radios that are checked no longer appear checked visually or to screenreaders so it's clear to the user what will be submitted with the form.
+
+  - If multiple Radio Group Radios are checked, only the last now appears checked visually and to screenreaders so it's clear to the user what will be submitted with the form.
+  - If multiple Radio Group Radios are checked, only the last is now tabbable.
+
+- [#803](https://github.com/CrowdStrike/glide-core/pull/803) [`31b38eb`](https://github.com/CrowdStrike/glide-core/commit/31b38eb9189b3eaf1f1c13a0fc0acd12ddfb0de7) Thanks [@clintcs](https://github.com/clintcs)! - Tab's text is no longer selected when double clicked.
+
+- [#788](https://github.com/CrowdStrike/glide-core/pull/788) [`eea8890`](https://github.com/CrowdStrike/glide-core/commit/eea88903d9b7da259b026e60fa1d9e31f6b423d6) Thanks [@clintcs](https://github.com/clintcs)! - - Multiselect Dropdown no longer shows the checkboxes of selected but disabled options as checked. This change brings what the user sees as selected in line with what's submitted with the form. Same change and thinking for single-select Dropdown.
+
+  - Dropdown Option now correctly sets `aria-selected` when selected then disabled or enabled programmatically.
+
+- [#800](https://github.com/CrowdStrike/glide-core/pull/800) [`247cdc3`](https://github.com/CrowdStrike/glide-core/commit/247cdc3336a482b5817a6f9bbc82201056a7b21c) Thanks [@clintcs](https://github.com/clintcs)! - - Checkbox Group now updates its `value` when a Checkbox is checked or unchecked programmatically.
+  - Checkbox Group now updates its `value` when its form is reset.
+
 ## 0.22.0
 
 ### Minor Changes
