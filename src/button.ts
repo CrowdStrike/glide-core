@@ -1,3 +1,4 @@
+import './tooltip.ts';
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -19,6 +20,7 @@ declare global {
  * @attr {boolean} [disabled=false]
  * @attr {string} [name='']
  * @attr {'large'|'small'} [size='large']
+ * @attr {string} [tooltip]
  * @attr {'button'|'submit'|'reset'} [type='button']
  * @attr {string} [value='']
  * @attr {'primary'|'secondary'|'tertiary'} [variant='primary']
@@ -57,6 +59,9 @@ export default class GlideCoreButton extends LitElement {
   size: 'large' | 'small' = 'large';
 
   @property({ reflect: true })
+  tooltip?: string;
+
+  @property({ reflect: true })
   type: 'button' | 'submit' | 'reset' = 'button';
 
   @property({ reflect: true }) value = '';
@@ -76,45 +81,52 @@ export default class GlideCoreButton extends LitElement {
   }
 
   override render() {
-    return html`<button
-      class=${classMap({
-        component: true,
-        primary: this.variant === 'primary',
-        secondary: this.variant === 'secondary',
-        tertiary: this.variant === 'tertiary',
-        large: this.size === 'large',
-        small: this.size === 'small',
-        'prefix-icon': this.hasPrefixIcon,
-        'suffix-icon': this.hasSuffixIcon,
-      })}
-      ?disabled=${this.disabled}
-      @click=${this.#onClick}
-      ${ref(this.#buttonElementRef)}
+    return html`<glide-core-tooltip
+      label=${this.tooltip ?? ''}
+      ?disabled=${!this.disabled || !this.tooltip}
     >
-      <slot
-        name="prefix-icon"
-        @slotchange=${this.#onPrefixIconSlotChange}
-        ${ref(this.#prefixIconSlotElementRef)}
+      <button
+        aria-disabled=${this.disabled ? 'true' : 'false'}
+        class=${classMap({
+          component: true,
+          primary: this.variant === 'primary',
+          secondary: this.variant === 'secondary',
+          tertiary: this.variant === 'tertiary',
+          large: this.size === 'large',
+          small: this.size === 'small',
+          disabled: this.disabled,
+          'prefix-icon': this.hasPrefixIcon,
+          'suffix-icon': this.hasSuffixIcon,
+        })}
+        slot="target"
+        @click=${this.#onClick}
+        ${ref(this.#buttonElementRef)}
       >
-        <!--
-          An icon before the label
-          @type {Element}
-        -->
-      </slot>
+        <slot
+          name="prefix-icon"
+          @slotchange=${this.#onPrefixIconSlotChange}
+          ${ref(this.#prefixIconSlotElementRef)}
+        >
+          <!--
+            An icon before the label
+            @type {Element}
+          -->
+        </slot>
 
-      ${this.label}
+        ${this.label}
 
-      <slot
-        name="suffix-icon"
-        @slotchange=${this.#onSuffixIconSlotChange}
-        ${ref(this.#suffixIconSlotElementRef)}
-      >
-        <!-- 
-          An icon after the label  
-          @type {Element}
-        -->
-      </slot>
-    </button>`;
+        <slot
+          name="suffix-icon"
+          @slotchange=${this.#onSuffixIconSlotChange}
+          ${ref(this.#suffixIconSlotElementRef)}
+        >
+          <!--
+            An icon after the label
+            @type {Element}
+          -->
+        </slot>
+      </button>
+    </glide-core-tooltip>`;
   }
 
   constructor() {
@@ -136,7 +148,12 @@ export default class GlideCoreButton extends LitElement {
 
   #suffixIconSlotElementRef = createRef<HTMLSlotElement>();
 
-  #onClick() {
+  #onClick(event: PointerEvent) {
+    if (this.disabled) {
+      event.stopPropagation();
+      return;
+    }
+
     if (this.type === 'submit') {
       this.form?.requestSubmit();
       return;
