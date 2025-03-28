@@ -32,7 +32,7 @@ export default [
     }
 
     .shortcut {
-      color: var(--glide-core-color-interactive-text-placeholder);
+      color: var(--glide-core-private-color-tooltip-text-shortcut);
       display: none;
       white-space: nowrap;
 

@@ -26,7 +26,7 @@
   --glide-core-color-interactive-surface-container--disabled: #2c2c2c;
   --glide-core-color-interactive-surface-container-active: #2d7dcc;
   --glide-core-color-interactive-surface-container-active--hover: #265e95;
-  --glide-core-color-interactive-surface-container-active--disabled: #171f26;
+  --glide-core-color-interactive-surface-container-active--disabled: #1c344b;
   --glide-core-color-interactive-surface-container-inactive: #7e7e7e;
   --glide-core-color-interactive-surface-container-clickable: #ffffff0d;
   --glide-core-color-interactive-stroke-focus: #2d7dcc;
@@ -120,4 +120,5 @@
   --glide-core-private-color-tabs-stroke-underline: #ffffff26;
   --glide-core-private-color-template-surface-container-detail: #2c2c2c;
   --glide-core-private-color-tooltip-surface-container: #dcdcdc;
+  --glide-core-private-color-tooltip-text-shortcut: #5b5b5b;
 }
