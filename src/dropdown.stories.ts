@@ -64,6 +64,7 @@ const meta: Meta = {
     version: '',
     '<glide-core-dropdown-option>.label': 'One',
     '<glide-core-dropdown-option>.addEventListener(event, handler)': false,
+    '<glide-core-dropdown-option>.count': '',
     '<glide-core-dropdown-option>.disabled': false,
     '<glide-core-dropdown-option>.editable': false,
     '<glide-core-dropdown-option>.one.selected': false,
@@ -323,6 +324,13 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
         },
       },
     },
+    '<glide-core-dropdown-option>.count': {
+      name: 'count',
+      table: {
+        category: 'Dropdown Option',
+        type: { summary: 'number' },
+      },
+    },
     '<glide-core-dropdown-option>.disabled': {
       name: 'disabled',
       table: {
@@ -502,6 +510,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
     >
       <glide-core-dropdown-option
         label=${arguments_['<glide-core-dropdown-option>.label'] || nothing}
+        count=${arguments_['<glide-core-dropdown-option>.count'] || nothing}
         value=${arguments_['<glide-core-dropdown-option>.one.value'] || nothing}
         ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}
@@ -607,6 +616,7 @@ export const WithIcons: StoryObj = {
 
       <glide-core-dropdown-option
         label="Edit"
+        count=${arguments_['<glide-core-dropdown-option>.count'] || nothing}
         value="edit"
         ?disabled=${arguments_['<glide-core-dropdown-option>.disabled']}
         ?editable=${arguments_['<glide-core-dropdown-option>.editable']}

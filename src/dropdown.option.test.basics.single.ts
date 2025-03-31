@@ -64,3 +64,23 @@ it('appears unchecked when selected and disabled', async () => {
 
   expect(checkmark?.checkVisibility()).to.not.be.ok;
 });
+
+it('has a count', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      count=${1}
+    ></glide-core-dropdown-option>`,
+  );
+
+  const count = host.shadowRoot?.querySelector('[data-test="count-container"]');
+
+  expect(count?.checkVisibility()).to.be.true;
+  expect(count?.textContent?.trim()).to.equal('1');
+
+  host.count = 1000;
+  await host.updateComplete;
+
+  expect(count?.checkVisibility()).to.be.true;
+  expect(count?.textContent?.trim()).to.equal('999+');
+});

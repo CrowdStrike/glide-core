@@ -35,7 +35,7 @@ export default [
         font-weight: var(--glide-core-typography-weight-regular);
         padding-inline-start: 0.625rem;
 
-        &:not(.editable) {
+        &:not(.count, .editable) {
           padding-inline-end: var(--glide-core-spacing-base-sm);
         }
       }
@@ -46,7 +46,7 @@ export default [
         font-weight: var(--glide-core-typography-weight-regular);
         padding-inline-start: var(--glide-core-spacing-base-sm);
 
-        &:not(.editable) {
+        &:not(.count, .editable) {
           padding-inline-end: var(--glide-core-spacing-base-xs);
         }
       }
@@ -65,7 +65,7 @@ export default [
           padding-inline-start: var(--glide-core-spacing-base-sm);
         }
 
-        &:not(.editable) {
+        &:not(.count, .editable) {
           &::part(private-label-and-input-and-checkbox) {
             padding-inline-end: var(--glide-core-spacing-base-sm);
           }
@@ -77,7 +77,7 @@ export default [
           padding-inline-start: var(--glide-core-spacing-base-xs);
         }
 
-        &:not(.editable) {
+        &:not(.count, .editable) {
           &::part(private-label-and-input-and-checkbox) {
             padding-inline-end: var(--glide-core-spacing-base-xs);
           }
@@ -167,6 +167,7 @@ export default [
       border: none;
       display: flex;
       padding-block: 0;
+      padding-inline-end: 0;
       padding-inline-start: var(--glide-core-spacing-base-xs);
 
       &.active {
@@ -179,12 +180,14 @@ export default [
         color: var(--glide-core-color-interactive-icon-default--disabled);
       }
 
-      &.large {
-        padding-inline-end: var(--glide-core-spacing-base-sm);
-      }
+      &:not(.count) {
+        &.large {
+          padding-inline-end: var(--glide-core-spacing-base-sm);
+        }
 
-      &.small {
-        padding-inline-end: var(--glide-core-spacing-base-xs);
+        &.small {
+          padding-inline-end: var(--glide-core-spacing-base-xs);
+        }
       }
 
       &:focus {
@@ -196,6 +199,16 @@ export default [
       block-size: 0.875rem;
       display: block;
       inline-size: 0.875rem;
+    }
+
+    .count-container {
+      font-size: var(--glide-core-typography-size-body-small);
+      padding-inline-end: var(--glide-core-spacing-base-sm);
+      padding-inline-start: var(--glide-core-spacing-base-xs);
+
+      &.disabled {
+        color: var(--glide-core-icon-tertiary-disabled);
+      }
     }
   `,
 ];

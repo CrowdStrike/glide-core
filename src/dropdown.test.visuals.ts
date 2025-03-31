@@ -190,6 +190,106 @@ for (const story of stories.Dropdown) {
           );
         });
 
+        test.describe('size="large"', () => {
+          test('multiple=${true}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-dropdown')
+              .evaluate<void, GlideCoreDropdown>((element) => {
+                element.multiple = true;
+                element.open = true;
+              });
+
+            await page
+              .locator('glide-core-dropdown-option')
+              .first()
+              .evaluate<void, GlideCoreDropdownOption>((element) => {
+                element.selected = true;
+                element.count = 1000;
+                element.editable = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('multiple=${false}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-dropdown')
+              .evaluate<void, GlideCoreDropdown>((element) => {
+                element.open = true;
+              });
+
+            await page
+              .locator('glide-core-dropdown-option')
+              .first()
+              .evaluate<void, GlideCoreDropdownOption>((element) => {
+                element.selected = true;
+                element.count = 1000;
+                element.editable = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+        });
+
+        test.describe('size="small"', () => {
+          test('multiple=${true}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-dropdown')
+              .evaluate<void, GlideCoreDropdown>((element) => {
+                element.multiple = true;
+                element.open = true;
+                element.size = 'small';
+              });
+
+            await page
+              .locator('glide-core-dropdown-option')
+              .first()
+              .evaluate<void, GlideCoreDropdownOption>((element) => {
+                element.selected = true;
+                element.count = 1000;
+                element.editable = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('multiple=${false}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+            await page
+              .locator('glide-core-dropdown')
+              .evaluate<void, GlideCoreDropdown>((element) => {
+                element.open = true;
+                element.size = 'small';
+              });
+
+            await page
+              .locator('glide-core-dropdown-option')
+              .first()
+              .evaluate<void, GlideCoreDropdownOption>((element) => {
+                element.selected = true;
+                element.count = 1000;
+                element.editable = true;
+              });
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+        });
+
         test('slot="description"', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -307,51 +407,6 @@ for (const story of stories.Dropdown) {
               .first()
               .evaluate<void, GlideCoreDropdownOption>((element) => {
                 element.disabled = true;
-              });
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-        });
-
-        test.describe('<glide-core-dropdown-option>.editable', () => {
-          test('multiple=${false}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-dropdown')
-              .evaluate<void, GlideCoreDropdown>((element) => {
-                element.open = true;
-              });
-
-            await page
-              .locator('glide-core-dropdown-option')
-              .first()
-              .evaluate<void, GlideCoreDropdownOption>((element) => {
-                element.editable = true;
-              });
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-
-          test('multiple=${true}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-dropdown')
-              .evaluate<void, GlideCoreDropdown>((element) => {
-                element.multiple = true;
-                element.open = true;
-              });
-
-            await page
-              .locator('glide-core-dropdown-option')
-              .first()
-              .evaluate<void, GlideCoreDropdownOption>((element) => {
-                element.editable = true;
               });
 
             await expect(page).toHaveScreenshot(
