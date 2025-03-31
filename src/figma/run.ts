@@ -4,11 +4,6 @@ import getDesignTokens from './get-design-tokens.js';
 import writeDesignTokens from './write-design-tokens.js';
 import writeStylesheets from './write-stylesheets.js';
 
-const figmaToken = process.env.FIGMA_TOKEN ?? '';
-const figmaFileId = 'A4B1kaT5HVLqcijwK4GXzt';
-const tokensDirectory = 'tokens';
-const stylesheetsDirectory = 'stylesheets';
-
 /**
  * Queries Figma's API for variables. Converts those
  * variables into a Design Token format. Uses the Design
@@ -24,21 +19,15 @@ const stylesheetsDirectory = 'stylesheets';
  * 2: https://tr.designtokens.org/format
  */
 async function run() {
-  const figmaVariables = await fetchFigmaVariables({
-    fileId: figmaFileId,
-    token: figmaToken,
-  });
+  const figmaVariables = await fetchFigmaVariables();
 
   const tokens = getDesignTokens(figmaVariables);
 
-  await writeDesignTokens({
-    directory: tokensDirectory,
-    tokens,
-  });
+  await writeDesignTokens(tokens);
 
-  const cssVariables = await getCSSVariables(tokensDirectory);
+  const cssVariables = await getCSSVariables();
 
-  await writeStylesheets({ directory: stylesheetsDirectory, cssVariables });
+  await writeStylesheets(cssVariables);
 }
 
 await run();

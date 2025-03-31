@@ -380,12 +380,12 @@ function getTokenTypeFromVariable({
         return 'fontWeight';
       }
 
-      // `line-height` and `opacity` CSS properties are numbers¹.
-      // There are more number types, of course, but we don't have needs
+      // `opacity` CSS properties are numbers¹. There are
+      // more number types, of course, but we don't have needs
       // for them at the moment.
       //
       // 1: https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Values_and_units#numbers
-      if (scopes.includes('LINE_HEIGHT') || scopes.includes('OPACITY')) {
+      if (scopes.includes('OPACITY')) {
         return 'number';
       }
 
@@ -393,7 +393,7 @@ function getTokenTypeFromVariable({
       // measurement (like px, em, rem, etc.). They are typically used as
       // multipliers or ratios.
       //
-      // `font-weight`, `opacity,` and `line-height` are currently the only
+      // `font-weight` and `opacity` are currently the only
       // variables that are unitless from Figma. All other scopes that are
       // numbers should be converted from pixels to rems.
       //

@@ -24,20 +24,32 @@ export default [
 
     .component {
       align-items: center;
-      color: var(--glide-core-text-body-1);
+      color: var(--glide-core-color-interactive-text-default);
       display: flex;
-      font-weight: var(--glide-core-body-md-font-weight);
+      font-weight: var(--glide-core-typography-weight-regular);
 
       &:hover {
-        .circle {
-          border-color: var(--glide-core-border-focus);
-          box-shadow: var(--glide-core-glow-sm);
+        .circle:not(.disabled) {
+          border-color: var(--glide-core-color-interactive-icon-active--hover);
+
+          &.checked {
+            border-color: var(
+              --glide-core-color-interactive-icon-active--hover
+            );
+            box-shadow: var(--glide-core-effect-hovered);
+
+            &::after {
+              background-color: var(
+                --glide-core-color-interactive-icon-active--hover
+              );
+            }
+          }
         }
       }
 
       .circle {
         block-size: 1rem;
-        border: 1px solid var(--glide-core-border-base-dark);
+        border: 1px solid var(--glide-core-color-interactive-stroke-contrast);
         border-radius: 50%;
         box-sizing: border-box;
         inline-size: 1rem;
@@ -49,8 +61,10 @@ export default [
           box-shadow 200ms ease-in-out;
 
         &.checked {
-          background-color: var(--glide-core-color-white);
-          border-color: var(--glide-core-surface-primary);
+          background-color: var(
+            --glide-core-private-color-checkbox-surface-background-idle
+          );
+          border-color: var(--glide-core-color-interactive-icon-active);
 
           &.animate {
             @media (prefers-reduced-motion: no-preference) {
@@ -61,7 +75,9 @@ export default [
           }
 
           &::after {
-            background-color: var(--glide-core-surface-primary);
+            background-color: var(
+              --glide-core-color-interactive-surface-container-active
+            );
             block-size: 0.5rem;
             border-radius: 50%;
             box-sizing: border-box;
@@ -75,12 +91,16 @@ export default [
         }
 
         &.disabled {
-          border-color: var(--glide-core-surface-primary-disabled);
+          border-color: var(
+            --glide-core-private-color-radio-icon-default--disabled
+          );
           box-shadow: none;
           cursor: not-allowed;
 
           &::after {
-            background-color: var(--glide-core-surface-primary-disabled);
+            background-color: var(
+              --glide-core-private-color-radio-icon-default--disabled
+            );
           }
         }
       }

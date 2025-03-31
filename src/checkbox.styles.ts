@@ -13,27 +13,23 @@ export default [
       line-height: 100%;
 
       &.large {
-        column-gap: var(--glide-core-spacing-sm);
-        font-family: var(--glide-core-body-sm-font-family);
-        font-size: var(--glide-core-body-sm-font-size);
-        font-style: var(--glide-core-body-sm-font-style);
-        font-variant: var(--glide-core-body-sm-font-variant);
-        font-weight: var(--glide-core-body-sm-font-weight);
+        column-gap: var(--glide-core-spacing-base-sm);
+        font-family: var(--glide-core-typography-family-primary);
+        font-size: var(--glide-core-typography-size-body-default);
+        font-weight: var(--glide-core-typography-weight-regular);
       }
 
       &.small {
-        column-gap: var(--glide-core-spacing-xs);
-        font-family: var(--glide-core-body-xs-font-family);
-        font-size: var(--glide-core-body-xs-font-size);
-        font-style: var(--glide-core-body-xs-font-style);
-        font-variant: var(--glide-core-body-xs-font-variant);
-        font-weight: var(--glide-core-body-xs-font-weight);
+        column-gap: var(--glide-core-spacing-base-xs);
+        font-family: var(--glide-core-typography-family-primary);
+        font-size: var(--glide-core-typography-size-body-small);
+        font-weight: var(--glide-core-typography-weight-regular);
       }
     }
 
     .input-and-checkbox-and-summary {
       display: flex;
-      gap: var(--glide-core-spacing-sm);
+      gap: var(--glide-core-spacing-base-sm);
     }
 
     .input-and-checkbox {
@@ -51,11 +47,16 @@ export default [
 
     .checkbox {
       align-items: center;
+      background-color: var(
+        --glide-core-private-color-checkbox-surface-background-idle
+      );
       block-size: 100%;
-      border: 1px solid var(--glide-core-border-base-dark);
-      border-radius: 0.25rem;
+      border: 1px solid var(--glide-core-color-interactive-stroke-contrast);
+      border-radius: var(--glide-core-rounding-base-radius-xs);
       box-sizing: border-box;
-      color: var(--glide-core-icon-selected);
+      color: var(
+        --glide-core-private-color-checkbox-surface-background-selected--default
+      );
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
       inline-size: 100%;
@@ -68,11 +69,11 @@ export default [
       }
 
       &.error:not(.disabled) {
-        border-color: var(--glide-core-status-error);
+        border-color: var(--glide-core-color-error-stroke-primary);
       }
 
       &:not(.disabled):hover {
-        box-shadow: var(--glide-core-shadow-checkbox);
+        box-shadow: var(--glide-core-effect-hovered);
       }
     }
 
@@ -87,8 +88,8 @@ export default [
       position: absolute;
 
       &:not(:disabled):hover ~ .checkbox {
-        border-color: var(--glide-core-border-focus);
-        box-shadow: var(--glide-core-shadow-checkbox);
+        border-color: var(--glide-core-color-interactive-stroke-focus);
+        box-shadow: var(--glide-core-effect-hovered);
       }
 
       &:checked:not(:indeterminate) ~ .checkbox .checked-icon {
@@ -100,18 +101,31 @@ export default [
       }
 
       &:disabled:not(:is(:checked, :indeterminate)) ~ .checkbox {
-        background-color: var(--glide-core-surface-disabled);
-        border-color: var(--glide-core-border-base);
+        background-color: var(
+          --glide-core-private-color-checkbox-surface-background-idle
+        );
+        border-color: var(
+          --glide-core-private-color-checkbox-icon-default--disabled
+        );
       }
 
       &:is(:checked, :indeterminate):not(:disabled) ~ .checkbox {
-        background-color: var(--glide-core-surface-primary);
+        background-color: var(--glide-core-color-interactive-icon-active);
         border-color: transparent;
       }
 
       &:is(:checked, :indeterminate):disabled ~ .checkbox {
-        background-color: var(--glide-core-surface-primary-disabled);
+        background-color: var(
+          --glide-core-private-color-checkbox-icon-default--disabled
+        );
         border-color: transparent;
+
+        .indeterminate-icon {
+          fill: var(--glide-core-private-color-checkbox-icon-default--disabled);
+          stroke: var(
+            --glide-core-private-color-checkbox-icon-default--disabled
+          );
+        }
       }
 
       &:checked ~ .checkbox > .checked-icon {
@@ -167,13 +181,13 @@ export default [
 
     .indeterminate-icon {
       display: none;
-      fill: var(--glide-core-icon-active);
-      stroke: var(--glide-core-icon-active);
+      fill: var(--glide-core-color-interactive-icon-active);
+      stroke: var(--glide-core-color-interactive-icon-active);
     }
 
     .icon-and-label {
       align-items: center;
-      column-gap: var(--glide-core-spacing-xs);
+      column-gap: var(--glide-core-spacing-base-xs);
       display: flex;
       overflow: hidden;
     }
@@ -188,7 +202,7 @@ export default [
       white-space: nowrap;
 
       &.disabled {
-        color: var(--glide-core-icon-tertiary-disabled);
+        color: var(--glide-core-color-interactive-icon-default--disabled);
       }
     }
 
@@ -198,6 +212,10 @@ export default [
       &.hidden {
         display: none;
       }
+    }
+
+    .summary.disabled {
+      color: var(--glide-core-color-interactive-text-default--disabled);
     }
 
     .validity-message {

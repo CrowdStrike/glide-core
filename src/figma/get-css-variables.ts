@@ -3,6 +3,7 @@ import path from 'node:path';
 import yoctoSpinner from 'yocto-spinner';
 import { type TokenGroup } from './types.js';
 import isDesignToken from './is-design-token.js';
+import { extendedVariables, tokensDirectory } from './constants.js';
 
 /**
  * Reads the `.tokens.json` files generated from the previous step to
@@ -31,7 +32,7 @@ import isDesignToken from './is-design-token.js';
  *   * = optional
  *
  */
-export default async (directory: string) => {
+export default async () => {
   const spinner = yoctoSpinner({
     text: 'Converting tokens to CSS variables…\n',
   }).start();
@@ -39,9 +40,9 @@ export default async (directory: string) => {
   let files: string[];
 
   try {
-    files = await readdir(directory);
+    files = await readdir(tokensDirectory);
   } catch (error) {
-    spinner.error(`Failed to read the tokens directory "${directory}".`);
+    spinner.error(`Failed to read the tokens directory "${tokensDirectory}".`);
     throw error;
   }
 
@@ -75,7 +76,10 @@ export default async (directory: string) => {
         );
       }
 
-      const fileContent = await readFile(path.join(directory, file), 'utf8');
+      const fileContent = await readFile(
+        path.join(tokensDirectory, file),
+        'utf8',
+      );
 
       const tokens = JSON.parse(fileContent.toString()) as TokenGroup;
 
@@ -110,16 +114,50 @@ function generateCSSVariablesFromTokens({
   const cssVariables: string[] = [];
 
   for (const [key, value] of Object.entries(tokens)) {
+    // Design Token names can contain spaces, which don't
+    // translate to CSS custom properties. We'll use a `-`
+    // instead as our separator.
+    const formattedPrefix = prefix.replaceAll(' ', '-');
+    const variableName = `${formattedPrefix}-${key.toLowerCase()}`;
+
     if (isDesignToken(value)) {
-      // Skip tokens with empty or undefined scopes.
-      // If the scope is empty, it's an extended style.
-      // Extended styles are local to a component and not
+      let isExtendedVariable = false;
+
+      // When the scope is empty, it's an extended variable.
+      // Extended variables are local to a component and not
       // meant for global use.
       //
-      // These are similar in concept to our "private"-prefixed
-      // CSS variables in code, but on the Figma side.
+      // These variables are similar in concept to our
+      // "private"-prefixed CSS variables in code, but on
+      // the Figma side.
+      //
+      // Some extended styles we need to make accessible
+      // to our code to develop components and features.
+      // These unique cases should be included in the
+      // `extendedVariables` array in `constants.ts`.
+      // When the variable is included, we generate a
+      // "private"-prefixed CSS variable for them.
+      //
+      // These private variables are not meant to be used
+      // outside of this repository.
       if (!value.$extensions?.['com.figma']?.scopes?.length) {
-        continue;
+        const extendedVariable = extendedVariables.find((variable) =>
+          variableName.endsWith(
+            // Our `extendedVariables` array matches the naming
+            // conventions of Figma for convenience. But this
+            // means we need to format those variables so
+            // that they can be translated to CSS custom
+            // properties. We do this by replacing the invalid
+            // characters with a `-` instead.
+            variable.toLowerCase().replaceAll('/', '-').replaceAll(' ', '-'),
+          ),
+        );
+
+        if (!extendedVariable) {
+          continue;
+        }
+
+        isExtendedVariable = true;
       }
 
       let cssValue: string;
@@ -155,7 +193,11 @@ function generateCSSVariablesFromTokens({
         }
       }
 
-      cssVariables.push(`${prefix}-${key.toLowerCase()}: ${cssValue};`);
+      const variablePrefix = isExtendedVariable
+        ? formattedPrefix.replace('--glide-core-', '--glide-core-private-')
+        : formattedPrefix;
+
+      cssVariables.push(`${variablePrefix}-${key.toLowerCase()}: ${cssValue};`);
     } else if (typeof value === 'object') {
       // Why wouldn't `value` be a Design Token?
       //

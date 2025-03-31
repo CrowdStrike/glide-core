@@ -9,17 +9,19 @@ export default [
     .toggle-and-input-and-summary {
       align-items: center;
       display: flex;
-      gap: var(--glide-core-spacing-sm);
+      gap: var(--glide-core-spacing-base-sm);
     }
 
     .toggle-and-input {
       --private-inline-size: 1.5rem;
 
       align-items: center;
-      background-color: var(--glide-core-surface-selected-disabled);
+      background-color: var(
+        --glide-core-color-interactive-surface-container-inactive
+      );
       block-size: 0.875rem;
       border: 1px solid transparent;
-      border-radius: var(--glide-core-spacing-sm);
+      border-radius: var(--glide-core-rounding-base-radius-round);
       display: flex;
       flex-shrink: 0; /* Don't shrink when the summary wraps. */
       inline-size: var(--private-inline-size);
@@ -27,7 +29,9 @@ export default [
       position: relative;
 
       &:has(input:checked:not(:disabled)) {
-        background-color: var(--glide-core-surface-primary);
+        background-color: var(
+          --glide-core-color-interactive-surface-container-active
+        );
         border-color: transparent;
 
         &::before {
@@ -36,7 +40,9 @@ export default [
       }
 
       &:has(input:disabled) {
-        background-color: var(--glide-core-surface-unselected-disabled);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
 
         &::before {
           box-shadow: none;
@@ -44,7 +50,9 @@ export default [
       }
 
       &:has(input:checked:disabled) {
-        background-color: var(--glide-core-surface-primary-disabled);
+        background-color: var(
+          --glide-core-color-interactive-surface-container-active--disabled
+        );
 
         &::before {
           transform: translateX(0);
@@ -52,7 +60,7 @@ export default [
       }
 
       &::before {
-        background: var(--glide-core-surface-page);
+        background: var(--glide-core-color-interactive-icon-onsolid);
         block-size: 0.875rem;
         border-radius: 50%;
         box-shadow:

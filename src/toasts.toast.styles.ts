@@ -8,17 +8,16 @@ export default [
   css`
     .component {
       align-items: center;
-      border-radius: var(--glide-core-spacing-sm);
-      box-shadow: var(--glide-core-shadow-lg);
-      color: var(--glide-core-text-body-2);
-      column-gap: var(--glide-core-spacing-xs);
+      border-radius: var(--glide-core-rounding-base-radius-md);
+      box-shadow: var(--glide-core-effect-floating);
+      color: var(--glide-core-color-static-text-default);
+      column-gap: var(--glide-core-spacing-base-xs);
       display: grid;
-      font-family: var(--glide-core-body-xs-font-family);
-      font-size: var(--glide-core-body-sm-font-size);
-      font-weight: var(--glide-core-body-xs-font-weight);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
+      font-weight: var(--glide-core-typography-weight-regular);
       grid-template-columns: auto minmax(0, 1fr);
-      line-height: var(--glide-core-body-xs-line-height);
-      padding: var(--glide-core-spacing-sm);
+      padding: var(--glide-core-spacing-base-sm);
       transform: translateX(110%);
 
       @media (prefers-reduced-motion: no-preference) {
@@ -28,15 +27,15 @@ export default [
       }
 
       &.error {
-        background-color: var(--glide-core-surface-error);
+        background-color: var(--glide-core-color-error-surface-container);
       }
 
       &.informational {
-        background-color: var(--glide-core-surface-informational);
+        background-color: var(--glide-core-color-info-surface-container);
       }
 
       &.success {
-        background-color: var(--glide-core-surface-success);
+        background-color: var(--glide-core-color-success-surface-container);
       }
 
       &.open {
@@ -62,33 +61,34 @@ export default [
     }
 
     .label {
-      color: var(--glide-core-text-body-2);
-      font-size: var(--glide-core-heading-xs-font-size);
-      font-weight: var(--glide-core-heading-xs-font-weight);
+      color: var(--glide-core-color-static-text-default);
+      font-size: var(--glide-core-typography-size-heading-h3);
+      font-weight: var(--glide-core-typography-weight-semibold);
       grid-column: 2;
+      line-height: var(--glide-core-typography-height-heading-h3);
     }
 
     .close-button {
-      --private-icon-color: var(--glide-core-icon-default2);
+      --private-icon-color: var(--glide-core-color-interactive-icon-default);
 
       grid-column: 3;
     }
 
     .description {
-      color: var(--glide-core-text-body-2);
+      color: var(--glide-core-color-static-text-default);
       grid-column: 2;
     }
 
     .error {
-      color: var(--glide-core-status-failed);
+      color: var(--glide-core-color-error-icon-default);
     }
 
     .success {
-      color: var(--glide-core-status-success);
+      color: var(--glide-core-color-success-icon-default);
     }
 
     .warning-informational {
-      color: var(--glide-core-status-warning-informational);
+      color: var(--glide-core-color-info-icon-default);
     }
   `,
 ];

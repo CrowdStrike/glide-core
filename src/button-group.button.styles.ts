@@ -24,10 +24,12 @@ export default [
 
     :host(:last-of-type) .component.horizontal {
       border-end-end-radius: 0.6875rem;
+      border-inline-end: none;
       border-start-end-radius: 0.6875rem;
     }
 
     :host(:last-of-type) .component.vertical {
+      border-block-end: none;
       border-end-end-radius: 0.6875rem;
       border-end-start-radius: 0.6875rem;
     }
@@ -35,20 +37,20 @@ export default [
     .component {
       align-items: center;
       appearance: none;
-      background-color: var(--glide-core-surface-page);
+      background-color: var(--glide-core-color-static-surface-container);
+      color: var(--glide-core-color-static-text-default);
       cursor: pointer;
       display: flex;
-      font-family: var(--glide-core-font-sans);
-      font-size: var(--glide-core-body-md-font-size);
-      font-style: var(--glide-core-heading-xxs-font-style);
-      font-weight: var(--glide-core-heading-xxs-font-weight);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-large);
+      font-weight: var(--glide-core-typography-weight-bold);
       gap: 0.625rem;
       justify-content: center;
       line-height: 1;
       min-block-size: 1.125rem;
       min-inline-size: 5.1875rem;
-      padding-block: var(--glide-core-spacing-xs);
-      padding-inline: var(--glide-core-spacing-md);
+      padding-block: var(--glide-core-spacing-base-xs);
+      padding-inline: var(--glide-core-spacing-base-md);
       transition-duration: 150ms;
       transition-property: color, background-color, fill, stroke;
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -60,9 +62,11 @@ export default [
       }
 
       &:focus-visible {
-        background-color: var(--glide-core-surface-selected);
-        border-color: var(--glide-core-border-focus);
-        color: var(--glide-core-color-white);
+        background-color: var(
+          --glide-core-color-interactive-surface-container-active
+        );
+        border-color: var(--glide-core-color-interactive-stroke-focus);
+        color: var(--glide-core-color-static-text-onsolid);
         outline-offset: 2px;
 
         /* Create a stacking context so the outline isn't obscured by other elements. */
@@ -70,11 +74,13 @@ export default [
       }
 
       &.horizontal {
-        border-inline-end: 1px solid var(--glide-core-border-base-lighter);
+        border-inline-end: 1px solid
+          var(--glide-core-color-static-surface-container-secondary);
       }
 
       &.vertical {
-        border-block-end: 1px solid var(--glide-core-border-base-lighter);
+        border-block-end: 1px solid
+          var(--glide-core-color-static-surface-container-secondary);
 
         &.icon {
           &:not(.icon-only) {
@@ -85,29 +91,47 @@ export default [
 
       &.icon-only {
         min-inline-size: 0;
-        padding: var(--glide-core-spacing-xs);
+        padding: var(--glide-core-spacing-base-xs);
       }
 
       &.disabled {
-        background-color: var(--glide-core-border-base-lighter);
-        border-color: var(--glide-core-border-base-lighter);
-        color: var(--glide-core-text-tertiary-disabled);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--disabled
+        );
+        border-color: var(--glide-core-color-static-stroke-primary);
+        color: var(--glide-core-color-interactive-text-link--disabled);
         cursor: not-allowed;
       }
 
       &:not(.disabled) {
         &.selected {
-          background-color: var(--glide-core-surface-selected);
-          border-color: var(--glide-core-surface-selected);
-          color: var(--glide-core-color-white);
+          background-color: var(
+            --glide-core-color-interactive-surface-container-active
+          );
+          border-color: var(
+            --glide-core-color-interactive-surface-container-active
+          );
+          color: var(--glide-core-private-color-button-text-primary);
+
+          &:hover {
+            background-color: var(
+              --glide-core-color-interactive-surface-container--hover
+            );
+            border-color: var(
+              --glide-core-color-interactive-surface-container--hover
+            );
+            color: var(--glide-core-color-interactive-text-link);
+          }
         }
       }
 
       &:not(.disabled, .selected):hover {
-        background-color: var(--glide-core-surface-hover);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--hover
+        );
         border-color: transparent;
-        box-shadow: var(--glide-core-glow-sm);
-        color: var(--glide-core-text-primary);
+        box-shadow: var(--glide-core-effect-hovered);
+        color: var(--glide-core-color-interactive-text-link);
       }
     }
   `,

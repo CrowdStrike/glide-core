@@ -1,3 +1,13 @@
+:root,
+.theme-light {
+  --color-template-surface-background-page: #ffffff00;
+}
+
+:host,
+.theme-dark {
+  --color-template-surface-background-page: #141414;
+}
+
 .docs-story {
   /* The element containing the component on the overview page. */
   & > div {
@@ -42,12 +52,12 @@
 
 /* The element on the overview page that contains our rendered component. */
 .docs-story {
-  background-color: var(--glide-core-surface-background-image) !important;
+  background-color: var(--color-template-surface-background-page) !important;
 }
 
 /* The element on individual story pages that contains our rendered component. */
 .sb-show-main {
-  background-color: var(--glide-core-surface-background-image) !important;
+  background-color: var(--color-template-surface-background-page) !important;
 }
 
 /* The tooltip shown when `argTypes[key].table.type` is clicked. */

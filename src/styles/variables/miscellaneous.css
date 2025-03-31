@@ -1,65 +1,19 @@
-/* These variables are not yet defined in Figma */
+/*
+  Variables defined in Figma, but not easily
+  exportable via scripting. The naming of
+  variables is a manual process, but they
+  should align with the name in Figma.
+*/
 :root {
-  --glide-core-body-md-font-family: var(--glide-core-font-sans);
-  --glide-core-body-md-font-size: 1rem;
-  --glide-core-body-md-font-style: normal;
-  --glide-core-body-md-font-weight: 400;
-  --glide-core-body-md-line-height: normal;
-  --glide-core-body-sm-font-family: var(--glide-core-font-sans);
-  --glide-core-body-sm-font-size: 0.875rem;
-  --glide-core-body-sm-font-variant: normal;
-  --glide-core-body-sm-font-weight: 400;
-  --glide-core-body-sm-line-height: 1.3;
-  --glide-core-body-xs-font-family: var(--glide-core-font-sans);
-  --glide-core-body-xs-font-size: 0.75rem;
-  --glide-core-body-xs-font-variant: normal;
-  --glide-core-body-xs-font-weight: 400;
-  --glide-core-body-xs-line-height: 1.3;
-  --glide-core-color-dark-blue: #054fb9;
-  --glide-core-color-white: #ffffff;
-  --glide-core-font-sans: 'Nunito';
-  --glide-core-font-weight-bold: 700;
-  --glide-core-font-weight-semi-bold: 600;
-  --glide-core-glow-sm: 0px 0px 2px 0px #2c97eee5;
-  --glide-core-heading-xs-font-size: 1.25rem;
-  --glide-core-heading-xs-font-weight: var(--glide-core-font-weight-semi-bold);
-  --glide-core-heading-xxs-font-family: var(--glide-core-font-sans);
-  --glide-core-heading-xxs-font-size: 1rem;
-  --glide-core-heading-xxs-font-style: normal;
-  --glide-core-heading-xxs-font-variant: normal;
-  --glide-core-heading-xxs-font-weight: var(--glide-core-font-weight-bold);
-  --glide-core-heading-xxxs-font-family: var(--glide-core-font-sans);
-  --glide-core-heading-xxxs-font-size: 0.875rem;
-  --glide-core-heading-xxxs-font-style: normal;
-  --glide-core-heading-xxxs-font-variant: normal;
-  --glide-core-heading-xxxs-font-weight: var(--glide-core-font-weight-bold);
-  --glide-core-heading-xxxs-line-height: 1.7;
-  --glide-core-shadow-checkbox: 0px 0px 7px 0px #5ba4ee;
-  --glide-core-shadow-sm: var(--glide-core-effects-shadow-small-x)
-    var(--glide-core-effects-shadow-small-y)
-    var(--glide-core-effects-shadow-small-blur)
-    var(--glide-core-effects-shadow-small-spread)
-    var(--glide-core-effects-shadow-small-fill);
-  --glide-core-shadow-md: 0px 3px 8px 0px rgba(0, 0, 0, 0.15),
-    0px 3px 1px 0px rgba(0, 0, 0, 0.06);
-  --glide-core-shadow-lg: var(--glide-core-effects-shadow-large-x)
-    var(--glide-core-effects-shadow-large-y)
-    var(--glide-core-effects-shadow-large-blur)
-    var(--glide-core-effects-shadow-large-spread)
-    var(--glide-core-effects-shadow-large-fill);
-  --glide-core-shadow-xl: var(--glide-core-effects-shadow-xlarge-x)
-    var(--glide-core-effects-shadow-xlarge-y)
-    var(--glide-core-effects-shadow-xlarge-blur)
-    var(--glide-core-effects-shadow-xlarge-spread)
-    var(--glide-core-effects-shadow-xlarge-fill);
-  --glide-core-shadow-footer: var(--glide-core-effects-shadow-footer-x)
-    var(--glide-core-effects-shadow-footer-y)
-    var(--glide-core-effects-shadow-footer-blur)
-    var(--glide-core-effects-shadow-footer-spread)
-    var(--glide-core-effects-shadow-footer-fill);
-  --glide-core-shadow-nav: var(--glide-core-effects-shadow-nav-x)
-    var(--glide-core-effects-shadow-nav-y)
-    var(--glide-core-effects-shadow-nav-blur)
-    var(--glide-core-effects-shadow-nav-spread)
-    var(--glide-core-effects-shadow-nav-fill);
+  --glide-core-effect-hovered: 0px 0px 2px 0px
+    var(--glide-core-color-effect-color-elevation-hovered);
+  --glide-core-effect-lifted: 0px 2px 8px 0px
+    var(--glide-core-color-effect-color-elevation-lifted);
+  --glide-core-effect-raised:
+    0px 3px 1px 0px var(--glide-core-color-effect-color-elevation-raised-1),
+    0px 3px 8px 0 var(--glide-core-color-effect-color-elevation-raised-2);
+  --glide-core-effect-floating: 0px
+    var(--glide-core-color-effect-position-elevation-floating-y)
+    var(--glide-core-color-effect-blur-elevation-floating-blur)
+    var(--glide-core-color-effect-color-elevation-floating);
 }

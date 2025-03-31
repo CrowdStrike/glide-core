@@ -6,7 +6,7 @@ export default [
       align-items: center;
       background-color: transparent;
       border: none;
-      border-radius: var(--glide-core-spacing-sm);
+      border-radius: var(--glide-core-spacing-base-sm);
       display: flex;
       font: inherit;
       gap: var(--private-gap);
@@ -17,15 +17,17 @@ export default [
       user-select: none;
 
       &.active {
-        background-color: var(--glide-core-surface-hover);
+        background-color: var(
+          --glide-core-color-interactive-surface-container--hover
+        );
       }
 
       &.disabled {
-        color: var(--glide-core-icon-tertiary-disabled);
+        color: var(--glide-core-color-interactive-icon-default--disabled);
       }
 
       &:not(.disabled) {
-        color: var(--glide-core-text-body-1);
+        color: var(--glide-core-color-static-text-default);
         cursor: pointer;
       }
     }

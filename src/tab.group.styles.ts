@@ -19,7 +19,8 @@ export default [
     }
 
     .tab-container {
-      border-block-end: 1px solid var(--glide-core-border-base-lighter);
+      border-block-end: 1px solid
+        var(--glide-core-private-color-tabs-stroke-underline);
       box-sizing: border-box;
       display: flex;
       padding-block-end: var(--tabs-padding-block-end);
@@ -30,7 +31,7 @@ export default [
 
     .tab-group {
       display: flex;
-      gap: var(--glide-core-spacing-xl);
+      gap: var(--glide-core-spacing-base-xl);
       overflow: auto hidden;
       position: relative;
       scrollbar-width: none;
@@ -41,7 +42,7 @@ export default [
       }
 
       &::after {
-        background: var(--glide-core-border-focus);
+        background: var(--glide-core-color-interactive-stroke-active);
         block-size: 0.125rem;
         content: '';
         inline-size: var(--private-selected-tab-indicator-width);
@@ -69,7 +70,7 @@ export default [
       align-items: center;
       background-color: transparent;
       border: none;
-      color: var(--glide-core-icon-default);
+      color: var(--glide-core-color-interactive-icon-default);
       cursor: pointer;
       display: flex;
       flex-shrink: 0;
@@ -80,7 +81,7 @@ export default [
       padding: 0;
 
       &.disabled {
-        color: var(--glide-core-icon-tertiary-disabled);
+        color: var(--glide-core-color-interactive-icon-default--disabled);
       }
 
       &.start {

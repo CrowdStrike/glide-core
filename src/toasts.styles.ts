@@ -7,7 +7,7 @@ export default [
       border: none;
       display: none;
       flex-direction: column-reverse;
-      gap: var(--glide-core-spacing-md);
+      gap: var(--glide-core-spacing-base-md);
       inline-size: 24.25rem;
       inset-block-start: 0;
       inset-inline-end: 0;
@@ -15,7 +15,7 @@ export default [
       max-block-size: 100%;
       max-inline-size: 100%;
       overflow: hidden;
-      padding: var(--glide-core-spacing-sm);
+      padding: var(--glide-core-spacing-base-sm);
       position: fixed;
 
       &:popover-open {
