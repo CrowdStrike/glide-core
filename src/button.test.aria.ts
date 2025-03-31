@@ -22,3 +22,20 @@ test('disabled=${false}', async ({ page }, test) => {
     name: `${test.titlePath.join('.')}.yml`,
   });
 });
+
+test('tooltip', async ({ page }, test) => {
+  await page.goto('?id=button--button');
+
+  await page
+    .locator('glide-core-button')
+    .evaluate<void, GlideCoreButton>((element) => {
+      element.disabled = true;
+      element.tooltip = 'Tooltip';
+    });
+
+  await page.locator('glide-core-tooltip').getByRole('button').focus();
+
+  await expect(page.locator('glide-core-button')).toMatchAriaSnapshot({
+    name: `${test.titlePath.join('.')}.yml`,
+  });
+});

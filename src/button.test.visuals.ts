@@ -84,13 +84,32 @@ for (const story of stories.Button) {
           });
         });
 
-        test(':focus', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-          await page.locator('glide-core-button').focus();
+        test.describe(':focus', () => {
+          test('disabled=${true}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
+            await page
+              .locator('glide-core-button')
+              .evaluate<void, GlideCoreButton>((element) => {
+                element.disabled = true;
+                element.tooltip = 'Tooltip';
+              });
+
+            await page.locator('glide-core-button').focus();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
+
+          test('disabled=${false}', async ({ page }, test) => {
+            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+            await page.locator('glide-core-button').focus();
+
+            await expect(page).toHaveScreenshot(
+              `${test.titlePath.join('.')}.png`,
+            );
+          });
         });
 
         test.describe(':hover', () => {
@@ -101,6 +120,7 @@ for (const story of stories.Button) {
               .locator('glide-core-button')
               .evaluate<void, GlideCoreButton>((element) => {
                 element.disabled = true;
+                element.tooltip = 'Tooltip';
               });
 
             await page.locator('glide-core-button').hover();

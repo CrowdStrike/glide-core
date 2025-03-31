@@ -34,7 +34,7 @@ export default [
         outline: none;
       }
 
-      &:disabled {
+      &.disabled {
         cursor: not-allowed;
         opacity: 1;
       }
@@ -54,7 +54,7 @@ export default [
         border-color: transparent;
         color: var(--glide-core-private-color-button-text-primary);
 
-        &:disabled {
+        &.disabled {
           background-color: var(
             --glide-core-color-interactive-surface-container--disabled
           );
@@ -62,7 +62,7 @@ export default [
           color: var(--glide-core-color-interactive-text-link--disabled);
         }
 
-        &:not(:disabled):active {
+        &:not(.disabled):active {
           background-color: var(
             --glide-core-private-color-button-surface-active
           );
@@ -70,7 +70,7 @@ export default [
           color: var(--glide-core-private-color-button-text-primary);
         }
 
-        &:not(:active):hover:not(:disabled) {
+        &:not(:active):hover:not(.disabled) {
           background-color: var(
             --glide-core-color-interactive-surface-container--hover
           );
@@ -85,7 +85,7 @@ export default [
         border-color: var(--glide-core-private-color-button-stroke-default);
         color: var(--glide-core-color-interactive-text-link);
 
-        &:disabled {
+        &.disabled {
           background-color: var(
             --glide-core-color-interactive-surface-container--disabled
           );
@@ -93,7 +93,7 @@ export default [
           color: var(--glide-core-color-interactive-text-link--disabled);
         }
 
-        &:not(:disabled):active {
+        &:not(.disabled):active {
           background-color: var(
             --glide-core-private-color-button-surface-active
           );
@@ -101,7 +101,7 @@ export default [
           color: var(--glide-core-private-color-button-text-primary);
         }
 
-        &:not(:active):hover:not(:disabled) {
+        &:not(:active):hover:not(.disabled) {
           background-color: var(
             --glide-core-color-interactive-surface-container--hover
           );
@@ -116,18 +116,18 @@ export default [
         border-color: transparent;
         color: var(--glide-core-color-interactive-text-link);
 
-        &:disabled {
+        &.disabled {
           color: var(--glide-core-color-interactive-text-link--disabled);
         }
 
-        &:not(:disabled):active {
+        &:not(.disabled):active {
           background-color: var(
             --glide-core-private-color-button-surface-active
           );
           color: var(--glide-core-private-color-button-text-primary);
         }
 
-        &:not(:active):hover:not(:disabled) {
+        &:not(:active):hover:not(.disabled) {
           background-color: var(
             --glide-core-color-interactive-surface-container--hover
           );

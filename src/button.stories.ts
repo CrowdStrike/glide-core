@@ -31,6 +31,7 @@ const meta: Meta = {
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         size=${arguments_.size || nothing}
+        tooltip=${arguments_.tooltip || nothing}
         type=${arguments_.type || nothing}
         value=${arguments_.value || nothing}
         variant=${arguments_.variant || nothing}
@@ -49,6 +50,7 @@ const meta: Meta = {
     'slot="prefix-icon"': '',
     'slot="suffix-icon"': '',
     type: 'button',
+    tooltip: '',
     value: '',
     variant: 'primary',
     version: '',
@@ -106,6 +108,14 @@ const meta: Meta = {
         type: { summary: 'Element' },
       },
     },
+    tooltip: {
+      table: {
+        type: {
+          summary: 'string',
+          detail: 'Shown when Button is disabled',
+        },
+      },
+    },
     type: {
       control: { type: 'select' },
       options: ['button', 'reset', 'submit'],
@@ -160,6 +170,7 @@ export const WithIcons: StoryObj = {
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
         size=${arguments_.size || nothing}
+        tooltip=${arguments_.tooltip || nothing}
         type=${arguments_.type || nothing}
         value=${arguments_.value || nothing}
         variant=${arguments_.variant || nothing}

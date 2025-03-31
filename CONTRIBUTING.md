@@ -315,7 +315,7 @@ export default class Component extends LitElement {
 @customElement('glide-core-example')
 export default class Component extends LitElement {
   override render() {
-    return html` <button part="component">Button</button>`;
+    return html`<button part="component">Button</button>`;
   }
 }
 ```
