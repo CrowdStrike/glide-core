@@ -21,7 +21,6 @@ export default [
       justify-content: center;
       padding-block: var(--glide-core-spacing-base-xs);
       padding-inline: var(--glide-core-spacing-base-md);
-      padding-inline-end: var(--glide-core-spacing-base-xs);
       position: relative;
       text-decoration: none;
       transition-duration: 150ms;

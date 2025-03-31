@@ -77,7 +77,6 @@ export default class GlideCoreInlineAlert extends LitElement {
         role="alert"
         aria-labelledby="label"
         data-test="component"
-        data-animation-duration=${this.#animationDuration}
         style="--private-animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
