@@ -38,7 +38,7 @@ jobs:
         run: |
           BRANCH="${{ github.head_ref }}"
 
-          if [[ ! $BRANCH =~ ^[-a-zA-Z0-9_\/]+$ ]]; then
+          if [[ ! $BRANCH =~ ^[-a-zA-Z0-9_\/\.]+$ ]]; then
             echo "Invalid branch name"
             exit 1
           fi
