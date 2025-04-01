@@ -149,7 +149,7 @@
     "eslint-plugin-lit": "^1.15.0",
     "eslint-plugin-lit-a11y": "^4.1.4",
     "eslint-plugin-sort-class-members": "^1.21.0",
-    "eslint-plugin-unicorn": "^56.0.1",
+    "eslint-plugin-unicorn": "^58.0.0",
     "globals": "^15.13.0",
     "globby": "^14.0.2",
     "http-server": "^14.1.1",
