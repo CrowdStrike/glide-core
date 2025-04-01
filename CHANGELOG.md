@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.24.1
+
+### Patch Changes
+
+- [#818](https://github.com/CrowdStrike/glide-core/pull/818) [`beb50ae`](https://github.com/CrowdStrike/glide-core/commit/beb50aeb411987292b79e6e48ce0a79e6b07b1bb) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Fixes Button's Tooltip import.
+
 ## 0.24.0
 
 ### Minor Changes
