@@ -34,8 +34,8 @@ importers:
         specifier: ^9.22.0
         version: 9.23.0
       '@figma/rest-api-spec':
-        specifier: ^0.24.0
-        version: 0.24.0
+        specifier: ^0.27.0
+        version: 0.27.0
       '@open-wc/testing':
         specifier: ^4.0.0
         version: 4.0.0
@@ -590,8 +590,8 @@ packages:
   '@esm-bundle/chai@4.3.4-fix.0':
     resolution: {integrity: sha512-26SKdM4uvDWlY8/OOOxSB1AqQWeBosCX3wRYUZO7enTAj03CtVxIiCimYVG2WpULcyV51qapK4qTovwkUr5Mlw==}
 
-  '@figma/rest-api-spec@0.24.0':
-    resolution: {integrity: sha512-c/LHQNzfn8HSuo608TnfHJS8K3Ps61MvDbqTTL+qVx2FCIui7dI3RC2bG2/kSHmQXXKTbgbcAADyU6Rf8YkZbQ==}
+  '@figma/rest-api-spec@0.27.0':
+    resolution: {integrity: sha512-jRGYwBLdybit9X7puOmztx8XUt1dq9a7jtBO2KEK4OrxP8GKGX5yY2+efV/XNRHnqTbzFue0qdZklSBs/EaGNw==}
 
   '@floating-ui/core@1.6.8':
     resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
@@ -5046,7 +5046,7 @@ snapshots:
     dependencies:
       '@types/chai': 4.3.20
 
-  '@figma/rest-api-spec@0.24.0': {}
+  '@figma/rest-api-spec@0.27.0': {}
 
   '@floating-ui/core@1.6.8':
     dependencies:
