@@ -1,4 +1,4 @@
-import './tooltip.ts';
+import './tooltip.js';
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
