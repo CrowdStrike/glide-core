@@ -139,7 +139,7 @@ export default [
       }
 
       svg {
-        color: var(--glide-core-color-button-icon-primary);
+        color: var(--glide-core-private-color-button-icon-primary);
       }
     }
   `,
