@@ -26,9 +26,6 @@ export default [
       visibility: hidden;
 
       &.pinned {
-        background-color: var(
-          --glide-core-private-color-template-surface-container-detail
-        );
         box-shadow: none;
       }
 
