@@ -241,9 +241,7 @@ function buildTokensFromVariables({
         ? `${collection.name.toLowerCase()}-${modeName}.tokens.json`
         : `${collection.name.toLowerCase()}.tokens.json`;
 
-      if (!tokens[tokenFileName]) {
-        tokens[tokenFileName] = {};
-      }
+      tokens[tokenFileName] ??= {};
 
       let tokenGroup: TokenGroup = tokens[tokenFileName];
 

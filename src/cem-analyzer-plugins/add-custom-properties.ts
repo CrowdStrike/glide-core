@@ -100,9 +100,7 @@ export default () => {
                 );
 
                 // Undefined if it's the first custom property in the stylesheet.
-                if (!context.stylesheets) {
-                  context.stylesheets = {};
-                }
+                context.stylesheets ??= {};
 
                 const customProperty = {
                   name: declarationNode.prop,
@@ -117,8 +115,8 @@ export default () => {
 
                 if (context.stylesheets[fileName] && isNew) {
                   context.stylesheets[fileName].push(customProperty);
-                } else if (!context.stylesheets[fileName]) {
-                  context.stylesheets[fileName] = [customProperty];
+                } else {
+                  context.stylesheets[fileName] ??= [customProperty];
                 }
               }
             }
