@@ -233,6 +233,104 @@ it('remains open when a disabled link is clicked via `sendMouse()`', async () =>
   expect(target?.ariaExpanded).to.equal('true');
 });
 
+it('remains open when its options are clicked and the event is canceled', async () => {
+  const host = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-button label="Label"></glide-core-menu-button>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  host
+    .querySelector('glide-core-menu-options')
+    ?.addEventListener('click', (event: Event) => event.preventDefault());
+
+  await click(host.querySelector('glide-core-menu-button'));
+  await click(host.querySelector('glide-core-menu-link'));
+
+  const defaultSlot =
+    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  const target = host.querySelector('button');
+
+  expect(host.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('remains open when its target is clicked and the event is canceled', async () => {
+  const host = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-button label="Label"></glide-core-menu-button>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  // Enter and Space are different than a mouse click in that they additionally produce
+  // a "click" on the option itself via the `#activeOption?.click()` in `#onSlotKeydown`.
+  // So we, like the consumer, have to cancel that event too to stop Menu from closing.
+  host
+    .querySelector('glide-core-menu-options')
+    ?.addEventListener('click', (event: Event) => event.preventDefault());
+
+  const target = host.querySelector('button');
+  target?.addEventListener('click', (event: Event) => event.preventDefault());
+
+  await click(target);
+  target?.focus();
+  await sendKeys({ press: 'Enter' });
+  await sendKeys({ press: ' ' });
+
+  const defaultSlot =
+    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  expect(host.open).to.be.true;
+  expect(defaultSlot?.checkVisibility()).to.be.true;
+  expect(target?.ariaExpanded).to.equal('true');
+});
+
+it('remains closed when its target is clicked and the event is canceled', async () => {
+  const host = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-button label="Label"></glide-core-menu-button>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  const target = host.querySelector('button');
+  target?.addEventListener('click', (event: Event) => event.preventDefault());
+
+  await click(target);
+  target?.focus();
+  await sendKeys({ press: 'Enter' });
+  await sendKeys({ press: ' ' });
+
+  const defaultSlot =
+    host?.shadowRoot?.querySelector<HTMLSlotElement>('slot:not([name])');
+
+  expect(host.open).to.be.false;
+  expect(defaultSlot?.checkVisibility()).to.be.false;
+  expect(target?.ariaExpanded).to.equal('false');
+});
+
 it('closes when `open` is set programmatically', async () => {
   const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu open>
@@ -284,7 +382,7 @@ it('does not open on click when there are no options', async () => {
   expect(target?.ariaExpanded).to.equal('false');
 });
 
-it('does not open when disabled is set on its target', async () => {
+it('does not open when `disabled` is set on its target', async () => {
   const host = await fixture<GlideCoreMenu>(
     html`<glide-core-menu>
       <button slot="target" disabled>Target</button>
@@ -575,7 +673,7 @@ it('does not open on Space when there are no options', async () => {
   expect(target?.ariaExpanded).to.equal('false');
 });
 
-// See the `document` click handler comment in `menu.ts` for an explanation.
+// See the comment in `connectedCallback()` for an explanation.
 it('opens when opened programmatically via the click handler of another element', async () => {
   const div = document.createElement('div');
 
@@ -592,6 +690,7 @@ it('opens when opened programmatically via the click handler of another element'
 
   const anotherElement = document.createElement('button');
   anotherElement.addEventListener('click', () => (host.open = true));
+  anotherElement.textContent = 'Another element';
   div.append(anotherElement);
   await click(anotherElement);
 

@@ -177,10 +177,10 @@ export default class GlideCoreMenu extends LitElement {
       }
     }
 
-    // Menu's "click" handler on `document` listens for clicks in the capture
-    // phase. There's a comment explaining why. `#isTargetSlotClick` must be
-    // set before that handler is called so it has the information it needs
-    // to determine whether or not to close Menu.
+    // Menu's "click" handler on `document` listens for clicks in the capture phase. There's
+    // a comment in `connectedCallback()` explaining why. `#isTargetSlotMouseUp` must be set
+    // before that handler is called so it has the information it needs to determine whether
+    // or not to close Menu.
     this.#targetSlotElementRef.value?.addEventListener(
       'mouseup',
       this.#onTargetSlotMouseup,
@@ -211,6 +211,7 @@ export default class GlideCoreMenu extends LitElement {
 
   override render() {
     // The linter wants a "focus" handler on the slot and apparently "focusin" doesn't satisfy it.
+    //
     /* eslint-disable lit-a11y/mouse-events-have-key-events */
     return html`
       <div
@@ -260,15 +261,11 @@ export default class GlideCoreMenu extends LitElement {
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
-  #isClosingAfterSelection = false;
-
   #isDefaultSlotClick = false;
-
-  #isDisabledLinkClick = false;
 
   #isOpen = false;
 
-  #isTargetSlotClick = false;
+  #isTargetSlotMouseUp = false;
 
   #offset: number | undefined;
 
@@ -294,18 +291,8 @@ export default class GlideCoreMenu extends LitElement {
 
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
-  #onDefaultSlotMouseup = (event: Event) => {
-    if (event.target === this.#defaultSlotElementRef.value) {
-      this.#isDefaultSlotClick = true;
-    }
-
-    if (event.target instanceof Element) {
-      const link = event.target?.closest('glide-core-menu-link');
-
-      if (link?.disabled) {
-        this.#isDisabledLinkClick = true;
-      }
-    }
+  #onDefaultSlotMouseup = () => {
+    this.#isDefaultSlotClick = true;
   };
 
   // An arrow function field instead of a method so `this` is closed over and
@@ -321,13 +308,8 @@ export default class GlideCoreMenu extends LitElement {
       return;
     }
 
-    if (this.#isDisabledLinkClick) {
-      this.#isDisabledLinkClick = false;
-      return;
-    }
-
-    if (this.#isTargetSlotClick) {
-      this.#isTargetSlotClick = false;
+    if (this.#isTargetSlotMouseUp) {
+      this.#isTargetSlotMouseUp = false;
       return;
     }
 
@@ -341,7 +323,7 @@ export default class GlideCoreMenu extends LitElement {
   // An arrow function field instead of a method so `this` is closed over and
   // set to the component instead of `document`.
   #onTargetSlotMouseup = () => {
-    this.#isTargetSlotClick = true;
+    this.#isTargetSlotMouseUp = true;
   };
 
   #focus(options?: FocusOptions) {
@@ -391,7 +373,10 @@ export default class GlideCoreMenu extends LitElement {
 
   #onDefaultSlotClick(event: Event) {
     // So Menu isn't closed when the border or padding on `.default-slot` is clicked.
-    if (event.target !== this.#defaultSlotElementRef.value) {
+    if (
+      !event.defaultPrevented &&
+      event.target !== this.#defaultSlotElementRef.value
+    ) {
       this.open = false;
     }
   }
@@ -478,11 +463,17 @@ export default class GlideCoreMenu extends LitElement {
       this.#targetElement instanceof HTMLDivElement;
 
     if ([' ', 'Enter'].includes(event.key) && this.open) {
+      this.#isDefaultSlotClick = true;
+
+      // Enter and Space will produce a "click" event. But so will `#activeOption?.click()`
+      // below. Canceling this click simplifies logic elsewhere in this component so that we
+      // don't have to account for two sucessive clicks. Emitting a single click is also
+      // likely less confusing to consumers.
+      event.preventDefault();
+
       if (event.key === ' ' && isSpanOrDiv) {
         event.preventDefault(); // Prevent scroll.
       }
-
-      this.open = false;
 
       // For VoiceOver. Options normally don't receive focus. But VoiceOver
       // can focus them programmatically. So we move focus back to the target
@@ -491,16 +482,10 @@ export default class GlideCoreMenu extends LitElement {
 
       this.#activeOption?.click();
 
-      // `#onTargetSlotClick` is called on click, and it opens or closes Menu.
-      // Space and Enter produce "click" events. This property gives `#onTargetSlotClick`
-      // the information it needs to guard against immediately reopening Menu
-      // after it's closed above.
-      this.#isClosingAfterSelection = true;
-
       return;
     }
 
-    if ([' ', 'Enter'].includes(event.key) && isSpanOrDiv) {
+    if ([' ', 'Enter'].includes(event.key) && !this.open && isSpanOrDiv) {
       event.preventDefault(); // Prevent scroll when Space is pressed.
 
       // `<span>`s and `<div>`s don't emit "click" events on Enter and Space.
@@ -669,14 +654,13 @@ export default class GlideCoreMenu extends LitElement {
     }
   }
 
-  #onTargetSlotClick() {
-    if (this.isTargetDisabled) {
-      this.#hide();
+  #onTargetSlotClick(event: Event) {
+    if (event.defaultPrevented) {
       return;
     }
 
-    if (this.#isClosingAfterSelection) {
-      this.#isClosingAfterSelection = false;
+    if (this.isTargetDisabled) {
+      this.#hide();
       return;
     }
 
