@@ -38,6 +38,7 @@
       "types": "./dist/*.d.ts",
       "import": "./dist/*.js"
     },
+    "./package.json": "./package.json",
     "./translations/*": null,
     "./tooltip.container.js": null,
     "./toasts.toast.js": null,
