@@ -351,7 +351,7 @@ export default class GlideCoreDropdownOption extends LitElement {
                 ${pencilIcon}
               </button>`;
             })}
-            ${when(this.count, () => {
+            ${when(this.count && this.count > 0, () => {
               return html`<div
                 class=${classMap({
                   'count-container': true,
@@ -443,7 +443,7 @@ export default class GlideCoreDropdownOption extends LitElement {
                 </button>`;
               })}
 
-              ${when(this.count, () => {
+              ${when(this.count && this.count > 0, () => {
                 return html`<div
                   class=${classMap({
                     'count-container': true,
