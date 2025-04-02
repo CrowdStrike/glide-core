@@ -84,3 +84,15 @@ it('has a count', async () => {
   expect(count?.checkVisibility()).to.be.true;
   expect(count?.textContent?.trim()).to.equal('999+');
 });
+
+it('does not have a count when negative', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      count=${-1}
+    ></glide-core-dropdown-option>`,
+  );
+
+  const count = host.shadowRoot?.querySelector('[data-test="count-container"]');
+  expect(count?.checkVisibility()).to.not.be.ok;
+});
