@@ -1,5 +1,15 @@
 # @crowdstrike/glide-core
 
+## 0.24.2
+
+### Patch Changes
+
+- [#820](https://github.com/CrowdStrike/glide-core/pull/820) [`e0c3bdf`](https://github.com/CrowdStrike/glide-core/commit/e0c3bdf60584246deffc80ab2f5e00a2514d3112) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `package.json` is now importable.
+
+  ```js
+  import packageJson from '@crowdstrike/glide-core/package.json';
+  ```
+
 ## 0.24.1
 
 ### Patch Changes
