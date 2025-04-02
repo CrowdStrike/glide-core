@@ -23,6 +23,7 @@ export const extendedVariables = [
   'Color/Radio/Icon/default--disabled',
   'Color/Skeleton Loader/Surface/linear-gradient-middle',
   'Color/Skeleton Loader/Surface/linear-gradient-sides',
+  'Color/Slider and Scrollbar/Surface/handle',
   'Color/Tabs/Stroke/underline',
   'Color/Template/Surface/container-detail',
   'Color/Tooltip/Surface/container',
