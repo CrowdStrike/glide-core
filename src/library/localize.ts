@@ -42,4 +42,8 @@ export interface Translation extends DefaultTranslation {
   removeTag: (name: string) => string;
   itemCount: (count: string) => string;
   closeInlineAlert: (variant: string) => string;
+  maximum: (label: string) => string;
+  setMaximum: (label: string) => string;
+  minimum: (label: string) => string;
+  setMinimum: (label: string) => string;
 }

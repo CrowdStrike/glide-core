@@ -32,6 +32,10 @@ const translation: Translation = {
   removeTag: (label: string) => `Remove tag: ${label}`,
   itemCount: (count: string) => `${count} items`,
   closeInlineAlert: (variant: string) => `Close ${variant} alert`,
+  maximum: (label: string) => `Maximum ${label}`,
+  setMaximum: (label: string) => `Set maximum ${label}`,
+  minimum: (label: string) => `Minimum ${label}`,
+  setMinimum: (label: string) => `Set minimum ${label}`,
 };
 
 export default translation;
