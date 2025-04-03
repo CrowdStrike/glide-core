@@ -104,7 +104,7 @@ export default class GlideCoreMenuButton extends LitElement {
 
   // Established here instead of in `connectedCallback()` so the ID remains constant
   // even if this component is removed and re-added to the DOM. If it's not constant,
-  // Dropdown's `aria-activedescendant` will immediately point to a non-existent ID
+  // Menu's `aria-activedescendant` will immediately point to a non-existent ID
   // when this component is re-added to the DOM.
   //
   // An edge case for sure. But one we can protect against with little effort.
