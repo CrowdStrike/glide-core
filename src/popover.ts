@@ -320,8 +320,10 @@ export default class GlideCorePopover extends LitElement {
     this.#cleanUpFloatingUi?.();
   }
 
-  #onTargetSlotClick() {
-    this.open = !this.open;
+  #onTargetSlotClick(event: Event) {
+    if (!event.defaultPrevented) {
+      this.open = !this.open;
+    }
   }
 
   #onTargetSlotKeydown(event: KeyboardEvent) {

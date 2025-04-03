@@ -44,6 +44,33 @@ it('opens when open and enabled programmatically', async () => {
   expect(popover?.checkVisibility()).to.be.true;
 });
 
+it('remains closed when its target is clicked and the event is canceled', async () => {
+  const host = await fixture<GlideCorePopover>(
+    html`<glide-core-popover>
+      Popover
+      <button slot="target">Target</button>
+    </glide-core-popover>`,
+  );
+
+  const target = host.querySelector('button');
+
+  target?.addEventListener('click', (event: Event) => event.preventDefault());
+
+  await click(target);
+  target?.focus();
+  await sendKeys({ press: 'Enter' });
+  await sendKeys({ press: ' ' });
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const popover = host.shadowRoot?.querySelector<HTMLElement>(
+    '[data-test="popover"]',
+  );
+
+  expect(popover?.checkVisibility()).to.not.be.ok;
+});
+
 it('closes when open and disabled programmatically', async () => {
   const host = await fixture<GlideCorePopover>(
     html`<glide-core-popover open>
