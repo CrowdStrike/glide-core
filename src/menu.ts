@@ -467,7 +467,7 @@ export default class GlideCoreMenu extends LitElement {
 
       // Enter and Space will produce a "click" event. But so will `#activeOption?.click()`
       // below. Canceling this click simplifies logic elsewhere in this component so that we
-      // don't have to account for two sucessive clicks. Emitting a single click is also
+      // don't have to account for two successive clicks. Emitting a single click is also
       // likely less confusing to consumers.
       event.preventDefault();
 
