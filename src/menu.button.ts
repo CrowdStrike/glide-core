@@ -102,11 +102,12 @@ export default class GlideCoreMenuButton extends LitElement {
 
   #componentElementRef = createRef<HTMLButtonElement>();
 
-  // Established here instead of in `connectedCallback` so the ID remains
-  // constant even if this component is removed and re-added to the DOM.
-  // If it's not constant, Menus's `aria-activedescendant` will immediately
-  // point to a non-existent ID when this component is re-added. An edge case
-  // for sure. But one we can protect against with little effort.
+  // Established here instead of in `connectedCallback()` so the ID remains constant
+  // even if this component is removed and re-added to the DOM. If it's not constant,
+  // Menu's `aria-activedescendant` will immediately point to a non-existent ID
+  // when this component is re-added to the DOM.
+  //
+  // An edge case for sure. But one we can protect against with little effort.
   #id = nanoid();
 
   #isDisabled = false;
