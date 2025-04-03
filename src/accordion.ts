@@ -254,10 +254,16 @@ export default class GlideCoreAccordion extends LitElement {
   }
 
   #onSummaryClick(event: MouseEvent) {
-    // Canceling it prevents `details` from immediately showing and hiding
-    // the default slot on open and close, letting us animate it when we're ready.
-    event.preventDefault();
+    // We have to give the consumer a chance to cancel the event before we check if
+    // it's been canceled.
+    setTimeout(() => {
+      if (!event.defaultPrevented) {
+        // Canceling it prevents `details` from immediately showing and hiding the
+        // default slot on open and close, letting us animate it when we're ready.
+        event.preventDefault();
 
-    this.open = !this.open;
+        this.open = !this.open;
+      }
+    });
   }
 }
