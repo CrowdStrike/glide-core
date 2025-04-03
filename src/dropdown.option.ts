@@ -10,6 +10,7 @@ import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import checkedIcon from './icons/checked.js';
 import pencilIcon from './icons/pencil.js';
+import { LocalizeController } from './library/localize.js';
 import styles from './dropdown.option.styles.js';
 import type GlideCoreCheckbox from './checkbox.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -24,6 +25,7 @@ declare global {
 
 /**
  * @attr {string} label
+ * @attr {number} [count]
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [editable=false]
  * @attr {boolean} [selected=false]
@@ -45,6 +47,9 @@ export default class GlideCoreDropdownOption extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true, type: Number })
+  count?: number;
 
   /**
    * @default false
@@ -329,9 +334,11 @@ export default class GlideCoreDropdownOption extends LitElement {
 
             ${when(this.editable, () => {
               return html`<button
+                aria-label=${this.#localize.term('editOption', this.label!)}
                 class=${classMap({
                   'edit-button': true,
                   active: this.privateIsEditActive,
+                  count: Boolean(this.count),
                   disabled: this.disabled,
                   multiple: Boolean(this.isMultiple),
                   [this.privateSize]: true,
@@ -344,12 +351,33 @@ export default class GlideCoreDropdownOption extends LitElement {
                 ${pencilIcon}
               </button>`;
             })}
+            ${when(this.count && this.count > 0, () => {
+              return html`<div
+                class=${classMap({
+                  'count-container': true,
+                  disabled: this.disabled,
+                  [this.privateSize]: true,
+                })}
+                data-test="count-container"
+              >
+                ${when(
+                  this.count! >= 1000,
+                  () => {
+                    return '999+';
+                  },
+                  () => {
+                    return this.count;
+                  },
+                )}
+              </div>`;
+            })}
           `;
         },
         () => {
           return html`
           <div class=${classMap({
             option: true,
+            count: Boolean(this.count),
             disabled: this.disabled,
             editable: this.editable,
             [this.privateSize]: true,
@@ -398,9 +426,11 @@ export default class GlideCoreDropdownOption extends LitElement {
 
               ${when(this.editable, () => {
                 return html`<button
+                  aria-label=${this.#localize.term('editOption', this.label!)}
                   class=${classMap({
                     'edit-button': true,
                     active: this.privateActive && this.privateIsEditActive,
+                    count: Boolean(this.count),
                     disabled: this.disabled,
                     [this.privateSize]: true,
                   })}
@@ -411,6 +441,27 @@ export default class GlideCoreDropdownOption extends LitElement {
                 >
                   ${pencilIcon}
                 </button>`;
+              })}
+
+              ${when(this.count && this.count > 0, () => {
+                return html`<div
+                  class=${classMap({
+                    'count-container': true,
+                    disabled: this.disabled,
+                    [this.privateSize]: true,
+                  })}
+                  data-test="count-container"
+                >
+                  ${when(
+                    this.count! >= 1000,
+                    () => {
+                      return '999+';
+                    },
+                    () => {
+                      return this.count;
+                    },
+                  )}
+                </div>`;
               })}
             </div>
           </div>`;
@@ -443,6 +494,8 @@ export default class GlideCoreDropdownOption extends LitElement {
   #label?: string;
 
   #labelElementRef = createRef<HTMLElement>();
+
+  #localize = new LocalizeController(this);
 
   #selected = false;
 

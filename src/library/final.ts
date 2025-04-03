@@ -6,7 +6,9 @@ export default function <Type extends new (...arguments_: any[]) => object>(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...arguments_: any[]) {
       if (new.target !== Final) {
-        throw new TypeError(`${constructor.name} does not allow extension.`);
+        throw new TypeError(
+          `${constructor.name} doesn't allow extension. Please talk to us if a component doesn't meet your needs.`,
+        );
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

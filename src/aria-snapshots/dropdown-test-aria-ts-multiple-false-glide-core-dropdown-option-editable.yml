@@ -1,0 +1,7 @@
+- text: Label
+- button "Label" [expanded]
+- listbox:
+  - 'option "One Edit option: One"':
+    - 'button "Edit option: One"'
+  - option "Two"
+  - option "Three"

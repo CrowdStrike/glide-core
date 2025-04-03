@@ -24,7 +24,7 @@ it('throws when a class is extended', async () => {
   expect(spy.args.at(0)?.at(0) instanceof TypeError).to.be.true;
 
   expect(spy.args.at(0)?.at(0).message).to.equal(
-    'GlideCoreFinal does not allow extension.',
+    `GlideCoreFinal doesn't allow extension. Please talk to us if a component doesn't meet your needs.`,
   );
 });
 
