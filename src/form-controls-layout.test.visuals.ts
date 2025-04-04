@@ -34,6 +34,20 @@ for (const story of stories['Form Controls Layout']) {
             `${test.titlePath.join('.')}.png`,
           );
         });
+
+        test('split="right"', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-form-controls-layout')
+            .evaluate<void, GlideCoreFormControlsLayout>((element) => {
+              element.split = 'right';
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
       });
     }
   });

@@ -60,10 +60,10 @@ const meta: Meta = {
     },
     split: {
       control: { type: 'radio' },
-      options: ['left', 'middle'],
+      options: ['left', 'middle', 'right'],
       table: {
         defaultValue: { summary: '"left"' },
-        type: { summary: '"left" | "middle"' },
+        type: { summary: '"left" | "middle" | "right"' },
       },
     },
     version: {

@@ -5,7 +5,7 @@ export default interface FormControl {
   label?: string;
   name: string;
   orientation: 'horizontal' | 'vertical';
-  privateSplit?: 'left' | 'middle';
+  privateSplit?: 'left' | 'middle' | 'right';
   required: boolean;
   summary?: string;
   tooltip?: string;
