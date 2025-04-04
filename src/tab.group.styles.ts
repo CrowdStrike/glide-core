@@ -68,37 +68,31 @@ export default [
       --private-size: 1.125rem;
 
       align-items: center;
-      background-color: transparent;
-      border: none;
-      color: var(--glide-core-color-interactive-icon-default);
-      cursor: pointer;
       display: flex;
-      flex-shrink: 0;
-      inline-size: 1.875rem;
-      justify-content: center;
-      margin: 0;
-      outline: none;
-      padding: 0;
-
-      &.disabled {
-        color: var(--glide-core-color-interactive-icon-default--disabled);
-      }
 
       &.start {
-        transform: rotate(90deg);
+        padding-inline-start: var(--glide-core-spacing-base-xs);
+
+        & svg {
+          transform: rotate(90deg);
+        }
       }
 
       &.end {
-        transform: rotate(-90deg);
+        padding-inline-end: var(--glide-core-spacing-base-xs);
+
+        svg {
+          transform: rotate(-90deg);
+        }
       }
     }
 
     ::slotted([slot='nav']:first-of-type) {
-      padding-inline-start: 0.1875rem;
+      padding-inline-start: var(--glide-core-spacing-base-sm);
     }
 
     ::slotted([slot='nav']:last-of-type) {
-      padding-inline-end: 0.1875rem;
+      padding-inline-end: var(--glide-core-spacing-base-sm);
     }
   `,
 ];
