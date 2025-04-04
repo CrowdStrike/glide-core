@@ -1006,7 +1006,7 @@
               "kind": "field",
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "attribute": "privateSplit"
             },
@@ -1226,7 +1226,7 @@
             {
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "fieldName": "privateSplit"
             },
@@ -1472,7 +1472,7 @@
               "kind": "field",
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "attribute": "privateSplit"
             },
@@ -1795,7 +1795,7 @@
             {
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "fieldName": "privateSplit"
             },
@@ -2591,7 +2591,7 @@
               "kind": "field",
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "attribute": "privateSplit"
             },
@@ -2926,7 +2926,7 @@
             {
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "fieldName": "privateSplit"
             },
@@ -3073,7 +3073,7 @@
               "kind": "field",
               "name": "split",
               "type": {
-                "text": "'left' | 'middle'"
+                "text": "'left' | 'middle' | 'right'"
               },
               "default": "'left'",
               "attribute": "split",
@@ -3094,7 +3094,7 @@
             {
               "name": "split",
               "type": {
-                "text": "'left' | 'middle'"
+                "text": "'left' | 'middle' | 'right'"
               },
               "default": "'left'",
               "fieldName": "split"
@@ -3751,7 +3751,7 @@
               "kind": "field",
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "attribute": "privateSplit"
             },
@@ -4039,7 +4039,7 @@
             {
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "fieldName": "privateSplit"
             },
@@ -4209,7 +4209,7 @@
               "kind": "field",
               "name": "split",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "attribute": "split"
             },
@@ -4274,7 +4274,7 @@
             {
               "name": "split",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "fieldName": "split"
             },
@@ -5826,7 +5826,7 @@
               "kind": "field",
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "attribute": "privateSplit"
             },
@@ -6037,7 +6037,7 @@
             {
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "fieldName": "privateSplit"
             },
@@ -7716,7 +7716,7 @@
               "kind": "field",
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "attribute": "privateSplit"
             },
@@ -7964,7 +7964,7 @@
             {
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "fieldName": "privateSplit"
             },
@@ -8352,7 +8352,7 @@
               "kind": "field",
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "attribute": "privateSplit"
             },
@@ -8454,7 +8454,7 @@
             {
               "name": "privateSplit",
               "type": {
-                "text": "'left' | 'middle' | undefined"
+                "text": "'left' | 'middle' | 'right' | undefined"
               },
               "fieldName": "privateSplit"
             },

@@ -26,7 +26,7 @@ declare global {
  * @attr {string} [label]
  * @attr {'horizontal'|'vertical'} [orientation='horizontal']
  * @attr {boolean} [required=false]
- * @attr {'left'|'middle'} [split]
+ * @attr {'left'|'middle'|'right'} [split]
  * @attr {string} [tooltip]
  *
  * @slot {HTMLLabelElement}
@@ -60,7 +60,7 @@ export default class GlideCoreLabel extends LitElement {
   required = false;
 
   @property()
-  split?: 'left' | 'middle';
+  split?: 'left' | 'middle' | 'right';
 
   @property()
   tooltip?: string;
@@ -90,6 +90,7 @@ export default class GlideCoreLabel extends LitElement {
         vertical: this.orientation === 'vertical',
         left: this.split === 'left',
         middle: this.split === 'middle',
+        right: this.split === 'right',
         'hidden-label': this.hide,
       })}
     >
@@ -99,6 +100,7 @@ export default class GlideCoreLabel extends LitElement {
           hidden: this.hide,
           left: this.split === 'left',
           middle: this.split === 'middle',
+          right: this.split === 'right',
         })}
         part="private-tooltips"
       >

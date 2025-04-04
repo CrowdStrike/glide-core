@@ -110,7 +110,7 @@ export default class GlideCoreCheckboxGroup
 
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
-  privateSplit?: 'left' | 'middle';
+  privateSplit?: 'left' | 'middle' | 'right';
 
   /**
    * @default false

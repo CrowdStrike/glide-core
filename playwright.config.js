@@ -4,7 +4,10 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   expect: {
     toHaveScreenshot: {
-      threshold: 0, // 0.2 by default.
+      // 0.2, the default, produces too many false negatives. 0, on the other
+      // hand, produces too many false positives. The idea is for this number
+      // to be as close to 0 as possible without any false positives.
+      threshold: 0.05,
     },
   },
   fullyParallel: true,
