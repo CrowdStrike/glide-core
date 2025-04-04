@@ -23,7 +23,7 @@
   --glide-core-color-static-icon-onsolid: #141414;
   --glide-core-color-interactive-surface-container: #ffffff0d;
   --glide-core-color-interactive-surface-container--hover: #1e3e5e;
-  --glide-core-color-interactive-surface-container--disabled: #434343;
+  --glide-core-color-interactive-surface-container--disabled: #2c2c2c;
   --glide-core-color-interactive-surface-container-active: #2d7dcc;
   --glide-core-color-interactive-surface-container-active--hover: #265e95;
   --glide-core-color-interactive-surface-container-active--disabled: #1c344b;
@@ -124,7 +124,7 @@
   --glide-core-color-effect-color-elevation-floating: #14141459;
   --glide-core-color-effect-color-elevation-detail-panel: #14141480;
   --glide-core-color-effect-position-elevation-floating-y: 0.75rem;
-  --glide-core-private-color-button-surface-active: #265e95;
+  --glide-core-private-color-button-surface-active: #6ca4db;
   --glide-core-private-color-button-stroke-default: #6ca4db;
   --glide-core-private-color-button-text-primary: #dcdcdc;
   --glide-core-private-color-button-icon-primary: #dcdcdc;
