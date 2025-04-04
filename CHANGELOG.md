@@ -1,5 +1,34 @@
 # @crowdstrike/glide-core
 
+## 0.24.3
+
+### Patch Changes
+
+- [#829](https://github.com/CrowdStrike/glide-core/pull/829) [`5922bc4`](https://github.com/CrowdStrike/glide-core/commit/5922bc43d101afacec3ac32adb20ff2b1668da68) Thanks [@ynotdraw](https://github.com/ynotdraw)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Dark
+
+  ### Changed
+
+  ```diff
+  - --glide-core-color-interactive-surface-container--disabled: #2c2c2c;
+  + --glide-core-color-interactive-surface-container--disabled: #434343;
+
+  - --glide-core-private-color-button-surface-active: #6ca4db;
+  + --glide-core-private-color-button-surface-active: #265e95;
+  ```
+
+- [#823](https://github.com/CrowdStrike/glide-core/pull/823) [`94976a6`](https://github.com/CrowdStrike/glide-core/commit/94976a6bc5fdfbbd4cb384a93237dc54d9ffe3ef) Thanks [@clintcs](https://github.com/clintcs)! - - `preventDefault()` can now be called on Menu's target to prevent Menu from opening or closing when the target is clicked.
+
+  - `preventDefault()` can now be called on Menu Options to prevent Menu from closing when a Menu Button or Menu Link is clicked.
+
+- [#821](https://github.com/CrowdStrike/glide-core/pull/821) [`fd659be`](https://github.com/CrowdStrike/glide-core/commit/fd659beb207117a4003f2e775fa6bd58d234dfd8) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown Option now supports a `count` attribute.
+
+  - Dropdown Option's edit button now has an accessible label.
+  - Components now throw with a more helpful error message with extended.
+
+- [#825](https://github.com/CrowdStrike/glide-core/pull/825) [`e2b19c4`](https://github.com/CrowdStrike/glide-core/commit/e2b19c470bb1ee1a863992b9b4de3ad2029756e4) Thanks [@clintcs](https://github.com/clintcs)! - Added a Spinner component.
+
 ## 0.24.2
 
 ### Patch Changes
