@@ -57,22 +57,21 @@ export default class GlideCoreTabGroup extends LitElement {
         ${when(
           this.isShowOverflowButtons,
           () => html`
-            <button
-              style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+            <glide-core-icon-button
               class=${classMap({
                 'overflow-button': true,
                 start: true,
                 disabled: this.isDisableOverflowStartButton,
               })}
-              @click=${this.#onOverflowStartButtonClick}
-              tabindex="-1"
-              aria-label=${this.#localize.term('previousTab')}
               data-test="overflow-start-button"
-              ${ref(this.#overflowStartButtonElementRef)}
+              label=${this.#localize.term('previousTab')}
+              variant="tertiary"
               ?disabled=${this.isDisableOverflowStartButton}
+              @click=${this.#onOverflowStartButtonClick}
+              ${ref(this.#overflowStartButtonElementRef)}
             >
               ${chevronIcon}
-            </button>
+            </glide-core-icon-button>
           `,
         )}
         <div
@@ -100,22 +99,21 @@ export default class GlideCoreTabGroup extends LitElement {
         ${when(
           this.isShowOverflowButtons,
           () => html`
-            <button
-              style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+            <glide-core-icon-button
               class=${classMap({
                 'overflow-button': true,
                 end: true,
                 disabled: this.isDisableOverflowEndButton,
               })}
-              @click=${this.#onOverflowEndButtonClick}
-              tabindex="-1"
-              aria-label=${this.#localize.term('nextTab')}
               data-test="overflow-end-button"
+              label=${this.#localize.term('nextTab')}
+              variant="tertiary"
               ?disabled=${this.isDisableOverflowEndButton}
+              @click=${this.#onOverflowEndButtonClick}
               ${ref(this.#overflowEndButtonElementRef)}
             >
               ${chevronIcon}
-            </button>
+            </glide-core-icon-button>
           `,
         )}
       </div>

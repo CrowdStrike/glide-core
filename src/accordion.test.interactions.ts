@@ -1,4 +1,4 @@
-import { expect, fixture, html, waitUntil } from '@open-wc/testing';
+import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import GlideCoreAccordion from './accordion.js';
 import { click } from './library/mouse.js';
@@ -37,7 +37,6 @@ it('opens on click when animated', async () => {
   click(host.shadowRoot?.querySelector('[data-test="summary"]'));
 
   let animation: Animation | undefined;
-  let isAnimationFinished = false;
 
   await waitUntil(() => {
     animation = host.shadowRoot
@@ -48,11 +47,8 @@ it('opens on click when animated', async () => {
     return animation;
   });
 
-  animation?.addEventListener('finish', () => {
-    isAnimationFinished = true;
-  });
-
-  await waitUntil(() => isAnimationFinished);
+  assert(animation);
+  await animation.finished;
 
   expect(host.open).to.be.true;
 });
@@ -109,7 +105,6 @@ it('closes on click when animated', async () => {
   click(host);
 
   let animation: Animation | undefined;
-  let isAnimationFinished = false;
 
   await waitUntil(() => {
     animation = host.shadowRoot
@@ -120,11 +115,8 @@ it('closes on click when animated', async () => {
     return animation;
   });
 
-  animation?.addEventListener('finish', () => {
-    isAnimationFinished = true;
-  });
-
-  await waitUntil(() => isAnimationFinished);
+  assert(animation);
+  await animation.finished;
 
   expect(host.open).to.be.false;
 });
