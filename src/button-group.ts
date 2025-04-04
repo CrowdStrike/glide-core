@@ -17,7 +17,7 @@ declare global {
 }
 
 /**
- * @attr {string} label
+ * @attr {string} label - For screenreaders
  * @attr {'horizontal'|'vertical'} [orientation='horizontal']
  * @attr {'icon-only'} [variant]
  *
@@ -36,6 +36,9 @@ export default class GlideCoreButtonGroup extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * For screenreaders
+   **/
   @property({ reflect: true })
   @required
   label?: string;

@@ -17,7 +17,7 @@ declare global {
 }
 
 /**
- * @attr {string} label
+ * @attr {string} label - For screenreaders
  * @attr {boolean} [open=false]
  * @attr {boolean} [pinned=false]
  *
@@ -40,6 +40,9 @@ export default class GlideCoreDrawer extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * For screenreaders
+   **/
   @property({ reflect: true })
   @required
   label?: string;

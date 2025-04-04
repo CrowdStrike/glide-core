@@ -478,6 +478,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "description": "For screenreaders",
               "attribute": "label",
               "reflects": true
             },
@@ -518,6 +519,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "description": "For screenreaders",
               "fieldName": "label",
               "required": true
             },
@@ -1960,6 +1962,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "description": "For screenreaders",
               "attribute": "label",
               "reflects": true
             },
@@ -2008,6 +2011,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "description": "For screenreaders",
               "fieldName": "label",
               "required": true
             },
@@ -3246,6 +3250,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "description": "For screenreaders",
               "attribute": "label"
             },
             {
@@ -3311,6 +3316,7 @@
               "type": {
                 "text": "string | undefined"
               },
+              "description": "For screenreaders",
               "fieldName": "label",
               "required": true
             },
@@ -6090,6 +6096,123 @@
           "declaration": {
             "name": "GlideCoreRadioGroup",
             "module": "src/radio-group.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/spinner.styles.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "module": "src/spinner.styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/spinner.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "GlideCoreSpinner",
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "For screenreaders",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'large' | 'medium' | 'small'"
+              },
+              "default": "'medium'",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "For screenreaders",
+              "fieldName": "label",
+              "required": true
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "'large' | 'medium' | 'small'"
+              },
+              "default": "'medium'",
+              "fieldName": "size"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-spinner",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "GlideCoreSpinner",
+            "module": "src/spinner.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-spinner",
+          "declaration": {
+            "name": "GlideCoreSpinner",
+            "module": "src/spinner.ts"
           }
         }
       ]

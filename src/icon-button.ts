@@ -17,7 +17,7 @@ declare global {
 }
 
 /**
- * @attr {string} label
+ * @attr {string} label - For screenreaders
  * @attr {string|null} [aria-controls=null]
  * @attr {'true'|'false'|null} [aria-expanded=null]
  * @attr {'true'|'false'|'menu'|'listbox'|'tree'|'grid'|'dialog'|null} [aria-haspopup=null]
@@ -59,6 +59,9 @@ export default class GlideCoreIconButton extends LitElement {
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
+  /**
+   * For screenreaders
+   **/
   @property()
   @required
   label?: string;
