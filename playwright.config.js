@@ -2,6 +2,11 @@ import os from 'node:os';
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
+  expect: {
+    toHaveScreenshot: {
+      threshold: 0, // 0.2 by default.
+    },
+  },
   fullyParallel: true,
   globalSetup: './playwright.setup.js',
   outputDir: './dist/playwright',
