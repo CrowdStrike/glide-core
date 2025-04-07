@@ -8194,40 +8194,139 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/toasts.styles.ts",
+      "path": "src/toast.toasts.styles.ts",
       "declarations": [],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/toasts.styles.ts"
+            "module": "src/toast.toasts.styles.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/toasts.toast.styles.ts",
-      "declarations": [],
+      "path": "src/toast.toasts.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "GlideCoreToasts",
+          "members": [
+            {
+              "kind": "field",
+              "name": "shadowRootOptions",
+              "type": {
+                "text": "ShadowRootInit"
+              },
+              "static": true,
+              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "toasts",
+              "type": {
+                "text": "GlideCoreToast[]"
+              },
+              "default": "[]",
+              "attribute": "toasts"
+            },
+            {
+              "kind": "method",
+              "name": "dismiss",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "toast",
+                  "type": {
+                    "text": "GlideCoreToast"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "showPopover"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "static": true,
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "toast",
+                  "type": {
+                    "text": "GlideCoreToast"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "toasts",
+              "type": {
+                "text": "GlideCoreToast[]"
+              },
+              "default": "[]",
+              "fieldName": "toasts"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "glide-core-private-toasts",
+          "customElement": true
+        }
+      ],
       "exports": [
         {
           "kind": "js",
           "name": "default",
           "declaration": {
-            "module": "src/toasts.toast.styles.ts"
+            "name": "GlideCoreToasts",
+            "module": "src/toast.toasts.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "glide-core-private-toasts",
+          "declaration": {
+            "name": "GlideCoreToasts",
+            "module": "src/toast.toasts.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/toasts.toast.ts",
+      "path": "src/toast.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
           "name": "GlideCoreToast",
+          "slots": [
+            {
+              "name": "",
+              "description": "A description",
+              "type": {
+                "text": "GlideCoreLink | string"
+              }
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -8249,12 +8348,11 @@
             },
             {
               "kind": "field",
-              "name": "description",
+              "name": "privateDescription",
               "type": {
                 "text": "string | undefined"
               },
-              "attribute": "description",
-              "reflects": true
+              "attribute": "privateDescription"
             },
             {
               "kind": "field",
@@ -8263,28 +8361,60 @@
                 "text": "number"
               },
               "default": "5000",
-              "attribute": "duration"
+              "description": "Set to `Infinity` to make it persist until dismissed by the user",
+              "attribute": "duration",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "privateDismissing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateDismissing"
+            },
+            {
+              "kind": "field",
+              "name": "privateDismissingViaButton",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateDismissingViaButton"
+            },
+            {
+              "kind": "field",
+              "name": "privateShow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateShow"
             },
             {
               "kind": "field",
               "name": "variant",
               "type": {
-                "text": "'error' | 'informational' | 'success' | undefined"
+                "text": "'informational' | 'success' | 'error'"
               },
-              "attribute": "variant"
+              "default": "'informational'",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
+              "reflects": true
             },
             {
               "kind": "method",
-              "name": "close",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "open",
+              "name": "dismiss",
               "return": {
                 "type": {
                   "text": "void"
@@ -8294,7 +8424,7 @@
           ],
           "events": [
             {
-              "name": "close",
+              "name": "dismiss",
               "type": {
                 "text": "Event"
               }
@@ -8306,14 +8436,15 @@
               "type": {
                 "text": "string | undefined"
               },
-              "fieldName": "label"
+              "fieldName": "label",
+              "required": true
             },
             {
-              "name": "description",
+              "name": "privateDescription",
               "type": {
                 "text": "string | undefined"
               },
-              "fieldName": "description"
+              "fieldName": "privateDescription"
             },
             {
               "name": "duration",
@@ -8321,14 +8452,48 @@
                 "text": "number"
               },
               "default": "5000",
+              "description": "Set to `Infinity` to make it persist until dismissed by the user",
               "fieldName": "duration"
+            },
+            {
+              "name": "privateDismissing",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateDismissing"
+            },
+            {
+              "name": "privateDismissingViaButton",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateDismissingViaButton"
+            },
+            {
+              "name": "privateShow",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateShow"
             },
             {
               "name": "variant",
               "type": {
-                "text": "'error' | 'informational' | 'success' | undefined"
+                "text": "'informational' | 'success' | 'error'"
               },
+              "default": "'informational'",
               "fieldName": "variant"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -8345,7 +8510,7 @@
           "name": "default",
           "declaration": {
             "name": "GlideCoreToast",
-            "module": "src/toasts.toast.ts"
+            "module": "src/toast.ts"
           }
         },
         {
@@ -8353,90 +8518,7 @@
           "name": "glide-core-toast",
           "declaration": {
             "name": "GlideCoreToast",
-            "module": "src/toasts.toast.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/toasts.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "GlideCoreToasts",
-          "members": [
-            {
-              "kind": "field",
-              "name": "shadowRootOptions",
-              "type": {
-                "text": "ShadowRootInit"
-              },
-              "static": true,
-              "default": "{ ...LitElement.shadowRootOptions, mode: shadowRootMode, }"
-            },
-            {
-              "kind": "field",
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "attribute": "version",
-              "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "add",
-              "return": {
-                "type": {
-                  "text": "GlideCoreToast"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "toast",
-                  "type": {
-                    "text": "{\n    label: string;\n    description: string;\n    variant: 'error' | 'informational' | 'success';\n    duration?: number; // Defaults to 5000. Set to `Infinity` to make the toast persist until dismissed.\n  }"
-                  }
-                }
-              ]
-            }
-          ],
-          "attributes": [
-            {
-              "name": "version",
-              "type": {
-                "text": "string"
-              },
-              "readonly": true,
-              "fieldName": "version"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "glide-core-toasts",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "GlideCoreToasts",
-            "module": "src/toasts.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "glide-core-toasts",
-          "declaration": {
-            "name": "GlideCoreToasts",
-            "module": "src/toasts.ts"
+            "module": "src/toast.ts"
           }
         }
       ]

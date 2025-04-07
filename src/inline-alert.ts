@@ -121,7 +121,7 @@ export default class GlideCoreInlineAlert extends LitElement {
 
   #animationDuration = 100;
 
-  #componentElementRef = createRef<HTMLDivElement>();
+  #componentElementRef = createRef<HTMLElement>();
 
   #isKeyboardClick = false;
 

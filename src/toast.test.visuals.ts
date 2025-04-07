@@ -1,26 +1,16 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreToasts from './toasts.js';
+import type GlideCoreButton from './button.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
-for (const story of stories.Toasts) {
+for (const story of stories.Toast) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
         test(':focus', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-toasts')
-            .evaluate<void, GlideCoreToasts>((element) => {
-              element.add({
-                label: 'Label',
-                description: 'Description',
-                variant: 'informational',
-              });
-            });
-
-          await page.getByLabel('Close').focus();
+          await page.locator('glide-core-button').click();
+          await page.getByTestId('dismiss-button').focus();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
@@ -31,14 +21,12 @@ for (const story of stories.Toasts) {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
-            .locator('glide-core-toasts')
-            .evaluate<void, GlideCoreToasts>((element) => {
-              element.add({
-                label: 'Label',
-                description: 'Description',
-                variant: 'informational',
-              });
+            .locator('glide-core-button')
+            .evaluate<void, GlideCoreButton>((element) => {
+              element.dataset.description = 'Description';
             });
+
+          await page.locator('glide-core-button').click();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
@@ -49,14 +37,13 @@ for (const story of stories.Toasts) {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
-            .locator('glide-core-toasts')
-            .evaluate<void, GlideCoreToasts>((element) => {
-              element.add({
-                label: 'Label',
-                description: 'Description',
-                variant: 'success',
-              });
+            .locator('glide-core-button')
+            .evaluate<void, GlideCoreButton>((element) => {
+              element.dataset.description = 'Description';
+              element.dataset.variant = 'success';
             });
+
+          await page.locator('glide-core-button').click();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
@@ -67,14 +54,13 @@ for (const story of stories.Toasts) {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
-            .locator('glide-core-toasts')
-            .evaluate<void, GlideCoreToasts>((element) => {
-              element.add({
-                label: 'Label',
-                description: 'Description',
-                variant: 'error',
-              });
+            .locator('glide-core-button')
+            .evaluate<void, GlideCoreButton>((element) => {
+              element.dataset.description = 'Description';
+              element.dataset.variant = 'error';
             });
+
+          await page.locator('glide-core-button').click();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,

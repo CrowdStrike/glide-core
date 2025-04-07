@@ -521,7 +521,7 @@ export default class GlideCoreRadioGroup
   @state()
   private validityMessage?: string;
 
-  #componentElementRef = createRef<HTMLDivElement>();
+  #componentElementRef = createRef<HTMLElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 

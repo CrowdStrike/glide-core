@@ -478,7 +478,7 @@ export default class GlideCoreCheckboxGroup
   @state()
   private validityMessage?: string;
 
-  #componentElementRef = createRef<HTMLDivElement>();
+  #componentElementRef = createRef<HTMLElement>();
 
   #defaultSlotElementRef = createRef<HTMLSlotElement>();
 
