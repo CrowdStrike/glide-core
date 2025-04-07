@@ -41,7 +41,7 @@
     "./package.json": "./package.json",
     "./translations/*": null,
     "./tooltip.container.js": null,
-    "./toasts.toast.js": null,
+    "./toast.toasts.js": null,
     "./styles/variables.css": "./dist/styles/variables.css",
     "./styles/fonts.css": "./dist/styles/fonts.css",
     "./styles/*": null,
