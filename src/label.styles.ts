@@ -23,13 +23,17 @@ export default [
       }
 
       &.left {
-        grid-template-columns: calc(100% / 3) 1fr;
+        grid-template-columns: 33.5% 1fr;
       }
 
       &.middle {
         grid-template-columns: calc(50% - var(--private-column-gap) / 2) calc(
             50% - var(--private-column-gap) / 2
           );
+      }
+
+      &.right {
+        grid-template-columns: 66.5% 1fr;
       }
 
       &.hidden-label {
@@ -53,7 +57,8 @@ export default [
       min-inline-size: 3ch;
 
       &.middle,
-      &.left {
+      &.left,
+      &.right {
         justify-content: flex-end;
       }
     }

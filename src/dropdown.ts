@@ -230,7 +230,7 @@ export default class GlideCoreDropdown
 
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
-  privateSplit?: 'left' | 'middle';
+  privateSplit?: 'left' | 'middle' | 'right';
 
   @property({ reflect: true, type: Boolean })
   readonly = false;
@@ -2591,7 +2591,9 @@ export default class GlideCoreDropdown
                           Number.parseFloat(
                             window
                               .getComputedStyle(document.body)
-                              .getPropertyValue('--glide-core-spacing-base-xxs'),
+                              .getPropertyValue(
+                                '--glide-core-spacing-base-xxs',
+                              ),
                           ) *
                           Number.parseFloat(
                             window.getComputedStyle(document.documentElement)

@@ -20,7 +20,7 @@ declare global {
 }
 
 /**
- * @attr {'left'|'middle'} [split='left']
+ * @attr {'left'|'middle'|'right'} [split='left']
  *
  * @readonly
  * @attr {string} [version]
@@ -41,11 +41,11 @@ export default class GlideCoreFormControlsLayout extends LitElement {
    * @default 'left'
    */
   @property({ reflect: true })
-  get split(): 'left' | 'middle' {
+  get split(): 'left' | 'middle' | 'right' {
     return this.#split;
   }
 
-  set split(split: 'left' | 'middle') {
+  set split(split: 'left' | 'middle' | 'right') {
     this.#split = split;
 
     if (this.#slotElementRef.value) {
@@ -81,7 +81,7 @@ export default class GlideCoreFormControlsLayout extends LitElement {
 
   #slotElementRef = createRef<HTMLSlotElement>();
 
-  #split: 'left' | 'middle' = 'left';
+  #split: 'left' | 'middle' | 'right' = 'left';
 
   #onSlotChange() {
     if (this.#slotElementRef.value) {
