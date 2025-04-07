@@ -20,6 +20,7 @@ declare global {
 
 /**
  * @attr {string} label
+ * @attr {'green'|'indigo'|'red'} [color]
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [removable=false]
  * @attr {'small'|'medium'|'large'} [size='medium']
@@ -27,7 +28,8 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {Element} [icon]
+ * @slot {Element} [prefix-icon]
+ * @slot {Element} [suffix-icon]
  *
  * @fires {Event} edit
  * @fires {Event} remove
@@ -42,6 +44,9 @@ export default class GlideCoreTag extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true })
+  color?: 'green' | 'indigo' | 'red';
 
   @property({ reflect: true, type: Boolean })
   disabled = false;
@@ -88,6 +93,9 @@ export default class GlideCoreTag extends LitElement {
           component: true,
           added: true,
           disabled: this.disabled,
+          green: this.color === 'green',
+          indigo: this.color === 'indigo',
+          red: this.color === 'red',
           [this.size]: true,
         })}
         data-test="component"
@@ -97,10 +105,10 @@ export default class GlideCoreTag extends LitElement {
       >
         <slot
           class=${classMap({
-            'icon-slot': true,
+            'prefix-icon-slot': true,
             [this.size]: true,
           })}
-          name="icon"
+          name="prefix-icon"
         >
           <!-- @type {Element} -->
         </slot>
@@ -124,6 +132,17 @@ export default class GlideCoreTag extends LitElement {
             ${pencilIcon}
           </button>`;
         })}
+
+        <slot
+          class=${classMap({
+            'suffix-icon-slot': true,
+            [this.size]: true,
+          })}
+          name="suffix-icon"
+        >
+          <!-- @type {Element} -->
+        </slot>
+
         ${when(
           this.removable,
           () =>

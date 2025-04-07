@@ -30,27 +30,35 @@ export default [
     .component {
       align-items: center;
       background: var(--glide-core-color-static-surface-container-secondary);
+      border: 1px solid var(--glide-core-color-interactive-stroke-primary);
       border-radius: var(--glide-core-rounding-base-radius-round);
-      color: var(--glide-core-color-static-text-default);
+      color: var(--glide-core-color-interactive-text-default);
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-small);
       font-weight: var(--glide-core-typography-weight-regular);
       justify-content: center;
       line-height: 1;
       max-inline-size: max-content;
-      min-block-size: var(--glide-core-spacing-base-md);
       opacity: 1;
-      padding: var(--glide-core-spacing-base-xxxs)
-        var(--glide-core-spacing-base-xs);
 
       &.large {
+        column-gap: var(--glide-core-spacing-base-xs);
+        font-size: var(--glide-core-typography-size-body-small);
         min-block-size: 0.875rem;
         padding: var(--glide-core-spacing-base-xxs)
           var(--glide-core-spacing-base-sm);
       }
 
+      &.medium {
+        column-gap: 0.375rem;
+        font-size: var(--glide-core-typography-size-body-small);
+        min-block-size: var(--glide-core-spacing-base-md);
+        padding: var(--glide-core-spacing-base-xxxs)
+          var(--glide-core-spacing-base-xs);
+      }
+
       &.small {
+        column-gap: var(--glide-core-spacing-base-xxs);
         font-size: 0.625rem;
         min-block-size: var(--glide-core-spacing-base-md);
         padding: 0 var(--glide-core-spacing-base-xs);
@@ -63,7 +71,28 @@ export default [
       }
 
       &.disabled {
+        background: var(
+          --glide-core-color-static-surface-container-secondary
+        ) !important;
+        border-color: var(
+          --glide-core-color-interactive-stroke-primary
+        ) !important;
         color: var(--glide-core-color-interactive-icon-default--disabled);
+      }
+
+      &.green {
+        background-color: var(--glide-core-private-color-tag-surface-freetrial);
+        border-color: var(--glide-core-private-color-tag-stroke-freetrial);
+      }
+
+      &.indigo {
+        background-color: var(--glide-core-private-color-tag-surface-updated);
+        border-color: var(--glide-core-private-color-tag-stroke-updated);
+      }
+
+      &.red {
+        background-color: var(--glide-core-private-color-tag-surface-new);
+        border-color: var(--glide-core-private-color-tag-stroke-new);
       }
 
       &.removed {
@@ -85,33 +114,17 @@ export default [
     .removal-button {
       align-items: center;
       background-color: transparent;
+      block-size: 1rem;
       border: none;
       border-radius: 0.0625rem;
       color: var(--glide-core-color-interactive-icon-default);
       cursor: pointer;
       display: flex;
+      inline-size: 1rem;
       justify-content: center;
       margin: 0;
       padding: 0;
       transition: color 200ms ease-in-out;
-
-      &.large {
-        block-size: 0.875rem;
-        inline-size: 0.875rem;
-        margin-inline-start: var(--glide-core-spacing-base-xs);
-      }
-
-      &.medium {
-        block-size: var(--glide-core-spacing-base-sm);
-        inline-size: var(--glide-core-spacing-base-sm);
-        margin-inline-start: 0.375rem;
-      }
-
-      &.small {
-        block-size: 0.625rem;
-        inline-size: 0.6215rem;
-        margin-inline-start: var(--glide-core-spacing-base-xxs);
-      }
 
       &.disabled {
         color: var(--glide-core-color-interactive-icon-default--disabled);
@@ -127,12 +140,18 @@ export default [
       }
     }
 
-    .icon-slot {
+    .prefix-icon-slot,
+    .suffix-icon-slot {
+      &::slotted(*) {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+      }
+
       &.large {
         &::slotted(*) {
-          block-size: 0.875rem;
-          inline-size: 0.875rem;
-          margin-inline-end: var(--glide-core-spacing-base-xs);
+          block-size: 1rem;
+          inline-size: 1rem;
         }
       }
 
@@ -140,7 +159,6 @@ export default [
         &::slotted(*) {
           block-size: 0.75rem;
           inline-size: 0.75rem;
-          margin-inline-end: 0.375rem;
         }
       }
 
@@ -148,14 +166,7 @@ export default [
         &::slotted(*) {
           block-size: 0.625rem;
           inline-size: 0.625rem;
-          margin-inline-end: var(--glide-core-spacing-base-xxs);
         }
-      }
-
-      &::slotted(*) {
-        align-items: center;
-        display: flex;
-        justify-content: center;
       }
     }
 
@@ -166,20 +177,12 @@ export default [
       display: flex;
       padding: 0;
 
-      &.large {
-        margin-inline-start: var(--glide-core-spacing-base-xs);
-      }
-
       &.medium {
         --private-size: 0.75rem;
-
-        margin-inline-start: 0.375rem;
       }
 
       &.small {
         --private-size: 0.625rem;
-
-        margin-inline-start: var(--glide-core-spacing-base-xxs);
       }
 
       &.disabled {

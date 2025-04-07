@@ -7359,7 +7359,14 @@
           "name": "GlideCoreTag",
           "slots": [
             {
-              "name": "icon",
+              "name": "prefix-icon",
+              "description": "",
+              "type": {
+                "text": "Element"
+              }
+            },
+            {
+              "name": "suffix-icon",
               "description": "",
               "type": {
                 "text": "Element"
@@ -7375,6 +7382,15 @@
               },
               "static": true,
               "default": "{ ...LitElement.shadowRootOptions, delegatesFocus: true, mode: shadowRootMode, }"
+            },
+            {
+              "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "'green' | 'indigo' | 'red' | undefined"
+              },
+              "attribute": "color",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -7459,6 +7475,13 @@
             }
           ],
           "attributes": [
+            {
+              "name": "color",
+              "type": {
+                "text": "'green' | 'indigo' | 'red' | undefined"
+              },
+              "fieldName": "color"
+            },
             {
               "name": "disabled",
               "type": {

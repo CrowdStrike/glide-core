@@ -25,6 +25,12 @@ export const extendedVariables = [
   'Color/Template/Surface/container-detail',
   'Color/Tooltip/Surface/container',
   'Color/Tooltip/Text/shortcut',
+  'Tag/Stroke/freeTrial',
+  'Tag/Stroke/new',
+  'Tag/Stroke/updated',
+  'Tag/Surface/freeTrial',
+  'Tag/Surface/new',
+  'Tag/Surface/updated',
 ];
 
 export const figmaFileId = 'A4B1kaT5HVLqcijwK4GXzt';

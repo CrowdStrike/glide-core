@@ -26,6 +26,7 @@ const meta: Meta = {
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
+        color=${arguments_.color}
         size=${arguments_.size}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
@@ -37,10 +38,12 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'addEventListener(event, handler)': '',
+    color: '',
     disabled: false,
     removable: false,
     size: 'medium',
-    'slot="icon"': '',
+    'slot="prefix-icon"': '',
+    'slot="suffix-icon"': '',
     version: '',
   },
   argTypes: {
@@ -56,6 +59,13 @@ const meta: Meta = {
           summary: 'method',
           detail: '(event: "remove", handler: (event: Event) => void): void',
         },
+      },
+    },
+    color: {
+      control: { type: 'select' },
+      options: ['', 'green', 'indigo', 'red'],
+      table: {
+        type: { summary: 'green | indigo | red' },
       },
     },
     disabled: {
@@ -84,7 +94,15 @@ const meta: Meta = {
         },
       },
     },
-    'slot="icon"': {
+    'slot="prefix-icon"': {
+      control: false,
+      table: {
+        type: {
+          summary: 'Element',
+        },
+      },
+    },
+    'slot="suffix-icon"': {
       control: false,
       table: {
         type: {
@@ -110,18 +128,24 @@ export const Tag: StoryObj = {
   tags: ['!autodocs'],
 };
 
-export const WithIcon: StoryObj = {
+export const WithIcons: StoryObj = {
   render(arguments_) {
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
+        color=${arguments_.color}
         size=${arguments_.size}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
       >
         <glide-core-example-icon
           name="drag-dots"
-          slot="icon"
+          slot="prefix-icon"
+        ></glide-core-example-icon>
+
+        <glide-core-example-icon
+          name="checkmark"
+          slot="suffix-icon"
         ></glide-core-example-icon>
       </glide-core-tag>
     `;
