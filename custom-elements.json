@@ -7378,6 +7378,15 @@
             },
             {
               "kind": "field",
+              "name": "color",
+              "type": {
+                "text": "'green' | 'indigo' | 'red' | undefined"
+              },
+              "attribute": "color",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -7459,6 +7468,13 @@
             }
           ],
           "attributes": [
+            {
+              "name": "color",
+              "type": {
+                "text": "'green' | 'indigo' | 'red' | undefined"
+              },
+              "fieldName": "color"
+            },
             {
               "name": "disabled",
               "type": {

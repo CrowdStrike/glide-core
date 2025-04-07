@@ -138,4 +138,13 @@
   --glide-core-private-color-template-surface-container-detail: #ffffffe5;
   --glide-core-private-color-tooltip-surface-container: #212121;
   --glide-core-private-color-tooltip-text-shortcut: #adadad;
+  --glide-core-private-color-tag-surface-updated: #f0effb;
+  --glide-core-private-color-tag-surface-freetrial: #ebf6f3;
+  --glide-core-private-color-tag-surface-new: #feebf3;
+  --glide-core-private-color-tag-stroke-updated: #b2b1ec;
+  --glide-core-private-color-tag-stroke-freetrial: #9cd1c3;
+  --glide-core-private-color-tag-stroke-new: #fdadd1;
+  --glide-core-private-color-tag-text-updated: #3d3c77;
+  --glide-core-private-color-tag-text-freetrial: #275b4e;
+  --glide-core-private-color-tag-text-new: #862450;
 }
