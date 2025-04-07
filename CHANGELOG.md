@@ -1,5 +1,15 @@
 # @crowdstrike/glide-core
 
+## 0.24.4
+
+### Patch Changes
+
+- [#831](https://github.com/CrowdStrike/glide-core/pull/831) [`ea5959e`](https://github.com/CrowdStrike/glide-core/commit/ea5959e3aada7b7b35418c410592402109b5cc34) Thanks [@clintcs](https://github.com/clintcs)! - - Form Controls Layout now supports `split="right"`, which gives each control's label 66.5% of the available space and the control itself the remaining 33.5%.
+
+  - Form Controls Layout's `split="left"` has been adjusted from a 33.33% / 66.66% split to a 33.5% / 66.5% split.
+
+- [#833](https://github.com/CrowdStrike/glide-core/pull/833) [`a3f7a80`](https://github.com/CrowdStrike/glide-core/commit/a3f7a8038cdbc5267d839e703c5ea48236e65605) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Icon Button's secondary variant now has a transparent background.
+
 ## 0.24.3
 
 ### Patch Changes
