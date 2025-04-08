@@ -32,7 +32,7 @@ export default {
       toolbar: {
         items: [
           { value: 'light', icon: 'sun', title: 'Light' },
-          { value: 'dark', icon: 'moon', title: 'Dark (Beta)' },
+          { value: 'dark', icon: 'moon', title: 'Dark' },
         ],
         dynamicTitle: true,
       },
