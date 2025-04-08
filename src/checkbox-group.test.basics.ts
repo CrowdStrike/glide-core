@@ -66,7 +66,7 @@ it('does not include in its `value` disabled checkboxes that are checked', async
   expect(checkboxes[1]?.checked).to.be.true;
 });
 
-it('sets `privateVariant` on added Checkboxes', async () => {
+it('sets `privateVariant` on Checkboxes added after initial render', async () => {
   const host = await fixture<GlideCoreCheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
