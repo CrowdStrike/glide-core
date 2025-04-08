@@ -1,4 +1,4 @@
-import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import GlideCoreTag from './tag.js';
@@ -15,18 +15,21 @@ it('is accessible', async () => {
     html`<glide-core-tag label="Label"></glide-core-tag>`,
   );
 
-  const tag = host?.shadowRoot?.querySelector<HTMLElement>(
-    '[data-test="component"]',
-  );
-
-  assert(tag);
-
-  const timeout = tag.dataset.animationDuration;
-  assert(timeout);
+  let animation: Animation | undefined;
 
   // Tag animates its opacity when added to the page. We wait for the animation
   // to complete to avoid a color contrast violation.
-  await aTimeout(Number(timeout));
+  await waitUntil(() => {
+    animation = host.shadowRoot
+      ?.querySelector('[data-test="component"]')
+      ?.getAnimations()
+      ?.at(0);
+
+    return animation;
+  });
+
+  assert(animation);
+  await animation.finished;
 
   await expect(host).to.be.accessible();
 
