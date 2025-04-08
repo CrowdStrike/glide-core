@@ -66,6 +66,28 @@ it('does not include in its `value` disabled checkboxes that are checked', async
   expect(checkboxes[1]?.checked).to.be.true;
 });
 
+it('sets `privateVariant` on added Checkboxes', async () => {
+  const host = await fixture<GlideCoreCheckboxGroup>(
+    html`<glide-core-checkbox-group label="Label">
+      <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
+      <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
+    </glide-core-checkbox-group>`,
+  );
+
+  const checkbox = document.createElement('glide-core-checkbox');
+  checkbox.label = 'Three';
+  checkbox.value = 'three';
+
+  host.append(checkbox);
+
+  await host.updateComplete;
+
+  const checkboxes = host.querySelectorAll('glide-core-checkbox');
+
+  expect(checkboxes.length).to.equal(3);
+  expect(checkboxes[2]?.privateVariant).to.equal('minimal');
+});
+
 it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 
