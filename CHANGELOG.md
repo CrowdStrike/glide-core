@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.24.5
+
+### Patch Changes
+
+- [#837](https://github.com/CrowdStrike/glide-core/pull/837) [`04b4e5c`](https://github.com/CrowdStrike/glide-core/commit/04b4e5ce4dad834733e0a1b1552d7fc8d9c51a7b) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Checkboxes added to a Checkbox Group after the initial render now follow the design guidelines.
+
 ## 0.24.4
 
 ### Patch Changes
