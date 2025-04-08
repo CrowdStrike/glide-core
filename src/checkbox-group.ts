@@ -222,7 +222,6 @@ export default class GlideCoreCheckboxGroup
     );
 
     for (const checkbox of this.#checkboxElements) {
-      checkbox.privateVariant = 'minimal';
       checkbox.addEventListener('blur', this.#onCheckboxBlur.bind(this));
 
       // When `value` is set on initial render, its setter is called before
@@ -595,6 +594,10 @@ export default class GlideCoreCheckboxGroup
   }
 
   #onDefaultSlotChange() {
+    for (const checkbox of this.#checkboxElements) {
+      checkbox.privateVariant = 'minimal';
+    }
+
     this.#value = this.#checkboxElements
       .filter(
         ({ checked, disabled, value }) => checked && !disabled && value !== '',
