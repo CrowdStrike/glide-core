@@ -1,4 +1,4 @@
-import { aTimeout, expect, fixture, html } from '@open-wc/testing';
+import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
 import GlideCoreInlineAlert from './inline-alert.js';
@@ -20,8 +20,21 @@ it('is accessible', async () => {
     >`,
   );
 
-  // Wait for the animation to complete.
-  await aTimeout(100);
+  let animation: Animation | undefined;
+
+  // Inline Alert animates its opacity when added to the page. We wait for the animation
+  // to complete to avoid a color contrast violation.
+  await waitUntil(() => {
+    animation = host.shadowRoot
+      ?.querySelector('[data-test="component"]')
+      ?.getAnimations()
+      ?.at(0);
+
+    return animation;
+  });
+
+  assert(animation);
+  await animation.finished;
 
   await expect(host).to.be.accessible();
 
