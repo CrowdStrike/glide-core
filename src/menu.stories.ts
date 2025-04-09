@@ -240,17 +240,17 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-menu')
       ?.addEventListener('click', (event: Event) => {
-        const isLink =
+        const link =
           event.target instanceof Element &&
           event.target.closest('glide-core-menu-link');
 
-        if (isLink && window.top) {
+        if (link && link.url === '/' && window.top) {
           event.preventDefault();
 
           // The Storybook user expects to navigate when the link is clicked but
-          // doesn't expect to be redirected to the first story. So we refresh the
-          // page to give the impression of a navigation while keeping the user
-          // on the same page.
+          // doesn't expect to be redirected to the first story, which "/" would do.
+          // So we refresh the page to give the impression of a navigation while keeping
+          // the user on the same page.
           window.top.location.reload();
         }
       });
