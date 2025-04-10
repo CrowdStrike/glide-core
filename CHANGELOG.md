@@ -1,5 +1,11 @@
 # @crowdstrike/glide-core
 
+## 0.24.6
+
+### Patch Changes
+
+- [#843](https://github.com/CrowdStrike/glide-core/pull/843) [`bd94b05`](https://github.com/CrowdStrike/glide-core/commit/bd94b054802ddb328522b47f53809cde025f3b7b) Thanks [@clintcs](https://github.com/clintcs)! - Tab Group's overflow buttons now change color on hover.
+
 ## 0.24.5
 
 ### Patch Changes
