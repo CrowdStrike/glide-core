@@ -58,18 +58,17 @@ export default class GlideCoreTabGroup extends LitElement {
           this.isShowOverflowButtons,
           () => html`
             <button
-              style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+              aria-label=${this.#localize.term('previousTab')}
               class=${classMap({
                 'overflow-button': true,
                 start: true,
                 disabled: this.isDisableOverflowStartButton,
               })}
-              @click=${this.#onOverflowStartButtonClick}
-              tabindex="-1"
-              aria-label=${this.#localize.term('previousTab')}
               data-test="overflow-start-button"
-              ${ref(this.#overflowStartButtonElementRef)}
+              tabindex="-1"
               ?disabled=${this.isDisableOverflowStartButton}
+              @click=${this.#onOverflowStartButtonClick}
+              ${ref(this.#overflowStartButtonElementRef)}
             >
               ${chevronIcon}
             </button>
@@ -83,8 +82,8 @@ export default class GlideCoreTabGroup extends LitElement {
           data-test="tablist"
           role="tablist"
           tabindex="-1"
-          @scroll=${this.#setOverflowButtonsState}
           @focusout=${this.#onTabListFocusout}
+          @scroll=${this.#setOverflowButtonsState}
           ${onResize(this.#onTabListResize.bind(this))}
           ${ref(this.#tabListElementRef)}
         >
@@ -101,16 +100,15 @@ export default class GlideCoreTabGroup extends LitElement {
           this.isShowOverflowButtons,
           () => html`
             <button
-              style="height: ${this.#tabListElementRef.value?.clientHeight}px"
+              aria-label=${this.#localize.term('nextTab')}
               class=${classMap({
                 'overflow-button': true,
                 end: true,
                 disabled: this.isDisableOverflowEndButton,
               })}
-              @click=${this.#onOverflowEndButtonClick}
-              tabindex="-1"
-              aria-label=${this.#localize.term('nextTab')}
               data-test="overflow-end-button"
+              tabindex="-1"
+              @click=${this.#onOverflowEndButtonClick}
               ?disabled=${this.isDisableOverflowEndButton}
               ${ref(this.#overflowEndButtonElementRef)}
             >

@@ -91,6 +91,10 @@ export default [
       &.end {
         transform: rotate(-90deg);
       }
+
+      &:hover:not(.disabled) {
+        color: var(--glide-core-color-interactive-icon-active--hover);
+      }
     }
 
     ::slotted([slot='nav']:first-of-type) {

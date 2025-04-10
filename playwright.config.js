@@ -38,6 +38,7 @@ export default defineConfig({
   testDir: './src/',
   use: {
     baseURL: 'http://localhost:6006/iframe.html',
+    testIdAttribute: 'data-test',
   },
   webServer: {
     command: 'pnpm start:development:storybook',
