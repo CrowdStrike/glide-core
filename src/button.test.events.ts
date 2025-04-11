@@ -15,6 +15,20 @@ it('dispatches a "click" event on click', async () => {
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+});
+
+it('does not dispatch a "click" event on click when disabled', async () => {
+  const host = await fixture<GlideCoreButton>(html`
+    <glide-core-button label="Label" disabled></glide-core-button>
+  `);
+
+  const spy = sinon.spy();
+  host.addEventListener('click', spy);
+
+  await click(host);
+
+  expect(spy.callCount).to.equal(0);
 });
 
 it('dispatches a "click" event on `click()`', async () => {
@@ -30,6 +44,20 @@ it('dispatches a "click" event on `click()`', async () => {
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
+});
+
+it('does not dispatch a "click" event on `click()` when disabled', async () => {
+  const host = await fixture<GlideCoreButton>(html`
+    <glide-core-button label="Label" disabled></glide-core-button>
+  `);
+
+  const spy = sinon.spy();
+  host.addEventListener('click', spy);
+
+  host.click();
+
+  expect(spy.callCount).to.equal(0);
 });
 
 it('dispatches a "click" event on Enter', async () => {
@@ -44,6 +72,7 @@ it('dispatches a "click" event on Enter', async () => {
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('does not dispatch a "click" event on Enter when disabled', async () => {
@@ -72,6 +101,7 @@ it('dispatches a "click" event on Space', async () => {
 
   expect(event instanceof PointerEvent).to.be.true;
   expect(event.bubbles).to.be.true;
+  expect(event.composed).to.be.true;
 });
 
 it('does not dispatch a "click" event on Space when disabled', async () => {
