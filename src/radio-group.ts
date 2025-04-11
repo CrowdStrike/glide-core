@@ -79,6 +79,10 @@ export default class GlideCoreRadioGroup
 
   static override styles = styles;
 
+  @property({ reflect: true })
+  @required
+  label?: string;
+
   /**
    * @default false
    */
@@ -122,11 +126,7 @@ export default class GlideCoreRadioGroup
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
 
-  @property({ reflect: true })
-  @required
-  label?: string;
-
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   name = '';
 
   @property({ reflect: true })

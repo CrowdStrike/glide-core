@@ -43,7 +43,7 @@ export default class GlideCoreInlineAlert extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   variant: 'informational' | 'medium' | 'high' | 'critical' = 'informational';
 
   @property({ reflect: true, type: Boolean })

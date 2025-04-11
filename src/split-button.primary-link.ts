@@ -35,16 +35,16 @@ export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true, type: Boolean })
-  disabled = false;
+  @property({ reflect: true })
+  @required
+  url?: string;
 
   @property({ reflect: true })
   @required
   label?: string;
 
-  @property({ reflect: true })
-  @required
-  url?: string;
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
 
   @property()
   privateSize: 'large' | 'small' = 'large';

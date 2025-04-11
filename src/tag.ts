@@ -57,7 +57,7 @@ export default class GlideCoreTag extends LitElement {
   @property({ reflect: true, type: Boolean })
   removable = false;
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   size: 'small' | 'medium' | 'large' = 'medium';
 
   @property({ reflect: true })

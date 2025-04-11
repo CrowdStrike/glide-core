@@ -62,12 +62,12 @@ export default class GlideCoreModal extends LitElement {
 
   static override styles = styles;
 
-  @property({ attribute: 'back-button', type: Boolean, reflect: true })
-  backButton = false;
-
   @property({ reflect: true })
   @required
   label?: string;
+
+  @property({ attribute: 'back-button', type: Boolean, reflect: true })
+  backButton = false;
 
   /**
    * @default false
@@ -100,7 +100,7 @@ export default class GlideCoreModal extends LitElement {
   @property({ reflect: true })
   severity?: 'critical' | 'informational' | 'medium';
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   size?: 'small' | 'medium' | 'large' | 'xlarge' = 'medium';
 
   @property({ reflect: true })

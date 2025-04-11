@@ -42,6 +42,10 @@ export default class GlideCoreToggle extends LitElement {
 
   static override styles = styles;
 
+  @property({ reflect: true })
+  @required
+  label?: string;
+
   @property({ type: Boolean })
   checked = false;
 
@@ -51,11 +55,7 @@ export default class GlideCoreToggle extends LitElement {
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
 
-  @property({ reflect: true })
-  @required
-  label?: string;
-
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   // Private because it's only meant to be used by Form Controls Layout.

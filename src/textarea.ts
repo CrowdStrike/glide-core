@@ -29,7 +29,7 @@ declare global {
  * @attr {number} [maxlength]
  * @attr {string} [name='']
  * @attr {'horizontal'|'vertical'} [orientation='horizontal']
- * @attr {string} [placeholder='']
+ * @attr {string} [placeholder]
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
  * @attr {boolean} [spellcheck=false]
@@ -84,31 +84,27 @@ export default class GlideCoreTextarea
 
   static override styles = styles;
 
-  // Intentionally not reflected to match native.
-  @property()
-  value = '';
-
   @property({ reflect: true })
   @required
   label?: string;
 
-  @property({ attribute: 'hide-label', reflect: true, type: Boolean })
-  hideLabel = false;
+  @property({ reflect: true, useDefault: true })
+  override autocapitalize:
+    | 'on'
+    | 'off'
+    | 'none'
+    | 'sentences'
+    | 'words'
+    | 'characters' = 'on';
 
-  @property({ reflect: true })
-  orientation: 'horizontal' | 'vertical' = 'horizontal';
-
-  @property({ reflect: true })
-  placeholder?: string = '';
-
-  @property({ reflect: true, type: Boolean })
-  required = false;
-
-  @property({ reflect: true, type: Boolean })
-  readonly = false;
+  @property({ reflect: true, useDefault: true })
+  autocomplete: 'on' | 'off' = 'on';
 
   @property({ reflect: true, type: Boolean })
   disabled = false;
+
+  @property({ attribute: 'hide-label', reflect: true, type: Boolean })
+  hideLabel = false;
 
   @property({
     type: Number,
@@ -119,31 +115,35 @@ export default class GlideCoreTextarea
   })
   maxlength?: number;
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   name = '';
 
-  // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
-  @property({ reflect: true, type: Boolean })
-  override spellcheck = false;
+  @property({ reflect: true, useDefault: true })
+  orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property({ reflect: true })
-  override autocapitalize:
-    | 'on'
-    | 'off'
-    | 'none'
-    | 'sentences'
-    | 'words'
-    | 'characters' = 'on';
-
-  @property({ reflect: true })
-  autocomplete: 'on' | 'off' = 'on';
+  placeholder?: string;
 
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle' | 'right';
 
+  // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
+  @property({ reflect: true, type: Boolean, useDefault: true })
+  override spellcheck = false;
+
+  @property({ reflect: true, type: Boolean })
+  required = false;
+
+  @property({ reflect: true, type: Boolean })
+  readonly = false;
+
   @property({ reflect: true })
   tooltip?: string;
+
+  // Intentionally not reflected to match native.
+  @property()
+  value = '';
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;

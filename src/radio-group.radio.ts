@@ -36,6 +36,20 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   static override styles = styles;
 
   /**
+   * @default undefined
+   */
+  @property({ reflect: true })
+  @required
+  get label(): string | undefined {
+    return this.#label;
+  }
+
+  set label(label: string) {
+    this.#label = label;
+    this.ariaLabel = label.toString();
+  }
+
+  /**
    * @default false
    */
   @property({ type: Boolean, reflect: true })
@@ -104,20 +118,6 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   set privateInvalid(invalid: boolean) {
     this.#privateInvalid = invalid;
     this.ariaInvalid = invalid.toString();
-  }
-
-  /**
-   * @default undefined
-   */
-  @property({ reflect: true })
-  @required
-  get label(): string | undefined {
-    return this.#label;
-  }
-
-  set label(label: string) {
-    this.#label = label;
-    this.ariaLabel = label.toString();
   }
 
   // Private because it's only meant to be used by Radio Group.

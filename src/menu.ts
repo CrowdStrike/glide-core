@@ -91,7 +91,7 @@ export default class GlideCoreMenu extends LitElement {
     }
   }
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   placement:
     | 'bottom'
     | 'left'

@@ -40,13 +40,20 @@ export default class GlideCoreIconButton extends LitElement {
 
   static override styles = styles;
 
-  @property({ attribute: 'aria-controls', reflect: true })
+  /**
+   * For screenreaders
+   **/
+  @property({ reflect: true })
+  @required
+  label?: string;
+
+  @property({ attribute: 'aria-controls', reflect: true, useDefault: true })
   ariaControls: string | null = null;
 
-  @property({ attribute: 'aria-expanded', reflect: true })
+  @property({ attribute: 'aria-expanded', reflect: true, useDefault: true })
   override ariaExpanded: 'true' | 'false' | null = null;
 
-  @property({ attribute: 'aria-haspopup', reflect: true })
+  @property({ attribute: 'aria-haspopup', reflect: true, useDefault: true })
   override ariaHasPopup:
     | 'true'
     | 'false'
@@ -59,14 +66,7 @@ export default class GlideCoreIconButton extends LitElement {
 
   @property({ type: Boolean, reflect: true }) disabled = false;
 
-  /**
-   * For screenreaders
-   **/
-  @property()
-  @required
-  label?: string;
-
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   @property({ reflect: true })

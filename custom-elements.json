@@ -634,21 +634,21 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
               "reflects": true
             },
             {
@@ -735,20 +735,20 @@
           ],
           "attributes": [
             {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
             },
             {
               "name": "name",
@@ -956,6 +956,15 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -972,15 +981,6 @@
               },
               "default": "false",
               "attribute": "hide-label"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
-              "reflects": true
             },
             {
               "kind": "field",
@@ -1184,6 +1184,14 @@
           ],
           "attributes": [
             {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label",
+              "required": true
+            },
+            {
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -1198,14 +1206,6 @@
               },
               "default": "false",
               "fieldName": "hideLabel"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "name",
@@ -1355,6 +1355,16 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "checked",
               "type": {
                 "text": "boolean"
@@ -1398,16 +1408,6 @@
               },
               "default": "false",
               "attribute": "indeterminate"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "undefined",
-              "attribute": "label",
-              "reflects": true
             },
             {
               "kind": "field",
@@ -1696,6 +1696,15 @@
           ],
           "attributes": [
             {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "label",
+              "required": true
+            },
+            {
               "name": "checked",
               "type": {
                 "text": "boolean"
@@ -1734,15 +1743,6 @@
               },
               "default": "false",
               "fieldName": "indeterminate"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "undefined",
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "orientation",
@@ -2110,6 +2110,16 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "count",
               "type": {
                 "text": "number | undefined"
@@ -2135,16 +2145,6 @@
               },
               "default": "false",
               "attribute": "editable",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "undefined",
-              "attribute": "label",
               "reflects": true
             },
             {
@@ -2245,6 +2245,12 @@
               }
             },
             {
+              "name": "private-label-change",
+              "type": {
+                "text": "Event"
+              }
+            },
+            {
               "name": "private-disabled-change",
               "type": {
                 "text": "Event"
@@ -2252,12 +2258,6 @@
             },
             {
               "name": "private-editable-change",
-              "type": {
-                "text": "Event"
-              }
-            },
-            {
-              "name": "private-label-change",
               "type": {
                 "text": "Event"
               }
@@ -2276,6 +2276,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "label",
+              "required": true
+            },
             {
               "name": "count",
               "type": {
@@ -2298,15 +2307,6 @@
               },
               "default": "false",
               "fieldName": "editable"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "undefined",
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "private-indeterminate",
@@ -2502,6 +2502,15 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "addButtonLabel",
               "type": {
                 "text": "string | undefined"
@@ -2537,15 +2546,6 @@
               },
               "default": "false",
               "attribute": "hide-label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
               "reflects": true
             },
             {
@@ -2854,6 +2854,14 @@
           ],
           "attributes": [
             {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label",
+              "required": true
+            },
+            {
               "name": "add-button-label",
               "type": {
                 "text": "string | undefined"
@@ -2883,14 +2891,6 @@
               },
               "default": "false",
               "fieldName": "hideLabel"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "name",
@@ -3206,6 +3206,16 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "For screenreaders",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "ariaControls",
               "type": {
                 "text": "string | null"
@@ -3246,15 +3256,6 @@
             },
             {
               "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "description": "For screenreaders",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
               "name": "variant",
               "type": {
                 "text": "'primary' | 'secondary' | 'tertiary'"
@@ -3279,6 +3280,15 @@
             }
           ],
           "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "description": "For screenreaders",
+              "fieldName": "label",
+              "required": true
+            },
             {
               "name": "aria-controls",
               "type": {
@@ -3310,15 +3320,6 @@
               },
               "default": "false",
               "fieldName": "disabled"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "description": "For screenreaders",
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "variant",
@@ -3595,97 +3596,11 @@
             },
             {
               "kind": "field",
-              "name": "type",
-              "type": {
-                "text": "| 'date'\n    | 'email'\n    | 'number'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'text'\n    | 'time'\n    | 'url'"
-              },
-              "default": "'text'",
-              "attribute": "type",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "name",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "attribute": "label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "hideLabel",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "hide-label"
-            },
-            {
-              "kind": "field",
-              "name": "orientation",
-              "type": {
-                "text": "'horizontal' | 'vertical'"
-              },
-              "default": "'horizontal'",
-              "attribute": "orientation",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "pattern",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "''",
-              "attribute": "pattern",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "placeholder",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "placeholder",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "clearable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "clearable"
-            },
-            {
-              "kind": "field",
-              "name": "spellcheck",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "spellcheck",
               "reflects": true
             },
             {
@@ -3710,32 +3625,13 @@
             },
             {
               "kind": "field",
-              "name": "passwordToggle",
+              "name": "clearable",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "description": "For 'password' type, whether to show a button to toggle the password's visibility",
-              "attribute": "password-toggle"
-            },
-            {
-              "kind": "field",
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "required",
+              "attribute": "clearable",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "readonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "readonly"
             },
             {
               "kind": "field",
@@ -3749,11 +3645,13 @@
             },
             {
               "kind": "field",
-              "name": "privateSplit",
+              "name": "hideLabel",
               "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
+                "text": "boolean"
               },
-              "attribute": "privateSplit"
+              "default": "false",
+              "attribute": "hide-label",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -3766,12 +3664,90 @@
             },
             {
               "kind": "field",
-              "name": "version",
+              "name": "name",
               "type": {
                 "text": "string"
               },
-              "readonly": true,
-              "attribute": "version",
+              "default": "''",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "passwordToggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "For 'password' type, whether to show a button to toggle the password's visibility",
+              "attribute": "password-toggle",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "placeholder",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "pattern",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "''",
+              "attribute": "pattern",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "privateSplit",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "attribute": "privateSplit"
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "spellcheck",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "spellcheck",
               "reflects": true
             },
             {
@@ -3781,6 +3757,35 @@
                 "text": "string | undefined"
               },
               "attribute": "tooltip",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "| 'date'\n    | 'email'\n    | 'number'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'text'\n    | 'time'\n    | 'url'"
+              },
+              "default": "'text'",
+              "attribute": "type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "version",
               "reflects": true
             },
             {
@@ -3909,83 +3914,12 @@
           ],
           "attributes": [
             {
-              "name": "type",
-              "type": {
-                "text": "| 'date'\n    | 'email'\n    | 'number'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'text'\n    | 'time'\n    | 'url'"
-              },
-              "default": "'text'",
-              "fieldName": "type"
-            },
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "name"
-            },
-            {
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "value"
-            },
-            {
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "fieldName": "label",
               "required": true
-            },
-            {
-              "name": "hide-label",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "hideLabel"
-            },
-            {
-              "name": "orientation",
-              "type": {
-                "text": "'horizontal' | 'vertical'"
-              },
-              "default": "'horizontal'",
-              "fieldName": "orientation"
-            },
-            {
-              "name": "pattern",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "''",
-              "fieldName": "pattern"
-            },
-            {
-              "name": "placeholder",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "placeholder"
-            },
-            {
-              "name": "clearable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "clearable"
-            },
-            {
-              "name": "spellcheck",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "spellcheck"
             },
             {
               "name": "autocapitalize",
@@ -4004,29 +3938,12 @@
               "fieldName": "autocomplete"
             },
             {
-              "name": "password-toggle",
+              "name": "clearable",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "description": "For 'password' type, whether to show a button to toggle the password's visibility",
-              "fieldName": "passwordToggle"
-            },
-            {
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "required"
-            },
-            {
-              "name": "readonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "readonly"
+              "fieldName": "clearable"
             },
             {
               "name": "disabled",
@@ -4037,11 +3954,12 @@
               "fieldName": "disabled"
             },
             {
-              "name": "privateSplit",
+              "name": "hide-label",
               "type": {
-                "text": "'left' | 'middle' | 'right' | undefined"
+                "text": "boolean"
               },
-              "fieldName": "privateSplit"
+              "default": "false",
+              "fieldName": "hideLabel"
             },
             {
               "name": "maxlength",
@@ -4051,12 +3969,75 @@
               "fieldName": "maxlength"
             },
             {
-              "name": "version",
+              "name": "name",
               "type": {
                 "text": "string"
               },
-              "readonly": true,
-              "fieldName": "version"
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "password-toggle",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "For 'password' type, whether to show a button to toggle the password's visibility",
+              "fieldName": "passwordToggle"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "pattern",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "''",
+              "fieldName": "pattern"
+            },
+            {
+              "name": "privateSplit",
+              "type": {
+                "text": "'left' | 'middle' | 'right' | undefined"
+              },
+              "fieldName": "privateSplit"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "spellcheck",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "spellcheck"
             },
             {
               "name": "tooltip",
@@ -4064,6 +4045,30 @@
                 "text": "string | undefined"
               },
               "fieldName": "tooltip"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "| 'date'\n    | 'email'\n    | 'number'\n    | 'password'\n    | 'search'\n    | 'tel'\n    | 'text'\n    | 'time'\n    | 'url'"
+              },
+              "default": "'text'",
+              "fieldName": "type"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
+            },
+            {
+              "name": "version",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "version"
             }
           ],
           "superclass": {
@@ -4363,21 +4368,21 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
               "reflects": true
             },
             {
@@ -4414,20 +4419,20 @@
           ],
           "attributes": [
             {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
             },
             {
               "name": "privateActive",
@@ -4516,21 +4521,21 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
               "reflects": true
             },
             {
@@ -4576,20 +4581,20 @@
           ],
           "attributes": [
             {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
             },
             {
               "name": "url",
@@ -5071,7 +5076,8 @@
               "type": {
                 "text": "string | undefined"
               },
-              "attribute": "label"
+              "attribute": "label",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -5200,21 +5206,21 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "backButton",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "back-button",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
               "reflects": true
             },
             {
@@ -5267,20 +5273,20 @@
           ],
           "attributes": [
             {
-              "name": "back-button",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "backButton"
-            },
-            {
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "back-button",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "backButton"
             },
             {
               "name": "open",
@@ -5548,6 +5554,16 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "checked",
               "type": {
                 "text": "boolean"
@@ -5570,16 +5586,6 @@
               "kind": "field",
               "name": "privateInvalid",
               "attribute": "privateInvalid"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "undefined",
-              "attribute": "label",
-              "reflects": true
             },
             {
               "kind": "field",
@@ -5641,6 +5647,15 @@
           ],
           "attributes": [
             {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "label",
+              "required": true
+            },
+            {
               "name": "checked",
               "type": {
                 "text": "boolean"
@@ -5659,15 +5674,6 @@
             {
               "name": "privateInvalid",
               "fieldName": "privateInvalid"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "undefined",
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "privateRequired",
@@ -5776,6 +5782,15 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -5792,15 +5807,6 @@
               },
               "default": "false",
               "attribute": "hide-label"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
-              "reflects": true
             },
             {
               "kind": "field",
@@ -5995,6 +6001,14 @@
           ],
           "attributes": [
             {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label",
+              "required": true
+            },
+            {
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -6009,14 +6023,6 @@
               },
               "default": "false",
               "fieldName": "hideLabel"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "name",
@@ -6260,6 +6266,15 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "ariaControls",
               "type": {
                 "text": "string | null"
@@ -6300,15 +6315,6 @@
             },
             {
               "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "privateSize",
               "type": {
                 "text": "'large' | 'small'"
@@ -6337,6 +6343,14 @@
             }
           ],
           "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label",
+              "required": true
+            },
             {
               "name": "aria-controls",
               "type": {
@@ -6368,14 +6382,6 @@
               },
               "default": "false",
               "fieldName": "disabled"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "privateSize",
@@ -6458,12 +6464,11 @@
             },
             {
               "kind": "field",
-              "name": "disabled",
+              "name": "url",
               "type": {
-                "text": "boolean"
+                "text": "string | undefined"
               },
-              "default": "false",
-              "attribute": "disabled",
+              "attribute": "url",
               "reflects": true
             },
             {
@@ -6477,11 +6482,12 @@
             },
             {
               "kind": "field",
-              "name": "url",
+              "name": "disabled",
               "type": {
-                "text": "string | undefined"
+                "text": "boolean"
               },
-              "attribute": "url",
+              "default": "false",
+              "attribute": "disabled",
               "reflects": true
             },
             {
@@ -6515,12 +6521,12 @@
           ],
           "attributes": [
             {
-              "name": "disabled",
+              "name": "url",
               "type": {
-                "text": "boolean"
+                "text": "string | undefined"
               },
-              "default": "false",
-              "fieldName": "disabled"
+              "fieldName": "url",
+              "required": true
             },
             {
               "name": "label",
@@ -6531,12 +6537,12 @@
               "required": true
             },
             {
-              "name": "url",
+              "name": "disabled",
               "type": {
-                "text": "string | undefined"
+                "text": "boolean"
               },
-              "fieldName": "url",
-              "required": true
+              "default": "false",
+              "fieldName": "disabled"
             },
             {
               "name": "privateSize",
@@ -6633,21 +6639,21 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
               "reflects": true
             },
             {
@@ -6714,20 +6720,20 @@
           ],
           "attributes": [
             {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
             },
             {
               "name": "menu-open",
@@ -7587,109 +7593,11 @@
             },
             {
               "kind": "field",
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "value"
-            },
-            {
-              "kind": "field",
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "attribute": "label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "hideLabel",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "hide-label",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "orientation",
-              "type": {
-                "text": "'horizontal' | 'vertical'"
-              },
-              "default": "'horizontal'",
-              "attribute": "orientation",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "placeholder",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "''",
-              "attribute": "placeholder",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "required",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "readonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "readonly",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "maxlength",
-              "type": {
-                "text": "number | undefined"
-              },
-              "attribute": "maxlength",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "attribute": "name",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "spellcheck",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "spellcheck",
               "reflects": true
             },
             {
@@ -7714,11 +7622,99 @@
             },
             {
               "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hideLabel",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hide-label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "maxlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "attribute": "maxlength",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "placeholder",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "privateSplit",
               "type": {
                 "text": "'left' | 'middle' | 'right' | undefined"
               },
               "attribute": "privateSplit"
+            },
+            {
+              "kind": "field",
+              "name": "spellcheck",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "spellcheck",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "required",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "readonly",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -7728,6 +7724,15 @@
               },
               "attribute": "tooltip",
               "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "value"
             },
             {
               "kind": "field",
@@ -7859,91 +7864,12 @@
           ],
           "attributes": [
             {
-              "name": "value",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "value"
-            },
-            {
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "fieldName": "label",
               "required": true
-            },
-            {
-              "name": "hide-label",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "hideLabel"
-            },
-            {
-              "name": "orientation",
-              "type": {
-                "text": "'horizontal' | 'vertical'"
-              },
-              "default": "'horizontal'",
-              "fieldName": "orientation"
-            },
-            {
-              "name": "placeholder",
-              "type": {
-                "text": "string | undefined"
-              },
-              "default": "''",
-              "fieldName": "placeholder"
-            },
-            {
-              "name": "required",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "required"
-            },
-            {
-              "name": "readonly",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "readonly"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "maxlength",
-              "type": {
-                "text": "number | undefined"
-              },
-              "fieldName": "maxlength"
-            },
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              },
-              "default": "''",
-              "fieldName": "name"
-            },
-            {
-              "name": "spellcheck",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "spellcheck"
             },
             {
               "name": "autocapitalize",
@@ -7962,6 +7888,52 @@
               "fieldName": "autocomplete"
             },
             {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "hide-label",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideLabel"
+            },
+            {
+              "name": "maxlength",
+              "type": {
+                "text": "number | undefined"
+              },
+              "fieldName": "maxlength"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "name"
+            },
+            {
+              "name": "orientation",
+              "type": {
+                "text": "'horizontal' | 'vertical'"
+              },
+              "default": "'horizontal'",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "placeholder"
+            },
+            {
               "name": "privateSplit",
               "type": {
                 "text": "'left' | 'middle' | 'right' | undefined"
@@ -7969,11 +7941,43 @@
               "fieldName": "privateSplit"
             },
             {
+              "name": "spellcheck",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "spellcheck"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "required"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "readonly"
+            },
+            {
               "name": "tooltip",
               "type": {
                 "text": "string | undefined"
               },
               "fieldName": "tooltip"
+            },
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "value"
             },
             {
               "name": "version",
@@ -8303,6 +8307,15 @@
             },
             {
               "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "checked",
               "type": {
                 "text": "boolean"
@@ -8328,15 +8341,6 @@
               },
               "default": "false",
               "attribute": "hide-label"
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
-              "reflects": true
             },
             {
               "kind": "field",
@@ -8412,6 +8416,14 @@
           ],
           "attributes": [
             {
+              "name": "label",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "label",
+              "required": true
+            },
+            {
               "name": "checked",
               "type": {
                 "text": "boolean"
@@ -8434,14 +8446,6 @@
               },
               "default": "false",
               "fieldName": "hideLabel"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "orientation",
@@ -8729,22 +8733,22 @@
             },
             {
               "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "label",
               "type": {
                 "text": "string | undefined"
               },
               "default": "undefined",
               "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
               "reflects": true
             },
             {
@@ -8818,14 +8822,6 @@
           ],
           "attributes": [
             {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
               "name": "label",
               "type": {
                 "text": "string | undefined"
@@ -8833,6 +8829,14 @@
               "default": "undefined",
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
             },
             {
               "name": "offset",

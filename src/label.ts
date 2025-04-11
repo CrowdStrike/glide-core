@@ -53,7 +53,7 @@ export default class GlideCoreLabel extends LitElement {
   @property({ reflect: true, type: Boolean })
   hide = false;
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property({ reflect: true, type: Boolean })

@@ -48,6 +48,32 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   static override styles = styles;
 
+  /**
+   * @default undefined
+   */
+  @property({ reflect: true })
+  @required
+  get label(): string | undefined {
+    return this.#label;
+  }
+
+  set label(label) {
+    this.#label = label;
+
+    // Wait for the label to render. A rerender won't be scheduled by Lit
+    // until after this setter finishes. So awaiting `this.updateComplete`
+    // won't fly.
+    setTimeout(() => {
+      this.#updateLabelOverflow();
+    });
+
+    this.dispatchEvent(
+      new Event('private-label-change', {
+        bubbles: true,
+      }),
+    );
+  }
+
   @property({ reflect: true, type: Number })
   count?: number;
 
@@ -91,32 +117,6 @@ export default class GlideCoreDropdownOption extends LitElement {
     );
   }
 
-  /**
-   * @default undefined
-   */
-  @property({ reflect: true })
-  @required
-  get label(): string | undefined {
-    return this.#label;
-  }
-
-  set label(label) {
-    this.#label = label;
-
-    // Wait for the label to render. A rerender won't be scheduled by Lit
-    // until after this setter finishes. So awaiting `this.updateComplete`
-    // won't fly.
-    setTimeout(() => {
-      this.#updateLabelOverflow();
-    });
-
-    this.dispatchEvent(
-      new Event('private-label-change', {
-        bubbles: true,
-      }),
-    );
-  }
-
   // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-indeterminate', type: Boolean })
   privateIndeterminate = false;
@@ -152,7 +152,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   // Private because it's only meant to be used by Dropdown.
-  @property({ attribute: 'private-size', reflect: true })
+  @property({ attribute: 'private-size', reflect: true, useDefault: true })
   privateSize: 'large' | 'small' = 'large';
 
   // An option is considered active when it's interacted with via keyboard or hovered.

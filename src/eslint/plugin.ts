@@ -17,6 +17,7 @@ import { eventDispatchFromThis } from './rules/event-dispatch-from-this.js';
 import { stringEventName } from './rules/string-event-name.js';
 import { slotTypeComment } from './rules/slot-type-comment.js';
 import { publicPropertyExpressionType } from './rules/public-property-expression-type.js';
+import { useDefaultWithPropertyDecorator } from './rules/use-default-with-property-decorator.js';
 
 export default {
   rules: {
@@ -41,5 +42,6 @@ export default {
     'string-event-name': stringEventName,
     'slot-type-comment': slotTypeComment,
     'public-property-expression-type': publicPropertyExpressionType,
+    'use-default-with-property-decorator': useDefaultWithPropertyDecorator,
   },
 };

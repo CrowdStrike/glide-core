@@ -108,6 +108,10 @@ export default class GlideCoreDropdown
 
   static override styles = styles;
 
+  @property({ reflect: true })
+  @required
+  label?: string;
+
   @property({ attribute: 'add-button-label', reflect: true })
   addButtonLabel?: string;
 
@@ -157,11 +161,7 @@ export default class GlideCoreDropdown
   @property({ attribute: 'hide-label', reflect: true, type: Boolean })
   hideLabel = false;
 
-  @property({ reflect: true })
-  @required
-  label?: string;
-
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   name = '';
 
   /**
@@ -222,7 +222,7 @@ export default class GlideCoreDropdown
     }
   }
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
   @property({ reflect: true })

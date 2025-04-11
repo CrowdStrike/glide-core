@@ -39,7 +39,7 @@ export default class GlideCoreSpinner extends LitElement {
   @required
   label?: string;
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   size: 'large' | 'medium' | 'small' = 'medium';
 
   @property({ reflect: true })

@@ -43,17 +43,17 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
 
   static override styles = styles;
 
-  @property({ reflect: true, type: Boolean })
-  disabled = false;
-
   @property({ reflect: true })
   @required
   label?: string;
 
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
+
   @property({ attribute: 'menu-open', reflect: true, type: Boolean })
   menuOpen = false;
 
-  @property({ attribute: 'menu-placement', reflect: true })
+  @property({ attribute: 'menu-placement', reflect: true, useDefault: true })
   menuPlacement: 'bottom-end' | 'top-end' = 'bottom-end';
 
   @property({ type: Boolean })

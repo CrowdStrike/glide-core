@@ -79,6 +79,10 @@ export default class GlideCoreCheckboxGroup
 
   static override styles = styles;
 
+  @property({ reflect: true })
+  @required
+  label?: string;
+
   /**
    * @default false
    */
@@ -98,14 +102,10 @@ export default class GlideCoreCheckboxGroup
   @property({ attribute: 'hide-label', type: Boolean })
   hideLabel = false;
 
-  @property({ reflect: true })
-  @required
-  label?: string;
-
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   name = '';
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   orientation = 'horizontal' as const;
 
   // Private because it's only meant to be used by Form Controls Layout.
