@@ -26,6 +26,7 @@ const meta: Meta = {
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
+        color=${arguments_.color}
         size=${arguments_.size}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
@@ -37,6 +38,7 @@ const meta: Meta = {
   args: {
     label: 'Label',
     'addEventListener(event, handler)': '',
+    color: '',
     disabled: false,
     removable: false,
     size: 'medium',
@@ -55,6 +57,17 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: '(event: "remove", handler: (event: Event) => void): void',
+        },
+      },
+    },
+    color: {
+      control: { type: 'select' },
+      options: ['', 'green', 'indigo', 'red'],
+      table: {
+        type: {
+          summary: 'green | indigo | red',
+          detail:
+            '// `removable` and `slot="icon"` are unsupported when `color` is set',
         },
       },
     },
@@ -115,6 +128,7 @@ export const WithIcon: StoryObj = {
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
+        color=${arguments_.color}
         size=${arguments_.size}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}

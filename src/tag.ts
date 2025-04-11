@@ -20,6 +20,7 @@ declare global {
 
 /**
  * @attr {string} label
+ * @attr {'green'|'indigo'|'red'} [color]
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [removable=false]
  * @attr {'small'|'medium'|'large'} [size='medium']
@@ -42,6 +43,9 @@ export default class GlideCoreTag extends LitElement {
   };
 
   static override styles = styles;
+
+  @property({ reflect: true })
+  color?: 'green' | 'indigo' | 'red';
 
   @property({ reflect: true, type: Boolean })
   disabled = false;
@@ -88,6 +92,9 @@ export default class GlideCoreTag extends LitElement {
           component: true,
           added: true,
           disabled: this.disabled,
+          green: this.color === 'green',
+          indigo: this.color === 'indigo',
+          red: this.color === 'red',
           [this.size]: true,
         })}
         data-test="component"
@@ -99,6 +106,7 @@ export default class GlideCoreTag extends LitElement {
           class=${classMap({
             'icon-slot': true,
             [this.size]: true,
+            hidden: Boolean(this.color),
           })}
           name="icon"
         >
@@ -133,6 +141,7 @@ export default class GlideCoreTag extends LitElement {
                 'removal-button': true,
                 [this.size]: true,
                 disabled: this.disabled,
+                hidden: Boolean(this.color),
               })}
               data-test="removal-button"
               type="button"
