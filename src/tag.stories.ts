@@ -26,7 +26,7 @@ const meta: Meta = {
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
-        color=${arguments_.color}
+        color=${arguments_.color || nothing}
         size=${arguments_.size}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
