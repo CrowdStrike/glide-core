@@ -95,7 +95,7 @@ export default [
           --glide-core-color-interactive-surface-container--disabled
         );
         border: 0.0625rem solid
-          var(--glide-core-color-interactive-stroke-primary--disabled);
+          var(--glide-core-color-interactive-surface-container--disabled);
         color: var(--glide-core-color-interactive-text-default--disabled);
       }
     }
