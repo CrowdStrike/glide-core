@@ -79,7 +79,7 @@ export default [
           --glide-core-color-interactive-surface-container--disabled
         );
         border-color: var(
-          --glide-core-color-interactive-stroke-primary--disabled
+          --glide-core-color-interactive-surface-container--disabled
         );
         color: var(--glide-core-color-interactive-text-default--disabled);
       }
