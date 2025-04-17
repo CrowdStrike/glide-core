@@ -57,8 +57,10 @@ const meta: Meta = {
     return html`
       <glide-core-button-group
         label=${arguments_.label || nothing}
-        orientation=${arguments_.orientation || nothing}
-        variant=${arguments_.variant || nothing || nothing}
+        orientation=${arguments_.orientation === 'horizontal'
+          ? nothing
+          : arguments_.horizontal}
+        variant=${arguments_.variant || nothing}
       >
         ${when(
           arguments_.variant === 'icon-only',
@@ -282,7 +284,9 @@ export const WithIcons: StoryObj = {
     return html`
       <glide-core-button-group
         label=${arguments_.label || nothing}
-        orientation=${arguments_.orientation}
+        orientation=${arguments_.orientation === 'horizontal'
+          ? nothing
+          : arguments_.horizontal}
         variant=${arguments_.variant || nothing}
       >
         <glide-core-button-group-button

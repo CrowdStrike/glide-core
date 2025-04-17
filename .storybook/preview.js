@@ -50,6 +50,11 @@ export default {
       },
       source: {
         format: 'html',
+        theme: create({
+          base: 'light',
+          fontBase: '"Nunito", sans-serif',
+          fontCode: 'monospace',
+        }),
         transform(code, context) {
           if (!code) {
             return;
@@ -64,62 +69,6 @@ export default {
           const $component = $container.querySelector(
             `glide-core-${context.componentId.replace(' ', '-').toLowerCase()}`,
           );
-
-          // Now go through all the arguments. If the argument's value is at its default,
-          // then remove it so people don't copy unnecessary code.
-          //
-          // As an aside, the reason arguments are set to their defaults in stories is so
-          // the default value is selected in the controls table.
-          for (const [argumentKey, argumentValue] of Object.entries(
-            context.args,
-          )) {
-            const { defaultValue } = context.argTypes[argumentKey].table ?? {};
-
-            // "<glide-core-split-button-primary-button>.label"
-            const isSubcomponent = argumentKey.startsWith('<');
-
-            if (isSubcomponent) {
-              if (
-                defaultValue &&
-                argumentValue === context.initialArgs[argumentKey]
-              ) {
-                // <glide-core-split-button-primary-button>.label" → "label"
-                const argumentKeyWithoutSubcomponent = argumentKey.slice(
-                  argumentKey.indexOf('.') + 1,
-                );
-
-                // "<glide-core-split-button-primary-button>.label" → "glide-core-split-button-primary-button"
-                const selector = argumentKey.slice(1, argumentKey.indexOf('>'));
-
-                for (const $subcomponent of $container.querySelectorAll(
-                  selector,
-                )) {
-                  const value = $subcomponent.getAttribute(
-                    argumentKeyWithoutSubcomponent,
-                  );
-
-                  // People using Storybook often interact with form controls and inspect their
-                  // `value` using DevTools. However, without a `value` on each Checkbox, for
-                  // example, Checkbox Group's `value` will be an empty string, leading to confusion
-                  // or a bug report. So `value` is always left alone.
-                  if (
-                    value === argumentValue &&
-                    argumentKeyWithoutSubcomponent !== 'value'
-                  ) {
-                    $subcomponent.removeAttribute(
-                      argumentKeyWithoutSubcomponent,
-                    );
-                  }
-                }
-              }
-            } else if (
-              defaultValue &&
-              argumentValue === context.initialArgs[argumentKey] &&
-              argumentKey !== 'value'
-            ) {
-              $component?.removeAttribute(argumentKey);
-            }
-          }
 
           // Now strip out the rest. These are elements inside component slots used primarily
           // for styling.
@@ -238,6 +187,7 @@ export default {
               'glide-core-dropdown-option',
             )) {
               $option.removeAttribute('aria-selected');
+              $option.removeAttribute('role');
             }
           }
 
@@ -275,11 +225,6 @@ export default {
           return $container.innerHTML.replaceAll('=""', '');
         },
       },
-      theme: create({
-        base: 'light',
-        fontBase: '"Nunito", sans-serif',
-        fontCode: 'monospace',
-      }),
     },
   },
 };

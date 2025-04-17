@@ -236,7 +236,9 @@ const meta: Meta = {
       <glide-core-checkbox
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
-        orientation=${arguments_.orientation || nothing}
+        orientation=${arguments_.orientation === 'horizontal'
+          ? nothing
+          : arguments_.orientation}
         summary=${arguments_.summary || nothing}
         tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}

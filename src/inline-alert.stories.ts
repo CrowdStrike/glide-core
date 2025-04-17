@@ -1,5 +1,5 @@
 import './inline-alert.js';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
 
@@ -74,7 +74,9 @@ const meta: Meta = {
   render(arguments_) {
     return html`
       <glide-core-inline-alert
-        variant=${arguments_.variant}
+        variant=${arguments_.variant === 'informational'
+          ? nothing
+          : arguments_.variant}
         ?removable=${arguments_.removable}
       >
         ${arguments_['slot="default"']}

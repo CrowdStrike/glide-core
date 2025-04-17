@@ -1,7 +1,7 @@
 import './icons/storybook.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
@@ -161,8 +161,10 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     return html`
       <glide-core-popover
-        offset=${arguments_.offset}
-        placement=${arguments_.placement}
+        offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
+        placement=${arguments_.placement === 'bottom'
+          ? nothing
+          : arguments_.placement}
         ?disabled=${arguments_.disabled}
         ?open=${arguments_.open}
       >

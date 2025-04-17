@@ -27,7 +27,7 @@ const meta: Meta = {
       <glide-core-tag
         label=${arguments_.label || nothing}
         color=${arguments_.color || nothing}
-        size=${arguments_.size}
+        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
       >
@@ -129,7 +129,7 @@ export const WithIcon: StoryObj = {
       <glide-core-tag
         label=${arguments_.label || nothing}
         color=${arguments_.color || nothing}
-        size=${arguments_.size}
+        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
       >

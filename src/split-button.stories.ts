@@ -82,8 +82,10 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-split-button
-        size=${arguments_.size}
-        variant=${arguments_.variant}
+        size=${arguments_.size === 'large' ? nothing : arguments_.size}
+        variant=${arguments_.variant === 'primary'
+          ? nothing
+          : arguments_.variant}
       >
         <glide-core-split-button-primary-button
           label=${arguments_[
@@ -100,7 +102,11 @@ const meta: Meta = {
           ] || nothing}
           menu-placement=${arguments_[
             '<glide-core-split-button-secondary-button>.menu-placement'
-          ]}
+          ] === 'bottom-end'
+            ? nothing
+            : arguments_[
+                '<glide-core-split-button-secondary-button>.menu-placement'
+              ]}
           slot="secondary-button"
           ?disabled=${arguments_[
             '<glide-core-split-button-secondary-button>.disabled'
@@ -352,8 +358,10 @@ export const WithIcon: StoryObj = {
   render(arguments_) {
     return html`
       <glide-core-split-button
-        size=${arguments_.size}
-        variant=${arguments_.variant}
+        size=${arguments_.size === 'large' ? nothing : arguments_.size}
+        variant=${arguments_.variant === 'primary'
+          ? nothing
+          : arguments_.variant}
       >
         <glide-core-split-button-primary-button
           label=${arguments_[
@@ -378,7 +386,11 @@ export const WithIcon: StoryObj = {
           ]}
           menu-placement=${arguments_[
             '<glide-core-split-button-secondary-button>.menu-placement'
-          ]}
+          ] === 'bottom-end'
+            ? nothing
+            : arguments_[
+                '<glide-core-split-button-secondary-button>.menu-placement'
+              ]}
           slot="secondary-button"
           ?disabled=${arguments_[
             '<glide-core-split-button-secondary-button>.disabled'
@@ -397,8 +409,10 @@ export const WithPrimaryLink: StoryObj = {
   render(arguments_) {
     return html`
       <glide-core-split-button
-        size=${arguments_.size}
-        variant=${arguments_.variant}
+        size=${arguments_.size === 'large' ? nothing : arguments_.size}
+        variant=${arguments_.variant === 'primary'
+          ? nothing
+          : arguments_.variant}
       >
         <glide-core-split-button-primary-link
           label=${arguments_['<glide-core-split-button-primary-link>.label']}
@@ -418,7 +432,11 @@ export const WithPrimaryLink: StoryObj = {
           ]}
           menu-placement=${arguments_[
             '<glide-core-split-button-secondary-button>.menu-placement'
-          ]}
+          ] === 'bottom-end'
+            ? nothing
+            : arguments_[
+                '<glide-core-split-button-secondary-button>.menu-placement'
+              ]}
           slot="secondary-button"
           ?disabled=${arguments_[
             '<glide-core-split-button-secondary-button>.disabled'

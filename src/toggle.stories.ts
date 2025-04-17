@@ -122,7 +122,9 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/prefer-nullish-coalescing */
     return html`<glide-core-toggle
       label=${arguments_.label || nothing}
-      orientation=${arguments_.orientation || nothing}
+      orientation=${arguments_.orientation === 'horizontal'
+        ? nothing
+        : arguments_.orientation}
       summary=${arguments_.summary || nothing}
       tooltip=${arguments_.tooltip || nothing}
       ?checked=${arguments_.checked}

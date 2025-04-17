@@ -217,7 +217,9 @@ const meta: Meta = {
   render(arguments_) {
     /* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing */
     return html`
-      <glide-core-form-controls-layout split=${arguments_.split}>
+      <glide-core-form-controls-layout
+        split=${arguments_.split === 'left' ? nothing : arguments_.split}
+      >
         <glide-core-checkbox-group label="Label">
           <glide-core-checkbox
             label="One"
@@ -244,7 +246,6 @@ const meta: Meta = {
 
         <glide-core-dropdown
           label="Label"
-          placeholder="Placeholder"
           ?open=${arguments_['<glide-core-dropdown>.open']}
         >
           <glide-core-dropdown-option
@@ -274,7 +275,6 @@ const meta: Meta = {
 
         <glide-core-input
           label="Label"
-          placeholder="Placeholder"
           value=${arguments_['<glide-core-input>.value'] || nothing}
         ></glide-core-input>
 
@@ -302,7 +302,6 @@ const meta: Meta = {
 
         <glide-core-textarea
           label="Label"
-          placeholder="Placeholder"
           value=${arguments_['<glide-core-textarea>.value'] || nothing}
         ></glide-core-textarea>
       </glide-core-form-controls-layout>

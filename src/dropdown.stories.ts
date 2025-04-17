@@ -493,9 +493,11 @@ async (query: string): Promise<GlideCoreDropdownOption[]> {
       add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}
       name=${arguments_.name || nothing}
-      orientation=${arguments_.orientation}
+      orientation=${arguments_.orientation === 'horizontal'
+        ? nothing
+        : arguments_.orientation}
       placeholder=${arguments_.placeholder || nothing}
-      size=${arguments_.size}
+      size=${arguments_.size === 'large' ? nothing : arguments_.size}
       tooltip=${arguments_.tooltip || nothing}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
@@ -584,9 +586,11 @@ export const WithIcons: StoryObj = {
       add-button-label=${arguments_['add-button-label'] || nothing}
       label=${arguments_.label || nothing}
       name=${arguments_.name || nothing}
-      orientation=${arguments_.orientation}
-      placeholder=${arguments_.placeholder}
-      size=${arguments_.size}
+      orientation=${arguments_.orientation === 'horizontal'
+        ? nothing
+        : arguments_.orientation}
+      placeholder=${arguments_.placeholder || nothing}
+      size=${arguments_.size === 'large' ? nothing : arguments_.size}
       tooltip=${arguments_.tooltip || nothing}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}

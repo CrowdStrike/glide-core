@@ -256,11 +256,12 @@ const meta: Meta = {
       });
   },
   render(arguments_) {
-    /* eslint-disable unicorn/explicit-length-check, @typescript-eslint/prefer-nullish-coalescing */
     return html`<glide-core-menu
-      offset=${arguments_.offset}
-      placement=${arguments_.placement}
-      size=${arguments_.size || nothing}
+      offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
+      placement=${arguments_.placement === 'bottom-start'
+        ? nothing
+        : arguments_.placement}
+      size=${arguments_.size === 'large' ? nothing : arguments_.size}
       ?open=${arguments_.open}
     >
       <glide-core-button label="Target" slot="target"></glide-core-button>
@@ -290,9 +291,11 @@ export const Menu: StoryObj = {
 export const WithIcons: StoryObj = {
   render(arguments_) {
     return html`<glide-core-menu
-      offset=${arguments_.offset}
-      placement=${arguments_.placement}
-      size=${arguments_.size || nothing}
+      offset=${arguments_.offset === 4 ? nothing : arguments_.offset}
+      placement=${arguments_.placement === 'bottom-start'
+        ? nothing
+        : arguments_.placement}
+      size=${arguments_.size === 'large' ? nothing : arguments_.size}
       ?open=${arguments_.open}
     >
       <glide-core-button label="Target" slot="target"></glide-core-button>

@@ -79,7 +79,7 @@ const meta: Meta = {
       <glide-core-modal
         label=${arguments_.label || nothing}
         severity=${arguments_.severity || nothing}
-        size=${arguments_.size}
+        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button=${arguments_['back-button']}
         ?open=${arguments_.open}
       >
@@ -245,6 +245,7 @@ export const WithHeaderActions: StoryObj = {
       <glide-core-modal
         label=${arguments_.label || nothing}
         severity=${arguments_.severity || nothing}
+        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -276,6 +277,7 @@ export const WithPrimaryButton: StoryObj = {
       <glide-core-modal
         label=${arguments_.label || nothing}
         severity=${arguments_.severity || nothing}
+        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -298,6 +300,7 @@ export const WithSecondaryButton: StoryObj = {
       <glide-core-modal
         label=${arguments_.label || nothing}
         severity=${arguments_.severity || nothing}
+        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -324,6 +327,7 @@ export const WithTertiaryTooltipAndButton: StoryObj = {
       <glide-core-modal
         label=${arguments_.label || nothing}
         severity=${arguments_.severity || nothing}
+        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >
@@ -356,6 +360,7 @@ export const KitchenSink: StoryObj = {
       <glide-core-modal
         label=${arguments_.label || nothing}
         severity=${arguments_.severity || nothing}
+        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?back-button="${arguments_['back-button']}"
         ?open=${arguments_.open}
       >

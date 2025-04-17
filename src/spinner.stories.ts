@@ -16,11 +16,11 @@ const meta: Meta = {
     `,
   ],
   render(arguments_) {
-    /* eslint-disable unicorn/explicit-length-check, @typescript-eslint/prefer-nullish-coalescing */
+    /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-spinner
         label=${arguments_.label || nothing}
-        size=${arguments_.size || nothing}
+        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
       ></glide-core-spinner>
     `;
   },
