@@ -10,6 +10,7 @@ export default [
     }
 
     .component {
+      animation: spin 1s infinite linear;
       background:
         radial-gradient(
             farthest-side,
@@ -32,10 +33,6 @@ export default [
         #0000 calc(100% - var(--private-gradient-size)),
         #000 0
       );
-
-      @media (prefers-reduced-motion: no-preference) {
-        animation: spin 1s infinite linear;
-      }
 
       &.large {
         --private-spinner-size: 3rem;

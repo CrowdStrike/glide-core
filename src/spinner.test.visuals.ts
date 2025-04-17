@@ -8,10 +8,6 @@ for (const story of stories.Spinner) {
     for (const theme of story.themes) {
       test.describe(theme, () => {
         test('size="large"', async ({ page }, test) => {
-          await page.evaluate(
-            () => matchMedia('(prefers-reduced-motion: reduce)').matches,
-          );
-
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
@@ -26,10 +22,6 @@ for (const story of stories.Spinner) {
         });
 
         test('size="medium"', async ({ page }, test) => {
-          await page.evaluate(
-            () => matchMedia('(prefers-reduced-motion: reduce)').matches,
-          );
-
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
           await page.locator('glide-core-spinner').waitFor();
 
@@ -39,10 +31,6 @@ for (const story of stories.Spinner) {
         });
 
         test('size="small"', async ({ page }, test) => {
-          await page.evaluate(
-            () => matchMedia('(prefers-reduced-motion: reduce)').matches,
-          );
-
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
