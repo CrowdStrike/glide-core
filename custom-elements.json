@@ -7378,11 +7378,11 @@
             },
             {
               "kind": "field",
-              "name": "color",
+              "name": "label",
               "type": {
-                "text": "'green' | 'indigo' | 'red' | undefined"
+                "text": "string | undefined"
               },
-              "attribute": "color",
+              "attribute": "label",
               "reflects": true
             },
             {
@@ -7393,15 +7393,6 @@
               },
               "default": "false",
               "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "label",
               "reflects": true
             },
             {
@@ -7469,11 +7460,12 @@
           ],
           "attributes": [
             {
-              "name": "color",
+              "name": "label",
               "type": {
-                "text": "'green' | 'indigo' | 'red' | undefined"
+                "text": "string | undefined"
               },
-              "fieldName": "color"
+              "fieldName": "label",
+              "required": true
             },
             {
               "name": "disabled",
@@ -7482,14 +7474,6 @@
               },
               "default": "false",
               "fieldName": "disabled"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "label",
-              "required": true
             },
             {
               "name": "private-editable",

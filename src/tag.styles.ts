@@ -73,33 +73,9 @@ export default [
       }
 
       &.disabled {
-        background: var(
-          --glide-core-color-static-surface-container-secondary
-        ) !important;
-        border-color: var(
-          --glide-core-color-interactive-stroke-primary
-        ) !important;
-        color: var(
-          --glide-core-color-interactive-icon-default--disabled
-        ) !important;
-      }
-
-      &.green {
-        background-color: var(--glide-core-private-color-tag-surface-freetrial);
-        border-color: var(--glide-core-private-color-tag-stroke-freetrial);
-        color: var(--glide-core-private-color-tag-text-freetrial);
-      }
-
-      &.indigo {
-        background-color: var(--glide-core-private-color-tag-surface-updated);
-        border-color: var(--glide-core-private-color-tag-stroke-updated);
-        color: var(--glide-core-private-color-tag-text-updated);
-      }
-
-      &.red {
-        background-color: var(--glide-core-private-color-tag-surface-new);
-        border-color: var(--glide-core-private-color-tag-stroke-new);
-        color: var(--glide-core-private-color-tag-text-new);
+        background: var(--glide-core-color-static-surface-container-secondary);
+        border-color: var(--glide-core-color-interactive-stroke-primary);
+        color: var(--glide-core-color-interactive-icon-default--disabled);
       }
 
       &.removed {

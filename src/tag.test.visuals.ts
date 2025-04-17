@@ -7,100 +7,7 @@ for (const story of stories.Tag) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
-        test.describe('color="green"', () => {
-          test('disabled=${true}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-tag')
-              .evaluate<void, GlideCoreTag>((element) => {
-                element.color = 'green';
-                element.disabled = true;
-              });
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-
-          test('disabled=${false}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-tag')
-              .evaluate<void, GlideCoreTag>((element) => {
-                element.color = 'green';
-              });
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-        });
-
-        test.describe('color="indigo"', () => {
-          test('disabled=${true}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-tag')
-              .evaluate<void, GlideCoreTag>((element) => {
-                element.color = 'indigo';
-                element.disabled = true;
-              });
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-
-          test('disabled=${false}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-tag')
-              .evaluate<void, GlideCoreTag>((element) => {
-                element.color = 'indigo';
-              });
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-        });
-
-        test.describe('color="red"', () => {
-          test('disabled=${true}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-tag')
-              .evaluate<void, GlideCoreTag>((element) => {
-                element.color = 'red';
-                element.disabled = true;
-              });
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-
-          test('disabled=${false}', async ({ page }, test) => {
-            await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-            await page
-              .locator('glide-core-tag')
-              .evaluate<void, GlideCoreTag>((element) => {
-                element.color = 'red';
-              });
-
-            await expect(page).toHaveScreenshot(
-              `${test.titlePath.join('.')}.png`,
-            );
-          });
-        });
-
-        test('disabled', async ({ page }, test) => {
+        test('disabled=${true}', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
           await page
@@ -108,6 +15,15 @@ for (const story of stories.Tag) {
             .evaluate<void, GlideCoreTag>((element) => {
               element.disabled = true;
             });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
+        test('disabled=${false}', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+          await page.locator('glide-core-tag').waitFor();
 
           await expect(page).toHaveScreenshot(
             `${test.titlePath.join('.')}.png`,
