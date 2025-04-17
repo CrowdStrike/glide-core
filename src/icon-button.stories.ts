@@ -27,7 +27,9 @@ const meta: Meta = {
     return html`
       <glide-core-icon-button
         label=${arguments_.label || nothing}
-        variant=${arguments_.variant || nothing}
+        variant=${arguments_.variant === 'primary'
+          ? nothing
+          : arguments_.variant}
         ?disabled=${arguments_.disabled}
       >
         <glide-core-example-icon name="clipboard"></glide-core-example-icon>

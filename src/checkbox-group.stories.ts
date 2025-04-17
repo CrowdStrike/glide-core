@@ -254,7 +254,11 @@ const meta: Meta = {
         <glide-core-checkbox-group
           label=${arguments_.label || nothing}
           name=${arguments_.name || nothing}
-          orientation=${arguments_.orientation}
+          orientation=${
+            arguments_.orientation === 'horizontal'
+              ? nothing
+              : arguments_.horizontal
+          }
           tooltip=${arguments_.tooltip || nothing}
           ?disabled=${arguments_.disabled}
           ?hide-label=${arguments_['hide-label'] || nothing}

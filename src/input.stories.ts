@@ -92,17 +92,25 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-input
-        autocapitalize=${arguments_.autocapitalize}
-        autocomplete=${arguments_.autocomplete}
+        autocapitalize=${arguments_.autocapitalize === 'on'
+          ? nothing
+          : arguments_.autocapitalize}
+        autocomplete=${arguments_.autocomplete === 'on'
+          ? nothing
+          : arguments_.autocomplete}
         label=${arguments_.label || nothing}
         maxlength=${arguments_.maxlength || nothing}
         name=${arguments_.name || nothing}
-        orientation=${arguments_.orientation}
+        orientation=${arguments_.orientation === 'horizontal'
+          ? nothing
+          : arguments_.orientation}
         pattern=${arguments_.pattern || nothing}
         placeholder=${arguments_.placeholder || nothing}
-        spellcheck=${arguments_.spellcheck}
+        spellcheck=${arguments_.spellcheck === 'false'
+          ? nothing
+          : arguments_.spellcheck}
         tooltip=${arguments_.tooltip || nothing}
-        type=${arguments_.type || nothing}
+        type=${arguments_.type === 'text' ? nothing : arguments_.type}
         value=${arguments_.value || nothing}
         ?clearable=${arguments_.clearable}
         ?disabled=${arguments_.disabled}
@@ -369,16 +377,25 @@ export const WithIcons: StoryObj = {
     /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-input
-        autocapitalize=${arguments_.autocapitalize}
-        autocomplete=${arguments_.autocomplete}
+        autocapitalize=${arguments_.autocapitalize === 'on'
+          ? nothing
+          : arguments_.autocapitalize}
+        autocomplete=${arguments_.autocomplete === 'on'
+          ? nothing
+          : arguments_.autocomplete}
         label=${arguments_.label || nothing}
         maxlength=${arguments_.maxlength || nothing}
         name=${arguments_.name || nothing}
-        orientation=${arguments_.orientation}
+        orientation=${arguments_.orientation === 'horizontal'
+          ? nothing
+          : arguments_.orientation}
+        pattern=${arguments_.pattern || nothing}
         placeholder=${arguments_.placeholder || nothing}
-        spellcheck=${arguments_.spellcheck}
+        spellcheck=${arguments_.spellcheck === 'false'
+          ? nothing
+          : arguments_.spellcheck}
         tooltip=${arguments_.tooltip || nothing}
-        type=${arguments_.type}
+        type=${arguments_.type === 'text' ? nothing : arguments_.type}
         value=${arguments_.value || nothing}
         ?clearable=${arguments_.clearable}
         ?disabled=${arguments_.disabled}

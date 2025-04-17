@@ -25,16 +25,18 @@ const meta: Meta = {
     },
   },
   render(arguments_) {
-    /* eslint-disable @typescript-eslint/no-unsafe-argument, unicorn/explicit-length-check, @typescript-eslint/prefer-nullish-coalescing */
+    /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-button
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
-        size=${arguments_.size || nothing}
+        size=${arguments_.size === 'large' ? nothing : arguments_.size}
         tooltip=${arguments_.tooltip || nothing}
-        type=${arguments_.type || nothing}
+        type=${arguments_.type === 'button' ? nothing : arguments_.type}
         value=${arguments_.value || nothing}
-        variant=${arguments_.variant || nothing}
+        variant=${arguments_.variant === 'primary'
+          ? nothing
+          : arguments_.variant}
         ?disabled=${arguments_.disabled || nothing}
       >
         ${unsafeHTML(arguments_['slot="default"'])}
@@ -169,12 +171,14 @@ export const WithIcons: StoryObj = {
       <glide-core-button
         label=${arguments_.label || nothing}
         name=${arguments_.name || nothing}
-        size=${arguments_.size || nothing}
+        size=${arguments_.size === 'large' ? nothing : arguments_.size}
         tooltip=${arguments_.tooltip || nothing}
-        type=${arguments_.type || nothing}
+        type=${arguments_.type === 'button' ? nothing : arguments_.type}
         value=${arguments_.value || nothing}
-        variant=${arguments_.variant || nothing}
-        ?disabled=${arguments_.disabled}
+        variant=${arguments_.variant === 'primary'
+          ? nothing
+          : arguments_.variant}
+        ?disabled=${arguments_.disabled || nothing}
       >
         ${arguments_['slot="default"']}
 

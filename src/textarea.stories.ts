@@ -263,14 +263,22 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-textarea
-        autocapitalize=${arguments_.autocapitalize}
-        autocomplete=${arguments_.autocomplete}
+        autocapitalize=${arguments_.autocapitalize === 'on'
+          ? nothing
+          : arguments_.autocapitalize}
+        autocomplete=${arguments_.autocomplete === 'on'
+          ? nothing
+          : arguments_.autocomplete}
         label=${arguments_.label || nothing}
         maxlength=${arguments_.maxlength || nothing}
         name=${arguments_.name || nothing}
-        orientation=${arguments_.orientation}
+        orientation=${arguments_.orientation === 'horizontal'
+          ? nothing
+          : arguments_.orientation}
         placeholder=${arguments_.placeholder || nothing}
-        spellcheck=${arguments_.spellcheck}
+        spellcheck=${arguments_.spellcheck === 'false'
+          ? nothing
+          : arguments_.spellcheck}
         tooltip=${arguments_.tooltip || nothing}
         value=${arguments_.value || nothing}
         ?disabled=${arguments_.disabled}

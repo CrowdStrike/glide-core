@@ -3,7 +3,7 @@ import './tab.group.js';
 import './tab.panel.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
@@ -117,14 +117,18 @@ const meta: Meta = {
 
         <glide-core-tab-panel
           name="1"
-          style=${styleMap({
-            '--padding-inline-end':
-              arguments_['<glide-core-tab-panel>[--padding-inline-end]'] ||
-              null,
-            '--padding-inline-start':
-              arguments_['<glide-core-tab-panel>[--padding-inline-start]'] ||
-              null,
-          })}
+          style=${arguments_['<glide-core-tab-panel>[--padding-inline-end]'] ||
+          arguments_['<glide-core-tab-panel>[--padding-inline-start]']
+            ? styleMap({
+                '--padding-inline-end':
+                  arguments_['<glide-core-tab-panel>[--padding-inline-end]'] ||
+                  null,
+                '--padding-inline-start':
+                  arguments_[
+                    '<glide-core-tab-panel>[--padding-inline-start]'
+                  ] || null,
+              })
+            : nothing}
         >
           ${unsafeHTML(arguments_['<glide-core-tab-panel>[slot="default"]'])}
         </glide-core-tab-panel>
