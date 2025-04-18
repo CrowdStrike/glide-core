@@ -10,6 +10,7 @@ export default defineConfig({
       threshold: 0.03,
     },
   },
+  failOnFlakyTests: process.env.CI,
   fullyParallel: true,
   globalSetup: './playwright.setup.js',
   outputDir: './dist/playwright',

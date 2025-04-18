@@ -40,8 +40,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       '@playwright/test':
-        specifier: ^1.50.1
-        version: 1.50.1
+        specifier: ^1.52.0
+        version: 1.52.0
       '@rollup/plugin-commonjs':
         specifier: ^28.0.2
         version: 28.0.2(rollup@4.28.1)
@@ -184,8 +184,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
       playwright:
-        specifier: ^1.50.1
-        version: 1.50.1
+        specifier: ^1.52.0
+        version: 1.52.0
       postcss:
         specifier: ^8.4.49
         version: 8.5.3
@@ -701,8 +701,8 @@ packages:
   '@open-wc/testing@4.0.0':
     resolution: {integrity: sha512-KI70O0CJEpBWs3jrTju4BFCy7V/d4tFfYWkg8pMzncsDhD7TYNHLw5cy+s1FHXIgVFetnMDhPpwlKIPvtTQW7w==}
 
-  '@playwright/test@1.50.1':
-    resolution: {integrity: sha512-Jii3aBg+CEDpgnuDxEp/h7BimHcUTDlpEtce89xEumlJ5ef2hqepZ+PWp1DDpYC/VO9fmWVI1IlEaoI5fK9FXQ==}
+  '@playwright/test@1.52.0':
+    resolution: {integrity: sha512-uh6W7sb55hl7D6vsAeA+V2p5JnlAqzhqFyF0VcJkKZXkgnFcVG9PziERRHQfPLfNGx1C292a4JqbWzhR8L4R1g==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -3593,13 +3593,13 @@ packages:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
 
-  playwright-core@1.50.1:
-    resolution: {integrity: sha512-ra9fsNWayuYumt+NiM069M6OkcRb1FZSK8bgi66AtpFoWkg2+y0bJSNmkFrWhMbEBbVKC/EruAHH3g0zmtwGmQ==}
+  playwright-core@1.52.0:
+    resolution: {integrity: sha512-l2osTgLXSMeuLZOML9qYODUQoPPnUsKsb5/P6LJ2e6uPKXUdPK5WYhN4z03G+YNbWmGDY4YENauNu4ZKczreHg==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.50.1:
-    resolution: {integrity: sha512-G8rwsOQJ63XG6BbKj2w5rHeavFjy5zynBA9zsJMMtBoe/Uf757oG12NXz6e6OirF7RCrTVAKFXbLmn1RbL7Qaw==}
+  playwright@1.52.0:
+    resolution: {integrity: sha512-JAwMNMBlxJ2oD1kce4KPtMkDeKGHQstdpFPcPH3maElAXon/QZeTvtsfXmTMRyO9TslfoYOXkSsvao2nE1ilTw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -5191,9 +5191,9 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@playwright/test@1.50.1':
+  '@playwright/test@1.52.0':
     dependencies:
-      playwright: 1.50.1
+      playwright: 1.52.0
 
   '@puppeteer/browsers@2.6.1':
     dependencies:
@@ -6004,7 +6004,7 @@ snapshots:
     dependencies:
       '@web/test-runner-core': 0.13.4
       '@web/test-runner-coverage-v8': 0.8.0
-      playwright: 1.50.1
+      playwright: 1.52.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -8361,11 +8361,11 @@ snapshots:
 
   pify@4.0.1: {}
 
-  playwright-core@1.50.1: {}
+  playwright-core@1.52.0: {}
 
-  playwright@1.50.1:
+  playwright@1.52.0:
     dependencies:
-      playwright-core: 1.50.1
+      playwright-core: 1.52.0
     optionalDependencies:
       fsevents: 2.3.2
 
