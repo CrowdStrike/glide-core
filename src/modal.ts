@@ -234,7 +234,7 @@ export default class GlideCoreModal extends LitElement {
                 html`<glide-core-modal-icon-button
                   class="back-button"
                   data-test="back-button"
-                  label=${this.#localize.term('dismiss')}
+                  label=${this.#localize.term('close')}
                   @click=${this.#onCloseButtonClick}
                   ${ref(this.#backButtonElementRef)}
                 >
