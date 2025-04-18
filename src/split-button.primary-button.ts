@@ -37,13 +37,17 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
 
   static override styles = styles;
 
-  @property({ attribute: 'aria-controls', reflect: true })
+  @property({ reflect: true })
+  @required
+  label?: string;
+
+  @property({ attribute: 'aria-controls', reflect: true, useDefault: true })
   ariaControls: string | null = null;
 
-  @property({ attribute: 'aria-expanded', reflect: true })
+  @property({ attribute: 'aria-expanded', reflect: true, useDefault: true })
   override ariaExpanded: 'true' | 'false' | null = null;
 
-  @property({ attribute: 'aria-haspopup', reflect: true })
+  @property({ attribute: 'aria-haspopup', reflect: true, useDefault: true })
   override ariaHasPopup:
     | 'true'
     | 'false'
@@ -56,10 +60,6 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
 
   @property({ reflect: true, type: Boolean })
   disabled = false;
-
-  @property({ reflect: true })
-  @required
-  label?: string;
 
   @property()
   privateSize: 'large' | 'small' = 'large';
@@ -86,7 +86,7 @@ export default class GlideCoreSplitButtonPrimaryButton extends LitElement {
       ?disabled=${this.disabled}
     >
       <slot name="icon">
-        <!-- 
+        <!--
           An icon before the label
           @type {Element}
         -->

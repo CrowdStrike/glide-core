@@ -33,7 +33,7 @@ export default class GlideCoreModalIconButton extends LitElement {
 
   static override styles = styles;
 
-  @property()
+  @property({ reflect: true })
   @required
   label?: string;
 
@@ -44,7 +44,7 @@ export default class GlideCoreModalIconButton extends LitElement {
     return html`
       <glide-core-icon-button label=${ifDefined(this.label)} variant="tertiary">
         <slot ${assertSlot()}>
-          <!-- 
+          <!--
             An icon
             @required
             @type {Element}

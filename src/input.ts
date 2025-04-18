@@ -93,6 +93,73 @@ export default class GlideCoreInput extends LitElement implements FormControl {
   static override styles = styles;
 
   @property({ reflect: true })
+  @required
+  label?: string;
+
+  @property({ reflect: true, useDefault: true })
+  override autocapitalize:
+    | 'on'
+    | 'off'
+    | 'none'
+    | 'sentences'
+    | 'words'
+    | 'characters' = 'on';
+
+  @property({ reflect: true, useDefault: true })
+  autocomplete: 'on' | 'off' = 'on';
+
+  @property({ reflect: true, type: Boolean })
+  clearable = false;
+
+  @property({ reflect: true, type: Boolean })
+  disabled = false;
+
+  @property({ attribute: 'hide-label', reflect: true, type: Boolean })
+  hideLabel = false;
+
+  @property({
+    type: Number,
+    converter(value) {
+      return value && Number.parseInt(value, 10);
+    },
+    reflect: true,
+  })
+  maxlength?: number;
+
+  @property({ reflect: true, useDefault: true })
+  name = '';
+
+  @property({ reflect: true, useDefault: true })
+  orientation: 'horizontal' | 'vertical' = 'horizontal';
+
+  /** For 'password' type, whether to show a button to toggle the password's visibility */
+  @property({ attribute: 'password-toggle', reflect: true, type: Boolean })
+  passwordToggle = false;
+
+  @property({ reflect: true })
+  placeholder?: string;
+
+  @property({ reflect: true, useDefault: true })
+  pattern: string | undefined = '';
+
+  // Private because it's only meant to be used by Form Controls Layout.
+  @property()
+  privateSplit?: 'left' | 'middle' | 'right';
+
+  @property({ reflect: true, type: Boolean })
+  readonly = false;
+
+  @property({ reflect: true, type: Boolean })
+  required = false;
+
+  // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
+  @property({ reflect: true, type: Boolean, useDefault: true })
+  override spellcheck = false;
+
+  @property({ reflect: true })
+  tooltip?: string;
+
+  @property({ reflect: true, useDefault: true })
   type:
     | 'date'
     | 'email'
@@ -104,79 +171,12 @@ export default class GlideCoreInput extends LitElement implements FormControl {
     | 'time'
     | 'url' = 'text';
 
-  @property({ reflect: true })
-  name = '';
-
   // Intentionally not reflected to match native.
   @property()
   value = '';
 
   @property({ reflect: true })
-  @required
-  label?: string;
-
-  @property({ attribute: 'hide-label', type: Boolean })
-  hideLabel = false;
-
-  @property({ reflect: true })
-  orientation: 'horizontal' | 'vertical' = 'horizontal';
-
-  @property({ reflect: true })
-  pattern: string | undefined = '';
-
-  @property({ reflect: true })
-  placeholder?: string;
-
-  @property({ type: Boolean })
-  clearable = false;
-
-  // It's typed by TypeScript as a boolean. But we treat it as a string throughout.
-  @property({ reflect: true, type: Boolean })
-  override spellcheck = false;
-
-  @property({ reflect: true })
-  override autocapitalize:
-    | 'on'
-    | 'off'
-    | 'none'
-    | 'sentences'
-    | 'words'
-    | 'characters' = 'on';
-
-  @property({ reflect: true })
-  autocomplete: 'on' | 'off' = 'on';
-
-  /** For 'password' type, whether to show a button to toggle the password's visibility */
-  @property({ attribute: 'password-toggle', type: Boolean })
-  passwordToggle = false;
-
-  @property({ reflect: true, type: Boolean })
-  required = false;
-
-  @property({ type: Boolean })
-  readonly = false;
-
-  @property({ reflect: true, type: Boolean })
-  disabled = false;
-
-  // Private because it's only meant to be used by Form Controls Layout.
-  @property()
-  privateSplit?: 'left' | 'middle' | 'right';
-
-  @property({
-    type: Number,
-    converter(value) {
-      return value && Number.parseInt(value, 10);
-    },
-    reflect: true,
-  })
-  maxlength?: number;
-
-  @property({ reflect: true })
   readonly version: string = packageJson.version;
-
-  @property({ reflect: true })
-  tooltip?: string;
 
   get form(): HTMLFormElement | null {
     return this.#internals.form;

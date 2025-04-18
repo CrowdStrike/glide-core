@@ -84,6 +84,26 @@ export default class GlideCoreCheckbox
   static override styles = styles;
 
   /**
+   * @default undefined
+   */
+  @property({ reflect: true })
+  @required
+  get label(): string | undefined {
+    return this.#label;
+  }
+
+  set label(label) {
+    this.#label = label;
+
+    // Wait for the label to render. A rerender won't be scheduled by Lit
+    // until after this setter finishes. So awaiting `this.updateComplete`
+    // won't fly.
+    setTimeout(() => {
+      this.#updateLabelOverflow();
+    });
+  }
+
+  /**
     @default false
   */
   @property({ type: Boolean })
@@ -124,36 +144,17 @@ export default class GlideCoreCheckbox
   @property({ type: Boolean })
   indeterminate = false;
 
-  /**
-   * @default undefined
-   */
-  @property({ reflect: true })
-  @required
-  get label(): string | undefined {
-    return this.#label;
-  }
-
-  set label(label) {
-    this.#label = label;
-
-    // Wait for the label to render. A rerender won't be scheduled by Lit
-    // until after this setter finishes. So awaiting `this.updateComplete`
-    // won't fly.
-    setTimeout(() => {
-      this.#updateLabelOverflow();
-    });
-  }
-
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   orientation: 'horizontal' | 'vertical' = 'horizontal';
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   name = '';
 
   // Private because it's only meant to be used by Dropdown Option to offset the tooltip by the option's padding.
   @property({
     attribute: 'private-label-tooltip-offset',
     reflect: true,
+    useDefault: true,
     type: Number,
   })
   privateLabelTooltipOffset = 4;

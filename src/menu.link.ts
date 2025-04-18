@@ -36,6 +36,10 @@ export default class GlideCoreMenuLink extends LitElement {
 
   static override styles = styles;
 
+  @property({ reflect: true })
+  @required
+  label?: string;
+
   /**
    * @default false
    */
@@ -51,10 +55,6 @@ export default class GlideCoreMenuLink extends LitElement {
       this.dispatchEvent(new Event('private-disabled', { bubbles: true }));
     }
   }
-
-  @property({ reflect: true })
-  @required
-  label?: string;
 
   @property({ reflect: true })
   url?: string;

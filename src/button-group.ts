@@ -62,7 +62,7 @@ export default class GlideCoreButtonGroup extends LitElement {
   /**
    * @default 'horizontal'
    */
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   get orientation(): 'horizontal' | 'vertical' {
     return this.#orientation;
   }

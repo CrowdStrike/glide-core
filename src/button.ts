@@ -47,26 +47,26 @@ export default class GlideCoreButton extends LitElement {
 
   static override styles = styles;
 
-  @property({ type: Boolean, reflect: true }) disabled = false;
-
   @property({ reflect: true })
   @required
   label?: string;
 
-  @property({ reflect: true }) name = '';
+  @property({ type: Boolean, reflect: true }) disabled = false;
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true }) name = '';
+
+  @property({ reflect: true, useDefault: true })
   size: 'large' | 'small' = 'large';
 
   @property({ reflect: true })
   tooltip?: string;
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   type: 'button' | 'submit' | 'reset' = 'button';
 
-  @property({ reflect: true }) value = '';
+  @property({ reflect: true, useDefault: true }) value = '';
 
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 
   @property({ reflect: true })

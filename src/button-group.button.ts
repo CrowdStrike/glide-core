@@ -60,7 +60,7 @@ export default class GlideCoreButtonGroupButton extends LitElement {
 
   // `value` is used by consumers to identify selections based on something other
   // than the label.
-  @property({ reflect: true })
+  @property({ reflect: true, useDefault: true })
   value = '';
 
   // Private because it's only meant to be used by Button Group.

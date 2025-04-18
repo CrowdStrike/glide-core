@@ -55,6 +55,27 @@ export default class GlideCoreTooltip extends LitElement {
   static override styles = styles;
 
   /**
+   * @default undefined
+   */
+  @property({ reflect: true })
+  @required
+  get label(): string | undefined {
+    return this.#label;
+  }
+
+  set label(label: string) {
+    this.#label = label;
+
+    const container = this.querySelector(
+      'glide-core-private-tooltip-container',
+    );
+
+    if (container) {
+      container.label = label;
+    }
+  }
+
+  /**
    * @default false
    */
   @property({ reflect: true, type: Boolean })
@@ -85,27 +106,6 @@ export default class GlideCoreTooltip extends LitElement {
       target.setAttribute('aria-describedby', container.id);
     } else if (container && target) {
       target.removeAttribute('aria-describedby');
-    }
-  }
-
-  /**
-   * @default undefined
-   */
-  @property({ reflect: true })
-  @required
-  get label(): string | undefined {
-    return this.#label;
-  }
-
-  set label(label: string) {
-    this.#label = label;
-
-    const container = this.querySelector(
-      'glide-core-private-tooltip-container',
-    );
-
-    if (container) {
-      container.label = label;
     }
   }
 

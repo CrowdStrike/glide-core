@@ -157,7 +157,7 @@
     "husky": "^8.0.3",
     "is-ci": "^4.1.0",
     "lint-staged": "^15.2.11",
-    "lit": "^3.2.1",
+    "lit": "^3.3.0",
     "lit-analyzer": "^2.0.3",
     "minify-literals": "^1.0.10",
     "node-html-parser": "^7.0.1",

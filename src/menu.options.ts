@@ -48,10 +48,14 @@ export default class GlideCoreMenuOptions extends LitElement {
 
   static override styles = styles;
 
-  @property({ attribute: 'aria-activedescendant', reflect: true })
+  @property({
+    attribute: 'aria-activedescendant',
+    reflect: true,
+    useDefault: true,
+  })
   ariaActivedescendant = '';
 
-  @property({ attribute: 'aria-labelledby', reflect: true })
+  @property({ attribute: 'aria-labelledby', reflect: true, useDefault: true })
   ariaLabelledby = '';
 
   @property()
