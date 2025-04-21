@@ -319,14 +319,16 @@ export default class GlideCoreDropdown
       throw new Error('Only one value is allowed when not `multiple`.');
     }
 
-    this.#isSettingValueProgrammatically = true;
-
     for (const option of this.#optionElements) {
+      this.#isProgrammaticSelection = true;
+
       // If `value` is falsy, every option is left unselected. Otherwise, every
       // `option.value` that's an empty string would be selected. If multiple
       // options have the same `value`, they'll all be selected. No way to
       // avoid that unfortunately.
       option.selected = value.some((value) => value && value === option.value);
+
+      this.#isProgrammaticSelection = false;
 
       // We have a few options if `value` is set programmatically to include
       // the value of a disabled option. We can throw, remove the value from
@@ -344,8 +346,6 @@ export default class GlideCoreDropdown
         option.disabled = false;
       }
     }
-
-    this.#isSettingValueProgrammatically = false;
 
     if (
       !this.multiple &&
@@ -1239,13 +1239,18 @@ export default class GlideCoreDropdown
 
   #isOverflowTest = false;
 
-  // Used in `#onOptionsSelectedChange` to guard against resetting Select All
-  // back to its previous value after Select All is selected or deselected.
+  // Set in the `value` setter and used in `#onOptionsSelectedChange()` to prevent
+  // the latter from adding duplicate values to `value`.
+  //
+  // Also set in `#onDefaultSlotChange()` to prevent `#onOptionsSelectedChange()` from
+  // resetting the user's filter query back to an empty string.
+  #isProgrammaticSelection = false;
+
+  // Used in `#onOptionsSelectedChange()` to guard against resetting Select All back
+  // to its previous value after Select All is selected or deselected.
   #isSelectionChangeFromSelectAll = false;
 
   #isSelectionViaSpaceOrEnter = false;
-
-  #isSettingValueProgrammatically = false;
 
   #localize = new LocalizeController(this);
 
@@ -1265,8 +1270,8 @@ export default class GlideCoreDropdown
 
   #value: string[] = [];
 
-  // An arrow function field instead of a method so `this` is closed over and
-  // set to the component instead of `document`.
+  // An arrow function field instead of a method so `this` is closed over and set
+  // to the component instead of `document`.
   #onDocumentClick = () => {
     if (this.#isComponentClick) {
       // If the click came from within Dropdown, Dropdown should stay open. But,
@@ -1381,9 +1386,11 @@ export default class GlideCoreDropdown
       firstOption.privateActive = true;
     }
 
-    // Update Select All to reflect the selected options.
+    // Now update Select All to reflect the selected options.
     if (this.#selectAllElementRef.value) {
+      this.#isProgrammaticSelection = true;
       this.#selectAllElementRef.value.selected = this.isAllSelected;
+      this.#isProgrammaticSelection = false;
     }
 
     if (this.multiple) {
@@ -1405,9 +1412,9 @@ export default class GlideCoreDropdown
     this.requestUpdate();
 
     // Dropdown becomes filterable if there are more than 10 options. But the `<input>`
-    // won't have rendered yet given we just set `this.isFilterable` above. So we piggyback
-    // off of `this.requestUpdate()` and then wait for the update to complete before setting
-    // the `value` of the `<input>`.
+    // won't have rendered yet given we just set `this.isFilterable` above. So we
+    // piggyback off of `this.requestUpdate()` and then wait for the update to complete
+    // before setting the `value` of the `<input>`.
     await this.updateComplete;
 
     if (
@@ -1422,11 +1429,20 @@ export default class GlideCoreDropdown
         this.#inputElementRef.value.scrollWidth >
         this.#inputElementRef.value.clientWidth;
 
-      // For the case where the selected option is programmatically removed
-      // from the DOM. Without this, the value of the input field would still
-      // be set to the selected option's `label`. And an ellipsis would still
-      // be shown if the `label` was long enough to be truncated.
-    } else if (!this.multiple && this.#inputElementRef.value) {
+      // For the case where the selected option is programmatically removed from the DOM.
+      // Without this, the value of the input field would still be set to the selected
+      // option's `label`. And an ellipsis would still be shown if the `label` was long
+      // enough to be truncated.
+      //
+      // We guard against `this.isFiltering` so we don't clear the user's filter query
+      // when the user is filtering and an option is added or removed. This is particularly
+      // helpful when consumers fetch and render options from the server in response to their
+      // override of `this.filter()` being called.
+    } else if (
+      !this.multiple &&
+      this.#inputElementRef.value &&
+      !this.isFiltering
+    ) {
       this.#inputElementRef.value.value = '';
       this.inputValue = '';
 
@@ -2299,7 +2315,7 @@ export default class GlideCoreDropdown
 
     // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
     if (event.target instanceof GlideCoreDropdownOption) {
-      if (this.multiple && !this.#isSettingValueProgrammatically) {
+      if (this.multiple && !this.#isProgrammaticSelection) {
         this.#value =
           event.target.selected && event.target.value && !event.target.disabled
             ? [...this.value, event.target.value]

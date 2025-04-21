@@ -1496,3 +1496,57 @@ it('does not allow its "toggle" event to propagate', async () => {
 
   expect(spy.callCount).to.equal(0);
 });
+
+it('retains its filter query when `multiple` and its default slot changes', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable multiple>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  host.focus();
+  await sendKeys({ type: 'one' });
+
+  const option = document.createElement('glide-core-dropdown-option');
+  option.label = 'Two';
+  host.append(option);
+
+  // Wait for `#onDefaultSlotChange()`.
+  await aTimeout(0);
+
+  const input = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('one');
+});
+
+it('retains its filter query when not `multiple` and its default slot changes', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  host.focus();
+  await sendKeys({ type: 'one' });
+
+  const option = document.createElement('glide-core-dropdown-option');
+  option.label = 'Two';
+  host.append(option);
+
+  // Wait for `#onDefaultSlotChange()`.
+  await aTimeout(0);
+
+  const input = host.shadowRoot?.querySelector<HTMLInputElement>(
+    '[data-test="input"]',
+  );
+
+  expect(input?.value).to.equal('one');
+});
