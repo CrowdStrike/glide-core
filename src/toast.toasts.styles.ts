@@ -29,9 +29,9 @@ export default [
     .toasts {
       --private-toasts-padding: var(--glide-core-spacing-base-sm);
 
-      column-gap: var(--glide-core-spacing-base-md);
       display: none;
       flex-direction: column;
+      gap: var(--glide-core-spacing-base-md);
       padding: var(--private-toasts-padding);
     }
 
