@@ -637,7 +637,7 @@ export default class GlideCoreDropdown
     // to options, which can receive focus, and "keydown" events won't be emitted on ".dropdown"
     // when it doesn't have focus.
 
-    /*  eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/click-events-have-key-events */
+    /* eslint-disable lit-a11y/mouse-events-have-key-events, lit-a11y/click-events-have-key-events */
     return html`<div
       class=${classMap({
         component: true,
