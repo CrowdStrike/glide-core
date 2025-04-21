@@ -6,7 +6,7 @@ import { click } from './library/mouse.js';
 
 it('dispatches a "click" event on click', async () => {
   const host = await fixture<GlideCoreLink>(
-    html`<glide-core-link label="Label" url="/"></glide-core-link>`,
+    html`<glide-core-link label="Label" href="/"></glide-core-link>`,
   );
 
   host.addEventListener('click', (event: Event) => {
@@ -23,7 +23,7 @@ it('dispatches a "click" event on click', async () => {
 
 it('does not dispatch a "click" event on click when disabled', async () => {
   const host = await fixture<GlideCoreLink>(
-    html`<glide-core-link label="Label" url="/" disabled></glide-core-link>`,
+    html`<glide-core-link label="Label" href="/" disabled></glide-core-link>`,
   );
 
   const spy = sinon.spy();
@@ -40,7 +40,7 @@ it('does not dispatch a "click" event on click when disabled', async () => {
 
 it('dispatches a "click" event on `click()`', async () => {
   const host = await fixture<GlideCoreLink>(
-    html`<glide-core-link label="Label" url="/"></glide-core-link>`,
+    html`<glide-core-link label="Label" href="/"></glide-core-link>`,
   );
 
   host.addEventListener('click', (event: Event) => {
@@ -60,7 +60,7 @@ it('dispatches a "click" event on `click()`', async () => {
 
 it('does not dispatch a "click" event on `click()` when disabled', async () => {
   const host = await fixture<GlideCoreLink>(
-    html`<glide-core-link label="Label" url="/" disabled></glide-core-link>`,
+    html`<glide-core-link label="Label" href="/" disabled></glide-core-link>`,
   );
 
   const spy = sinon.spy();
@@ -77,7 +77,7 @@ it('does not dispatch a "click" event on `click()` when disabled', async () => {
 
 it('dispatches a "click" event on Enter', async () => {
   const host = await fixture<GlideCoreLink>(
-    html`<glide-core-link label="Label" url="/"></glide-core-link>`,
+    html`<glide-core-link label="Label" href="/"></glide-core-link>`,
   );
 
   host.addEventListener('click', (event: Event) => {
@@ -96,7 +96,7 @@ it('dispatches a "click" event on Enter', async () => {
 
 it('does not dispatch a "click" event on Enter when disabled', async () => {
   const host = await fixture<GlideCoreLink>(
-    html`<glide-core-link label="Label" url="/" disabled></glide-core-link>`,
+    html`<glide-core-link label="Label" href="/" disabled></glide-core-link>`,
   );
 
   const spy = sinon.spy();

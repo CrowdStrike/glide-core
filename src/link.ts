@@ -16,8 +16,8 @@ declare global {
 }
 
 /**
+ * @attr {string} href
  * @attr {string} label
- * @attr {string} url
  * @attr {boolean} [disabled=false]
  * @attr {string} [download]
  * @attr {'_blank'|'_parent'|'_self'|'_top'} [target]
@@ -44,7 +44,7 @@ export default class GlideCoreLink extends LitElement {
 
   @property({ reflect: true })
   @required
-  url?: string;
+  href?: string;
 
   @property({ reflect: true, type: Boolean })
   disabled = false;
@@ -68,7 +68,7 @@ export default class GlideCoreLink extends LitElement {
       class=${classMap({ component: true, disabled: this.disabled })}
       data-test="component"
       download=${ifDefined(this.download)}
-      href=${ifDefined(this.url)}
+      href=${ifDefined(this.href)}
       target=${ifDefined(this.target)}
       @click=${this.#onClick}
       ${ref(this.#componentElementRef)}

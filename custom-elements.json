@@ -4377,11 +4377,11 @@
             },
             {
               "kind": "field",
-              "name": "url",
+              "name": "href",
               "type": {
                 "text": "string | undefined"
               },
-              "attribute": "url",
+              "attribute": "href",
               "reflects": true
             },
             {
@@ -4437,11 +4437,11 @@
               "required": true
             },
             {
-              "name": "url",
+              "name": "href",
               "type": {
                 "text": "string | undefined"
               },
-              "fieldName": "url",
+              "fieldName": "href",
               "required": true
             },
             {

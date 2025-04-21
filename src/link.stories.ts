@@ -31,7 +31,7 @@ const meta: Meta = {
       ?.addEventListener('click', (event: Event) => {
         if (
           event.target instanceof GlideCoreLink &&
-          event.target.url === '/' &&
+          event.target.href === '/' &&
           window.top
         ) {
           event.preventDefault();
@@ -52,16 +52,16 @@ const meta: Meta = {
     return html`
       <glide-core-link
         download=${arguments_.download || nothing}
+        href=${arguments_.href || nothing}
         label=${arguments_.label || nothing}
         target=${arguments_.target || nothing}
-        url=${arguments_.url || nothing}
         ?disabled=${arguments_.disabled || nothing}
       ></glide-core-link>
     `;
   },
   args: {
     label: 'Label',
-    url: '/',
+    href: '/',
     'addEventListener(event, handler)': '',
     disabled: false,
     download: '',
@@ -75,7 +75,7 @@ const meta: Meta = {
       },
       type: { name: 'string', required: true },
     },
-    url: {
+    href: {
       table: {
         type: { summary: 'string' },
       },

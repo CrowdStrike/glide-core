@@ -12,7 +12,7 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const host = await fixture<GlideCoreLink>(
-    html`<glide-core-link label="Label" url="/"></glide-core-link>`,
+    html`<glide-core-link label="Label" href="/"></glide-core-link>`,
   );
 
   await expect(host).to.be.accessible();
@@ -27,7 +27,7 @@ it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture(html`<glide-core-link url="/"></glide-core-link>`);
+    await fixture(html`<glide-core-link href="/"></glide-core-link>`);
   } catch {
     spy();
   }
@@ -35,7 +35,7 @@ it('throws when `label` is empty', async () => {
   expect(spy.callCount).to.equal(1);
 });
 
-it('throws when `url` is empty', async () => {
+it('throws when `href` is empty', async () => {
   const spy = sinon.spy();
 
   try {
