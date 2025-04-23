@@ -85,7 +85,7 @@ export default class GlideCoreToasts extends LitElement {
       <div class="toasts">
         ${repeat(
           this.toasts,
-          (toast) => toast.id,
+          (toast) => toast.privateId,
           (toast) => {
             return html`<div
               aria-labelledby="prefix label description"

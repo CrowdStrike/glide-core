@@ -8385,6 +8385,11 @@
             },
             {
               "kind": "field",
+              "name": "privateId",
+              "attribute": "privateId"
+            },
+            {
+              "kind": "field",
               "name": "privateShow",
               "type": {
                 "text": "boolean"
@@ -8470,6 +8475,10 @@
               },
               "default": "false",
               "fieldName": "privateDismissingViaButton"
+            },
+            {
+              "name": "privateId",
+              "fieldName": "privateId"
             },
             {
               "name": "privateShow",

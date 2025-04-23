@@ -57,6 +57,12 @@ export default class GlideCoreToast extends LitElement {
   @property({ type: Boolean })
   privateDismissingViaButton = false;
 
+  // `privateId` instead of `id` so consumers can specify their own `id` to determine,
+  // via `event.target.id`, which Toast was dismissed and then update whatever data
+  // structure they're using to render Toasts.
+  @property()
+  privateId = nanoid();
+
   @property({ type: Boolean })
   privateShow = false;
 
@@ -69,13 +75,6 @@ export default class GlideCoreToast extends LitElement {
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
-  override connectedCallback() {
-    super.connectedCallback();
-    this.id = nanoid();
-  }
-
-  // `firstUpdated()` instead of `connectedCallback()` so the Toast isn't shown
-  // before `assertSlot()` has had a chance to check the slot.
   dismiss(): void {
     this.dispatchEvent(new Event('dismiss', { bubbles: true, composed: true }));
 
@@ -87,6 +86,8 @@ export default class GlideCoreToast extends LitElement {
     this.remove();
   }
 
+  // `firstUpdated()` instead of `connectedCallback()` so the Toast isn't shown
+  // before `assertSlot()` has had a chance to check the slot.
   override firstUpdated() {
     GlideCoreToasts.show(this);
   }

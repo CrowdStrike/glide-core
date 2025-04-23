@@ -74,7 +74,14 @@ const meta: Meta = {
       table: {
         type: {
           summary: 'method',
-          detail: '(event: "dismiss", handler: (event: Event) => void): void',
+          detail: `
+(event: "dismiss", handler: (event: Event) => void): void
+
+// If you're generating Toasts by iterating through an array, make sure you listen for
+// this event and update the array so Toasts already seen by the user aren't shown again.
+// This is especially import if the array or data structure you're using is persisted
+// somewhere.
+`,
         },
       },
     },
@@ -162,13 +169,8 @@ const meta: Meta = {
           storyId: context.id,
           updatedArgs: {
             toasts: updatedArguments.toasts.filter((toast) => {
-              // The only way we can know which Toast to remove with an identifier of some
-              // kind. Toasts do give themselves an ID for internal purposes. But those IDs
-              // aren't established until the Toast is added to the DOM. So the simplest thing
-              // to do is just to wrap each Toast and gives its wrapper an ID.
               return (
-                event.target instanceof Element &&
-                toast.id !== event.target.closest('div')?.id
+                event.target instanceof Element && toast.id !== event.target.id
               );
             }),
           },
@@ -190,10 +192,11 @@ const meta: Meta = {
           label: string;
           variant?: 'informational' | 'success' | 'error';
         }) => {
-          return html`<div id=${toast.id}>
+          return html`
             <glide-core-toast
               duration=${ifDefined(toast.duration || undefined)}
               label=${ifDefined(toast.label || undefined)}
+              id=${toast.id}
               variant=${ifDefined(
                 toast.variant && toast.variant !== 'informational'
                   ? toast.variant
@@ -203,7 +206,7 @@ const meta: Meta = {
             >
               ${toast.description ? unsafeHTML(toast.description) : nothing}
             </glide-core-toast>
-          </div>`;
+          `;
         },
       )}
     `;

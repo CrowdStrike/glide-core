@@ -26,6 +26,8 @@ for (const story of stories.Toast) {
               element.dataset.description = 'Description';
             });
 
+          // Multiple Toasts so we screenshot the space between them.
+          await page.locator('glide-core-button').click();
           await page.locator('glide-core-button').click();
 
           await expect(page).toHaveScreenshot(
@@ -43,6 +45,8 @@ for (const story of stories.Toast) {
               element.dataset.variant = 'success';
             });
 
+          // Multiple Toasts so we screenshot the space between them.
+          await page.locator('glide-core-button').click();
           await page.locator('glide-core-button').click();
 
           await expect(page).toHaveScreenshot(
@@ -60,6 +64,8 @@ for (const story of stories.Toast) {
               element.dataset.variant = 'error';
             });
 
+          // Multiple Toasts so we screenshot the space between them.
+          await page.locator('glide-core-button').click();
           await page.locator('glide-core-button').click();
 
           await expect(page).toHaveScreenshot(
