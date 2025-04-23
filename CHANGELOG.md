@@ -1,5 +1,39 @@
 # @crowdstrike/glide-core
 
+## 0.25.0
+
+### Minor Changes
+
+- [#855](https://github.com/CrowdStrike/glide-core/pull/855) [`c9bdd27`](https://github.com/CrowdStrike/glide-core/commit/c9bdd2786888644b98daf731c3bc51ecd92f9b22) Thanks [@clintcs](https://github.com/clintcs)! - Glide Core now requires PNPM 9 given 8 is no longer supported by PNPM. You'll get an error when installing this package if you have a version of PNPM older than 9 installed and have `engineStrict=true` in your `.npmrc` or `pnpm-workspace.yaml`.
+
+- [#846](https://github.com/CrowdStrike/glide-core/pull/846) [`fc8b199`](https://github.com/CrowdStrike/glide-core/commit/fc8b199581f59a786f08625f3a91863c86c87fe2) Thanks [@clintcs](https://github.com/clintcs)! - All components now use Lit's new [`useDefault`](https://lit.dev/docs/components/properties/#property-options) option with `@property()` decorators. `useDefault` was added to Lit in `3.3.0`. You may encounter a typechecking error resolved by upgrading Lit if your `tsconfig.json` doesn't include `skipLibCheck: true`.
+
+  With `useDefault`, attributes whose values are primitives are no longer reflected when they're at their defaults—matching how native behaves. This may be a breaking change for you if you use attribute value selectors, like `[orientation="horizontal"]`, to select components.
+
+### Patch Changes
+
+- [#856](https://github.com/CrowdStrike/glide-core/pull/856) [`093ab5d`](https://github.com/CrowdStrike/glide-core/commit/093ab5d5b50cb3d43b3396d3cebfec48f0cda662) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown now retains its filter query when Dropdown Options are added or removed from its default slot after initial render.
+
+- [#848](https://github.com/CrowdStrike/glide-core/pull/848) [`ba66b14`](https://github.com/CrowdStrike/glide-core/commit/ba66b14ec9bd228cfdceee605de3adba969f8b72) Thanks [@ynotdraw](https://github.com/ynotdraw)! - The disabled border color for Dropdown, Input, and Textarea components was updated to match designs.
+
+- [#840](https://github.com/CrowdStrike/glide-core/pull/840) [`87212ab`](https://github.com/CrowdStrike/glide-core/commit/87212ab65c5fc9ec84fc99317e00bfe2eabae9a7) Thanks [@clintcs](https://github.com/clintcs)! - - Tag now has a border.
+
+  - Tag's removal button is now larger.
+  - Tag's optional icon is now larger when `size="large"`.
+
+- [#842](https://github.com/CrowdStrike/glide-core/pull/842) [`f36cdb0`](https://github.com/CrowdStrike/glide-core/commit/f36cdb0c100b24a41a3caf8f3489db3de56582e5) Thanks [@clintcs](https://github.com/clintcs)! - Added a Link component.
+
+- [#846](https://github.com/CrowdStrike/glide-core/pull/846) [`fc8b199`](https://github.com/CrowdStrike/glide-core/commit/fc8b199581f59a786f08625f3a91863c86c87fe2) Thanks [@clintcs](https://github.com/clintcs)! - - Modal Icon Button's `label` attribute is now reflected.
+
+  - Icon Button's `label` attribute is now reflected.
+  - Input's `clearable`, `hide-label`, `password-toggle`, and `readonly` attributes are now reflected.
+  - Textarea's `placeholder` attribute is now `undefined` by default instead of an empty string, matching our other components.
+  - All component attributes whose value is a primitive no longer reflect their values when they're at their default, matching native.
+
+- [#843](https://github.com/CrowdStrike/glide-core/pull/843) [`bd94b05`](https://github.com/CrowdStrike/glide-core/commit/bd94b054802ddb328522b47f53809cde025f3b7b) Thanks [@clintcs](https://github.com/clintcs)! - Tab Group's overflow buttons now change color on hover.
+
+- [#851](https://github.com/CrowdStrike/glide-core/pull/851) [`697ac1d`](https://github.com/CrowdStrike/glide-core/commit/697ac1d0e9529b7844e0ff0f6fba6cd615272def) Thanks [@clintcs](https://github.com/clintcs)! - Spinner now animates even when the user prefers reduced motion.
+
 ## 0.24.5
 
 ### Patch Changes
