@@ -7,7 +7,7 @@ on:
     types: [checks_requested]
 
 concurrency:
-  group: ${{ github.head_ref || github.ref }}
+  group: ${{ github.event.pull_request.head.ref || github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -208,7 +208,7 @@ jobs:
           pattern: visual-test-report-blob-*
       - name: Merge blob reports
         run: |
-          PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL=https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}/visual-test-report/data/ pnpm exec playwright merge-reports --reporter html ./visual-test-report-blob
+          PLAYWRIGHT_HTML_ATTACHMENTS_BASE_URL=https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.event.pull_request.head.ref }}/visual-test-report/data/ pnpm exec playwright merge-reports --reporter html ./visual-test-report-blob
       # TODO: Remove after this is resolved: https://www.cloudflarestatus.com/incidents/t5nrjmpxc1cj
       - name: Install AWS CLI
         run: |
@@ -227,13 +227,13 @@ jobs:
           aws configure set aws_access_key_id $CLOUDFLARE_R2_ACCESS_KEY_ID
           aws configure set aws_secret_access_key $CLOUDFLARE_R2_SECRET_ACCESS_KEY
       - name: Deploy HTML report
-        run: aws s3 sync ./playwright-report s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }}/visual-test-report --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
+        run: aws s3 sync ./playwright-report s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.event.pull_request.head.ref }}/visual-test-report --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
       - uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728
         with:
           header: visual-test-report
           message: |+
             ## ${{ needs.test-visuals.outputs.failed && '⚠️' || '✅' }} Visual Test Report
-            https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}/visual-test-report
+            https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.event.pull_request.head.ref }}/visual-test-report
 
   build:
     name: Build
@@ -245,7 +245,7 @@ jobs:
       - uses: ./.github/actions/pnpm
       - run: pnpm start
         env:
-          BASE_URL: ${{ github.head_ref }}
+          BASE_URL: ${{ github.event.pull_request.head.ref }}
           NODE_ENV: production
       - name: Upload Storybook
         uses: actions/upload-artifact@v4
@@ -287,10 +287,10 @@ jobs:
           name: storybook
           path: storybook
       - name: Deploy Storybook
-        run: aws s3 sync ./storybook s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.head_ref }} --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
+        run: aws s3 sync ./storybook s3://${{ vars.CLOUDFLARE_R2_BUCKET_NAME }}/${{ github.event.pull_request.head.ref }} --endpoint-url ${{ vars.CLOUDFLARE_R2_ENDPOINT }}
       - uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728
         with:
           header: storybook
           message: |+
             ## Storybook
-            https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.head_ref }}
+            https://${{ vars.CLOUDFLARE_CUSTOM_DOMAIN }}/${{ github.event.pull_request.head.ref }}
