@@ -79,7 +79,7 @@ const meta: Meta = {
 
 // If you're generating Toasts by iterating through an array, make sure you listen for
 // this event and update the array so Toasts already seen by the user aren't shown again.
-// This is especially import if the array or data structure you're using is persisted
+// This is especially important if the array or data structure you're using is persisted
 // somewhere.
 `,
         },
