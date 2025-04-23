@@ -72,7 +72,8 @@ const meta: Meta = {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
-              [`<glide-core-tab>.${event.target.panel}.selected`]: true,
+              '<glide-core-tab>.1.selected': event.target.panel === '1',
+              '<glide-core-tab>.2.selected': event.target.panel === '2',
             },
           });
         }
