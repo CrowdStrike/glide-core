@@ -1121,7 +1121,7 @@ export default class GlideCoreDropdown
     // Unfortunately, the host is the only thing on which this event is dispatched
     // because it's the host that is form-associated.
     this.addEventListener('invalid', (event) => {
-      event?.preventDefault(); // Canceled so a native validation message isn't shown.
+      event.preventDefault(); // Canceled so a native validation message isn't shown.
 
       // We only want to focus the input if the invalid event resulted from either:
       // 1. Form submission
