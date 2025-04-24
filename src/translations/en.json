@@ -13,6 +13,7 @@
   "success": "Success:",
   "error": "Error:",
   "informational": "Informational:",
+  "loading": "Loading",
   "announcedCharacterCount": "Character count {current} of {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
   "clearEntry": "Clear {label} entry",

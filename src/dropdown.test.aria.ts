@@ -87,6 +87,21 @@ test('hide-label', async ({ page }, test) => {
   });
 });
 
+test('loading', async ({ page }, test) => {
+  await page.goto('?id=dropdown--dropdown');
+
+  await page
+    .locator('glide-core-dropdown')
+    .evaluate<void, GlideCoreDropdown>((element) => {
+      element.loading = true;
+      element.open = true;
+    });
+
+  await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot({
+    name: `${test.titlePath.join('.')}.yml`,
+  });
+});
+
 test.describe('multiple=${true}', () => {
   test('open=${true}', async ({ page }, test) => {
     await page.goto('?id=dropdown--dropdown');

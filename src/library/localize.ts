@@ -33,6 +33,7 @@ export interface Translation extends DefaultTranslation {
   success: string;
   error: string;
   informational: string;
+  loading: string;
 
   announcedCharacterCount: (current: number, maximum: number) => string;
   displayedCharacterCount: (current: number, maximum: number) => string;
