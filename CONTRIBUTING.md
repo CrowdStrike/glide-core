@@ -48,6 +48,7 @@
   - [Why three separate test runners?](#why-three-separate-test-runners)
   - [Why does `main` have a merge queue?](#why-does-main-have-a-merge-queue)
   - [What should I do when a Dependabot or Release Preview pull request doesn't build?](#what-should-i-do-when-a-dependabot-or-release-preview-pull-request-doesnt-build)
+  - [Why isn't `custom-elements.json` exported?](#why-isnt-custom-elementsjson-exported)
 
 ## Development
 
@@ -823,3 +824,15 @@ For Dependabot pull requests, you'll need to check out and test the branch local
 Release Preview pull requests, on the other hand, are safe to merge without local testing.
 
 When you're ready to merge either type of pull request, check the "Merge without waiting for requirements to be met" box (or have someone with the permission check it for you), then merge away.
+
+#### Why isn't `custom-elements.json` exported?
+
+Simply because we're not aware of a use for it outside this repository.
+You'll find plenty of blog posts saying it should be exported so that tooling can use it.
+However, there don't appear to be any tools that make practical use of it.
+
+VS Code Lit Plugin claims support for it via its [`customHtmlData`](https://github.com/runem/lit-analyzer/tree/master/packages/vscode-lit-plugin#-configuration) option.
+But the option doesn't support paths and, due to a [bug](https://github.com/runem/lit-analyzer/issues/300), requires that users copy and paste the entire manifest into `customHtmlData`.
+Even then, doing so results in attributes shown in duplicate when a component's markup is hovered, and not every attribute in the manifest is shown.
+
+We're nonetheless open to exporting `custom-elements.json` if a use case presents itself.
