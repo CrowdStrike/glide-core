@@ -134,7 +134,7 @@ export default [
     }
 
     .required-symbol {
-      color: var(--glide-core-color-error-stroke-primary);
+      color: var(--glide-core-color-advisory-stroke-error-primary);
     }
 
     .control-and-summary {
@@ -166,7 +166,7 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
 
       &.error {
-        color: var(--glide-core-color-error-text-status);
+        color: var(--glide-core-color-advisory-text-error);
       }
     }
 
@@ -183,7 +183,7 @@ export default [
       }
 
       &.error {
-        color: var(--glide-core-color-error-text-status);
+        color: var(--glide-core-color-advisory-text-error);
       }
     }
   `,

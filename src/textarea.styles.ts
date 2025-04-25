@@ -78,7 +78,7 @@ export default [
       }
 
       &.error {
-        border-color: var(--glide-core-color-error-stroke-primary);
+        border-color: var(--glide-core-color-advisory-stroke-error-primary);
       }
 
       &[readonly] {
