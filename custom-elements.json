@@ -2149,6 +2149,22 @@
             },
             {
               "kind": "field",
+              "name": "id",
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "privateActive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateActive"
+            },
+            {
+              "kind": "field",
               "name": "privateIndeterminate",
               "type": {
                 "text": "boolean"
@@ -2167,22 +2183,21 @@
             },
             {
               "kind": "field",
+              "name": "privateIsTooltipOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateIsTooltipOpen"
+            },
+            {
+              "kind": "field",
               "name": "privateMultiple",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "private-multiple"
-            },
-            {
-              "kind": "field",
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "selected",
-              "reflects": true
             },
             {
               "kind": "field",
@@ -2196,21 +2211,13 @@
             },
             {
               "kind": "field",
-              "name": "privateActive",
+              "name": "selected",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "privateActive"
-            },
-            {
-              "kind": "field",
-              "name": "privateIsTooltipOpen",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "privateIsTooltipOpen"
+              "attribute": "selected",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -2309,6 +2316,19 @@
               "fieldName": "editable"
             },
             {
+              "name": "id",
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
+              "name": "privateActive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateActive"
+            },
+            {
               "name": "private-indeterminate",
               "type": {
                 "text": "boolean"
@@ -2325,20 +2345,20 @@
               "fieldName": "privateIsEditActive"
             },
             {
+              "name": "privateIsTooltipOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateIsTooltipOpen"
+            },
+            {
               "name": "private-multiple",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "fieldName": "privateMultiple"
-            },
-            {
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "selected"
             },
             {
               "name": "private-size",
@@ -2349,20 +2369,12 @@
               "fieldName": "privateSize"
             },
             {
-              "name": "privateActive",
+              "name": "selected",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "privateActive"
-            },
-            {
-              "name": "privateIsTooltipOpen",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "privateIsTooltipOpen"
+              "fieldName": "selected"
             },
             {
               "name": "version",
@@ -4564,6 +4576,13 @@
             },
             {
               "kind": "field",
+              "name": "id",
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "privateActive",
               "type": {
                 "text": "boolean"
@@ -4610,6 +4629,11 @@
               },
               "default": "false",
               "fieldName": "disabled"
+            },
+            {
+              "name": "id",
+              "readonly": true,
+              "fieldName": "id"
             },
             {
               "name": "privateActive",
@@ -4726,6 +4750,13 @@
             },
             {
               "kind": "field",
+              "name": "id",
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "privateActive",
               "type": {
                 "text": "boolean"
@@ -4779,6 +4810,11 @@
                 "text": "string | undefined"
               },
               "fieldName": "url"
+            },
+            {
+              "name": "id",
+              "readonly": true,
+              "fieldName": "id"
             },
             {
               "name": "privateActive",

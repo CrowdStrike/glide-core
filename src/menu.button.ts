@@ -20,6 +20,9 @@ declare global {
  * @attr {boolean} [disabled=false]
  *
  * @readonly
+ * @attr [id]
+ *
+ * @readonly
  * @attr {string} [version]
  *
  * @slot {Element} [icon]
@@ -54,8 +57,13 @@ export default class GlideCoreMenuButton extends LitElement {
     }
   }
 
-  // A button is considered active when it's interacted with via keyboard or hovered.
-  // Private because it's only meant to be used by Menu.
+  // On the host instead of inside the shadow DOM so screenreaders can find it
+  // when Menu uses it with `aria-activedescendant`.
+  @property({ reflect: true })
+  override readonly id = nanoid();
+
+  // A button is considered active when it's interacted with via keyboard or
+  // hovered. Private because it's only meant to be used internally and by Menu.
   @property({ type: Boolean })
   privateActive = false;
 
@@ -69,13 +77,9 @@ export default class GlideCoreMenuButton extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    // On the host instead of inside the shadow DOM so screenreaders can find this
-    // ID when it's assigned to `aria-activedescendant`.
-    this.id = this.#id;
-
-    // These two are likewise on the host due to `aria-activedescendant`. The active
-    // descendant must be the element with `role` and has to be programmatically
-    // focusable.
+    // `id` is on the host because Menu uses it with `aria-activedescendant`. The
+    // active descendant must also be the element with `role`, and has to be focusable
+    // so screenreaders can navigate to it.
     this.role = 'menuitem';
     this.tabIndex = -1;
   }
@@ -101,14 +105,6 @@ export default class GlideCoreMenuButton extends LitElement {
   }
 
   #componentElementRef = createRef<HTMLButtonElement>();
-
-  // Established here instead of in `connectedCallback()` so the ID remains constant
-  // even if this component is removed and re-added to the DOM. If it's not constant,
-  // Menu's `aria-activedescendant` will immediately point to a non-existent ID
-  // when this component is re-added to the DOM.
-  //
-  // An edge case for sure. But one we can protect against with little effort.
-  #id = nanoid();
 
   #isDisabled = false;
 }

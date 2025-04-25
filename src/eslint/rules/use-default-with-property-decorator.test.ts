@@ -56,6 +56,14 @@ ruleTester.run(
           }
         `,
       },
+      {
+        code: `
+          class Component extends LitElement {
+            @property({ reflect: true, type: Number, useDefault: true })
+            tabIndex = -1
+          }
+        `,
+      },
     ],
     invalid: [
       {
@@ -63,6 +71,15 @@ ruleTester.run(
           class Component extends LitElement {
             @property({ reflect: true })
             name = "";
+          }
+        `,
+        errors: [{ messageId: 'useDefaultWithPropertyDecorator' }],
+      },
+      {
+        code: `
+          class Component extends LitElement {
+            @property({ reflect: true, type: Number })
+            tabIndex = -1
           }
         `,
         errors: [{ messageId: 'useDefaultWithPropertyDecorator' }],

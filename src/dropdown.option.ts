@@ -28,6 +28,10 @@ declare global {
  * @attr {number} [count]
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [editable=false]
+ *
+ * @readonly
+ * @attr [id]
+ *
  * @attr {boolean} [selected=false]
  * @attr {string} [value='']
  *
@@ -117,6 +121,16 @@ export default class GlideCoreDropdownOption extends LitElement {
     );
   }
 
+  // On the host instead of inside the shadow DOM so screenreaders can find it
+  // when Dropdown uses it with `aria-activedescendant`.
+  @property({ reflect: true })
+  override readonly id = nanoid();
+
+  // An option is considered active when it's interacted with via keyboard or hovered.
+  // Used by Dropdown.
+  @property({ type: Boolean })
+  privateActive = false;
+
   // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-indeterminate', type: Boolean })
   privateIndeterminate = false;
@@ -125,9 +139,16 @@ export default class GlideCoreDropdownOption extends LitElement {
   @property({ type: Boolean })
   privateIsEditActive = false;
 
+  @property({ type: Boolean })
+  privateIsTooltipOpen = false;
+
   // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-multiple', type: Boolean })
   privateMultiple = false;
+
+  // Private because it's only meant to be used by Dropdown.
+  @property({ attribute: 'private-size', reflect: true, useDefault: true })
+  privateSize: 'large' | 'small' = 'large';
 
   /**
    * @default false
@@ -150,18 +171,6 @@ export default class GlideCoreDropdownOption extends LitElement {
     // response to this event a "change" event after updating its `this.value`.
     this.dispatchEvent(new Event('private-selected-change', { bubbles: true }));
   }
-
-  // Private because it's only meant to be used by Dropdown.
-  @property({ attribute: 'private-size', reflect: true, useDefault: true })
-  privateSize: 'large' | 'small' = 'large';
-
-  // An option is considered active when it's interacted with via keyboard or hovered.
-  // Used by Dropdown.
-  @property({ type: Boolean })
-  privateActive = false;
-
-  @property({ type: Boolean })
-  privateIsTooltipOpen = false;
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
@@ -199,13 +208,9 @@ export default class GlideCoreDropdownOption extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
 
-    // On the host instead of inside the shadow DOM so screenreaders can find this
-    // ID when it's assigned to `aria-activedescendant` in Dropdown itself.
-    this.id = this.#id;
-
-    // These three are likewise on the host due to `aria-activedescendant`. The active
-    // descendant must be the element with `ariaSelected` and `role`, and also has
-    // to be programmatically focusable.
+    // `id` is on the host because Dropdown uses it with `aria-activedescendant`. The
+    // active descendant must also be the element with `aria-selected` and `role`, and
+    // has to be programmatically focusable.
     this.ariaSelected = !this.disabled && this.selected ? 'true' : 'false';
     this.role = this.disabled ? 'none' : 'option';
     this.tabIndex = -1;
@@ -476,14 +481,6 @@ export default class GlideCoreDropdownOption extends LitElement {
   #checkboxElementRef = createRef<GlideCoreCheckbox>();
 
   #componentElementRef = createRef<HTMLElement>();
-
-  // Established here instead of in `connectedCallback()` so the ID remains constant
-  // even if this component is removed and re-added to the DOM. If it's not constant,
-  // Dropdown's `aria-activedescendant` will immediately point to a non-existent ID
-  // when this component is re-added to the DOM.
-  //
-  // An edge case for sure. But one we can protect against with little effort.
-  #id = nanoid();
 
   #intersectionObserver?: IntersectionObserver;
 

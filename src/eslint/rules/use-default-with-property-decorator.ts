@@ -33,6 +33,12 @@ export const useDefaultWithPropertyDecorator = createRule({
 
         const hasLiteralValue = node.value?.type === AST_NODE_TYPES.Literal;
 
+        const isNegativeNumber =
+          node.value?.type === AST_NODE_TYPES.UnaryExpression &&
+          node.value.operator === '-' &&
+          node.value.argument.type === AST_NODE_TYPES.Literal &&
+          typeof node.value.argument.value === 'number';
+
         const propertyDecorator = node.decorators.find((decorator) => {
           return (
             decorator.expression.type === AST_NODE_TYPES.CallExpression &&
@@ -43,7 +49,7 @@ export const useDefaultWithPropertyDecorator = createRule({
 
         if (
           isExtendsLitElement &&
-          hasLiteralValue &&
+          (hasLiteralValue || isNegativeNumber) &&
           propertyDecorator &&
           propertyDecorator?.expression.type === AST_NODE_TYPES.CallExpression
         ) {
