@@ -2120,6 +2120,16 @@
             },
             {
               "kind": "field",
+              "name": "ariaSelected",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "aria-selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "count",
               "type": {
                 "text": "number | undefined"
@@ -2149,6 +2159,25 @@
             },
             {
               "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "privateActive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateActive"
+            },
+            {
+              "kind": "field",
               "name": "privateIndeterminate",
               "type": {
                 "text": "boolean"
@@ -2167,22 +2196,21 @@
             },
             {
               "kind": "field",
+              "name": "privateIsTooltipOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateIsTooltipOpen"
+            },
+            {
+              "kind": "field",
               "name": "privateMultiple",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "private-multiple"
-            },
-            {
-              "kind": "field",
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "selected",
-              "reflects": true
             },
             {
               "kind": "field",
@@ -2196,21 +2224,34 @@
             },
             {
               "kind": "field",
-              "name": "privateActive",
+              "name": "role",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "default": "false",
-              "attribute": "privateActive"
+              "readonly": true,
+              "attribute": "role",
+              "reflects": true
             },
             {
               "kind": "field",
-              "name": "privateIsTooltipOpen",
+              "name": "selected",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "privateIsTooltipOpen"
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "attribute": "tabIndex",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -2286,6 +2327,14 @@
               "required": true
             },
             {
+              "name": "aria-selected",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "ariaSelected"
+            },
+            {
               "name": "count",
               "type": {
                 "text": "number | undefined"
@@ -2309,6 +2358,22 @@
               "fieldName": "editable"
             },
             {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
+              "name": "privateActive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateActive"
+            },
+            {
               "name": "private-indeterminate",
               "type": {
                 "text": "boolean"
@@ -2325,20 +2390,20 @@
               "fieldName": "privateIsEditActive"
             },
             {
+              "name": "privateIsTooltipOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateIsTooltipOpen"
+            },
+            {
               "name": "private-multiple",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "fieldName": "privateMultiple"
-            },
-            {
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "selected"
             },
             {
               "name": "private-size",
@@ -2349,20 +2414,29 @@
               "fieldName": "privateSize"
             },
             {
-              "name": "privateActive",
+              "name": "role",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "default": "false",
-              "fieldName": "privateActive"
+              "readonly": true,
+              "fieldName": "role"
             },
             {
-              "name": "privateIsTooltipOpen",
+              "name": "selected",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "privateIsTooltipOpen"
+              "fieldName": "selected"
+            },
+            {
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "fieldName": "tabIndex"
             },
             {
               "name": "version",

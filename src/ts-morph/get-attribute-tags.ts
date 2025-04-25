@@ -63,6 +63,13 @@ export default (
         // inserted between `@readonly` and `@attr`.
         writer.conditionalNewLine(!isReadOnly && index === 0);
       },
+      trailingTrivia(writer) {
+        const isReadOnly = 'readonly' in attribute && attribute.readonly;
+
+        writer.conditionalNewLine(
+          isReadOnly && index !== attributes.length - 1,
+        );
+      },
       text(writer) {
         if (type) {
           writer.write(`{${type?.join('|')}} `);

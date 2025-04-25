@@ -25,10 +25,26 @@ declare global {
 
 /**
  * @attr {string} label
+ *
+ * @readonly
+ * @attr {string} [aria-selected]
+ *
  * @attr {number} [count]
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [editable=false]
+ *
+ * @readonly
+ * @attr {string} [id]
+ *
+ *
+ * @readonly
+ * @attr {string} [role]
+ *
  * @attr {boolean} [selected=false]
+ *
+ * @readonly
+ * @attr {number} [tabIndex=-1]
+ *
  * @attr {string} [value='']
  *
  * @readonly
@@ -74,6 +90,11 @@ export default class GlideCoreDropdownOption extends LitElement {
     );
   }
 
+  @property({ attribute: 'aria-selected', reflect: true })
+  override get ariaSelected(): string {
+    return !this.disabled && this.selected ? 'true' : 'false';
+  }
+
   @property({ reflect: true, type: Number })
   count?: number;
 
@@ -86,7 +107,6 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   set disabled(isDisabled: boolean) {
-    this.role = isDisabled ? 'none' : 'option';
     this.#isDisabled = isDisabled;
 
     if (this.#checkboxElementRef.value?.checked && isDisabled) {
@@ -95,7 +115,6 @@ export default class GlideCoreDropdownOption extends LitElement {
       this.#checkboxElementRef.value.checked = true;
     }
 
-    this.ariaSelected = !isDisabled && this.selected ? 'true' : 'false';
     this.dispatchEvent(new Event('private-disabled-change', { bubbles: true }));
   }
 
@@ -117,6 +136,18 @@ export default class GlideCoreDropdownOption extends LitElement {
     );
   }
 
+  // On the host instead of inside the shadow DOM so screenreaders can find this
+  // ID when it's assigned to `aria-activedescendant` in Dropdown itself.
+  @property({ reflect: true })
+  override get id(): string {
+    return this.#id;
+  }
+
+  // An option is considered active when it's interacted with via keyboard or hovered.
+  // Used by Dropdown.
+  @property({ type: Boolean })
+  privateActive = false;
+
   // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-indeterminate', type: Boolean })
   privateIndeterminate = false;
@@ -125,9 +156,21 @@ export default class GlideCoreDropdownOption extends LitElement {
   @property({ type: Boolean })
   privateIsEditActive = false;
 
+  @property({ type: Boolean })
+  privateIsTooltipOpen = false;
+
   // Private because it's only meant to be used by Dropdown.
   @property({ attribute: 'private-multiple', type: Boolean })
   privateMultiple = false;
+
+  // Private because it's only meant to be used by Dropdown.
+  @property({ attribute: 'private-size', reflect: true, useDefault: true })
+  privateSize: 'large' | 'small' = 'large';
+
+  @property({ reflect: true })
+  override get role(): string {
+    return this.disabled ? 'none' : 'option';
+  }
 
   /**
    * @default false
@@ -139,7 +182,6 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   set selected(isSelected) {
     this.#selected = isSelected;
-    this.ariaSelected = !this.disabled && isSelected ? 'true' : 'false';
 
     if (this.isMultiple && this.#checkboxElementRef.value) {
       this.#checkboxElementRef.value.checked = isSelected;
@@ -151,17 +193,8 @@ export default class GlideCoreDropdownOption extends LitElement {
     this.dispatchEvent(new Event('private-selected-change', { bubbles: true }));
   }
 
-  // Private because it's only meant to be used by Dropdown.
-  @property({ attribute: 'private-size', reflect: true, useDefault: true })
-  privateSize: 'large' | 'small' = 'large';
-
-  // An option is considered active when it's interacted with via keyboard or hovered.
-  // Used by Dropdown.
-  @property({ type: Boolean })
-  privateActive = false;
-
-  @property({ type: Boolean })
-  privateIsTooltipOpen = false;
+  @property({ reflect: true, type: Number })
+  override readonly tabIndex = -1;
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
@@ -198,17 +231,6 @@ export default class GlideCoreDropdownOption extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
-
-    // On the host instead of inside the shadow DOM so screenreaders can find this
-    // ID when it's assigned to `aria-activedescendant` in Dropdown itself.
-    this.id = this.#id;
-
-    // These three are likewise on the host due to `aria-activedescendant`. The active
-    // descendant must be the element with `ariaSelected` and `role`, and also has
-    // to be programmatically focusable.
-    this.ariaSelected = !this.disabled && this.selected ? 'true' : 'false';
-    this.role = this.disabled ? 'none' : 'option';
-    this.tabIndex = -1;
 
     // Options are arbitrarily shown and hidden when Dropdown is opened and closed. So
     // calling `#updateLabelOverflow` in the `label` setter isn't sufficient because
