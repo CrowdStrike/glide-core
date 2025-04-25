@@ -27,19 +27,7 @@ it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture(html`<glide-core-link href="/"></glide-core-link>`);
-  } catch {
-    spy();
-  }
-
-  expect(spy.callCount).to.equal(1);
-});
-
-it('throws when `href` is empty', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(html`<glide-core-link label="Label"></glide-core-link>`);
+    await fixture(html`<glide-core-link></glide-core-link>`);
   } catch {
     spy();
   }

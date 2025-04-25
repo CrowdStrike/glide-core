@@ -33,22 +33,7 @@ it('throws when `label` is empty', async () => {
 
   try {
     await fixture(
-      html`<glide-core-split-button-primary-link url="/">
-      </glide-core-split-button-primary-link>`,
-    );
-  } catch {
-    spy();
-  }
-
-  expect(spy.callCount).to.equal(1);
-});
-
-it('throws when `url` is empty', async () => {
-  const spy = sinon.spy();
-
-  try {
-    await fixture(
-      html`<glide-core-split-button-primary-link label="label">
+      html`<glide-core-split-button-primary-link>
       </glide-core-split-button-primary-link>`,
     );
   } catch {

@@ -1,2 +1,3 @@
-- link "Label"
+- link "Label":
+  - /url: /
 - button "Label"

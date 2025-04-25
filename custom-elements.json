@@ -2149,6 +2149,25 @@
             },
             {
               "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "privateActive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateActive"
+            },
+            {
+              "kind": "field",
               "name": "privateIndeterminate",
               "type": {
                 "text": "boolean"
@@ -2167,22 +2186,21 @@
             },
             {
               "kind": "field",
+              "name": "privateIsTooltipOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateIsTooltipOpen"
+            },
+            {
+              "kind": "field",
               "name": "privateMultiple",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "private-multiple"
-            },
-            {
-              "kind": "field",
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "selected",
-              "reflects": true
             },
             {
               "kind": "field",
@@ -2196,21 +2214,35 @@
             },
             {
               "kind": "field",
-              "name": "privateActive",
+              "name": "role",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "default": "false",
-              "attribute": "privateActive"
+              "readonly": true,
+              "default": "'option'",
+              "attribute": "role",
+              "reflects": true
             },
             {
               "kind": "field",
-              "name": "privateIsTooltipOpen",
+              "name": "selected",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "attribute": "privateIsTooltipOpen"
+              "attribute": "selected",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "attribute": "tabindex",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -2309,6 +2341,22 @@
               "fieldName": "editable"
             },
             {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
+              "name": "privateActive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateActive"
+            },
+            {
               "name": "private-indeterminate",
               "type": {
                 "text": "boolean"
@@ -2325,20 +2373,20 @@
               "fieldName": "privateIsEditActive"
             },
             {
+              "name": "privateIsTooltipOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateIsTooltipOpen"
+            },
+            {
               "name": "private-multiple",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "fieldName": "privateMultiple"
-            },
-            {
-              "name": "selected",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "selected"
             },
             {
               "name": "private-size",
@@ -2349,20 +2397,30 @@
               "fieldName": "privateSize"
             },
             {
-              "name": "privateActive",
+              "name": "role",
               "type": {
-                "text": "boolean"
+                "text": "string"
               },
-              "default": "false",
-              "fieldName": "privateActive"
+              "readonly": true,
+              "default": "'option'",
+              "fieldName": "role"
             },
             {
-              "name": "privateIsTooltipOpen",
+              "name": "selected",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
-              "fieldName": "privateIsTooltipOpen"
+              "fieldName": "selected"
+            },
+            {
+              "name": "tabindex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "fieldName": "tabIndex"
             },
             {
               "name": "version",
@@ -4377,15 +4435,6 @@
             },
             {
               "kind": "field",
-              "name": "href",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "href",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -4401,6 +4450,15 @@
                 "text": "string | undefined"
               },
               "attribute": "download",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "href",
               "reflects": true
             },
             {
@@ -4437,14 +4495,6 @@
               "required": true
             },
             {
-              "name": "href",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "href",
-              "required": true
-            },
-            {
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -4458,6 +4508,13 @@
                 "text": "string | undefined"
               },
               "fieldName": "download"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "href"
             },
             {
               "name": "target",
@@ -4564,12 +4621,44 @@
             },
             {
               "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "privateActive",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "privateActive"
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'menuitem'",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "attribute": "tabindex",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -4612,12 +4701,38 @@
               "fieldName": "disabled"
             },
             {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
               "name": "privateActive",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "fieldName": "privateActive"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'menuitem'",
+              "fieldName": "role"
+            },
+            {
+              "name": "tabindex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "fieldName": "tabIndex"
             },
             {
               "name": "version",
@@ -4726,12 +4841,44 @@
             },
             {
               "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "privateActive",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "attribute": "privateActive"
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'menuitem'",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "attribute": "tabindex",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -4781,12 +4928,38 @@
               "fieldName": "url"
             },
             {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
               "name": "privateActive",
               "type": {
                 "text": "boolean"
               },
               "default": "false",
               "fieldName": "privateActive"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'menuitem'",
+              "fieldName": "role"
+            },
+            {
+              "name": "tabindex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "fieldName": "tabIndex"
             },
             {
               "name": "version",
@@ -6641,15 +6814,6 @@
             },
             {
               "kind": "field",
-              "name": "url",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "url",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "label",
               "type": {
                 "text": "string | undefined"
@@ -6687,6 +6851,15 @@
             },
             {
               "kind": "field",
+              "name": "url",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "url",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "version",
               "type": {
                 "text": "string"
@@ -6697,14 +6870,6 @@
             }
           ],
           "attributes": [
-            {
-              "name": "url",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "url",
-              "required": true
-            },
             {
               "name": "label",
               "type": {
@@ -6736,6 +6901,13 @@
               },
               "default": "'primary'",
               "fieldName": "privateVariant"
+            },
+            {
+              "name": "url",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "url"
             },
             {
               "name": "version",

@@ -135,9 +135,9 @@ const meta: Meta = {
     '<glide-core-split-button-primary-button>[slot="icon"]': '',
     '<glide-core-split-button-primary-button>.version': '',
     '<glide-core-split-button-primary-link>.label': 'Label',
-    '<glide-core-split-button-primary-link>.url': '/',
     '<glide-core-split-button-primary-link>.disabled': false,
     '<glide-core-split-button-primary-link>[slot="icon"]': '',
+    '<glide-core-split-button-primary-link>.url': '/',
     '<glide-core-split-button-primary-link>.version': '',
     '<glide-core-split-button-secondary-button>.label': 'Label',
     '<glide-core-split-button-secondary-button>[slot="default"]': '',
@@ -249,14 +249,6 @@ const meta: Meta = {
         type: { summary: 'string' },
       },
     },
-    '<glide-core-split-button-primary-link>.url': {
-      name: 'url',
-      type: { name: 'string', required: true },
-      table: {
-        category: 'Split Button Primary Link',
-        type: { summary: 'string' },
-      },
-    },
     '<glide-core-split-button-primary-link>.disabled': {
       name: 'disabled',
       table: {
@@ -271,6 +263,14 @@ const meta: Meta = {
       table: {
         category: 'Split Button Primary Link',
         type: { summary: 'Element' },
+      },
+    },
+    '<glide-core-split-button-primary-link>.url': {
+      name: 'url',
+      type: { name: 'string', required: true },
+      table: {
+        category: 'Split Button Primary Link',
+        type: { summary: 'string' },
       },
     },
     '<glide-core-split-button-primary-link>.version': {

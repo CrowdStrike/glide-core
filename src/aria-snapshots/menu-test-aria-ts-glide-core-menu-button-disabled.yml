@@ -5,4 +5,5 @@
   - menuitem "Two":
     - button "Two"
   - menuitem "Three":
-    - link "Three"
+    - link "Three":
+      - /url: /

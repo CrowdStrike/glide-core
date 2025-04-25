@@ -63,6 +63,31 @@ export default (
         // inserted between `@readonly` and `@attr`.
         writer.conditionalNewLine(!isReadOnly && index === 0);
       },
+      trailingTrivia(writer) {
+        const currentAttributeHasReadOnly =
+          'readonly' in attribute && attribute.readonly;
+
+        // Private attribute are excluded from JSDoc comments. So we're only
+        // interested in whether the next attribute that's public is read-only.
+        // If it is, then we don't need to put a new line after it because it'll
+        // write one for itself via `leadingTrivia()`.
+        const nextPublicAttribute = attributes
+          .slice(index + 1)
+          .find(({ fieldName }) => !fieldName.startsWith('private'));
+
+        const nextPublicAttributeHasReadOnly =
+          nextPublicAttribute &&
+          'readonly' in nextPublicAttribute &&
+          nextPublicAttribute.readonly;
+
+        // If the current attribute is read-only and the next attribute isn't, then
+        // need we need a new line because read-only attributes are multiline.
+        writer.conditionalNewLine(
+          currentAttributeHasReadOnly &&
+            nextPublicAttribute &&
+            !nextPublicAttributeHasReadOnly,
+        );
+      },
       text(writer) {
         if (type) {
           writer.write(`{${type?.join('|')}} `);

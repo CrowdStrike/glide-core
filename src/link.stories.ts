@@ -61,21 +61,15 @@ const meta: Meta = {
   },
   args: {
     label: 'Label',
-    href: '/',
     'addEventListener(event, handler)': '',
     disabled: false,
     download: '',
+    href: '/',
     target: '',
     version: '',
   },
   argTypes: {
     label: {
-      table: {
-        type: { summary: 'string' },
-      },
-      type: { name: 'string', required: true },
-    },
-    href: {
       table: {
         type: { summary: 'string' },
       },
@@ -102,6 +96,12 @@ const meta: Meta = {
       table: {
         type: { summary: 'string' },
       },
+    },
+    href: {
+      table: {
+        type: { summary: 'string' },
+      },
+      type: { name: 'string' },
     },
     target: {
       control: {

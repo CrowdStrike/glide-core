@@ -52,7 +52,23 @@ ruleTester.run(
         code: `
           class Component extends LitElement {
             @property({ reflect: true, type: Boolean })
-            disabled = false
+            disabled = false;
+          }
+        `,
+      },
+      {
+        code: `
+          class Component extends LitElement {
+            @property({ reflect: true })
+            override role = "option";
+          }
+        `,
+      },
+      {
+        code: `
+          class Component extends LitElement {
+            @property({ reflect: true, type: Number, useDefault: true })
+            count = -1;
           }
         `,
       },
@@ -63,6 +79,15 @@ ruleTester.run(
           class Component extends LitElement {
             @property({ reflect: true })
             name = "";
+          }
+        `,
+        errors: [{ messageId: 'useDefaultWithPropertyDecorator' }],
+      },
+      {
+        code: `
+          class Component extends LitElement {
+            @property({ reflect: true, type: Number })
+            count = -1;
           }
         `,
         errors: [{ messageId: 'useDefaultWithPropertyDecorator' }],

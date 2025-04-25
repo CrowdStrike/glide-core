@@ -51,9 +51,11 @@ export default class GlideCoreButton extends LitElement {
   @required
   label?: string;
 
-  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
 
-  @property({ reflect: true, useDefault: true }) name = '';
+  @property({ reflect: true, useDefault: true })
+  name = '';
 
   @property({ reflect: true, useDefault: true })
   size: 'large' | 'small' = 'large';
@@ -64,7 +66,8 @@ export default class GlideCoreButton extends LitElement {
   @property({ reflect: true, useDefault: true })
   type: 'button' | 'submit' | 'reset' = 'button';
 
-  @property({ reflect: true, useDefault: true }) value = '';
+  @property({ reflect: true, useDefault: true })
+  value = '';
 
   @property({ reflect: true, useDefault: true })
   variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
