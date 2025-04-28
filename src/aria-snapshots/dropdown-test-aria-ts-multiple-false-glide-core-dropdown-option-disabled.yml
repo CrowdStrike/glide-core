@@ -1,0 +1,6 @@
+- text: Label
+- button "Label" [expanded]
+- listbox:
+  - option "One" [disabled]
+  - option "Two"
+  - option "Three"

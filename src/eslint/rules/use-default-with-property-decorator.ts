@@ -33,6 +33,12 @@ export const useDefaultWithPropertyDecorator = createRule({
 
         const hasLiteralValue = node.value?.type === AST_NODE_TYPES.Literal;
 
+        const isNegativeNumber =
+          node.value?.type === AST_NODE_TYPES.UnaryExpression &&
+          node.value.operator === '-' &&
+          node.value.argument.type === AST_NODE_TYPES.Literal &&
+          typeof node.value.argument.value === 'number';
+
         const propertyDecorator = node.decorators.find((decorator) => {
           return (
             decorator.expression.type === AST_NODE_TYPES.CallExpression &&
@@ -43,7 +49,7 @@ export const useDefaultWithPropertyDecorator = createRule({
 
         if (
           isExtendsLitElement &&
-          hasLiteralValue &&
+          (hasLiteralValue || isNegativeNumber) &&
           propertyDecorator &&
           propertyDecorator?.expression.type === AST_NODE_TYPES.CallExpression
         ) {
@@ -98,7 +104,16 @@ export const useDefaultWithPropertyDecorator = createRule({
             },
           );
 
-          if (hasReflect && !isBoolean && !hasUseDefault) {
+          // If the property is overridden and has a default value, there's a very good
+          // chance it's being set to something other than its default as defined by the
+          // browser. If that's the case, then it should be reflected.
+          //
+          // But it's more than a matter of correctness. Axe, for example, commonly uses
+          // `getAttribute()` instead of property access to look up an attribute's value. So
+          // attributes like `role` always have to be reflected. Otherwise, tests that use
+          // Axe may fail due to Axe thinking the attribute is missing. Another example is
+          // `tabindex`, which won't make an element focusable if not reflected.
+          if (hasReflect && !isBoolean && !node.override && !hasUseDefault) {
             context.report({
               node,
               messageId: 'useDefaultWithPropertyDecorator',

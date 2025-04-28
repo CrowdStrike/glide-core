@@ -20,6 +20,15 @@ declare global {
  * @attr {boolean} [disabled=false]
  *
  * @readonly
+ * @attr {string} [id]
+ *
+ * @readonly
+ * @attr {string} [role='menuitem']
+ *
+ * @readonly
+ * @attr {number} [tabindex=-1]
+ *
+ * @readonly
  * @attr {string} [version]
  *
  * @slot {Element} [icon]
@@ -54,30 +63,27 @@ export default class GlideCoreMenuButton extends LitElement {
     }
   }
 
-  // A button is considered active when it's interacted with via keyboard or hovered.
-  // Private because it's only meant to be used by Menu.
+  // On the host instead of inside the shadow DOM so screenreaders can find it when
+  // Menu uses it with `aria-activedescendant`.
+  @property({ reflect: true })
+  override readonly id: string = nanoid();
+
+  // A button is considered active when it's interacted with via keyboard or
+  // hovered. Private because it's only meant to be used internally and by Menu.
   @property({ type: Boolean })
   privateActive = false;
+
+  @property({ reflect: true })
+  override readonly role = 'menuitem';
+
+  @property({ attribute: 'tabindex', reflect: true, type: Number })
+  override readonly tabIndex = -1;
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
   override click() {
     this.#componentElementRef.value?.click();
-  }
-
-  override connectedCallback() {
-    super.connectedCallback();
-
-    // On the host instead of inside the shadow DOM so screenreaders can find this
-    // ID when it's assigned to `aria-activedescendant`.
-    this.id = this.#id;
-
-    // These two are likewise on the host due to `aria-activedescendant`. The active
-    // descendant must be the element with `role` and has to be programmatically
-    // focusable.
-    this.role = 'menuitem';
-    this.tabIndex = -1;
   }
 
   override render() {
@@ -101,14 +107,6 @@ export default class GlideCoreMenuButton extends LitElement {
   }
 
   #componentElementRef = createRef<HTMLButtonElement>();
-
-  // Established here instead of in `connectedCallback()` so the ID remains constant
-  // even if this component is removed and re-added to the DOM. If it's not constant,
-  // Menu's `aria-activedescendant` will immediately point to a non-existent ID
-  // when this component is re-added to the DOM.
-  //
-  // An edge case for sure. But one we can protect against with little effort.
-  #id = nanoid();
 
   #isDisabled = false;
 }

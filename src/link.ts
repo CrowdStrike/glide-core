@@ -16,10 +16,10 @@ declare global {
 }
 
 /**
- * @attr {string} href
  * @attr {string} label
  * @attr {boolean} [disabled=false]
  * @attr {string} [download]
+ * @attr {string} [href]
  * @attr {'_blank'|'_parent'|'_self'|'_top'} [target]
  *
  * @readonly
@@ -42,15 +42,14 @@ export default class GlideCoreLink extends LitElement {
   @required
   label?: string;
 
-  @property({ reflect: true })
-  @required
-  href?: string;
-
   @property({ reflect: true, type: Boolean })
   disabled = false;
 
   @property({ reflect: true })
   download?: string;
+
+  @property({ reflect: true })
+  href?: string;
 
   @property({ reflect: true })
   target?: '_blank' | '_parent' | '_self' | '_top';

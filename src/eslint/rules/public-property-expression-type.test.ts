@@ -38,6 +38,42 @@ ruleTester.run('public-property-type', publicPropertyExpressionType, {
     {
       code: `
         export default class {
+          id = nanoid();
+        }
+      `,
+      errors: [
+        {
+          messageId: 'addExplicitType',
+        },
+      ],
+    },
+    {
+      code: `
+        export default class {
+          disabled = true ? true : false;
+        }
+      `,
+      errors: [
+        {
+          messageId: 'addExplicitType',
+        },
+      ],
+    },
+    {
+      code: `
+        export default class {
+          disabled = true || false;
+        }
+      `,
+      errors: [
+        {
+          messageId: 'addExplicitType',
+        },
+      ],
+    },
+    {
+      code: `
+        export default class {
           version = packageJson.version;
         }
       `,

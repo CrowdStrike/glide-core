@@ -1,7 +1,7 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import GlideCoreDropdownOption from './dropdown.option.js';
 
-it('sets `aria-selected` when selected', async () => {
+it('is selected when initially selected', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -12,7 +12,7 @@ it('sets `aria-selected` when selected', async () => {
   expect(host.ariaSelected).to.equal('true');
 });
 
-it('sets `aria-selected` when unselected', async () => {
+it('is unselected when initially unselected', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
@@ -20,6 +20,29 @@ it('sets `aria-selected` when unselected', async () => {
   );
 
   expect(host.ariaSelected).to.equal('false');
+});
+
+it('is enabled when initially enabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+    ></glide-core-dropdown-option>`,
+  );
+
+  expect(host.disabled).to.be.false;
+  expect(host.ariaDisabled).to.equal('false');
+});
+
+it('is disabled when initially disabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      disabled
+    ></glide-core-dropdown-option>`,
+  );
+
+  expect(host.disabled).to.be.true;
+  expect(host.ariaDisabled).to.equal('true');
 });
 
 it('is editable', async () => {

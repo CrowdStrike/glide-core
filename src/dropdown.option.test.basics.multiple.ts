@@ -32,6 +32,37 @@ it('is unselected when initially unselected', async () => {
   expect(checkbox?.checked).to.be.false;
 });
 
+it('is enabled when initially enabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      private-multiple
+    ></glide-core-dropdown-option>`,
+  );
+
+  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+
+  expect(host.disabled).to.be.false;
+  expect(host.ariaDisabled).to.equal('false');
+  expect(checkbox?.disabled).to.be.false;
+});
+
+it('is disabled when initially disabled', async () => {
+  const host = await fixture<GlideCoreDropdownOption>(
+    html`<glide-core-dropdown-option
+      label="Label"
+      disabled
+      private-multiple
+    ></glide-core-dropdown-option>`,
+  );
+
+  const checkbox = host.shadowRoot?.querySelector('glide-core-checkbox');
+
+  expect(host.disabled).to.be.true;
+  expect(host.ariaDisabled).to.equal('true');
+  expect(checkbox?.disabled).to.be.true;
+});
+
 it('is editable', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option

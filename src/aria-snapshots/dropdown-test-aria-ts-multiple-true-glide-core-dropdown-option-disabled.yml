@@ -1,0 +1,9 @@
+- text: Label
+- button "Label" [expanded]
+- listbox:
+  - option "One" [disabled]:
+    - checkbox "One" [disabled]
+  - option "Two":
+    - checkbox "Two"
+  - option "Three":
+    - checkbox "Three"

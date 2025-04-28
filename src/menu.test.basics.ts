@@ -21,7 +21,8 @@ it('is accessible', async () => {
       <button slot="target">Target</button>
 
       <glide-core-menu-options>
-        <glide-core-menu-link label="Label"></glide-core-menu-link>
+        <glide-core-menu-button label="Label"></glide-core-menu-button>
+        <glide-core-menu-link label="Label" url="/"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );

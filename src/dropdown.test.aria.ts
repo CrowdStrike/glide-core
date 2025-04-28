@@ -141,6 +141,28 @@ test.describe('multiple=${true}', () => {
     });
   });
 
+  test('<glide-core-dropdown-option>.disabled', async ({ page }, test) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, GlideCoreDropdown>((element) => {
+        element.multiple = true;
+        element.open = true;
+      });
+
+    await page
+      .locator('glide-core-dropdown-option')
+      .first()
+      .evaluate<void, GlideCoreDropdownOption>((element) => {
+        element.disabled = true;
+      });
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot({
+      name: `${test.titlePath.join('.')}.yml`,
+    });
+  });
+
   test('<glide-core-dropdown-option>.editable', async ({ page }, test) => {
     await page.goto('?id=dropdown--dropdown');
 
@@ -208,6 +230,27 @@ test.describe('multiple=${false}', () => {
       .first()
       .evaluate<void, GlideCoreDropdownOption>((element) => {
         element.count = 1000;
+      });
+
+    await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot({
+      name: `${test.titlePath.join('.')}.yml`,
+    });
+  });
+
+  test('<glide-core-dropdown-option>.disabled', async ({ page }, test) => {
+    await page.goto('?id=dropdown--dropdown');
+
+    await page
+      .locator('glide-core-dropdown')
+      .evaluate<void, GlideCoreDropdown>((element) => {
+        element.open = true;
+      });
+
+    await page
+      .locator('glide-core-dropdown-option')
+      .first()
+      .evaluate<void, GlideCoreDropdownOption>((element) => {
+        element.disabled = true;
       });
 
     await expect(page.locator('glide-core-dropdown')).toMatchAriaSnapshot({
