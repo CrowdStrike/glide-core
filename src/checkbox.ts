@@ -33,7 +33,7 @@ declare global {
  * @attr {boolean} [required=false]
  * @attr {string} [summary]
  * @attr {string} [tooltip]
- * @attr {string} [value]
+ * @attr {string} [value='']
  *
  * @readonly
  * @attr {string} [version]
@@ -197,7 +197,7 @@ export default class GlideCoreCheckbox
   tooltip?: string;
 
   /**
-   * @default undefined
+   * @default ''
    */
   @property({ reflect: true })
   get value(): string {
