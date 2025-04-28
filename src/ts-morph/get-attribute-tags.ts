@@ -67,7 +67,7 @@ export default (
         const currentAttributeHasReadOnly =
           'readonly' in attribute && attribute.readonly;
 
-        // Private attribute are excluded from JSDoc comments. So we're only
+        // Private attributes are excluded from JSDoc comments. So we're only
         // interested in whether the next attribute that's public is read-only.
         // If it is, then we don't need to put a new line after it because it'll
         // write one for itself via `leadingTrivia()`.
