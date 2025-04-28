@@ -3,12 +3,12 @@ import './menu.button.js';
 import './menu.link.js';
 import './split-button.js';
 import './split-button.primary-button.js';
-import './split-button.primary-link.js';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
+import GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
 import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
 
 const meta: Meta = {
@@ -49,11 +49,33 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-split-button')
       ?.addEventListener('click', (event: Event) => {
-        const isMenuLink =
+        const menuLink =
           event.target instanceof Element &&
           event.target.closest('glide-core-menu-link');
 
-        if (isMenuLink && window.top) {
+        // If the URL is anything but `/`, then the user has changed the URL and wants
+        // to navigate to it.
+        if (menuLink && menuLink.href === '/' && window.top) {
+          event.preventDefault();
+
+          // The Storybook user expects to navigate when the link is clicked but
+          // doesn't expect to be redirected to the first story. So we refresh the
+          // page to give the impression of a navigation while keeping the user
+          // on the same page.
+          window.top.location.reload();
+        }
+      });
+
+    context.canvasElement
+      .querySelector('glide-core-split-button-primary-link')
+      ?.addEventListener('click', (event: Event) => {
+        // If the URL is anything but `/`, then the user has changed the URL and wants
+        // to navigate to it.
+        if (
+          event.target instanceof GlideCoreSplitButtonPrimaryLink &&
+          event.target.href === '/' &&
+          window.top
+        ) {
           event.preventDefault();
 
           // The Storybook user expects to navigate when the link is clicked but
@@ -117,7 +139,7 @@ const meta: Meta = {
         >
           <glide-core-menu-button label="One"></glide-core-menu-button>
           <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" url="/"></glide-core-menu-link>
+          <glide-core-menu-link label="Three" href="/"></glide-core-menu-link>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>
     `;
@@ -136,8 +158,8 @@ const meta: Meta = {
     '<glide-core-split-button-primary-button>.version': '',
     '<glide-core-split-button-primary-link>.label': 'Label',
     '<glide-core-split-button-primary-link>.disabled': false,
+    '<glide-core-split-button-primary-link>.href': '/',
     '<glide-core-split-button-primary-link>[slot="icon"]': '',
-    '<glide-core-split-button-primary-link>.url': '/',
     '<glide-core-split-button-primary-link>.version': '',
     '<glide-core-split-button-secondary-button>.label': 'Label',
     '<glide-core-split-button-secondary-button>[slot="default"]': '',
@@ -257,20 +279,20 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
+    '<glide-core-split-button-primary-link>.href': {
+      name: 'href',
+      type: { name: 'string' },
+      table: {
+        category: 'Split Button Primary Link',
+        type: { summary: 'string' },
+      },
+    },
     '<glide-core-split-button-primary-link>[slot="icon"]': {
       name: 'slot="icon"',
       control: false,
       table: {
         category: 'Split Button Primary Link',
         type: { summary: 'Element' },
-      },
-    },
-    '<glide-core-split-button-primary-link>.url': {
-      name: 'url',
-      type: { name: 'string', required: true },
-      table: {
-        category: 'Split Button Primary Link',
-        type: { summary: 'string' },
       },
     },
     '<glide-core-split-button-primary-link>.version': {
@@ -398,7 +420,7 @@ export const WithIcon: StoryObj = {
         >
           <glide-core-menu-button label="One"></glide-core-menu-button>
           <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" url="/"></glide-core-menu-link>
+          <glide-core-menu-link label="Three" href="/"></glide-core-menu-link>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>
     `;
@@ -416,7 +438,7 @@ export const WithPrimaryLink: StoryObj = {
       >
         <glide-core-split-button-primary-link
           label=${arguments_['<glide-core-split-button-primary-link>.label']}
-          url=${arguments_['<glide-core-split-button-primary-link>.url']}
+          href=${arguments_['<glide-core-split-button-primary-link>.href']}
           ?disabled=${arguments_[
             '<glide-core-split-button-primary-link>.disabled'
           ]}
@@ -444,7 +466,7 @@ export const WithPrimaryLink: StoryObj = {
         >
           <glide-core-menu-button label="One"></glide-core-menu-button>
           <glide-core-menu-button label="Two"></glide-core-menu-button>
-          <glide-core-menu-link label="Three" url="/"></glide-core-menu-link>
+          <glide-core-menu-link label="Three" href="/"></glide-core-menu-link>
         </glide-core-split-button-secondary-button>
       </glide-core-split-button>
     `;

@@ -4832,11 +4832,11 @@
             },
             {
               "kind": "field",
-              "name": "url",
+              "name": "href",
               "type": {
                 "text": "string | undefined"
               },
-              "attribute": "url",
+              "attribute": "href",
               "reflects": true
             },
             {
@@ -4921,11 +4921,11 @@
               "fieldName": "disabled"
             },
             {
-              "name": "url",
+              "name": "href",
               "type": {
                 "text": "string | undefined"
               },
-              "fieldName": "url"
+              "fieldName": "href"
             },
             {
               "name": "id",
@@ -6833,6 +6833,15 @@
             },
             {
               "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string | undefined"
+              },
+              "attribute": "href",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "privateSize",
               "type": {
                 "text": "'large' | 'small'"
@@ -6848,15 +6857,6 @@
               },
               "default": "'primary'",
               "attribute": "privateVariant"
-            },
-            {
-              "kind": "field",
-              "name": "url",
-              "type": {
-                "text": "string | undefined"
-              },
-              "attribute": "url",
-              "reflects": true
             },
             {
               "kind": "field",
@@ -6887,6 +6887,13 @@
               "fieldName": "disabled"
             },
             {
+              "name": "href",
+              "type": {
+                "text": "string | undefined"
+              },
+              "fieldName": "href"
+            },
+            {
               "name": "privateSize",
               "type": {
                 "text": "'large' | 'small'"
@@ -6901,13 +6908,6 @@
               },
               "default": "'primary'",
               "fieldName": "privateVariant"
-            },
-            {
-              "name": "url",
-              "type": {
-                "text": "string | undefined"
-              },
-              "fieldName": "url"
             },
             {
               "name": "version",

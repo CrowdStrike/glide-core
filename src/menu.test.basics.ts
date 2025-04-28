@@ -22,7 +22,7 @@ it('is accessible', async () => {
 
       <glide-core-menu-options>
         <glide-core-menu-button label="Label"></glide-core-menu-button>
-        <glide-core-menu-link label="Label" url="/"></glide-core-menu-link>
+        <glide-core-menu-link label="Label" href="/"></glide-core-menu-link>
       </glide-core-menu-options>
     </glide-core-menu>`,
   );

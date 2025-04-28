@@ -275,13 +275,13 @@ export default class GlideCoreTooltip extends LitElement {
           <slot
             class="target-slot"
             data-test="target-slot"
+            name="target"
             @focusin=${this.#onTargetSlotFocusin}
             @focusout=${this.#onTargetSlotFocusout}
             @keydown=${this.#onTargetSlotKeydown}
             @slotchange=${this.#onTargetSlotChange}
             ${assertSlot()}
             ${ref(this.#targetSlotElementRef)}
-            name="target"
           >
             <!--
               The element to which the tooltip will anchor.

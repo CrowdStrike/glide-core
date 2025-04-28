@@ -56,7 +56,7 @@ const meta: Meta = {
     '<glide-core-menu-button>.version': '',
     '<glide-core-menu-link>.label': 'Three',
     '<glide-core-menu-link>.disabled': false,
-    '<glide-core-menu-link>.url': '/',
+    '<glide-core-menu-link>.href': '/',
     '<glide-core-menu-link>.version': '',
   },
   argTypes: {
@@ -204,8 +204,8 @@ const meta: Meta = {
         type: { summary: 'boolean' },
       },
     },
-    '<glide-core-menu-link>.url': {
-      name: 'url',
+    '<glide-core-menu-link>.href': {
+      name: 'href',
       table: {
         category: 'Menu Link',
         type: { summary: 'string' },
@@ -240,11 +240,13 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-menu')
       ?.addEventListener('click', (event: Event) => {
-        const link =
+        const menuLink =
           event.target instanceof Element &&
           event.target.closest('glide-core-menu-link');
 
-        if (link && link.url === '/' && window.top) {
+        // If the URL is anything but `/`, then the user has changed the URL and wants
+        // to navigate to it.
+        if (menuLink && menuLink.href === '/' && window.top) {
           event.preventDefault();
 
           // The Storybook user expects to navigate when the link is clicked but
@@ -274,7 +276,7 @@ const meta: Meta = {
         <glide-core-menu-button label="Two"></glide-core-menu-button>
         <glide-core-menu-link
           label=${arguments_['<glide-core-menu-link>.label']}
-          url=${arguments_['<glide-core-menu-link>.url']}
+          href=${arguments_['<glide-core-menu-link>.href']}
           ?disabled=${arguments_['<glide-core-menu-link>.disabled']}
         ></glide-core-menu-link>
       </glide-core-menu-options>
@@ -320,7 +322,7 @@ export const WithIcons: StoryObj = {
 
         <glide-core-menu-link
           label="Share"
-          url="/"
+          href="/"
           ?disabled=${arguments_['<glide-core-menu-link>.disabled']}
         >
           <glide-core-example-icon
