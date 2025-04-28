@@ -17,7 +17,7 @@ declare global {
  * @attr {string} label
  * @attr {boolean} [checked=false]
  * @attr {boolean} [disabled=false]
- * @attr {string} [value]
+ * @attr {string} [value='']
  *
  * @readonly
  * @attr {string} [version]
@@ -133,7 +133,7 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   }
 
   /**
-   * @default undefined
+   * @default ''
    */
   @property()
   get value(): string {

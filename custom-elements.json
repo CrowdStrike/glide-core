@@ -1518,7 +1518,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "undefined",
+              "default": "''",
               "attribute": "value",
               "reflects": true
             },
@@ -1833,7 +1833,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "undefined",
+              "default": "''",
               "fieldName": "value"
             },
             {
@@ -5776,7 +5776,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "undefined",
+              "default": "''",
               "attribute": "value"
             },
             {
@@ -5861,7 +5861,7 @@
               "type": {
                 "text": "string"
               },
-              "default": "undefined",
+              "default": "''",
               "fieldName": "value"
             },
             {
