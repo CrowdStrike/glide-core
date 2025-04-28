@@ -13,6 +13,5 @@
   "editOption": "編集オプション：{label}",
   "editTag": "タグの編集：{label}",
   "removeTag": "タグの削除：{label}",
-  "itemCount": "{count}件",
-  "closeInlineAlert": "{variant}アラートを閉じる"
+  "itemCount": "{count}件"
 }

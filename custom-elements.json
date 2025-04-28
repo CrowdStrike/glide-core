@@ -3446,16 +3446,6 @@
             },
             {
               "kind": "field",
-              "name": "removable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "removable",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "version",
               "type": {
                 "text": "string"
@@ -3463,18 +3453,6 @@
               "readonly": true,
               "attribute": "version",
               "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "focus"
-            }
-          ],
-          "events": [
-            {
-              "name": "remove",
-              "type": {
-                "text": "Event"
-              }
             }
           ],
           "attributes": [
@@ -3485,14 +3463,6 @@
               },
               "default": "'informational'",
               "fieldName": "variant"
-            },
-            {
-              "name": "removable",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "removable"
             },
             {
               "name": "version",
