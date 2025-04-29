@@ -4,14 +4,6 @@
 
 `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
 
-## Spacing
-
-```diff
-+ --glide-core-spacing-drop-menu-color-palette-square: 1.5rem;
-+ --glide-core-spacing-drop-menu-header-height: 2.25rem;
-+ --glide-core-spacing-drop-menu-footer-height: 2.25rem;
-```
-
 ## Colors (Light)
 
 ```diff
