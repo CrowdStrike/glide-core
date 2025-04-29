@@ -1,14 +1,10 @@
-import './icon-button.js';
 import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import { styleMap } from 'lit/directives/style-map.js';
-import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
-import { LocalizeController } from './library/localize.js';
 import styles from './inline-alert.styles.js';
-import xIcon from './icons/x.js';
 import severityInformationalIcon from './icons/severity-informational.js';
 import severityMediumIcon from './icons/severity-medium.js';
 import severityCriticalIcon from './icons/severity-critical.js';
@@ -23,15 +19,12 @@ declare global {
 }
 
 /**
- * @attr {boolean} [removable=false]
  * @attr {'informational'|'medium'|'high'|'critical'} [variant='informational']
  *
  * @readonly
  * @attr {string} [version]
  *
  * @slot {Element | string} - The content of the alert
- *
- * @fires {Event} remove
  */
 @customElement('glide-core-inline-alert')
 @final
@@ -46,9 +39,6 @@ export default class GlideCoreInlineAlert extends LitElement {
   @property({ reflect: true, useDefault: true })
   variant: 'informational' | 'medium' | 'high' | 'critical' = 'informational';
 
-  @property({ reflect: true, type: Boolean })
-  removable? = false;
-
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
@@ -60,10 +50,6 @@ export default class GlideCoreInlineAlert extends LitElement {
       },
       { once: true },
     );
-  }
-
-  override focus() {
-    this.#removalButtonElementRef.value?.focus();
   }
 
   override render() {
@@ -99,22 +85,6 @@ export default class GlideCoreInlineAlert extends LitElement {
             -->
           </slot>
         </div>
-
-        ${when(
-          this.removable,
-          () =>
-            html`<glide-core-icon-button
-              label=${this.#localize.term('closeInlineAlert', this.variant)}
-              variant="tertiary"
-              class="removal-button"
-              data-test="removal-button"
-              @click=${this.#onRemovalButtonClick}
-              @keydown=${this.#onRemovalButtonKeydown}
-              ${ref(this.#removalButtonElementRef)}
-            >
-              ${xIcon}
-            </glide-core-icon-button>`,
-        )}
       </div>
     `;
   }
@@ -122,44 +92,6 @@ export default class GlideCoreInlineAlert extends LitElement {
   #animationDuration = 100;
 
   #componentElementRef = createRef<HTMLElement>();
-
-  #isKeyboardClick = false;
-
-  #localize = new LocalizeController(this);
-
-  #removalButtonElementRef = createRef<HTMLButtonElement>();
-
-  #onRemovalButtonClick() {
-    if (this.#isKeyboardClick) {
-      this.#isKeyboardClick = false;
-    } else {
-      setTimeout(() => {
-        this.remove();
-      }, this.#animationDuration);
-
-      this.#componentElementRef.value?.classList.add('removed');
-
-      this.dispatchEvent(
-        new Event('remove', { bubbles: true, composed: true }),
-      );
-    }
-  }
-
-  #onRemovalButtonKeydown(event: KeyboardEvent) {
-    if (['Enter', ' '].includes(event.key)) {
-      this.#isKeyboardClick = true;
-
-      setTimeout(() => {
-        this.remove();
-      }, this.#animationDuration);
-
-      this.#componentElementRef.value?.classList.add('removed');
-
-      this.dispatchEvent(
-        new Event('remove', { bubbles: true, composed: true }),
-      );
-    }
-  }
 }
 
 const icons = {

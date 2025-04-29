@@ -31,7 +31,6 @@ const translation: Translation = {
   editTag: (label: string) => `Edit tag: ${label}`,
   removeTag: (label: string) => `Remove tag: ${label}`,
   itemCount: (count: string) => `${count} items`,
-  closeInlineAlert: (variant: string) => `Close ${variant} alert`,
 };
 
 export default translation;

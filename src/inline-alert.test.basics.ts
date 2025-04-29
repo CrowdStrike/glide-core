@@ -37,11 +37,6 @@ it('is accessible', async () => {
   await animation.finished;
 
   await expect(host).to.be.accessible();
-
-  host.removable = true;
-  await host.updateComplete;
-
-  await expect(host).to.be.accessible();
 });
 
 it('throws when subclassed', async () => {

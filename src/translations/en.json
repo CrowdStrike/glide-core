@@ -19,6 +19,5 @@
   "editOption": "Edit option: {label}",
   "editTag": "Edit tag: {label}",
   "removeTag": "Remove tag: {label}",
-  "itemCount": "{count} items",
-  "closeInlineAlert": "Close {variant} alert"
+  "itemCount": "{count} items"
 }
