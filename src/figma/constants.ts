@@ -21,6 +21,8 @@ export const extendedVariables = [
   'Color/Checkbox/Surface/background-selected--default',
   'Color/Dialog and Modal/Surface/container',
   'Color/Radio/Icon/default--disabled',
+  'Color/Skeleton Loader/Surface/linear-gradient-middle',
+  'Color/Skeleton Loader/Surface/linear-gradient-sides',
   'Color/Tabs/Stroke/underline',
   'Color/Template/Surface/container-detail',
   'Color/Tooltip/Surface/container',

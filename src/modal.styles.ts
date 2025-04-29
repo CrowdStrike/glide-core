@@ -134,15 +134,15 @@ export default [
       display: flex;
 
       &.informational {
-        color: var(--glide-core-color-info-icon-default);
+        color: var(--glide-core-color-advisory-icon-info);
       }
 
       &.medium {
-        color: var(--glide-core-color-attention-icon-default);
+        color: var(--glide-core-color-advisory-icon-attention);
       }
 
       &.critical {
-        color: var(--glide-core-color-error-icon-default);
+        color: var(--glide-core-color-advisory-icon-error);
       }
     }
 

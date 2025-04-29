@@ -51,15 +51,21 @@ export default [
       transform: translateX(calc(100% + var(--private-toasts-padding)));
 
       &.error {
-        background-color: var(--glide-core-color-error-surface-container);
+        background-color: var(
+          --glide-core-color-advisory-surface-error-container
+        );
       }
 
       &.informational {
-        background-color: var(--glide-core-color-info-surface-container);
+        background-color: var(
+          --glide-core-color-advisory-surface-info-container
+        );
       }
 
       &.success {
-        background-color: var(--glide-core-color-success-surface-container);
+        background-color: var(
+          --glide-core-color-advisory-surface-success-container
+        );
       }
 
       &.show {
@@ -94,15 +100,15 @@ export default [
       inline-size: 1.25rem;
 
       &.informational {
-        color: var(--glide-core-color-info-icon-default);
+        color: var(--glide-core-color-advisory-icon-info);
       }
 
       &.success {
-        color: var(--glide-core-color-success-icon-default);
+        color: var(--glide-core-color-advisory-icon-success);
       }
 
       &.error {
-        color: var(--glide-core-color-error-icon-default);
+        color: var(--glide-core-color-advisory-icon-error);
       }
     }
 
