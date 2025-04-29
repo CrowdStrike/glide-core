@@ -643,6 +643,16 @@
             },
             {
               "kind": "field",
+              "name": "ariaDescription",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "attribute": "aria-description",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "disabled",
               "type": {
                 "text": "boolean"
@@ -741,6 +751,14 @@
               },
               "fieldName": "label",
               "required": true
+            },
+            {
+              "name": "aria-description",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "fieldName": "ariaDescription"
             },
             {
               "name": "disabled",
@@ -3302,6 +3320,16 @@
             },
             {
               "kind": "field",
+              "name": "ariaDescription",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "attribute": "aria-description",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "ariaExpanded",
               "type": {
                 "text": "'true' | 'false' | null"
@@ -3372,6 +3400,14 @@
               },
               "default": "null",
               "fieldName": "ariaControls"
+            },
+            {
+              "name": "aria-description",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "fieldName": "ariaDescription"
             },
             {
               "name": "aria-expanded",
@@ -5048,12 +5084,53 @@
             },
             {
               "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "privateLoading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "privateLoading"
+            },
+            {
+              "kind": "field",
               "name": "privateSize",
               "type": {
                 "text": "'large' | 'small'"
               },
               "default": "'large'",
               "attribute": "privateSize"
+            },
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'menu'",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tabIndex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "attribute": "tabindex",
+              "reflects": true
             },
             {
               "kind": "field",
@@ -5092,12 +5169,46 @@
               "fieldName": "ariaLabelledby"
             },
             {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "fieldName": "id"
+            },
+            {
+              "name": "privateLoading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "privateLoading"
+            },
+            {
               "name": "privateSize",
               "type": {
                 "text": "'large' | 'small'"
               },
               "default": "'large'",
               "fieldName": "privateSize"
+            },
+            {
+              "name": "role",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true,
+              "default": "'menu'",
+              "fieldName": "role"
+            },
+            {
+              "name": "tabindex",
+              "type": {
+                "text": "number"
+              },
+              "readonly": true,
+              "default": "-1",
+              "fieldName": "tabIndex"
             },
             {
               "name": "version",
@@ -5213,6 +5324,16 @@
             },
             {
               "kind": "field",
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "loading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
               "name": "offset",
               "type": {
                 "text": "number"
@@ -5271,6 +5392,14 @@
             }
           ],
           "attributes": [
+            {
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "loading"
+            },
             {
               "name": "offset",
               "type": {

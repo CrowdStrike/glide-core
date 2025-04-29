@@ -783,7 +783,7 @@ export default class GlideCoreDropdown
                   aria-controls="options"
                   aria-describedby="description"
                   aria-expanded=${this.open && !this.disabled}
-                  aria-labelledby="selected-option-labels label loading ${this
+                  aria-labelledby="selected-option-labels label loading-feedback ${this
                     .isCommunicateItemCountToScreenreaders
                     ? 'item-count'
                     : ''}"
@@ -924,7 +924,7 @@ export default class GlideCoreDropdown
                 aria-expanded=${this.open && !this.disabled}
                 aria-haspopup="listbox"
                 aria-hidden=${this.filterable || this.isFilterable}
-                aria-labelledby="selected-option-labels label loading"
+                aria-labelledby="selected-option-labels label loading-feedback"
                 class="primary-button"
                 data-test="primary-button"
                 id="primary-button"
@@ -1009,11 +1009,11 @@ export default class GlideCoreDropdown
             ${when(this.loading, () => {
               return html`<div
                 aria-label=${this.#localize.term('loading')}
-                class="loading"
-                data-test="loading"
-                id="loading"
+                class="loading-feedback"
+                data-test="loading-feedback"
+                id="loading-feedback"
               >
-                ${map(range(7), () => html`<div class="bone"></div>`)}
+                ${map(range(7), () => html`<div></div>`)}
               </div>`;
             })}
             ${when(this.isNoResults && !this.loading, () => {

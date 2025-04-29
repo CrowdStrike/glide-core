@@ -14,8 +14,14 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const host = await fixture(
-    html`<glide-core-button label="Label"></glide-core-button>`,
+    html`<glide-core-button
+      aria-description="Description"
+      label="Label"
+    ></glide-core-button>`,
   );
+
+  const button = host.shadowRoot?.querySelector('[data-test="button"]');
+  expect(button?.ariaDescription).to.equal('Description');
 
   await expect(host).to.be.accessible();
 });

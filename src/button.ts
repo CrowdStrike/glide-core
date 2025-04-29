@@ -17,6 +17,7 @@ declare global {
 
 /**
  * @attr {string} label
+ * @attr {string|null} [aria-description=null]
  * @attr {boolean} [disabled=false]
  * @attr {string} [name='']
  * @attr {'large'|'small'} [size='large']
@@ -51,6 +52,25 @@ export default class GlideCoreButton extends LitElement {
   @required
   label?: string;
 
+  // A getter and setter because Lit Analzyer doesn't recognize "aria-description"
+  // as a valid attribute on the `<button>` and doesn't provide a way to selectively
+  // disable rules.
+  /**
+   * @default null
+   */
+  @property({ attribute: 'aria-description', reflect: true })
+  override get ariaDescription(): string | null {
+    return this.#ariaDescription;
+  }
+
+  override set ariaDescription(description: string | null) {
+    this.#ariaDescription = description;
+
+    if (this.#buttonElementRef.value) {
+      this.#buttonElementRef.value.ariaDescription = description;
+    }
+  }
+
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
@@ -83,6 +103,12 @@ export default class GlideCoreButton extends LitElement {
     this.#buttonElementRef.value?.click();
   }
 
+  override firstUpdated() {
+    if (this.#buttonElementRef.value && this.ariaDescription) {
+      this.#buttonElementRef.value.ariaDescription = this.ariaDescription;
+    }
+  }
+
   override render() {
     return html`<glide-core-tooltip
       label=${this.tooltip ?? ''}
@@ -101,6 +127,7 @@ export default class GlideCoreButton extends LitElement {
           'prefix-icon': this.hasPrefixIcon,
           'suffix-icon': this.hasSuffixIcon,
         })}
+        data-test="button"
         slot="target"
         @click=${this.#onClick}
         ${ref(this.#buttonElementRef)}
@@ -142,6 +169,8 @@ export default class GlideCoreButton extends LitElement {
 
   @state()
   private hasSuffixIcon = false;
+
+  #ariaDescription: string | null = null;
 
   #buttonElementRef = createRef<HTMLButtonElement>();
 

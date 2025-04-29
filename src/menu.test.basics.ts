@@ -31,30 +31,11 @@ it('is accessible', async () => {
   const options = host.querySelector('glide-core-menu-options');
 
   expect(target?.getAttribute('aria-controls')).to.equal(options?.id);
-  expect(target?.getAttribute('aria-haspopup')).to.equal('true');
-  expect(options?.ariaLabelledby).to.equal(target?.id);
-  await expect(host).to.be.accessible();
-});
-
-it('sets accessibility attributes', async () => {
-  const host = await fixture(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Label"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  const target = host.querySelector('button');
-  const options = host.querySelector('glide-core-menu-options');
-
-  expect(target?.getAttribute('aria-expanded')).to.equal('false');
-  expect(target?.getAttribute('aria-haspopup')).to.equal('true');
   expect(target?.ariaExpanded).to.equal('false');
   expect(target?.ariaHasPopup).to.equal('true');
   expect(options?.ariaLabelledby).to.equal(target?.id);
+
+  await expect(host).to.be.accessible();
 });
 
 it('can be open', async () => {
@@ -169,6 +150,30 @@ it('adds `tabIndex` to its target when it is a `<span>`', async () => {
 
   const target = host.querySelector('span');
   expect(target?.tabIndex).to.equal(0);
+});
+
+it('shows loading feedback', async () => {
+  const host = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu loading open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const target = host.querySelector('button');
+
+  const feedback = host
+    ?.querySelector('glide-core-menu-options')
+    ?.shadowRoot?.querySelector('[data-test="loading-feedback"]');
+
+  expect(target?.ariaDescription).to.equal('Loading');
+  expect(feedback?.checkVisibility()).to.be.true;
 });
 
 it('throws when subclassed', async () => {

@@ -2,6 +2,9 @@ import { html, LitElement } from 'lit';
 import { classMap } from 'lit/directives/class-map.js';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
+import { map } from 'lit/directives/map.js';
+import { when } from 'lit/directives/when.js';
+import { range } from 'lit/directives/range.js';
 import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreMenuButton from './menu.button.js';
 import GlideCoreMenuLink from './menu.link.js';
@@ -34,6 +37,15 @@ declare global {
  * @attr {string} [aria-labelledby='']
  *
  * @readonly
+ * @attr {string} [id]
+ *
+ * @readonly
+ * @attr {string} [role='menu']
+ *
+ * @readonly
+ * @attr {number} [tabindex=-1]
+ *
+ * @readonly
  * @attr {string} [version]
  *
  * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
@@ -58,25 +70,25 @@ export default class GlideCoreMenuOptions extends LitElement {
   @property({ attribute: 'aria-labelledby', reflect: true, useDefault: true })
   ariaLabelledby = '';
 
+  // On the host instead of inside the shadow DOM so screenreaders can find it
+  // when Menu uses it with `aria-activedescendant`.
+  @property({ reflect: true })
+  override readonly id: string = nanoid();
+
+  @property({ type: Boolean })
+  privateLoading = false;
+
   @property()
   privateSize: 'large' | 'small' = 'large';
 
   @property({ reflect: true })
+  override readonly role = 'menu';
+
+  @property({ attribute: 'tabindex', reflect: true, type: Number })
+  override readonly tabIndex = -1;
+
+  @property({ reflect: true })
   readonly version: string = packageJson.version;
-
-  override connectedCallback() {
-    super.connectedCallback();
-
-    // On the host instead of inside the shadow DOM so screenreaders can find this
-    // ID when it's assigned to `aria-controls` by the target.
-    this.id = this.#id;
-
-    // These two are likewise on the host due to `aria-controls`. The controlled
-    // element must be the one with `role="menu"` and has to be programmatically
-    // focusable.
-    this.role = 'menu';
-    this.tabIndex = -1;
-  }
 
   override render() {
     return html`<div
@@ -88,21 +100,23 @@ export default class GlideCoreMenuOptions extends LitElement {
       role="none"
     >
       <slot
+        class=${classMap({
+          'default-slot': true,
+          loading: this.privateLoading,
+        })}
         ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink, Text])}
         @slotchange=${this.#onSlotChange}
       >
         <!-- @type {GlideCoreMenuButton | GlideCoreMenuLink} -->
       </slot>
+
+      ${when(this.privateLoading, () => {
+        return html`<div class="loading-feedback" data-test="loading-feedback">
+          ${map(range(7), () => html`<div></div>`)}
+        </div>`;
+      })}
     </div>`;
   }
-
-  // Established here instead of in `connectedCallback()` so the ID remains constant
-  // even if this component is removed and re-added to the DOM. If it's not constant,
-  // Menu's `aria-activedescendant` will immediately point to a non-existent ID
-  // when this component is re-added to the DOM.
-  //
-  // An edge case for sure. But one we can protect against with little effort.
-  #id = nanoid();
 
   #onSlotChange() {
     this.dispatchEvent(new Event('private-slot-change', { bubbles: true }));

@@ -9,6 +9,21 @@ for (const story of stories.Menu) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
+        test('loading', async ({ page }, test) => {
+          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
+
+          await page
+            .locator('glide-core-menu')
+            .evaluate<void, GlideCoreMenu>((element) => {
+              element.loading = true;
+              element.open = true;
+            });
+
+          await expect(page).toHaveScreenshot(
+            `${test.titlePath.join('.')}.png`,
+          );
+        });
+
         test('offset', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
