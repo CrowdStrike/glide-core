@@ -19,6 +19,7 @@ declare global {
 /**
  * @attr {string} label
  * @attr {boolean} [disabled=false]
+ * @attr {string} [href]
  *
  * @readonly
  * @attr {string} [id]
@@ -28,8 +29,6 @@ declare global {
  *
  * @readonly
  * @attr {number} [tabindex=-1]
- *
- * @attr {string} [url]
  *
  * @readonly
  * @attr {string} [version]
@@ -67,7 +66,7 @@ export default class GlideCoreMenuLink extends LitElement {
   }
 
   @property({ reflect: true })
-  url?: string;
+  href?: string;
 
   // On the host instead of inside the shadow DOM so screenreaders can find it when
   // Menu uses it with `aria-activedescendant`.
@@ -111,7 +110,7 @@ export default class GlideCoreMenuLink extends LitElement {
         disabled: this.disabled,
       })}
       data-test="component"
-      href=${ifDefined(this.url)}
+      href=${ifDefined(this.href)}
       @click=${this.#onClick}
       ${ref(this.#componentElementRef)}
     >

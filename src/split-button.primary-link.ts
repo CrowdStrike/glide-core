@@ -17,7 +17,7 @@ declare global {
 /**
  * @attr {string} label
  * @attr {boolean} [disabled=false]
- * @attr {string} [url]
+ * @attr {string} [href]
  *
  * @readonly
  * @attr {string} [version]
@@ -42,14 +42,14 @@ export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
   @property({ reflect: true, type: Boolean })
   disabled = false;
 
+  @property({ reflect: true })
+  href?: string;
+
   @property()
   privateSize: 'large' | 'small' = 'large';
 
   @property()
   privateVariant: 'primary' | 'secondary' = 'primary';
-
-  @property({ reflect: true })
-  url?: string;
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
@@ -84,7 +84,7 @@ export default class GlideCoreSplitButtonPrimaryLink extends LitElement {
         [this.privateSize]: true,
       })}
       data-test="component"
-      href=${ifDefined(this.url)}
+      href=${ifDefined(this.href)}
     >
       <slot name="icon">
         <!-- @type {Element} -->

@@ -16,7 +16,7 @@ it('is accessible', async () => {
   const host = await fixture<GlideCoreSplitButtonPrimaryLink>(html`
     <glide-core-split-button-primary-link
       label="Label"
-      url="/"
+      href="/"
     ></glide-core-split-button-primary-link>
   `);
 

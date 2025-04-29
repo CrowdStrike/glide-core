@@ -51,9 +51,9 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-link
+        label=${arguments_.label || nothing}
         download=${arguments_.download || nothing}
         href=${arguments_.href || nothing}
-        label=${arguments_.label || nothing}
         target=${arguments_.target || nothing}
         ?disabled=${arguments_.disabled || nothing}
       ></glide-core-link>
