@@ -5,6 +5,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
 import GlideCoreMenuButton from './menu.button.js';
+import { LocalizeController } from './library/localize.js';
 import GlideCoreMenuLink from './menu.link.js';
 import GlideCoreMenuOptions from './menu.options.js';
 import assertSlot from './library/assert-slot.js';
@@ -19,6 +20,7 @@ declare global {
 }
 
 /**
+ * @attr {boolean} [loading=false]
  * @attr {number} [offset=4]
  * @attr {boolean} [open=false]
  * @attr {'bottom'|'left'|'right'|'top'|'bottom-start'|'bottom-end'|'left-start'|'left-end'|'right-start'|'right-end'|'top-start'|'top-end'} [placement='bottom-start']
@@ -41,6 +43,28 @@ export default class GlideCoreMenu extends LitElement {
   };
 
   static override styles = styles;
+
+  /**
+   * @default false
+   */
+  @property({ reflect: true, type: Boolean })
+  get loading(): boolean {
+    return this.#isLoading;
+  }
+
+  set loading(isLoading: boolean) {
+    this.#isLoading = isLoading;
+
+    const options = this.querySelector('glide-core-menu-options');
+
+    if (options && this.#targetElement) {
+      options.privateLoading = isLoading;
+
+      this.#targetElement.ariaDescription = isLoading
+        ? this.#localize.term('loading')
+        : null;
+    }
+  }
 
   /**
    * @default 4
@@ -157,6 +181,16 @@ export default class GlideCoreMenu extends LitElement {
   }
 
   override firstUpdated() {
+    const options = this.querySelector('glide-core-menu-options');
+
+    if (options && this.#targetElement) {
+      options.privateLoading = this.loading;
+
+      this.#targetElement.ariaDescription = this.loading
+        ? this.#localize.term('loading')
+        : null;
+    }
+
     if (this.#defaultSlotElementRef.value) {
       // `popover` is used so the options can break out of Modal or another container
       // that has `overflow: hidden`. And elements with `popover` are positioned
@@ -263,9 +297,13 @@ export default class GlideCoreMenu extends LitElement {
 
   #isDefaultSlotClick = false;
 
+  #isLoading = false;
+
   #isOpen = false;
 
   #isTargetSlotMouseUp = false;
+
+  #localize = new LocalizeController(this);
 
   #offset: number | undefined;
 

@@ -44,7 +44,7 @@ it('can be open', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
-it('can be loading', async () => {
+it('shows loading feedback', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" loading open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -54,8 +54,11 @@ it('can be loading', async () => {
   // Wait for Floating UI.
   await aTimeout(0);
 
-  const loading = host.shadowRoot?.querySelector('[data-test="loading"]');
-  expect(loading?.checkVisibility()).to.be.true;
+  const feedback = host.shadowRoot?.querySelector(
+    '[data-test="loading-feedback"]',
+  );
+
+  expect(feedback?.checkVisibility()).to.be.true;
 });
 
 it('selects options when `value` is set initially', async () => {

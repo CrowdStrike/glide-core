@@ -19,6 +19,7 @@ declare global {
 /**
  * @attr {string} label - For screenreaders
  * @attr {string|null} [aria-controls=null]
+ * @attr {string|null} [aria-description=null]
  * @attr {'true'|'false'|null} [aria-expanded=null]
  * @attr {'true'|'false'|'menu'|'listbox'|'tree'|'grid'|'dialog'|null} [aria-haspopup=null]
  * @attr {boolean} [disabled=false]
@@ -50,6 +51,25 @@ export default class GlideCoreIconButton extends LitElement {
   @property({ attribute: 'aria-controls', reflect: true, useDefault: true })
   ariaControls: string | null = null;
 
+  // A getter and setter because Lit Analzyer doesn't recognize "aria-description"
+  // as a valid attribute on the `<button>` and doesn't provide a way to selectively
+  // disable rules.
+  /**
+   * @default null
+   */
+  @property({ attribute: 'aria-description', reflect: true })
+  override get ariaDescription(): string | null {
+    return this.#ariaDescription;
+  }
+
+  override set ariaDescription(description: string | null) {
+    this.#ariaDescription = description;
+
+    if (this.#buttonElementRef.value) {
+      this.#buttonElementRef.value.ariaDescription = description;
+    }
+  }
+
   @property({ attribute: 'aria-expanded', reflect: true, useDefault: true })
   override ariaExpanded: 'true' | 'false' | null = null;
 
@@ -74,6 +94,12 @@ export default class GlideCoreIconButton extends LitElement {
 
   override click() {
     this.#buttonElementRef.value?.click();
+  }
+
+  override firstUpdated() {
+    if (this.#buttonElementRef.value && this.ariaDescription) {
+      this.#buttonElementRef.value.ariaDescription = this.ariaDescription;
+    }
   }
 
   override render() {
@@ -104,6 +130,8 @@ export default class GlideCoreIconButton extends LitElement {
       </button>
     `;
   }
+
+  #ariaDescription: string | null = null;
 
   #buttonElementRef = createRef<HTMLButtonElement>();
 

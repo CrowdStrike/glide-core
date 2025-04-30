@@ -15,10 +15,13 @@ it('registers itself', async () => {
 
 it('is accessible', async () => {
   const host = await fixture<GlideCoreIconButton>(
-    html`<glide-core-icon-button label="Label">
+    html`<glide-core-icon-button aria-description="Description" label="Label">
       <div>Icon</div>
     </glide-core-icon-button>`,
   );
+
+  const button = host.shadowRoot?.querySelector('[data-test="button"]');
+  expect(button?.ariaDescription).to.equal('Description');
 
   await expect(host).to.be.accessible();
 });

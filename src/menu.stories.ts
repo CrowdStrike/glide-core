@@ -44,6 +44,7 @@ const meta: Meta = {
     'slot="default"': '',
     'slot="target"': '',
     'addEventListener(event, handler)': '',
+    loading: false,
     offset: 4,
     open: false,
     placement: 'bottom-start',
@@ -83,6 +84,18 @@ const meta: Meta = {
           summary: 'method',
           detail:
             '(event: "click" | "toggle", handler: (event: Event) => void): void',
+        },
+      },
+    },
+    loading: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: {
+          summary: 'boolean',
+          detail: `
+// Add this attribute when asynchronously updating Menu Options' default slot. Remove it after the
+// slot has been updated.
+`,
         },
       },
     },
@@ -264,9 +277,10 @@ const meta: Meta = {
         ? nothing
         : arguments_.placement}
       size=${arguments_.size === 'large' ? nothing : arguments_.size}
+      ?loading=${arguments_.loading}
       ?open=${arguments_.open}
     >
-      <glide-core-button label="Target" slot="target"></glide-core-button>
+      <glide-core-button label="Toggle" slot="target"></glide-core-button>
 
       <glide-core-menu-options>
         <glide-core-menu-button
@@ -298,9 +312,10 @@ export const WithIcons: StoryObj = {
         ? nothing
         : arguments_.placement}
       size=${arguments_.size === 'large' ? nothing : arguments_.size}
+      ?loading=${arguments_.loading}
       ?open=${arguments_.open}
     >
-      <glide-core-button label="Target" slot="target"></glide-core-button>
+      <glide-core-button label="Toggle" slot="target"></glide-core-button>
 
       <glide-core-menu-options>
         <glide-core-menu-button

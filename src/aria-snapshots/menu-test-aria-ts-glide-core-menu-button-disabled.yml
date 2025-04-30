@@ -1,5 +1,5 @@
-- button "Target"
-- menu "Target":
+- button "Toggle"
+- menu "Toggle":
   - menuitem "One":
     - button "One" [disabled]
   - menuitem "Two":

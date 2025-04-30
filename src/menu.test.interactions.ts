@@ -1574,6 +1574,60 @@ it('retains its active option when an option is programmatically added', async (
   expect(options[2]?.privateActive).to.be.false;
 });
 
+it('shows loading feedback', async () => {
+  const host = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  host.loading = true;
+  await host.updateComplete;
+
+  const target = host.querySelector('button');
+
+  const feedback = host
+    ?.querySelector('glide-core-menu-options')
+    ?.shadowRoot?.querySelector('[data-test="loading-feedback"]');
+
+  expect(target?.ariaDescription).to.equal('Loading');
+  expect(feedback?.checkVisibility()).to.be.true;
+});
+
+it('hides loading feedback', async () => {
+  const host = await fixture<GlideCoreMenu>(
+    html`<glide-core-menu loading open>
+      <button slot="target">Target</button>
+
+      <glide-core-menu-options>
+        <glide-core-menu-link label="Label"></glide-core-menu-link>
+      </glide-core-menu-options>
+    </glide-core-menu>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  host.loading = false;
+  await host.updateComplete;
+
+  const target = host.querySelector('button');
+
+  const feedback = host
+    ?.querySelector('glide-core-menu-options')
+    ?.shadowRoot?.querySelector('[data-test="loading-feedback"]');
+
+  expect(target?.ariaDescription).to.be.null;
+  expect(feedback?.checkVisibility()).to.not.be.ok;
+});
+
 it('has `set offset()` coverage', async () => {
   const host = await fixture<GlideCoreMenu>(html`
     <glide-core-menu>
