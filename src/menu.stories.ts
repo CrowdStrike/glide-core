@@ -93,7 +93,7 @@ const meta: Meta = {
         type: {
           summary: 'boolean',
           detail: `
-// Add this attribute when asychronously updating Menu Options' default slot. Remove it after the
+// Add this attribute when asynchronously updating Menu Options' default slot. Remove it after the
 // slot has been updated.
 `,
         },
