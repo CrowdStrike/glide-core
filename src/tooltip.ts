@@ -152,7 +152,7 @@ export default class GlideCoreTooltip extends LitElement {
       this.dispatchEvent(
         new Event('toggle', { bubbles: true, composed: true }),
       );
-    } else if (hasChanged) {
+    } else if (hasChanged && !this.disabled) {
       this.#hide();
 
       this.dispatchEvent(
