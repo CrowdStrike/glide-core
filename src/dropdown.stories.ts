@@ -164,7 +164,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> => {
         type: {
           summary: 'boolean',
           detail: `
-// Add this attribute when asychronously updating Dropdown's default slot. Remove it after the
+// Add this attribute when asynchronously updating Dropdown's default slot. Remove it after the
 // slot has been updated.
 `,
         },
