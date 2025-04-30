@@ -9,6 +9,8 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { repeat } from 'lit/directives/repeat.js';
+import { range } from 'lit/directives/range.js';
+import { map } from 'lit/directives/map.js';
 import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
@@ -39,6 +41,7 @@ declare global {
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [filterable=false]
  * @attr {boolean} [hide-label=false]
+ * @attr {boolean} [loading=false]
  * @attr {boolean} [multiple=false]
  * @attr {string} [name='']
  * @attr {boolean} [open=false]
@@ -160,6 +163,9 @@ export default class GlideCoreDropdown
 
   @property({ attribute: 'hide-label', reflect: true, type: Boolean })
   hideLabel = false;
+
+  @property({ reflect: true, type: Boolean })
+  loading = false;
 
   @property({ reflect: true, useDefault: true })
   name = '';
@@ -777,7 +783,7 @@ export default class GlideCoreDropdown
                   aria-controls="options"
                   aria-describedby="description"
                   aria-expanded=${this.open && !this.disabled}
-                  aria-labelledby="selected-option-labels label ${this
+                  aria-labelledby="selected-option-labels label loading ${this
                     .isCommunicateItemCountToScreenreaders
                     ? 'item-count'
                     : ''}"
@@ -918,7 +924,7 @@ export default class GlideCoreDropdown
                 aria-expanded=${this.open && !this.disabled}
                 aria-haspopup="listbox"
                 aria-hidden=${this.filterable || this.isFilterable}
-                aria-labelledby="selected-option-labels label"
+                aria-labelledby="selected-option-labels label loading"
                 class="primary-button"
                 data-test="primary-button"
                 id="primary-button"
@@ -945,19 +951,19 @@ export default class GlideCoreDropdown
           </div>
 
           <div
-            aria-labelledby=${this.filterable || this.isFilterable
-              ? 'input'
-              : 'primary-button'}
-            class="options-and-footer"
+            class=${classMap({
+              'options-and-footer': true,
+              'no-results': this.isNoResults && !this.loading,
+            })}
             ${ref(this.#optionsAndFooterElementRef)}
           >
             <div
               aria-labelledby=${this.filterable || this.isFilterable
                 ? 'input'
-                : 'button'}
+                : 'primary-button'}
               class=${classMap({
                 options: true,
-                hidden: this.isNoResults,
+                hidden: this.isNoResults || this.loading,
                 [this.size]: true,
               })}
               data-test="options"
@@ -1000,8 +1006,18 @@ export default class GlideCoreDropdown
               </slot>
             </div>
 
-            ${when(this.isNoResults, () => {
-              return html`<div class="no-results">
+            ${when(this.loading, () => {
+              return html`<div
+                aria-label=${this.#localize.term('loading')}
+                class="loading"
+                data-test="loading"
+                id="loading"
+              >
+                ${map(range(7), () => html`<div class="bone"></div>`)}
+              </div>`;
+            })}
+            ${when(this.isNoResults && !this.loading, () => {
+              return html`<div data-test="no-results">
                 ${this.#localize.term('noResults')}
               </div>`;
             })}

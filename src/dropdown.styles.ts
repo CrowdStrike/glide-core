@@ -2,11 +2,13 @@ import { css } from 'lit';
 import focusOutline from './styles/focus-outline.js';
 import opacityAndScaleAnimation from './styles/opacity-and-scale-animation.js';
 import visuallyHidden from './styles/visually-hidden.js';
+import skeleton from './styles/skeleton.js';
 
 export default [
   css`
     ${focusOutline('.add-button:focus-visible')}
     ${opacityAndScaleAnimation('.options-and-footer:popover-open')}
+    ${skeleton('.loading')}
     ${visuallyHidden('.item-count')}
     ${visuallyHidden('.selected-option-labels')}
   `,
@@ -129,9 +131,21 @@ export default [
       border-radius: var(--glide-core-rounding-base-radius-sm);
       box-shadow: var(--glide-core-effect-floating);
       inset: unset;
-      min-inline-size: var(--private-min-inline-size);
       padding: 0;
       position: absolute;
+
+      &.no-results {
+        font-family: var(--glide-core-typography-family-primary);
+        font-size: var(--glide-core-typography-size-body-default);
+        font-weight: var(--glide-core-typography-weight-regular);
+        padding: var(--glide-core-spacing-base-xxs)
+          var(--glide-core-spacing-base-sm);
+        text-transform: capitalize;
+      }
+
+      &:not(.no-results) {
+        min-inline-size: var(--private-min-inline-size);
+      }
     }
 
     .options {
@@ -232,14 +246,6 @@ export default [
       &:not([hidden]) {
         display: block;
       }
-    }
-
-    .no-results {
-      font-family: var(--glide-core-typography-family-primary);
-      font-size: var(--glide-core-typography-size-body-default);
-      font-weight: var(--glide-core-typography-weight-regular);
-      padding: 0.625rem 0.875rem;
-      text-transform: capitalize;
     }
 
     .placeholder {

@@ -1550,3 +1550,20 @@ it('retains its filter query when not `multiple` and its default slot changes', 
 
   expect(input?.value).to.equal('one');
 });
+
+it('shows a fallback when every option has been filtered out', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable open>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  host.focus();
+  await sendKeys({ type: 'test' });
+
+  const noResults = host.shadowRoot?.querySelector('[data-test="no-results"]');
+  expect(noResults?.checkVisibility()).to.be.true;
+});

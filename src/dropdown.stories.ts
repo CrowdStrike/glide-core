@@ -43,6 +43,7 @@ const meta: Meta = {
     filterable: false,
     'filter(query)': '',
     'hide-label': false,
+    loading: false,
     multiple: false,
     name: '',
     open: false,
@@ -155,6 +156,18 @@ async (query: string): Promise<GlideCoreDropdownOption[]> => {
       table: {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
+      },
+    },
+    loading: {
+      table: {
+        defaultValue: { summary: 'false' },
+        type: {
+          summary: 'boolean',
+          detail: `
+// Add this attribute when asynchronously updating Dropdown's default slot. Remove it after the
+// slot has been updated.
+`,
+        },
       },
     },
     multiple: {
@@ -502,6 +515,7 @@ async (query: string): Promise<GlideCoreDropdownOption[]> => {
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
+      ?loading=${arguments_.loading}
       ?hide-label=${arguments_['hide-label']}
       ?multiple=${arguments_.multiple}
       ?open=${arguments_.open}
@@ -595,6 +609,7 @@ export const WithIcons: StoryObj = {
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
+      ?loading=${arguments_.loading}
       ?hide-label=${arguments_['hide-label']}
       ?multiple=${arguments_.multiple}
       ?open=${arguments_.open}

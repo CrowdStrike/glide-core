@@ -7,6 +7,7 @@ export const PENDING_STRINGS = [
   'success',
   'error',
   'informational',
+  'loading',
 ] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
