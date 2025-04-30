@@ -17,7 +17,7 @@ export default (selector: string) => {
       display: flex;
       flex-direction: column;
       padding: 0.375rem var(--glide-core-spacing-base-sm);
-      row-gap: var(--glide-core-spacing-base-sm);
+      row-gap: var(--glide-core-spacing-base-xs);
 
       & > * {
         animation-duration: 1.4s;
