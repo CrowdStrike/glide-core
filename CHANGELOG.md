@@ -1,5 +1,378 @@
 # @crowdstrike/glide-core
 
+## 0.26.0
+
+### Minor Changes
+
+- [#867](https://github.com/CrowdStrike/glide-core/pull/867) [`a82d330`](https://github.com/CrowdStrike/glide-core/commit/a82d3307f168108771d8b5470025907745f4d9a9) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Inline Alert no longer supports the `removable` attribute. It will no longer dispatch a `remove` event either.
+
+- [#847](https://github.com/CrowdStrike/glide-core/pull/847) [`4f1d23e`](https://github.com/CrowdStrike/glide-core/commit/4f1d23ed6ed7e1bd2127354f5b9a9b32e342c9e3) Thanks [@clintcs](https://github.com/clintcs)! - Toasts has a new API that's markup-first and more flexible.
+
+  Previously, to show a notification you would render `<glide-core-toasts></glide-core-toasts>` somewhere in the document. You'd then query for that element and call its `add()` method. This design worked well enough. But it had a couple major drawbacks:
+
+  1. The `add()` method supported descriptions. But, because it's a method, the description had to be a string. That meant you'd first have to serialize any markup you wanted to appear in a notification's description.
+  2. Only one instance of Toasts was allowed per page. There's a case to be made for centralizing notifications at the page or application level. But that's a decision for application owners, and probably not one a component should force on its consumers.
+
+  To eliminate those drawbacks, we've removed Toasts and replaced it with Toast. When you want to show a notification, simply add `<glide-core-toast>` anywhere on the page. You can add as many as you need. As with Toasts, Toast will remove itself from the page when dismissed or when its `duration` has expired.
+
+  Let us know what you think!
+
+  ```ts
+  import '@crowdstrike/glide-core/toast.js';
+  ```
+
+  ```html
+  <glide-core-toast label="Label" duration="10000" variant="success">
+    Description
+
+    <glide-core-link label="Label" href="/"></glide-core-link>
+  </glide-core-toast>
+  ```
+
+- [#870](https://github.com/CrowdStrike/glide-core/pull/870) [`73ab480`](https://github.com/CrowdStrike/glide-core/commit/73ab480495fdccd457c23563d3fd84c10e4c607b) Thanks [@clintcs](https://github.com/clintcs)! - Menu Link and Split Button Primary Link's `url` attribute has been renamed to `href` to match both Link and native.
+
+- [#864](https://github.com/CrowdStrike/glide-core/pull/864) [`36ea502`](https://github.com/CrowdStrike/glide-core/commit/36ea5026114976072c4f07ed2a60ace9b9c5b527) Thanks [@clintcs](https://github.com/clintcs)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Colors (Light)
+
+  ```diff
+  - --glide-core-color-success-surface-container: #f1fdf4;
+  + --glide-core-color-advisory-surface-success-container: #f1fdf4;
+
+  - --glide-core-color-success-surface-container-light: #f5fcf7;
+  + --glide-core-color-advisory-surface-success-container-light: #f5fcf7;
+
+  - --glide-core-color-success-surface-solid: #34c759;
+  + --glide-core-color-advisory-surface-success-solid: #34c759;
+
+  - --glide-core-color-success-surface-solid--hover: #248b3e;
+  + --glide-core-color-advisory-surface-success-solid--hover: #248b3e;
+
+  - --glide-core-color-success-stroke-primary: #34c759;
+  + --glide-core-color-advisory-stroke-success-primary: #34c759;
+
+  - --glide-core-color-success-stroke-secondary: #d6f4de;
+  + --glide-core-color-advisory-stroke-success-secondary: #d6f4de;
+
+  - --glide-core-color-success-text-status: #34c759;
+  + --glide-core-color-advisory-text-success: #34c759;
+
+  - --glide-core-color-success-text-container: #212121;
+  + --glide-core-color-advisory-text-success-container: #212121;
+
+  - --glide-core-color-success-icon-default: #34c759;
+  + --glide-core-color-advisory-icon-success: #34c759;
+
+  - --glide-core-color-attention-surface-container: #fffbeb;
+  + --glide-core-color-advisory-surface-attention-container: #fffbeb;
+
+  - --glide-core-color-attention-surface-container-light: #fffcf2;
+  + --glide-core-color-advisory-surface-attention-container-light: #fffcf2;
+
+  - --glide-core-color-attention-surface-solid: #ffcc00;
+  + --glide-core-color-advisory-surface-attention-solid: #ffcc00;
+
+  - --glide-core-color-attention-surface-solid--hover: #b28f00;
+  + --glide-core-color-advisory-surface-attention-solid--hover: #b28f00;
+
+  - --glide-core-color-attention-stroke-primary: #ffcc00;
+  + --glide-core-color-advisory-stroke-attention-primary: #ffcc00;
+
+  - --glide-core-color-attention-stroke-secondary: #fff5cc;
+  + --glide-core-color-advisory-stroke-attention-secondary: #ffcc00;
+
+  - --glide-core-color-attention-text-status: #ffcc00;
+  + --glide-core-color-advisory-text-attention: #ffcc00;
+
+  - --glide-core-color-attention-text-container: #212121;
+  + --glide-core-color-advisory-text-attention-container: #212121;
+
+  - --glide-core-color-attention-icon-default: #ffcc00;
+  + --glide-core-color-advisory-icon-attention: #ffcc00;
+
+  - --glide-core-color-warning-surface-container: #fff6e9;
+  + --glide-core-color-advisory-surface-warning-container: #fff6e9;
+
+  - --glide-core-color-warning-surface-container-light: #fffaf2;
+  + --glide-core-color-advisory-surface-warning-container-light: #fffaf2;
+
+  - --glide-core-color-warning-surface-solid: #ff9500;
+  + --glide-core-color-advisory-surface-warning-solid: #ff9500;
+
+  - --glide-core-color-warning-surface-solid--hover: #b26800;
+  + --glide-core-color-advisory-surface-warning-solid--hover: #b26800;
+
+  - --glide-core-color-warning-stroke-primary: #ff9500;
+  + --glide-core-color-advisory-stroke-warning-primary: #ff9500;
+
+  - --glide-core-color-warning-stroke-secondary: #ffeacc;
+  + --glide-core-color-advisory-stroke-warning-secondary: #ffbf66;
+
+  - --glide-core-color-warning-text-status: #ff9500;
+  + --glide-core-color-advisory-text-warning: #ff9500;
+
+  - --glide-core-color-warning-text-container: #212121;
+  + --glide-core-color-advisory-text-warning-container: #212121;
+
+  - --glide-core-color-warning-icon-default: #ff9500;
+  + --glide-core-color-advisory-icon-warning: #ff9500;
+
+  - --glide-core-color-info-surface-container: #e5f1fc;
+  + --glide-core-color-advisory-surface-info-container: #e5f1fc;
+
+  - --glide-core-color-info-surface-container-light: #f2f8fe;
+  + --glide-core-color-advisory-surface-info-container-light: #f2f8fe;
+
+  - --glide-core-color-info-surface-solid: #0073e6;
+  + --glide-core-color-advisory-surface-info-solid: #0073e6;
+
+  - --glide-core-color-info-surface-solid--hover: #0051a1;
+  + --glide-core-color-advisory-surface-info-solid--hover: #0051a1;
+
+  - --glide-core-color-info-stroke-primary: #0073e6;
+  + --glide-core-color-advisory-stroke-info-primary: #0073e6;
+
+  - --glide-core-color-info-stroke-secondary: #cce3fa;
+  + --glide-core-color-advisory-stroke-info-secondary: #99c7f5;
+
+  - --glide-core-color-info-text-status: #0073e6;
+  + --glide-core-color-advisory-text-info: #0073e6;
+
+  - --glide-core-color-info-text-container: #212121;
+  + --glide-core-color-advisory-text-info-container: #212121;
+
+  - --glide-core-color-info-icon-default: #0073e6;
+  + --glide-core-color-advisory-icon-info: #0073e6;
+
+  - --glide-core-color-error-surface-container: #fff0ef;
+  + --glide-core-color-advisory-surface-error-container: #fff0ef;
+
+  - --glide-core-color-error-surface-container-light: #fdf4f4;
+  + --glide-core-color-advisory-surface-error-container-light: #fdf4f4;
+
+  - --glide-core-color-error-surface-solid: #db2d24;
+  + --glide-core-color-advisory-surface-error-solid: #db2d24;
+
+  - --glide-core-color-error-surface-solid--hover: #992019;
+  + --glide-core-color-advisory-surface-error-solid--hover: #992019;
+
+  - --glide-core-color-error-stroke-primary: #db2d24;
+  + --glide-core-color-advisory-stroke-error-primary: #db2d24;
+
+  - --glide-core-color-error-stroke-secondary: #f8d5d3;
+  + --glide-core-color-advisory-stroke-error-secondary: #f8d5d3;
+
+  - --glide-core-color-error-text-status: #db2d24;
+  + --glide-core-color-advisory-text-error: #db2d24;
+
+  - --glide-core-color-error-text-container: #212121;
+  + --glide-core-color-advisory-text-error-container: #212121;
+
+  - --glide-core-color-error-icon-default: #db2d24;
+  + --glide-core-color-advisory-icon-error: #db2d24;
+  ```
+
+  ## Colors (Dark)
+
+  ```diff
+  - --glide-core-color-success-surface-container: #1c261e;
+  + --glide-core-color-advisory-surface-success-container: #1c261e;
+
+  - --glide-core-color-success-surface-container-light: #181d19;
+  + --glide-core-color-advisory-surface-success-container-light: #181d19;
+
+  - --glide-core-color-success-surface-solid: #61c479;
+  + --glide-core-color-advisory-surface-success-solid: #61c479;
+
+  - --glide-core-color-success-surface-solid--hover: #90d6a1;
+  + --glide-core-color-advisory-surface-success-solid--hover: #90d6a1;
+
+  - --glide-core-color-success-stroke-primary: #61c479;
+  + --glide-core-color-advisory-stroke-success-primary: #61c479;
+
+  - --glide-core-color-success-stroke-secondary: #233728;
+  + --glide-core-color-advisory-stroke-success-secondary: #233728;
+
+  - --glide-core-color-success-text-status: #61c479;
+  + --glide-core-color-advisory-text-success: #61c479;
+
+  - --glide-core-color-success-text-container: #dcdcdc;
+  + --glide-core-color-advisory-text-success-container: #dcdcdc;
+
+  - --glide-core-color-success-icon-default: #61c479;
+  + --glide-core-color-advisory-icon-success: #61c479;
+
+  - --glide-core-color-attention-surface-container: #2a271a;
+  + --glide-core-color-advisory-surface-attention-container: #2a271a;
+
+  - --glide-core-color-attention-surface-container-light: #1f1d17;
+  + --glide-core-color-advisory-surface-attention-container-light: #1f1d17;
+
+  - --glide-core-color-attention-surface-solid: #f0cf4f;
+  + --glide-core-color-advisory-surface-attention-solid: #f0cf4f;
+
+  - --glide-core-color-attention-surface-solid--hover: #f5dd84;
+  + --glide-core-color-advisory-surface-attention-solid--hover: #f5dd84;
+
+  - --glide-core-color-attention-stroke-primary: #f0cf4f;
+  + --glide-core-color-advisory-stroke-attention-primary: #f0cf4f;
+
+  - --glide-core-color-attention-stroke-secondary: #403920;
+  + --glide-core-color-advisory-stroke-attention-secondary: #f0cf4f;
+
+  - --glide-core-color-attention-text-status: #f0cf4f;
+  + --glide-core-color-advisory-text-attention: #f0cf4f;
+
+  - --glide-core-color-attention-text-container: #dcdcdc;
+  + --glide-core-color-advisory-text-attention-container: #dcdcdc;
+
+  - --glide-core-color-attention-icon-default: #f0cf4f;
+  + --glide-core-color-advisory-icon-attention: #f0cf4f;
+
+  - --glide-core-color-warning-surface-container: #2c241a;
+  + --glide-core-color-advisory-surface-warning-container: #2c241a;
+
+  - --glide-core-color-warning-surface-container-light: #201c17;
+  + --glide-core-color-advisory-surface-warning-container-light: #201c17;
+
+  - --glide-core-color-warning-surface-solid: #ffb64f;
+  + --glide-core-color-advisory-surface-warning-solid: #ffb64f;
+
+  - --glide-core-color-warning-surface-solid--hover: #ffcc84;
+  + --glide-core-color-advisory-surface-warning-solid--hover: #ffcc84;
+
+  - --glide-core-color-warning-stroke-primary: #ffb64f;
+  + --glide-core-color-advisory-stroke-warning-primary: #ffb64f;
+
+  - --glide-core-color-warning-stroke-secondary: #433420;
+  + --glide-core-color-advisory-stroke-warning-secondary: #a17537;
+
+  - --glide-core-color-warning-text-status: #ffb64f;
+  + --glide-core-color-advisory-text-warning: #ffb64f;
+
+  - --glide-core-color-warning-text-container: #dcdcdc;
+  + --glide-core-color-advisory-text-warning-container: #dcdcdc;
+
+  - --glide-core-color-warning-icon-default: #ffb64f;
+  + --glide-core-color-advisory-icon-warning: #ffb64f;
+
+  - --glide-core-color-info-surface-container: #171f26;
+  + --glide-core-color-advisory-surface-info-container: #171f26;
+
+  - --glide-core-color-info-surface-container-light: #15191d;
+  + --glide-core-color-advisory-surface-info-container-light: #192939;
+
+  - --glide-core-color-info-surface-solid: #2d7dcc;
+  + --glide-core-color-advisory-surface-info-solid: #2d7dcc;
+
+  - --glide-core-color-info-surface-solid--hover: #6ca4db;
+  + --glide-core-color-advisory-surface-info-solid--hover: #6ca4db;
+
+  - --glide-core-color-info-stroke-primary: #2d7dcc;
+  + --glide-core-color-advisory-stroke-info-primary: #2d7dcc;
+
+  - --glide-core-color-info-stroke-secondary: #192939;
+  + --glide-core-color-advisory-stroke-info-secondary: #2d7dcc;
+
+  - --glide-core-color-info-text-status: #2d7dcc;
+  + --glide-core-color-advisory-text-info: #2d7dcc;
+
+  - --glide-core-color-info-text-container: #dcdcdc;
+  + --glide-core-color-advisory-text-info-container: #dcdcdc;
+
+  - --glide-core-color-info-icon-default: #2d7dcc;
+  + --glide-core-color-advisory-icon-info: #2d7dcc;
+
+  - --glide-core-color-error-surface-container: #291d1c;
+  + --glide-core-color-advisory-surface-error-container: #291d1c;
+
+  - --glide-core-color-error-surface-container-light: #1e1818;
+  + --glide-core-color-advisory-surface-error-container-light: #1e1818;
+
+  - --glide-core-color-error-surface-solid: #e36963;
+  + --glide-core-color-advisory-surface-error-solid: #e36963;
+
+  - --glide-core-color-error-surface-solid--hover: #eb9692;
+  + --glide-core-color-advisory-surface-error-solid--hover: #eb9692;
+
+  - --glide-core-color-error-stroke-primary: #e36963;
+  + --glide-core-color-advisory-stroke-error-primary: #e36963;
+
+  - --glide-core-color-error-stroke-secondary: #3d2524;
+  + --glide-core-color-advisory-stroke-error-secondary: #3d2524;
+
+  - --glide-core-color-error-text-status: #e36963;
+  + --glide-core-color-advisory-text-error: #e36963;
+
+  - --glide-core-color-error-text-container: #dcdcdc;
+  + --glide-core-color-advisory-text-error-container: #dcdcdc;
+
+  - --glide-core-color-error-icon-default: #e36963;
+  + --glide-core-color-advisory-icon-error: #e36963;
+  ```
+
+- [#868](https://github.com/CrowdStrike/glide-core/pull/868) [`763e535`](https://github.com/CrowdStrike/glide-core/commit/763e535a142ff5d8878e446b182765435227d3cc) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown Option, Menu Options, Menu Button, and Menu Link's `id` attribute has always been set internally by these components for accessibility. It's now marked as read-only to reflect that it shouldn't be changed. We've also marked `role` and `tabindex` as read-only for the same reason.
+
+### Patch Changes
+
+- [#876](https://github.com/CrowdStrike/glide-core/pull/876) [`0689168`](https://github.com/CrowdStrike/glide-core/commit/0689168a8cbefea8e3d38794ff17365ee36f0484) Thanks [@ynotdraw](https://github.com/ynotdraw)! - Tabs can now be selected by applying the selected attribute.
+
+- [#871](https://github.com/CrowdStrike/glide-core/pull/871) [`648fb7c`](https://github.com/CrowdStrike/glide-core/commit/648fb7cfd53d5302f3b6a1de3601ee26676734d4) Thanks [@clintcs](https://github.com/clintcs)! - - Button and Icon Button now support an `aria-description` attribute.
+
+- [`e67899a`](https://github.com/CrowdStrike/glide-core/commit/e67899ada7943a1b85498d214818fdb9b07c1478) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown and Menu now have a `loading` attribute that shows a skeleton with a fixed number of rows. Add the attribute whenever you asynchronously update Dropdown's default slot. Remove it after the slot has been updated.
+
+- [#847](https://github.com/CrowdStrike/glide-core/pull/847) [`4f1d23e`](https://github.com/CrowdStrike/glide-core/commit/4f1d23ed6ed7e1bd2127354f5b9a9b32e342c9e3) Thanks [@clintcs](https://github.com/clintcs)! - - Toasts now emit a "dismiss" event when dismissed by the user or because their duration has expired.
+
+  - Toasts now scroll when they would otherwise overflow the viewport.
+  - Toasts have tweaked animation when they enter and leave the viewport.
+  - Toasts are now slightly narrower.
+  - Toasts now reset their `duration` timers when hovered.
+  - Toasts font sizes and weights have been adjusted.
+  - The focus order of Toast dismiss buttons is no longer reversed.
+  - Modal's back button now reads as "close" to screenreaders instead of "dismiss", matching Modal's "X" button.
+
+- [`e67899a`](https://github.com/CrowdStrike/glide-core/commit/e67899ada7943a1b85498d214818fdb9b07c1478) Thanks [@clintcs](https://github.com/clintcs)! - The spacing around Dropdown's No Results menu has been tightened up.
+
+- [#864](https://github.com/CrowdStrike/glide-core/pull/864) [`36ea502`](https://github.com/CrowdStrike/glide-core/commit/36ea5026114976072c4f07ed2a60ace9b9c5b527) Thanks [@clintcs](https://github.com/clintcs)! - `@crowdstrike/glide-core/styles/variables.css` has been updated with the latest from Figma:
+
+  ## Colors (Light)
+
+  ```diff
+  + --glide-core-color-advisory-surface-vital-container: #fff0ef;
+  + --glide-core-color-advisory-surface-vital-light: #fdf4f4;
+  + --glide-core-color-advisory-surface-vital-solid: #db2d24;
+  + --glide-core-color-advisory-surface-vital-solid--hover: #992019;
+  + --glide-core-color-advisory-stroke-vital-primary: #db2d24;
+  + --glide-core-color-advisory-stroke-vital-secondary: #f1aba7;
+  + --glide-core-color-advisory-text-vital: #db2d24;
+  + --glide-core-color-advisory-text-vital-container: #212121;
+  + --glide-core-color-advisory-icon-vital: #db2d24;
+  ```
+
+  ## Colors (Dark)
+
+  ```diff
+  + --glide-core-color-advisory-surface-vital-container: #291d1c;
+  + --glide-core-color-advisory-surface-vital-light: #1e1818;
+  + --glide-core-color-advisory-surface-vital-solid: #e36963;
+  + --glide-core-color-advisory-surface-vital-solid--hover: #eb9692;
+  + --glide-core-color-advisory-stroke-vital-primary: #e36963;
+  + --glide-core-color-advisory-stroke-vital-secondary: #e36963;
+  + --glide-core-color-advisory-text-vital: #e36963;
+  + --glide-core-color-advisory-text-vital-container: #dcdcdc;
+  + --glide-core-color-advisory-icon-vital: #e36963;
+  ```
+
+- [#868](https://github.com/CrowdStrike/glide-core/pull/868) [`763e535`](https://github.com/CrowdStrike/glide-core/commit/763e535a142ff5d8878e446b182765435227d3cc) Thanks [@clintcs](https://github.com/clintcs)! - - Link and Split Button Primary Link's `href` attribute is now optional to match native.
+
+  - Disabled Dropdown Options are now announced as such to screenreaders.
+
+- [#873](https://github.com/CrowdStrike/glide-core/pull/873) [`c2d084c`](https://github.com/CrowdStrike/glide-core/commit/c2d084c3727aff05802b70e4dd5b9510af9beb44) Thanks [@clintcs](https://github.com/clintcs)! - - Button no longer emits a "toggle" event on hover, unless it is disabled and has a tooltip.
+
+  - Tooltip no longer emits a "toggle" event on hover hover when disabled.
+
+- [#875](https://github.com/CrowdStrike/glide-core/pull/875) [`f67ccff`](https://github.com/CrowdStrike/glide-core/commit/f67ccff67a4c8a38a779af1699ff20a5c7befd4c) Thanks [@clintcs](https://github.com/clintcs)! - Dropdown automatically becomes filterable when it contains more than 10 options. Previously, however, Dropdown became unfilterable if its options were reduced to 10 or fewer after initial render. Dropdown now remains filterable or unfilterable throughout its lifecycle based on the number of options present on first render. You can still force Dropdown to be filterable, regardless of options, using the `filterable` attribute.
+
 ## 0.25.0
 
 ### Minor Changes
