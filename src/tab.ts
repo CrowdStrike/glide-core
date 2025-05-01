@@ -57,9 +57,8 @@ export default class GlideCoreTab extends LitElement {
 
     if (isSelected && hasChanged) {
       this.dispatchEvent(
-        new Event('selected', {
+        new Event('private-selected', {
           bubbles: true,
-          composed: true,
         }),
       );
     }
@@ -71,6 +70,14 @@ export default class GlideCoreTab extends LitElement {
   protected override firstUpdated() {
     this.setAttribute('role', 'tab');
     this.id = this.#id;
+  }
+
+  privateSelect() {
+    this.selected = true;
+
+    this.dispatchEvent(
+      new Event('selected', { bubbles: true, composed: true }),
+    );
   }
 
   override render() {
