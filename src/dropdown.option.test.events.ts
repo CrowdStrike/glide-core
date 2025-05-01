@@ -1,6 +1,7 @@
-import { expect, fixture, html, oneEvent } from '@open-wc/testing';
+import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
 import GlideCoreDropdownOption from './dropdown.option.js';
+import { hover } from './library/mouse.js';
 
 it('dispatches a "private-label-change" event', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
@@ -53,15 +54,18 @@ it('dispatches a "private-value-change" event', async () => {
 it('does not allow its "toggle" event to propagate', async () => {
   const host = await fixture<GlideCoreDropdownOption>(
     html`<glide-core-dropdown-option
-      label="Label"
+      label=${'x'.repeat(500)}
     ></glide-core-dropdown-option>`,
   );
 
   const spy = sinon.spy();
   host.addEventListener('toggle', spy);
 
+  await hover(host);
   host.privateIsTooltipOpen = true;
-  await host.updateComplete;
+
+  // Wait for the Resize Observer to do its thing.
+  await aTimeout(0);
 
   expect(spy.callCount).to.equal(0);
 });
