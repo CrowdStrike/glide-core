@@ -353,9 +353,10 @@ export default class GlideCoreTextarea
     this.addEventListener('invalid', (event) => {
       event?.preventDefault(); // Canceled so a native validation message isn't shown.
 
-      // We only want to focus the input if the invalid event resulted from either:
-      // 1. Form submission
-      // 2. a call to reportValidity that did NOT result from the input blur event
+      // We only want to focus the input if the "invalid" event resulted from either:
+      //
+      // 1. A form submission.
+      // 2. A call of `reportValidity()` that did not result from the input's "blur" event.
       if (this.isCheckingValidity || this.isBlurring) {
         return;
       }

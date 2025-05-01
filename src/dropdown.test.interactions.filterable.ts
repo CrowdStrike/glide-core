@@ -87,6 +87,29 @@ it('filters', async () => {
   expect(options.length).to.equal(1);
 });
 
+it('remains automatically filterable when an option is removed', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Three"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Four"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Five"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Six"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Seven"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Eight"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Nine"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Ten"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Eleven"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  host.querySelector('glide-core-dropdown-option:last-of-type')?.remove();
+
+  const input = host.shadowRoot?.querySelector('[data-test="input"]');
+  expect(input?.checkVisibility()).to.be.true;
+});
+
 it('unfilters when an option is selected via click', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable>
@@ -1006,7 +1029,6 @@ it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
   await aTimeout(0);
 
   await sendKeys({ press: 'Tab' });
-
   await sendKeys({ press: 'ArrowDown' });
   await sendKeys({ down: 'Meta' });
   await sendKeys({ press: 'ArrowUp' });
