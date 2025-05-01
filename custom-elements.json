@@ -7744,6 +7744,12 @@
               "type": {
                 "text": "Event"
               }
+            },
+            {
+              "name": "private-selected",
+              "type": {
+                "text": "Event"
+              }
             }
           ],
           "attributes": [

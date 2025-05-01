@@ -1,9 +1,46 @@
-import './tab.js';
 import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
+import GlideCoreTab from './tab.js';
 import { click } from './library/mouse.js';
 import GlideCoreTabGroup from './tab.group.js';
 import './tab.panel.js';
+
+it('sets the selected tab using the `selected` attribute', async () => {
+  const host = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
+      <glide-core-tab panel="2" slot="nav" selected>Two</glide-core-tab>
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const tabs = host.querySelectorAll('glide-core-tab');
+
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[1]?.selected).to.be.true;
+});
+
+it('sets the selected tab by setting `selected` programmatically', async () => {
+  const host = await fixture<GlideCoreTabGroup>(html`
+    <glide-core-tab-group>
+      <glide-core-tab panel="1" slot="nav" selected>One</glide-core-tab>
+      <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
+      <glide-core-tab-panel name="1">One</glide-core-tab-panel>
+      <glide-core-tab-panel name="2">Two</glide-core-tab-panel>
+    </glide-core-tab-group>
+  `);
+
+  const tab = host.querySelector<GlideCoreTab>('glide-core-tab:nth-of-type(2)');
+
+  assert(tab);
+  tab.selected = true;
+
+  const tabs = host.querySelectorAll('glide-core-tab');
+
+  expect(tabs[0]?.selected).to.be.false;
+  expect(tabs[1]?.selected).to.be.true;
+});
 
 it('changes tabs on click', async () => {
   const host = await fixture<GlideCoreTabGroup>(html`
