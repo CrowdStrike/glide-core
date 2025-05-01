@@ -1139,9 +1139,10 @@ export default class GlideCoreDropdown
     this.addEventListener('invalid', (event) => {
       event.preventDefault(); // Canceled so a native validation message isn't shown.
 
-      // We only want to focus the input if the invalid event resulted from either:
-      // 1. Form submission
-      // 2. a call to reportValidity that did NOT result from the checkbox blur event
+      // We only want to focus the input if the "invalid" event resulted from either:
+      //
+      // 1. A form submission.
+      // 2. A call of `reportValidity()` that did not result from Checkbox's "blur" event.
       if (this.isCheckingValidity || this.isBlurring) {
         return;
       }
@@ -1246,6 +1247,8 @@ export default class GlideCoreDropdown
   #isEditingOrRemovingTag = false;
 
   #isFilterable = false;
+
+  #isFirstDefaultSlotChange = true;
 
   #isMultiple = false;
 
@@ -1367,7 +1370,18 @@ export default class GlideCoreDropdown
   }
 
   async #onDefaultSlotChange() {
-    this.isFilterable = this.#optionElements.length > 10;
+    if (this.#isFirstDefaultSlotChange) {
+      // It's a requirement of Design for Dropdown to automatically become filterable
+      // when there are more than 10 options. But it's also a bad user experience for
+      // Dropdown to suddenly become unfilterable when a developer using Dropdown reduces
+      // the number of options in the slot in response to the user filtering.
+      //
+      // So we lock in Dropdown as either filterable or unfilterable with the first slot
+      // change. Consumers can still force filterability using the `filterable` attribute.
+      this.isFilterable = this.#optionElements.length > 10;
+      this.#isFirstDefaultSlotChange = false;
+    }
+
     this.tagOverflowLimit = this.selectedOptions.length;
 
     for (const option of this.#optionElements) {
