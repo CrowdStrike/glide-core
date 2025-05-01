@@ -1372,7 +1372,7 @@ export default class GlideCoreDropdown
   async #onDefaultSlotChange() {
     if (this.#isFirstDefaultSlotChange) {
       // It's a requirement of Design for Dropdown to automatically become filterable
-      // when there are more than 10 options. But it's also bad user experience for
+      // when there are more than 10 options. But it's also a bad user experience for
       // Dropdown to suddenly become unfilterable when a developer using Dropdown reduces
       // the number of options in the slot in response to the user filtering.
       //
