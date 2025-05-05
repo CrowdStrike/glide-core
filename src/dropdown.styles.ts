@@ -134,16 +134,15 @@ export default [
       padding: 0;
       position: absolute;
 
-      &.no-results {
+      &.no-options {
         font-family: var(--glide-core-typography-family-primary);
         font-size: var(--glide-core-typography-size-body-default);
         font-weight: var(--glide-core-typography-weight-regular);
         padding: var(--glide-core-spacing-base-xxs)
           var(--glide-core-spacing-base-sm);
-        text-transform: capitalize;
       }
 
-      &:not(.no-results) {
+      &:not(.no-options) {
         min-inline-size: var(--private-min-inline-size);
       }
     }

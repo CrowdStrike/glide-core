@@ -183,6 +183,7 @@ export default class GlideCoreDropdown
     this.#isOpen = isOpen;
 
     if (isOpen && hasChanged && !this.disabled) {
+      this.isNoAvailableOptions = this.#optionElements.length === 0;
       this.#show();
 
       this.dispatchEvent(
@@ -213,7 +214,7 @@ export default class GlideCoreDropdown
       }
 
       this.isFiltering = false;
-      this.isNoResults = false;
+      this.isNoMatchingOptions = false;
       this.isShowSingleSelectIcon = Boolean(this.selectedOptions.at(0)?.value);
 
       for (const option of this.#optionElements) {
@@ -953,7 +954,9 @@ export default class GlideCoreDropdown
           <div
             class=${classMap({
               'options-and-footer': true,
-              'no-results': this.isNoResults && !this.loading,
+              'no-options':
+                (this.isNoAvailableOptions || this.isNoMatchingOptions) &&
+                !this.loading,
             })}
             ${ref(this.#optionsAndFooterElementRef)}
           >
@@ -963,7 +966,10 @@ export default class GlideCoreDropdown
                 : 'primary-button'}
               class=${classMap({
                 options: true,
-                hidden: this.isNoResults || this.loading,
+                hidden:
+                  this.isNoAvailableOptions ||
+                  this.isNoMatchingOptions ||
+                  this.loading,
                 [this.size]: true,
               })}
               data-test="options"
@@ -996,7 +1002,7 @@ export default class GlideCoreDropdown
               <slot
                 class="default-slot"
                 @slotchange=${this.#onDefaultSlotChange}
-                ${assertSlot([GlideCoreDropdownOption, Text])}
+                ${assertSlot([GlideCoreDropdownOption, Text], true)}
                 ${ref(this.#defaultSlotElementRef)}
               >
                 <!--
@@ -1016,11 +1022,17 @@ export default class GlideCoreDropdown
                 ${map(range(7), () => html`<div></div>`)}
               </div>`;
             })}
-            ${when(this.isNoResults && !this.loading, () => {
-              return html`<div data-test="no-results">
-                ${this.#localize.term('noResults')}
-              </div>`;
-            })}
+            ${when(
+              (this.isNoAvailableOptions || this.isNoMatchingOptions) &&
+                !this.loading,
+              () => {
+                return html`<div data-test="no-options">
+                  ${this.isNoAvailableOptions
+                    ? this.#localize.term('noAvailableOptions')
+                    : this.#localize.term('noMatchingOptions')}
+                </div>`;
+              },
+            )}
 
             <footer
               class=${classMap({
@@ -1201,7 +1213,10 @@ export default class GlideCoreDropdown
   private isInternalLabelTooltipOpen = false;
 
   @state()
-  private isNoResults = false;
+  private isNoAvailableOptions = false;
+
+  @state()
+  private isNoMatchingOptions = false;
 
   @state()
   private isReportValidityOrSubmit = false;
@@ -1369,6 +1384,7 @@ export default class GlideCoreDropdown
   async #onDefaultSlotChange() {
     this.isFilterable = this.#optionElements.length > 10;
     this.tagOverflowLimit = this.selectedOptions.length;
+    this.isNoAvailableOptions = this.#optionElements.length === 0;
 
     for (const option of this.#optionElements) {
       // Both here and in the `this.size` setter because no assignment happens on
@@ -1990,7 +2006,7 @@ export default class GlideCoreDropdown
         firstVisibleOption.privateActive = true;
       }
 
-      this.isNoResults =
+      this.isNoMatchingOptions =
         !this.#optionElementsNotHidden ||
         this.#optionElementsNotHidden.length === 0
           ? true
@@ -2585,72 +2601,68 @@ export default class GlideCoreDropdown
   }
 
   #show() {
-    if (this.#optionElements.length > 0) {
-      // `#show` is called whenever `open` is set. And `open` can be set arbitrarily
-      // by the consumer. Rather than guarding against calling `#show` everywhere,
-      // Floating UI is simply cleaned up every time `#show` is called.
-      this.#cleanUpFloatingUi?.();
+    // `#show` is called whenever `open` is set. And `open` can be set arbitrarily
+    // by the consumer. Rather than guarding against calling `#show` everywhere,
+    // Floating UI is simply cleaned up every time `#show` is called.
+    this.#cleanUpFloatingUi?.();
 
-      // This is done now instead of after Floating UI does its thing because the
-      // user may begin arrowing immediately to another option option or may have
-      // arrowed to open Dropdown and then accidentally arrowed again.
-      if (this.#previouslyActiveOption) {
-        this.#previouslyActiveOption.privateActive = true;
-        this.ariaActivedescendant = this.#previouslyActiveOption.id;
-      }
+    // This is done now instead of after Floating UI does its thing because the
+    // user may begin arrowing immediately to another option option or may have
+    // arrowed to open Dropdown and then accidentally arrowed again.
+    if (this.#previouslyActiveOption) {
+      this.#previouslyActiveOption.privateActive = true;
+      this.ariaActivedescendant = this.#previouslyActiveOption.id;
+    }
 
-      if (
-        this.#dropdownElementRef.value &&
-        this.#optionsAndFooterElementRef.value
-      ) {
-        this.#cleanUpFloatingUi = autoUpdate(
-          this.#dropdownElementRef.value,
-          this.#optionsAndFooterElementRef.value,
-          () => {
-            (async () => {
-              if (
-                this.#dropdownElementRef.value &&
-                this.#optionsAndFooterElementRef.value
-              ) {
-                const { x, y, placement } = await computePosition(
-                  this.#dropdownElementRef.value,
-                  this.#optionsAndFooterElementRef.value,
-                  {
-                    placement: 'bottom-start',
-                    middleware: [
-                      offset({
-                        mainAxis:
-                          Number.parseFloat(
-                            window
-                              .getComputedStyle(document.body)
-                              .getPropertyValue(
-                                '--glide-core-spacing-base-xxs',
-                              ),
-                          ) *
-                          Number.parseFloat(
-                            window.getComputedStyle(document.documentElement)
-                              .fontSize,
-                          ),
-                      }),
-                      flip(),
-                    ],
-                  },
-                );
+    if (
+      this.#dropdownElementRef.value &&
+      this.#optionsAndFooterElementRef.value
+    ) {
+      this.#cleanUpFloatingUi = autoUpdate(
+        this.#dropdownElementRef.value,
+        this.#optionsAndFooterElementRef.value,
+        () => {
+          (async () => {
+            if (
+              this.#dropdownElementRef.value &&
+              this.#optionsAndFooterElementRef.value
+            ) {
+              const { x, y, placement } = await computePosition(
+                this.#dropdownElementRef.value,
+                this.#optionsAndFooterElementRef.value,
+                {
+                  placement: 'bottom-start',
+                  middleware: [
+                    offset({
+                      mainAxis:
+                        Number.parseFloat(
+                          window
+                            .getComputedStyle(document.body)
+                            .getPropertyValue('--glide-core-spacing-base-xxs'),
+                        ) *
+                        Number.parseFloat(
+                          window.getComputedStyle(document.documentElement)
+                            .fontSize,
+                        ),
+                    }),
+                    flip(),
+                  ],
+                },
+              );
 
-                this.#optionsAndFooterElementRef.value.dataset.placement =
-                  placement;
+              this.#optionsAndFooterElementRef.value.dataset.placement =
+                placement;
 
-                Object.assign(this.#optionsAndFooterElementRef.value.style, {
-                  left: `${x}px`,
-                  top: `${y}px`,
-                });
+              Object.assign(this.#optionsAndFooterElementRef.value.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+              });
 
-                this.#optionsAndFooterElementRef.value?.showPopover();
-              }
-            })();
-          },
-        );
-      }
+              this.#optionsAndFooterElementRef.value?.showPopover();
+            }
+          })();
+        },
+      );
     }
   }
 

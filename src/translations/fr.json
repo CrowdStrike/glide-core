@@ -5,7 +5,6 @@
   "notifications": "Notifications",
   "nextTab": "Onglet suivant",
   "previousTab": "Onglet précédent",
-  "noResults": "Aucun résultat trouvé",
   "tooltip": "Info-bulle :",
   "announcedCharacterCount": "Nombre de caractères {current} sur {maximum}",
   "displayedCharacterCount": "{current}/{maximum}",

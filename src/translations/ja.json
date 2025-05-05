@@ -5,7 +5,6 @@
   "notifications": "通知",
   "nextTab": "次のタブ",
   "previousTab": "前のタブ",
-  "noResults": "結果が見つかりません",
   "tooltip": "ツールチップ：",
   "announcedCharacterCount": "文字数 {current}/{maximum}",
   "displayedCharacterCount": "{current}/{maximum}",
