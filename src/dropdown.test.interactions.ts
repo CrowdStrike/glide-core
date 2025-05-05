@@ -22,6 +22,24 @@ it('opens when opened programmatically', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
+it('shows a fallback when opened programmatically and there are no options', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label"></glide-core-dropdown>`,
+  );
+
+  host.open = true;
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const feedback = host.shadowRoot?.querySelector(
+    '[data-test="optionless-feedback"]',
+  );
+
+  expect(feedback?.checkVisibility()).to.be.true;
+  expect(feedback?.textContent?.trim()).to.equal('No options available');
+});
+
 it('does not open when opened programmatically and there are no options', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label"> </glide-core-dropdown>`,
@@ -994,6 +1012,34 @@ it('does not open on edit via Space', async () => {
   await sendKeys({ press: ' ' });
 
   expect(host.open).to.be.false;
+});
+
+it('shows a fallback when open and its options are removed', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open>
+      <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
+      <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const options = host.querySelectorAll('glide-core-dropdown-option');
+
+  for (const option of options) {
+    option.remove();
+  }
+
+  // Wait for `#onDefaultSlotChange()`.
+  await aTimeout(0);
+
+  const feedback = host.shadowRoot?.querySelector(
+    '[data-test="optionless-feedback"]',
+  );
+
+  expect(feedback?.checkVisibility()).to.be.true;
+  expect(feedback?.textContent?.trim()).to.equal('No options available');
 });
 
 it('hides the tooltip of the active option when opened via click', async () => {

@@ -8,6 +8,8 @@ export const PENDING_STRINGS = [
   'error',
   'informational',
   'loading',
+  'noAvailableOptions',
+  'noMatchingOptions',
 ] as const;
 
 type PendingTranslation = (typeof PENDING_STRINGS)[number];
@@ -24,7 +26,6 @@ const translation: Omit<Translation, PendingTranslation> = {
   notifications: '通知',
   nextTab: 'Onglet suivant',
   previousTab: 'Onglet précédent',
-  noResults: '結果が見つかりません',
   tooltip: 'ツールチップ：',
 
   announcedCharacterCount: (current: number, maximum: number) =>

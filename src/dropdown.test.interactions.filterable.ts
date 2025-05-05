@@ -1551,7 +1551,7 @@ it('retains its filter query when not `multiple` and its default slot changes', 
   expect(input?.value).to.equal('one');
 });
 
-it('shows a fallback when every option has been filtered out', async () => {
+it('shows a fallback when every option has been hidden via filtering', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -1564,6 +1564,41 @@ it('shows a fallback when every option has been filtered out', async () => {
   host.focus();
   await sendKeys({ type: 'test' });
 
-  const noResults = host.shadowRoot?.querySelector('[data-test="no-results"]');
-  expect(noResults?.checkVisibility()).to.be.true;
+  const feedback = host.shadowRoot?.querySelector(
+    '[data-test="optionless-feedback"]',
+  );
+
+  expect(feedback?.checkVisibility()).to.be.true;
+  expect(feedback?.textContent?.trim()).to.equal('No matching options');
+});
+
+it('shows a fallback when every option has been removed via filtering', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" filterable open>
+      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
+    </glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  host.filter = async () => {
+    const options = host.querySelectorAll('glide-core-dropdown-option');
+
+    for (const option of options) {
+      option.remove();
+    }
+
+    return [];
+  };
+
+  host.focus();
+  await sendKeys({ type: 'test' });
+
+  const feedback = host.shadowRoot?.querySelector(
+    '[data-test="optionless-feedback"]',
+  );
+
+  expect(feedback?.checkVisibility()).to.be.true;
+  expect(feedback?.textContent?.trim()).to.equal('No options available');
 });

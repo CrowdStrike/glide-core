@@ -25,7 +25,8 @@ export interface Translation extends DefaultTranslation {
   notifications: string;
   nextTab: string;
   previousTab: string;
-  noResults: string;
+  noAvailableOptions: string;
+  noMatchingOptions: string;
   tooltip: string;
   severityInformational: string;
   severityCritical: string;
