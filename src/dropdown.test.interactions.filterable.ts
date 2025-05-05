@@ -1564,6 +1564,8 @@ it('shows a fallback when every option has been filtered out', async () => {
   host.focus();
   await sendKeys({ type: 'test' });
 
-  const noResults = host.shadowRoot?.querySelector('[data-test="no-results"]');
-  expect(noResults?.checkVisibility()).to.be.true;
+  const noOptions = host.shadowRoot?.querySelector('[data-test="no-options"]');
+
+  expect(noOptions?.checkVisibility()).to.be.true;
+  expect(noOptions?.textContent?.trim()).to.equal('No matching options');
 });
