@@ -326,6 +326,19 @@ export default class GlideCoreDropdown
       throw new Error('Only one value is allowed when not `multiple`.');
     }
 
+    // When an option is selected, `#inputElementRef.value.value` is set the `label`
+    // of the selected option. If Dropdown's `value` has been emptied, it means an
+    // option is no longer selected. So the `value` of `#inputElementRef.value` should
+    // be emptied too.
+    if (
+      !this.multiple &&
+      this.value.length === 0 &&
+      this.#inputElementRef.value &&
+      this.selectedOptions.length === 1
+    ) {
+      this.#inputElementRef.value.value = '';
+    }
+
     for (const option of this.#optionElements) {
       this.#isProgrammaticSelection = true;
 
@@ -352,14 +365,6 @@ export default class GlideCoreDropdown
       if (option.selected && option.disabled) {
         option.disabled = false;
       }
-    }
-
-    if (
-      !this.multiple &&
-      this.value.length === 0 &&
-      this.#inputElementRef.value
-    ) {
-      this.#inputElementRef.value.value = '';
     }
   }
 
