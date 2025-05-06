@@ -133,5 +133,34 @@ export default [
         }
       }
     }
+
+    .default-slot {
+      &::slotted(*) {
+        /*
+          So that teams clicking Icon Button using Playwright don't have to use "force: true".
+          Playwright uses "elementsFromPoint()" internally to locate elements. But there's a
+          Chromium bug¹ where that method returns content slotted into the element clicked
+          instead of the element itself.
+
+          Or it may² be a specification issue. Either way, to reproduce it, use the "getByRole"
+          locator to locate and click Icon Button: "page.getByRole('button').click()". The
+          click will fail with a Playwright "intercepts pointer events" error related to the
+          slotted content.
+
+          It's not clear if Playwright can work around it like it has³ other "elementsFromPoint()"
+          problems or if the fix needs to come from Chromium. I'll file a bug with Playwright and
+          update this comment if I find out.
+
+          In the meantime, disabling pointer events on the slotted content prevents it from being
+          included in the array returned by "elementsFromPoint()". As a result, Playwright won't
+          falsely believe it's intercepting events.
+
+          1. https://issues.chromium.org/issues/40755138
+          2. https://github.com/w3c/csswg-drafts/issues/556
+          3. https://github.com/microsoft/playwright/blob/00429efc4ac67ece5d9ba220d7470ea97c0ca265/packages/injected/src/injectedScript.ts#L962-L968
+        */
+        pointer-events: none;
+      }
+    }
   `,
 ];
