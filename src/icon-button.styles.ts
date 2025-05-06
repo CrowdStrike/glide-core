@@ -133,5 +133,11 @@ export default [
         }
       }
     }
+
+    .default-slot {
+      &::slotted(*) {
+        pointer-events: none;
+      }
+    }
   `,
 ];

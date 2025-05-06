@@ -133,6 +133,7 @@ export default class GlideCoreButton extends LitElement {
         ${ref(this.#buttonElementRef)}
       >
         <slot
+          class="prefix-icon-slot"
           name="prefix-icon"
           @slotchange=${this.#onPrefixIconSlotChange}
           ${ref(this.#prefixIconSlotElementRef)}
@@ -146,6 +147,7 @@ export default class GlideCoreButton extends LitElement {
         ${this.label}
 
         <slot
+          class="suffix-icon-slot"
           name="suffix-icon"
           @slotchange=${this.#onSuffixIconSlotChange}
           ${ref(this.#suffixIconSlotElementRef)}

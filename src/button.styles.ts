@@ -150,5 +150,17 @@ export default [
         min-inline-size: 4.375rem;
       }
     }
+
+    .prefix-icon-slot {
+      &::slotted(*) {
+        pointer-events: none;
+      }
+    }
+
+    .suffix-icon-slot {
+      &::slotted(*) {
+        pointer-events: none;
+      }
+    }
   `,
 ];
