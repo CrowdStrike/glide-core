@@ -79,7 +79,7 @@ declare global {
  *
  * @method filter
  * @param {string} query
- * @returns Promise<GlideCoreDropdownOption[]>
+ * @returns Promise<GlideCoreDropdownOption[] | undefined | void>
  *
  * @method formAssociatedCallback
  * @method formResetCallback
@@ -183,6 +183,7 @@ export default class GlideCoreDropdown
     this.#isOpen = isOpen;
 
     if (isOpen && hasChanged && !this.disabled) {
+      this.hasNoAvailableOptions = this.#optionElements.length === 0;
       this.#show();
 
       this.dispatchEvent(
@@ -213,7 +214,7 @@ export default class GlideCoreDropdown
       }
 
       this.isFiltering = false;
-      this.isNoResults = false;
+      this.hasNoMatchingOptions = false;
       this.isShowSingleSelectIcon = Boolean(this.selectedOptions.at(0)?.value);
 
       for (const option of this.#optionElements) {
@@ -325,6 +326,19 @@ export default class GlideCoreDropdown
       throw new Error('Only one value is allowed when not `multiple`.');
     }
 
+    // When an option is selected, `#inputElementRef.value.value` is set the `label`
+    // of the selected option. If Dropdown's `value` has been emptied, it means an
+    // option is no longer selected. So the `value` of `#inputElementRef.value` should
+    // be emptied too.
+    if (
+      !this.multiple &&
+      this.value.length === 0 &&
+      this.#inputElementRef.value &&
+      this.selectedOptions.length === 1
+    ) {
+      this.#inputElementRef.value.value = '';
+    }
+
     for (const option of this.#optionElements) {
       this.#isProgrammaticSelection = true;
 
@@ -351,14 +365,6 @@ export default class GlideCoreDropdown
       if (option.selected && option.disabled) {
         option.disabled = false;
       }
-    }
-
-    if (
-      !this.multiple &&
-      this.value.length === 0 &&
-      this.#inputElementRef.value
-    ) {
-      this.#inputElementRef.value.value = '';
     }
   }
 
@@ -468,7 +474,9 @@ export default class GlideCoreDropdown
   // `async` because it may return a promise when overridden.
   //
   // eslint-disable-next-line @typescript-eslint/require-await
-  async filter(query: string): Promise<GlideCoreDropdownOption[]> {
+  async filter(
+    query: string,
+  ): Promise<GlideCoreDropdownOption[] | undefined | void> {
     return this.#optionElements.filter(({ label }) => {
       return label?.toLowerCase().includes(query.toLowerCase().trim());
     });
@@ -953,7 +961,9 @@ export default class GlideCoreDropdown
           <div
             class=${classMap({
               'options-and-footer': true,
-              'no-results': this.isNoResults && !this.loading,
+              optionless:
+                (this.hasNoAvailableOptions || this.hasNoMatchingOptions) &&
+                !this.loading,
             })}
             ${ref(this.#optionsAndFooterElementRef)}
           >
@@ -963,7 +973,10 @@ export default class GlideCoreDropdown
                 : 'primary-button'}
               class=${classMap({
                 options: true,
-                hidden: this.isNoResults || this.loading,
+                hidden:
+                  this.hasNoAvailableOptions ||
+                  this.hasNoMatchingOptions ||
+                  this.loading,
                 [this.size]: true,
               })}
               data-test="options"
@@ -996,7 +1009,7 @@ export default class GlideCoreDropdown
               <slot
                 class="default-slot"
                 @slotchange=${this.#onDefaultSlotChange}
-                ${assertSlot([GlideCoreDropdownOption, Text])}
+                ${assertSlot([GlideCoreDropdownOption, Text], true)}
                 ${ref(this.#defaultSlotElementRef)}
               >
                 <!--
@@ -1016,11 +1029,17 @@ export default class GlideCoreDropdown
                 ${map(range(7), () => html`<div></div>`)}
               </div>`;
             })}
-            ${when(this.isNoResults && !this.loading, () => {
-              return html`<div data-test="no-results">
-                ${this.#localize.term('noResults')}
-              </div>`;
-            })}
+            ${when(
+              (this.hasNoAvailableOptions || this.hasNoMatchingOptions) &&
+                !this.loading,
+              () => {
+                return html`<div data-test="optionless-feedback">
+                  ${this.hasNoAvailableOptions
+                    ? this.#localize.term('noAvailableOptions')
+                    : this.#localize.term('noMatchingOptions')}
+                </div>`;
+              },
+            )}
 
             <footer
               class=${classMap({
@@ -1163,6 +1182,16 @@ export default class GlideCoreDropdown
   @state()
   private ariaActivedescendant = '';
 
+  // Used to show feedback when there are no slotted options.
+  @state()
+  private hasNoAvailableOptions = false;
+
+  // Used to show feedback when every option has been hidden by having been filtered
+  // out. The names for both this and `hasNoAvailableOptions` are not ideal. But both
+  // are downstream of the copy provided by Design.
+  @state()
+  private hasNoMatchingOptions = false;
+
   @state()
   private inputValue = '';
 
@@ -1200,9 +1229,6 @@ export default class GlideCoreDropdown
 
   @state()
   private isInternalLabelTooltipOpen = false;
-
-  @state()
-  private isNoResults = false;
 
   @state()
   private isReportValidityOrSubmit = false;
@@ -1383,6 +1409,7 @@ export default class GlideCoreDropdown
     }
 
     this.tagOverflowLimit = this.selectedOptions.length;
+    this.hasNoAvailableOptions = this.#optionElements.length === 0;
 
     for (const option of this.#optionElements) {
       // Both here and in the `this.size` setter because no assignment happens on
@@ -1975,7 +2002,7 @@ export default class GlideCoreDropdown
       this.isFiltering = false;
     }
 
-    let options: GlideCoreDropdownOption[] | undefined;
+    let options: GlideCoreDropdownOption[] | undefined | void;
 
     if (this.#inputElementRef.value) {
       try {
@@ -2004,7 +2031,7 @@ export default class GlideCoreDropdown
         firstVisibleOption.privateActive = true;
       }
 
-      this.isNoResults =
+      this.hasNoMatchingOptions =
         !this.#optionElementsNotHidden ||
         this.#optionElementsNotHidden.length === 0
           ? true
@@ -2599,72 +2626,68 @@ export default class GlideCoreDropdown
   }
 
   #show() {
-    if (this.#optionElements.length > 0) {
-      // `#show` is called whenever `open` is set. And `open` can be set arbitrarily
-      // by the consumer. Rather than guarding against calling `#show` everywhere,
-      // Floating UI is simply cleaned up every time `#show` is called.
-      this.#cleanUpFloatingUi?.();
+    // `#show` is called whenever `open` is set. And `open` can be set arbitrarily
+    // by the consumer. Rather than guarding against calling `#show` everywhere,
+    // Floating UI is simply cleaned up every time `#show` is called.
+    this.#cleanUpFloatingUi?.();
 
-      // This is done now instead of after Floating UI does its thing because the
-      // user may begin arrowing immediately to another option option or may have
-      // arrowed to open Dropdown and then accidentally arrowed again.
-      if (this.#previouslyActiveOption) {
-        this.#previouslyActiveOption.privateActive = true;
-        this.ariaActivedescendant = this.#previouslyActiveOption.id;
-      }
+    // This is done now instead of after Floating UI does its thing because the
+    // user may begin arrowing immediately to another option option or may have
+    // arrowed to open Dropdown and then accidentally arrowed again.
+    if (this.#previouslyActiveOption) {
+      this.#previouslyActiveOption.privateActive = true;
+      this.ariaActivedescendant = this.#previouslyActiveOption.id;
+    }
 
-      if (
-        this.#dropdownElementRef.value &&
-        this.#optionsAndFooterElementRef.value
-      ) {
-        this.#cleanUpFloatingUi = autoUpdate(
-          this.#dropdownElementRef.value,
-          this.#optionsAndFooterElementRef.value,
-          () => {
-            (async () => {
-              if (
-                this.#dropdownElementRef.value &&
-                this.#optionsAndFooterElementRef.value
-              ) {
-                const { x, y, placement } = await computePosition(
-                  this.#dropdownElementRef.value,
-                  this.#optionsAndFooterElementRef.value,
-                  {
-                    placement: 'bottom-start',
-                    middleware: [
-                      offset({
-                        mainAxis:
-                          Number.parseFloat(
-                            window
-                              .getComputedStyle(document.body)
-                              .getPropertyValue(
-                                '--glide-core-spacing-base-xxs',
-                              ),
-                          ) *
-                          Number.parseFloat(
-                            window.getComputedStyle(document.documentElement)
-                              .fontSize,
-                          ),
-                      }),
-                      flip(),
-                    ],
-                  },
-                );
+    if (
+      this.#dropdownElementRef.value &&
+      this.#optionsAndFooterElementRef.value
+    ) {
+      this.#cleanUpFloatingUi = autoUpdate(
+        this.#dropdownElementRef.value,
+        this.#optionsAndFooterElementRef.value,
+        () => {
+          (async () => {
+            if (
+              this.#dropdownElementRef.value &&
+              this.#optionsAndFooterElementRef.value
+            ) {
+              const { x, y, placement } = await computePosition(
+                this.#dropdownElementRef.value,
+                this.#optionsAndFooterElementRef.value,
+                {
+                  placement: 'bottom-start',
+                  middleware: [
+                    offset({
+                      mainAxis:
+                        Number.parseFloat(
+                          window
+                            .getComputedStyle(document.body)
+                            .getPropertyValue('--glide-core-spacing-base-xxs'),
+                        ) *
+                        Number.parseFloat(
+                          window.getComputedStyle(document.documentElement)
+                            .fontSize,
+                        ),
+                    }),
+                    flip(),
+                  ],
+                },
+              );
 
-                this.#optionsAndFooterElementRef.value.dataset.placement =
-                  placement;
+              this.#optionsAndFooterElementRef.value.dataset.placement =
+                placement;
 
-                Object.assign(this.#optionsAndFooterElementRef.value.style, {
-                  left: `${x}px`,
-                  top: `${y}px`,
-                });
+              Object.assign(this.#optionsAndFooterElementRef.value.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+              });
 
-                this.#optionsAndFooterElementRef.value?.showPopover();
-              }
-            })();
-          },
-        );
-      }
+              this.#optionsAndFooterElementRef.value?.showPopover();
+            }
+          })();
+        },
+      );
     }
   }
 

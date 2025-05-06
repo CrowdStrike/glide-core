@@ -44,6 +44,22 @@ it('can be open', async () => {
   expect(options?.checkVisibility()).to.be.true;
 });
 
+it('shows a fallback when open and there are no options', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label" open></glide-core-dropdown>`,
+  );
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const feedback = host.shadowRoot?.querySelector(
+    '[data-test="optionless-feedback"]',
+  );
+
+  expect(feedback?.checkVisibility()).to.be.true;
+  expect(feedback?.textContent?.trim()).to.equal('No options available');
+});
+
 it('shows loading feedback', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" loading open>

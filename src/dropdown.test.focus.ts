@@ -117,3 +117,22 @@ it('returns focus to itself when an option is activated and the Add button has f
 
   expect(document.activeElement).to.equal(host);
 });
+
+it('shows a fallback on focus when there are no options', async () => {
+  const host = await fixture<GlideCoreDropdown>(
+    html`<glide-core-dropdown label="Label"></glide-core-dropdown>`,
+  );
+
+  await sendKeys({ press: 'Tab' });
+  await sendKeys({ press: ' ' });
+
+  // Wait for Floating UI.
+  await aTimeout(0);
+
+  const feedback = host.shadowRoot?.querySelector(
+    '[data-test="optionless-feedback"]',
+  );
+
+  expect(feedback?.checkVisibility()).to.be.true;
+  expect(feedback?.textContent?.trim()).to.equal('No options available');
+});
