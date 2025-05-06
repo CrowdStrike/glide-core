@@ -1,5 +1,17 @@
 # @crowdstrike/glide-core
 
+## 0.26.1
+
+### Patch Changes
+
+- [#877](https://github.com/CrowdStrike/glide-core/pull/877) [`a8db47d`](https://github.com/CrowdStrike/glide-core/commit/a8db47dcce1b9710c71c06cf84779ac887fdc93f) Thanks [@clintcs](https://github.com/clintcs)! - - Dropdown no longer throws when its default slot contains both no options and no whitespace.
+
+  - Dropdown's "No Results Found" copy, shown when every option is hidden via filtering, has been changed to "No matching options".
+  - Dropdown now displays "No options available" when open and its default slot is empty.
+  - Dropdown's `filter()` method can now be overridden to return `void`.
+
+- [#880](https://github.com/CrowdStrike/glide-core/pull/880) [`fc3037e`](https://github.com/CrowdStrike/glide-core/commit/fc3037eabeaa41f5bc364764a5369b62e5eb7fb2) Thanks [@clintcs](https://github.com/clintcs)! - Icon Button is now clickable with Playwright without the use of `force: true`.
+
 ## 0.26.0
 
 ### Minor Changes
