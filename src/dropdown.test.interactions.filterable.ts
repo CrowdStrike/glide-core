@@ -1588,8 +1588,6 @@ it('shows a fallback when every option has been removed via filtering', async ()
     for (const option of options) {
       option.remove();
     }
-
-    return [];
   };
 
   host.focus();

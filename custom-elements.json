@@ -2786,7 +2786,7 @@
               "name": "filter",
               "return": {
                 "type": {
-                  "text": "Promise<GlideCoreDropdownOption[]>"
+                  "text": "Promise<GlideCoreDropdownOption[] | undefined | void>"
                 }
               },
               "parameters": [

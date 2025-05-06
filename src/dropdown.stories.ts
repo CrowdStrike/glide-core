@@ -136,7 +136,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: `
-async (query: string): Promise<GlideCoreDropdownOption[]> => {
+async (query: string): Promise<GlideCoreDropdownOption[] | void> => {
   const options = [...this.querySelectorAll('glide-core-dropdown-option)];
 
   return options.filter(({ label }) => {

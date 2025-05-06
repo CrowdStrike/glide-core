@@ -79,7 +79,7 @@ declare global {
  *
  * @method filter
  * @param {string} query
- * @returns Promise<GlideCoreDropdownOption[]>
+ * @returns Promise<GlideCoreDropdownOption[] | undefined | void>
  *
  * @method formAssociatedCallback
  * @method formResetCallback
@@ -469,7 +469,9 @@ export default class GlideCoreDropdown
   // `async` because it may return a promise when overridden.
   //
   // eslint-disable-next-line @typescript-eslint/require-await
-  async filter(query: string): Promise<GlideCoreDropdownOption[]> {
+  async filter(
+    query: string,
+  ): Promise<GlideCoreDropdownOption[] | undefined | void> {
     return this.#optionElements.filter(({ label }) => {
       return label?.toLowerCase().includes(query.toLowerCase().trim());
     });
@@ -1981,7 +1983,7 @@ export default class GlideCoreDropdown
       this.isFiltering = false;
     }
 
-    let options: GlideCoreDropdownOption[] | undefined;
+    let options: GlideCoreDropdownOption[] | undefined | void;
 
     if (this.#inputElementRef.value) {
       try {
