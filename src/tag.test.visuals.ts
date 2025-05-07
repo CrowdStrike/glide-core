@@ -75,48 +75,6 @@ for (const story of stories.Tag) {
             `${test.titlePath.join('.')}.png`,
           );
         });
-
-        test('size="small"', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-tag')
-            .evaluate<void, GlideCoreTag>((element) => {
-              element.size = 'small';
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test('size="medium"', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-tag')
-            .evaluate<void, GlideCoreTag>((element) => {
-              element.size = 'medium';
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
-        test('size="large"', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-tag')
-            .evaluate<void, GlideCoreTag>((element) => {
-              element.size = 'large';
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
       });
     }
   });

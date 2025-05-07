@@ -7842,16 +7842,6 @@
             },
             {
               "kind": "field",
-              "name": "size",
-              "type": {
-                "text": "'small' | 'medium' | 'large'"
-              },
-              "default": "'medium'",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "version",
               "type": {
                 "text": "string"
@@ -7915,14 +7905,6 @@
               },
               "default": "false",
               "fieldName": "removable"
-            },
-            {
-              "name": "size",
-              "type": {
-                "text": "'small' | 'medium' | 'large'"
-              },
-              "default": "'medium'",
-              "fieldName": "size"
             },
             {
               "name": "version",
