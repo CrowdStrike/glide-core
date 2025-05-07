@@ -34,7 +34,7 @@ it('can be required', async () => {
     </glide-core-private-label>`,
   );
 
-  const label = host.shadowRoot?.querySelector('[data-test="label"]');
+  const label = host.shadowRoot?.querySelector('[data-test="required-symbol"]');
   expect(label?.textContent?.includes('*')).to.be.true;
 });
 

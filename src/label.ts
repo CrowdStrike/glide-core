@@ -150,12 +150,18 @@ export default class GlideCoreLabel extends LitElement {
             >
               <!-- @type {HTMLLabelElement} -->
             </slot>
-
-            ${this.required
-              ? html`<span aria-hidden="true" class="required-symbol">*</span>`
-              : ''}
           </div>
         </glide-core-tooltip>
+
+        ${this.required
+          ? html`<span
+              aria-hidden="true"
+              class="required-symbol"
+              data-test="required-symbol"
+            >
+              &nbsp;*
+            </span>`
+          : ''}
       </div>
 
       <div class="control-and-summary" part="private-control-and-summary">

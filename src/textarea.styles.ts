@@ -56,6 +56,7 @@ export default [
       font-weight: var(--glide-core-typography-weight-regular);
       max-block-size: 5lh;
       min-block-size: 3lh;
+      min-inline-size: 3.75rem;
       padding: var(--glide-core-spacing-base-xs)
         var(--glide-core-spacing-base-sm);
       resize: vertical;
