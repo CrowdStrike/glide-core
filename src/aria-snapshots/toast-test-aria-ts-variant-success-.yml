@@ -1,3 +1,0 @@
-- region "Notifications":
-  - 'alert "Success: Label Description"':
-    - button "Dismiss"

@@ -1,6 +1,0 @@
-- text: Label
-- button "Label" [expanded]
-- listbox:
-  - option /One \d+\+/
-  - option "Two"
-  - option "Three"

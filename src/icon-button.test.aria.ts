@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreIconButton from './icon-button.js';
 
-test('disabled=${true}', async ({ page }, test) => {
+test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=icon-button--icon-button');
 
   await page
@@ -10,15 +10,15 @@ test('disabled=${true}', async ({ page }, test) => {
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-icon-button')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-icon-button')).toMatchAriaSnapshot(`
+    - button "Label" [disabled]
+  `);
 });
 
-test('disabled=${false}', async ({ page }, test) => {
+test('disabled=${false}', async ({ page }) => {
   await page.goto('?id=icon-button--icon-button');
 
-  await expect(page.locator('glide-core-icon-button')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-icon-button')).toMatchAriaSnapshot(`
+    - button "Label"
+  `);
 });

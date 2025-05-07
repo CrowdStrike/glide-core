@@ -1,7 +1,0 @@
-- dialog:
-  - banner:
-    - 'heading "Severity: Informational - Label" [level=2]'
-    - toolbar:
-      - button "Close"
-  - 'region "Severity: Informational - Label"'
-  - contentinfo

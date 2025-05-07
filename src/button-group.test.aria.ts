@@ -1,9 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreButtonGroupButton from './button-group.button.js';
 
-test('<glide-core-button-group-button>[disabled=${true}]', async ({
-  page,
-}, test) => {
+test('<glide-core-button-group-button>[disabled=${true}]', async ({ page }) => {
   await page.goto('?id=button-group--button-group');
 
   await page
@@ -13,34 +11,44 @@ test('<glide-core-button-group-button>[disabled=${true}]', async ({
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - radiogroup "Label":
+      - radio "One" [checked] [disabled]
+      - radio "Two"
+      - radio "Three"
+  `);
 });
 
 test('<glide-core-button-group-button>[disabled=${false}]', async ({
   page,
-}, test) => {
+}) => {
   await page.goto('?id=button-group--button-group');
 
-  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - radiogroup "Label":
+      - radio "One" [checked]
+      - radio "Two"
+      - radio "Three"
+  `);
 });
 
-test('<glide-core-button-group-button>[selected=${true}]', async ({
-  page,
-}, test) => {
+test('<glide-core-button-group-button>[selected=${true}]', async ({ page }) => {
   await page.goto('?id=button-group--button-group');
 
-  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - radiogroup "Label":
+      - radio "One" [checked]
+      - radio "Two"
+      - radio "Three"
+  `);
 });
 
 test('<glide-core-button-group-button>[selected=${false}]', async ({
   page,
-}, test) => {
+}) => {
   await page.goto('?id=button-group--button-group');
 
   await page
@@ -50,7 +58,11 @@ test('<glide-core-button-group-button>[selected=${false}]', async ({
       element.selected = false;
     });
 
-  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-button-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - radiogroup "Label":
+      - radio "One"
+      - radio "Two"
+      - radio "Three"
+  `);
 });

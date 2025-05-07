@@ -1,6 +1,0 @@
-- text: Label
-- combobox "Label" [expanded]
-- listbox:
-  - option "One"
-  - option "Two"
-  - option "Three"

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import type GlideCoreCheckboxGroup from './checkbox-group.js';
 import type GlideCoreCheckbox from './checkbox.js';
 
-test('disabled=${true}', async ({ page }, test) => {
+test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=checkbox-group--checkbox-group');
 
   await page
@@ -11,20 +11,30 @@ test('disabled=${true}', async ({ page }, test) => {
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - group "Label":
+      - checkbox "One" [disabled]
+      - checkbox "Two" [disabled]
+      - checkbox "Three" [disabled]
+      - text: Three
+  `);
 });
 
-test('disabled=${false}', async ({ page }, test) => {
+test('disabled=${false}', async ({ page }) => {
   await page.goto('?id=checkbox-group--checkbox-group');
 
-  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - group "Label":
+      - checkbox "One"
+      - checkbox "Two"
+      - checkbox "Three"
+      - text: Three
+  `);
 });
 
-test('hide-label', async ({ page }, test) => {
+test('hide-label', async ({ page }) => {
   await page.goto('?id=checkbox-group--checkbox-group');
 
   await page
@@ -33,12 +43,17 @@ test('hide-label', async ({ page }, test) => {
       element.hideLabel = true;
     });
 
-  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - group "Label":
+      - checkbox "One"
+      - checkbox "Two"
+      - checkbox "Three"
+      - text: Three
+  `);
 });
 
-test('slot="description"', async ({ page }, test) => {
+test('slot="description"', async ({ page }) => {
   await page.goto('?id=checkbox-group--checkbox-group');
 
   await page
@@ -52,12 +67,17 @@ test('slot="description"', async ({ page }, test) => {
       element.append(div);
     });
 
-  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - group "Label Description":
+      - checkbox "One"
+      - checkbox "Two"
+      - checkbox "Three"
+    - text: Description
+  `);
 });
 
-test('tooltip', async ({ page }, test) => {
+test('tooltip', async ({ page }) => {
   await page.goto('?id=checkbox-group--checkbox-group');
 
   await page
@@ -68,12 +88,19 @@ test('tooltip', async ({ page }, test) => {
 
   await page.locator('glide-core-tooltip').getByRole('button').focus();
 
-  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot(`
+    - button "Tooltip:"
+    - tooltip "Tooltip"
+    - text: Label
+    - group "Label":
+      - checkbox "One"
+      - checkbox "Two"
+      - checkbox "Three"
+      - text: Three
+  `);
 });
 
-test('<glide-core-checkbox>[checked=${true}]', async ({ page }, test) => {
+test('<glide-core-checkbox>[checked=${true}]', async ({ page }) => {
   await page.goto('?id=checkbox-group--checkbox-group');
 
   await page
@@ -83,16 +110,26 @@ test('<glide-core-checkbox>[checked=${true}]', async ({ page }, test) => {
       element.checked = true;
     });
 
-  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - group "Label":
+      - checkbox "One" [checked]
+      - checkbox "Two"
+      - checkbox "Three"
+      - text: Three
+  `);
 });
 
-test('<glide-core-checkbox>[checked=${false}]', async ({ page }, test) => {
+test('<glide-core-checkbox>[checked=${false}]', async ({ page }) => {
   await page.goto('?id=checkbox-group--checkbox-group');
   await page.locator('glide-core-checkbox-group').waitFor();
 
-  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-checkbox-group')).toMatchAriaSnapshot(`
+    - text: Label
+    - group "Label":
+      - checkbox "One"
+      - checkbox "Two"
+      - checkbox "Three"
+      - text: Three
+  `);
 });

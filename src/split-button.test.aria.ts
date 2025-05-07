@@ -5,7 +5,7 @@ import type GlideCoreSplitButtonSecondaryButton from './split-button.secondary-b
 
 test('<glide-core-split-button-primary-button>[disabled=${true}]', async ({
   page,
-}, test) => {
+}) => {
   await page.goto('?id=split-button--split-button');
 
   await page
@@ -14,36 +14,39 @@ test('<glide-core-split-button-primary-button>[disabled=${true}]', async ({
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot(`
+    - button "Label" [disabled]
+    - button "Label"
+  `);
 });
 
 test('<glide-core-split-button-primary-button>[disabled=${false}]', async ({
   page,
-}, test) => {
+}) => {
   await page.goto('?id=split-button--split-button');
   await page.locator('glide-core-split-button-primary-button').waitFor();
 
-  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot(`
+    - button "Label"
+    - button "Label"
+  `);
 });
 
 test('<glide-core-split-button-primary-button>[slot="icon"]', async ({
   page,
-}, test) => {
+}) => {
   await page.goto('?id=split-button--with-icon');
   await page.locator('glide-core-split-button-primary-button').waitFor();
 
-  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot(`
+    - button "Label"
+    - button "Label"
+  `);
 });
 
 test('<glide-core-split-button-primary-link>[disabled=${true}]', async ({
   page,
-}, test) => {
+}) => {
   await page.goto('?id=split-button--with-primary-link');
 
   await page
@@ -52,25 +55,28 @@ test('<glide-core-split-button-primary-link>[disabled=${true}]', async ({
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot(`
+    - link "Label" [disabled]
+    - button "Label"
+  `);
 });
 
 test('<glide-core-split-button-primary-link>[disabled=${false}]', async ({
   page,
-}, test) => {
+}) => {
   await page.goto('?id=split-button--with-primary-link');
   await page.locator('glide-core-split-button-primary-link').waitFor();
 
-  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot(`
+    - link "Label":
+      - /url: /
+    - button "Label"
+  `);
 });
 
 test('<glide-core-split-button-secondary-button>[disabled=${true}]', async ({
   page,
-}, test) => {
+}) => {
   await page.goto('?id=split-button--split-button');
 
   await page
@@ -79,18 +85,20 @@ test('<glide-core-split-button-secondary-button>[disabled=${true}]', async ({
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot(`
+    - button "Label"
+    - button "Label" [disabled]
+  `);
 });
 
 test('<glide-core-split-button-secondary-button>[disabled=${false}]', async ({
   page,
-}, test) => {
+}) => {
   await page.goto('?id=split-button--split-button');
   await page.locator('glide-core-split-button-secondary-button').waitFor();
 
-  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-split-button')).toMatchAriaSnapshot(`
+    - button "Label"
+    - button "Label"
+  `);
 });

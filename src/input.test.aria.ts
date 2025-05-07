@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreInput from './input.js';
 
-test('clearable', async ({ page }, test) => {
+test('clearable', async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page
@@ -12,12 +12,14 @@ test('clearable', async ({ page }, test) => {
 
   await page.getByRole('textbox').fill('Test');
 
-  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
+    - text: Label
+    - textbox "Label"
+    - button "Clear Label entry"
+  `);
 });
 
-test('disabled', async ({ page }, test) => {
+test('disabled', async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page
@@ -26,12 +28,13 @@ test('disabled', async ({ page }, test) => {
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
+    - text: Label
+    - textbox "Label" [disabled]
+  `);
 });
 
-test('hide-label', async ({ page }, test) => {
+test('hide-label', async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page
@@ -40,12 +43,13 @@ test('hide-label', async ({ page }, test) => {
       element.hideLabel = true;
     });
 
-  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
+    - text: Label
+    - textbox "Label"
+  `);
 });
 
-test('max-length', async ({ page }, test) => {
+test('max-length', async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page
@@ -56,12 +60,14 @@ test('max-length', async ({ page }, test) => {
 
   await page.getByRole('textbox').fill('Test');
 
-  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
+    - text: Label
+    - textbox "Label"
+    - text: Character count 4 of 1
+  `);
 });
 
-test('password-toggle', async ({ page }, test) => {
+test('password-toggle', async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page
@@ -71,12 +77,14 @@ test('password-toggle', async ({ page }, test) => {
       element.type = 'password';
     });
 
-  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
+    - text: Label
+    - textbox "Label"
+    - button "Show password"
+  `);
 });
 
-test('slot="description"', async ({ page }, test) => {
+test('slot="description"', async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page
@@ -90,12 +98,14 @@ test('slot="description"', async ({ page }, test) => {
       element.append(div);
     });
 
-  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
+    - text: Label
+    - textbox "Label"
+    - text: Description
+  `);
 });
 
-test('tooltip', async ({ page }, test) => {
+test('tooltip', async ({ page }) => {
   await page.goto('?id=input--input');
 
   await page
@@ -106,7 +116,10 @@ test('tooltip', async ({ page }, test) => {
 
   await page.locator('glide-core-tooltip').getByRole('button').focus();
 
-  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
+    - button "Tooltip:"
+    - tooltip "Tooltip"
+    - text: Label
+    - textbox "Label"
+  `);
 });

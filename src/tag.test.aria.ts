@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreTag from './tag.js';
 
-test('disabled=${true}', async ({ page }, test) => {
+test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=tag--tag');
 
   await page
@@ -11,12 +11,13 @@ test('disabled=${true}', async ({ page }, test) => {
       element.removable = true;
     });
 
-  await expect(page.locator('glide-core-tag')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-tag')).toMatchAriaSnapshot(`
+    - text: Label
+    - 'button "Remove tag: Label" [disabled]'
+  `);
 });
 
-test('disabled=${false}', async ({ page }, test) => {
+test('disabled=${false}', async ({ page }) => {
   await page.goto('?id=tag--tag');
 
   await page
@@ -25,7 +26,8 @@ test('disabled=${false}', async ({ page }, test) => {
       element.removable = true;
     });
 
-  await expect(page.locator('glide-core-tag')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-tag')).toMatchAriaSnapshot(`
+    - text: Label
+    - 'button "Remove tag: Label"'
+  `);
 });
