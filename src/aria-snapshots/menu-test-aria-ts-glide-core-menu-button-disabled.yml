@@ -1,9 +1,0 @@
-- button "Toggle"
-- menu "Toggle":
-  - menuitem "One":
-    - button "One" [disabled]
-  - menuitem "Two":
-    - button "Two"
-  - menuitem "Three":
-    - link "Three":
-      - /url: /

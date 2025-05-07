@@ -1,9 +1,0 @@
-- text: Label One, Two,
-- list:
-  - listitem:
-    - text: One
-    - 'button "Remove tag: One"'
-  - listitem:
-    - text: Two
-    - 'button "Remove tag: Two"'
-- button "One, Two, Label"

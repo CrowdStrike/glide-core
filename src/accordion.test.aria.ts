@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreAccordion from './accordion.js';
 
-test('open=${true}', async ({ page }, test) => {
+test('open=${true}', async ({ page }) => {
   await page.goto('?id=accordion--accordion');
 
   await page
@@ -10,15 +10,15 @@ test('open=${true}', async ({ page }, test) => {
       element.open = true;
     });
 
-  await expect(page.locator('glide-core-accordion')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-accordion')).toMatchAriaSnapshot(`
+    - group: Label Content
+  `);
 });
 
-test('open=${false}', async ({ page }, test) => {
+test('open=${false}', async ({ page }) => {
   await page.goto('?id=accordion--accordion');
 
-  await expect(page.locator('glide-core-accordion')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-accordion')).toMatchAriaSnapshot(`
+    - group: Label Content
+  `);
 });

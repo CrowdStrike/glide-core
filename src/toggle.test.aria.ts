@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreToggle from './toggle.js';
 
-test('checked=${true}', async ({ page }, test) => {
+test('checked=${true}', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page
@@ -10,21 +10,23 @@ test('checked=${true}', async ({ page }, test) => {
       element.checked = true;
     });
 
-  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
+    - text: Label
+    - switch "Label" [checked]
+  `);
 });
 
-test('checked=${false}', async ({ page }, test) => {
+test('checked=${false}', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
   await page.locator('glide-core-toggle').waitFor();
 
-  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
+    - text: Label
+    - switch "Label"
+  `);
 });
 
-test('disabled=${true}', async ({ page }, test) => {
+test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page
@@ -33,21 +35,23 @@ test('disabled=${true}', async ({ page }, test) => {
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
+    - text: Label
+    - switch "Label" [disabled]
+  `);
 });
 
-test('disabled=${false}', async ({ page }, test) => {
+test('disabled=${false}', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
   await page.locator('glide-core-toggle').waitFor();
 
-  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
+    - text: Label
+    - switch "Label"
+  `);
 });
 
-test('hide-label', async ({ page }, test) => {
+test('hide-label', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page
@@ -56,12 +60,13 @@ test('hide-label', async ({ page }, test) => {
       element.hideLabel = true;
     });
 
-  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
+    - text: Label
+    - switch "Label"
+  `);
 });
 
-test('slot="description"', async ({ page }, test) => {
+test('slot="description"', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page
@@ -75,12 +80,14 @@ test('slot="description"', async ({ page }, test) => {
       element.append(div);
     });
 
-  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
+    - text: Label
+    - switch "Label"
+    - text: Description
+  `);
 });
 
-test('summary', async ({ page }, test) => {
+test('summary', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page
@@ -89,12 +96,14 @@ test('summary', async ({ page }, test) => {
       element.summary = 'Summary';
     });
 
-  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
+    - text: Label
+    - switch "Label"
+    - text: Summary
+    `);
 });
 
-test('tooltip', async ({ page }, test) => {
+test('tooltip', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
   await page
@@ -105,7 +114,10 @@ test('tooltip', async ({ page }, test) => {
 
   await page.locator('glide-core-tooltip').getByRole('button').focus();
 
-  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
+    - button "Tooltip:"
+    - tooltip "Tooltip"
+    - text: Label
+    - switch "Label"
+  `);
 });

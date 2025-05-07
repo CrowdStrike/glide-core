@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreTooltip from './tooltip.js';
 
-test('disabled=${true}', async ({ page }, test) => {
+test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=tooltip--tooltip');
 
   await page
@@ -13,12 +13,12 @@ test('disabled=${true}', async ({ page }, test) => {
 
   await page.locator('glide-core-tooltip').getByRole('button').focus();
 
-  await expect(page.locator('glide-core-tooltip')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-tooltip')).toMatchAriaSnapshot(`
+    - button "Tooltip:"
+  `);
 });
 
-test('disabled=${false}', async ({ page }, test) => {
+test('disabled=${false}', async ({ page }) => {
   await page.goto('?id=tooltip--tooltip');
   await page.locator('glide-core-tooltip').waitFor();
 
@@ -30,7 +30,8 @@ test('disabled=${false}', async ({ page }, test) => {
 
   await page.locator('glide-core-tooltip').getByRole('button').focus();
 
-  await expect(page.locator('glide-core-tooltip')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-tooltip')).toMatchAriaSnapshot(`
+    - button "Tooltip:"
+    - tooltip "Label"
+  `);
 });

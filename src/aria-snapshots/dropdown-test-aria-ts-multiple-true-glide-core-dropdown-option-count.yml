@@ -1,9 +1,0 @@
-- text: Label
-- button "Label" [expanded]
-- listbox:
-  - option /One \d+\+/:
-    - checkbox "One"
-  - option "Two":
-    - checkbox "Two"
-  - option "Three":
-    - checkbox "Three"

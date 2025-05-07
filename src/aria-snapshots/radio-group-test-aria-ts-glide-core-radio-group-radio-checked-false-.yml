@@ -1,5 +1,0 @@
-- text: Label
-- radiogroup "Label":
-  - radio "One"
-  - radio "Two"
-  - radio "Three"

@@ -3,7 +3,7 @@ import type GlideCoreMenu from './menu.js';
 import type GlideCoreMenuButton from './menu.button.js';
 import type GlideCoreMenuLink from './menu.link.js';
 
-test('loading', async ({ page }, test) => {
+test('loading', async ({ page }) => {
   await page.goto('?id=menu--menu');
 
   await page
@@ -13,12 +13,13 @@ test('loading', async ({ page }, test) => {
       element.open = true;
     });
 
-  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot(`
+    - button "Toggle"
+    - menu "Toggle"
+  `);
 });
 
-test('open=${true}', async ({ page }, test) => {
+test('open=${true}', async ({ page }) => {
   await page.goto('?id=menu--menu');
 
   await page
@@ -27,21 +28,29 @@ test('open=${true}', async ({ page }, test) => {
       element.open = true;
     });
 
-  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot(`
+    - button "Toggle"
+    - menu "Toggle":
+      - menuitem "One":
+        - button "One"
+      - menuitem "Two":
+        - button "Two"
+      - menuitem "Three":
+        - link "Three":
+          - /url: /
+  `);
 });
 
-test('open=${false}', async ({ page }, test) => {
+test('open=${false}', async ({ page }) => {
   await page.goto('?id=menu--menu');
   await page.locator('glide-core-menu').waitFor();
 
-  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot(`
+    - button "Toggle"
+  `);
 });
 
-test('<glide-core-menu-button>.disabled', async ({ page }, test) => {
+test('<glide-core-menu-button>.disabled', async ({ page }) => {
   await page.goto('?id=menu--menu');
 
   await page
@@ -57,12 +66,20 @@ test('<glide-core-menu-button>.disabled', async ({ page }, test) => {
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot(`
+    - button "Toggle"
+    - menu "Toggle":
+      - menuitem "One":
+        - button "One" [disabled]
+      - menuitem "Two":
+        - button "Two"
+      - menuitem "Three":
+        - link "Three":
+          - /url: /
+  `);
 });
 
-test('<glide-core-menu-link>.disabled', async ({ page }, test) => {
+test('<glide-core-menu-link>.disabled', async ({ page }) => {
   await page.goto('?id=menu--menu');
 
   await page
@@ -78,7 +95,15 @@ test('<glide-core-menu-link>.disabled', async ({ page }, test) => {
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot(`
+    - button "Toggle"
+    - menu "Toggle":
+      - menuitem "One":
+        - button "One"
+      - menuitem "Two":
+        - button "Two"
+      - menuitem "Three":
+        - link "Three" [disabled]:
+          - /url: /
+  `);
 });

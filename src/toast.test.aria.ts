@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreButton from './button.js';
 
-test('variant="informational"', async ({ page }, test) => {
+test('variant="informational"', async ({ page }) => {
   await page.goto('?id=toast--toast');
 
   await page
@@ -12,12 +12,14 @@ test('variant="informational"', async ({ page }, test) => {
 
   await page.locator('glide-core-button').click();
 
-  await expect(page.locator('glide-core-private-toasts')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-private-toasts')).toMatchAriaSnapshot(`
+    - region "Notifications":
+      - 'alert "Informational: Label Description"':
+        - button "Dismiss"
+  `);
 });
 
-test('variant="success"', async ({ page }, test) => {
+test('variant="success"', async ({ page }) => {
   await page.goto('?id=toast--toast');
 
   await page
@@ -29,12 +31,14 @@ test('variant="success"', async ({ page }, test) => {
 
   await page.locator('glide-core-button').click();
 
-  await expect(page.locator('glide-core-private-toasts')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-private-toasts')).toMatchAriaSnapshot(`
+    - region "Notifications":
+      - 'alert "Success: Label Description"':
+        - button "Dismiss"
+  `);
 });
 
-test('variant="error"', async ({ page }, test) => {
+test('variant="error"', async ({ page }) => {
   await page.goto('?id=toast--toast');
 
   await page
@@ -46,7 +50,9 @@ test('variant="error"', async ({ page }, test) => {
 
   await page.locator('glide-core-button').click();
 
-  await expect(page.locator('glide-core-private-toasts')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-private-toasts')).toMatchAriaSnapshot(`
+    - region "Notifications":
+      - 'alert "Error: Label Description"':
+        - button "Dismiss"
+  `);
 });

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCorePopover from './popover.js';
 
-test('disabled=${true}', async ({ page }, test) => {
+test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=popover--popover');
 
   await page
@@ -11,12 +11,12 @@ test('disabled=${true}', async ({ page }, test) => {
       element.open = true;
     });
 
-  await expect(page.locator('glide-core-popover')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-popover')).toMatchAriaSnapshot(`
+    - button
+  `);
 });
 
-test('disabled=${false}', async ({ page }, test) => {
+test('disabled=${false}', async ({ page }) => {
   await page.goto('?id=popover--popover');
 
   await page
@@ -25,7 +25,8 @@ test('disabled=${false}', async ({ page }, test) => {
       element.open = true;
     });
 
-  await expect(page.locator('glide-core-popover')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-popover')).toMatchAriaSnapshot(`
+    - button [expanded]
+    - text: Content
+  `);
 });

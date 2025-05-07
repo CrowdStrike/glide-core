@@ -1,5 +1,0 @@
-- text: Label
-- radiogroup "Label":
-  - radio "One" [checked] [disabled]
-  - radio "Two"
-  - radio "Three"

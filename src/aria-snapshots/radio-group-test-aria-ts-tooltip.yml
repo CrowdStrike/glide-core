@@ -1,6 +1,0 @@
-- button "Tooltip:"
-- text: Label
-- radiogroup "Label":
-  - radio "One" [checked]
-  - radio "Two"
-  - radio "Three"

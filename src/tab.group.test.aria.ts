@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type GlideCoreTab from './tab.js';
 
-test('<glide-core-tab>.disabled', async ({ page }, test) => {
+test('<glide-core-tab>.disabled', async ({ page }) => {
   await page.goto('?id=tab-group--tabs');
 
   await page
@@ -11,16 +11,22 @@ test('<glide-core-tab>.disabled', async ({ page }, test) => {
       element.disabled = true;
     });
 
-  await expect(page.locator('glide-core-tab-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-tab-group')).toMatchAriaSnapshot(`
+    - tablist:
+      - tab "Tab" [disabled] [selected]
+      - tab "With Icon"
+    - tabpanel "Tab": Panel
+  `);
 });
 
-test('<glide-core-tab>.selected', async ({ page }, test) => {
+test('<glide-core-tab>.selected', async ({ page }) => {
   await page.goto('?id=tab-group--tabs');
   await page.locator('glide-core-tab-group').waitFor();
 
-  await expect(page.locator('glide-core-tab-group')).toMatchAriaSnapshot({
-    name: `${test.titlePath.join('.')}.yml`,
-  });
+  await expect(page.locator('glide-core-tab-group')).toMatchAriaSnapshot(`
+    - tablist:
+      - tab "Tab" [selected]
+      - tab "With Icon"
+    - tabpanel "Tab": Panel
+  `);
 });

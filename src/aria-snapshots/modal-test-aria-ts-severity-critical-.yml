@@ -1,7 +1,0 @@
-- dialog:
-  - banner:
-    - 'heading "Severity: Critical - Label" [level=2]'
-    - toolbar:
-      - button "Close"
-  - 'region "Severity: Critical - Label"'
-  - contentinfo

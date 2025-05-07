@@ -1,6 +1,0 @@
-- text: Label
-- group "Label Description":
-  - checkbox "One"
-  - checkbox "Two"
-  - checkbox "Three"
-- text: Description
