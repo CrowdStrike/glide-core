@@ -50,7 +50,6 @@ declare global {
  * @attr {boolean} [readonly=false]
  * @attr {boolean} [required=false]
  * @attr {boolean} [select-all=false]
- * @attr {'large'|'small'} [size='large']
  * @attr {string} [tooltip]
  * @attr {string[]} [value=[]]
  * @attr {'quiet'} [variant]
@@ -286,24 +285,6 @@ export default class GlideCoreDropdown
 
       this.lastSelectedOption.privateUpdateCheckbox();
       this.#setTagOverflowLimit();
-    }
-  }
-
-  /**
-   * @default 'large'
-   */
-  @property({ reflect: true })
-  get size(): 'large' | 'small' {
-    return this.#size;
-  }
-
-  set size(size: 'large' | 'small') {
-    this.#size = size;
-
-    if (this.#optionElementsIncludingSelectAll) {
-      for (const option of this.#optionElementsIncludingSelectAll) {
-        option.privateSize = size;
-      }
     }
   }
 
@@ -726,7 +707,7 @@ export default class GlideCoreDropdown
                         data-id=${id}
                         label=${ifDefined(label)}
                         removable
-                        size=${this.size}
+                        size="large"
                         ?disabled=${this.disabled || this.readonly}
                         ?private-editable=${editable}
                         @edit=${this.#onTagEdit}
@@ -977,7 +958,6 @@ export default class GlideCoreDropdown
                   this.hasNoAvailableOptions ||
                   this.hasNoMatchingOptions ||
                   this.loading,
-                [this.size]: true,
               })}
               data-test="options"
               id="options"
@@ -998,7 +978,6 @@ export default class GlideCoreDropdown
                 class="select-all"
                 data-test="select-all"
                 label=${this.#localize.term('selectAll')}
-                private-size=${this.size}
                 private-multiple
                 ?hidden=${!this.selectAll || !this.multiple || this.isFiltering}
                 ?private-indeterminate=${this.isSomeSelected &&
@@ -1048,10 +1027,7 @@ export default class GlideCoreDropdown
               })}
             >
               <button
-                class=${classMap({
-                  'add-button': true,
-                  [this.size]: true,
-                })}
+                class="add-button"
                 data-test="add-button"
                 type="button"
                 @click=${this.#onAddButtonClick}
@@ -1309,8 +1285,6 @@ export default class GlideCoreDropdown
 
   #shadowRoot?: ShadowRoot;
 
-  #size: 'large' | 'small' = 'large';
-
   #tagsElementRef = createRef<HTMLElement>();
 
   #value: string[] = [];
@@ -1412,9 +1386,8 @@ export default class GlideCoreDropdown
     this.hasNoAvailableOptions = this.#optionElements.length === 0;
 
     for (const option of this.#optionElements) {
-      // Both here and in the `this.size` setter because no assignment happens on
+      // Both here and in the `this.multiple` setter because no assignment happens on
       // initial render.
-      option.privateSize = this.size;
       option.privateMultiple = this.multiple;
     }
 

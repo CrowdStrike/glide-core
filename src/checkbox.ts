@@ -175,10 +175,6 @@ export default class GlideCoreCheckbox
   })
   privateDisableLabelTooltip = false;
 
-  // Private because it's only meant to be used by Dropdown.
-  @property({ attribute: 'private-size' })
-  privateSize: 'large' | 'small' = 'large';
-
   // Private because it's only meant to be used by Form Controls Layout.
   @property()
   privateSplit?: 'left' | 'middle' | 'right';
@@ -329,10 +325,7 @@ export default class GlideCoreCheckbox
         this.privateVariant === 'minimal',
         () => html`
           <label
-            class=${classMap({
-              'label-and-input-and-checkbox': true,
-              [this.privateSize]: true,
-            })}
+            class="label-and-input-and-checkbox"
             part="private-label-and-input-and-checkbox"
           >
             <div

@@ -1479,15 +1479,6 @@
             },
             {
               "kind": "field",
-              "name": "privateSize",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "attribute": "private-size"
-            },
-            {
-              "kind": "field",
               "name": "privateSplit",
               "type": {
                 "text": "'left' | 'middle' | 'right' | undefined"
@@ -1801,14 +1792,6 @@
               },
               "default": "false",
               "fieldName": "privateDisableLabelTooltip"
-            },
-            {
-              "name": "private-size",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "fieldName": "privateSize"
             },
             {
               "name": "privateSplit",
@@ -2222,16 +2205,6 @@
             },
             {
               "kind": "field",
-              "name": "privateSize",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "attribute": "private-size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "role",
               "type": {
                 "text": "string"
@@ -2405,14 +2378,6 @@
               },
               "default": "false",
               "fieldName": "privateMultiple"
-            },
-            {
-              "name": "private-size",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "fieldName": "privateSize"
             },
             {
               "name": "role",
@@ -2719,16 +2684,6 @@
               },
               "default": "false",
               "attribute": "multiple",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "attribute": "size",
               "reflects": true
             },
             {
@@ -3055,14 +3010,6 @@
               },
               "default": "false",
               "fieldName": "multiple"
-            },
-            {
-              "name": "size",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "fieldName": "size"
             },
             {
               "name": "tooltip",

@@ -930,22 +930,6 @@ it('does not wrap on ArrowDown', async () => {
   expect(options[1]?.privateActive).to.be.true;
 });
 
-it('updates `privateSize` on every option when `size` is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
-    html`<glide-core-dropdown label="Label">
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-      <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
-    </glide-core-dropdown>`,
-  );
-
-  host.size = 'small';
-
-  const options = host.querySelectorAll('glide-core-dropdown-option');
-
-  expect(options[0]?.privateSize).to.equal('small');
-  expect(options[1]?.privateSize).to.equal('small');
-});
-
 it('opens when something other than its primary button is clicked', async () => {
   const host = await fixture<GlideCoreDropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">

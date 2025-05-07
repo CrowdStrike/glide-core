@@ -56,7 +56,6 @@ const meta: Meta = {
     'select-all': false,
     'setCustomValidity(message)': '',
     'setValidity(flags, message)': '',
-    size: 'large',
     'slot="description"': '',
     'slot="icon:<value>"': '',
     tooltip: '',
@@ -286,14 +285,6 @@ async (query: string): Promise<GlideCoreDropdownOption[] | void> => {
         type: { summary: 'string' },
       },
     },
-    size: {
-      control: { type: 'radio' },
-      options: ['large', 'small'],
-      table: {
-        defaultValue: { summary: '"large"' },
-        type: { summary: '"large" | "small"' },
-      },
-    },
     value: {
       table: {
         defaultValue: { summary: '[]' },
@@ -510,7 +501,6 @@ async (query: string): Promise<GlideCoreDropdownOption[] | void> => {
         ? nothing
         : arguments_.orientation}
       placeholder=${arguments_.placeholder || nothing}
-      size=${arguments_.size === 'large' ? nothing : arguments_.size}
       tooltip=${arguments_.tooltip || nothing}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
@@ -604,8 +594,6 @@ export const WithIcons: StoryObj = {
         ? nothing
         : arguments_.orientation}
       placeholder=${arguments_.placeholder || nothing}
-      size=${arguments_.size === 'large' ? nothing : arguments_.size}
-      tooltip=${arguments_.tooltip || nothing}
       variant=${arguments_.variant || nothing}
       ?disabled=${arguments_.disabled}
       ?filterable=${arguments_.filterable}
