@@ -12,7 +12,7 @@ const meta: Meta = {
   decorators: [
     withActions,
     (story) =>
-      html`<form action="/" style="width: max-content;">
+      html`<form action="/">
         <script type="ignore">
           import '@crowdstrike/glide-core/checkbox-group.js';
           import '@crowdstrike/glide-core/checkbox.js';

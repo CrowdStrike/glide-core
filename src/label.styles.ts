@@ -44,7 +44,6 @@ export default [
 
     .tooltips {
       align-items: center;
-      column-gap: var(--glide-core-spacing-base-xs);
       display: flex;
 
       /*
@@ -65,6 +64,7 @@ export default [
 
     .optional-tooltip {
       display: none;
+      margin-inline-end: var(--glide-core-spacing-base-xs);
 
       &.vertical {
         order: 1;
@@ -135,6 +135,10 @@ export default [
 
     .required-symbol {
       color: var(--glide-core-color-advisory-stroke-error-primary);
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
+      font-weight: var(--glide-core-typography-weight-bold);
+      line-height: 100%;
     }
 
     .control-and-summary {
