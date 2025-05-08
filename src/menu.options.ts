@@ -78,9 +78,6 @@ export default class GlideCoreMenuOptions extends LitElement {
   @property({ type: Boolean })
   privateLoading = false;
 
-  @property()
-  privateSize: 'large' | 'small' = 'large';
-
   @property({ reflect: true })
   override readonly role = 'menu';
 
@@ -91,14 +88,7 @@ export default class GlideCoreMenuOptions extends LitElement {
   readonly version: string = packageJson.version;
 
   override render() {
-    return html`<div
-      class=${classMap({
-        component: true,
-        large: this.privateSize === 'large',
-        small: this.privateSize === 'small',
-      })}
-      role="none"
-    >
+    return html`<div class="component" role="none">
       <slot
         class=${classMap({
           'default-slot': true,

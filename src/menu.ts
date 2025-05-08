@@ -24,7 +24,6 @@ declare global {
  * @attr {number} [offset=4]
  * @attr {boolean} [open=false]
  * @attr {'bottom'|'left'|'right'|'top'|'bottom-start'|'bottom-end'|'left-start'|'left-end'|'right-start'|'right-end'|'top-start'|'top-end'} [placement='bottom-start']
- * @attr {'large'|'small'} [size='large']
  *
  * @readonly
  * @attr {string} [version]
@@ -129,22 +128,6 @@ export default class GlideCoreMenu extends LitElement {
     | 'right-end'
     | 'top-start'
     | 'top-end' = 'bottom-start';
-
-  /**
-   * @default 'large'
-   */
-  @property({ reflect: true })
-  get size(): 'large' | 'small' {
-    return this.#size;
-  }
-
-  set size(size: 'large' | 'small') {
-    this.#size = size;
-
-    if (this.#optionsElement) {
-      this.#optionsElement.privateSize = size;
-    }
-  }
 
   @property({ reflect: true })
   readonly version: string = packageJson.version;
@@ -276,7 +259,6 @@ export default class GlideCoreMenu extends LitElement {
           @mouseover=${this.#onDefaultSlotMouseover}
           @private-disabled=${this.#onOptionsDisabled}
           @private-slot-change=${this.#onOptionsSlotChange}
-          @slotchange=${this.#onDefaultSlotChange}
           ${assertSlot([GlideCoreMenuOptions])}
           ${ref(this.#defaultSlotElementRef)}
         >
@@ -308,8 +290,6 @@ export default class GlideCoreMenu extends LitElement {
   #offset: number | undefined;
 
   #shadowRoot?: ShadowRoot;
-
-  #size: 'large' | 'small' = 'large';
 
   #targetSlotElementRef = createRef<HTMLSlotElement>();
 
@@ -400,12 +380,6 @@ export default class GlideCoreMenu extends LitElement {
 
     if (!isMenuFocused && !isOptionsFocused && !isOptionFocused) {
       this.open = false;
-    }
-  }
-
-  #onDefaultSlotChange() {
-    if (this.#optionsElement) {
-      this.#optionsElement.privateSize = this.size;
     }
   }
 

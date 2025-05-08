@@ -707,23 +707,6 @@ it('opens when opened programmatically via the click handler of another element'
   expect(target?.ariaExpanded).to.equal('true');
 });
 
-it('sets `privateSize` on the options host when `size` is set programmatically', async () => {
-  const host = await fixture<GlideCoreMenu>(
-    html`<glide-core-menu>
-      <button slot="target">Target</button>
-
-      <glide-core-menu-options>
-        <glide-core-menu-link label="Label"></glide-core-menu-link>
-      </glide-core-menu-options>
-    </glide-core-menu>`,
-  );
-
-  host.size = 'small';
-
-  const options = host.querySelector('glide-core-menu-options');
-  expect(options?.privateSize).to.equal('small');
-});
-
 it('closes when its target clicked', async () => {
   const host = await fixture<GlideCoreMenuInAnotherComponent>(
     html`<glide-core-menu-in-another-component></glide-core-menu-in-another-component>`,

@@ -10,26 +10,6 @@ for (const story of stories['Split Button']) {
   test.describe(story.id, () => {
     for (const theme of story.themes) {
       test.describe(theme, () => {
-        test('size="small"', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-split-button')
-            .evaluate<void, GlideCoreSplitButton>((element) => {
-              element.size = 'small';
-            });
-
-          await page
-            .locator('glide-core-split-button-secondary-button')
-            .evaluate<void, GlideCoreSplitButtonSecondaryButton>((element) => {
-              element.menuOpen = true;
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
         test('variant="primary"', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 
@@ -87,7 +67,7 @@ for (const story of stories['Split Button']) {
             );
           });
 
-            test('<glide-core-split-button-primary-link>:focus', async ({
+          test('<glide-core-split-button-primary-link>:focus', async ({
             page,
           }, test) => {
             await page.goto(`?id=${story.id}&globals=theme:${theme}`);
@@ -202,7 +182,6 @@ for (const story of stories['Split Button']) {
           );
         });
 
-        
         test('<glide-core-split-button-secondary-button>:focus', async ({
           page,
         }, test) => {
@@ -216,7 +195,6 @@ for (const story of stories['Split Button']) {
             `${test.titlePath.join('.')}.png`,
           );
         });
-
 
         test('<glide-core-split-button-secondary-button>:hover', async ({
           page,

@@ -17,7 +17,6 @@ declare global {
 }
 
 /**
- * @attr {'large'|'small'} [size='large']
  * @attr {'primary'|'secondary'} [variant='primary']
  *
  * @readonly
@@ -35,26 +34,6 @@ export default class GlideCoreSplitButton extends LitElement {
   };
 
   static override styles = styles;
-
-  /**
-   * @default 'large'
-   */
-  @property({ reflect: true })
-  get size(): 'large' | 'small' {
-    return this.#size;
-  }
-
-  set size(size: 'large' | 'small') {
-    this.#size = size;
-
-    if (this.primaryButtonElement) {
-      this.primaryButtonElement.privateSize = size;
-    }
-
-    if (this.secondaryButtonElement) {
-      this.secondaryButtonElement.privateSize = size;
-    }
-  }
 
   /**
    * @default 'primary'
@@ -130,20 +109,16 @@ export default class GlideCoreSplitButton extends LitElement {
 
   #secondaryButtonSlotElementRef = createRef<HTMLSlotElement>();
 
-  #size: 'large' | 'small' = 'large';
-
   #variant: 'primary' | 'secondary' = 'primary';
 
   #onDefaultSlotChange() {
     if (this.primaryButtonElement) {
-      this.primaryButtonElement.privateSize = this.size;
       this.primaryButtonElement.privateVariant = this.variant;
     }
   }
 
   #onSecondaryButtonSlotChange() {
     if (this.secondaryButtonElement) {
-      this.secondaryButtonElement.privateSize = this.size;
       this.secondaryButtonElement.privateVariant = this.variant;
     }
   }

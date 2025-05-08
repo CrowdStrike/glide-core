@@ -48,7 +48,6 @@ const meta: Meta = {
     offset: 4,
     open: false,
     placement: 'bottom-start',
-    size: 'large',
     version: '',
     '<glide-core-menu-options>[slot="default"]': '',
     '<glide-core-menu-options>.version': '',
@@ -133,14 +132,6 @@ const meta: Meta = {
           summary:
             '"bottom" | "left" | "right" | "top" | "bottom-start" | "bottom-end" | "left-start" | "left-end" | "right-start" | "right-end" | "top-start"| "top-end"',
         },
-      },
-    },
-    size: {
-      control: { type: 'radio' },
-      options: ['small', 'large'],
-      table: {
-        defaultValue: { summary: '"large"' },
-        type: { summary: '"small" | "large"' },
       },
     },
     version: {
@@ -276,7 +267,6 @@ const meta: Meta = {
       placement=${arguments_.placement === 'bottom-start'
         ? nothing
         : arguments_.placement}
-      size=${arguments_.size === 'large' ? nothing : arguments_.size}
       ?loading=${arguments_.loading}
       ?open=${arguments_.open}
     >
@@ -311,7 +301,6 @@ export const WithIcons: StoryObj = {
       placement=${arguments_.placement === 'bottom-start'
         ? nothing
         : arguments_.placement}
-      size=${arguments_.size === 'large' ? nothing : arguments_.size}
       ?loading=${arguments_.loading}
       ?open=${arguments_.open}
     >
