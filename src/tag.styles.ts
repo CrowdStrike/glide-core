@@ -32,39 +32,21 @@ export default [
       background-color: var(
         --glide-core-color-static-surface-container-secondary
       );
+      block-size: 1.5rem;
       border: 1px solid var(--glide-core-color-interactive-stroke-primary);
       border-radius: var(--glide-core-rounding-base-radius-round);
+      box-sizing: border-box;
       color: var(--glide-core-color-interactive-text-default);
+      column-gap: var(--glide-core-spacing-base-xs);
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-small);
       font-weight: var(--glide-core-typography-weight-regular);
       justify-content: center;
       line-height: 1;
       max-inline-size: max-content;
       opacity: 1;
-
-      &.large {
-        column-gap: var(--glide-core-spacing-base-xs);
-        font-size: var(--glide-core-typography-size-body-small);
-        min-block-size: 0.875rem;
-        padding: var(--glide-core-spacing-base-xxs)
-          var(--glide-core-spacing-base-sm);
-      }
-
-      &.medium {
-        column-gap: var(--glide-core-spacing-base-xs);
-        font-size: var(--glide-core-typography-size-body-small);
-        min-block-size: var(--glide-core-spacing-base-md);
-        padding: var(--glide-core-spacing-base-xxxs)
-          var(--glide-core-spacing-base-xs);
-      }
-
-      &.small {
-        column-gap: var(--glide-core-spacing-base-xxs);
-        font-size: 0.625rem;
-        min-block-size: var(--glide-core-spacing-base-md);
-        padding: 0 var(--glide-core-spacing-base-xs);
-      }
+      padding-inline: var(--glide-core-spacing-base-sm);
 
       &.added {
         @media (prefers-reduced-motion: no-preference) {
@@ -128,34 +110,15 @@ export default [
     }
 
     .icon-slot {
-      &.large {
-        &::slotted(*) {
-          block-size: 1rem;
-          inline-size: 1rem;
-        }
-      }
-
-      &.medium {
-        &::slotted(*) {
-          block-size: 0.75rem;
-          inline-size: 0.75rem;
-        }
-      }
-
-      &.small {
-        &::slotted(*) {
-          block-size: 0.625rem;
-          inline-size: 0.625rem;
-        }
-      }
-
       &.hidden {
         display: none;
       }
 
       &::slotted(*) {
         align-items: center;
+        block-size: 1rem;
         display: flex;
+        inline-size: 1rem;
         justify-content: center;
       }
     }
@@ -166,14 +129,6 @@ export default [
       border-radius: 0.0625rem;
       display: flex;
       padding: 0;
-
-      &.medium {
-        --private-size: 0.75rem;
-      }
-
-      &.small {
-        --private-size: 0.625rem;
-      }
 
       &.disabled {
         color: var(--glide-core-color-interactive-icon-default--disabled);

@@ -22,7 +22,6 @@ declare global {
  * @attr {string} label
  * @attr {boolean} [disabled=false]
  * @attr {boolean} [removable=false]
- * @attr {'small'|'medium'|'large'} [size='medium']
  *
  * @readonly
  * @attr {string} [version]
@@ -57,9 +56,6 @@ export default class GlideCoreTag extends LitElement {
   @property({ reflect: true, type: Boolean })
   removable = false;
 
-  @property({ reflect: true, useDefault: true })
-  size: 'small' | 'medium' | 'large' = 'medium';
-
   @property({ reflect: true })
   readonly version: string = packageJson.version;
 
@@ -88,20 +84,13 @@ export default class GlideCoreTag extends LitElement {
           component: true,
           added: true,
           disabled: this.disabled,
-          [this.size]: true,
         })}
         data-test="component"
         data-animation-duration=${this.#animationDuration}
         style="--private-animation-duration: ${this.#animationDuration}ms"
         ${ref(this.#componentElementRef)}
       >
-        <slot
-          class=${classMap({
-            'icon-slot': true,
-            [this.size]: true,
-          })}
-          name="icon"
-        >
+        <slot class="icon-slot" name="icon">
           <!-- @type {Element} -->
         </slot>
 
@@ -112,7 +101,6 @@ export default class GlideCoreTag extends LitElement {
             aria-label=${this.#localize.term('editTag', this.label!)}
             class=${classMap({
               'edit-button': true,
-              [this.size]: true,
               disabled: this.disabled,
             })}
             data-test="edit-button"
@@ -131,7 +119,6 @@ export default class GlideCoreTag extends LitElement {
               aria-label=${this.#localize.term('removeTag', this.label!)}
               class=${classMap({
                 'removal-button': true,
-                [this.size]: true,
                 disabled: this.disabled,
               })}
               data-test="removal-button"

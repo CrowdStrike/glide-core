@@ -707,7 +707,6 @@ export default class GlideCoreDropdown
                         data-id=${id}
                         label=${ifDefined(label)}
                         removable
-                        size="large"
                         ?disabled=${this.disabled || this.readonly}
                         ?private-editable=${editable}
                         @edit=${this.#onTagEdit}

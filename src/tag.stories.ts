@@ -39,7 +39,6 @@ const meta: Meta = {
     'addEventListener(event, handler)': '',
     disabled: false,
     removable: false,
-    size: 'medium',
     'slot="icon"': '',
     version: '',
   },
@@ -69,18 +68,6 @@ const meta: Meta = {
       table: {
         defaultValue: {
           summary: 'false',
-        },
-      },
-    },
-    size: {
-      control: { type: 'radio' },
-      options: ['small', 'medium', 'large'],
-      table: {
-        defaultValue: {
-          summary: '"medium"',
-        },
-        type: {
-          summary: '"small" | "medium" | "large"',
         },
       },
     },
@@ -115,7 +102,6 @@ export const WithIcon: StoryObj = {
     return html`
       <glide-core-tag
         label=${arguments_.label || nothing}
-        size=${arguments_.size === 'medium' ? nothing : arguments_.size}
         ?disabled=${arguments_.disabled}
         ?removable=${arguments_.removable}
       >
