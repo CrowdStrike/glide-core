@@ -97,11 +97,15 @@ export default () => {
               declaration.events &&
               getParentClassName(node) === declaration.name
             ) {
-              const isNew = declaration.events.every(
+              const isNewEvent = declaration.events.every(
                 ({ name }) => name !== eventName,
               );
 
-              if (isNew && eventName && isIdentifier(argument.expression)) {
+              if (
+                isNewEvent &&
+                eventName &&
+                isIdentifier(argument.expression)
+              ) {
                 declaration.events.push({
                   name: eventName,
                   type: {

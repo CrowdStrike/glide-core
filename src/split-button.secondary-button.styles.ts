@@ -11,6 +11,7 @@ export default [
       background-color: var(
         --glide-core-color-interactive-surface-container-active
       );
+      block-size: 2.125rem;
       border-color: var(
         --glide-core-color-interactive-surface-container-active
       );
@@ -21,12 +22,15 @@ export default [
         var(--glide-core-rounding-base-radius-md) 0;
       border-style: solid;
       border-width: 1px;
+      box-sizing: border-box;
       cursor: pointer;
       display: inline-flex;
       font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-body-xxs-font-size);
       font-weight: var(--glide-core-typography-weight-bold);
       gap: 0.625rem;
       justify-content: center;
+      line-height: 1.5rem;
       padding-block: var(--glide-core-spacing-base-xs);
       padding-inline: var(--glide-core-spacing-base-xs);
       position: relative;
@@ -92,21 +96,6 @@ export default [
             color: var(--glide-core-color-interactive-icon-link--disabled);
           }
         }
-      }
-
-      &.small {
-        block-size: 1.75rem;
-        box-sizing: border-box;
-        font-size: var(--glide-core-typography-size-body-small);
-        line-height: 1rem;
-        min-inline-size: fit-content;
-      }
-
-      &.large {
-        block-size: 2.125rem;
-        box-sizing: border-box;
-        font-size: var(--glide-core-body-xxs-font-size);
-        line-height: 1.5rem;
       }
 
       &:not(:disabled):is(:active, .active) {

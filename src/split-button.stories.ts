@@ -104,7 +104,6 @@ const meta: Meta = {
     /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
     return html`
       <glide-core-split-button
-        size=${arguments_.size === 'large' ? nothing : arguments_.size}
         variant=${arguments_.variant === 'primary'
           ? nothing
           : arguments_.variant}
@@ -147,7 +146,6 @@ const meta: Meta = {
   args: {
     'slot="default"': '',
     'slot="secondary-button"': '',
-    size: 'large',
     variant: 'primary',
     version: '',
     '<glide-core-split-button-primary-button>.label': 'Label',
@@ -185,16 +183,6 @@ const meta: Meta = {
         },
       },
       type: { name: 'function', required: true },
-    },
-    size: {
-      control: { type: 'radio' },
-      options: ['large', 'small'],
-      table: {
-        defaultValue: {
-          summary: '"large"',
-        },
-        type: { summary: '"large" | "small"' },
-      },
     },
     variant: {
       control: { type: 'radio' },
@@ -380,7 +368,6 @@ export const WithIcon: StoryObj = {
   render(arguments_) {
     return html`
       <glide-core-split-button
-        size=${arguments_.size === 'large' ? nothing : arguments_.size}
         variant=${arguments_.variant === 'primary'
           ? nothing
           : arguments_.variant}
@@ -431,7 +418,6 @@ export const WithPrimaryLink: StoryObj = {
   render(arguments_) {
     return html`
       <glide-core-split-button
-        size=${arguments_.size === 'large' ? nothing : arguments_.size}
         variant=${arguments_.variant === 'primary'
           ? nothing
           : arguments_.variant}

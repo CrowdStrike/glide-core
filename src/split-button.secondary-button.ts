@@ -60,9 +60,6 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
   privateActive = false;
 
   @property()
-  privateSize: 'large' | 'small' = 'large';
-
-  @property()
   privateVariant: 'primary' | 'secondary' = 'primary';
 
   @property({ reflect: true })
@@ -97,7 +94,6 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
     return html`
       <glide-core-menu
         placement=${this.menuPlacement}
-        size=${this.privateSize}
         ?open=${this.menuOpen}
         ${ref(this.#menuElementRef)}
       >
@@ -108,7 +104,6 @@ export default class GlideCoreSplitButtonSecondaryButton extends LitElement {
             active: this.menuOpen,
             disabled: this.disabled,
             [this.privateVariant]: true,
-            [this.privateSize]: true,
           })}
           data-test="button"
           slot="target"

@@ -53,21 +53,6 @@ for (const story of stories.Menu) {
           );
         });
 
-        test('size="small"', async ({ page }, test) => {
-          await page.goto(`?id=${story.id}&globals=theme:${theme}`);
-
-          await page
-            .locator('glide-core-menu')
-            .evaluate<void, GlideCoreMenu>((element) => {
-              element.open = true;
-              element.size = 'small';
-            });
-
-          await expect(page).toHaveScreenshot(
-            `${test.titlePath.join('.')}.png`,
-          );
-        });
-
         test('<glide-core-menu-button>.disabled"', async ({ page }, test) => {
           await page.goto(`?id=${story.id}&globals=theme:${theme}`);
 

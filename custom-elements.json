@@ -5050,15 +5050,6 @@
             },
             {
               "kind": "field",
-              "name": "privateSize",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "attribute": "privateSize"
-            },
-            {
-              "kind": "field",
               "name": "role",
               "type": {
                 "text": "string"
@@ -5130,14 +5121,6 @@
               },
               "default": "false",
               "fieldName": "privateLoading"
-            },
-            {
-              "name": "privateSize",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "fieldName": "privateSize"
             },
             {
               "name": "role",
@@ -5311,16 +5294,6 @@
             },
             {
               "kind": "field",
-              "name": "size",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "version",
               "type": {
                 "text": "string"
@@ -5370,14 +5343,6 @@
               },
               "default": "'bottom-start'",
               "fieldName": "placement"
-            },
-            {
-              "name": "size",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "fieldName": "size"
             },
             {
               "name": "version",
@@ -7100,15 +7065,6 @@
             },
             {
               "kind": "field",
-              "name": "privateSize",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "attribute": "privateSize"
-            },
-            {
-              "kind": "field",
               "name": "privateVariant",
               "type": {
                 "text": "'primary' | 'secondary'"
@@ -7171,14 +7127,6 @@
               },
               "default": "false",
               "fieldName": "privateActive"
-            },
-            {
-              "name": "privateSize",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "fieldName": "privateSize"
             },
             {
               "name": "privateVariant",
@@ -7274,16 +7222,6 @@
             },
             {
               "kind": "field",
-              "name": "size",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "variant",
               "type": {
                 "text": "'primary' | 'secondary'"
@@ -7304,14 +7242,6 @@
             }
           ],
           "attributes": [
-            {
-              "name": "size",
-              "type": {
-                "text": "'large' | 'small'"
-              },
-              "default": "'large'",
-              "fieldName": "size"
-            },
             {
               "name": "variant",
               "type": {
