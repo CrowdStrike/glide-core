@@ -82,8 +82,22 @@ export default class GlideCoreButtonGroupButton extends LitElement {
     this.#componentElementRef.value?.focus(options);
   }
 
+  @state()
+  private get lastSelectedButton(): GlideCoreButtonGroupButton | undefined {
+    const buttons = this.parentElement?.querySelectorAll(
+      'glide-core-button-group-button',
+    );
+
+    if (buttons && buttons.length > 0) {
+      return [...buttons].findLast(
+        (button) => button.selected && !button.disabled,
+      );
+    }
+  }
+
   privateSelect() {
     this.selected = true;
+    this.requestUpdate();
 
     this.dispatchEvent(
       new Event('selected', { bubbles: true, composed: true }),
@@ -92,11 +106,11 @@ export default class GlideCoreButtonGroupButton extends LitElement {
 
   override render() {
     return html`<div
-      aria-checked=${this.selected}
+      aria-checked=${this.selected && this === this.lastSelectedButton}
       aria-disabled=${this.disabled}
       class=${classMap({
         component: true,
-        selected: this.selected,
+        selected: this.selected && this === this.lastSelectedButton,
         disabled: this.disabled,
         [this.privateOrientation]: true,
         icon: this.hasIcon,

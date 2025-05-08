@@ -113,7 +113,7 @@ it('selects a button on Space', async () => {
   expect(buttons[1]?.selected).to.be.true;
 });
 
-it('does not select a disabled button', async () => {
+it('retains the currently selected button as selected when a disabled button is clicked', async () => {
   const host = await fixture(
     html`<glide-core-button-group label="Label">
       <glide-core-button-group-button

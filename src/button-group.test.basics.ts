@@ -56,7 +56,7 @@ it('sets the orientation of its buttons when horizontal', async () => {
   expect(buttons[1]?.privateOrientation).to.equal('horizontal');
 });
 
-it('sets the orientation of its buttons when vertical', async () => {
+it('sets `privateOrientation` on its buttons', async () => {
   const host = await fixture(
     html`<glide-core-button-group label="Label" orientation="vertical">
       <glide-core-button-group-button
@@ -138,6 +138,36 @@ it('selects no buttons when all are disabled', async () => {
 
   expect(buttons[0]?.selected).to.be.false;
   expect(buttons[1]?.selected).to.be.false;
+});
+
+it('selects the last selected button when multiple are selected', async () => {
+  const host = await fixture(
+    html`<glide-core-button-group label="Label">
+      <glide-core-button-group-button
+        label="One"
+        selected
+      ></glide-core-button-group-button>
+
+      <glide-core-button-group-button
+        label="Two"
+        selected
+      ></glide-core-button-group-button>
+    </glide-core-button-group>`,
+  );
+
+  const buttons = host.querySelectorAll('glide-core-button-group-button');
+
+  await buttons[0]?.updateComplete;
+  await buttons[1]?.updateComplete;
+
+  const radios = [
+    ...host.querySelectorAll('glide-core-button-group-button'),
+  ].map((button) => {
+    return button.shadowRoot?.querySelector('[data-test="radio"]');
+  });
+
+  expect(radios[0]?.ariaChecked).to.equal('false');
+  expect(radios[1]?.ariaChecked).to.equal('true');
 });
 
 it('throws when `label` is empty', async () => {
