@@ -148,6 +148,8 @@ export default [
     }
 
     .options {
+      --private-option-height: 1.75rem;
+
       box-sizing: border-box;
       max-block-size: calc(
         var(--private-option-height) * 9 + var(--glide-core-spacing-base-xxxs) *
@@ -155,14 +157,6 @@ export default [
       );
       overflow: auto;
       scroll-behavior: smooth;
-
-      &.large {
-        --private-option-height: 1.75rem;
-      }
-
-      &.small {
-        --private-option-height: 1.25rem;
-      }
 
       &.hidden {
         display: none;
@@ -193,34 +187,22 @@ export default [
     }
 
     .add-button {
+      --private-size: 1rem;
+
       align-items: center;
       background-color: transparent;
       border: none;
       border-radius: var(--glide-core-rounding-base-radius-md);
+      column-gap: 0.625rem;
       display: flex;
       font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
       font-weight: var(--glide-core-typography-weight-regular);
       inline-size: 100%;
       line-height: 100%;
+      padding-block: 0.375rem;
+      padding-inline: var(--glide-core-spacing-base-sm);
       text-align: start;
-
-      &.large {
-        --private-size: 1rem;
-
-        column-gap: 0.625rem;
-        font-size: var(--glide-core-typography-size-body-default);
-        padding-block: 0.375rem;
-        padding-inline: var(--glide-core-spacing-base-sm);
-      }
-
-      &.small {
-        --private-size: 0.875rem;
-
-        column-gap: var(--glide-core-spacing-base-xs);
-        font-size: var(--glide-core-typography-size-body-small);
-        padding-block: var(--glide-core-spacing-base-xxxs);
-        padding-inline: var(--glide-core-spacing-base-xs);
-      }
 
       &:focus {
         outline: none;

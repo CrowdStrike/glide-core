@@ -9,22 +9,12 @@ export default [
   css`
     .label-and-input-and-checkbox {
       align-items: center;
+      column-gap: var(--glide-core-spacing-base-sm);
       display: flex;
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
+      font-weight: var(--glide-core-typography-weight-regular);
       line-height: 100%;
-
-      &.large {
-        column-gap: var(--glide-core-spacing-base-sm);
-        font-family: var(--glide-core-typography-family-primary);
-        font-size: var(--glide-core-typography-size-body-default);
-        font-weight: var(--glide-core-typography-weight-regular);
-      }
-
-      &.small {
-        column-gap: var(--glide-core-spacing-base-xs);
-        font-family: var(--glide-core-typography-family-primary);
-        font-size: var(--glide-core-typography-size-body-small);
-        font-weight: var(--glide-core-typography-weight-regular);
-      }
     }
 
     .input-and-checkbox-and-summary {
@@ -214,8 +204,10 @@ export default [
       }
     }
 
-    .summary.disabled {
-      color: var(--glide-core-color-interactive-text-default--disabled);
+    .summary {
+      &.disabled {
+        color: var(--glide-core-color-interactive-text-default--disabled);
+      }
     }
 
     .validity-message {

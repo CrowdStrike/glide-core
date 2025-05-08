@@ -26,29 +26,15 @@ export default [
       color: var(--glide-core-color-static-text-default);
       display: flex;
       flex-grow: 1;
+      font-family: var(--glide-core-typography-family-primary);
+      font-size: var(--glide-core-typography-size-body-default);
+      font-weight: var(--glide-core-typography-weight-regular);
       overflow: hidden;
+      padding-inline-start: 0.625rem;
       user-select: none;
 
-      &.large {
-        font-family: var(--glide-core-typography-family-primary);
-        font-size: var(--glide-core-typography-size-body-default);
-        font-weight: var(--glide-core-typography-weight-regular);
-        padding-inline-start: 0.625rem;
-
-        &:not(.count, .editable) {
-          padding-inline-end: var(--glide-core-spacing-base-sm);
-        }
-      }
-
-      &.small {
-        font-family: var(--glide-core-typography-family-primary);
-        font-size: var(--glide-core-typography-size-body-small);
-        font-weight: var(--glide-core-typography-weight-regular);
-        padding-inline-start: var(--glide-core-spacing-base-sm);
-
-        &:not(.count, .editable) {
-          padding-inline-end: var(--glide-core-spacing-base-xs);
-        }
+      &:not(.count, .editable) {
+        padding-inline-end: var(--glide-core-spacing-base-sm);
       }
 
       &.disabled {
@@ -60,32 +46,15 @@ export default [
       flex-grow: 1;
       overflow: hidden;
 
-      &.large {
-        &::part(private-label-and-input-and-checkbox) {
-          padding-inline-start: var(--glide-core-spacing-base-sm);
-        }
-
-        &:not(.count, .editable) {
-          &::part(private-label-and-input-and-checkbox) {
-            padding-inline-end: var(--glide-core-spacing-base-sm);
-          }
-        }
-      }
-
-      &.small {
-        &::part(private-label-and-input-and-checkbox) {
-          padding-inline-start: var(--glide-core-spacing-base-xs);
-        }
-
-        &:not(.count, .editable) {
-          &::part(private-label-and-input-and-checkbox) {
-            padding-inline-end: var(--glide-core-spacing-base-xs);
-          }
-        }
-      }
-
       &::part(private-label-and-input-and-checkbox) {
         block-size: var(--private-option-height);
+        padding-inline-start: var(--glide-core-spacing-base-sm);
+      }
+
+      &:not(.count, .editable) {
+        &::part(private-label-and-input-and-checkbox) {
+          padding-inline-end: var(--glide-core-spacing-base-sm);
+        }
       }
     }
 
@@ -94,47 +63,21 @@ export default [
     }
 
     .icon-slot {
-      &.large {
-        &::slotted(*) {
-          block-size: 1rem;
-          inline-size: 1rem;
-        }
-      }
-
-      &.small {
-        &::slotted(*) {
-          block-size: 0.75rem;
-          inline-size: 0.75rem;
-        }
-      }
-
       &::slotted(*) {
         align-items: center;
+        block-size: 1rem;
         display: flex;
+        inline-size: 1rem;
         padding-inline-end: var(--glide-core-spacing-base-xs);
       }
     }
 
     .checkbox-icon-slot {
-      &.large {
-        &::slotted(*) {
-          block-size: 1rem;
-          inline-size: 1rem;
-        }
-      }
-
-      &.small {
-        &::slotted(*) {
-          block-size: 0.75rem;
-          inline-size: 0.75rem;
-        }
-      }
-
       &::slotted(*) {
         align-items: center;
-        block-size: 0.75rem;
+        block-size: 1rem;
         display: flex;
-        inline-size: 0.75rem;
+        inline-size: 1rem;
       }
     }
 
@@ -181,13 +124,7 @@ export default [
       }
 
       &:not(.count) {
-        &.large {
-          padding-inline-end: var(--glide-core-spacing-base-sm);
-        }
-
-        &.small {
-          padding-inline-end: var(--glide-core-spacing-base-xs);
-        }
+        padding-inline-end: var(--glide-core-spacing-base-sm);
       }
 
       &:focus {

@@ -153,10 +153,6 @@ export default class GlideCoreDropdownOption extends LitElement {
   @property({ attribute: 'private-multiple', type: Boolean })
   privateMultiple = false;
 
-  // Private because it's only meant to be used by Dropdown.
-  @property({ attribute: 'private-size', reflect: true, useDefault: true })
-  privateSize: 'large' | 'small' = 'large';
-
   @property({ reflect: true })
   override readonly role = 'option';
 
@@ -301,7 +297,6 @@ export default class GlideCoreDropdownOption extends LitElement {
         component: true,
         active: this.privateActive,
         disabled: this.disabled,
-        [this.privateSize]: true,
       })}
       data-test="component"
       ${ref(this.#componentElementRef)}
@@ -314,13 +309,11 @@ export default class GlideCoreDropdownOption extends LitElement {
               class=${classMap({
                 checkbox: true,
                 editable: this.editable,
-                [this.privateSize]: true,
               })}
               data-test="checkbox"
               label=${this.label ?? ''}
               tabindex="-1"
               private-label-tooltip-offset=${12}
-              private-size=${this.privateSize}
               private-variant="minimal"
               value=${this.value}
               @click=${this.#onCheckboxClick}
@@ -331,14 +324,7 @@ export default class GlideCoreDropdownOption extends LitElement {
               ?private-disable-label-tooltip=${this.disabled}
               ${ref(this.#checkboxElementRef)}
             >
-              <slot
-                class=${classMap({
-                  'checkbox-icon-slot': true,
-                  [this.privateSize]: true,
-                })}
-                name="icon"
-                slot="private-icon"
-              >
+              <slot class="checkbox-icon-slot" name="icon" slot="private-icon">
                 <!--
                   An icon before the label
                   @type {Element}
@@ -355,7 +341,6 @@ export default class GlideCoreDropdownOption extends LitElement {
                   count: Boolean(this.count),
                   disabled: this.disabled,
                   multiple: Boolean(this.isMultiple),
-                  [this.privateSize]: true,
                 })}
                 data-test="edit-button"
                 type="button"
@@ -370,7 +355,6 @@ export default class GlideCoreDropdownOption extends LitElement {
                 class=${classMap({
                   'count-container': true,
                   disabled: this.disabled,
-                  [this.privateSize]: true,
                 })}
                 data-test="count-container"
               >
@@ -394,12 +378,10 @@ export default class GlideCoreDropdownOption extends LitElement {
             count: Boolean(this.count),
             disabled: this.disabled,
             editable: this.editable,
-            [this.privateSize]: true,
           })}
           >
               <slot class=${classMap({
                 'icon-slot': true,
-                [this.privateSize]: true,
               })} name="icon">
               <!--
                 An icon before the label
@@ -446,7 +428,6 @@ export default class GlideCoreDropdownOption extends LitElement {
                     active: this.privateActive && this.privateIsEditActive,
                     count: Boolean(this.count),
                     disabled: this.disabled,
-                    [this.privateSize]: true,
                   })}
                   data-test="edit-button"
                   type="button"
@@ -462,7 +443,6 @@ export default class GlideCoreDropdownOption extends LitElement {
                   class=${classMap({
                     'count-container': true,
                     disabled: this.disabled,
-                    [this.privateSize]: true,
                   })}
                   data-test="count-container"
                 >
