@@ -268,7 +268,7 @@ export default class GlideCoreLabel extends LitElement {
       // `getBoundingClientRect()` is used so we're comparing apples to apples.
       //
       // `clientWidth` on `defaultSlotAssignedElement` is zero if the element is
-      // `display` is `inline`. The label, on the other hand, isn't inline.
+      // `display: inline`. The label, on the other hand, isn't inline.
       //
       // But `clientWidth` returns an integer and `getBoundingClientRect().width`
       // return a float. So using `clientWidth` with `#labelElementRef.value` would
