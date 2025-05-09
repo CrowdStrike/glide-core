@@ -4,7 +4,7 @@ import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
 import { emulateMedia } from '@web/test-runner-commands';
 import expectWindowError from './library/expect-window-error.js';
-import GlideCoreToast from './toast.js';
+import Toast from './toast.js';
 
 // "transitionend" is dispatched manually throughout these tests because that
 // event isn't consistently emitted in CI. It's not clear why. The below issue
@@ -13,7 +13,7 @@ import GlideCoreToast from './toast.js';
 // https://github.com/modernweb-dev/web/issues/2588
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreToast {}
+class Subclassed extends Toast {}
 
 afterEach(() => {
   // Toasts isn't removed for us by `fixture()` because Toasts is rendered as
@@ -25,9 +25,7 @@ afterEach(() => {
 });
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-toast')).to.equal(
-    GlideCoreToast,
-  );
+  expect(window.customElements.get('glide-core-toast')).to.equal(Toast);
 });
 
 it('can have a label', async () => {
@@ -76,7 +74,7 @@ it('can have a `duration` when animated', async () => {
 
   const toast = document
     .querySelector('glide-core-private-toasts')
-    ?.shadowRoot?.querySelector<GlideCoreToast>('[data-test="toast"]');
+    ?.shadowRoot?.querySelector<Toast>('[data-test="toast"]');
 
   toast?.style.setProperty('--private-test-transition-duration', '0ms');
 
@@ -102,7 +100,7 @@ it('can have a `duration` when not animated', async () => {
 
   const toast = document
     .querySelector('glide-core-private-toasts')
-    ?.shadowRoot?.querySelector<GlideCoreToast>('[data-test="toast"]');
+    ?.shadowRoot?.querySelector<Toast>('[data-test="toast"]');
 
   await aTimeout(duration);
 
@@ -114,7 +112,7 @@ it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<GlideCoreToast>(html`<glide-core-toast></glide-core-toast>`);
+    await fixture<Toast>(html`<glide-core-toast></glide-core-toast>`);
   } catch {
     spy();
   }
@@ -126,7 +124,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

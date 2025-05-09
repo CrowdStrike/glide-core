@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreButton from './button.js';
+import type Button from './button.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -22,7 +22,7 @@ for (const story of stories.Toast) {
 
           await page
             .locator('glide-core-button')
-            .evaluate<void, GlideCoreButton>((element) => {
+            .evaluate<void, Button>((element) => {
               element.dataset.description = 'Description';
             });
 
@@ -40,7 +40,7 @@ for (const story of stories.Toast) {
 
           await page
             .locator('glide-core-button')
-            .evaluate<void, GlideCoreButton>((element) => {
+            .evaluate<void, Button>((element) => {
               element.dataset.description = 'Description';
               element.dataset.variant = 'success';
             });
@@ -59,7 +59,7 @@ for (const story of stories.Toast) {
 
           await page
             .locator('glide-core-button')
-            .evaluate<void, GlideCoreButton>((element) => {
+            .evaluate<void, Button>((element) => {
               element.dataset.description = 'Description';
               element.dataset.variant = 'error';
             });

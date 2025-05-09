@@ -1,21 +1,19 @@
 import { aTimeout, expect, fixture, html, waitUntil } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
-import GlideCoreTooltip from './tooltip.js';
-import GlideCoreTooltipContainer from './tooltip.container.js';
+import Tooltip from './tooltip.js';
+import TooltipContainer from './tooltip.container.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreTooltip {}
+class Subclassed extends Tooltip {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-tooltip')).to.equal(
-    GlideCoreTooltip,
-  );
+  expect(window.customElements.get('glide-core-tooltip')).to.equal(Tooltip);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -25,7 +23,7 @@ it('is accessible', async () => {
 });
 
 it('can be open', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" open>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -42,7 +40,7 @@ it('can be open', async () => {
 });
 
 it('passes down certain properties to its container', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip
       label="Label"
       .shortcut=${['CMD', 'K']}
@@ -53,12 +51,12 @@ it('passes down certain properties to its container', async () => {
   );
 
   await waitUntil(() => {
-    return host.querySelector<GlideCoreTooltipContainer>(
+    return host.querySelector<TooltipContainer>(
       'glide-core-private-tooltip-container',
     );
   });
 
-  const container = host.querySelector<GlideCoreTooltipContainer>(
+  const container = host.querySelector<TooltipContainer>(
     'glide-core-private-tooltip-container',
   );
 
@@ -85,7 +83,7 @@ it('is not open when disabled', async () => {
 });
 
 it('sets `aria-describedby` on its target when enabled', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -99,7 +97,7 @@ it('sets `aria-describedby` on its target when enabled', async () => {
 });
 
 it('does not set `aria-describedby` on its target when disabled', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" disabled>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -110,7 +108,7 @@ it('does not set `aria-describedby` on its target when disabled', async () => {
 });
 
 it('sets `aria-describedby` when not hidden from screenreaders', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -124,7 +122,7 @@ it('sets `aria-describedby` when not hidden from screenreaders', async () => {
 });
 
 it('does not set `aria-describedby` on its target when hidden from screenreaders', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" screenreader-hidden>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -154,7 +152,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

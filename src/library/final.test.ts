@@ -6,16 +6,16 @@ import final from './final.js';
 
 @customElement('glide-core-final')
 @final
-class GlideCoreFinal extends LitElement {}
+class Final extends LitElement {}
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreFinal {}
+class Subclassed extends Final {}
 
 it('throws when a class is extended', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch (error) {
     spy(error);
   }
@@ -24,7 +24,7 @@ it('throws when a class is extended', async () => {
   expect(spy.args.at(0)?.at(0) instanceof TypeError).to.be.true;
 
   expect(spy.args.at(0)?.at(0).message).to.equal(
-    `GlideCoreFinal doesn't allow extension. Please talk to us if a component doesn't meet your needs.`,
+    `Final doesn't allow extension. Please talk to us if a component doesn't meet your needs.`,
   );
 });
 
@@ -32,7 +32,7 @@ it('does not throw when a class is not extended', () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreFinal();
+    new Final();
   } catch (error) {
     spy(error);
   }

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreAccordion from './accordion.js';
+import type Accordion from './accordion.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -30,7 +30,7 @@ for (const story of stories.Accordion) {
 
           await page
             .locator('glide-core-accordion')
-            .evaluate<void, GlideCoreAccordion>((element) => {
+            .evaluate<void, Accordion>((element) => {
               element.open = true;
             });
 

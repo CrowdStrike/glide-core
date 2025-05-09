@@ -1,6 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
-import GlideCoreToasts from './toast.toasts.js';
+import Toasts from './toast.toasts.js';
 import './toast.js';
 
 afterEach(() => {
@@ -13,7 +13,7 @@ afterEach(() => {
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-private-toasts')).to.equal(
-    GlideCoreToasts,
+    Toasts,
   );
 });
 

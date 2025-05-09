@@ -1,15 +1,15 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreModalIconButton from './modal.icon-button.js';
+import ModalIconButton from './modal.icon-button.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreModalIconButton {}
+class Subclassed extends ModalIconButton {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-modal-icon-button')).to.equal(
-    GlideCoreModalIconButton,
+    ModalIconButton,
   );
 });
 
@@ -43,7 +43,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
-import type GlideCorePopover from './popover.js';
+import type Popover from './popover.js';
 
 test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=popover--popover');
 
   await page
     .locator('glide-core-popover')
-    .evaluate<void, GlideCorePopover>((element) => {
+    .evaluate<void, Popover>((element) => {
       element.disabled = true;
       element.open = true;
     });
@@ -21,7 +21,7 @@ test('disabled=${false}', async ({ page }) => {
 
   await page
     .locator('glide-core-popover')
-    .evaluate<void, GlideCorePopover>((element) => {
+    .evaluate<void, Popover>((element) => {
       element.open = true;
     });
 

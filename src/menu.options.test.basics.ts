@@ -4,18 +4,18 @@ import './menu.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreMenuOptions from './menu.options.js';
+import MenuOptions from './menu.options.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreMenuOptions {}
+class Subclassed extends MenuOptions {}
 
 it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

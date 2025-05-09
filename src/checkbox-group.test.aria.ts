@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreCheckboxGroup from './checkbox-group.js';
-import type GlideCoreCheckbox from './checkbox.js';
+import type CheckboxGroup from './checkbox-group.js';
+import type Checkbox from './checkbox.js';
 
 test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=checkbox-group--checkbox-group');
 
   await page
     .locator('glide-core-checkbox-group')
-    .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+    .evaluate<void, CheckboxGroup>((element) => {
       element.disabled = true;
     });
 
@@ -39,7 +39,7 @@ test('hide-label', async ({ page }) => {
 
   await page
     .locator('glide-core-checkbox-group')
-    .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+    .evaluate<void, CheckboxGroup>((element) => {
       element.hideLabel = true;
     });
 
@@ -58,7 +58,7 @@ test('slot="description"', async ({ page }) => {
 
   await page
     .locator('glide-core-checkbox-group')
-    .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+    .evaluate<void, CheckboxGroup>((element) => {
       const div = document.createElement('div');
 
       div.textContent = 'Description';
@@ -82,7 +82,7 @@ test('tooltip', async ({ page }) => {
 
   await page
     .locator('glide-core-checkbox-group')
-    .evaluate<void, GlideCoreCheckboxGroup>((element) => {
+    .evaluate<void, CheckboxGroup>((element) => {
       element.tooltip = 'Tooltip';
     });
 
@@ -106,7 +106,7 @@ test('<glide-core-checkbox>[checked=${true}]', async ({ page }) => {
   await page
     .locator('glide-core-checkbox')
     .first()
-    .evaluate<void, GlideCoreCheckbox>((element) => {
+    .evaluate<void, Checkbox>((element) => {
       element.checked = true;
     });
 

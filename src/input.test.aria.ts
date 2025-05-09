@@ -1,14 +1,12 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreInput from './input.js';
+import type Input from './input.js';
 
 test('clearable', async ({ page }) => {
   await page.goto('?id=input--input');
 
-  await page
-    .locator('glide-core-input')
-    .evaluate<void, GlideCoreInput>((element) => {
-      element.clearable = true;
-    });
+  await page.locator('glide-core-input').evaluate<void, Input>((element) => {
+    element.clearable = true;
+  });
 
   await page.getByRole('textbox').fill('Test');
 
@@ -22,11 +20,9 @@ test('clearable', async ({ page }) => {
 test('disabled', async ({ page }) => {
   await page.goto('?id=input--input');
 
-  await page
-    .locator('glide-core-input')
-    .evaluate<void, GlideCoreInput>((element) => {
-      element.disabled = true;
-    });
+  await page.locator('glide-core-input').evaluate<void, Input>((element) => {
+    element.disabled = true;
+  });
 
   await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
     - text: Label
@@ -37,11 +33,9 @@ test('disabled', async ({ page }) => {
 test('hide-label', async ({ page }) => {
   await page.goto('?id=input--input');
 
-  await page
-    .locator('glide-core-input')
-    .evaluate<void, GlideCoreInput>((element) => {
-      element.hideLabel = true;
-    });
+  await page.locator('glide-core-input').evaluate<void, Input>((element) => {
+    element.hideLabel = true;
+  });
 
   await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
     - text: Label
@@ -52,11 +46,9 @@ test('hide-label', async ({ page }) => {
 test('max-length', async ({ page }) => {
   await page.goto('?id=input--input');
 
-  await page
-    .locator('glide-core-input')
-    .evaluate<void, GlideCoreInput>((element) => {
-      element.maxlength = 1;
-    });
+  await page.locator('glide-core-input').evaluate<void, Input>((element) => {
+    element.maxlength = 1;
+  });
 
   await page.getByRole('textbox').fill('Test');
 
@@ -70,12 +62,10 @@ test('max-length', async ({ page }) => {
 test('password-toggle', async ({ page }) => {
   await page.goto('?id=input--input');
 
-  await page
-    .locator('glide-core-input')
-    .evaluate<void, GlideCoreInput>((element) => {
-      element.passwordToggle = true;
-      element.type = 'password';
-    });
+  await page.locator('glide-core-input').evaluate<void, Input>((element) => {
+    element.passwordToggle = true;
+    element.type = 'password';
+  });
 
   await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
     - text: Label
@@ -87,16 +77,14 @@ test('password-toggle', async ({ page }) => {
 test('slot="description"', async ({ page }) => {
   await page.goto('?id=input--input');
 
-  await page
-    .locator('glide-core-input')
-    .evaluate<void, GlideCoreInput>((element) => {
-      const div = document.createElement('div');
+  await page.locator('glide-core-input').evaluate<void, Input>((element) => {
+    const div = document.createElement('div');
 
-      div.textContent = 'Description';
-      div.slot = 'description';
+    div.textContent = 'Description';
+    div.slot = 'description';
 
-      element.append(div);
-    });
+    element.append(div);
+  });
 
   await expect(page.locator('glide-core-input')).toMatchAriaSnapshot(`
     - text: Label
@@ -108,11 +96,9 @@ test('slot="description"', async ({ page }) => {
 test('tooltip', async ({ page }) => {
   await page.goto('?id=input--input');
 
-  await page
-    .locator('glide-core-input')
-    .evaluate<void, GlideCoreInput>((element) => {
-      element.tooltip = 'Tooltip';
-    });
+  await page.locator('glide-core-input').evaluate<void, Input>((element) => {
+    element.tooltip = 'Tooltip';
+  });
 
   await page.locator('glide-core-tooltip').getByRole('button').focus();
 

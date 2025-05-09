@@ -6,8 +6,8 @@ import { map } from 'lit/directives/map.js';
 import { when } from 'lit/directives/when.js';
 import { range } from 'lit/directives/range.js';
 import packageJson from '../package.json' with { type: 'json' };
-import GlideCoreMenuButton from './menu.button.js';
-import GlideCoreMenuLink from './menu.link.js';
+import MenuButton from './menu.button.js';
+import MenuLink from './menu.link.js';
 import styles from './menu.options.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -15,7 +15,7 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-menu-options': GlideCoreMenuOptions;
+    'glide-core-menu-options': MenuOptions;
   }
 }
 
@@ -48,11 +48,11 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreMenuButton | GlideCoreMenuLink}
+ * @slot {MenuButton | MenuLink}
  */
 @customElement('glide-core-menu-options')
 @final
-export default class GlideCoreMenuOptions extends LitElement {
+export default class MenuOptions extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -94,10 +94,10 @@ export default class GlideCoreMenuOptions extends LitElement {
           'default-slot': true,
           loading: this.privateLoading,
         })}
-        ${assertSlot([GlideCoreMenuButton, GlideCoreMenuLink, Text])}
+        ${assertSlot([MenuButton, MenuLink, Text])}
         @slotchange=${this.#onSlotChange}
       >
-        <!-- @type {GlideCoreMenuButton | GlideCoreMenuLink} -->
+        <!-- @type {MenuButton | MenuLink} -->
       </slot>
 
       ${when(this.privateLoading, () => {

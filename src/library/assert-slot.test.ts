@@ -6,7 +6,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import assertSlot from './assert-slot.js';
 
 @customElement('glide-core-with-slot')
-class GlideCoreWithSlot extends LitElement {
+class WithSlot extends LitElement {
   @property()
   name?: string;
 
@@ -25,14 +25,14 @@ class GlideCoreWithSlot extends LitElement {
 }
 
 @customElement('glide-core-when-not-used-on-slot')
-class GlideCoreWhenNotUsedOnSlot extends LitElement {
+class WhenNotUsedOnSlot extends LitElement {
   override render() {
     return html`<div ${assertSlot()}></div>`;
   }
 }
 
 @customElement('glide-core-when-not-used-inside-tag')
-class GlideCorewhenNotUsedInsideTag extends LitElement {
+class WhenNotUsedInsideATag extends LitElement {
   override render() {
     return html`<slot>${assertSlot()}</slot>`;
   }
@@ -44,9 +44,7 @@ it('throws when a required default slot is empty', async () => {
 
   window.addEventListener('unhandledrejection', spy, { once: true });
 
-  await fixture<GlideCoreWithSlot>(
-    html`<glide-core-with-slot></glide-core-with-slot>`,
-  );
+  await fixture<WithSlot>(html`<glide-core-with-slot></glide-core-with-slot>`);
 
   await waitUntil(() => spy.callCount);
 
@@ -54,14 +52,14 @@ it('throws when a required default slot is empty', async () => {
   expect(spy.args.at(0)?.at(0) instanceof PromiseRejectionEvent).to.be.true;
 
   expect(spy.args.at(0)?.at(0).reason.message).to.equal(
-    'Expected GlideCoreWithSlot to have a default slot.',
+    'Expected WithSlot to have a default slot.',
   );
 
   stub.restore();
 });
 
 it('throws when a required default slot is emptied', async () => {
-  const host = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<WithSlot>(
     html`<glide-core-with-slot>
       <button>Button</button>
     </glide-core-with-slot>`,
@@ -95,7 +93,7 @@ it('throws when a required named slot is empty', async () => {
 
   window.addEventListener('unhandledrejection', spy, { once: true });
 
-  await fixture<GlideCoreWithSlot>(
+  await fixture<WithSlot>(
     html`<glide-core-with-slot name="test"></glide-core-with-slot>`,
   );
 
@@ -105,14 +103,14 @@ it('throws when a required named slot is empty', async () => {
   expect(spy.args.at(0)?.at(0) instanceof PromiseRejectionEvent).to.be.true;
 
   expect(spy.args.at(0)?.at(0).reason.message).to.equal(
-    'Expected GlideCoreWithSlot to have a "test" slot.',
+    'Expected WithSlot to have a "test" slot.',
   );
 
   stub.restore();
 });
 
 it('throws when a required named slot is emptied', async () => {
-  const host = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<WithSlot>(
     html`<glide-core-with-slot name="test">
       <button slot="test">Button</button>
     </glide-core-with-slot>`,
@@ -146,7 +144,7 @@ it('throws when a typed and required default slot is empty', async () => {
 
   window.addEventListener('unhandledrejection', spy, { once: true });
 
-  await fixture<GlideCoreWithSlot>(
+  await fixture<WithSlot>(
     html`<glide-core-with-slot
       .slotted=${[HTMLButtonElement]}
     ></glide-core-with-slot>`,
@@ -158,14 +156,14 @@ it('throws when a typed and required default slot is empty', async () => {
   expect(spy.args.at(0)?.at(0) instanceof PromiseRejectionEvent).to.be.true;
 
   expect(spy.args.at(0)?.at(0).reason.message).to.equal(
-    'Expected GlideCoreWithSlot to have a slotted element that extends HTMLButtonElement.',
+    'Expected WithSlot to have a slotted element that extends HTMLButtonElement.',
   );
 
   stub.restore();
 });
 
 it('throws when a typed and required default slot is emptied', async () => {
-  const host = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<WithSlot>(
     html`<glide-core-with-slot .slotted=${[HTMLButtonElement]}>
       <button>Button</button>
     </glide-core-with-slot>`,
@@ -184,7 +182,7 @@ it('throws when a typed and required default slot is emptied', async () => {
   expect(spy.callCount).to.equal(1);
 
   expect(spy.args.at(0)?.at(0)).to.equal(
-    'Uncaught TypeError: Expected GlideCoreWithSlot to have a slotted element that extends HTMLButtonElement.',
+    'Uncaught TypeError: Expected WithSlot to have a slotted element that extends HTMLButtonElement.',
   );
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
@@ -201,7 +199,7 @@ it('throws when a typed and required default slot has the wrong element', async 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = spy;
 
-  await fixture<GlideCoreWithSlot>(
+  await fixture<WithSlot>(
     html`<glide-core-with-slot
       .slotted=${[HTMLButtonElement, HTMLDivElement, Text]}
     >
@@ -212,7 +210,7 @@ it('throws when a typed and required default slot has the wrong element', async 
   expect(spy.callCount).to.equal(1);
 
   expect(spy.args.at(0)?.at(0)).to.equal(
-    'Uncaught TypeError: Expected GlideCoreWithSlot to have a slotted element that extends HTMLButtonElement or HTMLDivElement or Text. Extends HTMLAnchorElement instead.',
+    'Uncaught TypeError: Expected WithSlot to have a slotted element that extends HTMLButtonElement or HTMLDivElement or Text. Extends HTMLAnchorElement instead.',
   );
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
@@ -229,7 +227,7 @@ it('throws when a typed and required default slot only contains text', async () 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = spy;
 
-  await fixture<GlideCoreWithSlot>(
+  await fixture<WithSlot>(
     html`<glide-core-with-slot .slotted=${[HTMLButtonElement]}>
       Text
     </glide-core-with-slot>`,
@@ -238,7 +236,7 @@ it('throws when a typed and required default slot only contains text', async () 
   expect(spy.callCount).to.equal(1);
 
   expect(spy.args.at(0)?.at(0)).to.equal(
-    'Uncaught TypeError: Expected GlideCoreWithSlot to have a slotted element that extends HTMLButtonElement.',
+    'Uncaught TypeError: Expected WithSlot to have a slotted element that extends HTMLButtonElement.',
   );
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
@@ -253,7 +251,7 @@ it('throws when a typed and required named slot is empty', async () => {
 
   window.addEventListener('unhandledrejection', spy, { once: true });
 
-  await fixture<GlideCoreWithSlot>(
+  await fixture<WithSlot>(
     html`<glide-core-with-slot
       name="test"
       .slotted=${[HTMLButtonElement]}
@@ -266,14 +264,14 @@ it('throws when a typed and required named slot is empty', async () => {
   expect(spy.args.at(0)?.at(0) instanceof PromiseRejectionEvent).to.be.true;
 
   expect(spy.args.at(0)?.at(0).reason.message).to.equal(
-    'Expected the "test" slot of GlideCoreWithSlot to have a slotted element that extends HTMLButtonElement.',
+    'Expected the "test" slot of WithSlot to have a slotted element that extends HTMLButtonElement.',
   );
 
   stub.restore();
 });
 
 it('throws when a typed and required named slot is emptied', async () => {
-  const host = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<WithSlot>(
     html`<glide-core-with-slot name="test" .slotted=${[HTMLButtonElement]}>
       <button slot="test">Button</button>
     </glide-core-with-slot>`,
@@ -292,7 +290,7 @@ it('throws when a typed and required named slot is emptied', async () => {
   expect(spy.callCount).to.equal(1);
 
   expect(spy.args.at(0)?.at(0)).to.equal(
-    'Uncaught TypeError: Expected the "test" slot of GlideCoreWithSlot to have a slotted element that extends HTMLButtonElement.',
+    'Uncaught TypeError: Expected the "test" slot of WithSlot to have a slotted element that extends HTMLButtonElement.',
   );
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
@@ -309,7 +307,7 @@ it('throws when a typed and required named slot has the wrong element', async ()
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = spy;
 
-  await fixture<GlideCoreWithSlot>(
+  await fixture<WithSlot>(
     html`<glide-core-with-slot
       name="test"
       .slotted=${[HTMLButtonElement, HTMLDivElement, Text]}
@@ -321,7 +319,7 @@ it('throws when a typed and required named slot has the wrong element', async ()
   expect(spy.callCount).to.equal(1);
 
   expect(spy.args.at(0)?.at(0)).to.equal(
-    'Uncaught TypeError: Expected the "test" slot of GlideCoreWithSlot to have a slotted element that extends HTMLButtonElement or HTMLDivElement or Text. Extends HTMLAnchorElement instead.',
+    'Uncaught TypeError: Expected the "test" slot of WithSlot to have a slotted element that extends HTMLButtonElement or HTMLDivElement or Text. Extends HTMLAnchorElement instead.',
   );
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
@@ -334,7 +332,7 @@ it('does not throw when an optional slot is empty', async () => {
   const spy = sinon.spy();
   window.addEventListener('unhandledrejection', spy, { once: true });
 
-  await fixture<GlideCoreWithSlot>(
+  await fixture<WithSlot>(
     html`<glide-core-with-slot optional></glide-core-with-slot>`,
   );
 
@@ -345,7 +343,7 @@ it('does not throw when an optional slot is emptied', async () => {
   const spy = sinon.spy();
   window.addEventListener('error', spy);
 
-  const host = await fixture<GlideCoreWithSlot>(
+  const host = await fixture<WithSlot>(
     html`<glide-core-with-slot optional>
       <button>Button</button>
     </glide-core-with-slot>`,
@@ -363,7 +361,7 @@ it('does not throw when a typed and required default slot only contains text and
   const spy = sinon.spy();
   window.addEventListener('error', spy);
 
-  await fixture<GlideCoreWithSlot>(
+  await fixture<WithSlot>(
     html`<glide-core-with-slot .slotted=${[Text]}> </glide-core-with-slot>`,
   );
 
@@ -378,7 +376,7 @@ it('throws when a typed optional slot has the wrong element', async () => {
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = spy;
 
-  await fixture<GlideCoreWithSlot>(
+  await fixture<WithSlot>(
     html`<glide-core-with-slot
       .slotted=${[HTMLButtonElement, HTMLDivElement, Text]}
       optional
@@ -390,7 +388,7 @@ it('throws when a typed optional slot has the wrong element', async () => {
   expect(spy.callCount).to.equal(1);
 
   expect(spy.args.at(0)?.at(0)).to.equal(
-    'Uncaught TypeError: Expected GlideCoreWithSlot to have a slotted element that extends HTMLButtonElement or HTMLDivElement or Text. Extends HTMLAnchorElement instead.',
+    'Uncaught TypeError: Expected WithSlot to have a slotted element that extends HTMLButtonElement or HTMLDivElement or Text. Extends HTMLAnchorElement instead.',
   );
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
@@ -403,7 +401,7 @@ it('throws when not used on a slot', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<GlideCoreWhenNotUsedOnSlot>(
+    await fixture<WhenNotUsedOnSlot>(
       html`<glide-core-when-not-used-on-slot></glide-core-when-not-used-on-slot>`,
     );
   } catch (error) {
@@ -421,7 +419,7 @@ it('throws when not used inside an opening tag', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<GlideCorewhenNotUsedInsideTag>(
+    await fixture<WhenNotUsedInsideATag>(
       html`<glide-core-when-not-used-inside-tag></glide-core-when-not-used-inside-tag>`,
     );
   } catch (error) {

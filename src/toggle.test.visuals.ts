@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreToggle from './toggle.js';
+import type Toggle from './toggle.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Toggle) {
 
           await page
             .locator('glide-core-toggle')
-            .evaluate<void, GlideCoreToggle>((element) => {
+            .evaluate<void, Toggle>((element) => {
               element.checked = true;
             });
 
@@ -26,7 +26,7 @@ for (const story of stories.Toggle) {
 
           await page
             .locator('glide-core-toggle')
-            .evaluate<void, GlideCoreToggle>((element) => {
+            .evaluate<void, Toggle>((element) => {
               element.disabled = true;
             });
 
@@ -49,7 +49,7 @@ for (const story of stories.Toggle) {
 
           await page
             .locator('glide-core-toggle')
-            .evaluate<void, GlideCoreToggle>((element) => {
+            .evaluate<void, Toggle>((element) => {
               element.hideLabel = true;
             });
 
@@ -63,7 +63,7 @@ for (const story of stories.Toggle) {
 
           await page
             .locator('glide-core-toggle')
-            .evaluate<void, GlideCoreToggle>((element) => {
+            .evaluate<void, Toggle>((element) => {
               element.orientation = 'vertical';
             });
 
@@ -77,7 +77,7 @@ for (const story of stories.Toggle) {
 
           await page
             .locator('glide-core-toggle')
-            .evaluate<void, GlideCoreToggle>((element) => {
+            .evaluate<void, Toggle>((element) => {
               const div = document.createElement('div');
 
               div.textContent = 'Description';
@@ -96,7 +96,7 @@ for (const story of stories.Toggle) {
 
           await page
             .locator('glide-core-toggle')
-            .evaluate<void, GlideCoreToggle>((element) => {
+            .evaluate<void, Toggle>((element) => {
               element.summary = 'Summary';
             });
 
@@ -110,7 +110,7 @@ for (const story of stories.Toggle) {
 
           await page
             .locator('glide-core-toggle')
-            .evaluate<void, GlideCoreToggle>((element) => {
+            .evaluate<void, Toggle>((element) => {
               element.tooltip = 'Tooltip';
             });
 

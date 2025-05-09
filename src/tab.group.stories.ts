@@ -8,7 +8,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreTab from './tab.js';
+import TabComponent from './tab.js';
 
 const meta: Meta = {
   title: 'Tab Group',
@@ -68,7 +68,7 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-tab-group')
       ?.addEventListener('selected', (event: Event) => {
-        if (event.target instanceof GlideCoreTab) {
+        if (event.target instanceof TabComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
@@ -141,14 +141,14 @@ const meta: Meta = {
     'slot="default"': {
       control: false,
       table: {
-        type: { summary: 'GlideCoreTabPanel' },
+        type: { summary: 'TabPanel' },
       },
       type: { name: 'function', required: true },
     },
     'slot="nav"': {
       control: false,
       table: {
-        type: { summary: 'GlideCoreTab' },
+        type: { summary: 'Tab' },
       },
       type: { name: 'function', required: true },
     },

@@ -12,7 +12,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-icon-button': GlideCoreIconButton;
+    'glide-core-icon-button': IconButton;
   }
 }
 
@@ -32,7 +32,7 @@ declare global {
  */
 @customElement('glide-core-icon-button')
 @final
-export default class GlideCoreIconButton extends LitElement {
+export default class IconButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,

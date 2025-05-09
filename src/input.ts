@@ -20,7 +20,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-input': GlideCoreInput;
+    'glide-core-input': Input;
   }
 }
 
@@ -81,7 +81,7 @@ declare global {
  */
 @customElement('glide-core-input')
 @final
-export default class GlideCoreInput extends LitElement implements FormControl {
+export default class Input extends LitElement implements FormControl {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {

@@ -1,13 +1,13 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import GlideCoreInput from './input.js';
+import Input from './input.js';
 import { click } from './library/mouse.js';
 
 it('can be reset to its initial value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" value="value"></glide-core-input>`,
     {
       parentNode: form,
@@ -23,7 +23,7 @@ it('can be reset to its initial value', async () => {
 it('can be reset if there was no initial value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
     {
       parentNode: form,
@@ -39,7 +39,7 @@ it('can be reset if there was no initial value', async () => {
 it('has `formData` value when it has a value', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreInput>(
+  await fixture<Input>(
     html`<glide-core-input
       label="Label"
       name="name"
@@ -57,7 +57,7 @@ it('has `formData` value when it has a value', async () => {
 it('has no `formData` value when no value', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreInput>(
+  await fixture<Input>(
     html`<glide-core-input label="Label" name="name"></glide-core-input>`,
     {
       parentNode: form,
@@ -71,7 +71,7 @@ it('has no `formData` value when no value', async () => {
 it('has no `formData` value when it has a value but disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreInput>(
+  await fixture<Input>(
     html`<glide-core-input
       label="Label"
       name="name"
@@ -90,7 +90,7 @@ it('has no `formData` value when it has a value but disabled', async () => {
 it('has no `formData` value when it has a value but without a `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreInput>(
+  await fixture<Input>(
     html`<glide-core-input label="Label" value="value"></glide-core-input>`,
     {
       parentNode: form,
@@ -104,7 +104,7 @@ it('has no `formData` value when it has a value but without a `name`', async () 
 it('submits its form on Enter', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreInput>(
+  await fixture<Input>(
     html`<glide-core-input label="Label" value="value"></glide-core-input>`,
     {
       parentNode: form,
@@ -125,7 +125,7 @@ it('submits its form on Enter', async () => {
 });
 
 it('is valid if empty but not required', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
@@ -142,7 +142,7 @@ it('is valid if empty but not required', async () => {
 });
 
 it('is valid after being filled in when empty and required', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
@@ -162,7 +162,7 @@ it('is valid after being filled in when empty and required', async () => {
 });
 
 it('is invalid if no value and required', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
@@ -179,7 +179,7 @@ it('is invalid if no value and required', async () => {
 });
 
 it('is invalid after value is cleared when required', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       value="value"
@@ -203,7 +203,7 @@ it('is invalid after value is cleared when required', async () => {
 });
 
 it('is valid if no value and required and disabled', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" disabled required></glide-core-input>`,
   );
 
@@ -220,7 +220,7 @@ it('is valid if no value and required and disabled', async () => {
 });
 
 it('updates its validity when required and `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
@@ -267,7 +267,7 @@ it('updates its validity when required and `value` is set programmatically', asy
 });
 
 it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
@@ -297,7 +297,7 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
 });
 
 it('is valid when `value` is empty and `required` is updated to `false` programmatically', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
@@ -327,7 +327,7 @@ it('is valid when `value` is empty and `required` is updated to `false` programm
 });
 
 it('is valid when the `value` attribute matches `pattern`', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       pattern="[A-Za-z_s][A-Za-z_0-9s]*"
@@ -346,7 +346,7 @@ it('is valid when the `value` attribute matches `pattern`', async () => {
 });
 
 it('is valid when `value` matches `pattern` after being set programmatically', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -368,7 +368,7 @@ it('is valid when `value` matches `pattern` after being set programmatically', a
 });
 
 it('is valid when `pattern` is set and `value` is empty', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -386,7 +386,7 @@ it('is valid when `pattern` is set and `value` is empty', async () => {
 });
 
 it('is invalid when `value` does not match `pattern`', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       pattern="[A-Za-z_s][A-Za-z_0-9s]*"
@@ -407,7 +407,7 @@ it('is invalid when `value` does not match `pattern`', async () => {
 });
 
 it('is invalid when a programmatically set `value` does not match `pattern`', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -429,7 +429,7 @@ it('is invalid when a programmatically set `value` does not match `pattern`', as
 });
 
 it('is invalid when `required` and `value` does not match `pattern`', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -443,7 +443,7 @@ it('is invalid when `required` and `value` does not match `pattern`', async () =
 });
 
 it('is invalid when `required`, has an empty `value`, and a `pattern`', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -457,7 +457,7 @@ it('is invalid when `required`, has an empty `value`, and a `pattern`', async ()
 });
 
 it('is valid when `pattern` is programmatically removed', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -480,7 +480,7 @@ it('is valid when `pattern` is programmatically removed', async () => {
 });
 
 it('sets the validity message with `setCustomValidity()`', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
@@ -513,7 +513,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 });
 
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
@@ -533,7 +533,7 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
 });
 
 it('is invalid when `setValidity()` is called', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
@@ -566,7 +566,7 @@ it('is invalid when `setValidity()` is called', async () => {
 });
 
 it('is valid when `setValidity()` is called', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
@@ -591,7 +591,7 @@ it('is valid when `setValidity()` is called', async () => {
 
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
   // `value` does not match `pattern` intentionally to force an invalid state
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       pattern="[a-z]{4,8}"
@@ -609,7 +609,7 @@ it('retains existing validity state when `setCustomValidity()` is called', async
 });
 
 it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 

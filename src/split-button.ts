@@ -2,9 +2,9 @@ import { html, LitElement } from 'lit';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js';
-import GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
-import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
+import SplitButtonPrimaryButton from './split-button.primary-button.js';
+import SplitButtonPrimaryLink from './split-button.primary-link.js';
+import SplitButtonSecondaryButton from './split-button.secondary-button.js';
 import styles from './split-button.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -12,7 +12,7 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-split-button': GlideCoreSplitButton;
+    'glide-core-split-button': SplitButton;
   }
 }
 
@@ -22,12 +22,12 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink}
- * @slot {GlideCoreSplitButtonSecondaryButton} [secondary-button]
+ * @slot {SplitButtonPrimaryButton | SplitButtonPrimaryLink}
+ * @slot {SplitButtonSecondaryButton} [secondary-button]
  */
 @customElement('glide-core-split-button')
 @final
-export default class GlideCoreSplitButton extends LitElement {
+export default class SplitButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -63,7 +63,7 @@ export default class GlideCoreSplitButton extends LitElement {
       ?.assignedElements()
       .at(0);
 
-    if (element instanceof GlideCoreSplitButtonSecondaryButton) {
+    if (element instanceof SplitButtonSecondaryButton) {
       return element;
     }
   }
@@ -72,8 +72,8 @@ export default class GlideCoreSplitButton extends LitElement {
     const element = this.#defaultSlotElementRef.value?.assignedElements().at(0);
 
     if (
-      element instanceof GlideCoreSplitButtonPrimaryButton ||
-      element instanceof GlideCoreSplitButtonPrimaryLink
+      element instanceof SplitButtonPrimaryButton ||
+      element instanceof SplitButtonPrimaryLink
     ) {
       return element;
     }
@@ -84,22 +84,19 @@ export default class GlideCoreSplitButton extends LitElement {
       <div class="component">
         <slot
           @slotchange=${this.#onDefaultSlotChange}
-          ${assertSlot([
-            GlideCoreSplitButtonPrimaryButton,
-            GlideCoreSplitButtonPrimaryLink,
-          ])}
+          ${assertSlot([SplitButtonPrimaryButton, SplitButtonPrimaryLink])}
           ${ref(this.#defaultSlotElementRef)}
         >
-          <!-- @type {GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink} -->
+          <!-- @type {SplitButtonPrimaryButton | SplitButtonPrimaryLink} -->
         </slot>
 
         <slot
           name="secondary-button"
           @slotchange=${this.#onSecondaryButtonSlotChange}
-          ${assertSlot([GlideCoreSplitButtonSecondaryButton])}
+          ${assertSlot([SplitButtonSecondaryButton])}
           ${ref(this.#secondaryButtonSlotElementRef)}
         >
-          <!-- @type {GlideCoreSplitButtonSecondaryButton} -->
+          <!-- @type {SplitButtonSecondaryButton} -->
         </slot>
       </div>
     `;

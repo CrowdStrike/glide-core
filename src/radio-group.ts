@@ -8,7 +8,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
-import GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import RadioGroupRadio from './radio-group.radio.js';
 import styles from './radio-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import type FormControl from './library/form-control.js';
@@ -18,7 +18,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-radio-group': GlideCoreRadioGroup;
+    'glide-core-radio-group': RadioGroup;
   }
 }
 
@@ -35,7 +35,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreRadio}
+ * @slot {Radio}
  * @slot {Element | string} [description] - Additional information or context
  *
  * @fires {Event} invalid
@@ -66,10 +66,7 @@ declare global {
  */
 @customElement('glide-core-radio-group')
 @final
-export default class GlideCoreRadioGroup
-  extends LitElement
-  implements FormControl
-{
+export default class RadioGroup extends LitElement implements FormControl {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -402,10 +399,10 @@ export default class GlideCoreRadioGroup
               @private-disabled-change=${this.#onRadiosDisabledChange}
               @private-value-change=${this.#onRadiosValueChange}
               @slotchange=${this.#onDefaultSlotChange}
-              ${assertSlot([GlideCoreRadioGroupRadio])}
+              ${assertSlot([RadioGroupRadio])}
               ${ref(this.#defaultSlotElementRef)}
             >
-              <!-- @type {GlideCoreRadio} -->
+              <!-- @type {Radio} -->
             </slot>
           </div>
 
@@ -556,7 +553,7 @@ export default class GlideCoreRadioGroup
     return isInvalid;
   }
 
-  #checkRadio(radio: GlideCoreRadioGroupRadio) {
+  #checkRadio(radio: RadioGroupRadio) {
     this.#radioElements
       .find(({ tabIndex }) => tabIndex === 0)
       ?.setAttribute('tabindex', '-1');
@@ -576,19 +573,13 @@ export default class GlideCoreRadioGroup
     // If the user clicks on a disabled radio, then attempts to use the keyboard, the
     // focus would normally be stuck on the disabled element. Since the general pattern
     // is for focus to follow selection, it does so here, going to the last checked radio.
-    if (
-      event.target instanceof GlideCoreRadioGroupRadio &&
-      event.target.disabled
-    ) {
+    if (event.target instanceof RadioGroupRadio && event.target.disabled) {
       const selectedRadio = this.#radioElements.find(({ checked }) => checked);
       selectedRadio?.focus();
       return;
     }
 
-    if (
-      event.target instanceof GlideCoreRadioGroupRadio &&
-      !event.target.disabled
-    ) {
+    if (event.target instanceof RadioGroupRadio && !event.target.disabled) {
       const radiosToUncheck = this.#radioElements.filter(
         (radio) => radio !== event.target,
       );
@@ -605,13 +596,12 @@ export default class GlideCoreRadioGroup
   #onComponentKeydown(event: KeyboardEvent) {
     if (
       this.disabled ||
-      (event.target instanceof GlideCoreRadioGroupRadio &&
-        event.target?.disabled)
+      (event.target instanceof RadioGroupRadio && event.target?.disabled)
     ) {
       return;
     }
 
-    if (event.target instanceof GlideCoreRadioGroupRadio) {
+    if (event.target instanceof RadioGroupRadio) {
       switch (event.key) {
         case 'Enter': {
           this.form?.requestSubmit();
@@ -646,7 +636,7 @@ export default class GlideCoreRadioGroup
           const nextEnabledRadio = this.#radioElements.find((radio, index) => {
             return (
               !radio.disabled &&
-              event.target instanceof GlideCoreRadioGroupRadio &&
+              event.target instanceof RadioGroupRadio &&
               index > this.#radioElements.indexOf(event.target)
             );
           });
@@ -718,15 +708,15 @@ export default class GlideCoreRadioGroup
       ? this.#defaultSlotElementRef.value
           .assignedElements()
           .filter(
-            (element): element is GlideCoreRadioGroupRadio =>
-              element instanceof GlideCoreRadioGroupRadio,
+            (element): element is RadioGroupRadio =>
+              element instanceof RadioGroupRadio,
           )
       : [];
   }
 
   #onRadiosCheckedChange(event: CustomEvent<{ new: boolean; old: boolean }>) {
     if (
-      event.target instanceof GlideCoreRadioGroupRadio &&
+      event.target instanceof RadioGroupRadio &&
       event.target.checked &&
       !event.detail.old &&
       event.detail.new
@@ -749,10 +739,7 @@ export default class GlideCoreRadioGroup
       return;
     }
 
-    if (
-      event.target instanceof GlideCoreRadioGroupRadio &&
-      event.target.disabled
-    ) {
+    if (event.target instanceof RadioGroupRadio && event.target.disabled) {
       const lastCheckedAndEnabledRadio = this.#radioElements.findLast(
         (radio) => radio.checked && !radio.disabled,
       );
@@ -766,7 +753,7 @@ export default class GlideCoreRadioGroup
       const nextEnabledRadio = this.#radioElements.find((radio, index) => {
         return (
           !radio.disabled &&
-          event.target instanceof GlideCoreRadioGroupRadio &&
+          event.target instanceof RadioGroupRadio &&
           index > this.#radioElements.indexOf(event.target)
         );
       });
@@ -788,7 +775,7 @@ export default class GlideCoreRadioGroup
       }
     }
 
-    if (event.target instanceof GlideCoreRadioGroupRadio && !this.disabled) {
+    if (event.target instanceof RadioGroupRadio && !this.disabled) {
       const hasTabbableRadio = this.#radioElements.some(
         ({ tabIndex }) => tabIndex === 0,
       );
@@ -815,14 +802,14 @@ export default class GlideCoreRadioGroup
     );
 
     if (
-      event.target instanceof GlideCoreRadioGroupRadio &&
+      event.target instanceof RadioGroupRadio &&
       event.target.checked &&
       event.detail.new &&
       event.target === lastCheckedAndEnabledRadio
     ) {
       this.#value = event.target.value;
     } else if (
-      event.target instanceof GlideCoreRadioGroupRadio &&
+      event.target instanceof RadioGroupRadio &&
       event.target.checked &&
       event.target === lastCheckedAndEnabledRadio
     ) {
@@ -830,7 +817,7 @@ export default class GlideCoreRadioGroup
     }
   }
 
-  #uncheckRadio(radio: GlideCoreRadioGroupRadio) {
+  #uncheckRadio(radio: RadioGroupRadio) {
     radio.checked = false;
     radio.tabIndex = -1;
   }

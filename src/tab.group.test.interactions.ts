@@ -1,12 +1,12 @@
 import { emulateMedia, sendKeys } from '@web/test-runner-commands';
 import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
-import GlideCoreTab from './tab.js';
+import Tab from './tab.js';
 import { click } from './library/mouse.js';
-import GlideCoreTabGroup from './tab.group.js';
+import TabGroup from './tab.group.js';
 import './tab.panel.js';
 
 it('sets the selected tab using the `selected` attribute', async () => {
-  const host = await fixture<GlideCoreTabGroup>(html`
+  const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav" selected>Two</glide-core-tab>
@@ -22,7 +22,7 @@ it('sets the selected tab using the `selected` attribute', async () => {
 });
 
 it('sets the selected tab by setting `selected` programmatically', async () => {
-  const host = await fixture<GlideCoreTabGroup>(html`
+  const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab panel="1" slot="nav" selected>One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
@@ -31,7 +31,7 @@ it('sets the selected tab by setting `selected` programmatically', async () => {
     </glide-core-tab-group>
   `);
 
-  const tab = host.querySelector<GlideCoreTab>('glide-core-tab:nth-of-type(2)');
+  const tab = host.querySelector<Tab>('glide-core-tab:nth-of-type(2)');
 
   assert(tab);
   tab.selected = true;
@@ -43,7 +43,7 @@ it('sets the selected tab by setting `selected` programmatically', async () => {
 });
 
 it('changes tabs on click', async () => {
-  const host = await fixture<GlideCoreTabGroup>(html`
+  const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
@@ -88,7 +88,7 @@ it('changes tabs on click', async () => {
 });
 
 it('changes tabs on keyboard interaction', async () => {
-  const host = await fixture<GlideCoreTabGroup>(html`
+  const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav" disabled>Two</glide-core-tab>
@@ -360,7 +360,7 @@ it('has no overflow buttons when resized to not overflow', async () => {
 });
 
 it('sets the selected tab as tabbable on tab blur', async () => {
-  const host = await fixture<GlideCoreTabGroup>(html`
+  const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
@@ -394,7 +394,7 @@ it('sets the selected tab as tabbable on tab blur', async () => {
 });
 
 it('can be nested', async () => {
-  const host = await fixture<GlideCoreTabGroup>(html`
+  const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreTab from './tab.js';
+import type Tab from './tab.js';
 
 test('<glide-core-tab>.disabled', async ({ page }) => {
   await page.goto('?id=tab-group--tabs');
@@ -7,7 +7,7 @@ test('<glide-core-tab>.disabled', async ({ page }) => {
   await page
     .locator('glide-core-tab')
     .first()
-    .evaluate<void, GlideCoreTab>((element) => {
+    .evaluate<void, Tab>((element) => {
       element.disabled = true;
     });
 

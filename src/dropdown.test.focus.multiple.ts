@@ -1,11 +1,11 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import './dropdown.option.js';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreDropdown from './dropdown.js';
-import type GlideCoreTag from './tag.js';
+import Dropdown from './dropdown.js';
+import type Tag from './tag.js';
 
 it('focuses its primary button when `focus()` is called', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -22,7 +22,7 @@ it('focuses its primary button when `focus()` is called', async () => {
 it('focuses its primary button on submit when required and no options are selected', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -43,7 +43,7 @@ it('focuses its primary button on submit when required and no options are select
 it('focuses its primary button when `reportValidity()` is called when required and no options are selected', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -61,7 +61,7 @@ it('focuses its primary button when `reportValidity()` is called when required a
 it('does not focus its primary button when `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple required>
       <glide-core-dropdown-option
         label="Label"
@@ -81,7 +81,7 @@ it('does not focus its primary button when `checkValidity()` is called', async (
 });
 
 it('focuses the second tag when the first one is removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -100,8 +100,7 @@ it('focuses the second tag when the first one is removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  const tags =
-    host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
 
   tags?.[0]?.click();
   await host.updateComplete;
@@ -113,7 +112,7 @@ it('focuses the second tag when the first one is removed', async () => {
 });
 
 it('focuses the third tag when the second one is removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -132,8 +131,7 @@ it('focuses the third tag when the second one is removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  const tags =
-    host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
 
   tags?.[1]?.click();
   await host.updateComplete;
@@ -145,7 +143,7 @@ it('focuses the third tag when the second one is removed', async () => {
 });
 
 it('focuses the second tag when the third tag removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -164,8 +162,7 @@ it('focuses the second tag when the third tag removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  const tags =
-    host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
 
   tags?.[2]?.click();
   await host.updateComplete;
@@ -177,7 +174,7 @@ it('focuses the second tag when the third tag removed', async () => {
 });
 
 it('focuses itself when the last tag is removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -186,7 +183,7 @@ it('focuses itself when the last tag is removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  host.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]')?.click();
+  host.shadowRoot?.querySelector<Tag>('[data-test="tag"]')?.click();
 
   await host.updateComplete;
 

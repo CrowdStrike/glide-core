@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreTextarea from './textarea.js';
+import type Textarea from './textarea.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               element.disabled = true;
             });
 
@@ -35,7 +35,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               element.hideLabel = true;
             });
 
@@ -58,7 +58,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               element.maxlength = 1;
             });
 
@@ -74,7 +74,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               element.orientation = 'vertical';
             });
 
@@ -88,7 +88,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               element.placeholder = 'Placeholder';
             });
 
@@ -102,7 +102,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               element.readonly = true;
             });
 
@@ -116,7 +116,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               element.required = true;
             });
 
@@ -130,7 +130,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               const div = document.createElement('div');
 
               div.textContent = 'Description';
@@ -149,7 +149,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               element.tooltip = 'Tooltip';
             });
 
@@ -165,7 +165,7 @@ for (const story of stories.Textarea) {
 
           await page
             .locator('glide-core-textarea')
-            .evaluate<void, GlideCoreTextarea>((element) => {
+            .evaluate<void, Textarea>((element) => {
               element.value = 'Value';
             });
 

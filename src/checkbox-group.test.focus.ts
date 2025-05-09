@@ -1,10 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import './checkbox.js';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreCheckboxGroup from './checkbox-group.js';
+import CheckboxGroup from './checkbox-group.js';
 
 it('focuses the first enabled checkbox when `focus()` is called', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="Label" disabled></glide-core-checkbox>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
@@ -21,7 +21,7 @@ it('focuses the first enabled checkbox when `focus()` is called', async () => {
 it('focuses the first checkbox after submit when required and its checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -40,7 +40,7 @@ it('focuses the first checkbox after submit when required and its checkbox is un
 it('focuses the first checkbox after `reportValidity()` is called when required and its checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -57,7 +57,7 @@ it('focuses the first checkbox after `reportValidity()` is called when required 
 it('focuses the first checkbox after `requestSubmit()` is called when required and its checkbox is unchecked', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -74,7 +74,7 @@ it('focuses the first checkbox after `requestSubmit()` is called when required a
 it('does not focus the input after `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -89,7 +89,7 @@ it('does not focus the input after `checkValidity()` is called', async () => {
 });
 
 it('reports validity of checkboxes if blurred', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
       <glide-core-checkbox label="Label"></glide-core-checkbox>

@@ -1,15 +1,13 @@
 import sinon from 'sinon';
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import GlideCoreButton from './button.js';
+import Button from './button.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreButton {}
+class Subclassed extends Button {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-button')).to.equal(
-    GlideCoreButton,
-  );
+  expect(window.customElements.get('glide-core-button')).to.equal(Button);
 });
 
 it('is accessible', async () => {
@@ -27,7 +25,7 @@ it('is accessible', async () => {
 });
 
 it('has `#onPrefixIconSlotChange` coverage', async () => {
-  await fixture<GlideCoreButton>(html`
+  await fixture<Button>(html`
     <glide-core-button label="Label">
       <span slot="prefix-icon">Prefix</span>
     </glide-core-button>
@@ -35,7 +33,7 @@ it('has `#onPrefixIconSlotChange` coverage', async () => {
 });
 
 it('has `#onSuffixIconSlotChange` coverage', async () => {
-  await fixture<GlideCoreButton>(html`
+  await fixture<Button>(html`
     <glide-core-button label="Label">
       <span slot="suffix-icon">Suffix</span>
     </glide-core-button>
@@ -46,9 +44,7 @@ it('throws when `label` is empty', async () => {
   const spy = sinon.spy();
 
   try {
-    await fixture<GlideCoreButton>(
-      html`<glide-core-button></glide-core-button>`,
-    );
+    await fixture<Button>(html`<glide-core-button></glide-core-button>`);
   } catch {
     spy();
   }
@@ -60,7 +56,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

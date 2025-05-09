@@ -1,11 +1,11 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
-import GlideCoreModal from './modal.js';
+import Modal from './modal.js';
 
 it('dispatches a "toggle" event on open', async () => {
   const spy = sinon.spy();
 
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
@@ -26,7 +26,7 @@ it('dispatches a "toggle" event on open', async () => {
 it('dispatches a "toggle" event on close', async () => {
   const spy = sinon.spy();
 
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );
 
@@ -47,7 +47,7 @@ it('dispatches a "toggle" event on close', async () => {
 it('does not dispatch a "toggle" event when already open', async () => {
   const spy = sinon.spy();
 
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );
 
@@ -63,7 +63,7 @@ it('does not dispatch a "toggle" event when already open', async () => {
 it('does not dispatch a "toggle" event when already closed', async () => {
   const spy = sinon.spy();
 
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 

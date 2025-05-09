@@ -1,10 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreTabPanel from './tab.panel.js';
+import TabPanel from './tab.panel.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreTabPanel {}
+class Subclassed extends TabPanel {}
 
 it('throws when `name` is empty', async () => {
   const spy = sinon.spy();
@@ -22,7 +22,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

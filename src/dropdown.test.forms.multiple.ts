@@ -1,12 +1,12 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import './dropdown.option.js';
-import GlideCoreDropdown from './dropdown.js';
-import GlideCoreTag from './tag.js';
+import Dropdown from './dropdown.js';
+import Tag from './tag.js';
 
 it('can be reset', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder" multiple>
       <glide-core-dropdown-option
         label="One"
@@ -46,7 +46,7 @@ it('can be reset', async () => {
 it('can be reset to its initially selected options', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="One"
@@ -77,8 +77,7 @@ it('can be reset to its initially selected options', async () => {
 
   form.reset();
 
-  const tags =
-    host.shadowRoot?.querySelectorAll<GlideCoreTag>('[data-test="tag"]');
+  const tags = host.shadowRoot?.querySelectorAll<Tag>('[data-test="tag"]');
 
   expect(tags?.length).to.equal(2);
   expect(tags?.[0]?.label).to.equal('Two');
@@ -89,7 +88,7 @@ it('can be reset to its initially selected options', async () => {
 it('has `formData` value when options are selected', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreDropdown>(
+  await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" name="name" multiple>
         <glide-core-dropdown-option
           label="One"
@@ -116,7 +115,7 @@ it('has `formData` value when options are selected', async () => {
 it('has no `formData` value when no option is selected', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreDropdown>(
+  await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" name="name" multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -135,7 +134,7 @@ it('has no `formData` value when no option is selected', async () => {
 it('has no `formData` value when disabled and an option is selected', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreDropdown>(
+  await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" name="name" disabled multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -155,7 +154,7 @@ it('has no `formData` value when disabled and an option is selected', async () =
 it('has no `formData` value when an option is selected that has no `value`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreDropdown>(
+  await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" name="name" multiple>
       <glide-core-dropdown-option
         label="Label"

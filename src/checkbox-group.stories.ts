@@ -5,7 +5,7 @@ import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreCheckboxGroup from './checkbox-group.js';
+import CheckboxGroupComponent from './checkbox-group.js';
 
 const meta: Meta = {
   title: 'Checkbox Group',
@@ -63,7 +63,7 @@ const meta: Meta = {
     'slot="default"': {
       control: false,
       table: {
-        type: { summary: 'GlideCoreCheckbox' },
+        type: { summary: 'Checkbox' },
       },
       type: { name: 'function', required: true },
     },
@@ -208,7 +208,7 @@ const meta: Meta = {
 
     if (
       context.name.includes('Error') &&
-      checkboxGroup instanceof GlideCoreCheckboxGroup
+      checkboxGroup instanceof CheckboxGroupComponent
     ) {
       checkboxGroup.reportValidity();
 
@@ -223,7 +223,7 @@ const meta: Meta = {
       }
     }
 
-    if (checkboxGroup instanceof GlideCoreCheckboxGroup) {
+    if (checkboxGroup instanceof CheckboxGroupComponent) {
       checkboxGroup.addEventListener('change', () => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,

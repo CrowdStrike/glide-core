@@ -1,10 +1,10 @@
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
-import GlideCoreDropdown from './dropdown.js';
+import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 import expectWindowError from './library/expect-window-error.js';
-import type GlideCoreTooltip from './tooltip.js';
+import type Tooltip from './tooltip.js';
 
 // You'll notice quite a few duplicated tests among the "*.single.ts", "*.multiple.ts",
 // and "*.filterable.ts" test suites. The thinking is that a test warrants
@@ -19,16 +19,14 @@ import type GlideCoreTooltip from './tooltip.js';
 // `dropdown.test.interactions.multiple.ts` would add a ton of test weight.
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreDropdown {}
+class Subclassed extends Dropdown {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-dropdown')).to.equal(
-    GlideCoreDropdown,
-  );
+  expect(window.customElements.get('glide-core-dropdown')).to.equal(Dropdown);
 });
 
 it('can be open', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -45,7 +43,7 @@ it('can be open', async () => {
 });
 
 it('shows a fallback when open and there are no options', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open></glide-core-dropdown>`,
   );
 
@@ -61,7 +59,7 @@ it('shows a fallback when open and there are no options', async () => {
 });
 
 it('shows loading feedback', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" loading open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -78,7 +76,7 @@ it('shows loading feedback', async () => {
 });
 
 it('selects options when `value` is set initially', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" .value=${['two']}>
       <glide-core-dropdown-option
         label="One"
@@ -102,7 +100,7 @@ it('selects options when `value` is set initially', async () => {
 });
 
 it('gives selected options precedence over an initial `value`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" .value=${['two']}>
       <glide-core-dropdown-option
         label="One"
@@ -125,7 +123,7 @@ it('gives selected options precedence over an initial `value`', async () => {
 });
 
 it('cannot be open when disabled', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open disabled>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -136,7 +134,7 @@ it('cannot be open when disabled', async () => {
 });
 
 it('enables options when `value` is set initially', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" .value=${['one']}>
       <glide-core-dropdown-option
         label="one"
@@ -151,7 +149,7 @@ it('enables options when `value` is set initially', async () => {
 });
 
 it('activates the first option when no options are initially selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -165,7 +163,7 @@ it('activates the first option when no options are initially selected', async ()
 });
 
 it('activates the last selected option when options are initially selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
@@ -189,7 +187,7 @@ it('activates the last selected option when options are initially selected', asy
 });
 
 it('is scrollable', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -214,7 +212,7 @@ it('is scrollable', async () => {
 });
 
 it('is not scrollable', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -255,7 +253,7 @@ it('hides the tooltip of the active option when open', async () => {
 
   const tooltip = host
     .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector<GlideCoreTooltip>('[data-test="tooltip"]');
+    ?.shadowRoot?.querySelector<Tooltip>('[data-test="tooltip"]');
 
   expect(tooltip?.open).to.be.false;
 });
@@ -280,7 +278,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

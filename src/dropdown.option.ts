@@ -12,14 +12,14 @@ import checkedIcon from './icons/checked.js';
 import pencilIcon from './icons/pencil.js';
 import { LocalizeController } from './library/localize.js';
 import styles from './dropdown.option.styles.js';
-import type GlideCoreCheckbox from './checkbox.js';
+import type Checkbox from './checkbox.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-dropdown-option': GlideCoreDropdownOption;
+    'glide-core-dropdown-option': DropdownOption;
   }
 }
 
@@ -51,7 +51,7 @@ declare global {
  */
 @customElement('glide-core-dropdown-option')
 @final
-export default class GlideCoreDropdownOption extends LitElement {
+export default class DropdownOption extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -196,7 +196,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   }
 
   @state()
-  private get lastSelectedOption(): GlideCoreDropdownOption | undefined {
+  private get lastSelectedOption(): DropdownOption | undefined {
     const options = this.parentElement?.querySelectorAll(
       'glide-core-dropdown-option',
     );
@@ -467,7 +467,7 @@ export default class GlideCoreDropdownOption extends LitElement {
   @state()
   private isLabelOverflow = false;
 
-  #checkboxElementRef = createRef<GlideCoreCheckbox>();
+  #checkboxElementRef = createRef<Checkbox>();
 
   #componentElementRef = createRef<HTMLElement>();
 

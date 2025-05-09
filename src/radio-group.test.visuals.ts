@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreRadioGroup from './radio-group.js';
-import type GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import type RadioGroup from './radio-group.js';
+import type RadioGroupRadio from './radio-group.radio.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -13,7 +13,7 @@ for (const story of stories['Radio Group']) {
 
           await page
             .locator('glide-core-radio-group')
-            .evaluate<void, GlideCoreRadioGroup>((element) => {
+            .evaluate<void, RadioGroup>((element) => {
               element.disabled = true;
             });
 
@@ -45,7 +45,7 @@ for (const story of stories['Radio Group']) {
 
           await page
             .locator('glide-core-radio-group')
-            .evaluate<void, GlideCoreRadioGroup>((element) => {
+            .evaluate<void, RadioGroup>((element) => {
               element.required = true;
             });
 
@@ -59,7 +59,7 @@ for (const story of stories['Radio Group']) {
 
           await page
             .locator('glide-core-radio-group')
-            .evaluate<void, GlideCoreRadioGroup>((element) => {
+            .evaluate<void, RadioGroup>((element) => {
               const div = document.createElement('div');
 
               div.textContent = 'Description';
@@ -78,7 +78,7 @@ for (const story of stories['Radio Group']) {
 
           await page
             .locator('glide-core-radio-group')
-            .evaluate<void, GlideCoreRadioGroup>((element) => {
+            .evaluate<void, RadioGroup>((element) => {
               element.tooltip = 'Tooltip';
             });
 
@@ -98,7 +98,7 @@ for (const story of stories['Radio Group']) {
             await page
               .locator('glide-core-radio-group-radio')
               .nth(1)
-              .evaluate<void, GlideCoreRadioGroupRadio>((element) => {
+              .evaluate<void, RadioGroupRadio>((element) => {
                 element.disabled = true;
                 element.checked = true;
               });
@@ -116,7 +116,7 @@ for (const story of stories['Radio Group']) {
             await page
               .locator('glide-core-radio-group-radio')
               .nth(1)
-              .evaluate<void, GlideCoreRadioGroupRadio>((element) => {
+              .evaluate<void, RadioGroupRadio>((element) => {
                 element.disabled = true;
               });
 

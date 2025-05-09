@@ -9,18 +9,18 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
 import { hover } from './library/mouse.js';
-import GlideCoreTooltip from './tooltip.js';
-import GlideCoreTooltipContainer from './tooltip.container.js';
+import Tooltip from './tooltip.js';
+import TooltipContainer from './tooltip.container.js';
 
 it('passes down certain properties to its container', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="One">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
   );
 
   await waitUntil(() => {
-    return host.querySelector<GlideCoreTooltipContainer>(
+    return host.querySelector<TooltipContainer>(
       'glide-core-private-tooltip-container',
     );
   });
@@ -29,7 +29,7 @@ it('passes down certain properties to its container', async () => {
   host.screenreaderHidden = true;
   host.shortcut = ['CMD', 'O'];
 
-  const container = host.querySelector<GlideCoreTooltipContainer>(
+  const container = host.querySelector<TooltipContainer>(
     'glide-core-private-tooltip-container',
   );
 
@@ -39,7 +39,7 @@ it('passes down certain properties to its container', async () => {
 });
 
 it('is open when opened programmatically', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -58,7 +58,7 @@ it('is open when opened programmatically', async () => {
 });
 
 it('is open when open and enabled programmatically', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" open disabled>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -77,7 +77,7 @@ it('is open when open and enabled programmatically', async () => {
 });
 
 it('is not open when open and disabled programmatically', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" open>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -99,7 +99,7 @@ it('is not open when open and disabled programmatically', async () => {
 });
 
 it('is not open when opened programmatically and disabled', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" disabled>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -118,7 +118,7 @@ it('is not open when opened programmatically and disabled', async () => {
 });
 
 it('is visible when tabbed to', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -135,7 +135,7 @@ it('is visible when tabbed to', async () => {
 });
 
 it('remains closed on hover when disabled', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" disabled>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -157,7 +157,7 @@ it('remains closed on hover when disabled', async () => {
 });
 
 it('closes on "blur"', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" open>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -186,7 +186,7 @@ it('closes on "blur"', async () => {
 });
 
 it('closes on Escape', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" open>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -204,7 +204,7 @@ it('closes on Escape', async () => {
 });
 
 it('opens on hover', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -223,7 +223,7 @@ it('opens on hover', async () => {
 });
 
 it('remains closed on hover when disabled', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" disabled>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -242,7 +242,7 @@ it('remains closed on hover when disabled', async () => {
 });
 
 it('closes when hovered away from', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -268,7 +268,7 @@ it('closes when hovered away from', async () => {
 });
 
 it('remains closed if hovered away from before its delay', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -304,7 +304,7 @@ it('remains closed if hovered away from before its delay', async () => {
 });
 
 it('sets `aria-describedby` on its target when enabled', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -320,7 +320,7 @@ it('sets `aria-describedby` on its target when enabled', async () => {
 });
 
 it('does not set `aria-describedby` on its target when disabled', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -333,7 +333,7 @@ it('does not set `aria-describedby` on its target when disabled', async () => {
 });
 
 it('sets `aria-describedby` on its target when hidden from screenreaders', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label">
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -346,7 +346,7 @@ it('sets `aria-describedby` on its target when hidden from screenreaders', async
 });
 
 it('sets `aria-describedby` on its target when not hidden from screenreaders', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip label="Label" screenreader-hidden>
       <button slot="target">Target</button>
     </glide-core-tooltip>`,
@@ -361,7 +361,7 @@ it('sets `aria-describedby` on its target when not hidden from screenreaders', a
 });
 
 it('has `middlewareData.arrow.y` coverage', async () => {
-  await fixture<GlideCoreTooltip>(
+  await fixture<Tooltip>(
     html`<glide-core-tooltip
       label="Label"
       placement="right"
@@ -383,7 +383,7 @@ it('has `middlewareData.arrow.y` coverage', async () => {
 });
 
 it('has `set open(isOpen: boolean)` coverage', async () => {
-  const host = await fixture<GlideCoreTooltip>(
+  const host = await fixture<Tooltip>(
     html`<glide-core-tooltip
       label="Label"
       placement="right"

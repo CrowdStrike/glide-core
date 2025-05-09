@@ -1,10 +1,10 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { hover } from './library/mouse.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
-import GlideCoreTooltip from './tooltip.js';
+import DropdownOption from './dropdown.option.js';
+import Tooltip from './tooltip.js';
 
 it('is selected when programmatically selected', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -19,7 +19,7 @@ it('is selected when programmatically selected', async () => {
 it('has a tooltip when active and with a long label', async () => {
   // The "x" is arbitrary. 500 of them ensures the component is wider
   // than the viewport even if the viewport's width is increased.
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label=${'x'.repeat(500)}
     ></glide-core-dropdown-option>`,
@@ -35,7 +35,7 @@ it('has a tooltip when active and with a long label', async () => {
 });
 
 it('has no tooltip when active with a short label', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -46,7 +46,7 @@ it('has no tooltip when active with a short label', async () => {
   // Wait for the tooltip.
   await aTimeout(0);
 
-  const tooltip = host.shadowRoot?.querySelector<GlideCoreTooltip>(
+  const tooltip = host.shadowRoot?.querySelector<Tooltip>(
     '[data-test="tooltip"]',
   );
 
@@ -54,7 +54,7 @@ it('has no tooltip when active with a short label', async () => {
 });
 
 it('has a tooltip when active with a long label set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -76,7 +76,7 @@ it('has a tooltip when active with a long label set programmatically', async () 
 it('has no tooltip when active and with a short label set programmatically', async () => {
   // The "x" is arbitrary. 500 of them ensures the component is wider
   // than the viewport even if the viewport's width is increased.
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label=${'x'.repeat(500)}
     ></glide-core-dropdown-option>`,
@@ -88,7 +88,7 @@ it('has no tooltip when active and with a short label set programmatically', asy
   // Wait for the tooltip.
   await aTimeout(0);
 
-  const tooltip = host.shadowRoot?.querySelector<GlideCoreTooltip>(
+  const tooltip = host.shadowRoot?.querySelector<Tooltip>(
     '[data-test="tooltip"]',
   );
 
@@ -96,7 +96,7 @@ it('has no tooltip when active and with a short label set programmatically', asy
 });
 
 it('sets `aria-selected` when selected programmatically', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -107,7 +107,7 @@ it('sets `aria-selected` when selected programmatically', async () => {
 });
 
 it('sets `aria-selected` when deselected programmatically', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       selected
@@ -119,7 +119,7 @@ it('sets `aria-selected` when deselected programmatically', async () => {
 });
 
 it('sets `aria-selected` when disabled programmatically', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       selected
@@ -131,7 +131,7 @@ it('sets `aria-selected` when disabled programmatically', async () => {
 });
 
 it('sets `aria-selected` when enabled programmatically', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       disabled
@@ -144,7 +144,7 @@ it('sets `aria-selected` when enabled programmatically', async () => {
 });
 
 it('sets `privateIsEditActive`', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       editable
@@ -161,7 +161,7 @@ it('sets `privateIsEditActive`', async () => {
 });
 
 it('appears checked when programmatically enabled', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       disabled
@@ -180,7 +180,7 @@ it('appears checked when programmatically enabled', async () => {
 });
 
 it('appears unchecked when programmatically disabled', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       selected

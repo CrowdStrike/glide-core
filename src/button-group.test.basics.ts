@@ -1,16 +1,16 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreButtonGroup from './button-group.js';
+import ButtonGroup from './button-group.js';
 import './button-group.button.js';
 import expectWindowError from './library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreButtonGroup {}
+class Subclassed extends ButtonGroup {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-button-group')).to.equal(
-    GlideCoreButtonGroup,
+    ButtonGroup,
   );
 });
 
@@ -162,7 +162,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

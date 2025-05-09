@@ -2,7 +2,7 @@ import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
-import GlideCoreTag from './tag.js';
+import Tag from './tag.js';
 
 it('dispatches one "remove" event on click', async () => {
   const host = await fixture(
@@ -23,7 +23,7 @@ it('dispatches one "remove" event on click', async () => {
 });
 
 it('dispatches one "remove" event on Enter ', async () => {
-  const host = await fixture<GlideCoreTag>(
+  const host = await fixture<Tag>(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
@@ -45,7 +45,7 @@ it('dispatches one "remove" event on Enter ', async () => {
 });
 
 it('dispatches one "remove" event on Space ', async () => {
-  const host = await fixture<GlideCoreTag>(
+  const host = await fixture<Tag>(
     html`<glide-core-tag label="Label" removable></glide-core-tag>`,
   );
 
@@ -85,7 +85,7 @@ it('dispatches one "edit" event on click', async () => {
 });
 
 it('dispatches one "edit" event on Enter ', async () => {
-  const host = await fixture<GlideCoreTag>(
+  const host = await fixture<Tag>(
     html`<glide-core-tag label="Label" private-editable></glide-core-tag>`,
   );
 
@@ -107,7 +107,7 @@ it('dispatches one "edit" event on Enter ', async () => {
 });
 
 it('dispatches one "edit" event on Space ', async () => {
-  const host = await fixture<GlideCoreTag>(
+  const host = await fixture<Tag>(
     html`<glide-core-tag label="Label" private-editable></glide-core-tag>`,
   );
 

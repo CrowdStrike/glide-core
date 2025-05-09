@@ -1,10 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
-import GlideCoreModal from './modal.js';
+import Modal from './modal.js';
 
 it('can be opened programmatically', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label">Content</glide-core-modal>`,
   );
 
@@ -16,7 +16,7 @@ it('can be opened programmatically', async () => {
 });
 
 it('can be closed programmatically', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );
 
@@ -28,7 +28,7 @@ it('can be closed programmatically', async () => {
 });
 
 it('closes when its close button is clicked', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );
 
@@ -38,7 +38,7 @@ it('closes when its close button is clicked', async () => {
 });
 
 it('closes when its back button is clicked', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" back-button open>
       Content
     </glide-core-modal>`,
@@ -50,7 +50,7 @@ it('closes when its back button is clicked', async () => {
 });
 
 it('closes on Escape', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );
 
@@ -60,7 +60,7 @@ it('closes on Escape', async () => {
 });
 
 it('closes when clicked outside', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" back-button open>
       Content
     </glide-core-modal>`,
@@ -76,7 +76,7 @@ it('closes when clicked outside', async () => {
 });
 
 it('does not close when clicked inside', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" back-button open>
       Content
     </glide-core-modal>`,
@@ -89,7 +89,7 @@ it('does not close when clicked inside', async () => {
 });
 
 it('does not close when `click()` is called on a slotted element', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" open>
       <input />
     </glide-core-modal>`,
@@ -100,7 +100,7 @@ it('does not close when `click()` is called on a slotted element', async () => {
 });
 
 it('does not close when a slotted `<label>` is clicked', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" open>
       <label for="input"> Label </label>
       <input id="input" />
@@ -126,7 +126,7 @@ it('locks scroll on open', async () => {
 });
 
 it('unlocks scroll on close', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" open>Content</glide-core-modal>`,
   );
 

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreInput from './input.js';
+import type Input from './input.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.clearable = true;
             });
 
@@ -28,7 +28,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.disabled = true;
             });
 
@@ -51,7 +51,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.hideLabel = true;
             });
 
@@ -74,7 +74,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.maxlength = 1;
             });
 
@@ -90,7 +90,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.orientation = 'vertical';
             });
 
@@ -104,7 +104,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.passwordToggle = true;
               element.type = 'password';
             });
@@ -119,7 +119,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.placeholder = 'Placeholder';
             });
 
@@ -133,7 +133,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.readonly = true;
             });
 
@@ -147,7 +147,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.required = true;
             });
 
@@ -161,7 +161,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.tooltip = 'Tooltip';
             });
 
@@ -177,7 +177,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.type = 'date';
             });
 
@@ -193,7 +193,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.type = 'search';
             });
 
@@ -219,7 +219,7 @@ for (const story of stories.Input) {
 
           await page
             .locator('glide-core-input')
-            .evaluate<void, GlideCoreInput>((element) => {
+            .evaluate<void, Input>((element) => {
               element.type = 'time';
             });
 
