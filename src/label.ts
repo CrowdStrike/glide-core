@@ -82,7 +82,7 @@ export default class GlideCoreLabel extends LitElement {
   override render() {
     // `aria-hidden` is used on the tooltip so the contents of the label aren't
     // read twice to screen readers. The label is truncated using CSS. So the full
-    // text of the label is always available them.
+    // text of the label is always available to them.
 
     // Lit-a11y doesn't know that we're only using a "mouseover" event to hide and
     // show Tooltip, which is hidden from screenreaders because the truncated text
