@@ -80,9 +80,15 @@ export default class GlideCoreLabel extends LitElement {
   label?: string;
 
   override render() {
-    // `aria-hidden` is used on the tooltip so the contents of the label
-    // aren't read twice to screen readers. The label is truncated using
-    // CSS. So the full text of the label is always available them.
+    // `aria-hidden` is used on the tooltip so the contents of the label aren't
+    // read twice to screen readers. The label is truncated using CSS. So the full
+    // text of the label is always available to them.
+
+    // Lit-a11y doesn't know that we're only using a "mouseover" event to hide and
+    // show Tooltip, which is hidden from screenreaders because the truncated text
+    // is available to them without a tooltip.
+    //
+    /* eslint-disable lit-a11y/mouse-events-have-key-events */
     return html`<div
       class=${classMap({
         component: true,
@@ -129,6 +135,7 @@ export default class GlideCoreLabel extends LitElement {
 
         <glide-core-tooltip
           class="label-tooltip"
+          data-test="label-tooltip"
           label=${this.label ?? ''}
           placement="right"
           ?disabled=${!this.isLabelTooltip}
@@ -141,13 +148,10 @@ export default class GlideCoreLabel extends LitElement {
             })}
             data-test="label"
             slot="target"
+            @mouseover=${this.#onLabelMouseOver}
             ${ref(this.#labelElementRef)}
           >
-            <slot
-              @slotchange=${this.#onDefaultSlotChange}
-              ${assertSlot()}
-              ${ref(this.#defaultSlotElementRef)}
-            >
+            <slot ${assertSlot()} ${ref(this.#defaultSlotElementRef)}>
               <!-- @type {HTMLLabelElement} -->
             </slot>
           </div>
@@ -238,34 +242,6 @@ export default class GlideCoreLabel extends LitElement {
 
   #summarySlotElementRef = createRef<HTMLSlotElement>();
 
-  #onDefaultSlotChange() {
-    const defaultSlotAssignedElement = this.#defaultSlotElementRef.value
-      ?.assignedElements()
-      .at(0);
-
-    const observer = new ResizeObserver(() => {
-      // `getBoundingClientRect` is used so we're comparing apples to apples.
-      //
-      // `clientWidth` on `defaultSlotAssignedElement` is zero if the element
-      // is `display` is `inline`. `labelElement`, on the other hand, isn't
-      // inline.
-      //
-      // But `clientWidth` returns an integer and `getBoundingClientRect().width`
-      // return a float. So using `clientWidth` for `labelElement` would mean the
-      // width of `defaultSlotAssignedElement` is always fractionally greater than
-      // that of `labelElement`.
-      if (defaultSlotAssignedElement && this.#labelElementRef.value) {
-        this.isLabelTooltip =
-          defaultSlotAssignedElement.getBoundingClientRect().width >
-          this.#labelElementRef.value.getBoundingClientRect().width;
-      }
-    });
-
-    if (this.#labelElementRef.value) {
-      observer.observe(this.#labelElementRef.value);
-    }
-  }
-
   #onDescriptionSlotResize() {
     // The "description" slot has a top margin that needs to be conditionally
     // applied only if content is slotted so there's not stray whitespace
@@ -281,6 +257,27 @@ export default class GlideCoreLabel extends LitElement {
       this.#descriptionSlotElementRef.value &&
         this.#descriptionSlotElementRef.value.offsetHeight > 0,
     );
+  }
+
+  #onLabelMouseOver() {
+    const defaultSlotAssignedElement = this.#defaultSlotElementRef.value
+      ?.assignedElements()
+      .at(0);
+
+    if (defaultSlotAssignedElement && this.#labelElementRef.value) {
+      // `getBoundingClientRect()` is used so we're comparing apples to apples.
+      //
+      // `clientWidth` on `defaultSlotAssignedElement` is zero if the element is
+      // `display: inline`. The label, on the other hand, isn't inline.
+      //
+      // But `clientWidth` returns an integer and `getBoundingClientRect().width`
+      // return a float. So using `clientWidth` with `#labelElementRef.value` would
+      // mean the width of `defaultSlotAssignedElement` is always fractionally
+      // greater than that of `#labelElementRef.value`.
+      this.isLabelTooltip =
+        defaultSlotAssignedElement.getBoundingClientRect().width >
+        this.#labelElementRef.value.getBoundingClientRect().width;
+    }
   }
 
   #onSummarySlotChange() {
