@@ -24,7 +24,7 @@ export default async function (callback: () => unknown) {
   expect(spy.callCount).to.be.greaterThan(0);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  expect(spy.args.at(0)?.at(4) instanceof TypeError).to.be.true;
+  expect(spy.args.at(0)?.at(4) instanceof Error).to.be.true;
 
   // eslint-disable-next-line unicorn/prefer-add-event-listener
   window.onerror = onerror;

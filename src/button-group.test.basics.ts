@@ -185,3 +185,21 @@ it('throws when its default slot is the wrong type', async () => {
     );
   });
 });
+
+it('throws when more than one button is selected', async () => {
+  await expectWindowError(() => {
+    return fixture(html`
+      <glide-core-button-group label="Label">
+        <glide-core-button-group-button
+          label="One"
+          selected
+        ></glide-core-button-group-button>
+
+        <glide-core-button-group-button
+          label="Two"
+          selected
+        ></glide-core-button-group-button>
+      </glide-core-button-group>
+    `);
+  });
+});
