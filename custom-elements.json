@@ -23,7 +23,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreAccordion",
+          "name": "Accordion",
           "slots": [
             {
               "name": "prefix-icon",
@@ -166,7 +166,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreAccordion",
+            "name": "Accordion",
             "module": "src/accordion.ts"
           }
         },
@@ -174,7 +174,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-accordion",
           "declaration": {
-            "name": "GlideCoreAccordion",
+            "name": "Accordion",
             "module": "src/accordion.ts"
           }
         }
@@ -201,7 +201,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreButtonGroupButton",
+          "name": "ButtonGroupButton",
           "slots": [
             {
               "name": "icon",
@@ -389,7 +389,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreButtonGroupButton",
+            "name": "ButtonGroupButton",
             "module": "src/button-group.button.ts"
           }
         },
@@ -397,7 +397,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-button-group-button",
           "declaration": {
-            "name": "GlideCoreButtonGroupButton",
+            "name": "ButtonGroupButton",
             "module": "src/button-group.button.ts"
           }
         }
@@ -424,7 +424,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreButtonGroup",
+          "name": "ButtonGroup",
           "slots": [
             {
               "name": "",
@@ -458,7 +458,7 @@
                 ]
               },
               "type": {
-                "text": "GlideCoreButtonGroupButton"
+                "text": "ButtonGroupButton"
               }
             }
           ],
@@ -561,7 +561,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreButtonGroup",
+            "name": "ButtonGroup",
             "module": "src/button-group.ts"
           }
         },
@@ -569,7 +569,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-button-group",
           "declaration": {
-            "name": "GlideCoreButtonGroup",
+            "name": "ButtonGroup",
             "module": "src/button-group.ts"
           }
         }
@@ -596,7 +596,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreButton",
+          "name": "Button",
           "slots": [
             {
               "name": "prefix-icon",
@@ -837,7 +837,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreButton",
+            "name": "Button",
             "module": "src/button.ts"
           }
         },
@@ -845,7 +845,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-button",
           "declaration": {
-            "name": "GlideCoreButton",
+            "name": "Button",
             "module": "src/button.ts"
           }
         }
@@ -872,7 +872,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreCheckboxGroup",
+          "name": "CheckboxGroup",
           "slots": [
             {
               "name": "",
@@ -942,7 +942,7 @@
                 ]
               },
               "type": {
-                "text": "GlideCoreCheckbox"
+                "text": "Checkbox"
               }
             },
             {
@@ -1300,7 +1300,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreCheckboxGroup",
+            "name": "CheckboxGroup",
             "module": "src/checkbox-group.ts"
           }
         },
@@ -1308,7 +1308,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-checkbox-group",
           "declaration": {
-            "name": "GlideCoreCheckboxGroup",
+            "name": "CheckboxGroup",
             "module": "src/checkbox-group.ts"
           }
         }
@@ -1335,7 +1335,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreCheckbox",
+          "name": "Checkbox",
           "slots": [
             {
               "name": "private-icon",
@@ -1867,7 +1867,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreCheckbox",
+            "name": "Checkbox",
             "module": "src/checkbox.ts"
           }
         },
@@ -1875,7 +1875,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-checkbox",
           "declaration": {
-            "name": "GlideCoreCheckbox",
+            "name": "Checkbox",
             "module": "src/checkbox.ts"
           }
         }
@@ -1902,7 +1902,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreDrawer",
+          "name": "Drawer",
           "cssProperties": [
             {
               "name": "--width",
@@ -2054,7 +2054,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreDrawer",
+            "name": "Drawer",
             "module": "src/drawer.ts"
           }
         },
@@ -2062,7 +2062,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-drawer",
           "declaration": {
-            "name": "GlideCoreDrawer",
+            "name": "Drawer",
             "module": "src/drawer.ts"
           }
         }
@@ -2089,7 +2089,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreDropdownOption",
+          "name": "DropdownOption",
           "slots": [
             {
               "name": "icon",
@@ -2435,7 +2435,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreDropdownOption",
+            "name": "DropdownOption",
             "module": "src/dropdown.option.ts"
           }
         },
@@ -2443,7 +2443,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-dropdown-option",
           "declaration": {
-            "name": "GlideCoreDropdownOption",
+            "name": "DropdownOption",
             "module": "src/dropdown.option.ts"
           }
         }
@@ -2470,7 +2470,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreDropdown",
+          "name": "Dropdown",
           "slots": [
             {
               "name": "icon:value",
@@ -2511,7 +2511,7 @@
                 ]
               },
               "type": {
-                "text": "GlideCoreDropdownOption"
+                "text": "DropdownOption"
               }
             },
             {
@@ -2741,7 +2741,7 @@
               "name": "filter",
               "return": {
                 "type": {
-                  "text": "Promise<GlideCoreDropdownOption[] | undefined | void>"
+                  "text": "Promise<DropdownOption[] | undefined | void>"
                 }
               },
               "parameters": [
@@ -3055,7 +3055,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreDropdown",
+            "name": "Dropdown",
             "module": "src/dropdown.ts"
           }
         },
@@ -3063,7 +3063,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-dropdown",
           "declaration": {
-            "name": "GlideCoreDropdown",
+            "name": "Dropdown",
             "module": "src/dropdown.ts"
           }
         }
@@ -3090,13 +3090,13 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreFormControlsLayout",
+          "name": "FormControlsLayout",
           "slots": [
             {
               "name": "",
               "description": "",
               "type": {
-                "text": "GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea"
+                "text": "Checkbox | CheckboxGroup | Dropdown | RadioGroup | Input | TextArea"
               }
             }
           ],
@@ -3162,7 +3162,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreFormControlsLayout",
+            "name": "FormControlsLayout",
             "module": "src/form-controls-layout.ts"
           }
         },
@@ -3170,7 +3170,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-form-controls-layout",
           "declaration": {
-            "name": "GlideCoreFormControlsLayout",
+            "name": "FormControlsLayout",
             "module": "src/form-controls-layout.ts"
           }
         }
@@ -3197,7 +3197,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreIconButton",
+          "name": "IconButton",
           "slots": [
             {
               "name": "",
@@ -3410,7 +3410,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreIconButton",
+            "name": "IconButton",
             "module": "src/icon-button.ts"
           }
         },
@@ -3418,7 +3418,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-icon-button",
           "declaration": {
-            "name": "GlideCoreIconButton",
+            "name": "IconButton",
             "module": "src/icon-button.ts"
           }
         }
@@ -3445,7 +3445,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreInlineAlert",
+          "name": "InlineAlert",
           "slots": [
             {
               "name": "",
@@ -3545,7 +3545,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreInlineAlert",
+            "name": "InlineAlert",
             "module": "src/inline-alert.ts"
           }
         },
@@ -3553,7 +3553,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-inline-alert",
           "declaration": {
-            "name": "GlideCoreInlineAlert",
+            "name": "InlineAlert",
             "module": "src/inline-alert.ts"
           }
         }
@@ -3580,7 +3580,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreInput",
+          "name": "Input",
           "slots": [
             {
               "name": "prefix-icon",
@@ -4113,7 +4113,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreInput",
+            "name": "Input",
             "module": "src/input.ts"
           }
         },
@@ -4121,7 +4121,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-input",
           "declaration": {
-            "name": "GlideCoreInput",
+            "name": "Input",
             "module": "src/input.ts"
           }
         }
@@ -4148,7 +4148,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreLabel",
+          "name": "Label",
           "slots": [
             {
               "name": "",
@@ -4340,7 +4340,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreLabel",
+            "name": "Label",
             "module": "src/label.ts"
           }
         },
@@ -4348,7 +4348,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-private-label",
           "declaration": {
-            "name": "GlideCoreLabel",
+            "name": "Label",
             "module": "src/label.ts"
           }
         }
@@ -4375,7 +4375,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreLink",
+          "name": "Link",
           "members": [
             {
               "kind": "field",
@@ -4516,7 +4516,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreLink",
+            "name": "Link",
             "module": "src/link.ts"
           }
         },
@@ -4524,7 +4524,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-link",
           "declaration": {
-            "name": "GlideCoreLink",
+            "name": "Link",
             "module": "src/link.ts"
           }
         }
@@ -4551,7 +4551,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreMenuButton",
+          "name": "MenuButton",
           "slots": [
             {
               "name": "icon",
@@ -4727,7 +4727,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreMenuButton",
+            "name": "MenuButton",
             "module": "src/menu.button.ts"
           }
         },
@@ -4735,7 +4735,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-menu-button",
           "declaration": {
-            "name": "GlideCoreMenuButton",
+            "name": "MenuButton",
             "module": "src/menu.button.ts"
           }
         }
@@ -4762,7 +4762,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreMenuLink",
+          "name": "MenuLink",
           "slots": [
             {
               "name": "icon",
@@ -4954,7 +4954,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreMenuLink",
+            "name": "MenuLink",
             "module": "src/menu.link.ts"
           }
         },
@@ -4962,7 +4962,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-menu-link",
           "declaration": {
-            "name": "GlideCoreMenuLink",
+            "name": "MenuLink",
             "module": "src/menu.link.ts"
           }
         }
@@ -4989,13 +4989,13 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreMenuOptions",
+          "name": "MenuOptions",
           "slots": [
             {
               "name": "",
               "description": "",
               "type": {
-                "text": "GlideCoreMenuButton | GlideCoreMenuLink"
+                "text": "MenuButton | MenuLink"
               }
             }
           ],
@@ -5162,7 +5162,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreMenuOptions",
+            "name": "MenuOptions",
             "module": "src/menu.options.ts"
           }
         },
@@ -5170,7 +5170,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-menu-options",
           "declaration": {
-            "name": "GlideCoreMenuOptions",
+            "name": "MenuOptions",
             "module": "src/menu.options.ts"
           }
         }
@@ -5197,7 +5197,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreMenu",
+          "name": "Menu",
           "slots": [
             {
               "name": "target",
@@ -5238,7 +5238,7 @@
                 ]
               },
               "type": {
-                "text": "GlideCoreMenuOptions"
+                "text": "MenuOptions"
               }
             }
           ],
@@ -5366,7 +5366,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreMenu",
+            "name": "Menu",
             "module": "src/menu.ts"
           }
         },
@@ -5374,7 +5374,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-menu",
           "declaration": {
-            "name": "GlideCoreMenu",
+            "name": "Menu",
             "module": "src/menu.ts"
           }
         }
@@ -5401,7 +5401,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreModalIconButton",
+          "name": "ModalIconButton",
           "slots": [
             {
               "name": "",
@@ -5500,7 +5500,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreModalIconButton",
+            "name": "ModalIconButton",
             "module": "src/modal.icon-button.ts"
           }
         },
@@ -5508,7 +5508,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-modal-icon-button",
           "declaration": {
-            "name": "GlideCoreModalIconButton",
+            "name": "ModalIconButton",
             "module": "src/modal.icon-button.ts"
           }
         }
@@ -5535,13 +5535,13 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreModal",
+          "name": "Modal",
           "slots": [
             {
               "name": "header-actions",
               "description": "",
               "type": {
-                "text": "GlideCoreModalIconButton"
+                "text": "ModalIconButton"
               }
             },
             {
@@ -5555,21 +5555,21 @@
               "name": "tertiary",
               "description": "",
               "type": {
-                "text": "GlideCoreButton | GlideCoreTooltip"
+                "text": "Button | Tooltip"
               }
             },
             {
               "name": "secondary",
               "description": "",
               "type": {
-                "text": "GlideCoreButton"
+                "text": "Button"
               }
             },
             {
               "name": "primary",
               "description": "",
               "type": {
-                "text": "GlideCoreButton"
+                "text": "Button"
               }
             }
           ],
@@ -5712,7 +5712,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreModal",
+            "name": "Modal",
             "module": "src/modal.ts"
           }
         },
@@ -5720,7 +5720,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-modal",
           "declaration": {
-            "name": "GlideCoreModal",
+            "name": "Modal",
             "module": "src/modal.ts"
           }
         }
@@ -5747,7 +5747,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCorePopover",
+          "name": "Popover",
           "slots": [
             {
               "name": "target",
@@ -5885,7 +5885,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCorePopover",
+            "name": "Popover",
             "module": "src/popover.ts"
           }
         },
@@ -5893,7 +5893,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-popover",
           "declaration": {
-            "name": "GlideCorePopover",
+            "name": "Popover",
             "module": "src/popover.ts"
           }
         }
@@ -5920,7 +5920,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreRadioGroupRadio",
+          "name": "RadioGroupRadio",
           "members": [
             {
               "kind": "field",
@@ -6088,7 +6088,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreRadioGroupRadio",
+            "name": "RadioGroupRadio",
             "module": "src/radio-group.radio.ts"
           }
         },
@@ -6096,7 +6096,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-radio-group-radio",
           "declaration": {
-            "name": "GlideCoreRadioGroupRadio",
+            "name": "RadioGroupRadio",
             "module": "src/radio-group.radio.ts"
           }
         }
@@ -6123,13 +6123,13 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreRadioGroup",
+          "name": "RadioGroup",
           "slots": [
             {
               "name": "",
               "description": "",
               "type": {
-                "text": "GlideCoreRadio"
+                "text": "Radio"
               }
             },
             {
@@ -6471,7 +6471,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreRadioGroup",
+            "name": "RadioGroup",
             "module": "src/radio-group.ts"
           }
         },
@@ -6479,7 +6479,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-radio-group",
           "declaration": {
-            "name": "GlideCoreRadioGroup",
+            "name": "RadioGroup",
             "module": "src/radio-group.ts"
           }
         }
@@ -6506,7 +6506,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreSpinner",
+          "name": "Spinner",
           "members": [
             {
               "kind": "field",
@@ -6588,7 +6588,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreSpinner",
+            "name": "Spinner",
             "module": "src/spinner.ts"
           }
         },
@@ -6596,7 +6596,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-spinner",
           "declaration": {
-            "name": "GlideCoreSpinner",
+            "name": "Spinner",
             "module": "src/spinner.ts"
           }
         }
@@ -6623,7 +6623,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreSplitButtonPrimaryButton",
+          "name": "SplitButtonPrimaryButton",
           "slots": [
             {
               "name": "icon",
@@ -6800,7 +6800,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreSplitButtonPrimaryButton",
+            "name": "SplitButtonPrimaryButton",
             "module": "src/split-button.primary-button.ts"
           }
         },
@@ -6808,7 +6808,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-split-button-primary-button",
           "declaration": {
-            "name": "GlideCoreSplitButtonPrimaryButton",
+            "name": "SplitButtonPrimaryButton",
             "module": "src/split-button.primary-button.ts"
           }
         }
@@ -6821,7 +6821,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreSplitButtonPrimaryLink",
+          "name": "SplitButtonPrimaryLink",
           "slots": [
             {
               "name": "icon",
@@ -6960,7 +6960,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreSplitButtonPrimaryLink",
+            "name": "SplitButtonPrimaryLink",
             "module": "src/split-button.primary-link.ts"
           }
         },
@@ -6968,7 +6968,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-split-button-primary-link",
           "declaration": {
-            "name": "GlideCoreSplitButtonPrimaryLink",
+            "name": "SplitButtonPrimaryLink",
             "module": "src/split-button.primary-link.ts"
           }
         }
@@ -6995,13 +6995,13 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreSplitButtonSecondaryButton",
+          "name": "SplitButtonSecondaryButton",
           "slots": [
             {
               "name": "",
               "description": "",
               "type": {
-                "text": "GlideCoreMenuButton | GlideCoreMenuLink"
+                "text": "MenuButton | MenuLink"
               }
             }
           ],
@@ -7158,7 +7158,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreSplitButtonSecondaryButton",
+            "name": "SplitButtonSecondaryButton",
             "module": "src/split-button.secondary-button.ts"
           }
         },
@@ -7166,7 +7166,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-split-button-secondary-button",
           "declaration": {
-            "name": "GlideCoreSplitButtonSecondaryButton",
+            "name": "SplitButtonSecondaryButton",
             "module": "src/split-button.secondary-button.ts"
           }
         }
@@ -7193,20 +7193,20 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreSplitButton",
+          "name": "SplitButton",
           "slots": [
             {
               "name": "",
               "description": "",
               "type": {
-                "text": "GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink"
+                "text": "SplitButtonPrimaryButton | SplitButtonPrimaryLink"
               }
             },
             {
               "name": "secondary-button",
               "description": "",
               "type": {
-                "text": "GlideCoreSplitButtonSecondaryButton"
+                "text": "SplitButtonSecondaryButton"
               }
             }
           ],
@@ -7272,7 +7272,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreSplitButton",
+            "name": "SplitButton",
             "module": "src/split-button.ts"
           }
         },
@@ -7280,7 +7280,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-split-button",
           "declaration": {
-            "name": "GlideCoreSplitButton",
+            "name": "SplitButton",
             "module": "src/split-button.ts"
           }
         }
@@ -7307,7 +7307,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreTabGroup",
+          "name": "TabGroup",
           "cssProperties": [
             {
               "name": "--tabs-padding-block-end",
@@ -7331,14 +7331,14 @@
               "name": "nav",
               "description": "",
               "type": {
-                "text": "GlideCoreTab"
+                "text": "Tab"
               }
             },
             {
               "name": "",
               "description": "",
               "type": {
-                "text": "GlideCoreTabPanel"
+                "text": "TabPanel"
               }
             }
           ],
@@ -7386,7 +7386,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreTabGroup",
+            "name": "TabGroup",
             "module": "src/tab.group.ts"
           }
         },
@@ -7394,7 +7394,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-tab-group",
           "declaration": {
-            "name": "GlideCoreTabGroup",
+            "name": "TabGroup",
             "module": "src/tab.group.ts"
           }
         }
@@ -7421,7 +7421,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreTabPanel",
+          "name": "TabPanel",
           "cssProperties": [
             {
               "name": "--padding-inline-end",
@@ -7457,7 +7457,7 @@
               "type": {
                 "text": "string | undefined"
               },
-              "description": "The corresponding GlideCoreTab should have a `panel` attribute with this name",
+              "description": "The corresponding Tab should have a `panel` attribute with this name",
               "attribute": "name",
               "reflects": true
             },
@@ -7483,7 +7483,7 @@
               "type": {
                 "text": "string | undefined"
               },
-              "description": "The corresponding GlideCoreTab should have a `panel` attribute with this name",
+              "description": "The corresponding Tab should have a `panel` attribute with this name",
               "fieldName": "name",
               "required": true
             },
@@ -7513,7 +7513,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreTabPanel",
+            "name": "TabPanel",
             "module": "src/tab.panel.ts"
           }
         },
@@ -7521,7 +7521,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-tab-panel",
           "declaration": {
-            "name": "GlideCoreTabPanel",
+            "name": "TabPanel",
             "module": "src/tab.panel.ts"
           }
         }
@@ -7548,7 +7548,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreTab",
+          "name": "Tab",
           "slots": [
             {
               "name": "icon",
@@ -7676,7 +7676,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreTab",
+            "name": "Tab",
             "module": "src/tab.ts"
           }
         },
@@ -7684,7 +7684,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-tab",
           "declaration": {
-            "name": "GlideCoreTab",
+            "name": "Tab",
             "module": "src/tab.ts"
           }
         }
@@ -7711,7 +7711,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreTag",
+          "name": "Tag",
           "slots": [
             {
               "name": "icon",
@@ -7858,7 +7858,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreTag",
+            "name": "Tag",
             "module": "src/tag.ts"
           }
         },
@@ -7866,7 +7866,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-tag",
           "declaration": {
-            "name": "GlideCoreTag",
+            "name": "Tag",
             "module": "src/tag.ts"
           }
         }
@@ -7893,7 +7893,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreTextarea",
+          "name": "Textarea",
           "slots": [
             {
               "name": "description",
@@ -8332,7 +8332,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreTextarea",
+            "name": "Textarea",
             "module": "src/textarea.ts"
           }
         },
@@ -8340,7 +8340,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-textarea",
           "declaration": {
-            "name": "GlideCoreTextarea",
+            "name": "Textarea",
             "module": "src/textarea.ts"
           }
         }
@@ -8367,7 +8367,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreToasts",
+          "name": "Toasts",
           "members": [
             {
               "kind": "field",
@@ -8382,7 +8382,7 @@
               "kind": "field",
               "name": "toasts",
               "type": {
-                "text": "GlideCoreToast[]"
+                "text": "Toast[]"
               },
               "default": "[]",
               "attribute": "toasts"
@@ -8399,7 +8399,7 @@
                 {
                   "name": "toast",
                   "type": {
-                    "text": "GlideCoreToast"
+                    "text": "Toast"
                   }
                 }
               ]
@@ -8421,7 +8421,7 @@
                 {
                   "name": "toast",
                   "type": {
-                    "text": "GlideCoreToast"
+                    "text": "Toast"
                   }
                 }
               ]
@@ -8431,7 +8431,7 @@
             {
               "name": "toasts",
               "type": {
-                "text": "GlideCoreToast[]"
+                "text": "Toast[]"
               },
               "default": "[]",
               "fieldName": "toasts"
@@ -8450,7 +8450,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreToasts",
+            "name": "Toasts",
             "module": "src/toast.toasts.ts"
           }
         },
@@ -8458,7 +8458,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-private-toasts",
           "declaration": {
-            "name": "GlideCoreToasts",
+            "name": "Toasts",
             "module": "src/toast.toasts.ts"
           }
         }
@@ -8471,13 +8471,13 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreToast",
+          "name": "Toast",
           "slots": [
             {
               "name": "",
               "description": "A description",
               "type": {
-                "text": "GlideCoreLink | string"
+                "text": "Link | string"
               }
             }
           ],
@@ -8672,7 +8672,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreToast",
+            "name": "Toast",
             "module": "src/toast.ts"
           }
         },
@@ -8680,7 +8680,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-toast",
           "declaration": {
-            "name": "GlideCoreToast",
+            "name": "Toast",
             "module": "src/toast.ts"
           }
         }
@@ -8707,7 +8707,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreToggle",
+          "name": "Toggle",
           "slots": [
             {
               "name": "description",
@@ -8920,7 +8920,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreToggle",
+            "name": "Toggle",
             "module": "src/toggle.ts"
           }
         },
@@ -8928,7 +8928,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-toggle",
           "declaration": {
-            "name": "GlideCoreToggle",
+            "name": "Toggle",
             "module": "src/toggle.ts"
           }
         }
@@ -8955,7 +8955,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreTooltipContainer",
+          "name": "TooltipContainer",
           "members": [
             {
               "kind": "field",
@@ -9063,7 +9063,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreTooltipContainer",
+            "name": "TooltipContainer",
             "module": "src/tooltip.container.ts"
           }
         },
@@ -9071,7 +9071,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-private-tooltip-container",
           "declaration": {
-            "name": "GlideCoreTooltipContainer",
+            "name": "TooltipContainer",
             "module": "src/tooltip.container.ts"
           }
         }
@@ -9098,7 +9098,7 @@
         {
           "kind": "class",
           "description": "",
-          "name": "GlideCoreTooltip",
+          "name": "Tooltip",
           "slots": [
             {
               "name": "target",
@@ -9139,7 +9139,7 @@
               "name": "private",
               "description": "",
               "type": {
-                "text": "GlideCoreTooltipContainer"
+                "text": "TooltipContainer"
               }
             }
           ],
@@ -9322,7 +9322,7 @@
           "kind": "js",
           "name": "default",
           "declaration": {
-            "name": "GlideCoreTooltip",
+            "name": "Tooltip",
             "module": "src/tooltip.ts"
           }
         },
@@ -9330,7 +9330,7 @@
           "kind": "custom-element-definition",
           "name": "glide-core-tooltip",
           "declaration": {
-            "name": "GlideCoreTooltip",
+            "name": "Tooltip",
             "module": "src/tooltip.ts"
           }
         }

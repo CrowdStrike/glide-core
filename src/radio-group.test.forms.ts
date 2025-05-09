@@ -2,13 +2,13 @@ import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click } from './library/mouse.js';
-import GlideCoreRadioGroup from './radio-group.js';
-import GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import RadioGroup from './radio-group.js';
+import RadioGroupRadio from './radio-group.radio.js';
 
 it('can be reset when `value` is programmatically changed', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name" value="one">
       <glide-core-radio-group-radio
         label="One"
@@ -37,7 +37,7 @@ it('can be reset when `value` is programmatically changed', async () => {
 it('has `formData` when it has a `value`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreRadioGroup>(
+  await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name" value="two">
       <glide-core-radio-group-radio
         label="One"
@@ -61,7 +61,7 @@ it('has `formData` when it has a `value`', async () => {
 it('has `formData` when a radio is checked', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreRadioGroup>(
+  await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio
         label="One"
@@ -111,7 +111,7 @@ it('has no `formData` when it is disabled', async () => {
 it('has no `formData` when its checked radio is disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreRadioGroup>(
+  await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio
         label="Label"
@@ -182,7 +182,7 @@ it('has no `formData` value when its checked radio has no value', async () => {
 it('submits its form on Enter', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreRadioGroup>(
+  await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label">
       <glide-core-radio-group-radio
         label="One"
@@ -215,7 +215,7 @@ it('submits its form on Enter', async () => {
 it('resets `value` to an empty string when no radios were initially checked', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label">
       <glide-core-radio-group-radio
         label="One"
@@ -232,7 +232,7 @@ it('resets `value` to an empty string when no radios were initially checked', as
     },
   );
 
-  const radios = host.querySelectorAll<GlideCoreRadioGroupRadio>(
+  const radios = host.querySelectorAll<RadioGroupRadio>(
     'glide-core-radio-group-radio',
   );
 
@@ -244,7 +244,7 @@ it('resets `value` to an empty string when no radios were initially checked', as
 });
 
 it('is valid if not required and radios are unchecked', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio
         label="One"
@@ -271,7 +271,7 @@ it('is valid if not required and radios are unchecked', async () => {
 });
 
 it('is valid if required and a radio is checked', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name" required>
       <glide-core-radio-group-radio
         label="One"
@@ -299,7 +299,7 @@ it('is valid if required and a radio is checked', async () => {
 });
 
 it('is invalid if required and no radio is checked', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name" required>
       <glide-core-radio-group-radio
         label="One"
@@ -320,7 +320,7 @@ it('is invalid if required and no radio is checked', async () => {
 });
 
 it('is invalid after being unchecked when required', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name" required>
       <glide-core-radio-group-radio
         label="One"
@@ -342,7 +342,7 @@ it('is invalid after being unchecked when required', async () => {
 });
 
 it('is both invalid and valid if required and disabled and no radio is checked', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name" disabled required>
       <glide-core-radio-group-radio
         label="One"
@@ -365,7 +365,7 @@ it('is both invalid and valid if required and disabled and no radio is checked',
 it('is valid when `required` is set to `false` programmatically', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name" required>
       <glide-core-radio-group-radio
         label="One"
@@ -397,7 +397,7 @@ it('is valid when `required` is set to `false` programmatically', async () => {
 it('is invalid when `required` is set to `true` programmatically and no radio is checked', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio
         label="One"
@@ -422,7 +422,7 @@ it('is invalid when `required` is set to `true` programmatically and no radio is
 });
 
 it('is valid when required after `value` is set', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name" required>
       <glide-core-radio-group-radio
         label="One"
@@ -446,7 +446,7 @@ it('is valid when required after `value` is set', async () => {
 });
 
 it('sets its validity message with `setCustomValidity()`', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio
         label="One"
@@ -480,7 +480,7 @@ it('sets its validity message with `setCustomValidity()`', async () => {
 });
 
 it('removes its validity message when `setCustomValidity()` is called with no argument', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio
         label="One"
@@ -503,7 +503,7 @@ it('removes its validity message when `setCustomValidity()` is called with no ar
 });
 
 it('is invalid when `setValidity()` is called with a custom error', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
@@ -533,7 +533,7 @@ it('is invalid when `setValidity()` is called with a custom error', async () => 
 });
 
 it('is valid when `setValidity()` is called', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio label="One"></glide-core-radio-group-radio>
     </glide-core-radio-group>`,
@@ -556,7 +556,7 @@ it('is valid when `setValidity()` is called', async () => {
 });
 
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name" required>
       <glide-core-radio-group-radio
         label="One"
@@ -573,7 +573,7 @@ it('retains existing validity state when `setCustomValidity()` is called', async
 });
 
 it('reports validity when blurred', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" required>
       <glide-core-radio-group-radio
         label="One"
@@ -596,7 +596,7 @@ it('reports validity when blurred', async () => {
 });
 
 it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" name="name">
       <glide-core-radio-group-radio
         label="One"

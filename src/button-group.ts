@@ -3,7 +3,7 @@ import { classMap } from 'lit/directives/class-map.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { customElement, property } from 'lit/decorators.js';
 import packageJson from '../package.json' with { type: 'json' };
-import GlideCoreButtonGroupButton from './button-group.button.js';
+import ButtonGroupButton from './button-group.button.js';
 import styles from './button-group.styles.js';
 import assertSlot from './library/assert-slot.js';
 import shadowRootMode from './library/shadow-root-mode.js';
@@ -12,7 +12,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-button-group': GlideCoreButtonGroup;
+    'glide-core-button-group': ButtonGroup;
   }
 }
 
@@ -24,11 +24,11 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreButtonGroupButton}
+ * @slot {ButtonGroupButton}
  */
 @customElement('glide-core-button-group')
 @final
-export default class GlideCoreButtonGroup extends LitElement {
+export default class ButtonGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -102,12 +102,12 @@ export default class GlideCoreButtonGroup extends LitElement {
             @keydown=${this.#onDefaultSlotKeydown}
             @private-selected=${this.#onDefaultSlotSelected}
             @slotchange=${this.#onDefaultSlotChange}
-            ${assertSlot([GlideCoreButtonGroupButton])}
+            ${assertSlot([ButtonGroupButton])}
             ${ref(this.#defaultSlotElementRef)}
           >
             <!--
               @required
-              @type {GlideCoreButtonGroupButton}
+              @type {ButtonGroupButton}
             -->
           </slot>
         </div>
@@ -204,7 +204,7 @@ export default class GlideCoreButtonGroup extends LitElement {
           selectedButtonElement?.previousElementSibling ??
           this.#buttonElements.at(-1);
 
-        while (previousButton instanceof GlideCoreButtonGroupButton) {
+        while (previousButton instanceof ButtonGroupButton) {
           if (previousButton.disabled) {
             previousButton =
               previousButton.previousElementSibling ??
@@ -214,7 +214,7 @@ export default class GlideCoreButtonGroup extends LitElement {
           }
         }
 
-        if (previousButton instanceof GlideCoreButtonGroupButton) {
+        if (previousButton instanceof ButtonGroupButton) {
           previousButton.privateSelect();
         }
 
@@ -229,7 +229,7 @@ export default class GlideCoreButtonGroup extends LitElement {
           selectedButtonElement?.nextElementSibling ??
           this.#buttonElements.at(0);
 
-        while (nextButton instanceof GlideCoreButtonGroupButton) {
+        while (nextButton instanceof ButtonGroupButton) {
           if (nextButton.disabled) {
             nextButton =
               nextButton.nextElementSibling ?? this.#buttonElements.at(0);
@@ -238,7 +238,7 @@ export default class GlideCoreButtonGroup extends LitElement {
           }
         }
 
-        if (nextButton instanceof GlideCoreButtonGroupButton) {
+        if (nextButton instanceof ButtonGroupButton) {
           nextButton.privateSelect();
         }
 
@@ -267,10 +267,7 @@ export default class GlideCoreButtonGroup extends LitElement {
   #onDefaultSlotSelected(event: Event) {
     // Guards against the button not being selected so an event for every
     // deselected button isn't dispatched.
-    if (
-      event.target instanceof GlideCoreButtonGroupButton &&
-      event.target.selected
-    ) {
+    if (event.target instanceof ButtonGroupButton && event.target.selected) {
       for (const button of this.#buttonElements) {
         if (button !== event.target) {
           button.selected = false;

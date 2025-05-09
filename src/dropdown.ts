@@ -16,9 +16,9 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import onResize from './library/on-resize.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import DropdownOption from './dropdown.option.js';
 import { LocalizeController } from './library/localize.js';
-import GlideCoreTag from './tag.js';
+import Tag from './tag.js';
 import chevronIcon from './icons/chevron.js';
 import magnifyingGlassIcon from './icons/magnifying-glass.js';
 import pencilIcon from './icons/pencil.js';
@@ -31,7 +31,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-dropdown': GlideCoreDropdown;
+    'glide-core-dropdown': Dropdown;
   }
 }
 
@@ -57,7 +57,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreDropdownOption}
+ * @slot {DropdownOption}
  * @slot {Element | string} [description] - Additional information or context
  * @slot {Element} [icon:value] - Icons for the selected option or options. Slot one icon per Dropdown Option. `<value>` should be equal to the `value` of each Dropdown Option.
  *
@@ -78,7 +78,7 @@ declare global {
  *
  * @method filter
  * @param {string} query
- * @returns Promise<GlideCoreDropdownOption[] | undefined | void>
+ * @returns Promise<DropdownOption[] | undefined | void>
  *
  * @method formAssociatedCallback
  * @method formResetCallback
@@ -97,10 +97,7 @@ declare global {
  */
 @customElement('glide-core-dropdown')
 @final
-export default class GlideCoreDropdown
-  extends LitElement
-  implements FormControl
-{
+export default class Dropdown extends LitElement implements FormControl {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {
@@ -383,15 +380,11 @@ export default class GlideCoreDropdown
   }
 
   private get selectedOptions() {
-    return this.#optionElements.filter(
-      (option): option is GlideCoreDropdownOption => {
-        return (
-          option instanceof GlideCoreDropdownOption &&
-          option.selected &&
-          !option.disabled
-        );
-      },
-    );
+    return this.#optionElements.filter((option): option is DropdownOption => {
+      return (
+        option instanceof DropdownOption && option.selected && !option.disabled
+      );
+    });
   }
 
   private get lastSelectedOption() {
@@ -455,9 +448,7 @@ export default class GlideCoreDropdown
   // `async` because it may return a promise when overridden.
   //
   // eslint-disable-next-line @typescript-eslint/require-await
-  async filter(
-    query: string,
-  ): Promise<GlideCoreDropdownOption[] | undefined | void> {
+  async filter(query: string): Promise<DropdownOption[] | undefined | void> {
     return this.#optionElements.filter(({ label }) => {
       return label?.toLowerCase().includes(query.toLowerCase().trim());
     });
@@ -987,12 +978,12 @@ export default class GlideCoreDropdown
               <slot
                 class="default-slot"
                 @slotchange=${this.#onDefaultSlotChange}
-                ${assertSlot([GlideCoreDropdownOption, Text], true)}
+                ${assertSlot([DropdownOption, Text], true)}
                 ${ref(this.#defaultSlotElementRef)}
               >
                 <!--
                   @required
-                  @type {GlideCoreDropdownOption}
+                  @type {DropdownOption}
                 -->
               </slot>
             </div>
@@ -1276,11 +1267,11 @@ export default class GlideCoreDropdown
 
   #optionsAndFooterElementRef = createRef<HTMLElement>();
 
-  #previouslyActiveOption?: GlideCoreDropdownOption;
+  #previouslyActiveOption?: DropdownOption;
 
   #primaryButtonElementRef = createRef<HTMLButtonElement>();
 
-  #selectAllElementRef = createRef<GlideCoreDropdownOption>();
+  #selectAllElementRef = createRef<DropdownOption>();
 
   #shadowRoot?: ShadowRoot;
 
@@ -1301,8 +1292,8 @@ export default class GlideCoreDropdown
       // with a form control works. A timeout is used to ensure both events have
       // been dispatched before `#isComponentClick` is reset.
       //
-      // Checking that the click's `event.target` is an instance of  `GlideCoreDropdown`
-      // or `GlideCoreDropdownOption` would be a lot simpler. But, when Dropdown is
+      // Checking that the click's `event.target` is an instance of  `Dropdown`
+      // or `DropdownOption` would be a lot simpler. But, when Dropdown is
       // inside of another web component, `event.target` will that component instead.
       setTimeout(() => {
         this.#isComponentClick = false;
@@ -1612,7 +1603,7 @@ export default class GlideCoreDropdown
     const isFromPrimaryButtonOrInputOrAnOption =
       event.target === this.#primaryButtonElementRef.value ||
       event.target === this.#inputElementRef.value ||
-      event.target instanceof GlideCoreDropdownOption;
+      event.target instanceof DropdownOption;
 
     // If multiselect, and `event.target` isn't one of the above, then the event came from
     // a tag and focus is on the tag. Arrowing up or down then pressing Enter would both
@@ -1921,16 +1912,16 @@ export default class GlideCoreDropdown
     // it if is the Tag's removal button that's being clicked. And if it is we have
     // to allow it to receive focus.
     const isFilterable = this.filterable || this.isFilterable;
-    const isGlideCoreTag = event.target instanceof GlideCoreTag;
+    const isTag = event.target instanceof Tag;
 
-    if (isFilterable && !isGlideCoreTag) {
+    if (isFilterable && !isTag) {
       // If the `<input>` was clicked, canceling the event would prevent the insertion
       // point from moving inside the input.
       if (event.target !== this.#inputElementRef.value) {
         event.preventDefault();
         this.focus();
       }
-    } else if (!isGlideCoreTag) {
+    } else if (!isTag) {
       event.preventDefault();
     }
   }
@@ -1974,7 +1965,7 @@ export default class GlideCoreDropdown
       this.isFiltering = false;
     }
 
-    let options: GlideCoreDropdownOption[] | undefined | void;
+    let options: DropdownOption[] | undefined | void;
 
     if (this.#inputElementRef.value) {
       try {
@@ -2090,8 +2081,8 @@ export default class GlideCoreDropdown
       this.#defaultSlotElementRef.value
         ?.assignedElements()
         .filter(
-          (element): element is GlideCoreDropdownOption =>
-            element instanceof GlideCoreDropdownOption,
+          (element): element is DropdownOption =>
+            element instanceof DropdownOption,
         ) ?? []
     );
   }
@@ -2100,8 +2091,8 @@ export default class GlideCoreDropdown
     const assignedElements = this.#defaultSlotElementRef.value
       ?.assignedElements()
       .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption,
+        (element): element is DropdownOption =>
+          element instanceof DropdownOption,
       );
 
     if (assignedElements && this.#selectAllElementRef.value) {
@@ -2113,8 +2104,8 @@ export default class GlideCoreDropdown
     return this.#defaultSlotElementRef.value
       ?.assignedElements()
       .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption && !element.hidden,
+        (element): element is DropdownOption =>
+          element instanceof DropdownOption && !element.hidden,
       );
   }
 
@@ -2122,8 +2113,8 @@ export default class GlideCoreDropdown
     const assignedElementsNotHidden = this.#defaultSlotElementRef.value
       ?.assignedElements()
       .filter(
-        (element): element is GlideCoreDropdownOption =>
-          element instanceof GlideCoreDropdownOption && !element.hidden,
+        (element): element is DropdownOption =>
+          element instanceof DropdownOption && !element.hidden,
       );
 
     return this.#selectAllElementRef.value &&
@@ -2134,7 +2125,7 @@ export default class GlideCoreDropdown
   }
 
   #onOptionsChange(event: Event) {
-    if (event.target instanceof GlideCoreDropdownOption) {
+    if (event.target instanceof DropdownOption) {
       event.target.selected = !event.target.selected;
     }
 
@@ -2149,14 +2140,11 @@ export default class GlideCoreDropdown
     if (event.target instanceof Element) {
       const option = event.target.closest('glide-core-dropdown-option');
 
-      if (option instanceof GlideCoreDropdownOption && option.disabled) {
+      if (option instanceof DropdownOption && option.disabled) {
         return;
       }
 
-      if (
-        option instanceof GlideCoreDropdownOption &&
-        option.privateIsEditActive
-      ) {
+      if (option instanceof DropdownOption && option.privateIsEditActive) {
         option.privateEdit();
         this.open = false;
 
@@ -2192,7 +2180,7 @@ export default class GlideCoreDropdown
 
   #onOptionsDisabledChange(event: Event) {
     if (
-      event.target instanceof GlideCoreDropdownOption &&
+      event.target instanceof DropdownOption &&
       event.target.disabled &&
       event.target.selected
     ) {
@@ -2207,13 +2195,13 @@ export default class GlideCoreDropdown
       this.#value.splice(index, index + 1);
     } else if (
       this.multiple &&
-      event.target instanceof GlideCoreDropdownOption &&
+      event.target instanceof DropdownOption &&
       event.target.selected &&
       event.target.value
     ) {
       this.#value.push(event.target.value);
     } else if (
-      event.target instanceof GlideCoreDropdownOption &&
+      event.target instanceof DropdownOption &&
       event.target.selected &&
       event.target.value &&
       event.target === this.lastSelectedOption
@@ -2240,7 +2228,7 @@ export default class GlideCoreDropdown
   // Options don't receive focus normally but can receive programmatic focus from
   // screen readers.
   #onOptionsFocusin(event: FocusEvent) {
-    if (event.target instanceof GlideCoreDropdownOption) {
+    if (event.target instanceof DropdownOption) {
       if (this.activeOption) {
         this.activeOption.privateActive = false;
       }
@@ -2284,7 +2272,7 @@ export default class GlideCoreDropdown
 
   #onOptionsMouseover(event: MouseEvent) {
     if (
-      event.target instanceof GlideCoreDropdownOption &&
+      event.target instanceof DropdownOption &&
       this.#optionElementsNotHiddenIncludingSelectAll
     ) {
       if (event.target.disabled) {
@@ -2320,7 +2308,7 @@ export default class GlideCoreDropdown
       for (const option of this.#optionElements) {
         if (
           option !== event.target &&
-          event.target instanceof GlideCoreDropdownOption &&
+          event.target instanceof DropdownOption &&
           event.target.selected &&
           option.selected &&
           event.target !== this.#selectAllElementRef.value
@@ -2343,14 +2331,14 @@ export default class GlideCoreDropdown
       !this.multiple && Boolean(this.selectedOptions.at(0)?.value);
 
     // Update `value`, `open`, `ariaActivedescendant`, and the value of `.input` if filterable.
-    if (event.target instanceof GlideCoreDropdownOption) {
+    if (event.target instanceof DropdownOption) {
       if (this.multiple && !this.#isProgrammaticSelection) {
         this.#value =
           event.target.selected && event.target.value && !event.target.disabled
             ? [...this.value, event.target.value]
             : this.value.filter((value) => {
                 return (
-                  event.target instanceof GlideCoreDropdownOption &&
+                  event.target instanceof DropdownOption &&
                   value !== event.target.value
                 );
               });
@@ -2408,16 +2396,16 @@ export default class GlideCoreDropdown
 
   #onOptionsValueChange(event: CustomEvent<{ old: string; new: string }>) {
     // A cleaner approach would be to return early if `event.target` isn't an instance
-    // of `GlideCoreDropdownOption`. But doing so would create an untestable branch and thus
+    // of `DropdownOption`. But doing so would create an untestable branch and thus
     // force less than full code coverage because `event.target` will always be an
-    // instance of `GlideCoreDropdownOption`.
+    // instance of `DropdownOption`.
     //
     // This is also why `#optionElementsIncludingSelectAll` and `#optionElementsNotHiddenIncludingSelectAll`
     // return `undefined` instead of always returning an empty array. The empty array
     // branch would only exist to appease the typesystem and so would never actually get
     // hit, making full test coverage impossible. Maybe there's a better way?
     if (
-      event.target instanceof GlideCoreDropdownOption &&
+      event.target instanceof DropdownOption &&
       this.multiple &&
       event.target.selected &&
       event.detail.new
@@ -2429,14 +2417,11 @@ export default class GlideCoreDropdown
       this.#value = this.value.map((value) => {
         return value === event.detail.old ? event.detail.new : value;
       });
-    } else if (
-      event.target instanceof GlideCoreDropdownOption &&
-      this.multiple
-    ) {
+    } else if (event.target instanceof DropdownOption && this.multiple) {
       this.#value = this.value.filter((value) => {
         return value !== event.detail.old;
       });
-    } else if (event.target instanceof GlideCoreDropdownOption) {
+    } else if (event.target instanceof DropdownOption) {
       this.#value = event.detail.new ? [event.detail.new] : [];
     }
   }

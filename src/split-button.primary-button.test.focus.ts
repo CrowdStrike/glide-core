@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js';
+import SplitButtonPrimaryButton from './split-button.primary-button.js';
 
 it('focuses itself when `focus()` is called', async () => {
-  const host = await fixture<GlideCoreSplitButtonPrimaryButton>(html`
+  const host = await fixture<SplitButtonPrimaryButton>(html`
     <glide-core-split-button-primary-button
       label="Label"
     ></glide-core-split-button-primary-button>

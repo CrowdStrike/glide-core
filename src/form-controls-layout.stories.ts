@@ -5,11 +5,11 @@ import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreRadioGroupRadio from './radio-group.radio.js';
-import GlideCoreCheckboxGroup from './checkbox-group.js';
-import GlideCoreDropdown from './dropdown.js';
-import GlideCoreInput from './input.js';
-import GlideCoreTextarea from './textarea.js';
+import RadioGroupRadioComponent from './radio-group.radio.js';
+import CheckboxGroupComponent from './checkbox-group.js';
+import DropdownComponent from './dropdown.js';
+import InputComponent from './input.js';
+import TextareaComponent from './textarea.js';
 
 const meta: Meta = {
   title: 'Form Controls Layout',
@@ -53,7 +53,7 @@ const meta: Meta = {
       table: {
         type: {
           summary:
-            'GlideCoreCheckbox | GlideCoreCheckboxGroup | GlideCoreDropdown | GlideCoreRadioGroup | GlideCoreInput | GlideCoreTextArea',
+            'Checkbox | CheckboxGroup | Dropdown | RadioGroup | Input | TextArea',
         },
       },
       type: { name: 'function', required: true },
@@ -126,7 +126,7 @@ const meta: Meta = {
       'glide-core-checkbox-group',
     );
 
-    if (checkboxGroup instanceof GlideCoreCheckboxGroup) {
+    if (checkboxGroup instanceof CheckboxGroupComponent) {
       checkboxGroup.addEventListener('change', () => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
@@ -139,7 +139,7 @@ const meta: Meta = {
 
     const dropdown = context.canvasElement.querySelector('glide-core-dropdown');
 
-    if (dropdown instanceof GlideCoreDropdown) {
+    if (dropdown instanceof DropdownComponent) {
       dropdown.addEventListener('change', () => {
         const option = context.canvasElement.querySelector(
           'glide-core-dropdown-option',
@@ -156,7 +156,7 @@ const meta: Meta = {
       });
 
       dropdown.addEventListener('toggle', () => {
-        if (dropdown instanceof GlideCoreDropdown) {
+        if (dropdown instanceof DropdownComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
@@ -169,7 +169,7 @@ const meta: Meta = {
 
     const input = context.canvasElement.querySelector('glide-core-input');
 
-    if (input instanceof GlideCoreInput) {
+    if (input instanceof InputComponent) {
       input.addEventListener('input', () => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
@@ -185,7 +185,7 @@ const meta: Meta = {
     );
 
     radioGroup?.addEventListener('change', (event: Event) => {
-      if (event.target instanceof GlideCoreRadioGroupRadio) {
+      if (event.target instanceof RadioGroupRadioComponent) {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
@@ -203,7 +203,7 @@ const meta: Meta = {
 
     const textarea = context.canvasElement.querySelector('glide-core-textarea');
 
-    if (textarea instanceof GlideCoreTextarea) {
+    if (textarea instanceof TextareaComponent) {
       textarea.addEventListener('input', () => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,

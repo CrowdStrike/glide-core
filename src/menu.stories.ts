@@ -8,7 +8,7 @@ import { html, nothing } from 'lit';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { withActions } from '@storybook/addon-actions/decorator';
-import GlideCoreMenu from './menu.js';
+import MenuComponent from './menu.js';
 
 const meta: Meta = {
   title: 'Menu',
@@ -62,7 +62,7 @@ const meta: Meta = {
   argTypes: {
     'slot="default"': {
       table: {
-        type: { summary: 'GlideCoreMenuOptions' },
+        type: { summary: 'MenuOptions' },
       },
       type: { name: 'function', required: true },
     },
@@ -149,7 +149,7 @@ const meta: Meta = {
       table: {
         category: 'Menu Options',
         type: {
-          summary: 'GlideCoreMenuButton | GlideCoreMenuLink',
+          summary: 'MenuButton | MenuLink',
         },
       },
       type: { name: 'function', required: true },
@@ -231,7 +231,7 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-menu')
       ?.addEventListener('toggle', (event: Event) => {
-        if (event.target instanceof GlideCoreMenu) {
+        if (event.target instanceof MenuComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {

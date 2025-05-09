@@ -1,10 +1,10 @@
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import sinon from 'sinon';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import DropdownOption from './dropdown.option.js';
 import { hover } from './library/mouse.js';
 
 it('dispatches a "private-label-change" event', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -20,7 +20,7 @@ it('dispatches a "private-label-change" event', async () => {
 });
 
 it('dispatches a "private-selected-change" event', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -36,7 +36,7 @@ it('dispatches a "private-selected-change" event', async () => {
 });
 
 it('dispatches a "private-value-change" event', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -52,7 +52,7 @@ it('dispatches a "private-value-change" event', async () => {
 });
 
 it('does not allow its "toggle" event to propagate', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label=${'x'.repeat(500)}
     ></glide-core-dropdown-option>`,

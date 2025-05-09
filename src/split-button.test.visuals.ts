@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreSplitButton from './split-button.js';
-import type GlideCoreSplitButtonPrimaryButton from './split-button.primary-button.js';
-import type GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
-import type GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
+import type SplitButton from './split-button.js';
+import type SplitButtonPrimaryButton from './split-button.primary-button.js';
+import type SplitButtonPrimaryLink from './split-button.primary-link.js';
+import type SplitButtonSecondaryButton from './split-button.secondary-button.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -15,7 +15,7 @@ for (const story of stories['Split Button']) {
 
           await page
             .locator('glide-core-split-button')
-            .evaluate<void, GlideCoreSplitButton>((element) => {
+            .evaluate<void, SplitButton>((element) => {
               element.variant = 'primary';
             });
 
@@ -29,7 +29,7 @@ for (const story of stories['Split Button']) {
 
           await page
             .locator('glide-core-split-button')
-            .evaluate<void, GlideCoreSplitButton>((element) => {
+            .evaluate<void, SplitButton>((element) => {
               element.variant = 'secondary';
             });
 
@@ -46,7 +46,7 @@ for (const story of stories['Split Button']) {
 
             await page
               .locator('glide-core-split-button-primary-link')
-              .evaluate<void, GlideCoreSplitButtonPrimaryLink>((element) => {
+              .evaluate<void, SplitButtonPrimaryLink>((element) => {
                 element.disabled = true;
               });
 
@@ -96,7 +96,7 @@ for (const story of stories['Split Button']) {
 
             await page
               .locator('glide-core-split-button-primary-button')
-              .evaluate<void, GlideCoreSplitButtonPrimaryButton>((element) => {
+              .evaluate<void, SplitButtonPrimaryButton>((element) => {
                 element.disabled = true;
               });
 
@@ -157,7 +157,7 @@ for (const story of stories['Split Button']) {
 
           await page
             .locator('glide-core-split-button-secondary-button')
-            .evaluate<void, GlideCoreSplitButtonSecondaryButton>((element) => {
+            .evaluate<void, SplitButtonSecondaryButton>((element) => {
               element.disabled = true;
             });
 
@@ -217,7 +217,7 @@ for (const story of stories['Split Button']) {
 
           await page
             .locator('glide-core-split-button-secondary-button')
-            .evaluate<void, GlideCoreSplitButtonSecondaryButton>((element) => {
+            .evaluate<void, SplitButtonSecondaryButton>((element) => {
               element.menuOpen = true;
             });
 
@@ -233,14 +233,14 @@ for (const story of stories['Split Button']) {
 
           await page
             .locator('glide-core-split-button')
-            .evaluate<void, GlideCoreSplitButton>((element) => {
+            .evaluate<void, SplitButton>((element) => {
               element.style.display = 'block';
               element.style.marginTop = '10rem';
             });
 
           await page
             .locator('glide-core-split-button-secondary-button')
-            .evaluate<void, GlideCoreSplitButtonSecondaryButton>((element) => {
+            .evaluate<void, SplitButtonSecondaryButton>((element) => {
               element.menuOpen = true;
               element.menuPlacement = 'top-end';
             });

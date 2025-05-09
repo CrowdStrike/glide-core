@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import RadioGroupRadio from './radio-group.radio.js';
 
 it('sets `aria-checked` on the host when checked programmatically', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio label="Label"></glide-core-radio-group-radio>
   `);
 
@@ -11,7 +11,7 @@ it('sets `aria-checked` on the host when checked programmatically', async () => 
 });
 
 it('sets `aria-checked` on the host when checked and enabled programmatically', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio
       label="Label"
       checked
@@ -24,7 +24,7 @@ it('sets `aria-checked` on the host when checked and enabled programmatically', 
 });
 
 it('sets `aria-checked` on the host when checked and disabled programmatically', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio
       label="Label"
       checked
@@ -36,7 +36,7 @@ it('sets `aria-checked` on the host when checked and disabled programmatically',
 });
 
 it('sets `aria-disabled` on the host when disabled programmatically', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio label="Label"></glide-core-radio-group-radio>
   `);
 
@@ -45,7 +45,7 @@ it('sets `aria-disabled` on the host when disabled programmatically', async () =
 });
 
 it('sets `aria-invalid` on the host when made invalid programmatically', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio label="Label"></glide-core-radio-group-radio>
   `);
 
@@ -54,7 +54,7 @@ it('sets `aria-invalid` on the host when made invalid programmatically', async (
 });
 
 it('sets `aria-required` on the host when made required programmatically', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio label="Label"></glide-core-radio-group-radio>
   `);
 
@@ -63,7 +63,7 @@ it('sets `aria-required` on the host when made required programmatically', async
 });
 
 it('sets `aria-label` on the host when its label is set programmatically', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio label="Label"></glide-core-radio-group-radio>
   `);
 

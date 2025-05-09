@@ -1,26 +1,22 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreTabGroup from './tab.group.js';
+import TabGroup from './tab.group.js';
 import './tab.js';
-import GlideCoreTabPanel from './tab.panel.js';
+import TabPanel from './tab.panel.js';
 import expectWindowError from './library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreTabGroup {}
+class Subclassed extends TabGroup {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-tab-group')).to.equal(
-    GlideCoreTabGroup,
-  );
+  expect(window.customElements.get('glide-core-tab-group')).to.equal(TabGroup);
 
-  expect(window.customElements.get('glide-core-tab-panel')).to.equal(
-    GlideCoreTabPanel,
-  );
+  expect(window.customElements.get('glide-core-tab-panel')).to.equal(TabPanel);
 });
 
 it('selects the first tab when none is selected', async () => {
-  const host = await fixture<GlideCoreTabGroup>(html`
+  const host = await fixture<TabGroup>(html`
     <glide-core-tab-group>
       <glide-core-tab panel="1" slot="nav">One</glide-core-tab>
       <glide-core-tab panel="2" slot="nav">Two</glide-core-tab>
@@ -40,7 +36,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

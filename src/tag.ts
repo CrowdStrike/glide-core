@@ -14,7 +14,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tag': GlideCoreTag;
+    'glide-core-tag': Tag;
   }
 }
 
@@ -33,7 +33,7 @@ declare global {
  */
 @customElement('glide-core-tag')
 @final
-export default class GlideCoreTag extends LitElement {
+export default class Tag extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,

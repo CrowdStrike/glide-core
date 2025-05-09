@@ -3,16 +3,16 @@ import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { nanoid } from 'nanoid';
 import packageJson from '../package.json' with { type: 'json' };
-import GlideCoreToasts from './toast.toasts.js';
+import Toasts from './toast.toasts.js';
 import shadowRootMode from './library/shadow-root-mode.js';
 import final from './library/final.js';
 import required from './library/required.js';
-import GlideCoreLink from './link.js';
+import Link from './link.js';
 import assertSlot from './library/assert-slot.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-toast': GlideCoreToast;
+    'glide-core-toast': Toast;
   }
 }
 
@@ -24,7 +24,7 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreLink | string} - A description
+ * @slot {Link | string} - A description
  *
  * @fires {Event} dismiss
  *
@@ -32,7 +32,7 @@ declare global {
  */
 @customElement('glide-core-toast')
 @final
-export default class GlideCoreToast extends LitElement {
+export default class Toast extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -89,15 +89,15 @@ export default class GlideCoreToast extends LitElement {
   // `firstUpdated()` instead of `connectedCallback()` so the Toast isn't shown
   // before `assertSlot()` has had a chance to check the slot.
   override firstUpdated() {
-    GlideCoreToasts.show(this);
+    Toasts.show(this);
   }
 
   override render() {
     // `hidden` is used to avoid a stylesheet for a single style.
-    return html`<slot hidden ${assertSlot([GlideCoreLink, Text], true)}>
+    return html`<slot hidden ${assertSlot([Link, Text], true)}>
       <!--
         A description
-        @type {GlideCoreLink | string}
+        @type {Link | string}
       -->
     </slot>`;
   }

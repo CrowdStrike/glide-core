@@ -11,7 +11,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-link': GlideCoreLink;
+    'glide-core-link': Link;
   }
 }
 
@@ -27,7 +27,7 @@ declare global {
  */
 @customElement('glide-core-link')
 @final
-export default class GlideCoreLink extends LitElement {
+export default class Link extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {

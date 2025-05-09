@@ -6,7 +6,7 @@ import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreDropdown from './dropdown.js';
+import DropdownComponent from './dropdown.js';
 
 const meta: Meta = {
   title: 'Dropdown',
@@ -85,7 +85,7 @@ const meta: Meta = {
     },
     'slot="default"': {
       table: {
-        type: { summary: 'GlideCoreDropdownOption' },
+        type: { summary: 'DropdownOption' },
       },
       type: { name: 'function', required: true },
     },
@@ -135,7 +135,7 @@ const meta: Meta = {
         type: {
           summary: 'method',
           detail: `
-async (query: string): Promise<GlideCoreDropdownOption[] | void> => {
+async (query: string): Promise<DropdownOption[] | void> => {
   const options = [...this.querySelectorAll('glide-core-dropdown-option)];
 
   return options.filter(({ label }) => {
@@ -419,7 +419,7 @@ async (query: string): Promise<GlideCoreDropdownOption[] | void> => {
 
     if (
       context.name.includes('Error') &&
-      dropdown instanceof GlideCoreDropdown
+      dropdown instanceof DropdownComponent
     ) {
       dropdown.reportValidity();
 
@@ -434,7 +434,7 @@ async (query: string): Promise<GlideCoreDropdownOption[] | void> => {
       }
     }
 
-    if (dropdown instanceof GlideCoreDropdown) {
+    if (dropdown instanceof DropdownComponent) {
       dropdown.addEventListener('change', () => {
         if (option) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
@@ -447,7 +447,7 @@ async (query: string): Promise<GlideCoreDropdownOption[] | void> => {
       });
 
       const observer = new MutationObserver(() => {
-        if (dropdown instanceof GlideCoreDropdown) {
+        if (dropdown instanceof DropdownComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
@@ -475,7 +475,7 @@ async (query: string): Promise<GlideCoreDropdownOption[] | void> => {
 
     if (option) {
       const observer = new MutationObserver(() => {
-        if (dropdown instanceof GlideCoreDropdown) {
+        if (dropdown instanceof DropdownComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {

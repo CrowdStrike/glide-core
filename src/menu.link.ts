@@ -12,7 +12,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-menu-link': GlideCoreMenuLink;
+    'glide-core-menu-link': MenuLink;
   }
 }
 
@@ -37,7 +37,7 @@ declare global {
  */
 @customElement('glide-core-menu-link')
 @final
-export default class GlideCoreMenuLink extends LitElement {
+export default class MenuLink extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

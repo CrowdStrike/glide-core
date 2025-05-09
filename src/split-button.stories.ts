@@ -8,8 +8,8 @@ import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
-import GlideCoreSplitButtonSecondaryButton from './split-button.secondary-button.js';
+import SplitButtonPrimaryLinkComponent from './split-button.primary-link.js';
+import SplitButtonSecondaryButtonComponent from './split-button.secondary-button.js';
 
 const meta: Meta = {
   title: 'Split Button',
@@ -72,7 +72,7 @@ const meta: Meta = {
         // If the URL is anything but `/`, then the user has changed the URL and wants
         // to navigate to it.
         if (
-          event.target instanceof GlideCoreSplitButtonPrimaryLink &&
+          event.target instanceof SplitButtonPrimaryLinkComponent &&
           event.target.href === '/' &&
           window.top
         ) {
@@ -89,7 +89,7 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-split-button-secondary-button')
       ?.addEventListener('toggle', (event: Event) => {
-        if (event.target instanceof GlideCoreSplitButtonSecondaryButton) {
+        if (event.target instanceof SplitButtonSecondaryButtonComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {
@@ -170,8 +170,7 @@ const meta: Meta = {
     'slot="default"': {
       table: {
         type: {
-          summary:
-            'GlideCoreSplitButtonPrimaryButton | GlideCoreSplitButtonPrimaryLink',
+          summary: 'SplitButtonPrimaryButton | SplitButtonPrimaryLink',
         },
       },
       type: { name: 'function', required: true },
@@ -179,7 +178,7 @@ const meta: Meta = {
     'slot="secondary-button"': {
       table: {
         type: {
-          summary: 'GlideCoreSplitButtonSecondaryButton',
+          summary: 'SplitButtonSecondaryButton',
         },
       },
       type: { name: 'function', required: true },
@@ -307,7 +306,7 @@ const meta: Meta = {
       table: {
         category: 'Split Button Secondary Button',
         type: {
-          summary: 'GlideCoreMenuButton | GlideCoreMenuLink',
+          summary: 'MenuButton | MenuLink',
         },
       },
       type: { name: 'function', required: true },

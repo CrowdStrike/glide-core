@@ -2,12 +2,12 @@ import './checkbox.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
-import GlideCoreCheckboxGroup from './checkbox-group.js';
+import CheckboxGroup from './checkbox-group.js';
 
 it('can be reset', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox
         label="Label"
@@ -58,7 +58,7 @@ it('has `formData` when the checkboxes are checked', async () => {
 it('has `formData` when the checkbox is checked and indeterminate', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckboxGroup>(
+  await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" name="name">
       <glide-core-checkbox
         label="Label"
@@ -79,7 +79,7 @@ it('has `formData` when the checkbox is checked and indeterminate', async () => 
 it('has no `formData` when the checkboxes are unchecked', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckboxGroup>(
+  await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" name="name">
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
@@ -96,7 +96,7 @@ it('has no `formData` when the checkboxes are unchecked', async () => {
 it('has no `formData` when disabled and the checkbox is checked', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckboxGroup>(
+  await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" name="name" disabled>
       <glide-core-checkbox
         label="Label"
@@ -116,7 +116,7 @@ it('has no `formData` when disabled and the checkbox is checked', async () => {
 it('has no `formData` when the checkbox is checked but disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckboxGroup>(
+  await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" name="name">
       <glide-core-checkbox
         label="Label"
@@ -137,7 +137,7 @@ it('has no `formData` when the checkbox is checked but disabled', async () => {
 it('has no `formData` when without a `name` but the checkbox is checked', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckboxGroup>(
+  await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox
         label="Label"
@@ -157,7 +157,7 @@ it('has no `formData` when without a `name` but the checkbox is checked', async 
 it('has no `formData` value when the checkbox is checked but without a `value`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckboxGroup>(
+  await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" name="name">
       <glide-core-checkbox label="Label" checked></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -171,7 +171,7 @@ it('has no `formData` value when the checkbox is checked but without a `value`',
 });
 
 it('is valid if not required and its checkbox is unchecked', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -184,7 +184,7 @@ it('is valid if not required and its checkbox is unchecked', async () => {
 });
 
 it('is valid if required and its checkbox is checked', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -199,7 +199,7 @@ it('is valid if required and its checkbox is checked', async () => {
 });
 
 it('is invalid if required and its checkbox is unchecked', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -212,7 +212,7 @@ it('is invalid if required and its checkbox is unchecked', async () => {
 });
 
 it('is invalid after being unchecked when required', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox
         label="Label"
@@ -231,7 +231,7 @@ it('is invalid after being unchecked when required', async () => {
 });
 
 it('is both invalid and valid if required and disabled and its checkbox is unchecked', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" disabled required>
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -246,7 +246,7 @@ it('is both invalid and valid if required and disabled and its checkbox is unche
 it('sets its checkbox as valid when `required` is set to `false` programmatically', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -263,7 +263,7 @@ it('sets its checkbox as valid when `required` is set to `false` programmaticall
 it('sets its checkbox as invalid when `required` is set to `true` programmatically', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -280,7 +280,7 @@ it('sets its checkbox as invalid when `required` is set to `true` programmatical
 it('sets its validity message with `setCustomValidity()`', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -303,7 +303,7 @@ it('sets its validity message with `setCustomValidity()`', async () => {
 });
 
 it('sets its validity of its checkboxes when tabbed away from', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
@@ -327,7 +327,7 @@ it('sets its validity of its checkboxes when tabbed away from', async () => {
 });
 
 it('sets its validity of its checkboxes when it loses focus', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
       <glide-core-checkbox label="Label"></glide-core-checkbox>
@@ -353,7 +353,7 @@ it('sets its validity of its checkboxes when it loses focus', async () => {
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -378,7 +378,7 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
 it('is invalid when `setValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -412,7 +412,7 @@ it('is invalid when `setValidity()` is called', async () => {
 it('is valid when `setValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -438,7 +438,7 @@ it('is valid when `setValidity()` is called', async () => {
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" required>
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,
@@ -455,7 +455,7 @@ it('retains existing validity state when `setCustomValidity()` is called', async
 it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="Label" value="value"></glide-core-checkbox>
     </glide-core-checkbox-group>`,

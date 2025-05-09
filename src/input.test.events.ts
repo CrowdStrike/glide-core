@@ -2,10 +2,10 @@ import * as sinon from 'sinon';
 import { aTimeout, expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
-import GlideCoreInput from './input.js';
+import Input from './input.js';
 
 it('dispatches a "change" event on input', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
@@ -20,7 +20,7 @@ it('dispatches a "change" event on input', async () => {
 });
 
 it('dispatches an "input" event on input', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
   );
 
@@ -35,7 +35,7 @@ it('dispatches an "input" event on input', async () => {
 });
 
 it('dispatches an "input" event on clear', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input
       label="Label"
       value="value"
@@ -55,7 +55,7 @@ it('dispatches an "input" event on clear', async () => {
 it('dispatches an "invalid" event on submit when required and no value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
@@ -71,7 +71,7 @@ it('dispatches an "invalid" event on submit when required and no value', async (
 it('dispatches an "invalid" event after `checkValidity()` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
@@ -87,7 +87,7 @@ it('dispatches an "invalid" event after `checkValidity()` is called when require
 it('dispatches an "invalid" event after `reportValidity()` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
@@ -103,7 +103,7 @@ it('dispatches an "invalid" event after `reportValidity()` is called when requir
 it('does not dispatch an "invalid" event after `checkValidity()` is called when not required', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
     {
       parentNode: form,
@@ -122,7 +122,7 @@ it('does not dispatch an "invalid" event after `checkValidity()` is called when 
 it('does not dispatch an "invalid" event after `checkValidity()` is called when required and no value but disabled', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" disabled required></glide-core-input>`,
     { parentNode: form },
   );
@@ -139,7 +139,7 @@ it('does not dispatch an "invalid" event after `checkValidity()` is called when 
 it('does not dispatch an "invalid" event when `reportValidity()` is called when not required,', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label"></glide-core-input>`,
     {
       parentNode: form,
@@ -158,7 +158,7 @@ it('does not dispatch an "invalid" event when `reportValidity()` is called when 
 it('does not dispatch an "invalid" event when `reportValidity()` is called when required and no value but disabled', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" disabled required></glide-core-input>`,
     { parentNode: form },
   );

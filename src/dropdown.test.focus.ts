@@ -2,12 +2,12 @@ import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import './dropdown.option.js';
 import { click, hover } from './library/mouse.js';
-import GlideCoreDropdown from './dropdown.js';
+import Dropdown from './dropdown.js';
 
 it('closes and reports validity when it loses focus', async () => {
   const div = document.createElement('div');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -44,7 +44,7 @@ it('closes and reports validity when it loses focus', async () => {
 });
 
 it('is focused on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -58,7 +58,7 @@ it('is focused on click', async () => {
 });
 
 it('focuses the Add button on ArrowDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -85,7 +85,7 @@ it('focuses the Add button on ArrowDown', async () => {
 });
 
 it('returns focus to itself on Escape when the Add button has focus', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -102,7 +102,7 @@ it('returns focus to itself on Escape when the Add button has focus', async () =
 });
 
 it('returns focus to itself when an option is activated and the Add button has focus', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -119,7 +119,7 @@ it('returns focus to itself when an option is activated and the Add button has f
 });
 
 it('shows a fallback on focus when there are no options', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label"></glide-core-dropdown>`,
   );
 

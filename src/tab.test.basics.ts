@@ -1,17 +1,17 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreTab from './tab.js';
+import Tab from './tab.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreTab {}
+class Subclassed extends Tab {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-tab')).to.equal(GlideCoreTab);
+  expect(window.customElements.get('glide-core-tab')).to.equal(Tab);
 });
 
 it('sets `ariaDisabled` and `tabIndex` when disabled', async () => {
-  const host = await fixture<GlideCoreTab>(html`
+  const host = await fixture<Tab>(html`
     <glide-core-tab panel="panel" disabled>Tab</glide-core-tab>
   `);
 
@@ -35,7 +35,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

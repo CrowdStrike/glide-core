@@ -1,13 +1,13 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import GlideCoreCheckbox from './checkbox.js';
+import Checkbox from './checkbox.js';
 import { click } from './library/mouse.js';
 
 it('can be reset', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       checked
@@ -29,7 +29,7 @@ it('can be reset', async () => {
 it('has `formData` value when checked', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckbox>(
+  await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       name="name"
@@ -48,7 +48,7 @@ it('has `formData` value when checked', async () => {
 it('has `formData` value when checked and indeterminate', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckbox>(
+  await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       name="name"
@@ -68,7 +68,7 @@ it('has `formData` value when checked and indeterminate', async () => {
 it('has no `formData` value when unchecked', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckbox>(
+  await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       name="name"
@@ -86,7 +86,7 @@ it('has no `formData` value when unchecked', async () => {
 it('has no `formData` value when unchecked and indeterminate', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckbox>(
+  await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       name="name"
@@ -105,7 +105,7 @@ it('has no `formData` value when unchecked and indeterminate', async () => {
 it('has no `formData` value when checked but disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckbox>(
+  await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       name="name"
@@ -125,7 +125,7 @@ it('has no `formData` value when checked but disabled', async () => {
 it('has no `formData` value when checked but without a `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckbox>(
+  await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       value="value"
@@ -143,7 +143,7 @@ it('has no `formData` value when checked but without a `name`', async () => {
 it('has no `formData` value when checked but without a `value`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreCheckbox>(
+  await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       name="name"
@@ -161,7 +161,7 @@ it('has no `formData` value when checked but without a `value`', async () => {
 it('submits its form on Enter', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
     {
       parentNode: form,
@@ -182,7 +182,7 @@ it('submits its form on Enter', async () => {
 });
 
 it('is valid if unchecked but not required', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
@@ -193,7 +193,7 @@ it('is valid if unchecked but not required', async () => {
 });
 
 it('is valid but not aria-invalid after being checked when unchecked and required', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
   );
 
@@ -210,7 +210,7 @@ it('is valid but not aria-invalid after being checked when unchecked and require
 });
 
 it('is invalid but not aria-invalid if unchecked and required', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
   );
 
@@ -225,7 +225,7 @@ it('is invalid but not aria-invalid if unchecked and required', async () => {
 });
 
 it('is invalid but not aria-invalid after being unchecked when required', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       checked
@@ -246,7 +246,7 @@ it('is invalid but not aria-invalid after being unchecked when required', async 
 });
 
 it('is both invalid and valid if unchecked and required and disabled', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox
       label="Label"
       disabled
@@ -261,7 +261,7 @@ it('is both invalid and valid if unchecked and required and disabled', async () 
 });
 
 it('is valid when `value` is empty and `required` is updated to `false` programmatically', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
   );
 
@@ -291,7 +291,7 @@ it('is valid when `value` is empty and `required` is updated to `false` programm
 });
 
 it('sets the validity message with `setCustomValidity()`', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
@@ -324,7 +324,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 });
 
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
@@ -344,7 +344,7 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
 });
 
 it('is invalid when `setValidity()` is called', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
@@ -377,7 +377,7 @@ it('is invalid when `setValidity()` is called', async () => {
 });
 
 it('is valid when `setValidity()` is called', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 
@@ -401,7 +401,7 @@ it('is valid when `setValidity()` is called', async () => {
 });
 
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label" required></glide-core-checkbox>`,
   );
 
@@ -413,7 +413,7 @@ it('retains existing validity state when `setCustomValidity()` is called', async
 });
 
 it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const host = await fixture<GlideCoreCheckbox>(
+  const host = await fixture<Checkbox>(
     html`<glide-core-checkbox label="Label"></glide-core-checkbox>`,
   );
 

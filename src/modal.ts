@@ -6,9 +6,9 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
-import GlideCoreModalIconButton from './modal.icon-button.js';
-import GlideCoreButton from './button.js';
-import GlideCoreTooltip from './tooltip.js';
+import ModalIconButton from './modal.icon-button.js';
+import Button from './button.js';
+import Tooltip from './tooltip.js';
 import styles from './modal.styles.js';
 import xIcon from './icons/x.js';
 import assertSlot from './library/assert-slot.js';
@@ -21,7 +21,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-modal': GlideCoreModal;
+    'glide-core-modal': Modal;
   }
 }
 
@@ -45,16 +45,16 @@ globalStylesheet.insertRule(`
  * @attr {string} [version]
  *
  * @slot {Element | string}
- * @slot {GlideCoreModalIconButton} [header-actions]
- * @slot {GlideCoreButton} [primary]
- * @slot {GlideCoreButton} [secondary]
- * @slot {GlideCoreButton | GlideCoreTooltip} [tertiary]
+ * @slot {ModalIconButton} [header-actions]
+ * @slot {Button} [primary]
+ * @slot {Button} [secondary]
+ * @slot {Button | Tooltip} [tertiary]
  *
  * @fires {Event} toggle
  */
 @customElement('glide-core-modal')
 @final
-export default class GlideCoreModal extends LitElement {
+export default class Modal extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -247,10 +247,10 @@ export default class GlideCoreModal extends LitElement {
           <div class="header-actions" role="toolbar">
             <slot
               name="header-actions"
-              ${assertSlot([GlideCoreModalIconButton], true)}
+              ${assertSlot([ModalIconButton], true)}
               ${ref(this.#headerActionsSlotElementRef)}
             >
-              <!-- @type {GlideCoreModalIconButton} -->
+              <!-- @type {ModalIconButton} -->
             </slot>
 
             <glide-core-modal-icon-button
@@ -283,10 +283,10 @@ export default class GlideCoreModal extends LitElement {
                 class="tertiary-slot"
                 name="tertiary"
                 @slotchange=${this.#onTertiarySlotChange}
-                ${assertSlot([GlideCoreButton, GlideCoreTooltip], true)}
+                ${assertSlot([Button, Tooltip], true)}
                 ${ref(this.#tertiarySlotElementRef)}
               >
-                <!-- @type {GlideCoreButton | GlideCoreTooltip} -->
+                <!-- @type {Button | Tooltip} -->
               </slot>
             </li>
 
@@ -294,10 +294,10 @@ export default class GlideCoreModal extends LitElement {
               <slot
                 name="secondary"
                 @slotchange=${this.#onSecondarySlotChange}
-                ${assertSlot([GlideCoreButton], true)}
+                ${assertSlot([Button], true)}
                 ${ref(this.#secondarySlotElementRef)}
               >
-                <!-- @type {GlideCoreButton} -->
+                <!-- @type {Button} -->
               </slot>
             </li>
 
@@ -305,10 +305,10 @@ export default class GlideCoreModal extends LitElement {
               <slot
                 name="primary"
                 @slotchange=${this.#onPrimarySlotChange}
-                ${assertSlot([GlideCoreButton], true)}
+                ${assertSlot([Button], true)}
                 ${ref(this.#primarySlotElementRef)}
               >
-                <!-- @type {GlideCoreButton} -->
+                <!-- @type {Button} -->
               </slot>
             </li>
           </menu>
@@ -323,9 +323,9 @@ export default class GlideCoreModal extends LitElement {
 
   @state() private hasTertiarySlotContent = false;
 
-  #backButtonElementRef = createRef<GlideCoreModalIconButton>();
+  #backButtonElementRef = createRef<ModalIconButton>();
 
-  #closeButtonElementRef = createRef<GlideCoreModalIconButton>();
+  #closeButtonElementRef = createRef<ModalIconButton>();
 
   #componentElementRef = createRef<HTMLDialogElement>();
 

@@ -2,12 +2,12 @@ import { aTimeout, assert, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click, hover } from './library/mouse.js';
-import GlideCoreDropdown from './dropdown.js';
+import Dropdown from './dropdown.js';
 import './dropdown.option.js';
-import GlideCoreTooltip from './tooltip.js';
+import Tooltip from './tooltip.js';
 
 it('opens when opened programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -23,7 +23,7 @@ it('opens when opened programmatically', async () => {
 });
 
 it('shows a fallback when opened programmatically and there are no options', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label"></glide-core-dropdown>`,
   );
 
@@ -41,7 +41,7 @@ it('shows a fallback when opened programmatically and there are no options', asy
 });
 
 it('does not open when opened programmatically and there are no options', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label"> </glide-core-dropdown>`,
   );
 
@@ -55,7 +55,7 @@ it('does not open when opened programmatically and there are no options', async 
 });
 
 it('opens on ArrowUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -71,7 +71,7 @@ it('opens on ArrowUp', async () => {
 });
 
 it('does not open on ArrowUp when disabled', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" disabled>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -87,7 +87,7 @@ it('does not open on ArrowUp when disabled', async () => {
 });
 
 it('does not open on ArrowUp when `readonly`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" readonly>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -103,7 +103,7 @@ it('does not open on ArrowUp when `readonly`', async () => {
 });
 
 it('opens on ArrowDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -120,7 +120,7 @@ it('opens on ArrowDown', async () => {
 });
 
 it('does not open on ArrowDown when disabled', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" disabled>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -137,7 +137,7 @@ it('does not open on ArrowDown when disabled', async () => {
 });
 
 it('does not open on ArrowDown when `readonly`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" readonly>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -156,7 +156,7 @@ it('does not open on ArrowDown when `readonly`', async () => {
 it('does not scroll the page on ArrowDown when the Add button has focus', async () => {
   document.body.style.height = '200vh';
 
-  await fixture<GlideCoreDropdown>(
+  await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -184,7 +184,7 @@ it('does not scroll the page on ArrowDown when the Add button has focus', async 
 });
 
 it('opens on Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="Label"
@@ -203,7 +203,7 @@ it('opens on Space', async () => {
 });
 
 it('does not open on Space when disabled', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" disabled>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -219,7 +219,7 @@ it('does not open on Space when disabled', async () => {
 });
 
 it('does not open on Space when `readonly`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" readonly>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -238,7 +238,7 @@ it('does not open on Space when `readonly`', async () => {
 it('opens when opened programmatically via the click handler of another element', async () => {
   const div = document.createElement('div');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -257,7 +257,7 @@ it('opens when opened programmatically via the click handler of another element'
 });
 
 it('closes when something outside of it is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -276,7 +276,7 @@ it('closes when something outside of it is clicked', async () => {
 });
 
 it('closes on Escape', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -297,7 +297,7 @@ it('closes on Escape', async () => {
 });
 
 it('closes on edit via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -319,7 +319,7 @@ it('closes on edit via click', async () => {
 });
 
 it('closes when the Add button is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -334,7 +334,7 @@ it('closes when the Add button is clicked', async () => {
 });
 
 it('opens when open and enabled programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open disabled>
       <glide-core-dropdown-option
         label="Label"
@@ -355,7 +355,7 @@ it('opens when open and enabled programmatically', async () => {
 });
 
 it('closes when open and disabled programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -376,7 +376,7 @@ it('closes when open and disabled programmatically', async () => {
 });
 
 it('activates an option on hover', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -395,7 +395,7 @@ it('activates an option on hover', async () => {
 });
 
 it('does not activate a disabled option on hover', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -418,7 +418,7 @@ it('does not activate a disabled option on hover', async () => {
 });
 
 it('activates the next enabled option on ArrowDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -445,7 +445,7 @@ it('activates the next enabled option on ArrowDown', async () => {
 });
 
 it('activates the Edit button on ArrowDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -472,7 +472,7 @@ it('activates the Edit button on ArrowDown', async () => {
 });
 
 it('activates the next enabled option on ArrowDown when the Edit button is active', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -508,7 +508,7 @@ it('activates the next enabled option on ArrowDown when the Edit button is activ
 });
 
 it('activates the previous enabled option on ArrowUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -536,7 +536,7 @@ it('activates the previous enabled option on ArrowUp', async () => {
 });
 
 it('activates the Edit button on on ArrowUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -572,7 +572,7 @@ it('activates the Edit button on on ArrowUp', async () => {
 });
 
 it('activates previously active option on ArrowUp when it has an Add button', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -599,7 +599,7 @@ it('activates previously active option on ArrowUp when it has an Add button', as
 });
 
 it('activates the Edit button on ArrowUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -631,7 +631,7 @@ it('activates the Edit button on ArrowUp', async () => {
 });
 
 it('activates the first enabled option on Home', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -665,7 +665,7 @@ it('activates the first enabled option on Home', async () => {
 });
 
 it('activates the first enabled option on PageUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -699,7 +699,7 @@ it('activates the first enabled option on PageUp', async () => {
 });
 
 it('activates the first enabled option on ArrowUp + Meta', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="Label"
@@ -735,7 +735,7 @@ it('activates the first enabled option on ArrowUp + Meta', async () => {
 });
 
 it('activates the last enabled option on End', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -767,7 +767,7 @@ it('activates the last enabled option on End', async () => {
 });
 
 it('activates the last option on PageDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -799,7 +799,7 @@ it('activates the last option on PageDown', async () => {
 });
 
 it('activates the last option on Meta + ArrowDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -833,7 +833,7 @@ it('activates the last option on Meta + ArrowDown', async () => {
 });
 
 it('activates the previously active option when tabbing back from the Add button', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -867,7 +867,7 @@ it('activates the previously active option when tabbing back from the Add button
 });
 
 it('deactivates the active option when the Add button is tabbed to', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown add-button-label="Add" label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -890,7 +890,7 @@ it('deactivates the active option when the Add button is tabbed to', async () =>
 });
 
 it('does not wrap on ArrowUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -910,7 +910,7 @@ it('does not wrap on ArrowUp', async () => {
 });
 
 it('does not wrap on ArrowDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -931,7 +931,7 @@ it('does not wrap on ArrowDown', async () => {
 });
 
 it('opens when something other than its primary button is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" placeholder="Placeholder">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -943,7 +943,7 @@ it('opens when something other than its primary button is clicked', async () => 
 });
 
 it('does not open on edit via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="Label"
@@ -959,7 +959,7 @@ it('does not open on edit via click', async () => {
 });
 
 it('does not open on edit via Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="Label"
@@ -979,7 +979,7 @@ it('does not open on edit via Enter', async () => {
 });
 
 it('does not open on edit via Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="Label"
@@ -999,7 +999,7 @@ it('does not open on edit via Space', async () => {
 });
 
 it('shows a fallback when open and its options are removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1043,7 +1043,7 @@ it('hides the tooltip of the active option when opened via click', async () => {
 
   const tooltip = host
     .querySelector('glide-core-dropdown-option')
-    ?.shadowRoot?.querySelector<GlideCoreTooltip>('[data-test="tooltip"]');
+    ?.shadowRoot?.querySelector<Tooltip>('[data-test="tooltip"]');
 
   expect(tooltip?.open).to.be.false;
 });
@@ -1079,7 +1079,7 @@ it('does not allow its "toggle" event to propagate', async () => {
 });
 
 it('enables options when `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="one"

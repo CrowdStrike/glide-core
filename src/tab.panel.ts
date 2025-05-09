@@ -10,12 +10,12 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tab-panel': GlideCoreTabPanel;
+    'glide-core-tab-panel': TabPanel;
   }
 }
 
 /**
- * @attr {string} name - The corresponding GlideCoreTab should have a `panel` attribute with this name
+ * @attr {string} name - The corresponding Tab should have a `panel` attribute with this name
  *
  * @readonly
  * @attr {string} [version]
@@ -27,7 +27,7 @@ declare global {
  */
 @customElement('glide-core-tab-panel')
 @final
-export default class GlideCoreTabPanel extends LitElement {
+export default class TabPanel extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -36,7 +36,7 @@ export default class GlideCoreTabPanel extends LitElement {
   static override styles = styles;
 
   /**
-   * The corresponding GlideCoreTab should have a `panel` attribute with this name
+   * The corresponding Tab should have a `panel` attribute with this name
    */
   @property({ reflect: true })
   @required

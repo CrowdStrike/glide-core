@@ -1,19 +1,19 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreSplitButtonPrimaryLink from './split-button.primary-link.js';
+import SplitButtonPrimaryLink from './split-button.primary-link.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreSplitButtonPrimaryLink {}
+class Subclassed extends SplitButtonPrimaryLink {}
 
 it('registers itself', async () => {
   expect(
     window.customElements.get('glide-core-split-button-primary-link'),
-  ).to.equal(GlideCoreSplitButtonPrimaryLink);
+  ).to.equal(SplitButtonPrimaryLink);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreSplitButtonPrimaryLink>(html`
+  const host = await fixture<SplitButtonPrimaryLink>(html`
     <glide-core-split-button-primary-link
       label="Label"
       href="/"
@@ -47,7 +47,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

@@ -2,21 +2,21 @@ import './checkbox.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
-import GlideCoreCheckboxGroup from './checkbox-group.js';
+import CheckboxGroup from './checkbox-group.js';
 import expectWindowError from './library/expect-window-error.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreCheckboxGroup {}
+class Subclassed extends CheckboxGroup {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-checkbox-group')).to.equal(
-    GlideCoreCheckboxGroup,
+    CheckboxGroup,
   );
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label" tooltip="Tooltip">
       <glide-core-checkbox label="Label"></glide-core-checkbox>
       <div slot="description">Description</div>
@@ -42,7 +42,7 @@ it('enables checkboxes when `value` is set initially', async () => {
 });
 
 it('does not include in its `value` disabled checkboxes that are checked', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox
         label="One"
@@ -67,7 +67,7 @@ it('does not include in its `value` disabled checkboxes that are checked', async
 });
 
 it('sets `privateVariant` on Checkboxes added after initial render', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
       <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
@@ -108,7 +108,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

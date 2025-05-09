@@ -1,9 +1,9 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreTextarea from './textarea.js';
+import Textarea from './textarea.js';
 
 it('updates its value on input', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea value="" label="Label"></glide-core-textarea>`,
   );
 

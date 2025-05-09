@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreButton from './button.js';
+import type Button from './button.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Button) {
 
           await page
             .locator('glide-core-button')
-            .evaluate<void, GlideCoreButton>((element) => {
+            .evaluate<void, Button>((element) => {
               element.disabled = true;
             });
 
@@ -27,7 +27,7 @@ for (const story of stories.Button) {
 
             await page
               .locator('glide-core-button')
-              .evaluate<void, GlideCoreButton>((element) => {
+              .evaluate<void, Button>((element) => {
                 element.disabled = true;
               });
 
@@ -54,7 +54,7 @@ for (const story of stories.Button) {
 
             await page
               .locator('glide-core-button')
-              .evaluate<void, GlideCoreButton>((element) => {
+              .evaluate<void, Button>((element) => {
                 element.variant = 'secondary';
               });
 
@@ -71,7 +71,7 @@ for (const story of stories.Button) {
 
             await page
               .locator('glide-core-button')
-              .evaluate<void, GlideCoreButton>((element) => {
+              .evaluate<void, Button>((element) => {
                 element.variant = 'tertiary';
               });
 
@@ -90,7 +90,7 @@ for (const story of stories.Button) {
 
             await page
               .locator('glide-core-button')
-              .evaluate<void, GlideCoreButton>((element) => {
+              .evaluate<void, Button>((element) => {
                 element.disabled = true;
                 element.tooltip = 'Tooltip';
               });
@@ -118,7 +118,7 @@ for (const story of stories.Button) {
 
             await page
               .locator('glide-core-button')
-              .evaluate<void, GlideCoreButton>((element) => {
+              .evaluate<void, Button>((element) => {
                 element.disabled = true;
                 element.tooltip = 'Tooltip';
               });
@@ -144,7 +144,7 @@ for (const story of stories.Button) {
 
             await page
               .locator('glide-core-button')
-              .evaluate<void, GlideCoreButton>((element) => {
+              .evaluate<void, Button>((element) => {
                 element.variant = 'secondary';
               });
 
@@ -160,7 +160,7 @@ for (const story of stories.Button) {
 
             await page
               .locator('glide-core-button')
-              .evaluate<void, GlideCoreButton>((element) => {
+              .evaluate<void, Button>((element) => {
                 element.variant = 'tertiary';
               });
 
@@ -177,7 +177,7 @@ for (const story of stories.Button) {
 
           await page
             .locator('glide-core-button')
-            .evaluate<void, GlideCoreButton>((element) => {
+            .evaluate<void, Button>((element) => {
               element.size = 'small';
             });
 
@@ -200,7 +200,7 @@ for (const story of stories.Button) {
 
           await page
             .locator('glide-core-button')
-            .evaluate<void, GlideCoreButton>((element) => {
+            .evaluate<void, Button>((element) => {
               element.variant = 'secondary';
             });
 
@@ -214,7 +214,7 @@ for (const story of stories.Button) {
 
           await page
             .locator('glide-core-button')
-            .evaluate<void, GlideCoreButton>((element) => {
+            .evaluate<void, Button>((element) => {
               element.variant = 'tertiary';
             });
 

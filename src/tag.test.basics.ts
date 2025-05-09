@@ -1,17 +1,17 @@
 import { assert, expect, fixture, html, waitUntil } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreTag from './tag.js';
+import Tag from './tag.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreTag {}
+class Subclassed extends Tag {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-tag')).to.equal(GlideCoreTag);
+  expect(window.customElements.get('glide-core-tag')).to.equal(Tag);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreTag>(
+  const host = await fixture<Tag>(
     html`<glide-core-tag label="Label"></glide-core-tag>`,
   );
 
@@ -66,7 +66,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

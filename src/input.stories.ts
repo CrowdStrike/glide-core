@@ -5,7 +5,7 @@ import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreInput from './input.js';
+import InputComponent from './input.js';
 
 const meta: Meta = {
   title: 'Input',
@@ -63,7 +63,7 @@ const meta: Meta = {
   play(context) {
     const input = context.canvasElement.querySelector('glide-core-input');
 
-    if (context.name.includes('Error') && input instanceof GlideCoreInput) {
+    if (context.name.includes('Error') && input instanceof InputComponent) {
       input.reportValidity();
 
       // `reportValidity` scrolls the element into view, which means the "autodocs"
@@ -77,7 +77,7 @@ const meta: Meta = {
       }
     }
 
-    if (input instanceof GlideCoreInput) {
+    if (input instanceof InputComponent) {
       input.addEventListener('input', () => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,

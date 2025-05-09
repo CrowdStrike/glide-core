@@ -1,6 +1,6 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreRadioGroup from './radio-group.js';
+import RadioGroup from './radio-group.js';
 import './radio-group.radio.js';
 import { click } from './library/mouse.js';
 
@@ -45,7 +45,7 @@ it('does not focus a disabled radio on click', async () => {
 });
 
 it('focuses the first enabled radio when `focus()` is called', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label">
       <glide-core-radio-group-radio
         label="Label"
@@ -89,7 +89,7 @@ it('focuses the first radio after submit when it is `required` and the radio is 
 it('focuses the first radio after `reportValidity()` is called when it is `required` and the radio is unchecked', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" required>
       <glide-core-radio-group-radio
         label="Label"
@@ -131,7 +131,7 @@ it('focuses the first radio after `requestSubmit()` is called when the group is 
 it('does not focus a radio after `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" required>
       <glide-core-radio-group-radio
         label="Label"
@@ -150,7 +150,7 @@ it('does not focus a radio after `checkValidity()` is called', async () => {
 });
 
 it('focuses the first enabled radio when none are checked and `focus()` is called', async () => {
-  const host = await fixture<GlideCoreRadioGroup>(
+  const host = await fixture<RadioGroup>(
     html`<glide-core-radio-group label="Label" required>
       <glide-core-radio-group-radio
         label="Label"

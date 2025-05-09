@@ -1,10 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import './dropdown.option.js';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreDropdown from './dropdown.js';
+import Dropdown from './dropdown.js';
 
 it('focuses its primary button when `focus()` is called', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -20,7 +20,7 @@ it('focuses its primary button when `focus()` is called', async () => {
 it('focuses the button on submit', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -39,7 +39,7 @@ it('focuses the button on submit', async () => {
 it('focuses its primary button when `reportValidity()` is called when required and no option is selected', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -56,7 +56,7 @@ it('focuses its primary button when `reportValidity()` is called when required a
 it('does not focus its primary button when `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" required>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,

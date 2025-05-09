@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreButtonGroup from './button-group.js';
-import type GlideCoreButtonGroupButton from './button-group.button.js';
+import type ButtonGroup from './button-group.js';
+import type ButtonGroupButton from './button-group.button.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -23,7 +23,7 @@ for (const story of stories['Button Group']) {
           await page
             .locator('glide-core-button-group-button')
             .nth(1)
-            .evaluate<void, GlideCoreButtonGroupButton>((element) => {
+            .evaluate<void, ButtonGroupButton>((element) => {
               element.selected = true;
             });
 
@@ -57,7 +57,7 @@ for (const story of stories['Button Group']) {
 
           await page
             .locator('glide-core-button-group')
-            .evaluate<void, GlideCoreButtonGroup>((element) => {
+            .evaluate<void, ButtonGroup>((element) => {
               element.orientation = 'vertical';
             });
 
@@ -74,7 +74,7 @@ for (const story of stories['Button Group']) {
           await page
             .locator('glide-core-button-group-button')
             .nth(1)
-            .evaluate<void, GlideCoreButtonGroupButton>((element) => {
+            .evaluate<void, ButtonGroupButton>((element) => {
               element.disabled = true;
             });
 

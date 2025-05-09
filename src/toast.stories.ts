@@ -98,7 +98,7 @@ const meta: Meta = {
     },
     'slot="default"': {
       table: {
-        type: { summary: 'GlideCoreLink | string' },
+        type: { summary: 'Link | string' },
       },
     },
     toasts: {

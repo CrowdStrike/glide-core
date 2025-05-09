@@ -6,7 +6,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCorePopover from './popover.js';
+import PopoverComponent from './popover.js';
 import focusOutline from './styles/focus-outline.js';
 
 const meta: Meta = {
@@ -147,7 +147,7 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-popover')
       ?.addEventListener('toggle', (event: Event) => {
-        if (event.target instanceof GlideCorePopover) {
+        if (event.target instanceof PopoverComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {

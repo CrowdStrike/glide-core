@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreSpinner from './spinner.js';
+import type Spinner from './spinner.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Spinner) {
 
           await page
             .locator('glide-core-spinner')
-            .evaluate<void, GlideCoreSpinner>((element) => {
+            .evaluate<void, Spinner>((element) => {
               element.size = 'large';
             });
 
@@ -35,7 +35,7 @@ for (const story of stories.Spinner) {
 
           await page
             .locator('glide-core-spinner')
-            .evaluate<void, GlideCoreSpinner>((element) => {
+            .evaluate<void, Spinner>((element) => {
               element.size = 'small';
             });
 

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCorePopover from './popover.js';
+import type Popover from './popover.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Popover) {
 
           await page
             .locator('glide-core-popover')
-            .evaluate<void, GlideCorePopover>((element) => {
+            .evaluate<void, Popover>((element) => {
               element.offset = 50;
               element.open = true;
             });
@@ -27,7 +27,7 @@ for (const story of stories.Popover) {
 
           await page
             .locator('glide-core-popover')
-            .evaluate<void, GlideCorePopover>((element) => {
+            .evaluate<void, Popover>((element) => {
               element.open = true;
             });
 
@@ -41,7 +41,7 @@ for (const story of stories.Popover) {
 
           await page
             .locator('glide-core-popover')
-            .evaluate<void, GlideCorePopover>((element) => {
+            .evaluate<void, Popover>((element) => {
               element.placement = 'left';
               element.open = true;
             });
@@ -56,7 +56,7 @@ for (const story of stories.Popover) {
 
           await page
             .locator('glide-core-popover')
-            .evaluate<void, GlideCorePopover>((element) => {
+            .evaluate<void, Popover>((element) => {
               element.placement = 'right';
               element.open = true;
             });
@@ -71,7 +71,7 @@ for (const story of stories.Popover) {
 
           await page
             .locator('glide-core-popover')
-            .evaluate<void, GlideCorePopover>((element) => {
+            .evaluate<void, Popover>((element) => {
               element.placement = 'top';
               element.open = true;
             });

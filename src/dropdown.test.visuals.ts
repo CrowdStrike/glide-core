@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreDropdown from './dropdown.js';
-import type GlideCoreDropdownOption from './dropdown.option.js';
+import type Dropdown from './dropdown.js';
+import type DropdownOption from './dropdown.option.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -13,7 +13,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.addButtonLabel = 'Add';
               element.open = true;
             });
@@ -28,7 +28,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.disabled = true;
             });
 
@@ -42,7 +42,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.filterable = true;
             });
 
@@ -59,7 +59,7 @@ for (const story of stories.Dropdown) {
 
             await page
               .locator('glide-core-dropdown')
-              .evaluate<void, GlideCoreDropdown>((element) => {
+              .evaluate<void, Dropdown>((element) => {
                 element.filterable = true;
               });
 
@@ -85,7 +85,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.hideLabel = true;
             });
 
@@ -108,7 +108,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.loading = true;
               element.open = true;
             });
@@ -123,7 +123,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.open = true;
             });
 
@@ -137,7 +137,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.orientation = 'vertical';
             });
 
@@ -151,7 +151,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.placeholder = 'Placeholder';
             });
 
@@ -165,7 +165,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.readonly = true;
             });
 
@@ -179,7 +179,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.required = true;
             });
 
@@ -193,7 +193,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.multiple = true;
               element.open = true;
               element.selectAll = true;
@@ -210,7 +210,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               const div = document.createElement('div');
 
               div.textContent = 'Description';
@@ -229,7 +229,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.tooltip = 'Tooltip';
             });
 
@@ -245,7 +245,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.open = true;
               element.value = ['one'];
             });
@@ -260,7 +260,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.multiple = true;
               element.value = ['one', 'two'];
               element.open = true;
@@ -276,7 +276,7 @@ for (const story of stories.Dropdown) {
 
           await page
             .locator('glide-core-dropdown')
-            .evaluate<void, GlideCoreDropdown>((element) => {
+            .evaluate<void, Dropdown>((element) => {
               element.variant = 'quiet';
             });
 
@@ -291,14 +291,14 @@ for (const story of stories.Dropdown) {
 
             await page
               .locator('glide-core-dropdown')
-              .evaluate<void, GlideCoreDropdown>((element) => {
+              .evaluate<void, Dropdown>((element) => {
                 element.open = true;
               });
 
             await page
               .locator('glide-core-dropdown-option')
               .first()
-              .evaluate<void, GlideCoreDropdownOption>((element) => {
+              .evaluate<void, DropdownOption>((element) => {
                 element.disabled = true;
               });
 
@@ -312,7 +312,7 @@ for (const story of stories.Dropdown) {
 
             await page
               .locator('glide-core-dropdown')
-              .evaluate<void, GlideCoreDropdown>((element) => {
+              .evaluate<void, Dropdown>((element) => {
                 element.multiple = true;
                 element.open = true;
               });
@@ -320,7 +320,7 @@ for (const story of stories.Dropdown) {
             await page
               .locator('glide-core-dropdown-option')
               .first()
-              .evaluate<void, GlideCoreDropdownOption>((element) => {
+              .evaluate<void, DropdownOption>((element) => {
                 element.disabled = true;
               });
 

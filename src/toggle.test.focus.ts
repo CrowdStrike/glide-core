@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreToggle from './toggle.js';
+import Toggle from './toggle.js';
 
 it('focuses the input when `focus()` is called', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 

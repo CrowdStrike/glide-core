@@ -1,19 +1,19 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
-import GlideCoreTooltipContainer from './tooltip.container.js';
+import TooltipContainer from './tooltip.container.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreTooltipContainer {}
+class Subclassed extends TooltipContainer {}
 
 it('registers itself', async () => {
   expect(
     window.customElements.get('glide-core-private-tooltip-container'),
-  ).to.equal(GlideCoreTooltipContainer);
+  ).to.equal(TooltipContainer);
 });
 
 it('can have a single-key shortcut', async () => {
-  const host = await fixture<GlideCoreTooltipContainer>(
+  const host = await fixture<TooltipContainer>(
     html`<glide-core-private-tooltip-container
       label="Label"
       .shortcut=${['Enter']}
@@ -30,7 +30,7 @@ it('can have a single-key shortcut', async () => {
 });
 
 it('can have a multi-key shortcut', async () => {
-  const host = await fixture<GlideCoreTooltipContainer>(
+  const host = await fixture<TooltipContainer>(
     html`<glide-core-private-tooltip-container
       label="Label"
       .shortcut=${['CMD', 'K']}
@@ -47,7 +47,7 @@ it('can have a multi-key shortcut', async () => {
 });
 
 it('has no `role` when disabled', async () => {
-  const host = await fixture<GlideCoreTooltipContainer>(
+  const host = await fixture<TooltipContainer>(
     html`<glide-core-private-tooltip-container label="Label" disabled>
       <button slot="target">Target</button>
     </glide-core-private-tooltip-container>`,
@@ -60,7 +60,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

@@ -3,7 +3,7 @@ import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreTextarea from './textarea.js';
+import TextareaComponent from './textarea.js';
 
 const meta: Meta = {
   title: 'Textarea',
@@ -33,7 +33,7 @@ const meta: Meta = {
 
     if (
       context.name.includes('Error') &&
-      textarea instanceof GlideCoreTextarea
+      textarea instanceof TextareaComponent
     ) {
       textarea.reportValidity();
 
@@ -48,7 +48,7 @@ const meta: Meta = {
       }
     }
 
-    if (textarea instanceof GlideCoreTextarea) {
+    if (textarea instanceof TextareaComponent) {
       textarea.addEventListener('input', () => {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,

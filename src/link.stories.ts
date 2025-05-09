@@ -1,7 +1,7 @@
 import { html, nothing } from 'lit';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreLink from './link.js';
+import LinkComponent from './link.js';
 
 const meta: Meta = {
   title: 'Link',
@@ -30,7 +30,7 @@ const meta: Meta = {
       .querySelector('glide-core-link')
       ?.addEventListener('click', (event: Event) => {
         if (
-          event.target instanceof GlideCoreLink &&
+          event.target instanceof LinkComponent &&
           event.target.href === '/' &&
           window.top
         ) {

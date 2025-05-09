@@ -1,19 +1,19 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import sinon from 'sinon';
 import { customElement } from 'lit/decorators.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
+import DropdownOption from './dropdown.option.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreDropdownOption {}
+class Subclassed extends DropdownOption {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-dropdown-option')).to.equal(
-    GlideCoreDropdownOption,
+    DropdownOption,
   );
 });
 
 it('sets `aria-selected` when selected', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       selected
@@ -24,7 +24,7 @@ it('sets `aria-selected` when selected', async () => {
 });
 
 it('sets `aria-selected` when unselected', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
     ></glide-core-dropdown-option>`,
@@ -34,7 +34,7 @@ it('sets `aria-selected` when unselected', async () => {
 });
 
 it('sets `aria-selected` when disabled', async () => {
-  const host = await fixture<GlideCoreDropdownOption>(
+  const host = await fixture<DropdownOption>(
     html`<glide-core-dropdown-option
       label="Label"
       selected
@@ -63,7 +63,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

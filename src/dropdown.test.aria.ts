@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreDropdown from './dropdown.js';
-import type GlideCoreDropdownOption from './dropdown.option.js';
+import type Dropdown from './dropdown.js';
+import type DropdownOption from './dropdown.option.js';
 
 test('add-button-label', async ({ page }) => {
   await page.goto('?id=dropdown--dropdown');
 
   await page
     .locator('glide-core-dropdown')
-    .evaluate<void, GlideCoreDropdown>((element) => {
+    .evaluate<void, Dropdown>((element) => {
       element.addButtonLabel = 'Add';
       element.open = true;
     });
@@ -29,7 +29,7 @@ test('disabled=${true}', async ({ page }) => {
 
   await page
     .locator('glide-core-dropdown')
-    .evaluate<void, GlideCoreDropdown>((element) => {
+    .evaluate<void, Dropdown>((element) => {
       element.disabled = true;
 
       // So we can verify the snapshot doesn't include `[expanded]`.
@@ -57,7 +57,7 @@ test.describe('filterable', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.filterable = true;
         element.open = true;
       });
@@ -77,7 +77,7 @@ test.describe('filterable', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.filterable = true;
       });
 
@@ -93,7 +93,7 @@ test('hide-label', async ({ page }) => {
 
   await page
     .locator('glide-core-dropdown')
-    .evaluate<void, GlideCoreDropdown>((element) => {
+    .evaluate<void, Dropdown>((element) => {
       element.hideLabel = true;
     });
 
@@ -108,7 +108,7 @@ test('loading', async ({ page }) => {
 
   await page
     .locator('glide-core-dropdown')
-    .evaluate<void, GlideCoreDropdown>((element) => {
+    .evaluate<void, Dropdown>((element) => {
       element.loading = true;
       element.open = true;
     });
@@ -125,7 +125,7 @@ test.describe('multiple=${true}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.multiple = true;
         element.open = true;
         element.value = ['one', 'two'];
@@ -156,7 +156,7 @@ test.describe('multiple=${true}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.multiple = true;
         element.value = ['one', 'two'];
       });
@@ -179,7 +179,7 @@ test.describe('multiple=${true}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.multiple = true;
         element.open = true;
       });
@@ -187,7 +187,7 @@ test.describe('multiple=${true}', () => {
     await page
       .locator('glide-core-dropdown-option')
       .first()
-      .evaluate<void, GlideCoreDropdownOption>((element) => {
+      .evaluate<void, DropdownOption>((element) => {
         element.count = 1000;
       });
 
@@ -209,7 +209,7 @@ test.describe('multiple=${true}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.multiple = true;
         element.open = true;
       });
@@ -217,7 +217,7 @@ test.describe('multiple=${true}', () => {
     await page
       .locator('glide-core-dropdown-option')
       .first()
-      .evaluate<void, GlideCoreDropdownOption>((element) => {
+      .evaluate<void, DropdownOption>((element) => {
         element.disabled = true;
       });
 
@@ -239,7 +239,7 @@ test.describe('multiple=${true}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.multiple = true;
         element.open = true;
       });
@@ -247,7 +247,7 @@ test.describe('multiple=${true}', () => {
     await page
       .locator('glide-core-dropdown-option')
       .first()
-      .evaluate<void, GlideCoreDropdownOption>((element) => {
+      .evaluate<void, DropdownOption>((element) => {
         element.editable = true;
       });
 
@@ -272,7 +272,7 @@ test.describe('multiple=${false}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.open = true;
         element.value = ['one'];
       });
@@ -292,7 +292,7 @@ test.describe('multiple=${false}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.value = ['one'];
       });
 
@@ -307,14 +307,14 @@ test.describe('multiple=${false}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.open = true;
       });
 
     await page
       .locator('glide-core-dropdown-option')
       .first()
-      .evaluate<void, GlideCoreDropdownOption>((element) => {
+      .evaluate<void, DropdownOption>((element) => {
         element.count = 1000;
       });
 
@@ -333,14 +333,14 @@ test.describe('multiple=${false}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.open = true;
       });
 
     await page
       .locator('glide-core-dropdown-option')
       .first()
-      .evaluate<void, GlideCoreDropdownOption>((element) => {
+      .evaluate<void, DropdownOption>((element) => {
         element.disabled = true;
       });
 
@@ -359,14 +359,14 @@ test.describe('multiple=${false}', () => {
 
     await page
       .locator('glide-core-dropdown')
-      .evaluate<void, GlideCoreDropdown>((element) => {
+      .evaluate<void, Dropdown>((element) => {
         element.open = true;
       });
 
     await page
       .locator('glide-core-dropdown-option')
       .first()
-      .evaluate<void, GlideCoreDropdownOption>((element) => {
+      .evaluate<void, DropdownOption>((element) => {
         element.editable = true;
       });
 
@@ -387,7 +387,7 @@ test('placeholder', async ({ page }) => {
 
   await page
     .locator('glide-core-dropdown')
-    .evaluate<void, GlideCoreDropdown>((element) => {
+    .evaluate<void, Dropdown>((element) => {
       element.placeholder = 'Placeholder';
     });
 
@@ -402,7 +402,7 @@ test('select-all', async ({ page }) => {
 
   await page
     .locator('glide-core-dropdown')
-    .evaluate<void, GlideCoreDropdown>((element) => {
+    .evaluate<void, Dropdown>((element) => {
       element.multiple = true;
       element.open = true;
       element.selectAll = true;
@@ -428,7 +428,7 @@ test('slot="description"', async ({ page }) => {
 
   await page
     .locator('glide-core-dropdown')
-    .evaluate<void, GlideCoreDropdown>((element) => {
+    .evaluate<void, Dropdown>((element) => {
       const div = document.createElement('div');
 
       div.textContent = 'Description';
@@ -449,7 +449,7 @@ test('tooltip', async ({ page }) => {
 
   await page
     .locator('glide-core-dropdown')
-    .evaluate<void, GlideCoreDropdown>((element) => {
+    .evaluate<void, Dropdown>((element) => {
       element.tooltip = 'Tooltip';
     });
 

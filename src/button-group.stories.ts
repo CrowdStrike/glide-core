@@ -6,7 +6,7 @@ import { html, nothing } from 'lit';
 import { when } from 'lit/directives/when.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreButton from './button-group.button.js';
+import ButtonComponent from './button-group.button.js';
 
 const meta: Meta = {
   title: 'Button Group',
@@ -37,7 +37,7 @@ const meta: Meta = {
     );
 
     buttonGroup?.addEventListener('selected', (event: Event) => {
-      if (event.target instanceof GlideCoreButton) {
+      if (event.target instanceof ButtonComponent) {
         addons.getChannel().emit(UPDATE_STORY_ARGS, {
           storyId: context.id,
           updatedArgs: {
@@ -165,7 +165,7 @@ const meta: Meta = {
     },
     'slot="default"': {
       table: {
-        type: { summary: 'GlideCoreButtonGroupButton' },
+        type: { summary: 'ButtonGroupButton' },
       },
       type: { name: 'function', required: true },
     },

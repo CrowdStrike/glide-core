@@ -18,7 +18,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-checkbox': GlideCoreCheckbox;
+    'glide-core-checkbox': Checkbox;
   }
 }
 
@@ -70,10 +70,7 @@ declare global {
  */
 @customElement('glide-core-checkbox')
 @final
-export default class GlideCoreCheckbox
-  extends LitElement
-  implements FormControl
-{
+export default class Checkbox extends LitElement implements FormControl {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {

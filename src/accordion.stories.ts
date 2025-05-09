@@ -5,7 +5,7 @@ import { addons } from '@storybook/preview-api';
 import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
-import GlideCoreAccordion from './accordion.js';
+import AccordionComponent from './accordion.js';
 
 const meta: Meta = {
   title: 'Accordion',
@@ -33,7 +33,7 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-accordion')
       ?.addEventListener('toggle', (event) => {
-        if (event.target instanceof GlideCoreAccordion) {
+        if (event.target instanceof AccordionComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {

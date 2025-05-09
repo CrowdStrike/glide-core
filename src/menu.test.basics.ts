@@ -4,19 +4,19 @@ import './menu.link.js';
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreMenu from './menu.js';
+import Menu from './menu.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreMenu {}
+class Subclassed extends Menu {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-menu')).to.equal(GlideCoreMenu);
+  expect(window.customElements.get('glide-core-menu')).to.equal(Menu);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -39,7 +39,7 @@ it('is accessible', async () => {
 });
 
 it('can be open', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -64,7 +64,7 @@ it('can be open', async () => {
 });
 
 it('activates the first link by default', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -87,7 +87,7 @@ it('activates the first link by default', async () => {
 });
 
 it('activates the first button by default', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -113,7 +113,7 @@ it('activates the first button by default', async () => {
 });
 
 it('is not opened when open and its target is `disabled`', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target" disabled>Target</button>
 
@@ -138,7 +138,7 @@ it('is not opened when open and its target is `disabled`', async () => {
 });
 
 it('adds `tabIndex` to its target when it is a `<span>`', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <span slot="target">Target</span>
 
@@ -153,7 +153,7 @@ it('adds `tabIndex` to its target when it is a `<span>`', async () => {
 });
 
 it('shows loading feedback', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu loading open>
       <button slot="target">Target</button>
 
@@ -180,7 +180,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

@@ -1,20 +1,18 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCorePopover from './popover.js';
+import Popover from './popover.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCorePopover {}
+class Subclassed extends Popover {}
 
 it('registers', async () => {
-  expect(window.customElements.get('glide-core-popover')).to.equal(
-    GlideCorePopover,
-  );
+  expect(window.customElements.get('glide-core-popover')).to.equal(Popover);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover>
       Popover
       <button slot="target">Target</button>
@@ -25,7 +23,7 @@ it('is accessible', async () => {
 });
 
 it('opens', async () => {
-  const host = await fixture<GlideCorePopover>(
+  const host = await fixture<Popover>(
     html`<glide-core-popover open>
       Popover
       <button slot="target">Target</button>
@@ -64,7 +62,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

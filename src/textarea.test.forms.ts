@@ -1,12 +1,12 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import GlideCoreTextarea from './textarea.js';
+import Textarea from './textarea.js';
 
 it('can be reset if it has an initial value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label" value="one"></glide-core-textarea>`,
     { parentNode: form },
   );
@@ -22,7 +22,7 @@ it('can be reset if it has an initial value', async () => {
 it('can be reset if it has no initial value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
     { parentNode: form },
   );
@@ -36,7 +36,7 @@ it('can be reset if it has no initial value', async () => {
 it('has `formData` when it has a `value` and `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreTextarea>(
+  await fixture<Textarea>(
     html`<glide-core-textarea
       value="value"
       label="Label"
@@ -53,7 +53,7 @@ it('has `formData` when it has a `value` and `name`', async () => {
 it('has `formData` when text is entered and has a `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreTextarea>(
+  await fixture<Textarea>(
     html`<glide-core-textarea label="Label" name="name"></glide-core-textarea>`,
     { parentNode: form },
   );
@@ -68,7 +68,7 @@ it('has `formData` when text is entered and has a `name`', async () => {
 it('has no `formData` value when it has a value and is disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreTextarea>(
+  await fixture<Textarea>(
     html`<glide-core-textarea
       label="Label"
       name="test-name"
@@ -86,7 +86,7 @@ it('has no `formData` value when it has a value and is disabled', async () => {
 it('appends no `formData` when it has a value and no `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreTextarea>(
+  await fixture<Textarea>(
     html`<glide-core-textarea
       value="value"
       label="Label"
@@ -101,7 +101,7 @@ it('appends no `formData` when it has a value and no `name`', async () => {
 it('appends no `formData` when it has no value and a `name`', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreTextarea>(
+  await fixture<Textarea>(
     html`<glide-core-textarea label="Label" name="name"></glide-core-textarea>`,
     { parentNode: form },
   );
@@ -112,7 +112,7 @@ it('appends no `formData` when it has no value and a `name`', async () => {
 });
 
 it('is valid by default', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
@@ -130,7 +130,7 @@ it('is valid by default', async () => {
 });
 
 it('is valid after being filled in and required', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
@@ -151,7 +151,7 @@ it('is valid after being filled in and required', async () => {
 });
 
 it('is invalid if no value and required', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
@@ -169,7 +169,7 @@ it('is invalid if no value and required', async () => {
 });
 
 it('is valid if no value but required and disabled', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea
       label="Label"
       required
@@ -191,7 +191,7 @@ it('is valid if no value but required and disabled', async () => {
 });
 
 it('updates its validity when required and `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
@@ -238,7 +238,7 @@ it('updates its validity when required and `value` is set programmatically', asy
 });
 
 it('is invalid when `value` is empty and `required` is set to `true` programmatically', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
@@ -268,7 +268,7 @@ it('is invalid when `value` is empty and `required` is set to `true` programmati
 });
 
 it('is valid when `value` is empty and `required` is set to `false` programmatically', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
@@ -298,7 +298,7 @@ it('is valid when `value` is empty and `required` is set to `false` programmatic
 });
 
 it('updates its validity on blur', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
@@ -309,7 +309,7 @@ it('updates its validity on blur', async () => {
 });
 
 it('sets the validity message with `setCustomValidity()`', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
@@ -342,7 +342,7 @@ it('sets the validity message with `setCustomValidity()`', async () => {
 });
 
 it('removes a validity message with an empty argument to `setCustomValidity()`', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
@@ -362,7 +362,7 @@ it('removes a validity message with an empty argument to `setCustomValidity()`',
 });
 
 it('is invalid when `setValidity()` is called', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
@@ -395,7 +395,7 @@ it('is invalid when `setValidity()` is called', async () => {
 });
 
 it('is valid when `setValidity()` is called', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 
@@ -419,7 +419,7 @@ it('is valid when `setValidity()` is called', async () => {
 });
 
 it('retains existing validity state when `setCustomValidity()` is called', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label" required></glide-core-textarea>`,
   );
 
@@ -433,7 +433,7 @@ it('retains existing validity state when `setCustomValidity()` is called', async
 it('submits its form on Meta + Enter', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreTextarea>(
+  await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
     { parentNode: form },
   );
@@ -454,7 +454,7 @@ it('submits its form on Meta + Enter', async () => {
 });
 
 it('removes its validity feedback but retains its validity state when `resetValidityFeedback()` is called', async () => {
-  const host = await fixture<GlideCoreTextarea>(
+  const host = await fixture<Textarea>(
     html`<glide-core-textarea label="Label"></glide-core-textarea>`,
   );
 

@@ -1,10 +1,10 @@
 import './checkbox.js';
 import './input.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreFormControlsLayout from './form-controls-layout.js';
+import FormControlsLayout from './form-controls-layout.js';
 
 it('sets `privateActive` on each control when `split` is set programmatically', async () => {
-  const host = await fixture<GlideCoreFormControlsLayout>(html`
+  const host = await fixture<FormControlsLayout>(html`
     <glide-core-form-controls-layout>
       <glide-core-input label="Label"></glide-core-input>
 

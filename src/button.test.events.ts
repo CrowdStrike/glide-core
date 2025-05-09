@@ -1,11 +1,11 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import GlideCoreButton from './button.js';
+import Button from './button.js';
 import { click } from './library/mouse.js';
 
 it('dispatches a "click" event on click', async () => {
-  const host = await fixture<GlideCoreButton>(html`
+  const host = await fixture<Button>(html`
     <glide-core-button label="Label"></glide-core-button>
   `);
 
@@ -19,7 +19,7 @@ it('dispatches a "click" event on click', async () => {
 });
 
 it('does not dispatch a "click" event on click when disabled', async () => {
-  const host = await fixture<GlideCoreButton>(html`
+  const host = await fixture<Button>(html`
     <glide-core-button label="Label" disabled></glide-core-button>
   `);
 
@@ -32,7 +32,7 @@ it('does not dispatch a "click" event on click when disabled', async () => {
 });
 
 it('dispatches a "click" event on `click()`', async () => {
-  const host = await fixture<GlideCoreButton>(html`
+  const host = await fixture<Button>(html`
     <glide-core-button label="Label"></glide-core-button>
   `);
 
@@ -48,7 +48,7 @@ it('dispatches a "click" event on `click()`', async () => {
 });
 
 it('does not dispatch a "click" event on `click()` when disabled', async () => {
-  const host = await fixture<GlideCoreButton>(html`
+  const host = await fixture<Button>(html`
     <glide-core-button label="Label" disabled></glide-core-button>
   `);
 
@@ -61,7 +61,7 @@ it('does not dispatch a "click" event on `click()` when disabled', async () => {
 });
 
 it('dispatches a "click" event on Enter', async () => {
-  const host = await fixture<GlideCoreButton>(html`
+  const host = await fixture<Button>(html`
     <glide-core-button label="Label"></glide-core-button>
   `);
 
@@ -76,7 +76,7 @@ it('dispatches a "click" event on Enter', async () => {
 });
 
 it('does not dispatch a "click" event on Enter when disabled', async () => {
-  const host = await fixture<GlideCoreButton>(html`
+  const host = await fixture<Button>(html`
     <glide-core-button label="Label" disabled></glide-core-button>
   `);
 
@@ -90,7 +90,7 @@ it('does not dispatch a "click" event on Enter when disabled', async () => {
 });
 
 it('dispatches a "click" event on Space', async () => {
-  const host = await fixture<GlideCoreButton>(html`
+  const host = await fixture<Button>(html`
     <glide-core-button label="Label"></glide-core-button>
   `);
 
@@ -105,7 +105,7 @@ it('dispatches a "click" event on Space', async () => {
 });
 
 it('does not dispatch a "click" event on Space when disabled', async () => {
-  const host = await fixture<GlideCoreButton>(html`
+  const host = await fixture<Button>(html`
     <glide-core-button label="Label" disabled></glide-core-button>
   `);
 
@@ -121,7 +121,7 @@ it('does not dispatch a "click" event on Space when disabled', async () => {
 it('dispatches a "reset" event on click', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreButton>(
+  const host = await fixture<Button>(
     html`<glide-core-button label="Label" type="reset"></glide-core-button>`,
     {
       parentNode: form,
@@ -137,7 +137,7 @@ it('dispatches a "reset" event on click', async () => {
 it('does not dispatch a "reset" event on click when disabled', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreButton>(
+  const host = await fixture<Button>(
     html`<glide-core-button
       label="Label"
       type="reset"
@@ -159,7 +159,7 @@ it('does not dispatch a "reset" event on click when disabled', async () => {
 it('dispatches a "reset" event on Enter', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreButton>(
+  await fixture<Button>(
     html`<glide-core-button label="Label" type="reset"></glide-core-button>`,
     {
       parentNode: form,
@@ -176,7 +176,7 @@ it('dispatches a "reset" event on Enter', async () => {
 it('does not dispatch a "reset" event on Enter when disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreButton>(
+  await fixture<Button>(
     html`<glide-core-button
       label="Label"
       type="reset"
@@ -199,7 +199,7 @@ it('does not dispatch a "reset" event on Enter when disabled', async () => {
 it('dispatches a "reset" event on Space', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreButton>(
+  const host = await fixture<Button>(
     html`<glide-core-button label="Label" type="reset"></glide-core-button>`,
     {
       parentNode: form,
@@ -216,7 +216,7 @@ it('dispatches a "reset" event on Space', async () => {
 it('does not dispatch a "reset" event on Space when disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreButton>(
+  await fixture<Button>(
     html`<glide-core-button
       label="Label"
       type="reset"
@@ -239,7 +239,7 @@ it('does not dispatch a "reset" event on Space when disabled', async () => {
 it('dispatches a "submit" event on click', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreButton>(
+  const host = await fixture<Button>(
     html`<glide-core-button label="Label" type="submit"></glide-core-button>`,
     {
       parentNode: form,
@@ -257,7 +257,7 @@ it('dispatches a "submit" event on click', async () => {
 it('does not dispatch a "submit" event on click when disabled', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreButton>(
+  const host = await fixture<Button>(
     html`<glide-core-button
       label="Label"
       type="submit"
@@ -279,7 +279,7 @@ it('does not dispatch a "submit" event on click when disabled', async () => {
 it('dispatches a "submit" event on Enter', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreButton>(
+  await fixture<Button>(
     html`<glide-core-button label="Label" type="submit"></glide-core-button>`,
     {
       parentNode: form,
@@ -298,7 +298,7 @@ it('dispatches a "submit" event on Enter', async () => {
 it('does not dispatch a "submit" event on Enter when disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreButton>(
+  await fixture<Button>(
     html`<glide-core-button
       label="Label"
       type="submit"
@@ -321,7 +321,7 @@ it('does not dispatch a "submit" event on Enter when disabled', async () => {
 it('dispatches a "submit" event on Space', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreButton>(
+  await fixture<Button>(
     html`<glide-core-button label="Label" type="submit"></glide-core-button>`,
     {
       parentNode: form,
@@ -340,7 +340,7 @@ it('dispatches a "submit" event on Space', async () => {
 it('does not dispatch a "submit" event on Space when disabled', async () => {
   const form = document.createElement('form');
 
-  await fixture<GlideCoreButton>(
+  await fixture<Button>(
     html`<glide-core-button
       label="Label"
       type="submit"

@@ -1,14 +1,14 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreMenuButton from './menu.button.js';
+import MenuButton from './menu.button.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreMenuButton {}
+class Subclassed extends MenuButton {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-menu-button')).to.equal(
-    GlideCoreMenuButton,
+    MenuButton,
   );
 });
 
@@ -28,7 +28,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

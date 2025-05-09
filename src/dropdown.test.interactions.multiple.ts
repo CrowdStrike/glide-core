@@ -11,12 +11,12 @@ import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
 import { styleMap } from 'lit/directives/style-map.js';
 import { click, hover } from './library/mouse.js';
-import GlideCoreDropdown from './dropdown.js';
-import GlideCoreDropdownOption from './dropdown.option.js';
-import GlideCoreTag from './tag.js';
+import Dropdown from './dropdown.js';
+import DropdownOption from './dropdown.option.js';
+import Tag from './tag.js';
 
 @customElement('glide-core-dropdown-in-another-component')
-class GlideCoreDropdownInAnotherComponent extends LitElement {
+class DropdownInAnotherComponent extends LitElement {
   override render() {
     return html`<glide-core-dropdown label="Label" multiple open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
@@ -27,7 +27,7 @@ class GlideCoreDropdownInAnotherComponent extends LitElement {
 }
 
 it('opens on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -43,7 +43,7 @@ it('opens on click', async () => {
 });
 
 it('toggles open and closed when the button is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -59,7 +59,7 @@ it('toggles open and closed when the button is clicked', async () => {
 });
 
 it('selects options on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -93,7 +93,7 @@ it('selects options on click', async () => {
 });
 
 it('deselects options on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -128,7 +128,7 @@ it('deselects options on click', async () => {
 });
 
 it('does not select a disabled option on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -155,7 +155,7 @@ it('does not select a disabled option on click', async () => {
 });
 
 it('selects options on Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open>
       <glide-core-dropdown-option
         label="One"
@@ -195,7 +195,7 @@ it('selects options on Space', async () => {
 });
 
 it('deselects options on Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open>
       <glide-core-dropdown-option
         label="One"
@@ -235,7 +235,7 @@ it('deselects options on Space', async () => {
 });
 
 it('selects options on Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open>
       <glide-core-dropdown-option
         label="One"
@@ -273,7 +273,7 @@ it('selects options on Enter', async () => {
 });
 
 it('deselects options on Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open>
       <glide-core-dropdown-option
         label="One"
@@ -311,7 +311,7 @@ it('deselects options on Enter', async () => {
 });
 
 it('activates Select All by default', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple select-all>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -320,7 +320,7 @@ it('activates Select All by default', async () => {
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  const selectAll = host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+  const selectAll = host.shadowRoot?.querySelector<DropdownOption>(
     '[data-test="select-all"]',
   );
 
@@ -330,7 +330,7 @@ it('activates Select All by default', async () => {
 });
 
 it('deactivates all other options when an option is hovered', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple select-all>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -342,9 +342,7 @@ it('deactivates all other options when an option is hovered', async () => {
 
   const options = [
     ...host.querySelectorAll('glide-core-dropdown-option'),
-    host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
-      '[data-test="select-all"]',
-    ),
+    host.shadowRoot?.querySelector<DropdownOption>('[data-test="select-all"]'),
   ];
 
   await hover(options[0]);
@@ -356,7 +354,7 @@ it('deactivates all other options when an option is hovered', async () => {
 });
 
 it('remains open when an option is selected via click', async () => {
-  const host = await fixture<GlideCoreDropdownInAnotherComponent>(
+  const host = await fixture<DropdownInAnotherComponent>(
     html`<glide-core-dropdown-in-another-component></glide-core-dropdown-in-another-component>`,
   );
 
@@ -370,7 +368,7 @@ it('remains open when an option is selected via click', async () => {
 });
 
 it('remains open when an option is selected via Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -391,7 +389,7 @@ it('remains open when an option is selected via Enter', async () => {
 });
 
 it('remains open when an option is selected via Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -414,7 +412,7 @@ it('remains open when an option is selected via Space', async () => {
 });
 
 it('activates Select All on hover', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
 
@@ -437,7 +435,7 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
   // ArrowUp and Home are left untested to avoid an additional seven or so
   // tests. Only testing ArrowDown is hopefully sufficient.
 
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -453,7 +451,7 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
-  host.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]')?.focus();
+  host.shadowRoot?.querySelector<Tag>('[data-test="tag"]')?.focus();
 
   await sendKeys({ press: 'ArrowDown' });
 
@@ -461,7 +459,7 @@ it('does not activate the next option on ArrowDown when a tag is focused', async
 });
 
 it('updates its tag when `label` of a selected option is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="One"
@@ -478,13 +476,13 @@ it('updates its tag when `label` of a selected option is set programmatically', 
   option.label = 'Three';
   await host.updateComplete;
 
-  const tag = host.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]');
+  const tag = host.shadowRoot?.querySelector<Tag>('[data-test="tag"]');
 
   expect(tag?.label).to.equal('Three');
 });
 
 it('makes its tag editable when `editable` of a selected option is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="One"
@@ -501,13 +499,13 @@ it('makes its tag editable when `editable` of a selected option is set programma
   option.editable = true;
   await host.updateComplete;
 
-  const tag = host.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]');
+  const tag = host.shadowRoot?.querySelector<Tag>('[data-test="tag"]');
 
   expect(tag?.privateEditable).to.be.true;
 });
 
 it('selects and deselects options when `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="One"
@@ -538,7 +536,7 @@ it('selects and deselects options when `value` is set programmatically', async (
 });
 
 it('selects no options when `value` is set programmatically to an empty string and some options have no `value`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -560,7 +558,7 @@ it('selects no options when `value` is set programmatically to an empty string a
 });
 
 it('does not update `value` when a disabled option is selected via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -579,7 +577,7 @@ it('does not update `value` when a disabled option is selected via click', async
 });
 
 it('updates `value` when multiselect is changed to `true` programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option
         label="One"
@@ -612,7 +610,7 @@ it('updates `value` when multiselect is changed to `true` programmatically', asy
 });
 
 it('updates `value` when the `value` of a selected option is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -636,7 +634,7 @@ it('updates `value` when the `value` of a selected option is set programmaticall
 });
 
 it('updates `value` when the `value` of a selected option is emptied programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -660,7 +658,7 @@ it('updates `value` when the `value` of a selected option is emptied programmati
 });
 
 it('does not add duplicate values to `value` when `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="One"
@@ -682,7 +680,7 @@ it('does not add duplicate values to `value` when `value` is set programmaticall
 });
 
 it('has no internal label when an option is newly selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -700,7 +698,7 @@ it('has no internal label when an option is newly selected', async () => {
 });
 
 it('hides tags to prevent overflow', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown
       label="Label"
       style=${styleMap({
@@ -740,7 +738,7 @@ it('hides tags to prevent overflow', async () => {
 });
 
 it('has overflow text when its tags are overflowing', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown
       label="Label"
       style=${styleMap({
@@ -778,7 +776,7 @@ it('has overflow text when its tags are overflowing', async () => {
 });
 
 it('deselects an option when its tag is removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -794,7 +792,7 @@ it('deselects an option when its tag is removed', async () => {
     </glide-core-dropdown>`,
   );
 
-  host.shadowRoot?.querySelector<GlideCoreTag>('[data-test="tag"]')?.click();
+  host.shadowRoot?.querySelector<Tag>('[data-test="tag"]')?.click();
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
 
@@ -804,7 +802,7 @@ it('deselects an option when its tag is removed', async () => {
 });
 
 it('deselects all but the last selected option when `multiple` is changed to `false` programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open>
       <glide-core-dropdown-option
         label="One"
@@ -837,7 +835,7 @@ it('deselects all but the last selected option when `multiple` is changed to `fa
 });
 
 it('selects all enabled options when none are selected and Select All is selected via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -870,7 +868,7 @@ it('selects all enabled options when none are selected and Select All is selecte
 });
 
 it('selects all enabled options when some are selected and Select All is selected via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -911,7 +909,7 @@ it('selects all enabled options when some are selected and Select All is selecte
 });
 
 it('deselects all options when all are selected and Select All is selected via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -929,9 +927,7 @@ it('deselects all options when all are selected and Select All is selected via c
   await aTimeout(0);
 
   await click(
-    host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
-      '[data-test="select-all"]',
-    ),
+    host.shadowRoot?.querySelector<DropdownOption>('[data-test="select-all"]'),
   );
 
   const options = host.querySelectorAll('glide-core-dropdown-option');
@@ -942,7 +938,7 @@ it('deselects all options when all are selected and Select All is selected via c
 });
 
 it('selects all enabled options when none are selected and Select All is selected via Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -977,7 +973,7 @@ it('selects all enabled options when none are selected and Select All is selecte
 });
 
 it('selects all options when some are selected and Select All is selected via Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -1007,7 +1003,7 @@ it('selects all options when some are selected and Select All is selected via Sp
 });
 
 it('deselects all options when all are selected and Select All is selected via Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -1038,7 +1034,7 @@ it('deselects all options when all are selected and Select All is selected via S
 });
 
 it('selects all enabled options when none are selected and Select All is selected via Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -1073,7 +1069,7 @@ it('selects all enabled options when none are selected and Select All is selecte
 });
 
 it('selects all enabled options when some are selected and Select All is selected via Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -1116,7 +1112,7 @@ it('selects all enabled options when some are selected and Select All is selecte
 });
 
 it('deselects all options when all are selected and Select All is selected via Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -1147,7 +1143,7 @@ it('deselects all options when all are selected and Select All is selected via E
 });
 
 it('shows Select All when it is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -1164,7 +1160,7 @@ it('shows Select All when it is set programmatically', async () => {
   host.selectAll = true;
   await host.updateComplete;
 
-  const selectAll = host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+  const selectAll = host.shadowRoot?.querySelector<DropdownOption>(
     '[data-test="select-all"]',
   );
 
@@ -1172,7 +1168,7 @@ it('shows Select All when it is set programmatically', async () => {
 });
 
 it('sets Select All as selected when all enabled options are selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option
         label="One"
@@ -1192,7 +1188,7 @@ it('sets Select All as selected when all enabled options are selected', async ()
   await click(options[1]);
   await click(options[2]);
 
-  const selectAll = host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+  const selectAll = host.shadowRoot?.querySelector<DropdownOption>(
     '[data-test="select-all"]',
   );
 
@@ -1200,7 +1196,7 @@ it('sets Select All as selected when all enabled options are selected', async ()
 });
 
 it('sets Select All as deselected when no options are selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1217,7 +1213,7 @@ it('sets Select All as deselected when no options are selected', async () => {
   await click(options[0]);
   await click(options[1]);
 
-  const selectAll = host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+  const selectAll = host.shadowRoot?.querySelector<DropdownOption>(
     '[data-test="select-all"]',
   );
 
@@ -1225,7 +1221,7 @@ it('sets Select All as deselected when no options are selected', async () => {
 });
 
 it('sets Select All as indeterminate when not all options are selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1237,7 +1233,7 @@ it('sets Select All as indeterminate when not all options are selected', async (
 
   await click(host.querySelector('glide-core-dropdown-option'));
 
-  const selectAll = host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+  const selectAll = host.shadowRoot?.querySelector<DropdownOption>(
     '[data-test="select-all"]',
   );
 
@@ -1245,7 +1241,7 @@ it('sets Select All as indeterminate when not all options are selected', async (
 });
 
 it('does not set Select All as indeterminate when no options are selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple open select-all>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1260,7 +1256,7 @@ it('does not set Select All as indeterminate when no options are selected', asyn
   await click(options[0]);
   await click(options[0]);
 
-  const selectAll = host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+  const selectAll = host.shadowRoot?.querySelector<DropdownOption>(
     '[data-test="select-all"]',
   );
 
@@ -1268,7 +1264,7 @@ it('does not set Select All as indeterminate when no options are selected', asyn
 });
 
 it('does not set Select All as indeterminate when all options are selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple select-all>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1283,7 +1279,7 @@ it('does not set Select All as indeterminate when all options are selected', asy
   await click(options[0]);
   await click(options[1]);
 
-  const selectAll = host.shadowRoot?.querySelector<GlideCoreDropdownOption>(
+  const selectAll = host.shadowRoot?.querySelector<DropdownOption>(
     '[data-test="select-all"]',
   );
 
@@ -1291,7 +1287,7 @@ it('does not set Select All as indeterminate when all options are selected', asy
 });
 
 it('closes when a tag is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -1309,7 +1305,7 @@ it('closes when a tag is clicked', async () => {
 });
 
 it('closes on edit via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -1334,7 +1330,7 @@ it('closes on edit via click', async () => {
 });
 
 it('closes on edit via Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -1360,7 +1356,7 @@ it('closes on edit via Enter', async () => {
 });
 
 it('closes on edit via Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="One"
@@ -1386,7 +1382,7 @@ it('closes on edit via Space', async () => {
 });
 
 it('cannot be tabbed to when disabled', async () => {
-  await fixture<GlideCoreDropdown>(
+  await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" disabled multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1398,7 +1394,7 @@ it('cannot be tabbed to when disabled', async () => {
 });
 
 it('clicks its primary button when `click()` is called', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1417,7 +1413,7 @@ it('clicks its primary button when `click()` is called', async () => {
 });
 
 it('adds the `value` of a programmatically enabled option to its `value`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="One"
@@ -1443,7 +1439,7 @@ it('adds the `value` of a programmatically enabled option to its `value`', async
 });
 
 it('removes the `value` of a programmatically disabled option from its `value`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label="One"
@@ -1468,7 +1464,7 @@ it('removes the `value` of a programmatically disabled option from its `value`',
 });
 
 it('updates its tags when a selected option is enabled programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="One"
@@ -1499,7 +1495,7 @@ it('updates its tags when a selected option is enabled programmatically', async 
 });
 
 it('updates its tags when a selected option is disabled programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" multiple>
       <glide-core-dropdown-option
         label="One"

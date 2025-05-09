@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreRadioGroup from './radio-group.js';
-import type GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import type RadioGroup from './radio-group.js';
+import type RadioGroupRadio from './radio-group.radio.js';
 
 test('disabled', async ({ page }) => {
   await page.goto('?id=radio-group--radio-group');
 
   await page
     .locator('glide-core-radio-group')
-    .evaluate<void, GlideCoreRadioGroup>((element) => {
+    .evaluate<void, RadioGroup>((element) => {
       element.disabled = true;
     });
 
@@ -25,7 +25,7 @@ test('slot="description"', async ({ page }) => {
 
   await page
     .locator('glide-core-radio-group')
-    .evaluate<void, GlideCoreRadioGroup>((element) => {
+    .evaluate<void, RadioGroup>((element) => {
       const div = document.createElement('div');
 
       div.textContent = 'Description';
@@ -49,7 +49,7 @@ test('tooltip', async ({ page }) => {
 
   await page
     .locator('glide-core-radio-group')
-    .evaluate<void, GlideCoreRadioGroup>((element) => {
+    .evaluate<void, RadioGroup>((element) => {
       element.tooltip = 'Tooltip';
     });
 
@@ -69,7 +69,7 @@ test('<glide-core-radio-group-radio>.disabled', async ({ page }) => {
   await page
     .locator('glide-core-radio-group-radio')
     .first()
-    .evaluate<void, GlideCoreRadioGroupRadio>((element) => {
+    .evaluate<void, RadioGroupRadio>((element) => {
       element.disabled = true;
     });
 
@@ -100,7 +100,7 @@ test('<glide-core-radio-group-radio>[checked=${false}]', async ({ page }) => {
   await page
     .locator('glide-core-radio-group-radio')
     .first()
-    .evaluate<void, GlideCoreRadioGroupRadio>((element) => {
+    .evaluate<void, RadioGroupRadio>((element) => {
       element.checked = false;
     });
 

@@ -1,15 +1,13 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreMenuLink from './menu.link.js';
+import MenuLink from './menu.link.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreMenuLink {}
+class Subclassed extends MenuLink {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-menu-link')).to.equal(
-    GlideCoreMenuLink,
-  );
+  expect(window.customElements.get('glide-core-menu-link')).to.equal(MenuLink);
 });
 
 it('throws when `label` is empty', async () => {
@@ -28,7 +26,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

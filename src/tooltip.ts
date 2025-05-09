@@ -23,7 +23,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tooltip': GlideCoreTooltip;
+    'glide-core-tooltip': Tooltip;
   }
 }
 
@@ -39,14 +39,14 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreTooltipContainer} [private]
+ * @slot {TooltipContainer} [private]
  * @slot {Element} target - The element to which the tooltip will anchor. Can be any element with an implicit or explicit ARIA role.
  *
  * @fires {Event} toggle
  */
 @customElement('glide-core-tooltip')
 @final
-export default class GlideCoreTooltip extends LitElement {
+export default class Tooltip extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -328,7 +328,7 @@ export default class GlideCoreTooltip extends LitElement {
           >
             <slot class="default-slot" name="private">
               <!--
-                @type {GlideCoreTooltipContainer}
+                @type {TooltipContainer}
               -->
             </slot>
           </div>

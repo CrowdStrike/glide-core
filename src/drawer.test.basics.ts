@@ -1,20 +1,18 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreDrawer from './drawer.js';
+import Drawer from './drawer.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreDrawer {}
+class Subclassed extends Drawer {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-drawer')).to.equal(
-    GlideCoreDrawer,
-  );
+  expect(window.customElements.get('glide-core-drawer')).to.equal(Drawer);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
@@ -22,7 +20,7 @@ it('is accessible', async () => {
 });
 
 it('opens', async () => {
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
@@ -46,7 +44,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

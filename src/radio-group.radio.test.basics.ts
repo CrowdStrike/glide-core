@@ -1,19 +1,19 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreRadioGroupRadio from './radio-group.radio.js';
+import RadioGroupRadio from './radio-group.radio.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreRadioGroupRadio {}
+class Subclassed extends RadioGroupRadio {}
 
 it('registers itself', async () => {
   expect(window.customElements.get('glide-core-radio-group-radio')).to.equal(
-    GlideCoreRadioGroupRadio,
+    RadioGroupRadio,
   );
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio label="Label"></glide-core-radio-group-radio>
   `);
 
@@ -21,7 +21,7 @@ it('is accessible', async () => {
 });
 
 it('sets `aria-checked` on the host', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio
       label="Label"
       checked
@@ -32,7 +32,7 @@ it('sets `aria-checked` on the host', async () => {
 });
 
 it('sets `aria-disabled on the host`', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio
       label="Label"
       disabled
@@ -43,7 +43,7 @@ it('sets `aria-disabled on the host`', async () => {
 });
 
 it('sets `aria-invalid` on the host`', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio
       label="Label"
       privateInvalid
@@ -54,7 +54,7 @@ it('sets `aria-invalid` on the host`', async () => {
 });
 
 it('sets `aria-required` on the host', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio
       label="Label"
       privateRequired
@@ -65,7 +65,7 @@ it('sets `aria-required` on the host', async () => {
 });
 
 it('sets `aria-label` on the host', async () => {
-  const host = await fixture<GlideCoreRadioGroupRadio>(html`
+  const host = await fixture<RadioGroupRadio>(html`
     <glide-core-radio-group-radio label="Label"></glide-core-radio-group-radio>
   `);
 
@@ -90,7 +90,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

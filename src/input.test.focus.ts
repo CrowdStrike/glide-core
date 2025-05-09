@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreInput from './input.js';
+import Input from './input.js';
 
 it('focuses itself when `focus()` is called', async () => {
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
   );
 
@@ -15,7 +15,7 @@ it('focuses itself when `focus()` is called', async () => {
 it('focuses itself after submit when required and no value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
@@ -31,7 +31,7 @@ it('focuses itself after submit when required and no value', async () => {
 it('focuses itself after `reportValidity()` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
@@ -47,7 +47,7 @@ it('focuses itself after `reportValidity()` is called when required and no value
 it('focuses itself after `requestSubmit()` is called when required and no value', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,
@@ -64,7 +64,7 @@ it('focuses itself after `requestSubmit()` is called when required and no value'
 it('does not focus itself after `checkValidity()` is called', async () => {
   const form = document.createElement('form');
 
-  const host = await fixture<GlideCoreInput>(
+  const host = await fixture<Input>(
     html`<glide-core-input label="Label" required></glide-core-input>`,
     {
       parentNode: form,

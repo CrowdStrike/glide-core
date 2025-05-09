@@ -10,11 +10,11 @@ import {
 } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
-import GlideCoreDropdown from './dropdown.js';
+import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 
 it('dispatches one "change" event when an option is selected via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -46,7 +46,7 @@ it('dispatches one "change" event when an option is selected via click', async (
 });
 
 it('dispatches a "change" event after "input"', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -78,7 +78,7 @@ it('dispatches a "change" event after "input"', async () => {
 });
 
 it('dispatches one "change" event when an option is selected via Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -111,7 +111,7 @@ it('dispatches one "change" event when an option is selected via Enter', async (
 });
 
 it('dispatches one "change" event when an option is selected via Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -144,7 +144,7 @@ it('dispatches one "change" event when an option is selected via Space', async (
 });
 
 it('dispatches one "input" event when an option is selected via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -176,7 +176,7 @@ it('dispatches one "input" event when an option is selected via click', async ()
 });
 
 it('dispatches one "input" event when an option is selected via Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -210,7 +210,7 @@ it('dispatches one "input" event when an option is selected via Enter', async ()
 });
 
 it('dispatches one "input" event when an option is selected via Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -244,7 +244,7 @@ it('dispatches one "input" event when an option is selected via Space', async ()
 });
 
 it('dispatches one "change" event when Select All is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple select-all>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -267,7 +267,7 @@ it('dispatches one "change" event when Select All is clicked', async () => {
 });
 
 it('dispatches one "input" event when Select All is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple select-all>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -291,7 +291,7 @@ it('dispatches one "input" event when Select All is clicked', async () => {
 });
 
 it('does not dispatch a "change" event when `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -315,7 +315,7 @@ it('does not dispatch a "change" event when `value` is set programmatically', as
 });
 
 it('continues to dispatch "change" events upon selection after `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -342,7 +342,7 @@ it('continues to dispatch "change" events upon selection after `value` is set pr
 });
 
 it('does not dispatch an "input" event when `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
@@ -366,7 +366,7 @@ it('does not dispatch an "input" event when `value` is set programmatically', as
 });
 
 it('continues to dispatch "input" events upon selection after `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -397,7 +397,7 @@ it('continues to dispatch "input" events upon selection after `value` is set pro
 });
 
 it('dispatches one "change" event when an option is selected after Select All is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple select-all>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -422,7 +422,7 @@ it('dispatches one "change" event when an option is selected after Select All is
 });
 
 it('dispatches one "input" event when an option is selected after Select All is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple select-all>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
 
@@ -447,7 +447,7 @@ it('dispatches one "input" event when an option is selected after Select All is 
 });
 
 it('dispatches one "change" event when a tag is removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="Label"
@@ -470,7 +470,7 @@ it('dispatches one "change" event when a tag is removed', async () => {
 });
 
 it('dispatches one "input" event when a tag is removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open multiple>
       <glide-core-dropdown-option
         label="Label"

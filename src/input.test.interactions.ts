@@ -1,10 +1,10 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import { click } from './library/mouse.js';
-import GlideCoreInput from './input.js';
+import Input from './input.js';
 
 it('can be cleared', async () => {
-  const host = await fixture<GlideCoreInput>(html`
+  const host = await fixture<Input>(html`
     <glide-core-input label="Label" clearable></glide-core-input>
   `);
 
@@ -21,7 +21,7 @@ it('can be cleared', async () => {
 });
 
 it('reveals its value', async () => {
-  const host = await fixture<GlideCoreInput>(html`
+  const host = await fixture<Input>(html`
     <glide-core-input
       label="Label"
       type="password"

@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreTabGroup from './tab.group.js';
-import type GlideCoreTab from './tab.js';
+import type TabGroup from './tab.group.js';
+import type Tab from './tab.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -13,7 +13,7 @@ for (const story of stories['Tab Group']) {
 
           await page
             .locator('glide-core-tab-group')
-            .evaluate<void, GlideCoreTabGroup>((element) => {
+            .evaluate<void, TabGroup>((element) => {
               element.style.setProperty('--tabs-padding-block-end', '5rem');
               element.style.setProperty('--tabs-padding-block-start', '5rem');
               element.style.setProperty('--tabs-padding-inline-end', '5rem');
@@ -23,7 +23,7 @@ for (const story of stories['Tab Group']) {
           await page
             .locator('glide-core-tab-panel')
             .first()
-            .evaluate<void, GlideCoreTabGroup>((element) => {
+            .evaluate<void, TabGroup>((element) => {
               element.style.setProperty('--padding-inline-end', '5rem');
               element.style.setProperty('--padding-inline-start', '5rem');
             });
@@ -50,7 +50,7 @@ for (const story of stories['Tab Group']) {
           await page
             .locator('glide-core-tab')
             .first()
-            .evaluate<void, GlideCoreTab>((element) => {
+            .evaluate<void, Tab>((element) => {
               element.disabled = true;
             });
 

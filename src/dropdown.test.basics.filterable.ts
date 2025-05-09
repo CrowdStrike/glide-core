@@ -1,9 +1,9 @@
 import './dropdown.option.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreDropdown from './dropdown.js';
+import Dropdown from './dropdown.js';
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -24,7 +24,7 @@ it('is accessible', async () => {
 });
 
 it('is filterable', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -36,7 +36,7 @@ it('is filterable', async () => {
 });
 
 it('is automatically filterable', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -57,7 +57,7 @@ it('is automatically filterable', async () => {
 });
 
 it('uses `placeholder` as a placeholder when not `multiple` and no option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"

@@ -4,7 +4,7 @@ import { UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { addons } from '@storybook/preview-api';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
-import GlideCoreCheckbox from './checkbox.js';
+import CheckboxComponent from './checkbox.js';
 
 const meta: Meta = {
   title: 'Checkbox',
@@ -202,7 +202,7 @@ const meta: Meta = {
 
     if (
       context.name.includes('Error') &&
-      checkbox instanceof GlideCoreCheckbox
+      checkbox instanceof CheckboxComponent
     ) {
       checkbox.reportValidity();
 
@@ -217,7 +217,7 @@ const meta: Meta = {
       }
     }
 
-    if (checkbox instanceof GlideCoreCheckbox) {
+    if (checkbox instanceof CheckboxComponent) {
       context.canvasElement
         .querySelector('glide-core-checkbox')
         ?.addEventListener('change', () => {

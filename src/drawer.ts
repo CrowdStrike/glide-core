@@ -12,7 +12,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-drawer': GlideCoreDrawer;
+    'glide-core-drawer': Drawer;
   }
 }
 
@@ -32,7 +32,7 @@ declare global {
  */
 @customElement('glide-core-drawer')
 @final
-export default class GlideCoreDrawer extends LitElement {
+export default class Drawer extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

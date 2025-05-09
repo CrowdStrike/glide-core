@@ -9,7 +9,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-radio-group-radio': GlideCoreRadioGroupRadio;
+    'glide-core-radio-group-radio': RadioGroupRadio;
   }
 }
 
@@ -27,7 +27,7 @@ declare global {
  */
 @customElement('glide-core-radio-group-radio')
 @final
-export default class GlideCoreRadioGroupRadio extends LitElement {
+export default class RadioGroupRadio extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -179,7 +179,7 @@ export default class GlideCoreRadioGroupRadio extends LitElement {
   }
 
   @state()
-  private get lastCheckedRadio(): GlideCoreRadioGroupRadio | undefined {
+  private get lastCheckedRadio(): RadioGroupRadio | undefined {
     const radios = this.parentElement?.querySelectorAll(
       'glide-core-radio-group-radio',
     );

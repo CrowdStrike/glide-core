@@ -11,7 +11,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-menu-button': GlideCoreMenuButton;
+    'glide-core-menu-button': MenuButton;
   }
 }
 
@@ -35,7 +35,7 @@ declare global {
  */
 @customElement('glide-core-menu-button')
 @final
-export default class GlideCoreMenuButton extends LitElement {
+export default class MenuButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

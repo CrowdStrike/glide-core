@@ -1,12 +1,12 @@
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
 import sinon from 'sinon';
-import GlideCoreDrawer from './drawer.js';
+import Drawer from './drawer.js';
 
 it('can be opened programmatically when animated', async () => {
   await emulateMedia({ reducedMotion: 'no-preference' });
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
   );
 
@@ -27,7 +27,7 @@ it('can be opened programmatically when animated', async () => {
 it('can be opened programmatically when not animated', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
   );
 
@@ -41,7 +41,7 @@ it('can be opened programmatically when not animated', async () => {
 it('can be closed programmatically when animated', async () => {
   await emulateMedia({ reducedMotion: 'no-preference' });
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
@@ -62,7 +62,7 @@ it('can be closed programmatically when animated', async () => {
 it('can be closed programmatically when not animated', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 
@@ -79,7 +79,7 @@ it('can be closed programmatically when not animated', async () => {
 it('has `set open(isOpen: boolean)` coverage', async () => {
   const stub = sinon.stub(console, 'error');
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label" open>Content</glide-core-drawer>`,
   );
 

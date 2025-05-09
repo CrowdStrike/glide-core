@@ -1,14 +1,12 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreModal from './modal.js';
+import type Modal from './modal.js';
 
 test('open', async ({ page }) => {
   await page.goto('?id=modal--modal');
 
-  await page
-    .locator('glide-core-modal')
-    .evaluate<void, GlideCoreModal>((element) => {
-      element.open = true;
-    });
+  await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
+    element.open = true;
+  });
 
   await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot(`
     - dialog:
@@ -24,12 +22,10 @@ test('open', async ({ page }) => {
 test('severity="informational"', async ({ page }) => {
   await page.goto('?id=modal--modal');
 
-  await page
-    .locator('glide-core-modal')
-    .evaluate<void, GlideCoreModal>((element) => {
-      element.open = true;
-      element.severity = 'informational';
-    });
+  await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
+    element.open = true;
+    element.severity = 'informational';
+  });
 
   await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot(`
     - dialog:
@@ -45,12 +41,10 @@ test('severity="informational"', async ({ page }) => {
 test('severity="medium"', async ({ page }) => {
   await page.goto('?id=modal--modal');
 
-  await page
-    .locator('glide-core-modal')
-    .evaluate<void, GlideCoreModal>((element) => {
-      element.open = true;
-      element.severity = 'medium';
-    });
+  await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
+    element.open = true;
+    element.severity = 'medium';
+  });
 
   await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot(`
     - dialog:
@@ -66,12 +60,10 @@ test('severity="medium"', async ({ page }) => {
 test('severity="critical"', async ({ page }) => {
   await page.goto('?id=modal--modal');
 
-  await page
-    .locator('glide-core-modal')
-    .evaluate<void, GlideCoreModal>((element) => {
-      element.open = true;
-      element.severity = 'critical';
-    });
+  await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
+    element.open = true;
+    element.severity = 'critical';
+  });
 
   await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot(`
     - dialog:
@@ -87,11 +79,9 @@ test('severity="critical"', async ({ page }) => {
 test('slot="header-actions"', async ({ page }) => {
   await page.goto('?id=modal--with-header-actions');
 
-  await page
-    .locator('glide-core-modal')
-    .evaluate<void, GlideCoreModal>((element) => {
-      element.open = true;
-    });
+  await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
+    element.open = true;
+  });
 
   await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot(`
     - dialog:
@@ -109,11 +99,9 @@ test('slot="header-actions"', async ({ page }) => {
 test('slot="primary"', async ({ page }) => {
   await page.goto('?id=modal--with-primary-button');
 
-  await page
-    .locator('glide-core-modal')
-    .evaluate<void, GlideCoreModal>((element) => {
-      element.open = true;
-    });
+  await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
+    element.open = true;
+  });
 
   await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot(`
     - dialog:
@@ -132,11 +120,9 @@ test('slot="primary"', async ({ page }) => {
 test('slot="secondary"', async ({ page }) => {
   await page.goto('?id=modal--with-secondary-button');
 
-  await page
-    .locator('glide-core-modal')
-    .evaluate<void, GlideCoreModal>((element) => {
-      element.open = true;
-    });
+  await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
+    element.open = true;
+  });
 
   await expect(page.locator('glide-core-modal')).toMatchAriaSnapshot(`
     - dialog:
@@ -155,11 +141,9 @@ test('slot="secondary"', async ({ page }) => {
 test('slot="tertiary"', async ({ page }) => {
   await page.goto('?id=modal--with-tertiary-tooltip-and-button');
 
-  await page
-    .locator('glide-core-modal')
-    .evaluate<void, GlideCoreModal>((element) => {
-      element.open = true;
-    });
+  await page.locator('glide-core-modal').evaluate<void, Modal>((element) => {
+    element.open = true;
+  });
 
   await page.locator('glide-core-tooltip').first().getByRole('button').focus();
 

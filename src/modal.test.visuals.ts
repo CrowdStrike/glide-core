@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreModal from './modal.js';
+import type Modal from './modal.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.backButton = true;
               element.open = true;
             });
@@ -27,7 +27,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.open = true;
             });
 
@@ -43,7 +43,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.open = true;
             });
 
@@ -66,7 +66,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.severity = 'informational';
               element.open = true;
             });
@@ -81,7 +81,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.severity = 'medium';
               element.open = true;
             });
@@ -96,7 +96,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.severity = 'critical';
               element.open = true;
             });
@@ -111,7 +111,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.size = 'small';
               element.open = true;
             });
@@ -126,7 +126,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.size = 'medium';
               element.open = true;
             });
@@ -141,7 +141,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.size = 'large';
               element.open = true;
             });
@@ -156,7 +156,7 @@ for (const story of stories.Modal) {
 
           await page
             .locator('glide-core-modal')
-            .evaluate<void, GlideCoreModal>((element) => {
+            .evaluate<void, Modal>((element) => {
               element.size = 'xlarge';
               element.open = true;
             });

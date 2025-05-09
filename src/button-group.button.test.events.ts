@@ -1,8 +1,8 @@
 import { expect, fixture, html, oneEvent } from '@open-wc/testing';
-import GlideCoreButtonGroupButton from './button-group.button.js';
+import ButtonGroupButton from './button-group.button.js';
 
 it('dispatches a "private-selected" event when selected', async () => {
-  const host = await fixture<GlideCoreButtonGroupButton>(
+  const host = await fixture<ButtonGroupButton>(
     html`<glide-core-button-group-button
       label="Label"
     ></glide-core-button-group-button>`,

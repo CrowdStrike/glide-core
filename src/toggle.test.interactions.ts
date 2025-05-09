@@ -1,9 +1,9 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
-import GlideCoreToggle from './toggle.js';
+import Toggle from './toggle.js';
 
 it('is checked after being clicked', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
@@ -17,7 +17,7 @@ it('is checked after being clicked', async () => {
 });
 
 it('is unchecked after being clicked', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label" checked></glide-core-toggle>`,
   );
 
@@ -31,7 +31,7 @@ it('is unchecked after being clicked', async () => {
 });
 
 it('is still checked after being clicked when checked but disabled', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle
       label="Label"
       checked
@@ -49,7 +49,7 @@ it('is still checked after being clicked when checked but disabled', async () =>
 });
 
 it('is still unchecked after being clicked when unchecked and disabled', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label" disabled></glide-core-toggle>`,
   );
 
@@ -63,7 +63,7 @@ it('is still unchecked after being clicked when unchecked and disabled', async (
 });
 
 it('is unchecked after being clicked then forcibly unchecked via a "change" listener', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
@@ -82,7 +82,7 @@ it('is unchecked after being clicked then forcibly unchecked via a "change" list
 });
 
 it('is unchecked after being clicked then forcibly unchecked via an "input" listener', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 
@@ -101,7 +101,7 @@ it('is unchecked after being clicked then forcibly unchecked via an "input" list
 });
 
 it('remains unchecked when its "click" event is canceled', async () => {
-  const host = await fixture<GlideCoreToggle>(
+  const host = await fixture<Toggle>(
     html`<glide-core-toggle label="Label"></glide-core-toggle>`,
   );
 

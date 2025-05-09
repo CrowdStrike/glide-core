@@ -1,11 +1,11 @@
 import { expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
-import GlideCoreDrawer from './drawer.js';
+import Drawer from './drawer.js';
 
 it('focuses itself on open', async () => {
   await emulateMedia({ reducedMotion: 'reduce' });
 
-  const host = await fixture<GlideCoreDrawer>(
+  const host = await fixture<Drawer>(
     html`<glide-core-drawer label="Label">Content</glide-core-drawer>`,
   );
 

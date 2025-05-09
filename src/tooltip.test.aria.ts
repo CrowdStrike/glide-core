@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreTooltip from './tooltip.js';
+import type Tooltip from './tooltip.js';
 
 test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=tooltip--tooltip');
 
   await page
     .locator('glide-core-tooltip')
-    .evaluate<void, GlideCoreTooltip>((element) => {
+    .evaluate<void, Tooltip>((element) => {
       element.disabled = true;
       element.open = true;
     });
@@ -24,7 +24,7 @@ test('disabled=${false}', async ({ page }) => {
 
   await page
     .locator('glide-core-tooltip')
-    .evaluate<void, GlideCoreTooltip>((element) => {
+    .evaluate<void, Tooltip>((element) => {
       element.open = true;
     });
 

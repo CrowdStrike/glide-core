@@ -1,6 +1,6 @@
 import { aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { emulateMedia } from '@web/test-runner-commands';
-import GlideCoreToast from './toast.js';
+import Toast from './toast.js';
 import { click, hover } from './library/mouse.js';
 
 // "transitionend" is dispatched manually throughout these tests because that
@@ -26,7 +26,7 @@ it('removes toasts on click when they are animated', async () => {
 
   const toast = document
     .querySelector('glide-core-private-toasts')
-    ?.shadowRoot?.querySelector<GlideCoreToast>('[data-test="toast"]');
+    ?.shadowRoot?.querySelector<Toast>('[data-test="toast"]');
 
   toast?.style.setProperty('--private-test-transition-duration', '0ms');
 
@@ -81,7 +81,7 @@ it('waits to dismiss toasts when they are hovered and animated', async () => {
 
   const toast = document
     .querySelector('glide-core-private-toasts')
-    ?.shadowRoot?.querySelector<GlideCoreToast>('[data-test="toast"]');
+    ?.shadowRoot?.querySelector<Toast>('[data-test="toast"]');
 
   toast?.style.setProperty('--private-test-transition-duration', '0ms');
 
@@ -117,7 +117,7 @@ it('waits to remove toasts when they are hovered and not animated', async () => 
 
   const toast = document
     .querySelector('glide-core-private-toasts')
-    ?.shadowRoot?.querySelector<GlideCoreToast>('[data-test="toast"]');
+    ?.shadowRoot?.querySelector<Toast>('[data-test="toast"]');
 
   // Toasts waits a tick before showing a new toast. There's comment in
   // Toasts' `show()` method explaining why.

@@ -3,10 +3,10 @@ import './split-button.primary-button.js';
 import './split-button.primary-link.js';
 import './split-button.secondary-button.js';
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreSplitButton from './split-button.js';
+import SplitButton from './split-button.js';
 
 it('sets `privateVariant` on its buttons when `variant` is set programmatically', async () => {
-  const host = await fixture<GlideCoreSplitButton>(html`
+  const host = await fixture<SplitButton>(html`
     <glide-core-split-button>
       <glide-core-split-button-primary-button
         label="Label"

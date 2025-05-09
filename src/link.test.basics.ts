@@ -1,17 +1,17 @@
 import sinon from 'sinon';
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
-import GlideCoreLink from './link.js';
+import Link from './link.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreLink {}
+class Subclassed extends Link {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-link')).to.equal(GlideCoreLink);
+  expect(window.customElements.get('glide-core-link')).to.equal(Link);
 });
 
 it('is accessible', async () => {
-  const host = await fixture<GlideCoreLink>(
+  const host = await fixture<Link>(
     html`<glide-core-link label="Label" href="/"></glide-core-link>`,
   );
 
@@ -39,7 +39,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }

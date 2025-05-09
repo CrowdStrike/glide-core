@@ -2,10 +2,10 @@ import { expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
 import './button-group.button.js';
 import { click } from './library/mouse.js';
-import GlideCoreButtonGroup from './button-group.js';
+import ButtonGroup from './button-group.js';
 
 it('selects a button on click', async () => {
-  const host = await fixture<GlideCoreButtonGroup>(
+  const host = await fixture<ButtonGroup>(
     html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"
@@ -28,7 +28,7 @@ it('selects a button on click', async () => {
 });
 
 it('selects a button on `click()`', async () => {
-  const host = await fixture<GlideCoreButtonGroup>(
+  const host = await fixture<ButtonGroup>(
     html`<glide-core-button-group label="Label">
       <glide-core-button-group-button
         label="One"

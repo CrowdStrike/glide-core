@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreLink from './link.js';
+import type Link from './link.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Link) {
 
           await page
             .locator('glide-core-link')
-            .evaluate<void, GlideCoreLink>((element) => {
+            .evaluate<void, Link>((element) => {
               element.disabled = true;
             });
 

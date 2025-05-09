@@ -15,7 +15,7 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-private-label': GlideCoreLabel;
+    'glide-core-private-label': Label;
   }
 }
 
@@ -36,7 +36,7 @@ declare global {
  */
 @customElement('glide-core-private-label')
 @final
-export default class GlideCoreLabel extends LitElement {
+export default class Label extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

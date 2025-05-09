@@ -1,8 +1,8 @@
 import { expect, fixture, html } from '@open-wc/testing';
-import GlideCoreButtonGroupButton from './button-group.button.js';
+import ButtonGroupButton from './button-group.button.js';
 
 it('sets `aria-checked` when selected programmatically', async () => {
-  const host = await fixture<GlideCoreButtonGroupButton>(
+  const host = await fixture<ButtonGroupButton>(
     html`<glide-core-button-group-button
       label="Label"
     ></glide-core-button-group-button>`,
@@ -16,7 +16,7 @@ it('sets `aria-checked` when selected programmatically', async () => {
 });
 
 it('sets `aria-checked` when deselected programmatically', async () => {
-  const host = await fixture<GlideCoreButtonGroupButton>(
+  const host = await fixture<ButtonGroupButton>(
     html`<glide-core-button-group-button
       label="Label"
       selected
@@ -31,7 +31,7 @@ it('sets `aria-checked` when deselected programmatically', async () => {
 });
 
 it('sets `aria-disabled` when disabled programmatically', async () => {
-  const host = await fixture<GlideCoreButtonGroupButton>(
+  const host = await fixture<ButtonGroupButton>(
     html`<glide-core-button-group-button
       label="Label"
     ></glide-core-button-group-button>`,
@@ -45,7 +45,7 @@ it('sets `aria-disabled` when disabled programmatically', async () => {
 });
 
 it('sets `aria-disabled` when enabled programmatically', async () => {
-  const host = await fixture<GlideCoreButtonGroupButton>(
+  const host = await fixture<ButtonGroupButton>(
     html`<glide-core-button-group-button
       label="Label"
       disabled

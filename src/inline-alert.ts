@@ -14,7 +14,7 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-inline-alert': GlideCoreInlineAlert;
+    'glide-core-inline-alert': InlineAlert;
   }
 }
 
@@ -28,7 +28,7 @@ declare global {
  */
 @customElement('glide-core-inline-alert')
 @final
-export default class GlideCoreInlineAlert extends LitElement {
+export default class InlineAlert extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

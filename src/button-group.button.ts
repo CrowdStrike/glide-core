@@ -11,7 +11,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-button-group-button': GlideCoreButtonGroupButton;
+    'glide-core-button-group-button': ButtonGroupButton;
   }
 }
 
@@ -30,7 +30,7 @@ declare global {
  */
 @customElement('glide-core-button-group-button')
 @final
-export default class GlideCoreButtonGroupButton extends LitElement {
+export default class ButtonGroupButton extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

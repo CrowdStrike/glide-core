@@ -10,7 +10,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tab': GlideCoreTab;
+    'glide-core-tab': Tab;
   }
 }
 
@@ -29,7 +29,7 @@ declare global {
  */
 @customElement('glide-core-tab')
 @final
-export default class GlideCoreTab extends LitElement {
+export default class Tab extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,

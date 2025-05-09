@@ -5,11 +5,11 @@ import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import { sendKeys } from '@web/test-runner-commands';
 import { click, hover } from './library/mouse.js';
-import GlideCoreMenu from './menu.js';
-import GlideCoreMenuLink from './menu.link.js';
+import Menu from './menu.js';
+import MenuLink from './menu.link.js';
 
 @customElement('glide-core-nested-slot')
-class GlideCoreNestedSlot extends LitElement {
+class NestedSlot extends LitElement {
   override render() {
     return html`<glide-core-menu open>
       <button slot="target">Target</button>
@@ -22,7 +22,7 @@ class GlideCoreNestedSlot extends LitElement {
 }
 
 @customElement('glide-core-menu-in-another-component')
-class GlideCoreMenuInAnotherComponent extends LitElement {
+class MenuInAnotherComponent extends LitElement {
   override render() {
     return html`<glide-core-menu open>
       <button slot="target">Target</button>
@@ -35,7 +35,7 @@ class GlideCoreMenuInAnotherComponent extends LitElement {
 }
 
 it('opens on click', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -61,7 +61,7 @@ it('opens on click', async () => {
 });
 
 it('opens when opened programmatically', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -90,7 +90,7 @@ it('opens when opened programmatically', async () => {
 });
 
 it('opens when `disabled` is set programmatically on its target', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target" disabled>Target</button>
 
@@ -121,7 +121,7 @@ it('opens when `disabled` is set programmatically on its target', async () => {
 });
 
 it('opens when `aria-disabled` is set programmatically on its target', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target" aria-disabled="true">Target</button>
 
@@ -152,7 +152,7 @@ it('opens when `aria-disabled` is set programmatically on its target', async () 
 });
 
 it('remains open when the menu edge is clicked', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -176,7 +176,7 @@ it('remains open when the menu edge is clicked', async () => {
 });
 
 it('remains open when a disabled option is clicked via `click()`', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -208,7 +208,7 @@ it('remains open when a disabled option is clicked via `click()`', async () => {
 });
 
 it('remains open when a disabled link is clicked via `sendMouse()`', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -234,7 +234,7 @@ it('remains open when a disabled link is clicked via `sendMouse()`', async () =>
 });
 
 it('remains open when its options are clicked and the event is canceled', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -266,7 +266,7 @@ it('remains open when its options are clicked and the event is canceled', async 
 });
 
 it('remains open when its target is clicked and the event is canceled', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -304,7 +304,7 @@ it('remains open when its target is clicked and the event is canceled', async ()
 });
 
 it('remains closed when its target is clicked and the event is canceled', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -332,7 +332,7 @@ it('remains closed when its target is clicked and the event is canceled', async 
 });
 
 it('closes when `open` is set programmatically', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -361,7 +361,7 @@ it('closes when `open` is set programmatically', async () => {
 });
 
 it('does not open on click when there are no options', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-options> </glide-core-menu-options>
@@ -383,7 +383,7 @@ it('does not open on click when there are no options', async () => {
 });
 
 it('does not open when `disabled` is set on its target', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target" disabled>Target</button>
 
@@ -408,7 +408,7 @@ it('does not open when `disabled` is set on its target', async () => {
 });
 
 it('does not open when `disabled` is set programmatically on its target', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -436,7 +436,7 @@ it('does not open when `disabled` is set programmatically on its target', async 
 });
 
 it('does not open when `aria-disabled` is set on its target', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button aria-disabled="true" slot="target">Target</button>
 
@@ -462,7 +462,7 @@ it('does not open when `aria-disabled` is set on its target', async () => {
 });
 
 it('does not open when `aria-disabled` is set programmatically on its target', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -489,7 +489,7 @@ it('does not open when `aria-disabled` is set programmatically on its target', a
 });
 
 it('opens on Enter', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -516,7 +516,7 @@ it('opens on Enter', async () => {
 });
 
 it('opens on Enter when its target is a `<span>`', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <span slot="target">Target</span>
 
@@ -543,7 +543,7 @@ it('opens on Enter when its target is a `<span>`', async () => {
 });
 
 it('opens on ArrowUp', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -570,7 +570,7 @@ it('opens on ArrowUp', async () => {
 });
 
 it('opens on ArrowDown', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -597,7 +597,7 @@ it('opens on ArrowDown', async () => {
 });
 
 it('opens on Space', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -624,7 +624,7 @@ it('opens on Space', async () => {
 });
 
 it('opens on Space when its target is a `<span>`', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <span slot="target">Target</span>
 
@@ -651,7 +651,7 @@ it('opens on Space when its target is a `<span>`', async () => {
 });
 
 it('does not open on Space when there are no options', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
       <glide-core-menu-options> </glide-core-menu-options>
@@ -677,7 +677,7 @@ it('does not open on Space when there are no options', async () => {
 it('opens when opened programmatically via the click handler of another element', async () => {
   const div = document.createElement('div');
 
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -708,7 +708,7 @@ it('opens when opened programmatically via the click handler of another element'
 });
 
 it('closes when its target clicked', async () => {
-  const host = await fixture<GlideCoreMenuInAnotherComponent>(
+  const host = await fixture<MenuInAnotherComponent>(
     html`<glide-core-menu-in-another-component></glide-core-menu-in-another-component>`,
   );
 
@@ -733,7 +733,7 @@ it('closes when its target clicked', async () => {
 });
 
 it('closes when something outside of it is clicked', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -761,7 +761,7 @@ it('closes when something outside of it is clicked', async () => {
 });
 
 it('closes on Escape', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -790,7 +790,7 @@ it('closes on Escape', async () => {
 });
 
 it('closes when an option is selected via click', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -815,7 +815,7 @@ it('closes when an option is selected via click', async () => {
 });
 
 it('closes when an option is selected via Enter', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -846,7 +846,7 @@ it('closes when an option is selected via Enter', async () => {
 });
 
 it('closes when an option is selected via Enter and its target is a `<span>', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <span slot="target">Target</span>
 
@@ -877,7 +877,7 @@ it('closes when an option is selected via Enter and its target is a `<span>', as
 });
 
 it('closes when an option is selected via Space', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -903,7 +903,7 @@ it('closes when an option is selected via Space', async () => {
 });
 
 it('closes when an option is selected via Space and its target is a `<span>`', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <span slot="target">Target</span>
 
@@ -929,7 +929,7 @@ it('closes when an option is selected via Space and its target is a `<span>`', a
 });
 
 it('activates the first link by default', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -952,7 +952,7 @@ it('activates the first link by default', async () => {
 });
 
 it('activates the first button by default when opened via click', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
 
@@ -974,7 +974,7 @@ it('activates the first button by default when opened via click', async () => {
 });
 
 it('activates a link on hover', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -999,7 +999,7 @@ it('activates a link on hover', async () => {
 });
 
 it('activates a link on hover when the link is in a nested slot', async () => {
-  const host = await fixture<GlideCoreNestedSlot>(html`
+  const host = await fixture<NestedSlot>(html`
     <glide-core-nested-slot>
       <glide-core-menu-link label="One"></glide-core-menu-link>
       <glide-core-menu-link label="Two"></glide-core-menu-link>
@@ -1021,7 +1021,7 @@ it('activates a link on hover when the link is in a nested slot', async () => {
 });
 
 it('activates a button on hover', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1046,7 +1046,7 @@ it('activates a button on hover', async () => {
 });
 
 it('activates a button on hover when the button is in a nested slot', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-nested-slot>
       <glide-core-menu-button label="One"></glide-core-menu-button>
       <glide-core-menu-button label="Two"></glide-core-menu-button>
@@ -1068,7 +1068,7 @@ it('activates a button on hover when the button is in a nested slot', async () =
 });
 
 it('activates the next option on ArrowDown', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1094,7 +1094,7 @@ it('activates the next option on ArrowDown', async () => {
 });
 
 it('activates the previous enabled option on ArrowUp', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1123,7 +1123,7 @@ it('activates the previous enabled option on ArrowUp', async () => {
 });
 
 it('activates the first enabled option on Home', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1152,7 +1152,7 @@ it('activates the first enabled option on Home', async () => {
 });
 
 it('activates the first enabled option on PageUp', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1181,7 +1181,7 @@ it('activates the first enabled option on PageUp', async () => {
 });
 
 it('activates the first enabled option on Meta + ArrowUp', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1212,7 +1212,7 @@ it('activates the first enabled option on Meta + ArrowUp', async () => {
 });
 
 it('activates the last enabled option on End', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1240,7 +1240,7 @@ it('activates the last enabled option on End', async () => {
 });
 
 it('activates the last enabled option on PageDown', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1268,7 +1268,7 @@ it('activates the last enabled option on PageDown', async () => {
 });
 
 it('activates the last enabled option on Meta + ArrowDown', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1298,7 +1298,7 @@ it('activates the last enabled option on Meta + ArrowDown', async () => {
 });
 
 it('sets `aria-activedescendant` on open', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -1317,7 +1317,7 @@ it('sets `aria-activedescendant` on open', async () => {
 });
 
 it('sets `aria-activedescendant` on close', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1337,7 +1337,7 @@ it('sets `aria-activedescendant` on close', async () => {
 });
 
 it('sets `aria-expanded` on open', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu>
       <button slot="target">Target</button>
 
@@ -1354,7 +1354,7 @@ it('sets `aria-expanded` on open', async () => {
 });
 
 it('sets `aria-expanded` on close', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1374,7 +1374,7 @@ it('sets `aria-expanded` on close', async () => {
 });
 
 it('does not wrap on ArrowUp', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1395,7 +1395,7 @@ it('does not wrap on ArrowUp', async () => {
 });
 
 it('does not wrap on Meta + ArrowUp', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1418,7 +1418,7 @@ it('does not wrap on Meta + ArrowUp', async () => {
 });
 
 it('does not wrap on ArrowDown', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1438,7 +1438,7 @@ it('does not wrap on ArrowDown', async () => {
   await sendKeys({ up: 'Meta' });
   await sendKeys({ press: 'ArrowDown' });
 
-  const option = host.querySelector<GlideCoreMenuLink>(
+  const option = host.querySelector<MenuLink>(
     'glide-core-menu-link:last-of-type',
   );
 
@@ -1446,7 +1446,7 @@ it('does not wrap on ArrowDown', async () => {
 });
 
 it('sets the first enabled option as active when optionless and options are programmatically added', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
       <glide-core-menu-options> </glide-core-menu-options>
@@ -1477,7 +1477,7 @@ it('sets the first enabled option as active when optionless and options are prog
 });
 
 it('sets the next enabled option as active when current option is programmatically disabled', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1501,7 +1501,7 @@ it('sets the next enabled option as active when current option is programmatical
 });
 
 it('sets the previous enabled option as active when current option is programmatically disabled', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1528,7 +1528,7 @@ it('sets the previous enabled option as active when current option is programmat
 });
 
 it('retains its active option when an option is programmatically added', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1558,7 +1558,7 @@ it('retains its active option when an option is programmatically added', async (
 });
 
 it('shows loading feedback', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -1585,7 +1585,7 @@ it('shows loading feedback', async () => {
 });
 
 it('hides loading feedback', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu loading open>
       <button slot="target">Target</button>
 
@@ -1612,7 +1612,7 @@ it('hides loading feedback', async () => {
 });
 
 it('has `set offset()` coverage', async () => {
-  const host = await fixture<GlideCoreMenu>(html`
+  const host = await fixture<Menu>(html`
     <glide-core-menu>
       <button slot="target">Target</button>
 

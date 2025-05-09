@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreFormControlsLayout from './form-controls-layout.js';
+import type FormControlsLayout from './form-controls-layout.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories['Form Controls Layout']) {
 
           await page
             .locator('glide-core-form-controls-layout')
-            .evaluate<void, GlideCoreFormControlsLayout>((element) => {
+            .evaluate<void, FormControlsLayout>((element) => {
               element.split = 'left';
             });
 
@@ -26,7 +26,7 @@ for (const story of stories['Form Controls Layout']) {
 
           await page
             .locator('glide-core-form-controls-layout')
-            .evaluate<void, GlideCoreFormControlsLayout>((element) => {
+            .evaluate<void, FormControlsLayout>((element) => {
               element.split = 'middle';
             });
 
@@ -40,7 +40,7 @@ for (const story of stories['Form Controls Layout']) {
 
           await page
             .locator('glide-core-form-controls-layout')
-            .evaluate<void, GlideCoreFormControlsLayout>((element) => {
+            .evaluate<void, FormControlsLayout>((element) => {
               element.split = 'right';
             });
 

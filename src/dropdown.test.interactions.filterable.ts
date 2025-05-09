@@ -10,13 +10,13 @@ import {
 import { sendKeys } from '@web/test-runner-commands';
 import sinon from 'sinon';
 import { click, hover } from './library/mouse.js';
-import GlideCoreDropdown from './dropdown.js';
+import Dropdown from './dropdown.js';
 import './dropdown.option.js';
 import './tag.js';
 import './tooltip.js';
 
 it('opens on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -32,7 +32,7 @@ it('opens on click', async () => {
 });
 
 it('closes on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -51,7 +51,7 @@ it('closes on click', async () => {
 });
 
 it('does not close on click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -70,7 +70,7 @@ it('does not close on click', async () => {
 });
 
 it('filters', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -88,7 +88,7 @@ it('filters', async () => {
 });
 
 it('remains automatically filterable when an option is removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -111,7 +111,7 @@ it('remains automatically filterable when an option is removed', async () => {
 });
 
 it('unfilters when an option is selected via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -136,7 +136,7 @@ it('unfilters when an option is selected via click', async () => {
 });
 
 it('unfilters when an option is selected via Enter', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -155,7 +155,7 @@ it('unfilters when an option is selected via Enter', async () => {
 });
 
 it('unfilters on Backspace', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -176,7 +176,7 @@ it('unfilters on Backspace', async () => {
 });
 
 it('does nothing on Enter when every option is filtered out', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -205,7 +205,7 @@ it('does nothing on Enter when every option is filtered out', async () => {
 });
 
 it('shows its magnifying glass icon when single-select and filtering', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -223,7 +223,7 @@ it('shows its magnifying glass icon when single-select and filtering', async () 
 });
 
 it('hides its magnifying glass icon when single-select and not filtering', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -242,7 +242,7 @@ it('hides its magnifying glass icon when single-select and not filtering', async
 });
 
 it('hides its magnifying glass icon when single-select and the filter is the label of its selected option', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -264,7 +264,7 @@ it('hides its magnifying glass icon when single-select and the filter is the lab
 });
 
 it('hides its magnifying glass icon when single-select and an option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -292,7 +292,7 @@ it('hides its magnifying glass icon when single-select and an option is selected
 });
 
 it('hides its magnifying glass icon when single-select and closed programmatically and an option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -320,7 +320,7 @@ it('hides its magnifying glass icon when single-select and closed programmatical
 });
 
 it('shows its magnifying glass icon when multiselect and filtering', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -338,7 +338,7 @@ it('shows its magnifying glass icon when multiselect and filtering', async () =>
 });
 
 it('hides its magnifying glass icon when multiselect and not filtering', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -358,7 +358,7 @@ it('hides its magnifying glass icon when multiselect and not filtering', async (
 });
 
 it('clears its filter on close when single-select and no option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -381,7 +381,7 @@ it('clears its filter on close when single-select and no option is selected', as
 });
 
 it('clears its filter on close when multiselect and no option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -404,7 +404,7 @@ it('clears its filter on close when multiselect and no option is selected', asyn
 });
 
 it('clears its filter on close when multiselect and an option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple open>
       <glide-core-dropdown-option
         label="One"
@@ -431,7 +431,7 @@ it('clears its filter on close when multiselect and an option is selected', asyn
 });
 
 it('does not clear its filter when a tag is removed via Backspace', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple open>
       <glide-core-dropdown-option
         label="One"
@@ -459,7 +459,7 @@ it('does not clear its filter when a tag is removed via Backspace', async () => 
 });
 
 it('does not clear its filter when every tag is removed via Meta + Backspace', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option
         label="One"
@@ -490,7 +490,7 @@ it('does not clear its filter when every tag is removed via Meta + Backspace', a
 });
 
 it('does not filter on only whitespace', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -508,7 +508,7 @@ it('does not filter on only whitespace', async () => {
 });
 
 it('hides the options when all of them are filtered out', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -532,7 +532,7 @@ it('hides the options when all of them are filtered out', async () => {
 });
 
 it('hides Select All when filtering', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple select-all>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -550,7 +550,7 @@ it('hides Select All when filtering', async () => {
 });
 
 it('unhides every option after filtering when one is selected and Dropdown is reopened', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option
         label="One"
@@ -581,7 +581,7 @@ it('unhides every option after filtering when one is selected and Dropdown is re
 });
 
 it('sets the first unfiltered option as active when the previously active option is filtered out', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple select-all>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -604,7 +604,7 @@ it('sets the first unfiltered option as active when the previously active option
 });
 
 it('updates its input field when the `label` of its selected option is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
         label="One"
@@ -629,7 +629,7 @@ it('updates its input field when the `label` of its selected option is set progr
 });
 
 it('updates its `value` when the `value` of an option is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -644,7 +644,7 @@ it('updates its `value` when the `value` of an option is set programmatically', 
 });
 
 it('updates its input field when made filterable', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
         label="One"
@@ -669,7 +669,7 @@ it('updates its input field when made filterable', async () => {
 });
 
 it('clears its input field when `multiple` is set programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
         label="One"
@@ -691,7 +691,7 @@ it('clears its input field when `multiple` is set programmatically', async () =>
 });
 
 it('does not select options on Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -707,7 +707,7 @@ it('does not select options on Space', async () => {
 });
 
 it('deselects the last selected option on Backspace', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -736,7 +736,7 @@ it('deselects the last selected option on Backspace', async () => {
 });
 
 it('deselects all options on Meta + Backspace', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -762,7 +762,7 @@ it('deselects all options on Meta + Backspace', async () => {
 });
 
 it('sets its input field to the `label` of its selected option when not `multiple`', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -780,7 +780,7 @@ it('sets its input field to the `label` of its selected option when not `multipl
 });
 
 it('clears its input field when single-select and `value` is emptied programmatically', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
         label="One"
@@ -801,7 +801,7 @@ it('clears its input field when single-select and `value` is emptied programmati
 });
 
 it('clears the `value` of its `<input>` when single-select and its selected option is removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
         label="One"
@@ -828,7 +828,7 @@ it('clears the `value` of its `<input>` when single-select and its selected opti
 });
 
 it('clears its input field when multiselect and an option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -849,7 +849,7 @@ it('clears its input field when multiselect and an option is selected', async ()
 });
 
 it('does not clear its filter when a tag is removed', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option
         label="One"
@@ -879,7 +879,7 @@ it('does not clear its filter when a tag is removed', async () => {
 });
 
 it('uses `placeholder` as a placeholder when multiselect and no option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown
       label="Label"
       placeholder="Placeholder"
@@ -903,7 +903,7 @@ it('uses `placeholder` as a placeholder when multiselect and no option is select
 });
 
 it('sets `aria-activedescendant` on option hover', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -922,7 +922,7 @@ it('sets `aria-activedescendant` on option hover', async () => {
 });
 
 it('sets `aria-activedescendant` on ArrowDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -945,7 +945,7 @@ it('sets `aria-activedescendant` on ArrowDown', async () => {
 });
 
 it('sets `aria-activedescendant` on ArrowUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -970,7 +970,7 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
 });
 
 it('sets `aria-activedescendant` on ArrowUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -994,7 +994,7 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
 });
 
 it('sets `aria-activedescendant` on ArrowUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1018,7 +1018,7 @@ it('sets `aria-activedescendant` on ArrowUp', async () => {
 });
 
 it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1044,7 +1044,7 @@ it('sets `aria-activedescendant` on Meta + ArrowUp', async () => {
 });
 
 it('sets `aria-activedescendant` on open via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1063,7 +1063,7 @@ it('sets `aria-activedescendant` on open via click', async () => {
 });
 
 it('sets `aria-activedescendant` on open via Space', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1083,7 +1083,7 @@ it('sets `aria-activedescendant` on open via Space', async () => {
 });
 
 it('sets `aria-activedescendant` on End', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1112,7 +1112,7 @@ it('sets `aria-activedescendant` on End', async () => {
 });
 
 it('sets `aria-activedescendant` on PageDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1141,7 +1141,7 @@ it('sets `aria-activedescendant` on PageDown', async () => {
 });
 
 it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1172,7 +1172,7 @@ it('sets `aria-activedescendant` on Meta + ArrowDown', async () => {
 });
 
 it('sets `aria-activedescendant` when closed via click', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1193,7 +1193,7 @@ it('sets `aria-activedescendant` when closed via click', async () => {
 });
 
 it('sets `aria-activedescendant` when closed because it lost focus', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1211,7 +1211,7 @@ it('sets `aria-activedescendant` when closed because it lost focus', async () =>
 });
 
 it('sets `aria-activedescendant` when closed because something outside of it was clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1228,7 +1228,7 @@ it('sets `aria-activedescendant` when closed because something outside of it was
 });
 
 it('sets `aria-activedescendant` when closed via Escape', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1246,7 +1246,7 @@ it('sets `aria-activedescendant` when closed via Escape', async () => {
 });
 
 it('cannot be tabbed to when disabled', async () => {
-  await fixture<GlideCoreDropdown>(
+  await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple disabled>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1258,7 +1258,7 @@ it('cannot be tabbed to when disabled', async () => {
 });
 
 it('sets its input field back to the `label` of the selected option when something outside the host is clicked', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1288,7 +1288,7 @@ it('sets its input field back to the `label` of the selected option when somethi
 });
 
 it('selects the filter text when `click()` is called', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
         label="One"
@@ -1305,7 +1305,7 @@ it('selects the filter text when `click()` is called', async () => {
 });
 
 it('clicks the `<input>` when `click()` is called', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1324,7 +1324,7 @@ it('clicks the `<input>` when `click()` is called', async () => {
 });
 
 it('has no icon when filtering and an option is selected', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <div slot="icon:one">✓</div>
       <div slot="icon:two">✓</div>
@@ -1349,7 +1349,7 @@ it('has no icon when filtering and an option is selected', async () => {
 });
 
 it('supports custom filtering', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1374,7 +1374,7 @@ it('supports custom filtering', async () => {
 });
 
 it('does nothing when filtering fails', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1396,7 +1396,7 @@ it('does nothing when filtering fails', async () => {
 });
 
 it('updates its item count after filtering', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
       <glide-core-dropdown-option label="Two"></glide-core-dropdown-option>
@@ -1414,7 +1414,7 @@ it('updates its item count after filtering', async () => {
 it('shows an ellipsis when the label of its selected option overflows', async () => {
   // The "x" is arbitrary. 500 of them ensures the component is wider
   // than the viewport even if the viewport's width is increased.
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
         label=${'x'.repeat(500)}
@@ -1434,7 +1434,7 @@ it('shows an ellipsis when the label of its selected option overflows', async ()
 });
 
 it('shows an ellipsis when the label of its selected option is set programmatically and overflows', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option
         label="Label"
@@ -1461,7 +1461,7 @@ it('shows an ellipsis when the label of its selected option is set programmatica
 it('shows an ellipsis when made filterable programmatically and the label of its selected option overflows', async () => {
   // The "x" is arbitrary. 500 of them ensures the component is wider
   // than the viewport even if the viewport's width is increased.
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label">
       <glide-core-dropdown-option
         label=${'x'.repeat(500)}
@@ -1520,7 +1520,7 @@ it('does not allow its "toggle" event to propagate', async () => {
 });
 
 it('retains its filter query when `multiple` and its default slot changes', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable multiple>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -1547,7 +1547,7 @@ it('retains its filter query when `multiple` and its default slot changes', asyn
 });
 
 it('retains its filter query when not `multiple` and its default slot changes', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable>
       <glide-core-dropdown-option label="One"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -1574,7 +1574,7 @@ it('retains its filter query when not `multiple` and its default slot changes', 
 });
 
 it('shows a fallback when every option has been hidden via filtering', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,
@@ -1595,7 +1595,7 @@ it('shows a fallback when every option has been hidden via filtering', async () 
 });
 
 it('shows a fallback when every option has been removed via filtering', async () => {
-  const host = await fixture<GlideCoreDropdown>(
+  const host = await fixture<Dropdown>(
     html`<glide-core-dropdown label="Label" filterable open>
       <glide-core-dropdown-option label="Label"></glide-core-dropdown-option>
     </glide-core-dropdown>`,

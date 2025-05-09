@@ -3,17 +3,15 @@ import './modal.icon-button.js';
 import { expect, fixture, html } from '@open-wc/testing';
 import { customElement } from 'lit/decorators.js';
 import sinon from 'sinon';
-import GlideCoreModal from './modal.js';
+import Modal from './modal.js';
 import expectUnhandledRejection from './library/expect-unhandled-rejection.js';
 import expectWindowError from './library/expect-window-error.js';
 
 @customElement('glide-core-subclassed')
-class GlideCoreSubclassed extends GlideCoreModal {}
+class Subclassed extends Modal {}
 
 it('registers itself', async () => {
-  expect(window.customElements.get('glide-core-modal')).to.equal(
-    GlideCoreModal,
-  );
+  expect(window.customElements.get('glide-core-modal')).to.equal(Modal);
 });
 
 it('is accessible', async () => {
@@ -25,7 +23,7 @@ it('is accessible', async () => {
 });
 
 it('can be opened', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" back-button open>
       Content
     </glide-core-modal>`,
@@ -35,7 +33,7 @@ it('can be opened', async () => {
 });
 
 it('can have a back button', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" back-button open>
       Content
     </glide-core-modal>`,
@@ -49,7 +47,7 @@ it('can have a back button', async () => {
 });
 
 it('can have a severity', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal label="Label" severity="informational" open>
       Content
     </glide-core-modal>`,
@@ -63,7 +61,7 @@ it('can have a severity', async () => {
 });
 
 it('has a severity icon instead of a back button when both are provided', async () => {
-  const host = await fixture<GlideCoreModal>(
+  const host = await fixture<Modal>(
     html`<glide-core-modal
       label="Label"
       severity="informational"
@@ -103,7 +101,7 @@ it('throws when subclassed', async () => {
   const spy = sinon.spy();
 
   try {
-    new GlideCoreSubclassed();
+    new Subclassed();
   } catch {
     spy();
   }
@@ -162,7 +160,7 @@ it('throws an error when the "tertiary" footer slot is the wrong type', async ()
 });
 
 it('has `severity="critical" coverage', async () => {
-  await fixture<GlideCoreModal>(
+  await fixture<Modal>(
     html`<glide-core-modal label="Label" severity="critical">
       Content
     </glide-core-modal>`,
@@ -170,7 +168,7 @@ it('has `severity="critical" coverage', async () => {
 });
 
 it('has `severity="medium" coverage', async () => {
-  await fixture<GlideCoreModal>(
+  await fixture<Modal>(
     html`<glide-core-modal label="Label" severity="medium">
       Content
     </glide-core-modal>`,

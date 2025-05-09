@@ -1,14 +1,12 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreToggle from './toggle.js';
+import type Toggle from './toggle.js';
 
 test('checked=${true}', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
-  await page
-    .locator('glide-core-toggle')
-    .evaluate<void, GlideCoreToggle>((element) => {
-      element.checked = true;
-    });
+  await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
+    element.checked = true;
+  });
 
   await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
     - text: Label
@@ -29,11 +27,9 @@ test('checked=${false}', async ({ page }) => {
 test('disabled=${true}', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
-  await page
-    .locator('glide-core-toggle')
-    .evaluate<void, GlideCoreToggle>((element) => {
-      element.disabled = true;
-    });
+  await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
+    element.disabled = true;
+  });
 
   await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
     - text: Label
@@ -54,11 +50,9 @@ test('disabled=${false}', async ({ page }) => {
 test('hide-label', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
-  await page
-    .locator('glide-core-toggle')
-    .evaluate<void, GlideCoreToggle>((element) => {
-      element.hideLabel = true;
-    });
+  await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
+    element.hideLabel = true;
+  });
 
   await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
     - text: Label
@@ -69,16 +63,14 @@ test('hide-label', async ({ page }) => {
 test('slot="description"', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
-  await page
-    .locator('glide-core-toggle')
-    .evaluate<void, GlideCoreToggle>((element) => {
-      const div = document.createElement('div');
+  await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
+    const div = document.createElement('div');
 
-      div.textContent = 'Description';
-      div.slot = 'description';
+    div.textContent = 'Description';
+    div.slot = 'description';
 
-      element.append(div);
-    });
+    element.append(div);
+  });
 
   await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
     - text: Label
@@ -90,11 +82,9 @@ test('slot="description"', async ({ page }) => {
 test('summary', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
-  await page
-    .locator('glide-core-toggle')
-    .evaluate<void, GlideCoreToggle>((element) => {
-      element.summary = 'Summary';
-    });
+  await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
+    element.summary = 'Summary';
+  });
 
   await expect(page.locator('glide-core-toggle')).toMatchAriaSnapshot(`
     - text: Label
@@ -106,11 +96,9 @@ test('summary', async ({ page }) => {
 test('tooltip', async ({ page }) => {
   await page.goto('?id=toggle--toggle');
 
-  await page
-    .locator('glide-core-toggle')
-    .evaluate<void, GlideCoreToggle>((element) => {
-      element.tooltip = 'Tooltip';
-    });
+  await page.locator('glide-core-toggle').evaluate<void, Toggle>((element) => {
+    element.tooltip = 'Tooltip';
+  });
 
   await page.locator('glide-core-tooltip').getByRole('button').focus();
 

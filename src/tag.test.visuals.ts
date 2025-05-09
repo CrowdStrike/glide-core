@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreTag from './tag.js';
+import type Tag from './tag.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -12,7 +12,7 @@ for (const story of stories.Tag) {
 
           await page
             .locator('glide-core-tag')
-            .evaluate<void, GlideCoreTag>((element) => {
+            .evaluate<void, Tag>((element) => {
               element.disabled = true;
             });
 
@@ -35,7 +35,7 @@ for (const story of stories.Tag) {
 
           await page
             .locator('glide-core-tag')
-            .evaluate<void, GlideCoreTag>((element) => {
+            .evaluate<void, Tag>((element) => {
               element.removable = true;
             });
 
@@ -51,7 +51,7 @@ for (const story of stories.Tag) {
 
           await page
             .locator('glide-core-tag')
-            .evaluate<void, GlideCoreTag>((element) => {
+            .evaluate<void, Tag>((element) => {
               element.removable = true;
             });
 
@@ -67,7 +67,7 @@ for (const story of stories.Tag) {
 
           await page
             .locator('glide-core-tag')
-            .evaluate<void, GlideCoreTag>((element) => {
+            .evaluate<void, Tag>((element) => {
               element.removable = true;
             });
 

@@ -12,7 +12,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-accordion': GlideCoreAccordion;
+    'glide-core-accordion': Accordion;
   }
 }
 
@@ -31,7 +31,7 @@ declare global {
  */
 @customElement('glide-core-accordion')
 @final
-export default class GlideCoreAccordion extends LitElement {
+export default class Accordion extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,

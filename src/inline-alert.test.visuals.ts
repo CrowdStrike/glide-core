@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreInlineAlert from './inline-alert.js';
+import type InlineAlert from './inline-alert.js';
 
 const stories = JSON.parse(process.env.STORIES ?? '');
 
@@ -21,7 +21,7 @@ for (const story of stories['Inline Alert']) {
 
           await page
             .locator('glide-core-inline-alert')
-            .evaluate<void, GlideCoreInlineAlert>((element) => {
+            .evaluate<void, InlineAlert>((element) => {
               element.variant = 'medium';
             });
 
@@ -35,7 +35,7 @@ for (const story of stories['Inline Alert']) {
 
           await page
             .locator('glide-core-inline-alert')
-            .evaluate<void, GlideCoreInlineAlert>((element) => {
+            .evaluate<void, InlineAlert>((element) => {
               element.variant = 'high';
             });
 
@@ -49,7 +49,7 @@ for (const story of stories['Inline Alert']) {
 
           await page
             .locator('glide-core-inline-alert')
-            .evaluate<void, GlideCoreInlineAlert>((element) => {
+            .evaluate<void, InlineAlert>((element) => {
               element.variant = 'critical';
             });
 

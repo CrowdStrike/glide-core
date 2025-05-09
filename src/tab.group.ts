@@ -6,8 +6,8 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
 import packageJson from '../package.json' with { type: 'json' };
 import { LocalizeController } from './library/localize.js';
-import GlideCoreTab from './tab.js';
-import GlideCoreTabPanel from './tab.panel.js';
+import Tab from './tab.js';
+import TabPanel from './tab.panel.js';
 import chevronIcon from './icons/chevron.js';
 import onResize from './library/on-resize.js';
 import styles from './tab.group.styles.js';
@@ -17,7 +17,7 @@ import final from './library/final.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-tab-group': GlideCoreTabGroup;
+    'glide-core-tab-group': TabGroup;
   }
 }
 
@@ -25,8 +25,8 @@ declare global {
  * @readonly
  * @attr {string} [version]
  *
- * @slot {GlideCoreTabPanel}
- * @slot {GlideCoreTab} [nav]
+ * @slot {TabPanel}
+ * @slot {Tab} [nav]
  *
  * @cssprop [--tabs-padding-block-end=0rem]
  * @cssprop [--tabs-padding-block-start=0rem]
@@ -35,7 +35,7 @@ declare global {
  */
 @customElement('glide-core-tab-group')
 @final
-export default class GlideCoreTabGroup extends LitElement {
+export default class TabGroup extends LitElement {
   static override shadowRootOptions: ShadowRootInit = {
     ...LitElement.shadowRootOptions,
     mode: shadowRootMode,
@@ -101,9 +101,9 @@ export default class GlideCoreTabGroup extends LitElement {
             name="nav"
             @private-selected=${this.#onTabSelected}
             @slotchange=${this.#onNavSlotChange}
-            ${assertSlot([GlideCoreTab])}
+            ${assertSlot([Tab])}
           >
-            <!-- @type {GlideCoreTab} -->
+            <!-- @type {Tab} -->
           </slot>
         </div>
 
@@ -129,8 +129,8 @@ export default class GlideCoreTabGroup extends LitElement {
         )}
       </div>
 
-      <slot ${assertSlot([GlideCoreTabPanel])}>
-        <!-- @type {GlideCoreTabPanel} -->
+      <slot ${assertSlot([TabPanel])}>
+        <!-- @type {TabPanel} -->
       </slot>
     </div>`;
   }
@@ -161,20 +161,18 @@ export default class GlideCoreTabGroup extends LitElement {
 
   #resizeTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  #selectedTab: GlideCoreTab | null = null;
+  #selectedTab: Tab | null = null;
 
   #tabListElementRef = createRef<HTMLElement>();
 
   get #panelElements() {
     return [
-      ...this.querySelectorAll<GlideCoreTabPanel>(
-        ':scope > glide-core-tab-panel',
-      ),
+      ...this.querySelectorAll<TabPanel>(':scope > glide-core-tab-panel'),
     ];
   }
 
   get #tabElements() {
-    return [...this.querySelectorAll<GlideCoreTab>(':scope > glide-core-tab')];
+    return [...this.querySelectorAll<Tab>(':scope > glide-core-tab')];
   }
 
   #onComponentClick(event: Event) {
@@ -183,7 +181,7 @@ export default class GlideCoreTabGroup extends LitElement {
 
     if (
       clickedTab &&
-      clickedTab instanceof GlideCoreTab &&
+      clickedTab instanceof Tab &&
       !clickedTab.disabled &&
       // Tab Panels can themselves include a Tab Group. We want to ensure
       // we're dealing with one of this instance's Tabs and not a Tab in
@@ -204,7 +202,7 @@ export default class GlideCoreTabGroup extends LitElement {
     if (
       ['Enter', ' '].includes(event.key) &&
       tab &&
-      tab instanceof GlideCoreTab &&
+      tab instanceof Tab &&
       !tab.disabled
     ) {
       this.#selectedTab = tab;
@@ -226,7 +224,7 @@ export default class GlideCoreTabGroup extends LitElement {
         tab.matches(':focus'),
       );
 
-      if (focusedElement instanceof GlideCoreTab) {
+      if (focusedElement instanceof Tab) {
         let index = this.#tabElements.indexOf(focusedElement);
 
         switch (event.key) {
@@ -312,7 +310,7 @@ export default class GlideCoreTabGroup extends LitElement {
   }
 
   #onTabSelected(event: Event) {
-    if (event.target instanceof GlideCoreTab && event.target.selected) {
+    if (event.target instanceof Tab && event.target.selected) {
       this.#selectedTab = event.target;
 
       this.#updateTabsPanelsAndTabBar();

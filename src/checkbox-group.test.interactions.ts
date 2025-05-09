@@ -1,10 +1,10 @@
 import './checkbox.js';
 import { assert, expect, fixture, html } from '@open-wc/testing';
 import { click } from './library/mouse.js';
-import GlideCoreCheckboxGroup from './checkbox-group.js';
+import CheckboxGroup from './checkbox-group.js';
 
 it('checks and unchecks checkboxes when its `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
       <glide-core-checkbox label="Two" checked></glide-core-checkbox>
@@ -27,7 +27,7 @@ it('checks and unchecks checkboxes when its `value` is set programmatically', as
 });
 
 it('updates its `value` when the `value` of a checkbox is set programmatically', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox
         label="One"
@@ -53,7 +53,7 @@ it('updates its `value` when the `value` of a checkbox is set programmatically',
 });
 
 it('updates its `value` when the `value` of a checkbox is emptied programmatically', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox
         label="One"
@@ -79,7 +79,7 @@ it('updates its `value` when the `value` of a checkbox is emptied programmatical
 });
 
 it('enables checkboxes when its `value` is set programmatically', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox
         label="One"
@@ -102,7 +102,7 @@ it('enables checkboxes when its `value` is set programmatically', async () => {
 });
 
 it('updates its `value` when a checkbox is checked programmatically', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
 
@@ -123,7 +123,7 @@ it('updates its `value` when a checkbox is checked programmatically', async () =
 });
 
 it('updates its `value` when a checkbox is unchecked programmatically', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox
         label="One"
@@ -148,7 +148,7 @@ it('updates its `value` when a checkbox is unchecked programmatically', async ()
 });
 
 it('can be disabled programmatically', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="One"></glide-core-checkbox>
       <glide-core-checkbox label="Two"></glide-core-checkbox>
@@ -168,7 +168,7 @@ it('can be disabled programmatically', async () => {
 });
 
 it('adds values to `value` in the order they were selected or deselected', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox label="One" value="one"></glide-core-checkbox>
       <glide-core-checkbox label="Two" value="two"></glide-core-checkbox>
@@ -191,7 +191,7 @@ it('adds values to `value` in the order they were selected or deselected', async
 });
 
 it('adds the `value` of a programmatically enabled checkbox to its `value`', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox
         label="One"
@@ -219,7 +219,7 @@ it('adds the `value` of a programmatically enabled checkbox to its `value`', asy
 });
 
 it('removes the `value` of a programmatically disabled checkbox from its `value`', async () => {
-  const host = await fixture<GlideCoreCheckboxGroup>(
+  const host = await fixture<CheckboxGroup>(
     html`<glide-core-checkbox-group label="Label">
       <glide-core-checkbox
         label="One"

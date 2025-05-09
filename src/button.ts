@@ -11,7 +11,7 @@ import required from './library/required.js';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'glide-core-button': GlideCoreButton;
+    'glide-core-button': Button;
   }
 }
 
@@ -37,7 +37,7 @@ declare global {
  */
 @customElement('glide-core-button')
 @final
-export default class GlideCoreButton extends LitElement {
+export default class Button extends LitElement {
   static formAssociated = true;
 
   static override shadowRootOptions: ShadowRootInit = {

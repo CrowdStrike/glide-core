@@ -4,7 +4,7 @@ import { html, nothing } from 'lit';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { withActions } from '@storybook/addon-actions/decorator';
 import type { Meta, StoryObj } from '@storybook/web-components';
-import GlideCoreToggle from './toggle.js';
+import ToggleComponent from './toggle.js';
 
 const meta: Meta = {
   title: 'Toggle',
@@ -107,7 +107,7 @@ const meta: Meta = {
     context.canvasElement
       .querySelector('glide-core-toggle')
       ?.addEventListener('change', (event) => {
-        if (event.target instanceof GlideCoreToggle) {
+        if (event.target instanceof ToggleComponent) {
           addons.getChannel().emit(UPDATE_STORY_ARGS, {
             storyId: context.id,
             updatedArgs: {

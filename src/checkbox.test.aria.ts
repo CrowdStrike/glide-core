@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreCheckbox from './checkbox.js';
+import type Checkbox from './checkbox.js';
 
 test('checked=${true}', async ({ page }) => {
   await page.goto('?id=checkbox--checkbox');
 
   await page
     .locator('glide-core-checkbox')
-    .evaluate<void, GlideCoreCheckbox>((element) => {
+    .evaluate<void, Checkbox>((element) => {
       element.checked = true;
     });
 
@@ -30,7 +30,7 @@ test('disabled=${true}', async ({ page }) => {
 
   await page
     .locator('glide-core-checkbox')
-    .evaluate<void, GlideCoreCheckbox>((element) => {
+    .evaluate<void, Checkbox>((element) => {
       element.disabled = true;
     });
 
@@ -54,7 +54,7 @@ test('hide-label', async ({ page }) => {
 
   await page
     .locator('glide-core-checkbox')
-    .evaluate<void, GlideCoreCheckbox>((element) => {
+    .evaluate<void, Checkbox>((element) => {
       element.hideLabel = true;
     });
 
@@ -69,7 +69,7 @@ test('indeterminate', async ({ page }) => {
 
   await page
     .locator('glide-core-checkbox')
-    .evaluate<void, GlideCoreCheckbox>((element) => {
+    .evaluate<void, Checkbox>((element) => {
       element.indeterminate = true;
     });
 
@@ -84,7 +84,7 @@ test('slot="description"', async ({ page }) => {
 
   await page
     .locator('glide-core-checkbox')
-    .evaluate<void, GlideCoreCheckbox>((element) => {
+    .evaluate<void, Checkbox>((element) => {
       const div = document.createElement('div');
 
       div.textContent = 'Description';
@@ -105,7 +105,7 @@ test('summary', async ({ page }) => {
 
   await page
     .locator('glide-core-checkbox')
-    .evaluate<void, GlideCoreCheckbox>((element) => {
+    .evaluate<void, Checkbox>((element) => {
       element.summary = 'Summary';
     });
 
@@ -121,7 +121,7 @@ test('tooltip', async ({ page }) => {
 
   await page
     .locator('glide-core-checkbox')
-    .evaluate<void, GlideCoreCheckbox>((element) => {
+    .evaluate<void, Checkbox>((element) => {
       element.tooltip = 'Tooltip';
     });
 

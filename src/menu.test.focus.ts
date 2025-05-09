@@ -2,10 +2,10 @@ import './menu.link.js';
 import './menu.options.js';
 import { assert, aTimeout, expect, fixture, html } from '@open-wc/testing';
 import { sendKeys } from '@web/test-runner-commands';
-import GlideCoreMenu from './menu.js';
+import Menu from './menu.js';
 
 it('closes when it loses focus', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -29,7 +29,7 @@ it('closes when it loses focus', async () => {
 });
 
 it('remains open when the options host is focused', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -56,7 +56,7 @@ it('remains open when the options host is focused', async () => {
 });
 
 it('remains open when an option is focused', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -84,7 +84,7 @@ it('remains open when an option is focused', async () => {
 });
 
 it('sets an inactive option as active when focused', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 
@@ -115,7 +115,7 @@ it('sets an inactive option as active when focused', async () => {
 // Kind of an odd test. There's a comment in `#onDefaultSlotFocusin` that
 // explains it.
 it('sets an already active option as active when focused', async () => {
-  const host = await fixture<GlideCoreMenu>(
+  const host = await fixture<Menu>(
     html`<glide-core-menu open>
       <button slot="target">Target</button>
 

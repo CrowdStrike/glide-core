@@ -1,17 +1,15 @@
 import { expect, test } from '@playwright/test';
-import type GlideCoreMenu from './menu.js';
-import type GlideCoreMenuButton from './menu.button.js';
-import type GlideCoreMenuLink from './menu.link.js';
+import type Menu from './menu.js';
+import type MenuButton from './menu.button.js';
+import type MenuLink from './menu.link.js';
 
 test('loading', async ({ page }) => {
   await page.goto('?id=menu--menu');
 
-  await page
-    .locator('glide-core-menu')
-    .evaluate<void, GlideCoreMenu>((element) => {
-      element.loading = true;
-      element.open = true;
-    });
+  await page.locator('glide-core-menu').evaluate<void, Menu>((element) => {
+    element.loading = true;
+    element.open = true;
+  });
 
   await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot(`
     - button "Toggle"
@@ -22,11 +20,9 @@ test('loading', async ({ page }) => {
 test('open=${true}', async ({ page }) => {
   await page.goto('?id=menu--menu');
 
-  await page
-    .locator('glide-core-menu')
-    .evaluate<void, GlideCoreMenu>((element) => {
-      element.open = true;
-    });
+  await page.locator('glide-core-menu').evaluate<void, Menu>((element) => {
+    element.open = true;
+  });
 
   await expect(page.locator('glide-core-menu')).toMatchAriaSnapshot(`
     - button "Toggle"
@@ -53,16 +49,14 @@ test('open=${false}', async ({ page }) => {
 test('<glide-core-menu-button>.disabled', async ({ page }) => {
   await page.goto('?id=menu--menu');
 
-  await page
-    .locator('glide-core-menu')
-    .evaluate<void, GlideCoreMenu>((element) => {
-      element.open = true;
-    });
+  await page.locator('glide-core-menu').evaluate<void, Menu>((element) => {
+    element.open = true;
+  });
 
   await page
     .locator('glide-core-menu-button')
     .first()
-    .evaluate<void, GlideCoreMenuButton>((element) => {
+    .evaluate<void, MenuButton>((element) => {
       element.disabled = true;
     });
 
@@ -82,16 +76,14 @@ test('<glide-core-menu-button>.disabled', async ({ page }) => {
 test('<glide-core-menu-link>.disabled', async ({ page }) => {
   await page.goto('?id=menu--menu');
 
-  await page
-    .locator('glide-core-menu')
-    .evaluate<void, GlideCoreMenu>((element) => {
-      element.open = true;
-    });
+  await page.locator('glide-core-menu').evaluate<void, Menu>((element) => {
+    element.open = true;
+  });
 
   await page
     .locator('glide-core-menu-link')
     .first()
-    .evaluate<void, GlideCoreMenuLink>((element) => {
+    .evaluate<void, MenuLink>((element) => {
       element.disabled = true;
     });
 

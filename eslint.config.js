@@ -41,13 +41,11 @@ export default defineConfig([
     rules: {
       '@crowdstrike/glide-core/consistent-reference-element-declarations':
         'error',
-      '@crowdstrike/glide-core/no-glide-core-prefixed-event-name': 'error',
       '@crowdstrike/glide-core/no-nested-template-literals': 'error',
       '@crowdstrike/glide-core/no-redundant-property-attribute': 'error',
       '@crowdstrike/glide-core/no-redundant-property-string-type': 'error',
       '@crowdstrike/glide-core/no-space-press': 'error',
       '@crowdstrike/glide-core/prefer-shadow-root-mode': 'error',
-      '@crowdstrike/glide-core/prefixed-lit-element-class-declaration': 'error',
       '@crowdstrike/glide-core/public-member-return-type': 'error',
       '@crowdstrike/glide-core/public-getter-default-comment': 'error',
       '@crowdstrike/glide-core/event-dispatch-from-this': 'error',
