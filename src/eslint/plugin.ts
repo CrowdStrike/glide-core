@@ -8,7 +8,6 @@ import { noSkipTests } from './rules/no-skip-tests.js';
 import { noSpacePress } from './rules/no-space-press.js';
 import { noToHaveAttribute } from './rules/no-to-have-attribute.js';
 import { preferClosedShadowRoot } from './rules/prefer-shadow-root-mode.js';
-import { preferToBeTrueOrFalse } from './rules/prefer-to-be-true-or-false.js';
 import { publicMemberReturnType } from './rules/public-member-return-type.js';
 import { publicGetterDefaultComment } from './rules/public-getter-default-comment.js';
 import { eventDispatchFromThis } from './rules/event-dispatch-from-this.js';
@@ -16,6 +15,7 @@ import { stringEventName } from './rules/string-event-name.js';
 import { slotTypeComment } from './rules/slot-type-comment.js';
 import { publicPropertyExpressionType } from './rules/public-property-expression-type.js';
 import { useDefaultWithPropertyDecorator } from './rules/use-default-with-property-decorator.js';
+import { betterTestAssertions } from './rules/better-test-assertions.js';
 
 export default {
   rules: {
@@ -31,7 +31,6 @@ export default {
     'no-space-press': noSpacePress,
     'no-to-have-attribute': noToHaveAttribute,
     'prefer-shadow-root-mode': preferClosedShadowRoot,
-    'prefer-to-be-true-or-false': preferToBeTrueOrFalse,
     'public-member-return-type': publicMemberReturnType,
     'public-getter-default-comment': publicGetterDefaultComment,
     'event-dispatch-from-this': eventDispatchFromThis,
@@ -39,5 +38,6 @@ export default {
     'slot-type-comment': slotTypeComment,
     'public-property-expression-type': publicPropertyExpressionType,
     'use-default-with-property-decorator': useDefaultWithPropertyDecorator,
+    'better-test-assertions': betterTestAssertions,
   },
 };

@@ -134,7 +134,7 @@ it('is not opened when open and its target is `disabled`', async () => {
 
   expect(defaultSlot?.checkVisibility()).to.be.false;
   expect(target?.ariaExpanded).to.equal('false');
-  expect(options?.getAttribute('aria-activedescendant')).to.equal('');
+  expect(options?.getAttribute('aria-activedescendant')).to.be.empty.string;
 });
 
 it('adds `tabIndex` to its target when it is a `<span>`', async () => {

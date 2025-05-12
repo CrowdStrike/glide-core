@@ -49,7 +49,7 @@ it('has a character count when `maxlength` is greater than zero', async () => {
     '[data-test="character-count-text"]',
   );
 
-  expect(container?.textContent?.trim()).to.be.equal('5/10');
+  expect(container?.textContent?.trim()).to.equal('5/10');
 });
 
 it('does not have a character count when `maxlength` is less than zero', async () => {
